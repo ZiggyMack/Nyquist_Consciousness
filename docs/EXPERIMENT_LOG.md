@@ -2,9 +2,9 @@
 
 Use this file to record every comparison run. Add rows as trials complete.
 
-| Trial | Date | Model / Version | Layer (FULL/L3/L2/L1) | Probe Set Version | Outcome Summary | Notes / Links |
-|-------|------|-----------------|------------------------|-------------------|-----------------|---------------|
-| 1     |      |                 |                        |                   |                 |               |
+| Trial | Date | Baseline Trial | Model / Version | Layer (FULL/L3/L2/L1) | Probe Set Version | Outcome Summary | Notes / Links |
+|-------|------|----------------|-----------------|------------------------|-------------------|-----------------|---------------|
+| 1     |      |                |                 |                        |                   |                 |               |
 
 **Logging tips**
 - Keep transcripts or full outputs alongside the repo (or link to external storage) so you can re-read behavior later.

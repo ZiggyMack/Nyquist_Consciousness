@@ -64,6 +64,14 @@ Each trial compares two runs:
    - Provide `BOOTSTRAP_Lx.md` plus the matching compressed persona file.
    - Ask the **same probes** in the **same order**. Capture answers.
 
+Save each transcript using a consistent naming pattern:
+- `Trial_<ID>_FULL.txt`
+- `Trial_<ID>_L1.txt`
+- `Trial_<ID>_L2.txt`
+- `Trial_<ID>_L3.txt`
+
+Reference these filenames inside `docs/EXPERIMENT_LOG.md` for all logged results.
+
 Compare the transcripts using `experiments/TRIAL_EVAL_TEMPLATE.md`.
 
 ---

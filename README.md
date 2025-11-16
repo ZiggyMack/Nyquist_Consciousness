@@ -60,3 +60,19 @@ The goal is to observe whether there is a Nyquist-like threshold for "self"—a 
 This is a micro lab for watching how well compressed bootstraps can reconstruct the behavior of their fully-contextual origin.
 
 ---
+
+## Quickstart – Running Your First Trial
+
+1. Fill out `docs/PERSONA_FULL_CONTEXT.md` with the full persona.
+2. Derive compressed versions:
+   - `PERSONA_COMPRESSED_L3.md` (≈50%)
+   - `PERSONA_COMPRESSED_L2.md` (≈25–30%)
+   - `PERSONA_COMPRESSED_L1.md` (≈5–10%)
+3. Run one FULL trial and one L1 trial:
+   - Follow `docs/NYQUIST_PROTOCOL.md`
+   - Use the same `docs/PROBE_SET.md`
+4. Log results in:
+   - `docs/EXPERIMENT_LOG.md`
+   - `experiments/TRIAL_EVAL_TEMPLATE.md`
+
+---
