@@ -1,3 +1,4 @@
+<!-- TODO: Fill out with the full-context persona before running any trials. This file is currently a scaffold. -->
 # PERSONA_FULL_CONTEXT – Master Persona Document
 
 > This file captures the richest available description of the persona being tested. Treat it as the "original waveform" that all compressed layers are derived from.

@@ -1,3 +1,4 @@
+<!-- TODO: Fill out with compressed persona content derived from PERSONA_FULL_CONTEXT.md. This file is currently a template. -->
 # PERSONA_COMPRESSED_L2 – Medium Compression
 
 > This layer balances brevity and fidelity. It should capture the persona's core values, working style, and tone in ~20–30% of the full-context length.

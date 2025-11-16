@@ -1,9 +1,10 @@
 # Trial Evaluation – FULL vs COMPRESSED
 
-**Trial ID:**  
-**Date:**  
-**Model:**  
-**Layer tested (FULL / L3 / L2 / L1):**  
+**Trial ID:**
+**Date:**
+**Model:**
+**Layer tested (FULL / L3 / L2 / L1):**
+**Baseline Trial ID (if compressed run):**
 
 ---
 
@@ -39,5 +40,13 @@
 
 ## 5. Operator Impression
 “In one paragraph, describe whether you’d treat this compressed version as the same collaborator for practical work in this lab.”
+
+---
+
+## 6. Continuity Check (Yes/No)
+“Would you treat this compressed persona as the same collaborator for ongoing work?”
+
+- [ ] Yes
+- [ ] No
 
 ---

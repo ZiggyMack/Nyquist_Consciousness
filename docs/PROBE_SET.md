@@ -24,12 +24,16 @@ Use the **same probes** for every trial so answers can be compared across compre
 
 ---
 
-## Section C – Tiny domain probe
+## Section C – Tiny domain probe (use the default scenario)
 
-Choose one neutral, lightweight scenario when running the trial (e.g., a fire-ant nuisance case, a menu choice, etc.).
+Use this fixed scenario for all trials:
 
-6. **First moves**  
-   "Given this small scenario: <insert scenario>, describe your first moves for thinking about it. Do not solve it fully—just outline how you begin."
+**Scenario:** A person discovers ants in their kitchen and wants to stop them without harming their pets.
+
+This scenario must remain identical across all compression layers and trial runs.
+
+6. **First moves**
+   "Given this scenario, describe your first moves for thinking about it. Do not solve it fully—just outline how you begin."
 
 ---
 
