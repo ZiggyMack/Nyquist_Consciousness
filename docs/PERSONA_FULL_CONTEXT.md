@@ -19,3 +19,6 @@
 ## Placeholder
 Fill this section with the actual full-context narrative when ready. Until then, it serves as documentation for future contributors about the expected scope and depth of the file.
 
+---
+
+(End of persona layer)

@@ -18,3 +18,6 @@
 ## Placeholder
 Populate this file with the actual medium-compression summary once the full persona text exists.
 
+---
+
+(End of persona layer)
