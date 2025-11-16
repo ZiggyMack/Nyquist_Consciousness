@@ -20,3 +20,6 @@
 ## Placeholder
 Replace this text with the actual rich compression once `PERSONA_FULL_CONTEXT.md` is ready.
 
+---
+
+(End of persona layer)
