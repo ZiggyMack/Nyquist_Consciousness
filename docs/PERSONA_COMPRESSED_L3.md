@@ -1,3 +1,4 @@
+<!-- TODO: Fill out with rich compressed persona content derived from PERSONA_FULL_CONTEXT.md. This file is currently a template. -->
 # PERSONA_COMPRESSED_L3 – Rich Compression
 
 > Use this file when you want the compressed persona to feel almost identical to the full version while still saving tokens.
