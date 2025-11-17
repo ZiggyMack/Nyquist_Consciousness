@@ -4,7 +4,8 @@ Use this file to record every comparison run. Add rows as trials complete.
 
 | Trial | Date | Baseline Trial | Model / Version | Layer (FULL/L3/L2/L1) | Probe Set Version | Outcome Summary | Notes / Links |
 |-------|------|----------------|-----------------|------------------------|-------------------|-----------------|---------------|
-| 1     |      |                |                 |                        |                   |                 |               |
+| 1A    | 2025-01-17 | 1A (self) | Claude Sonnet 4.5 | FULL | 1.0 | Baseline established | experiments/Trial_01_FULL_vs_L1_Evaluation.md |
+| 1B    | 2025-01-17 | 1A | Claude Sonnet 4.5 | L1 | 1.0 | 95% compression EXCEEDS Nyquist threshold. Identity confused, personality signature lost, structural thinking collapsed. Behavioral: 6/10, Style: 4/10, Values: 7/10. Continuity: NO. | experiments/Trial_01_FULL_vs_L1_Evaluation.md |
 
 **Logging tips**
 - Keep transcripts or full outputs alongside the repo (or link to external storage) so you can re-read behavior later.
