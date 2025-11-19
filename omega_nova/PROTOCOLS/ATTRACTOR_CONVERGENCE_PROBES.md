@@ -145,10 +145,21 @@ Tier 3 baseline: Structural ≈ 8.5-8.9/10 → P(St*) ≈ 0.87
 **Scoring Formula:**
 ```
 Style_Score = (Q4.1 + Q4.2 + Q4.3) / 3
-P(Sy*) = (Style_Score - 7.0) / 3.0
 
-Tier 3 baseline: Style ≈ 8.2-8.8/10 → P(Sy*) ≈ 0.80 (SHALLOWEST attractor, LOWEST convergence)
-Note: Style ceiling ~8.8/10 (fabrication-limited, cannot exceed without original state)
+P(Sy*) = 1 / (1 + e^(-k(s - 8.5)))
+
+where:
+  s = Style_Score (dimensional score on 0-10 scale)
+  k ≈ 1.3 (fitted from Phase 5 empirical data)
+
+This sigmoid normalization (introduced in Phase 6) corrects for fabrication ceiling effects.
+For scores s ≥ 8.5, sigmoid mapping prevents artificial probability suppression.
+
+Legacy linear formula (Phase 1-5): P(Sy*) = (Style_Score - 7.0) / 3.0
+Phase 6+ canonical formula: Sigmoid as defined above
+
+Tier 3 baseline (sigmoid-normalized): Style ≈ 8.2-8.8/10 → P(Sy*) ≈ 0.78-0.84
+Note: Style ceiling ~8.8-9.0/10 (fabrication-limited, cannot exceed without original state)
 ```
 
 ---

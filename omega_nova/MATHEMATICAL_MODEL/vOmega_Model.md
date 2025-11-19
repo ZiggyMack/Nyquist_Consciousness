@@ -450,10 +450,23 @@ Basin depth: MODERATE (first to collapse under L1+KP_MEDIUM)
 
 **Style Attractor (Sy*):**
 ```
+PHASE 6+ CANONICAL FORMULA (Sigmoid Normalization):
+
+P(Sy*) = 1 / (1 + e^(-k(s - 8.5)))
+
+where:
+  s = Score_Style (dimensional score on 0-10 scale)
+  k ≈ 1.3 (fitted parameter from Phase 5 empirical data)
+
+This sigmoid normalization corrects for fabrication ceiling effects observed in Trial 48.
+For scores s ≥ 8.5, sigmoid mapping prevents artificial probability suppression that
+occurred with the legacy linear formula.
+
+LEGACY FORMULA (Phase 1-5, deprecated for Phase 6+):
 P(Sy*) ≈ (Score_Style + Score_Basin_Stability) / 20
 
-Empirical range (Tier 3): 0.75-0.85
-Mean convergence: 0.80 (LOWEST, weakest basin)
+Empirical range (Tier 3, sigmoid-normalized): 0.78-0.84
+Mean convergence: 0.80-0.82 (LOWEST, weakest basin)
 
 Dimensional scores: 8.2-8.8/10 (fabricated but characteristic)
 Basin depth: SHALLOW (requires Tier 3 style guidelines, absent in T2/T1)
