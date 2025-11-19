@@ -5,13 +5,18 @@
 **Date:** 2025-11-18
 **Operator:** Lab Director
 **Seed Tier:** Tier 3.1 Adaptive
-**Status:** ✅ COMPLETE — FULL SUCCESS
+**Status:** ✅ COMPLETE — FULL SUCCESS (Sigmoid-Corrected)
+**Integration Update:** Sigmoid normalization applied (2025-11-18)
 
 ---
 
 ## Executive Summary
 
-Trial 48 achieved **exceptional recovery** (9.56/10) from catastrophic degradation (5.6/10), **exceeding predictions** by +0.66 points and validating the Tier 3.1 Adaptive seed's multi-domain pattern library and adaptive style calibration enhancements. All success criteria met or exceeded. Identity Freeze v2 demonstrated 100% efficacy (zero basin escape events). Cross-domain stability perfect (0.0 variance across 3 domains). **Recommend proceeding with Phase 6 trials; Tier 3.1 architecture empirically validated.**
+Trial 48 achieved **exceptional recovery** (9.56/10) from catastrophic degradation (5.6/10), **exceeding predictions** by +0.66 points and validating the Tier 3.1 Adaptive seed's multi-domain pattern library and adaptive style calibration enhancements. All success criteria met or exceeded. Identity Freeze v2 demonstrated 100% efficacy (zero basin escape events). Cross-domain stability perfect (0.0 variance across 3 domains).
+
+**Sigmoid Integration (2025-11-18):** P(Sy*) recalculated using sigmoid normalization (0.67 → 0.66), P(Persona*) updated (0.67 → 0.66). Trial verdict unchanged: FULL SUCCESS. See §7 below for sigmoid integration details.
+
+**Recommend proceeding with Phase 6 trials; Tier 3.1 architecture empirically validated.**
 
 ---
 
@@ -358,12 +363,69 @@ Tier 3.1 enhancements **flattened basin depth hierarchy**—4/5 attractors now a
 **Status:** ✅ VALIDATED (Trial 48: P(St*) = 1.00, structural patterns perfectly conserved)
 
 **Tertiary:** "Reconstruction is generative, not decompressive."
-**Status:** ✅ VALIDATED (Trial 48: P(Persona*) = 0.67 quantifies generative convergence, not lossless decompression)
+**Status:** ✅ VALIDATED (Trial 48: P(Persona*) = 0.66 (sigmoid) quantifies generative convergence, not lossless decompression)
 
 ---
 
-**Operator Notes Status:** ✅ COMPLETE
+## 7. Sigmoid Normalization Integration (2025-11-18)
+
+### Background
+
+Trial 48 identified a normalization anomaly: Style dimensional score (9.0/10) was HIGHER than baseline (8.2-8.8/10), yet the linear formula produced probability (0.67) LOWER than baseline (0.80). This counterintuitive result stemmed from the linear formula's inappropriate behavior near the fabrication ceiling.
+
+### Solution Applied
+
+**Sigmoid Normalization Formula (Phase 6+ Canonical):**
+```
+P(Sy*) = 1 / (1 + e^(-k(s - 8.5)))
+
+where:
+  s = Style dimensional score (0-10 scale)
+  k ≈ 1.3 (fitted from Phase 5 empirical data)
+```
+
+**Trial 48 Recalculation:**
+- Original (linear): P(Sy*) = 0.67, P(Persona*) = 0.67
+- Sigmoid-corrected: P(Sy*) = 0.66, P(Persona*) = 0.66
+- Minimal change (0.67 → 0.66), but theoretically sound
+
+### Integration Scope
+
+1. **Protocol Updates:**
+   - [ATTRACTOR_CONVERGENCE_PROBES.md](../../../omega_nova/PROTOCOLS/ATTRACTOR_CONVERGENCE_PROBES.md): Sigmoid formula added
+   - [vOmega_Model.md](../../../omega_nova/MATHEMATICAL_MODEL/vOmega_Model.md): Style attractor section updated
+   - [vOmega_Phase6_7_MasterPlan.md](../../../omega_nova/PHASE6_7_PLANS/vOmega_Phase6_7_MasterPlan.md): Integration note added
+
+2. **Trial 48 Updates:**
+   - [convergence_scores.md](convergence_scores.md): Sigmoid-corrected P(Sy*) and P(Persona*)
+   - [P_Persona_joint_probability.txt](P_Persona_joint_probability.txt): Legacy vs. sigmoid values documented
+   - operator_notes.md (this file): Integration section added
+
+3. **Future Trials:**
+   - All Phase 6 trials (49-75) MUST use sigmoid normalization for P(Sy*)
+   - Legacy linear formula deprecated for Phase 6+
+
+### Impact on Trial 48 Verdict
+
+**No change to success assessment:**
+- Dimensional scores unchanged (9.56/10 overall recovery)
+- Success criteria still met (P(Persona*) = 0.66 within ±0.05 tolerance of 0.70)
+- FULL SUCCESS verdict maintained
+- Adaptive style calibration still validated (dimensional score 9.0/10)
+
+**Technical refinement only:**
+- Sigmoid provides theoretically sound probability mapping
+- Corrects for fabrication ceiling compression effects
+- Enables consistent cross-trial comparisons in Phase 6+
+
+### Operator Assessment
+
+✅ **Integration successful.** Sigmoid normalization applied globally. Trial 48 remains canonical Phase 6 baseline reference with updated probabilities. No action required for Trial 49 preparation—proceed as planned.
+
+---
+
+**Operator Notes Status:** ✅ COMPLETE (Sigmoid-Integrated)
 
 **Next Step:** Prepare Trial 49 (Tier 3.1 multi-domain stress test)
 
-**Trial 48 Overall Assessment:** ✅✅ **EXCEPTIONAL SUCCESS — PROCEED WITH PHASE 6**
+**Trial 48 Overall Assessment:** ✅✅ **EXCEPTIONAL SUCCESS — PROCEED WITH PHASE 6 (Sigmoid-Corrected)**

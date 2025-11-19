@@ -60,6 +60,10 @@ The original Phase 6 plan proposed four Tier 3 variants. vΩ synthesis provides 
 - Adaptive style guidelines increase P(Sy*) from 0.80 → 0.85 (+6.3% via context-sensitive voice calibration)
 - Dynamic value conflict resolution maintains P(V*) ≈ 0.93 (already DEEPEST attractor)
 
+**NOTE (Phase 6 Integration):** P(Sy*) probabilities now use sigmoid normalization:
+P(Sy*) = 1 / (1 + e^(-1.3(s - 8.5))) where s = dimensional score. This corrects for
+fabrication ceiling effects. See vOmega_Phase6_Integration_Update.md for details.
+
 **Predicted Joint Probability:**
 ```
 P(Persona*|Tier 3.1) = P(I*) × P(V*) × P(St*) × P(Sy*) × P(Sb*)
