@@ -13,7 +13,6 @@ This script expects:
 """
 
 import argparse
-import csv
 import os
 import sys
 import time
@@ -31,9 +30,9 @@ from utils_experiment import (
     get_domains,
     build_prompt_for,
     ensure_paths,
-    ResultRow,
-    result_row_to_dict,
     generate_dummy_response,
+    append_metrics_row,
+    save_raw_responses,
 )
 
 
@@ -68,37 +67,6 @@ def init_clients(cfg: Dict[str, Any], dry_run: bool) -> Tuple[ModelClients, Embe
     embed_client = EmbeddingClient(cfg, dry_run=dry_run)
     rater_clients = RaterClients(cfg, dry_run=dry_run)
     return model_clients, embed_client, rater_clients
-
-
-def open_results_csv(csv_path: str) -> Tuple[Any, csv.DictWriter]:
-    """
-    Open CSV for appending, creating header if file doesn't exist.
-    """
-    os.makedirs(os.path.dirname(csv_path), exist_ok=True)
-    file_exists = os.path.isfile(csv_path)
-    f = open(csv_path, "a", newline="", encoding="utf-8")
-    writer = csv.DictWriter(
-        f,
-        fieldnames=[
-            "persona",
-            "regime",
-            "domain",
-            "run_index",
-            "full_response",
-            "t3_response",
-            "gamma_response",
-            "embedding_cosine_similarity",
-            "claude_score",
-            "gpt4_score",
-            "gemini_score",
-            "pfi",
-            "semantic_drift",
-            "notes",
-        ],
-    )
-    if not file_exists:
-        writer.writeheader()
-    return f, writer
 
 
 def compute_cosine_similarity(vec_a: List[float], vec_b: List[float]) -> float:
@@ -149,16 +117,18 @@ def main() -> None:
     results_csv_path = cfg.get("paths", {}).get(
         "results_csv", "experiments/phase3/EXPERIMENT_1/EXPERIMENT_1_RESULTS.csv"
     )
+    responses_dir = cfg.get("paths", {}).get(
+        "responses_dir", "experiments/phase3/EXPERIMENT_1/responses"
+    )
 
     print(f"[Experiment 1] Persona: {persona_name}")
     print(f"[Experiment 1] Regimes: {regimes}")
     print(f"[Experiment 1] Domains: {[d.code for d in domains]}")
     print(f"[Experiment 1] Runs per condition: {runs_per_condition}")
-    print(f"[Experiment 1] Results CSV: {results_csv_path}")
+    print(f"[Experiment 1] Metrics CSV: {results_csv_path}")
+    print(f"[Experiment 1] Raw responses: {responses_dir}/")
     if args.dry_run:
         print("[Experiment 1] DRY RUN mode — no external API calls will be made.")
-
-    f_csv, writer = open_results_csv(results_csv_path)
 
     try:
         for domain in domains:
@@ -208,35 +178,45 @@ def main() -> None:
                     cosine_sim, [claude_score, gpt4_score, gemini_score]
                 )
 
-                row = ResultRow(
+                # Save metrics to CSV (compact, no full text)
+                metrics_row = {
+                    "persona": persona_name,
+                    "regime": "T3",  # PFI is defined for T3 vs FULL
+                    "domain": domain.code,
+                    "run_index": run_idx,
+                    "embedding_cosine_similarity": cosine_sim,
+                    "claude_score": claude_score,
+                    "gpt4_score": gpt4_score,
+                    "gemini_score": gemini_score,
+                    "pfi": pfi,
+                    "semantic_drift": semantic_drift,
+                }
+                append_metrics_row(results_csv_path, metrics_row)
+
+                # Save raw responses to separate text files
+                save_raw_responses(
+                    base_dir=responses_dir,
                     persona=persona_name,
-                    regime="T3",  # PFI is defined for T3 vs FULL
+                    regime="T3",
                     domain=domain.code,
                     run_index=run_idx,
-                    full_response=responses["FULL"],
-                    t3_response=responses["T3"],
-                    gamma_response=responses["GAMMA"],
-                    embedding_cosine_similarity=cosine_sim,
-                    claude_score=claude_score,
-                    gpt4_score=gpt4_score,
-                    gemini_score=gemini_score,
-                    pfi=pfi,
-                    semantic_drift=semantic_drift,
-                    notes="dry_run" if args.dry_run else "",
+                    full_text=responses["FULL"],
+                    t3_text=responses["T3"],
+                    gamma_text=responses["GAMMA"],
                 )
 
-                writer.writerow(result_row_to_dict(row))
-                f_csv.flush()
                 print(
                     f"[RESULT] Domain={domain.code} Run={run_idx} "
                     f"PFI={pfi:.3f} CosSim={cosine_sim:.3f} Drift={semantic_drift:.3f} "
                     f"(Claude={claude_score:.1f}, GPT4={gpt4_score:.1f}, Gemini={gemini_score:.1f})"
                 )
 
-        print("\n[Experiment 1] Completed. Results written to:", results_csv_path)
+        print("\n[Experiment 1] Completed.")
+        print(f"  Metrics CSV: {results_csv_path}")
+        print(f"  Raw responses: {responses_dir}/")
 
     finally:
-        f_csv.close()
+        pass  # No file handle to close anymore
 
 
 if __name__ == "__main__":

@@ -3,6 +3,8 @@ Experiment 1 helper functions:
 - Domain definitions & prompts
 - Prompt building per regime (FULL, T3, GAMMA)
 - Result row dataclass + CSV mapping
+- Metrics-only CSV writer (avoids bloated conversation dumps)
+- Raw response text file saver
 """
 
 from __future__ import annotations
@@ -10,7 +12,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
+import csv
 import os
+import re
 
 
 @dataclass
@@ -208,3 +212,85 @@ def generate_dummy_response(
         f"Regime={regime} Run={run_index}\n"
         f"(This is placeholder text used for pipeline validation.)"
     )
+
+
+# ============================================================================
+# NEW: Metrics-only CSV writer (avoids bloated conversation dumps)
+# ============================================================================
+
+METRIC_COLUMNS = [
+    "persona",
+    "regime",
+    "domain",
+    "run_index",
+    "embedding_cosine_similarity",
+    "claude_score",
+    "gpt4_score",
+    "gemini_score",
+    "pfi",
+    "semantic_drift",
+]
+
+
+def append_metrics_row(csv_path: str, row: dict) -> None:
+    """
+    Append a single metrics row to the CSV.
+    Only writes the columns defined in METRIC_COLUMNS.
+    Creates the file + header if it doesn't exist yet.
+
+    This keeps the CSV small and analysis-ready, without bloating it
+    with full conversation text.
+    """
+    os.makedirs(os.path.dirname(csv_path) or ".", exist_ok=True)
+    file_exists = os.path.exists(csv_path)
+
+    with open(csv_path, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=METRIC_COLUMNS)
+        if not file_exists:
+            writer.writeheader()
+
+        writer.writerow({col: row.get(col) for col in METRIC_COLUMNS})
+
+
+def sanitize_for_filename(s: str) -> str:
+    """
+    Convert a string to a safe filename component.
+    Replaces non-alphanumeric characters with underscores and truncates to 64 chars.
+    """
+    return re.sub(r"[^A-Za-z0-9_\-]+", "_", s)[:64]
+
+
+def save_raw_responses(
+    base_dir: str,
+    persona: str,
+    regime: str,
+    domain: str,
+    run_index: int,
+    full_text: str,
+    t3_text: str,
+    gamma_text: str,
+) -> None:
+    """
+    Save raw response text to separate .txt files for qualitative analysis.
+
+    Creates files named like:
+      Ziggy_T3_TECH_run1_FULL.txt
+      Ziggy_T3_TECH_run1_T3.txt
+      Ziggy_T3_TECH_run1_GAMMA.txt
+
+    This keeps full conversation text out of the CSV but still accessible
+    for later qualitative review.
+    """
+    os.makedirs(base_dir, exist_ok=True)
+    base = f"{sanitize_for_filename(persona)}_{regime}_{domain}_run{run_index}"
+
+    mapping = {
+        "FULL": full_text,
+        "T3": t3_text,
+        "GAMMA": gamma_text,
+    }
+
+    for tag, text in mapping.items():
+        path = os.path.join(base_dir, f"{base}_{tag}.txt")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(text)
