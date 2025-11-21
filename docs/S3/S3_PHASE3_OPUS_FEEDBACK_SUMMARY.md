@@ -154,6 +154,21 @@ Combined:
 
 ---
 
-# 7. Ready for Integration  
+# 7. Ready for Integration
+
 This document is designed for immediate ingestion by **Nyquist REPO Claude**.
+
+---
+
+## See Also: Terminology References
+
+**Glossaries:**
+
+- [S3_GLOSSARY_v1.md](S3_GLOSSARY_v1.md) — Scientific + CFA hybrid terminology (dual-column format)
+- [S4_FUTURE_GLOSSARY_PROTO_v1.md](../S4/S4_FUTURE_GLOSSARY_PROTO_v1.md) — Formal mathematical glossary for S4 hardening
+
+**Integration Documents:**
+
+- [TERMINOLOGY_RESOLUTION.md](../../experiments/phase3/TERMINOLOGY_RESOLUTION.md) — "Degeneracy" deprecation analysis
+- [PHASE3_S3_INTEGRATION_REPORT.md](../../experiments/phase3/PHASE3_S3_INTEGRATION_REPORT.md) — Phase 3 scaffolding + harmonization summary
 

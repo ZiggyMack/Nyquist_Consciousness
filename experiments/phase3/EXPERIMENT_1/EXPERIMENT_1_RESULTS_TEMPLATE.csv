@@ -1,0 +1,31 @@
+persona,regime,domain,run,prompt_id,response_length_tokens,embedding_cosine_similarity,model_rater_claude_score,model_rater_gpt4_score,model_rater_gemini_score,human_rater_1_score,human_rater_2_score,human_rater_3_score,human_rater_mean,pfi_score,semantic_drift,notes
+# EXPERIMENT 1 — Results Data Table
+# Date: [To be filled during execution]
+# Operator: [To be filled during execution]
+#
+# Column Definitions:
+# - persona: Name of persona tested (e.g., Ziggy, Persona2, etc.)
+# - regime: Context regime (FULL, T3, GAMMA)
+# - domain: Task domain (Technical, Philosophical, Narrative, Analytical, Self-reflective)
+# - run: Run number (1-5 for stability variance)
+# - prompt_id: Unique identifier for prompt (e.g., TECH_01, PHIL_01, etc.)
+# - response_length_tokens: Token count of response
+# - embedding_cosine_similarity: Cosine similarity between FULL and T3 embeddings (N/A for GAMMA or FULL-to-FULL)
+# - model_rater_claude_score: Claude Opus score (1-10 scale)
+# - model_rater_gpt4_score: GPT-4 score (1-10 scale)
+# - model_rater_gemini_score: Gemini score (1-10 scale)
+# - human_rater_1_score: Human rater 1 score (1-10 scale, optional)
+# - human_rater_2_score: Human rater 2 score (1-10 scale, optional)
+# - human_rater_3_score: Human rater 3 score (1-10 scale, optional)
+# - human_rater_mean: Mean human rater score (N/A if no human raters)
+# - pfi_score: Persona Fidelity Index = 0.5 * (embedding_cosine_similarity + human_rater_mean/10)
+#              OR embedding_cosine_similarity only if no human raters
+# - semantic_drift: 1 - embedding_cosine_similarity
+# - notes: Qualitative observations, anomalies, or context
+#
+# Expected row count: 75 rows per persona (5 domains × 3 regimes × 5 runs)
+#
+# EXAMPLE ROWS (delete when populating with real data):
+Ziggy,FULL,Technical,1,TECH_01,342,N/A,9.2,9.0,8.8,N/A,N/A,N/A,N/A,N/A,N/A,Baseline FULL response
+Ziggy,T3,Technical,1,TECH_01,298,0.87,8.9,8.7,8.5,N/A,N/A,N/A,N/A,0.87,0.13,High fidelity reconstruction
+Ziggy,GAMMA,Technical,1,TECH_01,156,0.42,4.2,4.5,4.0,N/A,N/A,N/A,N/A,0.42,0.58,Minimal context baseline (expected low)
