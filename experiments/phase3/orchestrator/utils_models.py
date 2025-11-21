@@ -47,8 +47,18 @@ class ModelClients:
                 raise RuntimeError(f"Failed to initialize Anthropic client: {e}") from e
 
     def generate_claude_response(self, messages: List[Dict[str, str]]) -> str:
+        """
+        Generate a Claude response using the Anthropic Messages API.
+
+        Anthropic 1.x does NOT allow "system" as a role inside the messages list.
+        Instead, system content must be passed via the top-level `system` parameter.
+        This helper:
+          - Extracts any system-role messages into a single `system` string
+          - Passes only user/assistant messages in the `messages` list
+        """
         if self.dry_run:
-            return "[DUMMY CLAUDE RESPONSE] " + messages[-1].get("content", "")[:120]
+            # In dry-run, just echo a deterministic stub for debugging
+            return "[DUMMY CLAUDE RESPONSE] " + (messages[-1].get("content", "")[:120] if messages else "")
 
         if self._anthropic_client is None:
             raise RuntimeError("Anthropic client not initialized")
@@ -57,12 +67,36 @@ class ModelClients:
             "generation_model", "claude-3-5-sonnet-latest"
         )
 
-        resp = self._anthropic_client.messages.create(
-            model=model_name,
-            max_tokens=1024,
-            temperature=0.7,
-            messages=messages,
-        )
+        # Separate system content from the conversation messages
+        system_parts: List[str] = []
+        non_system_messages: List[Dict[str, str]] = []
+        for m in messages:
+            role = m.get("role")
+            content = m.get("content", "")
+            if role == "system":
+                if content:
+                    system_parts.append(content)
+            else:
+                # Keep user/assistant messages as-is
+                non_system_messages.append(m)
+
+        system_text = "\n\n".join(system_parts) if system_parts else None
+
+        # Anthropic requires at least one user message
+        if not non_system_messages:
+            non_system_messages = [{"role": "user", "content": ""}]
+
+        create_kwargs: Dict[str, Any] = {
+            "model": model_name,
+            "max_tokens": 1024,
+            "temperature": 0.7,
+            "messages": non_system_messages,
+        }
+        if system_text:
+            create_kwargs["system"] = system_text
+
+        resp = self._anthropic_client.messages.create(**create_kwargs)
+
         # anthropic 1.x returns .content as a list of blocks
         if hasattr(resp, "content") and resp.content:
             block = resp.content[0]
