@@ -130,9 +130,25 @@ For S3 to earn a “full pass”:
 
 # 8. Ready for Repository Integration
 
-This file is designed for **Nyquist REPO Claude** to create:  
-- `/experiments/phase3/EXPERIMENT_1/` directory  
-- Folder scaffolding  
-- Templates  
+This file is designed for **Nyquist REPO Claude** to create:
+
+- `/experiments/phase3/EXPERIMENT_1/` directory
+- Folder scaffolding
+- Templates
 - Result scripts
+
+---
+
+## See Also: Terminology References
+
+**Glossaries:**
+
+- [S3_GLOSSARY_v1.md](S3_GLOSSARY_v1.md) — Scientific + CFA hybrid terminology (dual-column format)
+- [S4_FUTURE_GLOSSARY_PROTO_v1.md](../S4/S4_FUTURE_GLOSSARY_PROTO_v1.md) — Formal mathematical glossary for S4 hardening
+
+**Experiment Scaffolding:**
+
+- [EXPERIMENT_1_METHODS_TEMPLATE.md](../../experiments/phase3/EXPERIMENT_1/EXPERIMENT_1_METHODS_TEMPLATE.md) — Execution protocol
+- [EXPERIMENT_1_ANALYSIS_TEMPLATE.md](../../experiments/phase3/EXPERIMENT_1/EXPERIMENT_1_ANALYSIS_TEMPLATE.md) — Statistical analysis template
+- [README.md](../../experiments/phase3/EXPERIMENT_1/README.md) — Experiment overview
 
