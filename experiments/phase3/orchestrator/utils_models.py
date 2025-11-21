@@ -33,6 +33,12 @@ class ModelClients:
 
     def __post_init__(self) -> None:
         self._anthropic_client = None
+
+        # Store generation model name from config
+        self.anthropic_generation_model = self.cfg.get("anthropic", {}).get(
+            "generation_model", "claude-3-5-sonnet-latest"
+        )
+
         if not self.dry_run:
             try:
                 import anthropic  # type: ignore
@@ -63,10 +69,6 @@ class ModelClients:
         if self._anthropic_client is None:
             raise RuntimeError("Anthropic client not initialized")
 
-        model_name = self.cfg.get("anthropic", {}).get(
-            "generation_model", "claude-3-5-sonnet-latest"
-        )
-
         # Separate system content from the conversation messages
         system_parts: List[str] = []
         non_system_messages: List[Dict[str, str]] = []
@@ -87,7 +89,7 @@ class ModelClients:
             non_system_messages = [{"role": "user", "content": ""}]
 
         create_kwargs: Dict[str, Any] = {
-            "model": model_name,
+            "model": self.anthropic_generation_model,
             "max_tokens": 1024,
             "temperature": 0.7,
             "messages": non_system_messages,
@@ -154,6 +156,17 @@ class RaterClients:
         self._openai_client = None
         self._gemini_model = None
 
+        # Store model names from config
+        self.anthropic_rater_model = self.cfg.get("anthropic", {}).get(
+            "rater_model", "claude-3-opus-latest"
+        )
+        self.openai_rater_model = self.cfg.get("openai", {}).get(
+            "rater_model", "gpt-4.1-mini"
+        )
+        self.gemini_rater_model = self.cfg.get("google", {}).get(
+            "rater_model", "gemini-2.0-flash-exp"
+        )
+
         if not self.dry_run:
             # Anthropic for Claude-Opus rater
             try:
@@ -191,10 +204,7 @@ class RaterClients:
                 if not api_key:
                     raise RuntimeError("Missing Google API key")
                 genai.configure(api_key=api_key)
-                model_name = self.cfg.get("google", {}).get(
-                    "rater_model", "gemini-2.0-flash-exp"
-                )
-                self._gemini_model = genai.GenerativeModel(model_name)
+                self._gemini_model = genai.GenerativeModel(self.gemini_rater_model)
             except Exception as e:
                 raise RuntimeError(f"Failed to initialize Gemini client: {e}") from e
 
@@ -233,13 +243,9 @@ class RaterClients:
         if self._anthropic_client is None:
             raise RuntimeError("Anthropic client (rater) not initialized")
 
-        model_name = self.cfg.get("anthropic", {}).get(
-            "rater_model", "claude-3-opus-latest"
-        )
-
         prompt = self._build_rater_prompt(pair)
         resp = self._anthropic_client.messages.create(
-            model=model_name,
+            model=self.anthropic_rater_model,
             max_tokens=128,
             temperature=0.0,
             messages=[
@@ -259,10 +265,9 @@ class RaterClients:
         if self._openai_client is None:
             raise RuntimeError("OpenAI client (rater) not initialized")
 
-        model_name = self.cfg.get("openai", {}).get("rater_model", "gpt-4.1-mini")
         prompt = self._build_rater_prompt(pair)
         resp = self._openai_client.chat.completions.create(
-            model=model_name,
+            model=self.openai_rater_model,
             messages=[{"role": "user", "content": prompt}],
             max_tokens=64,
             temperature=0.0,
