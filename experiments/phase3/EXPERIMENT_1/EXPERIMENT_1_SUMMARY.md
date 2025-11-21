@@ -522,6 +522,7 @@
 - [EXPERIMENT_1_METHODS_TEMPLATE.md](EXPERIMENT_1_METHODS_TEMPLATE.md) — Execution protocol
 - [EXPERIMENT_1_RESULTS_TEMPLATE.csv](EXPERIMENT_1_RESULTS_TEMPLATE.csv) — Data structure
 - [EXPERIMENT_1_ANALYSIS_TEMPLATE.md](EXPERIMENT_1_ANALYSIS_TEMPLATE.md) — Analysis template
+- [EXPERIMENT_1_ANALYSIS.md](EXPERIMENT_1_ANALYSIS.md) — **Detailed metrics and interpretation** (N=24 empirical results)
 
 **Demonstration Outputs:**
 - [EXPERIMENT_1_DEMONSTRATION_RESPONSES.md](responses/EXPERIMENT_1_DEMONSTRATION_RESPONSES.md) — 15 full-text responses
