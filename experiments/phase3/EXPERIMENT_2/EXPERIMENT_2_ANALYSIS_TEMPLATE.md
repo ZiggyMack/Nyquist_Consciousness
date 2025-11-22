@@ -122,7 +122,7 @@ In the final write‑up:
 
 **Purpose:** Address Doc-Claude (Opus) requirements for publication validity.
 
-**Full Statistical Analysis:** See [EXPERIMENT_2_STATS.md](./EXPERIMENT_2_STATS.md)
+**Full Statistical Analysis:** See [EXPERIMENT_2_STATS_FINAL.md](./analysis/EXPERIMENT_2_STATS_FINAL.md)
 
 ### 7.1 Confidence Intervals (95% CI for PFI)
 
@@ -200,7 +200,8 @@ In the final write‑up:
 ### Experiment 2 Core Documentation
 - [S3_EXPERIMENT_2_SPEC.md](../../../docs/S3/S3_EXPERIMENT_2_SPEC.md) — Formal specification
 - [EXPERIMENT_2_SUMMARY.md](./EXPERIMENT_2_SUMMARY.md) — Executive summary
-- [EXPERIMENT_2_STATS.md](./EXPERIMENT_2_STATS.md) — Statistical analysis
+- [EXPERIMENT_2_STATS_FINAL.md](./analysis/EXPERIMENT_2_STATS_FINAL.md) — Statistical results (Opus-ready)
+- [EXPERIMENT_2_STATS.md](./analysis/EXPERIMENT_2_STATS.md) — Statistical framework (template)
 - [README.md](./README.md) — Execution guide
 
 ### Statistical Infrastructure
