@@ -4,6 +4,16 @@
 
 ---
 
+**📋 NOTE:** This is the **canonical formal specification** for Experiment 2. This document provides complete methodological detail, hypotheses, statistical design, and publication-ready documentation.
+
+**Local Quick Reference:** A condensed version for experiment execution is available at:
+
+- **Local Copy:** [EXPERIMENT_2_SPEC.md](../../experiments/phase3/EXPERIMENT_2/EXPERIMENT_2_SPEC.md)
+
+**Purpose of this file:** Authoritative specification document for external review (Opus, Dr. O), publication preparation, and S3 → S4 transition documentation.
+
+---
+
 ## Purpose
 
 Experiment 2 extends Experiment 1 from a single-persona validation (Ziggy, N=24) to a **4-persona cross-validation** of Tier-3 compression, directly addressing the primary publication blocker identified by Doc-Claude (Opus): **N=1 generalization limitation**.

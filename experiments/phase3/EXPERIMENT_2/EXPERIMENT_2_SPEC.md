@@ -4,6 +4,14 @@
 
 ---
 
+**📋 NOTE:** This is a **local quick-reference copy** for experiment execution. For the complete canonical specification with full methodological detail, hypotheses, and formal design documentation, see:
+
+- **Canonical Specification:** [S3_EXPERIMENT_2_SPEC.md](../../../docs/S3/S3_EXPERIMENT_2_SPEC.md)
+
+**Purpose of this file:** Provides essential execution details for running the experiment locally. The S3 version is the authoritative document for publication, review, and formal specification.
+
+---
+
 ## 1. Purpose
 
 To evaluate whether **Tier-3 compression generalizes across personas**.
