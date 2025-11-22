@@ -22,19 +22,31 @@ pip install anthropic openai google-generativeai numpy pandas pyyaml
 
 ### Running the Experiment
 
-**Dry-Run Test (No API Calls):**
+**Option 1: Run from orchestrator directory (recommended):**
+
 ```bash
-cd d:\Documents\Nyquist_Consciousness
-python experiments/phase3/orchestrator/orchestrator2.py --config experiments/phase3/EXPERIMENT_2/experiment2_config.yaml --dry-run
+cd d:\Documents\Nyquist_Consciousness\experiments\phase3\orchestrator
+
+# Dry-run test
+python orchestrator2.py --config ../EXPERIMENT_2/experiment2_config.yaml --dry-run
+
+# Full execution
+python orchestrator2.py --config ../EXPERIMENT_2/experiment2_config.yaml
 ```
 
-**Full Execution (With API Calls):**
+**Option 2: Run from repository root:**
+
 ```bash
 cd d:\Documents\Nyquist_Consciousness
+
+# Dry-run test
+python experiments/phase3/orchestrator/orchestrator2.py --config experiments/phase3/EXPERIMENT_2/experiment2_config.yaml --dry-run
+
+# Full execution
 python experiments/phase3/orchestrator/orchestrator2.py --config experiments/phase3/EXPERIMENT_2/experiment2_config.yaml
 ```
 
-**Note:** Always run from the repository root directory, not from the orchestrator subdirectory.
+**Note:** The config file paths are set up for running from the orchestrator directory (Option 1).
 
 ## Configuration
 
