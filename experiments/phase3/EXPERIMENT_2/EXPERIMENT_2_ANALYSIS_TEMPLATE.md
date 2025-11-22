@@ -118,9 +118,95 @@ In the final write‑up:
 
 ---
 
-## 7. Cross-Links to Related Documentation
+## 7. Statistical Validation (Opus Requirements)
 
+**Purpose:** Address Doc-Claude (Opus) requirements for publication validity.
+
+**Full Statistical Analysis:** See [EXPERIMENT_2_STATS.md](./EXPERIMENT_2_STATS.md)
+
+### 7.1 Confidence Intervals (95% CI for PFI)
+
+**Method:** Compute 95% CI per persona × domain using normal approximation.
+
+**Expected Pattern:**
+- TECH: Tightest CIs (narrow variance)
+- NARR: Widest CIs (drift vulnerability)
+- All CIs above 0.75 threshold
+
+**Validation:**
+- [ ] All persona × domain CIs > 0.75
+- [ ] NARR CIs wider than TECH/ANAL
+- [ ] Cross-persona CI widths comparable
+
+### 7.2 ANOVA Tests
+
+**One-Way ANOVA (Persona Effect):**
+- **Null Hypothesis:** Mean PFI equal across personas
+- **Expected:** p ≥ 0.05 (no persona effect)
+- **Interpretation:** Tier-3 compression generalizes across personas
+
+**Two-Way ANOVA (Persona × Domain):**
+- **Test:** `PFI ~ Persona + Domain + Persona:Domain`
+- **Expected:** Interaction p ≥ 0.05
+- **Interpretation:** Domain pattern replicates across personas
+
+**Success Criteria:**
+- [ ] One-way ANOVA: p ≥ 0.05
+- [ ] Interaction term: p ≥ 0.05
+
+### 7.3 Cross-Persona Variance (σ²)
+
+**Method:** Compute variance of per-persona mean PFI within each domain.
+
+**Success Criterion:** Max σ² < 0.05
+
+**Expected:**
+- TECH/ANAL: σ² < 0.002
+- PHIL/SELF: σ² < 0.005
+- NARR: σ² < 0.01
+
+**Validation:**
+- [ ] Maximum σ² < 0.05 (primary criterion)
+- [ ] TECH/ANAL lowest variance
+- [ ] NARR highest variance (but below threshold)
+
+### 7.4 Effect Sizes (Cohen's d)
+
+**Purpose:** Quantify FULL vs GAMMA distinction magnitude.
+
+**Expected:** d > 0.8 (large effect) for all personas
+
+**Interpretation:**
+- Confirms FULL and GAMMA are clearly distinguishable
+- Validates GAMMA as true minimal baseline
+
+### 7.5 Statistical Validation Checklist
+
+- [ ] All CIs above 0.75 threshold
+- [ ] ANOVA: No significant persona effect (p ≥ 0.05)
+- [ ] ANOVA: No significant interaction (p ≥ 0.05)
+- [ ] Cross-persona variance σ² < 0.05
+- [ ] Effect sizes d > 0.8
+
+**Pass Determination:**
+- ALL CRITERIA MET → Full statistical validation, proceed to S4
+- PARTIAL → Refine seeds, targeted follow-up
+- FAILED → Remain in S3, delay S4
+
+---
+
+## 8. Cross-Links to Related Documentation
+
+### Experiment 2 Core Documentation
 - [S3_EXPERIMENT_2_SPEC.md](../../../docs/S3/S3_EXPERIMENT_2_SPEC.md) — Formal specification
 - [EXPERIMENT_2_SUMMARY.md](./EXPERIMENT_2_SUMMARY.md) — Executive summary
+- [EXPERIMENT_2_STATS.md](./EXPERIMENT_2_STATS.md) — Statistical analysis
+- [README.md](./README.md) — Execution guide
+
+### Statistical Infrastructure
+- [EXPERIMENT_2_STATISTICS.py](../orchestrator/EXPERIMENT_2_STATISTICS.py) — Analysis script
+
+### Integration with Framework
 - [S4_READINESS_GATE.md](../../../docs/S4/S4_READINESS_GATE.md) — S3 → S4 transition gate
 - [EXPERIMENT_LOG.md](../../../docs/EXPERIMENT_LOG.md) — Full experiment tracking
+- [ARCHITECTURE_MAP_PHASES_1-4.md](../../../docs/ARCHITECTURE_MAP_PHASES_1-4.md) — System architecture
