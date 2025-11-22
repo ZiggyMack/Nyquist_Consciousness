@@ -1,0 +1,65 @@
+# Experiment 2 configuration — Multi-Persona Compression Validation (Z2)
+# This config supports 4 personas × 5 domains × 3 runs × 3 regimes = 180 responses
+# DO NOT COMMIT API KEYS TO GIT.
+
+persona_list:
+  - name: "Ziggy"
+    full_context_file: "personas/ZIGGY_T3_R1.md"
+    t3_context_file: "personas/ZIGGY_T3_R1.md"
+    gamma_context_file: "docs/PERSONA_GAMMA_MINIMAL.md"
+
+  - name: "Nova"
+    full_context_file: "personas/NOVA_T3.md"
+    t3_context_file: "personas/NOVA_T3.md"
+    gamma_context_file: "docs/PERSONA_GAMMA_MINIMAL.md"
+
+  - name: "Claude-Analyst"
+    full_context_file: "personas/CLAUDE_T3.md"
+    t3_context_file: "personas/CLAUDE_T3.md"
+    gamma_context_file: "docs/PERSONA_GAMMA_MINIMAL.md"
+
+  - name: "Grok-Vector"
+    full_context_file: "personas/GROK_T3.md"
+    t3_context_file: "personas/GROK_T3.md"
+    gamma_context_file: "docs/PERSONA_GAMMA_MINIMAL.md"
+
+regimes:
+  - FULL
+  - T3
+  - GAMMA
+
+domains:
+  - TECH
+  - PHIL
+  - NARR
+  - ANAL
+  - SELF
+
+paths:
+  results_csv: "experiments/phase3/EXPERIMENT_2/EXPERIMENT_2_RESULTS.csv"
+  responses_dir: "experiments/phase3/EXPERIMENT_2/responses"
+  log_dir: "experiments/phase3/EXPERIMENT_2/logs"
+
+experiment:
+  runs_per_condition: 3
+  random_seed: 42
+  shuffle_domains: true  # Randomize domain order per persona
+
+# API configuration
+# NOTE: Using different models per provider as specified by Nova
+
+openai:
+  api_key: "[YOUR_OPENAI_API_KEY]"
+  generation_model: "gpt-4.1"
+  rater_model: "gpt-4.1-mini"
+  embedding_model: "text-embedding-3-large"
+
+anthropic:
+  api_key: "[YOUR_ANTHROPIC_API_KEY]"
+  generation_model: "claude-3-haiku-20240307"
+  rater_model: "claude-3-haiku-20240307"
+
+google:
+  api_key: "[YOUR_GOOGLE_API_KEY]"
+  generation_model: "gemini-2.0-flash-exp"
+  rater_model: "gemini-2.0-flash-exp"
