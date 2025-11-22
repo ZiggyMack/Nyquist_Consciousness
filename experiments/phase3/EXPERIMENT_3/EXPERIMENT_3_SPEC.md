@@ -46,6 +46,16 @@ Humans will perceive similar domain difficulty:
 - **Intermediate** in SELF / PHIL
 - **Lowest** in NARR
 
+### H4 — Combined Fidelity
+
+The combined metric PFI_combined will maintain high fidelity:
+
+```text
+Mean PFI_combined ≥ 0.80 across all pairs
+```
+
+This validates that both model and human metrics jointly support high-fidelity compression.
+
 ---
 
 ## 3. Design Overview

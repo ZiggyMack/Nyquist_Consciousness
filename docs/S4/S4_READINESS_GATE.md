@@ -106,19 +106,39 @@ While a mild but statistically significant persona effect was detected (p=0.0004
 
 ---
 
-## Gate 4: Human Rater Validation
+## Gate 4: Human Rater Validation (EXP3)
 
-**Status:** 🔴 **NOT STARTED** (Phase 4)
+**Status:** 🟡 **IN PROGRESS** (Setup Complete)
 
 **Requirement:** Demonstrate that human raters perceive ≥75% behavioral fidelity for Tier-3 compressed personas.
 
-**Proposed Design:**
-- Recruit N=30-50 human raters
-- Present blinded FULL vs T3 response pairs
-- Collect ratings on identity, values, style, coherence
-- Target: Mean human PFI ≥ 0.75
+**Design:**
 
-**Status:** Deferred to Phase 4 (post-EXP2).
+- **Experiment:** EXP3 (Human Validation of Persona Fidelity)
+- **Response pairs:** 30 FULL-T3 pairs (stratified by persona, domain, PFI)
+- **Raters:** 7 human raters
+- **Total ratings:** 210 pairwise judgments (30 pairs × 7 raters)
+- **Rating dimensions:** 4 (Identity/Voice, Values/Priorities, Reasoning Style, Overall Similarity)
+- **Scale:** 1-10 per dimension, normalized to [0,1]
+
+**Hypotheses:**
+
+1. **H1 — Persona Recognition:** Mean PFI_human ≥ 0.75
+2. **H2 — Model-Human Alignment:** Pearson r ≥ 0.70 (PFI_model vs PFI_human)
+3. **H3 — Inter-Rater Reliability:** Cronbach's α ≥ 0.75
+4. **H4 — Combined Fidelity:** Mean PFI_combined ≥ 0.80
+
+**Success Criteria:**
+
+All four hypotheses must pass to validate human ground-truth.
+
+**Implementation:**
+
+- [EXPERIMENT_3_SPEC.md](../../experiments/phase3/EXPERIMENT_3/EXPERIMENT_3_SPEC.md) — Formal specification
+- [PAIR_SELECTION.md](../../experiments/phase3/EXPERIMENT_3/PAIR_SELECTION.md) — Selection algorithm
+- [EXPERIMENT_3_RATER_GUIDE.md](../../experiments/phase3/EXPERIMENT_3/EXPERIMENT_3_RATER_GUIDE.md) — Rater instructions
+
+**Status:** Infrastructure complete, awaiting data collection and analysis.
 
 ---
 

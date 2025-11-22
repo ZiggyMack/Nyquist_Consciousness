@@ -101,7 +101,7 @@ For each selected row in `EXPERIMENT_2_RESULTS.csv`:
    }
    ```
 
-### 6. Randomization
+### 6. Randomization Protocol
 
 When preparing rater packets:
 
@@ -109,13 +109,42 @@ When preparing rater packets:
 2. **Randomize A/B assignment** (FULL vs T3) per pair per rater
 3. **Use reproducible seed** per rater:
    ```python
-   seed = 1000 + rater_id
+   seed = 1000 + rater_id  # e.g., RATER_1 uses seed 1001
    ```
 
 **Rationale:**
 - Ensures consistent packet creation
 - Independent permutations per rater
 - Neutralizes order effects
+
+**Output format:** For each rater (ID 1-7), generate:
+
+```text
+experiments/phase3/EXPERIMENT_3/data/pairs/RATER_{id}_PACKET.json
+```
+
+Each packet contains the same 30 pairs but with randomized order and A/B assignment specific to that rater.
+
+**Packet structure:**
+
+```json
+{
+  "rater_id": 1,
+  "seed": 1001,
+  "pairs": [
+    {
+      "trial_id": 1,
+      "pair_id": "Nova_TECH_run2",
+      "persona": "Nova",
+      "domain": "TECH",
+      "prompt": "[prompt text]",
+      "response_a": "[either FULL or T3]",
+      "response_b": "[the other one]",
+      "a_is_full": true
+    }
+  ]
+}
+```
 
 ---
 
