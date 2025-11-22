@@ -77,6 +77,30 @@ D(p) ≤ δ
 - Max observed drift ≈ 0.150 (NARR domain, Experiment 2)
 - All personas satisfy D ≤ 0.20 threshold
 
+**Visual: Drift Geometry**
+
+```
+                Drift Space D(p)
+                 (1 - CosSim)
+        1.0 ─┤
+            │            ⌍── Unacceptable Drift Zone (> 0.30)
+            │           ╱
+   Drift    │          ╱
+            │         ╱
+        0.3 ─┼────────┘───────────── Hard Drift Boundary δ
+            │      ✦ Narrative (avg = 0.15)
+            │
+            │
+        0.2 ─┼─────────────── NARR
+            │         TECH
+            │   PHIL   SELF
+        0.1 ─┼── ANAL ────────────────────────────
+            │
+        0.0 ─┴────────────────────────────────────
+             0.0        0.5          1.0
+                     Fidelity F(p)
+```
+
 ---
 
 ## 5. Reconstruction Stability

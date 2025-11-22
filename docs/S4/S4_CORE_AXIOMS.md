@@ -59,6 +59,44 @@ with the property that C(p) contains only:
 
 C removes all surface expression, stylistic variance, and non-essential episodic details.
 
+### Visual: Compression Pipeline
+
+```
+        ┌────────────────────┐
+        │   Original Persona  │
+        │        p ∈ P        │
+        │ ─────────────────── │
+        │ identity            │
+        │ values              │
+        │ reasoning style     │
+        │ methods             │
+        │ expressive profile  │
+        └─────────┬──────────┘
+                  │  Compression C
+                  ▼
+        ┌────────────────────┐
+        │   Tier-3 Seed t    │
+        │        t ∈ T        │
+        │ ─────────────────── │
+        │ identity core       │
+        │ values              │
+        │ cognitive methods   │
+        │ temperament         │
+        │ failure modes       │
+        └─────────┬──────────┘
+                  │  Reconstruction R
+                  ▼
+        ┌────────────────────┐
+        │ Reconstructed P'   │
+        │     R(C(p))        │
+        │ ─────────────────── │
+        │ preserved structure │
+        │ bounded drift       │
+        │ recoverable style   │
+        │ domain-consistent   │
+        └────────────────────┘
+```
+
 ---
 
 ## 3. Reconstruction Operator
@@ -145,6 +183,26 @@ Across personas:
 
 ```
 TECH > ANAL > SELF ≈ PHIL > NARR
+```
+
+**Visual: Domain Invariance Lattice**
+
+```
+                        ┌─────────────┐
+                        │    TECH     │  (Lowest Drift)
+                        └──────▲──────┘
+                               │
+                        ┌──────┴──────┐
+                        │    ANAL     │
+                        └──────▲──────┘
+                               │
+                     ┌────────┴────────┐
+                     │    SELF ≈ PHIL   │
+                     └────────▲────────┘
+                              │
+                           ┌──┴──┐
+                           │ NARR│  (Highest Drift)
+                           └─────┘
 ```
 
 ### Axiom 6 — Architecture-Agnosticism
