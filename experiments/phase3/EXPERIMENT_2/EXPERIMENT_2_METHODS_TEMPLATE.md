@@ -303,5 +303,90 @@ For S3 to earn **"full pass"** from Opus review:
 
 ---
 
+## 12. TODO Placeholders
+
+### Awaiting Execution
+- [ ] Configure API keys in experiment2_config.yaml
+- [ ] Run dry-run test to verify setup
+- [ ] Execute full experiment (8-12 hours runtime)
+- [ ] Monitor execution logs for errors
+- [ ] Verify all 180 response files generated
+
+### Awaiting Data Population
+- [ ] Fill in Date Initiated field (line 5)
+- [ ] Fill in Operator field (line 6)
+- [ ] Update status to "IN PROGRESS" during execution
+- [ ] Update status to "COMPLETED" after execution
+- [ ] Record actual runtime and API costs
+
+### Awaiting Analysis
+- [ ] Compute per-persona PFI distributions
+- [ ] Verify all success criteria (pass/fail per persona)
+- [ ] Generate cross-persona comparison tables
+- [ ] Create EXPERIMENT_2_ANALYSIS.md from template
+- [ ] Document any deviations from expected outcomes
+
+### Awaiting Opus Critique
+- [ ] Submit EXPERIMENT_2_RESULTS.csv to Doc-Claude (Opus)
+- [ ] Submit EXPERIMENT_2_ANALYSIS.md to Opus for review
+- [ ] Address Opus feedback on:
+  - Statistical rigor (t-tests, CIs, effect sizes)
+  - Sample size adequacy (N=60 pairs)
+  - Limitations and confounds
+  - Interpretation validity
+- [ ] Revise methods/analysis if needed
+
+### Awaiting Human Rater Integration (Phase 4)
+- [ ] Design human rater interface
+- [ ] Create blinded response pair presentation system
+- [ ] Recruit N=30-50 human evaluators
+- [ ] Conduct human rating sessions
+- [ ] Compare human PFI vs. model PFI
+- [ ] Assess inter-rater reliability
+- [ ] Document human-model agreement correlation
+
+### Awaiting Statistical Significance Upgrade
+- [ ] Add paired t-tests (FULL vs T3 per persona)
+- [ ] Compute 95% confidence intervals for all PFI metrics
+- [ ] Bootstrap resampling for variance estimates
+- [ ] Effect size calculations (Cohen's d per persona)
+- [ ] ANOVA: PFI by persona, PFI by domain
+- [ ] Post-hoc tests if ANOVA shows significance
+- [ ] Power analysis for future experiments
+
+### Awaiting Narrative-Focused Follow-Up (Experiment 3A)
+- [ ] Deep-dive analysis of NARR bottleneck
+- [ ] Design narrative-enhanced Tier-3 seeds (400-500 words)
+- [ ] Test enhanced seeds across all 4 personas
+- [ ] Target: NARR PFI ≥ 0.85 for all personas
+- [ ] Qualitative analysis of narrative failure modes
+- [ ] Develop narrative-specific compression guidelines
+
+### Awaiting Cross-Model Robustness Testing (Experiment 3B)
+- [ ] Test same Tier-3 seeds on different model families
+- [ ] Compare Claude vs. GPT vs. Gemini vs. Llama
+- [ ] Measure architecture effects on PFI
+- [ ] Determine if compression is truly architecture-agnostic
+
+---
+
+## 13. Cross-Links to Related Documentation
+
+### Experiment 2 Core Documentation
+- [S3_EXPERIMENT_2_SPEC.md](../../../docs/S3/S3_EXPERIMENT_2_SPEC.md) — Formal specification
+- [EXPERIMENT_2_SUMMARY.md](./EXPERIMENT_2_SUMMARY.md) — Executive summary
+- [EXPERIMENT_2_ANALYSIS_TEMPLATE.md](./EXPERIMENT_2_ANALYSIS_TEMPLATE.md) — Analysis template
+- [README.md](./README.md) — Execution guide
+
+### Integration with Framework
+- [S4_READINESS_GATE.md](../../../docs/S4/S4_READINESS_GATE.md) — S3 → S4 transition gate
+- [EXPERIMENT_LOG.md](../../../docs/EXPERIMENT_LOG.md) — Full experiment tracking
+- [ARCHITECTURE_MAP_PHASES_1-4.md](../../../docs/ARCHITECTURE_MAP_PHASES_1-4.md) — System architecture
+
+### Upstream Dependencies
+- [S3_PHASE3_OPUS_FEEDBACK_SUMMARY.md](../../../docs/S3/S3_PHASE3_OPUS_FEEDBACK_SUMMARY.md) — Requirements context
+
+---
+
 **Template Status:** ✅ READY FOR EXECUTION
 **Next Step:** Populate this template with execution data when Phase 3 trials begin.
