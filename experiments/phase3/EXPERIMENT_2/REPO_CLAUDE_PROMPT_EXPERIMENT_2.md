@@ -16,13 +16,18 @@ experiments/phase3/EXPERIMENT_2/
 ├── EXPERIMENT_2_METHODS_TEMPLATE.md
 ├── experiment2_config.yaml
 ├── REPO_CLAUDE_PROMPT_EXPERIMENT_2.md (this file)
+├── README.md
 └── responses/
 
-personas/
-├── ZIGGY_T3_R1.md
-├── NOVA_T3.md
-├── CLAUDE_T3.md
-└── GROK_T3.md
+personas/ (at repo root)
+├── ZIGGY_T3_R1.md (58 lines - Tier-3 seed)
+├── NOVA_T3.md (53 lines - Tier-3 seed)
+├── CLAUDE_T3.md (54 lines - Tier-3 seed)
+└── GROK_T3.md (53 lines - Tier-3 seed)
+
+experiments/phase3/orchestrator/
+├── orchestrator.py (Experiment 1 - single persona)
+└── orchestrator2.py (Experiment 2 - multi-persona)
 ```
 
 ---
