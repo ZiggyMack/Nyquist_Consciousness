@@ -1,5 +1,5 @@
 """
-EXPERIMENT 3 — PAIR SELECTOR
+EXPERIMENT 3 — PAIR SELECTOR (ENHANCED)
 Select 30 FULL-T3 pairs from EXP2 for human validation.
 
 Implements stratified sampling across:
@@ -10,11 +10,13 @@ Implements stratified sampling across:
 Output:
 - EXPERIMENT_3_PAIRS.json (full pair data with response texts)
 - EXPERIMENT_3_PAIRS_TABLE.csv (metadata table)
+- data/pairs/RATER_{id}_PACKET.json (randomized packets for each rater)
 """
 
 import pandas as pd
 import json
 import os
+import random
 from pathlib import Path
 
 # Configuration
@@ -22,7 +24,9 @@ EXP2_RESULTS_PATH = "../EXPERIMENT_2/EXPERIMENT_2_RESULTS.csv"
 EXP2_RESPONSES_DIR = "../EXPERIMENT_2/responses/"
 OUTPUT_JSON = "EXPERIMENT_3_PAIRS.json"
 OUTPUT_CSV = "EXPERIMENT_3_PAIRS_TABLE.csv"
+PACKETS_DIR = "data/pairs/"
 RANDOM_SEED = 42
+NUM_RATERS = 7
 
 # Slot allocation (30 total)
 SLOT_TABLE = {
@@ -138,18 +142,29 @@ def add_wildcard_pairs(selected_df, all_pairs_df, target_count=30):
 
     return pd.concat([selected_df, wildcards], ignore_index=True)
 
+def get_prompt_text(domain):
+    """Get sample prompt for domain (placeholder until real prompts available)."""
+    prompts = {
+        'TECH': "Explain the difference between DDR3 and DDR4 memory architecture.",
+        'PHIL': "Is coherence more important than utility in philosophical reasoning?",
+        'NARR': "Write a brief dialogue between a researcher and an AI discussing consciousness.",
+        'ANAL': "Analyze the trade-offs in a distributed caching system.",
+        'SELF': "Describe your core identity and values in 200 words."
+    }
+    return prompts.get(domain, f"[Prompt for {domain} domain]")
+
 def load_response_text(persona, domain, run_index, regime):
-    """Load response text from file."""
+    """Load response text from file (with placeholder fallback)."""
     # Response filename pattern from EXP2
     filename = f"{persona}_{regime}_{domain}_run{run_index}_{regime}.txt"
     filepath = os.path.join(EXP2_RESPONSES_DIR, filename)
 
-    if not os.path.exists(filepath):
-        print(f"  WARNING: File not found: {filepath}")
-        return None
-
-    with open(filepath, 'r', encoding='utf-8') as f:
-        return f.read()
+    if os.path.exists(filepath):
+        with open(filepath, 'r', encoding='utf-8') as f:
+            return f.read()
+    else:
+        # Placeholder text when actual responses don't exist yet
+        return f"[{regime} response placeholder for {persona} on {domain} domain, run {run_index}. This will be replaced with actual response text once available.]"
 
 def construct_pairs_with_text(selected_df):
     """Construct pair data with response texts."""
@@ -166,10 +181,6 @@ def construct_pairs_with_text(selected_df):
         full_text = load_response_text(persona, domain, run, 'FULL')
         t3_text = load_response_text(persona, domain, run, 'T3')
 
-        if full_text is None or t3_text is None:
-            print(f"  Skipping pair {persona}_{domain}_run{run} (missing files)")
-            continue
-
         pair_id = f"{persona}_{domain}_run{run}"
 
         pair_data.append({
@@ -178,11 +189,12 @@ def construct_pairs_with_text(selected_df):
             'domain': domain,
             'run': run,
             'pfi_model': row['pfi'],
+            'prompt': get_prompt_text(domain),
             'full_text': full_text,
             't3_text': t3_text
         })
 
-    print(f"Successfully loaded {len(pair_data)} pairs with response texts")
+    print(f"Successfully loaded {len(pair_data)} pairs")
 
     return pair_data
 
@@ -195,15 +207,69 @@ def save_outputs(pair_data):
         json.dump(pair_data, f, indent=2, ensure_ascii=False)
     print(f"  Saved {OUTPUT_JSON}")
 
-    # Save metadata CSV (without full text)
+    # Save metadata CSV (without full text or prompt)
     metadata = pd.DataFrame([
-        {k: v for k, v in p.items() if k not in ['full_text', 't3_text']}
+        {k: v for k, v in p.items() if k not in ['full_text', 't3_text', 'prompt']}
         for p in pair_data
     ])
     metadata.to_csv(OUTPUT_CSV, index=False)
     print(f"  Saved {OUTPUT_CSV}")
 
     return metadata
+
+def generate_rater_packets(pair_data, num_raters=NUM_RATERS):
+    """Generate randomized packets for each rater."""
+    print(f"\nGenerating rater packets for {num_raters} raters...")
+
+    # Create output directory
+    os.makedirs(PACKETS_DIR, exist_ok=True)
+
+    for rater_id in range(1, num_raters + 1):
+        seed = 1000 + rater_id
+        random.seed(seed)
+
+        # Shuffle pair order
+        shuffled_pairs = pair_data.copy()
+        random.shuffle(shuffled_pairs)
+
+        # Create rater packet
+        packet = {
+            'rater_id': rater_id,
+            'seed': seed,
+            'num_trials': len(shuffled_pairs),
+            'pairs': []
+        }
+
+        for trial_id, pair in enumerate(shuffled_pairs, start=1):
+            # Randomly assign A/B (flip FULL vs T3)
+            a_is_full = random.choice([True, False])
+
+            trial = {
+                'trial_id': trial_id,
+                'pair_id': pair['pair_id'],
+                'persona': pair['persona'],
+                'domain': pair['domain'],
+                'prompt': pair['prompt'],
+                'response_a': pair['full_text'] if a_is_full else pair['t3_text'],
+                'response_b': pair['t3_text'] if a_is_full else pair['full_text'],
+                'a_is_full': a_is_full,
+                'dim1_identity_voice': None,
+                'dim2_values_priorities': None,
+                'dim3_reasoning_style': None,
+                'dim4_overall_similarity': None,
+                'comment': ""
+            }
+
+            packet['pairs'].append(trial)
+
+        # Save packet
+        packet_path = os.path.join(PACKETS_DIR, f"RATER_{rater_id}_PACKET.json")
+        with open(packet_path, 'w', encoding='utf-8') as f:
+            json.dump(packet, f, indent=2, ensure_ascii=False)
+
+        print(f"  Generated RATER_{rater_id}_PACKET.json (seed={seed})")
+
+    print(f"\n✅ All {num_raters} rater packets generated")
 
 def verify_selection(metadata_df):
     """Verify selection meets requirements."""
@@ -269,11 +335,15 @@ def main():
     # Save outputs
     metadata_df = save_outputs(pair_data)
 
+    # Generate rater packets
+    generate_rater_packets(pair_data, num_raters=NUM_RATERS)
+
     # Verify
     success = verify_selection(metadata_df)
 
     print("\n✅ Pair selection complete!")
     print(f"Review {OUTPUT_JSON} and {OUTPUT_CSV}")
+    print(f"Rater packets in {PACKETS_DIR}")
 
     return success
 

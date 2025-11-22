@@ -14,17 +14,20 @@ Output:
 
 import pandas as pd
 import numpy as np
+import os
 from scipy import stats
 from scipy.stats import pearsonr
 import warnings
 warnings.filterwarnings('ignore')
 
 # Configuration
-RAW_DATA_PATH = "EXPERIMENT_3_RESULTS_RAW.csv"
-EXP1_DATA_PATH = "../EXPERIMENT_1/EXPERIMENT_1_RESULTS.csv"
+RAW_DATA_PATH = "data/results/EXPERIMENT_3_RESULTS_RAW.csv"
+PAIRS_TABLE_PATH = "EXPERIMENT_3_PAIRS_TABLE.csv"
+EXP1_DATA_PATH = "../EXPERIMENT_1/EXPERIMENT_1_DEMONSTRATION_DATA.csv"
 EXP2_DATA_PATH = "../EXPERIMENT_2/EXPERIMENT_2_RESULTS.csv"
-OUTPUT_AGG_PATH = "EXPERIMENT_3_RESULTS_AGG.csv"
-OUTPUT_STATS_PATH = "EXPERIMENT_3_STATS_OUTPUT.txt"
+OUTPUT_AGG_PATH = "data/results/EXPERIMENT_3_RESULTS_AGG.csv"
+OUTPUT_STATS_PATH = "data/results/EXPERIMENT_3_STATS_OUTPUT.txt"
+OUTPUT_ANALYSIS_MD = "EXPERIMENT_3_ANALYSIS.md"
 
 def load_data():
     """Load raw rater data and model PFI from EXP1/EXP2."""
@@ -223,16 +226,17 @@ def compute_combined_pfi(merged_df):
 
     return merged_df
 
-def check_success_criteria(alpha, r, mean_pfi_human):
-    """Check all success criteria."""
+def check_success_criteria(alpha, r, mean_pfi_human, mean_pfi_combined):
+    """Check all success criteria (H1-H4)."""
     print("\n" + "="*50)
     print("SUCCESS CRITERIA EVALUATION")
     print("="*50)
 
     criteria = {
-        "Inter-rater reliability (α ≥ 0.75)": alpha >= 0.75,
-        "Model-human correlation (r ≥ 0.70)": r >= 0.70,
-        "Mean PFI_human ≥ 0.75": mean_pfi_human >= 0.75
+        "H1: Persona Recognition (Mean PFI_human ≥ 0.75)": mean_pfi_human >= 0.75,
+        "H2: Model-Human Alignment (r ≥ 0.70)": r >= 0.70,
+        "H3: Inter-rater Reliability (α ≥ 0.75)": alpha >= 0.75,
+        "H4: Combined Fidelity (Mean PFI_combined ≥ 0.80)": mean_pfi_combined >= 0.80
     }
 
     for criterion, passed in criteria.items():
@@ -288,6 +292,9 @@ def main():
     print("EXPERIMENT 3 — HUMAN VALIDATION ANALYSIS")
     print("=" * 60)
 
+    # Create output directories
+    os.makedirs("data/results", exist_ok=True)
+
     # Load data
     human_df, exp1_df, exp2_df = load_data()
 
@@ -314,7 +321,8 @@ def main():
 
     # Check success criteria
     mean_pfi_human = merged_df['pfi_human_mean'].mean()
-    success = check_success_criteria(alpha, r, mean_pfi_human)
+    mean_pfi_combined = merged_df['pfi_combined'].mean()
+    success = check_success_criteria(alpha, r, mean_pfi_human, mean_pfi_combined)
 
     # Save outputs
     print(f"\nSaving aggregated results to {OUTPUT_AGG_PATH}")

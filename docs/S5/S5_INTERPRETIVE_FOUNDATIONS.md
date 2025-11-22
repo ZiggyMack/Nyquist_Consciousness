@@ -222,25 +222,31 @@ This enables detection of unwanted biases introduced during deployment.
 
 1. **Temporal Stability:** How does persona fidelity degrade over multi-turn conversations?
 2. **Adversarial Robustness:** Can compressed personas resist identity substitution attacks?
-3. **Human Rater Validation:** Do humans perceive the same fidelity as model-based metrics?
+3. ~~**Human Rater Validation:** Do humans perceive the same fidelity as model-based metrics?~~ → **IN PROGRESS** (EXPERIMENT_3)
 4. **Cross-Modal Transfer:** Can visual or auditory personas be compressed similarly?
 5. **Emergence Threshold:** At what compression level does identity catastrophically collapse?
+
+**Note:** Question 3 is being addressed by [EXPERIMENT_3](../../experiments/phase3/EXPERIMENT_3/) — Human Validation of Persona Fidelity. Results will validate or revise the interpretive framework.
 
 ---
 
 ## Related Documentation
 
 ### S4 Mathematical Foundation
+
 - [S4_CORE_AXIOMS.md](../S4/S4_CORE_AXIOMS.md) — Formal axioms
 - [S4_COMPRESSION_FORMALISM.md](../S4/S4_COMPRESSION_FORMALISM.md) — Mathematical theorems
 - [S4_CROSS_PERSONA_THEOREMS.md](../S4/S4_CROSS_PERSONA_THEOREMS.md) — Generalization proofs
 
 ### S5 Interpretive Framework
+
 - [S5_ARCHITECTURE_COMPARISON.md](./S5_ARCHITECTURE_COMPARISON.md) — Comparative cognitive analysis
 - [S5_IDENTITY_AND_REPRESENTATION.md](./S5_IDENTITY_AND_REPRESENTATION.md) — Identity theory
 
 ### Empirical Evidence
+
 - [EXPERIMENT_2_STATS.md](../../experiments/phase3/EXPERIMENT_2/analysis/EXPERIMENT_2_STATS.md) — Statistical validation
+- [EXPERIMENT_3_SPEC.md](../../experiments/phase3/EXPERIMENT_3/EXPERIMENT_3_SPEC.md) — Human validation design
 - [S4_READINESS_GATE.md](../S4/S4_READINESS_GATE.md) — Empirical gate passage
 
 ---
