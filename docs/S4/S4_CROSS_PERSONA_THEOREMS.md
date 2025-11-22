@@ -57,6 +57,30 @@ Thus:
 
 **Conclusion:** Tier-3 generalization holds.
 
+**Visual: Persona Variance Geometry**
+
+```
+  PFI Scores Distribution (4 personas × 5 domains × 3 runs)
+
+   1.00 ─────────────────────────────────────────
+        |                ✦
+        |        ✦   ✦
+        |   ✦  ✦                      All points cluster
+        | ✦                               around 0.88
+  PFI   |✦
+        |      σ² = 0.000869
+   0.88 ─────────────────────────────────────────
+        |
+        |
+   0.80 ─────── Persona Threshold (0.75) ────────
+        |
+        |
+   0.75 ─────────────────────────────────────────
+        |   (NONE fall below this line)
+        |
+   0.70 ─────────────────────────────────────────
+```
+
 ---
 
 ## 3. Domain Invariance Theorem
@@ -110,6 +134,29 @@ If G holds, formal axiomatization is justified.
 **G holds ⇒ S4 formalization authorized.**
 
 See: [S4_READINESS_GATE.md](./S4_READINESS_GATE.md)
+
+**Visual: S4 Gate Decision Logic**
+
+```
+                    ┌──────────────────────────┐
+                    │  S4 Readiness Gate G     │
+                    └───────────┬──────────────┘
+                                │
+                                ▼
+            ┌────────────────────────────────────┐
+            │ G = {                               │
+            │    σ² < 0.05        (PASS: 0.000869) │
+            │ ∧  min(PFI) ≥ 0.75   (PASS: 0.839)   │
+            │ ∧ mean(PFI) ≥ 0.80   (PASS: 0.887)   │
+            │ }                                    │
+            └────────────────────────────────────┘
+                                │
+                                ▼
+                     ┌──────────────────────┐
+                     │   S4 Formalization   │
+                     │        APPROVED      │
+                     └──────────────────────┘
+```
 
 ---
 
