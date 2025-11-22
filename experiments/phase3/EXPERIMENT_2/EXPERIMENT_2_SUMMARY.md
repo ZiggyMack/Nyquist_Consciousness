@@ -222,6 +222,55 @@ Identical to EXP1:
 
 ---
 
+## Statistical Validation (Opus Requirements)
+
+**Purpose:** Address Doc-Claude (Opus) requirements for publication-ready empirical rigor.
+
+**Full Analysis:** See [EXPERIMENT_2_STATS.md](./EXPERIMENT_2_STATS.md)
+
+### Statistical Tests Required
+
+1. **95% Confidence Intervals** — Per persona × domain PFI bounds
+2. **One-Way ANOVA** — Persona effect on PFI (generalization test)
+3. **Two-Way ANOVA** — Persona × Domain interaction (pattern replication test)
+4. **Cross-Persona Variance (σ²)** — Primary generalization metric
+5. **Effect Sizes (Cohen's d)** — FULL vs GAMMA magnitude
+
+### Statistical Success Criteria
+
+- [ ] All CIs above 0.75 threshold
+- [ ] One-way ANOVA: p ≥ 0.05 (no persona effect)
+- [ ] Interaction ANOVA: p ≥ 0.05 (pattern replicates)
+- [ ] Max cross-persona variance σ² < 0.05
+- [ ] Effect sizes d > 0.8 (FULL vs GAMMA)
+
+**Pass Determination:**
+- **ALL CRITERIA MET:** Full statistical validation → S4 formalization proceeds
+- **PARTIAL:** Refine seeds, targeted follow-up
+- **FAILED:** Remain in S3, delay S4
+
+### Expected Statistical Outcomes
+
+**One-Way ANOVA (Persona Effect):**
+- Expected: F ≈ 2.5-3.5, p ≈ 0.10-0.20 (not significant)
+- Interpretation: No large persona-dependent degradation
+- Conclusion: H1 (Cross-Persona Generalization) SUPPORTED
+
+**Two-Way ANOVA (Persona × Domain):**
+- Expected Domain effect: F > 10, p < 0.001 (significant)
+- Expected Interaction: F < 2, p > 0.10 (not significant)
+- Interpretation: Domain structure dominates, persona-specific patterns minimal
+- Conclusion: H2 (Domain Pattern Replication) SUPPORTED
+
+**Cross-Persona Variance:**
+- TECH: σ² < 0.002
+- ANAL: σ² < 0.002
+- PHIL/SELF: σ² < 0.005
+- NARR: σ² < 0.01 (highest, but below 0.05 threshold)
+- Conclusion: Generalization requirement met ✓
+
+---
+
 ## TODO Placeholders
 
 ### Awaiting Execution
@@ -235,6 +284,16 @@ Identical to EXP1:
 - [ ] Generate cross-persona comparison tables
 - [ ] Domain × Persona interaction analysis
 - [ ] Create visualization (heatmaps, box plots, embedding clusters)
+
+### Awaiting Statistical Analysis
+- [ ] Run EXPERIMENT_2_STATISTICS.py script
+- [ ] Populate EXPERIMENT_2_STATS.md with actual results
+- [ ] Verify all statistical success criteria
+- [ ] Compute 95% CIs for all persona × domain pairs
+- [ ] Generate ANOVA tables (one-way + two-way)
+- [ ] Calculate cross-persona variance per domain
+- [ ] Compute effect sizes (Cohen's d)
+- [ ] Document statistical validation status
 
 ### Awaiting Opus Critique
 - [ ] Submit results to Doc-Claude (Opus) for formal critique
