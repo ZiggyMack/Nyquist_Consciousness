@@ -1,0 +1,22 @@
+%% Diagram 4: Persona Variance Geometry
+%% For S4_CROSS_PERSONA_THEOREMS.md
+%% Distribution plot showing PFI clustering
+
+graph TD
+    subgraph "PFI Distribution (N=113)"
+        direction TB
+
+        A["PFI = 1.00<br/>Perfect Fidelity"]
+        A --> B["✦ Cluster Zone<br/>Mean = 0.887<br/>σ² = 0.000869"]
+        B --> C["PFI = 0.88<br/>(Actual Performance)"]
+        C --> D["PFI = 0.80<br/>Target Threshold"]
+        D --> E["PFI = 0.75<br/>Minimum Threshold"]
+        E --> F["Below Threshold<br/>(NONE OBSERVED)"]
+    end
+
+    style A fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px
+    style B fill:#fff9c4,stroke:#f57f17,stroke-width:3px
+    style C fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
+    style D fill:#bbdefb,stroke:#1565c0,stroke-width:2px
+    style E fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style F fill:#ffcdd2,stroke:#c62828,stroke-width:2px,stroke-dasharray: 5 5

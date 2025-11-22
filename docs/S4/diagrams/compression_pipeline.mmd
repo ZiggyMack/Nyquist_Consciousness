@@ -1,0 +1,18 @@
+%% Diagram 1: Compression Pipeline
+%% For S4_CORE_AXIOMS.md
+%% From Persona to Tier-3 Seed to Reconstruction
+
+flowchart TD
+    A["<b>Original Persona</b><br/>p ∈ P<br/>━━━━━━━━━━━━━<br/>• identity<br/>• values<br/>• reasoning style<br/>• methods<br/>• expressive profile"]
+
+    A -->|"Compression C"| B
+
+    B["<b>Tier-3 Seed</b><br/>t ∈ T<br/>━━━━━━━━━━━━━<br/>• identity core<br/>• values<br/>• cognitive methods<br/>• temperament<br/>• failure modes"]
+
+    B -->|"Reconstruction R"| C
+
+    C["<b>Reconstructed P'</b><br/>R(C(p))<br/>━━━━━━━━━━━━━<br/>• preserved structure<br/>• bounded drift<br/>• recoverable style<br/>• domain-consistent"]
+
+    style A fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
+    style B fill:#fff9c4,stroke:#f57f17,stroke-width:3px
+    style C fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
