@@ -228,7 +228,7 @@ Identical to EXP1:
 
 **Purpose:** Address Doc-Claude (Opus) requirements for publication-ready empirical rigor.
 
-**Full Analysis:** See [EXPERIMENT_2_STATS_FINAL.md](./analysis/EXPERIMENT_2_STATS_FINAL.md) ✅ **RESULTS READY**
+**Full Analysis:** See [EXPERIMENT_2_STATS.md](./analysis/EXPERIMENT_2_STATS.md) ✅ **RESULTS READY**
 
 ### Statistical Tests Required
 
