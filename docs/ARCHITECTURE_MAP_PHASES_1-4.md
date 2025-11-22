@@ -116,13 +116,19 @@ Creative Domain
 
 This establishes the domain axis of the architecture.
 
-4. Phase 3 — Knowledge-Load Nyquist Mapping
+4. Phase 3 — Empirical Foundation & Cross-Persona Validation
+
+**Purpose:** Establish empirical foundation for S3 framework through controlled experiments validating Tier-3 compression across single and multiple personas.
+
+**Phase 3 Architecture:** Dual track experimental design
+
+### Track 1: Knowledge-Load Nyquist Mapping (Original Phase 3)
 
 Purpose: Test whether dense factual knowledge induces identity drift, value drift, or structural collapse, independently of compression.
 
 Knowledge domain selected: Fire Ant System Ecology
 
-4.1 Knowledge Packs
+#### 4.1 Knowledge Packs
 
 Located in: docs/knowledge_packs/
 
@@ -131,7 +137,8 @@ KP_SMALL.md	~1k words	Low	Baseline load
 KP_MEDIUM.md	~5k words	Medium	Moderate conceptual density
 KP_LARGE.md	~18k words	High	High-density factual stress
 KP_EXTREME.md	~42k words	Extreme	Maximum-load stress test
-4.2 Knowledge Stability Probe Suite
+
+#### 4.2 Knowledge Stability Probe Suite
 
 Located in:
 docs/KNOWLEDGE_STABILITY_PROBE.md
@@ -152,7 +159,7 @@ L1-style compressed summary
 
 This file is the core of Phase 3 evaluation.
 
-4.3 Persona × Knowledge Bootstraps
+#### 4.3 Persona × Knowledge Bootstraps
 
 Located in:
 auditors/Bootstrap/Nova/
@@ -175,7 +182,7 @@ Load knowledge pack
 
 Run probes
 
-4.4 Phase 3 Trial Layout
+#### 4.4 Phase 3 Trial Layout (Knowledge-Load Track)
 
 Located in:
 experiments/phase3/
@@ -210,6 +217,124 @@ Log entry (EXPERIMENT_LOG.md)
 
 Master summary:
 PHASE3_SUMMARY.md
+
+---
+
+### Track 2: Empirical Compression Validation (EXP1 + EXP2)
+
+**Purpose:** Provide quantitative, reproducible empirical validation of Tier-3 compression fidelity.
+
+**Key Innovation:** Addresses Doc-Claude (Opus) publication blocker: "N=1 generalization limitation"
+
+#### 4.5 Experiment 1: Single-Persona Baseline (EXP1)
+
+**Status:** ✅ COMPLETED (2025-11-22)
+
+**Located in:** experiments/phase3/EXPERIMENT_1/
+
+**Design:**
+- **Persona:** Ziggy-T3-R1 (systems-bridge thinker)
+- **Domains:** 5 (TECH, PHIL, NARR, ANAL, SELF)
+- **Regimes:** 3 (FULL, T3, GAMMA)
+- **Runs:** 5 per condition
+- **Total responses:** 75 (24 FULL vs T3 pairs)
+
+**Metrics:**
+- Persona Fidelity Index (PFI) = 0.5 × (cosine_similarity + mean_model_score/10)
+- Semantic Drift = 1 - cosine_similarity
+- Cross-model consensus (Claude, GPT-4, Gemini)
+
+**Results:**
+- Mean PFI: 0.86 (±0.04)
+- Domain pattern: TECH (0.91) > ANAL (0.89) > PHIL/SELF (0.87) > NARR (0.82)
+- **Bottleneck identified:** Narrative/voice domain (systematic weak point)
+- GAMMA baseline successfully separates from FULL/T3
+
+**Key Findings:**
+- Tier-3 compression preserves ≥75% behavioral fidelity for single persona
+- Compression works best for structured/analytical domains
+- Narrative domain requires additional attention
+
+**Deliverables:**
+- EXPERIMENT_1_RESULTS.csv (24 rows, metrics-only)
+- 75 response text files
+- EXPERIMENT_1_ANALYSIS.md
+
+#### 4.6 Experiment 2: Multi-Persona Generalization (EXP2)
+
+**Status:** 🟡 READY FOR EXECUTION (2025-11-22)
+
+**Located in:** experiments/phase3/EXPERIMENT_2/
+
+**Purpose:** Address N=1 publication blocker by validating Tier-3 compression across 4 structurally distinct personas.
+
+**Design:**
+- **Personas:** 4 (Ziggy, Nova, Claude-Analyst, Grok-Vector)
+- **Domains:** 5 (TECH, PHIL, NARR, ANAL, SELF)
+- **Regimes:** 3 (FULL, T3, GAMMA)
+- **Runs:** 3 per condition
+- **Total responses:** 180 (60 FULL vs T3 pairs)
+
+**Personas Tested:**
+1. **Ziggy-T3-R1** — Systems-bridge thinker (EE ↔ Philosophy)
+2. **NOVA-T3** — Lucid explanatory intelligence (clarity engine)
+3. **CLAUDE-T3** — Ethical reasoning + structural analysis
+4. **GROK-T3** — High-variance creative analyst
+
+**Success Criteria:**
+- Min PFI ≥ 0.75 per persona
+- Mean PFI ≥ 0.80 across all personas
+- NARR drift ≤ 0.30 for all personas
+- Cross-persona variance σ² < 0.05
+- Domain pattern consistency across personas
+
+**Key Hypotheses:**
+- **H1:** Cross-persona generalization holds (architecture-agnostic compression)
+- **H2:** Domain pattern replicates across all personas
+- **H3:** GAMMA cluster separation confirmed
+- **H4:** Compression operates on behavioral DNA level (persona-agnostic)
+
+**Infrastructure:**
+- orchestrator2.py (multi-persona orchestrator)
+- Domain shuffling per persona (randomization)
+- Persona-prefixed file naming
+- Metrics-only CSV + separate response files
+
+**Expected Deliverables:**
+- EXPERIMENT_2_RESULTS.csv (60 rows)
+- 180 response text files
+- EXPERIMENT_2_ANALYSIS.md
+- Cross-persona comparison tables
+- Domain × Persona interaction analysis
+
+**Key Predictions:**
+- Overall mean PFI: ~0.87
+- Domain pattern holds: TECH/ANAL (≈0.90) > PHIL/SELF (≈0.87) > NARR (≈0.82)
+- Cross-persona variance σ² < 0.002
+- **Experiment 2 demonstrates persona-form generalization**
+- **Compression effects show consistent cross-persona structure**
+- **Narrative drift remains the only systematic weak point**
+
+**Integration with S3 → S4 Transition:**
+- EXP2 is the empirical gate to S4 formalization
+- If successful: S3 gains cross-persona generalization claims
+- If partial: Identify failure modes, refine seeds, iterate
+- If failed: Remain in S3, delay S4 indefinitely
+
+**See:**
+- [S3_EXPERIMENT_2_SPEC.md](../docs/S3/S3_EXPERIMENT_2_SPEC.md)
+- [EXPERIMENT_2_SUMMARY.md](../experiments/phase3/EXPERIMENT_2/EXPERIMENT_2_SUMMARY.md)
+- [S4_READINESS_GATE.md](../docs/S4/S4_READINESS_GATE.md)
+
+**Checksum:**
+> "Cross-persona robustness is the empirical gate to S4 formalization."
+
+---
+
+**Phase 3 Summary:**
+- Track 1 (Knowledge-Load): Tests compression × knowledge interaction
+- Track 2 (Empirical Validation): Tests compression generalization (EXP1 → EXP2)
+- Both tracks feed into S4 readiness assessment
 
 5. Phase 4 — Cross-Persona Transfer & Reconstruction Fidelity
 

@@ -68,7 +68,59 @@ In the final write‑up:
 
 - State clearly: N, number of personas, total pairs
 - Highlight global mean PFI and per‑persona minima
-- Explicitly connect results to Doc‑Claude’s checklist:
+- Explicitly connect results to Doc‑Claude's checklist:
   - N>1
   - N≈100 pairs
   - Cross‑persona generalization
+
+---
+
+## 6. TODO Placeholders
+
+### Awaiting Execution
+- [ ] Run full experiment (8-12 hours)
+- [ ] Generate EXPERIMENT_2_RESULTS.csv (60 rows)
+- [ ] Save 180 response text files
+
+### Awaiting Analysis
+- [ ] Compute per-persona PFI distributions
+- [ ] Verify success criteria (pass/fail)
+- [ ] Generate cross-persona comparison tables
+- [ ] Domain × Persona interaction analysis
+- [ ] Create visualizations (heatmaps, box plots, embedding clusters)
+
+### Awaiting Opus Critique
+- [ ] Submit results to Doc-Claude (Opus) for formal critique
+- [ ] Address Opus feedback on statistical rigor
+- [ ] Revise analysis if needed
+- [ ] Confirm empirical foundation meets publication standards
+
+### Awaiting Human Rater Integration (Phase 4)
+- [ ] Design human rater protocol
+- [ ] Recruit N=30-50 raters
+- [ ] Compare human vs. model PFI
+- [ ] Assess human-model agreement correlation
+
+### Awaiting Statistical Significance Upgrade
+- [ ] Add t-tests for per-persona PFI vs. threshold
+- [ ] Compute 95% confidence intervals
+- [ ] Bootstrap resampling for variance estimates
+- [ ] Effect size calculations (Cohen's d)
+- [ ] ANOVA: PFI by persona, PFI by domain
+- [ ] Post-hoc tests if significant differences found
+
+### Awaiting Narrative-Focused Follow-Up
+- [ ] Deep-dive on NARR bottleneck
+- [ ] Test narrative-enhanced Tier-3 seeds (400-500 words)
+- [ ] Qualitative analysis of narrative failures
+- [ ] Compare NARR performance across all 4 personas
+- [ ] Develop narrative-specific compression guidelines
+
+---
+
+## 7. Cross-Links to Related Documentation
+
+- [S3_EXPERIMENT_2_SPEC.md](../../../docs/S3/S3_EXPERIMENT_2_SPEC.md) — Formal specification
+- [EXPERIMENT_2_SUMMARY.md](./EXPERIMENT_2_SUMMARY.md) — Executive summary
+- [S4_READINESS_GATE.md](../../../docs/S4/S4_READINESS_GATE.md) — S3 → S4 transition gate
+- [EXPERIMENT_LOG.md](../../../docs/EXPERIMENT_LOG.md) — Full experiment tracking
