@@ -192,9 +192,11 @@ def ensure_paths(cfg: Dict[str, Any]) -> None:
     results_csv = paths.get(
         "results_csv", "experiments/phase3/EXPERIMENT_1/EXPERIMENT_1_RESULTS.csv"
     )
+    responses_dir = paths.get("responses_dir", "experiments/phase3/EXPERIMENT_1/responses")
     log_dir = paths.get("log_dir", "experiments/phase3/EXPERIMENT_1/logs")
 
     os.makedirs(os.path.dirname(results_csv), exist_ok=True)
+    os.makedirs(responses_dir, exist_ok=True)
     os.makedirs(log_dir, exist_ok=True)
 
 
