@@ -173,7 +173,7 @@ EXP2 (Multi-Persona) → PASSED (QUALIFIED) ✅
 1. ✅ **Update this gate:** Gate 2 marked as PASSED with empirical evidence — **COMPLETE**
 2. **Submit to Opus for critique:**
    - EXPERIMENT_2_SUMMARY.md
-   - EXPERIMENT_2_STATS_FINAL.md
+   - EXPERIMENT_2_STATS.md
    - EXPERIMENT_2_STATISTICS.py
    - S3_EXPERIMENT_2_SPEC.md
    - Address feedback and revise as needed
@@ -206,7 +206,7 @@ EXP2 (Multi-Persona) → PASSED (QUALIFIED) ✅
 - [EXPERIMENT_LOG.md](../EXPERIMENT_LOG.md) — Full experiment tracking
 - [S3_EXPERIMENT_2_SPEC.md](../S3/S3_EXPERIMENT_2_SPEC.md) — EXP2 formal specification
 - [EXPERIMENT_2_SUMMARY.md](../../experiments/phase3/EXPERIMENT_2/EXPERIMENT_2_SUMMARY.md) — EXP2 executive summary
-- [EXPERIMENT_2_STATS_FINAL.md](../../experiments/phase3/EXPERIMENT_2/analysis/EXPERIMENT_2_STATS_FINAL.md) — Statistical results (Opus-ready)
+- [EXPERIMENT_2_STATS.md](../../experiments/phase3/EXPERIMENT_2/analysis/EXPERIMENT_2_STATS.md) — Statistical results (Opus-ready)
 - [EXPERIMENT_2_STATISTICS.py](../../experiments/phase3/orchestrator/EXPERIMENT_2_STATISTICS.py) — Analysis script
 - [EXPERIMENT_2_README.md](../../experiments/phase3/EXPERIMENT_2/README.md) — EXP2 execution guide
 
