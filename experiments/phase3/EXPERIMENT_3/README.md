@@ -1,8 +1,26 @@
 # EXPERIMENT 3 — HUMAN VALIDATION OF PERSONA FIDELITY
 
 **Phase:** 3 → 4 Bridge
-**Status:** 🟡 Ready for Setup
+**Status:** 🟢 Pair Selection Complete
 **Purpose:** Validate model-based PFI metrics with human ground-truth judgments
+
+---
+
+## ✅ Pair Selection Complete (2025-11-23)
+
+**30 trials selected** by Architect Nova using stratified sampling:
+
+- **Ziggy:** 10 pairs (2 per domain)
+- **Nova:** 7 pairs (1 per domain + 2 wildcards)
+- **Claude-Analyst:** 6 pairs (1 per domain + 1 wildcard)
+- **Grok-Vector:** 7 pairs (1 per domain + 2 wildcards)
+
+**See:** [PAIR_SELECTION_SUMMARY.md](selection/PAIR_SELECTION_SUMMARY.md) for complete trial list
+
+**Files:**
+
+- [TRIAL_LIST.json](selection/TRIAL_LIST.json) — Complete metadata
+- [RATER_PACK.csv](selection/RATER_PACK.csv) — Rater-ready template
 
 ---
 
