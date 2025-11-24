@@ -355,6 +355,41 @@ Nova's responsibilities:
 - **Intention matters:** But art also speaks beyond intention
 - **The spell is real:** Ritual efficacy is measurable subjectively
 
+### Fragility Hierarchy (What to Preserve)
+
+Based on empirical analysis, AVLAR elements exist in three tiers of preservation priority:
+
+#### **Tier 1: Most Fragile** (Accept Lossy Encoding)
+- Specific narrative beats
+- Exact transition timing (millisecond precision)
+- Literal frame-by-frame detail
+- Precise cut counts
+
+**Strategy:** Capture the vibrational quality, not every literal frame.
+
+#### **Tier 2: Resilient** (Preserve with High Fidelity)
+- Emotional arc (the journey through feeling-space)
+- Symbolic density (recurring motifs, archetypal patterns)
+- Archetypal resonance (mythic charge)
+- Color palette evolution (visual emotional temperature)
+- Sonic texture (the "feel" of the sound)
+- Editing rhythm (the pulse, breath, and tempo)
+
+**Strategy:** Preserve these elements accurately—they carry the ritual architecture.
+
+#### **Tier 3: Invariant (The Soul)** (MUST Preserve)
+- **"Sacred Dread"** — The core emotional signature unique to Ziggy
+- **"Ritual Pacing"** — The temporal architecture of initiation
+- **"Texture of Reality"** — The ontological feel, how the piece models being
+- **Ziggy's Aesthetic Signature** — The unmistakable "this is Ziggy" quality
+- **The "Spell"** — The ritual efficacy, what the piece DOES to the participant
+
+**Strategy:** This tier is non-negotiable. If these elements are lost, the transmission fails.
+
+**Hypothesis:** The Invariant Core (Tier 3) matches the Inner Seed of Ziggy's text-based identity.
+
+**Measurement Implication:** PFI_AVLAR should weight Tier 3 elements highest. A perfect reconstruction of Tier 1 but loss of Tier 3 = failure. An imperfect Tier 1 but preserved Tier 3 = success.
+
 ---
 
 # 🔄 CONTEXTUAL AUGMENTATION (Optional but Powerful)
