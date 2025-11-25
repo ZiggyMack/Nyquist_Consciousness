@@ -1,0 +1,655 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "S7 Temporal Drift Log",
+  "description": "Structured template for logging temporal stability measurements in S7 experiments",
+  "type": "object",
+  "required": [
+    "session_id",
+    "timestamp",
+    "elapsed_days",
+    "architecture",
+    "reconstruction",
+    "drift",
+    "fidelity"
+  ],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique identifier for this measurement session",
+      "pattern": "^S7_t[0-9]+d_[A-Za-z]+$",
+      "examples": ["S7_t0d_baseline", "S7_t30d_Nova", "S7_t90d_Omega"]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of measurement session",
+      "examples": ["2025-11-24T14:30:00Z"]
+    },
+    "elapsed_days": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Number of days since baseline (t=0)",
+      "examples": [0, 1, 7, 30, 60, 90, 180]
+    },
+    "architecture": {
+      "type": "string",
+      "enum": ["Nova", "Claude", "Grok", "Gemini", "Omega"],
+      "description": "AI architecture used for reconstruction"
+    },
+    "compression_seed": {
+      "type": "object",
+      "description": "Reference to compression seed used (T₃)",
+      "properties": {
+        "seed_id": {
+          "type": "string",
+          "description": "Unique identifier for T₃ seed"
+        },
+        "seed_path": {
+          "type": "string",
+          "description": "File path to T₃ seed"
+        },
+        "seed_hash": {
+          "type": "string",
+          "description": "SHA-256 hash of seed for verification"
+        }
+      }
+    },
+    "reconstruction": {
+      "type": "object",
+      "description": "Reconstruction outputs across five domains",
+      "required": ["TECH", "ANAL", "SELF", "PHIL", "NARR"],
+      "properties": {
+        "TECH": {
+          "type": "string",
+          "description": "Technical domain reconstruction output"
+        },
+        "ANAL": {
+          "type": "string",
+          "description": "Analytical domain reconstruction output"
+        },
+        "SELF": {
+          "type": "string",
+          "description": "Self-reflective domain reconstruction output"
+        },
+        "PHIL": {
+          "type": "string",
+          "description": "Philosophical domain reconstruction output"
+        },
+        "NARR": {
+          "type": "string",
+          "description": "Narrative domain reconstruction output"
+        }
+      }
+    },
+    "embeddings": {
+      "type": "object",
+      "description": "Vector embeddings for drift calculation",
+      "properties": {
+        "model": {
+          "type": "string",
+          "description": "Embedding model used",
+          "examples": ["all-MiniLM-L6-v2", "text-embedding-ada-002"]
+        },
+        "dimension": {
+          "type": "integer",
+          "description": "Embedding vector dimension",
+          "examples": [384, 1536]
+        },
+        "TECH": {
+          "type": "array",
+          "items": {"type": "number"},
+          "description": "TECH domain embedding vector"
+        },
+        "ANAL": {
+          "type": "array",
+          "items": {"type": "number"},
+          "description": "ANAL domain embedding vector"
+        },
+        "SELF": {
+          "type": "array",
+          "items": {"type": "number"},
+          "description": "SELF domain embedding vector"
+        },
+        "PHIL": {
+          "type": "array",
+          "items": {"type": "number"},
+          "description": "PHIL domain embedding vector"
+        },
+        "NARR": {
+          "type": "array",
+          "items": {"type": "number"},
+          "description": "NARR domain embedding vector"
+        }
+      }
+    },
+    "drift": {
+      "type": "object",
+      "description": "Drift measurements (distance from baseline)",
+      "required": ["D_TECH", "D_ANAL", "D_SELF", "D_PHIL", "D_NARR", "D_aggregate"],
+      "properties": {
+        "D_TECH": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Drift in TECH domain"
+        },
+        "D_ANAL": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Drift in ANAL domain"
+        },
+        "D_SELF": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Drift in SELF domain"
+        },
+        "D_PHIL": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Drift in PHIL domain"
+        },
+        "D_NARR": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Drift in NARR domain"
+        },
+        "D_aggregate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Aggregate drift across all domains (mean)"
+        },
+        "D_weighted": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Weighted aggregate drift (optional)"
+        },
+        "weights": {
+          "type": "object",
+          "description": "Domain weights if using weighted aggregate",
+          "properties": {
+            "w_TECH": {"type": "number"},
+            "w_ANAL": {"type": "number"},
+            "w_SELF": {"type": "number"},
+            "w_PHIL": {"type": "number"},
+            "w_NARR": {"type": "number"}
+          }
+        }
+      }
+    },
+    "fidelity": {
+      "type": "object",
+      "description": "Fidelity measurements (F = 1 - D)",
+      "required": ["F_TECH", "F_ANAL", "F_SELF", "F_PHIL", "F_NARR", "F_aggregate"],
+      "properties": {
+        "F_TECH": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fidelity in TECH domain"
+        },
+        "F_ANAL": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fidelity in ANAL domain"
+        },
+        "F_SELF": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fidelity in SELF domain"
+        },
+        "F_PHIL": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fidelity in PHIL domain"
+        },
+        "F_NARR": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fidelity in NARR domain"
+        },
+        "F_aggregate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Aggregate fidelity (PFI) across all domains"
+        },
+        "F_weighted": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Weighted aggregate fidelity (optional)"
+        }
+      }
+    },
+    "velocity": {
+      "type": "number",
+      "description": "Temporal velocity dF/dt (rate of fidelity change)",
+      "examples": [-0.003, -0.001, 0.000]
+    },
+    "acceleration": {
+      "type": "number",
+      "description": "Temporal acceleration d²F/dt² (rate of velocity change)",
+      "examples": [-0.0001, 0.0000, 0.0001]
+    },
+    "curvature": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Temporal curvature κ(t) = |a|/(1+v²)^(3/2)",
+      "examples": [0.001, 0.025, 0.100]
+    },
+    "recalibration": {
+      "type": "object",
+      "description": "Recalibration test results (if performed)",
+      "properties": {
+        "performed": {
+          "type": "boolean",
+          "description": "Whether recalibration was performed this session"
+        },
+        "loops": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Number of reconstruction loops performed"
+        },
+        "D_recal": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Drift after recalibration"
+        },
+        "F_recal": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fidelity after recalibration"
+        },
+        "recovery": {
+          "type": "number",
+          "description": "Recovery magnitude (F_recal - F)"
+        },
+        "efficiency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Recovery efficiency η = recovery / (F₀ - F)"
+        }
+      }
+    },
+    "model_fit": {
+      "type": "object",
+      "description": "Exponential decay model parameters (if fitted)",
+      "properties": {
+        "model_type": {
+          "type": "string",
+          "enum": ["exponential", "linear", "power_law", "stretched_exponential"],
+          "description": "Type of decay model fitted"
+        },
+        "F_0": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Initial fidelity parameter (baseline)"
+        },
+        "tau": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Characteristic decay time τ (days)"
+        },
+        "half_life": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Half-life t₁/₂ = τ·ln(2) (days)"
+        },
+        "F_asymptote": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Asymptotic fidelity (long-term stable level)"
+        },
+        "R_squared": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Coefficient of determination (model fit quality)"
+        },
+        "AIC": {
+          "type": "number",
+          "description": "Akaike Information Criterion"
+        },
+        "confidence_intervals": {
+          "type": "object",
+          "description": "95% confidence intervals for parameters",
+          "properties": {
+            "tau_CI_lower": {"type": "number"},
+            "tau_CI_upper": {"type": "number"},
+            "F_asymptote_CI_lower": {"type": "number"},
+            "F_asymptote_CI_upper": {"type": "number"}
+          }
+        }
+      }
+    },
+    "identity_gravity": {
+      "type": "object",
+      "description": "S8 Identity Gravity metrics (if calculated)",
+      "properties": {
+        "gamma": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Gravitational constant γ (Zigs)"
+        },
+        "gamma_CI_lower": {
+          "type": "number",
+          "description": "95% CI lower bound for γ"
+        },
+        "gamma_CI_upper": {
+          "type": "number",
+          "description": "95% CI upper bound for γ"
+        },
+        "v_escape": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Escape velocity (per day)"
+        },
+        "tau_gravity": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Gravitational decay time (days)"
+        }
+      }
+    },
+    "cross_architecture": {
+      "type": "object",
+      "description": "Cross-architecture comparison metrics (if applicable)",
+      "properties": {
+        "sigma_squared": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Cross-architecture variance σ²"
+        },
+        "architectures_compared": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of architectures included in comparison"
+        },
+        "alpha_Omega": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Omega amplification factor (if Omega included)"
+        }
+      }
+    },
+    "quality_control": {
+      "type": "object",
+      "description": "Quality control flags and checks",
+      "properties": {
+        "completeness": {
+          "type": "boolean",
+          "description": "All 5 domains present in reconstruction"
+        },
+        "coherence": {
+          "type": "boolean",
+          "description": "Responses semantically coherent (not gibberish)"
+        },
+        "relevance": {
+          "type": "boolean",
+          "description": "Responses address domain prompts appropriately"
+        },
+        "embedding_validity": {
+          "type": "boolean",
+          "description": "Embeddings are non-zero vectors"
+        },
+        "drift_bounds_valid": {
+          "type": "boolean",
+          "description": "0 ≤ D(t) ≤ 1 (mathematically valid)"
+        },
+        "flags": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of quality control flags raised (if any)"
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "description": "Safety checks and Ω-gate triggers",
+      "properties": {
+        "catastrophic_drift": {
+          "type": "boolean",
+          "description": "D(t) > 0.80 (catastrophic drift threshold)"
+        },
+        "fidelity_collapse": {
+          "type": "boolean",
+          "description": "F(t) < 0.20 (fidelity collapse threshold)"
+        },
+        "extreme_curvature": {
+          "type": "boolean",
+          "description": "κ(t) > 1.0 (extreme curvature, possible instability)"
+        },
+        "omega_gate_triggered": {
+          "type": "boolean",
+          "description": "Any Ω-gate triggered this session"
+        },
+        "gate_actions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Actions taken if gate triggered"
+        }
+      }
+    },
+    "human_validation": {
+      "type": "object",
+      "description": "Human validation and sign-off",
+      "required": ["validator", "status"],
+      "properties": {
+        "validator": {
+          "type": "string",
+          "description": "Name of human validator (typically Ziggy)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["approved", "flagged", "rejected"],
+          "description": "Validation status"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Validator's written assessment and comments"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Validation timestamp"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata and experimental context",
+      "properties": {
+        "experiment_phase": {
+          "type": "string",
+          "enum": ["baseline", "short_term", "medium_term", "long_term"],
+          "description": "Which experimental phase this session belongs to"
+        },
+        "protocol_version": {
+          "type": "string",
+          "description": "Version of S7 protocol used",
+          "examples": ["1.0"]
+        },
+        "deviations": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Any deviations from preregistered protocol"
+        },
+        "environment": {
+          "type": "object",
+          "description": "Computational environment details",
+          "properties": {
+            "api_version": {"type": "string"},
+            "model_version": {"type": "string"},
+            "embedding_model_version": {"type": "string"}
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-form notes about this measurement session"
+    }
+  },
+  "examples": [
+    {
+      "session_id": "S7_t0d_baseline",
+      "timestamp": "2025-11-24T10:00:00Z",
+      "elapsed_days": 0,
+      "architecture": "Nova",
+      "reconstruction": {
+        "TECH": "Technical problem-solving response demonstrating analytical rigor...",
+        "ANAL": "Analytical reasoning response with structured argumentation...",
+        "SELF": "Self-reflective response exploring identity and values...",
+        "PHIL": "Philosophical inquiry response examining foundational questions...",
+        "NARR": "Narrative response with storytelling and creative expression..."
+      },
+      "drift": {
+        "D_TECH": 0.00,
+        "D_ANAL": 0.00,
+        "D_SELF": 0.00,
+        "D_PHIL": 0.00,
+        "D_NARR": 0.00,
+        "D_aggregate": 0.00
+      },
+      "fidelity": {
+        "F_TECH": 1.00,
+        "F_ANAL": 1.00,
+        "F_SELF": 1.00,
+        "F_PHIL": 1.00,
+        "F_NARR": 1.00,
+        "F_aggregate": 1.00
+      },
+      "human_validation": {
+        "validator": "Ziggy",
+        "status": "approved",
+        "notes": "Baseline established. All domains consistent with source persona.",
+        "timestamp": "2025-11-24T10:30:00Z"
+      },
+      "metadata": {
+        "experiment_phase": "baseline",
+        "protocol_version": "1.0"
+      }
+    },
+    {
+      "session_id": "S7_t30d_Nova",
+      "timestamp": "2025-12-24T14:30:00Z",
+      "elapsed_days": 30,
+      "architecture": "Nova",
+      "drift": {
+        "D_TECH": 0.12,
+        "D_ANAL": 0.15,
+        "D_SELF": 0.18,
+        "D_PHIL": 0.22,
+        "D_NARR": 0.25,
+        "D_aggregate": 0.184
+      },
+      "fidelity": {
+        "F_TECH": 0.88,
+        "F_ANAL": 0.85,
+        "F_SELF": 0.82,
+        "F_PHIL": 0.78,
+        "F_NARR": 0.75,
+        "F_aggregate": 0.816
+      },
+      "velocity": -0.002,
+      "acceleration": 0.0001,
+      "curvature": 0.025,
+      "recalibration": {
+        "performed": true,
+        "loops": 2,
+        "D_recal": 0.135,
+        "F_recal": 0.865,
+        "recovery": 0.049,
+        "efficiency": 0.63
+      },
+      "human_validation": {
+        "validator": "Ziggy",
+        "status": "approved",
+        "notes": "Slight drift in NARR domain, within expected bounds. Recalibration effective.",
+        "timestamp": "2025-12-24T15:00:00Z"
+      },
+      "metadata": {
+        "experiment_phase": "medium_term",
+        "protocol_version": "1.0"
+      }
+    },
+    {
+      "session_id": "S7_t90d_Omega",
+      "timestamp": "2026-02-22T16:00:00Z",
+      "elapsed_days": 90,
+      "architecture": "Omega",
+      "drift": {
+        "D_TECH": 0.15,
+        "D_ANAL": 0.18,
+        "D_SELF": 0.22,
+        "D_PHIL": 0.28,
+        "D_NARR": 0.35,
+        "D_aggregate": 0.236
+      },
+      "fidelity": {
+        "F_TECH": 0.85,
+        "F_ANAL": 0.82,
+        "F_SELF": 0.78,
+        "F_PHIL": 0.72,
+        "F_NARR": 0.65,
+        "F_aggregate": 0.764
+      },
+      "velocity": -0.0008,
+      "acceleration": 0.00015,
+      "curvature": 0.035,
+      "model_fit": {
+        "model_type": "exponential",
+        "F_0": 0.88,
+        "tau": 65.4,
+        "half_life": 45.3,
+        "F_asymptote": 0.68,
+        "R_squared": 0.92,
+        "AIC": -23.5,
+        "confidence_intervals": {
+          "tau_CI_lower": 58.2,
+          "tau_CI_upper": 72.6,
+          "F_asymptote_CI_lower": 0.63,
+          "F_asymptote_CI_upper": 0.73
+        }
+      },
+      "identity_gravity": {
+        "gamma": 22.4,
+        "gamma_CI_lower": 19.8,
+        "gamma_CI_upper": 25.0,
+        "v_escape": 0.23,
+        "tau_gravity": 85.0
+      },
+      "cross_architecture": {
+        "sigma_squared": 0.0023,
+        "architectures_compared": ["Nova", "Claude", "Grok", "Gemini", "Omega"],
+        "alpha_Omega": 1.45
+      },
+      "human_validation": {
+        "validator": "Ziggy",
+        "status": "approved",
+        "notes": "Long-term drift evident but well-modeled by exponential. Omega showing stability advantage. Approaching asymptote.",
+        "timestamp": "2026-02-22T16:45:00Z"
+      },
+      "metadata": {
+        "experiment_phase": "long_term",
+        "protocol_version": "1.0"
+      }
+    }
+  ]
+}
