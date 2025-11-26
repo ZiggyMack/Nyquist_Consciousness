@@ -331,7 +331,7 @@ SYSTEM CLIMBS FOREVER
         return "\n".join(rows)
 
     @staticmethod
-    def phase_timeline(current_phase):
+    def phase_timeline(current_phase, current_min=0, total_min=112):
         """Visual timeline showing current phase"""
         phases = {
             'grounding': '━━━',
@@ -343,8 +343,11 @@ SYSTEM CLIMBS FOREVER
 
         phases[current_phase] = '█ █ █'
 
+        # Calculate progress percentage
+        progress_pct = (current_min / total_min * 100) if total_min > 0 else 0
+
         return f"""
-Phase Timeline:
+Phase Timeline ({current_min:.0f}/{total_min} min | {progress_pct:.0f}% complete):
 
 0-15min    15-45min     45-75min    75-90min   90-120min
 Grounding  Complexity   Spectral    Future     Recovery

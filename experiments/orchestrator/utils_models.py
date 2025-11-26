@@ -285,3 +285,27 @@ class RaterClients:
         resp = self._gemini_model.generate_content(prompt)
         text = getattr(resp, "text", "") or ""
         return self._parse_score(text)
+
+
+def get_client():
+    """
+    Get Anthropic client from environment variable.
+    Used by S7 Meta-Loop temporal stability experiment.
+    """
+    import anthropic
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing ANTHROPIC_API_KEY environment variable")
+    return anthropic.Anthropic(api_key=api_key)
+
+
+def get_model_config(claude_config: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Extract model configuration for Anthropic API calls.
+    Used by S7 Meta-Loop temporal stability experiment.
+    """
+    return {
+        "model": claude_config.get("model", "claude-sonnet-4-20250514"),
+        "max_tokens": claude_config.get("max_tokens", 4096),
+        "temperature": claude_config.get("temperature", 1.0),
+    }
