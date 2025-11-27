@@ -1,73 +1,169 @@
 {
-  "repo": "abi-lab",
-  "display_name": "American Bureau of Investigation",
+  "repo": "ABI",
+  "display_name": "The American Bureau of Intelligence (ABI)",
   "owner": "Ziggy + Nova + Justice/Truth Taskforce",
   "url_repo": "TBD",
   "url_dashboard": "TBD",
-  "role": "Design and prototype the next-generation investigative infrastructure for public truth-seeking — transparent, decentralized, accountable, and free from institutional decay.",
+  "brief": "A public, transparent, intelligence framework built for investigation, verification, and insight — without corruption or secrecy.",
+  "role": "Pan Handlers Room D — Investigative Intelligence Wing. A civilian-first, transparent intelligence system that performs case analysis, pattern recognition, evidence evaluation, risk assessment, and narrative reconstruction using open methods and AI-augmented investigation.",
   "status": "Incubating",
   "tags": [
     "investigation",
+    "intelligence",
     "open-data",
     "civic-tech",
     "analysis",
     "transparency",
-    "watchdog",
+    "pattern-recognition",
     "case-management"
   ],
-  "summary": "ABI Lab is an open-source investigative laboratory focused on building transparent tools for understanding complex real-world cases, events, and systems. It provides infrastructure for evidence ingestion, timeline reconstructions, cross-source verification, and public audit trails — all without reliance on opaque governmental institutions. Think: investigative journalism meets advanced data science meets open governance.",
+  "summary": "ABI is what intelligence looks like when done correctly: transparent, citizen-owned, traceable, open-source, non-political, non-weaponized. The first intelligence system designed with AI from day one — AI as the analysis engine, verification system, timeline modeler, consistency checker, and narrative reconstructor.",
   "last_updated": "2025-11-27",
   "contact": {
-    "primary": "Ziggy (Chief Investigator)",
-    "ai_steward": "Nova"
+    "primary": "Ziggy (Lead Investigator)",
+    "ai_steward": "Nova (Chief Pattern Analyst)"
+  },
+  "philosophy": {
+    "principles": [
+      "Truth is the goal.",
+      "Transparency is the method.",
+      "Patterns do not lie.",
+      "Insight is a public good.",
+      "Accountability is oxygen.",
+      "Data must flow upward, not downward.",
+      "The public has the right to know."
+    ],
+    "ethic": "Where legacy agencies operate behind classified barriers and political manipulation, ABI operates in daylight. All methods are open. All logic is visible. All investigations are documented."
   },
   "pillars": {
-    "purpose": "Give everyone the ability to see the world as it is — through clear, verifiable investigative structure rather than institutional shadows.",
-    "methods": "Open-source case modeling, public data ingestion, timeline engines, file integrity verification, sentiment/propaganda detection, multi-source triangulation, and cross-case pattern discovery.",
-    "outputs": "Case files, investigative dashboards, public reports, explanation diagrams, cross-case matrices, anomaly detectors, and insight summaries."
+    "casework": "Evidence ingestion and classification.",
+    "analysis": "Pattern detection, narrative synthesis, timeline reconstruction.",
+    "verification": "Cross-checking mechanisms, source trust ranking, red/green/yellow tagging.",
+    "intelligence": "Hypothesis generation, insight building, predictive modeling.",
+    "accountability": "Transparent chain-of-evidence, public audit trails, open file system."
   },
   "sibling": "dcia-lab",
   "roof": "Intelligence Roof — ABI investigates reality, DCIA interprets meaning. Two wings, one mission.",
-  "projects": [
+  "special_roles": {
+    "ziggy": "Lead Investigator",
+    "nova": "Chief Pattern Analyst",
+    "claude": "Case Archivist",
+    "gemini": "Visualization & Modeling",
+    "opus": "Narrative Reconstruction"
+  },
+  "modules": [
     {
-      "id": "timeline-engine",
-      "title": "Universal Timeline Engine",
-      "status": "Planned",
-      "type": "Framework",
-      "summary": "A core ABI component: event tracking with timestamps, sources, evidence weight, contradictions, and uncertainty modeling. The backbone for every case.",
-      "links": {
-        "docs": "projects/ABI/timeline_engine"
-      }
+      "name": "ABI-Case-File-System",
+      "description": "Standardized open-source case files with modular structure (facts, evidence, timelines, interviews, hypotheses, risk maps)."
     },
     {
-      "id": "case-file-prototype",
-      "title": "Open Case File Prototype",
+      "name": "ABI-Pattern-Engine",
+      "description": "AI-assisted pattern recognition engine for correlating data across cases, timelines, geographic data, statements, behaviors, and events."
+    },
+    {
+      "name": "ABI-Insight-Core",
+      "description": "Narrative synthesis engine that assembles clues into meaningful hypotheses, tracks alternative interpretations, and visualizes likelihood curves."
+    },
+    {
+      "name": "ABI-Verification-Layer",
+      "description": "Truth surface mapping, source reliability ranking, cross-evidence consistency testing."
+    },
+    {
+      "name": "ABI-Contextual-Index",
+      "description": "Large-scale index of all entities, organizations, events, and timelines across all cases — like The Wire but real."
+    },
+    {
+      "name": "ABI-Transparency-Log",
+      "description": "Immutable log of all actions, reasoning, and investigative steps. The opposite of classified."
+    }
+  ],
+  "stack": {
+    "case_ingestion": "Upload case materials, evidence, videos, documents.",
+    "timeline_reconstruction": "Automatic mapping of events into temporal graph.",
+    "entity_resolution": "Disambiguation of people, places, organizations.",
+    "pattern_analysis": "Correlation engines identify repeating motifs.",
+    "narrative_theory": "Variational interpretations — what may have happened, what likely happened.",
+    "public_interface": "Streamlit dashboard for public audit and observation.",
+    "expert_interface": "Analyst view for deep dive investigations."
+  },
+  "integration": {
+    "panhandlers": "ABI is Room D — Investigative Intelligence Wing.",
+    "nyquist": "Feeds S8 Identity Gravity and S7 Temporal Stability with real-world test subjects.",
+    "cfa": "Outputs case-based insights into ethical analysis frameworks.",
+    "dcia": "DCIA receives human behavior predictions, state actor modeling, geopolitical foresight.",
+    "avlar": "Ritual films can be used as psychological training tools for analysts when understanding dream logic, symbolism, trauma patterning, or motive reconstruction."
+  },
+  "projects": [
+    {
+      "id": "case-file-system",
+      "title": "ABI Case File System",
       "status": "Planned",
-      "type": "Prototype",
-      "summary": "A transparent digital 'case folder' that holds evidence, media, statements, metadata, and machine-generated analysis — publicly auditable.",
+      "type": "Framework",
+      "summary": "Standardized open-source case files with modular structure (facts, evidence, timelines, interviews, hypotheses, risk maps).",
       "links": {
         "docs": "projects/ABI/case_file"
       }
     },
     {
-      "id": "source-verification-chain",
-      "title": "Source Verification Chain",
+      "id": "timeline-engine",
+      "title": "Universal Timeline Engine",
       "status": "Planned",
-      "type": "Protocol",
-      "summary": "A cryptographic and procedural method to ensure source authenticity, detect doctored evidence, and assess reliability.",
+      "type": "Framework",
+      "summary": "Event tracking with timestamps, sources, evidence weight, contradictions, and uncertainty modeling. Automatic mapping of events into temporal graph.",
       "links": {
-        "docs": "projects/ABI/source_verification"
+        "docs": "projects/ABI/timeline_engine"
       }
     },
     {
-      "id": "public-investigation-dashboard",
+      "id": "pattern-engine",
+      "title": "ABI Pattern Engine",
+      "status": "Planned",
+      "type": "Engine",
+      "summary": "AI-assisted pattern recognition for correlating data across cases, timelines, geographic data, statements, behaviors, and events.",
+      "links": {
+        "docs": "projects/ABI/pattern_engine"
+      }
+    },
+    {
+      "id": "verification-layer",
+      "title": "Source Verification Layer",
+      "status": "Planned",
+      "type": "Protocol",
+      "summary": "Truth surface mapping, source reliability ranking, cross-evidence consistency testing, cryptographic chain of custody.",
+      "links": {
+        "docs": "projects/ABI/verification"
+      }
+    },
+    {
+      "id": "public-dashboard",
       "title": "Public Investigation Dashboard",
       "status": "Planned",
       "type": "Dashboard",
-      "summary": "Streamlit-powered interface showing case timelines, evidence cards, source maps, contradictions, and open leads.",
+      "summary": "Streamlit-powered interface showing case timelines, evidence cards, source maps, contradictions, open leads, and truth likelihood curves.",
       "links": {
         "docs": "projects/ABI/VISION.md"
       }
+    },
+    {
+      "id": "transparency-log",
+      "title": "ABI Transparency Log",
+      "status": "Planned",
+      "type": "System",
+      "summary": "Immutable log of all actions, reasoning, and investigative steps. Public audit trail — the opposite of classified.",
+      "links": {
+        "docs": "projects/ABI/transparency_log"
+      }
     }
-  ]
+  ],
+  "outputs": [
+    "Case files",
+    "Evidence review documents",
+    "Pattern maps",
+    "Timelines",
+    "Public audit trails",
+    "Risk assessments",
+    "Truth likelihood curves",
+    "Intelligence briefs"
+  ],
+  "version": "1.0"
 }
