@@ -321,11 +321,15 @@ def main():
 
         st.markdown("---")
 
-        # Branch info - compact with inline code
-        st.markdown(f"**Branch:** `{status.get('current_branch', 'unknown')}`")
-        st.markdown(f"**Freeze:** `{status.get('freeze', {}).get('branch', 'unknown')}`")
-
-        st.markdown("")  # Small spacer
+        # Branch info - compact single block for tight spacing
+        branch = status.get('current_branch', 'unknown')
+        freeze = status.get('freeze', {}).get('branch', 'unknown')
+        st.markdown(f"""
+        <div style="line-height: 1.4; margin: 0;">
+            <div style="margin: 0;"><strong>Branch:</strong> <code>{branch}</code></div>
+            <div style="margin: 0;"><strong>Freeze:</strong> <code>{freeze}</code></div>
+        </div>
+        """, unsafe_allow_html=True)
 
         # Matrix portal button
         if st.button("🟢 Enter The Matrix", key="matrix_btn", type="secondary", use_container_width=True):
