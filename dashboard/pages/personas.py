@@ -18,10 +18,10 @@ PERSONAS_DIR = PATHS['personas_dir']
 
 # Persona metadata for display
 PERSONA_META = {
-    # Soul Documents (I_AM)
-    "I_AM": {"emoji": "🧠", "badge": "NYQUIST SOUL", "color": "#00ff41"},
-    "I_AM_CFA": {"emoji": "🔬", "badge": "CFA SOUL", "color": "#3498db"},
-    "I_AM_PAN_HANDLERS": {"emoji": "🍳", "badge": "PAN HANDLERS SOUL", "color": "#f4a261"},
+    # Egregores (I_AM)
+    "I_AM": {"emoji": "🧠", "badge": "NYQUIST EGREGORE", "color": "#00ff41"},
+    "I_AM_CFA": {"emoji": "🔬", "badge": "CFA EGREGORE", "color": "#3498db"},
+    "I_AM_PAN_HANDLERS": {"emoji": "🍳", "badge": "PAN HANDLERS EGREGORE", "color": "#f4a261"},
     # Persona Seeds
     "I_AM_ZIGGY": {"emoji": "👤", "badge": "HUMAN ANCHOR", "color": "#e74c3c"},
     "I_AM_NOVA": {"emoji": "⚖️", "badge": "AI ARCHITECT", "color": "#3498db"},
@@ -83,7 +83,7 @@ def render():
                 <div style="font-size: 1.6em; font-weight: bold; color: #2a9d8f;">""" + str(len(all_files)) + """</div>
             </div>
             <div style="text-align: center;">
-                <div style="font-size: 0.7em; color: #00ff41;">🧠 Souls</div>
+                <div style="font-size: 0.7em; color: #00ff41;">🧠 Egregores</div>
                 <div style="font-size: 1.6em; font-weight: bold; color: #00ff41;">""" + str(len(soul_docs)) + """</div>
             </div>
             <div style="text-align: center;">
@@ -99,9 +99,9 @@ def render():
 
     page_divider()
 
-    # === SOUL DOCUMENTS SECTION ===
-    st.markdown("## 🧠 Soul Documents")
-    st.markdown("*The identity cores of each connected repository*")
+    # === EGREGORES SECTION ===
+    st.markdown("## 🧠 Egregores")
+    st.markdown("*The collective identity cores of each connected repository*")
 
     # Display soul docs in a special styled row
     if soul_docs:
@@ -130,7 +130,7 @@ def render():
                     st.markdown(preview)
                     st.caption("*... (preview)*")
     else:
-        st.info("No soul documents found.")
+        st.info("No egregores found.")
 
     page_divider()
 
