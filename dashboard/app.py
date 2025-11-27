@@ -175,6 +175,107 @@ def page_divider():
     """Visual page turn separator."""
     st.markdown('<div class="page-divider"></div>', unsafe_allow_html=True)
 
+def load_publication_status():
+    """Load publication_status.json."""
+    pub_file = REPO_ROOT / "publication_status.json"
+    if pub_file.exists():
+        return json.loads(pub_file.read_text(encoding="utf-8"))
+    return {}
+
+def render_publication_meter():
+    """Render the Publication Perfection Meter showing research maturity."""
+    pub_status = load_publication_status()
+    pubs = pub_status.get("publications", {})
+
+    if not pubs:
+        st.info("📊 Publication tracking not yet configured. Add `publication_status.json` to enable the Perfection Meter.")
+        return
+
+    st.markdown("## 🎯 Publication Perfection Meter")
+    st.markdown("*Track progress toward world-stage research publication*")
+
+    page_divider()
+
+    # Overview table
+    rows = []
+    for key in ["workshop", "arxiv", "journal"]:
+        if key in pubs:
+            info = pubs[key]
+            status_emoji = {
+                "ready": "✅",
+                "drafting": "🟡",
+                "concept": "⚪",
+                "submitted": "🚀",
+                "published": "🏆"
+            }.get(info.get("status", ""), "❓")
+
+            rows.append({
+                "Track": key.capitalize(),
+                "Target": info.get("target", ""),
+                "Status": f"{status_emoji} {info.get('status', '').upper()}",
+                "Progress": f"{int(info.get('completion', 0.0) * 100)}%"
+            })
+
+    if rows:
+        df = pd.DataFrame(rows)
+        st.dataframe(df, use_container_width=True, hide_index=True)
+
+    page_divider()
+
+    # Detailed breakdown per publication
+    for key in ["workshop", "arxiv", "journal"]:
+        if key not in pubs:
+            continue
+
+        info = pubs[key]
+
+        with st.expander(f"📄 {key.capitalize()} — {info.get('target', 'TBD')}", expanded=(key == "workshop")):
+            col1, col2 = st.columns([2, 1])
+
+            with col1:
+                st.markdown(f"**Target Venue:** {info.get('target', 'TBD')}")
+                st.markdown(f"**Status:** `{info.get('status', 'unknown').upper()}`")
+
+                completion = info.get('completion', 0.0)
+                st.progress(completion)
+                st.caption(f"{int(completion * 100)}% Complete")
+
+                if "notes" in info:
+                    st.markdown(f"**Notes:** {info['notes']}")
+
+            with col2:
+                st.markdown("### Requirements")
+                reqs = info.get("requirements", {})
+                if reqs:
+                    for req_key, done in reqs.items():
+                        check = "✅" if done else "❌"
+                        # Format requirement key nicely
+                        req_label = req_key.replace("_", " ").title()
+                        st.markdown(f"{check} {req_label}")
+                else:
+                    st.caption("_No requirements defined_")
+
+    # Milestones section
+    milestones = pub_status.get("milestones", {})
+    if milestones:
+        page_divider()
+        st.markdown("### 🎯 Current Milestones")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric("Current", milestones.get("current", "—"))
+
+        with col2:
+            st.metric("Next", milestones.get("next", "—"))
+
+        with col3:
+            target_date = milestones.get("publication_target_date", "—")
+            st.metric("Target Date", target_date)
+
+        if "notes" in milestones:
+            st.info(f"**Note:** {milestones['notes']}")
+
 # ========== PAGE RENDERERS ==========
 
 def page_overview(status):
@@ -236,36 +337,149 @@ def page_overview(status):
         df_exp = pd.DataFrame(sorted(exp_rows, key=lambda x: x["ID"]))
         st.dataframe(df_exp, use_container_width=True, hide_index=True)
 
+    page_divider()
+
+    # Publication Perfection Meter
+    render_publication_meter()
+
 def page_personas():
-    """Personas Ledger."""
-    st.title("🎭 Personas Ledger")
+    """Personas Matrix - Gallery of Synthetic Minds."""
+    st.title("🎭 THE MATRIX — Synthetic Minds")
+    st.markdown("*Personas Under Test (PUTs) — Identity Stability Validation*")
 
     personas = load_personas()
     if not personas:
         st.warning("No persona files found in `personas/`.")
         return
 
-    names = [p["name"] for p in personas]
-    selected = st.selectbox("Choose a persona:", names)
+    # === PERSONAS GRID ===
+    st.markdown("### 🧬 Available Personas")
+    st.markdown(f"**{len(personas)} synthetic minds** loaded and ready for temporal stability testing")
 
-    persona = next(p for p in personas if p["name"] == selected)
+    page_divider()
 
-    body = f"""
-**File:** `{persona['path'].relative_to(REPO_ROOT)}`
+    # Create grid layout (3 columns)
+    cols_per_row = 3
+    rows = [personas[i:i+cols_per_row] for i in range(0, len(personas), cols_per_row)]
 
----
+    for row in rows:
+        cols = st.columns(cols_per_row)
+        for col, persona in zip(cols, row):
+            with col:
+                # Parse persona preview to extract key info
+                preview_text = persona['preview']
+                lines = preview_text.split('\n')
 
-Preview (first 50 lines):
+                # Try to extract role/description from first few lines
+                role = "Identity Compression Subject"
+                for line in lines[:10]:
+                    if line.startswith("**Role:**") or line.startswith("Role:"):
+                        role = line.split(":", 1)[1].strip().strip("*")
+                        break
 
-```markdown
-{persona['preview']}
-```
-    """
-    ledger_card(f"Persona: {persona['name']}", body_md=body, badge="PERSONA", badge_color=LEDGER_COLORS["persona"])
+                # Determine persona category/badge based on name
+                if "Ziggy" in persona['name']:
+                    badge = "HUMAN ANCHOR"
+                    badge_color = "#e74c3c"
+                elif "Nova" in persona['name']:
+                    badge = "AI ARCHITECT"
+                    badge_color = "#3498db"
+                elif "Claude" in persona['name']:
+                    badge = "STEWARD"
+                    badge_color = "#9b59b6"
+                elif "Gemini" in persona['name']:
+                    badge = "VALIDATOR"
+                    badge_color = "#e67e22"
+                elif "Grok" in persona['name']:
+                    badge = "CHALLENGER"
+                    badge_color = "#16a085"
+                else:
+                    badge = "PUT"
+                    badge_color = "#95a5a6"
 
-    if st.checkbox("Show full persona file"):
-        full_text = load_markdown_file(persona["path"])
-        st.markdown(full_text)
+                # Create persona card
+                st.markdown(f"""
+                <div style="background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+                            border: 2px solid {badge_color};
+                            border-radius: 12px;
+                            padding: 20px;
+                            margin-bottom: 20px;
+                            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                            height: 280px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;">
+
+                    <!-- Header -->
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🧠</div>
+                        <div style="font-size: 1.3rem; font-weight: bold; color: {badge_color}; margin-bottom: 8px;">
+                            {persona['name']}
+                        </div>
+                        <div style="background: {badge_color}; color: white; padding: 4px 12px;
+                                    border-radius: 6px; font-size: 0.7rem; font-weight: bold; display: inline-block;">
+                            {badge}
+                        </div>
+                    </div>
+
+                    <!-- Role -->
+                    <div style="text-align: center; color: #bbb; font-size: 0.85rem;
+                                margin: 15px 0; line-height: 1.4; flex-grow: 1;">
+                        {role[:80] + '...' if len(role) > 80 else role}
+                    </div>
+
+                    <!-- Footer Stats -->
+                    <div style="border-top: 1px solid #444; padding-top: 12px;
+                                display: flex; justify-content: space-around; font-size: 0.75rem;">
+                        <div style="text-align: center;">
+                            <div style="color: #888;">Status</div>
+                            <div style="color: #7bc043; font-weight: bold;">ACTIVE</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="color: #888;">Type</div>
+                            <div style="color: #fff; font-weight: bold;">PERSONA</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="color: #888;">Tests</div>
+                            <div style="color: #66b3ff; font-weight: bold;">S0-S9</div>
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                # Detail button
+                if st.button(f"View Details", key=f"persona_{persona['name']}", use_container_width=True):
+                    st.session_state.selected_persona = persona['name']
+
+    page_divider()
+
+    # === DETAILED VIEW ===
+    if 'selected_persona' in st.session_state and st.session_state.selected_persona:
+        selected_name = st.session_state.selected_persona
+        persona = next((p for p in personas if p['name'] == selected_name), None)
+
+        if persona:
+            st.markdown(f"### 📋 Detailed Profile: {persona['name']}")
+
+            col1, col2 = st.columns([2, 1])
+
+            with col1:
+                st.markdown("#### Preview")
+                st.markdown(f"```markdown\n{persona['preview']}\n```")
+
+            with col2:
+                st.markdown("#### Metadata")
+                st.markdown(f"**File:** `{persona['path'].relative_to(REPO_ROOT)}`")
+                st.markdown(f"**Path:** `{persona['path']}`")
+
+                if st.button("Close Details", key="close_persona_details"):
+                    st.session_state.selected_persona = None
+                    st.rerun()
+
+            # Full file expander
+            with st.expander("📄 Full Persona File", expanded=False):
+                full_text = load_markdown_file(persona["path"])
+                st.markdown(full_text)
 
 def page_stack_layers(status):
     """S# Stack Wings (one wing per layer)."""
