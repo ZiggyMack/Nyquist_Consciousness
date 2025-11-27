@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 
 # Import page modules
-from pages import home, project_view, roadmap, glossary, about
+from pages import home, project_view, roadmap, glossary, about, matrix
 
 # ========== CONFIGURATION ==========
 
@@ -207,6 +207,7 @@ PAGES = {
     "🗺️ Global Roadmap": roadmap,
     "📖 Glossary": glossary,
     "ℹ️ About": about,
+    "🟢 Enter The Matrix": matrix,
 }
 
 

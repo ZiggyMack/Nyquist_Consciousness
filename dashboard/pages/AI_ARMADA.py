@@ -129,7 +129,7 @@ def render():
         color: #2a9d8f !important;
     }
     .stat-label {
-        color: #666 !important;
+        color: #444 !important;
         font-size: 0.9em;
     }
     </style>

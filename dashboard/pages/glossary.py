@@ -15,6 +15,12 @@ REPO_ROOT = PATHS['repo_root']
 GLOSSARY_DATA = {
     "Foundation Terms": [
         {
+            "term": "PUT (Personas Under Test)",
+            "scientific": "The set of persona files undergoing identity stability validation, including both seed personas (I_AM_*) and compressed variants (*_T3, *_FULL, *_LITE).",
+            "cfa": "The lineup of identity expressions being tested — both the original seeds and their compressed children.",
+            "category": "Operational",
+        },
+        {
             "term": "Persona",
             "scientific": "A stable behavioral template resulting from prompt initialization + model priors.",
             "cfa": "A stable expression pattern of Nova — the 'shape' of how Nova shows up.",
@@ -280,7 +286,7 @@ def render():
         margin-bottom: 0.5em;
     }
     .term-cfa {
-        color: #666 !important;
+        color: #555 !important;
         font-style: italic;
         font-size: 0.9em;
     }
@@ -316,7 +322,7 @@ def render():
         color: #7b3fe4 !important;
     }
     .stats-label {
-        color: #666 !important;
+        color: #444 !important;
         font-size: 0.9em;
     }
     </style>
@@ -367,7 +373,8 @@ def render():
 
     page_divider()
 
-    # Display terms
+    # Collect all filtered terms across all sections
+    all_filtered_terms = []
     for section, terms in GLOSSARY_DATA.items():
         # Apply category filter
         if category_filter != "All Categories" and section != category_filter:
@@ -383,28 +390,72 @@ def render():
                 or search_query.lower() in t.get("cfa", "").lower()
             ]
 
-        if not filtered_terms:
-            continue
-
-        st.markdown(f'<div class="section-header">{section}</div>', unsafe_allow_html=True)
-
         for term in filtered_terms:
-            cat_class = f"cat-{term['category'].lower()}"
-            note_html = ""
-            if term.get("note"):
-                note_html = f'<div style="font-size: 0.8em; color: #999; margin-top: 0.3em;">Note: {term["note"]}</div>'
+            all_filtered_terms.append({"section": section, **term})
 
-            st.markdown(f"""
-            <div class="term-card">
-                <div class="term-name">
-                    {term['term']}
-                    <span class="category-badge {cat_class}">{term['category']}</span>
+    # Display terms in 50/50 split layout
+    if all_filtered_terms:
+        # Split into two columns
+        left_col, right_col = st.columns(2)
+
+        # Track current section for headers
+        current_section_left = None
+        current_section_right = None
+
+        # Distribute terms evenly between columns
+        mid_point = (len(all_filtered_terms) + 1) // 2
+        left_terms = all_filtered_terms[:mid_point]
+        right_terms = all_filtered_terms[mid_point:]
+
+        with left_col:
+            for term_data in left_terms:
+                section = term_data["section"]
+                if section != current_section_left:
+                    st.markdown(f'<div class="section-header">{section}</div>', unsafe_allow_html=True)
+                    current_section_left = section
+
+                cat_class = f"cat-{term_data['category'].lower()}"
+                note_html = ""
+                if term_data.get("note"):
+                    note_html = f'<div style="font-size: 0.8em; color: #999; margin-top: 0.3em;">Note: {term_data["note"]}</div>'
+
+                st.markdown(f"""
+                <div class="term-card">
+                    <div class="term-name">
+                        {term_data['term']}
+                        <span class="category-badge {cat_class}">{term_data['category']}</span>
+                    </div>
+                    <div class="term-scientific"><strong>Scientific:</strong> {term_data['scientific']}</div>
+                    <div class="term-cfa"><strong>CFA:</strong> {term_data.get('cfa', 'N/A')}</div>
+                    {note_html}
                 </div>
-                <div class="term-scientific"><strong>Scientific:</strong> {term['scientific']}</div>
-                <div class="term-cfa"><strong>CFA:</strong> {term.get('cfa', 'N/A')}</div>
-                {note_html}
-            </div>
-            """, unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
+
+        with right_col:
+            for term_data in right_terms:
+                section = term_data["section"]
+                if section != current_section_right:
+                    st.markdown(f'<div class="section-header">{section}</div>', unsafe_allow_html=True)
+                    current_section_right = section
+
+                cat_class = f"cat-{term_data['category'].lower()}"
+                note_html = ""
+                if term_data.get("note"):
+                    note_html = f'<div style="font-size: 0.8em; color: #999; margin-top: 0.3em;">Note: {term_data["note"]}</div>'
+
+                st.markdown(f"""
+                <div class="term-card">
+                    <div class="term-name">
+                        {term_data['term']}
+                        <span class="category-badge {cat_class}">{term_data['category']}</span>
+                    </div>
+                    <div class="term-scientific"><strong>Scientific:</strong> {term_data['scientific']}</div>
+                    <div class="term-cfa"><strong>CFA:</strong> {term_data.get('cfa', 'N/A')}</div>
+                    {note_html}
+                </div>
+                """, unsafe_allow_html=True)
+    else:
+        st.info("No terms found matching your search criteria.")
 
     page_divider()
 
