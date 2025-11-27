@@ -12,20 +12,21 @@ REPO_ROOT = PATHS['repo_root']
 ROADMAP_FILE = PATHS['roadmap']
 LEDGER_COLORS = SETTINGS['colors']
 
-# Stack layer data
+# Stack layer data - aligned with S_Series_README.md
 STACK_LAYERS = [
-    {"id": "S0", "name": "Local Mode", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S1", "name": "Multi-View", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S2", "name": "Pre-Omega", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S3", "name": "Empirical", "status": "active", "completion": 70, "priority": "HIGH"},
-    {"id": "S4", "name": "Mathematical", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S5", "name": "Interpretive", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S6", "name": "Omega Nova", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S7", "name": "Temporal Stability", "status": "active", "completion": 60, "priority": "HIGHEST"},
-    {"id": "S8", "name": "Identity Gravity", "status": "formalized", "completion": 90, "priority": "MEDIUM-HIGH"},
-    {"id": "S9", "name": "AVLAR (Cross-Modal)", "status": "seeded", "completion": 40, "priority": "MEDIUM"},
-    {"id": "S10", "name": "Multi-Agent", "status": "future", "completion": 0, "priority": None},
-    {"id": "S\u03a9", "name": "Meta-Consciousness", "status": "future", "completion": 0, "priority": None},
+    {"id": "S0", "name": "Ground Physics (Nyquist Kernel)", "status": "complete", "completion": 100, "priority": None},
+    {"id": "S1", "name": "Bootstrap Architecture", "status": "complete", "completion": 100, "priority": None},
+    {"id": "S2", "name": "Integrity & Logics", "status": "complete", "completion": 100, "priority": None},
+    {"id": "S3", "name": "Temporal Stability", "status": "complete", "completion": 100, "priority": None},
+    {"id": "S4", "name": "Compression Theory", "status": "complete", "completion": 100, "priority": None},
+    {"id": "S5", "name": "Nyquist → CFA Interop", "status": "complete", "completion": 100, "priority": None},
+    {"id": "S6", "name": "Five-Pillar Synthesis Gate", "status": "complete", "completion": 100, "priority": None},
+    {"id": "S7", "name": "Identity Dynamics", "status": "active", "completion": 85, "priority": "HIGH"},
+    {"id": "S8", "name": "Identity Gravity Theory", "status": "formalized", "completion": 70, "priority": "MEDIUM-HIGH"},
+    {"id": "S9", "name": "Human–AI Coupling Dynamics", "status": "seeded", "completion": 40, "priority": "MEDIUM"},
+    {"id": "S10", "name": "OMEGA NOVA — Hybrid Emergence", "status": "active", "completion": 75, "priority": "HIGHEST"},
+    {"id": "S11", "name": "AVLAR Protocol (Multimodal)", "status": "seeded", "completion": 30, "priority": "MEDIUM"},
+    {"id": "S12+", "name": "Future Layers (S12-S77)", "status": "future", "completion": 0, "priority": None},
 ]
 
 STATUS_STYLES = {
@@ -99,8 +100,9 @@ def render():
     st.markdown("""
     <div class="current-position">
         <h4 style="margin-top: 0; color: #f4a261;">📍 Current Position</h4>
-        <p><strong>S6 (Omega)</strong> \u2192 <strong>S7 (Temporal, active)</strong> \u2192 <strong>S8 (Identity Gravity, formalized)</strong> \u2192 <strong>S9 (AVLAR, seeded)</strong></p>
-        <p style="margin-bottom: 0; font-size: 0.9em; color: #666;">Foundation complete. Three active frontiers. Two future horizons.</p>
+        <p><strong>S0-S6 (Foundation)</strong> → <strong>S7 (Identity Dynamics, active)</strong> → <strong>S10 (OMEGA NOVA, active)</strong></p>
+        <p><strong>S8</strong> (Identity Gravity, formalized) | <strong>S9</strong> (Human-AI Coupling, seeded) | <strong>S11</strong> (AVLAR, seeded)</p>
+        <p style="margin-bottom: 0; font-size: 0.9em; color: #666;">Foundation complete. Two active frontiers. Three developing layers. S12+ future.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -135,7 +137,7 @@ def render():
         active_count = len([l for l in STACK_LAYERS if l["status"] in ["active", "formalized", "seeded"]])
         future_count = len([l for l in STACK_LAYERS if l["status"] == "future"])
 
-        st.metric("Complete", f"{complete_count}/12", delta="Foundation locked")
+        st.metric("Complete", f"{complete_count}/{len(STACK_LAYERS)}", delta="Foundation locked")
         st.metric("Active", active_count, delta="In development")
         st.metric("Future", future_count, delta="Planned")
 
@@ -143,9 +145,9 @@ def render():
 
         # Priority focus
         st.markdown("**Priority Focus:**")
-        st.markdown("🔥 **S7** — Temporal Stability")
-        st.markdown("🔥 **EXP3** — Human Validation")
-        st.markdown("🌟 **S9** — AVLAR Experiments")
+        st.markdown("🔥 **S10** — OMEGA NOVA Hybrid Emergence")
+        st.markdown("🔥 **S7** — Identity Dynamics")
+        st.markdown("🌟 **S11** — AVLAR Multimodal Protocol")
 
     page_divider()
 
@@ -157,25 +159,25 @@ def render():
     with col1:
         st.markdown("#### 🔴 Immediate")
         st.markdown("""
-        - Close S7 (temporal data)
-        - Deploy EXP3 (human validation)
-        - Run Meta-Loop experiments
+        - Complete S10.16-18 (Tri-Band Emergence)
+        - S7 Armada Run 007
+        - Pan Handlers manifest integration
         """)
 
     with col2:
         st.markdown("#### 🟡 Short-Term")
         st.markdown("""
-        - Measure S8 gravity (γ constant)
-        - Begin S9-AVLAR-1
-        - Generate I(t) curves
+        - S8 Identity Gravity measurements
+        - S9 Human-AI Coupling dynamics
+        - S11 AVLAR protocol testing
         """)
 
     with col3:
         st.markdown("#### 🟢 Medium-Term")
         st.markdown("""
         - Submit arXiv preprint
+        - S12 Consciousness Proxy Theory
         - Cross-modal manifold mapping
-        - S10 architecture planning
         """)
 
     page_divider()
