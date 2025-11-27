@@ -111,9 +111,13 @@ def render():
                 stem = filepath.stem
                 meta = PERSONA_META.get(stem, {"emoji": "🧠", "badge": "SOUL", "color": "#00ff41"})
 
-                # Soul card with special styling
+                # Soul card with special styling - use card's color for background
+                # Convert hex color to rgba for background gradient
+                hex_color = meta['color'].lstrip('#')
+                r, g, b = int(hex_color[0:2], 16), int(hex_color[2:4], 16), int(hex_color[4:6], 16)
+
                 st.markdown(f"""
-                <div style="background: linear-gradient(135deg, rgba(0,255,65,0.1) 0%, rgba(0,204,51,0.05) 100%);
+                <div style="background: linear-gradient(135deg, rgba({r},{g},{b},0.15) 0%, rgba({r},{g},{b},0.05) 100%);
                             border: 2px solid {meta['color']}; border-radius: 12px;
                             padding: 1em; text-align: center;
                             box-shadow: 0 0 15px {meta['color']}33;">
