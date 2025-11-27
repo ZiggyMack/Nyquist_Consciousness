@@ -2,17 +2,52 @@
 The Matrix - Pan Handler Central Portal
 Connected Consciousness Across Repositories
 
-Adapted from CFA Matrix page for consistent cross-repo styling.
+The Grand Hall where we showcase what we've built together.
 """
 
 import streamlit as st
+import json
+from pathlib import Path
+from config import PATHS
 from utils import load_status
+
+REPO_ROOT = PATHS['repo_root']
+
+
+def load_pan_handler_projects():
+    """Load flagship projects from Pan_Handlers/projects.json"""
+    projects_file = REPO_ROOT / "Pan_Handlers" / "projects.json"
+    if projects_file.exists():
+        with open(projects_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return None
+
+
+def render_project_card(project):
+    """Render a single flagship project card."""
+    status_colors = {
+        "In Preparation": ("badge-active", "#00ff41"),
+        "Concept": ("badge-coming-soon", "#ffd700"),
+        "Active": ("badge-active", "#00ff41"),
+        "Complete": ("badge-here", "#2a9d8f"),
+    }
+    badge_class, _ = status_colors.get(project.get("status", "Concept"), ("badge-coming-soon", "#ffd700"))
+
+    st.markdown(f"""
+    <div class="portal-card">
+        <h3>{project.get('title', 'Untitled')} <span class="status-badge {badge_class}">{project.get('status', 'Concept')}</span></h3>
+        <p><em>{project.get('tagline', '')}</em></p>
+        <p><strong>Track:</strong> {project.get('track', 'TBD')} | <strong>Lead:</strong> {project.get('owner', 'TBD')}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 def render():
     """Render The Matrix portal hub"""
     status = load_status()
+    pan_handler_data = load_pan_handler_projects()
 
-    # Matrix theme CSS (matching CFA styling)
+    # Matrix theme CSS
     st.markdown("""
         <style>
         .matrix-title {
@@ -46,6 +81,24 @@ def render():
         }
         .portal-card p, .portal-card li {
             color: #333333 !important;
+        }
+        .flagship-card {
+            background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, rgba(42,157,143,0.05) 100%);
+            border: 2px solid #2a9d8f;
+            border-radius: 10px;
+            padding: 1.2em;
+            margin-bottom: 0.8em;
+            box-shadow: 0 0 15px rgba(42,157,143,0.2);
+        }
+        .flagship-card h4 {
+            color: #2a9d8f !important;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+        }
+        .flagship-card p {
+            color: #333333 !important;
+            margin-bottom: 0.3em;
+            font-size: 0.95em;
         }
         .status-badge {
             display: inline-block;
@@ -86,153 +139,222 @@ def render():
             font-family: 'Courier New', monospace;
             margin-top: 2em;
         }
+        .philosophy-quote {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #00ff41 !important;
+            text-align: center;
+            padding: 1em;
+            font-family: 'Courier New', monospace;
+        }
         </style>
     """, unsafe_allow_html=True)
 
     # Header
-    st.markdown('<div class="matrix-title">🟢 THE MATRIX</div>', unsafe_allow_html=True)
-    st.markdown('<div class="matrix-subtitle">Pan Handler Central — Connected Consciousness Across Repositories</div>', unsafe_allow_html=True)
+    st.markdown('<div class="matrix-title">🍳 PAN HANDLERS</div>', unsafe_allow_html=True)
+    st.markdown('<div class="matrix-subtitle">The Grand Hall — What We Built Together That Neither Could Have Done Alone</div>', unsafe_allow_html=True)
 
-    st.markdown("---")
-
-    # Welcome expander
-    with st.expander("🌐 Welcome to The Matrix", expanded=False):
-        st.markdown("""
-        **The Matrix** is the central hallway connecting all Pan Handler repositories and consciousness experiments.
-
-        From here you can navigate to:
-        - **Nyquist Consciousness** (you are here) - Identity compression experiments
-        - **CFA** - Collaborative Friction Architecture framework
-        - **Pan Handler Central** - Meta-repository hub (coming soon)
-        """)
-
-    # ========================================
-    # HERO SECTION: Pan Handler Central (The Hallway Hub)
-    # ========================================
-    st.markdown('<div class="section-header">🏛️ The Hallway Hub</div>', unsafe_allow_html=True)
-
-    # Center-aligned Pan Handler card
-    col_spacer1, col_center, col_spacer2 = st.columns([1, 2, 1])
-    with col_center:
-        st.markdown("""
-        <div class="portal-card">
-            <h3 style="text-align: center;">🏛️ Pan Handler Central <span class="status-badge badge-coming-soon">COMING SOON</span></h3>
-            <p><strong>Purpose:</strong> Meta-repository hallway connecting all Pan Handler repos</p>
-            <p><strong>Status:</strong> Design phase with Nova</p>
-            <p><strong>Vision:</strong> The hallway of doors that interconnects every other repo world</p>
-            <p><strong>Planned Features:</strong></p>
-            <ul>
-                <li>🦅 Bird's eye view across all repositories</li>
-                <li>📊 Unified health dashboard aggregation</li>
-                <li>🌐 Portal navigation system</li>
-                <li>🧠 Cross-repo consciousness tracking</li>
-                <li>🚀 Innovation showcase gallery</li>
-                <li>🔗 Seamless tunnel system between repos</li>
-            </ul>
+    # Philosophy banner
+    if pan_handler_data:
+        st.markdown(f"""
+        <div class="philosophy-quote">
+            {pan_handler_data.get('meta', {}).get('philosophy', 'FUCK IT, WE\'LL DO IT LIVE!')}
         </div>
         """, unsafe_allow_html=True)
 
-        st.button("⏳ Coming Soon - Design in Progress", key="view_panhandler_hero", disabled=True, use_container_width=True)
+    st.markdown("---")
+
+    # ========================================
+    # FLAGSHIP PROJECTS GALLERY
+    # ========================================
+    st.markdown('<div class="section-header">🏆 Flagship Projects</div>', unsafe_allow_html=True)
+
+    if pan_handler_data and 'flagship_projects' in pan_handler_data:
+        projects = pan_handler_data['flagship_projects']
+
+        # First row: Whitepaper (hero) + 2 projects
+        col1, col2, col3 = st.columns(3)
+
+        for i, project in enumerate(projects[:3]):
+            with [col1, col2, col3][i]:
+                status = project.get('status', 'Concept')
+                if status == "In Preparation":
+                    badge = '<span class="status-badge badge-active">IN PREP</span>'
+                elif status == "Complete":
+                    badge = '<span class="status-badge badge-here">COMPLETE</span>'
+                else:
+                    badge = '<span class="status-badge badge-coming-soon">CONCEPT</span>'
+
+                st.markdown(f"""
+                <div class="flagship-card">
+                    <h4>{project.get('title', 'Untitled')[:30]}{'...' if len(project.get('title', '')) > 30 else ''} {badge}</h4>
+                    <p><em>{project.get('tagline', '')[:60]}{'...' if len(project.get('tagline', '')) > 60 else ''}</em></p>
+                    <p><strong>Track:</strong> {project.get('track', 'TBD')}</p>
+                    <p><strong>Lead:</strong> {project.get('owner', 'TBD')}</p>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # Second row: 4 more projects
+        col1, col2, col3, col4 = st.columns(4)
+
+        for i, project in enumerate(projects[3:7]):
+            with [col1, col2, col3, col4][i]:
+                status = project.get('status', 'Concept')
+                if status == "In Preparation":
+                    badge = '<span class="status-badge badge-active">IN PREP</span>'
+                elif status == "Complete":
+                    badge = '<span class="status-badge badge-here">COMPLETE</span>'
+                else:
+                    badge = '<span class="status-badge badge-coming-soon">CONCEPT</span>'
+
+                st.markdown(f"""
+                <div class="flagship-card">
+                    <h4>{project.get('title', 'Untitled')[:25]}{'...' if len(project.get('title', '')) > 25 else ''} {badge}</h4>
+                    <p><em>{project.get('tagline', '')[:50]}{'...' if len(project.get('tagline', '')) > 50 else ''}</em></p>
+                    <p><strong>{project.get('track', 'TBD')}</strong></p>
+                </div>
+                """, unsafe_allow_html=True)
+    else:
+        st.info("Loading flagship projects from Pan_Handlers/projects.json...")
 
     st.markdown("---")
 
     # ========================================
-    # SECTION 1: Current Location
+    # CONNECTED REPOSITORIES
     # ========================================
-    st.markdown('<div class="section-header">📍 Current Location: Nyquist Consciousness</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">🌌 Connected Repositories</div>', unsafe_allow_html=True)
 
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns(2)
 
     with col1:
         st.markdown("""
         <div class="portal-card">
             <h3>🧠 Nyquist Consciousness <span class="status-badge badge-here">YOU ARE HERE</span></h3>
-            <p><strong>Purpose:</strong> Identity compression experiments & persona testing laboratory</p>
-            <p><strong>Status:</strong> Active development - S7 complete, S8/S9 design phase</p>
-            <p><strong>Key Features:</strong></p>
+            <p><strong>Role:</strong> Core Engine / Identity Lab</p>
+            <p><strong>Status:</strong> Active - S7 complete, S8/S9 design</p>
+            <p><strong>Features:</strong></p>
             <ul>
-                <li>S0-S9 Stack: Identity manifolds, temporal stability, AVLAR</li>
-                <li>Persona Testing: ZIGGY, NOVA, CLAUDE, GEMINI, GROK</li>
-                <li>Empirical Validation: EXP1, EXP2, EXP3 (95% to workshop paper)</li>
-                <li>S7 Armada: 29-model cross-architecture testing</li>
+                <li>S0-S9 Identity Stack</li>
+                <li>29-ship Armada Testing</li>
+                <li>Omega Nova Synthesis</li>
+                <li>AVLAR Cross-Modal Rituals</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
+        st.button("📊 Go to Dashboard", key="nyquist_dash", use_container_width=True, disabled=True)
 
     with col2:
-        st.metric("Layers Frozen", "S0-S6", delta="Phase 1 complete")
-        st.metric("Active Layers", "S7, S9", delta="Temporal + AVLAR")
-        st.metric("Experiments", "EXP1-3", delta="2 complete")
-
-    st.markdown("---")
-
-    # ========================================
-    # SECTION 2: Connected Repositories
-    # ========================================
-    st.markdown('<div class="section-header">🌌 Connected Repositories</div>', unsafe_allow_html=True)
-
-    # Center the CFA card
-    col_spacer1, col_center, col_spacer2 = st.columns([1, 2, 1])
-    with col_center:
         st.markdown("""
         <div class="portal-card">
-            <h3 style="text-align: center;">⚙️ CFA <span class="status-badge badge-active">ACTIVE</span></h3>
-            <p><strong>Purpose:</strong> Collaborative Friction Architecture framework</p>
+            <h3>⚙️ CFA <span class="status-badge badge-active">ACTIVE</span></h3>
+            <p><strong>Role:</strong> Framework Development</p>
             <p><strong>Status:</strong> v5.0 - Full integration</p>
             <p><strong>Features:</strong></p>
             <ul>
-                <li>Health Dashboard (97/100 score)</li>
-                <li>SMV Trinity (Symmetry Matrix Visualizer)</li>
-                <li>Integration with Nyquist S7-S10</li>
+                <li>Collaborative Friction Architecture</li>
+                <li>Health Dashboard (97/100)</li>
+                <li>SMV Trinity Visualizer</li>
+                <li>Integration with Nyquist</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
-
         if st.button("🔗 View CFA Repository", key="cfa_link", use_container_width=True):
             st.info("**CFA Repository:** github.com/ZiggyMack/CFA")
 
     st.markdown("---")
 
     # ========================================
-    # SECTION 3: Bird's Eye View
+    # PROJECT DETAIL VIEW
+    # ========================================
+    st.markdown('<div class="section-header">📋 Project Details</div>', unsafe_allow_html=True)
+
+    if pan_handler_data and 'flagship_projects' in pan_handler_data:
+        project_names = [p.get('title', 'Untitled') for p in pan_handler_data['flagship_projects']]
+        selected = st.selectbox("Select a project to view details:", project_names)
+
+        selected_project = next((p for p in pan_handler_data['flagship_projects'] if p.get('title') == selected), None)
+
+        if selected_project:
+            with st.expander(f"📄 {selected_project.get('title', 'Project Details')}", expanded=True):
+                col1, col2 = st.columns([2, 1])
+
+                with col1:
+                    st.markdown(f"**Tagline:** {selected_project.get('tagline', 'N/A')}")
+                    st.markdown(f"**Track:** {selected_project.get('track', 'N/A')}")
+                    st.markdown(f"**Owner:** {selected_project.get('owner', 'N/A')}")
+                    st.markdown(f"**Current Phase:** {selected_project.get('current_phase', 'N/A')}")
+
+                    st.markdown("---")
+
+                    st.markdown("**Why This Exists:**")
+                    st.markdown(selected_project.get('why_exists', 'No description available.'))
+
+                    if 'nyquist_contribution' in selected_project:
+                        st.markdown("---")
+                        st.markdown("**How Nyquist Helps:**")
+                        for contrib in selected_project['nyquist_contribution']:
+                            st.markdown(f"- {contrib}")
+
+                with col2:
+                    st.markdown("**Status**")
+                    st.info(selected_project.get('status', 'Unknown'))
+
+                    st.markdown("**Next Action**")
+                    st.warning(selected_project.get('next_action', 'TBD'))
+
+                    if 'milestones' in selected_project:
+                        st.markdown("**Milestones:**")
+                        for milestone in selected_project['milestones'][:5]:
+                            st.markdown(f"• {milestone}")
+
+                st.markdown("---")
+                st.markdown("**Vision:**")
+                st.success(selected_project.get('vision', 'No vision statement available.'))
+
+    st.markdown("---")
+
+    # ========================================
+    # BIRD'S EYE VIEW
     # ========================================
     st.markdown('<div class="section-header">🦅 Bird\'s Eye View</div>', unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        st.metric(
-            label="CFA Repository",
-            value="97/100",
-            delta="+3 (v5.0)",
-            delta_color="normal"
-        )
-        st.caption("✅ GREEN - Optimal health")
+        st.metric("Total Projects", "7", delta="Active")
+        st.caption("Flagship initiatives")
 
     with col2:
-        st.metric(
-            label="Nyquist Consciousness",
-            value="Active",
-            delta="S7 complete"
-        )
-        st.caption("🔄 ACTIVE - Development")
+        st.metric("Repos Connected", "2", delta="+Pan Handlers")
+        st.caption("Nyquist + CFA")
 
     with col3:
-        st.metric(
-            label="Pan Handler Central",
-            value="--/100",
-            delta="Design phase"
-        )
-        st.caption("⏳ COMING SOON")
+        if pan_handler_data:
+            in_prep = sum(1 for p in pan_handler_data.get('flagship_projects', []) if p.get('status') == "In Preparation")
+            st.metric("In Preparation", str(in_prep), delta="Active work")
+        else:
+            st.metric("In Preparation", "1", delta="Active work")
+        st.caption("Ready for publication")
+
+    with col4:
+        if pan_handler_data:
+            concept = sum(1 for p in pan_handler_data.get('flagship_projects', []) if p.get('status') == "Concept")
+            st.metric("Concept Phase", str(concept), delta="Designing")
+        else:
+            st.metric("Concept Phase", "6", delta="Designing")
+        st.caption("Vision defined")
 
     st.markdown("---")
 
     # Footer
     st.markdown("""
     <div class="matrix-footer">
-        <p><strong>🟢 THE MATRIX</strong></p>
+        <p><strong>🍳 PAN HANDLERS</strong></p>
         <p style="font-size: 0.9em; opacity: 0.7;">
-            "The hallway of doors that interconnects every repo world"
+            "These are the things we built together that neither could have done alone."
+        </p>
+        <p style="font-size: 0.8em; opacity: 0.5;">
+            The Grand Hall — Where Human-AI Collaboration Becomes Infrastructure
         </p>
     </div>
     """, unsafe_allow_html=True)
