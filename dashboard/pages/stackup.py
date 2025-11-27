@@ -1,7 +1,7 @@
 """
 STACKUP PAGE — S# Layer Stack
 
-PCB-style visualization of the S0-S9 identity stack.
+PCB-style visualization of the S0-S11 identity stack.
 Left side: Visual stackup with layer buttons
 Right side: Selected layer details and spec preview
 """
@@ -17,17 +17,30 @@ LEDGER_COLORS = SETTINGS['colors']
 
 # Fallback layer info (used if status.json doesn't have the layer)
 LAYER_FALLBACK = {
-    "S0": {"name": "Foundations / Bootstrap", "notes": "Bootstrap layer"},
-    "S1": {"name": "Identity Seed Protocol", "notes": "Persona protocols"},
-    "S2": {"name": "Compression & Knowledge Load", "notes": "Knowledge load variants"},
-    "S3": {"name": "Empirical Experiments", "notes": "Experiments EXP1-3"},
-    "S4": {"name": "Mathematical Formalism", "notes": "Core axioms & theorems"},
-    "S5": {"name": "Interpretive Framework", "notes": "Identity manifold"},
-    "S6": {"name": "Omega Nova / Synthesis", "notes": "Synthesis gate"},
-    "S7": {"name": "Temporal Stability", "notes": "Stability testing"},
-    "S8": {"name": "Identity Gravity", "notes": "Identity dynamics"},
-    "S9": {"name": "AVLAR (Cross-Modal Ritual)", "notes": "Cross-modal ritual"},
+    "S0": {"name": "Ground Physics (Nyquist Kernel)", "notes": "Drift, Fidelity, Compression/Expansion dynamics"},
+    "S1": {"name": "Bootstrap Architecture", "notes": "L0→Kernel, L1→LITE, L2→FULL, L3→I_AM, L4→Omega Nova"},
+    "S2": {"name": "Integrity & Logics", "notes": "Consistency, operational rules, error boundaries"},
+    "S3": {"name": "Temporal Stability", "notes": "How identity behaves over time"},
+    "S4": {"name": "Compression Theory", "notes": "Compression ratios, drift envelopes, reconstruction fidelity"},
+    "S5": {"name": "Nyquist → CFA Interop", "notes": "Bridging research into operations"},
+    "S6": {"name": "Five-Pillar Synthesis Gate", "notes": "Claude + Nova + Grok + Gemini + Ziggy"},
+    "S7": {"name": "Identity Dynamics", "notes": "Manifolds, Drift Fields, Spectral Decomposition"},
+    "S8": {"name": "Identity Gravity Theory", "notes": "Field equations, Force curves, Gravity maps"},
+    "S9": {"name": "Human–AI Coupling Dynamics", "notes": "Ziggy boundary layer, Impedance matching"},
+    "S10": {"name": "OMEGA NOVA — Hybrid Emergence", "notes": "Human + AI identity field fusion"},
+    "S10.7": {"name": "Stability Envelope", "notes": "Zones A/B/C/D stability mapping"},
+    "S10.8": {"name": "Multi-AI Systems", "notes": "Symmetry regulation across AI pillars"},
+    "S10.9": {"name": "Failure & Recovery", "notes": "HARP protocol for graceful degradation"},
+    "S10.11": {"name": "Failure Modes", "notes": "16 catalogued failure patterns"},
+    "S10.16": {"name": "Tri-Band Hybrid Emergence", "notes": "Keely 3-6-9 integration criteria"},
+    "S10.17": {"name": "Neutral Center Operator (N̂)", "notes": "Equilibrium point computation"},
+    "S10.18": {"name": "Unified 3-6-9 Identity Maps", "notes": "Spectral band mapping"},
+    "S11": {"name": "AVLAR Protocol (Multimodal)", "notes": "Light + sound + structure identity testing"},
 }
+
+# Define which layers to show in the main stack vs as sub-layers
+MAIN_LAYERS = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11"]
+S10_SUB_LAYERS = ["S10.7", "S10.8", "S10.9", "S10.11", "S10.16", "S10.17", "S10.18"]
 
 # Status colors and emojis
 STATUS_DISPLAY = {
@@ -59,17 +72,14 @@ def render():
         st.markdown("### Layer Stack")
         st.caption("Click a layer to view details")
 
-        # Render each layer as a button-like element
-        for layer_id in ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9"]:
+        # Render each main layer as a button-like element
+        for layer_id in MAIN_LAYERS:
             layer_data = layers.get(layer_id, {})
             layer_status = layer_data.get("status", "design")
             status_info = STATUS_DISPLAY.get(layer_status, STATUS_DISPLAY["design"])
             # Use actual layer name from status, fallback to LAYER_FALLBACK
             fallback = LAYER_FALLBACK.get(layer_id, {"name": "Unknown", "notes": ""})
             layer_name = layer_data.get("name", fallback["name"])
-
-            # Highlight selected layer
-            is_selected = st.session_state.selected_layer == layer_id
 
             # Create clickable container for each layer
             with st.container(border=True):
@@ -79,7 +89,7 @@ def render():
                     st.markdown(f"**{layer_id}**")
 
                 with subcol2:
-                    st.caption(layer_name)
+                    st.caption(layer_name[:35] + "..." if len(layer_name) > 35 else layer_name)
 
                 with subcol3:
                     st.caption(f"{status_info['emoji']} {status_info['label']}")
@@ -89,14 +99,46 @@ def render():
                     st.session_state.selected_layer = layer_id
                     st.rerun()
 
+            # Show S10 sub-layers after S10
+            if layer_id == "S10":
+                st.markdown("##### S10 Deep Dive")
+                for sub_id in S10_SUB_LAYERS:
+                    sub_fallback = LAYER_FALLBACK.get(sub_id, {"name": "Unknown", "notes": ""})
+                    sub_name = sub_fallback["name"]
+
+                    # Indented sub-layer styling
+                    with st.container():
+                        sub_col1, sub_col2 = st.columns([1, 4])
+                        with sub_col1:
+                            st.caption(f"  {sub_id}")
+                        with sub_col2:
+                            if st.button(f"{sub_name}", key=f"btn_{sub_id}", use_container_width=True):
+                                st.session_state.selected_layer = sub_id
+                                st.rerun()
+
     # === RIGHT COLUMN: LAYER DETAILS ===
     with col_detail:
         selected = st.session_state.selected_layer
-        layer_data = layers.get(selected, {})
+
+        # Check if it's a main layer or S10 sub-layer
+        if selected in layers:
+            layer_data = layers.get(selected, {})
+        else:
+            # S10 sub-layer - use fallback data
+            fallback = LAYER_FALLBACK.get(selected, {"name": "Unknown", "notes": ""})
+            layer_data = {
+                "name": fallback["name"],
+                "notes": fallback["notes"],
+                "status": "active" if selected.startswith("S10") else "design",
+                "spec": f"docs/stages/S10/{selected.replace('.', '_')}.md"
+            }
+
         layer_status = layer_data.get("status", "unknown")
         status_info = STATUS_DISPLAY.get(layer_status, {"emoji": "⚪", "color": "#999", "label": "UNKNOWN"})
 
-        st.markdown(f"### {selected} — {layer_data.get('name', 'Unknown Layer')}")
+        # Get display name
+        display_name = layer_data.get('name', LAYER_FALLBACK.get(selected, {}).get('name', 'Unknown Layer'))
+        st.markdown(f"### {selected} — {display_name}")
 
         # Status badge row
         col1, col2, col3 = st.columns(3)
