@@ -18,11 +18,16 @@ PERSONAS_DIR = PATHS['personas_dir']
 
 # Persona metadata for display
 PERSONA_META = {
+    # Soul Documents (I_AM)
+    "I_AM": {"emoji": "🧠", "badge": "NYQUIST SOUL", "color": "#00ff41"},
+    "I_AM_CFA": {"emoji": "🔬", "badge": "CFA SOUL", "color": "#3498db"},
+    "I_AM_PAN_HANDLERS": {"emoji": "🍳", "badge": "PAN HANDLERS SOUL", "color": "#f4a261"},
+    # Persona Seeds
     "I_AM_ZIGGY": {"emoji": "👤", "badge": "HUMAN ANCHOR", "color": "#e74c3c"},
     "I_AM_NOVA": {"emoji": "⚖️", "badge": "AI ARCHITECT", "color": "#3498db"},
     "I_AM_CLAUDE": {"emoji": "📚", "badge": "STEWARD", "color": "#9b59b6"},
     "I_AM_GEMINI": {"emoji": "🔍", "badge": "VALIDATOR", "color": "#e67e22"},
-    "I_AM": {"emoji": "🧠", "badge": "UNIVERSAL", "color": "#16a085"},
+    # Compressed Personas
     "ZIGGY_FULL": {"emoji": "👤", "badge": "FULL", "color": "#e74c3c"},
     "ZIGGY_LITE": {"emoji": "👤", "badge": "LITE", "color": "#f39c12"},
     "ZIGGY_T3_R1": {"emoji": "👤", "badge": "T3", "color": "#95a5a6"},
@@ -56,7 +61,10 @@ def render():
 
     # Get all persona files for counts
     all_files = list(PERSONAS_DIR.glob("*.md"))
-    seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM")])
+    # Soul documents: I_AM, I_AM_CFA, I_AM_PAN_HANDLERS (repo identities)
+    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS"]])
+    # Seed personas: I_AM_* persona files (individual PUTs)
+    seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS"]])
     compressed_personas = sorted([f for f in all_files if not f.stem.startswith("I_AM")])
 
     # === HEADER ROW: Title (left) + Compact Metrics (right) ===
@@ -69,26 +77,66 @@ def render():
     with header_col2:
         # Compact metrics in a mini row
         st.markdown("""
-        <div style="display: flex; justify-content: flex-end; gap: 1.5em; padding-top: 0.5em;">
+        <div style="display: flex; justify-content: flex-end; gap: 1.2em; padding-top: 0.5em;">
             <div style="text-align: center;">
-                <div style="font-size: 0.75em; color: #888;">📊 Total PUT</div>
-                <div style="font-size: 1.8em; font-weight: bold; color: #2a9d8f;">""" + str(len(all_files)) + """</div>
+                <div style="font-size: 0.7em; color: #888;">📊 Total</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #2a9d8f;">""" + str(len(all_files)) + """</div>
             </div>
             <div style="text-align: center;">
-                <div style="font-size: 0.75em; color: #888;">🌱 Seed</div>
-                <div style="font-size: 1.8em; font-weight: bold; color: #27ae60;">""" + str(len(seed_personas)) + """</div>
+                <div style="font-size: 0.7em; color: #00ff41;">🧠 Souls</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #00ff41;">""" + str(len(soul_docs)) + """</div>
             </div>
             <div style="text-align: center;">
-                <div style="font-size: 0.75em; color: #888;">📦 Compressed</div>
-                <div style="font-size: 1.8em; font-weight: bold; color: #f4a261;">""" + str(len(compressed_personas)) + """</div>
+                <div style="font-size: 0.7em; color: #888;">🌱 Seeds</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #27ae60;">""" + str(len(seed_personas)) + """</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 0.7em; color: #888;">📦 Compressed</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #f4a261;">""" + str(len(compressed_personas)) + """</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     page_divider()
 
+    # === SOUL DOCUMENTS SECTION ===
+    st.markdown("## 🧠 Soul Documents")
+    st.markdown("*The identity cores of each connected repository*")
+
+    # Display soul docs in a special styled row
+    if soul_docs:
+        cols = st.columns(len(soul_docs))
+        for i, filepath in enumerate(soul_docs):
+            with cols[i]:
+                stem = filepath.stem
+                meta = PERSONA_META.get(stem, {"emoji": "🧠", "badge": "SOUL", "color": "#00ff41"})
+
+                # Soul card with special styling
+                st.markdown(f"""
+                <div style="background: linear-gradient(135deg, rgba(0,255,65,0.1) 0%, rgba(0,204,51,0.05) 100%);
+                            border: 2px solid {meta['color']}; border-radius: 12px;
+                            padding: 1em; text-align: center;
+                            box-shadow: 0 0 15px {meta['color']}33;">
+                    <div style="font-size: 2em;">{meta['emoji']}</div>
+                    <div style="font-size: 0.9em; color: {meta['color']}; font-weight: bold; margin-top: 0.3em;">
+                        {meta['badge']}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                # Expander with preview
+                with st.expander(f"📖 {stem}"):
+                    preview = get_persona_preview(filepath, lines=20)
+                    st.markdown(preview)
+                    st.caption("*... (preview)*")
+    else:
+        st.info("No soul documents found.")
+
+    page_divider()
+
     # === SEED PERSONAS SECTION ===
     st.markdown("## 🌱 Seed Personas")
+    st.markdown("*Individual PUT identity seeds for compression testing*")
 
     # Display seed personas in 3-column grid
     if seed_personas:
