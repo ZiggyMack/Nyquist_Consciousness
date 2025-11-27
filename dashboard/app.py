@@ -488,9 +488,10 @@ def page_stack_layers(status):
     layers = status.get("layers", {})
     ordered_layers = sorted(layers.items())
 
-    selected = st.selectbox(
+    selected = st.radio(
         "Select a layer (S#):",
-        [name for name, _ in ordered_layers]
+        [name for name, _ in ordered_layers],
+        horizontal=False
     )
 
     info = layers.get(selected, {})
@@ -860,18 +861,33 @@ def main():
                 "Roadmap",
                 "Glossary",
                 "Publications",
-                "🟢 The Matrix",
             ],
         )
 
         st.markdown("---")
-        st.caption(f"""
-**Branch:** `{status.get('current_branch', 'unknown')}`
-**Freeze:** `{status.get('freeze', {}).get('branch', 'unknown')}`
-        """)
 
-    # Page routing
-    if page == "Overview":
+        # Portal Navigation Section (separated at bottom)
+        st.markdown("### 🟢 Portal Navigation")
+        matrix_nav = st.radio(
+            "Travel to:",
+            ["🟢 The Matrix"],
+            label_visibility="collapsed"
+        )
+
+        st.markdown("---")
+
+        # Branch info with bright styling
+        st.markdown(f"""
+<div style="color: #00ff41; font-size: 0.85rem; font-family: 'Courier New', monospace;">
+<strong>Branch:</strong> <code style="background: rgba(0,255,65,0.1); padding: 2px 6px; border-radius: 3px;">{status.get('current_branch', 'unknown')}</code><br/>
+<strong>Freeze:</strong> <code style="background: rgba(0,255,65,0.1); padding: 2px 6px; border-radius: 3px;">{status.get('freeze', {}).get('branch', 'unknown')}</code>
+</div>
+        """, unsafe_allow_html=True)
+
+    # Page routing - check portal navigation first
+    if matrix_nav == "🟢 The Matrix":
+        page_matrix()
+    elif page == "Overview":
         page_overview(status)
     elif page == "Personas":
         page_personas()
@@ -891,8 +907,6 @@ def main():
         page_glossary()
     elif page == "Publications":
         page_publications()
-    elif page == "🟢 The Matrix":
-        page_matrix()
 
 
 if __name__ == "__main__":
