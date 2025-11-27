@@ -51,21 +51,38 @@ def render():
     st.markdown("""
         <style>
         /* ===== MATRIX THEME - GREEN ON BLACK TERMINAL AESTHETIC ===== */
-        /* This overrides the main app CSS when viewing The Matrix page */
+        /* Strong overrides to ensure black background on all elements */
 
-        /* ===== BASE - BLACK BACKGROUND ===== */
-        .stApp {
+        /* ===== BASE - BLACK BACKGROUND (multiple selectors for strength) ===== */
+        .stApp,
+        .stApp > div,
+        .stApp [data-testid="stAppViewContainer"],
+        .stApp [data-testid="stAppViewContainer"] > div,
+        [data-testid="stAppViewContainer"],
+        .main,
+        .main > div,
+        .block-container,
+        .main .block-container,
+        [data-testid="stVerticalBlock"],
+        [data-testid="stHorizontalBlock"],
+        section.main,
+        section[data-testid="stSidebar"] ~ div {
             background-color: #0a0a0a !important;
+            background: #0a0a0a !important;
         }
 
-        .main .block-container {
+        /* Force background on root elements */
+        html, body, [data-testid="stAppViewContainer"] {
             background-color: #0a0a0a !important;
         }
 
         /* ===== ALL TEXT MATRIX GREEN ===== */
         .stApp p, .stApp span, .stApp label, .stApp li,
         .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
-        .stApp div {
+        .stApp div,
+        .main p, .main span, .main label, .main li,
+        .main h1, .main h2, .main h3, .main h4, .main h5, .main h6,
+        .main div {
             color: #00ff41 !important;
         }
 
@@ -337,6 +354,51 @@ def render():
             font-family: 'Courier New', monospace;
             text-shadow: 0 0 10px rgba(0,255,65,0.3);
         }
+        /* ===== HUB CARD - CENTERED PAN HANDLER CENTRAL ===== */
+        .hub-card {
+            background: linear-gradient(135deg, rgba(0,255,65,0.12) 0%, rgba(0,204,51,0.06) 100%);
+            border: 2px solid #00ff41;
+            border-radius: 12px;
+            padding: 2em;
+            margin: 1.5em auto;
+            max-width: 700px;
+            box-shadow: 0 0 30px rgba(0,255,65,0.4);
+            text-align: center;
+        }
+        .hub-card h3 {
+            color: #00ff41 !important;
+            font-family: 'Courier New', monospace;
+            font-size: 1.8em;
+            margin-bottom: 0.5em;
+            letter-spacing: 0.05em;
+        }
+        .hub-card p {
+            color: #00cc33 !important;
+            font-family: 'Courier New', monospace;
+        }
+        .hub-card ul {
+            text-align: left;
+            display: inline-block;
+            margin-top: 1em;
+        }
+        .hub-card li {
+            color: #00ff41 !important;
+            font-family: 'Courier New', monospace;
+            margin: 0.3em 0;
+        }
+        .hub-badge {
+            display: inline-block;
+            padding: 0.4em 1em;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-left: 0.8em;
+            background: rgba(0,255,65,0.2);
+            color: #00ff41;
+            border: 1px solid #00ff41;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -351,6 +413,29 @@ def render():
             {pan_handler_data.get('meta', {}).get('philosophy', 'FUCK IT, WE\'LL DO IT LIVE!')}
         </div>
         """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # ========================================
+    # PAN HANDLER CENTRAL HUB
+    # ========================================
+    st.markdown("""
+    <div class="hub-card">
+        <h3>🏛️ Pan Handler Central <span class="hub-badge">Coming Soon</span></h3>
+        <p><strong>Purpose:</strong> Meta-repository hallway connecting all Pan Handler repos</p>
+        <p><strong>Status:</strong> Design phase with Nova</p>
+        <p><strong>Vision:</strong> The hallway of doors that interconnects every other repo world</p>
+        <p style="margin-top: 1em;"><strong>Planned Features:</strong></p>
+        <ul>
+            <li>🦅 Bird's eye view across all repositories</li>
+            <li>📊 Unified health dashboard aggregation</li>
+            <li>🔵 Portal navigation system</li>
+            <li>🔴 Cross-repo consciousness tracking</li>
+            <li>🖌️ Innovation showcase gallery</li>
+            <li>🔗 Seamless tunnel system between repos</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
