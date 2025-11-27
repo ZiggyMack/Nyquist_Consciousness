@@ -19,11 +19,9 @@ from pages import overview, personas, stackup, AI_ARMADA, metrics, omega, avlar,
 LEDGER_COLORS = SETTINGS['colors']
 
 def apply_custom_css():
-    """Apply custom CSS for Matrix theme - green on black terminal aesthetic."""
+    """Apply custom CSS for light theme with dark sidebar."""
     st.markdown("""
     <style>
-    /* ===== MATRIX THEME - GREEN ON BLACK TERMINAL AESTHETIC ===== */
-
     /* Hide default Streamlit menu and footer */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
@@ -34,29 +32,34 @@ def apply_custom_css():
     section[data-testid="stSidebarNav"] {display: none !important;}
     nav[role="navigation"] {display: none !important;}
 
-    /* ===== BASE - BLACK BACKGROUND ===== */
+    /* ===== LIGHT THEME FOR MAIN CONTENT ===== */
     .stApp {
-        background-color: #0a0a0a !important;
+        background: #ffffff !important;
     }
 
     .main .block-container {
-        background-color: #0a0a0a !important;
+        background: #ffffff !important;
     }
 
-    /* ===== ALL TEXT MATRIX GREEN ===== */
-    .stApp p, .stApp span, .stApp label, .stApp li,
-    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
-    .stApp div {
-        color: #00ff41 !important;
+    /* ===== ALL TEXT BLACK BY DEFAULT (MAIN CONTENT ONLY) ===== */
+    .main .block-container, .main .block-container * {
+        color: #1a1a1a !important;
     }
 
-    /* ===== SIDEBAR - DARK WITH GREEN ACCENTS ===== */
+    /* ===== SIDEBAR - KEEP DARK AND VISIBLE ===== */
     section[data-testid="stSidebar"] {
-        background-color: #0d0d0d !important;
+        background: linear-gradient(180deg, #0a0a0a, #1a1a1a) !important;
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    section[data-testid="stSidebar"] > div {
+        display: block !important;
+        visibility: visible !important;
     }
 
     section[data-testid="stSidebar"] * {
-        color: #00ff41 !important;
+        color: #f4f4f4 !important;
     }
 
     section[data-testid="stSidebar"] h1,
@@ -64,239 +67,181 @@ def apply_custom_css():
     section[data-testid="stSidebar"] h3 {
         color: #00ff41 !important;
         font-weight: bold;
-        font-family: 'Courier New', monospace;
     }
 
     section[data-testid="stSidebar"] label {
-        color: #00ff41 !important;
+        color: #ffffff !important;
         font-weight: 500;
     }
 
     section[data-testid="stSidebar"] hr {
         border-color: #00ff41 !important;
-        opacity: 0.5;
+        opacity: 0.3;
+        margin: 0.5rem 0 !important;
     }
 
     section[data-testid="stSidebar"] code {
-        background: rgba(0,255,65,0.1) !important;
+        background: rgba(255,255,255,0.1) !important;
         color: #00ff41 !important;
     }
 
-    /* ===== HEADERS - MATRIX GREEN WITH MONOSPACE ===== */
-    h1, h2, h3, h4, h5, h6 {
+    /* Matrix button special styling */
+    section[data-testid="stSidebar"] button[kind="secondary"] {
+        background: transparent !important;
+        border: 1px solid #00ff41 !important;
         color: #00ff41 !important;
-        font-family: 'Courier New', monospace;
+    }
+    section[data-testid="stSidebar"] button[kind="secondary"]:hover {
+        background: rgba(0,255,65,0.2) !important;
+        border: 1px solid #00ff41 !important;
+    }
+
+    /* ===== HEADERS ===== */
+    h1, h2, h3, h4, h5, h6 {
+        color: #1a1a1a !important;
+        font-family: 'Georgia', serif;
         font-weight: bold !important;
     }
 
     h1 {
-        border-bottom: 2px solid #00ff41;
+        border-bottom: 2px solid #2a9d8f;
         padding-bottom: 0.5rem;
     }
 
     /* ===== TEXT ELEMENTS ===== */
     p, span, div, li, label {
-        color: #00ff41 !important;
+        color: #333333 !important;
     }
 
-    /* Strong/bold text - bright green */
+    /* Strong/bold text - teal accent */
     strong, b {
-        color: #00ff41 !important;
-        text-shadow: 0 0 5px rgba(0,255,65,0.5);
+        color: #2a9d8f !important;
     }
 
-    /* Italic/emphasis - dimmer green */
+    /* Italic/emphasis */
     em, i {
-        color: #00cc33 !important;
+        color: #555555 !important;
     }
 
-    /* Links - dimmer green */
+    /* Links */
     a {
-        color: #00cc33 !important;
-    }
-
-    a:hover {
-        color: #00ff41 !important;
-        text-shadow: 0 0 10px rgba(0,255,65,0.5);
+        color: #2a9d8f !important;
     }
 
     /* ===== METRIC CARDS ===== */
     [data-testid="stMetricValue"] {
         font-size: 2rem;
-        color: #00ff41 !important;
+        color: #2a9d8f !important;
         font-weight: bold;
-        font-family: 'Courier New', monospace;
     }
 
     [data-testid="stMetricLabel"] {
-        color: #00ff41 !important;
+        color: #333333 !important;
         font-size: 1rem;
     }
 
     [data-testid="stMetricDelta"] {
         font-size: 0.875rem;
-        color: #00cc33 !important;
     }
 
-    /* ===== EXPANDERS - DARK WITH GREEN BORDER ===== */
+    /* ===== EXPANDERS ===== */
     [data-testid="stExpander"] {
-        background-color: #0d0d0d !important;
-        border: 1px solid #00ff41 !important;
+        background: #f8f9fa !important;
+        border: 1px solid #dee2e6 !important;
         border-radius: 8px;
     }
 
     [data-testid="stExpander"] summary {
-        color: #00ff41 !important;
+        color: #2a9d8f !important;
     }
 
     [data-testid="stExpander"] * {
-        color: #00ff41 !important;
+        color: #333333 !important;
     }
 
     /* ===== CODE BLOCKS ===== */
     code {
-        background: rgba(0,255,65,0.1) !important;
-        color: #00ff41 !important;
+        background: #f1f3f4 !important;
+        color: #d63384 !important;
         padding: 2px 6px;
         border-radius: 3px;
         font-family: 'Courier New', monospace;
     }
 
     pre {
-        background: #0d0d0d !important;
-        color: #00ff41 !important;
-        border: 1px solid #00ff41;
+        background: #f8f9fa !important;
+        color: #333333 !important;
     }
 
     /* ===== TABLES & DATAFRAMES ===== */
     table, [data-testid="stTable"], .stDataFrame {
-        color: #00ff41 !important;
-        background-color: #0d0d0d !important;
+        color: #333333 !important;
     }
 
     th {
-        background: #004d1a !important;
-        color: #00ff41 !important;
+        background: #2a9d8f !important;
+        color: #ffffff !important;
         font-weight: bold;
-        border: 1px solid #00ff41 !important;
     }
 
     td {
-        color: #00ff41 !important;
-        border-bottom: 1px solid #00ff41;
-        background-color: #0d0d0d !important;
+        color: #333333 !important;
+        border-bottom: 1px solid #dee2e6;
     }
 
     /* Dataframe specific */
     [data-testid="stDataFrame"] div {
-        color: #00ff41 !important;
+        color: #333333 !important;
     }
 
-    [data-testid="stDataFrame"] {
-        background-color: #0d0d0d !important;
-    }
-
-    /* ===== BUTTONS - DEFAULT STATE ===== */
+    /* ===== BUTTONS ===== */
     .stButton > button {
-        background-color: #0d0d0d !important;
-        color: #00ff41 !important;
-        border: 2px solid #00ff41 !important;
+        background: #2a9d8f !important;
+        color: #ffffff !important;
+        border: 1px solid #2a9d8f !important;
         border-radius: 8px;
         font-weight: 500;
-        font-family: 'Courier New', monospace;
         transition: all 0.3s ease;
     }
 
-    /* ===== BUTTONS - HOVER STATE (dark green bg, white text) ===== */
     .stButton > button:hover {
-        background-color: #004d1a !important;
-        color: #ffffff !important;
-        border: 2px solid #00ff41 !important;
-        box-shadow: 0 0 15px rgba(0,255,65,0.4);
+        background: #238b7e !important;
+        border-color: #238b7e !important;
+        box-shadow: 0 2px 8px rgba(42, 157, 143, 0.3);
     }
 
     /* ===== CAPTIONS ===== */
     .stCaption, [data-testid="stCaptionContainer"] {
-        color: #00cc33 !important;
+        color: #666666 !important;
     }
 
     /* ===== PAGE DIVIDER ===== */
     .page-divider {
-        border-top: 2px solid #00ff41;
+        border-top: 3px double #dee2e6;
         margin: 30px 0;
         opacity: 0.6;
     }
 
     /* Horizontal rules */
     hr {
-        border-color: #00ff41 !important;
+        border-color: #dee2e6 !important;
     }
 
     /* ===== INPUTS ===== */
     input, textarea, select {
-        background-color: #0d0d0d !important;
-        color: #00ff41 !important;
-        border: 1px solid #00ff41 !important;
+        background: #ffffff !important;
+        color: #333333 !important;
+        border: 1px solid #ced4da !important;
     }
 
     /* ===== RADIO BUTTONS ===== */
     [data-testid="stRadio"] label {
-        color: #00ff41 !important;
-    }
-
-    [data-testid="stRadio"] label span {
-        color: #00ff41 !important;
+        color: #333333 !important;
     }
 
     /* ===== WARNINGS/INFO/SUCCESS/ERROR ===== */
     .stAlert {
-        background-color: #0d0d0d !important;
-        color: #00ff41 !important;
-        border: 1px solid #00ff41 !important;
-    }
-
-    /* ===== PROGRESS BAR ===== */
-    .stProgress > div > div {
-        background-color: #00ff41 !important;
-    }
-
-    /* ===== SELECTBOX ===== */
-    [data-testid="stSelectbox"] {
-        color: #00ff41 !important;
-    }
-
-    [data-testid="stSelectbox"] > div {
-        background-color: #0d0d0d !important;
-        border: 1px solid #00ff41 !important;
-    }
-
-    /* ===== PORTAL CARDS WITH GLOW EFFECT ===== */
-    .portal-card {
-        background: linear-gradient(135deg, rgba(0,255,65,0.1) 0%, rgba(0,204,51,0.05) 100%);
-        border: 2px solid #00ff41;
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0,255,65,0.3);
-    }
-
-    /* ===== TABS ===== */
-    .stTabs [data-baseweb="tab-list"] {
-        background-color: #0d0d0d;
-        border-bottom: 2px solid #00ff41;
-    }
-
-    .stTabs [data-baseweb="tab"] {
-        color: #00ff41 !important;
-        background-color: #0d0d0d;
-    }
-
-    .stTabs [aria-selected="true"] {
-        background-color: #004d1a !important;
-        color: #00ff41 !important;
-    }
-
-    /* ===== PLOTLY CHARTS - TRANSPARENT BACKGROUND ===== */
-    .js-plotly-plot .plotly .main-svg {
-        background: transparent !important;
+        color: #333333 !important;
     }
     </style>
     """, unsafe_allow_html=True)
