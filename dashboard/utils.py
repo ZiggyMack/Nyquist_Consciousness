@@ -110,6 +110,7 @@ def ledger_card(title, body_md="", badge="", badge_color="#999"):
     if badge:
         badge_html = f'<span style="background: {badge_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; margin-left: 10px;">{badge}</span>'
 
+    # Card header with HTML styling
     st.markdown(f"""
     <div style="background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
                 border: 2px solid {badge_color};
@@ -119,11 +120,12 @@ def ledger_card(title, body_md="", badge="", badge_color="#999"):
         <h3 style="color: {badge_color}; margin: 0 0 15px 0;">
             {title} {badge_html}
         </h3>
-        <div style="color: #ccc;">
-            {body_md}
-        </div>
     </div>
     """, unsafe_allow_html=True)
+
+    # Render body_md as proper Streamlit markdown (not in HTML)
+    if body_md:
+        st.markdown(body_md)
 
     # Add spacing
     st.markdown("---")

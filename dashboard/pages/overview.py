@@ -156,7 +156,7 @@ def render():
 
     with col2:
         st.metric(
-            "S# Stack Layers",
+            "Stackup Layers",
             f"{frozen_layers}/{total_layers}",
             delta=f"{frozen_layers} frozen",
             delta_color="normal"
@@ -188,7 +188,7 @@ def render():
 
     with chart_col1:
         # Layer Status Distribution (Pie Chart)
-        st.markdown("#### S# Stack Distribution")
+        st.markdown("#### Stackup Distribution")
         layer_status_counts = {}
         for layer, info in layers.items():
             status_val = info.get("status", "unknown")
@@ -298,7 +298,7 @@ def render():
     # Pull in the research pipeline visualization
     pipeline_map = REPO_ROOT / "docs" / "maps" / "RESEARCH_PIPELINE_VISUAL.md"
     if pipeline_map.exists():
-        with st.expander("📊 View Research Pipeline Map", expanded=True):
+        with st.expander("📊 View Research Pipeline Map", expanded=False):
             st.markdown(load_markdown_file(pipeline_map))
     else:
         st.info("Research pipeline visualization coming soon...")
@@ -306,7 +306,7 @@ def render():
     page_divider()
 
     # === STACK STATUS ===
-    st.markdown("### S# Stack Status")
+    st.markdown("### Stackup Status")
 
     col1, col2 = st.columns([2, 1])
 

@@ -87,14 +87,9 @@ def render():
     page_divider()
 
     # Footer
-    st.markdown("""
-    <div style="text-align: center; color: #00ff41; font-family: 'Courier New', monospace; margin-top: 2em;">
-        <p><strong>THE MATRIX</strong></p>
-        <p style="font-size: 0.9em; opacity: 0.7;">
-            "The hallway of doors that interconnects every repo world"
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("---")
+    st.markdown("**🟢 THE MATRIX**")
+    st.caption("*\"The hallway of doors that interconnects every repo world\"*")
 
 
 if __name__ == "__main__":
