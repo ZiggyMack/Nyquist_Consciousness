@@ -860,15 +860,8 @@ def main():
                 "Roadmap",
                 "Glossary",
                 "Publications",
+                "🟢 The Matrix",
             ],
-        )
-
-        st.markdown("---")
-        st.markdown("### 🟢 Portal Navigation")
-        matrix_page = st.radio(
-            "Travel through the halls:",
-            ["🟢 The Matrix"],
-            label_visibility="collapsed"
         )
 
         st.markdown("---")
@@ -877,10 +870,8 @@ def main():
 **Freeze:** `{status.get('freeze', {}).get('branch', 'unknown')}`
         """)
 
-    # Check if Matrix portal is selected first
-    if matrix_page == "🟢 The Matrix":
-        page_matrix()
-    elif page == "Overview":
+    # Page routing
+    if page == "Overview":
         page_overview(status)
     elif page == "Personas":
         page_personas()
@@ -900,6 +891,8 @@ def main():
         page_glossary()
     elif page == "Publications":
         page_publications()
+    elif page == "🟢 The Matrix":
+        page_matrix()
 
 
 if __name__ == "__main__":
