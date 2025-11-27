@@ -286,6 +286,61 @@ def render():
     status = load_status()
     layers = status.get("layers", {})
 
+    # Mobile-friendly CSS
+    st.markdown("""
+    <style>
+    /* Mobile-friendly layer cards */
+    @media (max-width: 767px) {
+        /* Stack columns vertically on mobile */
+        [data-testid="column"] {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+        }
+
+        /* Compact layer cards on mobile */
+        .layer-card-mobile {
+            padding: 0.5em !important;
+        }
+
+        /* Smaller text on mobile */
+        .stCaption {
+            font-size: 0.75rem !important;
+        }
+
+        /* Make buttons more tappable */
+        .stButton > button {
+            min-height: 44px !important;
+            padding: 0.5em !important;
+        }
+    }
+
+    /* Layer card styling */
+    .layer-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.3em 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .layer-id {
+        font-weight: bold;
+        min-width: 60px;
+    }
+
+    .layer-name {
+        flex: 1;
+        color: #666;
+        font-size: 0.85em;
+        padding: 0 0.5em;
+    }
+
+    .layer-status {
+        font-size: 0.8em;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     st.title("🔧 Stackup")
     st.markdown("*PCB-style identity layer architecture*")
 
@@ -295,97 +350,90 @@ def render():
     if 'selected_layer' not in st.session_state:
         st.session_state.selected_layer = "S0"
 
-    # === TWO COLUMN LAYOUT ===
-    col_stack, col_detail = st.columns([1, 2])
+    # === MOBILE-FRIENDLY: Show details first, then layer list ===
+    # On mobile, users see details immediately without scrolling past long list
 
-    # === LEFT COLUMN: PCB STACKUP ===
-    with col_stack:
-        st.markdown("### Layer Stack")
-        st.caption("Click a layer to view details")
-
-        # Render each main layer as a button-like element
-        for layer_id in MAIN_LAYERS:
-            layer_data = layers.get(layer_id, {})
-            # Default status: future for S12+, design for others
-            default_status = "future" if layer_id in FUTURE_LAYERS else "design"
-            layer_status = layer_data.get("status", default_status)
-            status_info = STATUS_DISPLAY.get(layer_status, STATUS_DISPLAY["design"])
-            # Use actual layer name from status, fallback to LAYER_FALLBACK
-            fallback = LAYER_FALLBACK.get(layer_id, {"name": "Unknown", "notes": ""})
-            layer_name = layer_data.get("name", fallback["name"])
-
-            # Create clickable container for each layer
-            with st.container(border=True):
-                subcol1, subcol2, subcol3 = st.columns([1, 3, 2])
-
-                with subcol1:
-                    st.markdown(f"**{layer_id}**")
-
-                with subcol2:
-                    st.caption(layer_name[:35] + "..." if len(layer_name) > 35 else layer_name)
-
-                with subcol3:
-                    st.caption(f"{status_info['emoji']} {status_info['label']}")
-
-                # Button to select this layer
-                if st.button(f"→ View", key=f"btn_{layer_id}", use_container_width=True):
-                    st.session_state.selected_layer = layer_id
-                    st.rerun()
-
-            # Show S10 sub-layers after S10
-            if layer_id == "S10":
-                st.markdown("##### S10 Deep Dive")
-                for sub_id in S10_SUB_LAYERS:
-                    sub_fallback = LAYER_FALLBACK.get(sub_id, {"name": "Unknown", "notes": ""})
-                    sub_name = sub_fallback["name"]
-
-                    # Indented sub-layer styling
-                    with st.container():
-                        sub_col1, sub_col2 = st.columns([1, 4])
-                        with sub_col1:
-                            st.caption(f"  {sub_id}")
-                        with sub_col2:
-                            if st.button(f"{sub_name}", key=f"btn_{sub_id}", use_container_width=True):
-                                st.session_state.selected_layer = sub_id
-                                st.rerun()
-
-            # Show future frontier separator after S11
-            if layer_id == "S11":
-                st.markdown("---")
-                st.markdown("##### 🔮 Future Frontier (S12→S77)")
-                st.caption("Theoretical layers for future research")
-
-    # === RIGHT COLUMN: LAYER DETAILS ===
-    with col_detail:
-        selected = st.session_state.selected_layer
-        render_layer_details(selected, layers, status, key_suffix="_top")
+    # Show selected layer details at top
+    selected = st.session_state.selected_layer
+    render_layer_details(selected, layers, status, key_suffix="_top")
 
     page_divider()
 
-    # === SUMMARY ROW ===
-    st.markdown("### Stackup Summary")
+    # === LAYER SELECTOR ===
+    st.markdown("### Layer Stack")
+    st.caption("Select a layer to view details above")
 
-    sum_col1, sum_col2, sum_col3, sum_col4 = st.columns(4)
+    # Use selectbox for compact mobile-friendly selection
+    layer_options = []
+    for layer_id in MAIN_LAYERS:
+        fallback = LAYER_FALLBACK.get(layer_id, {"name": "Unknown"})
+        layer_data = layers.get(layer_id, {})
+        layer_name = layer_data.get("name", fallback["name"])
+        default_status = "future" if layer_id in FUTURE_LAYERS else "design"
+        layer_status = layer_data.get("status", default_status)
+        status_info = STATUS_DISPLAY.get(layer_status, STATUS_DISPLAY["design"])
+        layer_options.append(f"{layer_id} - {layer_name} {status_info['emoji']}")
+
+    # Find current selection index
+    current_idx = 0
+    for i, opt in enumerate(layer_options):
+        if opt.startswith(st.session_state.selected_layer + " "):
+            current_idx = i
+            break
+
+    selected_option = st.selectbox(
+        "Select Layer:",
+        layer_options,
+        index=current_idx,
+        key="layer_select"
+    )
+
+    # Extract layer ID from selection
+    new_layer_id = selected_option.split(" - ")[0]
+    if new_layer_id != st.session_state.selected_layer:
+        st.session_state.selected_layer = new_layer_id
+        st.rerun()
+
+    # === S10 SUB-LAYERS ===
+    with st.expander("S10 Deep Dive (Sub-layers)", expanded=False):
+        for sub_id in S10_SUB_LAYERS:
+            sub_fallback = LAYER_FALLBACK.get(sub_id, {"name": "Unknown"})
+            sub_name = sub_fallback["name"]
+            if st.button(f"{sub_id}: {sub_name}", key=f"btn_{sub_id}", use_container_width=True):
+                st.session_state.selected_layer = sub_id
+                st.rerun()
+
+    # === FUTURE FRONTIER ===
+    with st.expander("🔮 Future Frontier (S12→S77)", expanded=False):
+        st.caption("Theoretical layers for future research")
+        for layer_id in FUTURE_LAYERS:
+            fallback = LAYER_FALLBACK.get(layer_id, {"name": "Unknown"})
+            layer_name = fallback["name"]
+            if st.button(f"{layer_id}: {layer_name}", key=f"btn_future_{layer_id}", use_container_width=True):
+                st.session_state.selected_layer = layer_id
+                st.rerun()
+
+    page_divider()
+
+    # === SUMMARY ROW (2x2 grid for mobile) ===
+    st.markdown("### Stackup Summary")
 
     frozen_count = len([l for l, d in layers.items() if d.get("status") == "frozen"])
     active_count = len([l for l, d in layers.items() if d.get("status") == "active"])
     design_count = len([l for l, d in layers.items() if d.get("status") == "design"])
 
-    with sum_col1:
+    # Use 2x2 grid which works better on mobile
+    row1_col1, row1_col2 = st.columns(2)
+    row2_col1, row2_col2 = st.columns(2)
+
+    with row1_col1:
         st.metric("🔵 Frozen", frozen_count)
-    with sum_col2:
+    with row1_col2:
         st.metric("🟢 Active", active_count)
-    with sum_col3:
+    with row2_col1:
         st.metric("🟡 Design", design_count)
-    with sum_col4:
+    with row2_col2:
         st.metric("📊 Total", len(layers))
-
-    page_divider()
-
-    # === DUPLICATE LAYER DETAILS (for easier access when scrolled down) ===
-    st.markdown("### Selected Layer Details")
-    st.caption("*Duplicate view for easier access when scrolled to bottom*")
-    render_layer_details(st.session_state.selected_layer, layers, status, key_suffix="_bottom")
 
 
 if __name__ == "__main__":
