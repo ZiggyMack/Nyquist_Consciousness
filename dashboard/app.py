@@ -331,6 +331,8 @@ def main():
         </div>
         """, unsafe_allow_html=True)
 
+        st.markdown("---")
+
         # Matrix portal button
         if st.button("🟢 Enter The Matrix", key="matrix_btn", type="secondary", use_container_width=True):
             st.session_state.show_matrix = True
