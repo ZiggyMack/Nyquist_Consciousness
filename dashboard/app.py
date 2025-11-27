@@ -41,14 +41,21 @@ def apply_custom_css():
         background: #ffffff !important;
     }
 
-    /* ===== ALL TEXT BLACK BY DEFAULT ===== */
-    .main, .main * {
+    /* ===== ALL TEXT BLACK BY DEFAULT (MAIN CONTENT ONLY) ===== */
+    .main .block-container, .main .block-container * {
         color: #1a1a1a !important;
     }
 
-    /* ===== SIDEBAR - KEEP DARK ===== */
+    /* ===== SIDEBAR - KEEP DARK AND VISIBLE ===== */
     section[data-testid="stSidebar"] {
         background: linear-gradient(180deg, #0a0a0a, #1a1a1a) !important;
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    section[data-testid="stSidebar"] > div {
+        display: block !important;
+        visibility: visible !important;
     }
 
     section[data-testid="stSidebar"] * {
@@ -70,6 +77,23 @@ def apply_custom_css():
     section[data-testid="stSidebar"] hr {
         border-color: #00ff41 !important;
         opacity: 0.3;
+        margin: 0.5rem 0 !important;
+    }
+
+    section[data-testid="stSidebar"] code {
+        background: rgba(255,255,255,0.1) !important;
+        color: #00ff41 !important;
+    }
+
+    /* Matrix button special styling */
+    section[data-testid="stSidebar"] button[kind="secondary"] {
+        background: transparent !important;
+        border: 1px solid #00ff41 !important;
+        color: #00ff41 !important;
+    }
+    section[data-testid="stSidebar"] button[kind="secondary"]:hover {
+        background: rgba(0,255,65,0.2) !important;
+        border: 1px solid #00ff41 !important;
     }
 
     /* ===== HEADERS ===== */
@@ -230,13 +254,15 @@ PAGE_MODULES = {
     "Stackup": stackup,
     "AI Armada": AI_ARMADA,
     "Metrics": metrics,
-    "Omega & Temporal": omega,
+    "OMEGA NOVA": omega,
     "AVLAR": avlar,
     "Roadmap": roadmap,
     "Glossary": glossary,
     "Publications": publications,
-    "🟢 The Matrix": matrix,
 }
+
+# Matrix is special - accessed via dedicated button, not radio
+MATRIX_MODULE = matrix
 
 # ========== MAIN ==========
 
@@ -251,6 +277,14 @@ def main():
 
     status = load_status()
 
+    # Initialize Matrix state
+    if 'show_matrix' not in st.session_state:
+        st.session_state.show_matrix = False
+
+    # Track the previous page to detect radio changes
+    if 'prev_page' not in st.session_state:
+        st.session_state.prev_page = "Overview"
+
     with st.sidebar:
         st.markdown("### 📜 Nyquist Ledger")
 
@@ -259,29 +293,33 @@ def main():
             list(PAGE_MODULES.keys()),
         )
 
+        # If user clicked a different radio option, exit Matrix view
+        if page != st.session_state.prev_page:
+            st.session_state.show_matrix = False
+            st.session_state.prev_page = page
+
         st.markdown("---")
 
-        # Quick refresh button
-        if st.button("🔄 Refresh", use_container_width=True):
-            st.cache_data.clear()
+        # Branch info - compact with inline code
+        st.markdown(f"**Branch:** `{status.get('current_branch', 'unknown')}`")
+        st.markdown(f"**Freeze:** `{status.get('freeze', {}).get('branch', 'unknown')}`")
+
+        st.markdown("")  # Small spacer
+
+        # Matrix portal button
+        if st.button("🟢 Enter The Matrix", key="matrix_btn", type="secondary", use_container_width=True):
+            st.session_state.show_matrix = True
             st.rerun()
 
-        st.markdown("---")
-
-        # Branch info with bright styling
-        st.markdown(f"""
-<div style="color: #00ff41; font-size: 0.85rem; font-family: 'Courier New', monospace;">
-<strong>Branch:</strong> <code style="background: rgba(0,255,65,0.1); padding: 2px 6px; border-radius: 3px;">{status.get('current_branch', 'unknown')}</code><br/>
-<strong>Freeze:</strong> <code style="background: rgba(0,255,65,0.1); padding: 2px 6px; border-radius: 3px;">{status.get('freeze', {}).get('branch', 'unknown')}</code>
-</div>
-        """, unsafe_allow_html=True)
-
-    # Route to selected page module
-    page_module = PAGE_MODULES.get(page)
-    if page_module and hasattr(page_module, 'render'):
-        page_module.render()
+    # Route to Matrix or selected page
+    if st.session_state.show_matrix:
+        MATRIX_MODULE.render()
     else:
-        st.error(f"Page module '{page}' not found or missing render() function")
+        page_module = PAGE_MODULES.get(page)
+        if page_module and hasattr(page_module, 'render'):
+            page_module.render()
+        else:
+            st.error(f"Page module '{page}' not found or missing render() function")
 
 
 if __name__ == "__main__":
