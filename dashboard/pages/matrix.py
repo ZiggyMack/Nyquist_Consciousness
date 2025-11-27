@@ -47,9 +47,196 @@ def render():
     status = load_status()
     pan_handler_data = load_pan_handler_projects()
 
-    # Matrix theme CSS
+    # Matrix theme CSS - Full green-on-black terminal aesthetic
     st.markdown("""
         <style>
+        /* ===== MATRIX THEME - GREEN ON BLACK TERMINAL AESTHETIC ===== */
+        /* This overrides the main app CSS when viewing The Matrix page */
+
+        /* ===== BASE - BLACK BACKGROUND ===== */
+        .stApp {
+            background-color: #0a0a0a !important;
+        }
+
+        .main .block-container {
+            background-color: #0a0a0a !important;
+        }
+
+        /* ===== ALL TEXT MATRIX GREEN ===== */
+        .stApp p, .stApp span, .stApp label, .stApp li,
+        .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
+        .stApp div {
+            color: #00ff41 !important;
+        }
+
+        /* ===== HEADERS - MATRIX GREEN WITH MONOSPACE ===== */
+        h1, h2, h3, h4, h5, h6 {
+            color: #00ff41 !important;
+            font-family: 'Courier New', monospace;
+            font-weight: bold !important;
+        }
+
+        h1 {
+            border-bottom: 2px solid #00ff41;
+            padding-bottom: 0.5rem;
+        }
+
+        /* ===== TEXT ELEMENTS ===== */
+        p, span, div, li, label {
+            color: #00ff41 !important;
+        }
+
+        /* Strong/bold text - bright green with glow */
+        strong, b {
+            color: #00ff41 !important;
+            text-shadow: 0 0 5px rgba(0,255,65,0.5);
+        }
+
+        /* Italic/emphasis - dimmer green */
+        em, i {
+            color: #00cc33 !important;
+        }
+
+        /* Links - dimmer green */
+        a {
+            color: #00cc33 !important;
+        }
+
+        a:hover {
+            color: #00ff41 !important;
+            text-shadow: 0 0 10px rgba(0,255,65,0.5);
+        }
+
+        /* ===== METRIC CARDS ===== */
+        [data-testid="stMetricValue"] {
+            font-size: 2rem;
+            color: #00ff41 !important;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        [data-testid="stMetricLabel"] {
+            color: #00ff41 !important;
+            font-size: 1rem;
+        }
+
+        [data-testid="stMetricDelta"] {
+            font-size: 0.875rem;
+            color: #00cc33 !important;
+        }
+
+        /* ===== EXPANDERS - DARK WITH GREEN BORDER ===== */
+        [data-testid="stExpander"] {
+            background-color: #0d0d0d !important;
+            border: 1px solid #00ff41 !important;
+            border-radius: 8px;
+        }
+
+        [data-testid="stExpander"] summary {
+            color: #00ff41 !important;
+        }
+
+        [data-testid="stExpander"] * {
+            color: #00ff41 !important;
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        code {
+            background: rgba(0,255,65,0.1) !important;
+            color: #00ff41 !important;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #0d0d0d !important;
+            color: #00ff41 !important;
+            border: 1px solid #00ff41;
+        }
+
+        /* ===== TABLES & DATAFRAMES ===== */
+        table, [data-testid="stTable"], .stDataFrame {
+            color: #00ff41 !important;
+            background-color: #0d0d0d !important;
+        }
+
+        th {
+            background: #004d1a !important;
+            color: #00ff41 !important;
+            font-weight: bold;
+            border: 1px solid #00ff41 !important;
+        }
+
+        td {
+            color: #00ff41 !important;
+            border-bottom: 1px solid #00ff41;
+            background-color: #0d0d0d !important;
+        }
+
+        /* Dataframe specific */
+        [data-testid="stDataFrame"] div {
+            color: #00ff41 !important;
+        }
+
+        [data-testid="stDataFrame"] {
+            background-color: #0d0d0d !important;
+        }
+
+        /* ===== BUTTONS - DEFAULT STATE ===== */
+        .stButton > button {
+            background-color: #0d0d0d !important;
+            color: #00ff41 !important;
+            border: 2px solid #00ff41 !important;
+            border-radius: 8px;
+            font-weight: 500;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        /* ===== BUTTONS - HOVER STATE (dark green bg, white text) ===== */
+        .stButton > button:hover {
+            background-color: #004d1a !important;
+            color: #ffffff !important;
+            border: 2px solid #00ff41 !important;
+            box-shadow: 0 0 15px rgba(0,255,65,0.4);
+        }
+
+        /* ===== CAPTIONS ===== */
+        .stCaption, [data-testid="stCaptionContainer"] {
+            color: #00cc33 !important;
+        }
+
+        /* Horizontal rules */
+        hr {
+            border-color: #00ff41 !important;
+        }
+
+        /* ===== INPUTS ===== */
+        input, textarea, select {
+            background-color: #0d0d0d !important;
+            color: #00ff41 !important;
+            border: 1px solid #00ff41 !important;
+        }
+
+        /* ===== SELECTBOX ===== */
+        [data-testid="stSelectbox"] {
+            color: #00ff41 !important;
+        }
+
+        [data-testid="stSelectbox"] > div {
+            background-color: #0d0d0d !important;
+            border: 1px solid #00ff41 !important;
+        }
+
+        /* ===== WARNINGS/INFO/SUCCESS/ERROR ===== */
+        .stAlert {
+            background-color: #0d0d0d !important;
+            color: #00ff41 !important;
+            border: 1px solid #00ff41 !important;
+        }
+
+        /* ===== MATRIX-SPECIFIC ELEMENTS ===== */
         .matrix-title {
             font-size: 2.5em;
             font-weight: bold;
@@ -80,23 +267,24 @@ def render():
             font-family: 'Courier New', monospace;
         }
         .portal-card p, .portal-card li {
-            color: #333333 !important;
+            color: #00ff41 !important;
         }
         .flagship-card {
-            background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, rgba(42,157,143,0.05) 100%);
-            border: 2px solid #2a9d8f;
+            background: linear-gradient(135deg, rgba(0,255,65,0.08) 0%, rgba(0,204,51,0.04) 100%);
+            border: 2px solid #00cc33;
             border-radius: 10px;
             padding: 1.2em;
             margin-bottom: 0.8em;
-            box-shadow: 0 0 15px rgba(42,157,143,0.2);
+            box-shadow: 0 0 15px rgba(0,255,65,0.2);
         }
         .flagship-card h4 {
-            color: #2a9d8f !important;
+            color: #00ff41 !important;
             margin-top: 0;
             margin-bottom: 0.5em;
+            font-family: 'Courier New', monospace;
         }
         .flagship-card p {
-            color: #333333 !important;
+            color: #00cc33 !important;
             margin-bottom: 0.3em;
             font-size: 0.95em;
         }
@@ -114,14 +302,15 @@ def render():
             border: 1px solid #00ff41;
         }
         .badge-here {
-            background: rgba(42,157,143,0.2);
-            color: #2a9d8f;
-            border: 1px solid #2a9d8f;
+            background: rgba(0,255,65,0.3);
+            color: #00ff41;
+            border: 1px solid #00ff41;
+            text-shadow: 0 0 5px rgba(0,255,65,0.5);
         }
         .badge-coming-soon {
-            background: rgba(255,215,0,0.2);
-            color: #b8860b;
-            border: 1px solid #ffd700;
+            background: rgba(0,204,51,0.2);
+            color: #00cc33;
+            border: 1px solid #00cc33;
         }
         .section-header {
             color: #00ff41 !important;
@@ -146,6 +335,7 @@ def render():
             text-align: center;
             padding: 1em;
             font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px rgba(0,255,65,0.3);
         }
         </style>
     """, unsafe_allow_html=True)
