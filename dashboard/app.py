@@ -25,7 +25,28 @@ def apply_custom_css():
     /* Hide default Streamlit menu and footer */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
+
+    /* Hide header on desktop only - keep mobile hamburger menu visible */
+    @media (min-width: 768px) {
+        header {visibility: hidden;}
+    }
+
+    /* On mobile, style the header but keep hamburger menu functional */
+    @media (max-width: 767px) {
+        header {
+            background: #0a0a0a !important;
+        }
+        header [data-testid="stHeader"] {
+            background: #0a0a0a !important;
+        }
+        /* Style the hamburger button for visibility */
+        button[kind="header"] {
+            color: #00ff41 !important;
+        }
+        [data-testid="collapsedControl"] {
+            color: #00ff41 !important;
+        }
+    }
 
     /* Hide Streamlit's default page navigation in sidebar */
     [data-testid="stSidebarNav"] {display: none !important;}

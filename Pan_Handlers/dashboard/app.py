@@ -61,6 +61,23 @@ def apply_dashboard_css():
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 
+    /* Hide header on desktop only - keep mobile hamburger menu visible */
+    @media (min-width: 768px) {
+        header {visibility: hidden;}
+    }
+
+    /* On mobile, style the header but keep hamburger menu functional */
+    @media (max-width: 767px) {
+        header {
+            background: #0a0a0a !important;
+        }
+        /* Style the hamburger button for visibility */
+        button[kind="header"],
+        [data-testid="collapsedControl"] {
+            color: #00ff41 !important;
+        }
+    }
+
     /* Pan Handlers Dashboard Theme */
     .dashboard-title {
         font-size: 2.5em;
