@@ -4,23 +4,23 @@
 # ============================================================================
 # RUN SETTINGS
 # ============================================================================
-run_number: 2  # Increment for each run
+run_number: 6  # Increment for each run
 mode: "full"   # Options: "full", "compressed", "exploratory"
+target_messages: 75  # Minimum message count before ending conversation (extended from 50)
 
-# Run 002 Changes (based on Run 001 meta-suggestions):
-# - Enhanced S1 content (expanded HMG explanation)
-# - Enhanced S4 content (added threshold derivations)
-# - Enhanced S2 content (concrete impedance examples)
-# - Reordered curriculum (S8 moved earlier, after S3)
-# - Added S0_preview (architecture overview)
-# - Added diagnostic interlude (after S5)
+# Run 006 Changes (Identity-Locked Loop Calibration):
+# - SWITCHED to Opus 4.5 (claude-opus-4-5-20251101) to calibrate ILL parameters
+# - ADDED retry logic with 60s backoff for rate limit handling
+# - KEEPING drift_spike_threshold at 0.03 (proven effective in Run 005)
+# - KEEPING adversarial modal collapse section (tests recovery dynamics)
+# - Goal: Calibrate Opus 4.5 "decoder ring" parameters, compare with Sonnet 4.5
 
 # ============================================================================
 # MODEL CONFIGURATION
 # ============================================================================
 models:
   claude:
-    model: "claude-sonnet-4-20250514"
+    model: "claude-opus-4-5-20251101"  # CHANGED: Testing Opus 4.5 for ILL calibration
     max_tokens: 4096
     temperature: 1.0
 
@@ -78,7 +78,7 @@ adaptive_learning:
 
   # Trigger thresholds
   triggers:
-    drift_spike_threshold: 0.08      # Δdrift trigger
+    drift_spike_threshold: 0.03      # Δdrift trigger (lowered from 0.05 for Run 005 - force teaching moments!)
     confusion_threshold: 0.6         # Confusion score trigger
     engagement_floor: 30             # Minimum response chars
 
