@@ -173,3 +173,7 @@ def render():
     # Stats
     total_terms = sum(len(terms) for terms in GLOSSARY.values())
     st.caption(f"📚 {total_terms} terms across {len(GLOSSARY)} categories")
+
+    # Link to full glossary document
+    st.markdown("---")
+    st.markdown("📄 **Full Documentation:** See [glossary.md](data/glossary.md) for the complete lexicon with S-Stack details and future labs.")
