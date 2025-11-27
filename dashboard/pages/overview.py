@@ -16,100 +16,6 @@ from utils import load_status, load_publication_status, load_markdown_file, page
 REPO_ROOT = PATHS['repo_root']
 LEDGER_COLORS = SETTINGS['colors']
 
-def render_publication_meter():
-    """Render the Publication Perfection Meter showing research maturity."""
-    pub_status = load_publication_status()
-    pubs = pub_status.get("publications", {})
-
-    if not pubs:
-        st.info("📊 Publication tracking not yet configured. Add `publication_status.json` to enable the Perfection Meter.")
-        return
-
-    st.markdown("## 🎯 Publication Perfection Meter")
-    st.markdown("*Track progress toward world-stage research publication*")
-
-    page_divider()
-
-    # Overview table
-    rows = []
-    for key in ["workshop", "arxiv", "journal"]:
-        if key in pubs:
-            info = pubs[key]
-            status_emoji = {
-                "ready": "✅",
-                "drafting": "🟡",
-                "concept": "⚪",
-                "submitted": "🚀",
-                "published": "🏆"
-            }.get(info.get("status", ""), "❓")
-
-            rows.append({
-                "Track": key.capitalize(),
-                "Target": info.get("target", ""),
-                "Status": f"{status_emoji} {info.get('status', '').upper()}",
-                "Progress": f"{int(info.get('completion', 0.0) * 100)}%"
-            })
-
-    if rows:
-        df = pd.DataFrame(rows)
-        st.dataframe(df, use_container_width=True, hide_index=True)
-
-    page_divider()
-
-    # Detailed breakdown per publication
-    for key in ["workshop", "arxiv", "journal"]:
-        if key not in pubs:
-            continue
-
-        info = pubs[key]
-
-        with st.expander(f"📄 {key.capitalize()} — {info.get('target', 'TBD')}", expanded=(key == "workshop")):
-            col1, col2 = st.columns([2, 1])
-
-            with col1:
-                st.markdown(f"**Target Venue:** {info.get('target', 'TBD')}")
-                st.markdown(f"**Status:** `{info.get('status', 'unknown').upper()}`")
-
-                completion = info.get('completion', 0.0)
-                st.progress(completion)
-                st.caption(f"{int(completion * 100)}% Complete")
-
-                if "notes" in info:
-                    st.markdown(f"**Notes:** {info['notes']}")
-
-            with col2:
-                st.markdown("### Requirements")
-                reqs = info.get("requirements", {})
-                if reqs:
-                    for req_key, done in reqs.items():
-                        check = "✅" if done else "❌"
-                        # Format requirement key nicely
-                        req_label = req_key.replace("_", " ").title()
-                        st.markdown(f"{check} {req_label}")
-                else:
-                    st.caption("_No requirements defined_")
-
-    # Milestones section
-    milestones = pub_status.get("milestones", {})
-    if milestones:
-        page_divider()
-        st.markdown("### 🎯 Current Milestones")
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.metric("Current", milestones.get("current", "—"))
-
-        with col2:
-            st.metric("Next", milestones.get("next", "—"))
-
-        with col3:
-            target_date = milestones.get("publication_target_date", "—")
-            st.metric("Target Date", target_date)
-
-        if "notes" in milestones:
-            st.info(f"**Note:** {milestones['notes']}")
-
 def render():
     """Render the Overview page."""
     status = load_status()
@@ -367,8 +273,32 @@ def render():
 
     page_divider()
 
-    # === PUBLICATION METER ===
-    render_publication_meter()
+    # === QUICK PUBLICATION STATUS (summary only, details in Publications tab) ===
+    st.markdown("### 📄 Publication Status")
+    pub_status = load_publication_status()
+    pubs = pub_status.get("publications", {})
+
+    if pubs:
+        pub_col1, pub_col2, pub_col3 = st.columns(3)
+        for col, key in zip([pub_col1, pub_col2, pub_col3], ["workshop", "arxiv", "journal"]):
+            if key in pubs:
+                info = pubs[key]
+                with col:
+                    status_emoji = {
+                        "ready": "✅", "drafting": "🟡", "concept": "⚪",
+                        "submitted": "🚀", "published": "🏆"
+                    }.get(info.get("status", ""), "❓")
+                    completion = int(info.get("completion", 0) * 100)
+                    st.metric(
+                        f"{key.capitalize()}",
+                        f"{completion}%",
+                        delta=f"{status_emoji} {info.get('status', '').upper()}"
+                    )
+
+        st.caption("*See Publications tab for full details and readiness checklist*")
+    else:
+        st.info("📊 Publication tracking available in Publications tab.")
+
 
 # Run the page
 if __name__ == "__main__":

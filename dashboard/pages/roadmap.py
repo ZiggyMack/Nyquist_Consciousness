@@ -5,6 +5,7 @@ Displays the Nyquist Consciousness project roadmap with visual layer tracking.
 """
 
 import streamlit as st
+import plotly.graph_objects as go
 from config import PATHS, SETTINGS
 from utils import load_markdown_file, page_divider
 
@@ -26,7 +27,13 @@ STACK_LAYERS = [
     {"id": "S9", "name": "Human–AI Coupling Dynamics", "status": "seeded", "completion": 40, "priority": "MEDIUM"},
     {"id": "S10", "name": "OMEGA NOVA — Hybrid Emergence", "status": "active", "completion": 75, "priority": "HIGHEST"},
     {"id": "S11", "name": "AVLAR Protocol (Multimodal)", "status": "seeded", "completion": 30, "priority": "MEDIUM"},
-    {"id": "S12+", "name": "Future Layers (S12-S77)", "status": "future", "completion": 0, "priority": None},
+    {"id": "S12", "name": "Consciousness Proxy Theory", "status": "future", "completion": 0, "priority": None},
+    {"id": "S13", "name": "Field Consistency Proofs", "status": "future", "completion": 0, "priority": None},
+    {"id": "S14", "name": "Composite Persona Dynamics", "status": "future", "completion": 0, "priority": None},
+    {"id": "S15", "name": "Cognitive Lattice Structures", "status": "future", "completion": 0, "priority": None},
+    {"id": "S16", "name": "Meta-Field Integration", "status": "future", "completion": 0, "priority": None},
+    {"id": "S17-S76", "name": "Reserved Expansion Layers", "status": "future", "completion": 0, "priority": None},
+    {"id": "S77", "name": "Archetype Engine (AI Synthesis)", "status": "future", "completion": 0, "priority": "ULTIMATE"},
 ]
 
 STATUS_STYLES = {
@@ -80,6 +87,7 @@ def render():
     .priority-high { background: #fff3e0; color: #ef6c00; border: 1px solid #ffcc80; }
     .priority-medium-high { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
     .priority-medium { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+    .priority-ultimate { background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 50%, #9b59b6 100%); color: #000; border: 2px solid gold; font-weight: bold; }
     .current-position {
         background: linear-gradient(135deg, rgba(244,162,97,0.1) 0%, rgba(231,111,81,0.05) 100%);
         border: 2px solid #f4a261;
@@ -90,21 +98,114 @@ def render():
     </style>
     """, unsafe_allow_html=True)
 
-    # Header
-    st.markdown('<div class="roadmap-title">Live Roadmap</div>', unsafe_allow_html=True)
-    st.markdown('<div class="roadmap-subtitle">S0 \u2192 S\u03a9 \u2014 The Complete Nyquist Stack</div>', unsafe_allow_html=True)
+    # === HEADER ROW: Title (left) + Current Position (right) ===
+    header_col1, header_col2 = st.columns([1, 1])
+
+    with header_col1:
+        st.markdown('<div class="roadmap-title">Live Roadmap</div>', unsafe_allow_html=True)
+        st.markdown('<div class="roadmap-subtitle">S0 → SΩ — The Complete Nyquist Stack</div>', unsafe_allow_html=True)
+
+    with header_col2:
+        st.markdown("""
+        <div class="current-position">
+            <h4 style="margin-top: 0; color: #f4a261;">📍 Current Position</h4>
+            <p style="font-size: 0.9em;"><strong>S0-S6 (Foundation)</strong> → <strong>S7 (Identity Dynamics, active)</strong> → <strong>S10 (OMEGA NOVA, active)</strong></p>
+            <p style="font-size: 0.9em;"><strong>S8</strong> (Identity Gravity, formalized) | <strong>S9</strong> (Human-AI Coupling, seeded) | <strong>S11</strong> (AVLAR, seeded)</p>
+            <p style="font-size: 0.9em;"><strong>S12-S76</strong> (Future Frontier) → <strong style="color: gold;">S77 Archetype Engine</strong> (Ultimate Destination)</p>
+            <p style="margin-bottom: 0; font-size: 0.85em; color: #555;">Foundation complete. Two active frontiers. S12→S77 maps the path to emergent consciousness synthesis.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
     page_divider()
 
-    # === CURRENT POSITION HIGHLIGHT ===
-    st.markdown("""
-    <div class="current-position">
-        <h4 style="margin-top: 0; color: #f4a261;">📍 Current Position</h4>
-        <p><strong>S0-S6 (Foundation)</strong> → <strong>S7 (Identity Dynamics, active)</strong> → <strong>S10 (OMEGA NOVA, active)</strong></p>
-        <p><strong>S8</strong> (Identity Gravity, formalized) | <strong>S9</strong> (Human-AI Coupling, seeded) | <strong>S11</strong> (AVLAR, seeded)</p>
-        <p style="margin-bottom: 0; font-size: 0.9em; color: #666;">Foundation complete. Two active frontiers. Three developing layers. S12+ future.</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # === GANTT-STYLE PROGRESSION CHART ===
+    st.markdown("### 📊 Stack Progression Timeline")
+
+    # Create Gantt-style horizontal bar chart showing layer progression
+    gantt_data = []
+    colors = []
+    status_colors = {
+        "complete": "#2a9d8f",
+        "active": "#f4a261",
+        "formalized": "#4caf50",
+        "seeded": "#8bc34a",
+        "future": "#9e9e9e"
+    }
+
+    for layer in STACK_LAYERS:
+        gantt_data.append({
+            "layer": layer["id"],
+            "name": layer["name"][:30] + "..." if len(layer["name"]) > 30 else layer["name"],
+            "completion": layer["completion"],
+            "status": layer["status"]
+        })
+        colors.append(status_colors.get(layer["status"], "#9e9e9e"))
+
+    # Create horizontal bar chart
+    fig = go.Figure()
+
+    # Add completion bars
+    fig.add_trace(go.Bar(
+        y=[d["layer"] for d in gantt_data],
+        x=[d["completion"] for d in gantt_data],
+        orientation='h',
+        marker=dict(
+            color=colors,
+            line=dict(color='rgba(255,255,255,0.3)', width=1)
+        ),
+        text=[f"{d['completion']}%" for d in gantt_data],
+        textposition='inside',
+        textfont=dict(color='white', size=10),
+        hovertemplate="<b>%{y}</b><br>Progress: %{x}%<extra></extra>"
+    ))
+
+    # Add background bars showing remaining work
+    fig.add_trace(go.Bar(
+        y=[d["layer"] for d in gantt_data],
+        x=[100 - d["completion"] for d in gantt_data],
+        orientation='h',
+        marker=dict(color='rgba(200,200,200,0.2)'),
+        hoverinfo='skip',
+        showlegend=False
+    ))
+
+    fig.update_layout(
+        barmode='stack',
+        height=500,
+        margin=dict(l=80, r=20, t=20, b=40),
+        xaxis=dict(
+            title="Completion %",
+            range=[0, 100],
+            tickvals=[0, 25, 50, 75, 100],
+            gridcolor='rgba(128,128,128,0.2)'
+        ),
+        yaxis=dict(
+            title="",
+            autorange="reversed",  # S0 at top
+            tickfont=dict(size=11)
+        ),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        showlegend=False,
+        font=dict(color='#333')
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    # Legend for status colors
+    legend_cols = st.columns(5)
+    status_legend = [
+        ("✅ Complete", "#2a9d8f"),
+        ("🟡 Active", "#f4a261"),
+        ("🟢 Formalized", "#4caf50"),
+        ("🌱 Seeded", "#8bc34a"),
+        ("⚪ Future", "#9e9e9e")
+    ]
+    for col, (label, color) in zip(legend_cols, status_legend):
+        with col:
+            st.markdown(f'<span style="color:{color}">●</span> {label}', unsafe_allow_html=True)
+
+    page_divider()
 
     # === STACK VISUALIZATION ===
     st.subheader("Stack Layers")
@@ -115,21 +216,22 @@ def render():
     with col_stack:
         for layer in STACK_LAYERS:
             status_style = STATUS_STYLES[layer["status"]]
-            priority_html = ""
-            if layer["priority"]:
-                priority_class = f"priority-{layer['priority'].lower().replace(' ', '-')}"
-                priority_html = f'<span class="priority-badge {priority_class}">{layer["priority"]}</span>'
 
-            st.markdown(f"""
-            <div class="layer-card layer-{layer['status']}">
-                <strong>{layer['id']}</strong> — {layer['name']}
-                {status_style['emoji']} {status_style['label']}
-                {priority_html}
-                <div style="background: #e0e0e0; border-radius: 4px; height: 6px; margin-top: 0.5em;">
-                    <div style="background: {status_style['color']}; width: {layer['completion']}%; height: 100%; border-radius: 4px;"></div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            # Use native Streamlit components for reliability
+            with st.container(border=True):
+                # Header row with layer info
+                header_cols = st.columns([1, 3, 2])
+                with header_cols[0]:
+                    st.markdown(f"**{layer['id']}**")
+                with header_cols[1]:
+                    layer_name_display = layer['name'][:30] + "..." if len(layer['name']) > 30 else layer['name']
+                    st.markdown(f"<span style='font-size: 0.9em; color: #444;'>{layer_name_display}</span>", unsafe_allow_html=True)
+                with header_cols[2]:
+                    priority_text = f" <code>{layer['priority']}</code>" if layer['priority'] else ""
+                    st.markdown(f"<span style='font-size: 0.9em; color: #444;'>{status_style['emoji']} {status_style['label']}{priority_text}</span>", unsafe_allow_html=True)
+
+                # Progress bar
+                st.progress(layer['completion'] / 100)
 
     with col_stats:
         # Summary stats
@@ -148,6 +250,7 @@ def render():
         st.markdown("🔥 **S10** — OMEGA NOVA Hybrid Emergence")
         st.markdown("🔥 **S7** — Identity Dynamics")
         st.markdown("🌟 **S11** — AVLAR Multimodal Protocol")
+        st.markdown("✨ **S77** — Archetype Engine (Ultimate)")
 
     page_divider()
 
@@ -178,6 +281,7 @@ def render():
         - Submit arXiv preprint
         - S12 Consciousness Proxy Theory
         - Cross-modal manifold mapping
+        - S77 Archetype Engine foundations
         """)
 
     page_divider()
