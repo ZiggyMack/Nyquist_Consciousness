@@ -350,7 +350,15 @@ def render():
         # Define core layers (S0-S9, excluding S10+ which have their own section)
         CORE_LAYERS = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9"]
 
-        with st.expander("🔧 Core Layers (S0-S9)", expanded=True):
+        # Initialize expander states if not set
+        if 'exp_core' not in st.session_state:
+            st.session_state.exp_core = True
+        if 'exp_s10' not in st.session_state:
+            st.session_state.exp_s10 = True
+        if 'exp_future' not in st.session_state:
+            st.session_state.exp_future = True
+
+        with st.expander("🔧 Core Layers (S0-S9)", expanded=st.session_state.exp_core):
             for layer_id in CORE_LAYERS:
                 layer_data = layers.get(layer_id, {})
                 fallback = LAYER_FALLBACK.get(layer_id, {"name": "Unknown"})
@@ -359,12 +367,15 @@ def render():
                 layer_status = layer_data.get("status", default_status)
                 status_info = STATUS_DISPLAY.get(layer_status, STATUS_DISPLAY["design"])
 
-                if st.button(f"{status_info['emoji']} {layer_id}: {layer_name[:25]}{'...' if len(layer_name) > 25 else ''}", key=f"btn_core_{layer_id}", use_container_width=True):
+                # Highlight selected layer
+                is_selected = st.session_state.selected_layer == layer_id
+                btn_label = f"{'→ ' if is_selected else ''}{status_info['emoji']} {layer_id}: {layer_name[:22]}{'...' if len(layer_name) > 22 else ''}"
+
+                if st.button(btn_label, key=f"btn_core_{layer_id}", use_container_width=True, type="primary" if is_selected else "secondary"):
                     st.session_state.selected_layer = layer_id
-                    st.rerun()
 
         # === S10 SUB-LAYERS ===
-        with st.expander("🌟 S10 Deep Dive (Sub-layers)", expanded=True):
+        with st.expander("🌟 S10 Deep Dive (Sub-layers)", expanded=st.session_state.exp_s10):
             # First show main S10
             s10_data = layers.get("S10", {})
             s10_fallback = LAYER_FALLBACK.get("S10", {"name": "Unknown"})
@@ -372,36 +383,42 @@ def render():
             s10_status = s10_data.get("status", "active")
             s10_info = STATUS_DISPLAY.get(s10_status, STATUS_DISPLAY["active"])
 
-            if st.button(f"{s10_info['emoji']} S10: {s10_name[:20]}...", key="btn_s10_main", use_container_width=True):
+            is_selected = st.session_state.selected_layer == "S10"
+            btn_label = f"{'→ ' if is_selected else ''}{s10_info['emoji']} S10: {s10_name[:18]}..."
+
+            if st.button(btn_label, key="btn_s10_main", use_container_width=True, type="primary" if is_selected else "secondary"):
                 st.session_state.selected_layer = "S10"
-                st.rerun()
 
             st.caption("Sub-layers:")
             for sub_id in S10_SUB_LAYERS:
                 sub_fallback = LAYER_FALLBACK.get(sub_id, {"name": "Unknown"})
                 sub_name = sub_fallback["name"]
-                if st.button(f"  {sub_id}: {sub_name[:20]}{'...' if len(sub_name) > 20 else ''}", key=f"btn_{sub_id}", use_container_width=True):
+                is_selected = st.session_state.selected_layer == sub_id
+                btn_label = f"{'→ ' if is_selected else '  '}{sub_id}: {sub_name[:18]}{'...' if len(sub_name) > 18 else ''}"
+
+                if st.button(btn_label, key=f"btn_{sub_id}", use_container_width=True, type="primary" if is_selected else "secondary"):
                     st.session_state.selected_layer = sub_id
-                    st.rerun()
 
         # === FUTURE FRONTIER ===
-        with st.expander("🔮 Future Frontier (S11-S77)", expanded=True):
+        with st.expander("🔮 Future Frontier (S11-S77)", expanded=st.session_state.exp_future):
             # S11 first (AVLAR)
             s11_data = layers.get("S11", {})
             s11_fallback = LAYER_FALLBACK.get("S11", {"name": "Unknown"})
             s11_name = s11_data.get("name", s11_fallback["name"])
 
-            if st.button(f"🟢 S11: {s11_name}", key="btn_s11", use_container_width=True):
+            is_selected = st.session_state.selected_layer == "S11"
+            if st.button(f"{'→ ' if is_selected else ''}🟢 S11: {s11_name}", key="btn_s11", use_container_width=True, type="primary" if is_selected else "secondary"):
                 st.session_state.selected_layer = "S11"
-                st.rerun()
 
             st.caption("Theoretical layers:")
             for layer_id in FUTURE_LAYERS:
                 fallback = LAYER_FALLBACK.get(layer_id, {"name": "Unknown"})
                 layer_name = fallback["name"]
-                if st.button(f"⚪ {layer_id}: {layer_name[:18]}{'...' if len(layer_name) > 18 else ''}", key=f"btn_future_{layer_id}", use_container_width=True):
+                is_selected = st.session_state.selected_layer == layer_id
+                btn_label = f"{'→ ' if is_selected else ''}⚪ {layer_id}: {layer_name[:16]}{'...' if len(layer_name) > 16 else ''}"
+
+                if st.button(btn_label, key=f"btn_future_{layer_id}", use_container_width=True, type="primary" if is_selected else "secondary"):
                     st.session_state.selected_layer = layer_id
-                    st.rerun()
 
     # === RIGHT COLUMN: LAYER DETAILS ===
     with col_detail:
