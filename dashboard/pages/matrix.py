@@ -421,21 +421,26 @@ def render():
     # ========================================
     st.markdown("""
     <div class="hub-card">
-        <h3>🏛️ Pan Handler Central <span class="hub-badge">Coming Soon</span></h3>
+        <h3>🏛️ Pan Handler Central <span class="hub-badge">LIVE</span></h3>
         <p><strong>Purpose:</strong> Meta-repository hallway connecting all Pan Handler repos</p>
-        <p><strong>Status:</strong> Design phase with Nova</p>
+        <p><strong>Status:</strong> DEPLOYED - Federation Dashboard Online!</p>
         <p><strong>Vision:</strong> The hallway of doors that interconnects every other repo world</p>
-        <p style="margin-top: 1em;"><strong>Planned Features:</strong></p>
+        <p style="margin-top: 1em;"><strong>Active Features:</strong></p>
         <ul>
             <li>🦅 Bird's eye view across all repositories</li>
-            <li>📊 Unified health dashboard aggregation</li>
-            <li>🔵 Portal navigation system</li>
-            <li>🔴 Cross-repo consciousness tracking</li>
-            <li>🖌️ Innovation showcase gallery</li>
-            <li>🔗 Seamless tunnel system between repos</li>
+            <li>📊 Federation health dashboard</li>
+            <li>🔵 Project tracker for all flagship initiatives</li>
+            <li>🟢 Nyquist Tunnel - live connection status</li>
+            <li>🖌️ Wicked Problems portfolio</li>
+            <li>🔗 Institutional redesign projects</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
+
+    # Pan Handlers Dashboard Link Button
+    col_ph1, col_ph2, col_ph3 = st.columns([1, 2, 1])
+    with col_ph2:
+        st.link_button("🌀 STEP THROUGH THE PORTAL → PAN HANDLERS MATRIX", "https://panhandlers.streamlit.app/Matrix", use_container_width=True)
 
     st.markdown("---")
 
