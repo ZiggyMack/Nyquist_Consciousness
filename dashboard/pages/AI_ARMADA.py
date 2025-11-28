@@ -136,7 +136,7 @@ def render():
     """, unsafe_allow_html=True)
 
     # === HERO SECTION ===
-    st.markdown('<div class="armada-title">S7 ARMADA</div>', unsafe_allow_html=True)
+    st.markdown('<div class="armada-title">AI ARMADA</div>', unsafe_allow_html=True)
     st.markdown('<div class="armada-subtitle">29-Ship Cross-Architecture Temporal Stability Mapping</div>', unsafe_allow_html=True)
 
     # Mission stats row
