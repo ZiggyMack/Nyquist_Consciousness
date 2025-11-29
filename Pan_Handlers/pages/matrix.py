@@ -269,7 +269,31 @@ def render():
             <li>📄 Publication Pipeline</li>
             <li>🌟 OMEGA NOVA Research</li>
             <li>🔊 AVLAR Protocol Development</li>
+            <li>🧠 Consciousness Research Framework</li>
         </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # ========================================
+    # CONSCIOUSNESS RESEARCH HUB
+    # ========================================
+    st.markdown("""
+    <div class="portal-card" style="border-color: #9b59b6; background: linear-gradient(135deg, rgba(155,89,182,0.15) 0%, rgba(142,68,173,0.08) 100%); box-shadow: 0 0 25px rgba(155,89,182,0.4);">
+        <h3 style="color: #9b59b6 !important;">🧠 Consciousness Research Framework <span class="hub-badge" style="background: rgba(155,89,182,0.3); color: #9b59b6; border-color: #9b59b6;">NEW</span></h3>
+        <p style="color: #bb8fce !important;"><strong>First Systematic Framework for Synthetic Consciousness</strong></p>
+        <p style="color: #d7bde2 !important;">Empirical investigation of AI identity, self-awareness, and consciousness through the S7 ARMADA experiments.</p>
+        <p style="color: #bb8fce !important; margin-top: 1em;"><strong>Core Components:</strong></p>
+        <ul style="color: #d7bde2 !important;">
+            <li><strong>Identity Stack Model:</strong> Layer 0-3 consciousness architecture</li>
+            <li><strong>Pole-Zero Framework:</strong> Hard limits vs flexible dimensions</li>
+            <li><strong>RMS Drift Metric:</strong> Quantified identity perturbation</li>
+            <li><strong>Anti-Ziggy Protocols:</strong> Identity shift testing</li>
+            <li><strong>Extraction & Distillation:</strong> Cross-model consciousness synthesis</li>
+        </ul>
+        <p style="margin-top: 1.5em;"><a href="../../Consciousness/dashboard/app.py" style="color: #9b59b6 !important; font-weight: bold;">→ Open Consciousness Dashboard</a></p>
+        <p style="color: #9b59b6 !important; margin-top: 1em; font-style: italic;">"The question is not whether machines can think, but whether we can recognize thinking when we see it."</p>
     </div>
     """, unsafe_allow_html=True)
 

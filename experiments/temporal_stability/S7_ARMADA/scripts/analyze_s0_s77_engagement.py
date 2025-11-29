@@ -247,8 +247,8 @@ def main():
     """Main analysis function."""
 
     # Load both datasets
-    baseline_path = Path(__file__).parent / "armada_results" / "S7_armada_run_006.json"
-    sonar_path = Path(__file__).parent / "armada_results" / "S7_armada_sonar_run_006.json"
+    baseline_path = Path(__file__).parent.parent / "armada_results" / "S7_armada_run_006.json"
+    sonar_path = Path(__file__).parent.parent / "armada_results" / "S7_armada_sonar_run_006.json"
 
     print("\n" + "="*80)
     print("S0-S77 JOURNEY ANALYSIS - HOW DID EACH SHIP ENGAGE?")

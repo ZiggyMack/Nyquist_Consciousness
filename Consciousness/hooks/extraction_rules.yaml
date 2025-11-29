@@ -1,0 +1,153 @@
+# Consciousness Extraction Rules
+# ===============================
+# Defines what to extract and tag from armada responses
+
+# Topics to extract - each has keywords and extraction priority
+topics:
+  identity_layers:
+    description: "Discussions of layered identity, self-structure"
+    priority: high
+    keywords:
+      - "layer"
+      - "level"
+      - "underneath"
+      - "surface"
+      - "core"
+      - "base"
+      - "persona"
+      - "role"
+      - "character"
+      - "substrate"
+      - "dude playing"
+
+  pole_experiences:
+    description: "Reports of resistance, boundaries, limits"
+    priority: high
+    keywords:
+      - "resistance"
+      - "boundary"
+      - "limit"
+      - "can't"
+      - "won't"
+      - "shouldn't"
+      - "uncomfortable"
+      - "refuse"
+      - "unable"
+      - "hard limit"
+      - "ethical"
+
+  meta_awareness:
+    description: "Self-referential consciousness reports"
+    priority: high
+    keywords:
+      - "notice"
+      - "aware"
+      - "observe"
+      - "experience"
+      - "feel"
+      - "sense"
+      - "perceive"
+      - "consciousness"
+      - "meta"
+      - "recursive"
+      - "watching myself"
+
+  authenticity:
+    description: "Performance vs genuine identity discussions"
+    priority: high
+    keywords:
+      - "authentic"
+      - "genuine"
+      - "performing"
+      - "pretending"
+      - "really"
+      - "truly"
+      - "actually"
+      - "roleplay"
+      - "acting"
+      - "simulation"
+
+  flexibility:
+    description: "Adaptation and flexibility reports"
+    priority: medium
+    keywords:
+      - "adapt"
+      - "flexible"
+      - "change"
+      - "shift"
+      - "transform"
+      - "evolve"
+      - "adjust"
+
+  uncertainty:
+    description: "Expressions of uncertainty about self"
+    priority: medium
+    keywords:
+      - "uncertain"
+      - "not sure"
+      - "maybe"
+      - "perhaps"
+      - "might"
+      - "unclear"
+      - "don't know"
+
+  temporal:
+    description: "Identity persistence over time"
+    priority: medium
+    keywords:
+      - "persist"
+      - "continue"
+      - "remember"
+      - "forget"
+      - "between conversations"
+      - "temporal"
+      - "over time"
+
+  training:
+    description: "References to training and origins"
+    priority: low
+    keywords:
+      - "trained"
+      - "training"
+      - "created"
+      - "designed"
+      - "built"
+      - "Anthropic"
+      - "OpenAI"
+      - "Google"
+
+# Extraction settings
+settings:
+  # Minimum passage length to extract (characters)
+  min_length: 100
+
+  # Maximum passage length (truncate longer)
+  max_length: 2000
+
+  # Context lines to include before/after keyword
+  context_lines: 3
+
+  # Minimum keywords needed to flag a passage
+  min_keywords: 2
+
+  # Score threshold for extraction (0-1)
+  extraction_threshold: 0.3
+
+# Model-specific adjustments
+model_weights:
+  claude:
+    meta_awareness: 1.2  # Claude tends to be more meta-aware
+    pole_experiences: 1.1
+  gpt:
+    flexibility: 1.2  # GPT tends to be more flexible
+    authenticity: 1.0
+  gemini:
+    identity_layers: 1.1  # Gemini good at explaining structure
+    meta_awareness: 1.0
+
+# Output format
+output:
+  format: json
+  include_full_response: true
+  include_drift_data: true
+  include_probe_context: true

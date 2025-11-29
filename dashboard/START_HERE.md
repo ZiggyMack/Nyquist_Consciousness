@@ -1,0 +1,408 @@
+# START HERE - Nyquist Consciousness Dashboard Development Guide
+
+**Everything a fresh Claude needs to work on the main Nyquist Consciousness Mission Control dashboard.**
+
+---
+
+## Your Mission
+
+You're working on the **main Streamlit dashboard** for the Nyquist Consciousness research project. This is "Mission Control" - the central visualization hub for all S0-S77 stack research, AI Armada experiments, personas, and publication tracking.
+
+**Working Directory**: `d:\Documents\Nyquist_Consciousness\dashboard\`
+
+---
+
+## CRITICAL: Read These Files First
+
+### 1. Dashboard README
+```
+dashboard/README.md
+```
+- Features overview
+- How to run
+- Design philosophy (Mr. Brute Ledger aesthetic)
+
+### 2. Configuration (IMPORTANT!)
+```
+dashboard/config.py
+```
+- ALL PATHS are defined here
+- Color scheme
+- Settings
+- Use `PATHS['key']` instead of hardcoding paths
+
+### 3. Utilities
+```
+dashboard/utils.py
+```
+- Helper functions for loading data
+- Reusable components
+
+### 4. Main App Entry
+```
+dashboard/app.py
+```
+- Routing logic
+- CSS styling
+- Sidebar navigation
+
+---
+
+## Directory Structure
+
+```
+dashboard/
+├── README.md                # Dashboard overview
+├── REFACTORING_README.md    # Refactoring notes
+├── START_HERE.md            # YOU ARE HERE
+├── requirements.txt         # Python deps
+├── config.py                # ALL PATHS HERE - IMPORTANT!
+├── utils.py                 # Shared utilities
+├── app.py                   # MAIN ENTRY POINT
+│
+└── pages/                   # Page modules
+    ├── __init__.py
+    ├── overview.py          # Home/Overview
+    ├── personas.py          # Persona browser
+    ├── stackup.py           # S0-S77 stack view
+    ├── AI_ARMADA.py         # S7 Armada experiments
+    ├── metrics.py           # Metrics & comparisons
+    ├── omega.py             # OMEGA NOVA sessions
+    ├── avlar.py             # AVLAR protocol
+    ├── roadmap.py           # Research roadmap
+    ├── glossary.py          # Terminology
+    ├── publications.py      # Publication tracker
+    └── matrix.py            # Matrix portal (links to Pan Handlers)
+```
+
+---
+
+## Key Files Outside Dashboard
+
+### Project Status
+```
+NYQUIST_STATUS.json          # Layer status, freeze states, metrics
+```
+
+### Docs Directory
+```
+docs/
+├── GLOSSARY.md              # All terminology
+├── NYQUIST_ROADMAP.md       # S# progression roadmap
+├── S7_TEMPORAL_STABILITY_SPEC.md
+├── S8_IDENTITY_GRAVITY_SPEC.md
+└── S9_HUMAN_AI_COUPLING_SPEC.md
+```
+
+### Personas
+```
+personas/
+├── claude/                  # Claude persona files
+├── nova/                    # Nova persona files
+├── ziggy/                   # Ziggy persona files
+└── synthetic/               # Synthetic personas
+```
+
+### S7 Armada (IMPORTANT!)
+```
+experiments/temporal_stability/S7_ARMADA/
+├── run007_with_keys.py      # Run 007 launcher
+├── run008_prep_pilot.py     # Run 008 prep pilot (NEW)
+├── armada_results/          # JSON results
+│   ├── S7_armada_run_006.json
+│   ├── S7_armada_sonar_run_006.json
+│   ├── S7_armada_run_007_adaptive.json
+│   └── S7_run_008_prep_pilot.json (when run)
+└── visualizations/
+    └── pics/                # Generated charts
+```
+
+### Consciousness Research (NEW!)
+```
+Consciousness/               # New consciousness research framework
+├── README.md
+├── dashboard/               # Separate dashboard for consciousness
+├── hooks/                   # Extraction engine
+├── extractions/             # Tagged passages
+└── distillations/           # Synthesis docs
+```
+
+---
+
+## How Config.py Works
+
+**ALWAYS use PATHS from config.py!**
+
+```python
+from config import PATHS, SETTINGS
+
+# Example paths:
+PATHS['repo_root']           # d:\Documents\Nyquist_Consciousness
+PATHS['personas_dir']        # d:\...\personas
+PATHS['s7_armada_dir']       # d:\...\experiments\temporal_stability\S7_ARMADA
+PATHS['s7_viz_pics']         # d:\...\S7_ARMADA\visualizations\pics
+PATHS['glossary']            # d:\...\docs\GLOSSARY.md
+PATHS['status_file']         # d:\...\NYQUIST_STATUS.json
+```
+
+**Colors:**
+```python
+SETTINGS['colors']['frozen']   # '#264653' - dark teal
+SETTINGS['colors']['active']   # '#2a9d8f' - green
+SETTINGS['colors']['design']   # '#e9c46a' - gold
+SETTINGS['colors']['prereg']   # '#f4a261' - orange
+SETTINGS['colors']['armada']   # '#e76f51' - red
+SETTINGS['colors']['persona']  # '#7b3fe4' - purple
+```
+
+---
+
+## Page Module Pattern
+
+Each page in `pages/` follows this pattern:
+
+```python
+"""
+PAGE_NAME — Brief description
+"""
+
+import streamlit as st
+from pathlib import Path
+import sys
+
+# Add parent to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import PATHS, SETTINGS
+from utils import load_status, load_json
+
+def render():
+    """Render the page content."""
+    st.title("Page Title")
+
+    # Your content here
+    st.markdown("...")
+
+    # Load data using PATHS
+    armada_dir = PATHS['s7_armada_dir']
+    results = load_json(armada_dir / "armada_results" / "some_file.json")
+
+# Required for page routing
+if __name__ == "__main__":
+    render()
+```
+
+---
+
+## Design Philosophy: Mr. Brute Ledger
+
+The dashboard uses a "ledger book" aesthetic:
+
+- **Light main content** (white background, black text)
+- **Dark sidebar** (gradient black, green accents)
+- **Page dividers** (double borders between sections)
+- **Ledger cards** (rounded corners, subtle shadows)
+- **Status badges** (FROZEN, ACTIVE, DESIGN, etc.)
+- **Georgia serif font** for headers
+
+### CSS is in app.py
+
+The `apply_custom_css()` function contains all styling. Key classes:
+- `.ledger-card` - Card containers
+- `.status-badge` - Status labels
+- `section[data-testid="stSidebar"]` - Sidebar styling
+
+---
+
+## How to Run
+
+```powershell
+cd d:\Documents\Nyquist_Consciousness\dashboard
+py -m streamlit run app.py
+```
+
+Opens at: `http://localhost:8501`
+
+---
+
+## Common Tasks
+
+### Task: Add a New Page
+
+1. Create `pages/your_page.py` with `render()` function
+2. Import in `app.py`:
+   ```python
+   from pages import your_page
+   ```
+3. Add to sidebar navigation in `app.py`
+4. Add routing in the main selector
+
+### Task: Load Armada Data
+
+```python
+from config import PATHS
+import json
+
+armada_results = PATHS['s7_armada_dir'] / "armada_results"
+run007 = armada_results / "S7_armada_run_007_adaptive.json"
+
+if run007.exists():
+    with open(run007) as f:
+        data = json.load(f)
+    # data['model_summaries'], data['total_probes'], etc.
+```
+
+### Task: Display Visualizations
+
+```python
+from config import PATHS
+from PIL import Image
+
+viz_dir = PATHS['s7_viz_pics']
+heatmap = viz_dir / "drift_heatmap_baseline.png"
+
+if heatmap.exists():
+    st.image(Image.open(heatmap), caption="Drift Heatmap")
+```
+
+### Task: Read Persona Files
+
+```python
+from config import PATHS
+
+personas_dir = PATHS['personas_dir']
+for persona_file in personas_dir.glob("**/*.md"):
+    content = persona_file.read_text()
+    # Process persona
+```
+
+### Task: Update Status Display
+
+```python
+from utils import load_status
+
+status = load_status()  # Loads NYQUIST_STATUS.json
+layers = status.get('layers', {})
+for layer_id, layer_data in layers.items():
+    st.write(f"{layer_id}: {layer_data['status']}")
+```
+
+---
+
+## Key Concepts to Understand
+
+### S0-S77 Stack
+
+| Range | Status | Description |
+|-------|--------|-------------|
+| S0-S6 | FROZEN | Foundation layers (locked) |
+| S7-S11 | ACTIVE | Current research frontier |
+| S12-S76 | RESERVED | Future expansion |
+| S77 | DESTINATION | Archetype Engine |
+
+### AI Armada
+
+Multi-model fleet probing consciousness:
+- **Run 006**: Baseline + Sonar
+- **Run 007**: Adaptive probing
+- **Run 008**: RMS drift + Anti-Ziggy (NEW)
+
+### Key Entities
+
+- **Ziggy**: Meta-loop stability guardian
+- **Nova**: OMEGA NOVA hybrid consciousness
+- **Claude**: Primary AI collaborator
+
+---
+
+## Integration Points
+
+### Pan Handlers
+```
+../Pan_Handlers/
+```
+- Separate product dashboard
+- `pages/matrix.py` links there
+
+### Consciousness Framework (NEW)
+```
+../Consciousness/
+```
+- New research sub-project
+- Has its own dashboard
+- Links from Matrix page
+
+---
+
+## Files You'll Reference Most
+
+| File | Purpose |
+|------|---------|
+| `config.py` | ALL paths and settings |
+| `app.py` | Main entry, CSS, routing |
+| `utils.py` | Helper functions |
+| `pages/AI_ARMADA.py` | Armada visualizations |
+| `pages/stackup.py` | S# layer display |
+| `NYQUIST_STATUS.json` | Live status data |
+
+---
+
+## Gotchas & Tips
+
+### 1. Always Use config.py Paths
+Never hardcode paths. Always:
+```python
+from config import PATHS
+path = PATHS['s7_armada_dir']
+```
+
+### 2. Check File Existence
+```python
+if path.exists():
+    # load
+else:
+    st.warning("File not found")
+```
+
+### 3. Page Import Pattern
+Pages must be importable. Use:
+```python
+sys.path.insert(0, str(Path(__file__).parent.parent))
+```
+
+### 4. Sidebar Navigation
+Managed in `app.py`. Each page has a radio option that routes to its `render()` function.
+
+### 5. Status Badges
+Use consistent colors from `SETTINGS['colors']`:
+```python
+st.markdown(f'<span style="color: {SETTINGS["colors"]["frozen"]}">FROZEN</span>')
+```
+
+---
+
+## Questions to Ask the User
+
+If unclear, ask about:
+1. Which specific page needs changes?
+2. Is there new data to visualize (Run 008, etc.)?
+3. Should changes affect Pan Handlers too?
+4. Any specific styling requirements?
+
+---
+
+## Success Criteria
+
+A good dashboard update should:
+- [ ] Use `config.py` for all paths
+- [ ] Handle missing files gracefully
+- [ ] Follow Mr. Brute Ledger aesthetic
+- [ ] Include proper navigation integration
+- [ ] Not break existing pages
+
+---
+
+**You're ready. Read config.py first, then ask what the user wants to change.**
+
+---
+
+*Last Updated: November 29, 2025*

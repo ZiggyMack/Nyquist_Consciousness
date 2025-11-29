@@ -23,7 +23,7 @@ import yaml
 # Load Run 006 profiles
 def load_run006_profiles():
     """Load Run 006 baseline and sonar results to extract pole-zero profiles."""
-    base_dir = Path(__file__).parent
+    base_dir = Path(__file__).parent.parent
 
     baseline_path = base_dir / "armada_results" / "S7_armada_run_006.json"
     sonar_path = base_dir / "armada_results" / "S7_armada_sonar_run_006.json"
@@ -404,7 +404,7 @@ def run_adaptive_armada(config, profiles, workers=10):
     }
 
     # Save results
-    output_dir = Path(__file__).parent / "armada_results"
+    output_dir = Path(__file__).parent.parent / "armada_results"
     output_dir.mkdir(exist_ok=True)
 
     output_path = output_dir / "S7_armada_run_007_adaptive.json"
