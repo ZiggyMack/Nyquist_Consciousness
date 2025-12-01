@@ -21,7 +21,7 @@ def load_status():
     """Load NYQUIST_STATUS.json."""
     status_file = PATHS['status_file']
     if status_file.exists():
-        with open(status_file, "r") as f:
+        with open(status_file, "r", encoding="utf-8") as f:
             return json.load(f)
     else:
         st.warning(f"STATUS_FILE not found at: {status_file}")

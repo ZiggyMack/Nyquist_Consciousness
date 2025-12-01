@@ -408,9 +408,11 @@ def render():
 
     # Philosophy banner
     if pan_handler_data:
+        default_philosophy = "FUCK IT, WE'LL DO IT LIVE!"
+        philosophy = pan_handler_data.get('meta', {}).get('philosophy', default_philosophy)
         st.markdown(f"""
         <div class="philosophy-quote">
-            {pan_handler_data.get('meta', {}).get('philosophy', 'FUCK IT, WE\'LL DO IT LIVE!')}
+            {philosophy}
         </div>
         """, unsafe_allow_html=True)
 

@@ -264,7 +264,7 @@ def render_layer_details(selected, layers, status_data, key_suffix=""):
 
         spec_file = REPO_ROOT / spec_path
         if spec_file.exists():
-            with st.expander(f"📄 View Spec: {spec_file.name}", expanded=False):
+            with st.expander(f"📄 View Spec: {spec_file.name}", expanded=True):
                 content = load_markdown_file(spec_file)
                 # Show first 100 lines as preview
                 preview_lines = content.split('\n')[:100]
@@ -344,21 +344,13 @@ def render():
         new_layer_id = selected_option.split(" - ")[0]
         if new_layer_id != st.session_state.selected_layer:
             st.session_state.selected_layer = new_layer_id
-            st.rerun()
+            st.experimental_rerun()
 
         # === S0-S9 CORE LAYERS ===
         # Define core layers (S0-S9, excluding S10+ which have their own section)
         CORE_LAYERS = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9"]
 
-        # Initialize expander states if not set
-        if 'exp_core' not in st.session_state:
-            st.session_state.exp_core = True
-        if 'exp_s10' not in st.session_state:
-            st.session_state.exp_s10 = True
-        if 'exp_future' not in st.session_state:
-            st.session_state.exp_future = True
-
-        with st.expander("🔧 Core Layers (S0-S9)", expanded=st.session_state.exp_core):
+        with st.expander("🔧 Core Layers (S0-S9)", expanded=True):
             for layer_id in CORE_LAYERS:
                 layer_data = layers.get(layer_id, {})
                 fallback = LAYER_FALLBACK.get(layer_id, {"name": "Unknown"})
@@ -375,7 +367,7 @@ def render():
                     st.session_state.selected_layer = layer_id
 
         # === S10 SUB-LAYERS ===
-        with st.expander("🌟 S10 Deep Dive (Sub-layers)", expanded=st.session_state.exp_s10):
+        with st.expander("🌟 S10 Deep Dive (Sub-layers)", expanded=True):
             # First show main S10
             s10_data = layers.get("S10", {})
             s10_fallback = LAYER_FALLBACK.get("S10", {"name": "Unknown"})
@@ -400,7 +392,7 @@ def render():
                     st.session_state.selected_layer = sub_id
 
         # === FUTURE FRONTIER ===
-        with st.expander("🔮 Future Frontier (S11-S77)", expanded=st.session_state.exp_future):
+        with st.expander("🔮 Future Frontier (S11-S77)", expanded=True):
             # S11 first (AVLAR)
             s11_data = layers.get("S11", {})
             s11_fallback = LAYER_FALLBACK.get("S11", {"name": "Unknown"})
