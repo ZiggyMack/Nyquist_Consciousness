@@ -302,48 +302,57 @@ def render_research_checklist():
     with col1:
         st.markdown("### Theoretical Foundation")
         st.markdown("""
-        ✅ S0-S6 Foundation frozen
-        ✅ Nyquist Kernel formalized
-        ✅ Five-Pillar synthesis defined
-        ✅ Identity dynamics equations
-        🔄 S7 Identity Dynamics (active)
-        🔄 S8 Identity Gravity (design)
-        🔄 S9 Human Coupling (active)
-        🔄 S10 Hybrid Emergence (active)
-        🔄 S11 AVLAR Protocol (design)
+| Status | Item |
+|--------|------|
+| ✅ | S0-S6 Foundation frozen |
+| ✅ | Nyquist Kernel formalized |
+| ✅ | Five-Pillar synthesis defined |
+| ✅ | Identity dynamics equations |
+| 🔄 | S7 Identity Dynamics (active) |
+| 🔄 | S8 Identity Gravity (design) |
+| 🔄 | S9 AVLAR Protocol (seeded) |
+| 🔄 | S10 Frame Theory (seeded) |
+| 🔄 | S11 Hybrid Emergence (active) |
         """)
 
         st.markdown("### Empirical Validation")
         st.markdown("""
-        ✅ S3_EXP_001 Single-persona baseline
-        ✅ S3_EXP_002 Cross-architecture (σ² = 0.000869)
-        🔄 S3_EXP_003 Human validation (ready)
-        ✅ S7_RUN_001-006 Meta-Loop experiments
-        ✅ S7_RUN_006 Armada (174 probes, 100%)
-        🔄 S7_RUN_007 Adaptive learning (ready)
+| Status | Item |
+|--------|------|
+| ✅ | S3_EXP_001 Single-persona baseline |
+| ✅ | S3_EXP_002 Cross-architecture (σ² = 0.000869) |
+| 🔄 | S3_EXP_003 Human validation (ready) |
+| ✅ | S7_RUN_001-006 Meta-Loop experiments |
+| ✅ | S7_RUN_006 Armada (174 probes, 100%) |
+| ✅ | S7_RUN_008 Great Recalibration (29 ships) |
+| 🔄 | S7_RUN_009 Persona injection (planned) |
         """)
 
     with col2:
         st.markdown("### Documentation")
         st.markdown("""
-        ✅ NYQUIST_SPEC.md complete
-        ✅ STACKUP_MAP.md complete
-        ✅ VALIDATION_STATUS.md complete
-        ✅ HYPOTHESES_AND_RESULTS.md complete
-        ✅ Glossary defined
-        🔄 Tutorial notebooks
-        ⬜ External reviewer feedback
+| Status | Item |
+|--------|------|
+| ✅ | NYQUIST_SPEC.md complete |
+| ✅ | STACKUP_MAP.md complete |
+| ✅ | VALIDATION_STATUS.md complete |
+| ✅ | HYPOTHESES_AND_RESULTS.md complete |
+| ✅ | MASTER_GLOSSARY.md + decoder rings |
+| 🔄 | Tutorial notebooks |
+| ⬜ | External reviewer feedback |
         """)
 
         st.markdown("### Publication Mechanics")
         st.markdown("""
-        🔄 Abstract drafted
-        🔄 Introduction written
-        🔄 Methods section
-        ✅ Key results documented
-        ⬜ Discussion section
-        ⬜ References compiled
-        ⬜ Figures generated
+| Status | Item |
+|--------|------|
+| 🔄 | Abstract drafted |
+| 🔄 | Introduction written |
+| 🔄 | Methods section |
+| ✅ | Key results documented |
+| ⬜ | Discussion section |
+| ⬜ | References compiled |
+| ⬜ | Figures generated |
         """)
 
 

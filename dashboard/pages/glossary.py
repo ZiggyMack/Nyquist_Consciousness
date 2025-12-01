@@ -166,11 +166,10 @@ def render_mode_selector():
             if st.button(
                 f"{mode_info['emoji']} {mode_info['name']}",
                 key=f"mode_{mode_key}",
-                use_container_width=True,
                 type=btn_type
             ):
                 st.session_state.glossary_mode = mode_key
-                st.rerun()
+                st.experimental_rerun()
 
     # Show current mode description
     current = TERMINOLOGY_MODES[st.session_state.glossary_mode]
@@ -181,6 +180,8 @@ def render_mode_selector():
 
 def render_decoder_ring(ring_key, mode):
     """Render a decoder ring table with current mode highlighting."""
+    import pandas as pd
+
     if ring_key not in DECODER_RINGS:
         return
 
@@ -192,63 +193,21 @@ def render_decoder_ring(ring_key, mode):
     # Determine column order based on mode
     if mode == "nyquist":
         col_headers = ["Nyquist (Canonical)", ring_key.upper() + " Term", "Plain English"]
-        get_row = lambda t: [t["nyquist"], t["external"], t["plain"]]
+        rows = [[t["nyquist"], t["external"], t["plain"]] for t in ring["terms"]]
     else:
         col_headers = [ring_key.upper() + " Term", "Nyquist (Canonical)", "Plain English"]
-        get_row = lambda t: [t["external"], t["nyquist"], t["plain"]]
+        rows = [[t["external"], t["nyquist"], t["plain"]] for t in ring["terms"]]
 
-    # Build table HTML
-    table_html = f"""
-    <table style="width:100%; border-collapse: collapse; margin: 1em 0;">
-        <thead>
-            <tr style="background: {TERMINOLOGY_MODES.get(ring_key, TERMINOLOGY_MODES['nyquist'])['color']}; color: white;">
-                <th style="padding: 0.7em; text-align: left; border: 1px solid #ddd;">{col_headers[0]}</th>
-                <th style="padding: 0.7em; text-align: left; border: 1px solid #ddd;">{col_headers[1]}</th>
-                <th style="padding: 0.7em; text-align: left; border: 1px solid #ddd;">{col_headers[2]}</th>
-            </tr>
-        </thead>
-        <tbody>
-    """
-
-    for term in ring["terms"]:
-        row = get_row(term)
-        table_html += f"""
-            <tr>
-                <td style="padding: 0.5em; border: 1px solid #ddd; font-weight: 500;">{row[0]}</td>
-                <td style="padding: 0.5em; border: 1px solid #ddd;">{row[1]}</td>
-                <td style="padding: 0.5em; border: 1px solid #ddd; color: #666; font-size: 0.9em;">{row[2]}</td>
-            </tr>
-        """
-
-    table_html += "</tbody></table>"
-
-    # Use st.markdown with unsafe_allow_html for inline HTML rendering
-    st.markdown(table_html, unsafe_allow_html=True)
+    # Use pandas DataFrame + st.table for reliable rendering
+    df = pd.DataFrame(rows, columns=col_headers)
+    st.table(df)
 
     # Show theorists if available (Frame Theory)
     if "theorists" in ring:
         st.markdown("**Foundational Theorists:**")
-        theorist_html = """
-        <table style="width:100%; border-collapse: collapse; margin: 0.5em 0;">
-            <thead>
-                <tr style="background: #3498db; color: white;">
-                    <th style="padding: 0.5em; text-align: left; border: 1px solid #ddd;">Theorist</th>
-                    <th style="padding: 0.5em; text-align: left; border: 1px solid #ddd;">Core Contribution</th>
-                    <th style="padding: 0.5em; text-align: left; border: 1px solid #ddd;">Nyquist Equivalent</th>
-                </tr>
-            </thead>
-            <tbody>
-        """
-        for t in ring["theorists"]:
-            theorist_html += f"""
-                <tr>
-                    <td style="padding: 0.5em; border: 1px solid #ddd; font-weight: 500;">{t['name']}</td>
-                    <td style="padding: 0.5em; border: 1px solid #ddd;">{t['contribution']}</td>
-                    <td style="padding: 0.5em; border: 1px solid #ddd; color: #666;">{t['nyquist']}</td>
-                </tr>
-            """
-        theorist_html += "</tbody></table>"
-        st.markdown(theorist_html, unsafe_allow_html=True)
+        theorist_rows = [[t['name'], t['contribution'], t['nyquist']] for t in ring["theorists"]]
+        theorist_df = pd.DataFrame(theorist_rows, columns=["Theorist", "Core Contribution", "Nyquist Equivalent"])
+        st.table(theorist_df)
 
 
 def render_core_glossary(search_query=""):

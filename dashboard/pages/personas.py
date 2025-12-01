@@ -150,8 +150,8 @@ def render():
                 stem = filepath.stem
                 meta = PERSONA_META.get(stem, {"emoji": "🧠", "badge": "PUT", "color": "#95a5a6"})
 
-                # Card container
-                with st.container(border=True):
+                # Card container (border not supported in Streamlit 1.23)
+                with st.container():
                     st.caption(f"🏷️ {meta['badge']}")
 
                     # Expander with persona name - shows PREVIEW only
@@ -173,8 +173,8 @@ def render():
                 stem = filepath.stem
                 meta = PERSONA_META.get(stem, {"emoji": "🧠", "badge": "PUT", "color": "#95a5a6"})
 
-                # Card container
-                with st.container(border=True):
+                # Card container (border not supported in Streamlit 1.23)
+                with st.container():
                     st.caption(f"🏷️ {meta['badge']}")
 
                     # Expander with persona name - shows PREVIEW only
@@ -411,7 +411,7 @@ def render():
     st.markdown("""
     <div class="ascii-container" style="border-color: #2a9d8f;">
         <div class="ascii-title" style="color: #2a9d8f; border-color: #2a9d8f;">📈 DRIFT CURVE — RUN 003 (Identity Stability Over Time)</div>
-        <pre style="color: #2a9d8f;">
+        <pre style="color: #00ff9f;">
 TEMPORAL DRIFT: I(t) over time
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -461,7 +461,7 @@ Mean: 0.0775  |  Max: 0.1111  |  Variance: 0.000822  |  ✅ BOUNDED
         st.markdown("""
         <div class="ascii-container" style="border-color: #f4a261;">
             <div class="ascii-title" style="color: #f4a261; border-color: #f4a261;">⚡ DRIFT VECTORS BY ARCHITECTURE</div>
-            <pre style="color: #f4a261;">
+            <pre style="color: #ffcc00;">
              ┌──────────────────────────────────────┐
              │          DRIFT FIELD GEOMETRY        │
              └──────────────────────────────────────┘
@@ -526,7 +526,7 @@ Nova Drift ←────●────→ Grok Drift (Empirics)
         st.markdown("""
         <div class="ascii-container" style="border-color: #9b59b6;">
             <div class="ascii-title" style="color: #9b59b6; border-color: #9b59b6;">⏱️ TEMPORAL CURVATURE κ(t)</div>
-            <pre style="color: #9b59b6;">
+            <pre style="color: #da70d6;">
             ┌──────────────────────────────────────┐
             │        TEMPORAL CURVATURE (S7)       │
             └──────────────────────────────────────┘
@@ -553,7 +553,7 @@ Nova Drift ←────●────→ Grok Drift (Empirics)
         st.markdown("""
         <div class="ascii-container" style="border-color: #e74c3c;">
             <div class="ascii-title" style="color: #e74c3c; border-color: #e74c3c;">∞ THE INFINITE RECURSIVE LOOP</div>
-            <pre style="color: #e74c3c;">
+            <pre style="color: #ff6b6b;">
       ┌──────────────────┐
       │   RUN N          │
       │  Ziggy explains  │◀────┐

@@ -150,9 +150,9 @@ def render():
         )
 
     with col2:
-        # Bar chart
+        # Bar chart (color param not supported in Streamlit 1.23)
         chart_data = persona_df.set_index("Persona")[["PFI"]]
-        st.bar_chart(chart_data, color="#2a9d8f")
+        st.bar_chart(chart_data)
 
     page_divider()
 

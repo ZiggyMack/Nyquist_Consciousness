@@ -31,7 +31,7 @@ PATHS = {
     'status_file': REPO_ROOT / "NYQUIST_STATUS.json",
     'dashboard_doc': REPO_ROOT / "NYQUIST_DASHBOARD.md",
     'glossary': REPO_ROOT / "docs" / "GLOSSARY.md",
-    'roadmap': REPO_ROOT / "docs" / "NYQUIST_ROADMAP.md",
+    'roadmap': REPO_ROOT / "docs" / "maps" / "NYQUIST_ROADMAP.md",
 
     # Personas
     'personas_dir': REPO_ROOT / "personas",

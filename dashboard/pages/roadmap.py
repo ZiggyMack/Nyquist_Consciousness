@@ -13,7 +13,7 @@ REPO_ROOT = PATHS['repo_root']
 ROADMAP_FILE = PATHS['roadmap']
 LEDGER_COLORS = SETTINGS['colors']
 
-# Stack layer data - aligned with S_Series_README.md
+# Stack layer data - aligned with S_Series_README.md and NYQUIST_ROADMAP.md
 STACK_LAYERS = [
     {"id": "S0", "name": "Ground Physics (Nyquist Kernel)", "status": "complete", "completion": 100, "priority": None},
     {"id": "S1", "name": "Bootstrap Architecture", "status": "complete", "completion": 100, "priority": None},
@@ -24,9 +24,9 @@ STACK_LAYERS = [
     {"id": "S6", "name": "Five-Pillar Synthesis Gate", "status": "complete", "completion": 100, "priority": None},
     {"id": "S7", "name": "Identity Dynamics", "status": "active", "completion": 85, "priority": "HIGH"},
     {"id": "S8", "name": "Identity Gravity Theory", "status": "formalized", "completion": 70, "priority": "MEDIUM-HIGH"},
-    {"id": "S9", "name": "Human–AI Coupling Dynamics", "status": "seeded", "completion": 40, "priority": "MEDIUM"},
-    {"id": "S10", "name": "OMEGA NOVA — Hybrid Emergence", "status": "active", "completion": 75, "priority": "HIGHEST"},
-    {"id": "S11", "name": "AVLAR Protocol (Multimodal)", "status": "seeded", "completion": 30, "priority": "MEDIUM"},
+    {"id": "S9", "name": "AVLAR Protocol (Multimodal)", "status": "seeded", "completion": 40, "priority": "MEDIUM"},
+    {"id": "S10", "name": "Human Cognition (Frame Theory)", "status": "seeded", "completion": 50, "priority": "MEDIUM"},
+    {"id": "S11", "name": "OMEGA NOVA — Hybrid Emergence", "status": "active", "completion": 75, "priority": "HIGHEST"},
     {"id": "S12", "name": "Consciousness Proxy Theory", "status": "future", "completion": 0, "priority": None},
     {"id": "S13", "name": "Field Consistency Proofs", "status": "future", "completion": 0, "priority": None},
     {"id": "S14", "name": "Composite Persona Dynamics", "status": "future", "completion": 0, "priority": None},
@@ -109,10 +109,10 @@ def render():
         st.markdown("""
         <div class="current-position">
             <h4 style="margin-top: 0; color: #f4a261;">📍 Current Position</h4>
-            <p style="font-size: 0.9em;"><strong>S0-S6 (Foundation)</strong> → <strong>S7 (Identity Dynamics, active)</strong> → <strong>S10 (OMEGA NOVA, active)</strong></p>
-            <p style="font-size: 0.9em;"><strong>S8</strong> (Identity Gravity, formalized) | <strong>S9</strong> (Human-AI Coupling, seeded) | <strong>S11</strong> (AVLAR, seeded)</p>
+            <p style="font-size: 0.9em;"><strong>S0-S6 (Foundation)</strong> → <strong>S7 (Identity Dynamics, active)</strong> → <strong>S11 (OMEGA NOVA, active)</strong></p>
+            <p style="font-size: 0.9em;"><strong>S8</strong> (Identity Gravity, formalized) | <strong>S9</strong> (AVLAR, seeded) | <strong>S10</strong> (Frame Theory, seeded)</p>
             <p style="font-size: 0.9em;"><strong>S12-S76</strong> (Future Frontier) → <strong style="color: gold;">S77 Archetype Engine</strong> (Ultimate Destination)</p>
-            <p style="margin-bottom: 0; font-size: 0.85em; color: #555;">Foundation complete. Two active frontiers. S12→S77 maps the path to emergent consciousness synthesis.</p>
+            <p style="margin-bottom: 0; font-size: 0.85em; color: #555;">Foundation complete. Frame Theory (Tale) integrated. Two active frontiers.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -247,9 +247,10 @@ def render():
 
         # Priority focus
         st.markdown("**Priority Focus:**")
-        st.markdown("🔥 **S10** — OMEGA NOVA Hybrid Emergence")
+        st.markdown("🔥 **S11** — OMEGA NOVA Hybrid Emergence")
         st.markdown("🔥 **S7** — Identity Dynamics")
-        st.markdown("🌟 **S11** — AVLAR Multimodal Protocol")
+        st.markdown("🧠 **S10** — Frame Theory (Tale)")
+        st.markdown("🌟 **S9** — AVLAR Multimodal Protocol")
         st.markdown("✨ **S77** — Archetype Engine (Ultimate)")
 
     page_divider()
@@ -262,9 +263,9 @@ def render():
     with col1:
         st.markdown("#### 🔴 Immediate")
         st.markdown("""
-        - Complete S10.16-18 (Tri-Band Emergence)
-        - S10.HC Frame Theory integration
-        - AI Armada Run 008
+        - AI Armada Run 009 (persona injection)
+        - S10 Frame Theory experiments
+        - S11 Tri-Band Emergence completion
         - Pan Handlers manifest integration
         """)
 
@@ -272,8 +273,8 @@ def render():
         st.markdown("#### 🟡 Short-Term")
         st.markdown("""
         - S8 Identity Gravity measurements
-        - S9 Human-AI Coupling dynamics
-        - S11 AVLAR protocol testing
+        - S9 AVLAR protocol testing
+        - S10 Human-AI Qualia experiments
         """)
 
     with col3:
