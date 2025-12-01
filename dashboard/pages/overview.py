@@ -261,7 +261,50 @@ def render():
     # === EXPERIMENTS ===
     st.markdown("### Empirical Validation")
 
-    exp_rows = []
+    # Mobile-friendly CSS for experiment cards
+    st.markdown("""
+    <style>
+    .exp-card {
+        background: #f8f9fa;
+        border-left: 4px solid #2a9d8f;
+        border-radius: 0 8px 8px 0;
+        padding: 0.8em 1em;
+        margin-bottom: 0.8em;
+    }
+    .exp-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5em;
+    }
+    .exp-id {
+        font-weight: bold;
+        color: #2a9d8f;
+        font-size: 0.9em;
+    }
+    .exp-status {
+        font-size: 0.85em;
+        padding: 0.2em 0.6em;
+        border-radius: 12px;
+        background: rgba(42, 157, 143, 0.15);
+    }
+    .exp-name {
+        font-weight: 600;
+        color: #333;
+        margin: 0.3em 0;
+    }
+    .exp-metrics {
+        font-size: 0.85em;
+        color: #666;
+    }
+    @media (max-width: 768px) {
+        .exp-card { padding: 0.6em 0.8em; }
+        .exp-name { font-size: 0.9em; }
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     for exp_id, info in sorted(experiments.items(), key=lambda x: natural_sort_key(x[0])):
         status_emoji = {
             "complete": "✅",
@@ -270,16 +313,21 @@ def render():
             "planned": "⚪"
         }.get(info.get("status", ""), "❓")
 
-        exp_rows.append({
-            "ID": exp_id,
-            "Layer": info.get("layer", "—"),
-            "Name": info.get("name", ""),
-            "Status": f"{status_emoji} {info.get('status', '').upper()}",
-            "Key Metrics": info.get("key_metrics", info.get("key_metric", "")),
-        })
-    if exp_rows:
-        df_exp = pd.DataFrame(exp_rows)
-        st.table(df_exp)
+        status_text = info.get('status', '').upper()
+        layer = info.get("layer", "—")
+        name = info.get("name", "")
+        metrics = info.get("key_metrics", info.get("key_metric", ""))
+
+        st.markdown(f"""
+        <div class="exp-card">
+            <div class="exp-header">
+                <span class="exp-id">{exp_id} • {layer}</span>
+                <span class="exp-status">{status_emoji} {status_text}</span>
+            </div>
+            <div class="exp-name">{name}</div>
+            <div class="exp-metrics">{metrics}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     page_divider()
 

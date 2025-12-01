@@ -192,22 +192,29 @@ def apply_custom_css():
     pre {
         background: #f8f9fa !important;
         color: #333333 !important;
+        white-space: pre !important;
     }
 
     /* ===== ASCII ART CONTAINERS (Personas page) ===== */
-    /* Allow dark-themed ASCII art containers to override light theme */
+    /* Light theme for ASCII art - clean and readable */
     .ascii-container {
-        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%) !important;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+        overflow-x: auto !important;
     }
     .ascii-container pre {
         background: transparent !important;
-        color: #00ff41 !important;
+        color: #264653 !important;
+        white-space: pre !important;
+        font-family: 'Courier New', Consolas, monospace !important;
+        font-size: 0.7em !important;
+        line-height: 1.15 !important;
+        overflow-x: auto !important;
     }
     .ascii-container * {
-        color: inherit !important;
+        color: #264653 !important;
     }
     .ascii-title {
-        color: #3498db !important;
+        color: #2a9d8f !important;
     }
 
     /* ===== ENSURE FOOTER VISIBLE ===== */
