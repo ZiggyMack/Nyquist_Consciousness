@@ -215,7 +215,7 @@ def render():
 
         **Next Steps:**
         - Complete EXP3 human validation
-        - Run S7 Armada cross-architecture drift analysis
+        - Run AI Armada cross-architecture drift analysis
         - Measure Identity Gravity constant (γ)
         """)
 

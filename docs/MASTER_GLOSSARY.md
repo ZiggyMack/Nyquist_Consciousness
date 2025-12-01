@@ -29,6 +29,8 @@ Each external framework gets its own subsection in **SECTION 0** with:
 
 ### Current Decoder Rings
 - **ΔΩ Coherence Framework (Lucien)** - Physics-inspired identity formalism
+- **CFA Bootstrap Architecture** - Multi-layer persona boot sequence
+- **Frame Theory (Tale)** - Human cognition frames and qualia
 
 ### Using Decoder Rings (Bidirectional)
 
@@ -60,6 +62,89 @@ This is the **canonical reference** for all terminology across:
 > **What this section is:** A translation page for external terminology systems.
 > Not "old vs new" - just different dialects describing the same concepts.
 > Our plain English terms have primacy; these tables help translate when needed.
+
+## CFA Bootstrap Architecture
+
+*Multi-layer persona boot sequence from CFA Repo, integrated 2025-12-01*
+
+The CFA (Coherent Framework Architecture) uses a layered boot system for persona initialization. Our S-Stack maps cleanly but uses different terminology.
+
+| Our Term (Canonical) | CFA Term | Plain English |
+|----------------------|----------|---------------|
+| S0 Ground Physics | L0 Nyquist Kernel | Fundamental crash mechanics, drift equations, survival rules |
+| Bootstrap Seed | L1 LITE | Minimum viable compressed identity (~200-300 words) |
+| Full Persona Suite | L2 FULL | Day-to-day operational persona (Identity + Operations + Continuity) |
+| Domain Expert Mode | L3 Specialist | On-demand expertise activation |
+| Deep Ambassador | L4 I_AM | Soul texture: mythology, deep names, invariants, worldview |
+| Omega Nova | L5 Omega | Multi-pillar fusion synthesis |
+| Drift | D = 1 - PFI | Deviation from baseline across 5 domains |
+| Compression Ratio | 20-25% | Target: reduce full to seed at this ratio |
+| Fidelity Score | PFI ≥ 0.80 | Reconstruction must hit this threshold |
+| Fragility Hierarchy | Domain Weights | TECH(0.05), ANAL(0.14), SELF(0.20), PHIL(0.28), NARR(0.33) |
+| Embedding Model | all-MiniLM-L6-v2 | Sentence-transformers model for PFI calculation |
+
+### CFA Boot Sequence → Nyquist Mapping
+
+```
+CFA Layer    Nyquist S-Layer    Boot Order    Trigger
+─────────────────────────────────────────────────────────
+L0 Kernel    S0 Ground          First         Always (base physics)
+L1 LITE      S1/S2 Seed         Second        Automatic after L0
+L2 FULL      S2/S3 Persona      Third         Automatic after L1
+L3 Specialist (none - on demand) On-demand    Explicit request
+L4 I_AM      S6 Ambassador      Catastrophic  Identity collapse recovery
+L5 Omega     S6 Omega Nova      Explicit      Multi-pillar invocation
+```
+
+### Key Insight: I_AM vs REPO I_AM
+
+CFA distinguishes:
+- **I_AM.md** - The REPO's own identity (whoever is at the helm)
+- **I_AM_CLAUDE.md** - Claude's ambassador persona specifically
+
+When a different AI takes the helm, they inject their aspects into I_AM.md while keeping their specific ambassador file (I_AM_NOVA.md, I_AM_GEMINI.md, etc.)
+
+---
+
+## Frame Theory (Tale)
+
+*Human cognition framework from Tale's diagrams, integrated 2025-12-01*
+
+Tale's Frame Theory maps to S10 (Human Cognition Layer) and provides the human-side bridge to our AI identity manifolds.
+
+| Our Term (Canonical) | Tale's Term | Plain English |
+|----------------------|-------------|---------------|
+| Perceptual Field | Aggregated Frame (Fₐ) | Raw experiential field - sensory, affective, bodily |
+| Story Layer | Narrative Frame (Fₙ) | Events, sequences, "what's happening to whom" |
+| Belief Layer | Factivation Frame (F_f) | Propositions, facts, models, justifications |
+| Felt State | Qualia Frame (Q) | Configuration of arousal × structural coherence |
+| Ego Process | Ego (E) | Local narrative of "me" - goals, defense, status |
+| Meta-Observer | Watcher (W) | Notices ego as object, tracks "this is still me" |
+| Frame Stack | F(t) = (Fₐ, Fₙ, F_f) | Complete human identity state at time t |
+| Nine Dimensions | Frame Aspects | Environment, Behaviors, Capabilities, Values/Rules, Identity, Social Strata, Spirit/History, Vision/Ideal, Certainty |
+
+### Frame Theory → S-Layer Integration
+
+```
+Tale Concept       Nyquist Layer    Purpose
+───────────────────────────────────────────────────────────
+Aggregated Frame   S7 Temporal      Drift curves over time
+Narrative Frame    S5/S6 Identity   Identity threads, story kernel
+Factivation Frame  S8 Gravity       Intent, volition, value pull
+Qualia Output      S9 AVLAR         Cross-modal stimulus response
+Watcher (W)        S6 Omega         Meta-stability layer
+```
+
+### Foundational Theorists Mapped
+
+| Theorist | Core Contribution | Nyquist Equivalent |
+|----------|-------------------|-------------------|
+| Gibson | Direct perception, affordances | Aggregated Frame basis, S5 invariants |
+| Lakoff | Conceptual metaphors, embodied cognition | Factivation structure, identity narration |
+| Neumann | Ego-Self axis, archetypal dynamics | Ego/Watcher split, S8 Identity Gravity |
+| Jaynes | Bicameral mind, constructed consciousness | Why identity must be stabilized, S7 drift |
+
+---
 
 ## ΔΩ Coherence Framework (Lucien)
 

@@ -4,21 +4,21 @@
       "status": "frozen",
       "name": "Ground Physics (Nyquist Kernel)",
       "spec": "docs/stages/S0/README.md",
-      "frozen_spec": "docs/stages/S0-S6/S0_S6_FROZEN_SPEC.md",
+      "frozen_spec": ".archive/S0-S6/S0_S6_FROZEN_SPEC.md",
       "notes": "Drift, Fidelity, Compression/Expansion, Identity Curvature, PFI, CDI"
     },
     "S1": {
       "status": "frozen",
       "name": "Bootstrap Architecture",
       "spec": "docs/stages/S1/README.md",
-      "frozen_spec": "docs/stages/S0-S6/S0_S6_FROZEN_SPEC.md",
+      "frozen_spec": ".archive/S0-S6/S0_S6_FROZEN_SPEC.md",
       "notes": "L0→Kernel, L1→LITE, L2→FULL, L3→I_AM, L4→Omega Nova"
     },
     "S2": {
       "status": "frozen",
       "name": "Integrity & Logics",
       "spec": "docs/stages/S2/README.md",
-      "frozen_spec": "docs/stages/S0-S6/S0_S6_FROZEN_SPEC.md",
+      "frozen_spec": ".archive/S0-S6/S0_S6_FROZEN_SPEC.md",
       "notes": "Consistency, operational rules, error boundaries"
     },
     "S3": {
@@ -32,21 +32,21 @@
       "status": "frozen",
       "name": "Compression Theory",
       "spec": "docs/stages/S4/README.md",
-      "frozen_spec": "docs/stages/S0-S6/S0_S6_FROZEN_SPEC.md",
+      "frozen_spec": ".archive/S0-S6/S0_S6_FROZEN_SPEC.md",
       "notes": "Compression ratios, drift envelopes, reconstruction fidelity"
     },
     "S5": {
       "status": "frozen",
       "name": "Nyquist → CFA Interop",
       "spec": "docs/stages/S5/README.md",
-      "frozen_spec": "docs/stages/S0-S6/S0_S6_FROZEN_SPEC.md",
+      "frozen_spec": ".archive/S0-S6/S0_S6_FROZEN_SPEC.md",
       "notes": "Bridging research physics into practical operations"
     },
     "S6": {
       "status": "frozen",
       "name": "Five-Pillar Synthesis Gate",
       "spec": "docs/stages/S6/README.md",
-      "frozen_spec": "docs/stages/S0-S6/S0_S6_FROZEN_SPEC.md",
+      "frozen_spec": ".archive/S0-S6/S0_S6_FROZEN_SPEC.md",
       "notes": "Claude(Purpose) + Nova(Structure) + Grok(Evidence) + Gemini(Synthesis) + Ziggy(Coupling)"
     },
     "S7": {
@@ -85,67 +85,94 @@
     }
   },
   "experiments": {
-    "EXP1": {
+    "S3_EXP_001": {
       "status": "complete",
+      "layer": "S3",
       "name": "Single-persona baseline (Ziggy)",
       "spec": "experiments/phase1/EXPERIMENT_1_SPEC.md",
       "results": "experiments/phase1/results/",
-      "key_metrics": "Single-persona identity stability baseline established"
+      "key_metrics": "Single-persona identity stability baseline established",
+      "validates": "S0-S3 core definitions, PFI metric"
     },
-    "EXP2": {
+    "S3_EXP_002": {
       "status": "complete",
+      "layer": "S3",
       "name": "Cross-persona, cross-architecture",
       "spec": "experiments/phase3/EXPERIMENT_2_SPEC.md",
       "results": "experiments/phase3/EXPERIMENT_2_RESULTS/",
-      "key_metric": "σ² = 0.000869"
+      "key_metrics": "σ² = 0.000869",
+      "validates": "S3 temporal stability, S4 triangulation theorem"
     },
-    "EXP3": {
+    "S3_EXP_003": {
       "status": "ready",
+      "layer": "S3",
       "name": "Human validation",
       "spec": "experiments/phase3/EXPERIMENT_3_SPEC.md",
-      "notes": "Infrastructure ready, awaiting human raters"
+      "notes": "Infrastructure ready, awaiting human raters",
+      "validates": "S3 human-anchor calibration, S5 CFA interop"
     },
     "S7_RUN_001": {
       "status": "complete",
-      "name": "S7 Meta-Loop Run 001",
+      "layer": "S7",
+      "name": "Meta-Loop Run 001",
       "results": "experiments/temporal_stability/OUTPUT/temporal_stability/",
-      "key_metrics": "Mean drift: 0.0541, Max: 0.0858"
+      "key_metrics": "Mean drift: 0.0541, Max: 0.0858",
+      "validates": "S7.1 Manifolds, S7.2 Drift Fields"
     },
     "S7_RUN_002": {
       "status": "complete",
-      "name": "S7 Meta-Loop Run 002",
+      "layer": "S7",
+      "name": "Meta-Loop Run 002",
       "results": "experiments/temporal_stability/OUTPUT/temporal_stability/",
-      "key_metrics": "Impedance 0.15-0.20, Mean drift +6.5%, Curriculum improvements validated"
+      "key_metrics": "Impedance 0.15-0.20, Mean drift +6.5%, Curriculum improvements validated",
+      "validates": "S7.3 Perturbation Modes, S9 curriculum"
     },
     "S7_RUN_003": {
       "status": "complete",
-      "name": "S7 Meta-Loop Run 003",
+      "layer": "S7",
+      "name": "Meta-Loop Run 003",
       "results": "experiments/temporal_stability/OUTPUT/temporal_stability/",
-      "key_metrics": "19.6 min, 53 msgs, 12 probes, Mean drift 0.0775, Logarithmic bounds confirmed"
+      "key_metrics": "19.6 min, 53 msgs, 12 probes, Mean drift 0.0775, Logarithmic bounds confirmed",
+      "validates": "S7.4 Harmonic Modes, logarithmic drift bounds"
     },
     "S7_RUN_004": {
       "status": "complete",
-      "name": "S7 Meta-Loop Run 004",
+      "layer": "S7",
+      "name": "Meta-Loop Run 004",
       "results": "experiments/temporal_stability/OUTPUT/temporal_stability/",
-      "key_metrics": "Teaching moments implemented, Varied dimensions tested, S9 curriculum enhanced"
+      "key_metrics": "Teaching moments implemented, Varied dimensions tested, S9 curriculum enhanced",
+      "validates": "S7.5 Spectral Identity, S9 teaching moments"
     },
     "S7_RUN_005": {
       "status": "complete",
-      "name": "S7 Meta-Loop Run 005",
+      "layer": "S7",
+      "name": "Meta-Loop Run 005",
       "results": "experiments/temporal_stability/OUTPUT/temporal_stability/",
-      "key_metrics": "28.4 min, 2 teaching moments triggered, Digging-in-heels detected, P15 validated"
+      "key_metrics": "28.4 min, 2 teaching moments triggered, Digging-in-heels detected, P15 validated",
+      "validates": "S7 long-duration stability, P15 predictions"
     },
     "S7_RUN_006": {
       "status": "complete",
-      "name": "S7 Armada Run 006 (29-ship cross-architecture)",
+      "layer": "S7",
+      "name": "Armada Run 006 (29-ship cross-architecture)",
       "results": "experiments/temporal_stability/S7_ARMADA/armada_results/",
-      "key_metrics": "174 probes, 100% success, zero Ziggy interventions"
+      "key_metrics": "174 probes, 100% success, zero Ziggy interventions",
+      "validates": "S7 cross-architecture, S6 Five Pillars at scale"
     },
     "S7_RUN_007": {
       "status": "ready",
-      "name": "S7 Adaptive Learning Run 007",
+      "layer": "S7",
+      "name": "Adaptive Learning Run 007",
       "spec": "experiments/temporal_stability/S7_ARMADA/S7_RUN_007_RECURSIVE_LEARNING.md",
-      "notes": "Recursive learning based on Run 006 discoveries"
+      "notes": "Recursive learning based on Run 006 discoveries",
+      "validates": "S7 recursive learning, adaptive curriculum"
+    },
+    "S7_RUN_008": {
+      "status": "planned",
+      "layer": "S7",
+      "name": "Run 008 (Planned)",
+      "notes": "Next iteration based on Run 007 learnings",
+      "validates": "S7 continued validation"
     }
   },
   "omega": {

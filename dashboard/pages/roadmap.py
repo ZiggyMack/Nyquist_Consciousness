@@ -218,7 +218,7 @@ def render():
             status_style = STATUS_STYLES[layer["status"]]
 
             # Use native Streamlit components for reliability
-            with st.container(border=True):
+            with st.container():
                 # Header row with layer info
                 header_cols = st.columns([1, 3, 2])
                 with header_cols[0]:
@@ -263,7 +263,8 @@ def render():
         st.markdown("#### 🔴 Immediate")
         st.markdown("""
         - Complete S10.16-18 (Tri-Band Emergence)
-        - S7 Armada Run 007
+        - S10.HC Frame Theory integration
+        - AI Armada Run 008
         - Pan Handlers manifest integration
         """)
 

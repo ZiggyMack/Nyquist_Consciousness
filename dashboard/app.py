@@ -12,7 +12,7 @@ from config import PATHS, SETTINGS
 from utils import load_status
 
 # Import page modules
-from pages import overview, personas, stackup, AI_ARMADA, metrics, omega, avlar, roadmap, glossary, publications, matrix
+from pages import overview, personas, stackup, AI_ARMADA, metrics, omega, avlar, roadmap, glossary, publications, matrix, faq
 
 # ========== THEME & STYLING ==========
 
@@ -197,6 +197,7 @@ def apply_custom_css():
     /* ===== TABLES & DATAFRAMES ===== */
     table, [data-testid="stTable"], .stDataFrame {
         color: #333333 !important;
+        background: #ffffff !important;
     }
 
     th {
@@ -207,11 +208,73 @@ def apply_custom_css():
 
     td {
         color: #333333 !important;
+        background: #ffffff !important;
         border-bottom: 1px solid #dee2e6;
     }
 
-    /* Dataframe specific */
+    /* Dataframe specific - force light theme */
+    [data-testid="stDataFrame"] {
+        background: #ffffff !important;
+    }
+
     [data-testid="stDataFrame"] div {
+        color: #333333 !important;
+        background: transparent !important;
+    }
+
+    [data-testid="stDataFrame"] [data-testid="StyledDataFrameDataCells"],
+    [data-testid="stDataFrame"] [data-testid="StyledDataFrameHeaderCell"] {
+        background: #ffffff !important;
+        color: #333333 !important;
+    }
+
+    /* Pandas styler dataframes */
+    .stDataFrame iframe {
+        background: #ffffff !important;
+    }
+
+    /* Glide Data Grid (Streamlit's dataframe component) - force light theme */
+    [data-testid="stDataFrame"] > div {
+        background: #ffffff !important;
+    }
+
+    /* Target the canvas and surrounding elements */
+    .dvn-scroller {
+        background: #ffffff !important;
+    }
+
+    /* Glide data grid cells */
+    .gdg-cell {
+        background: #ffffff !important;
+        color: #333333 !important;
+    }
+
+    /* Override any dark theme variables that might be set */
+    :root {
+        --gdg-bg-cell: #ffffff !important;
+        --gdg-bg-header: #2a9d8f !important;
+        --gdg-text-dark: #333333 !important;
+        --gdg-text-header: #ffffff !important;
+        --gdg-bg-cell-medium: #f8f9fa !important;
+    }
+
+    /* Multiselect pills/tags - keep teal theme */
+    [data-baseweb="tag"] {
+        background: #2a9d8f !important;
+        color: #ffffff !important;
+    }
+
+    [data-baseweb="tag"] span {
+        color: #ffffff !important;
+    }
+
+    /* Multiselect input container */
+    .stMultiSelect [data-baseweb="select"] > div {
+        background: #ffffff !important;
+    }
+
+    .stMultiSelect [data-baseweb="input"] {
+        background: #ffffff !important;
         color: #333333 !important;
     }
 
@@ -255,6 +318,56 @@ def apply_custom_css():
         border: 1px solid #ced4da !important;
     }
 
+    /* ===== SELECTBOX / DROPDOWN ===== */
+    /* Main selectbox container */
+    .stSelectbox [data-baseweb="select"] {
+        background: #ffffff !important;
+    }
+
+    .stSelectbox [data-baseweb="select"] > div {
+        background: #ffffff !important;
+        border: 1px solid #ced4da !important;
+    }
+
+    /* Selectbox selected value text */
+    .stSelectbox [data-baseweb="select"] span {
+        color: #333333 !important;
+    }
+
+    /* Dropdown menu (the popup list) */
+    [data-baseweb="popover"] {
+        background: #ffffff !important;
+    }
+
+    [data-baseweb="menu"] {
+        background: #ffffff !important;
+    }
+
+    /* Dropdown menu items */
+    [data-baseweb="menu"] li {
+        background: #ffffff !important;
+        color: #333333 !important;
+    }
+
+    [data-baseweb="menu"] li:hover {
+        background: #f0f0f0 !important;
+    }
+
+    /* Selected/highlighted item in dropdown */
+    [data-baseweb="menu"] li[aria-selected="true"] {
+        background: #e8f4f2 !important;
+        color: #2a9d8f !important;
+    }
+
+    /* Dropdown option text */
+    [data-baseweb="menu"] [role="option"] {
+        color: #333333 !important;
+    }
+
+    [data-baseweb="menu"] [role="option"]:hover {
+        background: #f0f0f0 !important;
+    }
+
     /* ===== RADIO BUTTONS ===== */
     [data-testid="stRadio"] label {
         color: #333333 !important;
@@ -263,6 +376,46 @@ def apply_custom_css():
     /* ===== WARNINGS/INFO/SUCCESS/ERROR ===== */
     .stAlert {
         color: #333333 !important;
+    }
+
+    /* ===== TABS ===== */
+    /* Tab button text - make sure it's readable */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        background: #f8f9fa !important;
+        border-radius: 4px 4px 0 0;
+        border: 1px solid #dee2e6 !important;
+        border-bottom: none !important;
+        padding: 8px 16px !important;
+    }
+
+    .stTabs [data-baseweb="tab"] p {
+        color: #333333 !important;
+        font-weight: 500;
+    }
+
+    /* Active tab styling */
+    .stTabs [aria-selected="true"] {
+        background: #ffffff !important;
+        border-color: #2a9d8f !important;
+        border-bottom: 2px solid #ffffff !important;
+    }
+
+    .stTabs [aria-selected="true"] p {
+        color: #2a9d8f !important;
+        font-weight: 600;
+    }
+
+    /* Tab panel content area */
+    .stTabs [data-baseweb="tab-panel"] {
+        background: #ffffff !important;
+        border: 1px solid #dee2e6 !important;
+        border-top: none !important;
+        padding: 16px !important;
+        border-radius: 0 0 4px 4px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -280,6 +433,7 @@ PAGE_MODULES = {
     "Roadmap": roadmap,
     "Glossary": glossary,
     "Publications": publications,
+    "FAQ": faq,
 }
 
 # Matrix is special - accessed via dedicated button, not radio

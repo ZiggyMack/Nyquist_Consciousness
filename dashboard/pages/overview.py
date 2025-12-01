@@ -8,9 +8,15 @@ experiments, and publication progress with visual analytics.
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import re
 from pathlib import Path
 from config import PATHS, SETTINGS
 from utils import load_status, load_publication_status, load_markdown_file, page_divider
+
+
+def natural_sort_key(s):
+    """Sort strings with embedded numbers in natural order (S1, S2, S10 not S1, S10, S2)."""
+    return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
 
 # Unpack paths
 REPO_ROOT = PATHS['repo_root']
@@ -219,7 +225,7 @@ def render():
     with col1:
         # Layer Stack Table (more compact)
         rows = []
-        for name, info in sorted(layers.items()):
+        for name, info in sorted(layers.items(), key=lambda x: natural_sort_key(x[0])):
             status_emoji = {
                 "frozen": "🔵",
                 "active": "🟢",
@@ -244,8 +250,8 @@ def render():
         st.markdown(f"**Phase:** `{freeze_info.get('phase', 'unknown')}`")
 
         st.markdown("#### Quick Stats")
-        st.markdown(f"**Frozen:** {', '.join(sorted([k for k, v in layers.items() if v.get('status') == 'frozen']))}")
-        st.markdown(f"**Active:** {', '.join(sorted([k for k, v in layers.items() if v.get('status') == 'active']))}")
+        st.markdown(f"**Frozen:** {', '.join(sorted([k for k, v in layers.items() if v.get('status') == 'frozen'], key=natural_sort_key))}")
+        st.markdown(f"**Active:** {', '.join(sorted([k for k, v in layers.items() if v.get('status') == 'active'], key=natural_sort_key))}")
 
     page_divider()
 
@@ -253,7 +259,7 @@ def render():
     st.markdown("### Empirical Validation")
 
     exp_rows = []
-    for exp_id, info in sorted(experiments.items()):
+    for exp_id, info in sorted(experiments.items(), key=lambda x: natural_sort_key(x[0])):
         status_emoji = {
             "complete": "✅",
             "active": "🟢",
@@ -263,6 +269,7 @@ def render():
 
         exp_rows.append({
             "ID": exp_id,
+            "Layer": info.get("layer", "—"),
             "Name": info.get("name", ""),
             "Status": f"{status_emoji} {info.get('status', '').upper()}",
             "Key Metrics": info.get("key_metrics", info.get("key_metric", "")),

@@ -394,8 +394,8 @@ def render():
 
     page_divider()
 
-    # === LIVE DRIFT DATA FROM S7 ARMADA ===
-    st.markdown("### 📊 Temporal Drift Dynamics — S7 Armada Results")
+    # === LIVE DRIFT DATA FROM AI ARMADA ===
+    st.markdown("### 📊 Temporal Drift Dynamics — AI Armada Results")
 
     st.markdown("""
     <div style="background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, rgba(39,174,96,0.05) 100%);

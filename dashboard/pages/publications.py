@@ -203,6 +203,93 @@ def render_paper_drafts():
             st.write("_No markdown files yet._")
 
 
+def render_key_results():
+    """Render key empirical results summary - toot our horn!"""
+    st.markdown("## 🏆 Key Empirical Results")
+    st.markdown("*Validated findings ready for publication*")
+
+    page_divider()
+
+    # Hero metrics
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.metric(
+            "Cross-Arch Variance",
+            "σ² = 0.000869",
+            delta="Remarkably Low",
+            delta_color="normal"
+        )
+
+    with col2:
+        st.metric(
+            "Hypotheses Confirmed",
+            "14/25",
+            delta="56%",
+            delta_color="normal"
+        )
+
+    with col3:
+        st.metric(
+            "Armada Success",
+            "100%",
+            delta="174 probes",
+            delta_color="normal"
+        )
+
+    with col4:
+        st.metric(
+            "S7 Runs Complete",
+            "6/8",
+            delta="75%",
+            delta_color="normal"
+        )
+
+    page_divider()
+
+    # Validated claims
+    st.markdown("### ✅ Validated Claims")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        **S3 — Temporal Stability**
+        - ✅ Cross-architecture variance σ² = 0.000869
+        - ✅ Domain hierarchy: TECH > ANAL > SELF ≈ PHIL > NARR
+        - ✅ Tier-3 compression preserves ≥80% fidelity
+
+        **S4 — Mathematical Formalism**
+        - ✅ Convergent Reconstruction Theorem
+        - ✅ Drift Cancellation Theorem
+        - ✅ Triangulation Optimality (29-ship armada)
+        """)
+
+    with col2:
+        st.markdown("""
+        **S7 — Identity Dynamics**
+        - ✅ Logarithmic drift bounds: D_t ≤ α log(1 + t) + β
+        - ✅ Stability half-life T½ exists
+        - ✅ Omega convergence with exponential decay
+        - ✅ Spectral decomposition (Keely 3-6-9)
+
+        **S6 — Omega Nova**
+        - ✅ Five Pillars tested at scale (174 probes)
+        - ✅ Zero Ziggy interventions needed
+        """)
+
+    page_divider()
+
+    # Open questions
+    st.markdown("### 🔬 Open Questions (Future Work)")
+    st.markdown("""
+    - **S8:** What is the identity gravity constant γ?
+    - **S9:** How does human coupling (HGF) vary across personas?
+    - **S10:** Do emergence thresholds (H, G, R, T, B) hold empirically?
+    - **S3_EXP_003:** Human validation awaiting raters
+    """)
+
+
 def render_research_checklist():
     """Render research publication readiness checklist."""
     st.markdown("## ✅ Publication Readiness Checklist")
@@ -219,24 +306,31 @@ def render_research_checklist():
         ✅ Nyquist Kernel formalized
         ✅ Five-Pillar synthesis defined
         ✅ Identity dynamics equations
+        🔄 S7 Identity Dynamics (active)
+        🔄 S8 Identity Gravity (design)
+        🔄 S9 Human Coupling (active)
         🔄 S10 Hybrid Emergence (active)
-        🔄 S11 AVLAR Protocol (seeded)
+        🔄 S11 AVLAR Protocol (design)
         """)
 
         st.markdown("### Empirical Validation")
         st.markdown("""
-        ✅ EXP1 Single-persona baseline
-        ✅ EXP2 Cross-architecture (σ² = 0.000869)
-        🔄 EXP3 Human validation (ready)
-        ✅ AI Armada Run 006 (174 probes, 100%)
+        ✅ S3_EXP_001 Single-persona baseline
+        ✅ S3_EXP_002 Cross-architecture (σ² = 0.000869)
+        🔄 S3_EXP_003 Human validation (ready)
+        ✅ S7_RUN_001-006 Meta-Loop experiments
+        ✅ S7_RUN_006 Armada (174 probes, 100%)
+        🔄 S7_RUN_007 Adaptive learning (ready)
         """)
 
     with col2:
         st.markdown("### Documentation")
         st.markdown("""
         ✅ NYQUIST_SPEC.md complete
+        ✅ STACKUP_MAP.md complete
+        ✅ VALIDATION_STATUS.md complete
+        ✅ HYPOTHESES_AND_RESULTS.md complete
         ✅ Glossary defined
-        ✅ API documentation
         🔄 Tutorial notebooks
         ⬜ External reviewer feedback
         """)
@@ -246,9 +340,10 @@ def render_research_checklist():
         🔄 Abstract drafted
         🔄 Introduction written
         🔄 Methods section
-        ⬜ Results formatted
+        ✅ Key results documented
         ⬜ Discussion section
         ⬜ References compiled
+        ⬜ Figures generated
         """)
 
 
@@ -260,7 +355,8 @@ def render():
     page_divider()
 
     # Tab layout for different sections
-    tab1, tab2, tab3, tab4 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "🏆 Key Results",
         "🎯 Perfection Meter",
         "📚 Publication Tracks",
         "📝 Paper Drafts",
@@ -268,15 +364,18 @@ def render():
     ])
 
     with tab1:
-        render_publication_meter()
+        render_key_results()
 
     with tab2:
-        render_publication_tracks()
+        render_publication_meter()
 
     with tab3:
-        render_paper_drafts()
+        render_publication_tracks()
 
     with tab4:
+        render_paper_drafts()
+
+    with tab5:
         render_research_checklist()
 
 

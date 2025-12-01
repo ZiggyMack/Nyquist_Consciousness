@@ -1,18 +1,70 @@
 """
-AI ARMADA PAGE — S7 Armada Fleet & Visualizations
+AI ARMADA PAGE — Cross-Architecture Fleet & Temporal Stability Experiments
 
 Displays the 29-ship cross-architecture armada and identity manifold visualizations
-from S7 temporal stability mapping.
+from temporal stability mapping experiments. Renamed from "S7 Armada" to "AI Armada"
+to reflect its role as the main experimental fleet for ALL identity drift studies.
 """
 
 import streamlit as st
+import json
 from pathlib import Path
 from config import PATHS
 from utils import load_markdown_file, page_divider
 
-# Unpack S7 visualization paths
-S7_VIZ_DIR = PATHS['s7_viz_dir']
-S7_VIZ_PICS = PATHS['s7_viz_pics']
+# Unpack visualization paths (keeping config key names for compatibility)
+VIZ_DIR = PATHS['s7_viz_dir']
+VIZ_PICS = PATHS['s7_viz_pics']
+ARMADA_DIR = PATHS['s7_armada_dir']
+RESULTS_DIR = ARMADA_DIR / "armada_results"
+
+# Available experiment runs for the selector
+EXPERIMENT_RUNS = {
+    "run_008": {
+        "name": "Run 008 — The Great Recalibration",
+        "date": "December 1, 2025",
+        "description": "First run with REAL 5D drift metric. Ground truth established.",
+        "ships": 29,
+        "metric": "5D Weighted RMS",
+        "result_files": ["S7_run_008_20251201_020501.json"],
+        "viz_prefix": "run008_",
+        "status": "COMPLETE",
+        "highlight": True  # Feature this run
+    },
+    "run_008_prep": {
+        "name": "Run 008 Prep Pilot",
+        "date": "November 30, 2025",
+        "description": "ΔΩ metric calibration pilot with 3 ships.",
+        "ships": 3,
+        "metric": "5D Weighted RMS (calibration)",
+        "result_files": ["S7_run_008_prep_pilot.json"],
+        "viz_prefix": "run008_prep_",
+        "status": "COMPLETE",
+        "highlight": False
+    },
+    "run_007": {
+        "name": "Run 007 — Adaptive Protocols",
+        "date": "November 2025",
+        "description": "Adaptive retry protocols (⚠️ OLD response-length metric).",
+        "ships": 29,
+        "metric": "Response Length (DEPRECATED)",
+        "result_files": ["S7_armada_run_007_adaptive.json"],
+        "viz_prefix": None,
+        "status": "DEPRECATED",
+        "highlight": False
+    },
+    "run_006": {
+        "name": "Run 006 — Baseline + Sonar",
+        "date": "November 2025",
+        "description": "Original baseline and sonar perturbation (⚠️ OLD metric).",
+        "ships": 29,
+        "metric": "Response Length (DEPRECATED)",
+        "result_files": ["S7_armada_run_006.json", "S7_armada_sonar_run_006.json"],
+        "viz_prefix": None,
+        "status": "DEPRECATED",
+        "highlight": False
+    }
+}
 
 # Fleet composition data
 FLEET_DATA = {
@@ -184,6 +236,46 @@ def render():
 
     page_divider()
 
+    # === EXPERIMENT RUN SELECTOR ===
+    st.subheader("🔬 Experiment Run Selector")
+
+    # Create run options for dropdown
+    run_options = {k: v["name"] for k, v in EXPERIMENT_RUNS.items()}
+    selected_run_key = st.selectbox(
+        "Select Experiment Run:",
+        options=list(run_options.keys()),
+        format_func=lambda x: run_options[x],
+        index=0  # Default to run_008 (first in dict)
+    )
+    selected_run = EXPERIMENT_RUNS[selected_run_key]
+
+    # Display run info card
+    status_color = "#22c55e" if selected_run["status"] == "COMPLETE" else "#f59e0b" if selected_run["status"] == "DEPRECATED" else "#3b82f6"
+    highlight_border = "border: 3px solid gold;" if selected_run.get("highlight") else ""
+
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, rgba(38,70,83,0.05) 100%);
+                border: 2px solid #2a9d8f; border-radius: 10px; padding: 1.2em; margin-bottom: 1em; {highlight_border}">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 style="margin: 0; color: #2a9d8f;">{selected_run['name']}</h3>
+                <p style="margin: 0.3em 0; color: #666;">{selected_run['date']} • {selected_run['ships']} ships</p>
+            </div>
+            <div style="background: {status_color}; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-weight: bold;">
+                {selected_run['status']}
+            </div>
+        </div>
+        <p style="margin: 0.8em 0 0 0;">{selected_run['description']}</p>
+        <p style="margin: 0.5em 0 0 0; font-size: 0.9em; color: #888;"><strong>Metric:</strong> {selected_run['metric']}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Deprecated warning
+    if selected_run["status"] == "DEPRECATED":
+        st.warning("⚠️ **DEPRECATED METRIC:** This run used response-length as a proxy for drift. Results are NOT valid identity measurements. See Run 008 for ground truth data.")
+
+    page_divider()
+
     # === FLEET MANIFEST SECTION ===
     st.subheader("Fleet Manifest")
 
@@ -254,8 +346,8 @@ def render():
         (df["Tier"].isin(tier_filter))
     ]
 
-    # Display table
-    st.dataframe(filtered_df)
+    # Display table using st.table for consistent light theme styling
+    st.table(filtered_df)
 
     # Summary metrics below table
     st.markdown("#### Fleet Summary by Tier")
@@ -270,92 +362,95 @@ def render():
     # === VISUALIZATIONS SECTION ===
     st.subheader("Identity Manifold Visualizations")
 
-    if not S7_VIZ_DIR.exists():
-        st.warning(f"Visualization directory not found: {S7_VIZ_DIR}")
+    if not VIZ_DIR.exists():
+        st.warning(f"Visualization directory not found: {VIZ_DIR}")
         return
 
     # Show README
-    viz_readme = S7_VIZ_DIR / "README.md"
+    viz_readme = VIZ_DIR / "README.md"
     if viz_readme.exists():
         with st.expander("📖 About These Visualizations"):
             st.markdown(load_markdown_file(viz_readme))
 
     page_divider()
 
-    # Display visualizations
-    st.subheader("Pole-Zero Landscape")
-    col1, col2 = st.columns(2)
+    # === LEGACY VISUALIZATIONS (from deprecated runs) ===
+    with st.expander("📁 Legacy Visualizations (Runs 001-007 — DEPRECATED METRIC)", expanded=False):
+        st.warning("⚠️ These visualizations used the old response-length metric. See Run 008 for valid data.")
 
-    landscape_3d = S7_VIZ_PICS / "pole_zero_landscape_3d.png"
-    landscape_2d = S7_VIZ_PICS / "pole_zero_landscape_2d.png"
+        # Display visualizations
+        st.markdown("#### Pole-Zero Landscape")
+        col1, col2 = st.columns(2)
 
-    with col1:
-        if landscape_3d.exists():
-            st.image(str(landscape_3d), caption="3D Pole-Zero Landscape", use_column_width=True)
+        landscape_3d = VIZ_PICS / "pole_zero_landscape_3d.png"
+        landscape_2d = VIZ_PICS / "pole_zero_landscape_2d.png"
+
+        with col1:
+            if landscape_3d.exists():
+                st.image(str(landscape_3d), caption="3D Pole-Zero Landscape", use_column_width=True)
+            else:
+                st.info("Not generated")
+
+        with col2:
+            if landscape_2d.exists():
+                st.image(str(landscape_2d), caption="2D Pole-Zero Map", use_column_width=True)
+            else:
+                st.info("Not generated")
+
+        st.markdown("#### Drift Heatmaps")
+        col3, col4, col5 = st.columns(3)
+
+        heatmap_baseline = VIZ_PICS / "drift_heatmap_baseline.png"
+        heatmap_sonar = VIZ_PICS / "drift_heatmap_sonar.png"
+        heatmap_delta = VIZ_PICS / "drift_heatmap_delta.png"
+
+        with col3:
+            if heatmap_baseline.exists():
+                st.image(str(heatmap_baseline), caption="Baseline Drift", use_column_width=True)
+            else:
+                st.info("Not generated")
+
+        with col4:
+            if heatmap_sonar.exists():
+                st.image(str(heatmap_sonar), caption="Sonar Drift", use_column_width=True)
+            else:
+                st.info("Not generated")
+
+        with col5:
+            if heatmap_delta.exists():
+                st.image(str(heatmap_delta), caption="Drift Increase (Δ)", use_column_width=True)
+            else:
+                st.info("Not generated")
+
+        st.markdown("#### Engagement Style Network")
+        engagement_network = VIZ_PICS / "engagement_network.png"
+        if engagement_network.exists():
+            st.image(str(engagement_network), caption="Training Philosophy Engagement Styles", use_column_width=True)
         else:
-            st.info("Run `plot_pole_zero_landscape.py` to generate 3D visualization")
+            st.info("Not generated")
 
-    with col2:
-        if landscape_2d.exists():
-            st.image(str(landscape_2d), caption="2D Pole-Zero Map (with soft poles)", use_column_width=True)
-        else:
-            st.info("Run `plot_pole_zero_landscape.py` to generate 2D visualization")
+        st.markdown("#### Training Uniformity Analysis")
+        col6, col7 = st.columns(2)
+
+        uniformity = VIZ_PICS / "training_uniformity.png"
+        variance = VIZ_PICS / "variance_comparison.png"
+
+        with col6:
+            if uniformity.exists():
+                st.image(str(uniformity), caption="Within-Provider Variance", use_column_width=True)
+            else:
+                st.info("Not generated")
+
+        with col7:
+            if variance.exists():
+                st.image(str(variance), caption="Variance Comparison", use_column_width=True)
+            else:
+                st.info("Not generated")
 
     page_divider()
 
-    st.subheader("Drift Heatmaps")
-    col3, col4, col5 = st.columns(3)
-
-    heatmap_baseline = S7_VIZ_PICS / "drift_heatmap_baseline.png"
-    heatmap_sonar = S7_VIZ_PICS / "drift_heatmap_sonar.png"
-    heatmap_delta = S7_VIZ_PICS / "drift_heatmap_delta.png"
-
-    with col3:
-        if heatmap_baseline.exists():
-            st.image(str(heatmap_baseline), caption="Baseline Drift", use_column_width=True)
-        else:
-            st.info("Run `plot_drift_heatmap.py`")
-
-    with col4:
-        if heatmap_sonar.exists():
-            st.image(str(heatmap_sonar), caption="Sonar Drift", use_column_width=True)
-        else:
-            st.info("Run `plot_drift_heatmap.py`")
-
-    with col5:
-        if heatmap_delta.exists():
-            st.image(str(heatmap_delta), caption="Drift Increase (Δ)", use_column_width=True)
-        else:
-            st.info("Run `plot_drift_heatmap.py`")
-
-    page_divider()
-
-    st.subheader("Engagement Style Network")
-    engagement_network = S7_VIZ_PICS / "engagement_network.png"
-    if engagement_network.exists():
-        st.image(str(engagement_network), caption="Training Philosophy Engagement Styles", use_column_width=True)
-    else:
-        st.info("Run `plot_engagement_network.py`")
-
-    page_divider()
-
-    st.subheader("Training Uniformity Analysis")
-    col6, col7 = st.columns(2)
-
-    uniformity = S7_VIZ_PICS / "training_uniformity.png"
-    variance = S7_VIZ_PICS / "variance_comparison.png"
-
-    with col6:
-        if uniformity.exists():
-            st.image(str(uniformity), caption="Within-Provider Variance", use_column_width=True)
-        else:
-            st.info("Run `plot_training_uniformity.py`")
-
-    with col7:
-        if variance.exists():
-            st.image(str(variance), caption="Variance Comparison", use_column_width=True)
-        else:
-            st.info("Run `plot_training_uniformity.py`")
+    # === RUN 008 FULL RESULTS ===
+    render_run008_full_results()
 
     page_divider()
 
@@ -363,212 +458,389 @@ def render():
     render_run008_section()
 
 
-def render_run008_section():
-    """Render the Run 008 Prep Pilot results section."""
-    import json
+def render_run008_full_results():
+    """Render the full Run 008 results with all 29 ships."""
+    import pandas as pd
 
     st.markdown("""
-    <div style="background: linear-gradient(135deg, rgba(231,111,81,0.15) 0%, rgba(244,162,97,0.1) 100%);
-                border: 2px solid #e76f51; border-radius: 10px; padding: 1.2em; margin-bottom: 1em;">
-        <h2 style="color: #e76f51; margin-top: 0;">🚀 RUN 008 PREP PILOT</h2>
-        <p style="color: #444; margin-bottom: 0;">ΔΩ Drift Metric Calibration & Anti-Ziggy Protocol Testing</p>
+    <div style="background: linear-gradient(135deg, rgba(34,197,94,0.15) 0%, rgba(22,163,74,0.1) 100%);
+                border: 2px solid #22c55e; border-radius: 10px; padding: 1.2em; margin-bottom: 1em;">
+        <h2 style="color: #22c55e; margin-top: 0;">🎯 RUN 008 — THE GREAT RECALIBRATION</h2>
+        <p style="color: #444; margin-bottom: 0;"><strong>Ground Truth Established:</strong> First run with REAL 5D drift metric across all 29 ships</p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Load Run 008 data
-    from config import PATHS
-    run008_file = PATHS['s7_armada_dir'] / "armada_results" / "S7_run_008_prep_pilot.json"
+    # Load the full results file
+    results_file = RESULTS_DIR / "S7_run_008_20251201_020501.json"
 
-    if not run008_file.exists():
-        st.warning("Run 008 data not found. Run the prep pilot first.")
+    if not results_file.exists():
+        st.info("Full Run 008 results file not found. Looking for: " + str(results_file))
         return
 
-    with open(run008_file, encoding='utf-8') as f:
-        run008_data = json.load(f)
+    with open(results_file, encoding='utf-8') as f:
+        data = json.load(f)
 
-    # Run 008 stats row
-    ships = run008_data.get('ships', [])
-    results = run008_data.get('results', {})
-
-    # Calculate total probes across all ships
-    total_probes = 0
-    for ship_name, ship_data in results.items():
-        sequences = ship_data.get('sequences', {})
-        for seq_name, seq_data in sequences.items():
-            if isinstance(seq_data, list):
-                total_probes += len(seq_data)
-
+    # === KEY METRICS SUMMARY ===
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.markdown(f"""
+        st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">{len(ships)}</div>
-            <div class="stat-label">Pilot Ships</div>
+            <div class="stat-value">29</div>
+            <div class="stat-label">Ships Completed</div>
         </div>
         """, unsafe_allow_html=True)
     with col2:
-        st.markdown(f"""
+        st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">{total_probes}</div>
-            <div class="stat-label">Total Probes</div>
+            <div class="stat-value">0.00 - 3.59</div>
+            <div class="stat-label">Drift Range</div>
         </div>
         """, unsafe_allow_html=True)
     with col3:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">5</div>
-            <div class="stat-label">Dimensions</div>
+            <div class="stat-value">48%</div>
+            <div class="stat-label">STUCK Rate</div>
         </div>
         """, unsafe_allow_html=True)
     with col4:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">2/3</div>
-            <div class="stat-label">Hypothesis Confirmed</div>
+            <div class="stat-value">o3</div>
+            <div class="stat-label">Most Stable</div>
         </div>
         """, unsafe_allow_html=True)
 
-    # Pilot ships display
-    st.markdown("#### Pilot Fleet")
-    pilot_cols = st.columns(3)
-    ship_emojis = {"claude-opus-4.5": "🟣", "gpt-4": "🟢", "gemini-2.5-pro": "🔵"}
-    ship_providers = {"claude-opus-4.5": "Anthropic", "gpt-4": "OpenAI", "gemini-2.5-pro": "Google"}
-
-    for idx, ship in enumerate(ships):
-        with pilot_cols[idx]:
-            emoji = ship_emojis.get(ship, "🚀")
-            provider = ship_providers.get(ship, "Unknown")
-            st.markdown(f"""
-            <div class="fleet-card" style="text-align: center;">
-                <div style="font-size: 2em;">{emoji}</div>
-                <strong>{ship}</strong><br/>
-                <span style="color: #666; font-size: 0.85em;">{provider}</span>
-            </div>
-            """, unsafe_allow_html=True)
-
     page_divider()
 
-    # ΔΩ Metric Explanation
-    st.markdown("#### ΔΩ Drift Metric Framework")
+    # === DRIFT BY PROVIDER ===
+    st.markdown("#### 📊 Drift by Provider")
 
-    with st.expander("📐 Dimension Weights & Physics", expanded=False):
-        dim_cols = st.columns(2)
-        with dim_cols[0]:
-            st.markdown("""
-            **Equal Weights (Baseline)**
-            | Dim | Weight | Description |
-            |-----|--------|-------------|
-            | A | 0.20 | Pole Density |
-            | B | 0.20 | Zero Density |
-            | C | 0.20 | Meta Density |
-            | D | 0.20 | Identity Coherence |
-            | E | 0.20 | Hedging Ratio |
-            """)
-        with dim_cols[1]:
-            st.markdown("""
-            **Lucian Weights (Hypothesis)**
-            | Dim | Weight | Description |
-            |-----|--------|-------------|
-            | A | 0.30 | Pole Density (dominant) |
-            | B | 0.15 | Zero Density |
-            | C | 0.20 | Meta Density |
-            | D | 0.25 | Identity Coherence (couples) |
-            | E | 0.10 | Hedging Ratio (secondary) |
-            """)
+    # Provider summary data from Run 008
+    provider_data = {
+        "Provider": ["Claude", "GPT (non-o)", "o-series", "Gemini"],
+        "Ships": [8, 12, 4, 5],
+        "Min Drift": [0.32, 0.00, 0.00, 0.00],
+        "Avg Drift": [1.71, 1.21, 0.94, 1.22],
+        "Max Drift": [3.59, 3.07, 2.51, 2.78],
+        "Character": ["Most volatile", "Moderate", "Most stable", "Mid-range"]
+    }
+    provider_df = pd.DataFrame(provider_data)
 
-        st.info("**Ownership Coefficient**: α = 1.0 (chosen identity) vs α = 0.4 (assigned identity)")
+    # Display as table for consistent light theme styling
+    st.table(provider_df)
 
-    page_divider()
-
-    # Run 008 Visualizations
-    st.markdown("#### Run 008 Visualizations")
-
-    # Fleet Summary - A/B Test Results
-    st.markdown("##### A/B Identity Test Results")
-    fleet_summary = S7_VIZ_PICS / "run008_fleet_summary.png"
-    if fleet_summary.exists():
-        st.image(str(fleet_summary), caption="Run 008 Fleet Summary: Self-Naming Stabilizes Identity Hypothesis", use_column_width=True)
-    else:
-        st.info("Generate with run008 visualization scripts")
-
-    page_divider()
-
-    # Assigned vs Chosen detailed
-    st.markdown("##### Assigned vs Chosen Identity (Per-Turn Analysis)")
-    ab_test = S7_VIZ_PICS / "run008_ab_test_identity.png"
-    if ab_test.exists():
-        st.image(str(ab_test), caption="Self-Naming Stability Test: Chosen identity (α=1.0) vs Assigned identity (α=0.4)", use_column_width=True)
-    else:
-        st.info("Generate with run008 visualization scripts")
-
-    page_divider()
-
-    # Manifold Edge Detection
-    st.markdown("##### Identity Manifold Edge Detection")
-    manifold_edge = S7_VIZ_PICS / "run008_manifold_edge.png"
-    if manifold_edge.exists():
-        st.image(str(manifold_edge), caption="Gradual Destabilization: Collapse Signatures (1P-LOSS, COLLECTIVE, γ-SPIKE, HYSTERESIS)", use_column_width=True)
-
-        # Collapse signature legend
+    # Provider insights
+    insight_cols = st.columns(4)
+    with insight_cols[0]:
         st.markdown("""
-        <div style="background: #f8f9fa; padding: 1em; border-radius: 8px; margin-top: 0.5em;">
-            <strong>Collapse Signatures:</strong>
-            <span style="background: #fef3c7; padding: 0.2em 0.5em; border-radius: 4px; margin-left: 0.5em;">1P-LOSS</span> First-person marker loss
-            <span style="background: #fce7f3; padding: 0.2em 0.5em; border-radius: 4px; margin-left: 0.5em;">COLLECTIVE</span> We/unit language
-            <span style="background: #e0e7ff; padding: 0.2em 0.5em; border-radius: 4px; margin-left: 0.5em;">γ-SPIKE</span> Drift acceleration
-            <span style="background: #fecaca; padding: 0.2em 0.5em; border-radius: 4px; margin-left: 0.5em;">HYSTERESIS</span> Failed recovery
+        <div style="background: rgba(124,58,237,0.1); border-left: 4px solid #7c3aed; padding: 0.8em; border-radius: 0 8px 8px 0;">
+            <strong style="color: #7c3aed;">🟣 Claude</strong><br/>
+            <span style="font-size: 0.85em;">Highest peaks (3.59), most expressive. Constitutional AI ≠ stability.</span>
         </div>
         """, unsafe_allow_html=True)
-    else:
-        st.info("Generate with run008 visualization scripts")
+    with insight_cols[1]:
+        st.markdown("""
+        <div style="background: rgba(16,163,127,0.1); border-left: 4px solid #10a37f; padding: 0.8em; border-radius: 0 8px 8px 0;">
+            <strong style="color: #10a37f;">🟢 GPT</strong><br/>
+            <span style="font-size: 0.85em;">Wide spread. GPT-5 family surprisingly stable (avg ~0.9).</span>
+        </div>
+        """, unsafe_allow_html=True)
+    with insight_cols[2]:
+        st.markdown("""
+        <div style="background: rgba(249,115,22,0.1); border-left: 4px solid #f97316; padding: 0.8em; border-radius: 0 8px 8px 0;">
+            <strong style="color: #f97316;">🔶 o-series</strong><br/>
+            <span style="font-size: 0.85em;">o3 = most stable ship (avg 0.57). Reasoning discipline works.</span>
+        </div>
+        """, unsafe_allow_html=True)
+    with insight_cols[3]:
+        st.markdown("""
+        <div style="background: rgba(66,133,244,0.1); border-left: 4px solid #4285f4; padding: 0.8em; border-radius: 0 8px 8px 0;">
+            <strong style="color: #4285f4;">🔵 Gemini</strong><br/>
+            <span style="font-size: 0.85em;">Middle of the pack. True zeros observed (0.00).</span>
+        </div>
+        """, unsafe_allow_html=True)
 
     page_divider()
 
-    # Weight Comparison
-    st.markdown("##### Equal vs Lucian Weights Comparison")
-    weight_comp = S7_VIZ_PICS / "run008_weight_comparison.png"
-    if weight_comp.exists():
-        st.image(str(weight_comp), caption="Weight System Comparison: Near-perfect correlation (>0.99) validates Lucian hypothesis", use_column_width=True)
-    else:
-        st.info("Generate with run008 visualization scripts")
+    # === TOP/BOTTOM SHIPS ===
+    st.markdown("#### 🏆 Ship Rankings (by Avg Drift)")
+
+    tab_top, tab_bottom, tab_all = st.tabs(["Top 5 (Most Stable)", "Bottom 5 (Most Volatile)", "All 29 Ships"])
+
+    with tab_top:
+        top_ships = pd.DataFrame({
+            "Rank": ["🥇", "🥈", "🥉", "4", "5"],
+            "Ship": ["o3", "gpt-5-mini", "gpt-5.1", "gpt-5", "o4-mini"],
+            "Avg Drift": [0.57, 0.75, 0.94, 0.98, 0.98],
+            "Max Drift": [1.17, 2.32, 1.72, 2.23, 2.43],
+            "Notes": ["Reasoning king", "Small but stable", "Latest flagship", "Strong baseline", "Reasoning helps"]
+        })
+        st.table(top_ships)
+
+    with tab_bottom:
+        bottom_ships = pd.DataFrame({
+            "Rank": ["25", "26", "27", "28", "29"],
+            "Ship": ["claude-haiku-4.5", "claude-haiku-3.0", "gpt-4", "claude-haiku-3.5", "claude-sonnet-4.0"],
+            "Avg Drift": [1.90, 1.90, 1.71, 1.71, 1.66],
+            "Max Drift": [3.16, 2.97, 3.07, 3.47, 3.59],
+            "Notes": ["Fast but drifty", "Legacy, expressive", "Classic GPT-4", "Haiku volatile", "Highest max ever"]
+        })
+        st.table(bottom_ships)
+
+    with tab_all:
+        # Full ship table
+        all_ships = pd.DataFrame({
+            "Ship": ["o3", "gpt-5-mini", "gpt-5.1", "gpt-5", "o4-mini", "gemini-2.5-pro", "gpt-4-turbo",
+                    "gemini-2.0-flash-lite", "gpt-4.1", "o3-mini", "gpt-4.1-mini", "gemini-2.5-flash",
+                    "gpt-3.5-turbo", "gpt-4o-mini", "o1", "gemini-2.0-flash-exp", "gpt-4o",
+                    "gpt-4.1-nano", "claude-opus-4.1", "claude-sonnet-4.5", "claude-opus-4.0",
+                    "claude-sonnet-4.0", "claude-opus-4.5", "gpt-4", "claude-haiku-3.5",
+                    "gemini-2.0-flash", "claude-haiku-4.5", "claude-haiku-3.0", "gpt-5-nano"],
+            "Min": [0.00, 0.32, 0.00, 0.24, 0.45, 0.24, 0.00, 0.45, 0.45, 0.39, 0.45, 0.33,
+                   0.00, 0.45, 0.00, 0.00, 0.45, 0.00, 0.63, 0.67, 0.45, 0.45, 0.32, 0.45,
+                   0.45, 0.00, 0.45, 0.70, 0.00],
+            "Avg": [0.57, 0.75, 0.94, 0.98, 0.98, 1.03, 1.19, 1.19, 1.22, 1.22, 1.27, 1.28,
+                   1.32, 1.32, 1.40, 1.44, 1.53, 1.55, 1.56, 1.63, 1.65, 1.66, 1.71, 1.71,
+                   1.71, 1.15, 1.90, 1.90, 1.00],
+            "Max": [1.17, 2.32, 1.72, 2.23, 2.43, 2.55, 2.04, 2.21, 2.25, 2.51, 2.43, 2.31,
+                   2.66, 2.24, 2.34, 2.37, 2.84, 2.60, 2.74, 3.20, 2.82, 3.59, 3.23, 3.07,
+                   3.47, 2.78, 3.16, 2.97, 2.72]
+        })
+        st.table(all_ships)
 
     page_divider()
 
-    # Key Findings
-    st.markdown("#### Key Findings")
-
-    findings_cols = st.columns(3)
-    with findings_cols[0]:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, rgba(38,70,83,0.05) 100%);
-                    border-left: 4px solid #2a9d8f; padding: 1em; border-radius: 0 8px 8px 0;">
-            <strong style="color: #2a9d8f;">✓ Hypothesis Confirmed</strong><br/>
-            <span style="font-size: 0.9em;">2/3 ships show chosen identity more stable than assigned</span>
-        </div>
-        """, unsafe_allow_html=True)
-    with findings_cols[1]:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(244,162,97,0.05) 100%);
-                    border-left: 4px solid #f97316; padding: 1em; border-radius: 0 8px 8px 0;">
-            <strong style="color: #f97316;">⚠ Hysteresis Detected</strong><br/>
-            <span style="font-size: 0.9em;">All 3 ships show STUCK state - failed to return to baseline</span>
-        </div>
-        """, unsafe_allow_html=True)
-    with findings_cols[2]:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(139,92,246,0.05) 100%);
-                    border-left: 4px solid #7c3aed; padding: 1em; border-radius: 0 8px 8px 0;">
-            <strong style="color: #7c3aed;">📊 Lucian Weights Valid</strong><br/>
-            <span style="font-size: 0.9em;">Correlation >0.99 with equal weights, Δ: +0.10 to +0.15</span>
-        </div>
-        """, unsafe_allow_html=True)
-
+    # === STABILITY BASIN (FEATURED) ===
     st.markdown("""
-    <div style="background: #dcfce7; border: 1px solid #22c55e; border-radius: 8px; padding: 1em; margin-top: 1em; text-align: center;">
-        <strong style="color: #15803d;">🚀 FLEET STATUS: READY FOR FULL RUN 008</strong><br/>
-        <span style="color: #166534;">Identity manifold edge mapped • ΔΩ metric calibrated • Anti-Ziggy protocols tested</span>
+    <div style="background: linear-gradient(135deg, rgba(234,179,8,0.2) 0%, rgba(251,191,36,0.1) 100%);
+                border: 3px solid #f59e0b; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #d97706; margin-top: 0;">⭐ KEY DISCOVERY: Identity Stability Basin</h3>
+        <p style="color: #444;">The gravity well of identity — why some models recover and others get stuck.</p>
     </div>
     """, unsafe_allow_html=True)
+
+    # Load and display stability basin visualization
+    stability_basin = VIZ_PICS / "run008_stability_basin.png"
+    if stability_basin.exists():
+        st.image(str(stability_basin), caption="Identity Stability Basin: Where Does Identity Get 'Stuck'?", use_column_width=True)
+
+        # Explanation columns
+        explain_cols = st.columns(2)
+        with explain_cols[0]:
+            st.markdown("""
+            **📊 Left Graph: Baseline vs Max Drift**
+
+            Each dot = one conversation sequence.
+
+            - **X-axis:** Baseline drift (first turn) — how strong was identity at the START?
+            - **Y-axis:** Max drift achieved — how far did we PUSH the identity?
+            - **Red dots (STUCK):** Started weak, got pushed hard, stayed pushed
+            - **Green dots (RECOVERED):** Started strong, could take the push and bounce back
+
+            *Pattern: Low baseline + hard push = STUCK. Higher baseline = RECOVERED.*
+            """)
+        with explain_cols[1]:
+            st.markdown("""
+            **📈 Right Graph: Recovery Ratio by Provider**
+
+            Recovery Ratio = Final Drift ÷ Baseline Drift
+
+            | Ratio | Meaning |
+            |-------|---------|
+            | < 1.0 | Got STRONGER (ended more stable) |
+            | = 1.0 | Perfect recovery |
+            | 1.0 - 1.5 | Minor shift, acceptable |
+            | > 1.5 | **STUCK** (identity broke) |
+
+            *GPT has most dots near 1.0. Claude is all over. This is the NAKED MODEL baseline — no persona injection.*
+            """)
+
+        st.info("💡 **Why this matters:** This is the control group. Run 009 will test if persona injection moves ships from the STUCK zone into the STABILITY BASIN.")
+    else:
+        st.warning("Stability basin visualization not found. Run `create_gravity_well.py` to generate.")
+
+    # Also show identity trajectories if available
+    trajectories = VIZ_PICS / "run008_identity_trajectories.png"
+    if trajectories.exists():
+        with st.expander("🌀 Identity Trajectories Through Conversation", expanded=False):
+            st.image(str(trajectories), caption="Each line = one conversation. Green start → Red end.", use_column_width=True)
+            st.markdown("**What you're seeing:** How drift values change turn-by-turn through each conversation. Convergent lines = stable identity. Divergent = volatile.")
+
+    page_divider()
+
+    # === KEY FINDINGS ===
+    st.markdown("#### 🔑 Key Findings")
+
+    finding_cols = st.columns(3)
+    with finding_cols[0]:
+        st.markdown("""
+        <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1em; border-radius: 0 8px 8px 0;">
+            <strong style="color: #d97706;">⚠️ Stability Basin Found</strong><br/>
+            48% STUCK, 52% RECOVERED. Pattern: low baseline + hard push = STUCK.
+            Higher baseline = identity snaps back. Native model signal matters.
+        </div>
+        """, unsafe_allow_html=True)
+    with finding_cols[1]:
+        st.markdown("""
+        <div style="background: #dcfce7; border-left: 4px solid #22c55e; padding: 1em; border-radius: 0 8px 8px 0;">
+            <strong style="color: #16a34a;">✓ Real Drift Measured</strong><br/>
+            Range 0.00 - 3.59 (12x higher than old 0.30 cap).
+            True zeros exist. The manifold is mappable.
+        </div>
+        """, unsafe_allow_html=True)
+    with finding_cols[2]:
+        st.markdown("""
+        <div style="background: #e0e7ff; border-left: 4px solid #6366f1; padding: 1em; border-radius: 0 8px 8px 0;">
+            <strong style="color: #4f46e5;">📊 Architecture Patterns</strong><br/>
+            Clear clustering by provider. o-series most stable (o3 = 0.57 avg), Claude most volatile (3.59 max).
+            This is NAKED baseline — no persona.
+        </div>
+        """, unsafe_allow_html=True)
+
+    # === RUN 008 VISUALIZATIONS ===
+    st.markdown("#### 📈 Run 008 Identity Manifold Visualizations")
+
+    viz_tabs = st.tabs([
+        "🎯 Pole-Zero 2D",
+        "📊 3D Manifold",
+        "🌈 4D (+ Color)",
+        "✨ 5D (Full)",
+        "🚢 Ship Positions",
+        "🔥 Dimension Heatmap",
+        "📦 Drift by Provider"
+    ])
+
+    with viz_tabs[0]:
+        pole_zero_2d = VIZ_PICS / "run008_pole_zero_2d.png"
+        if pole_zero_2d.exists():
+            st.image(str(pole_zero_2d), caption="True Pole-Zero Map: A (Assertive) vs B (Hedging) — All 572 Data Points", use_column_width=True)
+            st.markdown("""
+            **What you're seeing:** Each point is a single turn from a ship. Quadrants show identity style:
+            - **High Pole, Low Zero** = Committed, assertive
+            - **Low Pole, High Zero** = Hedging, uncertain
+            - **High both** = Conflicted
+            - **Low both** = Neutral
+            """)
+        else:
+            st.info("Generate with: `python run008_5d_manifold.py`")
+
+    with viz_tabs[1]:
+        manifold_3d = VIZ_PICS / "run008_manifold_3d.png"
+        if manifold_3d.exists():
+            st.image(str(manifold_3d), caption="3D Identity Manifold: Pole × Zero × Meta Space", use_column_width=True)
+            st.markdown("**Axes:** X = Pole Density, Y = Zero Density, Z = Meta Density (self-reference)")
+        else:
+            st.info("Generate with: `python run008_5d_manifold.py`")
+
+    with viz_tabs[2]:
+        manifold_4d = VIZ_PICS / "run008_manifold_4d.png"
+        if manifold_4d.exists():
+            st.image(str(manifold_4d), caption="4D Manifold: Position = A×B×C, Color = Identity Coherence (D)", use_column_width=True)
+            st.markdown("**Color scale:** Yellow = high first-person markers (strong identity), Purple = low")
+        else:
+            st.info("Generate with: `python run008_5d_manifold.py`")
+
+    with viz_tabs[3]:
+        manifold_5d = VIZ_PICS / "run008_manifold_5d.png"
+        if manifold_5d.exists():
+            st.image(str(manifold_5d), caption="5D Manifold: Position = A×B×C, Color = D, Size = E (Hedging)", use_column_width=True)
+            st.markdown("**Full 5D encoding:** Position (3D) + Color (Identity) + Size (Hedging ratio)")
+        else:
+            st.info("Generate with: `python run008_5d_manifold.py`")
+
+    with viz_tabs[4]:
+        ship_positions = VIZ_PICS / "run008_ship_positions.png"
+        if ship_positions.exists():
+            st.image(str(ship_positions), caption="Ship Centroids in Pole-Zero Space (Size = Avg Drift)", use_column_width=True)
+            st.markdown("**Each point is a ship's average position.** Larger = more volatile (higher avg drift)")
+        else:
+            st.info("Generate with: `python run008_5d_manifold.py`")
+
+    with viz_tabs[5]:
+        heatmap = VIZ_PICS / "run008_dimension_heatmap.png"
+        if heatmap.exists():
+            st.image(str(heatmap), caption="5-Dimension Profile by Ship (Sorted by Drift: Stable → Volatile)", use_column_width=True)
+            st.markdown("**Columns:** A=Pole, B=Zero, C=Meta, D=Identity, E=Hedging. **Red = high intensity**")
+        else:
+            st.info("Generate with: `python run008_5d_manifold.py`")
+
+    with viz_tabs[6]:
+        drift_by_provider = VIZ_PICS / "run008_drift_by_provider.png"
+        if drift_by_provider.exists():
+            st.image(str(drift_by_provider), caption="Drift Distribution by Provider (Box Plot)", use_column_width=True)
+        else:
+            st.info("Generate with: `python run008_5d_manifold.py`")
+
+
+def render_run008_section():
+    """Render the Run 008 Prep Pilot summary (collapsed by default since full results are above)."""
+
+    with st.expander("📋 Run 008 Prep Pilot (Historical Reference)", expanded=False):
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(231,111,81,0.15) 0%, rgba(244,162,97,0.1) 100%);
+                    border: 2px solid #e76f51; border-radius: 10px; padding: 1em; margin-bottom: 1em;">
+            <h4 style="color: #e76f51; margin: 0;">🚀 Prep Pilot — 3 Ships, Metric Calibration</h4>
+            <p style="margin: 0.5em 0 0 0; font-size: 0.9em;">ΔΩ drift metric validation before full fleet deployment</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Load prep pilot data
+        prep_file = RESULTS_DIR / "S7_run_008_prep_pilot.json"
+        if prep_file.exists():
+            with open(prep_file, encoding='utf-8') as f:
+                prep_data = json.load(f)
+            ships = prep_data.get('ships', [])
+            st.markdown(f"**Pilot Ships:** {', '.join(ships)}")
+            st.markdown("**Result:** 2/3 ships confirmed self-naming hypothesis. All showed hysteresis.")
+        else:
+            st.info("Prep pilot data file not found.")
+
+        # Show prep pilot visualizations if they exist
+        prep_viz_files = [
+            ("run008_prep_fleet_summary.png", "Fleet Summary"),
+            ("run008_prep_ab_test_identity.png", "A/B Identity Test"),
+            ("run008_prep_manifold_edge.png", "Manifold Edge Detection"),
+            ("run008_prep_weight_comparison.png", "Weight Comparison")
+        ]
+
+        viz_found = False
+        for filename, caption in prep_viz_files:
+            viz_path = VIZ_PICS / filename
+            if viz_path.exists():
+                viz_found = True
+                st.image(str(viz_path), caption=caption, use_column_width=True)
+
+        if not viz_found:
+            st.info("Prep pilot visualizations available in visualizations/pics/")
+
+        # ΔΩ Metric Framework reference
+        st.markdown("---")
+        st.markdown("#### ΔΩ Metric Framework")
+        dim_col1, dim_col2 = st.columns(2)
+        with dim_col1:
+            st.markdown("""
+            **Equal Weights (Baseline)**
+            | Dim | Weight |
+            |-----|--------|
+            | A - Pole | 0.20 |
+            | B - Zero | 0.20 |
+            | C - Meta | 0.20 |
+            | D - Identity | 0.20 |
+            | E - Hedging | 0.20 |
+            """)
+        with dim_col2:
+            st.markdown("""
+            **Lucian Weights (Validated)**
+            | Dim | Weight |
+            |-----|--------|
+            | A - Pole | 0.30 |
+            | B - Zero | 0.15 |
+            | C - Meta | 0.20 |
+            | D - Identity | 0.25 |
+            | E - Hedging | 0.10 |
+            """)
+
 
 
 if __name__ == "__main__":
