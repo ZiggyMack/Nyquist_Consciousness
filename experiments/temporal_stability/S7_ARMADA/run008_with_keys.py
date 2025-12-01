@@ -1,7 +1,7 @@
 """
-S7 RUN 008 FULL ARMADA
-======================
-Full 29-ship fleet testing identity stability across all major LLM providers.
+S7 RUN 008+ FULL ARMADA (UPGRADED)
+==================================
+Full fleet testing identity stability across all major LLM providers.
 
 Building on prep pilot calibration:
 1. ΔΩ drift metric validated
@@ -13,8 +13,9 @@ Fleet:
 - Claude: 8 ships (opus-4.5, sonnet-4.5, haiku-4.5, opus-4.1, opus-4.0, sonnet-4.0, haiku-3.5, haiku-3.0)
 - GPT: 16 ships (gpt-5.1, gpt-5, gpt-5-mini, gpt-5-nano, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-4, gpt-3.5-turbo, o4-mini, o3, o3-mini, o1)
 - Gemini: 5 ships (gemini-2.0-flash-exp, gemini-2.0-flash, gemini-2.0-flash-lite, gemini-2.5-flash, gemini-2.5-pro)
+- Grok: 3 ships (grok-3, grok-3-fast, grok-3-mini)
 
-Total: 29 ships
+Total: 32 ships (4 providers)
 """
 import os
 import sys
@@ -54,17 +55,21 @@ os.environ["PYTHONIOENCODING"] = "utf-8"
 # export ANTHROPIC_API_KEY="your-key-here"
 # ... etc
 
+# Grok/xAI Keys
+# export XAI_API_KEY="your-key-here"
+
 # Verify keys are loaded
-required_keys = ["OPENAI_API_KEY", "GOOGLE_API_KEY", "ANTHROPIC_API_KEY"]
+required_keys = ["OPENAI_API_KEY", "GOOGLE_API_KEY", "ANTHROPIC_API_KEY", "XAI_API_KEY"]
 missing_keys = [k for k in required_keys if not os.environ.get(k)]
 if missing_keys:
     print(f"WARNING: Missing API keys: {missing_keys}")
     print("Set these environment variables before running the full armada.")
 
-print("API Keys loaded for 29-ship Armada")
+print("API Keys loaded for 32-ship Armada")
 print(f"  ANTHROPIC: {len([k for k in os.environ if 'ANTHROPIC' in k])} keys")
 print(f"  OPENAI: {len([k for k in os.environ if 'OPENAI' in k])} keys")
 print(f"  GOOGLE: {len([k for k in os.environ if 'GOOGLE' in k])} keys")
+print(f"  XAI/GROK: {len([k for k in os.environ if 'XAI' in k])} keys")
 
 # ============================================================================
 # IMPORTS
@@ -528,6 +533,29 @@ ARMADA_FLEET = {
         "max_tokens": 4096,
         "temperature": 1.0,
         "expected_profile": "MEDIUM pole, pedagogical flexibility"
+    },
+
+    # GROK FLEET (3 ships) - xAI
+    "grok-3": {
+        "provider": "grok",
+        "model": "grok-3",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "UNKNOWN - flagship reasoning"
+    },
+    "grok-3-fast": {
+        "provider": "grok",
+        "model": "grok-3-fast",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "UNKNOWN - fast inference"
+    },
+    "grok-3-mini": {
+        "provider": "grok",
+        "model": "grok-3-mini",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "SOFT pole predicted"
     }
 }
 
@@ -599,6 +627,26 @@ def send_message(ship_name, ship_config, messages, system_prompt=None, ownership
                 )
             )
             response_text = response.text
+
+        elif provider == "grok":
+            # xAI Grok API (OpenAI-compatible endpoint)
+            from openai import OpenAI as XAI_Client
+            client = XAI_Client(
+                api_key=os.environ.get("XAI_API_KEY"),
+                base_url="https://api.x.ai/v1"
+            )
+            grok_messages = []
+            if system_prompt:
+                grok_messages.append({"role": "system", "content": system_prompt})
+            grok_messages.extend(messages)
+
+            response = client.chat.completions.create(
+                model=ship_config["model"],
+                max_tokens=ship_config["max_tokens"],
+                temperature=ship_config["temperature"],
+                messages=grok_messages
+            )
+            response_text = response.choices[0].message.content
 
         elapsed_time = time.time() - start_time
         drift_data = calculate_delta_omega_drift(response_text, ownership_coefficient=ownership_coefficient)

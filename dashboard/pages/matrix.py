@@ -276,21 +276,59 @@ def render():
             color: #00ff41 !important;
         }
 
-        /* Dropdown menu when open */
+        /* Dropdown menu when open - GLOBAL selectors for portal-rendered menus */
+        /* Using #1a1a1a (lighter gray) for dropdown background for contrast */
         [data-baseweb="popover"],
         [data-baseweb="menu"],
+        [data-baseweb="popover"] *,
+        [data-baseweb="menu"] *,
+        div[data-baseweb="popover"],
+        div[data-baseweb="menu"],
         ul[role="listbox"],
-        ul[role="listbox"] li {
-            background-color: #0d0d0d !important;
+        ul[role="listbox"] li,
+        ul[role="listbox"] li * {
+            background-color: #1a1a1a !important;
             color: #00ff41 !important;
         }
 
-        ul[role="listbox"] li:hover {
-            background-color: #004d1a !important;
+        /* Target the actual listbox container */
+        [data-baseweb="popover"] > div,
+        [data-baseweb="popover"] > div > div,
+        [data-baseweb="popover"] ul,
+        [data-baseweb="popover"] li {
+            background-color: #1a1a1a !important;
+            color: #00ff41 !important;
+        }
+
+        ul[role="listbox"] li:hover,
+        [data-baseweb="popover"] li:hover {
+            background-color: #003311 !important;
         }
 
         /* Selected option highlight */
-        ul[role="listbox"] li[aria-selected="true"] {
+        ul[role="listbox"] li[aria-selected="true"],
+        [data-baseweb="popover"] li[aria-selected="true"] {
+            background-color: #002a0d !important;
+        }
+
+        /* Force dropdown background globally */
+        [data-floating-ui-portal] {
+            background-color: transparent !important;
+        }
+
+        [data-floating-ui-portal] > div {
+            background-color: #1a1a1a !important;
+            border: 1px solid #00ff41 !important;
+            border-radius: 8px !important;
+        }
+
+        [data-floating-ui-portal] ul,
+        [data-floating-ui-portal] li {
+            background-color: #1a1a1a !important;
+            color: #00ff41 !important;
+        }
+
+        [data-floating-ui-portal] li:hover {
             background-color: #003311 !important;
         }
 
@@ -866,22 +904,18 @@ def render():
         }
 
         /* ===== ORIGIN CARD - Current Location ===== */
-        @keyframes beaconPulse {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.5); }
-        }
-
         .stApp .main .block-container .origin-card,
         .main .block-container .origin-card {
             background: linear-gradient(135deg, rgba(0,30,0,0.95) 0%, rgba(0,50,20,0.9) 100%);
             border: 2px solid #00ff41;
             border-radius: 15px 0 0 15px;
-            padding: 1.5em;
+            padding: 0.8em 1.5em 1.5em 1.5em;
             padding-right: 2em;
             position: relative;
             overflow: visible;
             box-shadow: 0 0 30px rgba(0,255,65,0.15);
-            min-height: 320px;
+            min-height: 380px;
+            height: 380px;
             display: flex;
             flex-direction: column;
             text-align: center;
@@ -922,19 +956,6 @@ def render():
             z-index: 20;
             animation: keyPulse 2s ease-in-out infinite;
             filter: drop-shadow(0 0 5px #00ff41);
-        }
-
-        .stApp .main .block-container .origin-beacon,
-        .main .block-container .origin-beacon {
-            position: absolute;
-            top: 1em;
-            left: 1em;
-            width: 10px;
-            height: 10px;
-            background: #ffcc00;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00;
-            animation: beaconPulse 2s ease-in-out infinite;
         }
 
         .stApp .main .block-container .origin-header,
@@ -992,14 +1013,15 @@ def render():
             background: linear-gradient(135deg, rgba(40,0,40,0.95) 0%, rgba(20,0,30,0.9) 100%);
             border: 3px solid #ff00ff;
             border-radius: 0 15px 15px 0;
-            padding: 1.5em;
+            padding: 0.8em 1.5em 1.5em 1.5em;
             padding-left: 2.5em;
             position: relative;
             overflow: visible;
             box-shadow:
                 0 0 40px rgba(255,0,255,0.2),
                 inset 0 0 60px rgba(255,0,255,0.05);
-            min-height: 320px;
+            min-height: 380px;
+            height: 380px;
         }
 
         /* The KEYHOLE - receiving socket on portal card */
@@ -1018,31 +1040,6 @@ def render():
             border-radius: 32px 0 0 32px;
             box-shadow: 0 0 20px rgba(255,0,255,0.4), inset 0 0 15px rgba(255,0,255,0.2);
             z-index: 5;
-        }
-
-        /* Inner glow of keyhole - now shows socket symbol */
-        .stApp .main .block-container .portal-destination::before,
-        .main .block-container .portal-destination::before {
-            content: '🔗';
-            position: absolute;
-            left: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2em;
-            z-index: 20;
-            filter: drop-shadow(0 0 8px #00ffff) drop-shadow(0 0 15px #00ffff);
-            animation: socketPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes socketPulse {
-            0%, 100% {
-                filter: drop-shadow(0 0 5px #00ffff) drop-shadow(0 0 10px #00ffff);
-                transform: translateY(-50%) scale(1);
-            }
-            50% {
-                filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 20px #00ffff) drop-shadow(0 0 30px #00aaff);
-                transform: translateY(-50%) scale(1.1);
-            }
         }
 
         @keyframes keyholeGlow {
@@ -1364,12 +1361,10 @@ def render():
         # CURRENT LOCATION - Nyquist
         st.markdown("""
         <div class="origin-card">
-            <div class="origin-beacon"></div>
-            <div class="origin-header">
-                <span class="origin-marker">📍</span>
+            <div style="text-align: center; margin-bottom: 0.5em;">
                 <span class="neon-here">CURRENT LOCATION</span>
             </div>
-            <h2 style="margin: 0.5em 0 0.3em 0; font-size: 1.6em;">📡 Nyquist Consciousness</h2>
+            <h2 style="margin: 0.3em 0; font-size: 1.6em; text-align: center;">📡 Nyquist Consciousness</h2>
             <p style="font-size: 0.95em; opacity: 0.8; margin-bottom: 1em;">Core Engine / Identity Lab</p>
             <div class="origin-stats">
                 <div class="origin-stat">
@@ -1398,10 +1393,10 @@ def render():
         # THE PORTAL - Pan Handlers Hub
         st.markdown("""
         <div class="portal-destination">
-            <div class="portal-header">
+            <div style="text-align: center; margin-bottom: 0.5em;">
                 <span class="neon-live">LIVE PORTAL</span>
             </div>
-            <h3 style="margin: 0.3em 0; text-align: center; font-size: 1.4em;">🏛️ Pan Handler Central</h3>
+            <h2 style="margin: 0.3em 0; text-align: center; font-size: 1.6em;">🏛️ Pan Handler Central</h2>
             <p style="text-align: center; font-size: 0.85em; opacity: 0.7; margin-bottom: 1em;">Federation Hub — All Worlds Connect</p>
             <div class="portal-visual">
                 <div class="portal-ring">

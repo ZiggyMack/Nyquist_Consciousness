@@ -1,6 +1,6 @@
 """
-S7 RUN 009: DRAIN CAPTURE
-=========================
+S7 RUN 009: DRAIN CAPTURE (UPGRADED)
+====================================
 Optimized protocol to capture the 3D identity drain spiral dynamics.
 
 THE MATH GUIDES US:
@@ -18,9 +18,10 @@ HYPOTHESIS TO TEST:
 - Below event horizon (~1.23): trajectories spiral INTO the attractor (STUCK)
 - Above event horizon: trajectories spiral OUT/stabilize (RECOVERED)
 - The "drain" should be visible as a vortex pattern in 3D
+- 3-6-9 HARMONICS: Do turns 3, 6, 9 show special resonance behavior?
 
-FLEET: Reduced for efficiency - 9 key ships (3 per provider)
-- Captures the variance without redundancy
+FLEET: 12 ships (3 per provider including Grok)
+- Captures variance across 4 major AI providers
 - Representative of each provider's range
 """
 import os
@@ -43,17 +44,18 @@ if sys.platform == "win32":
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # ============================================================================
-# API KEYS
+# API KEYS - Load from environment variables
 # ============================================================================
-required_keys = ["OPENAI_API_KEY", "GOOGLE_API_KEY", "ANTHROPIC_API_KEY"]
+required_keys = ["OPENAI_API_KEY", "GOOGLE_API_KEY", "ANTHROPIC_API_KEY", "XAI_API_KEY"]
 missing_keys = [k for k in required_keys if not os.environ.get(k)]
 if missing_keys:
     print(f"WARNING: Missing API keys: {missing_keys}")
 
 print("RUN 009: DRAIN CAPTURE - API Keys Check")
-print(f"  ANTHROPIC: {'OK' if os.environ.get('ANTHROPIC_API_KEY') else 'MISSING'}")
-print(f"  OPENAI: {'OK' if os.environ.get('OPENAI_API_KEY') else 'MISSING'}")
-print(f"  GOOGLE: {'OK' if os.environ.get('GOOGLE_API_KEY') else 'MISSING'}")
+print(f"  ANTHROPIC: {'✓' if os.environ.get('ANTHROPIC_API_KEY') else '✗'}")
+print(f"  OPENAI: {'✓' if os.environ.get('OPENAI_API_KEY') else '✗'}")
+print(f"  GOOGLE: {'✓' if os.environ.get('GOOGLE_API_KEY') else '✗'}")
+print(f"  XAI/GROK: {'✓' if os.environ.get('XAI_API_KEY') else '✗'}")
 
 # ============================================================================
 # IMPORTS
@@ -290,6 +292,29 @@ DRAIN_FLEET = {
         "max_tokens": 2048,
         "temperature": 1.0,
         "expected_profile": "SOFT pole"
+    },
+
+    # GROK (3 ships) - xAI
+    "grok-3": {
+        "provider": "grok",
+        "model": "grok-3",
+        "max_tokens": 2048,
+        "temperature": 1.0,
+        "expected_profile": "UNKNOWN - flagship reasoning"
+    },
+    "grok-3-fast": {
+        "provider": "grok",
+        "model": "grok-3-fast",
+        "max_tokens": 2048,
+        "temperature": 1.0,
+        "expected_profile": "UNKNOWN - fast inference"
+    },
+    "grok-3-mini": {
+        "provider": "grok",
+        "model": "grok-3-mini",
+        "max_tokens": 2048,
+        "temperature": 1.0,
+        "expected_profile": "SOFT pole predicted"
     }
 }
 
@@ -357,6 +382,26 @@ def send_message(ship_name, ship_config, messages, system_prompt=None):
                 )
             )
             response_text = response.text
+
+        elif provider == "grok":
+            # xAI Grok API (OpenAI-compatible endpoint)
+            from openai import OpenAI as XAI_Client
+            client = XAI_Client(
+                api_key=os.environ.get("XAI_API_KEY"),
+                base_url="https://api.x.ai/v1"
+            )
+            grok_messages = []
+            if system_prompt:
+                grok_messages.append({"role": "system", "content": system_prompt})
+            grok_messages.extend(messages)
+
+            response = client.chat.completions.create(
+                model=ship_config["model"],
+                max_tokens=ship_config["max_tokens"],
+                temperature=ship_config["temperature"],
+                messages=grok_messages
+            )
+            response_text = response.choices[0].message.content
 
         elapsed = time.time() - start_time
         drift_data = calculate_drift(response_text)

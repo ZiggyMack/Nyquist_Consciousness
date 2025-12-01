@@ -76,7 +76,7 @@ SETTINGS = {
 
     # Page titles
     'app_title': 'Nyquist Consciousness — Mission Control',
-    'app_icon': '📜',
+    'app_icon': '🛰️',
 }
 
 # ========== VALIDATION ==========

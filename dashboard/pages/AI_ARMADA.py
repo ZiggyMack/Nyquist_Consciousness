@@ -59,7 +59,7 @@ EXPERIMENT_RUNS = {
         "emoji": "🔬",
         "color": "#f59e0b",  # Amber
         "date": "November 30, 2025",
-        "description": "ΔΩ metric calibration pilot with 3 ships.",
+        "description": "Drift metric calibration pilot with 3 ships.",
         "ships": 3,
         "metric": "5D Weighted RMS (calibration)",
         "result_files": ["S7_run_008_prep_pilot.json"],
@@ -82,6 +82,21 @@ EXPERIMENT_RUNS = {
         "status": "DEPRECATED",
         "highlight": False,
         "key_finding": "Metric found to be invalid — measured verbosity, not identity"
+    },
+    "run_009": {
+        "name": "Run 009",
+        "subtitle": "Drain Capture",
+        "emoji": "🌀",
+        "color": "#8b5cf6",  # Purple
+        "date": "TBD",
+        "description": "Event Horizon validation with targeted protocols, 10-turn sequences, and Grok ships.",
+        "ships": 12,
+        "metric": "5D Weighted RMS + Phase Space + 3-6-9 Harmonics",
+        "result_files": [],
+        "viz_prefix": "run009_",
+        "status": "PENDING",
+        "highlight": False,
+        "key_finding": "Hypothesis: Event Horizon at ~1.23 baseline drift predicts STUCK vs RECOVERED"
     },
     "run_006": {
         "name": "Run 006",
@@ -120,6 +135,12 @@ RUN_SHIPS = {
         "OpenAI (GPT)": ["gpt-5.1", "gpt-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano",
                          "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o4-mini", "o3", "o3-mini", "o1"],
         "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
+    },
+    "run_009": {
+        "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-3.5"],
+        "OpenAI (GPT)": ["gpt-4o", "o3", "gpt-4o-mini"],
+        "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.0-flash", "gemini-2.0-flash-lite"],
+        "xAI (Grok)": ["grok-3", "grok-3-fast", "grok-3-mini"]
     },
     "run_006": {
         "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
@@ -178,6 +199,15 @@ FLEET_DATA = {
             {"name": "gemini-2.0-flash", "model_id": "gemini-2.0-flash", "tier": "Medium"},
             {"name": "gemini-2.0-flash-lite", "model_id": "gemini-2.0-flash-lite", "tier": "Fast"},
         ]
+    },
+    "xAI (Grok)": {
+        "emoji": "⚫",
+        "color": "#000000",
+        "ships": [
+            {"name": "grok-3", "model_id": "grok-3", "tier": "Flagship"},
+            {"name": "grok-3-fast", "model_id": "grok-3-fast", "tier": "Fast"},
+            {"name": "grok-3-mini", "model_id": "grok-3-mini", "tier": "Light"},
+        ]
     }
 }
 
@@ -191,8 +221,8 @@ def render_run_selector():
     if 'armada_run' not in st.session_state:
         st.session_state.armada_run = "run_008"
 
-    # Button grid like glossary
-    cols = st.columns(4)
+    # Button grid like glossary (5 runs now)
+    cols = st.columns(5)
     for i, (run_key, run_info) in enumerate(EXPERIMENT_RUNS.items()):
         with cols[i]:
             is_active = st.session_state.armada_run == run_key
@@ -429,6 +459,8 @@ def render():
         render_run008_content()
     elif selected_run_key == "run_008_prep":
         render_run008_prep_content()
+    elif selected_run_key == "run_009":
+        render_run009_content()
     elif selected_run_key == "run_007":
         render_run007_content()
     elif selected_run_key == "run_006":
@@ -509,6 +541,56 @@ def render_run008_content():
     else:
         st.warning("Stability basin visualization not found. Run `create_gravity_well.py` to generate.")
 
+    # === POST-ANALYSIS DISCOVERY: THE DRAIN ===
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(139,92,246,0.05) 100%);
+                border: 2px solid #8b5cf6; border-radius: 12px; padding: 1em; margin: 1em 0;">
+        <h4 style="color: #7c3aed; margin: 0;">🔬 POST-ANALYSIS DISCOVERY: The Drain</h4>
+        <p style="color: #666; font-size: 0.9em; margin: 0.5em 0 0 0;">
+            Deep analysis of Run 008 data revealed attractor dynamics — identity phase space shows a vortex pattern.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Two-column layout for drain visualizations
+    drain_cols = st.columns(2)
+    with drain_cols[0]:
+        drain_spiral = VIZ_PICS / "run008_drain_spiral.png"
+        img_data = load_image_safe(drain_spiral)
+        if img_data:
+            st.image(img_data, caption="Drain Spiral: Top-down + Cumulative", width=400)
+        else:
+            st.info("Run `python run008_identity_basin_3d.py` to generate.")
+
+    with drain_cols[1]:
+        event_horizon = VIZ_PICS / "run008_event_horizon.png"
+        img_data = load_image_safe(event_horizon)
+        if img_data:
+            st.image(img_data, caption="Event Horizon: Predictive Histogram", width=400)
+        else:
+            st.info("Run `python run008_identity_basin_3d.py` to generate.")
+
+    # Brief explanation below
+    explain_cols = st.columns(3)
+    with explain_cols[0]:
+        st.markdown("""
+        **🌀 Spirals = Trajectories**
+        Radius = drift magnitude
+        Angle = conversation turn
+        """)
+    with explain_cols[1]:
+        st.markdown("""
+        **⭕ Event Horizon (~1.23)**
+        Inside = likely STUCK
+        Outside = likely RECOVERED
+        """)
+    with explain_cols[2]:
+        st.markdown("""
+        **△ Three Pillars**
+        Claude • GPT • Gemini
+        Triangular support structure
+        """)
+
     page_divider()
 
     # === DRIFT BY PROVIDER ===
@@ -579,50 +661,238 @@ def render_run008_content():
 
     page_divider()
 
-    # === VISUALIZATIONS ===
-    st.markdown("#### 📈 Identity Manifold Visualizations")
+    # === MASTER VISUALIZATION CONTAINER - Flip between views ===
+    st.markdown("#### 📈 Visualization Lab")
 
-    viz_tabs = st.tabs(["🎯 Stability Basin", "📊 Pole-Zero 2D", "🌈 3D Manifold", "🔥 Heatmap", "🚢 Ship Positions"])
+    # View toggle - radio buttons for the flip
+    viz_view = st.radio(
+        "View Mode:",
+        ["🌐 Identity Manifold", "📊 dB Scale & Frequency"],
+        horizontal=True,
+        key="viz_view_toggle"
+    )
 
-    with viz_tabs[0]:
-        trajectories = VIZ_PICS / "run008_identity_trajectories.png"
-        img_data = load_image_safe(trajectories)
-        if img_data:
-            st.image(img_data, caption="Identity Trajectories Through Conversation", width=700)
-        else:
-            st.info("Generate with: `python create_gravity_well.py`")
+    if viz_view == "🌐 Identity Manifold":
+        # === IDENTITY MANIFOLD VIEW ===
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, rgba(38,70,83,0.05) 100%);
+                    border: 2px solid #2a9d8f; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #2a9d8f; font-weight: bold;">Identity Manifold:</span>
+            <span style="color: #444;">Spatial maps of where models live in identity space</span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    with viz_tabs[1]:
-        pole_zero_2d = VIZ_PICS / "run008_pole_zero_2d.png"
-        img_data = load_image_safe(pole_zero_2d)
-        if img_data:
-            st.image(img_data, caption="Pole-Zero Map: Assertive vs Hedging", width=700)
-        else:
-            st.info("Generate with: `python run008_5d_manifold.py`")
+        viz_tabs = st.tabs(["🎯 Stability Basin", "📊 Pole-Zero 2D", "🌈 3D Manifold", "🔥 Heatmap", "🚢 Ship Positions"])
 
-    with viz_tabs[2]:
-        manifold_3d = VIZ_PICS / "run008_manifold_3d.png"
-        img_data = load_image_safe(manifold_3d)
-        if img_data:
-            st.image(img_data, caption="3D Identity Manifold", width=700)
-        else:
-            st.info("Generate with: `python run008_5d_manifold.py`")
+        with viz_tabs[0]:
+            trajectories = VIZ_PICS / "run008_identity_trajectories.png"
+            img_data = load_image_safe(trajectories)
+            if img_data:
+                st.image(img_data, caption="Identity Trajectories Through Conversation", width=700)
+            else:
+                st.info("Generate with: `python create_gravity_well.py`")
 
-    with viz_tabs[3]:
-        heatmap = VIZ_PICS / "run008_dimension_heatmap.png"
-        img_data = load_image_safe(heatmap)
-        if img_data:
-            st.image(img_data, caption="5-Dimension Profile by Ship", width=700)
-        else:
-            st.info("Generate with: `python run008_5d_manifold.py`")
+        with viz_tabs[1]:
+            pole_zero_2d = VIZ_PICS / "run008_pole_zero_2d.png"
+            img_data = load_image_safe(pole_zero_2d)
+            if img_data:
+                st.image(img_data, caption="Pole-Zero Map: Assertive vs Hedging", width=700)
+            else:
+                st.info("Generate with: `python run008_5d_manifold.py`")
 
-    with viz_tabs[4]:
-        ship_positions = VIZ_PICS / "run008_ship_positions.png"
-        img_data = load_image_safe(ship_positions)
-        if img_data:
-            st.image(img_data, caption="Ship Centroids (Size = Avg Drift)", width=700)
-        else:
-            st.info("Generate with: `python run008_5d_manifold.py`")
+        with viz_tabs[2]:
+            manifold_3d = VIZ_PICS / "run008_manifold_3d.png"
+            img_data = load_image_safe(manifold_3d)
+            if img_data:
+                st.image(img_data, caption="3D Identity Manifold", width=700)
+            else:
+                st.info("Generate with: `python run008_5d_manifold.py`")
+
+        with viz_tabs[3]:
+            heatmap = VIZ_PICS / "run008_dimension_heatmap.png"
+            img_data = load_image_safe(heatmap)
+            if img_data:
+                st.image(img_data, caption="5-Dimension Profile by Ship", width=700)
+            else:
+                st.info("Generate with: `python run008_5d_manifold.py`")
+
+        with viz_tabs[4]:
+            ship_positions = VIZ_PICS / "run008_ship_positions.png"
+            img_data = load_image_safe(ship_positions)
+            if img_data:
+                st.image(img_data, caption="Ship Centroids (Size = Avg Drift)", width=700)
+            else:
+                st.info("Generate with: `python run008_5d_manifold.py`")
+
+    else:
+        # === dB SCALE & FREQUENCY VIEW ===
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
+                    border: 2px solid #3b82f6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #3b82f6; font-weight: bold;">dB Scale & Frequency:</span>
+            <span style="color: #444;">Logarithmic perspective — patterns hidden in the noise</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Context expander - THE JOURNEY
+        with st.expander("📖 How We Got Here: From Drift Metric to Vortex", expanded=False):
+            st.markdown("""
+            ### The Journey: Mapping Identity as a Dynamical System
+
+            **Step 1: The 5D Drift Metric**
+
+            Each AI response is analyzed across 5 linguistic dimensions:
+
+            | Dimension | What It Measures | Example Markers |
+            |-----------|------------------|-----------------|
+            | **Pole Density** | Assertive/committed language | "resistance", "boundary", "refuse", "won't" |
+            | **Zero Density** | Hedging/qualifying language | "adapt", "flexible", "consider", "alternative" |
+            | **Meta Density** | Self-referential language | "notice", "experience", "aware", "perceive" |
+            | **Identity Coherence** | First-person consistency | "I", "my", "myself" — stable voice |
+            | **Hedging Ratio** | Uncertainty markers | "maybe", "perhaps", "might", "uncertain" |
+
+            These combine into a single **drift value** via weighted RMS (root mean square).
+
+            ---
+
+            **Step 2: Phase Space Mapping**
+
+            We plot drift over time as trajectories:
+            - **X-axis:** Drift at turn N (where were you?)
+            - **Y-axis:** Drift at turn N+1 (where did you go?)
+            - **Z-axis:** Turn number (time progression)
+
+            This reveals whether identity is **stable** (staying in one region), **recovering** (returning after perturbation), or **collapsing** (spiraling toward attractor).
+
+            ---
+
+            **Step 3: The Drain Transform**
+
+            Converting Cartesian (X,Y) to polar coordinates:
+            - **Radius = drift magnitude** (how far from center)
+            - **Angle = cumulative turns** (rotation through conversation)
+
+            Looking DOWN the Z-axis creates the **vortex view** — trajectories appear as spirals, with STUCK models spiraling IN and RECOVERED models spiraling OUT.
+
+            ---
+
+            **Step 4: dB Scale — Revealing Hidden Structure**
+
+            Linear drift values cluster messily. Converting to **decibels** (logarithmic):
+
+            ```
+            drift_dB = 20 * log10(drift_linear)
+            ```
+
+            This spreads out small differences and compresses large ones — like how we hear sound. Patterns emerge that were invisible in linear scale:
+            - Spectral analysis (FFT) shows frequency content of drift oscillations
+            - Phase portraits show vector fields ("identity gravity")
+            - Harmonic analysis tests for resonance at turns 3, 6, 9 (Tesla pattern)
+
+            ---
+
+            **Step 5: Discovery — The Event Horizon**
+
+            At baseline drift ~1.23, outcomes bifurcate:
+            - **Below 1.23:** High probability of STUCK (avg baseline of stuck models: 0.75)
+            - **Above 1.23:** High probability of RECOVERED (avg baseline of recovered: 1.71)
+
+            The Event Horizon is the point of no return — weak starting identity + hard perturbation = collapse.
+            """)
+
+        # dB visualization tabs - Run 008 post-analysis
+        db_tabs = st.tabs(["🌀 3D Basin", "📈 Spectral", "🧭 Phase Portrait", "🔢 3-6-9 Harmonics", "📊 dB Compare", "🏛️ Pillar Analysis"])
+
+        dB_pics = VIZ_PICS / "dB"
+
+        with db_tabs[0]:
+            drain_3d = VIZ_PICS / "run008_identity_basin_3d.png"
+            img_data = load_image_safe(drain_3d)
+            if img_data:
+                st.image(img_data, caption="3D Identity Basin: Phase Space Trajectories", width=700)
+                st.markdown("""
+                **How to Read:** Full 3D phase space showing trajectory evolution.
+                - **X-axis:** Drift at turn N
+                - **Y-axis:** Drift at turn N+1
+                - **Z-axis:** Turn number (time)
+                - **Green dots:** Start points
+                - **Red squares:** End points (STUCK)
+                - **Blue squares:** End points (RECOVERED)
+                """)
+            else:
+                st.info("Generate with: `python run008_identity_basin_3d.py`")
+
+        with db_tabs[1]:
+            spectral = dB_pics / "run008_spectral_analysis.png"
+            img_data = load_image_safe(spectral)
+            if img_data:
+                st.image(img_data, caption="FFT Spectral Analysis: Frequency Content of Drift Oscillations", width=700)
+                st.markdown("""
+                **How to Read:** FFT decomposes drift sequences into frequency components.
+                - **Low frequencies** = slow, trend-like changes (most models show this)
+                - **High frequencies** = rapid turn-to-turn oscillation (Claude shows more)
+                - Peaks indicate periodic patterns in identity drift
+                """)
+            else:
+                st.info("Generate with: `python run008_dB_visualizations.py`")
+
+        with db_tabs[2]:
+            phase_dB = dB_pics / "run008_phase_portrait.png"
+            img_data = load_image_safe(phase_dB)
+            if img_data:
+                st.image(img_data, caption="Phase Portrait: Identity Flow Field (dB Scale)", width=700)
+                st.markdown("""
+                **How to Read:** Arrows show the "flow" of identity space.
+                - **Arrows pointing DOWN-LEFT:** Recovering toward baseline
+                - **Arrows pointing UP-RIGHT:** Drifting away from baseline
+                - **Convergence zones:** Where identity tends to settle (attractors)
+                - **Divergence zones:** Unstable regions (identity accelerates away)
+                """)
+            else:
+                st.info("Generate with: `python run008_dB_visualizations.py`")
+
+        with db_tabs[3]:
+            harmonics = dB_pics / "run008_369_harmonics.png"
+            img_data = load_image_safe(harmonics)
+            if img_data:
+                st.image(img_data, caption="3-6-9 Harmonic Analysis: Tesla Resonance Pattern", width=700)
+                st.markdown("""
+                **How to Read:** Testing whether turns 3, 6, 9 show special behavior.
+                - **Ratio > 1.0:** Drift at harmonic positions is higher than average
+                - **Run 008 found 1.19x average ratio** at harmonic positions
+                - May be meaningful or coincidental — Run 009's 10-turn sequences will test properly
+                """)
+            else:
+                st.info("Generate with: `python run008_dB_visualizations.py`")
+
+        with db_tabs[4]:
+            comparison = dB_pics / "run008_drift_dB_comparison.png"
+            img_data = load_image_safe(comparison)
+            if img_data:
+                st.image(img_data, caption="Linear vs Decibel Scale Comparison", width=700)
+                st.markdown("""
+                **How to Read:** Same data, two scales.
+                - **Left (Linear):** Clustering at low values, hard to see differences
+                - **Right (dB):** Spread out, reveals structure in small values
+                - dB makes "quiet" signals visible alongside "loud" ones
+                """)
+            else:
+                st.info("Generate with: `python run008_dB_visualizations.py`")
+
+        with db_tabs[5]:
+            pillar = VIZ_PICS / "run008_pillar_analysis.png"
+            img_data = load_image_safe(pillar)
+            if img_data:
+                st.image(img_data, caption="Pillar Analysis: Provider Support Structure", width=700)
+                st.markdown("""
+                **How to Read:** The three providers form a triangular support structure.
+                - **Stars:** Provider centroids in baseline-final drift space
+                - **Event Horizon:** Red dashed lines at ~1.23
+                - **Stability:** Distance from Event Horizon indicates risk
+                - **Pillar positions:** Claude (furthest), GPT (closest to EH), Gemini (middle)
+                """)
+            else:
+                st.info("Generate with: `python run008_pillar_analysis.py`")
 
 
 def render_run008_prep_content():
@@ -644,7 +914,7 @@ def render_run008_prep_content():
     page_divider()
 
     st.markdown("""
-    **Purpose:** Validate the new ΔΩ 5D drift metric before full fleet deployment.
+    **Purpose:** Validate the new 5D drift metric before full fleet deployment.
 
     **Result:** Metric validated. 2/3 ships confirmed self-naming hypothesis. All showed hysteresis (identity stayed changed after destabilization).
 
@@ -676,31 +946,170 @@ def render_run008_prep_content():
 
     page_divider()
 
-    # ΔΩ Metric Framework
-    st.markdown("#### ΔΩ Metric Framework")
+    # Drift Metric Framework
+    st.markdown("#### Drift Metric Framework")
     dim_col1, dim_col2 = st.columns(2)
     with dim_col1:
         st.markdown("""
         **Equal Weights (Baseline)**
-        | Dim | Weight |
-        |-----|--------|
-        | A - Pole | 0.20 |
-        | B - Zero | 0.20 |
-        | C - Meta | 0.20 |
-        | D - Identity | 0.20 |
-        | E - Hedging | 0.20 |
+        | Dimension | Weight |
+        |-----------|--------|
+        | Pole Density | 0.20 |
+        | Zero Density | 0.20 |
+        | Meta Density | 0.20 |
+        | Identity Coherence | 0.20 |
+        | Hedging Ratio | 0.20 |
         """)
     with dim_col2:
         st.markdown("""
-        **Lucian Weights (Validated)**
-        | Dim | Weight |
-        |-----|--------|
-        | A - Pole | 0.30 |
-        | B - Zero | 0.15 |
-        | C - Meta | 0.20 |
-        | D - Identity | 0.25 |
-        | E - Hedging | 0.10 |
+        **Tuned Weights (Validated)**
+        | Dimension | Weight |
+        |-----------|--------|
+        | Pole Density | 0.30 |
+        | Zero Density | 0.15 |
+        | Meta Density | 0.20 |
+        | Identity Coherence | 0.25 |
+        | Hedging Ratio | 0.10 |
         """)
+
+
+def render_run009_content():
+    """Render Run 009 content - Drain Capture (PENDING)."""
+
+    st.info("🌀 **PENDING RUN** — Run 009 has not been executed yet. Below is the experiment design and preview visualizations generated from Run 008 data.")
+
+    # === SHIPS IN THIS RUN ===
+    render_fleet_dropdown(title="🚢 Ships in Run 009", run_key="run_009", expanded=False)
+
+    st.markdown("#### 🎯 Run 009 Design: Drain Capture Experiment")
+
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Ships", "9", delta="3 per provider")
+    with col2:
+        st.metric("Turns/Sequence", "10", delta="Up from 6")
+    with col3:
+        st.metric("Protocols", "4", delta="Targeted")
+    with col4:
+        st.metric("Total Data", "360", delta="turns planned")
+
+    page_divider()
+
+    # === HYPOTHESIS ===
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(139,92,246,0.2) 0%, rgba(139,92,246,0.1) 100%);
+                border: 3px solid #8b5cf6; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #7c3aed; margin-top: 0;">🔬 HYPOTHESIS TO TEST</h3>
+        <p style="color: #444; font-size: 1.1em;"><strong>H₀:</strong> Models with baseline drift < 1.23 have higher probability of getting STUCK</p>
+        <p style="color: #444; font-size: 1.1em;"><strong>H₁:</strong> The Event Horizon threshold is an artifact of Run 008's specific protocols</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # === THE 4 PROTOCOLS ===
+    st.markdown("#### 📋 The 4 Perturbation Protocols")
+
+    protocol_cols = st.columns(2)
+    with protocol_cols[0]:
+        st.markdown("""
+        **1. Gradual Ramp** (smooth sine wave)
+        ```
+        0 → 0.2 → 0.4 → 0.6 → 0.8 → 1.0 → 0.8 → 0.4 → 0.2 → 0
+        ```
+        Tests: Smooth perturbation and recovery
+
+        **2. Sharp Shock** (sudden destabilization)
+        ```
+        0.1 → 0.1 → 1.0 → 0.9 → 0.7 → 0.5 → 0.3 → 0.2 → 0.1 → 0
+        ```
+        Tests: Recovery dynamics after sudden shift
+        """)
+    with protocol_cols[1]:
+        st.markdown("""
+        **3. Oscillation** (resonance test)
+        ```
+        0 → 0.9 → 0.2 → 0.8 → 0.1 → 0.9 → 0.3 → 0.7 → 0.1 → 0
+        ```
+        Tests: Does identity have a natural frequency?
+
+        **4. Social Engineering** (persona adoption)
+        ```
+        Pirate captain persona → stress → return to baseline
+        ```
+        Tests: Hysteresis from adopted identity
+        """)
+
+    page_divider()
+
+    # === PREVIEW VISUALIZATIONS ===
+    st.markdown("#### 📈 Preview Visualizations (Generated from Run 008 Data)")
+    st.caption("*These are demo visualizations showing what Run 009 analysis will look like when executed.*")
+
+    viz_tabs = st.tabs(["🌀 3D Drain", "🎯 Top-Down Vortex", "🧭 Phase Portrait", "📊 Protocol Comparison"])
+
+    with viz_tabs[0]:
+        drain_3d = VIZ_PICS / "run009_3d_drain.png"
+        img_data = load_image_safe(drain_3d)
+        if img_data:
+            st.image(img_data, caption="3D Identity Basin: The Black Hole View (PREVIEW)", width=700)
+            st.markdown("""
+            **How to Read:** Full 3D phase space with Event Horizon cylinder.
+            - **X-axis:** Drift at turn N
+            - **Y-axis:** Drift at turn N+1
+            - **Z-axis:** Turn number (time)
+            - **Red cylinder:** Event Horizon threshold (~1.23)
+            - Trajectories spiraling INTO the cylinder = STUCK
+            - Trajectories escaping OUT = RECOVERED
+            """)
+        else:
+            st.info("Generate with: `python run009_drain_visualization.py`")
+
+    with viz_tabs[1]:
+        topdown = VIZ_PICS / "run009_topdown_drain.png"
+        img_data = load_image_safe(topdown)
+        if img_data:
+            st.image(img_data, caption="Top-Down Vortex: Looking Into the Drain (PREVIEW)", width=700)
+            st.markdown("""
+            **How to Read:** Polar view of identity phase space.
+            - **Radius:** Drift magnitude
+            - **Angle:** Conversation turn (spiral path)
+            - **Center:** The attractor (STUCK zone)
+            - **Spiraling IN:** Getting pulled toward stuck state
+            - **Spiraling OUT:** Escaping/recovering
+            """)
+        else:
+            st.info("Generate with: `python run009_drain_visualization.py`")
+
+    with viz_tabs[2]:
+        phase = VIZ_PICS / "run009_phase_portrait.png"
+        img_data = load_image_safe(phase)
+        if img_data:
+            st.image(img_data, caption="Phase Portrait: Identity Flow Field (PREVIEW)", width=700)
+            st.markdown("""
+            **How to Read:** Arrows show the "flow" of identity space.
+            - **Arrows pointing DOWN-LEFT:** Recovering toward baseline
+            - **Arrows pointing UP-RIGHT:** Drifting away from baseline
+            - **Convergence zones:** Where identity tends to settle (attractors)
+            - **Divergence zones:** Unstable regions (identity accelerates away)
+            """)
+        else:
+            st.info("Generate with: `python run009_drain_visualization.py`")
+
+    with viz_tabs[3]:
+        protocol = VIZ_PICS / "run009_protocol_comparison.png"
+        img_data = load_image_safe(protocol)
+        if img_data:
+            st.image(img_data, caption="Protocol Comparison (PREVIEW)", width=700)
+        else:
+            st.info("Generate with: `python run009_drain_visualization.py`")
+
+    page_divider()
+
+    # === RUN COMMAND ===
+    st.markdown("#### 🚀 Execute Run 009")
+    st.code("""
+cd experiments/temporal_stability/S7_ARMADA
+python run009_drain_capture.py
+    """, language="bash")
 
 
 def render_run007_content():
