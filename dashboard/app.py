@@ -488,9 +488,9 @@ def main():
         st.markdown("---")
 
         # Matrix portal button
-        if st.button("🟢 Enter The Matrix", key="matrix_btn", type="secondary", use_container_width=True):
+        if st.button("🟢 Enter The Matrix", key="matrix_btn", type="secondary"):
             st.session_state.show_matrix = True
-            st.rerun()
+            st.experimental_rerun()
 
     # Route to Matrix or selected page
     if st.session_state.show_matrix:

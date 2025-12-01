@@ -442,7 +442,7 @@ def render():
     # Pan Handlers Dashboard Link Button
     col_ph1, col_ph2, col_ph3 = st.columns([1, 2, 1])
     with col_ph2:
-        st.link_button("🌀 STEP THROUGH THE PORTAL → PAN HANDLERS MATRIX", "https://panhandlers.streamlit.app/Matrix", use_container_width=True)
+        st.markdown('[🌀 STEP THROUGH THE PORTAL → PAN HANDLERS MATRIX](https://panhandlers.streamlit.app/Matrix)', unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -523,7 +523,7 @@ def render():
             </ul>
         </div>
         """, unsafe_allow_html=True)
-        st.button("📊 Go to Dashboard", key="nyquist_dash", use_container_width=True, disabled=True)
+        st.button("📊 Go to Dashboard", key="nyquist_dash", disabled=True)
 
     with col2:
         st.markdown("""
@@ -540,7 +540,7 @@ def render():
             </ul>
         </div>
         """, unsafe_allow_html=True)
-        if st.button("🔗 View CFA Repository", key="cfa_link", use_container_width=True):
+        if st.button("🔗 View CFA Repository", key="cfa_link"):
             st.info("**CFA Repository:** github.com/ZiggyMack/CFA")
 
     st.markdown("---")

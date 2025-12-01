@@ -121,13 +121,14 @@ def render():
                 margin=dict(l=10, r=10, t=30, b=10),
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color='white'),
+                font=dict(color='#333333'),
                 legend=dict(
                     orientation="h",
                     yanchor="bottom",
                     y=-0.2,
                     xanchor="center",
-                    x=0.5
+                    x=0.5,
+                    font=dict(color='#333333')
                 )
             )
             st.plotly_chart(fig_pie, use_container_width=True)
@@ -155,13 +156,14 @@ def render():
                 margin=dict(l=10, r=10, t=30, b=10),
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color='white'),
+                font=dict(color='#333333'),
                 legend=dict(
                     orientation="h",
                     yanchor="bottom",
                     y=-0.2,
                     xanchor="center",
-                    x=0.5
+                    x=0.5,
+                    font=dict(color='#333333')
                 )
             )
             st.plotly_chart(fig_donut, use_container_width=True)
@@ -173,21 +175,22 @@ def render():
             mode="gauge+number+delta",
             value=identity_health,
             domain={'x': [0, 1], 'y': [0, 1]},
-            title={'text': "", 'font': {'size': 16, 'color': 'white'}},
+            title={'text': "", 'font': {'size': 16, 'color': '#333333'}},
             delta={'reference': 80, 'increasing': {'color': "#7bc043"}, 'decreasing': {'color': "#e76f51"}},
+            number={'font': {'color': '#333333'}},
             gauge={
-                'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "white"},
+                'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "#666666", 'tickfont': {'color': '#333333'}},
                 'bar': {'color': "#2a9d8f"},
-                'bgcolor': "rgba(255,255,255,0.1)",
+                'bgcolor': "rgba(200,200,200,0.2)",
                 'borderwidth': 2,
-                'bordercolor': "white",
+                'bordercolor': "#dee2e6",
                 'steps': [
                     {'range': [0, 40], 'color': 'rgba(231, 111, 81, 0.3)'},
                     {'range': [40, 70], 'color': 'rgba(233, 196, 106, 0.3)'},
                     {'range': [70, 100], 'color': 'rgba(123, 192, 67, 0.3)'}
                 ],
                 'threshold': {
-                    'line': {'color': "white", 'width': 4},
+                    'line': {'color': "#2a9d8f", 'width': 4},
                     'thickness': 0.75,
                     'value': 90
                 }
@@ -198,7 +201,7 @@ def render():
             margin=dict(l=20, r=20, t=40, b=20),
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            font=dict(color='white', size=14)
+            font=dict(color='#333333', size=14)
         )
         st.plotly_chart(fig_gauge, use_container_width=True)
 

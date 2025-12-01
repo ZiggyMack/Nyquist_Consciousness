@@ -301,14 +301,63 @@ st.markdown(html, unsafe_allow_html=True)
 
 ## Python Version Gotchas
 
-| Python Version | Max Streamlit | `st.image()` param |
-|---------------|---------------|-------------------|
-| 3.7 | 1.23.x | `use_column_width=True` |
-| 3.8+ | 1.32+ | `use_container_width=True` |
+| Python Version | Max Streamlit | Notes |
+|---------------|---------------|-------|
+| 3.7 | 1.23.x | No `st.link_button()`, no `st.rerun()` |
+| 3.8+ | 1.32+ | Full modern API |
 
-**Symptom:** `TypeError: image() got an unexpected keyword argument 'use_container_width'`
+### Streamlit 1.23 (Python 3.7) Compatibility
 
-**Fix:** Either upgrade Python to 3.8+, or use `use_column_width=True` instead.
+| Feature | 1.23 (Py3.7) | 1.32+ (Py3.8+) |
+|---------|-------------|----------------|
+| `st.image()` | `use_column_width=True` | `use_container_width=True` |
+| Page rerun | `st.experimental_rerun()` | `st.rerun()` |
+| Link button | Use `st.markdown('[text](url)')` | `st.link_button()` |
+| Button width | `use_container_width` exists | Same |
+| Container | `st.container()` (no border) | `st.container(border=True)` |
+| Bar chart | `st.bar_chart(data)` (no color) | `st.bar_chart(data, color='#hex')` |
+
+**Symptom:** `AttributeError: module 'streamlit' has no attribute 'rerun'`
+**Fix:** Use `st.experimental_rerun()` instead.
+
+**Symptom:** `AttributeError: module 'streamlit' has no attribute 'link_button'`
+**Fix:** Use `st.markdown('[Button Text](https://url)', unsafe_allow_html=True)` instead.
+
+**Symptom:** `TypeError: bar_chart() got an unexpected keyword argument 'color'`
+**Fix:** Remove the `color` parameter from `st.bar_chart()` call.
+
+---
+
+## Plotly Charts: Light Theme Colors
+
+When using `paper_bgcolor='rgba(0,0,0,0)'` (transparent), your text becomes invisible on light backgrounds!
+
+**Problem:** White text on transparent background = invisible on light theme.
+
+```python
+# BAD - invisible text
+fig.update_layout(
+    font=dict(color='white'),  # Can't see this!
+    paper_bgcolor='rgba(0,0,0,0)'
+)
+
+# GOOD - visible on light theme
+fig.update_layout(
+    font=dict(color='#333333'),
+    paper_bgcolor='rgba(0,0,0,0)'
+)
+```
+
+**For Gauges**, also update internal elements:
+```python
+go.Indicator(
+    number={'font': {'color': '#333333'}},
+    gauge={
+        'axis': {'tickfont': {'color': '#333333'}},
+        'bordercolor': "#dee2e6",  # Light border
+    }
+)
+```
 
 ---
 
