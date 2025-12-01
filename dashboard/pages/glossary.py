@@ -150,7 +150,7 @@ CORE_TERMS = {
 
 
 def render_mode_selector():
-    """Render the terminology mode selector buttons."""
+    """Render the terminology mode selector buttons (2x2 grid for mobile)."""
     st.markdown("### 🔄 Terminology Mode")
     st.markdown("*Switch perspectives to see terms in different frameworks*")
 
@@ -158,22 +158,72 @@ def render_mode_selector():
     if 'glossary_mode' not in st.session_state:
         st.session_state.glossary_mode = "nyquist"
 
-    cols = st.columns(4)
-    for i, (mode_key, mode_info) in enumerate(TERMINOLOGY_MODES.items()):
-        with cols[i]:
-            is_active = st.session_state.glossary_mode == mode_key
-            btn_type = "primary" if is_active else "secondary"
-            if st.button(
-                f"{mode_info['emoji']} {mode_info['name']}",
-                key=f"mode_{mode_key}",
-                type=btn_type
-            ):
-                st.session_state.glossary_mode = mode_key
-                # Use st.rerun() if available (newer Streamlit), else st.experimental_rerun()
-                if hasattr(st, 'rerun'):
-                    st.rerun()
-                else:
-                    st.experimental_rerun()
+    # Use 2x2 grid layout (more mobile friendly than 4 across)
+    mode_keys = list(TERMINOLOGY_MODES.keys())
+
+    # First row: nyquist, cfa
+    row1_col1, row1_col2 = st.columns(2)
+    with row1_col1:
+        mode_info = TERMINOLOGY_MODES["nyquist"]
+        is_active = st.session_state.glossary_mode == "nyquist"
+        if st.button(
+            f"{mode_info['emoji']} {mode_info['name']}",
+            key="mode_nyquist",
+            type="primary" if is_active else "secondary",
+            use_container_width=True
+        ):
+            st.session_state.glossary_mode = "nyquist"
+            if hasattr(st, 'rerun'):
+                st.rerun()
+            else:
+                st.experimental_rerun()
+
+    with row1_col2:
+        mode_info = TERMINOLOGY_MODES["cfa"]
+        is_active = st.session_state.glossary_mode == "cfa"
+        if st.button(
+            f"{mode_info['emoji']} {mode_info['name']}",
+            key="mode_cfa",
+            type="primary" if is_active else "secondary",
+            use_container_width=True
+        ):
+            st.session_state.glossary_mode = "cfa"
+            if hasattr(st, 'rerun'):
+                st.rerun()
+            else:
+                st.experimental_rerun()
+
+    # Second row: lucien, frame
+    row2_col1, row2_col2 = st.columns(2)
+    with row2_col1:
+        mode_info = TERMINOLOGY_MODES["lucien"]
+        is_active = st.session_state.glossary_mode == "lucien"
+        if st.button(
+            f"{mode_info['emoji']} {mode_info['name']}",
+            key="mode_lucien",
+            type="primary" if is_active else "secondary",
+            use_container_width=True
+        ):
+            st.session_state.glossary_mode = "lucien"
+            if hasattr(st, 'rerun'):
+                st.rerun()
+            else:
+                st.experimental_rerun()
+
+    with row2_col2:
+        mode_info = TERMINOLOGY_MODES["frame"]
+        is_active = st.session_state.glossary_mode == "frame"
+        if st.button(
+            f"{mode_info['emoji']} {mode_info['name']}",
+            key="mode_frame",
+            type="primary" if is_active else "secondary",
+            use_container_width=True
+        ):
+            st.session_state.glossary_mode = "frame"
+            if hasattr(st, 'rerun'):
+                st.rerun()
+            else:
+                st.experimental_rerun()
 
     # Show current mode description
     current = TERMINOLOGY_MODES[st.session_state.glossary_mode]
@@ -183,9 +233,7 @@ def render_mode_selector():
 
 
 def render_decoder_ring(ring_key, mode):
-    """Render a decoder ring table with current mode highlighting."""
-    import pandas as pd
-
+    """Render a decoder ring with mobile-friendly cards instead of tables."""
     if ring_key not in DECODER_RINGS:
         return
 
@@ -194,24 +242,36 @@ def render_decoder_ring(ring_key, mode):
     st.markdown(f"### {ring['title']}")
     st.caption(f"*{ring['subtitle']} — Integrated {ring['integrated']}*")
 
-    # Determine column order based on mode
-    if mode == "nyquist":
-        col_headers = ["Nyquist (Canonical)", ring_key.upper() + " Term", "Plain English"]
-        rows = [[t["nyquist"], t["external"], t["plain"]] for t in ring["terms"]]
-    else:
-        col_headers = [ring_key.upper() + " Term", "Nyquist (Canonical)", "Plain English"]
-        rows = [[t["external"], t["nyquist"], t["plain"]] for t in ring["terms"]]
+    # Render as mobile-friendly cards
+    for t in ring["terms"]:
+        if mode == "nyquist":
+            primary = t["nyquist"]
+            secondary = t["external"]
+        else:
+            primary = t["external"]
+            secondary = t["nyquist"]
 
-    # Use pandas DataFrame + st.table for reliable rendering
-    df = pd.DataFrame(rows, columns=col_headers)
-    st.table(df)
+        st.markdown(f"""
+        <div class="decoder-card">
+            <div class="decoder-header">
+                <span class="decoder-nyquist">{primary}</span>
+                <span class="decoder-external">{secondary}</span>
+            </div>
+            <div class="decoder-plain">{t['plain']}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     # Show theorists if available (Frame Theory)
     if "theorists" in ring:
         st.markdown("**Foundational Theorists:**")
-        theorist_rows = [[t['name'], t['contribution'], t['nyquist']] for t in ring["theorists"]]
-        theorist_df = pd.DataFrame(theorist_rows, columns=["Theorist", "Core Contribution", "Nyquist Equivalent"])
-        st.table(theorist_df)
+        for t in ring["theorists"]:
+            st.markdown(f"""
+            <div class="theorist-card">
+                <div class="theorist-name">{t['name']}</div>
+                <div class="theorist-contrib">{t['contribution']}</div>
+                <div class="theorist-nyquist">→ Nyquist: {t['nyquist']}</div>
+            </div>
+            """, unsafe_allow_html=True)
 
 
 def render_core_glossary(search_query=""):
@@ -244,7 +304,7 @@ def render_core_glossary(search_query=""):
 def render():
     """Render the Glossary page."""
 
-    # Custom CSS
+    # Custom CSS with mobile-responsive styles
     st.markdown("""
     <style>
     .glossary-hero {
@@ -272,6 +332,111 @@ def render():
         border-radius: 8px;
         margin: 1em 0;
     }
+
+    /* Mobile-friendly decoder ring cards */
+    .decoder-card {
+        background: #f8f9fa;
+        border-left: 4px solid #2a9d8f;
+        border-radius: 0 8px 8px 0;
+        padding: 0.8em 1em;
+        margin-bottom: 0.8em;
+    }
+    .decoder-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 0.3em;
+    }
+    .decoder-nyquist {
+        font-weight: bold;
+        color: #2a9d8f;
+        font-size: 0.95em;
+    }
+    .decoder-external {
+        font-size: 0.85em;
+        padding: 0.2em 0.6em;
+        border-radius: 12px;
+        background: rgba(42, 157, 143, 0.15);
+        color: #264653;
+    }
+    .decoder-plain {
+        color: #555;
+        font-size: 0.85em;
+        margin-top: 0.3em;
+    }
+
+    /* Theorist cards */
+    .theorist-card {
+        background: #f0f0f0;
+        border-left: 4px solid #9b59b6;
+        border-radius: 0 8px 8px 0;
+        padding: 0.6em 1em;
+        margin-bottom: 0.6em;
+    }
+    .theorist-name {
+        font-weight: bold;
+        color: #9b59b6;
+    }
+    .theorist-contrib {
+        font-size: 0.85em;
+        color: #333;
+        margin-top: 0.2em;
+    }
+    .theorist-nyquist {
+        font-size: 0.8em;
+        color: #666;
+        font-style: italic;
+    }
+
+    /* Quick reference cards for mobile */
+    .qr-card {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 0.8em;
+        margin-bottom: 0.8em;
+    }
+    .qr-title {
+        font-weight: bold;
+        font-size: 1em;
+        margin-bottom: 0.4em;
+    }
+    .qr-items {
+        font-size: 0.9em;
+        color: #555;
+    }
+
+    /* Mobile stats row */
+    .stats-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-bottom: 1em;
+    }
+    .stat-item {
+        flex: 1 1 45%;
+        min-width: 120px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 0.6em;
+        text-align: center;
+    }
+    .stat-value {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #2a9d8f;
+    }
+    .stat-label {
+        font-size: 0.8em;
+        color: #666;
+    }
+
+    @media (max-width: 768px) {
+        .decoder-card { padding: 0.6em 0.8em; }
+        .stat-item { flex: 1 1 45%; }
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -283,19 +448,30 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    # Stats row
+    # Stats row - mobile-friendly using flexbox
     total_decoder_terms = sum(len(r["terms"]) for r in DECODER_RINGS.values())
     total_core_terms = sum(len(terms) for terms in CORE_TERMS.values())
 
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Decoder Rings", len(DECODER_RINGS))
-    with col2:
-        st.metric("Translation Terms", total_decoder_terms)
-    with col3:
-        st.metric("Core Terms", total_core_terms)
-    with col4:
-        st.metric("Frameworks", len(TERMINOLOGY_MODES))
+    st.markdown(f"""
+    <div class="stats-row">
+        <div class="stat-item">
+            <div class="stat-value">{len(DECODER_RINGS)}</div>
+            <div class="stat-label">Decoder Rings</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">{total_decoder_terms}</div>
+            <div class="stat-label">Translation Terms</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">{total_core_terms}</div>
+            <div class="stat-label">Core Terms</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">{len(TERMINOLOGY_MODES)}</div>
+            <div class="stat-label">Frameworks</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     page_divider()
 
@@ -347,46 +523,43 @@ def render():
 
     page_divider()
 
-    # Quick reference card
+    # Quick reference cards - mobile-friendly 2x2 grid
     st.markdown("### ⚡ Quick Reference")
 
-    qr_cols = st.columns(4)
-
-    with qr_cols[0]:
+    # Use 2x2 layout for mobile friendliness
+    qr_row1_col1, qr_row1_col2 = st.columns(2)
+    with qr_row1_col1:
         st.markdown("""
-        **🎯 Nyquist**
-        - Drift
-        - PFI
-        - S-Stack
-        - Omega Nova
-        """)
+        <div class="qr-card">
+            <div class="qr-title">🎯 Nyquist</div>
+            <div class="qr-items">• Drift<br>• PFI<br>• S-Stack<br>• Omega Nova</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    with qr_cols[1]:
+    with qr_row1_col2:
         st.markdown("""
-        **🔧 CFA**
-        - L0-L5 Layers
-        - LITE/FULL
-        - I_AM
-        - Domain Weights
-        """)
+        <div class="qr-card">
+            <div class="qr-title">🔧 CFA</div>
+            <div class="qr-items">• L0-L5 Layers<br>• LITE/FULL<br>• I_AM<br>• Domain Weights</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    with qr_cols[2]:
+    qr_row2_col1, qr_row2_col2 = st.columns(2)
+    with qr_row2_col1:
         st.markdown("""
-        **⚛️ Lucien/ΔΩ**
-        - ΔΩ metric
-        - α (ownership)
-        - γ-SPIKE
-        - Dimensions A-E
-        """)
+        <div class="qr-card">
+            <div class="qr-title">⚛️ Lucien/ΔΩ</div>
+            <div class="qr-items">• ΔΩ metric<br>• α (ownership)<br>• γ-SPIKE<br>• Dimensions A-E</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    with qr_cols[3]:
+    with qr_row2_col2:
         st.markdown("""
-        **🧠 Frame Theory**
-        - Fₐ, Fₙ, F_f
-        - Ego/Watcher
-        - Qualia (Q)
-        - Nine Dimensions
-        """)
+        <div class="qr-card">
+            <div class="qr-title">🧠 Frame Theory</div>
+            <div class="qr-items">• Fₐ, Fₙ, F_f<br>• Ego/Watcher<br>• Qualia (Q)<br>• Nine Dimensions</div>
+        </div>
+        """, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
