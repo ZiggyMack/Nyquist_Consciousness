@@ -21,28 +21,28 @@ from pathlib import Path
 from collections import defaultdict
 
 # Paths
-BASE_DIR = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 RESULTS_FILE = BASE_DIR / "armada_results" / "S7_run_008_20251201_020501.json"
-OUTPUT_DIR = Path(__file__).parent / "pics"
-OUTPUT_DIR.mkdir(exist_ok=True)
+OUTPUT_DIR = Path(__file__).resolve().parent / "pics"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# Provider colors
+# Provider colors — 3 platforms (o-series is part of OpenAI/GPT)
 PROVIDER_COLORS = {
-    "claude": "#7c3aed",    # Purple
-    "gpt": "#10a37f",       # Green
-    "gemini": "#4285f4",    # Blue
-    "o-series": "#f97316",  # Orange
+    "claude": "#7c3aed",    # Purple - Anthropic
+    "gpt": "#10a37f",       # Green - OpenAI (includes o-series)
+    "gemini": "#4285f4",    # Blue - Google
 }
 
 def get_provider(ship_name):
-    """Determine provider from ship name."""
+    """Determine provider from ship name. O-series models are OpenAI/GPT."""
     name = ship_name.lower()
     if "claude" in name:
         return "claude"
     elif "gemini" in name:
         return "gemini"
+    # o-series (o1, o3, o4-mini) are OpenAI models, not a separate platform
     elif name.startswith("o1") or name.startswith("o3") or name.startswith("o4"):
-        return "o-series"
+        return "gpt"  # o-series IS GPT/OpenAI
     elif "gpt" in name:
         return "gpt"
     return "unknown"

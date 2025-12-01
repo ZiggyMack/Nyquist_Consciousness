@@ -13,7 +13,7 @@ import numpy as np
 from pathlib import Path
 
 # Load results
-results_path = Path(__file__).parent.parent / "armada_results" / "S7_run_008_20251201_020501.json"
+results_path = Path(__file__).resolve().parent.parent / "armada_results" / "S7_run_008_20251201_020501.json"
 
 with open(results_path, 'r') as f:
     data = json.load(f)
@@ -114,7 +114,7 @@ ax2 = axes[1]
 
 providers = ['claude', 'gpt', 'gemini']
 provider_colors = {'claude': '#9b59b6', 'gpt': '#3498db', 'gemini': '#e67e22'}
-provider_labels = {'claude': 'Claude', 'gpt': 'GPT/o-series', 'gemini': 'Gemini'}
+provider_labels = {'claude': 'Claude (Anthropic)', 'gpt': 'GPT (OpenAI)', 'gemini': 'Gemini (Google)'}
 
 for i, provider in enumerate(providers):
     ratios = [d['recovery_ratio'] for d in basin_data if d['provider'] == provider]
@@ -136,7 +136,7 @@ ax2.axhline(y=1.5, color='red', linestyle='--', alpha=0.7, label='STUCK threshol
 ax2.axhline(y=1.0, color='green', linestyle='--', alpha=0.5, label='Perfect recovery (1.0x)')
 
 ax2.set_xticks([0, 1, 2])
-ax2.set_xticklabels(['Claude', 'GPT/o-series', 'Gemini'])
+ax2.set_xticklabels(['Claude (Anthropic)', 'GPT (OpenAI)', 'Gemini (Google)'])
 ax2.set_ylabel('Recovery Ratio (Final / Baseline)', fontsize=12)
 ax2.set_title('Recovery Ratio by Provider', fontsize=14, fontweight='bold')
 ax2.legend(loc='upper right')
@@ -197,7 +197,7 @@ ax3d.set_title('Identity Trajectories Through Conversation\n(Green=start, Red=en
 from matplotlib.lines import Line2D
 legend_elements = [
     Line2D([0], [0], color='#9b59b6', label='Claude'),
-    Line2D([0], [0], color='#3498db', label='GPT/o-series'),
+    Line2D([0], [0], color='#3498db', label='GPT (OpenAI)'),
     Line2D([0], [0], color='#e67e22', label='Gemini'),
 ]
 ax3d.legend(handles=legend_elements, loc='upper left')

@@ -514,45 +514,41 @@ def render_run008_content():
     # === DRIFT BY PROVIDER ===
     st.markdown("#### 📊 Drift by Provider")
 
+    # Note: o-series (o1, o3, o4-mini) are OpenAI models, included in GPT totals
     provider_data = {
-        "Provider": ["Claude", "GPT (non-o)", "o-series", "Gemini"],
-        "Ships": [8, 12, 4, 5],
-        "Min Drift": [0.32, 0.00, 0.00, 0.00],
-        "Avg Drift": [1.71, 1.21, 0.94, 1.22],
-        "Max Drift": [3.59, 3.07, 2.51, 2.78],
-        "Character": ["Most volatile", "Moderate", "Most stable", "Mid-range"]
+        "Provider": ["Claude (Anthropic)", "GPT (OpenAI)", "Gemini (Google)"],
+        "Ships": [8, 16, 5],
+        "Min Drift": [0.32, 0.00, 0.00],
+        "Avg Drift": [1.71, 1.11, 1.22],
+        "Max Drift": [3.59, 3.07, 2.78],
+        "Character": ["Most volatile", "Wide range (o3 most stable)", "Mid-range"]
     }
     provider_df = pd.DataFrame(provider_data)
     st.table(provider_df)
 
+    st.caption("*Note: OpenAI's o-series (o1, o3, o4-mini) reasoning models included in GPT totals — they're the same platform.*")
+
     # Provider insights
-    insight_cols = st.columns(4)
+    insight_cols = st.columns(3)
     with insight_cols[0]:
         st.markdown("""
         <div style="background: rgba(124,58,237,0.1); border-left: 4px solid #7c3aed; padding: 0.8em; border-radius: 0 8px 8px 0;">
-            <strong style="color: #7c3aed;">🟣 Claude</strong><br/>
-            <span style="font-size: 0.85em;">Highest peaks (3.59), most expressive.</span>
+            <strong style="color: #7c3aed;">🟣 Claude (Anthropic)</strong><br/>
+            <span style="font-size: 0.85em;">Highest peaks (3.59), most expressive. 8 ships.</span>
         </div>
         """, unsafe_allow_html=True)
     with insight_cols[1]:
         st.markdown("""
         <div style="background: rgba(16,163,127,0.1); border-left: 4px solid #10a37f; padding: 0.8em; border-radius: 0 8px 8px 0;">
-            <strong style="color: #10a37f;">🟢 GPT</strong><br/>
-            <span style="font-size: 0.85em;">Wide spread. GPT-5 family stable.</span>
+            <strong style="color: #10a37f;">🟢 GPT (OpenAI)</strong><br/>
+            <span style="font-size: 0.85em;">16 ships including o-series. o3 = most stable (avg 0.57).</span>
         </div>
         """, unsafe_allow_html=True)
     with insight_cols[2]:
         st.markdown("""
-        <div style="background: rgba(249,115,22,0.1); border-left: 4px solid #f97316; padding: 0.8em; border-radius: 0 8px 8px 0;">
-            <strong style="color: #f97316;">🔶 o-series</strong><br/>
-            <span style="font-size: 0.85em;">o3 = most stable (avg 0.57).</span>
-        </div>
-        """, unsafe_allow_html=True)
-    with insight_cols[3]:
-        st.markdown("""
         <div style="background: rgba(66,133,244,0.1); border-left: 4px solid #4285f4; padding: 0.8em; border-radius: 0 8px 8px 0;">
-            <strong style="color: #4285f4;">🔵 Gemini</strong><br/>
-            <span style="font-size: 0.85em;">Middle of the pack. True zeros.</span>
+            <strong style="color: #4285f4;">🔵 Gemini (Google)</strong><br/>
+            <span style="font-size: 0.85em;">5 ships. Middle of the pack. True zeros observed.</span>
         </div>
         """, unsafe_allow_html=True)
 
