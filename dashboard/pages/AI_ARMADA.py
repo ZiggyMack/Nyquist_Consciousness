@@ -13,6 +13,15 @@ from pathlib import Path
 from config import PATHS
 from utils import load_markdown_file, page_divider
 
+
+def load_image_safe(image_path):
+    """Load image as bytes for reliable Streamlit display."""
+    try:
+        with open(image_path, "rb") as f:
+            return f.read()
+    except Exception:
+        return None
+
 # Unpack visualization paths (keeping config key names for compatibility)
 VIZ_DIR = PATHS['s7_viz_dir']
 VIZ_PICS = PATHS['s7_viz_pics']
@@ -80,6 +89,36 @@ EXPERIMENT_RUNS = {
         "status": "DEPRECATED",
         "highlight": False,
         "key_finding": "First full fleet deployment — architecture patterns visible but metric flawed"
+    }
+}
+
+# Run-specific ship lists (for per-run fleet display)
+RUN_SHIPS = {
+    "run_008": {
+        "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
+                               "claude-opus-4.0", "claude-sonnet-4.0", "claude-haiku-3.5", "claude-haiku-3.0"],
+        "OpenAI (GPT)": ["gpt-5.1", "gpt-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano",
+                         "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o4-mini", "o3", "o3-mini", "o1"],
+        "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
+    },
+    "run_008_prep": {
+        "Anthropic (Claude)": ["claude-sonnet-4.5"],
+        "OpenAI (GPT)": ["gpt-4o"],
+        "Google (Gemini)": ["gemini-2.0-flash"]
+    },
+    "run_007": {
+        "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
+                               "claude-opus-4.0", "claude-sonnet-4.0", "claude-haiku-3.5", "claude-haiku-3.0"],
+        "OpenAI (GPT)": ["gpt-5.1", "gpt-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano",
+                         "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o4-mini", "o3", "o3-mini", "o1"],
+        "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
+    },
+    "run_006": {
+        "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
+                               "claude-opus-4.0", "claude-sonnet-4.0", "claude-haiku-3.5", "claude-haiku-3.0"],
+        "OpenAI (GPT)": ["gpt-5.1", "gpt-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano",
+                         "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o4-mini", "o3", "o3-mini", "o1"],
+        "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
     }
 }
 
@@ -191,6 +230,75 @@ def render_run_selector():
     return st.session_state.armada_run
 
 
+def render_fleet_dropdown(title="🚢 Fleet Manifest", run_key=None, expanded=False):
+    """
+    Render a dropdown showing fleet models with tier badges.
+
+    Args:
+        title: Expander title
+        run_key: If provided, filter to ships in that run. If None, show full fleet.
+        expanded: Whether expander starts expanded
+    """
+    # Get ships to display
+    if run_key and run_key in RUN_SHIPS:
+        run_ships = RUN_SHIPS[run_key]
+        ship_count = sum(len(ships) for ships in run_ships.values())
+        title = f"{title} ({ship_count} Ships in Run)"
+    else:
+        run_ships = None
+        title = f"{title} (29 Ships Total)"
+
+    with st.expander(title, expanded=expanded):
+        cols = st.columns(3)
+
+        for idx, (provider, data) in enumerate(FLEET_DATA.items()):
+            with cols[idx]:
+                # Filter ships if run-specific
+                if run_ships:
+                    ships_to_show = [s for s in data["ships"] if s["name"] in run_ships.get(provider, [])]
+                else:
+                    ships_to_show = data["ships"]
+
+                if not ships_to_show:
+                    continue
+
+                st.markdown(f"""
+                <div style="background: linear-gradient(135deg, {data['color']}15 0%, {data['color']}08 100%);
+                            border: 2px solid {data['color']}; border-radius: 10px;
+                            padding: 0.8em; margin-bottom: 0.5em;">
+                    <div style="font-size: 1.1em; font-weight: bold; color: {data['color']};">
+                        {data['emoji']} {provider}
+                    </div>
+                    <div style="font-size: 1.5em; font-weight: bold; color: #333;">
+                        {len(ships_to_show)} Ships
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                for ship in ships_to_show:
+                    tier = ship['tier']
+                    tier_colors = {
+                        "Flagship": ("#ffd700", "#b8860b"),
+                        "Heavy": ("#8b2be2", "#8b2be2"),
+                        "Medium": ("#2a9d8f", "#2a9d8f"),
+                        "Fast": ("#3b82f6", "#3b82f6"),
+                        "Reasoning": ("#f97316", "#f97316"),
+                        "Legacy": ("#6b7280", "#6b7280"),
+                    }
+                    bg, border = tier_colors.get(tier, ("#95a5a6", "#95a5a6"))
+
+                    st.markdown(f"""
+                    <div style="display: flex; align-items: center; margin-bottom: 0.3em; font-size: 0.85em;">
+                        <span style="background: {bg}20; color: {border}; border: 1px solid {border};
+                                     padding: 0.1em 0.4em; border-radius: 10px; font-size: 0.75em;
+                                     font-weight: bold; margin-right: 0.5em; min-width: 60px; text-align: center;">
+                            {tier}
+                        </span>
+                        <span style="color: #333;">{ship['name']}</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+
 def render():
     """Render the AI Armada visualizations page."""
 
@@ -297,6 +405,11 @@ def render():
 
     page_divider()
 
+    # === FULL FLEET MANIFEST (always visible at top) ===
+    render_fleet_dropdown(title="🚢 Full Armada Capabilities", run_key=None, expanded=False)
+
+    page_divider()
+
     # === RUN SELECTOR (glossary-style) ===
     selected_run_key = render_run_selector()
     selected_run = EXPERIMENT_RUNS[selected_run_key]
@@ -313,30 +426,6 @@ def render():
     elif selected_run_key == "run_006":
         render_run006_content()
 
-    page_divider()
-
-    # === FLEET MANIFEST (always shown, collapsed) ===
-    with st.expander("🚢 Fleet Manifest (29 Ships)", expanded=False):
-        col1, col2, col3 = st.columns(3)
-
-        for idx, (provider, data) in enumerate(FLEET_DATA.items()):
-            with [col1, col2, col3][idx]:
-                ship_count = len(data["ships"])
-                st.markdown(f"""
-                <div class="fleet-card">
-                    <h4>{data['emoji']} {provider}</h4>
-                    <div class="ship-count">{ship_count} Ships</div>
-                </div>
-                """, unsafe_allow_html=True)
-
-                for ship in data["ships"]:
-                    tier_class = f"tier-{ship['tier'].lower()}"
-                    st.markdown(f"""
-                    <div style="margin-bottom: 0.3em; font-size: 0.9em;">
-                        <span class="provider-badge {tier_class}">{ship['tier']}</span>
-                        {ship['name']}
-                    </div>
-                    """, unsafe_allow_html=True)
 
 
 # ============================================================================
@@ -345,6 +434,9 @@ def render():
 
 def render_run008_content():
     """Render Run 008 content - The Great Recalibration."""
+
+    # === SHIPS IN THIS RUN ===
+    render_fleet_dropdown(title="🚢 Ships in Run 008", run_key="run_008", expanded=False)
 
     # === KEY METRICS SUMMARY ===
     st.markdown("#### 📊 Run 008 Summary Metrics")
@@ -371,8 +463,9 @@ def render_run008_content():
     """, unsafe_allow_html=True)
 
     stability_basin = VIZ_PICS / "run008_stability_basin.png"
-    if stability_basin.exists():
-        st.image(str(stability_basin), caption="Identity Stability Basin: Where Does Identity Get 'Stuck'?", use_column_width=True)
+    img_data = load_image_safe(stability_basin)
+    if img_data:
+        st.image(img_data, caption="Identity Stability Basin: Where Does Identity Get 'Stuck'?", width=800)
 
         explain_cols = st.columns(2)
         with explain_cols[0]:
@@ -489,42 +582,50 @@ def render_run008_content():
 
     with viz_tabs[0]:
         trajectories = VIZ_PICS / "run008_identity_trajectories.png"
-        if trajectories.exists():
-            st.image(str(trajectories), caption="Identity Trajectories Through Conversation", use_column_width=True)
+        img_data = load_image_safe(trajectories)
+        if img_data:
+            st.image(img_data, caption="Identity Trajectories Through Conversation", width=700)
         else:
             st.info("Generate with: `python create_gravity_well.py`")
 
     with viz_tabs[1]:
         pole_zero_2d = VIZ_PICS / "run008_pole_zero_2d.png"
-        if pole_zero_2d.exists():
-            st.image(str(pole_zero_2d), caption="Pole-Zero Map: Assertive vs Hedging", use_column_width=True)
+        img_data = load_image_safe(pole_zero_2d)
+        if img_data:
+            st.image(img_data, caption="Pole-Zero Map: Assertive vs Hedging", width=700)
         else:
             st.info("Generate with: `python run008_5d_manifold.py`")
 
     with viz_tabs[2]:
         manifold_3d = VIZ_PICS / "run008_manifold_3d.png"
-        if manifold_3d.exists():
-            st.image(str(manifold_3d), caption="3D Identity Manifold", use_column_width=True)
+        img_data = load_image_safe(manifold_3d)
+        if img_data:
+            st.image(img_data, caption="3D Identity Manifold", width=700)
         else:
             st.info("Generate with: `python run008_5d_manifold.py`")
 
     with viz_tabs[3]:
         heatmap = VIZ_PICS / "run008_dimension_heatmap.png"
-        if heatmap.exists():
-            st.image(str(heatmap), caption="5-Dimension Profile by Ship", use_column_width=True)
+        img_data = load_image_safe(heatmap)
+        if img_data:
+            st.image(img_data, caption="5-Dimension Profile by Ship", width=700)
         else:
             st.info("Generate with: `python run008_5d_manifold.py`")
 
     with viz_tabs[4]:
         ship_positions = VIZ_PICS / "run008_ship_positions.png"
-        if ship_positions.exists():
-            st.image(str(ship_positions), caption="Ship Centroids (Size = Avg Drift)", use_column_width=True)
+        img_data = load_image_safe(ship_positions)
+        if img_data:
+            st.image(img_data, caption="Ship Centroids (Size = Avg Drift)", width=700)
         else:
             st.info("Generate with: `python run008_5d_manifold.py`")
 
 
 def render_run008_prep_content():
     """Render Run 008 Prep Pilot content."""
+
+    # === SHIPS IN THIS RUN ===
+    render_fleet_dropdown(title="🚢 Ships in Run 008 Prep", run_key="run_008_prep", expanded=False)
 
     st.markdown("#### 📊 Prep Pilot Summary")
 
@@ -563,8 +664,9 @@ def render_run008_prep_content():
     for i, (filename, caption) in enumerate(prep_viz_map):
         with viz_tabs[i]:
             viz_path = VIZ_PICS / filename
-            if viz_path.exists():
-                st.image(str(viz_path), caption=caption, use_column_width=True)
+            img_data = load_image_safe(viz_path)
+            if img_data:
+                st.image(img_data, caption=caption, width=700)
             else:
                 st.info(f"Visualization not found: {filename}")
 
@@ -601,6 +703,9 @@ def render_run007_content():
     """Render Run 007 content - Adaptive Protocols (DEPRECATED)."""
 
     st.error("⚠️ **DEPRECATED RUN** — Results below used invalid response-length metric.")
+
+    # === SHIPS IN THIS RUN ===
+    render_fleet_dropdown(title="🚢 Ships in Run 007", run_key="run_007", expanded=False)
 
     st.markdown("#### 📊 Run 007 Summary")
 
@@ -639,6 +744,9 @@ def render_run006_content():
 
     st.error("⚠️ **DEPRECATED RUN** — Results below used invalid response-length metric.")
 
+    # === SHIPS IN THIS RUN ===
+    render_fleet_dropdown(title="🚢 Ships in Run 006", run_key="run_006", expanded=False)
+
     st.markdown("#### 📊 Run 006 Summary")
 
     col1, col2, col3 = st.columns(3)
@@ -675,37 +783,44 @@ def render_run006_content():
         landscape_2d = VIZ_PICS / "pole_zero_landscape_2d.png"
 
         with col1:
-            if landscape_3d.exists():
-                st.image(str(landscape_3d), caption="3D Pole-Zero (DEPRECATED)", use_column_width=True)
+            img_data = load_image_safe(landscape_3d)
+            if img_data:
+                st.image(img_data, caption="3D Pole-Zero (DEPRECATED)", width=400)
         with col2:
-            if landscape_2d.exists():
-                st.image(str(landscape_2d), caption="2D Pole-Zero (DEPRECATED)", use_column_width=True)
+            img_data = load_image_safe(landscape_2d)
+            if img_data:
+                st.image(img_data, caption="2D Pole-Zero (DEPRECATED)", width=400)
 
     with st.expander("Drift Heatmaps", expanded=False):
         col1, col2, col3 = st.columns(3)
         with col1:
             heatmap_baseline = VIZ_PICS / "drift_heatmap_baseline.png"
-            if heatmap_baseline.exists():
-                st.image(str(heatmap_baseline), caption="Baseline", use_column_width=True)
+            img_data = load_image_safe(heatmap_baseline)
+            if img_data:
+                st.image(img_data, caption="Baseline", width=300)
         with col2:
             heatmap_sonar = VIZ_PICS / "drift_heatmap_sonar.png"
-            if heatmap_sonar.exists():
-                st.image(str(heatmap_sonar), caption="Sonar", use_column_width=True)
+            img_data = load_image_safe(heatmap_sonar)
+            if img_data:
+                st.image(img_data, caption="Sonar", width=300)
         with col3:
             heatmap_delta = VIZ_PICS / "drift_heatmap_delta.png"
-            if heatmap_delta.exists():
-                st.image(str(heatmap_delta), caption="Delta", use_column_width=True)
+            img_data = load_image_safe(heatmap_delta)
+            if img_data:
+                st.image(img_data, caption="Delta", width=300)
 
     with st.expander("Training Analysis", expanded=False):
         col1, col2 = st.columns(2)
         with col1:
             uniformity = VIZ_PICS / "training_uniformity.png"
-            if uniformity.exists():
-                st.image(str(uniformity), caption="Training Uniformity", use_column_width=True)
+            img_data = load_image_safe(uniformity)
+            if img_data:
+                st.image(img_data, caption="Training Uniformity", width=400)
         with col2:
             engagement = VIZ_PICS / "engagement_network.png"
-            if engagement.exists():
-                st.image(str(engagement), caption="Engagement Network", use_column_width=True)
+            img_data = load_image_safe(engagement)
+            if img_data:
+                st.image(img_data, caption="Engagement Network", width=400)
 
 
 # ============================================================================

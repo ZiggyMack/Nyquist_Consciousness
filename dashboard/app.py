@@ -194,6 +194,27 @@ def apply_custom_css():
         color: #333333 !important;
     }
 
+    /* ===== ASCII ART CONTAINERS (Personas page) ===== */
+    /* Allow dark-themed ASCII art containers to override light theme */
+    .ascii-container {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%) !important;
+    }
+    .ascii-container pre {
+        background: transparent !important;
+        color: #00ff41 !important;
+    }
+    .ascii-container * {
+        color: inherit !important;
+    }
+    .ascii-title {
+        color: #3498db !important;
+    }
+
+    /* ===== ENSURE FOOTER VISIBLE ===== */
+    .main .block-container {
+        padding-bottom: 5rem !important;
+    }
+
     /* ===== TABLES & DATAFRAMES ===== */
     table, [data-testid="stTable"], .stDataFrame {
         color: #333333 !important;

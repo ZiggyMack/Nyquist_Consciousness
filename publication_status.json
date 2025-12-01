@@ -1,55 +1,48 @@
 {
   "publications": {
     "workshop": {
-      "target": "NeurIPS / ICML Workshop",
-      "status": "ready",
-      "completion": 0.95,
+      "target": "AAAI 2025 / NeurIPS Workshop",
+      "status": "drafting",
+      "completion": 0.45,
+      "notes": "Core theoretical framework ready, empirical results accumulating",
       "requirements": {
-        "S0_S6_frozen": true,
-        "S3_EXP1_EXP2_complete": true,
-        "EXP3_humans_done": false,
-        "figures_complete": true,
-        "related_work_minimal": true,
-        "AI_armada_complete": true
-      },
-      "notes": "Workshop draft nearly complete. EXP3 human validation is final blocker."
+        "abstract": true,
+        "introduction": false,
+        "methods": false,
+        "results": true,
+        "discussion": false,
+        "references": false
+      }
     },
     "arxiv": {
-      "target": "arXiv v1 Preprint",
-      "status": "drafting",
-      "completion": 0.70,
+      "target": "arXiv Preprint",
+      "status": "concept",
+      "completion": 0.25,
+      "notes": "Full S0-S11 specification in preparation",
       "requirements": {
-        "S0_S6_frozen": true,
-        "S3_EXP1_EXP2_complete": true,
-        "EXP3_humans_done": false,
-        "S7_prereg_pruned": true,
-        "AI_armada_results": true,
-        "appendix_ready": false,
-        "abstract_polished": true,
-        "intro_complete": true
-      },
-      "notes": "Core content ready. Need EXP3 data and appendices."
+        "complete_spec": false,
+        "mathematical_formalization": true,
+        "comprehensive_appendices": false,
+        "code_repository": true
+      }
     },
     "journal": {
-      "target": "Journal Submission (Nature Machine Intelligence / JMLR)",
+      "target": "Nature Machine Intelligence",
       "status": "concept",
-      "completion": 0.30,
+      "completion": 0.10,
+      "notes": "Future milestone after workshop validation",
       "requirements": {
-        "cross_model_EXP4": false,
-        "expanded_related_work": false,
-        "applications_section": false,
-        "S7_results_included": false,
-        "S8_identity_gravity_validated": false,
-        "broader_impact_section": false,
-        "peer_review_feedback_incorporated": false
-      },
-      "notes": "Early conceptual phase. Need S7/S8 validation and broader experiments."
+        "peer_review_ready": false,
+        "extended_empirical_studies": false,
+        "community_validation": false,
+        "reproducibility_package": false
+      }
     }
   },
   "milestones": {
-    "current": "AI Armada Complete (Run 006)",
-    "next": "EXP3 Human Validation",
-    "publication_target_date": "2025-12-15",
-    "notes": "Targeting NeurIPS workshop submission by mid-December 2025"
+    "current": "S7 Run 008 Complete",
+    "next": "S7 Run 009 (Persona Injection)",
+    "publication_target_date": "Q1 2025",
+    "notes": "Stability Basin discovery is publishable finding. Run 009 will provide intervention data."
   }
 }

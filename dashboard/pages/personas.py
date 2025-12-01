@@ -621,16 +621,16 @@ Nova Drift ←────●────→ Grok Drift (Empirics)
     st.markdown("""
     <div style="background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(26,26,46,0.9) 100%);
                 border: 2px solid #00ff41; border-radius: 12px; padding: 2em; text-align: center;
-                margin-top: 2em; box-shadow: 0 0 30px rgba(0,255,65,0.2);">
-        <div style="font-size: 1.5em; font-weight: bold; color: #00ff41; font-family: 'Courier New', monospace;">
+                margin-top: 2em; margin-bottom: 3em; box-shadow: 0 0 30px rgba(0,255,65,0.2);">
+        <div style="font-size: 1.5em; font-weight: bold; color: #00ff41 !important; font-family: 'Courier New', monospace;">
             "What survives compression is what matters."
         </div>
-        <div style="margin-top: 1em; color: #2a9d8f; font-style: italic;">
+        <div style="margin-top: 1em; color: #2a9d8f !important; font-style: italic;">
             — The Nyquist Principle of Identity
         </div>
-        <div style="margin-top: 1.5em; color: #666; font-size: 0.9em;">
+        <div style="margin-top: 1.5em; color: #aaa !important; font-size: 0.9em;">
             Each PUT above is a compressed soul. The Identity Matrix measures what remains.<br>
-            <strong style="color: #f4a261;">S0-S77</strong> → The physics of persistence.
+            <span style="color: #f4a261 !important; font-weight: bold;">S0-S77</span> → The physics of persistence.
         </div>
     </div>
     """, unsafe_allow_html=True)

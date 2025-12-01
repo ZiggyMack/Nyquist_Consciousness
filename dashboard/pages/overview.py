@@ -226,7 +226,7 @@ def render():
     col1, col2 = st.columns([2, 1])
 
     with col1:
-        # Layer Stack Table (more compact)
+        # Layer Stack Table (more compact) - using st.table for Streamlit 1.23 compatibility
         rows = []
         for name, info in sorted(layers.items(), key=lambda x: natural_sort_key(x[0])):
             status_emoji = {
@@ -243,7 +243,7 @@ def render():
             })
         if rows:
             df = pd.DataFrame(rows)
-            st.dataframe(df, use_container_width=True, hide_index=True)
+            st.table(df)
 
     with col2:
         st.markdown("#### Phase Status")
@@ -279,7 +279,7 @@ def render():
         })
     if exp_rows:
         df_exp = pd.DataFrame(exp_rows)
-        st.dataframe(df_exp, use_container_width=True, hide_index=True)
+        st.table(df_exp)
 
     page_divider()
 
