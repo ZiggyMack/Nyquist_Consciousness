@@ -362,7 +362,11 @@ def render():
         new_layer_id = selected_option.split(" - ")[0]
         if new_layer_id != st.session_state.selected_layer:
             st.session_state.selected_layer = new_layer_id
-            st.experimental_rerun()
+            # Use st.rerun() if available (newer Streamlit), else st.experimental_rerun()
+            if hasattr(st, 'rerun'):
+                st.rerun()
+            else:
+                st.experimental_rerun()
 
         # === S0-S9 CORE LAYERS ===
         # Define core layers (S0-S9, excluding S10+ which have their own section)

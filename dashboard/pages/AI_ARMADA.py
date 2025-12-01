@@ -14,6 +14,14 @@ from config import PATHS
 from utils import load_markdown_file, page_divider
 
 
+def safe_rerun():
+    """Rerun that works with both old and new Streamlit versions."""
+    if hasattr(st, 'rerun'):
+        st.rerun()
+    else:
+        st.experimental_rerun()
+
+
 def load_image_safe(image_path):
     """Load image as bytes for reliable Streamlit display."""
     try:
@@ -197,7 +205,7 @@ def render_run_selector():
 
             if st.button(label, key=f"run_{run_key}", type=btn_type):
                 st.session_state.armada_run = run_key
-                st.experimental_rerun()
+                safe_rerun()
 
     # Show current run description card
     current = EXPERIMENT_RUNS[st.session_state.armada_run]

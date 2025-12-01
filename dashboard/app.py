@@ -511,7 +511,11 @@ def main():
         # Matrix portal button
         if st.button("🟢 Enter The Matrix", key="matrix_btn", type="secondary"):
             st.session_state.show_matrix = True
-            st.experimental_rerun()
+            # Use st.rerun() if available (newer Streamlit), else st.experimental_rerun()
+            if hasattr(st, 'rerun'):
+                st.rerun()
+            else:
+                st.experimental_rerun()
 
     # Route to Matrix or selected page
     if st.session_state.show_matrix:

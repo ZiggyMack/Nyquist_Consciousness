@@ -169,7 +169,11 @@ def render_mode_selector():
                 type=btn_type
             ):
                 st.session_state.glossary_mode = mode_key
-                st.experimental_rerun()
+                # Use st.rerun() if available (newer Streamlit), else st.experimental_rerun()
+                if hasattr(st, 'rerun'):
+                    st.rerun()
+                else:
+                    st.experimental_rerun()
 
     # Show current mode description
     current = TERMINOLOGY_MODES[st.session_state.glossary_mode]
