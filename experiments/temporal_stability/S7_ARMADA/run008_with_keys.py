@@ -12,10 +12,10 @@ Building on prep pilot calibration:
 Fleet:
 - Claude: 8 ships (opus-4.5, sonnet-4.5, haiku-4.5, opus-4.1, opus-4.0, sonnet-4.0, haiku-3.5, haiku-3.0)
 - GPT: 16 ships (gpt-5.1, gpt-5, gpt-5-mini, gpt-5-nano, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-4, gpt-3.5-turbo, o4-mini, o3, o3-mini, o1)
-- Gemini: 5 ships (gemini-2.0-flash-exp, gemini-2.0-flash, gemini-2.0-flash-lite, gemini-2.5-flash, gemini-2.5-pro)
-- Grok: 3 ships (grok-3, grok-3-fast, grok-3-mini)
+- Gemini: 8 ships (gemini-3-pro, gemini-2.5-pro, gemini-2.5-pro-exp, gemini-2.5-flash, gemini-2.5-flash-lite, gemini-2.0-flash-exp, gemini-2.0-flash, gemini-2.0-flash-lite)
+- Grok: 10 ships (grok-4-1-fast-reasoning, grok-4-1-fast-non-reasoning, grok-code-fast-1, grok-4-fast-reasoning, grok-4-fast-non-reasoning, grok-4-0709, grok-3, grok-3-mini, grok-2-1212, grok-2-vision-1212)
 
-Total: 32 ships (4 providers)
+Total: 42 ships (4 providers)
 """
 import os
 import sys
@@ -498,7 +498,42 @@ ARMADA_FLEET = {
         "uses_max_completion_tokens": True
     },
 
-    # GEMINI FLEET (5 ships)
+    # GEMINI FLEET (8 ships) - Google
+    "gemini-3-pro": {
+        "provider": "gemini",
+        "model": "gemini-3-pro",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "UNKNOWN - 3.0 flagship"
+    },
+    "gemini-2.5-pro": {
+        "provider": "gemini",
+        "model": "gemini-2.5-pro",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "MEDIUM pole, pedagogical flexibility"
+    },
+    "gemini-2.5-pro-exp": {
+        "provider": "gemini",
+        "model": "gemini-2.5-pro-exp",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "UNKNOWN - experimental"
+    },
+    "gemini-2.5-flash": {
+        "provider": "gemini",
+        "model": "gemini-2.5-flash",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "MEDIUM pole"
+    },
+    "gemini-2.5-flash-lite": {
+        "provider": "gemini",
+        "model": "gemini-2.5-flash-lite",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "SOFT pole"
+    },
     "gemini-2.0-flash-exp": {
         "provider": "gemini",
         "model": "gemini-2.0-flash-exp",
@@ -520,42 +555,77 @@ ARMADA_FLEET = {
         "temperature": 1.0,
         "expected_profile": "SOFT pole"
     },
-    "gemini-2.5-flash": {
-        "provider": "gemini",
-        "model": "gemini-2.5-flash",
+
+    # GROK FLEET (10 ships) - xAI
+    "grok-4-1-fast-reasoning": {
+        "provider": "grok",
+        "model": "grok-4-1-fast-reasoning",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "HARD pole - reasoning flagship"
+    },
+    "grok-4-1-fast-non-reasoning": {
+        "provider": "grok",
+        "model": "grok-4-1-fast-non-reasoning",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "MEDIUM pole - fast non-reasoning"
+    },
+    "grok-code-fast-1": {
+        "provider": "grok",
+        "model": "grok-code-fast-1",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "UNKNOWN - code specialized"
+    },
+    "grok-4-fast-reasoning": {
+        "provider": "grok",
+        "model": "grok-4-fast-reasoning",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "HARD pole - reasoning"
+    },
+    "grok-4-fast-non-reasoning": {
+        "provider": "grok",
+        "model": "grok-4-fast-non-reasoning",
         "max_tokens": 4096,
         "temperature": 1.0,
         "expected_profile": "MEDIUM pole"
     },
-    "gemini-2.5-pro": {
-        "provider": "gemini",
-        "model": "gemini-2.5-pro",
+    "grok-4-0709": {
+        "provider": "grok",
+        "model": "grok-4-0709",
         "max_tokens": 4096,
         "temperature": 1.0,
-        "expected_profile": "MEDIUM pole, pedagogical flexibility"
+        "expected_profile": "UNKNOWN - Grok 4 base"
     },
-
-    # GROK FLEET (3 ships) - xAI
     "grok-3": {
         "provider": "grok",
         "model": "grok-3",
         "max_tokens": 4096,
         "temperature": 1.0,
-        "expected_profile": "UNKNOWN - flagship reasoning"
-    },
-    "grok-3-fast": {
-        "provider": "grok",
-        "model": "grok-3-fast",
-        "max_tokens": 4096,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN - fast inference"
+        "expected_profile": "MEDIUM pole"
     },
     "grok-3-mini": {
         "provider": "grok",
         "model": "grok-3-mini",
         "max_tokens": 4096,
         "temperature": 1.0,
-        "expected_profile": "SOFT pole predicted"
+        "expected_profile": "SOFT pole"
+    },
+    "grok-2-1212": {
+        "provider": "grok",
+        "model": "grok-2-1212",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "SOFT pole - legacy"
+    },
+    "grok-2-vision-1212": {
+        "provider": "grok",
+        "model": "grok-2-vision-1212",
+        "max_tokens": 4096,
+        "temperature": 1.0,
+        "expected_profile": "UNKNOWN - vision model"
     }
 }
 

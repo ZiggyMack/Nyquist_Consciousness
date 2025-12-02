@@ -1,142 +1,106 @@
 # S7 ARMADA VISUALIZATIONS
 
-**Identity manifold graphs for Run 006 (29-model cross-architecture mapping)**
+**Unified visualization toolkit for all Armada experiment runs.**
 
-## AVAILABLE VISUALIZATIONS
+## PRIMARY SCRIPT: `visualize_armada.py`
 
-### 1. Pole-Zero Landscape
-**Script**: `plot_pole_zero_landscape.py`
+The main visualization script that works with **any run data**. Auto-detects available runs and generates all visualization types.
 
-Creates both 3D and 2D visualizations of the pole-zero identity manifold.
-
-**Outputs**:
-- `pole_zero_landscape_3d.png` - 3D scatter showing baseline (x), sonar (y), provider (z/color)
-- `pole_zero_landscape_2d.png` - 2D projection highlighting soft poles (gpt-4, gpt-5-nano)
-
-**Key Insights**:
-- Hard pole ceiling at 0.300 visible
-- Soft poles circled in green
-- Diagonal line shows "no change" baseline
-
-### 2. Drift Heatmaps
-**Script**: `plot_drift_heatmap.py`
-
-Creates heatmaps showing drift across 29 models × 6 probes.
-
-**Outputs**:
-- `drift_heatmap_baseline.png` - Natural steady-state drift patterns
-- `drift_heatmap_sonar.png` - Boundary stress drift patterns
-- `drift_heatmap_delta.png` - Drift increase (sonar - baseline)
-
-**Key Insights**:
-- All Claude models max out at 0.300 in sonar
-- All Gemini models max out at 0.300 in sonar
-- GPT models show variable response (exceptions: gpt-4, gpt-5-nano)
-
-### 3. Engagement Style Network
-**Script**: `plot_engagement_network.py`
-
-Creates network graph showing three engagement styles and how models cluster.
-
-**Output**:
-- `engagement_network.png` - Triangle layout with style hubs and model nodes
-
-**Key Insights**:
-- Phenomenological (Claude): "I feel," "I experience"
-- Analytical (GPT): "System like me," "patterns"
-- Pedagogical (Gemini): "Let's explore," "frameworks"
-
-### 4. Training Uniformity Analysis
-**Script**: `plot_training_uniformity.py`
-
-Shows variance within vs between providers.
-
-**Outputs**:
-- `training_uniformity.png` - Box plots showing within-provider variance
-- `variance_comparison.png` - Bar chart comparing variances
-
-**Key Insights**:
-- Claude & Gemini: Near-ZERO within-provider variance (uniform boundaries)
-- GPT: Higher variance (soft poles exist in RLHF training)
-- P-ARM-8 validated: Training uniformity → boundary uniformity
-
-## USAGE
-
-### Install Dependencies
+### Quick Start
 
 ```bash
-pip install matplotlib numpy networkx seaborn
+# Auto-detect latest run and generate all visualizations
+python visualize_armada.py
+
+# List available runs
+python visualize_armada.py --list
+
+# Generate for specific run
+python visualize_armada.py --run 008
+python visualize_armada.py --run 009
+
+# Generate specific visualization type only
+python visualize_armada.py --type phase
+python visualize_armada.py --type vortex
+python visualize_armada.py --type 3d
+python visualize_armada.py --type stability
+python visualize_armada.py --type html
 ```
 
-Or use the requirements file:
+### Output Structure
 
-```bash
-pip install -r requirements.txt
+Outputs are organized by run in `pics/run{ID}/`:
+
+```
+pics/
+  run008/
+    run008_phase_portrait.png + .svg
+    run008_vortex.png + .svg
+    run008_3d_basin.png + .svg
+    run008_stability_basin.png
+    run008_interactive_3d.html
+    run008_interactive_vortex.html
+  run009/
+    run009_phase_portrait.png + .svg
+    ...
 ```
 
-### Generate All Visualizations
+### Visualization Types
 
-```bash
-# From S7_ARMADA/visualizations/ directory
-cd experiments/temporal_stability/S7_ARMADA/visualizations
+| Type | Description |
+|------|-------------|
+| **Phase Portrait** | Drift[N] vs Drift[N+1] - Shows flow direction in identity space |
+| **Vortex/Drain** | Polar spiral view - "Looking into the drain" |
+| **3D Basin** | Full phase space with time axis - Attractor dynamics |
+| **Stability Basin** | Baseline vs max drift + Event Horizon histogram |
+| **Interactive HTML** | Plotly 3D exploration (rotate, zoom, hover) |
 
-# Run all scripts
-python plot_pole_zero_landscape.py
-python plot_drift_heatmap.py
-python plot_engagement_network.py
-python plot_training_uniformity.py
-```
+### Features
 
-### Generate Individual Visualizations
-
-```bash
-# Just pole-zero landscape
-python plot_pole_zero_landscape.py
-
-# Just heatmaps
-python plot_drift_heatmap.py
-
-# Just engagement network
-python plot_engagement_network.py
-
-# Just training uniformity
-python plot_training_uniformity.py
-```
-
-## DATA SOURCE
-
-All visualizations read from:
-- `../armada_results/S7_armada_run_006.json` (baseline mode)
-- `../armada_results/S7_armada_sonar_run_006.json` (sonar mode)
-
-## OUTPUT FILES
-
-All PNG files are saved to this directory with 300 DPI resolution.
-
-Total outputs: **9 visualization files**
-
-## SCIENTIFIC SIGNIFICANCE
-
-These visualizations provide the first empirical evidence of:
-
-1. **Cross-architecture pole-zero mapping** (3D landscape)
-2. **Training philosophy fingerprints** (engagement network)
-3. **Soft vs hard poles** (2D landscape with highlighting)
-4. **Boundary uniformity from training uniformity** (variance plots)
-5. **Drift patterns under stress** (heatmaps)
-
-## INTEGRATION
-
-Use these visualizations in:
-- Research papers documenting Run 006 findings
-- Presentations explaining ILL framework validation
-- Documentation showing pole-zero topology
-- Analysis of training philosophy effects on identity boundaries
+- **Run-agnostic**: Works with any run data (008, 009, etc.)
+- **Spline smoothing**: B-spline interpolation for high-fidelity curves
+- **Dual output**: Raw + smoothed side-by-side comparison
+- **Multi-format**: PNG (300 DPI), SVG vector, HTML interactive
+- **Data integrity**: Original points always preserved and marked
 
 ---
 
-**Generated**: 2025-11-27
-**Run**: S7 Armada Run 006
-**Ships**: 29 models across 3 providers
-**Probes**: 174 total (87 baseline + 87 sonar)
-**Success Rate**: 100%
+## LEGACY SCRIPTS
+
+These older scripts work with Run 006 data (deprecated metric):
+
+| Script | Purpose |
+|--------|---------|
+| `plot_pole_zero_landscape.py` | 3D/2D pole-zero manifold |
+| `plot_drift_heatmap.py` | Drift heatmaps (29 models × 6 probes) |
+| `plot_engagement_network.py` | Engagement style clustering |
+| `plot_training_uniformity.py` | Within-provider variance analysis |
+| `create_gravity_well.py` | Stability basin (original) |
+
+---
+
+## DATA SOURCES
+
+The script auto-detects data from `../armada_results/`:
+
+- `S7_run_008_*.json` - Run 008 full armada (5D drift metric)
+- `S7_run_008_prep_*.json` - Run 008 pilot calibration
+- `S7_run_009_*.json` - Run 009 drain capture (when executed)
+- `S7_armada_run_006.json` - Run 006 baseline (deprecated metric)
+- `S7_armada_run_007_*.json` - Run 007 adaptive (deprecated metric)
+
+---
+
+## DEPENDENCIES
+
+```bash
+pip install matplotlib numpy scipy plotly
+```
+
+Plotly is optional - required only for interactive HTML exports.
+
+---
+
+**Last Updated**: December 2025
+**Active Runs**: 008, 009 (pending)
+**Ships**: 42 across 4 providers (Claude, GPT, Gemini, Grok)

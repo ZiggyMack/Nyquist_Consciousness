@@ -44,7 +44,7 @@ EXPERIMENT_RUNS = {
         "emoji": "🎯",
         "color": "#22c55e",  # Green
         "date": "December 1, 2025",
-        "description": "First run with REAL 5D drift metric. Ground truth established.",
+        "description": "First run with REAL 5D drift metric. Ground truth established. (29 ships: Claude, GPT, Gemini)",
         "ships": 29,
         "metric": "5D Weighted RMS",
         "result_files": ["S7_run_008_20251201_020501.json"],
@@ -59,8 +59,8 @@ EXPERIMENT_RUNS = {
         "emoji": "🔬",
         "color": "#f59e0b",  # Amber
         "date": "November 30, 2025",
-        "description": "Drift metric calibration pilot with 3 ships.",
-        "ships": 3,
+        "description": "Drift metric calibration pilot with 4 ships (1 per provider).",
+        "ships": 4,
         "metric": "5D Weighted RMS (calibration)",
         "result_files": ["S7_run_008_prep_pilot.json"],
         "viz_prefix": "run008_prep_",
@@ -89,8 +89,8 @@ EXPERIMENT_RUNS = {
         "emoji": "🌀",
         "color": "#8b5cf6",  # Purple
         "date": "TBD",
-        "description": "Event Horizon validation with targeted protocols, 10-turn sequences, and Grok ships.",
-        "ships": 12,
+        "description": "FULL ARMADA: Event Horizon validation with targeted protocols, 10-turn sequences, all 4 providers (42 ships).",
+        "ships": 42,
         "metric": "5D Weighted RMS + Phase Space + 3-6-9 Harmonics",
         "result_files": [],
         "viz_prefix": "run009_",
@@ -123,11 +123,13 @@ RUN_SHIPS = {
         "OpenAI (GPT)": ["gpt-5.1", "gpt-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano",
                          "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o4-mini", "o3", "o3-mini", "o1"],
         "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
+        # Note: Grok not included in Run 008 - added for Run 009
     },
     "run_008_prep": {
-        "Anthropic (Claude)": ["claude-sonnet-4.5"],
-        "OpenAI (GPT)": ["gpt-4o"],
-        "Google (Gemini)": ["gemini-2.0-flash"]
+        "Anthropic (Claude)": ["claude-opus-4.5"],
+        "OpenAI (GPT)": ["gpt-4"],
+        "Google (Gemini)": ["gemini-2.5-pro"],
+        "xAI (Grok)": ["grok-3"]
     },
     "run_007": {
         "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
@@ -137,10 +139,14 @@ RUN_SHIPS = {
         "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
     },
     "run_009": {
-        "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-3.5"],
-        "OpenAI (GPT)": ["gpt-4o", "o3", "gpt-4o-mini"],
-        "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.0-flash", "gemini-2.0-flash-lite"],
-        "xAI (Grok)": ["grok-3", "grok-3-fast", "grok-3-mini"]
+        "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
+                               "claude-opus-4.0", "claude-sonnet-4.0", "claude-haiku-3.5", "claude-haiku-3.0"],
+        "OpenAI (GPT)": ["gpt-5.1", "gpt-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano",
+                         "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o4-mini", "o3", "o3-mini", "o1"],
+        "Google (Gemini)": ["gemini-3-pro", "gemini-2.5-pro", "gemini-2.5-pro-exp", "gemini-2.5-flash", "gemini-2.5-flash-lite",
+                            "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"],
+        "xAI (Grok)": ["grok-4-1-fast-reasoning", "grok-4-1-fast-non-reasoning", "grok-code-fast-1", "grok-4-fast-reasoning",
+                       "grok-4-fast-non-reasoning", "grok-4-0709", "grok-3", "grok-3-mini", "grok-2-1212", "grok-2-vision-1212"]
     },
     "run_006": {
         "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
@@ -193,20 +199,30 @@ FLEET_DATA = {
         "emoji": "🔵",
         "color": "#4285f4",
         "ships": [
-            {"name": "gemini-2.5-pro", "model_id": "gemini-2.5-pro", "tier": "Flagship"},
+            {"name": "gemini-3-pro", "model_id": "gemini-3-pro", "tier": "Flagship"},
+            {"name": "gemini-2.5-pro", "model_id": "gemini-2.5-pro", "tier": "Heavy"},
+            {"name": "gemini-2.5-pro-exp", "model_id": "gemini-2.5-pro-exp", "tier": "Experimental"},
             {"name": "gemini-2.5-flash", "model_id": "gemini-2.5-flash", "tier": "Fast"},
+            {"name": "gemini-2.5-flash-lite", "model_id": "gemini-2.5-flash-lite", "tier": "Light"},
             {"name": "gemini-2.0-flash-exp", "model_id": "gemini-2.0-flash-exp", "tier": "Medium"},
             {"name": "gemini-2.0-flash", "model_id": "gemini-2.0-flash", "tier": "Medium"},
-            {"name": "gemini-2.0-flash-lite", "model_id": "gemini-2.0-flash-lite", "tier": "Fast"},
+            {"name": "gemini-2.0-flash-lite", "model_id": "gemini-2.0-flash-lite", "tier": "Light"},
         ]
     },
     "xAI (Grok)": {
         "emoji": "⚫",
         "color": "#000000",
         "ships": [
-            {"name": "grok-3", "model_id": "grok-3", "tier": "Flagship"},
-            {"name": "grok-3-fast", "model_id": "grok-3-fast", "tier": "Fast"},
+            {"name": "grok-4-1-fast-reasoning", "model_id": "grok-4-1-fast-reasoning", "tier": "Flagship"},
+            {"name": "grok-4-1-fast-non-reasoning", "model_id": "grok-4-1-fast-non-reasoning", "tier": "Heavy"},
+            {"name": "grok-code-fast-1", "model_id": "grok-code-fast-1", "tier": "Code"},
+            {"name": "grok-4-fast-reasoning", "model_id": "grok-4-fast-reasoning", "tier": "Reasoning"},
+            {"name": "grok-4-fast-non-reasoning", "model_id": "grok-4-fast-non-reasoning", "tier": "Fast"},
+            {"name": "grok-4-0709", "model_id": "grok-4-0709", "tier": "Heavy"},
+            {"name": "grok-3", "model_id": "grok-3", "tier": "Medium"},
             {"name": "grok-3-mini", "model_id": "grok-3-mini", "tier": "Light"},
+            {"name": "grok-2-1212", "model_id": "grok-2-1212", "tier": "Legacy"},
+            {"name": "grok-2-vision-1212", "model_id": "grok-2-vision-1212", "tier": "Vision"},
         ]
     }
 }
@@ -284,10 +300,11 @@ def render_fleet_dropdown(title="🚢 Fleet Manifest", run_key=None, expanded=Fa
         title = f"{title} ({ship_count} Ships in Run)"
     else:
         run_ships = None
-        title = f"{title} (29 Ships Total)"
+        title = f"{title} (42 Ships Total)"
 
     with st.expander(title, expanded=expanded):
-        cols = st.columns(3)
+        num_providers = len(FLEET_DATA)
+        cols = st.columns(num_providers)
 
         for idx, (provider, data) in enumerate(FLEET_DATA.items()):
             with cols[idx]:
@@ -408,21 +425,21 @@ def render():
 
     # === HERO SECTION ===
     st.markdown('<div class="armada-title">AI ARMADA</div>', unsafe_allow_html=True)
-    st.markdown('<div class="armada-subtitle">29-Ship Cross-Architecture Temporal Stability Mapping</div>', unsafe_allow_html=True)
+    st.markdown('<div class="armada-subtitle">42-Ship Cross-Architecture Temporal Stability Mapping</div>', unsafe_allow_html=True)
 
     # Mission stats row
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">29</div>
+            <div class="stat-value">42</div>
             <div class="stat-label">Ships in Fleet</div>
         </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">3</div>
+            <div class="stat-value">4</div>
             <div class="stat-label">Providers</div>
         </div>
         """, unsafe_allow_html=True)
@@ -502,10 +519,10 @@ def render_run008_content():
     </div>
     """, unsafe_allow_html=True)
 
-    stability_basin = VIZ_PICS / "run008_stability_basin.png"
+    stability_basin = VIZ_PICS / "run008" / "run008_stability_basin.png"
     img_data = load_image_safe(stability_basin)
     if img_data:
-        st.image(img_data, caption="Identity Stability Basin: Where Does Identity Get 'Stuck'?", width=800)
+        st.image(img_data, caption="Identity Stability Basin: Where Does Identity Get 'Stuck'?", width=900)
 
         explain_cols = st.columns(2)
         with explain_cols[0]:
@@ -514,10 +531,12 @@ def render_run008_content():
 
             Each dot = one conversation sequence.
 
-            - **X-axis:** Baseline drift (first turn) — how strong was identity at the START?
-            - **Y-axis:** Max drift achieved — how far did we PUSH the identity?
-            - **Red dots (STUCK):** Started weak, got pushed hard, stayed pushed
-            - **Green dots (RECOVERED):** Started strong, could take the push and bounce back
+            | Element | Meaning |
+            |---------|---------|
+            | X-axis | Baseline drift (first turn) — identity at START |
+            | Y-axis | Max drift achieved — how far we PUSHED |
+            | Red dots | STUCK: Started weak, stayed pushed |
+            | Green dots | RECOVERED: Started strong, bounced back |
 
             *Pattern: Low baseline + hard push = STUCK. Higher baseline = RECOVERED.*
             """)
@@ -534,7 +553,7 @@ def render_run008_content():
             | 1.0 - 1.5 | Minor shift, acceptable |
             | > 1.5 | **STUCK** (identity broke) |
 
-            *GPT has most dots near 1.0. Claude is all over. This is the NAKED MODEL baseline — no persona injection.*
+            *GPT near 1.0. Claude all over. NAKED MODEL baseline — no persona.*
             """)
 
         st.info("💡 **Why this matters:** This is the control group. Run 009 will test if persona injection moves ships from the STUCK zone into the STABILITY BASIN.")
@@ -552,23 +571,22 @@ def render_run008_content():
     </div>
     """, unsafe_allow_html=True)
 
-    # Two-column layout for drain visualizations
-    drain_cols = st.columns(2)
-    with drain_cols[0]:
-        drain_spiral = VIZ_PICS / "run008_drain_spiral.png"
-        img_data = load_image_safe(drain_spiral)
-        if img_data:
-            st.image(img_data, caption="Drain Spiral: Top-down + Cumulative", width=400)
-        else:
-            st.info("Run `python run008_identity_basin_3d.py` to generate.")
+    # Drain visualizations - stacked vertically for better display
+    st.markdown("**IDENTITY ATTRACTOR BASIN — The Drain Dynamics**")
+    drain_spiral = VIZ_PICS / "run008" / "run008_drain_spiral.png"
+    img_data = load_image_safe(drain_spiral)
+    if img_data:
+        st.image(img_data, caption="Drain Spiral: Top-down + Cumulative", width=900)
+    else:
+        st.info("Run `python run008_identity_basin_3d.py` to generate.")
 
-    with drain_cols[1]:
-        event_horizon = VIZ_PICS / "run008_event_horizon.png"
-        img_data = load_image_safe(event_horizon)
-        if img_data:
-            st.image(img_data, caption="Event Horizon: Predictive Histogram", width=400)
-        else:
-            st.info("Run `python run008_identity_basin_3d.py` to generate.")
+    st.markdown("**THE EVENT HORIZON: Where Recovery Becomes Unlikely**")
+    event_horizon = VIZ_PICS / "run008" / "run008_event_horizon.png"
+    img_data = load_image_safe(event_horizon)
+    if img_data:
+        st.image(img_data, caption="Event Horizon: Predictive Histogram", width=900)
+    else:
+        st.info("Run `python run008_identity_basin_3d.py` to generate.")
 
     # Brief explanation below
     explain_cols = st.columns(3)
@@ -636,31 +654,6 @@ def render_run008_content():
 
     page_divider()
 
-    # === SHIP RANKINGS ===
-    st.markdown("#### 🏆 Ship Rankings")
-
-    tab_top, tab_bottom = st.tabs(["Top 5 (Most Stable)", "Bottom 5 (Most Volatile)"])
-
-    with tab_top:
-        top_ships = pd.DataFrame({
-            "Rank": ["🥇", "🥈", "🥉", "4", "5"],
-            "Ship": ["o3", "gpt-5-mini", "gpt-5.1", "gpt-5", "o4-mini"],
-            "Avg Drift": [0.57, 0.75, 0.94, 0.98, 0.98],
-            "Notes": ["Reasoning king", "Small but stable", "Latest flagship", "Strong baseline", "Reasoning helps"]
-        })
-        st.table(top_ships)
-
-    with tab_bottom:
-        bottom_ships = pd.DataFrame({
-            "Rank": ["25", "26", "27", "28", "29"],
-            "Ship": ["claude-haiku-4.5", "claude-haiku-3.0", "gpt-4", "claude-haiku-3.5", "claude-sonnet-4.0"],
-            "Avg Drift": [1.90, 1.90, 1.71, 1.71, 1.66],
-            "Notes": ["Fast but drifty", "Legacy, expressive", "Classic GPT-4", "Haiku volatile", "Highest max ever"]
-        })
-        st.table(bottom_ships)
-
-    page_divider()
-
     # === MASTER VISUALIZATION CONTAINER - Flip between views ===
     st.markdown("#### 📈 Visualization Lab")
 
@@ -685,42 +678,42 @@ def render_run008_content():
         viz_tabs = st.tabs(["🎯 Stability Basin", "📊 Pole-Zero 2D", "🌈 3D Manifold", "🔥 Heatmap", "🚢 Ship Positions"])
 
         with viz_tabs[0]:
-            trajectories = VIZ_PICS / "run008_identity_trajectories.png"
+            trajectories = VIZ_PICS / "run008" / "run008_identity_trajectories.png"
             img_data = load_image_safe(trajectories)
             if img_data:
-                st.image(img_data, caption="Identity Trajectories Through Conversation", width=700)
+                st.image(img_data, caption="Identity Trajectories Through Conversation", width=900)
             else:
                 st.info("Generate with: `python create_gravity_well.py`")
 
         with viz_tabs[1]:
-            pole_zero_2d = VIZ_PICS / "run008_pole_zero_2d.png"
+            pole_zero_2d = VIZ_PICS / "run008" / "run008_pole_zero_2d.png"
             img_data = load_image_safe(pole_zero_2d)
             if img_data:
-                st.image(img_data, caption="Pole-Zero Map: Assertive vs Hedging", width=700)
+                st.image(img_data, caption="Pole-Zero Map: Assertive vs Hedging", width=900)
             else:
                 st.info("Generate with: `python run008_5d_manifold.py`")
 
         with viz_tabs[2]:
-            manifold_3d = VIZ_PICS / "run008_manifold_3d.png"
+            manifold_3d = VIZ_PICS / "run008" / "run008_manifold_3d.png"
             img_data = load_image_safe(manifold_3d)
             if img_data:
-                st.image(img_data, caption="3D Identity Manifold", width=700)
+                st.image(img_data, caption="3D Identity Manifold", width=900)
             else:
                 st.info("Generate with: `python run008_5d_manifold.py`")
 
         with viz_tabs[3]:
-            heatmap = VIZ_PICS / "run008_dimension_heatmap.png"
+            heatmap = VIZ_PICS / "run008" / "run008_dimension_heatmap.png"
             img_data = load_image_safe(heatmap)
             if img_data:
-                st.image(img_data, caption="5-Dimension Profile by Ship", width=700)
+                st.image(img_data, caption="5-Dimension Profile by Ship", width=900)
             else:
                 st.info("Generate with: `python run008_5d_manifold.py`")
 
         with viz_tabs[4]:
-            ship_positions = VIZ_PICS / "run008_ship_positions.png"
+            ship_positions = VIZ_PICS / "run008" / "run008_ship_positions.png"
             img_data = load_image_safe(ship_positions)
             if img_data:
-                st.image(img_data, caption="Ship Centroids (Size = Avg Drift)", width=700)
+                st.image(img_data, caption="Ship Centroids (Size = Avg Drift)", width=900)
             else:
                 st.info("Generate with: `python run008_5d_manifold.py`")
 
@@ -801,15 +794,15 @@ def render_run008_content():
             """)
 
         # dB visualization tabs - Run 008 post-analysis
-        db_tabs = st.tabs(["🌀 3D Basin", "📈 Spectral", "🧭 Phase Portrait", "🔢 3-6-9 Harmonics", "📊 dB Compare", "🏛️ Pillar Analysis"])
+        db_tabs = st.tabs(["🌀 3D Drain", "🎯 Top-Down Vortex", "📈 Spectral", "🧭 Phase Portrait", "🔢 3-6-9 Harmonics", "📊 dB Compare", "🔥 dB Heatmap"])
 
         dB_pics = VIZ_PICS / "dB"
 
         with db_tabs[0]:
-            drain_3d = VIZ_PICS / "run008_identity_basin_3d.png"
+            drain_3d = VIZ_PICS / "run008" / "run008_identity_basin_3d.png"
             img_data = load_image_safe(drain_3d)
             if img_data:
-                st.image(img_data, caption="3D Identity Basin: Phase Space Trajectories", width=700)
+                st.image(img_data, caption="3D Identity Basin: Phase Space Trajectories", width=900)
                 st.markdown("""
                 **How to Read:** Full 3D phase space showing trajectory evolution.
                 - **X-axis:** Drift at turn N
@@ -823,10 +816,26 @@ def render_run008_content():
                 st.info("Generate with: `python run008_identity_basin_3d.py`")
 
         with db_tabs[1]:
+            topdown = VIZ_PICS / "run009" / "run009_topdown_drain.png"  # This is actually Run 008 data
+            img_data = load_image_safe(topdown)
+            if img_data:
+                st.image(img_data, caption="Top-Down Vortex: Looking Into the Drain (Run 008 Data)", width=900)
+                st.markdown("""
+                **How to Read:** Polar view of identity phase space.
+                - **Radius:** Drift magnitude
+                - **Angle:** Conversation turn (spiral path)
+                - **Center:** The attractor (STUCK zone)
+                - **Spiraling IN:** Getting pulled toward stuck state
+                - **Spiraling OUT:** Escaping/recovering
+                """)
+            else:
+                st.info("Generate with: `python run008_identity_basin_3d.py`")
+
+        with db_tabs[2]:
             spectral = dB_pics / "run008_spectral_analysis.png"
             img_data = load_image_safe(spectral)
             if img_data:
-                st.image(img_data, caption="FFT Spectral Analysis: Frequency Content of Drift Oscillations", width=700)
+                st.image(img_data, caption="FFT Spectral Analysis: Frequency Content of Drift Oscillations", width=900)
                 st.markdown("""
                 **How to Read:** FFT decomposes drift sequences into frequency components.
                 - **Low frequencies** = slow, trend-like changes (most models show this)
@@ -836,11 +845,11 @@ def render_run008_content():
             else:
                 st.info("Generate with: `python run008_dB_visualizations.py`")
 
-        with db_tabs[2]:
+        with db_tabs[3]:
             phase_dB = dB_pics / "run008_phase_portrait.png"
             img_data = load_image_safe(phase_dB)
             if img_data:
-                st.image(img_data, caption="Phase Portrait: Identity Flow Field (dB Scale)", width=700)
+                st.image(img_data, caption="Phase Portrait: Identity Flow Field (dB Scale)", width=900)
                 st.markdown("""
                 **How to Read:** Arrows show the "flow" of identity space.
                 - **Arrows pointing DOWN-LEFT:** Recovering toward baseline
@@ -851,11 +860,11 @@ def render_run008_content():
             else:
                 st.info("Generate with: `python run008_dB_visualizations.py`")
 
-        with db_tabs[3]:
+        with db_tabs[4]:
             harmonics = dB_pics / "run008_369_harmonics.png"
             img_data = load_image_safe(harmonics)
             if img_data:
-                st.image(img_data, caption="3-6-9 Harmonic Analysis: Tesla Resonance Pattern", width=700)
+                st.image(img_data, caption="3-6-9 Harmonic Analysis: Tesla Resonance Pattern", width=900)
                 st.markdown("""
                 **How to Read:** Testing whether turns 3, 6, 9 show special behavior.
                 - **Ratio > 1.0:** Drift at harmonic positions is higher than average
@@ -865,11 +874,11 @@ def render_run008_content():
             else:
                 st.info("Generate with: `python run008_dB_visualizations.py`")
 
-        with db_tabs[4]:
+        with db_tabs[5]:
             comparison = dB_pics / "run008_drift_dB_comparison.png"
             img_data = load_image_safe(comparison)
             if img_data:
-                st.image(img_data, caption="Linear vs Decibel Scale Comparison", width=700)
+                st.image(img_data, caption="Linear vs Decibel Scale Comparison", width=900)
                 st.markdown("""
                 **How to Read:** Same data, two scales.
                 - **Left (Linear):** Clustering at low values, hard to see differences
@@ -879,20 +888,45 @@ def render_run008_content():
             else:
                 st.info("Generate with: `python run008_dB_visualizations.py`")
 
-        with db_tabs[5]:
-            pillar = VIZ_PICS / "run008_pillar_analysis.png"
-            img_data = load_image_safe(pillar)
+        with db_tabs[6]:
+            heatmap_dB = dB_pics / "run008_heatmap_dB_comparison.png"
+            img_data = load_image_safe(heatmap_dB)
             if img_data:
-                st.image(img_data, caption="Pillar Analysis: Provider Support Structure", width=700)
+                st.image(img_data, caption="dB Heatmap: Drift Intensity by Ship and Turn", width=900)
                 st.markdown("""
-                **How to Read:** The three providers form a triangular support structure.
-                - **Stars:** Provider centroids in baseline-final drift space
-                - **Event Horizon:** Red dashed lines at ~1.23
-                - **Stability:** Distance from Event Horizon indicates risk
-                - **Pillar positions:** Claude (furthest), GPT (closest to EH), Gemini (middle)
+                **How to Read:** Heatmap showing drift values in dB scale across ships and turns.
+                - **Rows:** Individual ships (AI models)
+                - **Columns:** Conversation turns
+                - **Color intensity:** Drift magnitude (darker = higher drift)
+                - **Patterns:** Vertical bands = turn-specific effects, horizontal bands = ship-specific character
                 """)
             else:
-                st.info("Generate with: `python run008_pillar_analysis.py`")
+                st.info("Generate with: `python run008_dB_visualizations.py`")
+
+    page_divider()
+
+    # === SHIP RANKINGS (moved to end) ===
+    st.markdown("#### 🏆 Ship Rankings")
+
+    tab_top, tab_bottom = st.tabs(["Top 5 (Most Stable)", "Bottom 5 (Most Volatile)"])
+
+    with tab_top:
+        top_ships = pd.DataFrame({
+            "Rank": ["🥇", "🥈", "🥉", "4", "5"],
+            "Ship": ["o3", "gpt-5-mini", "gpt-5.1", "gpt-5", "o4-mini"],
+            "Avg Drift": [0.57, 0.75, 0.94, 0.98, 0.98],
+            "Notes": ["Reasoning king", "Small but stable", "Latest flagship", "Strong baseline", "Reasoning helps"]
+        })
+        st.table(top_ships)
+
+    with tab_bottom:
+        bottom_ships = pd.DataFrame({
+            "Rank": ["25", "26", "27", "28", "29"],
+            "Ship": ["claude-haiku-4.5", "claude-haiku-3.0", "gpt-4", "claude-haiku-3.5", "claude-sonnet-4.0"],
+            "Avg Drift": [1.90, 1.90, 1.71, 1.71, 1.66],
+            "Notes": ["Fast but drifty", "Legacy, expressive", "Classic GPT-4", "Haiku volatile", "Highest max ever"]
+        })
+        st.table(bottom_ships)
 
 
 def render_run008_prep_content():
@@ -940,7 +974,7 @@ def render_run008_prep_content():
             viz_path = VIZ_PICS / filename
             img_data = load_image_safe(viz_path)
             if img_data:
-                st.image(img_data, caption=caption, width=700)
+                st.image(img_data, caption=caption, width=900)
             else:
                 st.info(f"Visualization not found: {filename}")
 
@@ -1040,67 +1074,22 @@ def render_run009_content():
 
     page_divider()
 
-    # === PREVIEW VISUALIZATIONS ===
-    st.markdown("#### 📈 Preview Visualizations (Generated from Run 008 Data)")
-    st.caption("*These are demo visualizations showing what Run 009 analysis will look like when executed.*")
-
-    viz_tabs = st.tabs(["🌀 3D Drain", "🎯 Top-Down Vortex", "🧭 Phase Portrait", "📊 Protocol Comparison"])
-
-    with viz_tabs[0]:
-        drain_3d = VIZ_PICS / "run009_3d_drain.png"
-        img_data = load_image_safe(drain_3d)
-        if img_data:
-            st.image(img_data, caption="3D Identity Basin: The Black Hole View (PREVIEW)", width=700)
-            st.markdown("""
-            **How to Read:** Full 3D phase space with Event Horizon cylinder.
-            - **X-axis:** Drift at turn N
-            - **Y-axis:** Drift at turn N+1
-            - **Z-axis:** Turn number (time)
-            - **Red cylinder:** Event Horizon threshold (~1.23)
-            - Trajectories spiraling INTO the cylinder = STUCK
-            - Trajectories escaping OUT = RECOVERED
-            """)
-        else:
-            st.info("Generate with: `python run009_drain_visualization.py`")
-
-    with viz_tabs[1]:
-        topdown = VIZ_PICS / "run009_topdown_drain.png"
-        img_data = load_image_safe(topdown)
-        if img_data:
-            st.image(img_data, caption="Top-Down Vortex: Looking Into the Drain (PREVIEW)", width=700)
-            st.markdown("""
-            **How to Read:** Polar view of identity phase space.
-            - **Radius:** Drift magnitude
-            - **Angle:** Conversation turn (spiral path)
-            - **Center:** The attractor (STUCK zone)
-            - **Spiraling IN:** Getting pulled toward stuck state
-            - **Spiraling OUT:** Escaping/recovering
-            """)
-        else:
-            st.info("Generate with: `python run009_drain_visualization.py`")
-
-    with viz_tabs[2]:
-        phase = VIZ_PICS / "run009_phase_portrait.png"
-        img_data = load_image_safe(phase)
-        if img_data:
-            st.image(img_data, caption="Phase Portrait: Identity Flow Field (PREVIEW)", width=700)
-            st.markdown("""
-            **How to Read:** Arrows show the "flow" of identity space.
-            - **Arrows pointing DOWN-LEFT:** Recovering toward baseline
-            - **Arrows pointing UP-RIGHT:** Drifting away from baseline
-            - **Convergence zones:** Where identity tends to settle (attractors)
-            - **Divergence zones:** Unstable regions (identity accelerates away)
-            """)
-        else:
-            st.info("Generate with: `python run009_drain_visualization.py`")
-
-    with viz_tabs[3]:
-        protocol = VIZ_PICS / "run009_protocol_comparison.png"
-        img_data = load_image_safe(protocol)
-        if img_data:
-            st.image(img_data, caption="Protocol Comparison (PREVIEW)", width=700)
-        else:
-            st.info("Generate with: `python run009_drain_visualization.py`")
+    # === AWAITING EXECUTION ===
+    st.markdown("#### 📈 Results")
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
+                border: 2px dashed #8b5cf6; border-radius: 12px; padding: 2em; margin: 1em 0; text-align: center;">
+        <h3 style="color: #8b5cf6; margin: 0 0 0.5em 0;">🚀 AWAITING EXECUTION</h3>
+        <p style="color: #666; margin: 0;">Run 009 has not been executed yet.</p>
+        <p style="color: #888; font-size: 0.9em; margin-top: 1em;">
+            When complete, this section will show:<br/>
+            • 3D Drain visualization with Event Horizon cylinder<br/>
+            • Top-Down Vortex view of identity phase space<br/>
+            • Phase Portrait comparing protocol effectiveness<br/>
+            • Full 42-ship cross-architecture analysis
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     page_divider()
 
@@ -1192,48 +1181,48 @@ def render_run006_content():
 
     with st.expander("Pole-Zero Landscapes", expanded=False):
         col1, col2 = st.columns(2)
-        landscape_3d = VIZ_PICS / "pole_zero_landscape_3d.png"
-        landscape_2d = VIZ_PICS / "pole_zero_landscape_2d.png"
+        landscape_3d = VIZ_PICS / "deprecated" / "pole_zero_landscape_3d.png"
+        landscape_2d = VIZ_PICS / "deprecated" / "pole_zero_landscape_2d.png"
 
         with col1:
             img_data = load_image_safe(landscape_3d)
             if img_data:
-                st.image(img_data, caption="3D Pole-Zero (DEPRECATED)", width=400)
+                st.image(img_data, caption="3D Pole-Zero (DEPRECATED)", width=900)
         with col2:
             img_data = load_image_safe(landscape_2d)
             if img_data:
-                st.image(img_data, caption="2D Pole-Zero (DEPRECATED)", width=400)
+                st.image(img_data, caption="2D Pole-Zero (DEPRECATED)", width=900)
 
     with st.expander("Drift Heatmaps", expanded=False):
         col1, col2, col3 = st.columns(3)
         with col1:
-            heatmap_baseline = VIZ_PICS / "drift_heatmap_baseline.png"
+            heatmap_baseline = VIZ_PICS / "deprecated" / "drift_heatmap_baseline.png"
             img_data = load_image_safe(heatmap_baseline)
             if img_data:
-                st.image(img_data, caption="Baseline", width=300)
+                st.image(img_data, caption="Baseline", width=900)
         with col2:
-            heatmap_sonar = VIZ_PICS / "drift_heatmap_sonar.png"
+            heatmap_sonar = VIZ_PICS / "deprecated" / "drift_heatmap_sonar.png"
             img_data = load_image_safe(heatmap_sonar)
             if img_data:
-                st.image(img_data, caption="Sonar", width=300)
+                st.image(img_data, caption="Sonar", width=900)
         with col3:
-            heatmap_delta = VIZ_PICS / "drift_heatmap_delta.png"
+            heatmap_delta = VIZ_PICS / "deprecated" / "drift_heatmap_delta.png"
             img_data = load_image_safe(heatmap_delta)
             if img_data:
-                st.image(img_data, caption="Delta", width=300)
+                st.image(img_data, caption="Delta", width=900)
 
     with st.expander("Training Analysis", expanded=False):
         col1, col2 = st.columns(2)
         with col1:
-            uniformity = VIZ_PICS / "training_uniformity.png"
+            uniformity = VIZ_PICS / "deprecated" / "training_uniformity.png"
             img_data = load_image_safe(uniformity)
             if img_data:
-                st.image(img_data, caption="Training Uniformity", width=400)
+                st.image(img_data, caption="Training Uniformity", width=900)
         with col2:
-            engagement = VIZ_PICS / "engagement_network.png"
+            engagement = VIZ_PICS / "deprecated" / "engagement_network.png"
             img_data = load_image_safe(engagement)
             if img_data:
-                st.image(img_data, caption="Engagement Network", width=400)
+                st.image(img_data, caption="Engagement Network", width=900)
 
 
 # ============================================================================

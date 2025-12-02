@@ -472,7 +472,7 @@ MATRIX_MODULE = matrix
 def main():
     st.set_page_config(
         page_title="Nyquist Dashboard",
-        page_icon="📜",
+        page_icon="🛰️",
         layout="wide",
     )
 

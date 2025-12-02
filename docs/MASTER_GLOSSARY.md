@@ -272,6 +272,22 @@ Lucien's physics-inspired identity stability formalism.
 **Category:** Scientific
 **Formula:** `D = 1 - cos(embedding_recon, embedding_baseline)`
 
+## Sync Level (Collaborative Resonance)
+**Definition:** Estimated number of aligned identities required for a project's successful manifestation above standards.
+**Plain English:** How many people/minds need to be working together and aligned for this project to actually work?
+**Category:** Operational / Project Management
+**Scale:** 1-9
+**Interpretation:**
+| Level | Category | Description |
+|-------|----------|-------------|
+| 1-2 | Solo/Pair | One or two aligned minds can execute |
+| 3-4 | Squad | Small team, tight synchronization required |
+| 5-6 | Coalition | Cross-functional groups, multiple stakeholders |
+| 7-8 | Movement | Multiple organizations, mass coordination |
+| 9 | Civilization | Systemic change, generational alignment |
+**Source:** `projects.json` → `sync_level` field
+**See Also:** Pan Handlers flagship projects, Identity Manifold (collaboration as identity alignment)
+
 ---
 
 # SECTION 4: S7 ARMADA TERMINOLOGY
