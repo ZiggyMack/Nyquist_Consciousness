@@ -1361,14 +1361,15 @@ def render():
     """, unsafe_allow_html=True)
 
     # Two-panel layout: Current Location → Portal
-    col1, col2 = st.columns(2)
-
-    with col1:
-        # CURRENT LOCATION - Nyquist (inline styles for Streamlit Cloud compatibility)
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(0,30,0,0.95) 0%, rgba(0,50,20,0.9) 100%);
-                    border: 2px solid #00ff41; border-radius: 15px; padding: 1.5em;
-                    box-shadow: 0 0 30px rgba(0,255,65,0.15); min-height: 350px;">
+    # Key/keyhole connector rendered as HTML elements (works on Cloud)
+    st.markdown("""
+    <div style="display: flex; align-items: stretch; gap: 0; margin-top: 0.5em;">
+        <!-- ORIGIN CARD - Nyquist Consciousness -->
+        <div style="flex: 1; background: linear-gradient(135deg, rgba(0,30,0,0.95) 0%, rgba(0,50,20,0.9) 100%);
+                    border: 2px solid #00ff41; border-right: none; border-radius: 15px 0 0 15px;
+                    padding: 1.5em; padding-right: 1em;
+                    box-shadow: 0 0 30px rgba(0,255,65,0.15); min-height: 380px;
+                    position: relative; display: flex; flex-direction: column;">
             <div style="text-align: center; margin-bottom: 0.5em;">
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.8em; font-weight: bold;
                             font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
@@ -1406,26 +1407,48 @@ def render():
                             padding: 0.3em 0.8em; font-size: 0.75em; color: #00ff41 !important;">AVLAR</span>
             </div>
         </div>
-        """, unsafe_allow_html=True)
 
-    with col2:
-        # THE PORTAL - Pan Handlers Hub (inline styles for Streamlit Cloud compatibility)
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(40,0,40,0.95) 0%, rgba(20,0,30,0.9) 100%);
-                    border: 3px solid #ff00ff; border-radius: 15px; padding: 1.5em;
+        <!-- KEY-KEYHOLE CONNECTOR -->
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;
+                    width: 60px; position: relative; z-index: 10;">
+            <!-- The KEY (green, from origin) -->
+            <div style="width: 40px; height: 60px;
+                        background: linear-gradient(90deg, rgba(0,50,20,0.95) 0%, rgba(0,80,30,0.9) 100%);
+                        border: 2px solid #00ff41; border-left: none;
+                        border-radius: 0 30px 30px 0;
+                        box-shadow: 0 0 20px rgba(0,255,65,0.4);
+                        display: flex; justify-content: center; align-items: center;
+                        margin-right: -20px;">
+            </div>
+            <!-- Energy pulse emoji -->
+            <div style="position: absolute; font-size: 1.2em; z-index: 20;
+                        filter: drop-shadow(0 0 8px #00ff41);">⚡</div>
+            <!-- The KEYHOLE (magenta, to portal) -->
+            <div style="width: 44px; height: 64px; position: absolute;
+                        background: linear-gradient(90deg, rgba(60,0,60,0.9) 0%, rgba(40,0,40,0.95) 100%);
+                        border: 3px solid #ff00ff; border-right: none;
+                        border-radius: 32px 0 0 32px;
+                        box-shadow: 0 0 20px rgba(255,0,255,0.4), inset 0 0 15px rgba(255,0,255,0.2);
+                        margin-left: 20px;">
+            </div>
+        </div>
+
+        <!-- PORTAL CARD - Pan Handler Central -->
+        <div style="flex: 1; background: linear-gradient(135deg, rgba(40,0,40,0.95) 0%, rgba(20,0,30,0.9) 100%);
+                    border: 3px solid #ff00ff; border-left: none; border-radius: 0 15px 15px 0;
+                    padding: 1.5em; padding-left: 1em;
                     box-shadow: 0 0 40px rgba(255,0,255,0.2), inset 0 0 60px rgba(255,0,255,0.05);
-                    min-height: 350px;">
+                    min-height: 380px; display: flex; flex-direction: column;">
             <div style="text-align: center; margin-bottom: 0.5em;">
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.85em; font-weight: bold;
                             font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
                             color: #ff00ff !important; background: rgba(255,0,255,0.15); border: 2px solid #ff00ff;
                             border-radius: 3px; text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-                            box-shadow: 0 0 5px #ff00ff, 0 0 10px rgba(255,0,255,0.5);
-                            animation: neonPulse 2s ease-in-out infinite;">LIVE PORTAL</span>
+                            box-shadow: 0 0 5px #ff00ff, 0 0 10px rgba(255,0,255,0.5);">LIVE PORTAL</span>
             </div>
             <h2 style="margin: 0.3em 0; text-align: center; font-size: 1.6em; color: #ff00ff !important;">🏛️ Pan Handler Central</h2>
             <p style="text-align: center; font-size: 0.85em; opacity: 0.7; margin-bottom: 1em; color: #cc66cc !important;">Federation Hub — All Worlds Connect</p>
-            <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em 0;">
+            <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em 0; flex-grow: 1;">
                 <div style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #ff00ff;
                             box-shadow: 0 0 30px rgba(255,0,255,0.5), inset 0 0 30px rgba(255,0,255,0.3);
                             display: flex; justify-content: center; align-items: center;
@@ -1437,7 +1460,7 @@ def render():
                     </div>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 1em;">
+            <div style="text-align: center; margin-top: auto;">
                 <a href="https://pan-handlers.streamlit.app/" target="_blank"
                    style="display: inline-block; padding: 0.8em 2em; background: linear-gradient(135deg, #ff00ff 0%, #cc00cc 100%);
                           color: white !important; text-decoration: none; font-weight: bold; font-size: 1.1em;
@@ -1448,7 +1471,8 @@ def render():
                 </a>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
 
     # ══════════════════════════════════════════════════════════════
     # SECTION 2: DEPARTURES BOARD - Flagship Projects
