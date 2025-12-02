@@ -1367,14 +1367,13 @@ def render():
     with col1:
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(0,30,0,0.95) 0%, rgba(0,50,20,0.9) 100%);
-                    border: 2px solid #00ff41; border-right: none; border-radius: 15px 0 0 15px;
-                    padding: 1.5em; padding-right: 1em; box-shadow: 0 0 30px rgba(0,255,65,0.15); min-height: 380px;">
+                    border: 3px solid #00ff41; border-right: none; border-radius: 15px 0 0 15px;
+                    padding: 1.5em; padding-right: 1em; box-shadow: 0 0 20px #00ff41; min-height: 380px;">
             <div style="text-align: center; margin-bottom: 0.5em;">
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.8em; font-weight: bold;
                             font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
-                            color: #ffcc00 !important; background: rgba(255,204,0,0.1); border: 2px solid #ffcc00;
-                            border-radius: 3px; text-shadow: 0 0 10px rgba(255,204,0,0.8);
-                            box-shadow: 0 0 15px rgba(255,204,0,0.4);">CURRENT LOCATION</span>
+                            color: #ffdd44 !important; background: rgba(255,204,0,0.2); border: 3px solid #ffcc00;
+                            border-radius: 3px; box-shadow: 0 0 12px #ffcc00;">CURRENT LOCATION</span>
             </div>
             <h2 style="margin: 0.3em 0; font-size: 1.6em; text-align: center; color: #00ff41 !important;">📡 Nyquist Consciousness</h2>
             <p style="font-size: 0.95em; opacity: 0.8; margin-bottom: 1em; text-align: center; color: #00cc33 !important;">Core Engine / Identity Lab</p>
@@ -1432,26 +1431,26 @@ def render():
     with col2:
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(40,0,40,0.95) 0%, rgba(20,0,30,0.9) 100%);
-                    border: 3px solid #ff00ff; border-left: none; border-radius: 0 15px 15px 0;
-                    padding: 1.5em; padding-left: 1em; box-shadow: 0 0 40px rgba(255,0,255,0.2), inset 0 0 60px rgba(255,0,255,0.05);
+                    border: 4px solid #ff00ff; border-left: none; border-radius: 0 15px 15px 0;
+                    padding: 1.5em; padding-left: 1em; box-shadow: 0 0 25px #ff00ff;
                     min-height: 380px;">
             <div style="text-align: center; margin-bottom: 0.5em;">
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.85em; font-weight: bold;
                             font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
-                            color: #ff00ff !important; background: rgba(255,0,255,0.15); border: 2px solid #ff00ff;
-                            border-radius: 3px; text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-                            box-shadow: 0 0 5px #ff00ff, 0 0 10px rgba(255,0,255,0.5);">LIVE PORTAL</span>
+                            color: #ff66ff !important; background: rgba(255,0,255,0.25); border: 3px solid #ff00ff;
+                            border-radius: 3px; box-shadow: 0 0 15px #ff00ff;">LIVE PORTAL</span>
             </div>
             <h2 style="margin: 0.3em 0; text-align: center; font-size: 1.6em; color: #ff00ff !important;">🏛️ Pan Handler Central</h2>
             <p style="text-align: center; font-size: 0.85em; opacity: 0.7; margin-bottom: 1em; color: #cc66cc !important;">Federation Hub — All Worlds Connect</p>
             <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em 0;">
-                <div style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #ff00ff;
-                            box-shadow: 0 0 30px rgba(255,0,255,0.5), inset 0 0 30px rgba(255,0,255,0.3);
+                <div style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid #ff00ff;
+                            box-shadow: 0 0 25px #ff00ff;
                             display: flex; justify-content: center; align-items: center;
-                            background: radial-gradient(circle, rgba(255,0,255,0.2) 0%, transparent 70%);">
-                    <div style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid rgba(255,0,255,0.6);
+                            background: radial-gradient(circle, rgba(255,0,255,0.3) 0%, rgba(40,0,40,0.8) 70%);">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ff66ff;
                                 display: flex; justify-content: center; align-items: center;
-                                background: radial-gradient(circle, rgba(255,0,255,0.3) 0%, transparent 70%);">
+                                box-shadow: 0 0 15px #ff00ff;
+                                background: radial-gradient(circle, rgba(255,0,255,0.4) 0%, transparent 70%);">
                         <span style="font-size: 2.5em;">🌀</span>
                     </div>
                 </div>
@@ -1460,9 +1459,8 @@ def render():
                 <a href="https://pan-handlers.streamlit.app/" target="_blank"
                    style="display: inline-block; padding: 0.8em 2em; background: linear-gradient(135deg, #ff00ff 0%, #cc00cc 100%);
                           color: white !important; text-decoration: none; font-weight: bold; font-size: 1.1em;
-                          border-radius: 25px; border: 2px solid #ff66ff;
-                          box-shadow: 0 0 20px rgba(255,0,255,0.5), 0 4px 15px rgba(0,0,0,0.3);
-                          text-shadow: 0 0 10px rgba(255,255,255,0.5);">
+                          border-radius: 25px; border: 3px solid #ff66ff;
+                          box-shadow: 0 0 20px #ff00ff;">
                     🚀 JUMP TO HUB 🚀
                 </a>
             </div>
