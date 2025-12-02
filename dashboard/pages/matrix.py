@@ -1368,7 +1368,7 @@ def render():
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(0,30,0,0.95) 0%, rgba(0,50,20,0.9) 100%);
                     border: 3px solid #00ff41; border-right: none; border-radius: 15px 0 0 15px;
-                    padding: 1.5em; padding-right: 1em; box-shadow: 0 0 20px #00ff41; min-height: 380px;">
+                    padding: 1.5em; padding-right: 1em; box-shadow: 0 0 20px #00ff41; height: 420px;">
             <div style="text-align: center; margin-bottom: 0.5em;">
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.8em; font-weight: bold;
                             font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
@@ -1410,7 +1410,7 @@ def render():
     with col_connector:
         st.markdown("""
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;
-                    height: 380px; position: relative;">
+                    height: 420px; position: relative;">
             <div style="width: 50px; height: 70px; position: relative; display: flex; align-items: center; justify-content: center;">
                 <div style="position: absolute; left: 0; width: 28px; height: 50px;
                             background: linear-gradient(90deg, rgba(0,50,20,0.95) 0%, rgba(0,80,30,0.9) 100%);
@@ -1433,7 +1433,7 @@ def render():
         <div style="background: linear-gradient(135deg, rgba(40,0,40,0.95) 0%, rgba(20,0,30,0.9) 100%);
                     border: 4px solid #ff00ff; border-left: none; border-radius: 0 15px 15px 0;
                     padding: 1.5em; padding-left: 1em; box-shadow: 0 0 25px #ff00ff;
-                    min-height: 380px;">
+                    height: 420px;">
             <div style="text-align: center; margin-bottom: 0.5em;">
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.85em; font-weight: bold;
                             font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
