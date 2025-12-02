@@ -1360,15 +1360,15 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    # Two-panel layout: Current Location → Portal
-    # Using st.columns for Cloud compatibility (no HTML comments, simpler structure)
-    col1, col2 = st.columns(2)
+    # Two-panel layout with KEY-KEYHOLE connector in center
+    # Using 3 columns: Origin (wide) | Connector (narrow) | Portal (wide)
+    col1, col_connector, col2 = st.columns([10, 1, 10])
 
     with col1:
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(0,30,0,0.95) 0%, rgba(0,50,20,0.9) 100%);
-                    border: 2px solid #00ff41; border-radius: 15px 0 0 15px;
-                    padding: 1.5em; box-shadow: 0 0 30px rgba(0,255,65,0.15); min-height: 380px;">
+                    border: 2px solid #00ff41; border-right: none; border-radius: 15px 0 0 15px;
+                    padding: 1.5em; padding-right: 1em; box-shadow: 0 0 30px rgba(0,255,65,0.15); min-height: 380px;">
             <div style="text-align: center; margin-bottom: 0.5em;">
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.8em; font-weight: bold;
                             font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
@@ -1408,11 +1408,32 @@ def render():
         </div>
         """, unsafe_allow_html=True)
 
+    with col_connector:
+        st.markdown("""
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;
+                    height: 380px; position: relative;">
+            <div style="width: 50px; height: 70px; position: relative; display: flex; align-items: center; justify-content: center;">
+                <div style="position: absolute; left: 0; width: 28px; height: 50px;
+                            background: linear-gradient(90deg, rgba(0,50,20,0.95) 0%, rgba(0,80,30,0.9) 100%);
+                            border: 2px solid #00ff41; border-left: none;
+                            border-radius: 0 25px 25px 0;
+                            box-shadow: 0 0 15px rgba(0,255,65,0.5);"></div>
+                <div style="position: absolute; right: 0; width: 28px; height: 54px;
+                            background: linear-gradient(90deg, rgba(60,0,60,0.9) 0%, rgba(40,0,40,0.95) 100%);
+                            border: 2px solid #ff00ff; border-right: none;
+                            border-radius: 27px 0 0 27px;
+                            box-shadow: 0 0 15px rgba(255,0,255,0.5);"></div>
+                <span style="position: relative; z-index: 10; font-size: 1.3em;
+                            filter: drop-shadow(0 0 8px #00ff41) drop-shadow(0 0 8px #ff00ff);">⚡</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
     with col2:
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(40,0,40,0.95) 0%, rgba(20,0,30,0.9) 100%);
-                    border: 3px solid #ff00ff; border-radius: 0 15px 15px 0;
-                    padding: 1.5em; box-shadow: 0 0 40px rgba(255,0,255,0.2), inset 0 0 60px rgba(255,0,255,0.05);
+                    border: 3px solid #ff00ff; border-left: none; border-radius: 0 15px 15px 0;
+                    padding: 1.5em; padding-left: 1em; box-shadow: 0 0 40px rgba(255,0,255,0.2), inset 0 0 60px rgba(255,0,255,0.05);
                     min-height: 380px;">
             <div style="text-align: center; margin-bottom: 0.5em;">
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.85em; font-weight: bold;
