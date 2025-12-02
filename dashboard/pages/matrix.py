@@ -1332,13 +1332,16 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    # Philosophy banner
+    # Philosophy banner (inline styles for Streamlit Cloud)
     if pan_handler_data:
         default_philosophy = "FUCK IT, WE'LL DO IT LIVE!"
         philosophy = pan_handler_data.get('meta', {}).get('philosophy', default_philosophy)
         st.markdown(f"""
-        <div class="philosophy-quote">
-            {philosophy}
+        <div style="text-align: center; padding: 1em; margin: 1em 0;
+                    background: linear-gradient(90deg, transparent 0%, rgba(0,255,65,0.1) 50%, transparent 100%);
+                    border-top: 1px solid rgba(0,255,65,0.3); border-bottom: 1px solid rgba(0,255,65,0.3);">
+            <span style="font-family: 'Courier New', monospace; font-size: 1.1em; color: #00ff41 !important;
+                        letter-spacing: 0.05em;">{philosophy}</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1346,10 +1349,13 @@ def render():
     # SECTION 1: DEPARTURE BOARD - Connected Platforms
     # ══════════════════════════════════════════════════════════════
     st.markdown("""
-    <div class="platform-gate">
-        <div class="platform-header">
-            <h2 style="margin: 0;">📡 CONNECTED PLATFORMS</h2>
-            <span class="platform-id">GATE A</span>
+    <div style="background: linear-gradient(180deg, rgba(0,255,65,0.15) 0%, rgba(0,255,65,0.05) 100%);
+                border: 2px solid #00ff41; border-radius: 10px 10px 0 0; padding: 0.8em 1.2em; margin-top: 1em;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="margin: 0; color: #00ff41 !important;">📡 CONNECTED PLATFORMS</h2>
+            <span style="background: rgba(0,0,0,0.5); border: 1px solid #00ff41; border-radius: 4px;
+                        padding: 0.3em 0.8em; font-family: 'Courier New', monospace; font-size: 0.9em;
+                        color: #00ff41 !important; letter-spacing: 0.1em;">GATE A</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -1358,55 +1364,86 @@ def render():
     col1, col2 = st.columns(2)
 
     with col1:
-        # CURRENT LOCATION - Nyquist
+        # CURRENT LOCATION - Nyquist (inline styles for Streamlit Cloud compatibility)
         st.markdown("""
-        <div class="origin-card">
+        <div style="background: linear-gradient(135deg, rgba(0,30,0,0.95) 0%, rgba(0,50,20,0.9) 100%);
+                    border: 2px solid #00ff41; border-radius: 15px; padding: 1.5em;
+                    box-shadow: 0 0 30px rgba(0,255,65,0.15); min-height: 350px;">
             <div style="text-align: center; margin-bottom: 0.5em;">
-                <span class="neon-here">CURRENT LOCATION</span>
+                <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.8em; font-weight: bold;
+                            font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
+                            color: #ffcc00 !important; background: rgba(255,204,0,0.1); border: 2px solid #ffcc00;
+                            border-radius: 3px; text-shadow: 0 0 10px rgba(255,204,0,0.8);
+                            box-shadow: 0 0 15px rgba(255,204,0,0.4);">CURRENT LOCATION</span>
             </div>
-            <h2 style="margin: 0.3em 0; font-size: 1.6em; text-align: center;">📡 Nyquist Consciousness</h2>
-            <p style="font-size: 0.95em; opacity: 0.8; margin-bottom: 1em;">Core Engine / Identity Lab</p>
-            <div class="origin-stats">
-                <div class="origin-stat">
-                    <span class="stat-value">S7</span>
-                    <span class="stat-label">Complete</span>
+            <h2 style="margin: 0.3em 0; font-size: 1.6em; text-align: center; color: #00ff41 !important;">📡 Nyquist Consciousness</h2>
+            <p style="font-size: 0.95em; opacity: 0.8; margin-bottom: 1em; text-align: center; color: #00cc33 !important;">Core Engine / Identity Lab</p>
+            <div style="display: flex; justify-content: center; gap: 1em; margin: 1em 0;">
+                <div style="background: rgba(0,255,65,0.1); border: 1px solid rgba(0,255,65,0.3);
+                            border-radius: 8px; padding: 0.5em 1em; text-align: center; flex: 1;">
+                    <span style="display: block; font-size: 1.2em; font-weight: bold; color: #00ff41 !important;">S7</span>
+                    <span style="display: block; font-size: 0.7em; color: #00cc33 !important; text-transform: uppercase;">Complete</span>
                 </div>
-                <div class="origin-stat">
-                    <span class="stat-value">S8/S9</span>
-                    <span class="stat-label">Design</span>
+                <div style="background: rgba(0,255,65,0.1); border: 1px solid rgba(0,255,65,0.3);
+                            border-radius: 8px; padding: 0.5em 1em; text-align: center; flex: 1;">
+                    <span style="display: block; font-size: 1.2em; font-weight: bold; color: #00ff41 !important;">S8/S9</span>
+                    <span style="display: block; font-size: 0.7em; color: #00cc33 !important; text-transform: uppercase;">Design</span>
                 </div>
-                <div class="origin-stat">
-                    <span class="stat-value">29</span>
-                    <span class="stat-label">Ships</span>
+                <div style="background: rgba(0,255,65,0.1); border: 1px solid rgba(0,255,65,0.3);
+                            border-radius: 8px; padding: 0.5em 1em; text-align: center; flex: 1;">
+                    <span style="display: block; font-size: 1.2em; font-weight: bold; color: #00ff41 !important;">29</span>
+                    <span style="display: block; font-size: 0.7em; color: #00cc33 !important; text-transform: uppercase;">Ships</span>
                 </div>
             </div>
-            <div class="feature-grid" style="margin-top: 1em;">
-                <span class="feature-tag">S0-S9 Stack</span>
-                <span class="feature-tag">AI Armada</span>
-                <span class="feature-tag">Omega Nova</span>
-                <span class="feature-tag">AVLAR</span>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5em; margin-top: 1em;">
+                <span style="background: rgba(0,255,65,0.15); border: 1px solid #00ff41; border-radius: 12px;
+                            padding: 0.3em 0.8em; font-size: 0.75em; color: #00ff41 !important;">S0-S9 Stack</span>
+                <span style="background: rgba(0,255,65,0.15); border: 1px solid #00ff41; border-radius: 12px;
+                            padding: 0.3em 0.8em; font-size: 0.75em; color: #00ff41 !important;">AI Armada</span>
+                <span style="background: rgba(0,255,65,0.15); border: 1px solid #00ff41; border-radius: 12px;
+                            padding: 0.3em 0.8em; font-size: 0.75em; color: #00ff41 !important;">Omega Nova</span>
+                <span style="background: rgba(0,255,65,0.15); border: 1px solid #00ff41; border-radius: 12px;
+                            padding: 0.3em 0.8em; font-size: 0.75em; color: #00ff41 !important;">AVLAR</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
-        # THE PORTAL - Pan Handlers Hub
+        # THE PORTAL - Pan Handlers Hub (inline styles for Streamlit Cloud compatibility)
         st.markdown("""
-        <div class="portal-destination">
+        <div style="background: linear-gradient(135deg, rgba(40,0,40,0.95) 0%, rgba(20,0,30,0.9) 100%);
+                    border: 3px solid #ff00ff; border-radius: 15px; padding: 1.5em;
+                    box-shadow: 0 0 40px rgba(255,0,255,0.2), inset 0 0 60px rgba(255,0,255,0.05);
+                    min-height: 350px;">
             <div style="text-align: center; margin-bottom: 0.5em;">
-                <span class="neon-live">LIVE PORTAL</span>
+                <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.85em; font-weight: bold;
+                            font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
+                            color: #ff00ff !important; background: rgba(255,0,255,0.15); border: 2px solid #ff00ff;
+                            border-radius: 3px; text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+                            box-shadow: 0 0 5px #ff00ff, 0 0 10px rgba(255,0,255,0.5);
+                            animation: neonPulse 2s ease-in-out infinite;">LIVE PORTAL</span>
             </div>
-            <h2 style="margin: 0.3em 0; text-align: center; font-size: 1.6em;">🏛️ Pan Handler Central</h2>
-            <p style="text-align: center; font-size: 0.85em; opacity: 0.7; margin-bottom: 1em;">Federation Hub — All Worlds Connect</p>
-            <div class="portal-visual">
-                <div class="portal-ring">
-                    <div class="portal-inner">
-                        <span class="portal-icon">🌀</span>
+            <h2 style="margin: 0.3em 0; text-align: center; font-size: 1.6em; color: #ff00ff !important;">🏛️ Pan Handler Central</h2>
+            <p style="text-align: center; font-size: 0.85em; opacity: 0.7; margin-bottom: 1em; color: #cc66cc !important;">Federation Hub — All Worlds Connect</p>
+            <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em 0;">
+                <div style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #ff00ff;
+                            box-shadow: 0 0 30px rgba(255,0,255,0.5), inset 0 0 30px rgba(255,0,255,0.3);
+                            display: flex; justify-content: center; align-items: center;
+                            background: radial-gradient(circle, rgba(255,0,255,0.2) 0%, transparent 70%);">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid rgba(255,0,255,0.6);
+                                display: flex; justify-content: center; align-items: center;
+                                background: radial-gradient(circle, rgba(255,0,255,0.3) 0%, transparent 70%);">
+                        <span style="font-size: 2.5em;">🌀</span>
                     </div>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 1em;">
-                <a href="https://pan-handlers.streamlit.app/" target="_blank" class="portal-btn-large">
+                <a href="https://pan-handlers.streamlit.app/" target="_blank"
+                   style="display: inline-block; padding: 0.8em 2em; background: linear-gradient(135deg, #ff00ff 0%, #cc00cc 100%);
+                          color: white !important; text-decoration: none; font-weight: bold; font-size: 1.1em;
+                          border-radius: 25px; border: 2px solid #ff66ff;
+                          box-shadow: 0 0 20px rgba(255,0,255,0.5), 0 4px 15px rgba(0,0,0,0.3);
+                          text-shadow: 0 0 10px rgba(255,255,255,0.5);">
                     🚀 JUMP TO HUB 🚀
                 </a>
             </div>
@@ -1417,10 +1454,13 @@ def render():
     # SECTION 2: DEPARTURES BOARD - Flagship Projects
     # ══════════════════════════════════════════════════════════════
     st.markdown("""
-    <div class="platform-gate">
-        <div class="platform-header">
-            <h2 style="margin: 0;">🚀 DEPARTURES — Flagship Projects</h2>
-            <span class="platform-id">GATE B</span>
+    <div style="background: linear-gradient(180deg, rgba(0,255,65,0.15) 0%, rgba(0,255,65,0.05) 100%);
+                border: 2px solid #00ff41; border-radius: 10px 10px 0 0; padding: 0.8em 1.2em; margin-top: 2em;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="margin: 0; color: #00ff41 !important;">🚀 DEPARTURES — Flagship Projects</h2>
+            <span style="background: rgba(0,0,0,0.5); border: 1px solid #00ff41; border-radius: 4px;
+                        padding: 0.3em 0.8em; font-family: 'Courier New', monospace; font-size: 0.9em;
+                        color: #00ff41 !important; letter-spacing: 0.1em;">GATE B</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -1428,12 +1468,16 @@ def render():
     if pan_handler_data and 'flagship_projects' in pan_handler_data:
         projects = pan_handler_data['flagship_projects']
 
-        # Departure board style
-        st.markdown('<div class="departure-board">', unsafe_allow_html=True)
+        # Departure board style (inline)
+        st.markdown("""
+        <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(0,255,65,0.3);
+                    border-top: none; border-radius: 0 0 10px 10px; padding: 0.5em;">
+        """, unsafe_allow_html=True)
 
         # Header row with column labels
         st.markdown("""
-        <div class="departure-row" style="background: rgba(0,255,65,0.08); border-bottom: 2px solid #00ff41; padding: 0.5em 0.8em;">
+        <div style="display: flex; align-items: center; background: rgba(0,255,65,0.08);
+                    border-bottom: 2px solid #00ff41; padding: 0.5em 0.8em;">
             <span style="flex: 2; color: #00ff41 !important; font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.1em;">DESTINATION</span>
             <span style="flex: 1; text-align: center; color: #00ff41 !important; font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.1em;">STATUS</span>
             <span style="flex: 1; color: #00ff41 !important; font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.1em;">TRACK</span>
@@ -1443,11 +1487,17 @@ def render():
 
         # CFA as first entry - connected repo
         st.markdown("""
-        <div class="departure-row" style="background: rgba(0,170,255,0.05); border-left: 3px solid #00aaff;">
-            <span class="departure-dest" style="color: #00aaff !important;">⚙️ CFA Framework</span>
-            <span class="departure-status"><span class="neon-active">LINKED</span></span>
+        <div style="display: flex; align-items: center; padding: 0.6em 0.8em;
+                    background: rgba(0,170,255,0.05); border-left: 3px solid #00aaff;
+                    border-bottom: 1px solid rgba(0,255,65,0.15);">
+            <span style="flex: 2; color: #00aaff !important; font-weight: bold;">⚙️ CFA Framework</span>
+            <span style="flex: 1; text-align: center;">
+                <span style="display: inline-block; padding: 0.2em 0.6em; font-size: 0.75em; font-weight: bold;
+                            color: #00aaff !important; background: rgba(0,170,255,0.15); border: 1px solid #00aaff;
+                            border-radius: 3px;">LINKED</span>
+            </span>
             <span style="flex: 1; color: #888; font-size: 0.85em;">Framework / v5.0</span>
-            <span class="departure-platform" style="color: #00aaff !important;">⚡</span>
+            <span style="flex: 0.5; text-align: right; color: #00aaff !important;">⚡</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1467,9 +1517,13 @@ def render():
         for project in projects[:7]:
             status = project.get('status', 'Concept')
             if status == "In Preparation":
-                status_badge = '<span class="neon-active">BOARDING</span>'
+                status_badge = '''<span style="display: inline-block; padding: 0.2em 0.6em; font-size: 0.75em; font-weight: bold;
+                                            color: #00aaff !important; background: rgba(0,170,255,0.15); border: 1px solid #00aaff;
+                                            border-radius: 3px; text-shadow: 0 0 5px rgba(0,170,255,0.5);">BOARDING</span>'''
             elif status == "Complete":
-                status_badge = '<span class="neon-here">ARRIVED</span>'
+                status_badge = '''<span style="display: inline-block; padding: 0.2em 0.6em; font-size: 0.75em; font-weight: bold;
+                                            color: #ffcc00 !important; background: rgba(255,204,0,0.15); border: 1px solid #ffcc00;
+                                            border-radius: 3px; text-shadow: 0 0 5px rgba(255,204,0,0.5);">ARRIVED</span>'''
             else:
                 status_badge = '<span style="color: #666; border: 1px solid #444; padding: 0.2em 0.5em; border-radius: 3px; font-size: 0.8em;">SCHEDULED</span>'
 
@@ -1478,11 +1532,12 @@ def render():
             sync_tooltip = sync_tooltips.get(sync_level, f"Sync Level {sync_level}")
 
             st.markdown(f"""
-            <div class="departure-row">
-                <span class="departure-dest">{project.get('title', 'Untitled')[:35]}</span>
-                <span class="departure-status">{status_badge}</span>
+            <div style="display: flex; align-items: center; padding: 0.6em 0.8em;
+                        border-bottom: 1px solid rgba(0,255,65,0.15);">
+                <span style="flex: 2; color: #ffaa00 !important; font-weight: bold;">{project.get('title', 'Untitled')[:35]}</span>
+                <span style="flex: 1; text-align: center;">{status_badge}</span>
                 <span style="flex: 1; color: #888; font-size: 0.85em;">{track}</span>
-                <span class="departure-platform">{sync_level}</span>
+                <span style="flex: 0.5; text-align: right; color: #00ff41 !important; font-weight: bold;">{sync_level}</span>
             </div>
             """, unsafe_allow_html=True)
 
