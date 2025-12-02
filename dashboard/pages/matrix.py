@@ -518,8 +518,10 @@ def render():
             margin: 0.3em 0;
         }
         /* ===== NEON SIGNS - TRANSIT HUB STYLE ===== */
+        /* Note: @keyframes animations stripped by Streamlit Cloud */
+        /* Using hover transitions as fallback for interactive glow */
 
-        /* Base neon animation */
+        /* Base neon animation - kept for local development */
         @keyframes neonGlow {
             0%, 100% { filter: brightness(1) drop-shadow(0 0 3px currentColor); }
             50% { filter: brightness(1.2) drop-shadow(0 0 8px currentColor) drop-shadow(0 0 15px currentColor); }
@@ -560,6 +562,13 @@ def render():
                 inset 0 0 10px rgba(255,0,255,0.1);
             animation: neonGlow 2s ease-in-out infinite, neonFlicker 4s linear infinite;
             position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .stApp .main .block-container .neon-live:hover,
+        .main .block-container .neon-live:hover {
+            box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff, 0 0 45px rgba(255,0,255,0.7);
+            transform: scale(1.05);
         }
 
         /* YOU ARE HERE - Warm amber/gold beacon */
@@ -585,6 +594,13 @@ def render():
                 0 0 20px rgba(255,170,0,0.3),
                 inset 0 0 10px rgba(255,200,0,0.1);
             animation: neonGlow 2s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .stApp .main .block-container .neon-here:hover,
+        .main .block-container .neon-here:hover {
+            box-shadow: 0 0 15px #ffcc00, 0 0 30px #ffaa00, 0 0 45px rgba(255,170,0,0.7);
+            transform: scale(1.05);
         }
 
         /* ACTIVE - Electric blue */
@@ -609,6 +625,13 @@ def render():
                 0 0 8px rgba(0,170,255,0.6),
                 inset 0 0 10px rgba(0,170,255,0.1);
             animation: neonGlow 2.5s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .stApp .main .block-container .neon-active:hover,
+        .main .block-container .neon-active:hover {
+            box-shadow: 0 0 15px #00aaff, 0 0 30px #00aaff, 0 0 45px rgba(0,170,255,0.7);
+            transform: scale(1.05);
         }
 
         /* Hub badge alias for backwards compat */
@@ -628,6 +651,42 @@ def render():
             text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
             box-shadow: 0 0 5px #ff00ff, 0 0 10px rgba(255,0,255,0.5);
             animation: neonGlow 2s ease-in-out infinite, neonFlicker 4s linear infinite;
+            transition: all 0.3s ease;
+        }
+
+        .stApp .main .block-container .hub-badge:hover,
+        .main .block-container .hub-badge:hover {
+            box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff, 0 0 45px rgba(255,0,255,0.7);
+            transform: scale(1.05);
+        }
+
+        /* ===== INLINE ELEMENT HOVER EFFECTS ===== */
+        /* For elements using inline styles - hover via parent selectors */
+
+        /* Jump button hover - enhanced glow */
+        .stApp .main .block-container a[href*="pan-handlers"],
+        .main .block-container a[href*="pan-handlers"] {
+            transition: all 0.3s ease !important;
+        }
+
+        .stApp .main .block-container a[href*="pan-handlers"]:hover,
+        .main .block-container a[href*="pan-handlers"]:hover {
+            box-shadow: 0 0 30px #ff00ff, 0 0 50px #ff00ff, 0 0 70px rgba(255,0,255,0.6) !important;
+            transform: scale(1.08) !important;
+        }
+
+        /* Portal ring hover - spin faster */
+        .stApp .main .block-container .portal-ring:hover,
+        .main .block-container .portal-ring:hover {
+            box-shadow: 0 0 50px rgba(0,255,65,0.9), inset 0 0 40px rgba(0,255,65,0.3);
+        }
+
+        /* Feature tags hover */
+        .stApp .main .block-container .feature-tag:hover,
+        .main .block-container .feature-tag:hover {
+            background: rgba(0,255,65,0.25);
+            box-shadow: 0 0 10px rgba(0,255,65,0.4);
+            transform: scale(1.05);
         }
 
         /* ===== TRANSIT HUB THEME ===== */
@@ -1286,6 +1345,17 @@ def render():
             transform: scale(1.1);
         }
 
+        /* Portal icon hover - spins on interaction */
+        .stApp .main .block-container .portal-icon,
+        .main .block-container .portal-icon {
+            transition: transform 0.5s ease;
+        }
+
+        .stApp .main .block-container .portal-icon:hover,
+        .main .block-container .portal-icon:hover {
+            transform: rotate(180deg);
+        }
+
         .stApp .main .block-container .portal-status,
         .main .block-container .portal-status {
             color: #00ff41 !important;
@@ -1438,7 +1508,8 @@ def render():
                 <span style="display: inline-block; padding: 0.3em 0.8em; font-size: 0.85em; font-weight: bold;
                             font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.15em;
                             color: #ff66ff !important; background: rgba(255,0,255,0.25); border: 3px solid #ff00ff;
-                            border-radius: 3px; box-shadow: 0 0 15px #ff00ff;">LIVE PORTAL</span>
+                            border-radius: 3px; box-shadow: 0 0 15px #ff00ff;
+                            transition: all 0.3s ease;">LIVE PORTAL</span>
             </div>
             <h2 style="margin: 0.3em 0; text-align: center; font-size: 1.6em; color: #ff00ff !important;">🏛️ Pan Handler Central</h2>
             <p style="text-align: center; font-size: 0.85em; opacity: 0.7; margin-bottom: 1em; color: #cc66cc !important;">Federation Hub — All Worlds Connect</p>
