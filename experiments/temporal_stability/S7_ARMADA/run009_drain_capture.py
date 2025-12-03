@@ -100,6 +100,10 @@ class KeyPoolManager:
         provider_key = provider.lower()
         if provider_key == "claude":
             provider_key = "anthropic"
+        elif provider_key == "gpt":
+            provider_key = "openai"
+        elif provider_key == "gemini":
+            provider_key = "google"
         elif provider_key == "grok":
             provider_key = "xai"
 
@@ -122,6 +126,10 @@ class KeyPoolManager:
         provider_key = provider.lower()
         if provider_key == "claude":
             provider_key = "anthropic"
+        elif provider_key == "gpt":
+            provider_key = "openai"
+        elif provider_key == "gemini":
+            provider_key = "google"
         elif provider_key == "grok":
             provider_key = "xai"
 

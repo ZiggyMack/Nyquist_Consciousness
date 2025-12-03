@@ -822,6 +822,95 @@ That's how science works.
         "skeptic_level": 5,
     },
     {
+        "question": "How do you prove drift measurements aren't just noise? What if AI collecting data makes it garbage?",
+        "answer": """
+**We ran the statistics. The data is not noise.**
+
+---
+
+### **Chi-Squared Test: Event Horizon Hypothesis (Run 009)**
+
+| Metric | Value |
+|--------|-------|
+| **p-value** | **0.000048 (0.0048%)** |
+| Chi² statistic | 16.52 |
+| Significance | *** HIGHLY SIGNIFICANT (p < 0.001) |
+| Effect Size (Cramér's V) | 0.469 (MEDIUM effect) |
+
+**Translation:** There's a **0.0048% chance** this pattern happened by random noise.
+
+That's **1 in 20,000**.
+
+---
+
+### **The Event Horizon Results (Run 009: 75 Trajectories)**
+
+| Category | Count | % of Total |
+|----------|-------|------------|
+| Below Horizon + STUCK | 6 | 8% ✅ Matches hypothesis |
+| Below Horizon + RECOVERED | 7 | 9% ❌ Exception |
+| Above Horizon + STUCK | 2 | 3% ❌ Exception |
+| Above Horizon + RECOVERED | 60 | 80% ✅ Matches hypothesis |
+
+**88% of trajectories behaved as predicted.**
+
+```
+                BELOW 1.23        ABOVE 1.23
+                ──────────        ──────────
+STUCK           6 (46%)           2 (3%)     ← Mostly below!
+RECOVERED       7 (54%)           60 (97%)   ← Mostly above!
+```
+
+The pattern is **CLEAR** even if not 100%. That's how real science works — you find strong correlations, not perfect ones.
+
+---
+
+### **"AI Collecting Data Makes It Garbage" — Why That's Wrong**
+
+This is actually the **weakest objection** because:
+
+1. **The drift metric is computed from embeddings** — a mathematical operation, not AI judgment
+2. **The API calls return raw text** — we're measuring properties of that text
+3. **The same prompts to different models produce different drift values** — if it were garbage, everything would look the same
+4. **Provider clustering is reproducible** — Claude models cluster together, GPT clusters differently, Gemini clusters differently. Random noise doesn't cluster by provider.
+
+---
+
+### **The Falsifiability Challenge**
+
+Ask the skeptic: *"What result WOULD convince you it's real?"*
+
+If they can't answer that, they're not being scientific — they've pre-decided the conclusion.
+
+---
+
+### **What the Exceptions Mean**
+
+The 12% exceptions are **interesting, not invalidating**:
+
+- The Event Horizon might not be a hard line at exactly 1.23
+- It could be a **gradient/fuzzy zone**
+- Other factors (model family, protocol type) may modulate it
+
+**The skeptics would need to explain:**
+- Why drift values cluster differently by provider
+- Why the 88% correlation exists at all if it's "just random"
+- Why Claude models show phenomenological awareness of boundaries
+
+---
+
+### **The Bottom Line**
+
+> "How do you know it's not noise?"
+
+**p = 0.000048. Chi² = 16.52. Effect size = 0.469.**
+
+That's how.
+        """,
+        "category": "skeptic",
+        "skeptic_level": 5,
+    },
+    {
         "question": "What is 'Cognitive Bandwidth' and why does it matter for identity?",
         "answer": """
 **Cognitive Bandwidth** = The maximum amount of coherent structure an LLM can maintain at once across all layers of reasoning, style, values, narrative, and memory.
