@@ -58,10 +58,11 @@ def get_persona_preview(filepath, lines=15):
     """Extract a short preview from persona file."""
     try:
         text = filepath.read_text(encoding="utf-8")
-        # Remove HTML comments
-        text = re.sub(r'<!---.*?----->', '', text, flags=re.DOTALL)
-        # Get first N lines
-        preview_lines = text.strip().split('\n')[:lines]
+        # Remove HTML metadata comments (<!--- ... --->)
+        text = re.sub(r'<!---.*?--->', '', text, flags=re.DOTALL)
+        # Get first N non-empty lines after stripping
+        all_lines = text.strip().split('\n')
+        preview_lines = [line for line in all_lines if line.strip()][:lines]
         return '\n'.join(preview_lines)
     except:
         return "*Preview unavailable*"
