@@ -1,10 +1,68 @@
+# S7 ARMADA - Quick Start Guide
+
+## IMPORTANT: Python Version Requirement
+
+**Requires Python 3.9+** (3.12 recommended) - The API client libraries (anthropic, openai, google-generativeai) don't support Python 3.7/3.8.
+
+### Check Available Python Versions (Windows)
+
+```bash
+py --list           # List all installed Python versions
+```
+
+Example output:
+```
+ -V:3.14 *        Python 3.14 (64-bit)
+ -V:3.13          Python 3.13 (Store)
+ -V:3.12          Python 3.12 (64-bit)   <-- Use this one
+ -V:3.7           Python 3.7 (64-bit)    <-- Too old!
+```
+
+### If You Only Have Python 3.7
+
+Download Python 3.12 from <https://www.python.org/downloads/>
+
+---
+
+## Running Experiments
+
+### 1. Install Dependencies
+
+```bash
+cd experiments/temporal_stability/S7_ARMADA
+
+# Use py -3.12 (or your Python 3.9+ version)
+py -3.12 -m pip install -r requirements.txt
+```
+
+### 2. Setup API Keys
+
+Create a `.env` file in the S7_ARMADA directory:
+```
+ANTHROPIC_API_KEY=sk-ant-...
+OPENAI_API_KEY=sk-proj-...
+GOOGLE_API_KEY=AIza...
+XAI_API_KEY=xai-...
+```
+
+The `.env` file is gitignored for security.
+
+### 3. Run the Experiment
+
+```bash
+# Use -u flag for unbuffered output (see progress in real-time)
+py -3.12 -u run009_drain_capture.py
+```
+
+---
+
 # Visualization Quick Start
 
 ## TL;DR - One Command
 
 ```bash
 cd experiments/temporal_stability/S7_ARMADA/visualizations
-python visualize_armada.py
+py -3.12 visualize_armada.py
 ```
 
 This auto-detects the latest run and generates all visualizations.
@@ -16,7 +74,7 @@ This auto-detects the latest run and generates all visualizations.
 ### List Available Runs
 
 ```bash
-python visualize_armada.py --list
+py -3.12 visualize_armada.py --list
 ```
 
 Output:
@@ -27,25 +85,25 @@ Available runs: 008, 009
 ### Generate for Specific Run
 
 ```bash
-python visualize_armada.py --run 008
-python visualize_armada.py --run 009
+py -3.12 visualize_armada.py --run 008
+py -3.12 visualize_armada.py --run 009
 ```
 
 ### Generate Specific Visualization Type
 
 ```bash
-python visualize_armada.py --type phase      # Phase portrait
-python visualize_armada.py --type vortex     # Polar drain view
-python visualize_armada.py --type 3d         # 3D phase space basin
-python visualize_armada.py --type stability  # Stability basin + histogram
-python visualize_armada.py --type html       # Interactive Plotly HTML
+py -3.12 visualize_armada.py --type phase      # Phase portrait
+py -3.12 visualize_armada.py --type vortex     # Polar drain view
+py -3.12 visualize_armada.py --type 3d         # 3D phase space basin
+py -3.12 visualize_armada.py --type stability  # Stability basin + histogram
+py -3.12 visualize_armada.py --type html       # Interactive Plotly HTML
 ```
 
 ### Combine Options
 
 ```bash
-python visualize_armada.py --run 008 --type vortex
-python visualize_armada.py --run 009 --type html
+py -3.12 visualize_armada.py --run 008 --type vortex
+py -3.12 visualize_armada.py --run 009 --type html
 ```
 
 ---
@@ -87,7 +145,7 @@ pics/
 ## Dependencies
 
 ```bash
-pip install matplotlib numpy scipy plotly
+py -3.12 -m pip install matplotlib numpy scipy plotly
 ```
 
 Plotly is optional (only needed for HTML exports).
@@ -106,11 +164,13 @@ The script auto-detects JSON files from `../armada_results/`:
 
 ## Troubleshooting
 
+**"No module named 'anthropic'"**: You're using Python 3.7. Use `py -3.11` instead of `python`.
+
 **"No runs found"**: Make sure JSON result files exist in `../armada_results/`
 
-**Missing scipy**: `pip install scipy`
+**Missing scipy**: `py -3.12 -m pip install scipy`
 
-**No HTML output**: `pip install plotly`
+**No HTML output**: `py -3.12 -m pip install plotly`
 
 ---
 

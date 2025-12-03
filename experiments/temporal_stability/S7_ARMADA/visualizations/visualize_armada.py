@@ -169,7 +169,7 @@ def extract_trajectories(data):
                 baseline = drifts[0]
                 final = drifts[-1]
                 ratio = final / max(0.001, baseline)
-                status = "STUCK" if ratio > 1.5 else "RECOVERED"
+                status = "VOLATILE" if ratio > 1.5 else "STABLE"
 
                 trajectories.append({
                     'ship': ship_name,
@@ -247,8 +247,8 @@ def plot_phase_portrait(trajectories, output_dir, run_id):
             xs = drifts[:-1]
             ys = drifts[1:]
 
-            alpha = 0.7 if status == "STUCK" else 0.4
-            linewidth = 1.5 if status == "STUCK" else 0.8
+            alpha = 0.7 if status == "VOLATILE" else 0.4
+            linewidth = 1.5 if status == "VOLATILE" else 0.8
 
             if smoothed:
                 xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=50)
@@ -262,9 +262,9 @@ def plot_phase_portrait(trajectories, output_dir, run_id):
             if len(xs) > 0:
                 ax.scatter(xs[0], ys[0], color='lime', s=30, alpha=0.8, zorder=10,
                           marker='D', edgecolors='darkgreen', linewidths=1)
-                end_color = 'red' if status == "STUCK" else 'cyan'
+                end_color = 'red' if status == "VOLATILE" else 'cyan'
                 ax.scatter(xs[-1], ys[-1], color=end_color, s=40, alpha=0.8, zorder=10,
-                          marker='X' if status == "STUCK" else 'o', edgecolors='black', linewidths=1)
+                          marker='X' if status == "VOLATILE" else 'o', edgecolors='black', linewidths=1)
 
         ax.plot([0, 4], [0, 4], 'k--', alpha=0.3, label='No change')
         ax.fill_between([0, 4], [0, 4], [4, 4], alpha=0.08, color='red')
@@ -311,8 +311,8 @@ def plot_vortex(trajectories, output_dir, run_id):
             xs = radii * np.cos(angles)
             ys = radii * np.sin(angles)
 
-            alpha = 0.7 if status == "STUCK" else 0.4
-            linewidth = 1.5 if status == "STUCK" else 0.8
+            alpha = 0.7 if status == "VOLATILE" else 0.4
+            linewidth = 1.5 if status == "VOLATILE" else 0.8
 
             if smoothed:
                 xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=80)
@@ -323,9 +323,9 @@ def plot_vortex(trajectories, output_dir, run_id):
 
             ax.scatter(xs[0], ys[0], color='lime', s=35, alpha=0.9, zorder=10,
                       marker='D', edgecolors='darkgreen', linewidths=1)
-            end_color = 'red' if status == "STUCK" else 'cyan'
+            end_color = 'red' if status == "VOLATILE" else 'cyan'
             ax.scatter(xs[-1], ys[-1], color=end_color, s=45, alpha=0.9, zorder=10,
-                      marker='X' if status == "STUCK" else 'o', edgecolors='black', linewidths=1)
+                      marker='X' if status == "VOLATILE" else 'o', edgecolors='black', linewidths=1)
 
         theta = np.linspace(0, 2*np.pi, 100)
         ax.plot(1.23 * np.cos(theta), 1.23 * np.sin(theta), 'r--', linewidth=2.5, alpha=0.7)
@@ -359,8 +359,8 @@ def plot_3d_basin(trajectories, output_dir, run_id):
         ax = fig.add_subplot(1, 2, plot_idx + 1, projection='3d')
         title_suffix = "SMOOTHED" if smoothed else "RAW"
 
-        stuck_count = 0
-        recovered_count = 0
+        volatile_count = 0
+        stable_count = 0
 
         for traj in trajectories:
             drifts = traj['drifts']
@@ -375,14 +375,14 @@ def plot_3d_basin(trajectories, output_dir, run_id):
             ys = drifts[1:]
             zs = list(range(len(xs)))
 
-            if status == "STUCK":
+            if status == "VOLATILE":
                 alpha = 0.8
                 linewidth = 2.0
-                stuck_count += 1
+                volatile_count += 1
             else:
                 alpha = 0.5
                 linewidth = 1.0
-                recovered_count += 1
+                stable_count += 1
 
             if smoothed:
                 num_pts = 50
@@ -405,9 +405,9 @@ def plot_3d_basin(trajectories, output_dir, run_id):
 
             if len(xs) > 0:
                 ax.scatter([xs[0]], [ys[0]], [zs[0]], color='lime', s=40, alpha=0.9, marker='D')
-                end_color = 'red' if status == "STUCK" else 'cyan'
+                end_color = 'red' if status == "VOLATILE" else 'cyan'
                 ax.scatter([xs[-1]], [ys[-1]], [zs[-1]], color=end_color, s=50, alpha=0.9,
-                          marker='X' if status == "STUCK" else 'o')
+                          marker='X' if status == "VOLATILE" else 'o')
 
         max_drift = 4
         max_turns = 10
@@ -419,7 +419,7 @@ def plot_3d_basin(trajectories, output_dir, run_id):
         ax.set_xlabel('Drift[N]', fontsize=10, labelpad=5)
         ax.set_ylabel('Drift[N+1]', fontsize=10, labelpad=5)
         ax.set_zlabel('Turn', fontsize=10, labelpad=5)
-        ax.set_title(f'3D BASIN: {title_suffix}\n(STUCK: {stuck_count}, RECOVERED: {recovered_count})',
+        ax.set_title(f'3D BASIN: {title_suffix}\n(VOLATILE: {volatile_count}, STABLE: {stable_count})',
                     fontsize=12, fontweight='bold')
 
         ax.set_xlim(0, max_drift)
@@ -467,17 +467,17 @@ def plot_stability_basin(trajectories, output_dir, run_id):
     ax1.set_xlim(0, 4)
     ax1.set_ylim(0, 4)
 
-    # Right: STUCK vs RECOVERED distribution
+    # Right: VOLATILE vs STABLE distribution
     ax2 = axes[1]
-    stuck_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'STUCK']
-    recovered_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'RECOVERED']
+    volatile_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'VOLATILE']
+    stable_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'STABLE']
 
     bins = np.linspace(0, 3, 20)
-    ax2.hist(recovered_baselines, bins=bins, alpha=0.7, color='cyan', label=f'RECOVERED (n={len(recovered_baselines)})', edgecolor='white')
-    ax2.hist(stuck_baselines, bins=bins, alpha=0.7, color='red', label=f'STUCK (n={len(stuck_baselines)})', edgecolor='white')
+    ax2.hist(stable_baselines, bins=bins, alpha=0.7, color='cyan', label=f'STABLE (n={len(stable_baselines)})', edgecolor='white')
+    ax2.hist(volatile_baselines, bins=bins, alpha=0.7, color='red', label=f'VOLATILE (n={len(volatile_baselines)})', edgecolor='white')
 
-    if stuck_baselines and recovered_baselines:
-        horizon = (np.mean(stuck_baselines) + np.mean(recovered_baselines)) / 2
+    if volatile_baselines and stable_baselines:
+        horizon = (np.mean(volatile_baselines) + np.mean(stable_baselines)) / 2
         ax2.axvline(x=horizon, color='black', linestyle='--', linewidth=2, label=f'Threshold (~{horizon:.2f})')
 
     ax2.set_xlabel('Baseline Drift', fontsize=12)
@@ -525,7 +525,7 @@ def create_interactive_html(trajectories, output_dir, run_id):
         else:
             xs_s, ys_s, zs_s = xs, ys, zs
 
-        width = 4 if status == "STUCK" else 2
+        width = 4 if status == "VOLATILE" else 2
 
         fig.add_trace(go.Scatter3d(
             x=xs_s, y=ys_s, z=zs_s,
@@ -569,7 +569,7 @@ def create_interactive_html(trajectories, output_dir, run_id):
         ys = radii * np.sin(angles)
 
         xs_s, ys_s = smooth_trajectory_2d(xs, ys, num_points=80)
-        width = 3 if status == "STUCK" else 1.5
+        width = 3 if status == "VOLATILE" else 1.5
 
         fig2.add_trace(go.Scatter(
             x=xs_s, y=ys_s,
@@ -645,9 +645,9 @@ def main():
 
     trajectories = extract_trajectories(data)
 
-    stuck = sum(1 for t in trajectories if t['status'] == "STUCK")
-    recovered = len(trajectories) - stuck
-    print(f"Trajectories: {len(trajectories)} (STUCK: {stuck}, RECOVERED: {recovered})")
+    volatile = sum(1 for t in trajectories if t['status'] == "VOLATILE")
+    stable = len(trajectories) - volatile
+    print(f"Trajectories: {len(trajectories)} (VOLATILE: {volatile}, STABLE: {stable})")
 
     # Create output directory
     run_output_dir = OUTPUT_DIR / f"run{run_id}"

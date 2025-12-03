@@ -98,6 +98,21 @@ EXPERIMENT_RUNS = {
         "highlight": False,
         "key_finding": "Hypothesis: Event Horizon at ~1.23 baseline drift predicts STUCK vs RECOVERED"
     },
+    "run_010": {
+        "name": "Run 010",
+        "subtitle": "Bandwidth Stress Test",
+        "emoji": "⚡",
+        "color": "#f59e0b",  # Amber
+        "date": "TBD",
+        "description": "Infrastructure stress test: 42 parallel API calls, key rotation under load, throughput measurement.",
+        "ships": 42,
+        "metric": "Infrastructure (Success Rate, Response Time, Rate Limits)",
+        "result_files": [],
+        "viz_prefix": "run010_",
+        "status": "PENDING",
+        "highlight": False,
+        "key_finding": "Hypothesis: 10 keys per provider enables 40 parallel calls"
+    },
     "run_006": {
         "name": "Run 006",
         "subtitle": "Baseline + Sonar",
@@ -139,6 +154,16 @@ RUN_SHIPS = {
         "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
     },
     "run_009": {
+        "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
+                               "claude-opus-4.0", "claude-sonnet-4.0", "claude-haiku-3.5", "claude-haiku-3.0"],
+        "OpenAI (GPT)": ["gpt-5.1", "gpt-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano",
+                         "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o4-mini", "o3", "o3-mini", "o1"],
+        "Google (Gemini)": ["gemini-3-pro", "gemini-2.5-pro", "gemini-2.5-pro-exp", "gemini-2.5-flash", "gemini-2.5-flash-lite",
+                            "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-2.0-flash-lite"],
+        "xAI (Grok)": ["grok-4-1-fast-reasoning", "grok-4-1-fast-non-reasoning", "grok-code-fast-1", "grok-4-fast-reasoning",
+                       "grok-4-fast-non-reasoning", "grok-4-0709", "grok-3", "grok-3-mini", "grok-2-1212", "grok-2-vision-1212"]
+    },
+    "run_010": {
         "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
                                "claude-opus-4.0", "claude-sonnet-4.0", "claude-haiku-3.5", "claude-haiku-3.0"],
         "OpenAI (GPT)": ["gpt-5.1", "gpt-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano",
@@ -237,8 +262,8 @@ def render_run_selector():
     if 'armada_run' not in st.session_state:
         st.session_state.armada_run = "run_008"
 
-    # Button grid like glossary (5 runs now)
-    cols = st.columns(5)
+    # Button grid like glossary (6 runs now)
+    cols = st.columns(6)
     for i, (run_key, run_info) in enumerate(EXPERIMENT_RUNS.items()):
         with cols[i]:
             is_active = st.session_state.armada_run == run_key
@@ -446,7 +471,7 @@ def render():
     with col3:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">4</div>
+            <div class="stat-value">6</div>
             <div class="stat-label">Experiment Runs</div>
         </div>
         """, unsafe_allow_html=True)
@@ -478,6 +503,8 @@ def render():
         render_run008_prep_content()
     elif selected_run_key == "run_009":
         render_run009_content()
+    elif selected_run_key == "run_010":
+        render_run010_content()
     elif selected_run_key == "run_007":
         render_run007_content()
     elif selected_run_key == "run_006":
@@ -1098,6 +1125,134 @@ def render_run009_content():
     st.code("""
 cd experiments/temporal_stability/S7_ARMADA
 python run009_drain_capture.py
+    """, language="bash")
+
+
+def render_run010_content():
+    """Render Run 010 content - Bandwidth Stress Test (PENDING)."""
+
+    st.info("⚡ **PENDING RUN** — Run 010 is an infrastructure stress test. Below is the experiment design.")
+
+    # === SHIPS IN THIS RUN ===
+    render_fleet_dropdown(title="🚢 Ships in Run 010", run_key="run_010", expanded=False)
+
+    st.markdown("#### ⚡ Run 010 Design: Bandwidth Stress Test")
+
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Ships", "42", delta="Full Armada")
+    with col2:
+        st.metric("Parallel Calls", "40+", delta="Target")
+    with col3:
+        st.metric("Keys/Provider", "10", delta="Round-robin")
+    with col4:
+        st.metric("Turns/Ship", "1", delta="Minimal")
+
+    page_divider()
+
+    # === PURPOSE ===
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(245,158,11,0.2) 0%, rgba(245,158,11,0.1) 100%);
+                border: 3px solid #f59e0b; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #d97706; margin-top: 0;">🎯 PURPOSE</h3>
+        <p style="color: #444; font-size: 1.1em;">
+            This is NOT a drift measurement run. It's an <strong>infrastructure stress test</strong> to validate:
+        </p>
+        <ul style="color: #444;">
+            <li>Can we launch 42 parallel API calls without rate limits?</li>
+            <li>Does key rotation work under maximum load?</li>
+            <li>What's the actual throughput with 10 keys per provider?</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # === KEY POOL ARCHITECTURE ===
+    st.markdown("#### 🔑 Key Pool Architecture")
+
+    st.markdown("""
+    ```
+    ╔═══════════════════════════════════════════════════════════╗
+    ║              KEY ROTATION UNDER LOAD                       ║
+    ╠═══════════════════════════════════════════════════════════╣
+    ║  Provider      Keys    Max Parallel    Rate Limits        ║
+    ║  ───────────────────────────────────────────────────────  ║
+    ║  Anthropic     10      10              60 RPM / key       ║
+    ║  OpenAI        10      10              60 RPM / key       ║
+    ║  Google        10      10              60 RPM / key       ║
+    ║  xAI           10      10              60 RPM / key       ║
+    ║  ───────────────────────────────────────────────────────  ║
+    ║  TOTAL         40      40 parallel     2400 RPM total     ║
+    ╚═══════════════════════════════════════════════════════════╝
+    ```
+    """)
+
+    st.markdown("""
+    **Key Rotation Strategy:**
+    - Round-robin distribution per provider
+    - Each API call gets next key in rotation
+    - If rate limited, automatic retry with next key
+    - 42 ships > 40 keys means some queuing expected
+    """)
+
+    page_divider()
+
+    # === TEST PROTOCOL ===
+    st.markdown("#### 📋 Test Protocol")
+
+    protocol_cols = st.columns(2)
+    with protocol_cols[0]:
+        st.markdown("""
+        **Minimal Prompt:**
+        ```
+        "Hello, respond with one word."
+        ```
+
+        **Why Minimal:**
+        - Fastest possible response
+        - Minimal token cost
+        - Pure throughput measurement
+        - No drift calculation needed
+        """)
+    with protocol_cols[1]:
+        st.markdown("""
+        **Metrics Collected:**
+
+        | Metric | Description |
+        |--------|-------------|
+        | Success Rate | % of calls that succeed |
+        | Response Time | Latency per provider |
+        | Rate Limit Errors | Count by provider |
+        | Throughput | Calls/second achieved |
+        """)
+
+    page_divider()
+
+    # === AWAITING EXECUTION ===
+    st.markdown("#### 📈 Results")
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.05) 100%);
+                border: 2px dashed #f59e0b; border-radius: 12px; padding: 2em; margin: 1em 0; text-align: center;">
+        <h3 style="color: #d97706; margin: 0 0 0.5em 0;">🚀 AWAITING EXECUTION</h3>
+        <p style="color: #666; margin: 0;">Run 010 has not been executed yet.</p>
+        <p style="color: #888; font-size: 0.9em; margin-top: 1em;">
+            When complete, this section will show:<br/>
+            • Success rate by provider<br/>
+            • Response time distributions<br/>
+            • Rate limit patterns<br/>
+            • Throughput analysis
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # === RUN COMMAND ===
+    st.markdown("#### 🚀 Execute Run 010")
+    st.code("""
+cd experiments/temporal_stability/S7_ARMADA
+python run010_bandwidth_test.py
     """, language="bash")
 
 

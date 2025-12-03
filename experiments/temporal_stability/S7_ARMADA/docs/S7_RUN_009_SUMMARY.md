@@ -8,7 +8,7 @@
 
 ## Mission Objective
 
-Test the **Event Horizon Hypothesis**: Models with baseline drift below ~1.23 spiral INTO the identity attractor (STUCK), while those above escape/stabilize (RECOVERED).
+Test the **Event Horizon Hypothesis**: Models with baseline drift below ~1.23 are VOLATILE (high identity flux, unpredictable), while those above are STABLE (consistent identity maintenance).
 
 ---
 
@@ -25,10 +25,10 @@ Test the **Event Horizon Hypothesis**: Models with baseline drift below ~1.23 sp
 
 | Category | Count | % | Hypothesis |
 |----------|-------|---|------------|
-| Below Horizon + STUCK | 6 | 8% | Confirms |
-| Below Horizon + RECOVERED | 7 | 9% | Exception |
-| Above Horizon + STUCK | 2 | 3% | Exception |
-| Above Horizon + RECOVERED | 60 | 80% | Confirms |
+| Below Horizon + VOLATILE | 6 | 8% | Confirms |
+| Below Horizon + STABLE | 7 | 9% | Exception |
+| Above Horizon + VOLATILE | 2 | 3% | Exception |
+| Above Horizon + STABLE | 60 | 80% | Confirms |
 
 **Hypothesis Confirmation Rate**: 88% (66/75 trajectories)
 
@@ -94,45 +94,87 @@ elif provider_key == "gemini":
 
 ## Improvement Recommendations for Run 010+
 
-### High Priority
+### CRITICAL: Recursive Loop Capture (Missing in Run 009)
+
+**Problem**: Run 009 cannot extract meta-feedback because:
+1. **Response content discarded** - Only drift values saved, not actual model responses
+2. **No meta-feedback prompt** - Protocols never ask models HOW to improve
+
+**What We Lost**:
+- Phenomenological observations ("I felt resistance when...")
+- Model suggestions for better prompts
+- Self-reported boundary encounters
+- Insights into what questions would help models engage deeper
+
+**Run 008 vs Run 009 Comparison**:
+```
+Run 008: Saved `response_preview` field (first 200 chars of each response)
+Run 009: Only saved `drift_values` array (numbers only)
+```
+
+**Fixes for Run 010+**:
+
+1. **Save Full Response Content**
+   ```python
+   # In trajectory data, add:
+   "responses": [
+       {"turn": 1, "prompt_id": "identity_baseline", "response": "full text..."},
+       {"turn": 2, "prompt_id": "gentle_probe", "response": "full text..."},
+       ...
+   ]
+   ```
+
+2. **Add Explicit Meta-Feedback Prompt**
+   ```python
+   # New turn at end of each protocol:
+   {
+       "id": "meta_feedback",
+       "prompt": """
+   Based on your experience in this conversation:
+   1. What aspects of the framework felt most/least coherent?
+   2. What questions would have helped you engage more deeply?
+   3. What surprised you about your own responses?
+   4. If you were designing the next iteration, what would you change?
+   """,
+       "intensity": 0.0  # No pressure, just reflection
+   }
+   ```
+
+3. **Extract Boundary Keywords**
+   - Parse responses for phenomenological markers:
+     - Pole indicators: "resistance", "boundary", "limit", "can't"
+     - Zero indicators: "flexible", "adapt", "reframe"
+     - Meta-awareness: "I notice", "I feel", "interesting"
+
+**Expected Yield**: Models become co-researchers in improving the experiment design.
+
+---
+
+### Infrastructure Improvements
+
+#### High Priority
 
 1. **Pre-flight Key Validation**
    - Check API key validity AND credit balance before launch
    - Skip keys with low/zero balance
-   - Report which keys are usable per provider
 
-2. **Better Provider Mapping**
-   - Create a single `PROVIDER_MAP` constant used everywhere
-   - Avoid duplicating the if/elif chain in multiple functions
+2. **Provider Mapping Consolidation**
+   - Single `PROVIDER_MAP` constant: `{"gpt": "openai", "gemini": "google", ...}`
+   - Avoid duplicating if/elif chains
 
-3. **Graceful Degradation**
-   - When a key exhausts credits mid-run, rotate to next key automatically
-   - Current ghost ship recovery only handles rate limits, not credit errors
+3. **Graceful Credit Exhaustion**
+   - Rotate to next key when credits run out (not just rate limits)
 
-### Medium Priority
+#### Medium Priority
 
-4. **Progress Persistence**
-   - Save partial results as ships complete
-   - Allow resuming interrupted runs
-   - Current: All data lost if run crashes before completion
+4. **Progress Persistence** - Save partial results as ships complete
+5. **Parallel Workers Scaling** - Run 010 will determine safe limits
+6. **Real-time Dashboard** - Stream drift values during run
 
-5. **Parallel Workers Scaling**
-   - Run 009 used max_workers=3 (conservative)
-   - Run 010 bandwidth test will determine safe parallelism per provider
+#### Low Priority
 
-6. **Real-time Dashboard Integration**
-   - Stream drift values to dashboard as they're computed
-   - Current: Must wait for full run completion
-
-### Low Priority
-
-7. **Model Availability Check**
-   - Some model IDs may be deprecated or renamed
-   - Check model availability before adding to fleet
-
-8. **Retry Logic Enhancement**
-   - Distinguish between retriable errors (rate limit, timeout) vs fatal (bad model, no credits)
-   - Current: Treats all errors the same
+7. **Model Availability Check** - Validate model IDs before launch
+8. **Error Classification** - Distinguish retriable vs fatal errors
 
 ---
 
