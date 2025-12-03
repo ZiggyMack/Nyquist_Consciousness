@@ -72,7 +72,9 @@ dashboard/
     ├── roadmap.py           # Research roadmap
     ├── glossary.py          # Terminology
     ├── publications.py      # Publication tracker
-    └── matrix.py            # Matrix portal (links to Pan Handlers)
+    ├── matrix.py            # Matrix portal (links to Pan Handlers)
+    ├── faq.py               # FAQ + Super Skeptic Mode
+    └── unknown.py           # Research Frontier (Structured/Vortex modes)
 ```
 
 ---
@@ -106,13 +108,20 @@ personas/
 ### S7 Armada (IMPORTANT!)
 ```
 experiments/temporal_stability/S7_ARMADA/
-├── run007_with_keys.py      # Run 007 launcher
-├── run008_prep_pilot.py     # Run 008 prep pilot (NEW)
-├── armada_results/          # JSON results
+├── scripts/
+│   └── s7_armada_launcher.py    # Universal launcher for all runs
+├── armada_results/              # JSON results
 │   ├── S7_armada_run_006.json
 │   ├── S7_armada_sonar_run_006.json
 │   ├── S7_armada_run_007_adaptive.json
-│   └── S7_run_008_prep_pilot.json (when run)
+│   ├── S7_run_008_prep_pilot.json
+│   ├── S7_run_008_20251201_020501.json
+│   ├── S7_run_009_drain_*.json          # Drain experiments
+│   ├── S7_run_010_recursive_*.json      # Recursive probing
+│   ├── S7_calibration_*.json            # Calibration runs
+│   ├── S7_bandwidth_*.json              # Bandwidth tests
+│   ├── GHOST_SHIP_RESCUE_RESULTS.json   # Ghost ship rescue
+│   └── VERIFIED_FLEET_MANIFEST.json     # Fleet manifest
 └── visualizations/
     └── pics/                # Generated charts
 ```
@@ -304,7 +313,9 @@ for layer_id, layer_data in layers.items():
 Multi-model fleet probing consciousness:
 - **Run 006**: Baseline + Sonar
 - **Run 007**: Adaptive probing
-- **Run 008**: RMS drift + Anti-Ziggy (NEW)
+- **Run 008**: RMS drift + Anti-Ziggy
+- **Run 009**: Drain experiments (identity dissolution probing)
+- **Run 010**: Recursive probing (depth-first identity mapping)
 
 ### Key Entities
 
@@ -342,6 +353,8 @@ Multi-model fleet probing consciousness:
 | `utils.py` | Helper functions |
 | `pages/AI_ARMADA.py` | Armada visualizations |
 | `pages/stackup.py` | S# layer display |
+| `pages/faq.py` | FAQ + Super Skeptic Mode |
+| `pages/unknown.py` | Research Frontier |
 | `NYQUIST_STATUS.json` | Live status data |
 
 ---
@@ -405,4 +418,4 @@ A good dashboard update should:
 
 ---
 
-*Last Updated: November 29, 2025*
+*Last Updated: December 3, 2025*

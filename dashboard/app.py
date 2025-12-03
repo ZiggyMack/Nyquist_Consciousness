@@ -12,7 +12,7 @@ from config import PATHS, SETTINGS
 from utils import load_status
 
 # Import page modules
-from pages import overview, personas, stackup, AI_ARMADA, metrics, omega, avlar, roadmap, glossary, publications, matrix, faq
+from pages import overview, personas, stackup, AI_ARMADA, metrics, omega, avlar, roadmap, glossary, publications, matrix, faq, unknown
 
 # ========== THEME & STYLING ==========
 
@@ -462,6 +462,7 @@ PAGE_MODULES = {
     "Glossary": glossary,
     "Publications": publications,
     "FAQ": faq,
+    "The Unknown": unknown,
 }
 
 # Matrix is special - accessed via dedicated button, not radio

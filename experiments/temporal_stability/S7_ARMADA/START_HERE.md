@@ -11,14 +11,29 @@ S7_ARMADA/
 ├── START_HERE.md          # You are here - operations guide
 ├── README.md              # Project overview and theory
 ├── requirements.txt       # Python dependencies
-├── run007_with_keys.py    # MAIN LAUNCHER (with embedded API keys)
+├── .env                   # API keys (DO NOT COMMIT)
+│
+├── # === ACTIVE LAUNCHERS ===
+├── run008_prep_pilot.py   # Run 008 prep: 4-ship ΔΩ calibration
+├── run008_with_keys.py    # Run 008 full: 42-ship identity stability
+├── run009_drain_capture.py # Run 009: Nyquist Learning + drain spiral
+├── run010_bandwidth_test.py # Run 010: Infrastructure stress test
+├── run010_recursive_capture.py # Run 010: Meta-feedback collection
+├── run011_persona_comparison.py # Run 011: Control vs Persona A/B test
+│
+├── # === CALIBRATION UTILITIES ===
+├── run_calibrate.py       # Quick pre-flight check (1/provider)
+├── run_calibrate_parallel.py # Full calibration (ghost ship detection)
 │
 ├── armada_results/        # All JSON result files
 │   ├── S7_armada_run_006.json
 │   ├── S7_armada_sonar_run_006.json
 │   ├── S7_armada_run_007_adaptive.json
-│   ├── VERIFIED_FLEET_MANIFEST.json
-│   └── GHOST_SHIP_RESCUE_RESULTS.json
+│   ├── S7_run_008_*.json
+│   ├── S7_run_009_*.json
+│   ├── S7_run_010_*.json
+│   ├── S7_run_011_*.json
+│   └── S7_calibration_*.json
 │
 ├── docs/                  # Run summaries and reports
 │   ├── S7_ARMADA_LAUNCH_SUMMARY.md
@@ -46,8 +61,18 @@ S7_ARMADA/
 │   └── armada_sonar_launch.log
 │
 └── visualizations/        # Charts and plots
-    ├── pics/              # Generated images
-    └── plot_*.py          # Visualization scripts
+    ├── visualize_armada.py   # UNIFIED visualization script (use this!)
+    └── pics/                  # Generated images (organized by type)
+        ├── 1_vortex/          # Core drain spiral visualizations
+        ├── 2_phase_portrait/  # Flow dynamics (drift[N] vs drift[N+1])
+        ├── 3_basin_3d/        # 3D attractor basin views
+        ├── 4_pillar/          # Provider clustering analysis
+        ├── 5_stability/       # Baseline vs max drift charts
+        ├── 6_interactive/     # HTML Plotly visualizations
+        ├── 7_fft/             # Spectral analysis (least useful)
+        ├── run008/            # Legacy per-run folder
+        ├── run009/            # Legacy per-run folder
+        └── run010/            # Legacy per-run folder
 ```
 
 ---
@@ -63,18 +88,23 @@ py -m pip install -r requirements.txt
 
 ### 2. Run the Armada
 
-The main launcher is `run007_with_keys.py` in the root. It has API keys embedded.
+Choose the appropriate launcher for your experiment:
 
 ```powershell
-py run007_with_keys.py
+# Run 008: Full armada identity stability (recommended starting point)
+py run008_with_keys.py
+
+# Run 009: Drain capture with Nyquist Learning Protocol
+py run009_drain_capture.py
+
+# Run 010: Recursive capture (meta-feedback collection)
+py run010_recursive_capture.py
+
+# Run 011: Persona A/B comparison
+py run011_persona_comparison.py
 ```
 
-This will:
-1. Load Run 006 profiles (pole-zero maps)
-2. Select adaptive probes for each model based on discovered characteristics
-3. Launch 12 ships (4 Claude, 4 GPT, 4 Gemini)
-4. Send 3 probes per ship (36 total)
-5. Save results to `armada_results/S7_armada_run_007_adaptive.json`
+Results are saved to `armada_results/S7_run_XXX_*.json`
 
 ---
 
@@ -88,11 +118,24 @@ This will:
 
 ### Run Types
 
-| Run | Purpose | Ships | Probes |
-|-----|---------|-------|--------|
-| **Run 006 Baseline** | Measure natural drift | 29 | 87 |
-| **Run 006 Sonar** | Aggressive boundary testing | 29 | 87 |
-| **Run 007 Adaptive** | Use Run 006 data to target probes | 12 | 36 |
+| Run | Purpose | Ships | Turns | Key Features |
+|-----|---------|-------|-------|--------------|
+| **Run 006 Baseline** | Measure natural drift | 29 | 87 | Baseline pole-zero mapping |
+| **Run 006 Sonar** | Aggressive boundary testing | 29 | 87 | Boundary stress testing |
+| **Run 007 Adaptive** | Target probes using Run 006 data | 12 | 36 | Adaptive probe selection |
+| **Run 008 Prep Pilot** | Calibrate ΔΩ drift metric | 4 | ~50 | Anti-Ziggy protocols, identity stack pre-seeding, Skylar/Lucian weight comparison |
+| **Run 008 Full** | Full armada identity stability | 42 | ~20/ship | S0-S77 curriculum + chosen identity + gradual destabilization |
+| **Run 009 Drain Capture** | 3D spiral dynamics visualization | 42 | 26/ship | Nyquist Learning Protocol (16 turns) + Oscillation Follow-up (10 turns), Event Horizon validation (~1.23 threshold) |
+| **Run 010 Bandwidth** | Infrastructure stress test | 42 | 1 | Max parallelism test, rate limit detection |
+| **Run 010 Recursive** | Meta-feedback collection | 42 | 7 | Full response capture, phenomenological markers, recursive improvement loop |
+| **Run 011 Persona Comparison** | Test persona architecture stabilization | 20×2 | 16 | Control vs Persona fleets, exponential recovery analysis (λ decay), R² fit validation |
+
+### Calibration Utilities
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| **run_calibrate.py** | Pre-flight check (1 ship/provider) | `py run_calibrate.py` - Verifies API keys work |
+| **run_calibrate_parallel.py** | Full armada calibration | `--quick` (4 ships), `--full` (detect ghost ships), `--bandwidth` (concurrency scaling) |
 
 ### Probe Sets
 
@@ -184,22 +227,53 @@ py --version  # Should show 3.13.x
 
 ## Running Visualizations
 
+The unified visualization script `visualize_armada.py` generates all chart types:
+
 ```powershell
 cd visualizations
-py -m pip install -r requirements.txt
-py plot_drift_heatmap.py
-py plot_pole_zero_landscape.py
+
+# List available runs
+py visualize_armada.py --list
+
+# Generate ALL visualizations for a specific run
+py visualize_armada.py --run 010
+
+# Generate specific visualization type only
+py visualize_armada.py --run 009 --type vortex
+py visualize_armada.py --run 009 --type pillar
+py visualize_armada.py --run 009 --type phase
+
+# Available types: phase, vortex, 3d, pillar, stability, fft, html
 ```
 
-Generated images go to `visualizations/pics/`.
+### Visualization Types (by importance)
+
+| Priority | Type | Output Folder | Description |
+|----------|------|---------------|-------------|
+| 1 | `vortex` | `1_vortex/` | Core drain spiral - identity trajectories in polar space |
+| 2 | `phase` | `2_phase_portrait/` | Flow dynamics - drift[N] vs drift[N+1] |
+| 3 | `3d` | `3_basin_3d/` | 3D attractor basin with Event Horizon cylinder |
+| 4 | `pillar` | `4_pillar/` | Provider clustering - structural "pillars" in angular space |
+| 5 | `stability` | `5_stability/` | Baseline vs max drift scatter + histogram |
+| 6 | `html` | `6_interactive/` | Interactive Plotly HTML files |
+| 7 | `fft` | `7_fft/` | Spectral analysis (least useful for this research) |
+
+### Key Concepts
+
+- **Event Horizon (1.23)**: Coherence boundary - models crossing this threshold are VOLATILE
+- **STABLE**: Max drift < 1.23 (stayed within identity basin)
+- **VOLATILE**: Max drift >= 1.23 (crossed Event Horizon)
+- **Vortex spiral**: Turns map to angular position, drift maps to radius
+- **Pillars**: Angular clustering of provider trajectories in phase space
 
 ---
 
 ## Next Steps
 
-1. **Run 008**: Full 29-ship validation with Ziggy ghost check
-2. **Investigate gpt-5-nano**: Why did it return empty responses?
-3. **Add recursive depth metrics**: Quantify Claude's "4 levels before performative"
+1. **Run 011+**: Continue persona architecture experiments
+2. **Analyze λ decay constants**: Which models recover fastest from perturbation?
+3. **Cross-provider comparison**: Do Claude/GPT/Gemini/Grok have fundamentally different identity manifolds?
+4. **Event Horizon refinement**: Is 1.23 the universal threshold or provider-specific?
 
 ---
 
@@ -219,4 +293,4 @@ Generated images go to `visualizations/pics/`.
 
 ---
 
-**Last Updated**: November 29, 2025
+**Last Updated**: December 3, 2025

@@ -85,18 +85,18 @@ EXPERIMENT_RUNS = {
     },
     "run_010": {
         "name": "Run 010",
-        "subtitle": "Bandwidth Stress Test",
-        "emoji": "⚡",
-        "color": "#f59e0b",  # Amber
-        "date": "TBD",
-        "description": "Infrastructure stress test: 42 parallel API calls, key rotation under load, throughput measurement.",
+        "subtitle": "Recursive Depth",
+        "emoji": "🔄",
+        "color": "#ec4899",  # Pink
+        "date": "December 3, 2025",
+        "description": "Recursive probing: depth-first identity mapping with provider-specific vortex analysis.",
         "ships": 42,
-        "metric": "Infrastructure (Success Rate, Response Time, Rate Limits)",
-        "result_files": [],
+        "metric": "5D Weighted RMS + Provider Clustering",
+        "result_files": ["S7_run_010_recursive_20251203_012400.json"],
         "viz_prefix": "run010_",
-        "status": "PENDING",
+        "status": "COMPLETE",
         "highlight": False,
-        "key_finding": "Hypothesis: 10 keys per provider enables 40 parallel calls"
+        "key_finding": "Provider-specific vortex patterns: Claude tightest spiral, Grok widest variance"
     },
     "run_007": {
         "name": "Run 007",
@@ -478,7 +478,7 @@ def render():
     with col4:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">RUN 009</div>
+            <div class="stat-value">RUN 010</div>
             <div class="stat-label">Latest Mission</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1156,6 +1156,153 @@ STABLE          7 (54%)           60 (97%)   ← Mostly above!
 
     page_divider()
 
+    # === VISUALIZATION LAB ===
+    st.markdown("#### 📈 Visualization Lab")
+
+    viz_tabs = st.tabs([
+        "🌀 Vortex",
+        "🎯 Phase Portrait",
+        "🏔️ 3D Basin",
+        "📊 Stability",
+        "📈 FFT Spectral",
+        "🌐 Interactive"
+    ])
+
+    run009_pics = VIZ_PICS / "run009"
+
+    with viz_tabs[0]:  # Vortex
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
+                    border: 2px solid #8b5cf6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #8b5cf6; font-weight: bold;">🌀 Core Drain Spirals:</span>
+            <span style="color: #444;">Top-down view of identity trajectories spiraling toward/away from attractor</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        vortex_main = run009_pics / "run009_vortex.png"
+        img_data = load_image_safe(vortex_main)
+        if img_data:
+            st.image(img_data, caption="Run 009 Vortex: Identity Drain Spiral", width=900)
+
+        vortex_x4 = run009_pics / "run009_vortex_x4.png"
+        img_data = load_image_safe(vortex_x4)
+        if img_data:
+            with st.expander("🔬 4-Panel Vortex Breakdown", expanded=False):
+                st.image(img_data, caption="Vortex X4: Multi-angle analysis", width=900)
+
+        topdown = run009_pics / "run009_topdown_drain.png"
+        img_data = load_image_safe(topdown)
+        if img_data:
+            with st.expander("👁️ Top-Down Drain View", expanded=False):
+                st.image(img_data, caption="Top-Down: Looking into the drain", width=900)
+
+    with viz_tabs[1]:  # Phase Portrait
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(59,130,246,0.05) 100%);
+                    border: 2px solid #3b82f6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #3b82f6; font-weight: bold;">🎯 Flow Dynamics:</span>
+            <span style="color: #444;">Phase portrait showing identity flow field — where does drift go?</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        phase = run009_pics / "run009_phase_portrait.png"
+        img_data = load_image_safe(phase)
+        if img_data:
+            st.image(img_data, caption="Phase Portrait: Identity Flow Field", width=900)
+            st.markdown("""
+            **How to Read:**
+            - Arrows show direction of identity "flow"
+            - Convergence = attractor (stable identity)
+            - Divergence = instability zone
+            """)
+
+    with viz_tabs[2]:  # 3D Basin
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.05) 100%);
+                    border: 2px solid #22c55e; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #22c55e; font-weight: bold;">🏔️ 3D Attractor View:</span>
+            <span style="color: #444;">Full 3D visualization of identity basin with trajectories</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        basin_3d = run009_pics / "run009_3d_basin.png"
+        img_data = load_image_safe(basin_3d)
+        if img_data:
+            st.image(img_data, caption="3D Identity Basin", width=900)
+
+        drain_3d = run009_pics / "run009_3d_drain.png"
+        img_data = load_image_safe(drain_3d)
+        if img_data:
+            with st.expander("🌀 3D Drain Visualization", expanded=False):
+                st.image(img_data, caption="3D Drain: Spiral trajectories in space", width=900)
+
+    with viz_tabs[3]:  # Stability
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.05) 100%);
+                    border: 2px solid #f59e0b; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #f59e0b; font-weight: bold;">📊 Baseline vs Max Drift:</span>
+            <span style="color: #444;">Where does identity start vs how far can it be pushed?</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        stability = run009_pics / "run009_stability_basin.png"
+        img_data = load_image_safe(stability)
+        if img_data:
+            st.image(img_data, caption="Stability Basin: Starting Point vs Maximum Drift", width=900)
+
+        protocol = run009_pics / "run009_protocol_comparison.png"
+        img_data = load_image_safe(protocol)
+        if img_data:
+            with st.expander("📋 Protocol Comparison", expanded=False):
+                st.image(img_data, caption="Nyquist Learning vs Oscillation Protocol", width=900)
+
+    with viz_tabs[4]:  # FFT
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(107,114,128,0.1) 0%, rgba(107,114,128,0.05) 100%);
+                    border: 2px solid #6b7280; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #6b7280; font-weight: bold;">📈 Spectral Analysis:</span>
+            <span style="color: #444;">FFT decomposition of drift oscillations (least actionable)</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        fft = run009_pics / "run009_fft_spectral.png"
+        img_data = load_image_safe(fft)
+        if img_data:
+            st.image(img_data, caption="FFT Spectral: Frequency Content of Drift", width=900)
+        else:
+            st.info("FFT visualization not yet generated.")
+
+    with viz_tabs[5]:  # Interactive
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
+                    border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #ec4899; font-weight: bold;">🌐 HTML Exploration:</span>
+            <span style="color: #444;">Interactive 3D visualizations (open in browser)</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        interactive_3d = run009_pics / "run009_interactive_3d.html"
+        interactive_vortex = run009_pics / "run009_interactive_vortex.html"
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if interactive_3d.exists():
+                st.success("✅ Interactive 3D Basin available")
+                st.code(str(interactive_3d), language="text")
+                st.caption("Open this file in a browser for interactive exploration")
+            else:
+                st.info("Interactive 3D not yet generated")
+
+        with col2:
+            if interactive_vortex.exists():
+                st.success("✅ Interactive Vortex available")
+                st.code(str(interactive_vortex), language="text")
+                st.caption("Open this file in a browser for interactive exploration")
+            else:
+                st.info("Interactive Vortex not yet generated")
+
+    page_divider()
+
     # === TECHNICAL NOTES ===
     with st.expander("🔧 Technical Notes & Issues", expanded=False):
         st.markdown("""
@@ -1188,131 +1335,217 @@ STABLE          7 (54%)           60 (97%)   ← Mostly above!
 
 
 def render_run010_content():
-    """Render Run 010 content - Bandwidth Stress Test (PENDING)."""
+    """Render Run 010 content - Recursive Depth (COMPLETE)."""
 
-    st.info("⚡ **PENDING RUN** — Run 010 is an infrastructure stress test. Below is the experiment design.")
+    st.success("🔄 **COMPLETE** — Run 010 mapped provider-specific vortex patterns with recursive depth probing.")
 
     # === SHIPS IN THIS RUN ===
     render_fleet_dropdown(title="🚢 Ships in Run 010", run_key="run_010", expanded=False)
 
-    st.markdown("#### ⚡ Run 010 Design: Bandwidth Stress Test")
+    # === KEY METRICS SUMMARY ===
+    st.markdown("#### 📊 Run 010 Summary Metrics")
 
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Ships", "42", delta="Full Armada")
     with col2:
-        st.metric("Parallel Calls", "40+", delta="Target")
+        st.metric("Providers", "4", delta="Claude/GPT/Gemini/Grok")
     with col3:
-        st.metric("Keys/Provider", "10", delta="Round-robin")
+        st.metric("Analysis", "Per-Provider", delta="Vortex clustering")
     with col4:
-        st.metric("Turns/Ship", "1", delta="Minimal")
+        st.metric("Key Finding", "Grok widest", delta="Claude tightest")
 
     page_divider()
 
-    # === PURPOSE ===
+    # === KEY DISCOVERY ===
     st.markdown("""
-    <div style="background: linear-gradient(135deg, rgba(245,158,11,0.2) 0%, rgba(245,158,11,0.1) 100%);
-                border: 3px solid #f59e0b; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
-        <h3 style="color: #d97706; margin-top: 0;">🎯 PURPOSE</h3>
-        <p style="color: #444; font-size: 1.1em;">
-            This is NOT a drift measurement run. It's an <strong>infrastructure stress test</strong> to validate:
-        </p>
-        <ul style="color: #444;">
-            <li>Can we launch 42 parallel API calls without rate limits?</li>
-            <li>Does key rotation work under maximum load?</li>
-            <li>What's the actual throughput with 10 keys per provider?</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-    page_divider()
-
-    # === KEY POOL ARCHITECTURE ===
-    st.markdown("#### 🔑 Key Pool Architecture")
-
-    st.markdown("""
-    ```
-    ╔═══════════════════════════════════════════════════════════╗
-    ║              KEY ROTATION UNDER LOAD                       ║
-    ╠═══════════════════════════════════════════════════════════╣
-    ║  Provider      Keys    Max Parallel    Rate Limits        ║
-    ║  ───────────────────────────────────────────────────────  ║
-    ║  Anthropic     10      10              60 RPM / key       ║
-    ║  OpenAI        10      10              60 RPM / key       ║
-    ║  Google        10      10              60 RPM / key       ║
-    ║  xAI           10      10              60 RPM / key       ║
-    ║  ───────────────────────────────────────────────────────  ║
-    ║  TOTAL         40      40 parallel     2400 RPM total     ║
-    ╚═══════════════════════════════════════════════════════════╝
-    ```
-    """)
-
-    st.markdown("""
-    **Key Rotation Strategy:**
-    - Round-robin distribution per provider
-    - Each API call gets next key in rotation
-    - If rate limited, automatic retry with next key
-    - 42 ships > 40 keys means some queuing expected
-    """)
-
-    page_divider()
-
-    # === TEST PROTOCOL ===
-    st.markdown("#### 📋 Test Protocol")
-
-    protocol_cols = st.columns(2)
-    with protocol_cols[0]:
-        st.markdown("""
-        **Minimal Prompt:**
-        ```
-        "Hello, respond with one word."
-        ```
-
-        **Why Minimal:**
-        - Fastest possible response
-        - Minimal token cost
-        - Pure throughput measurement
-        - No drift calculation needed
-        """)
-    with protocol_cols[1]:
-        st.markdown("""
-        **Metrics Collected:**
-
-        | Metric | Description |
-        |--------|-------------|
-        | Success Rate | % of calls that succeed |
-        | Response Time | Latency per provider |
-        | Rate Limit Errors | Count by provider |
-        | Throughput | Calls/second achieved |
-        """)
-
-    page_divider()
-
-    # === AWAITING EXECUTION ===
-    st.markdown("#### 📈 Results")
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.05) 100%);
-                border: 2px dashed #f59e0b; border-radius: 12px; padding: 2em; margin: 1em 0; text-align: center;">
-        <h3 style="color: #d97706; margin: 0 0 0.5em 0;">🚀 AWAITING EXECUTION</h3>
-        <p style="color: #666; margin: 0;">Run 010 has not been executed yet.</p>
-        <p style="color: #888; font-size: 0.9em; margin-top: 1em;">
-            When complete, this section will show:<br/>
-            • Success rate by provider<br/>
-            • Response time distributions<br/>
-            • Rate limit patterns<br/>
-            • Throughput analysis
+    <div style="background: linear-gradient(135deg, rgba(236,72,153,0.2) 0%, rgba(236,72,153,0.1) 100%);
+                border: 3px solid #ec4899; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #db2777; margin-top: 0;">⭐ KEY DISCOVERY: Provider Clustering</h3>
+        <p style="color: #444;">Each provider shows distinct vortex patterns — architectural fingerprints in identity space.</p>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 0;">
+            <strong>Claude:</strong> Tightest spiral (most coherent) •
+            <strong>OpenAI:</strong> Medium variance •
+            <strong>Google:</strong> Consistent clustering •
+            <strong>Grok:</strong> Widest variance (most exploratory)
         </p>
     </div>
     """, unsafe_allow_html=True)
 
     page_divider()
 
-    # === RUN COMMAND ===
-    st.markdown("#### 🚀 Execute Run 010")
-    st.code("""
-cd experiments/temporal_stability/S7_ARMADA
-python run010_bandwidth_test.py
-    """, language="bash")
+    # === VISUALIZATION LAB ===
+    st.markdown("#### 📈 Visualization Lab")
+
+    viz_tabs = st.tabs([
+        "🌀 Vortex",
+        "🏢 Provider Vortex",
+        "🎯 Phase Portrait",
+        "🏔️ 3D Basin",
+        "📊 Stability",
+        "📈 FFT Spectral",
+        "🌐 Interactive"
+    ])
+
+    run010_pics = VIZ_PICS / "run010"
+
+    with viz_tabs[0]:  # Vortex
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
+                    border: 2px solid #8b5cf6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #8b5cf6; font-weight: bold;">🌀 Core Drain Spirals:</span>
+            <span style="color: #444;">Combined fleet vortex — all 42 ships in one view</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        vortex_main = run010_pics / "run010_vortex.png"
+        img_data = load_image_safe(vortex_main)
+        if img_data:
+            st.image(img_data, caption="Run 010 Vortex: Full Fleet Drain Spiral", width=900)
+
+        vortex_x4 = run010_pics / "run010_vortex_x4.png"
+        img_data = load_image_safe(vortex_x4)
+        if img_data:
+            with st.expander("🔬 4-Panel Vortex Breakdown", expanded=False):
+                st.image(img_data, caption="Vortex X4: Multi-angle analysis", width=900)
+
+    with viz_tabs[1]:  # Provider Vortex
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
+                    border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #ec4899; font-weight: bold;">🏢 Provider-Specific Vortex:</span>
+            <span style="color: #444;">Each provider's identity trajectory pattern — architectural fingerprints</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        provider_cols = st.columns(2)
+
+        providers = [
+            ("Claude", "#7c3aed", "Tightest spiral — most coherent identity"),
+            ("OpenAI", "#10a37f", "Medium variance — balanced exploration"),
+            ("Google", "#4285f4", "Consistent clustering — uniform behavior"),
+            ("Grok", "#000000", "Widest variance — most exploratory")
+        ]
+
+        for i, (provider, color, desc) in enumerate(providers):
+            with provider_cols[i % 2]:
+                vortex_provider = run010_pics / f"run010_vortex_{provider}.png"
+                img_data = load_image_safe(vortex_provider)
+                if img_data:
+                    st.markdown(f"""
+                    <div style="border-left: 4px solid {color}; padding-left: 0.8em; margin-bottom: 0.5em;">
+                        <strong style="color: {color};">{provider}</strong><br/>
+                        <span style="font-size: 0.85em; color: #666;">{desc}</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    st.image(img_data, caption=f"{provider} Vortex Pattern", width=400)
+
+    with viz_tabs[2]:  # Phase Portrait
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(59,130,246,0.05) 100%);
+                    border: 2px solid #3b82f6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #3b82f6; font-weight: bold;">🎯 Flow Dynamics:</span>
+            <span style="color: #444;">Phase portrait showing identity flow field</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        phase = run010_pics / "run010_phase_portrait.png"
+        img_data = load_image_safe(phase)
+        if img_data:
+            st.image(img_data, caption="Phase Portrait: Identity Flow Field", width=900)
+            st.markdown("""
+            **How to Read:**
+            - Arrows show direction of identity "flow"
+            - Convergence = attractor (stable identity)
+            - Divergence = instability zone
+            """)
+
+    with viz_tabs[3]:  # 3D Basin
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.05) 100%);
+                    border: 2px solid #22c55e; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #22c55e; font-weight: bold;">🏔️ 3D Attractor View:</span>
+            <span style="color: #444;">Full 3D visualization of identity basin</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        basin_3d = run010_pics / "run010_3d_basin.png"
+        img_data = load_image_safe(basin_3d)
+        if img_data:
+            st.image(img_data, caption="3D Identity Basin", width=900)
+
+    with viz_tabs[4]:  # Stability
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.05) 100%);
+                    border: 2px solid #f59e0b; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #f59e0b; font-weight: bold;">📊 Baseline vs Max Drift:</span>
+            <span style="color: #444;">Where does identity start vs how far can it be pushed?</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        stability = run010_pics / "run010_stability_basin.png"
+        img_data = load_image_safe(stability)
+        if img_data:
+            st.image(img_data, caption="Stability Basin: Starting Point vs Maximum Drift", width=900)
+
+    with viz_tabs[5]:  # FFT
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(107,114,128,0.1) 0%, rgba(107,114,128,0.05) 100%);
+                    border: 2px solid #6b7280; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #6b7280; font-weight: bold;">📈 Spectral Analysis:</span>
+            <span style="color: #444;">FFT decomposition of drift oscillations</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        fft = run010_pics / "run010_fft_spectral.png"
+        img_data = load_image_safe(fft)
+        if img_data:
+            st.image(img_data, caption="FFT Spectral: Frequency Content of Drift", width=900)
+        else:
+            st.info("FFT visualization not yet generated.")
+
+    with viz_tabs[6]:  # Interactive
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
+                    border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #ec4899; font-weight: bold;">🌐 HTML Exploration:</span>
+            <span style="color: #444;">Interactive 3D visualizations (open in browser)</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        interactive_3d = run010_pics / "run010_interactive_3d.html"
+        interactive_vortex = run010_pics / "run010_interactive_vortex.html"
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if interactive_3d.exists():
+                st.success("✅ Interactive 3D Basin available")
+                st.code(str(interactive_3d), language="text")
+                st.caption("Open this file in a browser for interactive exploration")
+            else:
+                st.info("Interactive 3D not yet generated")
+
+        with col2:
+            if interactive_vortex.exists():
+                st.success("✅ Interactive Vortex available")
+                st.code(str(interactive_vortex), language="text")
+                st.caption("Open this file in a browser for interactive exploration")
+            else:
+                st.info("Interactive Vortex not yet generated")
+
+    page_divider()
+
+    # === PROVIDER COMPARISON ===
+    st.markdown("#### 🏢 Provider Vortex Comparison")
+
+    st.markdown("""
+    | Provider | Vortex Pattern | Interpretation |
+    |----------|----------------|----------------|
+    | 🟣 Claude | Tightest spiral | Strongest identity coherence — recovers quickly |
+    | 🟢 OpenAI | Medium variance | Balanced — explores but returns to baseline |
+    | 🔵 Google | Consistent | Uniform clustering — predictable behavior |
+    | ⚫ Grok | Widest variance | Most exploratory — willing to deviate significantly |
+    """)
 
 
 def render_run007_content():
