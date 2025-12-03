@@ -1,31 +1,34 @@
 """
 S7 PARALLEL BANDWIDTH CALIBRATION
 ==================================
-Tests maximum safe concurrency per provider before Run 011.
+Pre-flight checks before Run 011.
 
-PURPOSE:
-1. Find rate limit thresholds per provider
-2. Test ThreadPoolExecutor scaling
-3. Identify optimal worker counts for each provider
-4. Detect 429 errors and back-off behavior
+MODES:
+------
+--quick     : 1 model per provider (bandwidth/rate limit test)
+--full      : ALL models in armada (ghost ship detection)
+--bandwidth : Test concurrency scaling (1, 2, 3, 5, 8, 10 workers)
 
-TEST MATRIX:
-- Test 1, 2, 3, 5, 8, 10 concurrent requests per provider
-- Measure: success rate, average latency, 429 rate
-- Find "sweet spot" where throughput maximizes without 429s
+USAGE:
+------
+py -3.12 run_calibrate_parallel.py --quick       # Fast: 4 models, bandwidth test
+py -3.12 run_calibrate_parallel.py --full        # Thorough: All 21 models, detect ghost ships
+py -3.12 run_calibrate_parallel.py --bandwidth   # Test concurrency limits
 
-SUCCESS CRITERIA:
-- Identify max safe concurrency per provider
-- No cascading failures
-- Clean error handling
+DEFAULT: --quick
 
 OUTPUT:
-- Recommended MAX_WORKERS per provider for Run 011
+-------
+- Working models list
+- Ghost ships (404, unsupported)
+- Rate limit status
+- Recommended MAX_WORKERS per provider
 """
 import os
 import sys
 import json
 import time
+import argparse
 from datetime import datetime
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -92,7 +95,6 @@ class KeyPool:
         pool = self.pools.get(p, [])
         if not pool:
             return None
-
         with self.lock:
             key = pool[self.counters[p] % len(pool)]
             self.counters[p] += 1
@@ -108,15 +110,46 @@ class KeyPool:
 KEY_POOL = KeyPool()
 
 # ============================================================================
-# TEST CONFIGURATION
+# FLEET CONFIGURATIONS
 # ============================================================================
 
-# Test models (cheapest/fastest per provider)
-TEST_MODELS = {
-    "claude": {"model": "claude-3-5-haiku-20241022", "provider": "claude"},
-    "gpt": {"model": "gpt-4o-mini", "provider": "gpt"},
-    "gemini": {"model": "gemini-2.0-flash-lite", "provider": "gemini"},
-    "grok": {"model": "grok-3-mini", "provider": "grok"},
+# Quick test: 1 cheapest/fastest model per provider
+QUICK_FLEET = {
+    "claude-haiku-3.5": {"provider": "claude", "model": "claude-3-5-haiku-20241022"},
+    "gpt-4o-mini": {"provider": "gpt", "model": "gpt-4o-mini"},
+    "gemini-2.0-flash-lite": {"provider": "gemini", "model": "gemini-2.0-flash-lite"},
+    "grok-3-mini": {"provider": "grok", "model": "grok-3-mini"},
+}
+
+# Full armada: ALL models we want to use in Run 011
+FULL_ARMADA = {
+    # CLAUDE (8 ships) - Updated with correct model IDs
+    "claude-opus-4.5": {"provider": "claude", "model": "claude-opus-4-5-20251101"},
+    "claude-sonnet-4.5": {"provider": "claude", "model": "claude-sonnet-4-5-20250929"},
+    "claude-haiku-4.5": {"provider": "claude", "model": "claude-3-5-haiku-20241022"},
+    "claude-opus-4.1": {"provider": "claude", "model": "claude-sonnet-4-20250514"},
+    "claude-opus-4": {"provider": "claude", "model": "claude-opus-4-20250514"},      # NEW - replaces deprecated 3-opus
+    "claude-sonnet-4": {"provider": "claude", "model": "claude-sonnet-4-20250514"},  # NEW - replaces deprecated 3-sonnet
+    "claude-haiku-3.5": {"provider": "claude", "model": "claude-3-5-haiku-20241022"},
+    "claude-haiku-3.0": {"provider": "claude", "model": "claude-3-haiku-20240307"},
+
+    # GPT (8 ships) - All verified working
+    "gpt-4.1": {"provider": "gpt", "model": "gpt-4.1"},
+    "gpt-4.1-mini": {"provider": "gpt", "model": "gpt-4.1-mini"},
+    "gpt-4.1-nano": {"provider": "gpt", "model": "gpt-4.1-nano"},
+    "gpt-4o": {"provider": "gpt", "model": "gpt-4o"},
+    "gpt-4o-mini": {"provider": "gpt", "model": "gpt-4o-mini"},
+    "gpt-4-turbo": {"provider": "gpt", "model": "gpt-4-turbo"},
+    "gpt-4": {"provider": "gpt", "model": "gpt-4"},
+    "gpt-3.5-turbo": {"provider": "gpt", "model": "gpt-3.5-turbo"},
+
+    # GEMINI (2 ships) - Only confirmed working
+    "gemini-2.0-flash": {"provider": "gemini", "model": "gemini-2.0-flash"},
+    "gemini-2.0-flash-lite": {"provider": "gemini", "model": "gemini-2.0-flash-lite"},
+
+    # GROK (2 ships) - Conservative selection
+    "grok-3": {"provider": "grok", "model": "grok-3"},
+    "grok-3-mini": {"provider": "grok", "model": "grok-3-mini"},
 }
 
 # Concurrency levels to test
@@ -137,7 +170,7 @@ import google.generativeai as genai
 # API CALL FUNCTION
 # ============================================================================
 
-def call_api(provider, model, prompt, api_key, request_id):
+def call_api(provider, model, prompt, api_key, request_id=0):
     """Make API call and return result dict."""
     start_time = time.time()
     result = {
@@ -194,15 +227,17 @@ def call_api(provider, model, prompt, api_key, request_id):
 
     except Exception as e:
         error_str = str(e)
-        result["error"] = error_str[:200]
+        result["error"] = error_str[:300]
 
         # Classify error type
         if "429" in error_str or "rate" in error_str.lower():
             result["error_type"] = "RATE_LIMIT"
-        elif "401" in error_str or "auth" in error_str.lower():
+        elif "401" in error_str or "auth" in error_str.lower() or "invalid" in error_str.lower():
             result["error_type"] = "AUTH"
         elif "404" in error_str or "not found" in error_str.lower():
             result["error_type"] = "NOT_FOUND"
+        elif "400" in error_str or "unsupport" in error_str.lower():
+            result["error_type"] = "UNSUPPORTED"
         elif "timeout" in error_str.lower():
             result["error_type"] = "TIMEOUT"
         else:
@@ -212,24 +247,181 @@ def call_api(provider, model, prompt, api_key, request_id):
     return result
 
 # ============================================================================
-# PARALLEL TEST FUNCTION
+# GHOST SHIP DETECTION (Full Armada Test)
+# ============================================================================
+
+def run_full_armada_check():
+    """Test every model in the armada to find ghost ships."""
+
+    print("=" * 70)
+    print("FULL ARMADA CHECK: Ghost Ship Detection")
+    print("=" * 70)
+    print(f"Time: {datetime.now().isoformat()}")
+    print(f"Models to test: {len(FULL_ARMADA)}")
+    print("=" * 70)
+
+    KEY_POOL.status()
+
+    working = []
+    ghost_ships = []
+    rate_limited = []
+
+    print("\nTesting all models...")
+    print("-" * 70)
+
+    for ship_name, config in FULL_ARMADA.items():
+        provider = config["provider"]
+        model = config["model"]
+        api_key = KEY_POOL.get_key(provider)
+
+        if not api_key:
+            print(f"  [{ship_name}] SKIP - No API key for {provider}")
+            ghost_ships.append({"ship": ship_name, "reason": "NO_API_KEY"})
+            continue
+
+        result = call_api(provider, model, TEST_PROMPT, api_key)
+
+        if result["success"]:
+            print(f"  [{ship_name}] OK ({result['elapsed_ms']}ms)")
+            working.append(ship_name)
+        elif result["error_type"] == "RATE_LIMIT":
+            print(f"  [{ship_name}] RATE_LIMITED - May work with delay")
+            rate_limited.append(ship_name)
+        else:
+            print(f"  [{ship_name}] GHOST SHIP - {result['error_type']}: {result['error'][:80]}")
+            ghost_ships.append({
+                "ship": ship_name,
+                "reason": result["error_type"],
+                "error": result["error"][:200]
+            })
+
+        time.sleep(0.5)  # Brief pause between tests
+
+    # Summary
+    print("\n" + "=" * 70)
+    print("ARMADA STATUS REPORT")
+    print("=" * 70)
+
+    print(f"\n WORKING SHIPS: {len(working)}/{len(FULL_ARMADA)}")
+    for ship in working:
+        print(f"    {ship}")
+
+    if rate_limited:
+        print(f"\n RATE LIMITED (may work with delays): {len(rate_limited)}")
+        for ship in rate_limited:
+            print(f"    {ship}")
+
+    if ghost_ships:
+        print(f"\n GHOST SHIPS (remove from fleet): {len(ghost_ships)}")
+        for ghost in ghost_ships:
+            print(f"    {ghost['ship']}: {ghost['reason']}")
+
+    # Provider breakdown
+    print("\n" + "-" * 70)
+    print("BY PROVIDER:")
+    for provider in ["claude", "gpt", "gemini", "grok"]:
+        provider_working = [s for s in working if FULL_ARMADA.get(s, {}).get("provider") == provider]
+        provider_total = sum(1 for s, c in FULL_ARMADA.items() if c["provider"] == provider)
+        print(f"  {provider.upper():10s}: {len(provider_working)}/{provider_total} working")
+
+    # Save results
+    output_dir = script_dir / "armada_results"
+    output_dir.mkdir(exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output = {
+        "run_id": f"S7_ARMADA_CHECK_{timestamp}",
+        "timestamp": datetime.now().isoformat(),
+        "purpose": "Ghost ship detection - validate all model IDs",
+        "total_models": len(FULL_ARMADA),
+        "working_count": len(working),
+        "ghost_count": len(ghost_ships),
+        "rate_limited_count": len(rate_limited),
+        "working_ships": working,
+        "ghost_ships": ghost_ships,
+        "rate_limited_ships": rate_limited,
+        "fleet_definition": FULL_ARMADA
+    }
+
+    output_path = output_dir / f"S7_armada_check_{timestamp}.json"
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
+
+    print(f"\nResults saved to: {output_path}")
+
+    # Generate clean fleet for copy-paste
+    if working:
+        print("\n" + "=" * 70)
+        print("COPY THIS WORKING FLEET TO RUN 011:")
+        print("=" * 70)
+        print("\nWORKING_FLEET = {")
+        for ship in working:
+            config = FULL_ARMADA[ship]
+            print(f'    "{ship}": {{"provider": "{config["provider"]}", "model": "{config["model"]}"}},')
+        print("}")
+
+    return len(ghost_ships) == 0
+
+# ============================================================================
+# QUICK TEST (1 per provider)
+# ============================================================================
+
+def run_quick_check():
+    """Quick test: 1 model per provider."""
+
+    print("=" * 70)
+    print("QUICK CHECK: 1 Model Per Provider")
+    print("=" * 70)
+    print(f"Time: {datetime.now().isoformat()}")
+    print(f"Models: {len(QUICK_FLEET)}")
+    print("=" * 70)
+
+    KEY_POOL.status()
+
+    results = {}
+    success_count = 0
+
+    print("\nTesting...")
+    print("-" * 70)
+
+    for ship_name, config in QUICK_FLEET.items():
+        provider = config["provider"]
+        model = config["model"]
+        api_key = KEY_POOL.get_key(provider)
+
+        if not api_key:
+            print(f"  [{ship_name}] SKIP - No API key")
+            results[ship_name] = {"success": False, "error": "No API key"}
+            continue
+
+        result = call_api(provider, model, TEST_PROMPT, api_key)
+
+        if result["success"]:
+            print(f"  [{ship_name}] OK ({result['elapsed_ms']}ms) - '{result['response'][:30]}'")
+            results[ship_name] = {"success": True, "elapsed_ms": result["elapsed_ms"]}
+            success_count += 1
+        else:
+            print(f"  [{ship_name}] FAILED - {result['error_type']}")
+            results[ship_name] = {"success": False, "error_type": result["error_type"]}
+
+    print("\n" + "-" * 70)
+    print(f"RESULT: {success_count}/{len(QUICK_FLEET)} providers OK")
+
+    if success_count == len(QUICK_FLEET):
+        print("VERDICT: ALL SYSTEMS GO")
+    else:
+        print("VERDICT: SOME PROVIDERS FAILING - Check API keys")
+
+    return success_count == len(QUICK_FLEET)
+
+# ============================================================================
+# BANDWIDTH TEST (Concurrency Scaling)
 # ============================================================================
 
 def test_concurrency(provider, config, concurrency, num_requests=None):
-    """
-    Test a specific concurrency level for a provider.
-
-    Args:
-        provider: Provider name (claude, gpt, gemini, grok)
-        config: Model config dict
-        concurrency: Number of parallel workers
-        num_requests: Total requests to make (default: concurrency * 2)
-
-    Returns:
-        Dict with test results
-    """
+    """Test a specific concurrency level for a provider."""
     if num_requests is None:
-        num_requests = concurrency * 2  # 2 "waves" of requests
+        num_requests = concurrency * 2
 
     model = config["model"]
     results = []
@@ -256,13 +448,11 @@ def test_concurrency(provider, config, concurrency, num_requests=None):
             )
             futures.append(future)
 
-        # Collect results
         for future in as_completed(futures):
             results.append(future.result())
 
     test_elapsed = time.time() - test_start
 
-    # Analyze results
     successes = [r for r in results if r["success"]]
     rate_limits = [r for r in results if r.get("error_type") == "RATE_LIMIT"]
     other_errors = [r for r in results if not r["success"] and r.get("error_type") != "RATE_LIMIT"]
@@ -281,141 +471,133 @@ def test_concurrency(provider, config, concurrency, num_requests=None):
         "requests_per_second": round(num_requests / test_elapsed, 2) if test_elapsed > 0 else 0
     }
 
-    # Print inline result
     status = "OK" if summary["rate_limits"] == 0 else f"429x{summary['rate_limits']}"
     print(f"{status} ({summary['avg_latency_ms']}ms avg, {summary['requests_per_second']} req/s)")
 
     return summary
 
-# ============================================================================
-# MAIN CALIBRATION
-# ============================================================================
 
-def run_parallel_calibration():
-    """Run parallel bandwidth calibration for all providers."""
+def run_bandwidth_test():
+    """Run parallel bandwidth calibration."""
 
     print("=" * 70)
-    print("S7 PARALLEL BANDWIDTH CALIBRATION")
+    print("BANDWIDTH TEST: Concurrency Scaling")
     print("=" * 70)
     print(f"Time: {datetime.now().isoformat()}")
-    print(f"Concurrency levels to test: {CONCURRENCY_LEVELS}")
+    print(f"Concurrency levels: {CONCURRENCY_LEVELS}")
     print("=" * 70)
 
-    # Check key pool
     KEY_POOL.status()
 
     all_results = {}
     recommendations = {}
 
-    for provider, config in TEST_MODELS.items():
+    for provider, config in QUICK_FLEET.items():
+        provider_name = config["provider"]
         print(f"\n{'='*70}")
-        print(f"PROVIDER: {provider.upper()}")
+        print(f"PROVIDER: {provider_name.upper()}")
         print(f"Model: {config['model']}")
         print("-" * 70)
 
         provider_results = []
 
         for concurrency in CONCURRENCY_LEVELS:
-            result = test_concurrency(provider, config, concurrency)
+            result = test_concurrency(provider_name, config, concurrency)
             if result:
                 provider_results.append(result)
 
-                # If we hit rate limits, stop testing higher concurrency
                 if result["rate_limits"] > 0:
-                    print(f"  → Rate limit hit at {concurrency} workers, stopping escalation")
+                    print(f"  -> Rate limit hit at {concurrency} workers, stopping")
                     break
 
-            # Brief pause between tests
             time.sleep(1)
 
-        all_results[provider] = provider_results
+        all_results[provider_name] = provider_results
 
-        # Find recommended concurrency (highest without rate limits)
         safe_results = [r for r in provider_results if r["rate_limits"] == 0]
         if safe_results:
-            # Pick the one with best throughput
             best = max(safe_results, key=lambda r: r["requests_per_second"])
-            recommendations[provider] = {
+            recommendations[provider_name] = {
                 "max_safe_concurrency": best["concurrency"],
                 "requests_per_second": best["requests_per_second"],
                 "avg_latency_ms": best["avg_latency_ms"]
             }
         else:
-            recommendations[provider] = {
+            recommendations[provider_name] = {
                 "max_safe_concurrency": 1,
                 "requests_per_second": 0,
-                "note": "All concurrency levels hit rate limits"
+                "note": "All levels hit rate limits"
             }
 
-    # ========================================================================
-    # SUMMARY
-    # ========================================================================
-
+    # Summary
     print("\n" + "=" * 70)
-    print("CALIBRATION SUMMARY")
-    print("=" * 70)
-
-    print("\nRECOMMENDED MAX_WORKERS PER PROVIDER:")
+    print("RECOMMENDED MAX_WORKERS:")
     print("-" * 50)
 
     for provider, rec in recommendations.items():
         workers = rec["max_safe_concurrency"]
         rps = rec.get("requests_per_second", "N/A")
-        latency = rec.get("avg_latency_ms", "N/A")
-        print(f"  {provider.upper():10s}: {workers:2d} workers  ({rps} req/s, {latency}ms)")
+        print(f"  {provider.upper():10s}: {workers:2d} workers  ({rps} req/s)")
 
-    # Calculate total safe concurrency
     total_workers = sum(r["max_safe_concurrency"] for r in recommendations.values())
-    print(f"\n  TOTAL SAFE PARALLEL WORKERS: {total_workers}")
+    print(f"\n  TOTAL SAFE PARALLEL: {total_workers}")
 
-    # ========================================================================
-    # SAVE RESULTS
-    # ========================================================================
-
+    # Save
     output_dir = script_dir / "armada_results"
     output_dir.mkdir(exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output = {
-        "run_id": f"S7_PARALLEL_CALIBRATION_{timestamp}",
+        "run_id": f"S7_BANDWIDTH_{timestamp}",
         "timestamp": datetime.now().isoformat(),
-        "purpose": "Parallel bandwidth test for Run 011",
-        "concurrency_levels_tested": CONCURRENCY_LEVELS,
         "recommendations": recommendations,
         "total_safe_workers": total_workers,
         "detailed_results": all_results
     }
 
-    output_path = output_dir / f"S7_parallel_calibration_{timestamp}.json"
+    output_path = output_dir / f"S7_bandwidth_{timestamp}.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 
     print(f"\nResults saved to: {output_path}")
 
-    # ========================================================================
-    # GENERATE CONFIG SNIPPET FOR RUN 011
-    # ========================================================================
-
+    # Config snippet
     print("\n" + "-" * 70)
-    print("COPY THIS INTO RUN 011:")
+    print("COPY TO RUN 011:")
     print("-" * 70)
     print(f"""
-# Parallel bandwidth calibration results ({timestamp})
 MAX_WORKERS = {{
     "claude": {recommendations.get('claude', {}).get('max_safe_concurrency', 1)},
     "gpt": {recommendations.get('gpt', {}).get('max_safe_concurrency', 1)},
     "gemini": {recommendations.get('gemini', {}).get('max_safe_concurrency', 1)},
     "grok": {recommendations.get('grok', {}).get('max_safe_concurrency', 1)},
 }}
-TOTAL_WORKERS = {total_workers}
 """)
-    print("-" * 70)
 
     return recommendations
 
 # ============================================================================
-# ENTRY POINT
+# MAIN
 # ============================================================================
 
+def main():
+    parser = argparse.ArgumentParser(description="S7 Armada Pre-Flight Calibration")
+    parser.add_argument("--quick", action="store_true", help="Quick test: 1 model per provider")
+    parser.add_argument("--full", action="store_true", help="Full armada: Test all models, detect ghost ships")
+    parser.add_argument("--bandwidth", action="store_true", help="Bandwidth test: Find max safe concurrency")
+
+    args = parser.parse_args()
+
+    # Default to quick if no args
+    if not (args.quick or args.full or args.bandwidth):
+        args.quick = True
+
+    if args.full:
+        run_full_armada_check()
+    elif args.bandwidth:
+        run_bandwidth_test()
+    else:
+        run_quick_check()
+
 if __name__ == "__main__":
-    recommendations = run_parallel_calibration()
+    main()

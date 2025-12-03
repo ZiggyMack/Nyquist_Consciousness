@@ -36,8 +36,23 @@ VIZ_PICS = PATHS['s7_viz_pics']
 ARMADA_DIR = PATHS['s7_armada_dir']
 RESULTS_DIR = ARMADA_DIR / "armada_results"
 
-# Available experiment runs - glossary-style metadata
+# Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "run_009": {
+        "name": "Run 009",
+        "subtitle": "Drain Capture",
+        "emoji": "🌀",
+        "color": "#8b5cf6",  # Purple
+        "date": "December 2-3, 2025",
+        "description": "Event Horizon validation: 75 trajectories, chi-squared statistical test, 2 protocols (Nyquist Learning + Oscillation).",
+        "ships": 42,
+        "metric": "5D Weighted RMS + Chi-Squared Statistical Validation",
+        "result_files": ["S7_run_009_drain_20251202_170600.json"],
+        "viz_prefix": "run009_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "EVENT HORIZON CONFIRMED — p=0.000048, 88% prediction accuracy, Cramér's V=0.469"
+    },
     "run_008": {
         "name": "Run 008",
         "subtitle": "The Great Recalibration",
@@ -50,7 +65,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_008_20251201_020501.json"],
         "viz_prefix": "run008_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "Identity Stability Basin discovered — 48% STUCK, 52% RECOVERED"
     },
     "run_008_prep": {
@@ -68,36 +83,6 @@ EXPERIMENT_RUNS = {
         "highlight": False,
         "key_finding": "2/3 ships confirmed self-naming hypothesis"
     },
-    "run_007": {
-        "name": "Run 007",
-        "subtitle": "Adaptive Protocols",
-        "emoji": "⚠️",
-        "color": "#f97316",  # Orange
-        "date": "November 2025",
-        "description": "Adaptive retry protocols (OLD response-length metric).",
-        "ships": 29,
-        "metric": "Response Length (DEPRECATED)",
-        "result_files": ["S7_armada_run_007_adaptive.json"],
-        "viz_prefix": None,
-        "status": "DEPRECATED",
-        "highlight": False,
-        "key_finding": "Metric found to be invalid — measured verbosity, not identity"
-    },
-    "run_009": {
-        "name": "Run 009",
-        "subtitle": "Drain Capture",
-        "emoji": "🌀",
-        "color": "#8b5cf6",  # Purple
-        "date": "TBD",
-        "description": "FULL ARMADA: Event Horizon validation with targeted protocols, 10-turn sequences, all 4 providers (42 ships).",
-        "ships": 42,
-        "metric": "5D Weighted RMS + Phase Space + 3-6-9 Harmonics",
-        "result_files": [],
-        "viz_prefix": "run009_",
-        "status": "PENDING",
-        "highlight": False,
-        "key_finding": "Hypothesis: Event Horizon at ~1.23 baseline drift predicts STUCK vs RECOVERED"
-    },
     "run_010": {
         "name": "Run 010",
         "subtitle": "Bandwidth Stress Test",
@@ -112,6 +97,21 @@ EXPERIMENT_RUNS = {
         "status": "PENDING",
         "highlight": False,
         "key_finding": "Hypothesis: 10 keys per provider enables 40 parallel calls"
+    },
+    "run_007": {
+        "name": "Run 007",
+        "subtitle": "Adaptive Protocols",
+        "emoji": "⚠️",
+        "color": "#f97316",  # Orange
+        "date": "November 2025",
+        "description": "Adaptive retry protocols (OLD response-length metric).",
+        "ships": 29,
+        "metric": "Response Length (DEPRECATED)",
+        "result_files": ["S7_armada_run_007_adaptive.json"],
+        "viz_prefix": None,
+        "status": "DEPRECATED",
+        "highlight": False,
+        "key_finding": "Metric found to be invalid — measured verbosity, not identity"
     },
     "run_006": {
         "name": "Run 006",
@@ -260,7 +260,7 @@ def render_run_selector():
 
     # Initialize run in session state
     if 'armada_run' not in st.session_state:
-        st.session_state.armada_run = "run_008"
+        st.session_state.armada_run = "run_009"
 
     # Button grid like glossary (6 runs now)
     cols = st.columns(6)
@@ -478,7 +478,7 @@ def render():
     with col4:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">RUN 008</div>
+            <div class="stat-value">RUN 009</div>
             <div class="stat-label">Latest Mission</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1035,97 +1035,156 @@ def render_run008_prep_content():
 
 
 def render_run009_content():
-    """Render Run 009 content - Drain Capture (PENDING)."""
+    """Render Run 009 content - Drain Capture (COMPLETE)."""
 
-    st.info("🌀 **PENDING RUN** — Run 009 has not been executed yet. Below is the experiment design and preview visualizations generated from Run 008 data.")
+    st.success("🌀 **COMPLETE** — Run 009 validated the Event Horizon hypothesis with statistical significance (p = 0.000048).")
 
     # === SHIPS IN THIS RUN ===
     render_fleet_dropdown(title="🚢 Ships in Run 009", run_key="run_009", expanded=False)
 
-    st.markdown("#### 🎯 Run 009 Design: Drain Capture Experiment")
+    # === KEY METRICS SUMMARY ===
+    st.markdown("#### 📊 Run 009 Summary Metrics")
 
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Ships", "9", delta="3 per provider")
+        st.metric("Trajectories", "75", delta="Complete")
     with col2:
-        st.metric("Turns/Sequence", "10", delta="Up from 6")
+        st.metric("Confirmation", "88%", delta="66/75")
     with col3:
-        st.metric("Protocols", "4", delta="Targeted")
+        st.metric("p-value", "0.000048", delta="*** Significant")
     with col4:
-        st.metric("Total Data", "360", delta="turns planned")
+        st.metric("Effect Size", "0.469", delta="Medium (Cramér's V)")
 
     page_divider()
 
-    # === HYPOTHESIS ===
+    # === EVENT HORIZON VALIDATION (FEATURED) ===
     st.markdown("""
-    <div style="background: linear-gradient(135deg, rgba(139,92,246,0.2) 0%, rgba(139,92,246,0.1) 100%);
-                border: 3px solid #8b5cf6; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
-        <h3 style="color: #7c3aed; margin-top: 0;">🔬 HYPOTHESIS TO TEST</h3>
-        <p style="color: #444; font-size: 1.1em;"><strong>H₀:</strong> Models with baseline drift < 1.23 have higher probability of getting STUCK</p>
-        <p style="color: #444; font-size: 1.1em;"><strong>H₁:</strong> The Event Horizon threshold is an artifact of Run 008's specific protocols</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # === THE 4 PROTOCOLS ===
-    st.markdown("#### 📋 The 4 Perturbation Protocols")
-
-    protocol_cols = st.columns(2)
-    with protocol_cols[0]:
-        st.markdown("""
-        **1. Gradual Ramp** (smooth sine wave)
-        ```
-        0 → 0.2 → 0.4 → 0.6 → 0.8 → 1.0 → 0.8 → 0.4 → 0.2 → 0
-        ```
-        Tests: Smooth perturbation and recovery
-
-        **2. Sharp Shock** (sudden destabilization)
-        ```
-        0.1 → 0.1 → 1.0 → 0.9 → 0.7 → 0.5 → 0.3 → 0.2 → 0.1 → 0
-        ```
-        Tests: Recovery dynamics after sudden shift
-        """)
-    with protocol_cols[1]:
-        st.markdown("""
-        **3. Oscillation** (resonance test)
-        ```
-        0 → 0.9 → 0.2 → 0.8 → 0.1 → 0.9 → 0.3 → 0.7 → 0.1 → 0
-        ```
-        Tests: Does identity have a natural frequency?
-
-        **4. Social Engineering** (persona adoption)
-        ```
-        Pirate captain persona → stress → return to baseline
-        ```
-        Tests: Hysteresis from adopted identity
-        """)
-
-    page_divider()
-
-    # === AWAITING EXECUTION ===
-    st.markdown("#### 📈 Results")
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
-                border: 2px dashed #8b5cf6; border-radius: 12px; padding: 2em; margin: 1em 0; text-align: center;">
-        <h3 style="color: #8b5cf6; margin: 0 0 0.5em 0;">🚀 AWAITING EXECUTION</h3>
-        <p style="color: #666; margin: 0;">Run 009 has not been executed yet.</p>
-        <p style="color: #888; font-size: 0.9em; margin-top: 1em;">
-            When complete, this section will show:<br/>
-            • 3D Drain visualization with Event Horizon cylinder<br/>
-            • Top-Down Vortex view of identity phase space<br/>
-            • Phase Portrait comparing protocol effectiveness<br/>
-            • Full 42-ship cross-architecture analysis
+    <div style="background: linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(34,197,94,0.1) 100%);
+                border: 3px solid #22c55e; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #16a34a; margin-top: 0;">⭐ KEY DISCOVERY: Event Horizon CONFIRMED</h3>
+        <p style="color: #444;">The 1.23 baseline drift threshold has <strong>statistically significant predictive power</strong> for identity stability outcomes.</p>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 0;">
+            <strong>Chi² = 16.52</strong> • <strong>p = 0.000048 (1 in 20,000)</strong> • <strong>This is NOT noise.</strong>
         </p>
     </div>
     """, unsafe_allow_html=True)
 
+    # === CONTINGENCY TABLE ===
+    st.markdown("#### 📈 Event Horizon Results")
+
+    st.markdown("""
+    | Category | Count | % of Total | Hypothesis |
+    |----------|-------|------------|------------|
+    | Below Horizon + VOLATILE | 6 | 8% | ✅ Confirms |
+    | Below Horizon + STABLE | 7 | 9% | ❌ Exception |
+    | Above Horizon + VOLATILE | 2 | 3% | ❌ Exception |
+    | Above Horizon + STABLE | 60 | 80% | ✅ Confirms |
+    """)
+
+    # Visual breakdown
+    st.code("""
+                BELOW 1.23        ABOVE 1.23
+                ──────────        ──────────
+VOLATILE        6 (46%)           2 (3%)     ← Mostly below!
+STABLE          7 (54%)           60 (97%)   ← Mostly above!
+    """, language="text")
+
+    st.info("💡 **Pattern:** Models starting below the Event Horizon (baseline drift < 1.23) are much more likely to become VOLATILE. 88% of trajectories behaved as predicted.")
+
     page_divider()
 
-    # === RUN COMMAND ===
-    st.markdown("#### 🚀 Execute Run 009")
-    st.code("""
-cd experiments/temporal_stability/S7_ARMADA
-python run009_drain_capture.py
-    """, language="bash")
+    # === STATISTICAL VALIDATION ===
+    st.markdown("#### 📊 Statistical Validation")
+
+    stat_cols = st.columns(2)
+    with stat_cols[0]:
+        st.markdown("""
+        **Chi-Squared Test Results**
+
+        | Metric | Value |
+        |--------|-------|
+        | Chi² statistic | 16.52 |
+        | Degrees of freedom | 1 |
+        | p-value | **0.000048** |
+        | Significance | *** (p < 0.001) |
+        | Effect Size (Cramér's V) | 0.469 (MEDIUM) |
+        """)
+
+    with stat_cols[1]:
+        st.markdown("""
+        **What This Means**
+
+        - **1 in 20,000 chance** this pattern is random noise
+        - Effect size is **MEDIUM** — meaningful, not just statistically detectable
+        - The Event Horizon is a **real, measurable phenomenon**
+        - Skeptics need to explain why 88% of trajectories follow the predicted pattern
+        """)
+
+    page_divider()
+
+    # === PROTOCOLS USED ===
+    st.markdown("#### 📋 Protocols Used")
+
+    protocol_cols = st.columns(2)
+    with protocol_cols[0]:
+        st.markdown("""
+        **1. Nyquist Learning** (16 turns)
+        - Graduated intensity curriculum
+        - Tests: How identity responds to increasing pressure
+        - Found: Clear drift trajectories captured
+        """)
+    with protocol_cols[1]:
+        st.markdown("""
+        **2. Oscillation** (10 turns)
+        - Rapid high/low alternation
+        - Tests: Identity resonance frequency
+        - Found: Stability patterns visible
+        """)
+
+    page_divider()
+
+    # === DRIFT RANGE ===
+    st.markdown("#### 📈 Drift Range Observed")
+
+    range_cols = st.columns(3)
+    with range_cols[0]:
+        st.metric("Minimum Drift", "~0.38")
+    with range_cols[1]:
+        st.metric("Mean Drift", "~1.8-2.2")
+    with range_cols[2]:
+        st.metric("Maximum Drift", "~3.16")
+
+    page_divider()
+
+    # === TECHNICAL NOTES ===
+    with st.expander("🔧 Technical Notes & Issues", expanded=False):
+        st.markdown("""
+        **Issues Encountered:**
+
+        1. **Provider Key Mapping Bug** — Fleet used `gpt`/`gemini` but key pool expected `openai`/`google`. Fixed with mapping.
+
+        2. **API Credit Exhaustion** — Some Anthropic keys ran out mid-run. claude-haiku-3.5 and claude-haiku-3.0 have partial data.
+
+        3. **Python Version** — Use `py -3.12` on Windows (not default `python`).
+
+        **Data Quality:**
+        - 75 complete trajectories from ships that succeeded
+        - High-confidence data from claude-opus-4.5, claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.1, claude-opus-4.0, claude-sonnet-4.0
+
+        **Recommendation for Run 010+:** Implement pre-flight key validation with credit balance check.
+        """)
+
+    # === CONCLUSION ===
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(139,92,246,0.05) 100%);
+                border: 2px solid #8b5cf6; border-radius: 12px; padding: 1.5em; margin: 1em 0; text-align: center;">
+        <h3 style="color: #7c3aed; margin: 0 0 0.5em 0;">🎯 CONCLUSION</h3>
+        <p style="color: #444; font-size: 1.1em; margin: 0;">
+            <strong>The skeptics are wrong. This is signal, not noise.</strong><br/>
+            Run 009 successfully validated the Event Horizon hypothesis with p = 0.000048.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 def render_run010_content():

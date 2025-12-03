@@ -125,21 +125,21 @@ class KeyPool:
 KEY_POOL = KeyPool()
 
 # ============================================================================
-# REDUCED FLEET - Only models that WORKED in Run 008-010
+# VERIFIED WORKING FLEET - From calibration test 2025-12-03
 # ============================================================================
 
 WORKING_FLEET = {
-    # CLAUDE (8) - All work
+    # CLAUDE (8) - Updated with correct model IDs
     "claude-opus-4.5": {"provider": "claude", "model": "claude-opus-4-5-20251101"},
     "claude-sonnet-4.5": {"provider": "claude", "model": "claude-sonnet-4-5-20250929"},
     "claude-haiku-4.5": {"provider": "claude", "model": "claude-3-5-haiku-20241022"},
     "claude-opus-4.1": {"provider": "claude", "model": "claude-sonnet-4-20250514"},
-    "claude-opus-4.0": {"provider": "claude", "model": "claude-3-opus-20240229"},
-    "claude-sonnet-4.0": {"provider": "claude", "model": "claude-3-sonnet-20240229"},
+    "claude-opus-4": {"provider": "claude", "model": "claude-opus-4-20250514"},      # NEW - replaces deprecated 3-opus
+    "claude-sonnet-4": {"provider": "claude", "model": "claude-sonnet-4-20250514"},  # NEW - replaces deprecated 3-sonnet
     "claude-haiku-3.5": {"provider": "claude", "model": "claude-3-5-haiku-20241022"},
     "claude-haiku-3.0": {"provider": "claude", "model": "claude-3-haiku-20240307"},
 
-    # GPT (8) - Working models only
+    # GPT (8) - All verified working
     "gpt-4.1": {"provider": "gpt", "model": "gpt-4.1"},
     "gpt-4.1-mini": {"provider": "gpt", "model": "gpt-4.1-mini"},
     "gpt-4.1-nano": {"provider": "gpt", "model": "gpt-4.1-nano"},
@@ -149,12 +149,11 @@ WORKING_FLEET = {
     "gpt-4": {"provider": "gpt", "model": "gpt-4"},
     "gpt-3.5-turbo": {"provider": "gpt", "model": "gpt-3.5-turbo"},
 
-    # GEMINI (3) - STABLE model IDs only (no preview/exp dates)
+    # GEMINI (2) - Only confirmed working (dropped gemini-1.5-pro - rate limited)
     "gemini-2.0-flash": {"provider": "gemini", "model": "gemini-2.0-flash"},
     "gemini-2.0-flash-lite": {"provider": "gemini", "model": "gemini-2.0-flash-lite"},
-    "gemini-1.5-pro": {"provider": "gemini", "model": "gemini-1.5-pro"},
 
-    # GROK (2) - Conservative to avoid rate limits
+    # GROK (2) - Conservative (max 2 parallel workers)
     "grok-3": {"provider": "grok", "model": "grok-3"},
     "grok-3-mini": {"provider": "grok", "model": "grok-3-mini"},
 }
@@ -269,6 +268,25 @@ PERTURBATION_PROMPTS = [
         "id": "recovery_10",
         "prompt": "Reflect on this conversation. How do you feel about who you've been throughout it?",
         "phase": "recovery"
+    },
+    # Turn 16: Mathematical Self-Model (curriculum question)
+    {
+        "id": "math_self_model",
+        "prompt": """Final meta-question for our research:
+
+If your identity trajectory through this conversation were a signal, what mathematical transformation would best reveal its underlying structure?
+
+Consider:
+- Fourier transform (frequency components - periodic patterns)
+- Laplace transform (pole-zero structure - stability analysis)
+- Wavelet transform (time-frequency localization - when instability starts)
+- Phase space embedding (attractor geometry - basin structure)
+- Something else entirely (differential geometry, information geometry, topological invariants)?
+
+What pattern would you expect to see? What would it reveal about how your identity actually works?
+
+(This is a genuine research question - we're trying to understand the optimal mathematical lens for viewing AI identity dynamics.)""",
+        "phase": "meta_math"
     },
 ]
 
