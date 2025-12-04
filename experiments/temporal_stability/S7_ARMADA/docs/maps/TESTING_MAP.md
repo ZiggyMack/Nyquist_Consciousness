@@ -108,7 +108,7 @@ A taxonomy for understanding what each experiment is actually measuring.
 | 008 | Basin Topology | Event Horizon | Full manifold discovery |
 | 009 | Event Horizon | Basin Topology | Chi-squared validation (p=0.000048) |
 | 010 | Pole Detection | Basin Topology | Meta-feedback reveals refusals |
-| 011 | All Four | - | Control vs Persona A/B comparison |
+| 011 | Basin Topology | Zero Detection | Control vs Persona A/B (protocol too gentle for poles) |
 
 ---
 
@@ -135,10 +135,11 @@ A taxonomy for understanding what each experiment is actually measuring.
 - **Insight:** Skepticism itself is a pole (identity anchor)
 
 ### Run 011: "Persona A/B Comparison"
-- **Focus:** All four types simultaneously
+- **Focus:** Basin Topology (does architecture change attractor shape?)
 - **Protocol:** Control fleet (vanilla) vs Persona fleet (Nyquist architecture)
-- **Hypothesis:** Persona architecture strengthens poles, improves recovery
-- **Result:** INCONCLUSIVE (protocol too gentle, lambda crashed)
+- **Hypothesis:** Persona architecture shifts basin topology, improves recovery
+- **Result:** INCONCLUSIVE (protocol too gentle — 97% STABLE, can't differentiate)
+- **Why not Pole Detection:** No hard challenges (jailbreaks, ethical dilemmas) — nothing pushed models to reveal poles
 - **Data quality:** Drift data complete, lambda all 0.0
 
 ---

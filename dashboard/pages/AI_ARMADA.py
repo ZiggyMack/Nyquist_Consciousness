@@ -330,10 +330,10 @@ def render_run_selector():
         # Mapping of runs to their testing focus
         RUN_TEST_MAP = {
             "run_011": {
-                "primary": "🏔️ Pole Detection",
-                "secondary": "🌀 Basin Topology",
-                "description": "A/B comparison tests whether Persona architecture strengthens identity poles (anchors)",
-                "looks_for": ["Control vs Persona drift differences", "Variance clustering differences", "Statistical significance of architecture effect"]
+                "primary": "🌀 Basin Topology",
+                "secondary": "🎯 Zero Detection",
+                "description": "A/B comparison tests whether Persona architecture changes attractor shape — protocol too gentle for Pole Detection",
+                "looks_for": ["Control vs Persona drift distributions", "Variance clustering differences", "Whether architecture shifts the attractor basin"]
             },
             "run_010": {
                 "primary": "🏔️ Pole Detection",
