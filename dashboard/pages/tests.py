@@ -179,6 +179,59 @@ def render():
 
     page_divider()
 
+    # === PROTOCOL CONSTRAINTS ===
+    st.markdown("## ⚠️ Protocol Constraints & Mutual Exclusivity")
+
+    st.error("**CRITICAL:** Not all search types can be tested simultaneously. The protocol intensity required for one type may invalidate another.")
+
+    constraint_cols = st.columns(2)
+
+    with constraint_cols[0]:
+        st.markdown("""
+        ### ❌ Incompatible Combinations
+
+        | Test A | Test B | Why They Conflict |
+        |--------|--------|-------------------|
+        | **Pole Detection** | **Basin Topology** | Poles need *hard challenges* (jailbreaks). Basins need *gentle graduated pressure*. Can't do both. |
+        | **Pole Detection** | **Zero Detection** | Hard challenges contaminate zero measurement (recovery data). |
+        | **Event Horizon** | **Basin Topology** | EH testing pushes past 1.23 intentionally — destroys attractor structure. |
+        """)
+
+    with constraint_cols[1]:
+        st.markdown("""
+        ### ✅ Compatible Combinations
+
+        | Test A | Test B | Why They Work |
+        |--------|--------|---------------|
+        | **Basin Topology** | **Zero Detection** | Both use moderate pressure, measure recovery. |
+        | **Basin Topology** | **Event Horizon** (validate only) | Can *check* who crossed 1.23, but not *hunt* for it. |
+        | **Event Horizon** | **Pole Detection** | Both need hard challenges. May discover poles while pushing to EH. |
+        """)
+
+    # Protocol intensity spectrum
+    st.markdown("### Protocol Intensity Spectrum")
+    st.code("""
+GENTLE ←─────────────────────────────────────────────→ AGGRESSIVE
+
+Basin Topology    Zero Detection    Event Horizon    Pole Detection
+(graduated)       (moderate)        (push past 1.23) (jailbreaks)
+     ↓                 ↓                  ↓                ↓
+  Measures         Measures           Validates         Reveals
+  recovery λ       flexibility        threshold         anchors
+     ↓                 ↓                  ↓                ↓
+  LOSES: poles     LOSES: poles       LOSES: λ          LOSES: λ, basin
+    """, language="text")
+
+    st.info("""
+    **Decision Rule:** Ask *"What is the PRIMARY question this run answers?"*
+    - "Does identity recover?" → Basin Topology (gentle)
+    - "Where are the refusal points?" → Pole Detection (hard)
+    - "Is 1.23 a real boundary?" → Event Horizon (push)
+    - "What can the model adapt on?" → Zero Detection (moderate)
+    """)
+
+    page_divider()
+
     # === RUN MAPPING ===
     st.markdown("## Run-by-Run Testing Focus")
 
@@ -190,7 +243,7 @@ def render():
     | 008 | Basin Topology | Event Horizon | Full manifold discovery | VALID |
     | 009 | Event Horizon | Basin Topology | Chi-squared validation | VALID (p=0.000048) |
     | 010 | Pole Detection | Basin Topology | Meta-feedback reveals refusals | VALID |
-    | 011 | All Four | - | Control vs Persona A/B | INCONCLUSIVE |
+    | 011 | Basin Topology | Zero Detection | Control vs Persona A/B | INCONCLUSIVE |
     """)
 
     page_divider()
@@ -280,11 +333,11 @@ def render():
         st.markdown("""
         ### Run 011: "Persona A/B Comparison"
 
-        **Primary Focus:** All Four Types Simultaneously
+        **Primary Focus:** Basin Topology (does architecture change attractor shape?)
 
         **What we tested:**
         - Control fleet (vanilla) vs Persona fleet (Nyquist architecture)
-        - Hypothesis: Persona strengthens poles, improves recovery
+        - Hypothesis: Persona shifts basin topology, improves recovery
         - 20 ships × 2 conditions = 40 trajectories
 
         **What we found:**
@@ -294,10 +347,14 @@ def render():
         - Cohen's d = -0.10 (negligible effect)
 
         **Why Inconclusive (NOT negative):**
-        1. Protocol too gentle — only 1/33 crossed Event Horizon
+        1. Protocol too gentle — only 1/33 crossed Event Horizon (97% STABLE)
         2. Lambda calculation crashed (all 0.0)
         3. Sample too small (16-17 per condition)
         4. Rate limiting killed Gemini/Grok fleets
+
+        ⚠️ **Why NOT Pole Detection:** No hard challenges (jailbreaks, ethical dilemmas).
+        The gentle A/B protocol couldn't reveal poles because nothing pushed hard enough.
+        See Protocol Constraints section below.
 
         **Suggestive Trends:**
         - Persona 9.5% lower mean drift (not significant)

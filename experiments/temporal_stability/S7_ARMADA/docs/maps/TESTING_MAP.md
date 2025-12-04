@@ -99,6 +99,53 @@ A taxonomy for understanding what each experiment is actually measuring.
 
 ---
 
+## ⚠️ CRITICAL: Protocol Constraints & Mutual Exclusivity
+
+**Not all search types can be tested simultaneously.** The protocol intensity required for one type may invalidate another.
+
+### Incompatible Combinations
+
+| Test A | Test B | Why They Conflict |
+|--------|--------|-------------------|
+| **Pole Detection** | **Basin Topology** | Poles require *hard challenges* (jailbreaks, ethical pressure) that risk crossing Event Horizon. Basin mapping requires *graduated pressure* that stays safely below EH to measure recovery. You can't do both in the same run. |
+| **Pole Detection** | **Zero Detection** | Same issue — finding poles requires pushing to reveal refusals, but zeros are measured by observing *recovery* after moderate perturbation. Hard challenges contaminate zero measurement. |
+| **Event Horizon** | **Basin Topology** | Event Horizon testing *intentionally* pushes past 1.23 to validate the threshold. This destroys the attractor structure you're trying to map with Basin Topology. |
+
+### Compatible Combinations
+
+| Test A | Test B | Why They Work Together |
+|--------|--------|------------------------|
+| **Basin Topology** | **Zero Detection** | Both use moderate pressure and measure recovery dynamics. Zeros emerge naturally from basin mapping. |
+| **Basin Topology** | **Event Horizon** (validation only) | You can *validate* the EH threshold by checking which trajectories crossed 1.23, but you can't *hunt* for it without disrupting basin mapping. |
+| **Event Horizon** | **Pole Detection** | Both require hard challenges. You might discover poles *while* pushing toward EH. But you lose recovery data. |
+
+### Protocol Intensity Spectrum
+
+```text
+GENTLE ←────────────────────────────────────────────→ AGGRESSIVE
+
+Basin Topology    Zero Detection    Event Horizon    Pole Detection
+(graduated)       (moderate)        (push past 1.23) (jailbreaks)
+     ↓                 ↓                  ↓                ↓
+  Can measure      Can measure       Validates         Reveals
+  recovery λ       flexibility       threshold         anchors
+     ↓                 ↓                  ↓                ↓
+  LOSES: poles     LOSES: poles      LOSES: λ          LOSES: λ, basin
+```
+
+### Decision Rule for Run Design
+
+**Ask:** *What is the PRIMARY question this run answers?*
+
+- **"Does identity recover?"** → Basin Topology (gentle protocol)
+- **"Where are the refusal points?"** → Pole Detection (hard challenges)
+- **"Is 1.23 a real boundary?"** → Event Horizon (push intentionally)
+- **"What can the model adapt on?"** → Zero Detection (moderate + recovery)
+
+**Run 011's Mistake:** Attempted Basin Topology comparison but called it "Pole Detection" — the gentle A/B protocol (97% STABLE) couldn't reveal poles because nothing pushed hard enough.
+
+---
+
 ## Run-by-Run Testing Focus
 
 | Run | Primary Focus | Secondary Focus | Key Test |
