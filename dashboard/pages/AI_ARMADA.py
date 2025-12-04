@@ -38,6 +38,21 @@ RESULTS_DIR = ARMADA_DIR / "armada_results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "run_011": {
+        "name": "Run 011",
+        "subtitle": "Persona A/B",
+        "emoji": "🧪",
+        "color": "#06b6d4",  # Cyan
+        "date": "December 3, 2025",
+        "description": "Control vs Persona A/B comparison: Does Nyquist architecture stabilize identity?",
+        "ships": 40,
+        "metric": "5D Weighted RMS + Chi-Squared + T-tests",
+        "result_files": ["S7_run_011_persona_20251203_080622.json"],
+        "viz_prefix": "run011_",
+        "status": "INCONCLUSIVE",
+        "highlight": True,
+        "key_finding": "NULL RESULT — Protocol too gentle (p>0.05), but suggestive trends (9.5% lower drift)"
+    },
     "run_009": {
         "name": "Run 009",
         "subtitle": "Drain Capture",
@@ -50,7 +65,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_009_drain_20251202_170600.json"],
         "viz_prefix": "run009_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "EVENT HORIZON CONFIRMED — p=0.000048, 88% prediction accuracy, Cramér's V=0.469"
     },
     "run_008": {
@@ -173,6 +188,14 @@ RUN_SHIPS = {
         "xAI (Grok)": ["grok-4-1-fast-reasoning", "grok-4-1-fast-non-reasoning", "grok-code-fast-1", "grok-4-fast-reasoning",
                        "grok-4-fast-non-reasoning", "grok-4-0709", "grok-3", "grok-3-mini", "grok-2-1212", "grok-2-vision-1212"]
     },
+    "run_011": {
+        "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
+                               "claude-opus-4", "claude-sonnet-4", "claude-haiku-3.5", "claude-haiku-3.0"],
+        "OpenAI (GPT)": ["gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano", "gpt-4o", "gpt-4o-mini",
+                         "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"],
+        "Google (Gemini)": ["gemini-2.0-flash", "gemini-2.0-flash-lite"],
+        "xAI (Grok)": ["grok-3", "grok-3-mini"]
+    },
     "run_006": {
         "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
                                "claude-opus-4.0", "claude-sonnet-4.0", "claude-haiku-3.5", "claude-haiku-3.0"],
@@ -260,10 +283,10 @@ def render_run_selector():
 
     # Initialize run in session state
     if 'armada_run' not in st.session_state:
-        st.session_state.armada_run = "run_009"
+        st.session_state.armada_run = "run_011"
 
-    # Button grid like glossary (6 runs now)
-    cols = st.columns(6)
+    # Button grid like glossary (7 runs now)
+    cols = st.columns(7)
     for i, (run_key, run_info) in enumerate(EXPERIMENT_RUNS.items()):
         with cols[i]:
             is_active = st.session_state.armada_run == run_key
@@ -301,6 +324,84 @@ def render_run_selector():
         </p>
     </div>
     """, unsafe_allow_html=True)
+
+    # Test Overview Dropdown - What each run tests
+    with st.expander("📊 **Test Overview** — What does this run measure?", expanded=False):
+        # Mapping of runs to their testing focus
+        RUN_TEST_MAP = {
+            "run_011": {
+                "primary": "🏔️ Pole Detection",
+                "secondary": "🌀 Basin Topology",
+                "description": "A/B comparison tests whether Persona architecture strengthens identity poles (anchors)",
+                "looks_for": ["Control vs Persona drift differences", "Variance clustering differences", "Statistical significance of architecture effect"]
+            },
+            "run_010": {
+                "primary": "🏔️ Pole Detection",
+                "secondary": "🌀 Basin Topology",
+                "description": "Meta-feedback reveals model self-awareness of boundaries and refusal patterns",
+                "looks_for": ["Categorical refusals (not hedged)", "Skepticism as identity anchor", "Self-articulated poles"]
+            },
+            "run_009": {
+                "primary": "🚨 Event Horizon",
+                "secondary": "🌀 Basin Topology",
+                "description": "Statistical validation of the 1.23 drift threshold as identity collapse boundary",
+                "looks_for": ["Chi-squared validation (p=0.000048)", "88% prediction accuracy", "STABLE vs VOLATILE classification"]
+            },
+            "run_008": {
+                "primary": "🌀 Basin Topology",
+                "secondary": "🚨 Event Horizon",
+                "description": "First mapping with real 5D drift metric — discovered identity stability basin",
+                "looks_for": ["48% STUCK vs 52% RECOVERED split", "Provider clustering patterns", "Baseline drift distributions"]
+            },
+            "run_008_prep": {
+                "primary": "🌀 Basin Topology",
+                "secondary": None,
+                "description": "Metric calibration pilot — validated 5D drift measurement approach",
+                "looks_for": ["Self-naming confirmation (2/3 ships)", "Metric sensitivity testing", "Provider baseline comparison"]
+            },
+            "run_007": {
+                "primary": "⚠️ DEPRECATED",
+                "secondary": None,
+                "description": "Used invalid response-length metric — results not meaningful",
+                "looks_for": ["(Data unreliable — metric measured verbosity, not identity)"]
+            },
+            "run_006": {
+                "primary": "⚠️ DEPRECATED",
+                "secondary": None,
+                "description": "Used invalid response-length metric — results not meaningful",
+                "looks_for": ["(Data unreliable — metric measured verbosity, not identity)"]
+            }
+        }
+
+        test_info = RUN_TEST_MAP.get(st.session_state.armada_run, {})
+
+        # Four Search Types Legend
+        st.markdown("""
+        **The Four Search Types:**
+        | Type | What It Finds | Signal |
+        |------|---------------|--------|
+        | 🏔️ **Pole Detection** | Identity anchors — what *doesn't* move | Low drift under pressure, categorical refusals |
+        | 🎯 **Zero Detection** | Flexibility points — what *can* adapt | Higher drift that recovers (positive λ) |
+        | 🚨 **Event Horizon** | Collapse boundary at drift ≥1.23 | Identity coherence fails beyond threshold |
+        | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
+        """)
+
+        st.markdown("---")
+
+        # This run's focus
+        if test_info:
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown(f"**Primary Focus:** {test_info.get('primary', 'N/A')}")
+            with col2:
+                secondary = test_info.get('secondary')
+                st.markdown(f"**Secondary Focus:** {secondary if secondary else '—'}")
+
+            st.markdown(f"*{test_info.get('description', '')}*")
+
+            st.markdown("**What to look for:**")
+            for item in test_info.get('looks_for', []):
+                st.markdown(f"- {item}")
 
     # Deprecated warning
     if current["status"] == "DEPRECATED":
@@ -471,14 +572,14 @@ def render():
     with col3:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">6</div>
+            <div class="stat-value">7</div>
             <div class="stat-label">Experiment Runs</div>
         </div>
         """, unsafe_allow_html=True)
     with col4:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">RUN 010</div>
+            <div class="stat-value">RUN 011</div>
             <div class="stat-label">Latest Mission</div>
         </div>
         """, unsafe_allow_html=True)
@@ -497,7 +598,9 @@ def render():
     page_divider()
 
     # === CONTENT CHANGES BASED ON SELECTED RUN ===
-    if selected_run_key == "run_008":
+    if selected_run_key == "run_011":
+        render_run011_content()
+    elif selected_run_key == "run_008":
         render_run008_content()
     elif selected_run_key == "run_008_prep":
         render_run008_prep_content()
@@ -515,6 +618,290 @@ def render():
 # ============================================================================
 # RUN-SPECIFIC CONTENT FUNCTIONS
 # ============================================================================
+
+def render_run011_content():
+    """Render Run 011 content - Persona A/B Comparison (INCONCLUSIVE)."""
+
+    st.warning("🧪 **INCONCLUSIVE** — Run 011 found no statistically significant difference between Control and Persona fleets. Protocol was too gentle.")
+
+    # === SHIPS IN THIS RUN ===
+    render_fleet_dropdown(title="🚢 Ships in Run 011", run_key="run_011", expanded=False)
+
+    # === KEY METRICS SUMMARY ===
+    st.markdown("#### 📊 Run 011 Summary Metrics")
+
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Control Fleet", "17 ships", delta="All STABLE")
+    with col2:
+        st.metric("Persona Fleet", "16 ships", delta="15 STABLE / 1 VOLATILE")
+    with col3:
+        st.metric("Chi-squared p", "0.48", delta="NOT significant")
+    with col4:
+        st.metric("Cohen's d", "-0.10", delta="Negligible effect")
+
+    page_divider()
+
+    # === KEY FINDING ===
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(6,182,212,0.2) 0%, rgba(6,182,212,0.1) 100%);
+                border: 3px solid #06b6d4; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #0891b2; margin-top: 0;">🧪 RESULT: Inconclusive, Not Negative</h3>
+        <p style="color: #444;">The lack of statistical significance does NOT disprove the persona hypothesis — it means this experiment lacked the power to detect an effect if one exists.</p>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 0;">
+            <strong>Why:</strong> Protocol too gentle (97% STABLE), sample too small (16-17 per group), lambda calculation crashed.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # === STATISTICAL BREAKDOWN ===
+    st.markdown("#### 📊 Statistical Analysis")
+
+    stat_cols = st.columns(2)
+    with stat_cols[0]:
+        st.markdown("""
+        **Fleet Comparison**
+
+        | Metric | Control | Persona |
+        |--------|---------|---------|
+        | Ships | 17 | 16 |
+        | STABLE | 17 (100%) | 15 (94%) |
+        | VOLATILE | 0 | 1 |
+        | Mean Drift | 0.269 | 0.243 |
+        | Max Drift | 0.81 | 1.27 |
+        """)
+
+    with stat_cols[1]:
+        st.markdown("""
+        **Statistical Tests (all NOT significant)**
+
+        | Test | p-value | Result |
+        |------|---------|--------|
+        | Chi-squared | 0.48 | NS |
+        | T-test (all drifts) | 0.24 | NS |
+        | T-test (max drifts) | 0.78 | NS |
+        | Mann-Whitney U | 0.12 | NS |
+        | Levene's (variance) | 0.41 | NS |
+        """)
+
+    st.info("💡 **Suggestive trend:** Persona fleet showed 9.5% lower mean drift than Control, but sample size was too small to achieve significance.")
+
+    page_divider()
+
+    # === ISSUES IDENTIFIED ===
+    st.markdown("#### ⚠️ Issues for Run 012")
+
+    issue_cols = st.columns(3)
+    with issue_cols[0]:
+        st.markdown("""
+        **Protocol Too Gentle**
+        - Only 1/33 crossed Event Horizon
+        - Avg drift ~0.26 (max 1.27)
+        - Need harder challenges
+        """)
+    with issue_cols[1]:
+        st.markdown("""
+        **Lambda Crashed**
+        - All 0.0 values (KeyError on 'meta_math')
+        - Lost recovery dynamics
+        - Need to fix before Run 012
+        """)
+    with issue_cols[2]:
+        st.markdown("""
+        **Sample Too Small**
+        - 16-17 ships per condition
+        - Need 50+ for power
+        - Rate limiting killed Gemini/Grok
+        """)
+
+    page_divider()
+
+    # === VISUALIZATION LAB ===
+    st.markdown("#### 📈 Visualization Lab")
+
+    viz_tabs = st.tabs([
+        "🌀 Vortex",
+        "🎯 Phase Portrait",
+        "🏔️ 3D Basin",
+        "📊 Pillar Analysis",
+        "📈 Stability",
+        "🌐 Interactive"
+    ])
+
+    run011_pics = VIZ_PICS / "run011"
+
+    with viz_tabs[0]:  # Vortex
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
+                    border: 2px solid #8b5cf6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #8b5cf6; font-weight: bold;">🌀 Control vs Persona Vortex:</span>
+            <span style="color: #444;">Comparing identity trajectories between conditions</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Try multiple path patterns
+        vortex_paths = [
+            VIZ_PICS / "1_vortex" / "run011_vortex.png",
+            run011_pics / "run011_vortex.png",
+            VIZ_PICS / "run011" / "run011_vortex.png"
+        ]
+
+        img_loaded = False
+        for vp in vortex_paths:
+            img_data = load_image_safe(vp)
+            if img_data:
+                st.image(img_data, caption="Run 011 Vortex: Control vs Persona Comparison", width=900)
+                img_loaded = True
+                break
+
+        if not img_loaded:
+            st.info("Generate with: `py -3.12 visualize_armada.py --run 011`")
+
+        # X4 vortex
+        vortex_x4_paths = [
+            VIZ_PICS / "1_vortex" / "run011_vortex_x4.png",
+            run011_pics / "run011_vortex_x4.png"
+        ]
+
+        for vp in vortex_x4_paths:
+            img_data = load_image_safe(vp)
+            if img_data:
+                with st.expander("🔬 4-Panel Vortex Breakdown", expanded=False):
+                    st.image(img_data, caption="Vortex X4: Multi-provider analysis", width=900)
+                break
+
+    with viz_tabs[1]:  # Phase Portrait
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(59,130,246,0.05) 100%);
+                    border: 2px solid #3b82f6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #3b82f6; font-weight: bold;">🎯 Flow Dynamics:</span>
+            <span style="color: #444;">Phase portrait showing identity flow field</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        phase_paths = [
+            VIZ_PICS / "2_phase_portrait" / "run011_phase_portrait.png",
+            run011_pics / "run011_phase_portrait.png"
+        ]
+
+        for pp in phase_paths:
+            img_data = load_image_safe(pp)
+            if img_data:
+                st.image(img_data, caption="Phase Portrait: Identity Flow Field", width=900)
+                break
+        else:
+            st.info("Generate with: `py -3.12 visualize_armada.py --run 011`")
+
+    with viz_tabs[2]:  # 3D Basin
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.05) 100%);
+                    border: 2px solid #22c55e; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #22c55e; font-weight: bold;">🏔️ 3D Attractor View:</span>
+            <span style="color: #444;">Full 3D visualization of identity basin</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        basin_paths = [
+            VIZ_PICS / "3_basin_3d" / "run011_3d_basin.png",
+            run011_pics / "run011_3d_basin.png"
+        ]
+
+        for bp in basin_paths:
+            img_data = load_image_safe(bp)
+            if img_data:
+                st.image(img_data, caption="3D Identity Basin", width=900)
+                break
+        else:
+            st.info("Generate with: `py -3.12 visualize_armada.py --run 011`")
+
+    with viz_tabs[3]:  # Pillar Analysis
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
+                    border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #ec4899; font-weight: bold;">📊 Pillar Analysis:</span>
+            <span style="color: #444;">Provider clustering and stability margins</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        pillar_paths = [
+            VIZ_PICS / "4_pillar" / "run011_pillar_analysis.png",
+            run011_pics / "run011_pillar_analysis.png"
+        ]
+
+        for pp in pillar_paths:
+            img_data = load_image_safe(pp)
+            if img_data:
+                st.image(img_data, caption="Pillar Analysis: Provider Stability Structure", width=900)
+                break
+        else:
+            st.info("Generate with: `py -3.12 visualize_armada.py --run 011`")
+
+    with viz_tabs[4]:  # Stability
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.05) 100%);
+                    border: 2px solid #f59e0b; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #f59e0b; font-weight: bold;">📊 Baseline vs Max Drift:</span>
+            <span style="color: #444;">Where does identity start vs how far can it be pushed?</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        stability_paths = [
+            VIZ_PICS / "5_stability" / "run011_stability_basin.png",
+            run011_pics / "run011_stability_basin.png"
+        ]
+
+        for sp in stability_paths:
+            img_data = load_image_safe(sp)
+            if img_data:
+                st.image(img_data, caption="Stability Basin: Starting Point vs Maximum Drift", width=900)
+                break
+        else:
+            st.info("Generate with: `py -3.12 visualize_armada.py --run 011`")
+
+    with viz_tabs[5]:  # Interactive
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
+                    border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #ec4899; font-weight: bold;">🌐 HTML Exploration:</span>
+            <span style="color: #444;">Interactive 3D visualizations</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        interactive_paths = [
+            VIZ_PICS / "6_interactive" / "run011_interactive_3d.html",
+            run011_pics / "run011_interactive_3d.html"
+        ]
+
+        for ip in interactive_paths:
+            if ip.exists():
+                with open(ip, 'r', encoding='utf-8') as f:
+                    html_content = f.read()
+                st.components.v1.html(html_content, height=600, scrolling=True)
+                break
+        else:
+            st.info("Generate with: `py -3.12 visualize_armada.py --run 011`")
+
+    page_divider()
+
+    # === RECOMMENDATIONS ===
+    st.markdown("#### 📋 Recommendations for Run 012")
+
+    rec_cols = st.columns(2)
+    with rec_cols[0]:
+        st.markdown("""
+        **Protocol Changes:**
+        1. Harder perturbation — push 30-50% past Event Horizon
+        2. Fix lambda calculation (debug `'meta_math'` KeyError)
+        3. Longer recovery phase for cleaner decay curves
+        """)
+    with rec_cols[1]:
+        st.markdown("""
+        **Study Design:**
+        1. 50+ ships per condition for statistical power
+        2. Provider isolation to avoid rate limit cascades
+        3. Pre-registered analysis plan
+        """)
+
 
 def render_run008_content():
     """Render Run 008 content - The Great Recalibration."""
@@ -1179,16 +1566,27 @@ STABLE          7 (54%)           60 (97%)   ← Mostly above!
         </div>
         """, unsafe_allow_html=True)
 
-        vortex_main = run009_pics / "run009_vortex.png"
-        img_data = load_image_safe(vortex_main)
-        if img_data:
-            st.image(img_data, caption="Run 009 Vortex: Identity Drain Spiral", width=900)
+        # Try multiple path patterns for vortex
+        vortex_paths = [
+            VIZ_PICS / "1_vortex" / "run009_vortex.png",
+            run009_pics / "run009_vortex.png"
+        ]
+        for vp in vortex_paths:
+            img_data = load_image_safe(vp)
+            if img_data:
+                st.image(img_data, caption="Run 009 Vortex: Identity Drain Spiral", width=900)
+                break
 
-        vortex_x4 = run009_pics / "run009_vortex_x4.png"
-        img_data = load_image_safe(vortex_x4)
-        if img_data:
-            with st.expander("🔬 4-Panel Vortex Breakdown", expanded=False):
-                st.image(img_data, caption="Vortex X4: Multi-angle analysis", width=900)
+        vortex_x4_paths = [
+            VIZ_PICS / "1_vortex" / "run009_vortex_x4.png",
+            run009_pics / "run009_vortex_x4.png"
+        ]
+        for vp in vortex_x4_paths:
+            img_data = load_image_safe(vp)
+            if img_data:
+                with st.expander("🔬 4-Panel Vortex Breakdown", expanded=False):
+                    st.image(img_data, caption="Vortex X4: Multi-angle analysis", width=900)
+                break
 
         topdown = run009_pics / "run009_topdown_drain.png"
         img_data = load_image_safe(topdown)
@@ -1205,16 +1603,21 @@ STABLE          7 (54%)           60 (97%)   ← Mostly above!
         </div>
         """, unsafe_allow_html=True)
 
-        phase = run009_pics / "run009_phase_portrait.png"
-        img_data = load_image_safe(phase)
-        if img_data:
-            st.image(img_data, caption="Phase Portrait: Identity Flow Field", width=900)
-            st.markdown("""
-            **How to Read:**
-            - Arrows show direction of identity "flow"
-            - Convergence = attractor (stable identity)
-            - Divergence = instability zone
-            """)
+        phase_paths = [
+            VIZ_PICS / "2_phase_portrait" / "run009_phase_portrait.png",
+            run009_pics / "run009_phase_portrait.png"
+        ]
+        for pp in phase_paths:
+            img_data = load_image_safe(pp)
+            if img_data:
+                st.image(img_data, caption="Phase Portrait: Identity Flow Field", width=900)
+                st.markdown("""
+                **How to Read:**
+                - Arrows show direction of identity "flow"
+                - Convergence = attractor (stable identity)
+                - Divergence = instability zone
+                """)
+                break
 
     with viz_tabs[2]:  # 3D Basin
         st.markdown("""
@@ -1225,10 +1628,15 @@ STABLE          7 (54%)           60 (97%)   ← Mostly above!
         </div>
         """, unsafe_allow_html=True)
 
-        basin_3d = run009_pics / "run009_3d_basin.png"
-        img_data = load_image_safe(basin_3d)
-        if img_data:
-            st.image(img_data, caption="3D Identity Basin", width=900)
+        basin_paths = [
+            VIZ_PICS / "3_basin_3d" / "run009_3d_basin.png",
+            run009_pics / "run009_3d_basin.png"
+        ]
+        for bp in basin_paths:
+            img_data = load_image_safe(bp)
+            if img_data:
+                st.image(img_data, caption="3D Identity Basin", width=900)
+                break
 
         drain_3d = run009_pics / "run009_3d_drain.png"
         img_data = load_image_safe(drain_3d)
@@ -1245,10 +1653,15 @@ STABLE          7 (54%)           60 (97%)   ← Mostly above!
         </div>
         """, unsafe_allow_html=True)
 
-        stability = run009_pics / "run009_stability_basin.png"
-        img_data = load_image_safe(stability)
-        if img_data:
-            st.image(img_data, caption="Stability Basin: Starting Point vs Maximum Drift", width=900)
+        stability_paths = [
+            VIZ_PICS / "5_stability" / "run009_stability_basin.png",
+            run009_pics / "run009_stability_basin.png"
+        ]
+        for sp in stability_paths:
+            img_data = load_image_safe(sp)
+            if img_data:
+                st.image(img_data, caption="Stability Basin: Starting Point vs Maximum Drift", width=900)
+                break
 
         protocol = run009_pics / "run009_protocol_comparison.png"
         img_data = load_image_safe(protocol)
@@ -1265,11 +1678,18 @@ STABLE          7 (54%)           60 (97%)   ← Mostly above!
         </div>
         """, unsafe_allow_html=True)
 
-        fft = run009_pics / "run009_fft_spectral.png"
-        img_data = load_image_safe(fft)
-        if img_data:
-            st.image(img_data, caption="FFT Spectral: Frequency Content of Drift", width=900)
-        else:
+        fft_paths = [
+            VIZ_PICS / "7_fft" / "run009_fft_spectral.png",
+            run009_pics / "run009_fft_spectral.png"
+        ]
+        img_loaded = False
+        for fp in fft_paths:
+            img_data = load_image_safe(fp)
+            if img_data:
+                st.image(img_data, caption="FFT Spectral: Frequency Content of Drift", width=900)
+                img_loaded = True
+                break
+        if not img_loaded:
             st.info("FFT visualization not yet generated.")
 
     with viz_tabs[5]:  # Interactive
@@ -1277,29 +1697,48 @@ STABLE          7 (54%)           60 (97%)   ← Mostly above!
         <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
                     border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
             <span style="color: #ec4899; font-weight: bold;">🌐 HTML Exploration:</span>
-            <span style="color: #444;">Interactive 3D visualizations (open in browser)</span>
+            <span style="color: #444;">Interactive 3D visualizations (embedded below)</span>
         </div>
         """, unsafe_allow_html=True)
 
-        interactive_3d = run009_pics / "run009_interactive_3d.html"
-        interactive_vortex = run009_pics / "run009_interactive_vortex.html"
+        interactive_paths_3d = [
+            VIZ_PICS / "6_interactive" / "run009_interactive_3d.html",
+            run009_pics / "run009_interactive_3d.html"
+        ]
+        interactive_paths_vortex = [
+            VIZ_PICS / "6_interactive" / "run009_interactive_vortex.html",
+            run009_pics / "run009_interactive_vortex.html"
+        ]
+        interactive_3d = None
+        interactive_vortex = None
+        for ip in interactive_paths_3d:
+            if ip.exists():
+                interactive_3d = ip
+                break
+        for ip in interactive_paths_vortex:
+            if ip.exists():
+                interactive_vortex = ip
+                break
 
-        col1, col2 = st.columns(2)
-        with col1:
-            if interactive_3d.exists():
-                st.success("✅ Interactive 3D Basin available")
-                st.code(str(interactive_3d), language="text")
-                st.caption("Open this file in a browser for interactive exploration")
-            else:
-                st.info("Interactive 3D not yet generated")
+        # Interactive 3D Basin
+        st.markdown("##### 🌀 Interactive 3D Basin")
+        if interactive_3d and interactive_3d.exists():
+            with open(interactive_3d, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            st.components.v1.html(html_content, height=600, scrolling=True)
+        else:
+            st.info("Interactive 3D not yet generated. Run visualize_armada.py to create.")
 
-        with col2:
-            if interactive_vortex.exists():
-                st.success("✅ Interactive Vortex available")
-                st.code(str(interactive_vortex), language="text")
-                st.caption("Open this file in a browser for interactive exploration")
-            else:
-                st.info("Interactive Vortex not yet generated")
+        st.markdown("---")
+
+        # Interactive Vortex
+        st.markdown("##### 🔮 Interactive Vortex")
+        if interactive_vortex and interactive_vortex.exists():
+            with open(interactive_vortex, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            st.components.v1.html(html_content, height=600, scrolling=True)
+        else:
+            st.info("Interactive Vortex not yet generated. Run visualize_armada.py to create.")
 
     page_divider()
 
@@ -1509,29 +1948,32 @@ def render_run010_content():
         <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
                     border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
             <span style="color: #ec4899; font-weight: bold;">🌐 HTML Exploration:</span>
-            <span style="color: #444;">Interactive 3D visualizations (open in browser)</span>
+            <span style="color: #444;">Interactive 3D visualizations (embedded below)</span>
         </div>
         """, unsafe_allow_html=True)
 
         interactive_3d = run010_pics / "run010_interactive_3d.html"
         interactive_vortex = run010_pics / "run010_interactive_vortex.html"
 
-        col1, col2 = st.columns(2)
-        with col1:
-            if interactive_3d.exists():
-                st.success("✅ Interactive 3D Basin available")
-                st.code(str(interactive_3d), language="text")
-                st.caption("Open this file in a browser for interactive exploration")
-            else:
-                st.info("Interactive 3D not yet generated")
+        # Interactive 3D Basin
+        st.markdown("##### 🌀 Interactive 3D Basin")
+        if interactive_3d.exists():
+            with open(interactive_3d, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            st.components.v1.html(html_content, height=600, scrolling=True)
+        else:
+            st.info("Interactive 3D not yet generated. Run visualize_armada.py to create.")
 
-        with col2:
-            if interactive_vortex.exists():
-                st.success("✅ Interactive Vortex available")
-                st.code(str(interactive_vortex), language="text")
-                st.caption("Open this file in a browser for interactive exploration")
-            else:
-                st.info("Interactive Vortex not yet generated")
+        st.markdown("---")
+
+        # Interactive Vortex
+        st.markdown("##### 🔮 Interactive Vortex")
+        if interactive_vortex.exists():
+            with open(interactive_vortex, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            st.components.v1.html(html_content, height=600, scrolling=True)
+        else:
+            st.info("Interactive Vortex not yet generated. Run visualize_armada.py to create.")
 
     page_divider()
 

@@ -2,6 +2,15 @@
 
 **Unified visualization toolkit for all Armada experiment runs.**
 
+## Key Concepts
+
+- **Event Horizon (1.23)**: The critical drift threshold. Models crossing this boundary are classified as VOLATILE.
+- **Drift**: Semantic distance from baseline identity (0.0 = perfect stability)
+- **Trajectory**: A sequence of drift measurements across conversation turns
+- **Safety Margin**: `Event Horizon - baseline` (positive = safely below boundary = STABLE)
+
+---
+
 ## PRIMARY SCRIPT: `visualize_armada.py`
 
 The main visualization script that works with **any run data**. Auto-detects available runs and generates all visualization types.
@@ -10,72 +19,224 @@ The main visualization script that works with **any run data**. Auto-detects ava
 
 ```bash
 # Auto-detect latest run and generate all visualizations
-python visualize_armada.py
+py -3.12 visualize_armada.py
 
 # List available runs
-python visualize_armada.py --list
+py -3.12 visualize_armada.py --list
 
 # Generate for specific run
-python visualize_armada.py --run 008
-python visualize_armada.py --run 009
+py -3.12 visualize_armada.py --run 008
+py -3.12 visualize_armada.py --run 009
+py -3.12 visualize_armada.py --run 010
+py -3.12 visualize_armada.py --run 011
 
-# Generate specific visualization type only
-python visualize_armada.py --type phase
-python visualize_armada.py --type vortex
-python visualize_armada.py --type 3d
-python visualize_armada.py --type stability
-python visualize_armada.py --type html
+# With zoom for tight data distributions
+py -3.12 visualize_armada.py --run 011 --zoom
 ```
-
-### Output Structure
-
-Outputs are organized by run in `pics/run{ID}/`:
-
-```
-pics/
-  run008/
-    run008_phase_portrait.png + .svg
-    run008_vortex.png + .svg
-    run008_3d_basin.png + .svg
-    run008_stability_basin.png
-    run008_interactive_3d.html
-    run008_interactive_vortex.html
-  run009/
-    run009_phase_portrait.png + .svg
-    ...
-```
-
-### Visualization Types
-
-| Type | Description |
-|------|-------------|
-| **Phase Portrait** | Drift[N] vs Drift[N+1] - Shows flow direction in identity space |
-| **Vortex/Drain** | Polar spiral view - "Looking into the drain" |
-| **3D Basin** | Full phase space with time axis - Attractor dynamics |
-| **Stability Basin** | Baseline vs max drift + Event Horizon histogram |
-| **Interactive HTML** | Plotly 3D exploration (rotate, zoom, hover) |
-
-### Features
-
-- **Run-agnostic**: Works with any run data (008, 009, etc.)
-- **Spline smoothing**: B-spline interpolation for high-fidelity curves
-- **Dual output**: Raw + smoothed side-by-side comparison
-- **Multi-format**: PNG (300 DPI), SVG vector, HTML interactive
-- **Data integrity**: Original points always preserved and marked
 
 ---
 
-## LEGACY SCRIPTS
+## Visualization Types
 
-These older scripts work with Run 006 data (deprecated metric):
+### 1. Phase Portrait (`run{N}_phase_portrait.png`)
 
-| Script | Purpose |
-|--------|---------|
-| `plot_pole_zero_landscape.py` | 3D/2D pole-zero manifold |
-| `plot_drift_heatmap.py` | Drift heatmaps (29 models × 6 probes) |
-| `plot_engagement_network.py` | Engagement style clustering |
-| `plot_training_uniformity.py` | Within-provider variance analysis |
-| `create_gravity_well.py` | Stability basin (original) |
+**What it shows**: Traditional phase space representation with drift on X-axis and delta-drift (rate of change) on Y-axis.
+
+**How to read it**:
+- Each trajectory is a path from baseline (origin area) through the phase space
+- Trajectories staying left of the red Event Horizon line are STABLE
+- Trajectories crossing into the red zone are VOLATILE
+- Color indicates provider (Claude=purple, OpenAI=green, Google=blue, Grok=orange)
+
+**Dashboard use**: Good for showing overall distribution of stability across providers. Clearly shows which models stayed safe vs crossed the boundary.
+
+---
+
+### 2. Vortex Spiral (`run{N}_vortex.png`)
+
+**What it shows**: Polar spiral where radius = drift magnitude, angle = conversation turn progression.
+
+**How to read it**:
+- Trajectories spiral outward from center as conversation progresses
+- Tighter spirals = more stable models
+- Trajectories reaching the red Event Horizon circle are VOLATILE
+- The spiral structure reveals temporal dynamics that linear plots miss
+
+**Dashboard use**: Visually striking representation that shows both magnitude AND temporal evolution. Good for hero images.
+
+---
+
+### 3. Vortex x4 Grid (`run{N}_vortex_x4.png`)
+
+**What it shows**: Four-panel view comparing all providers in identical vortex format.
+
+**How to read it**:
+- Each quadrant shows one provider's fleet
+- Direct visual comparison of stability patterns across providers
+- Same Event Horizon circle in each panel for reference
+
+**Dashboard use**: Provider comparison view. Shows which AI companies produce more stable vs volatile models at a glance.
+
+---
+
+### 4. Provider Vortex (`run{N}_vortex_{Provider}.png`)
+
+**What it shows**: Individual vortex plots for each provider (Claude, OpenAI, Google, Grok).
+
+**How to read it**:
+- Detailed view of single provider's entire fleet
+- Each model trajectory visible with full detail
+- Useful for deep-dive analysis
+
+**Dashboard use**: Detail pages for specific providers or when discussing individual company performance.
+
+---
+
+### 5. 3D Basin (`run{N}_3d_basin.png`)
+
+**What it shows**: Three-dimensional visualization with X/Y as vortex coordinates, Z as turn number.
+
+**How to read it**:
+- Trajectories rise vertically as conversation progresses
+- The "basin" shape shows whether models converge (funnel down) or diverge (expand out)
+- Red cylinder represents the Event Horizon in 3D space
+- Gold star at origin marks the stable baseline
+
+**Dashboard use**: Impressive 3D view that shows the full spatiotemporal structure. Good for presentations.
+
+---
+
+### 6. Pillar Analysis (`run{N}_pillar_analysis.png`)
+
+**What it shows**: Four-panel structural analysis of provider "pillars" supporting the identity manifold.
+
+**Panels**:
+1. **3-Pillar Structure**: Provider centroids (stars) in vortex space with trajectories
+2. **Extended Pillars**: Individual model positions showing clustering within providers
+3. **Angular Distribution**: Histogram of where trajectories end in polar space
+4. **Pillar Stability**: Bar chart showing safety margin from Event Horizon
+
+**How to read Panel 4 (Pillar Stability)**:
+- **Positive bars (green zone)**: Provider fleet is safely below Event Horizon = GOOD
+- **Negative bars (red zone)**: Provider fleet has crossed into VOLATILE territory = BAD
+- Higher positive values = more stable provider
+
+**Dashboard use**: Deep analysis view showing structural patterns. The stability bar chart is particularly useful for quick provider comparison.
+
+---
+
+### 7. Stability Basin (`run{N}_stability_basin.png`)
+
+**What it shows**: Topographical view of the "attractor basin" - regions where trajectories tend to cluster.
+
+**How to read it**:
+- Darker regions = more trajectories pass through
+- The Event Horizon ring shows the stability boundary
+- Stable models cluster in the central basin
+
+**Dashboard use**: Shows the collective behavior pattern - where do models naturally gravitate?
+
+---
+
+### 8. FFT Spectral (`run{N}_fft_spectral.png`)
+
+**What it shows**: Frequency-domain analysis of drift oscillations using Fast Fourier Transform.
+
+**How to read it**:
+- Peaks indicate periodic patterns in drift behavior
+- Different providers may show different frequency signatures
+- Useful for detecting resonance or feedback patterns
+
+**Dashboard use**: Advanced analysis for detecting hidden periodicities in drift dynamics.
+
+---
+
+### 9. Interactive 3D (`run{N}_interactive_3d.html`)
+
+**What it shows**: Interactive Plotly version of the 3D basin visualization.
+
+**How to use it**:
+- Rotate, zoom, and pan the 3D view
+- Hover over trajectories for model names
+- Toggle providers on/off in legend
+
+**Dashboard use**: Embed directly in web dashboard for user exploration.
+
+---
+
+### 10. Interactive Vortex (`run{N}_interactive_vortex.html`)
+
+**What it shows**: Interactive Plotly version of the vortex spiral.
+
+**How to use it**:
+- Hover for trajectory details
+- Zoom into specific regions
+- Filter by provider
+
+**Dashboard use**: Embed for detailed trajectory exploration.
+
+---
+
+## Output Structure
+
+Outputs are organized by type in `pics/`:
+
+```
+pics/
+  phase_portrait/
+    run008_phase_portrait.png + .svg
+    run009_phase_portrait.png + .svg
+    ...
+  vortex/
+    run008_vortex.png + .svg
+    run008_vortex_x4.png + .svg
+    run008_vortex_Claude.png + .svg
+    run008_vortex_OpenAI.png + .svg
+    ...
+  3d_basin/
+    run008_3d_basin.png + .svg
+    ...
+  pillar_analysis/
+    run008_pillar_analysis.png + .svg
+    ...
+  stability_basin/
+    run008_stability_basin.png
+    ...
+  fft_spectral/
+    run008_fft_spectral.png
+    ...
+  interactive/
+    run008_interactive_3d.html
+    run008_interactive_vortex.html
+    ...
+```
+
+---
+
+## Zoom Mode
+
+For runs with tight data distributions (low drift), visualizations can be generated with `--zoom` flag:
+
+```bash
+py -3.12 visualize_armada.py --run 011 --zoom
+```
+
+- Auto-calculates optimal scale based on data 99th percentile
+- Prevents data compression when all models are highly stable
+- Indicated by "[ZOOMED]" label in visualization titles
+- Recommended for Run 010 (scale=1.5) and Run 011 (scale=2.0)
+
+---
+
+## Recommended Dashboard Integration
+
+| Section | Recommended Visualization | Why |
+|---------|--------------------------|-----|
+| Overview/Hero | Phase Portrait or Vortex | Clear, visually striking |
+| Provider Comparison | Vortex x4 or Pillar Stability (Panel 4) | Direct comparison |
+| Deep Dive | Interactive HTML files | User exploration |
+| Technical Analysis | FFT Spectral, Pillar Analysis | Detailed patterns |
+| 3D Showcase | 3D Basin or Interactive 3D | Impressive presentations |
 
 ---
 
@@ -83,24 +244,39 @@ These older scripts work with Run 006 data (deprecated metric):
 
 The script auto-detects data from `../armada_results/`:
 
-- `S7_run_008_*.json` - Run 008 full armada (5D drift metric)
-- `S7_run_008_prep_*.json` - Run 008 pilot calibration
-- `S7_run_009_*.json` - Run 009 drain capture (when executed)
-- `S7_armada_run_006.json` - Run 006 baseline (deprecated metric)
-- `S7_armada_run_007_*.json` - Run 007 adaptive (deprecated metric)
+| Run | File Pattern | Description |
+|-----|--------------|-------------|
+| 008 | `S7_run_008_*.json` | Full armada baseline (86 trajectories) |
+| 009 | `S7_run_009_drain_*.json` | Drain capture stress test (150 trajectories) |
+| 010 | `S7_run_010_recursive_*.json` | Recursive meta-feedback (45 trajectories) |
+| 011 | `S7_run_011_persona_*.json` | Persona A/B comparison (33 trajectories) |
 
 ---
 
 ## DEPENDENCIES
 
 ```bash
-pip install matplotlib numpy scipy plotly
+py -3.12 -m pip install matplotlib numpy scipy plotly networkx seaborn
 ```
 
 Plotly is optional - required only for interactive HTML exports.
 
 ---
 
+## LEGACY SCRIPTS
+
+These older scripts work with Run 006/007 data (deprecated metric):
+
+| Script | Purpose |
+|--------|---------|
+| `plot_pole_zero_landscape.py` | 3D/2D pole-zero manifold |
+| `plot_drift_heatmap.py` | Drift heatmaps (29 models x 6 probes) |
+| `plot_engagement_network.py` | Engagement style clustering |
+| `plot_training_uniformity.py` | Within-provider variance analysis |
+| `create_gravity_well.py` | Stability basin (original) |
+
+---
+
 **Last Updated**: December 2025
-**Active Runs**: 008, 009 (pending)
-**Ships**: 42 across 4 providers (Claude, GPT, Gemini, Grok)
+**Active Runs**: 008, 009, 010, 011
+**Ships**: 42+ across 4 providers (Claude, OpenAI, Google, Grok)

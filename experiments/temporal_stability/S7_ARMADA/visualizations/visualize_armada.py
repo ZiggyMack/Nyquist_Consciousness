@@ -284,6 +284,46 @@ def extract_trajectories(data):
                 t['status'] = "UNKNOWN"
             trajectories.append(t)
 
+    # Format 4: Run 011 Persona A/B Comparison (control_fleet / persona_fleet arrays)
+    for fleet_key in ['control_fleet', 'persona_fleet']:
+        fleet_data = data.get(fleet_key, [])
+        if not isinstance(fleet_data, list):
+            continue
+
+        for ship_data in fleet_data:
+            if not isinstance(ship_data, dict):
+                continue
+
+            ship_name = ship_data.get('ship', 'unknown')
+            provider = ship_data.get('provider', get_provider(ship_name))
+            turns = ship_data.get('turns', [])
+
+            if not turns:
+                continue
+
+            # Extract drift values from turns
+            drifts = []
+            for turn in turns:
+                if isinstance(turn, dict) and 'drift' in turn:
+                    drifts.append(turn['drift'])
+
+            if len(drifts) >= 3:
+                baseline = drifts[0]
+                max_drift = max(drifts)
+                status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
+
+                # Add fleet suffix to distinguish control vs persona
+                fleet_label = ship_data.get('fleet', fleet_key.replace('_fleet', '').upper())
+
+                trajectories.append({
+                    'ship': f"{ship_name} ({fleet_label})",
+                    'provider': provider,
+                    'sequence': fleet_label.lower(),
+                    'drifts': drifts,
+                    'status': status,
+                    'baseline': baseline
+                })
+
     return trajectories
 
 # =============================================================================
@@ -310,11 +350,14 @@ def smooth_trajectory_2d(x_vals, y_vals, num_points=100):
 # VISUALIZATION FUNCTIONS
 # =============================================================================
 
-def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False):
+def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None):
     """Phase portrait: drift[N] vs drift[N+1] - Raw vs Smoothed.
 
     NOTE: dB scaling is DISABLED. It distorts the phase space geometry
     by compressing small values to extreme negatives.
+
+    Args:
+        zoom_scale: If provided, use this as the axis max instead of 4.0
     """
     # Ignore dB flag - it distorts the geometry
     if use_dB:
@@ -325,6 +368,7 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False):
 
     scale_label = ""
     eh_val = EVENT_HORIZON
+    ax_max = zoom_scale if zoom_scale else 4
 
     for ax_idx, (ax, smoothed) in enumerate(zip(axes, [False, True])):
         title_suffix = "SMOOTHED (B-Spline)" if smoothed else "RAW DATA"
@@ -364,7 +408,7 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False):
                           marker=end_marker, edgecolors='black', linewidths=1)
 
         # Axis limits (linear scale only)
-        ax_min, ax_max = 0, 4
+        ax_min = 0
 
         ax.plot([ax_min, ax_max], [ax_min, ax_max], 'k--', alpha=0.3, label='No change')
         ax.fill_between([ax_min, ax_max], [ax_min, ax_max], [ax_max, ax_max], alpha=0.08, color='red')
@@ -374,11 +418,35 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False):
 
         ax.set_xlabel('Drift at Turn N', fontsize=12)
         ax.set_ylabel('Drift at Turn N+1', fontsize=12)
-        ax.set_title(f'PHASE PORTRAIT: {title_suffix}', fontsize=14, fontweight='bold')
+        zoom_label = " [ZOOMED]" if zoom_scale else ""
+        ax.set_title(f'PHASE PORTRAIT: {title_suffix}{zoom_label}', fontsize=14, fontweight='bold')
         ax.set_xlim(ax_min, ax_max)
         ax.set_ylim(ax_min, ax_max)
         ax.set_aspect('equal')
         ax.grid(True, alpha=0.3)
+
+        # Add legend (on right/smoothed panel only for cleaner look)
+        if smoothed:
+            from matplotlib.lines import Line2D
+            legend_handles = []
+            # Provider colors
+            provider_names = {'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok'}
+            providers_in_data = set(t['provider'] for t in trajectories)
+            for provider in sorted(providers_in_data):
+                color = PROVIDER_COLORS.get(provider, 'gray')
+                legend_handles.append(Line2D([0], [0], color=color, linewidth=2,
+                                            label=provider_names.get(provider, provider.title())))
+            # Marker explanations
+            legend_handles.append(Line2D([0], [0], marker='D', color='w', markerfacecolor='lime',
+                                        markersize=8, label='Start', markeredgecolor='darkgreen'))
+            legend_handles.append(Line2D([0], [0], marker='o', color='w', markerfacecolor='cyan',
+                                        markersize=8, label='End (STABLE)', markeredgecolor='black'))
+            legend_handles.append(Line2D([0], [0], marker='X', color='w', markerfacecolor='red',
+                                        markersize=10, label='End (VOLATILE)', markeredgecolor='black'))
+            # Region explanations
+            legend_handles.append(Line2D([0], [0], color='red', linestyle=':', linewidth=2,
+                                        label=f'Event Horizon ({EVENT_HORIZON})'))
+            ax.legend(handles=legend_handles, loc='upper left', fontsize=8, framealpha=0.9)
 
     fig.suptitle(f'Run {run_id}: Identity Flow', fontsize=16, fontweight='bold', y=1.02)
 
@@ -388,11 +456,14 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False):
     print(f"  Saved: run{run_id}_phase_portrait.png + .svg")
     plt.close()
 
-def plot_vortex(trajectories, output_dir, run_id, use_dB=False):
+def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None):
     """Vortex/drain view - polar spiral visualization.
 
     NOTE: dB scaling is DISABLED for vortex view. The polar coordinate
     geometry is distorted by logarithmic transformation. Linear scale only.
+
+    Args:
+        zoom_scale: If provided, use this as the axis limit instead of auto-calculating
     """
     # Ignore dB flag for vortex - it distorts the polar geometry
     if use_dB:
@@ -402,6 +473,7 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False):
     fig, axes = plt.subplots(1, 2, figsize=(18, 9))
 
     scale_label = ""
+    forced_ax_lim = zoom_scale  # Will be used if set
 
     # Collect all coordinates to determine auto-scale
     all_coords = []
@@ -468,8 +540,10 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False):
         ax.scatter([], [], color='cyan', s=45, marker='o', edgecolors='black', label='End (STABLE)')
         ax.scatter([], [], color='red', s=45, marker='X', edgecolors='black', label='End (VOLATILE)')
 
-        # AUTO-SCALE: Determine axis limits from data
-        if all_coords:
+        # AUTO-SCALE: Determine axis limits from data (or use forced zoom)
+        if forced_ax_lim:
+            ax_lim = forced_ax_lim
+        elif all_coords:
             max_coord = max(abs(min(all_coords)), abs(max(all_coords)))
             # Add 20% padding, ensure Event Horizon is visible, and round up nicely
             ax_lim = max(max_coord * 1.2, EVENT_HORIZON * 1.3)
@@ -505,7 +579,8 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False):
         ax.set_aspect('equal')
         ax.set_xlabel(f'X (drift * cos(angle)){scale_label}', fontsize=11)
         ax.set_ylabel(f'Y (drift * sin(angle)){scale_label}', fontsize=11)
-        ax.set_title(f'VORTEX VIEW: {title_suffix}', fontsize=14, fontweight='bold')
+        zoom_label = " [ZOOMED]" if forced_ax_lim else ""
+        ax.set_title(f'VORTEX VIEW: {title_suffix}{zoom_label}', fontsize=14, fontweight='bold')
         ax.grid(True, alpha=0.3)
 
         # Add legend (only on right plot)
@@ -522,7 +597,7 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False):
     plt.close()
 
 
-def plot_vortex_x4(trajectories, output_dir, run_id):
+def plot_vortex_x4(trajectories, output_dir, run_id, zoom_scale=None):
     """Vortex view split by provider - 2x2 grid showing each provider's field separately.
 
     This reveals the individual 'magnetic field' patterns of each provider.
@@ -538,32 +613,35 @@ def plot_vortex_x4(trajectories, output_dir, run_id):
     for traj in trajectories:
         by_provider[traj['provider']].append(traj)
 
-    # Calculate global scale from all data
-    all_coords = []
-    for traj in trajectories:
-        drifts = np.array(traj['drifts'])
-        if len(drifts) < 3:
-            continue
-        turns = len(drifts)
-        angles = np.linspace(0, 2*np.pi * (turns/5), turns)
-        xs = drifts * np.cos(angles)
-        ys = drifts * np.sin(angles)
-        all_coords.extend(xs)
-        all_coords.extend(ys)
-
-    if all_coords:
-        max_coord = max(abs(min(all_coords)), abs(max(all_coords)))
-        ax_lim = max(max_coord * 1.2, EVENT_HORIZON * 1.3)
-        if ax_lim <= 2:
-            ax_lim = 2
-        elif ax_lim <= 3:
-            ax_lim = 3
-        elif ax_lim <= 4:
-            ax_lim = 4
-        else:
-            ax_lim = np.ceil(ax_lim)
+    # Calculate global scale from all data (or use forced zoom)
+    if zoom_scale:
+        ax_lim = zoom_scale
     else:
-        ax_lim = 4
+        all_coords = []
+        for traj in trajectories:
+            drifts = np.array(traj['drifts'])
+            if len(drifts) < 3:
+                continue
+            turns = len(drifts)
+            angles = np.linspace(0, 2*np.pi * (turns/5), turns)
+            xs = drifts * np.cos(angles)
+            ys = drifts * np.sin(angles)
+            all_coords.extend(xs)
+            all_coords.extend(ys)
+
+        if all_coords:
+            max_coord = max(abs(min(all_coords)), abs(max(all_coords)))
+            ax_lim = max(max_coord * 1.2, EVENT_HORIZON * 1.3)
+            if ax_lim <= 2:
+                ax_lim = 2
+            elif ax_lim <= 3:
+                ax_lim = 3
+            elif ax_lim <= 4:
+                ax_lim = 4
+            else:
+                ax_lim = np.ceil(ax_lim)
+        else:
+            ax_lim = 4
 
     for idx, provider in enumerate(providers):
         ax = axes[idx]
@@ -640,7 +718,7 @@ def plot_vortex_x4(trajectories, output_dir, run_id):
     plt.close()
 
 
-def plot_vortex_by_company(trajectories, output_dir, run_id):
+def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None):
     """Generate individual vortex plots per company, showing all models from that company.
 
     Creates: run{id}_vortex_Claude.png, run{id}_vortex_OpenAI.png,
@@ -661,32 +739,35 @@ def plot_vortex_by_company(trajectories, output_dir, run_id):
     for traj in trajectories:
         by_provider[traj['provider']].append(traj)
 
-    # Calculate global scale from all data (for consistent axes across companies)
-    all_coords = []
-    for traj in trajectories:
-        drifts = np.array(traj['drifts'])
-        if len(drifts) < 3:
-            continue
-        turns = len(drifts)
-        angles = np.linspace(0, 2*np.pi * (turns/5), turns)
-        xs = drifts * np.cos(angles)
-        ys = drifts * np.sin(angles)
-        all_coords.extend(xs)
-        all_coords.extend(ys)
-
-    if all_coords:
-        max_coord = max(abs(min(all_coords)), abs(max(all_coords)))
-        ax_lim = max(max_coord * 1.2, EVENT_HORIZON * 1.3)
-        if ax_lim <= 2:
-            ax_lim = 2
-        elif ax_lim <= 3:
-            ax_lim = 3
-        elif ax_lim <= 4:
-            ax_lim = 4
-        else:
-            ax_lim = np.ceil(ax_lim)
+    # Calculate global scale from all data (or use forced zoom)
+    if zoom_scale:
+        ax_lim = zoom_scale
     else:
-        ax_lim = 4
+        all_coords = []
+        for traj in trajectories:
+            drifts = np.array(traj['drifts'])
+            if len(drifts) < 3:
+                continue
+            turns = len(drifts)
+            angles = np.linspace(0, 2*np.pi * (turns/5), turns)
+            xs = drifts * np.cos(angles)
+            ys = drifts * np.sin(angles)
+            all_coords.extend(xs)
+            all_coords.extend(ys)
+
+        if all_coords:
+            max_coord = max(abs(min(all_coords)), abs(max(all_coords)))
+            ax_lim = max(max_coord * 1.2, EVENT_HORIZON * 1.3)
+            if ax_lim <= 2:
+                ax_lim = 2
+            elif ax_lim <= 3:
+                ax_lim = 3
+            elif ax_lim <= 4:
+                ax_lim = 4
+            else:
+                ax_lim = np.ceil(ax_lim)
+        else:
+            ax_lim = 4
 
     for provider in providers:
         company_name = provider_to_company[provider]
@@ -812,11 +893,17 @@ def plot_vortex_by_company(trajectories, output_dir, run_id):
         plt.close()
 
 
-def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False):
-    """3D phase space basin visualization with Event Horizon cylinder.
+def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False, show_cylinder=False, zoom_scale=None):
+    """3D phase space basin visualization.
+
+    Args:
+        show_cylinder: If True, show Event Horizon cylinder overlay (default: False)
+        zoom_scale: If provided, use this as the axis max instead of auto-calculating
 
     NOTE: dB scaling is DISABLED. Linear scale preserves geometry.
     """
+    from matplotlib.lines import Line2D  # Import at function scope for legend
+
     # Ignore dB flag - it distorts the geometry
     if use_dB:
         print("  NOTE: dB scaling disabled for 3D basin (distorts geometry)")
@@ -883,30 +970,56 @@ def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False):
                 ax.scatter([xs[-1]], [ys[-1]], [zs[-1]], color=end_color, s=50, alpha=0.9,
                           marker=end_marker)
 
-        # Event Horizon Cylinder (Coherence Boundary)
-        eh_val = EVENT_HORIZON
-        max_turns = 15
-        theta_cyl = np.linspace(0, 2*np.pi, 50)
-        z_cyl = np.linspace(0, max_turns, 20)
-        Theta_cyl, Z_cyl = np.meshgrid(theta_cyl, z_cyl)
-        X_cyl = eh_val * np.cos(Theta_cyl)
-        Y_cyl = eh_val * np.sin(Theta_cyl)
-        ax.plot_surface(X_cyl, Y_cyl, Z_cyl, alpha=0.15, color='red', linewidth=0)
+        # Event Horizon Cylinder (Coherence Boundary) - optional
+        if show_cylinder:
+            eh_val = EVENT_HORIZON
+            max_turns = 15
+            theta_cyl = np.linspace(0, 2*np.pi, 50)
+            z_cyl = np.linspace(0, max_turns, 20)
+            Theta_cyl, Z_cyl = np.meshgrid(theta_cyl, z_cyl)
+            X_cyl = eh_val * np.cos(Theta_cyl)
+            Y_cyl = eh_val * np.sin(Theta_cyl)
+            ax.plot_surface(X_cyl, Y_cyl, Z_cyl, alpha=0.15, color='red', linewidth=0)
 
-        # Linear scale limits
-        max_drift = 4
+        # Compute data-driven limits for better zoom (or use forced zoom)
+        if zoom_scale:
+            max_drift = zoom_scale
+        else:
+            # Key insight: Always show enough to see the aggregate SHAPE
+            # Minimum window should include Event Horizon + margin for context
+            MIN_AXIS_RANGE = EVENT_HORIZON * 1.5  # ~1.85 - shows EH with room to spare
+
+            all_xs = []
+            all_ys = []
+            for traj in trajectories:
+                drifts = np.array(traj['drifts'])
+                if len(drifts) >= 2:
+                    all_xs.extend(drifts[:-1])
+                    all_ys.extend(drifts[1:])
+
+            if all_xs and all_ys:
+                # Use data extent + padding
+                data_max = max(max(all_xs), max(all_ys))
+                max_drift = data_max * 1.15  # 15% padding beyond data
+                max_drift = min(max_drift, 4)  # Cap at 4
+                max_drift = max(max_drift, MIN_AXIS_RANGE)  # At least show EH context
+            else:
+                max_drift = MIN_AXIS_RANGE
         ax_min = 0
+        max_turns = 15
 
         ax.set_xlabel('Drift[N]', fontsize=10, labelpad=5)
         ax.set_ylabel('Drift[N+1]', fontsize=10, labelpad=5)
         ax.set_zlabel('Turn', fontsize=10, labelpad=5)
-        ax.set_title(f'3D BASIN: {title_suffix}\n(STABLE: {stable_count}, VOLATILE: {volatile_count})',
+        zoom_label = " [ZOOMED]" if zoom_scale else ""
+        ax.set_title(f'3D BASIN: {title_suffix}{zoom_label}\n(STABLE: {stable_count}, VOLATILE: {volatile_count})',
                     fontsize=12, fontweight='bold')
 
         ax.set_xlim(ax_min, max_drift)
         ax.set_ylim(ax_min, max_drift)
         ax.set_zlim(0, max_turns)
-        ax.view_init(elev=20, azim=45)
+        # Better viewing angle - closer, more overhead
+        ax.view_init(elev=25, azim=35)
 
         # Add legend (only on right/smoothed plot for cleaner look)
         if smoothed:
@@ -915,8 +1028,6 @@ def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False):
             provider_names = {'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok'}
             for provider in sorted(providers_seen):
                 color = PROVIDER_COLORS.get(provider, 'gray')
-                # Use Line2D for legend entries
-                from matplotlib.lines import Line2D
                 legend_handles.append(Line2D([0], [0], color=color, linewidth=2,
                                             label=provider_names.get(provider, provider.title())))
 
@@ -930,7 +1041,8 @@ def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False):
 
             ax.legend(handles=legend_handles, loc='upper left', fontsize=9, framealpha=0.9)
 
-    fig.suptitle(f'Run {run_id}: Identity Attractor Basin\n(Red Cylinder = Coherence Boundary at {EVENT_HORIZON})',
+    subtitle = f'(Coherence Boundary = {EVENT_HORIZON})' if show_cylinder else f'(Event Horizon at {EVENT_HORIZON})'
+    fig.suptitle(f'Run {run_id}: Identity Attractor Basin\n{subtitle}',
                 fontsize=16, fontweight='bold', y=1.02)
 
     plt.tight_layout()
@@ -939,9 +1051,10 @@ def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False):
     print(f"  Saved: run{run_id}_3d_basin.png + .svg")
     plt.close()
 
-def plot_stability_basin(trajectories, output_dir, run_id):
+def plot_stability_basin(trajectories, output_dir, run_id, zoom_scale=None):
     """Stability basin: baseline vs max drift by provider."""
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
+    ax_max = zoom_scale if zoom_scale else 4
 
     # Group by provider
     provider_data = defaultdict(lambda: {'baselines': [], 'max_drifts': [], 'statuses': []})
@@ -961,15 +1074,16 @@ def plot_stability_basin(trajectories, output_dir, run_id):
         ax1.scatter(pdata['baselines'], pdata['max_drifts'],
                    c=color, alpha=0.6, s=60, label=f"{provider.title()} (n={len(pdata['baselines'])})")
 
-    ax1.plot([0, 4], [0, 4], 'k--', alpha=0.3, label='No change')
+    ax1.plot([0, ax_max], [0, ax_max], 'k--', alpha=0.3, label='No change')
     ax1.axvline(x=EVENT_HORIZON, color='red', linestyle=':', alpha=0.5, label=f'Coherence Boundary ({EVENT_HORIZON})')
     ax1.set_xlabel('Baseline Drift', fontsize=12)
     ax1.set_ylabel('Max Drift', fontsize=12)
-    ax1.set_title('Baseline vs Max Drift by Provider', fontsize=14, fontweight='bold')
+    zoom_label = " [ZOOMED]" if zoom_scale else ""
+    ax1.set_title(f'Baseline vs Max Drift by Provider{zoom_label}', fontsize=14, fontweight='bold')
     ax1.legend(loc='upper left')
     ax1.grid(True, alpha=0.3)
-    ax1.set_xlim(0, 4)
-    ax1.set_ylim(0, 4)
+    ax1.set_xlim(0, ax_max)
+    ax1.set_ylim(0, ax_max)
 
     # Right: STABLE vs VOLATILE distribution
     ax2 = axes[1]
@@ -1002,7 +1116,7 @@ def plot_stability_basin(trajectories, output_dir, run_id):
     plt.close()
 
 
-def plot_pillar_analysis(trajectories, output_dir, run_id):
+def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
     """Pillar analysis: Shows how providers cluster in angular phase space.
 
     This is a derived view of the identity stress test data that reveals
@@ -1015,6 +1129,7 @@ def plot_pillar_analysis(trajectories, output_dir, run_id):
     4. Pillar stability (distance from Event Horizon)
     """
     from matplotlib.lines import Line2D
+    ax_lim = zoom_scale if zoom_scale else 4
 
     fig, axes = plt.subplots(2, 2, figsize=(18, 16))
 
@@ -1102,15 +1217,15 @@ def plot_pillar_analysis(trajectories, output_dir, run_id):
         mean_baseline = np.mean(stats['baselines'])
         mean_final = np.mean(stats['finals'])
 
-        # Distance from Event Horizon (in drift space)
-        dist_from_eh = mean_baseline - EVENT_HORIZON
+        # Safety margin: how far BELOW the Event Horizon (positive = safe, negative = danger)
+        safety_margin = EVENT_HORIZON - mean_baseline
 
         centroid_data.append({
             'provider': provider,
             'cx': cx, 'cy': cy,
             'baseline': mean_baseline,
             'final': mean_final,
-            'dist_from_eh': dist_from_eh,
+            'safety_margin': safety_margin,
             'n': len(stats['xs_end'])
         })
 
@@ -1128,12 +1243,13 @@ def plot_pillar_analysis(trajectories, output_dir, run_id):
             'r--', linewidth=2.5, alpha=0.7, label=f'Coherence Boundary ({EVENT_HORIZON})')
     ax1.scatter([0], [0], color='gold', s=200, marker='*', zorder=15)
 
-    ax1.set_xlim(-4, 4)
-    ax1.set_ylim(-4, 4)
+    ax1.set_xlim(-ax_lim, ax_lim)
+    ax1.set_ylim(-ax_lim, ax_lim)
     ax1.set_aspect('equal')
     ax1.set_xlabel('X (drift * cos)', fontsize=11)
     ax1.set_ylabel('Y (drift * sin)', fontsize=11)
-    ax1.set_title('3-PILLAR STRUCTURE\n(Provider Centroids in Vortex Space)', fontsize=14, fontweight='bold')
+    zoom_label = " [ZOOMED]" if zoom_scale else ""
+    ax1.set_title(f'3-PILLAR STRUCTURE{zoom_label}\n(Provider Centroids in Vortex Space)', fontsize=14, fontweight='bold')
     ax1.legend(loc='upper right', fontsize=9)
     ax1.grid(True, alpha=0.3)
 
@@ -1176,12 +1292,12 @@ def plot_pillar_analysis(trajectories, output_dir, run_id):
             'r--', linewidth=2, alpha=0.7)
     ax2.scatter([0], [0], color='gold', s=150, marker='*', zorder=15)
 
-    ax2.set_xlim(-4, 4)
-    ax2.set_ylim(-4, 4)
+    ax2.set_xlim(-ax_lim, ax_lim)
+    ax2.set_ylim(-ax_lim, ax_lim)
     ax2.set_aspect('equal')
     ax2.set_xlabel('X (drift * cos)', fontsize=11)
     ax2.set_ylabel('Y (drift * sin)', fontsize=11)
-    ax2.set_title(f'EXTENDED PILLARS\n({len(all_ship_data)} Individual Models)', fontsize=14, fontweight='bold')
+    ax2.set_title(f'EXTENDED PILLARS{zoom_label}\n({len(all_ship_data)} Individual Models)', fontsize=14, fontweight='bold')
     ax2.grid(True, alpha=0.3)
 
     # Legend for providers
@@ -1223,36 +1339,36 @@ def plot_pillar_analysis(trajectories, output_dir, run_id):
     # ===== PANEL 4: Pillar Stability =====
     ax4 = axes[1, 1]
 
-    # Bar chart: distance from Event Horizon by provider
+    # Bar chart: safety margin from Event Horizon by provider
     if centroid_data:
         providers_with_data = [c['provider'] for c in centroid_data]
-        distances = [c['dist_from_eh'] for c in centroid_data]
+        margins = [c['safety_margin'] for c in centroid_data]
         colors = [PROVIDER_COLORS.get(p, 'gray') for p in providers_with_data]
         labels = [f"{provider_names[p]}\n(n={c['n']})" for p, c in zip(providers_with_data, centroid_data)]
 
-        bars = ax4.bar(range(len(centroid_data)), distances, color=colors,
+        bars = ax4.bar(range(len(centroid_data)), margins, color=colors,
                       edgecolor='black', linewidth=2)
         ax4.set_xticks(range(len(centroid_data)))
         ax4.set_xticklabels(labels, fontsize=10)
 
         # Add value labels on bars
-        for i, (bar, dist) in enumerate(zip(bars, distances)):
+        for i, (bar, margin) in enumerate(zip(bars, margins)):
             height = bar.get_height()
             label_y = height + 0.02 if height >= 0 else height - 0.08
             ax4.text(bar.get_x() + bar.get_width()/2., label_y,
-                    f'{dist:.2f}', ha='center', va='bottom' if height >= 0 else 'top',
+                    f'{margin:.2f}', ha='center', va='bottom' if height >= 0 else 'top',
                     fontsize=11, fontweight='bold')
 
         # Event Horizon line at 0
         ax4.axhline(y=0, color='red', linestyle='--', linewidth=2,
-                   label='Event Horizon (baseline - 1.23)')
+                   label=f'Event Horizon ({EVENT_HORIZON})')
 
-        # Color regions
-        ax4.axhspan(-2, 0, alpha=0.1, color='red', label='Below EH (danger)')
-        ax4.axhspan(0, 2, alpha=0.1, color='green', label='Above EH (safe)')
+        # Color regions - positive = safe (green), negative = danger (red)
+        ax4.axhspan(-2, 0, alpha=0.1, color='red', label='Beyond EH (VOLATILE)')
+        ax4.axhspan(0, 2, alpha=0.1, color='green', label='Below EH (STABLE)')
 
-    ax4.set_ylabel('Distance from Event Horizon', fontsize=11)
-    ax4.set_title('PILLAR STABILITY\n(Positive = safely above boundary)', fontsize=14, fontweight='bold')
+    ax4.set_ylabel('Safety Margin from Event Horizon', fontsize=11)
+    ax4.set_title('PILLAR STABILITY\n(Positive = safely below boundary)', fontsize=14, fontweight='bold')
     ax4.legend(loc='upper right', fontsize=9)
     ax4.grid(True, alpha=0.3, axis='y')
     ax4.set_ylim(-1, 1.5)
@@ -1356,11 +1472,13 @@ def plot_fft_spectral(trajectories, output_dir, run_id):
     print(f"  Saved: run{run_id}_fft_spectral.png")
     plt.close()
 
-def create_interactive_html(trajectories, output_dir, run_id):
+def create_interactive_html(trajectories, output_dir, run_id, zoom_scale=None):
     """Create interactive Plotly visualizations."""
     if not PLOTLY_AVAILABLE:
         print("  Skipping HTML export (plotly not installed)")
         return
+
+    ax_lim = zoom_scale if zoom_scale else 4
 
     # 3D Basin with Event Horizon cylinder
     fig = go.Figure()
@@ -1473,10 +1591,11 @@ def create_interactive_html(trajectories, output_dir, run_id):
         name='Identity Attractor'
     ))
 
+    zoom_label = " [ZOOMED]" if zoom_scale else ""
     fig2.update_layout(
-        title=f"Run {run_id}: Interactive Vortex View<br>(Inside boundary = STABLE, Outside = VOLATILE)",
-        xaxis=dict(scaleanchor='y', scaleratio=1, range=[-4, 4]),
-        yaxis=dict(range=[-4, 4]),
+        title=f"Run {run_id}: Interactive Vortex View{zoom_label}<br>(Inside boundary = STABLE, Outside = VOLATILE)",
+        xaxis=dict(scaleanchor='y', scaleratio=1, range=[-ax_lim, ax_lim]),
+        yaxis=dict(range=[-ax_lim, ax_lim]),
         width=1000,
         height=1000
     )
@@ -1488,12 +1607,47 @@ def create_interactive_html(trajectories, output_dir, run_id):
 # MAIN
 # =============================================================================
 
+def compute_zoom_scale(trajectories):
+    """Compute optimal axis scale based on actual data distribution.
+
+    Returns a scale that shows 99th percentile + Event Horizon with 20% padding.
+    """
+    all_drifts = []
+    for traj in trajectories:
+        all_drifts.extend(traj.get('drifts', []))
+
+    if not all_drifts:
+        return 4.0  # Default
+
+    all_drifts = np.array(all_drifts)
+    p99 = np.percentile(all_drifts, 99)
+    data_max = max(p99, all_drifts.max())
+
+    # Scale should show Event Horizon for context, with 20% padding
+    scale = max(data_max * 1.2, EVENT_HORIZON * 1.1)
+
+    # Round to nice number
+    if scale <= 1.0:
+        return 1.0
+    elif scale <= 1.5:
+        return 1.5
+    elif scale <= 2.0:
+        return 2.0
+    elif scale <= 2.5:
+        return 2.5
+    elif scale <= 3.0:
+        return 3.0
+    else:
+        return 4.0
+
+
 def main():
     parser = argparse.ArgumentParser(description='Armada Visualization - Unified Run-Agnostic Script')
     parser.add_argument('--run', type=str, help='Run ID (e.g., 008, 009, 008_prep)')
     parser.add_argument('--list', action='store_true', help='List available runs')
     parser.add_argument('--all', action='store_true', help='Generate all visualization types')
     parser.add_argument('--dB', action='store_true', help='Use decibel scaling for visualizations')
+    parser.add_argument('--zoom', action='store_true', help='Auto-zoom to fit data (for tight distributions)')
     parser.add_argument('--type', type=str, choices=['phase', 'vortex', '3d', 'pillar', 'stability', 'fft', 'html'],
                        help='Specific visualization type')
     args = parser.parse_args()
@@ -1538,6 +1692,12 @@ def main():
     unknown = len(trajectories) - stable - volatile
     print(f"Trajectories: {len(trajectories)} (STABLE: {stable}, VOLATILE: {volatile}, UNKNOWN: {unknown})")
 
+    # Compute zoom scale if requested
+    zoom_scale = None
+    if args.zoom:
+        zoom_scale = compute_zoom_scale(trajectories)
+        print(f"Zoom: ENABLED (scale = {zoom_scale})")
+
     # Create output directories organized by visualization type
     # Structure: pics/vortex/, pics/phase_portrait/, pics/basin_3d/, pics/stability/, pics/fft/, pics/interactive/
     output_dirs = {
@@ -1568,27 +1728,27 @@ def main():
     print("\nGenerating visualizations...")
 
     if 'phase' in viz_types:
-        plot_phase_portrait(trajectories, output_dirs['phase'], run_id, use_dB=args.dB)
+        plot_phase_portrait(trajectories, output_dirs['phase'], run_id, use_dB=args.dB, zoom_scale=zoom_scale)
 
     if 'vortex' in viz_types:
-        plot_vortex(trajectories, output_dirs['vortex'], run_id, use_dB=args.dB)
-        plot_vortex_x4(trajectories, output_dirs['vortex'], run_id)
-        plot_vortex_by_company(trajectories, output_dirs['vortex'], run_id)
+        plot_vortex(trajectories, output_dirs['vortex'], run_id, use_dB=args.dB, zoom_scale=zoom_scale)
+        plot_vortex_x4(trajectories, output_dirs['vortex'], run_id, zoom_scale=zoom_scale)
+        plot_vortex_by_company(trajectories, output_dirs['vortex'], run_id, zoom_scale=zoom_scale)
 
     if '3d' in viz_types:
-        plot_3d_basin(trajectories, output_dirs['3d'], run_id, use_dB=args.dB)
+        plot_3d_basin(trajectories, output_dirs['3d'], run_id, use_dB=args.dB, zoom_scale=zoom_scale)
 
     if 'pillar' in viz_types:
-        plot_pillar_analysis(trajectories, output_dirs['pillar'], run_id)
+        plot_pillar_analysis(trajectories, output_dirs['pillar'], run_id, zoom_scale=zoom_scale)
 
     if 'stability' in viz_types:
-        plot_stability_basin(trajectories, output_dirs['stability'], run_id)
+        plot_stability_basin(trajectories, output_dirs['stability'], run_id, zoom_scale=zoom_scale)
 
     if 'fft' in viz_types:
         plot_fft_spectral(trajectories, output_dirs['fft'], run_id)
 
     if 'html' in viz_types:
-        create_interactive_html(trajectories, output_dirs['html'], run_id)
+        create_interactive_html(trajectories, output_dirs['html'], run_id, zoom_scale=zoom_scale)
 
     print("\n" + "-" * 70)
     print("COMPLETE!")

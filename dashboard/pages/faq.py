@@ -957,6 +957,93 @@ Higher drift = persona exceeded bandwidth capacity.
         "skeptic_level": 3,
     },
     {
+        "question": "Why is the Cognitive Bandwidth equation a multivariate polynomial?",
+        "answer": """
+**CB is not a single thing — it's a composite capacity built from multiple interacting sub-capacities.**
+
+These include: working memory, attention stability, drift resistance, noise filtration, compression tolerance, reconstruction error sensitivity, cross-modal integration, epistemic load, task complexity, emotional load, novelty penalty, and switching cost.
+
+**No single dimension dominates, and none act independently.** This is why the functional relationship cannot be linear.
+
+---
+
+### **The Polynomial Form**
+
+```
+CB = β₀ + β₁·WM + β₂·N + β₃·C + β₄·D + β₅·E
+     - β₆(WM·N) - β₇(C·D) - β₈·N² - β₉(WM·C·D)
+     - β₁₀·D² - β₁₁(C·N²) - ε
+```
+
+Where:
+- **WM** = working memory load
+- **N** = noise
+- **C** = complexity
+- **D** = drift
+- **E** = emotional/affect load
+- **ε** = unexplained variance
+
+---
+
+### **Why This Shape?**
+
+| Term Type | Example | What It Captures |
+|-----------|---------|------------------|
+| **Linear** | -β₁·WM | Simple "costs" — direct burden reduction |
+| **Cross-terms** | -β₆(WM·N) | Interactions — noise hits harder when memory is taxed |
+| **Quadratics** | -β₈·N² | Runaway effects — superlinear degradation |
+| **High-order** | -β₉(WM·C·D) | Catastrophic overload — cascade failures |
+
+---
+
+### **Why It Cannot Be Linear**
+
+If CB were linear:
+- Doubling complexity would halve capacity (proportionally)
+- Adding noise would have constant impact
+- No tipping points, no collapse curves, no stability thresholds
+
+But both humans and LLMs show:
+- **Phase transitions** (sudden collapse)
+- **Fatigue curves** (accelerating degradation)
+- **Overload cascades** (one failure triggers others)
+- **Recentering events** (recovery from drift)
+
+**These require polynomial-form equations.**
+
+---
+
+### **The Identity Manifold Forces Polynomial Structure**
+
+In S5/S7/S8:
+- Cognitive state = a point on a manifold
+- Load → changes curvature
+- Curvature → changes stability
+- Stability → changes drift
+- Drift → increases reconstruction cost
+
+Curvature itself is polynomial (via second derivatives), so once you embed drift + noise + load into manifold geometry, the system automatically becomes polynomial and nonlinear.
+
+---
+
+### **Compact Form**
+
+```
+CB = β₀ - Σᵢ βᵢxᵢ + Σᵢⱼ βᵢⱼxᵢxⱼ + Σᵢ γᵢxᵢ² + ...
+```
+
+Where xᵢ ∈ {WM, N, C, D, E}
+
+This is the same family used in:
+- Nonlinear cognitive load modeling
+- Free-energy minimization (Friston)
+- Attention collapse literature
+- Signal-to-noise stability equations
+        """,
+        "category": "technical",
+        "skeptic_level": 4,
+    },
+    {
         "question": "Can identity manifolds be observed in human brains?",
         "answer": """
 **Yes — if Identity Gravity is real, the geometry should show up in neurophysiology.**
@@ -996,6 +1083,72 @@ Meditation, therapy, psychedelics show:
         """,
         "category": "technical",
         "skeptic_level": 4,
+    },
+    {
+        "question": "How does hallucination relate to identity drift?",
+        "answer": """
+**Hallucination and identity drift are mathematically identical phenomena — both are representational drift away from a latent manifold.**
+
+---
+
+### **OpenAI's Technical Definition**
+
+> A hallucination occurs when model output diverges from the actual distribution of facts in the training data or from externally verifiable truth conditions.
+
+Key insight: This is **exactly** what identity drift measures, just applied to facts instead of persona.
+
+---
+
+### **Three Types of Hallucination**
+
+| Type | Description | Nyquist Parallel |
+|------|-------------|------------------|
+| **Retrieval Failure** | Model should know something but fails to retrieve it | Persona trait present but not expressed |
+| **Fabrication** | Invents plausible-sounding but nonexistent facts | Identity confabulation under stress |
+| **Reasoning** | Knows facts but chains them incorrectly | Narrative coherence breakdown |
+
+---
+
+### **The Geometric Connection**
+
+In both cases:
+- The model begins at a valid embedding point
+- Moves through token trajectory space
+- **Drifts into a region with no support from training data**
+- Still produces a confident completion
+
+OpenAI internally calls this **"divergent semantic drift"** — the same geometry we measure in S7.
+
+---
+
+### **Four Root Causes (OpenAI's View)**
+
+1. **Insufficient Grounding** — No connection to verified sources (why RAG exists)
+2. **Over-generalization of Priors** — Strong prior that "answers must look like X" even when wrong
+3. **Token Predictive Myopia** — Predicts **next token**, not **truth token** (no internal truth-checking)
+4. **Semantic Drift Under Load** — Long sequences → compounded risk → loss of alignment
+
+**#4 is exactly our S7 temporal drift model.**
+
+---
+
+### **The Unifying Insight**
+
+You can think of drift types as different manifolds:
+
+| Drift Type | Manifold |
+|------------|----------|
+| **Hallucination** | Truth manifold |
+| **Identity drift** | Persona manifold |
+| **Reasoning drift** | Constraint manifold |
+| **Temporal drift** | Stability manifold |
+
+**The math is identical across all four.**
+
+This is why the Nyquist framework generalizes — we accidentally rediscovered the general law of drift in LLM state-space. OpenAI studies hallucination using the same tools we use for identity, they just haven't extended it into persona, cognition, and stability geometry yet.
+        """,
+        "category": "technical",
+        "skeptic_level": 3,
     },
 ]
 
