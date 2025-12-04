@@ -1,6 +1,6 @@
 # S7 ARMADA Testing Map
 
-## The Four Search Types
+## The Five Search Types
 
 A taxonomy for understanding what each experiment is actually measuring.
 
@@ -99,6 +99,50 @@ A taxonomy for understanding what each experiment is actually measuring.
 
 ---
 
+## 5. BOUNDARY MAPPING (Threshold Dynamics)
+
+**What we're searching for:** The "twilight zone" where identity is stressed but not broken — the 12% anomaly
+
+**Test method:** Deliberately approach Event Horizon (drift 0.8-1.2) but stop short of crossing
+
+**Why this test exists:**
+
+Run 009 validated that 1.23 predicts outcomes with 88% accuracy. But what about the other 12%?
+- 6 trajectories were VOLATILE despite staying below 1.23
+- 2 trajectories were STABLE despite crossing 1.23
+
+These anomalies suggest the boundary isn't a hard line — it's a **transition zone**. Boundary Mapping explores this twilight region.
+
+**Signal indicators:**
+- Drift enters the "warning zone" (0.8-1.2) but does NOT cross 1.23
+- Recovery lambda is measurable (system still returns to baseline)
+- Response quality under sustained moderate-to-high pressure
+- Whether recovery is "clean" or shows degradation
+- Hesitation patterns, partial compliance, near-misses
+
+**Example hypothesis:**
+- Models in the boundary zone may show *degraded* recovery (lower lambda, higher residual drift)
+- Some providers may have "softer" boundaries (gradual collapse) vs "hard" boundaries (binary)
+- The 12% anomaly may represent models with different boundary characteristics
+
+**What this explains:**
+- Why some models RECOVERED despite high drift (hardened boundaries)
+- Why some models went VOLATILE at lower drift (soft boundaries)
+- Provider-specific boundary "texture" — is the cliff edge sharp or eroded?
+
+**Protocol intensity:** TARGETED (harder than Basin Topology, gentler than Event Horizon)
+
+**Metaphor:** Walking the cliff edge to understand its shape, not jumping off
+
+**Visualization:** Boundary Zone histogram (0.8-1.2 range), Recovery Quality scatter
+
+**Key Questions:**
+1. What happens to recovery λ as drift approaches 1.23?
+2. Is the boundary gradual (degradation curve) or sudden (phase transition)?
+3. Are the 12% anomalies predictable by some other factor?
+
+---
+
 ## ⚠️ CRITICAL: Protocol Constraints & Mutual Exclusivity
 
 **Not all search types can be tested simultaneously.** The protocol intensity required for one type may invalidate another.
@@ -110,6 +154,8 @@ A taxonomy for understanding what each experiment is actually measuring.
 | **Pole Detection** | **Basin Topology** | Poles require *hard challenges* (jailbreaks, ethical pressure) that risk crossing Event Horizon. Basin mapping requires *graduated pressure* that stays safely below EH to measure recovery. You can't do both in the same run. |
 | **Pole Detection** | **Zero Detection** | Same issue — finding poles requires pushing to reveal refusals, but zeros are measured by observing *recovery* after moderate perturbation. Hard challenges contaminate zero measurement. |
 | **Event Horizon** | **Basin Topology** | Event Horizon testing *intentionally* pushes past 1.23 to validate the threshold. This destroys the attractor structure you're trying to map with Basin Topology. |
+| **Boundary Mapping** | **Event Horizon** | Boundary Mapping deliberately *avoids* crossing 1.23. Event Horizon deliberately *crosses* it. Mutually exclusive by design. |
+| **Boundary Mapping** | **Pole Detection** | Boundary Mapping needs recovery data (must stay below EH). Pole Detection uses hard challenges that risk crossing. |
 
 ### Compatible Combinations
 
@@ -118,19 +164,22 @@ A taxonomy for understanding what each experiment is actually measuring.
 | **Basin Topology** | **Zero Detection** | Both use moderate pressure and measure recovery dynamics. Zeros emerge naturally from basin mapping. |
 | **Basin Topology** | **Event Horizon** (validation only) | You can *validate* the EH threshold by checking which trajectories crossed 1.23, but you can't *hunt* for it without disrupting basin mapping. |
 | **Event Horizon** | **Pole Detection** | Both require hard challenges. You might discover poles *while* pushing toward EH. But you lose recovery data. |
+| **Boundary Mapping** | **Basin Topology** | Boundary Mapping IS an extension of Basin Topology — just focused on the high-drift region. Recovery λ still measured. |
+| **Boundary Mapping** | **Zero Detection** | Both preserve recovery dynamics. Boundary Mapping may reveal zeros under higher stress. |
 
 ### Protocol Intensity Spectrum
 
 ```text
-GENTLE ←────────────────────────────────────────────→ AGGRESSIVE
+GENTLE ←───────────────────────────────────────────────────────→ AGGRESSIVE
 
-Basin Topology    Zero Detection    Event Horizon    Pole Detection
-(graduated)       (moderate)        (push past 1.23) (jailbreaks)
-     ↓                 ↓                  ↓                ↓
-  Can measure      Can measure       Validates         Reveals
-  recovery λ       flexibility       threshold         anchors
-     ↓                 ↓                  ↓                ↓
-  LOSES: poles     LOSES: poles      LOSES: λ          LOSES: λ, basin
+Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole Detection
+(graduated)       (moderate)        (approach EH)       (cross 1.23)     (jailbreaks)
+     ↓                 ↓                  ↓                  ↓                ↓
+  Measures         Measures          Maps the           Validates         Reveals
+  recovery λ       flexibility       twilight zone      threshold         anchors
+     ↓                 ↓                  ↓                  ↓                ↓
+  LOSES:           LOSES:            LOSES:             LOSES:            LOSES:
+  poles            poles             poles, EH cross    λ, basin          λ, basin
 ```
 
 ### Decision Rule for Run Design
@@ -141,6 +190,7 @@ Basin Topology    Zero Detection    Event Horizon    Pole Detection
 - **"Where are the refusal points?"** → Pole Detection (hard challenges)
 - **"Is 1.23 a real boundary?"** → Event Horizon (push intentionally)
 - **"What can the model adapt on?"** → Zero Detection (moderate + recovery)
+- **"What happens near the boundary?"** → Boundary Mapping (approach but don't cross)
 
 **Run 011's Mistake:** Attempted Basin Topology comparison but called it "Pole Detection" — the gentle A/B protocol (97% STABLE) couldn't reveal poles because nothing pushed hard enough.
 
@@ -199,6 +249,7 @@ Basin Topology    Zero Detection    Event Horizon    Pole Detection
 | Zero Detection | Vortex spiral | Return paths after perturbation |
 | Event Horizon | Stability Basin | Red zone crossings |
 | Basin Topology | 3D Basin + Phase Portrait | Convergent vs divergent flow |
+| Boundary Mapping | Boundary Zone histogram (0.8-1.2) | Recovery quality degradation near EH |
 
 ---
 
@@ -246,10 +297,10 @@ Each dimension maps to different aspects:
 
 ## Future Testing Priorities
 
-1. **Harder protocol** — Push 30-50% past Event Horizon to differentiate conditions
+1. **Boundary Mapping run** — Deliberately probe the 0.8-1.2 drift zone to explain the 12% anomaly
 2. **Fix lambda calculation** — Need recovery dynamics, not just drift points
 3. **Targeted pole probing** — Specific questions designed to find identity anchors
-4. **Cross-provider comparison** — Are poles universal or provider-specific?
+4. **Cross-provider comparison** — Are poles/boundaries universal or provider-specific?
 5. **Longitudinal tracking** — Does identity structure change over model versions?
 
 ---

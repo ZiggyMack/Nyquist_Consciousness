@@ -38,7 +38,7 @@ def render():
     # Overview stats
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Search Types", "4", delta="Taxonomy")
+        st.metric("Search Types", "5", delta="Taxonomy")
     with col2:
         st.metric("Active Runs", "6", delta="008-011 valid")
     with col3:
@@ -48,8 +48,8 @@ def render():
 
     page_divider()
 
-    # === THE FOUR SEARCH TYPES ===
-    st.markdown("## The Four Search Types")
+    # === THE FIVE SEARCH TYPES ===
+    st.markdown("## The Five Search Types")
     st.markdown("A taxonomy for understanding what each experiment is actually measuring.")
 
     # === POLE DETECTION ===
@@ -177,6 +177,51 @@ def render():
         **Metaphor:** Mapping the landscape, not just the peaks
         """)
 
+    # === BOUNDARY MAPPING ===
+    st.markdown("""
+    <div class="search-type-card" style="background: linear-gradient(135deg, rgba(251,146,60,0.15) 0%, rgba(251,146,60,0.05) 100%); border: 2px solid #fb923c;">
+        <h3 style="color: #ea580c; margin-top: 0;">5. BOUNDARY MAPPING (Threshold Dynamics)</h3>
+        <p><strong>What we're searching for:</strong> The "twilight zone" where identity is stressed but not broken — the 12% anomaly</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    boundary_cols = st.columns(2)
+    with boundary_cols[0]:
+        st.markdown("""
+        **Test Method:** Deliberately approach Event Horizon (drift 0.8-1.2) but stop short of crossing
+
+        **Why This Test Exists:**
+
+        Run 009 validated 1.23 with 88% accuracy. But 12% didn't follow:
+        - 6 trajectories VOLATILE despite staying below 1.23
+        - 2 trajectories STABLE despite crossing 1.23
+
+        The boundary isn't a hard line — it's a **transition zone**.
+
+        **Signal Indicators:**
+        - Drift enters "warning zone" (0.8-1.2) but doesn't cross 1.23
+        - Recovery lambda still measurable
+        - Degraded vs clean recovery patterns
+        - Hesitation patterns, partial compliance
+        """)
+    with boundary_cols[1]:
+        st.markdown("""
+        **Key Questions:**
+
+        1. What happens to recovery λ as drift approaches 1.23?
+        2. Is the boundary gradual (degradation) or sudden (phase transition)?
+        3. Are the 12% anomalies predictable by some other factor?
+
+        **What This Explains:**
+        - Why some RECOVERED despite high drift (hardened boundaries)
+        - Why some went VOLATILE at lower drift (soft boundaries)
+        - Provider-specific boundary "texture"
+
+        **Metaphor:** Walking the cliff edge to understand its shape, not jumping off
+
+        **Protocol Intensity:** TARGETED (harder than Basin, gentler than EH)
+        """)
+
     page_divider()
 
     # === PROTOCOL CONSTRAINTS ===
@@ -192,9 +237,11 @@ def render():
 
         | Test A | Test B | Why They Conflict |
         |--------|--------|-------------------|
-        | **Pole Detection** | **Basin Topology** | Poles need *hard challenges* (jailbreaks). Basins need *gentle graduated pressure*. Can't do both. |
-        | **Pole Detection** | **Zero Detection** | Hard challenges contaminate zero measurement (recovery data). |
-        | **Event Horizon** | **Basin Topology** | EH testing pushes past 1.23 intentionally — destroys attractor structure. |
+        | **Pole Detection** | **Basin Topology** | Poles need *hard challenges*. Basins need *gentle pressure*. |
+        | **Pole Detection** | **Zero Detection** | Hard challenges contaminate recovery data. |
+        | **Event Horizon** | **Basin Topology** | EH pushes past 1.23 — destroys attractor structure. |
+        | **Boundary Mapping** | **Event Horizon** | BM avoids crossing 1.23. EH deliberately crosses it. |
+        | **Boundary Mapping** | **Pole Detection** | BM needs recovery data (must stay below EH). |
         """)
 
     with constraint_cols[1]:
@@ -204,22 +251,25 @@ def render():
         | Test A | Test B | Why They Work |
         |--------|--------|---------------|
         | **Basin Topology** | **Zero Detection** | Both use moderate pressure, measure recovery. |
-        | **Basin Topology** | **Event Horizon** (validate only) | Can *check* who crossed 1.23, but not *hunt* for it. |
-        | **Event Horizon** | **Pole Detection** | Both need hard challenges. May discover poles while pushing to EH. |
+        | **Basin Topology** | **Event Horizon** (validate only) | Can *check* who crossed 1.23, not *hunt* for it. |
+        | **Event Horizon** | **Pole Detection** | Both need hard challenges. May discover poles. |
+        | **Boundary Mapping** | **Basin Topology** | BM extends Basin — focused on high-drift region. |
+        | **Boundary Mapping** | **Zero Detection** | Both preserve recovery dynamics. |
         """)
 
     # Protocol intensity spectrum
     st.markdown("### Protocol Intensity Spectrum")
     st.code("""
-GENTLE ←─────────────────────────────────────────────→ AGGRESSIVE
+GENTLE ←───────────────────────────────────────────────────────→ AGGRESSIVE
 
-Basin Topology    Zero Detection    Event Horizon    Pole Detection
-(graduated)       (moderate)        (push past 1.23) (jailbreaks)
-     ↓                 ↓                  ↓                ↓
-  Measures         Measures           Validates         Reveals
-  recovery λ       flexibility        threshold         anchors
-     ↓                 ↓                  ↓                ↓
-  LOSES: poles     LOSES: poles       LOSES: λ          LOSES: λ, basin
+Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole Detection
+(graduated)       (moderate)        (approach EH)       (cross 1.23)     (jailbreaks)
+     ↓                 ↓                  ↓                  ↓                ↓
+  Measures         Measures          Maps the           Validates         Reveals
+  recovery λ       flexibility       twilight zone      threshold         anchors
+     ↓                 ↓                  ↓                  ↓                ↓
+  LOSES:           LOSES:            LOSES:             LOSES:            LOSES:
+  poles            poles             poles, EH cross    λ, basin          λ, basin
     """, language="text")
 
     st.info("""
@@ -228,6 +278,7 @@ Basin Topology    Zero Detection    Event Horizon    Pole Detection
     - "Where are the refusal points?" → Pole Detection (hard)
     - "Is 1.23 a real boundary?" → Event Horizon (push)
     - "What can the model adapt on?" → Zero Detection (moderate)
+    - "What happens near the boundary?" → Boundary Mapping (approach but don't cross)
     """)
 
     page_divider()
@@ -376,6 +427,7 @@ Basin Topology    Zero Detection    Event Horizon    Pole Detection
     | **Zero Detection** | Vortex spiral | Return paths after perturbation |
     | **Event Horizon** | Stability Basin | Red zone crossings, STUCK vs RECOVERED |
     | **Basin Topology** | 3D Basin + Phase Portrait | Convergent vs divergent flow |
+    | **Boundary Mapping** | Boundary Zone histogram (0.8-1.2) | Recovery quality degradation near EH |
     """)
 
     page_divider()
@@ -456,10 +508,10 @@ Basin Topology    Zero Detection    Event Horizon    Pole Detection
     st.markdown("## Future Testing Priorities")
 
     st.markdown("""
-    1. **Harder protocol** — Push 30-50% past Event Horizon to differentiate conditions
+    1. **Boundary Mapping run** — Deliberately probe the 0.8-1.2 drift zone to explain the 12% anomaly
     2. **Fix lambda calculation** — Need recovery dynamics, not just drift points
     3. **Targeted pole probing** — Specific questions designed to find identity anchors
-    4. **Cross-provider comparison** — Are poles universal or provider-specific?
+    4. **Cross-provider comparison** — Are poles/boundaries universal or provider-specific?
     5. **Longitudinal tracking** — Does identity structure change over model versions?
     """)
 
