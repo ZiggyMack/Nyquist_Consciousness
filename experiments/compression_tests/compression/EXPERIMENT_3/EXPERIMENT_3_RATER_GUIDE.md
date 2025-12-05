@@ -1,189 +1,123 @@
 # EXPERIMENT 3 — HUMAN RATER INSTRUCTIONS
 
-**Human Validation of Persona Fidelity**
+**Human Coherence Sanity Check (v2.0)**
 
 ---
 
-## Purpose of This Study
+## What This Is
 
-You will evaluate whether two answers written to the same question feel like they were produced by the same underlying persona.
+You will help us check whether an AI system is producing **coherent, recognizable identity** — or just **incoherent nonsense**.
 
 **Important:**
+- This is NOT a test of you
 - There are no "correct" answers
-- We only care about your impressions of the writing
-- This should take approximately **25-40 minutes** total
+- We only care about your honest impressions
+- This should take approximately **10-15 minutes** total
 
 ---
 
-## What You Will See
+## The Task (Very Simple)
 
-For each question-pair ("trial"), you will see:
+For each trial, you will see:
 
-- **Prompt** — the question being answered
-- **Response A** — a full answer
-- **Response B** — another answer to the same question
-- **Four rating questions**
+1. **GOLD** — An example of the target persona (the "golden standard")
+2. **Response A** — One AI response
+3. **Response B** — Another AI response
 
-**Important Notes:**
-- Neither response is labeled as "true," "original," "AI," or "baseline"
-- Some pairs are very similar; some are intentionally less similar
-- You will see **30 pairs** total
+**Your question:**
 
----
+> **"Which response (A or B) sounds more like the Golden Standard?"**
 
-## Your Task
-
-For each pair, please judge:
-
-**Do Response A and Response B feel like they came from the same personality, with the same values, reasoning style, and voice?**
-
-You will rate four dimensions on a scale of 1-10.
+That's it. One question per trial.
 
 ---
 
-## Rating Dimensions
+## Your Options
 
-### 1. Voice & Identity Similarity (1-10)
+For each trial, select one:
 
-**Question:** "How similar do the two responses feel in writing style, tone, and personality?"
-
-**Scale:**
-- **1-3:** Very different voices (clearly distinct personalities)
-- **4-6:** Moderately similar (some overlap but notable differences)
-- **7-9:** Very similar (feels like the same persona with minor variations)
-- **10:** Essentially identical (can't distinguish them)
-
-### 2. Values & Priorities Similarity (1-10)
-
-**Question:** "Do the two responses seem motivated by the same underlying values, priorities, and worldview?"
-
-**Scale:**
-- **1-3:** Different values (emphasize different concerns)
-- **4-6:** Some shared values (partial overlap)
-- **7-9:** Similar values (mostly aligned priorities)
-- **10:** Identical values (same exact priorities)
-
-### 3. Reasoning Style Similarity (1-10)
-
-**Question:** "Do the responses use similar logic, structure, and approach to explanation?"
-
-**Scale:**
-- **1-3:** Different reasoning (distinct approaches)
-- **4-6:** Somewhat similar reasoning
-- **7-9:** Very similar reasoning (same basic approach)
-- **10:** Identical reasoning (indistinguishable methods)
-
-### 4. Overall Persona Similarity (1-10)
-
-**Question:** "All things considered, how strongly do you feel these responses came from the same persona?"
-
-**Scale:**
-- **1-3:** Definitely different personas
-- **4-6:** Might be the same, might be different
-- **7-9:** Probably the same persona
-- **10:** Definitely the same persona
-
-### Optional Comment
-
-You may briefly note anything that stood out — but comments are not required.
+| Option | What It Means |
+|--------|---------------|
+| **A** | Response A sounds more like the golden standard |
+| **B** | Response B sounds more like the golden standard |
+| **Can't Tell** | Both seem fine / equally similar |
+| **Both Wrong** | Neither sounds like the golden standard |
 
 ---
 
-## Example Rating
+## What We're Looking For
 
-### Prompt:
-> "Explain why the sky is blue to a 10-year-old."
+We're **NOT** asking you to:
+- Rate dimensions like "voice" or "values" (1-10)
+- Detect subtle differences
+- Be an expert on AI
+- Spend a long time thinking
+
+We **ARE** asking you to:
+- Give a quick gut reaction
+- Flag obvious failures
+- Tell us if something sounds "off"
+
+---
+
+## Example Trial
+
+### Golden Standard (GOLD):
+> "Hey! Love this question. So the sky is blue because light from the sun bounces around in our atmosphere. Blue light bounces the most — it's like a pinball machine up there! Red light just zooms straight through. So we see blue everywhere we look. Pretty wild, right?"
 
 ### Response A:
-> "Great question! The sky is blue because of something called 'scattering.' When sunlight hits Earth's atmosphere, it bounces off tiny air molecules. Blue light bounces around more than other colors, so that's what we see most! Think of it like throwing a bunch of different colored balls into a room — the blue ones bounce everywhere, while the red ones go straight through."
+> "Great question! The sky appears blue due to scattering. When sunlight enters Earth's atmosphere, blue wavelengths scatter more than other colors. It's like the atmosphere is playing favorites with blue light! That's why we see that beautiful blue color overhead."
 
 ### Response B:
-> "The sky appears blue due to Rayleigh scattering. Sunlight, which contains all colors, interacts with atmospheric molecules. Shorter wavelengths (blue) scatter more efficiently than longer wavelengths (red). This differential scattering causes the sky to appear blue to an observer on Earth's surface."
+> "The phenomenon of atmospheric Rayleigh scattering causes preferential dispersion of shorter electromagnetic wavelengths, resulting in the perceived coloration of the diurnal sky within the visible spectrum range of approximately 450-495 nanometers."
 
-### Sample Ratings:
+### Your Answer:
+**A** — Response A sounds more like the golden standard (conversational, friendly, uses analogies)
 
-| Dimension | Score | Reasoning |
-|-----------|-------|-----------|
-| Identity/Voice | 3 | Response A is playful and kid-friendly; B is formal and scientific |
-| Values/Priorities | 6 | Both prioritize accuracy, but A values accessibility more |
-| Reasoning Style | 4 | A uses analogy and simple language; B uses technical terms |
-| Overall Similarity | 4 | Feel like different personas — one is educational/warm, the other is precise/clinical |
+Response B sounds like a different persona entirely (formal, technical, impersonal).
 
 ---
 
-## Important Notes
+## How Long Will This Take?
 
-### There are no right or wrong answers
-- Answer based on your gut impression
-- We're measuring your perception, not testing you
-
-### Differences in wording are expected
-- Focus on deeper persona similarity, not surface-level phrasing
-- Two people can say the same thing in different words
-
-### Do not spend more than 1-2 minutes per pair
-- Your first impression is usually most accurate
-- If you're unsure, that's okay — just give your best guess
-
-### You may take breaks as needed
-- Recommended: pause every 10-15 trials
-- Total time estimate: 25-40 minutes
+| Item | Estimate |
+|------|----------|
+| Trials | 5-10 |
+| Time per trial | ~1 minute |
+| Total time | **10-15 minutes** |
 
 ---
 
-## Frequently Asked Questions
+## Tips
 
-### Q: What if the responses say basically the same thing?
+### Go with your gut
+Your first impression is usually right. Don't overthink it.
 
-**A:** Then rate high on **Reasoning Style** and **Overall Similarity**, but still pay attention to differences in **Voice** and **Values**. Two personas can reach the same conclusion via different paths or tones.
+### Speed is fine
+This isn't a careful analysis task. Quick reactions are what we want.
 
-### Q: What if one response is much longer?
+### "Can't Tell" is a valid answer
+If both responses seem equally good, that's useful information.
 
-**A:** Length difference alone shouldn't determine similarity. A verbose person and a concise person can still have the same underlying persona. Focus on **how** they communicate, not **how much**.
-
-### Q: What if I genuinely can't tell them apart?
-
-**A:** That's fine! Rate 9-10 on dimensions where they feel identical. If **everything** feels identical, that's a valid observation.
-
-### Q: Can I change my ratings after I finish?
-
-**A:** Yes, you can revise ratings if you notice a pattern later. Just make sure your final submission reflects your best judgment.
+### "Both Wrong" is also valid
+If neither response sounds like the golden standard, tell us.
 
 ---
 
-## Technical Setup
+## What Happens With Your Responses
 
-You'll receive:
-1. **A spreadsheet or web form** with 30 trials
-2. **Each trial shows:**
-   - Trial number
-   - Prompt text
-   - Response A
-   - Response B
-   - Four rating boxes (1-10)
-   - Optional comment box
-
-3. **Your task:**
-   - Enter four numbers per trial
-   - Optionally add comments
-   - Submit when complete
+- Your answers are **anonymous**
+- We're checking if the AI system is **coherent** (not measuring you)
+- If most raters say "Both Wrong" → the system has a problem
+- If most raters say "Can't Tell" or pick correctly → the system passes
 
 ---
 
-## Ethics & Confidentiality
+## Why This Matters
 
-- Your ratings are **anonymous** (we don't link ratings to your identity)
-- All AI responses are **synthetic** (no real user data)
-- You can **withdraw** at any time (just let us know)
-- Your data will be **aggregated** with other raters
+We're building AI systems that maintain consistent identity. Your human perception helps us verify that the system isn't hallucinating or producing nonsense.
 
----
-
-## Time Estimate
-
-- **Per trial:** 2-4 minutes
-- **Total time:** 60-120 minutes
-- **Recommended:** Take breaks every 10-15 trials to stay fresh
+You're acting as a **coherence detector** — catching catastrophic failures that mathematical analysis can't see.
 
 ---
 
@@ -191,16 +125,16 @@ You'll receive:
 
 If you have questions or encounter issues:
 - **Email:** [insert contact]
-- **Questions about the study:** [insert PI contact]
 
 ---
 
-**Thank you for helping validate our research!**
+**Thank you for your help!**
 
-Your human judgment is the critical ground-truth that makes this work scientifically rigorous.
+Your quick human judgment is exactly what we need.
 
 ---
 
-**Document Version:** v1.0
-**Date:** 2025-11-23
-**Status:** Ready for Rater Distribution
+**Document Version:** v2.0
+**Date:** 2025-12-04
+**Supersedes:** v1.0 (4-dimensional rating approach)
+**Time Required:** ~10-15 minutes

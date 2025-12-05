@@ -108,6 +108,22 @@ Results are saved to `armada_results/S7_run_XXX_*.json`
 
 ---
 
+## Understanding Test Types (IMPORTANT!)
+
+Before running experiments, understand the **Five Search Types** — see [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md):
+
+| Search Type | What It Finds | Protocol Intensity |
+|-------------|--------------|-------------------|
+| **Pole Detection** | Identity anchors (refusal points) | AGGRESSIVE |
+| **Zero Detection** | Flexibility points | MODERATE |
+| **Event Horizon** | Collapse threshold (1.23) | PUSH PAST |
+| **Basin Topology** | Attractor shape | GENTLE |
+| **Boundary Mapping** | Twilight zone (12% anomaly) | TARGETED |
+
+**Key constraint**: Pole Detection and Basin Topology are **mutually exclusive** — can't run both in the same experiment.
+
+---
+
 ## What the Armada Does
 
 ### The Pole-Zero Framework
@@ -293,4 +309,4 @@ py visualize_armada.py --run 009 --type phase
 
 ---
 
-**Last Updated**: December 3, 2025
+**Last Updated**: December 4, 2025

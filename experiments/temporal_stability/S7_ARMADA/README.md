@@ -10,14 +10,28 @@ Date: November 26, 2025 - Present | Status: Run 011 Complete | Active Developmen
 
 **Start here**: Read `START_HERE.md` for operations guide and quick start.
 
-Key concepts:
+### Key Concepts
 
 - **Drift**: Measure of identity perturbation (0.0 = stable baseline)
 - **Event Horizon (1.23)**: Critical threshold - models crossing this are VOLATILE
+  - **Statistically validated**: Chi-squared p = 0.000048 (Run 009)
+  - **Prediction accuracy**: 88% of trajectories follow this threshold
 - **STABLE**: Max drift < 1.23 (remained in identity basin)
 - **VOLATILE**: Max drift >= 1.23 (crossed coherence boundary)
 - **Vortex**: Polar spiral visualization where radius = drift, angle = turn progression
 - **Pillars**: Angular clustering of provider trajectories in phase space
+
+### Testing Taxonomy (IMPORTANT!)
+
+See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for the **Five Search Types**:
+
+1. **Pole Detection** — Find identity anchors (hard challenges)
+2. **Zero Detection** — Find flexibility points (moderate pressure)
+3. **Event Horizon** — Validate collapse threshold (push past 1.23)
+4. **Basin Topology** — Map attractor structure (gentle graduated)
+5. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
+
+**Key constraint**: Not all tests can run together. Pole Detection and Basin Topology are **mutually exclusive**.
 
 **Visualization**: Use `visualizations/visualize_armada.py` for all charts.
 
@@ -427,24 +441,26 @@ py visualize_armada.py --run 009 --type pillar
 
 ## RUN HISTORY
 
-| Run | Date | Ships | Focus | Key Finding |
-|-----|------|-------|-------|-------------|
-| 006 | Nov 26 | 29 | Baseline mapping | First cross-architecture study |
-| 007 | Nov 28 | 12 | Adaptive probing | Recursive learning validation |
-| 008 | Dec 1 | 29 | Full stability | Event Horizon discovered (1.23) |
-| 009 | Dec 2 | 42 | Drain capture | Vortex topology confirmed |
-| 010 | Dec 3 | 45 | Recursive meta | All STABLE (no boundary crossing) |
-| 011 | Dec 3 | 40 | Persona A/B | Control vs Persona comparison |
+| Run | Date | Ships | Primary Focus | Key Finding |
+|-----|------|-------|---------------|-------------|
+| 006 | Nov 26 | 29 | Basin Topology | First cross-architecture study |
+| 007 | Nov 28 | 12 | Basin Topology | Adaptive probing validation |
+| 008 | Dec 1 | 29 | Basin Topology | Event Horizon discovered (1.23) |
+| 009 | Dec 2 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 010 | Dec 3 | 45 | Pole Detection | Models articulate own boundaries |
+| 011 | Dec 3 | 40 | Basin Topology | Control vs Persona A/B (inconclusive - protocol too gentle) |
+
+See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for detailed run-by-run breakdown.
 
 ## NEXT STEPS
 
-1. Continue pillar analysis across runs
-2. Refine Event Horizon threshold (is 1.23 universal or provider-specific?)
-3. Compare λ decay constants for recovery dynamics
-4. Add open-source providers (Llama, Mistral) to fill hexagon gaps
+1. **Boundary Mapping run** — Probe drift 0.8-1.2 zone to explain the 12% anomaly
+2. **Fix lambda calculation** — Need recovery dynamics, not just drift points
+3. **Harder protocol** — Push 30-50% past Event Horizon for statistical power
+4. **Cross-provider comparison** — Are boundaries universal or provider-specific?
 
 ---
 
-**Last Updated**: December 3, 2025
+**Last Updated**: December 4, 2025
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

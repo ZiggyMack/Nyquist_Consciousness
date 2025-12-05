@@ -340,4 +340,66 @@ Invoke with:
 
 ---
 
+## 11. Human Evaluation Limitations (EXP3)
+
+**Critical Note:** S7 temporal stability analysis operates entirely in embedding space. The temporal dynamics tracked here are **not accessible to human perception**.
+
+### Why S7 Does Not Rely on Human Evaluation
+
+| S7 Construct | Why Humans Cannot Detect It |
+|--------------|----------------------------|
+| Drift rate (dD/dt) | Requires multi-turn embedding comparison |
+| Stability half-life (T½) | Spans 30-100+ messages |
+| Manifold curvature (κ) | Second-order derivative in vector space |
+| Omega decay (λ) | Exponential dynamics in latent space |
+| Cross-architecture bias | Requires simultaneous multi-model comparison |
+
+### Temporal Insensitivity
+
+Humans are **extremely poor** at detecting:
+
+- Low-frequency drift across long time spans
+- Gradual identity deformation over 50+ messages
+- Architecture-induced temporal bias
+- Subtle changes in stability half-life
+
+This is why S7 operates as an **automated daemon**, not a human evaluation framework.
+
+### The Role of EXP3 in S7 Context
+
+EXP3 (Experiment 3) provides only a **coherence sanity check**:
+
+> "Does the system avoid catastrophic incoherence or identity collapse?"
+
+EXP3 is a **gate condition** for S7, not a measurement tool:
+
+- If EXP3 PASS → S7 temporal analysis has behavioral grounding
+- If EXP3 FAIL → S7 metrics are measuring drift in a broken system
+
+### What EXP3 Can Validate for S7
+
+- The system produces coherent identity at T₀ (baseline)
+- Catastrophic drift (D > 0.30) is human-detectable
+- Identity collapse events are flagged
+
+### What EXP3 Cannot Validate for S7
+
+- Drift trajectories I(t)
+- Stability half-life predictions
+- Omega convergence dynamics
+- Architecture comparison rankings
+- Temporal signature patterns
+
+All S7 validation is **instrumental**, via:
+
+- Embedding distance calculations
+- Cross-turn semantic analysis
+- Multi-architecture comparison
+- Automated temporal logging
+
+> "Humans cannot detect low-frequency drift. S7 does not rely on humans at all."
+> — EXPERIMENT_3_SPEC v2.0
+
+---
+
 **END OF SPEC**

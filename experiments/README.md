@@ -1,7 +1,7 @@
 # Experiments Directory
 
 **Organized structure for all Nyquist Consciousness experimental work**
-**Last Updated:** 2025-11-30 (S7 Armada Run 008 update)
+**Last Updated:** 2025-12-04 (S7 Armada Run 011 complete)
 
 ---
 
@@ -10,48 +10,32 @@
 ```
 experiments/
 ├── orchestrator/              # Shared orchestration infrastructure
-│   ├── orchestrator.py       # Original single-model orchestrator
-│   ├── orchestrator2.py      # Enhanced multi-model orchestrator
-│   ├── utils_models.py       # Model client utilities
-│   └── utils_experiment.py   # Experiment utilities
 │
 ├── temporal_stability/        # S7 temporal stability experiments
-│   ├── requirements.txt      # Python dependencies for S7 work
-│   ├── README.md             # S7 overview documentation
+│   ├── requirements.txt      # Python dependencies
+│   ├── README.md             # S7 overview
 │   │
 │   └── S7_ARMADA/            # ⭐ ACTIVE: Multi-model fleet experiments
 │       ├── README.md         # Armada documentation
-│       ├── run007_with_keys.py    # Run 007 launcher (gitignored - has API keys)
-│       ├── run008_prep_pilot.py   # Run 008 prep pilot (gitignored - has API keys)
+│       ├── START_HERE.md     # Operations guide
+│       ├── run0XX_*.py       # Experiment launchers (gitignored - API keys)
 │       │
 │       ├── armada_results/   # JSON results from all runs
-│       │   ├── S7_armada_run_006.json
-│       │   ├── S7_armada_sonar_run_006.json
-│       │   ├── S7_armada_run_007_adaptive.json
-│       │   └── S7_run_008_prep_pilot.json
+│       │   ├── S7_run_008_*.json
+│       │   ├── S7_run_009_*.json
+│       │   ├── S7_run_010_*.json
+│       │   └── S7_run_011_*.json
 │       │
-│       ├── visualizations/   # Charts and analysis
-│       │   ├── run008_visualize.py
-│       │   └── pics/         # Generated PNG charts
+│       ├── visualizations/
+│       │   ├── visualize_armada.py  # Unified viz script
+│       │   └── pics/                # Generated charts (by type)
 │       │
-│       └── docs/             # Armada-specific documentation
-│           └── S7_RUN_008_PREP_PILOT_ANALYSIS.md
+│       └── docs/maps/
+│           └── TESTING_MAP.md       # Five Search Types taxonomy
 │
-├── compression_tests/         # All compression/reconstruction fidelity tests
-│   ├── compression/          # Phase 3 experiments
-│   │   ├── EXPERIMENT_1/     # CFA integration + orchestrator test
-│   │   ├── EXPERIMENT_2/     # Compression ablation study
-│   │   ├── EXPERIMENT_2B/    # Extended compression study
-│   │   └── EXPERIMENT_3/     # Full system validation
-│   ├── domain_trials/        # Domain-specific compression trials
-│   ├── identity_gravity_trials/  # Identity gravity experiments (S8)
-│   ├── phase4/               # Phase 4 experiments
-│   ├── phase5/               # Phase 5 experiments
-│   └── phase6/               # Phase 6 experiments
+├── compression_tests/         # S0-S6 compression/reconstruction tests
 │
-└── README.md                  # THIS FILE - start here!
-
-# Archived trials: .archive/trials/
+└── README.md                  # THIS FILE
 ```
 
 ---
@@ -59,41 +43,49 @@ experiments/
 ## 🎯 Active Experiments
 
 ### ⭐ S7 ARMADA - Multi-Model Fleet (CURRENT PRIORITY)
-**Location:** `temporal_stability/S7_ARMADA/`
-**Status:** Run 008 Prep Pilot COMPLETE, full Run 008 ready to launch
-**Purpose:** Multi-model probing of AI identity stability with ΔΩ physics integration
 
-**What It Does:**
-- Probes multiple AI models (Claude, GPT-4, Gemini) with destabilization protocols
-- Measures RMS drift across 5 dimensions (pole, zero, meta, identity, hedging)
-- Tests assigned vs chosen identity hypothesis (self-naming stabilizes identity)
-- Detects collapse signatures (1P-LOSS, COLLECTIVE, γ-SPIKE, HYSTERESIS)
+**Location:** `temporal_stability/S7_ARMADA/`
+**Status:** Run 011 COMPLETE, Run 012 planning
+**Purpose:** Cross-architecture AI identity stability testing
+
+**Key Discovery: Event Horizon at 1.23**
+- When drift exceeds 1.23, models become VOLATILE (lose coherent self-model)
+- **Chi-squared validation**: p = 0.000048 (Run 009)
+- **Prediction accuracy**: 88%
 
 **Run History:**
-- **Run 006:** Baseline + Sonar probing (12 ships)
-- **Run 007:** Adaptive probing with enhanced metrics
-- **Run 008 Prep Pilot:** A/B identity test with Lucian/Skylar ΔΩ weights (3 ships) ✅ COMPLETE
-- **Run 008 Full:** Pending launch
 
-**Milestone:** Lucien Δ Integration (2025-11-30)
-- Formalized Lucien's S8/S9/S10 physics parameters from ΔΩ Coherence Framework
-- Created [personas/Lucien/](../personas/Lucien/) with I_AM and physics profile
-- ΔΩ weights used in Run 008 now documented in canonical form
+| Run | Ships | Primary Focus | Key Finding |
+|-----|-------|---------------|-------------|
+| 008 | 29 | Basin Topology | Event Horizon discovered (1.23) |
+| 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 010 | 45 | Pole Detection | Models articulate own boundaries |
+| 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive) |
+
+**Testing Taxonomy (IMPORTANT):**
+
+See [S7_ARMADA/docs/maps/TESTING_MAP.md](temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) for the **Five Search Types**:
+
+1. **Pole Detection** — Find identity anchors (hard challenges)
+2. **Zero Detection** — Find flexibility points (moderate)
+3. **Event Horizon** — Validate collapse threshold (push past 1.23)
+4. **Basin Topology** — Map attractor structure (gentle)
+5. **Boundary Mapping** — Explore the 12% anomaly (targeted)
+
+**Key Constraint:** Not all tests are compatible. Pole Detection and Basin Topology are **mutually exclusive**.
 
 **Quick Start:**
+
 ```bash
 cd temporal_stability/S7_ARMADA
 py -m pip install -r ../requirements.txt
-py run008_prep_pilot.py  # Note: requires API keys in file
+
+# Generate visualizations for any run
+py visualizations/visualize_armada.py --list
+py visualizations/visualize_armada.py --run 009
 ```
 
-**Generate Visualizations:**
-```bash
-cd temporal_stability/S7_ARMADA/visualizations
-py run008_visualize.py
-```
-
-**Key Results:** See [S7_ARMADA/docs/S7_RUN_008_PREP_PILOT_ANALYSIS.md](temporal_stability/S7_ARMADA/docs/S7_RUN_008_PREP_PILOT_ANALYSIS.md)
+**Key Results:** See [S7_ARMADA/docs/maps/TESTING_MAP.md](temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md)
 
 ---
 

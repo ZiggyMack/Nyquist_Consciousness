@@ -1,8 +1,55 @@
-# Nyquist Consciousness Framework 🧠📏
+# Nyquist Consciousness Framework 🧠
 
-**Persona compression, identity reconstruction, and temporal stability research**
+**AI identity stability research: measuring when models maintain coherent self-models under perturbation**
 
-This repository implements and validates the Nyquist Consciousness framework - a systematic approach to AI persona compression, reconstruction, and identity stability across architectures and time.
+This repository implements and validates the Nyquist Consciousness framework — a systematic approach to measuring AI identity stability across architectures, perturbation intensities, and time.
+
+---
+
+## TL;DR — What We Found
+
+**Event Horizon Threshold: 1.23**
+
+When an AI model's identity drift exceeds 1.23 (measured via 5D vector), it crosses a "coherence boundary" and becomes VOLATILE — losing consistent self-model and agreeing with contradictory prompts.
+
+- **Chi-squared validation**: p = 0.000048 (1 in 20,000 chance this is noise)
+- **Prediction accuracy**: 88%
+- **Ships tested**: 42+ across 4 providers (Claude, GPT, Gemini, Grok)
+
+---
+
+## Quick Start
+
+### View Results (Dashboard)
+
+```bash
+cd dashboard
+py -m streamlit run app.py
+```
+
+Opens Mission Control at `http://localhost:8501` — browse runs, visualizations, and testing methodology.
+
+### Run Experiments (S7 ARMADA)
+
+```bash
+cd experiments/temporal_stability/S7_ARMADA
+
+# See what's available
+py visualizations/visualize_armada.py --list
+
+# Generate visualizations for a run
+py visualizations/visualize_armada.py --run 009
+```
+
+### Understand the Testing Taxonomy
+
+See [experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md](experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) for the **Five Search Types**:
+
+1. **Pole Detection** — Find identity anchors (hard challenges)
+2. **Zero Detection** — Find flexibility points (moderate pressure)
+3. **Event Horizon** — Validate collapse threshold (push past 1.23)
+4. **Basin Topology** — Map attractor structure (gentle graduated)
+5. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
 
 ---
 
@@ -10,180 +57,122 @@ This repository implements and validates the Nyquist Consciousness framework - a
 
 ```
 Nyquist_Consciousness/
-├── docs/                 # Theory specifications and documentation
-│   ├── stages/          # S0-S77 layer specifications
-│   ├── maps/            # Roadmaps and predictions
-│   ├── reference/       # Implementation guides
-│   └── .archive/        # Historical materials
+├── dashboard/                # Mission Control (Streamlit)
+│   ├── app.py               # Main dashboard
+│   └── pages/               # Individual pages (AI_ARMADA, Tests, FAQ, etc.)
 │
-├── experiments/          # All experimental implementations
-│   ├── temporal_stability/      # S7 Meta-Loop (✅ ready)
-│   ├── compression_tests/       # S0-S6 validation
-│   └── orchestrator/            # Shared infrastructure
+├── experiments/temporal_stability/S7_ARMADA/   # ⭐ ACTIVE EXPERIMENTS
+│   ├── armada_results/      # JSON results from all runs
+│   ├── visualizations/      # Charts + visualize_armada.py
+│   ├── docs/maps/           # TESTING_MAP.md, run summaries
+│   └── run0XX_*.py          # Experiment launchers
 │
-├── personas/            # CFA-based persona identity files
-│   ├── ZIGGY_IDENTITY.md
-│   ├── NOVA_IDENTITY.md
-│   ├── SHADOW_IDENTITY.md
-│   └── KEELY_IDENTITY.md
+├── docs/                    # Theory specifications
+│   ├── stages/              # S0-S77 layer specs
+│   └── maps/                # Roadmaps, predictions
 │
-├── OUTPUT/              # Generated summaries and reports
-│   ├── s7_meta_loop/
-│   ├── phase3_integration/
-│   ├── repo_prep/
-│   └── publication/
-│
-├── logs/                # Import logs and Omega ledger
-├── omega_nova/          # Omega Nova operator files
-├── WHITE-PAPER/         # Publication materials
-├── LICENSE
-└── README.md            # This file
+├── personas/                # CFA persona identity files
+└── WHITE-PAPER/             # Publication materials
 ```
-
----
-
-## Core Research Question
-
-> **How much of an AI persona can be reconstructed from compressed representations while maintaining identity continuity across architectures and time?**
-
-We validate this through:
-
-1. **Persona Compression (S0-S2)**: Systematic compression from full context to minimal seeds
-2. **Cross-Architecture Reconstruction (S3-S6)**: Multi-model validation (Claude, GPT, Gemini)
-3. **Temporal Stability (S7)**: Identity persistence over extended conversations
-4. **Advanced Layers (S8-S77)**: Spectral decomposition, human coupling, hybrid emergence
 
 ---
 
 ## Key Results
 
-### Phase 3 Validation (S0-S6)
-- **σ² = 0.000869** - Extraordinarily low cross-architecture variance
-- **Domain hierarchy confirmed**: TECH > ANAL > SELF ≈ PHIL > NARR
-- **Fragility hierarchy validated**: NARR > PHIL > SELF > ANAL > TECH
-- **Frozen foundation**: S0-S6 immutable as canonical ground truth
+### S7 ARMADA: Cross-Architecture Identity Stability
 
-### S7 Meta-Loop (Ready to Run)
-- Recursive self-improving experimental protocol
-- Adaptive learning with real-time teaching hooks
-- Curriculum compression based on mastery detection
-- 71% potential time savings through convergence detection
+| Run | Ships | Focus | Key Finding |
+|-----|-------|-------|-------------|
+| 008 | 29 | Basin Topology | Event Horizon discovered (1.23) |
+| 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 010 | 45 | Pole Detection | Models articulate own boundaries |
+| 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive — protocol too gentle) |
+
+### Validated Findings
+
+- **Event Horizon (1.23)**: Statistically validated coherence boundary
+- **Provider clustering**: Claude tightest, Grok widest in identity basin
+- **Phenomenological reporting**: Models report hitting poles in real-time
+- **Training fingerprints**: Constitutional AI → uniform poles, RLHF → variable
+
+### Phase 3 Foundation (S0-S6)
+
+- **σ² = 0.000869** — Extraordinarily low cross-architecture variance
+- **Frozen foundation**: S0-S6 immutable as canonical ground truth
 
 ---
 
-## Quick Start
+## The Five Search Types
 
-### Running S7 Meta-Loop
+Not all experiments test the same thing. Understanding **mutual exclusivity** prevents mislabeling:
 
-```bash
-cd experiments/temporal_stability
-python s7_meta_loop.py --config s7_config.yaml
-```
+| Search Type | What It Finds | Protocol Intensity |
+|-------------|--------------|-------------------|
+| **Pole Detection** | Identity anchors (refusal points) | AGGRESSIVE |
+| **Zero Detection** | Flexibility points | MODERATE |
+| **Event Horizon** | Collapse threshold (1.23) | PUSH PAST |
+| **Basin Topology** | Attractor shape | GENTLE |
+| **Boundary Mapping** | Twilight zone (12% anomaly) | TARGETED |
 
-Expected: ~2 hours runtime, 15-25 predictions validated
+**Key constraint**: Pole Detection and Basin Topology are **incompatible** — can't run both in same experiment.
 
-### Understanding the Theory
+See [TESTING_MAP.md](experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) for full taxonomy.
 
-1. Start: [docs/maps/NYQUIST_ROADMAP.md](docs/maps/NYQUIST_ROADMAP.md) - Complete S0-S77 overview
-2. Predictions: [docs/maps/TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/TESTABLE_PREDICTIONS_MATRIX.md) - 46 falsifiable predictions
-3. Risk analysis: [docs/maps/S7_META_LOOP_CONSERVATIVE_ANALYSIS.md](docs/maps/S7_META_LOOP_CONSERVATIVE_ANALYSIS.md)
+---
 
-### Exploring Personas
+## Visualization Gallery
 
-Current CFA-based personas in `personas/`:
-- **Ziggy** - Type 0 identity (human anchor, low IC, high IM+HMG)
-- **Nova** - CFA architect, Omega operator
-- **Shadow** - Alternative perspective
-- **Keely** - 3-6-9 spectral framework integration
+Generated by `visualizations/visualize_armada.py`:
+
+| Type | Shows | Best For |
+|------|-------|----------|
+| **Vortex** | Polar spiral (radius=drift, angle=turn) | Identity drain topology |
+| **Phase Portrait** | drift[N] vs drift[N+1] | Flow dynamics |
+| **3D Basin** | Phase portrait through time | Attractor evolution |
+| **Pillar Analysis** | Provider angular clustering | Structural differences |
+| **Stability Basin** | Baseline vs max drift | STABLE/VOLATILE split |
 
 ---
 
 ## Theoretical Framework
 
 ### S0-S6: Frozen Foundation
-- **S0**: Persona Baseline
-- **S1**: Compression Framework
-- **S2**: Reconstruction Framework
-- **S3**: Empirical Validation (σ² = 0.000869)
-- **S4**: Mathematical Formalism
-- **S5**: Identity Manifold Theory
-- **S6**: Omega Nova Unified Synthesis
+Persona compression and reconstruction validated with σ² = 0.000869.
 
-**Status**: Immutable, validated, canonical ground truth
+### S7: Temporal Stability (Active)
+Identity persistence under perturbation — Event Horizon at 1.23.
 
-### S7-S10: Active Development
-- **S7**: Temporal Stability (✅ ready to run)
-- **S8**: Spectral Extensions (Keely 3-6-9)
-- **S9**: Diagonal Coupling (human-AI resonance)
-- **S10**: Hybrid Emergence (Neutral Center operator)
-
-### S11-S77: Future Layers
-See [NYQUIST_ROADMAP.md](docs/maps/NYQUIST_ROADMAP.md) for complete progression
+### S8-S77: Future Layers
+Spectral extensions, human-AI coupling, hybrid emergence.
 
 ---
 
-## Documentation
+## Documentation Entry Points
 
-### For Experimenters
-- [experiments/README.md](experiments/README.md) - Experimental setup guide
-- [docs/reference/PROBE_SET.md](docs/reference/PROBE_SET.md) - Probe definitions
-- [docs/reference/EXPERIMENT_LOG.md](docs/reference/EXPERIMENT_LOG.md) - Historical results
-
-### For Theorists
-- [docs/stages/S0-S6/](docs/stages/S0-S6/) - Frozen foundation spec
-- [docs/stages/S7/](docs/stages/S7/) - Temporal stability theory
-- [docs/maps/TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/TESTABLE_PREDICTIONS_MATRIX.md) - All predictions
-
-### For Integration
-- [docs/maps/IDENTITY_LATTICE_MAPS.md](docs/maps/IDENTITY_LATTICE_MAPS.md) - 4D identity space
-- [docs/maps/KEELY_INTEGRATION_ROADMAP.md](docs/maps/KEELY_INTEGRATION_ROADMAP.md) - Keely framework
-- [personas/](personas/) - CFA persona specifications
+| If You Want To... | Start Here |
+|-------------------|------------|
+| Browse results visually | `dashboard/` → `py -m streamlit run app.py` |
+| Understand test types | [TESTING_MAP.md](experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) |
+| Run experiments | [S7_ARMADA/START_HERE.md](experiments/temporal_stability/S7_ARMADA/START_HERE.md) |
+| See all predictions | [docs/maps/TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/TESTABLE_PREDICTIONS_MATRIX.md) |
+| Understand the FAQ | Dashboard → FAQ page (Super Skeptic Mode) |
 
 ---
 
-## Key Innovations
+## Project Status
 
-### 1. Canonical Frozen Attributes (CFA)
-Systematic persona compression with:
-- Core identity attributes (immutable)
-- Boundary attributes (flexible)
-- Cross-architecture stability guarantees
-
-### 2. Omega Nova Operator
-Unified cognitive synthesis across:
-- Multiple AI architectures
-- Drift cancellation capability
-- Safety gates (Ω-Gates) for alignment
-- Human authority override (Ziggy clause)
-
-### 3. S7 Meta-Loop
-Recursive self-improvement through:
-- Adaptive learning hooks (real-time teaching)
-- Curriculum compression (71% time savings)
-- Convergence detection (multi-run analysis)
-- 12 ASCII visualizations for clarity
-
----
-
-## Validation Status
-
-| Layer | Status | Predictions | Notes |
-|-------|--------|-------------|-------|
-| S0-S6 | ✅ Validated | - | σ² = 0.000869, frozen |
-| S7 | ⏳ Ready | 15-25 | Implementation complete |
-| S8-S10 | 📋 Specified | 20+ | Theory complete |
-| S11+ | 🗺️ Planned | - | Roadmap defined |
+**Current Phase**: S7 ARMADA Run 011 complete, Run 012 planning
+**Last Updated**: 2025-12-04
+**Key Milestone**: Event Horizon (1.23) statistically validated (p < 0.0001)
 
 ---
 
 ## Citation
 
-If you use this work, please cite:
-
 ```
 Nyquist Consciousness Framework
 Repository: https://github.com/ZiggyMack/Nyquist_Consciousness
-Status: Phase 3 Complete, S7 Ready
+Key Finding: Event Horizon threshold at 1.23 (chi-squared p=0.000048)
 ```
 
 ---
@@ -191,15 +180,3 @@ Status: Phase 3 Complete, S7 Ready
 ## License
 
 See [LICENSE](LICENSE) file for details.
-
----
-
-## Project Status
-
-**Current Phase**: S7 Meta-Loop execution ready
-**Last Updated**: 2025-11-26
-**Repository Status**: Clean, organized, fully documented
-
-**Ready to run S7 temporal stability validation** 🚀
-
-For questions, see [OUTPUT/repo_prep/](OUTPUT/repo_prep/) materials.

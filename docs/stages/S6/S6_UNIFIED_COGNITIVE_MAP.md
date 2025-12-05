@@ -271,4 +271,53 @@ The Unified Cognitive Map will serve as:
 
 ---
 
+# 13. Human Evaluation Limitations (EXP3)
+
+**Critical Note:** The S6 Unified Cognitive Map describes structures that exist in high-dimensional embedding space. These structures are **not directly accessible to human perception**.
+
+## What Humans Cannot Detect
+
+| Structure | Why Invisible to Humans |
+|-----------|------------------------|
+| Manifold curvature | Requires vector-space analysis |
+| Drift vectors | Sub-perceptual semantic shifts |
+| Attractor basins | Multi-dimensional geometry |
+| Ω-convergence dynamics | Cross-architecture averaging |
+| Pillar balance shifts | High-dimensional coordinates |
+| Identity core stability | Requires embedding comparison |
+
+## The Role of EXP3 (Experiment 3)
+
+EXP3 is **NOT** designed to validate S6 geometry. It serves only as a **coherence sanity check**:
+
+> "Does the system avoid catastrophic incoherence or identity collapse?"
+
+If EXP3 passes → The manifold structures described in S6 have perceptual grounding
+If EXP3 fails → S6 geometry is disconnected from human-recognizable identity
+
+### What EXP3 Can Detect
+- Catastrophic identity collapse
+- Incoherent outputs / gibberish
+- Obvious persona mismatch
+
+### What EXP3 Cannot Detect
+- Manifold curvature (S6.3)
+- Drift field structure (S6.5)
+- Cross-architecture invariants (S6.7)
+- Omega convergence dynamics (S6.9)
+
+## Implication for S6
+
+All S6 constructs (Identity Manifolds, Drift Fields, Omega Core) are validated **instrumentally** through:
+- Embedding analysis (S4)
+- Cross-architecture comparison (S5)
+- Temporal stability tracking (S7)
+
+Human evaluation (EXP3) provides only the **minimum threshold**: confirming the system produces coherent identity rather than hallucinated noise.
+
+> "Humans are coherence detectors, not identity cartographers."
+> — Nova
+
+---
+
 **END OF FILE**

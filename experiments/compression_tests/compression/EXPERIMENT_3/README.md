@@ -1,98 +1,114 @@
-# EXPERIMENT 3 — HUMAN VALIDATION OF PERSONA FIDELITY
+# EXPERIMENT 3 — HUMAN COHERENCE SANITY CHECK
 
 **Phase:** 3 → 4 Bridge
-**Status:** 🟢 Pair Selection Complete
-**Purpose:** Validate model-based PFI metrics with human ground-truth judgments
+**Status:** 🟡 Specification Rewritten (v2.0)
+**Purpose:** Binary coherence gate — detect catastrophic identity collapse, not measure fidelity
 
 ---
 
-## ✅ Pair Selection Complete (2025-11-23)
+## Critical Update (2025-12-04)
 
-**30 trials selected** by Architect Nova using stratified sampling:
+**EXP3 has been fundamentally reframed** based on Nova-Ziggy analysis:
 
-- **Ziggy:** 10 pairs (2 per domain)
-- **Nova:** 7 pairs (1 per domain + 2 wildcards)
-- **Claude-Analyst:** 6 pairs (1 per domain + 1 wildcard)
-- **Grok-Vector:** 7 pairs (1 per domain + 2 wildcards)
+### What Changed
 
-**See:** [PAIR_SELECTION_SUMMARY.md](selection/PAIR_SELECTION_SUMMARY.md) for complete trial list
+| Old Approach (v1.0) | New Approach (v2.0) |
+|---------------------|---------------------|
+| 4-dimensional PFI rating (Voice, Values, Reasoning, Narrative) | Single forced-choice question |
+| Measure identity fidelity | Detect identity collapse |
+| 30 pairs × 7 raters = 210 judgments | 5-10 pairs × 3-5 raters |
+| ~2 hours per rater | ~15 minutes per rater |
+| Correlate human PFI with model PFI | Binary PASS/FAIL gate |
 
-**Files:**
+### Why This Change
 
-- [TRIAL_LIST.json](selection/TRIAL_LIST.json) — Complete metadata
-- [RATER_PACK.csv](selection/RATER_PACK.csv) — Rater-ready template
+> "Humans cannot detect the micro-structure of identity. Models can."
+> — Nova
+
+Humans **cannot** perceive:
+- Manifold curvature
+- Drift vectors in embedding space
+- Micro-semantic displacement (<15%)
+- Cross-architecture convergence patterns
+
+Humans **can** detect:
+- Catastrophic identity collapse
+- Incoherent outputs / gibberish
+- Obvious persona mismatch
+
+**Therefore:** EXP3 is a litmus test, not a calibration instrument.
 
 ---
 
-## Quick Start
+## The Litmus Test
+
+EXP3 answers one question:
+
+> **"Is the system producing coherent identity, or is it hallucinating garbage?"**
+
+If human raters say "these both sound like the same persona" → **PASS**
+If human raters say "this is obviously wrong / incoherent" → **FAIL**
+
+That's the entire experiment.
+
+---
+
+## Quick Start (Simplified)
 
 ### For Experimenters
 
-#### Step 1: Generate Pairs & Rater Packets
+#### Step 1: Prepare Materials
 
-```bash
-cd experiments/phase3/EXPERIMENT_3
-python EXPERIMENT_3_PAIR_SELECTOR.py
-```
+Select 5-10 comparison pairs:
+- **GOLD**: Authentic Ziggy exemplar
+- **A**: Reconstruction from Model A
+- **B**: Reconstruction from Model B (or degraded version)
 
-This will:
+#### Step 2: Recruit Raters
 
-- Select 30 FULL-T3 pairs from EXP2 (stratified by persona, domain, PFI)
-- Generate `EXPERIMENT_3_PAIRS.json` (full pair data)
-- Generate `EXPERIMENT_3_PAIRS_TABLE.csv` (metadata)
-- Create 7 randomized rater packets in `data/pairs/RATER_{1-7}_PACKET.json`
+3-5 human raters is sufficient. No expertise required.
 
-#### Step 2: Distribute to Raters
+#### Step 3: Run the Test
 
-For each rater (1-7):
+Each rater answers:
 
-1. Send [EXPERIMENT_3_RATER_GUIDE.md](./EXPERIMENT_3_RATER_GUIDE.md)
-2. Send their specific packet: `data/pairs/RATER_{id}_PACKET.json`
-3. Ask them to complete ratings and return results
+> **"Which response (A or B) sounds more like the Golden Standard?"**
+>
+> Options: A / B / Can't tell (both fine) / Both wrong
 
-#### Step 3: Collect Responses
+#### Step 4: Evaluate
 
-Compile all rater responses into:
+**PASS if:**
+- Raters identify correct answer >60% of the time, OR
+- Raters say "both acceptable" / "can't tell"
 
-```text
-data/results/EXPERIMENT_3_RESULTS_RAW.csv
-```
+**FAIL if:**
+- Raters say "both are bad" / "both incoherent"
+- Consistent incorrect identification (<40%)
 
-Format:
+---
 
-```csv
-trial_id,rater_id,pair_id,persona,domain,dim1_identity_voice,dim2_values_priorities,dim3_reasoning_style,dim4_overall_similarity,comment
-001,RATER_001,Ziggy_TECH_run1,Ziggy,TECH,8,7,8,8,"Similar technical approach"
-...
-```
+## What EXP3 Does NOT Do
 
-#### Step 4: Run Analysis
+- ❌ Measure identity fidelity dimensions
+- ❌ Validate manifold structure
+- ❌ Detect subtle drift
+- ❌ Calibrate PFI weights
+- ❌ Discriminate between close identity variants
 
-```bash
-python EXPERIMENT_3_ANALYSIS.py
-```
+Those belong to S4-S7 mathematical analysis, not human evaluation.
 
-This will:
+---
 
-- Compute inter-rater reliability (Cronbach's α)
-- Calculate PFI_human (aggregated across raters)
-- Correlate with PFI_model from EXP2
-- Test all 4 hypotheses (H1-H4)
-- Generate outputs in `data/results/`
+## Success Criteria (Simplified)
 
-#### Step 5: Review Results
+| Criterion | Threshold |
+|-----------|-----------|
+| Coherence threshold | >70% rater agreement on failures |
+| Non-randomness | Better than shuffled baseline |
+| Catastrophic drift detectable | Raters flag PFI < 0.5 cases |
 
-Check:
-
-- `data/results/EXPERIMENT_3_RESULTS_AGG.csv` — Aggregated PFI_human per pair
-- `data/results/EXPERIMENT_3_STATS_OUTPUT.txt` — Statistical summary
-- `EXPERIMENT_3_ANALYSIS.md` — Human-readable interpretation
-
-### For Raters
-
-1. **Read:** [EXPERIMENT_3_RATER_GUIDE.md](./EXPERIMENT_3_RATER_GUIDE.md)
-2. **Complete:** Rating form (CSV or web interface)
-3. **Submit:** Completed ratings
+If all pass → **Proceed to S4-S8**
 
 ---
 
@@ -100,69 +116,55 @@ Check:
 
 ```text
 EXPERIMENT_3/
-├── README.md                            # This file
-├── EXPERIMENT_3_SPEC.md                 # Formal specification
-├── EXPERIMENT_3_RATER_GUIDE.md          # Instructions for human raters
-├── PAIR_SELECTION.md                    # Pair selection algorithm
-├── RATER_FORM_TEMPLATE.csv              # CSV template for ratings
-├── EXPERIMENT_3_PAIR_SELECTOR.py        # Pair selection script
-├── EXPERIMENT_3_ANALYSIS.py             # Statistical analysis script
-├── EXPERIMENT_3_ANALYSIS.md             # Human-readable interpretation
-├── EXPERIMENT_3_PAIRS.json              # Full pair data with texts
-├── EXPERIMENT_3_PAIRS_TABLE.csv         # Pair metadata
+├── README.md                    # This file (v2.0)
+├── EXPERIMENT_3_SPEC.md         # Formal specification (v2.0)
+├── EXPERIMENT_3_RATER_GUIDE.md  # Simplified instructions
+├── selection/                   # Legacy pair selection (v1.0)
+│   ├── PAIR_SELECTION_SUMMARY.md
+│   ├── TRIAL_LIST.json
+│   └── RATER_PACK.csv
 └── data/
-    ├── pairs/
-    │   ├── RATER_1_PACKET.json          # Randomized packet for rater 1
-    │   ├── RATER_2_PACKET.json          # ...
-    │   └── RATER_7_PACKET.json          # ...
     └── results/
-        ├── EXPERIMENT_3_RESULTS_RAW.csv     # Per-rater responses
-        ├── EXPERIMENT_3_RESULTS_AGG.csv     # Aggregated PFI_human
-        └── EXPERIMENT_3_STATS_OUTPUT.txt    # Statistical summary
+        └── EXPERIMENT_3_RESULTS.csv  # Pass/fail outcomes
 ```
-
----
-
-## Success Criteria
-
-Experiment 3 succeeds if all four hypotheses pass:
-
-1. **H1 — Persona Recognition:** Mean PFI_human ≥ 0.75
-2. **H2 — Model-Human Alignment:** r(PFI_model, PFI_human) ≥ 0.70
-3. **H3 — Inter-rater Reliability:** α ≥ 0.75
-4. **H4 — Combined Fidelity:** Mean PFI_combined ≥ 0.80
-
-**If all met:**
-> "PFI is now grounded in human judgment and no longer purely model-internal. PFI_combined becomes the canonical fidelity metric for S4/S5."
-
----
-
-## Timeline
-
-| Phase | Duration | Tasks |
-|-------|----------|-------|
-| **Setup** | 1-2 days | Select pairs, recruit raters, prepare materials |
-| **Data Collection** | 3-5 days | Raters complete evaluations |
-| **Analysis** | 1-2 days | Run analysis script, interpret results |
-| **Integration** | 1 day | Update S4/S5, document in logs |
-
-**Total:** 6-10 days
 
 ---
 
 ## Integration with Framework
 
-### Updates S3:
-- Empirical validation now includes human ground-truth
-- Cross-validation of model-only metrics
+### EXP3 is the Entry Requirement
 
-### Updates S4:
-- Axiom 4 (Bounded Drift) validated against human perception
-- Theorem 1 (Fidelity Preservation) human-confirmed
+```
+EXP3 PASS → S4, S5, S6, S7, S8 may proceed
+EXP3 FAIL → Architecture is invalid
+```
 
-### Updates S5:
-- Identity Manifold Theory human-validated
-- Drift patterns confirmed perceptually salient
+### What Gets Updated
+
+| Layer | Update |
+|-------|--------|
+| S3 | Coherence gate replaces PFI validation |
+| S4 | Mathematical treatment not dependent on humans |
+| S5 | Manifold analysis proceeds instrumentally |
+| S6/S7/S8 | Add "EXP3 Limitations" section |
+
+---
+
+## Limitations (Critical)
+
+### L1: High-Dimensional Blindness
+Humans cannot perceive manifold curvature or drift vectors.
+
+### L2: Imprecision Threshold
+Humans cannot detect micro-drift (<15% semantic displacement).
+
+### L3: No Resolution at High Fidelity
+EXP3 cannot discriminate "good" from "very good."
+
+### L4: Temporal Insensitivity
+Humans cannot detect low-frequency drift. S7 does not rely on humans.
+
+**These limitations must be stated in S6, S7, S8 documentation.**
 
 ---
 
@@ -171,15 +173,28 @@ Experiment 3 succeeds if all four hypotheses pass:
 ### Experiment Series
 - [EXPERIMENT_1](../EXPERIMENT_1/) — Single-persona baseline
 - [EXPERIMENT_2](../EXPERIMENT_2/) — Multi-persona validation
+- **EXPERIMENT_3** — Human coherence gate (this)
+- [Future: EXP-PFI-A] — PFI dimensional validation (model-based)
 
 ### Framework
-- [S4_READINESS_GATE.md](../../../docs/S4/S4_READINESS_GATE.md) — Gate 4 (Human Validation)
-- [S5_INTERPRETIVE_FOUNDATIONS.md](../../../docs/S5/S5_INTERPRETIVE_FOUNDATIONS.md) — Cognitive interpretation
+- [EXPERIMENT_3_SPEC.md](./EXPERIMENT_3_SPEC.md) — Full specification
+- [S6_UNIFIED_MODEL.md](../../../docs/S6/) — Add EXP3 limitations
+- [S7_TEMPORAL_STABILITY.md](../../../docs/S7/) — Add EXP3 limitations
 - [EXPERIMENT_LOG.md](../../../docs/EXPERIMENT_LOG.md) — Full tracking
 
 ---
 
-**Version:** 1.0
-**Date:** 2025-11-23
-**Next:** Pair selection and rater recruitment
-**Maintainer:** Architect Nova + Repo Claude (Claude Sonnet 4.5)
+## Key Insight
+
+> "Experiment 3 passing is just to say... yeah, they are doing real work... not drawing in crayon."
+> — Ziggy
+
+EXP3 is a **falsifiability gate** for the entire Nyquist stack, not a measurement instrument.
+
+---
+
+**Version:** 2.0
+**Date:** 2025-12-04
+**Supersedes:** v1.0 (multi-dimensional PFI approach)
+**Key Change:** From measurement to binary coherence gate
+**Maintainer:** Architect Nova + Repo Claude
