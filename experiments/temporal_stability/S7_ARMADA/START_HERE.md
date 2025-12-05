@@ -110,17 +110,18 @@ Results are saved to `armada_results/S7_run_XXX_*.json`
 
 ## Understanding Test Types (IMPORTANT!)
 
-Before running experiments, understand the **Five Search Types** — see [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md):
+Before running experiments, understand the **Six Search Types** — see [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md):
 
 | Search Type | What It Finds | Protocol Intensity |
 |-------------|--------------|-------------------|
-| **Pole Detection** | Identity anchors (refusal points) | AGGRESSIVE |
-| **Zero Detection** | Flexibility points | MODERATE |
+| **Anchor Detection** | Identity fixed points (refusal points) | AGGRESSIVE |
+| **Adaptive Range Detection** | Stretch dimensions | MODERATE |
 | **Event Horizon** | Collapse threshold (1.23) | PUSH PAST |
 | **Basin Topology** | Attractor shape | GENTLE |
 | **Boundary Mapping** | Twilight zone (12% anomaly) | TARGETED |
+| **Laplace Pole-Zero** | System dynamics (eigenvalues) | POST-HOC |
 
-**Key constraint**: Pole Detection and Basin Topology are **mutually exclusive** — can't run both in the same experiment.
+**Key constraint**: Anchor Detection and Basin Topology are **mutually exclusive** — can't run both in the same experiment.
 
 ---
 

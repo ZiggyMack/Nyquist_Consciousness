@@ -64,15 +64,16 @@ experiments/
 
 **Testing Taxonomy (IMPORTANT):**
 
-See [S7_ARMADA/docs/maps/TESTING_MAP.md](temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) for the **Five Search Types**:
+See [TESTING_MAP.md](../docs/maps/TESTING_MAP.md) for the **Six Search Types**:
 
-1. **Pole Detection** — Find identity anchors (hard challenges)
-2. **Zero Detection** — Find flexibility points (moderate)
+1. **Anchor Detection** — Find identity fixed points (hard challenges)
+2. **Adaptive Range Detection** — Find stretch dimensions (moderate)
 3. **Event Horizon** — Validate collapse threshold (push past 1.23)
 4. **Basin Topology** — Map attractor structure (gentle)
 5. **Boundary Mapping** — Explore the 12% anomaly (targeted)
+6. **Laplace Pole-Zero Analysis** — Extract system dynamics (post-hoc)
 
-**Key Constraint:** Not all tests are compatible. Pole Detection and Basin Topology are **mutually exclusive**.
+**Key Constraint:** Not all tests are compatible. Anchor Detection and Basin Topology are **mutually exclusive**.
 
 **Quick Start:**
 

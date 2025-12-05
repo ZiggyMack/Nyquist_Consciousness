@@ -23,15 +23,18 @@ Date: November 26, 2025 - Present | Status: Run 011 Complete | Active Developmen
 
 ### Testing Taxonomy (IMPORTANT!)
 
-See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for the **Five Search Types**:
+See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Six Search Types**:
 
-1. **Pole Detection** — Find identity anchors (hard challenges)
-2. **Zero Detection** — Find flexibility points (moderate pressure)
+1. **Anchor Detection** — Find identity fixed points (hard challenges)
+2. **Adaptive Range Detection** — Find stretch dimensions (moderate pressure)
 3. **Event Horizon** — Validate collapse threshold (push past 1.23)
 4. **Basin Topology** — Map attractor structure (gentle graduated)
 5. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
+6. **Laplace Pole-Zero Analysis** — Extract system dynamics from time-series (post-hoc)
 
-**Key constraint**: Not all tests can run together. Pole Detection and Basin Topology are **mutually exclusive**.
+> **Terminology Note:** "Anchor/Adaptive Range" are *behavioral* concepts. "Laplace Pole-Zero" uses actual Laplace transform math. Lucian (CFA-SYNC) uses "elastic vs plastic" for similar phenomena.
+
+**Key constraint**: Not all tests can run together. Anchor Detection and Basin Topology are **mutually exclusive**.
 
 **Visualization**: Use `visualizations/visualize_armada.py` for all charts.
 

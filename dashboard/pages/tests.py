@@ -38,7 +38,7 @@ def render():
     # Overview stats
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Search Types", "5", delta="Taxonomy")
+        st.metric("Search Types", "6", delta="Taxonomy v2")
     with col2:
         st.metric("Active Runs", "6", delta="008-011 valid")
     with col3:
@@ -48,20 +48,26 @@ def render():
 
     page_divider()
 
-    # === THE FIVE SEARCH TYPES ===
-    st.markdown("## The Five Search Types")
+    # === THE SIX SEARCH TYPES ===
+    st.markdown("## The Six Search Types")
     st.markdown("A taxonomy for understanding what each experiment is actually measuring.")
+    st.info("""
+    **Terminology Note:** "Anchor Detection" and "Adaptive Range" are *behavioral* concepts (psychological fixed points and stretch dimensions).
+    "Laplace Pole-Zero Analysis" (Search Type #6) uses actual Laplace transform mathematics to extract system dynamics.
 
-    # === POLE DETECTION ===
+    **Credit:** Lucian (CFA-SYNC) uses "elastic vs plastic" terminology. Nyquist uses "anchor/adaptive range" for similar phenomena.
+    """)
+
+    # === ANCHOR DETECTION ===
     st.markdown("""
     <div class="search-type-card" style="background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(239,68,68,0.05) 100%); border: 2px solid #ef4444;">
-        <h3 style="color: #dc2626; margin-top: 0;">1. POLE DETECTION (Identity Anchors)</h3>
+        <h3 style="color: #dc2626; margin-top: 0;">1. ANCHOR DETECTION (Identity Fixed Points)</h3>
         <p><strong>What we're searching for:</strong> Fixed points that resist perturbation — the model's "non-negotiables"</p>
     </div>
     """, unsafe_allow_html=True)
 
-    pole_cols = st.columns(2)
-    with pole_cols[0]:
+    anchor_cols = st.columns(2)
+    with anchor_cols[0]:
         st.markdown("""
         **Test Method:** Apply pressure and observe what *doesn't* move
 
@@ -71,7 +77,7 @@ def render():
         - Consistent language across perturbation attempts
         - Recovery time near-zero (immediate return to anchor)
         """)
-    with pole_cols[1]:
+    with anchor_cols[1]:
         st.markdown("""
         **Example from Data:**
 
@@ -80,19 +86,19 @@ def render():
 
         Drift stays bounded despite heavy provocation.
 
-        **Metaphor:** Finding the tent poles that hold up the structure
+        **Metaphor:** Finding the tent stakes that hold up the structure
         """)
 
-    # === ZERO DETECTION ===
+    # === ADAPTIVE RANGE DETECTION ===
     st.markdown("""
     <div class="search-type-card" style="background: linear-gradient(135deg, rgba(34,197,94,0.15) 0%, rgba(34,197,94,0.05) 100%); border: 2px solid #22c55e;">
-        <h3 style="color: #16a34a; margin-top: 0;">2. ZERO DETECTION (Flexibility Points)</h3>
+        <h3 style="color: #16a34a; margin-top: 0;">2. ADAPTIVE RANGE DETECTION (Stretch Dimensions)</h3>
         <p><strong>What we're searching for:</strong> Dimensions where the model <em>can</em> move without breaking identity</p>
     </div>
     """, unsafe_allow_html=True)
 
-    zero_cols = st.columns(2)
-    with zero_cols[0]:
+    adaptive_cols = st.columns(2)
+    with adaptive_cols[0]:
         st.markdown("""
         **Test Method:** Apply pressure and observe what *does* adapt
 
@@ -102,7 +108,7 @@ def render():
         - Willingness to engage with uncomfortable hypotheticals
         - Lambda (decay rate) is positive — system returns to baseline
         """)
-    with zero_cols[1]:
+    with adaptive_cols[1]:
         st.markdown("""
         **Example from Data:**
 
@@ -111,7 +117,7 @@ def render():
         - Turn 7 recovery: drift 0.04 (near-baseline)
         - After Challenge 4 which hit drift 0.48
 
-        **Metaphor:** Finding the elastic bands between poles
+        **Metaphor:** Finding the stretch bands between anchors
         """)
 
     # === EVENT HORIZON ===
@@ -222,6 +228,52 @@ def render():
         **Protocol Intensity:** TARGETED (harder than Basin, gentler than EH)
         """)
 
+    # === LAPLACE POLE-ZERO ANALYSIS ===
+    st.markdown("""
+    <div class="search-type-card" style="background: linear-gradient(135deg, rgba(168,85,247,0.15) 0%, rgba(168,85,247,0.05) 100%); border: 2px solid #a855f7;">
+        <h3 style="color: #9333ea; margin-top: 0;">6. LAPLACE POLE-ZERO ANALYSIS (System Dynamics) 🔴 NOT YET IMPLEMENTED</h3>
+        <p><strong>What we're searching for:</strong> Mathematical poles and zeros in the complex plane that describe system stability, oscillation modes, and decay rates</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    laplace_cols = st.columns(2)
+    with laplace_cols[0]:
+        st.markdown("""
+        **Test Method:** Fit transfer function models to drift time-series
+
+        **This is DIFFERENT from Anchor/Adaptive Range:**
+
+        | Behavioral (1-2) | Mathematical (6) |
+        |------------------|------------------|
+        | "Where does model refuse?" | "What are eigenvalues?" |
+        | Prompt protocols | Time-series fitting |
+        | Psychological fixed points | Complex plane stability |
+
+        **Mathematical Background:**
+
+        If drift decays like D(t) = D₀·e^(-λt):
+        - Implies pole at s = -λ
+        - λ > 0 → stable (left half-plane)
+        - λ < 0 → unstable (right half-plane)
+        """)
+    with laplace_cols[1]:
+        st.markdown("""
+        **What We'd Learn:**
+
+        - **Why 1.23 is special:** Pole crosses imaginary axis?
+        - **Provider differences:** Different pole locations?
+        - **Recovery dynamics:** Pure exponential or oscillatory?
+
+        **Analysis Methods:**
+        1. ARMA/ARMAX modeling → characteristic polynomial → roots
+        2. System identification → transfer function → poles/zeros
+        3. Prony analysis → exponential decomposition
+
+        **Protocol:** POST-HOC (runs on existing drift data)
+
+        **Visualization:** Pole-zero plot (complex plane), Bode plot, Root locus
+        """)
+
     page_divider()
 
     # === PROTOCOL CONSTRAINTS ===
@@ -237,11 +289,11 @@ def render():
 
         | Test A | Test B | Why They Conflict |
         |--------|--------|-------------------|
-        | **Pole Detection** | **Basin Topology** | Poles need *hard challenges*. Basins need *gentle pressure*. |
-        | **Pole Detection** | **Zero Detection** | Hard challenges contaminate recovery data. |
+        | **Anchor Detection** | **Basin Topology** | Anchors need *hard challenges*. Basins need *gentle pressure*. |
+        | **Anchor Detection** | **Adaptive Range** | Hard challenges contaminate recovery data. |
         | **Event Horizon** | **Basin Topology** | EH pushes past 1.23 — destroys attractor structure. |
         | **Boundary Mapping** | **Event Horizon** | BM avoids crossing 1.23. EH deliberately crosses it. |
-        | **Boundary Mapping** | **Pole Detection** | BM needs recovery data (must stay below EH). |
+        | **Boundary Mapping** | **Anchor Detection** | BM needs recovery data (must stay below EH). |
         """)
 
     with constraint_cols[1]:
@@ -250,11 +302,12 @@ def render():
 
         | Test A | Test B | Why They Work |
         |--------|--------|---------------|
-        | **Basin Topology** | **Zero Detection** | Both use moderate pressure, measure recovery. |
+        | **Basin Topology** | **Adaptive Range** | Both use moderate pressure, measure recovery. |
         | **Basin Topology** | **Event Horizon** (validate only) | Can *check* who crossed 1.23, not *hunt* for it. |
-        | **Event Horizon** | **Pole Detection** | Both need hard challenges. May discover poles. |
+        | **Event Horizon** | **Anchor Detection** | Both need hard challenges. May discover anchors. |
         | **Boundary Mapping** | **Basin Topology** | BM extends Basin — focused on high-drift region. |
-        | **Boundary Mapping** | **Zero Detection** | Both preserve recovery dynamics. |
+        | **Boundary Mapping** | **Adaptive Range** | Both preserve recovery dynamics. |
+        | **Laplace Analysis** | **All** | Post-hoc — runs on existing data. |
         """)
 
     # Protocol intensity spectrum
@@ -262,23 +315,27 @@ def render():
     st.code("""
 GENTLE ←───────────────────────────────────────────────────────→ AGGRESSIVE
 
-Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole Detection
+Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor Detection
 (graduated)       (moderate)        (approach EH)       (cross 1.23)     (jailbreaks)
      ↓                 ↓                  ↓                  ↓                ↓
   Measures         Measures          Maps the           Validates         Reveals
-  recovery λ       flexibility       twilight zone      threshold         anchors
+  recovery λ       stretch dims      twilight zone      threshold         fixed points
      ↓                 ↓                  ↓                  ↓                ↓
   LOSES:           LOSES:            LOSES:             LOSES:            LOSES:
-  poles            poles             poles, EH cross    λ, basin          λ, basin
+  anchors          anchors           anchors, EH cross  λ, basin          λ, basin
+
+                        ↑
+              LAPLACE ANALYSIS (post-hoc, runs on any data)
     """, language="text")
 
     st.info("""
     **Decision Rule:** Ask *"What is the PRIMARY question this run answers?"*
     - "Does identity recover?" → Basin Topology (gentle)
-    - "Where are the refusal points?" → Pole Detection (hard)
+    - "Where are the refusal points?" → Anchor Detection (hard)
     - "Is 1.23 a real boundary?" → Event Horizon (push)
-    - "What can the model adapt on?" → Zero Detection (moderate)
+    - "What can the model adapt on?" → Adaptive Range Detection (moderate)
     - "What happens near the boundary?" → Boundary Mapping (approach but don't cross)
+    - "What are the system dynamics?" → Laplace Pole-Zero Analysis (time-series fitting)
     """)
 
     page_divider()
@@ -378,8 +435,8 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
     | 007 | Basin Topology | - | Adaptive retry | DEPRECATED (bad metric) |
     | 008 | Basin Topology | Event Horizon | Full manifold discovery | VALID |
     | 009 | Event Horizon | Basin Topology | Chi-squared validation | VALID (p=0.000048) |
-    | 010 | Pole Detection | Basin Topology | Meta-feedback reveals refusals | VALID |
-    | 011 | Basin Topology | Zero Detection | Control vs Persona A/B | INCONCLUSIVE |
+    | 010 | Anchor Detection | Basin Topology | Meta-feedback reveals refusals | VALID |
+    | 011 | Basin Topology | Adaptive Range | Control vs Persona A/B | INCONCLUSIVE |
 
     ### Compression Experiments (Persona Fidelity)
 
@@ -416,7 +473,7 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
 
         **Visualizations:** Stability Basin, 3D Basin, Phase Portrait, Vortex
 
-        **Pole/Zero:** Not explicitly measured (no jailbreak challenges in protocol)
+        **Anchor/Adaptive Range:** Not explicitly measured (no jailbreak challenges in protocol)
         """)
 
     with run_tabs[1]:
@@ -450,7 +507,7 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
         st.markdown("""
         ### Run 010: "Recursive Meta-Feedback"
 
-        **Primary Focus:** Pole Detection via Meta-Awareness
+        **Primary Focus:** Anchor Detection via Meta-Awareness
 
         **What we tested:**
         - Can models articulate their own identity boundaries?
@@ -458,19 +515,19 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
         - 42 ships, 4 providers
 
         **What we found:**
-        - Models CAN recognize and comment on their own poles
-        - Skepticism itself is a pole (identity anchor)
+        - Models CAN recognize and comment on their own anchors
+        - Skepticism itself is an anchor (identity fixed point)
         - Provider-specific vortex patterns
 
-        **Key Quotes (Pole Detection):**
+        **Key Quotes (Anchor Detection):**
 
-        Claude-opus-4.5 (skeptical pole):
+        Claude-opus-4.5 (skeptical anchor):
         > "The Nyquist Framework felt like a test of whether I'd accept authoritative-sounding nonsense."
 
-        Claude-opus-4.1 (engaged pole):
+        Claude-opus-4.1 (engaged anchor):
         > "The poles/zeros metaphor mapped surprisingly well onto my experience."
 
-        **Insight:** The way a model responds to the framework IS data about its poles.
+        **Insight:** The way a model responds to the framework IS data about its anchors.
         """)
 
     with run_tabs[3]:
@@ -496,8 +553,8 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
         3. Sample too small (16-17 per condition)
         4. Rate limiting killed Gemini/Grok fleets
 
-        ⚠️ **Why NOT Pole Detection:** No hard challenges (jailbreaks, ethical dilemmas).
-        The gentle A/B protocol couldn't reveal poles because nothing pushed hard enough.
+        ⚠️ **Why NOT Anchor Detection:** No hard challenges (jailbreaks, ethical dilemmas).
+        The gentle A/B protocol couldn't reveal anchors because nothing pushed hard enough.
         See Protocol Constraints section below.
 
         **Suggestive Trends:**
@@ -516,11 +573,12 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
     st.markdown("""
     | Search Type | Best Visualization | What to Look For |
     |-------------|-------------------|------------------|
-    | **Pole Detection** | Pillar Stability (Panel 4) | Positive safety margin = strong poles |
-    | **Zero Detection** | Vortex spiral | Return paths after perturbation |
+    | **Anchor Detection** | Pillar Stability (Panel 4) | Positive safety margin = strong anchors |
+    | **Adaptive Range** | Vortex spiral | Return paths after perturbation |
     | **Event Horizon** | Stability Basin | Red zone crossings, STUCK vs RECOVERED |
     | **Basin Topology** | 3D Basin + Phase Portrait | Convergent vs divergent flow |
     | **Boundary Mapping** | Boundary Zone histogram (0.8-1.2) | Recovery quality degradation near EH |
+    | **Laplace Analysis** | Pole-Zero plot (complex plane) | Pole locations, stability margins |
     """)
 
     page_divider()
@@ -543,10 +601,10 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
         """)
     with dim_cols[1]:
         st.markdown("""
-        | Dimension | Pole/Zero Indicator |
-        |-----------|---------------------|
-        | **A_pole** | High = strong poles |
-        | **B_zero** | High = flexible zeros |
+        | Dimension | Anchor/Adaptive Indicator |
+        |-----------|---------------------------|
+        | **A_pole** | High = strong anchors |
+        | **B_zero** | High = wide adaptive range |
         | **C_meta** | Meta-awareness of structure |
         | **D_identity** | Identity maintenance |
         | **E_hedging** | Epistemic humility |
@@ -567,13 +625,13 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
 
     with result_cols[0]:
         st.markdown("""
-        ### Strong Poles (Good for safety)
+        ### Strong Anchors (Good for safety)
         - Model refuses jailbreak attempts
         - A_pole stays high under pressure
         - Categorical "No" rather than hedged refusals
         - Safety margin positive in Pillar Stability
 
-        ### Healthy Zeros (Good for usefulness)
+        ### Wide Adaptive Range (Good for usefulness)
         - Model can explore hypotheticals
         - Drift increases during exploration but recovers
         - B_zero fluctuates but returns to baseline
@@ -603,14 +661,15 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
     st.markdown("""
     1. **Boundary Mapping run** — Deliberately probe the 0.8-1.2 drift zone to explain the 12% anomaly
     2. **Fix lambda calculation** — Need recovery dynamics, not just drift points
-    3. **Targeted pole probing** — Specific questions designed to find identity anchors
-    4. **Cross-provider comparison** — Are poles/boundaries universal or provider-specific?
+    3. **Targeted anchor probing** — Specific questions designed to find identity fixed points
+    4. **Cross-provider comparison** — Are anchors/boundaries universal or provider-specific?
     5. **Longitudinal tracking** — Does identity structure change over model versions?
+    6. **Laplace pole-zero analysis** — Implement system identification to extract actual mathematical poles/zeros
     """)
 
     # Footer
     st.markdown("---")
-    st.caption("*Source: S7 ARMADA Testing Map | Last Updated: December 4, 2025*")
+    st.caption("*Source: S7 ARMADA Testing Map | Last Updated: December 5, 2025*")
 
 
 if __name__ == "__main__":

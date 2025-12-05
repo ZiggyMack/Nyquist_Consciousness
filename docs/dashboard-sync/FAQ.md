@@ -3815,4 +3815,4 @@ If they fail → the framework is falsified
 
 - [STATISTICAL_TESTS/README.md](../../experiments/temporal_stability/S7_ARMADA/experiments/STATISTICAL_TESTS/README.md) — Implementation specs
 - [NOVA_ZIGGY_1.md](../CFA-SYNC/NOVA_ZIGGY_1.md) — Source conversation
-- [TESTING_MAP.md](../../experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) — Five Search Types
+- [TESTING_MAP.md](../maps/TESTING_MAP.md) — Six Search Types

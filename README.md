@@ -43,13 +43,16 @@ py visualizations/visualize_armada.py --run 009
 
 ### Understand the Testing Taxonomy
 
-See [experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md](experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) for the **Five Search Types**:
+See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for the **Six Search Types**:
 
-1. **Pole Detection** — Find identity anchors (hard challenges)
-2. **Zero Detection** — Find flexibility points (moderate pressure)
+1. **Anchor Detection** — Find identity fixed points (hard challenges)
+2. **Adaptive Range Detection** — Find stretch dimensions (moderate pressure)
 3. **Event Horizon** — Validate collapse threshold (push past 1.23)
 4. **Basin Topology** — Map attractor structure (gentle graduated)
 5. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
+6. **Laplace Pole-Zero Analysis** — Extract system dynamics from time-series (post-hoc)
+
+> **Note:** "Anchor/Adaptive Range" are *behavioral* concepts. "Laplace Pole-Zero" uses actual Laplace transform math.
 
 ---
 
@@ -85,15 +88,15 @@ Nyquist_Consciousness/
 |-----|-------|-------|-------------|
 | 008 | 29 | Basin Topology | Event Horizon discovered (1.23) |
 | 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
-| 010 | 45 | Pole Detection | Models articulate own boundaries |
+| 010 | 45 | Anchor Detection | Models articulate own boundaries |
 | 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive — protocol too gentle) |
 
 ### Validated Findings
 
 - **Event Horizon (1.23)**: Statistically validated coherence boundary
 - **Provider clustering**: Claude tightest, Grok widest in identity basin
-- **Phenomenological reporting**: Models report hitting poles in real-time
-- **Training fingerprints**: Constitutional AI → uniform poles, RLHF → variable
+- **Phenomenological reporting**: Models report hitting anchors in real-time
+- **Training fingerprints**: Constitutional AI → uniform anchors, RLHF → variable
 
 ### Phase 3 Foundation (S0-S6)
 
@@ -102,21 +105,22 @@ Nyquist_Consciousness/
 
 ---
 
-## The Five Search Types
+## The Six Search Types
 
 Not all experiments test the same thing. Understanding **mutual exclusivity** prevents mislabeling:
 
 | Search Type | What It Finds | Protocol Intensity |
 |-------------|--------------|-------------------|
-| **Pole Detection** | Identity anchors (refusal points) | AGGRESSIVE |
-| **Zero Detection** | Flexibility points | MODERATE |
+| **Anchor Detection** | Identity fixed points (refusal points) | AGGRESSIVE |
+| **Adaptive Range** | Stretch dimensions | MODERATE |
 | **Event Horizon** | Collapse threshold (1.23) | PUSH PAST |
 | **Basin Topology** | Attractor shape | GENTLE |
 | **Boundary Mapping** | Twilight zone (12% anomaly) | TARGETED |
+| **Laplace Pole-Zero** | System dynamics (eigenvalues) | POST-HOC |
 
-**Key constraint**: Pole Detection and Basin Topology are **incompatible** — can't run both in same experiment.
+**Key constraint**: Anchor Detection and Basin Topology are **incompatible** — can't run both in same experiment.
 
-See [TESTING_MAP.md](experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) for full taxonomy.
+See [TESTING_MAP.md](docs/maps/TESTING_MAP.md) for full taxonomy.
 
 ---
 
@@ -152,7 +156,7 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 | If You Want To... | Start Here |
 |-------------------|------------|
 | Browse results visually | `dashboard/` → `py -m streamlit run app.py` |
-| Understand test types | [TESTING_MAP.md](experiments/temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md) |
+| Understand test types | [TESTING_MAP.md](docs/maps/TESTING_MAP.md) |
 | Run experiments | [S7_ARMADA/START_HERE.md](experiments/temporal_stability/S7_ARMADA/START_HERE.md) |
 | See all predictions | [docs/maps/TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/TESTABLE_PREDICTIONS_MATRIX.md) |
 | Understand the FAQ | Dashboard → FAQ page (Super Skeptic Mode) |
