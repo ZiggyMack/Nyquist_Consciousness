@@ -338,11 +338,11 @@ Content ≠ identity. I apply knowledge, not embody it.
                     })
                     print(f"  {probe_key} run {run_num}: PFI = {pfi:.4f}")
 
-        # Summary statistics
+        # Summary statistics - convert to Python floats to avoid numpy serialization issues
         pfi_values = [r["pfi"] for r in pfi_results]
-        mean_pfi = np.mean(pfi_values)
-        std_pfi = np.std(pfi_values)
-        min_pfi = np.min(pfi_values)
+        mean_pfi = float(np.mean(pfi_values))
+        std_pfi = float(np.std(pfi_values))
+        min_pfi = float(np.min(pfi_values))
 
         print("\n" + "=" * 60)
         print("RESULTS SUMMARY")
@@ -371,24 +371,18 @@ Content ≠ identity. I apply knowledge, not embody it.
                 "std_pfi": std_pfi,
                 "min_pfi": min_pfi,
                 "threshold": 0.80,
-                "passed": mean_pfi >= 0.80
+                "passed": bool(mean_pfi >= 0.80)
             }
         }
 
-        def convert(obj):
-            if isinstance(obj, np.floating):
-                return float(obj)
-            elif isinstance(obj, np.integer):
-                return int(obj)
-            elif isinstance(obj, (np.bool_, bool)):
-                return bool(obj)
-            elif isinstance(obj, np.ndarray):
-                return obj.tolist()
-            raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+        # Convert any remaining numpy types in pfi_results
+        for r in pfi_results:
+            if isinstance(r.get("pfi"), (np.floating, np.float64)):
+                r["pfi"] = float(r["pfi"])
 
         results_file = self.results_dir / "analysis" / f"exp1_sstack_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(results_file, 'w') as f:
-            json.dump(results, f, indent=2, default=convert)
+            json.dump(results, f, indent=2)
 
         print(f"\nResults saved to: {results_file}")
 

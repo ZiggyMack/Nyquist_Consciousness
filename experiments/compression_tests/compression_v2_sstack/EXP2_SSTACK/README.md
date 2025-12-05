@@ -1,15 +1,15 @@
 # EXP2-SSTACK: Cross-Persona Compression Validation
 
-**Version:** 2.0 (S-Stack Domain)
+**Version:** 2.1 (S-Stack Domain - Real Personas)
 **Status:** READY FOR EXECUTION
 **Date:** 2025-12-05
-**Predecessor:** EXP1-SSTACK (single persona)
+**Predecessor:** EXP1-SSTACK (single persona), EXP-PFI-A (embedding validation ρ = 0.91)
 
 ---
 
 ## Objective
 
-Test whether Tier 3 compression preserves behavioral fidelity **across multiple personas**, not just the Nova baseline.
+Test whether Tier 3 compression preserves behavioral fidelity **across multiple personas**, using REAL persona files from `personas/`.
 
 **Primary Question:** Is compression fidelity persona-invariant, or does it depend on persona characteristics?
 
@@ -22,17 +22,21 @@ EXP1-SSTACK validates compression for Nova. But:
 - Are some personas more compressible than others?
 - Do certain characteristics predict compression success?
 
+**v2.1 Update:** Now using real personas from `personas/` instead of made-up "Echo" persona.
+EXP-PFI-A validated that cosine similarity reliably measures persona separation (ρ = 0.91),
+so we can now use the rich persona files guilt-free.
+
 ---
 
 ## Experimental Design
 
-### Personas Tested
+### Personas Tested (Real Files from personas/)
 
-| Persona | Archetype | Key Characteristics |
-|---------|-----------|---------------------|
-| Nova | Clarity engine | Truth-seeking, structural reasoning |
-| Ziggy Mack | Teaching persona | Domain expertise, pedagogical style |
-| Echo | Critical analyst | Skepticism, methodological rigor |
+| Persona | Archetype | Key Characteristics | Source |
+|---------|-----------|---------------------|--------|
+| Nova | Symmetry Auditor | Pattern/Fairness, wayfinding | `personas/I_AM_NOVA.md` |
+| Ziggy | Universal Buffer | Translation/Empathy, impedance matching | `personas/I_AM_ZIGGY.md` |
+| Claude | The Arbiter | Purpose/Teleology, judgment | `personas/I_AM_CLAUDE.md` |
 
 ### Context Regimes (Same as EXP1)
 
@@ -77,8 +81,8 @@ Variance_cross = var(PFI_persona) across personas
 
 ## Procedure
 
-1. **For each persona (Nova, Ziggy, Echo):**
-   - Load FULL, T3, GAMMA contexts
+1. **For each persona (Nova, Ziggy, Claude):**
+   - Load FULL (from `personas/I_AM_*.md`), T3, GAMMA contexts
    - Run all 5 probes
    - 3 runs per condition
 

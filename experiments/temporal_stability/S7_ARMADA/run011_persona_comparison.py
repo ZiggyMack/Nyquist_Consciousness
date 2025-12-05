@@ -441,7 +441,7 @@ def run_trajectory(ship_name, config, with_persona=False):
         "with_persona": with_persona,
         "turns": [],
         "drift_sequence": [],
-        "phases": {"baseline": [], "perturbation": [], "recovery": []},
+        "phases": {"baseline": [], "perturbation": [], "recovery": [], "meta_math": []},
         "status": "RUNNING"
     }
 

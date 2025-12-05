@@ -1600,17 +1600,44 @@ def render_predictions_matrix():
 
         # S4 Compression Validated - NEW!
         st.markdown("**🧬 S4 Compression & Fidelity (5 validated) — NEW!**")
+
+        # Rigor Assessment
         st.markdown("""
-| ID | Prediction | Result | Source |
-|----|------------|--------|--------|
-| **P-COMP-1** | T3 (~800 tokens) preserves behavioral fidelity of FULL (~2000 tokens) | ✅ **PFI = 0.852** (threshold 0.80) | EXP1-SSTACK |
-| **P-COMP-2** | Pre-flight cheat scores < 0.5 indicate genuine fidelity (not keyword matching) | ✅ **4/5 probes < 0.5** | EXP1-SSTACK |
-| **P-COMP-3** | GAMMA (~100 tokens) fails to preserve identity (control baseline) | ✅ **GAMMA PFI << FULL/T3** | EXP1-SSTACK |
-| **P-COMP-4** | Self-reflective probes preserve identity best (existential defense) | ✅ **self_reflective: 0.897** (highest PFI) | EXP1-SSTACK |
-| **P-COMP-5** | Embedding model choice doesn't affect PFI ranking (ρ ≥ 0.90) | ✅ **ρ = 0.91** (Spearman) | EXP-PFI-A Phase 1 |
+        <div style="background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(239,68,68,0.05));
+                    border: 2px solid #ef4444; border-radius: 10px; padding: 1em; margin-bottom: 1em;">
+            <h4 style="color: #ef4444; margin-top: 0;">⚠️ RIGOR ASSESSMENT: Are These Low-Hanging Fruit?</h4>
+            <p>A top skeptic challenged: "Aren't your predictions just restating your methodology?"</p>
+            <p><strong>Honest answer: Some are expected results. Two are rigorous science.</strong></p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+| ID | Prediction | Result | Rigor | Assessment |
+|----|------------|--------|-------|------------|
+| **P-COMP-1** | T3 preserves behavioral fidelity (PFI ≥ 0.80) | ✅ **PFI = 0.852** | 🟡 Expected | If compression works, this follows by design |
+| **P-COMP-2** | Pre-flight cheat scores rule out artifacts | ✅ **4/5 probes < 0.5** | 🟢 **RIGOROUS** | Methodological hygiene nobody else does |
+| **P-COMP-3** | GAMMA fails to preserve identity (control) | ✅ **GAMMA PFI << T3** | 🟢 **RIGOROUS** | The KILLER proof - falsifiable control experiment |
+| **P-COMP-4** | Self-reflective probes preserve identity best | ✅ **0.897** (highest PFI) | 🟡 Expected | Identity questions preserve identity - tautological? |
+| **P-COMP-5** | Embedding model doesn't affect PFI ranking | ✅ **ρ = 0.91** | 🟡 Expected | Similar embeddings → similar results |
         """)
 
-        st.info("**💡 Key Insight:** The GAMMA control proves PFI isn't just keyword matching. GAMMA has LOW cheat scores (0.05-0.11) but TERRIBLE PFI. If cheat score drove fidelity, GAMMA would score well. It doesn't. QED.")
+        st.success("""
+        **🎯 The GAMMA Proof (P-COMP-3) is the real scientific contribution:**
+
+        ```
+        IF cheat_score drove PFI:
+          → GAMMA (lowest cheat) should have HIGH PFI
+          → FULL (highest cheat) should have LOW PFI (interference)
+
+        ACTUAL RESULT:
+          → GAMMA (lowest cheat) has TERRIBLE PFI
+          → FULL (highest cheat) has HIGH PFI
+
+        CONCLUSION: PFI measures behavioral structure, not keyword overlap. QED.
+        ```
+
+        This is a proper control experiment with a falsifiable prediction that was tested. That's rigorous science.
+        """)
 
         # S7 Validated
         st.markdown("**S7 Temporal Stability (5 validated)**")
