@@ -1,7 +1,7 @@
 # EXP-PFI-A: PFI Dimensional Validation
 
 **Purpose:** Test whether PFI/drift measures capture genuine identity structure vs. surface artifacts
-**Status:** Phase 1 COMPLETE - PASSED
+**Status:** Phase 1 COMPLETE ✅ | Phase 2 DESIGNED
 **Phase:** S8+ (Near-term priority)
 **Source:** Nova-Ziggy conversation, Echo's Critique
 
@@ -35,12 +35,79 @@ PFI rankings are stable across embedding models. The choice of embedding model d
 
 **Echo's Critique is addressed for Phase 1:** PFI is NOT merely an artifact of the embedding model. Rankings are preserved across different embedding architectures (OpenAI text-3-large/small and ada-002).
 
-**Next step:** Proceed with EXP1/EXP2 execution
+**Next step:** Phase 2 - Dimensionality Analysis
 
 ### Files
 
 - Script: `phase1_embedding_comparison/embedding_invariance_test.py`
 - Results: `phase1_embedding_comparison/results/phase1_results_20251204_232511.json`
+
+---
+
+## PHASE 2: DIMENSIONALITY ANALYSIS
+
+**Date:** 2025-12-05
+**Status:** DESIGNED - Ready to Run (DOUBLE-DIP ENHANCED)
+
+### Purpose
+
+Determine **how many dimensions** carry identity signal and **which dimensions** discriminate STABLE vs VOLATILE models.
+
+### DOUBLE-DIP PHILOSOPHY
+
+Maximize predictions validated per run! Instead of just answering one question, we test 8 predictions and generate 12 survey questions.
+
+### Predictions Matrix (8 Total)
+
+| ID | Hypothesis | Threshold | Validates |
+|----|-----------|-----------|-----------|
+| P1 | Identity in < 100 PCs | 90% variance in top 100 | S4 Compression |
+| P2 | ≥ 5 PCs discriminate STABLE/VOLATILE | p < 0.05 | S3 Temporal Stability |
+| P3 | Top-k PCs preserve ranking | ρ > 0.95 at k ≤ 50 | S1 Bootstrap |
+| P4 | PC correlates with values-language | Pearson r > 0.3 | S2 Integrity |
+| P5 | Provider clustering in PC space | Silhouette > 0.2 | S5 CFA Interop |
+| P6 | STABLE=inward, VOLATILE=outward trajectory | Curvature sign differs | S7 Identity Dynamics |
+| P7 | 1.23 Event Horizon visible in PC space | Separation p < 0.05 | Event Horizon |
+| P8 | Compression links to EXP1-SSTACK PFI | Correlation | EXP1-SSTACK |
+
+### Dashboard-Ready Outputs
+
+| Visualization | Dashboard Page | Shows |
+|--------------|----------------|-------|
+| variance_curve.png | Metrics | How many dimensions carry signal |
+| pc_scatter.png | AI Armada | Ships in PC space by provider |
+| provider_clusters.png | Personas | Provider separation with centroids |
+| event_horizon_contour.png | Metrics | 1.23 boundary in PC space |
+
+### Survey Questions (12)
+
+Post-run questions to mine additional insights for S0-S7 curriculum improvement. Each question links to a specific S-layer or future priority.
+
+### Files
+
+- README: `phase2_dimensionality/README.md`
+- Script: `phase2_dimensionality/run_phase2.py`
+- Results: `phase2_dimensionality/results/` (pending)
+
+### Run Command
+
+```bash
+cd experiments/temporal_stability/S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/phase2_dimensionality
+python run_phase2.py
+```
+
+---
+
+## FUTURE: Metric-Architecture Synergy (S12+)
+
+Once Phase 2 identifies which dimensions carry identity signal:
+
+1. **Adaptive Persona Files** - Include target "identity vectors" in embedding space
+2. **Real-time Drift Correction** - Monitor and correct drift in identity-relevant dimensions only
+3. **Data-driven Compression** - Keep persona content that projects onto identity dimensions
+4. **Cross-Model Transfer** - Use identity dimensions as universal bridge between architectures
+
+This is the "closing the loop" vision where measurements feed back into architecture.
 
 ---
 
