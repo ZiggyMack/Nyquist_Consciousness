@@ -484,7 +484,7 @@ class Phase2DimensionalityAnalysis:
             if rho > 0.95 and min_k_for_95 is None:
                 min_k_for_95 = k
 
-            print(f"  k={k}: ρ={rho:.4f}")
+            print(f"  k={k}: rho={rho:.4f}")
 
         # Validate P3
         passed = min_k_for_95 is not None and min_k_for_95 <= 50
@@ -997,10 +997,10 @@ class Phase2DimensionalityAnalysis:
         passed = 0
         for pid, pred in self.predictions.items():
             status = pred['status']
-            symbol = "✅" if status == "PASSED" else "❌" if status == "FAILED" else "⏳"
+            symbol = "[PASS]" if status == "PASSED" else "[FAIL]" if status == "FAILED" else "[PEND]"
             print(f"  {symbol} {pid}: {status}")
             if pred.get('result'):
-                print(f"      → {pred['result']}")
+                print(f"      -> {pred['result']}")
             if status == "PASSED":
                 passed += 1
 
