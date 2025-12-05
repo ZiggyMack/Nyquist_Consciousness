@@ -96,3 +96,8 @@ SECTION 10 — WHAT THIS ENABLES FOR ZIGGY
 • Multi-agent stability engineering
 ------------------------------------
 END OF PACKET
+
+
+==================================
+3rd delivery....
+==================================
