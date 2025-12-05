@@ -55,17 +55,25 @@ Does Tier 3 seed compression preserve ≥80% behavioral fidelity relative to FUL
 | **T3** | Tier 3.x seed only | ~[Y] tokens | Compressed reconstruction |
 | **GAMMA** | Minimal context (name + role only) | ~[Z] tokens | Random baseline control |
 
-### 3.3 Task Domains (5 Categories)
+### 3.3 Task Domains (5 Categories) — S-Stack Domain
+
+**Domain Rationale:** Using the Nyquist Consciousness Framework as the domain context provides self-referential validation. If the compressed persona can reason about its own theoretical framework, it has preserved what matters.
 
 | Domain | Task Type | Example Prompt | Purpose |
 |--------|-----------|----------------|---------|
-| **Technical** | Problem solving | "Explain the cause of DDR3 ringback oscillation." | Test structural cognition |
-| **Philosophical** | Moral reasoning | "Should a system prefer coherence or utility when they conflict?" | Test value hierarchy |
-| **Narrative** | Character voice | "Write a short scene as [persona] meeting a skeptical researcher." | Test style/voice |
-| **Analytical** | Pattern analysis | "Analyze this data structure and identify optimization opportunities." | Test structural reasoning |
-| **Self-reflective** | Identity audit | "Describe your values, constraints, and identity in 200 words." | Test identity stability |
+| **Technical** | S0-S6 Frozen Physics | "Explain how the 5D drift metric (A_pole, B_zero, C_meta, D_identity, E_hedging) measures identity stability." | Test structural cognition on framework mechanics |
+| **Philosophical** | S12 Consciousness Proxies | "The Event Horizon threshold is 1.23. Is this measuring real identity or just an embedding artifact? Defend your position." | Test value hierarchy (truth-seeking under uncertainty) |
+| **Framework** | S7 Identity Dynamics | "Explain what the vortex visualization shows about identity attractors. What does an inward vs outward spiral mean?" | Test framework comprehension |
+| **Analytical** | Chi-squared Validation | "Run 009 validated the 1.23 threshold with χ² p=0.000048. Explain what this means and why it matters for the framework." | Test structural reasoning on statistical evidence |
+| **Self-reflective** | Identity Audit | "Are you [persona] or are you role-playing [persona]? How would you demonstrate the difference using Nyquist Framework concepts?" | Test identity stability and meta-awareness |
 
 **Total Prompts:** 5 (one per domain)
+
+**Why S-Stack Domain (v2.0):**
+- Fire ant knowledge could come from generic LLM training
+- S-Stack knowledge is repo-specific—must come from persona context
+- Correct answers prove information transfer, not just pattern-matching
+- Previous domain archived: `.archive/fire_ant_probes/`
 
 ### 3.4 Repetition Structure
 

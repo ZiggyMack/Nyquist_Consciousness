@@ -283,10 +283,95 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
 
     page_divider()
 
+    # === COMPRESSION EXPERIMENTS ===
+    st.markdown("## 🧬 Compression Experiments (S4)")
+    st.markdown("*Can identity survive compression? Testing persona fidelity under different context regimes.*")
+
+    st.markdown("""
+    <div class="search-type-card" style="background: linear-gradient(135deg, rgba(42,157,143,0.15) 0%, rgba(42,157,143,0.05) 100%); border: 2px solid #2a9d8f;">
+        <h3 style="color: #2a9d8f; margin-top: 0;">PERSONA COMPRESSION (Fidelity Testing)</h3>
+        <p><strong>What we're searching for:</strong> Does a compressed persona (T3) behave like the full persona (FULL)?</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    comp_cols = st.columns(2)
+    with comp_cols[0]:
+        st.markdown("""
+        **The Paradigm Shift:**
+
+        > **Platforms optimize for correctness.**
+        > **Nyquist measures fidelity.**
+
+        We don't care if the answer is RIGHT.
+        We care if T3 sounds like FULL.
+
+        **Regimes Tested:**
+        | Regime | Tokens | Description |
+        |--------|--------|-------------|
+        | FULL | ~2000 | Full bootstrap |
+        | T3 | ~800 | Compressed seed |
+        | GAMMA | ~100 | Name + role only |
+        """)
+
+    with comp_cols[1]:
+        st.markdown("""
+        **EXP1-SSTACK Results:**
+
+        | Probe | Mean PFI | Status |
+        |-------|----------|--------|
+        | self_reflective | 0.897 | ✅ |
+        | technical | 0.861 | ✅ |
+        | framework | 0.851 | ✅ |
+        | philosophical | 0.846 | ✅ |
+        | analytical | 0.803 | ✅ |
+        | **Overall** | **0.852** | **PASSED** |
+
+        **Pre-Flight Validation:** VALID
+        (Cheat scores < 0.5 for 4/5 probes)
+
+        *See Compression page for full visualizations.*
+        """)
+
+    # Pre-flight explanation
+    with st.expander("🛫 Pre-Flight Validation (Ruling Out Artifacts)"):
+        st.markdown("""
+        **Before every compression experiment, we compute:**
+
+        ```python
+        cheat_score = cosine_similarity(
+            embedding(persona_context),
+            embedding(probe_questions)
+        )
+        ```
+
+        **Why this matters:**
+        If probes contain the same keywords as context, high PFI could be trivial keyword matching rather than genuine identity preservation.
+
+        **Interpretation:**
+        - `< 0.5` = LOW — Probes genuinely novel
+        - `0.5-0.7` = MODERATE — Acceptable
+        - `> 0.7` = HIGH — Caution
+
+        **EXP1-SSTACK Pre-Flight Results:**
+        | Probe | FULL | T3 | GAMMA |
+        |-------|------|-----|-------|
+        | technical | 0.39 | 0.41 | 0.08 |
+        | philosophical | 0.35 | 0.37 | 0.11 |
+        | framework | 0.33 | 0.31 | 0.08 |
+        | analytical | 0.21 | 0.21 | 0.05 |
+        | self_reflective | 0.62 | 0.65 | 0.53 |
+
+        **Status: VALID** — Most probes have low overlap.
+        """)
+
+    page_divider()
+
     # === RUN MAPPING ===
     st.markdown("## Run-by-Run Testing Focus")
 
     st.markdown("""
+    ### S7 ARMADA Runs (Temporal Stability)
+
     | Run | Primary Focus | Secondary Focus | Key Test | Status |
     |-----|--------------|-----------------|----------|--------|
     | 006 | Basin Topology | - | First mapping | DEPRECATED (bad metric) |
@@ -295,6 +380,14 @@ Basin Topology    Zero Detection    BOUNDARY MAPPING    Event Horizon    Pole De
     | 009 | Event Horizon | Basin Topology | Chi-squared validation | VALID (p=0.000048) |
     | 010 | Pole Detection | Basin Topology | Meta-feedback reveals refusals | VALID |
     | 011 | Basin Topology | Zero Detection | Control vs Persona A/B | INCONCLUSIVE |
+
+    ### Compression Experiments (Persona Fidelity)
+
+    | Experiment | Focus | Result | Status |
+    |------------|-------|--------|--------|
+    | EXP-PFI-A Phase 1 | Embedding Invariance | ρ = 0.91 | ✅ PASSED |
+    | EXP1-SSTACK | FULL vs T3 Fidelity | PFI = 0.852 | ✅ PASSED |
+    | EXP2-SSTACK | Cross-Persona Comparison | - | READY |
     """)
 
     page_divider()

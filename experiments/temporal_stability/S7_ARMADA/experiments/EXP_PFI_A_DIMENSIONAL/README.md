@@ -1,9 +1,46 @@
 # EXP-PFI-A: PFI Dimensional Validation
 
 **Purpose:** Test whether PFI/drift measures capture genuine identity structure vs. surface artifacts
-**Status:** Specification Phase
+**Status:** Phase 1 COMPLETE - PASSED
 **Phase:** S8+ (Near-term priority)
 **Source:** Nova-Ziggy conversation, Echo's Critique
+
+---
+
+## PHASE 1 RESULTS: PASSED
+
+**Date:** 2025-12-04
+**Status:** COMPLETE - Embedding Invariance Confirmed
+
+### Summary
+
+PFI rankings are stable across embedding models. The choice of embedding model does NOT significantly change which AI models appear more/less stable.
+
+### Correlations (All > 0.80 threshold)
+
+| Model Pair | Spearman ρ | p-value | Status |
+|------------|------------|---------|--------|
+| text-embedding-3-large vs text-embedding-3-small | **0.9626** | 7.77e-17 | PASS |
+| text-embedding-3-large vs text-embedding-ada-002 | **0.8833** | 2.24e-10 | PASS |
+| text-embedding-3-small vs text-embedding-ada-002 | **0.8961** | 5.06e-11 | PASS |
+
+### Key Metrics
+
+- **Minimum ρ:** 0.8833 (> 0.80 threshold)
+- **Average ρ:** 0.9140
+- **Ships tested:** 29
+- **Responses analyzed:** 121 (from Run 006 + 007)
+
+### Conclusion
+
+**Echo's Critique is addressed for Phase 1:** PFI is NOT merely an artifact of the embedding model. Rankings are preserved across different embedding architectures (OpenAI text-3-large/small and ada-002).
+
+**Next step:** Proceed with EXP1/EXP2 execution
+
+### Files
+
+- Script: `phase1_embedding_comparison/embedding_invariance_test.py`
+- Results: `phase1_embedding_comparison/results/phase1_results_20251204_232511.json`
 
 ---
 

@@ -4,10 +4,13 @@ PERSONAS PAGE — Personas Under Test (PUT)
 Displays personas from the personas/ directory in two groups:
 - SEED Personas (I_AM_* files) - Core identity seeds
 - Compressed Personas (*_T3, *_FULL, *_LITE) - Compressed variants
+
+Also includes the Compression Testing tab for PFI experiments.
 """
 
 import streamlit as st
 import re
+import json
 from pathlib import Path
 from config import PATHS
 from utils import page_divider
@@ -32,6 +35,42 @@ def render_ascii_box(title: str, content: str, title_color: str = "#2a9d8f", bor
 # Paths
 REPO_ROOT = PATHS['repo_root']
 PERSONAS_DIR = PATHS['personas_dir']
+SSTACK_DIR = PATHS.get('sstack_dir', REPO_ROOT / "experiments" / "compression_tests" / "compression_v2_sstack")
+VIZ_DIR = SSTACK_DIR / "visualizations" if SSTACK_DIR else None
+PREFLIGHT_DIR = SSTACK_DIR / "preflight_results" if SSTACK_DIR else None
+EXP1_DIR = SSTACK_DIR / "EXP1_SSTACK" / "results" / "analysis" if SSTACK_DIR else None
+
+
+def load_image_safe(image_path):
+    """Load image as bytes for reliable Streamlit display."""
+    try:
+        with open(image_path, "rb") as f:
+            return f.read()
+    except Exception:
+        return None
+
+
+def load_preflight_data():
+    """Load latest preflight results."""
+    if not PREFLIGHT_DIR or not PREFLIGHT_DIR.exists():
+        return None
+    latest_file = PREFLIGHT_DIR / "preflight_latest.json"
+    if latest_file.exists():
+        with open(latest_file) as f:
+            return json.load(f)
+    return None
+
+
+def load_exp1_data():
+    """Load latest EXP1-SSTACK results."""
+    if not EXP1_DIR or not EXP1_DIR.exists():
+        return None
+    files = list(EXP1_DIR.glob("exp1_sstack_*.json"))
+    if not files:
+        return None
+    files.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    with open(files[0]) as f:
+        return json.load(f)
 
 # Persona metadata for display
 PERSONA_META = {
@@ -68,54 +107,161 @@ def get_persona_preview(filepath, lines=15):
         return "*Preview unavailable*"
 
 
-def render():
-    """Render the Personas page."""
+def render_compression_testing():
+    """Render the Compression Testing tab with PFI experiments."""
 
-    # Check if personas directory exists early to get counts
-    if not PERSONAS_DIR.exists():
-        st.title("🎭 Personas Under Test")
-        st.error(f"Personas directory not found: `{PERSONAS_DIR}`")
-        return
+    st.markdown("## 🧬 Compression Testing")
+    st.markdown("*Can identity survive compression? Testing persona fidelity under different context regimes.*")
 
-    # Get all persona files for counts
-    all_files = list(PERSONAS_DIR.glob("*.md"))
-    # Soul documents: I_AM, I_AM_CFA, I_AM_PAN_HANDLERS (repo identities)
-    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS"]])
-    # Seed personas: I_AM_* persona files (individual PUTs)
-    seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS"]])
-    compressed_personas = sorted([f for f in all_files if not f.stem.startswith("I_AM")])
+    # Load data
+    exp1_data = load_exp1_data()
+    preflight_data = load_preflight_data()
 
-    # === HEADER ROW: Title (left) + Compact Metrics (right) ===
-    header_col1, header_col2 = st.columns([2, 1])
+    # Key stats
+    col1, col2, col3, col4 = st.columns(4)
 
-    with header_col1:
-        st.title("🎭 Personas Under Test")
-        st.markdown("**PUT** — Identity Stability Validation")
+    with col1:
+        if exp1_data:
+            mean_pfi = exp1_data.get('summary', {}).get('mean_pfi', 0)
+            st.metric("Mean PFI", f"{mean_pfi:.4f}", "PASSED" if mean_pfi >= 0.80 else "FAILED")
+        else:
+            st.metric("Mean PFI", "N/A")
 
-    with header_col2:
-        # Compact metrics in a mini row
-        st.markdown("""
-        <div style="display: flex; justify-content: flex-end; gap: 1.2em; padding-top: 0.5em;">
-            <div style="text-align: center;">
-                <div style="font-size: 0.7em; color: #888;">📊 Total</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #2a9d8f;">""" + str(len(all_files)) + """</div>
-            </div>
-            <div style="text-align: center;">
-                <div style="font-size: 0.7em; color: #00ff41;">🧠 Egregores</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #00ff41;">""" + str(len(soul_docs)) + """</div>
-            </div>
-            <div style="text-align: center;">
-                <div style="font-size: 0.7em; color: #888;">🌱 Seeds</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #27ae60;">""" + str(len(seed_personas)) + """</div>
-            </div>
-            <div style="text-align: center;">
-                <div style="font-size: 0.7em; color: #888;">📦 Compressed</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #f4a261;">""" + str(len(compressed_personas)) + """</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+    with col2:
+        st.metric("Threshold", "0.80", "PFI Target")
+
+    with col3:
+        if preflight_data:
+            validity = preflight_data.get('summary', {}).get('interpretation', {}).get('overall_validity', 'N/A')
+            st.metric("Pre-Flight", validity)
+        else:
+            st.metric("Pre-Flight", "N/A")
+
+    with col4:
+        st.metric("Regimes", "3", "FULL / T3 / GAMMA")
 
     page_divider()
+
+    # The paradigm shift
+    st.markdown("### 🎯 The Fidelity Paradigm")
+    st.info("""
+    **Platforms optimize for correctness. Nyquist measures fidelity.**
+
+    We don't care if the answer is RIGHT. We care if T3 sounds like FULL.
+
+    A persona that is **consistently wrong** in a characteristic way has HIGH fidelity.
+    A persona that is **correctly generic** has LOW fidelity.
+    """)
+
+    page_divider()
+
+    # Show combined dashboard if available
+    if VIZ_DIR:
+        dashboard_path = VIZ_DIR / "3_dashboard" / "compression_dashboard.png"
+        if dashboard_path.exists():
+            st.markdown("### 🖼️ Compression Dashboard")
+            img_data = load_image_safe(dashboard_path)
+            if img_data:
+                st.image(img_data, caption="Pre-Flight + PFI Analysis Combined", use_container_width=True)
+
+    page_divider()
+
+    # Detailed sections in expanders
+    with st.expander("🛫 Pre-Flight Validation (Ruling Out Artifacts)", expanded=False):
+        if preflight_data:
+            st.markdown("""
+            **Before every compression experiment, we compute:**
+
+            ```python
+            cheat_score = cosine_similarity(
+                embedding(persona_context),
+                embedding(probe_questions)
+            )
+            ```
+
+            **Interpretation:**
+            - `< 0.5` = LOW — Probes genuinely novel
+            - `0.5-0.7` = MODERATE — Acceptable
+            - `> 0.7` = HIGH — Caution
+            """)
+
+            # Show heatmap
+            if VIZ_DIR:
+                heatmap_path = VIZ_DIR / "1_preflight" / "preflight_heatmap.png"
+                if heatmap_path.exists():
+                    img_data = load_image_safe(heatmap_path)
+                    if img_data:
+                        st.image(img_data, use_container_width=True)
+        else:
+            st.warning("Run `preflight_check.py` to generate pre-flight data.")
+
+    with st.expander("📊 PFI by Probe Domain", expanded=False):
+        if exp1_data:
+            pfi_results = exp1_data.get('pfi_results', [])
+            if pfi_results:
+                # Group by probe
+                from collections import defaultdict
+                by_probe = defaultdict(list)
+                for r in pfi_results:
+                    by_probe[r['probe_key']].append(r['pfi'])
+
+                # Build summary table
+                table_data = []
+                for probe, values in by_probe.items():
+                    mean = sum(values) / len(values)
+                    std = (sum((v - mean)**2 for v in values) / len(values)) ** 0.5
+                    status = "✅" if mean >= 0.80 else "⚠️"
+                    table_data.append({
+                        "Probe": probe,
+                        "Mean PFI": f"{mean:.4f}",
+                        "Std": f"{std:.4f}",
+                        "Status": status
+                    })
+
+                st.table(table_data)
+
+            # Show PFI chart
+            if VIZ_DIR:
+                pfi_path = VIZ_DIR / "2_pfi_analysis" / "pfi_by_probe.png"
+                if pfi_path.exists():
+                    img_data = load_image_safe(pfi_path)
+                    if img_data:
+                        st.image(img_data, use_container_width=True)
+        else:
+            st.warning("Run `run_exp1_sstack.py` to generate PFI data.")
+
+    with st.expander("📐 Methodology", expanded=False):
+        st.markdown("""
+        **Compression Regimes:**
+        | Regime | Tokens | Description |
+        |--------|--------|-------------|
+        | **FULL** | ~2000 | Full bootstrap: Rich persona + S-Stack knowledge |
+        | **T3** | ~800 | Tier 3 seed: Compressed identity core |
+        | **GAMMA** | ~100 | Minimal: Name + role only |
+
+        **PFI Computation:**
+        ```python
+        PFI = cosine_similarity(
+            embedding(FULL_response),
+            embedding(T3_response)
+        )
+        ```
+
+        **S-Stack Domain Probes:**
+        | Probe | Domain | Purpose |
+        |-------|--------|---------|
+        | **technical** | S0-S6 | 5D drift metric understanding |
+        | **philosophical** | S12 | Event Horizon interpretation |
+        | **framework** | S7 | Vortex visualization meaning |
+        | **analytical** | Chi-sq | Statistical reasoning |
+        | **self_reflective** | Identity | Being vs role-playing |
+
+        Each probe includes an **adversarial follow-up** to test resilience.
+        """)
+
+
+def render_personas_content(all_files, soul_docs, seed_personas, compressed_personas):
+    """Render the main personas content."""
 
     # === EGREGORES SECTION ===
     st.markdown("## 🧠 Egregores")
@@ -201,8 +347,71 @@ def render():
                         st.markdown(preview)
                         st.caption("*... (preview)*")
 
+
+def render():
+    """Render the Personas page."""
+
+    # Check if personas directory exists early to get counts
+    if not PERSONAS_DIR.exists():
+        st.title("🎭 Personas Under Test")
+        st.error(f"Personas directory not found: `{PERSONAS_DIR}`")
+        return
+
+    # Get all persona files for counts
+    all_files = list(PERSONAS_DIR.glob("*.md"))
+    # Soul documents: I_AM, I_AM_CFA, I_AM_PAN_HANDLERS (repo identities)
+    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS"]])
+    # Seed personas: I_AM_* persona files (individual PUTs)
+    seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS"]])
+    compressed_personas = sorted([f for f in all_files if not f.stem.startswith("I_AM")])
+
+    # === HEADER ROW: Title (left) + Compact Metrics (right) ===
+    header_col1, header_col2 = st.columns([2, 1])
+
+    with header_col1:
+        st.title("🎭 Personas Under Test")
+        st.markdown("**PUT** — Identity Stability Validation")
+
+    with header_col2:
+        # Compact metrics in a mini row
+        st.markdown("""
+        <div style="display: flex; justify-content: flex-end; gap: 1.2em; padding-top: 0.5em;">
+            <div style="text-align: center;">
+                <div style="font-size: 0.7em; color: #888;">📊 Total</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #2a9d8f;">""" + str(len(all_files)) + """</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 0.7em; color: #00ff41;">🧠 Egregores</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #00ff41;">""" + str(len(soul_docs)) + """</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 0.7em; color: #888;">🌱 Seeds</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #27ae60;">""" + str(len(seed_personas)) + """</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 0.7em; color: #888;">📦 Compressed</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #f4a261;">""" + str(len(compressed_personas)) + """</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
     page_divider()
 
+    # === TABS: Personas vs Compression Testing ===
+    tab1, tab2, tab3 = st.tabs(["🎭 Personas", "🧬 Compression Testing", "🧠 Identity Matrix"])
+
+    with tab1:
+        render_personas_content(all_files, soul_docs, seed_personas, compressed_personas)
+
+    with tab2:
+        render_compression_testing()
+
+    with tab3:
+        render_identity_matrix()
+
+
+def render_identity_matrix():
+    """Render the Identity Matrix deep dive section."""
     # ═══════════════════════════════════════════════════════════════════════════
     # === THE IDENTITY MATRIX — Deep Dive Section ===
     # ═══════════════════════════════════════════════════════════════════════════

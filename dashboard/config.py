@@ -53,6 +53,11 @@ PATHS = {
     # Logs
     'logs_dir': REPO_ROOT / "logs",
     'omega_ledger': REPO_ROOT / "logs" / "OMEGA_LEDGER.md",
+
+    # Compression Experiments
+    'compression_dir': REPO_ROOT / "experiments" / "compression_tests",
+    'sstack_dir': REPO_ROOT / "experiments" / "compression_tests" / "compression_v2_sstack",
+    'preflight_results': REPO_ROOT / "experiments" / "compression_tests" / "compression_v2_sstack" / "preflight_results",
 }
 
 # ========== DASHBOARD SETTINGS ==========

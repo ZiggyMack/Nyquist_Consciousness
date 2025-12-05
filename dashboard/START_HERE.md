@@ -63,7 +63,8 @@ dashboard/
 └── pages/                   # Page modules
     ├── __init__.py
     ├── overview.py          # Home/Overview
-    ├── personas.py          # Persona browser
+    ├── personas.py          # Persona browser + Compression Testing tab + Identity Matrix
+    ├── tests.py             # Experiment framework + Compression results summary
     ├── stackup.py           # S0-S77 stack view
     ├── AI_ARMADA.py         # S7 Armada experiments
     ├── metrics.py           # Metrics & comparisons
@@ -126,6 +127,31 @@ experiments/temporal_stability/S7_ARMADA/
     └── pics/                # Generated charts
 ```
 
+### Compression Experiments (S-Stack)
+
+```
+experiments/compression_tests/compression_v2_sstack/
+├── preflight_check.py           # Pre-flight cheat score validation
+├── visualize_compression.py     # Generate PFI visualizations
+├── preflight_results/           # Cheat score JSON results
+│   └── preflight_latest.json
+├── EXP1_SSTACK/                  # Main compression experiment
+│   ├── run_exp1_sstack.py
+│   └── results/analysis/        # PFI results JSON
+├── EXP_PFI_A_DIMENSIONAL/       # Embedding invariance tests
+└── visualizations/              # Generated charts
+    ├── 1_preflight/             # Cheat score heatmaps
+    ├── 2_pfi_analysis/          # PFI bar charts
+    └── 3_dashboard/             # Combined dashboard views
+```
+
+### White Paper
+
+```
+WHITE-PAPER/
+└── B-CRUMBS.md                  # Breadcrumb trail to all findings
+```
+
 ### Consciousness Research (NEW!)
 ```
 Consciousness/               # New consciousness research framework
@@ -152,6 +178,11 @@ PATHS['s7_armada_dir']       # d:\...\experiments\temporal_stability\S7_ARMADA
 PATHS['s7_viz_pics']         # d:\...\S7_ARMADA\visualizations\pics
 PATHS['glossary']            # d:\...\docs\GLOSSARY.md
 PATHS['status_file']         # d:\...\NYQUIST_STATUS.json
+
+# Compression experiment paths:
+PATHS['compression_dir']     # d:\...\experiments\compression_tests
+PATHS['sstack_dir']          # d:\...\compression_tests\compression_v2_sstack
+PATHS['preflight_results']   # d:\...\compression_v2_sstack\preflight_results
 ```
 
 **Colors:**
@@ -354,6 +385,7 @@ Multi-model fleet probing consciousness:
 | `pages/AI_ARMADA.py` | Armada visualizations |
 | `pages/stackup.py` | S# layer display |
 | `pages/faq.py` | FAQ + Super Skeptic Mode |
+| `pages/tests.py` | Experiment framework + Compression |
 | `pages/unknown.py` | Research Frontier |
 | `NYQUIST_STATUS.json` | Live status data |
 
@@ -418,4 +450,4 @@ A good dashboard update should:
 
 ---
 
-*Last Updated: December 3, 2025*
+*Last Updated: December 5, 2025*
