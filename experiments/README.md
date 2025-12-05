@@ -90,6 +90,32 @@ py visualizations/visualize_armada.py --run 009
 
 ---
 
+### EXP-PFI-A: PFI Dimensional Validation
+**Location:** `temporal_stability/S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/`
+**Status:** Phase 1 COMPLETE ✅ | Phase 2 DESIGNED (Double-Dip Enhanced)
+**Purpose:** Test whether PFI measures genuine identity structure vs embedding artifacts
+
+**Phase 1 Result:** Embedding invariance confirmed (Spearman ρ=0.91 across 3 embedding models)
+
+**Phase 2 Double-Dip Features:**
+- **8 Predictions** validating S1-S7 layers + Event Horizon + EXP1-SSTACK
+- **4 Dashboard-ready visualizations** (variance curve, PC scatter, provider clusters, EH contour)
+- **12 Survey questions** for S0-S7 curriculum improvement
+
+```bash
+cd temporal_stability/S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/phase2_dimensionality
+python run_phase2.py
+```
+
+---
+
+### EXP1-SSTACK: Compression Fidelity Benchmark
+**Location:** `compression_tests/compression_v2_sstack/EXP1_SSTACK/`
+**Status:** PASSED ✅ (Mean PFI = 0.852, threshold 0.80)
+**Purpose:** Validate T3 seed compression preserves behavioral fidelity
+
+---
+
 ### Compression Tests (S0-S6)
 **Location:** `compression_tests/`
 **Status:** Multiple phases completed

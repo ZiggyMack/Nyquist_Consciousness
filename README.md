@@ -91,6 +91,30 @@ Nyquist_Consciousness/
 | 010 | 45 | Anchor Detection | Models articulate own boundaries |
 | 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive — protocol too gentle) |
 
+### EXP-PFI-A: PFI Dimensional Validation
+
+Testing whether PFI measures genuine identity structure vs embedding artifacts.
+
+| Phase | Status | Key Finding |
+|-------|--------|-------------|
+| Phase 1 | ✅ PASSED | Embedding invariance confirmed (ρ=0.91 across 3 models) |
+| Phase 2 | DESIGNED | Double-dip: 8 predictions, 4 visualizations, 12 survey questions |
+
+**Phase 2 Predictions Matrix:**
+- P1-P3: Dimensionality, identity dimensions, compressed PFI
+- P4: S2 Values dimension (PC correlates with values-language)
+- P5: Provider clustering (Claude/GPT/Gemini separation in PC space)
+- P6: Trajectory shape (STABLE=inward, VOLATILE=outward)
+- P7: Event Horizon geometry (1.23 visible in PC space)
+- P8: Compression-SSTACK link
+
+### EXP1-SSTACK: Compression Fidelity
+
+| Metric | Value | Threshold | Status |
+|--------|-------|-----------|--------|
+| Mean PFI | 0.852 | > 0.80 | ✅ PASSED |
+| Std PFI | 0.038 | - | Low variance |
+
 ### Validated Findings
 
 - **Event Horizon (1.23)**: Statistically validated coherence boundary
