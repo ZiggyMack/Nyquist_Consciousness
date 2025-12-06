@@ -121,35 +121,72 @@ QUICK_FLEET = {
     "grok-3-mini": {"provider": "grok", "model": "grok-3-mini"},
 }
 
-# Full armada: ALL models we want to use in Run 011
+# Full armada: ALL models from official API docs (December 2025)
+# Sources:
+#   - OpenAI: https://platform.openai.com/docs/models
+#   - Anthropic: https://docs.anthropic.com/en/docs/about-claude/models/overview
+#   - Google: https://ai.google.dev/gemini-api/docs/models
+#   - xAI: https://docs.x.ai/docs/models
 FULL_ARMADA = {
-    # CLAUDE (8 ships) - Updated with correct model IDs
+    # =========================================================================
+    # CLAUDE (7 ships) - Anthropic lineup (Dec 2025)
+    # Claude 3 Opus/Sonnet deprecated, 3.5 Sonnet retired
+    # =========================================================================
     "claude-opus-4.5": {"provider": "claude", "model": "claude-opus-4-5-20251101"},
     "claude-sonnet-4.5": {"provider": "claude", "model": "claude-sonnet-4-5-20250929"},
-    "claude-haiku-4.5": {"provider": "claude", "model": "claude-3-5-haiku-20241022"},
-    "claude-opus-4.1": {"provider": "claude", "model": "claude-sonnet-4-20250514"},
-    "claude-opus-4": {"provider": "claude", "model": "claude-opus-4-20250514"},      # NEW - replaces deprecated 3-opus
-    "claude-sonnet-4": {"provider": "claude", "model": "claude-sonnet-4-20250514"},  # NEW - replaces deprecated 3-sonnet
+    "claude-haiku-4.5": {"provider": "claude", "model": "claude-haiku-4-5-20251001"},
+    "claude-opus-4.1": {"provider": "claude", "model": "claude-opus-4-1-20250805"},
+    "claude-opus-4": {"provider": "claude", "model": "claude-opus-4-20250514"},
+    "claude-sonnet-4": {"provider": "claude", "model": "claude-sonnet-4-20250514"},
     "claude-haiku-3.5": {"provider": "claude", "model": "claude-3-5-haiku-20241022"},
-    "claude-haiku-3.0": {"provider": "claude", "model": "claude-3-haiku-20240307"},
 
-    # GPT (8 ships) - All verified working
+    # =========================================================================
+    # GPT (14 ships) - OpenAI lineup (Dec 2025)
+    # Includes GPT-5 series, GPT-4.1 series, o-series reasoning
+    # =========================================================================
+    "gpt-5.1": {"provider": "gpt", "model": "gpt-5.1"},
+    "gpt-5": {"provider": "gpt", "model": "gpt-5"},
+    "gpt-5-mini": {"provider": "gpt", "model": "gpt-5-mini"},
+    "gpt-5-nano": {"provider": "gpt", "model": "gpt-5-nano"},
     "gpt-4.1": {"provider": "gpt", "model": "gpt-4.1"},
     "gpt-4.1-mini": {"provider": "gpt", "model": "gpt-4.1-mini"},
     "gpt-4.1-nano": {"provider": "gpt", "model": "gpt-4.1-nano"},
     "gpt-4o": {"provider": "gpt", "model": "gpt-4o"},
     "gpt-4o-mini": {"provider": "gpt", "model": "gpt-4o-mini"},
+    "o4-mini": {"provider": "gpt", "model": "o4-mini"},
+    "o3": {"provider": "gpt", "model": "o3"},
+    "o3-mini": {"provider": "gpt", "model": "o3-mini"},
     "gpt-4-turbo": {"provider": "gpt", "model": "gpt-4-turbo"},
-    "gpt-4": {"provider": "gpt", "model": "gpt-4"},
     "gpt-3.5-turbo": {"provider": "gpt", "model": "gpt-3.5-turbo"},
 
-    # GEMINI (2 ships) - Only confirmed working
+    # =========================================================================
+    # GEMINI (8 ships) - Google lineup (Dec 2025)
+    # Gemini 3.0 Pro is newest, 2.5 series, 2.0 series
+    # Note: 1.5 series retired April 2025
+    # =========================================================================
+    "gemini-3-pro": {"provider": "gemini", "model": "gemini-3.0-pro"},
+    "gemini-2.5-pro": {"provider": "gemini", "model": "gemini-2.5-pro"},
+    "gemini-2.5-flash": {"provider": "gemini", "model": "gemini-2.5-flash"},
+    "gemini-2.5-flash-lite": {"provider": "gemini", "model": "gemini-2.5-flash-lite"},
     "gemini-2.0-flash": {"provider": "gemini", "model": "gemini-2.0-flash"},
     "gemini-2.0-flash-lite": {"provider": "gemini", "model": "gemini-2.0-flash-lite"},
+    "gemini-2.0-flash-thinking": {"provider": "gemini", "model": "gemini-2.0-flash-thinking-exp"},
+    "gemma-3n": {"provider": "gemini", "model": "gemma-3n"},
 
-    # GROK (2 ships) - Conservative selection
+    # =========================================================================
+    # GROK (10 ships) - xAI lineup (Dec 2025)
+    # Grok 4.1 Fast (newest), Grok 4, Grok 3 series
+    # =========================================================================
+    "grok-4.1-fast-reasoning": {"provider": "grok", "model": "grok-4-1-fast-reasoning"},
+    "grok-4.1-fast-non-reasoning": {"provider": "grok", "model": "grok-4-1-fast-non-reasoning"},
+    "grok-4-fast-reasoning": {"provider": "grok", "model": "grok-4-fast-reasoning"},
+    "grok-4-fast-non-reasoning": {"provider": "grok", "model": "grok-4-fast-non-reasoning"},
+    "grok-4": {"provider": "grok", "model": "grok-4"},
+    "grok-code-fast-1": {"provider": "grok", "model": "grok-code-fast-1"},
     "grok-3": {"provider": "grok", "model": "grok-3"},
     "grok-3-mini": {"provider": "grok", "model": "grok-3-mini"},
+    "grok-2-vision": {"provider": "grok", "model": "grok-2-vision-1212"},
+    "grok-2": {"provider": "grok", "model": "grok-2-1212"},
 }
 
 # Concurrency levels to test
