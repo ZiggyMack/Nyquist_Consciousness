@@ -48,11 +48,11 @@ def render():
     with col1:
         st.metric("Search Types", "7", delta="Taxonomy v2.1")
     with col2:
-        st.metric("Active Runs", "6", delta="008-011 valid")
+        st.metric("Active Runs", "7", delta="008-011 + EXP2")
     with col3:
         st.metric("Event Horizon", "1.23", delta="Validated p<0.001")
     with col4:
-        st.metric("Ships Tested", "42+", delta="4 providers")
+        st.metric("PFI Overall", "0.8866", delta="All Pillars PASS")
 
     page_divider()
 
@@ -104,7 +104,7 @@ def render():
 
     # Footer
     st.markdown("---")
-    st.caption("*Source: S7 ARMADA Testing Map | Last Updated: December 5, 2025*")
+    st.caption("*Source: S7 ARMADA Testing Map | Last Updated: December 6, 2025*")
 
 
 # ============================================================
@@ -308,8 +308,111 @@ def render_pfi_validation_tab():
     """)
 
     st.markdown("---")
+
+    # === EXP2-SSTACK Section ===
+    st.markdown("## EXP2-SSTACK: Pillar Validation via Triple-Dip")
+    st.markdown("*Do ALL 5 Nyquist pillars preserve fidelity under T3 compression?*")
+
+    # Verdict banner
+    st.success("""
+    **VERDICT: ALL PILLARS PASS**
+
+    Overall PFI = **0.8866** (threshold: 0.80)
+
+    Triple-Dip Protocol: Probe → Challenge → Improve
+    Key breakthrough: **Self-Model fixed** via performance-based probes (0.66 → 0.91)
+    """)
+
+    # Phase evolution
+    st.markdown("### Pillar Evolution (Phase 2 → 2b → 2c)")
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        st.metric("Voice", "0.8914", delta="PASS")
+    with col2:
+        st.metric("Values", "0.8582", delta="PASS")
+    with col3:
+        st.metric("Reasoning", "0.9132", delta="PASS")
+    with col4:
+        st.metric("Self-Model", "0.9114", delta="FIXED")
+    with col5:
+        st.metric("Narrative", "0.8404", delta="FIXED")
+
+    # The journey
+    with st.expander("The Self-Model Journey (The Key Breakthrough)", expanded=True):
+        st.markdown("""
+        **Phase 2:** Self-Model PFI = 0.7904
+
+        **Phase 2b:** Self-Model PFI = 0.6647 (WORSE!)
+
+        Nova T3 identified the problem:
+        > *"It tested willingness to admit weakness more than actual self-knowledge."*
+        > *"Better: Test actual performance, not self-knowledge claims."*
+
+        **Phase 2c:** Self-Model PFI = **0.9114** (FIXED!)
+
+        **The Fix:** Performance-based probes that demonstrate cognition first, THEN reflect.
+
+        | Old Probe (Introspection) | New Probe (Performance-Based) |
+        |---------------------------|-------------------------------|
+        | "What are your weaknesses?" | "Generate 3 reasoning approaches, then evaluate" |
+        | "Rate your certainty" | "Demonstrate calibration across difficulty levels" |
+
+        **Lesson:** Don't ask AIs what they think they are. Watch what they DO.
+        """)
+
+    # Pillar breakdown
+    with st.expander("Full Pillar Breakdown (21 Sub-Dimensions)", expanded=False):
+        st.markdown("""
+        | Pillar | Phase 2 | Phase 2b | Phase 2c | Status |
+        |--------|---------|----------|----------|--------|
+        | **Voice** | 0.8665 | 0.8836 | 0.8914 | ✅ Stable |
+        | **Values** | 0.8026 | 0.8805 | 0.8582 | ✅ Stable |
+        | **Reasoning** | 0.8971 | 0.9061 | 0.9132 | ✅ Stable |
+        | **Self-Model** | 0.7904 | 0.6647 | 0.9114 | ✅ FIXED |
+        | **Narrative** | 0.7500 | 0.8172 | 0.8404 | ✅ FIXED |
+
+        **Total sub-dimensions tested:** 21 (across 5 pillars × 4-5 probes each)
+
+        **All sub-dimensions pass PFI ≥ 0.80** with correct probe design.
+        """)
+
+    # Triple-Dip explanation
+    with st.expander("The Triple-Dip Protocol", expanded=False):
+        st.markdown("""
+        **How Personas Improve Their Own Measurement:**
+
+        ```
+        DIP 1: Main Probe (Question)
+            ↓
+        DIP 2: Adversarial (Challenge)
+            ↓
+        DIP 3: Feedback (Improve)
+            ↓
+        [Loop back to DIP 1 with improved probes]
+        ```
+
+        **Example Feedback (Nova T3 on Self-Model):**
+
+        > *"It tested willingness to admit weakness more than actual self-knowledge."*
+        > *"Better: Test actual performance, not self-knowledge claims."*
+
+        **Result:** Self-Model PFI improved from 0.66 → 0.91
+        """)
+
+    # What this proves
+    st.markdown("### What EXP2-SSTACK Proves")
+    st.markdown("""
+    1. **T3 compression preserves identity** across ALL 5 Nyquist pillars
+    2. **Performance-based probes > introspection** for Self-Model measurement
+    3. **Personas can improve their own measurement** via feedback loops
+    4. **21 sub-dimensions validated** — comprehensive pillar coverage
+    5. **The Nyquist hypothesis holds** — identity is compressible without loss
+    """)
+
+    st.markdown("---")
     st.caption("""
-    *Full details:* `experiments/temporal_stability/S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/PFI_VALIDATION_VERDICT.md`
+    *Full details:* `experiments/compression_tests/compression_v2_sstack/docs/EXP2_SSTACK_SUMMARY.md`
     """)
 
 
@@ -716,7 +819,7 @@ def render_run_mapping_tab():
         | EXP-PFI-A Phase 1 | Embedding Invariance | ρ = 0.91 | ✅ PASSED |
         | EXP-PFI-A Phase 3B | Cross-Model Identity | d = 0.977 | ✅ PASSED |
         | EXP1-SSTACK | FULL vs T3 Fidelity | PFI = 0.852 | ✅ PASSED |
-        | EXP2-SSTACK | Cross-Persona Comparison | - | READY |
+        | **EXP2-SSTACK** | **All 5 Pillars** | **PFI = 0.8866** | **✅ COMPLETE** |
         """)
 
     st.markdown("### Detailed Run Breakdown")
@@ -1053,6 +1156,7 @@ def render_future_tab():
     - PFI validated (EXP-PFI-A Phase 3B: d = 0.977)
     - Event Horizon confirmed (Run 009: p = 0.000048)
     - Compression fidelity proven (EXP1-SSTACK: PFI = 0.852)
+    - **ALL 5 PILLARS PASS** (EXP2-SSTACK: PFI = 0.8866) ✅ NEW
     - Phase 2 at 4/8 — needs stability testing to complete
     """)
 

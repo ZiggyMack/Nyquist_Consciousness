@@ -38,6 +38,21 @@ RESULTS_DIR = ARMADA_DIR / "armada_results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "exp2_sstack": {
+        "name": "EXP2-SSTACK",
+        "subtitle": "Compression Pillar Validation",
+        "emoji": "🗜️",
+        "color": "#8b5cf6",  # Purple
+        "date": "December 6, 2025",
+        "description": "Does T3 compression preserve persona fidelity across all 5 Nyquist pillars? Triple-dip feedback protocol.",
+        "ships": 3,  # 3 personas: Nova, Ziggy, Claude
+        "metric": "PFI (FULL vs T3 cosine similarity)",
+        "result_files": [],
+        "viz_prefix": "phase2c_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "ALL PILLARS PASS — PFI=0.8866, Self-Model fixed (0.66→0.91) via performance-based probes"
+    },
     "exp_pfi_a": {
         "name": "EXP-PFI-A",
         "subtitle": "PFI Dimensional Validation",
