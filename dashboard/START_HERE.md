@@ -109,23 +109,31 @@ personas/
 ### S7 Armada (IMPORTANT!)
 ```
 experiments/temporal_stability/S7_ARMADA/
+├── START_HERE.md                # Operations guide
 ├── scripts/
 │   └── s7_armada_launcher.py    # Universal launcher for all runs
 ├── armada_results/              # JSON results
 │   ├── S7_armada_run_006.json
 │   ├── S7_armada_sonar_run_006.json
 │   ├── S7_armada_run_007_adaptive.json
-│   ├── S7_run_008_prep_pilot.json
-│   ├── S7_run_008_20251201_020501.json
+│   ├── S7_run_008_*.json
 │   ├── S7_run_009_drain_*.json          # Drain experiments
 │   ├── S7_run_010_recursive_*.json      # Recursive probing
-│   ├── S7_calibration_*.json            # Calibration runs
-│   ├── S7_bandwidth_*.json              # Bandwidth tests
-│   ├── GHOST_SHIP_RESCUE_RESULTS.json   # Ghost ship rescue
-│   └── VERIFIED_FLEET_MANIFEST.json     # Fleet manifest
+│   └── S7_run_011_*.json                # Persona comparison
+├── experiments/
+│   └── EXP_PFI_A_DIMENSIONAL/           # ✅ COMPLETE - PFI validated
+│       ├── README.md                    # Results summary
+│       ├── phase1_embedding_comparison/ # Embedding invariance
+│       ├── phase2_dimensionality/       # PCA analysis
+│       └── phase3_semantic_coherence/   # Cross-model comparison
 └── visualizations/
     └── pics/                # Generated charts
+        └── 8_pfi_dimensional/           # EXP-PFI-A visualizations
 ```
+
+#### EXP-PFI-A: PFI Validation (COMPLETE)
+
+PFI is validated as measuring genuine identity. See `experiments/EXP_PFI_A_DIMENSIONAL/README.md`.
 
 ### Compression Experiments (S-Stack)
 
@@ -450,4 +458,4 @@ A good dashboard update should:
 
 ---
 
-*Last Updated: December 5, 2025*
+*Last Updated: December 6, 2025*

@@ -1267,8 +1267,8 @@ LEFT_BRAIN = {
     "primary": "#3b82f6",      # Blue
     "secondary": "#60a5fa",    # Light blue
     "accent": "#1e40af",       # Deep blue
-    "bg_start": "#0d1b2a",     # Dark blue-black
-    "bg_end": "#1b263b",       # Slightly lighter
+    "bg_start": "#2a2a2a",     # Dark gray
+    "bg_end": "#3a3a3a",       # Slightly lighter gray
     "symbol": "🧠",            # Brain emoji
     "hemisphere": "◧",         # Left half symbol
     "decorators": ["▣", "▤", "▥", "▦", "▧", "▨", "▩", "◫", "◧", "▭", "▯"],
@@ -1278,8 +1278,8 @@ RIGHT_BRAIN = {
     "primary": "#e94560",      # Red-pink
     "secondary": "#a855f7",    # Purple
     "accent": "#7c3aed",       # Deep purple
-    "bg_start": "#1a0a2e",     # Dark purple-black
-    "bg_end": "#16213e",       # Deep blue-purple
+    "bg_start": "#2a2a2a",     # Dark gray
+    "bg_end": "#3a3a3a",       # Slightly lighter gray
     "symbol": "🌀",            # Spiral emoji
     "hemisphere": "◨",         # Right half symbol
     "decorators": ["◉", "◎", "●", "○", "◐", "◑", "◒", "◓", "⊕", "⊗", "⌬", "⍟", "✧", "✦", "❋", "✺", "❂"],
@@ -1434,6 +1434,35 @@ def render():
     # Custom CSS - dramatically enhanced for LEFT/RIGHT brain modes
     st.markdown("""
     <style>
+    /* PAGE-SPECIFIC OVERRIDES - Gray backgrounds instead of white */
+    [data-testid="stMetric"] {
+        background: #1e1e1e !important;
+        border: 1px solid #333 !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+    }
+    [data-testid="stMetricValue"] {
+        color: #ffffff !important;
+    }
+    [data-testid="stMetricLabel"] {
+        color: #aaaaaa !important;
+    }
+    [data-testid="stMetricDelta"] {
+        color: #10b981 !important;
+    }
+
+    /* Fix tab text colors for visibility */
+    .stTabs [data-baseweb="tab"] {
+        color: #ffffff !important;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        background: #1a1a1a !important;
+        border-radius: 8px !important;
+    }
+    .stTabs [aria-selected="true"] {
+        background: #333333 !important;
+    }
+
     /* Base styles */
     .unknown-title {
         font-size: 2.5em;
@@ -1453,22 +1482,25 @@ def render():
     .left-brain-container {
         border: 1px solid #3b82f633;
         border-radius: 8px;
-        background: linear-gradient(180deg, #0d1b2a 0%, #1b263b 100%);
+        background: linear-gradient(180deg, #1e3a5f 0%, #2d4a6f 100%);
+        color: #ffffff;
     }
 
     /* RIGHT BRAIN mode styling - glowing, fluid borders */
     .right-brain-container {
         border: 2px solid #e9456066;
         border-radius: 15px;
-        background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f3460 100%);
+        background: linear-gradient(135deg, #3d2a5c 0%, #2e4a6e 50%, #1f5a70 100%);
         box-shadow: 0 0 20px #e9456033, inset 0 0 30px #a855f711;
+        color: #ffffff;
     }
 
     /* Gallery card enhancements */
     .gallery-card-left {
-        background: linear-gradient(180deg, #ffffff08 0%, #ffffff02 100%);
+        background: linear-gradient(180deg, #2a4a6f 0%, #1e3a5f 100%);
         border: 1px solid #3b82f644;
         transition: all 0.3s ease;
+        color: #ffffff;
     }
     .gallery-card-left:hover {
         border-color: #3b82f6;
@@ -1476,10 +1508,11 @@ def render():
     }
 
     .gallery-card-right {
-        background: linear-gradient(135deg, #e9456022 0%, #a855f711 50%, #3b82f611 100%);
+        background: linear-gradient(135deg, #4d3a6c 0%, #3e5a7e 50%, #2f6a80 100%);
         border: 2px solid #e9456044;
         transition: all 0.3s ease;
         animation: subtlePulse 4s ease-in-out infinite;
+        color: #ffffff;
     }
     .gallery-card-right:hover {
         border-color: #e94560;
@@ -1518,17 +1551,19 @@ def render():
     /* Concept content styling */
     .concept-structured {
         padding: 1.5em;
-        background: linear-gradient(180deg, #0d1b2a 0%, #1b263b 100%);
+        background: linear-gradient(180deg, #1e3a5f 0%, #2d4a6f 100%);
         border-left: 3px solid #3b82f6;
         border-radius: 0 10px 10px 0;
+        color: #ffffff;
     }
 
     .concept-vortex {
         padding: 1.5em;
-        background: linear-gradient(135deg, #1a0a2e 0%, #16213e 100%);
+        background: linear-gradient(135deg, #3d2a5c 0%, #2e4a6e 100%);
         border: 2px solid #e9456033;
         border-radius: 15px;
         box-shadow: inset 0 0 40px #e9456011;
+        color: #ffffff;
     }
 
     /* Vortex-specific text effects */
@@ -1798,31 +1833,32 @@ def render():
 
     # Stats row - styled based on brain mode
     if mode == "Vortex":
-        st.markdown("""
+        st.markdown(f"""
         <div style="
             display: flex;
             justify-content: space-around;
             padding: 20px;
-            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, {RIGHT_BRAIN['bg_start']} 0%, {RIGHT_BRAIN['bg_end']} 100%);
             border-radius: 15px;
             border: 1px solid #e9456033;
             margin-bottom: 20px;
+            color: #ffffff;
         ">
             <div style="text-align: center;">
                 <div style="font-size: 2em; color: #10b981;">✅ 3</div>
-                <div style="color: #888;">VALIDATED</div>
+                <div style="color: #cccccc;">VALIDATED</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 2em; color: #3b82f6;">🏛️ 3</div>
-                <div style="color: #888;">FOUNDATIONS</div>
+                <div style="color: #cccccc;">FOUNDATIONS</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 2em; color: #a855f7;">🔮 3</div>
-                <div style="color: #888;">SPECULATIVE</div>
+                <div style="color: #cccccc;">SPECULATIVE</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 2em; color: #f59e0b;">🗺️ 4</div>
-                <div style="color: #888;">FRONTIERS</div>
+                <div style="color: #cccccc;">FRONTIERS</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -1852,16 +1888,17 @@ def render():
                 <div style="
                     text-align: center;
                     padding: 20px;
-                    background: linear-gradient(135deg, {gallery['color']}22 0%, #16213e 50%, {gallery['color']}11 100%);
+                    background: linear-gradient(135deg, {gallery['color']}22 0%, {RIGHT_BRAIN['bg_end']} 50%, {gallery['color']}11 100%);
                     border-radius: 15px;
                     border: 2px solid {gallery['color']}66;
                     margin-bottom: 20px;
                     box-shadow: 0 0 20px {gallery['color']}22;
+                    color: #ffffff;
                 ">
                     <div style="font-size: 3em; margin-bottom: 10px;">{gallery['emoji']}</div>
                     <div style="font-size: 1.5em; color: {gallery['color']}; text-shadow: 0 0 10px {gallery['color']};">{gallery['name'].upper()}</div>
-                    <div style="color: #888; font-style: italic; margin-top: 10px;">{gallery['description']}</div>
-                    <div style="margin-top: 15px; color: #666;">{vortex_decoration()}</div>
+                    <div style="color: #cccccc; font-style: italic; margin-top: 10px;">{gallery['description']}</div>
+                    <div style="margin-top: 15px; color: #aaaaaa;">{vortex_decoration()}</div>
                 </div>
                 """, unsafe_allow_html=True)
             else:
@@ -1869,16 +1906,17 @@ def render():
                 st.markdown(f"""
                 <div style="
                     padding: 15px 20px;
-                    background: linear-gradient(180deg, #0d1b2a 0%, #1b263b 100%);
+                    background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%);
                     border-left: 4px solid {gallery['color']};
                     border-radius: 0 10px 10px 0;
                     margin-bottom: 20px;
+                    color: #ffffff;
                 ">
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <span style="font-size: 2em;">{gallery['emoji']}</span>
                         <div>
                             <div style="font-size: 1.3em; color: {gallery['color']}; font-weight: bold;">{gallery['name']}</div>
-                            <div style="color: #888; font-size: 0.9em;">{gallery['description']}</div>
+                            <div style="color: #cccccc; font-size: 0.9em;">{gallery['description']}</div>
                         </div>
                     </div>
                 </div>
@@ -1911,10 +1949,11 @@ def render():
                             text-align: center;
                             padding: 15px;
                             margin-bottom: 20px;
-                            background: linear-gradient(135deg, {status_color}22 0%, #16213e 100%);
+                            background: linear-gradient(135deg, {status_color}22 0%, {RIGHT_BRAIN['bg_end']} 100%);
                             border-radius: 15px;
                             border: 2px solid {status_color}44;
                             box-shadow: 0 0 15px {status_color}22;
+                            color: #ffffff;
                         ">
                             <span style="
                                 background: {status_color}44;
@@ -1926,7 +1965,7 @@ def render():
                                 text-shadow: 0 0 10px {status_color};
                                 border: 1px solid {status_color};
                             ">{status}</span>
-                            <div style="color: #888; font-style: italic; margin-top: 12px; font-size: 1.1em;">
+                            <div style="color: #cccccc; font-style: italic; margin-top: 12px; font-size: 1.1em;">
                                 "{concept.get('one_liner', '')}"
                             </div>
                         </div>
@@ -1937,9 +1976,10 @@ def render():
                         <div style="
                             padding: 12px 15px;
                             margin-bottom: 15px;
-                            background: linear-gradient(180deg, #0d1b2a 0%, #1b263b 100%);
+                            background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%);
                             border-left: 3px solid {status_color};
                             border-radius: 0 8px 8px 0;
+                            color: #ffffff;
                         ">
                             <span style="
                                 background: {status_color}33;
@@ -1949,7 +1989,7 @@ def render():
                                 font-size: 0.8em;
                                 font-weight: bold;
                             ">{status}</span>
-                            <span style="color: #888; font-style: italic; margin-left: 1em;">
+                            <span style="color: #cccccc; font-style: italic; margin-left: 1em;">
                                 {concept.get('one_liner', '')}
                             </span>
                         </div>
@@ -1966,29 +2006,31 @@ def render():
         <div style="
             text-align: center;
             padding: 20px;
-            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, {RIGHT_BRAIN['bg_start']} 0%, {RIGHT_BRAIN['bg_end']} 100%);
             border-radius: 15px;
             border: 2px solid #a855f744;
             margin-bottom: 20px;
+            color: #ffffff;
         ">
             <div style="font-size: 1.8em; color: #a855f7; text-shadow: 0 0 15px #a855f7;">❓ OPEN QUESTIONS ❓</div>
-            <div style="color: #888; font-style: italic; margin-top: 10px;">
+            <div style="color: #cccccc; font-style: italic; margin-top: 10px;">
                 "the edges of understanding where dragons still roam"
             </div>
-            <div style="margin-top: 10px; color: #666;">{vortex_decoration()}</div>
+            <div style="margin-top: 10px; color: #aaaaaa;">{vortex_decoration()}</div>
         </div>
         """, unsafe_allow_html=True)
     else:
-        st.markdown("""
+        st.markdown(f"""
         <div style="
             padding: 15px 20px;
-            background: linear-gradient(180deg, #0d1b2a 0%, #1b263b 100%);
+            background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%);
             border-left: 4px solid #a855f7;
             border-radius: 0 10px 10px 0;
             margin-bottom: 20px;
+            color: #ffffff;
         ">
             <div style="font-size: 1.3em; color: #a855f7; font-weight: bold;">Open Questions</div>
-            <div style="color: #888; font-size: 0.9em;">Active research directions and unresolved problems</div>
+            <div style="color: #cccccc; font-size: 0.9em;">Active research directions and unresolved problems</div>
         </div>
         """, unsafe_allow_html=True)
 

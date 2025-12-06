@@ -285,12 +285,25 @@ py visualize_armada.py --run 009 --type phase
 
 ---
 
+## Active Experiments
+
+### EXP-PFI-A: PFI Dimensional Validation ✅ COMPLETE
+
+**Status:** PFI VALIDATED (Cohen's d = 0.977)
+**Location:** `experiments/EXP_PFI_A_DIMENSIONAL/`
+
+The core question "*Is PFI real or an artifact?*" is answered. PFI measures genuine identity differences between model families. Echo's Critique addressed.
+
+See `experiments/EXP_PFI_A_DIMENSIONAL/README.md` for full results.
+
+---
+
 ## Next Steps
 
-1. **Run 011+**: Continue persona architecture experiments
-2. **Analyze λ decay constants**: Which models recover fastest from perturbation?
-3. **Cross-provider comparison**: Do Claude/GPT/Gemini/Grok have fundamentally different identity manifolds?
-4. **Event Horizon refinement**: Is 1.23 the universal threshold or provider-specific?
+1. **EXP-H1**: Human Manifold (requires validated identity measure ✅)
+2. **S12+**: Metric-Architecture Synergy (identity vectors feed back into personas)
+3. **Analyze λ decay constants**: Which models recover fastest from perturbation?
+4. **Cross-provider comparison**: Do Claude/GPT/Gemini/Grok have fundamentally different identity manifolds?
 
 ---
 
@@ -310,4 +323,4 @@ py visualize_armada.py --run 009 --type phase
 
 ---
 
-**Last Updated**: December 4, 2025
+**Last Updated**: December 6, 2025
