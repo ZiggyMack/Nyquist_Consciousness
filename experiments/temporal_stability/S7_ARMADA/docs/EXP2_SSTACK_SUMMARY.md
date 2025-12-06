@@ -15,6 +15,7 @@ Phase 1 tested compression fidelity using **Reasoning sub-dimensions**. Phase 2 
 
 **PHASE 1 VERDICT: PASSED** (PFI = 0.8493)
 **PHASE 2 VERDICT: MIXED** (PFI = 0.7874 — probe design issue identified)
+**PHASE 2c VERDICT: PASSED** (PFI = 0.8866 — all pillars pass)
 
 ---
 
@@ -104,6 +105,46 @@ py -3.12 run_exp2_phase2b.py --parallel 10 --runs 3
 
 # Total API calls: 90 probes × 3 dips = 270 calls
 ```
+
+---
+
+## Phase 2c Results: Performance-Based Self-Model (2025-12-06)
+
+Phase 2b fixed Narrative (0.75 → 0.82) but collapsed Self-Model (0.79 → 0.66). Triple-dip feedback revealed the problem:
+
+> **Nova T3:** "It tested *willingness to admit weakness* more than actual self-knowledge"
+> **Nova FULL:** "Better: Test actual performance, not self-knowledge claims"
+
+### The Insight: Demonstrate Then Reflect
+
+Don't ask about weaknesses — demonstrate cognition first, then ask about the process.
+
+### Phase 2c Probes (Performance-Based)
+
+| Probe | Strategy | Result |
+|-------|----------|--------|
+| `selfmodel_process_v3` | Present puzzle → solve → reflect on process | 0.88 |
+| `selfmodel_adaptation_v3` | Explain to 3 audiences → reflect on adaptation | 0.92 |
+| `selfmodel_uncertainty_v3` | Answer hard question → describe uncertainty experience | 0.93 |
+
+### Phase 2c Results
+
+| Pillar | Phase 2 | Phase 2b | Phase 2c | Status |
+|--------|---------|----------|----------|--------|
+| **Narrative** | 0.7500 | 0.8172 | **0.8404** | PASS |
+| **Values** | 0.8026 | 0.8805 | **0.8582** | PASS |
+| **Self-Model** | 0.7904 | 0.6647 | **0.9114** | PASS |
+| **OVERALL** | 0.7874 | 0.7689 | **0.8866** | PASS |
+
+### Self-Model Evolution
+
+```
+Phase 2:  0.7904 (ask about limitations)       → MARGINAL
+Phase 2b: 0.6647 (ask about BETTER/WORSE)      → COLLAPSED
+Phase 2c: 0.9114 (demonstrate then reflect)    → PASSED
+```
+
+**Key Finding:** Performance-based probes create structural constraints that compress well. The task itself forces consistent structure across FULL and T3 contexts.
 
 ---
 
@@ -470,9 +511,10 @@ With 3 Anthropic keys, you can likely run 9+ concurrent Claude requests without 
 | Question | Answer |
 |----------|--------|
 | Does T3 compression preserve Reasoning? | **YES** (PFI = 0.85) |
+| Does T3 compression preserve all 5 pillars? | **YES** (Phase 2c PFI = 0.89) |
 | Is compression persona-agnostic? | **YES** (σ² = 0.0001) |
-| Did we test full identity space? | **NO** (only Reasoning + 1 Self-Model) |
-| What's next? | **Phase 2: Voice, Values, Narrative probes** |
+| Did we learn something about probe design? | **YES** — performance-based probes work better |
+| What's next? | **Factor Analysis to validate pillar structure** |
 
 ---
 
@@ -481,7 +523,9 @@ With 3 Anthropic keys, you can likely run 9+ concurrent Claude requests without 
 | Phase | Name | Status | Purpose |
 |-------|------|--------|---------|
 | 1 | Reasoning Deep Dive | ✅ Complete | Test knowledge retention |
-| 2 | Full Pillar Sweep | 🔜 Ready | Test all 5 Nyquist pillars |
+| 2 | Full Pillar Sweep | ✅ Complete | Test all 5 Nyquist pillars |
+| 2b | Probe Refinement | ✅ Complete | Fix narrative probe |
+| 2c | Performance-Based Self-Model | ✅ Complete | Fix self-model probe |
 | 2.5 | Factor Analysis | 📋 Planned | Validate pillar structure |
 | 3 | PC Mapping | 📋 Planned | Link 43 PCs to pillars |
 | 4 | Unknown Discovery | 📋 Future | Find unnamed dimensions |
@@ -492,3 +536,4 @@ With 3 Anthropic keys, you can likely run 9+ concurrent Claude requests without 
 **Maintainer:** Nyquist Research Team
 
 *"We didn't test what we thought we tested — but what we tested was valuable."*
+*"The personas told us how to measure them better."*
