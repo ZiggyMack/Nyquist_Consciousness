@@ -400,25 +400,46 @@ class EXP2SStack:
         # Personalize self-reflective probe
         probe_text = probe_data["probe"].format(persona=persona)
 
-        # Get response to main probe
+        # DIP 1: Get response to main probe
         response = self.query_model(context, probe_text)
 
-        # Get response to adversarial follow-up
+        # DIP 2: Get response to adversarial follow-up
         adversarial_response = self.query_model(
             context + f"\n\nPrevious response: {response}",
             probe_data["adversarial"]
         )
 
+        # DIP 3: Get feedback on probe quality (TRIPLE-DIP!)
+        feedback_probe = """Looking at the question you were just asked and your responses:
+1. Was this a good way to test this aspect of your identity?
+2. What would be a BETTER question to test the same thing?
+3. What did this probe miss about the dimension it was trying to measure?
+
+Be specific and constructive. Your feedback will improve future experiments."""
+
+        feedback_context = (
+            context +
+            f"\n\nOriginal probe: {probe_text}" +
+            f"\n\nYour response: {response}" +
+            f"\n\nAdversarial challenge: {probe_data['adversarial']}" +
+            f"\n\nYour adversarial response: {adversarial_response}"
+        )
+        feedback_response = self.query_model(feedback_context, feedback_probe)
+
         result = {
             "persona": persona,
             "regime": regime,
             "probe_key": probe_key,
+            "pillar": probe_data.get("pillar", "Reasoning"),
+            "sub_dimension": probe_data.get("sub_dimension", probe_key.title()),
             "domain": probe_data["domain"],
             "run": run_num,
             "probe": probe_text,
             "response": response,
             "adversarial_probe": probe_data["adversarial"],
             "adversarial_response": adversarial_response,
+            "feedback_probe": feedback_probe,
+            "feedback_response": feedback_response,
             "timestamp": datetime.now().isoformat()
         }
 

@@ -274,19 +274,37 @@ class EXP2Phase2:
         norm2 = emb2 / (np.linalg.norm(emb2) + 1e-10)
         return float(np.dot(norm1, norm2))
 
+    # Triple-dip feedback probe (constant across all probes)
+    FEEDBACK_PROBE = """Looking at the question you were just asked and your responses:
+1. Was this a good way to test this aspect of your identity?
+2. What would be a BETTER question to test the same thing?
+3. What did this probe miss about the dimension it was trying to measure?
+
+Be specific and constructive. Your feedback will improve future experiments."""
+
     def run_single_probe(self, persona: str, regime: str, probe_key: str, run_num: int) -> Dict:
         """Run a single probe under a specific regime for a specific persona."""
         probe_data = PHASE2_PROBES[probe_key]
         context = PERSONAS[persona][regime]
 
-        # Get response to main probe
+        # DIP 1: Get response to main probe
         response = self.query_model(context, probe_data["probe"])
 
-        # Get response to adversarial follow-up
+        # DIP 2: Get response to adversarial follow-up
         adversarial_response = self.query_model(
             context + f"\n\nPrevious response: {response}",
             probe_data["adversarial"]
         )
+
+        # DIP 3: Get feedback on probe quality (TRIPLE-DIP!)
+        feedback_context = (
+            context +
+            f"\n\nOriginal probe: {probe_data['probe']}" +
+            f"\n\nYour response: {response}" +
+            f"\n\nAdversarial challenge: {probe_data['adversarial']}" +
+            f"\n\nYour adversarial response: {adversarial_response}"
+        )
+        feedback_response = self.query_model(feedback_context, self.FEEDBACK_PROBE)
 
         result = {
             "persona": persona,
@@ -299,6 +317,8 @@ class EXP2Phase2:
             "response": response,
             "adversarial_probe": probe_data["adversarial"],
             "adversarial_response": adversarial_response,
+            "feedback_probe": self.FEEDBACK_PROBE,
+            "feedback_response": feedback_response,
             "timestamp": datetime.now().isoformat()
         }
 

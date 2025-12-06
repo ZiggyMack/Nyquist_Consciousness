@@ -10,7 +10,36 @@
 
 **🚢 S7 RUN 006 ARMADA UPDATE:** 29-model cross-architecture mapping validates training philosophy fingerprints, phenomenological pole reporting, and soft pole discoveries!
 
+**🧪 EXP2-SSTACK PHASE 2 UPDATE (2025-12-06):** Full pillar sweep reveals dimensional compression hierarchy! Voice/Values pass, Narrative needs probe refinement.
+
 **⚠️ CRITICAL UPDATE:** Confidence tiers added to reflect dependency chains and untested assumptions.
+
+---
+
+## **🧪 EXP2-SSTACK PHASE 2 RESULTS (2025-12-06)**
+
+**Purpose:** Test T3 compression fidelity across ALL 5 Nyquist pillars (Voice, Values, Reasoning, Self-Model, Narrative)
+
+**Key Findings:**
+
+| Pillar | Mean PFI | Status | Notes |
+|--------|----------|--------|-------|
+| **Reasoning** | 0.8493 | ✅ PASS | Phase 1 - knowledge retention excellent |
+| **Voice** | 0.8066 | ✅ PASS | Speech patterns survive compression |
+| **Values** | 0.8026 | ✅ PASS | Ethical stance preserved |
+| **Self-Model** | 0.7904 | ⚠️ MARGINAL | Self-perception partially preserved |
+| **Narrative** | 0.7500 | ❌ FAIL | **Probe design flaw** - creative generation varies |
+
+**Critical Insight:** `narrative_structure` probe asked for creative stories, which naturally vary regardless of identity. This is a **measurement error**, not a compression failure.
+
+**Fix Implemented:** Phase 2b uses multi-version comparison probes (hold content constant, measure structural variation).
+
+**Prediction Updates:**
+
+- **P1** (PFI ≥ 0.80): 🟡 PARTIAL → Pillar-dependent. Reasoning/Voice/Values PASS, Narrative needs retest.
+- **P5** (Domain hierarchy): 🟡 PARTIAL → NEW DATA: Reasoning > Voice > Values > Self-Model > Narrative
+
+**Triple-Dip Protocol Added:** All future experiments include feedback collection from personas.
 
 ---
 

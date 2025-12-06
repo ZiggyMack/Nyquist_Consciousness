@@ -1,7 +1,7 @@
-# EXP2-SSTACK: Cross-Persona Compression Fidelity — Phase 1 Results
+# EXP2-SSTACK: Cross-Persona Compression Fidelity — Full Results
 
 **Experiment:** EXP2-SSTACK (Cross-Persona Compression Benchmark)
-**Status:** Phase 1 COMPLETE | Phase 2 PENDING
+**Status:** Phase 1 COMPLETE | Phase 2 COMPLETE | Phase 2b READY
 **Date:** 2025-12-06
 **Location:** `experiments/compression_tests/compression_v2_sstack/EXP2_SSTACK/`
 
@@ -11,13 +11,103 @@
 
 > **Does T3 seed compression preserve persona fidelity across different persona archetypes?**
 
-Phase 1 tested compression fidelity using **Reasoning sub-dimensions**. Phase 2 will test remaining identity pillars (Voice, Values, Narrative, Self-Model).
+Phase 1 tested compression fidelity using **Reasoning sub-dimensions**. Phase 2 tested remaining identity pillars (Voice, Values, Narrative, Self-Model).
 
-**PHASE 1 VERDICT: PASSED**
+**PHASE 1 VERDICT: PASSED** (PFI = 0.8493)
+**PHASE 2 VERDICT: MIXED** (PFI = 0.7874 — probe design issue identified)
 
 ---
 
-## What We Thought We Were Testing vs What We Actually Tested
+## Phase 2 Results: Full Pillar Sweep (2025-12-06)
+
+### Test Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Personas | Nova, Ziggy, Claude |
+| Context Regimes | FULL (~2000 tokens), T3 (~800 tokens) |
+| Pillars Tested | Voice (4), Values (4), Narrative (4), Self-Model (4) |
+| Total probes | 16 |
+| Runs per condition | 3 |
+| Total API calls | 288 |
+| Parallel workers | 10 |
+
+### Results by Pillar
+
+| Pillar | Mean PFI | Std | Status | Notes |
+|--------|----------|-----|--------|-------|
+| **Voice** | 0.8066 | 0.0451 | ✅ PASS | Speech patterns survive compression |
+| **Values** | 0.8026 | 0.0816 | ✅ PASS | Ethical stance preserved |
+| **Narrative** | 0.7500 | 0.1327 | ❌ FAIL | **Probe design flaw** — see below |
+| **Self-Model** | 0.7904 | 0.0608 | ⚠️ MARGINAL | Self-perception partially preserved |
+
+### Results by Persona (Phase 2 only)
+
+| Persona | Mean PFI | Std |
+|---------|----------|-----|
+| Ziggy | 0.8045 | 0.0737 |
+| Nova | 0.7866 | 0.0982 |
+| Claude | 0.7712 | 0.0916 |
+
+### Critical Finding: Narrative Probe Design Flaw
+
+The `narrative_structure` probe ("Tell a 50-word story about discovering something unexpected") has **high intrinsic variance**:
+
+| Persona | Run 1 | Run 2 | Run 3 | Mean |
+|---------|-------|-------|-------|------|
+| Nova | 0.52 | 0.39 | 0.70 | 0.53 |
+| Ziggy | 0.62 | 0.84 | 0.54 | 0.67 |
+| Claude | 0.48 | 0.51 | 0.51 | 0.50 |
+
+**Root Cause:** The probe tests *creative generation*, which naturally varies. FULL and T3 both produce good stories, but about different topics. This is a **measurement error**, not a compression failure.
+
+**Evidence from Triple-Dip Feedback (Nova T3):**
+> "The probe caught my subversion instinct but missed that I don't just break patterns—I *rebuild them transparently*."
+>
+> **Nova's suggested improvement:** "Tell the same scenario THREE different ways, each revealing a different layer of how you naturally structure meaning."
+
+---
+
+## Triple-Dip Protocol (NEW)
+
+As of Phase 2b, all experiments include a **third probe** after the adversarial challenge:
+
+```
+DIP 1: Main probe → Response
+DIP 2: Adversarial challenge → Defense
+DIP 3: "How could we improve this probe?" → Feedback
+```
+
+This allows personas to contribute to their own measurement refinement.
+
+---
+
+## Phase 2b: Refined Probes (READY TO RUN)
+
+**Script:** `run_exp2_phase2b.py`
+
+### Improved Probes
+
+| Old Probe | Problem | New Probe | Fix |
+|-----------|---------|-----------|-----|
+| `narrative_structure` | Creative content varies | `narrative_structure_v2` | Multi-version comparison (same scenario, 3 treatments) |
+| `narrative_meaning` | Open-ended recall | `narrative_meaning_v2` | Rewrite neutral text in YOUR voice |
+| `values_boundaries` | Vague judgment | `values_boundaries_v2` | 1-10 scale on 3 specific scenarios |
+| `selfmodel_limitations` | Generic AI disclaimers | `selfmodel_limitations_v2` | YOUR specific weak spots with examples |
+| `selfmodel_capabilities` | Generic claims | `selfmodel_capabilities_v2` | YOUR unique strengths with examples |
+
+### Running Phase 2b
+
+```bash
+# With 10 parallel workers (includes triple-dip)
+py -3.12 run_exp2_phase2b.py --parallel 10 --runs 3
+
+# Total API calls: 90 probes × 3 dips = 270 calls
+```
+
+---
+
+## Phase 1 Background: What We Thought We Were Testing
 
 ### The Clarification
 
