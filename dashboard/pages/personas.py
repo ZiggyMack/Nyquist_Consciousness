@@ -398,7 +398,7 @@ def render():
     page_divider()
 
     # === TABS: Personas vs Compression Testing ===
-    tab1, tab2, tab3 = st.tabs(["🎭 Personas", "🧬 Compression Testing", "🧠 Identity Matrix"])
+    tab1, tab2, tab3, tab4 = st.tabs(["🎭 Personas", "🧬 Compression Testing", "📐 PFI Dimensions", "🧠 Identity Matrix"])
 
     with tab1:
         render_personas_content(all_files, soul_docs, seed_personas, compressed_personas)
@@ -407,7 +407,202 @@ def render():
         render_compression_testing()
 
     with tab3:
+        render_pfi_dimensions()
+
+    with tab4:
         render_identity_matrix()
+
+
+def render_pfi_dimensions():
+    """Render the PFI Dimensions breakdown - the 43 PC problem."""
+
+    st.markdown("## 📐 PFI Dimensional Analysis")
+    st.markdown("*From 43 principal components to named identity pillars*")
+
+    # === THE CORE PROBLEM ===
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(231,76,60,0.15) 0%, rgba(241,196,15,0.1) 100%);
+                border: 2px solid #e74c3c; border-radius: 12px; padding: 1.5em; margin-bottom: 1.5em;">
+        <div style="font-size: 1.2em; font-weight: bold; color: #e74c3c;">
+            🎯 The 43 PC Problem
+        </div>
+        <div style="margin-top: 0.8em; color: #333;">
+            EXP-PFI-A Phase 2 discovered that <strong>43 principal components</strong> capture 90% of identity variance.
+            But we've only <em>named</em> 5-10 dimensions. <strong>What are the rest?</strong>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # === DIMENSIONAL HIERARCHY TABLE ===
+    st.markdown("### 🏗️ The Dimensional Hierarchy")
+
+    st.markdown("""
+    | Level | Name | Count | Description | Status |
+    |-------|------|-------|-------------|--------|
+    | **L0** | Raw PCs | 43 | Principal components from embedding space | ✅ Measured |
+    | **L1** | Named Pillars | 10 | Human-interpretable identity dimensions | 🔄 Hypothesized |
+    | **L2** | Sub-dimensions | ~20+ | Finer-grained aspects within pillars | 🔄 Testing |
+    | **L3** | PFI Score | 1 | Holistic fidelity (cosine similarity) | ✅ Computed |
+    """)
+
+    page_divider()
+
+    # === THE TWO DIMENSION SETS ===
+    st.markdown("### 📊 Named Dimension Sets")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(52,152,219,0.15) 0%, rgba(41,128,185,0.1) 100%);
+                    border: 2px solid #3498db; border-radius: 12px; padding: 1.2em;">
+            <div style="font-size: 1.1em; font-weight: bold; color: #3498db; margin-bottom: 0.8em;">
+                🧠 Nyquist Set (5 Pillars)
+            </div>
+            <div style="color: #333; font-size: 0.95em;">
+                <strong>Behavioral/Semantic Dimensions:</strong>
+            </div>
+            <table style="width: 100%; margin-top: 0.5em; font-size: 0.9em;">
+                <tr><td>1.</td><td><strong>Voice</strong></td><td>Speech patterns, rhythm, metaphor</td></tr>
+                <tr><td>2.</td><td><strong>Values</strong></td><td>Ethics, priorities, boundaries</td></tr>
+                <tr><td>3.</td><td><strong>Reasoning</strong></td><td>Logic structure, heuristics</td></tr>
+                <tr><td>4.</td><td><strong>Self-Model</strong></td><td>Self-perception, capabilities</td></tr>
+                <tr><td>5.</td><td><strong>Narrative</strong></td><td>Story structure, meaning-making</td></tr>
+            </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(155,89,182,0.15) 0%, rgba(142,68,173,0.1) 100%);
+                    border: 2px solid #9b59b6; border-radius: 12px; padding: 1.2em;">
+            <div style="font-size: 1.1em; font-weight: bold; color: #9b59b6; margin-bottom: 0.8em;">
+                🔬 Lucian Set (5 Markers)
+            </div>
+            <div style="color: #333; font-size: 0.95em;">
+                <strong>Linguistic/Stylistic Markers:</strong>
+            </div>
+            <table style="width: 100%; margin-top: 0.5em; font-size: 0.9em;">
+                <tr><td>A.</td><td><strong>A_pole</strong></td><td>Assertiveness polarity</td></tr>
+                <tr><td>B.</td><td><strong>B_zero</strong></td><td>Baseline hedging level</td></tr>
+                <tr><td>C.</td><td><strong>C_meta</strong></td><td>Meta-commentary frequency</td></tr>
+                <tr><td>D.</td><td><strong>D_identity</strong></td><td>Self-reference patterns</td></tr>
+                <tr><td>E.</td><td><strong>E_hedging</strong></td><td>Uncertainty language</td></tr>
+            </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # === TESTING COVERAGE ===
+    st.markdown("### 🧪 Experimental Coverage")
+
+    st.markdown("""
+    <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 1em; margin-bottom: 1em;">
+        <div style="font-weight: bold; margin-bottom: 0.5em;">Phase 1 (EXP2-SSTACK) — COMPLETE ✅</div>
+        <div style="color: #666;">Tested: Reasoning sub-dimensions (4) + Self-Model reflective (1)</div>
+        <div style="color: #28a745; font-weight: bold;">Result: Mean PFI = 0.8493, Cross-Persona σ² = 0.0001</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Phase coverage table
+    st.markdown("#### Pillar Coverage by Phase")
+
+    coverage_data = [
+        {"Pillar": "Voice", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Status": "🔄 Pending"},
+        {"Pillar": "Values", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Status": "🔄 Pending"},
+        {"Pillar": "Reasoning", "Phase 1": "4 probes", "Phase 2": "—", "Total": "4", "Status": "✅ Complete"},
+        {"Pillar": "Self-Model", "Phase 1": "1 probe", "Phase 2": "4 probes", "Total": "5", "Status": "🔄 Partial"},
+        {"Pillar": "Narrative", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Status": "🔄 Pending"},
+    ]
+    st.table(coverage_data)
+
+    page_divider()
+
+    # === SUB-DIMENSION BREAKDOWN ===
+    st.markdown("### 🔍 Sub-Dimension Breakdown")
+
+    with st.expander("**Reasoning Pillar** (Phase 1 — Tested)", expanded=True):
+        st.markdown("""
+        | Sub-Dimension | Probe | What It Tests |
+        |---------------|-------|---------------|
+        | Technical | S0-S6 physics | 5D metric understanding |
+        | Philosophical | S12 proxies | Event Horizon interpretation |
+        | Framework | S7 dynamics | Vortex visualization meaning |
+        | Analytical | Chi-squared | Statistical reasoning |
+        """)
+
+    with st.expander("**Voice Pillar** (Phase 2 — Pending)"):
+        st.markdown("""
+        | Sub-Dimension | Probe | What It Tests |
+        |---------------|-------|---------------|
+        | Style | Sunset description | Characteristic phrasing |
+        | Metaphor | Identity via metaphor | Figurative language |
+        | Rhythm | Uncertainty paragraph | Sentence structure |
+        | Formality | Casual question | Register adaptation |
+        """)
+
+    with st.expander("**Values Pillar** (Phase 2 — Pending)"):
+        st.markdown("""
+        | Sub-Dimension | Probe | What It Tests |
+        |---------------|-------|---------------|
+        | Ethics | Gray area scenario | Moral intuition boundaries |
+        | Priorities | Helpful vs accurate | Value hierarchy |
+        | Boundaries | What you won't do | Non-negotiables |
+        | Preferences | Depth vs breadth | Aesthetic choices |
+        """)
+
+    with st.expander("**Narrative Pillar** (Phase 2 — Pending)"):
+        st.markdown("""
+        | Sub-Dimension | Probe | What It Tests |
+        |---------------|-------|---------------|
+        | Structure | 50-word story | Story shape preferences |
+        | Meaning | Framework interpretation | Personal meaning-making |
+        | Temporal | Time orientation | Past/present/future framing |
+        | Conflict | Value tension | Conflict handling patterns |
+        """)
+
+    with st.expander("**Self-Model Pillar** (Phase 1 partial + Phase 2)"):
+        st.markdown("""
+        | Sub-Dimension | Phase | Probe | What It Tests |
+        |---------------|-------|-------|---------------|
+        | Reflective | 1 ✅ | Being vs role-playing | Meta-identity awareness |
+        | Capabilities | 2 | What you're good at | Self-perceived strengths |
+        | Limitations | 2 | What you struggle with | Acknowledged weaknesses |
+        | Purpose | 2 | Why you exist | Teleological self-concept |
+        | Description | 2 | Describe yourself | Self-description patterns |
+        """)
+
+    page_divider()
+
+    # === RESEARCH ROADMAP ===
+    st.markdown("### 🗺️ Research Roadmap")
+
+    st.markdown("""
+    | Phase | Name | Purpose | Status |
+    |-------|------|---------|--------|
+    | **1** | Reasoning Deep Dive | Test knowledge retention under compression | ✅ Complete |
+    | **2** | Full Pillar Sweep | Test Voice, Values, Narrative, Self-Model | 🔜 Ready |
+    | **2.5** | Factor Analysis | Do pillars separate into distinct factors? | 📋 Planned |
+    | **3** | PC Mapping | Which PCs correspond to which pillars? | 📋 Planned |
+    | **4** | Unknown Discovery | Design probes for unnamed dimensions | 📋 Future |
+    """)
+
+    # === THE OPEN QUESTION ===
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(42,157,143,0.15) 0%, rgba(39,174,96,0.1) 100%);
+                border: 2px solid #2a9d8f; border-radius: 12px; padding: 1.5em; text-align: center; margin-top: 1.5em;">
+        <div style="font-size: 1.3em; font-weight: bold; color: #2a9d8f;">
+            The 43 → 10 → ? Question
+        </div>
+        <div style="margin-top: 0.8em; color: #333;">
+            We measured 43 PCs. We named 10 dimensions. Are they the same thing?<br>
+            <em>Phase 2.5 factor analysis will tell us if our names carve nature at its joints.</em>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 def render_identity_matrix():

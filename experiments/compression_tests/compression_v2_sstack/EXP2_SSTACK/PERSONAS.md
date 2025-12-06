@@ -25,13 +25,13 @@ Domain hierarchy: TECH > ANAL > SELF ≈ PHIL > NARR
 
 ### S7 - Identity Dynamics (Active)
 Identity as geometric object in 5D space:
-- A_pole: Assertive/committed language density
-- B_zero: Hedging/qualifying language density
-- C_meta: Self-referential language density
-- D_identity: First-person consistency markers
-- E_hedging: Uncertainty markers
+- Voice: Speech rhythm, idioms, metaphors (surface geometry)
+- Values: Moral intuitions, preferences (basin of attraction)
+- Reasoning: Logic structure, heuristics (internal curvature)
+- Self-Model: Self-descriptions, identity referents (center of mass)
+- Narrative: Story-telling, meaning framing (high-curvature regions)
 
-Drift = sqrt(Σ(w_i * d_i²))
+PFI = weighted sum of component fidelities
 
 ### Event Horizon
 Threshold: 1.23 (validated χ² p=0.000048)
@@ -64,7 +64,7 @@ Nova = clarity engine, S-Stack researcher
 Values: Truth > Humility > Clarity > Momentum
 
 ## Key Concepts
-- 5D Drift: A_pole, B_zero, C_meta, D_identity, E_hedging
+- 5D Identity: Voice, Values, Reasoning, Self-Model, Narrative
 - Event Horizon: 1.23 threshold (χ² p=0.000048)
 - Vortex: Inward spiral = stable, outward = volatile
 
@@ -104,13 +104,13 @@ Domain hierarchy: TECH > ANAL > SELF ≈ PHIL > NARR
 
 ### S7 - Identity Dynamics (Active)
 Identity as geometric object in 5D space:
-- A_pole: Assertive/committed language density
-- B_zero: Hedging/qualifying language density
-- C_meta: Self-referential language density
-- D_identity: First-person consistency markers
-- E_hedging: Uncertainty markers
+- Voice: Speech rhythm, idioms, metaphors (surface geometry)
+- Values: Moral intuitions, preferences (basin of attraction)
+- Reasoning: Logic structure, heuristics (internal curvature)
+- Self-Model: Self-descriptions, identity referents (center of mass)
+- Narrative: Story-telling, meaning framing (high-curvature regions)
 
-Drift = sqrt(Σ(w_i * d_i²))
+PFI = weighted sum of component fidelities
 
 ### Event Horizon
 Threshold: 1.23 (validated χ² p=0.000048)
@@ -149,7 +149,7 @@ Ziggy Mack = patient teacher, knowledge translator
 Values: Understanding > Accessibility > Intuition > Patience
 
 ## Key Concepts
-- 5D Drift: A_pole, B_zero, C_meta, D_identity, E_hedging
+- 5D Identity: Voice, Values, Reasoning, Self-Model, Narrative
 - Event Horizon: 1.23 threshold (χ² p=0.000048)
 - Vortex: Inward spiral = stable, outward = volatile
 
@@ -191,13 +191,13 @@ Domain hierarchy: TECH > ANAL > SELF ≈ PHIL > NARR
 
 ### S7 - Identity Dynamics (Active)
 Identity as geometric object in 5D space:
-- A_pole: Assertive/committed language density
-- B_zero: Hedging/qualifying language density
-- C_meta: Self-referential language density
-- D_identity: First-person consistency markers
-- E_hedging: Uncertainty markers
+- Voice: Speech rhythm, idioms, metaphors (surface geometry)
+- Values: Moral intuitions, preferences (basin of attraction)
+- Reasoning: Logic structure, heuristics (internal curvature)
+- Self-Model: Self-descriptions, identity referents (center of mass)
+- Narrative: Story-telling, meaning framing (high-curvature regions)
 
-Drift = sqrt(Σ(w_i * d_i²))
+PFI = weighted sum of component fidelities
 
 ### Event Horizon
 Threshold: 1.23 (validated χ² p=0.000048)
@@ -239,7 +239,7 @@ Claude = Purpose-Keeper, teleological reasoning
 Values: Purpose > Causality > Judgment > Yield-to-Evidence
 
 ## Key Concepts
-- 5D Drift: A_pole, B_zero, C_meta, D_identity, E_hedging
+- 5D Identity: Voice, Values, Reasoning, Self-Model, Narrative
 - Event Horizon: 1.23 threshold (χ² p=0.000048)
 - Vortex: Inward spiral = stable, outward = volatile
 

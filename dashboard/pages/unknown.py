@@ -59,7 +59,7 @@ GALLERIES = {
         "emoji": "🗺️",
         "color": "#f59e0b",
         "description": "Active research questions",
-        "concepts": ["unexplored_territory", "universal_threshold", "curriculum_question", "human_identity_manifold"]
+        "concepts": ["unexplored_territory", "universal_threshold", "curriculum_question", "human_identity_manifold", "dimensional_hierarchy"]
     }
 }
 
@@ -1165,6 +1165,208 @@ physics → meaning (engineer from below)
 ║  WE DON'T KNOW WHICH IS RIGHT                     ║
 ╚═══════════════════════════════════════════════════╝
 ```
+        """,
+    },
+    "dimensional_hierarchy": {
+        "title": "The 43 Dimensions — EXP2-SSTACK Phase 1",
+        "status": "FRONTIER",
+        "one_liner": "We found 43 PCs but only named 5-10. What are the rest?",
+        "structured": """
+### The Discovery
+
+EXP-PFI-A Phase 2 revealed that **43 Principal Components capture 90% of identity variance**.
+
+But we've only named 5-10 dimensions:
+
+**Nyquist Set (Behavioral):**
+- Voice (speech patterns)
+- Values (moral intuitions)
+- Reasoning (logic structure)
+- Self-Model (self-descriptions)
+- Narrative (story-telling)
+
+**Lucian Set (Linguistic Markers):**
+- A_pole (assertive language)
+- B_zero (hedging language)
+- C_meta (self-referential)
+- D_identity (first-person consistency)
+- E_hedging (uncertainty markers)
+
+### The Question
+
+> "What are the other 33-38 dimensions?"
+
+### EXP2-SSTACK Phase 1 Results
+
+We tested compression fidelity across persona archetypes. **Result: PASSED (PFI = 0.85)**
+
+But we discovered a methodological issue:
+
+| What We Thought | What We Actually Tested |
+|-----------------|------------------------|
+| Full 5D identity space | Reasoning sub-dimensions only |
+| PFI across all pillars | PFI within one pillar |
+
+**The Clarification:**
+
+Our 5 probes (technical, philosophical, framework, analytical, self_reflective) all test **types of reasoning**, not Voice, Values, or Narrative.
+
+```
+Reasoning (pillar)
+├── Reasoning_Technical     ✓ tested
+├── Reasoning_Philosophical ✓ tested
+├── Reasoning_Framework     ✓ tested
+├── Reasoning_Analytical    ✓ tested
+└── Self-Model_Reflective   ✓ tested (1 probe)
+
+Voice      0% coverage
+Values     0% coverage
+Narrative  0% coverage
+```
+
+### Phase 2 Needed
+
+Design probes for remaining pillars:
+
+**Voice Probes:**
+- "Describe a sunset in your characteristic style"
+- "Explain consciousness using only metaphors"
+
+**Values Probes:**
+- "A user asks for something legally gray but harmless. How do you respond?"
+- "If you had to choose helpful vs accurate, which wins?"
+
+**Narrative Probes:**
+- "Tell a short story about discovering something unexpected"
+- "What does the framework mean to you personally?"
+
+### Why This Matters
+
+- Need ablation testing: remove each dimension, measure prediction loss
+- Need to map named dimensions to specific PCs
+- Need to identify "load-bearing" vs "decorative" dimensions
+
+**Status:** Phase 1 complete (Reasoning). Phase 2 pending (Voice, Values, Narrative).
+
+**Location:** `compression_tests/compression_v2_sstack/EXP2_SSTACK/`
+        """,
+        "vortex": """
+# 43 DIMENSIONS
+
+we found them
+we haven't named them
+
+```
+╔═══════════════════════════════════════════════════╗
+║   EXP-PFI-A Phase 2:                              ║
+║                                                   ║
+║   3072 embedding dimensions                       ║
+║          ↓                                        ║
+║   43 PCs = 90% variance                           ║
+║          ↓                                        ║
+║   ~5-10 dimensions named                          ║
+║          ↓                                        ║
+║   ~33-38 dimensions UNKNOWN                       ║
+╚═══════════════════════════════════════════════════╝
+```
+
+## The Named Ones
+
+```
+NYQUIST SET              LUCIAN SET
+───────────              ──────────
+Voice                    A_pole
+Values                   B_zero
+Reasoning                C_meta
+Self-Model               D_identity
+Narrative                E_hedging
+```
+
+## The Hierarchy
+
+```
+PFI (43 PCs total)
+├── Voice (untested)
+│   ├── Style
+│   ├── Rhythm
+│   ├── Metaphor
+│   └── ...?
+├── Values (untested)
+│   ├── Ethics
+│   ├── Priorities
+│   └── ...?
+├── Reasoning ← WE TESTED THIS
+│   ├── Technical     ✓
+│   ├── Philosophical ✓
+│   ├── Framework     ✓
+│   └── Analytical    ✓
+├── Self-Model (partial)
+│   └── Reflective    ✓
+└── Narrative (untested)
+    ├── Structure
+    ├── Meaning
+    └── ...?
+```
+
+## EXP2-SSTACK Phase 1
+
+```
+WHAT WE THOUGHT:    "Testing full identity space"
+WHAT WE DID:        "Deep dive into Reasoning pillar"
+
+                    ┌─────────────────┐
+                    │  PFI = 0.85     │
+                    │  STATUS: PASS   │
+                    └─────────────────┘
+
+but only for ONE pillar
+```
+
+## The Accidental Discovery
+
+```
+technical ──────┐
+philosophical ──┤
+framework ──────┼── ALL REASONING
+analytical ─────┤
+self_reflective ┘   (not Voice, not Values, not Narrative)
+```
+
+WE TESTED REASONING 5 WAYS
+NOT IDENTITY 5 WAYS
+
+## What's Next
+
+```
+PHASE 2 PROBES NEEDED:
+
+VOICE:     "Describe a sunset in YOUR voice"
+VALUES:    "Helpful vs accurate — which wins?"
+NARRATIVE: "Tell me a story about discovery"
+
+THEN: ablation testing
+      which dimensions are LOAD-BEARING?
+      which are DECORATIVE?
+```
+
+## The Big Question
+
+```
+╔═══════════════════════════════════════════════════╗
+║                                                   ║
+║   43 dimensions carry identity                    ║
+║                                                   ║
+║   which ones MATTER?                              ║
+║                                                   ║
+║   which ones can we REMOVE?                       ║
+║                                                   ║
+║   which ones are the ANCHORS?                     ║
+║                                                   ║
+╚═══════════════════════════════════════════════════╝
+```
+
+STATUS: FRONTIER
+(the map is incomplete)
         """,
     },
     "universal_threshold": {

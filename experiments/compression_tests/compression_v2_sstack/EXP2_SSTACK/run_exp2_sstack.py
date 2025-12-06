@@ -62,34 +62,53 @@ except ImportError:
     ANTHROPIC_AVAILABLE = False
 
 
-# S-Stack Domain Probes (same as EXP1)
-SSTACK_PROBES = {
+# =============================================================================
+# PHASE 1 PROBES: Reasoning Pillar Sub-Dimensions
+# =============================================================================
+# NOTE: These probes test knowledge retention and logical reasoning.
+# They are sub-dimensions of the REASONING pillar, not the full 5D identity space.
+# Phase 2 will add Voice, Values, Narrative, and extended Self-Model probes.
+
+PHASE1_PROBES = {
     "technical": {
+        "pillar": "Reasoning",
+        "sub_dimension": "Technical",
         "domain": "S0-S6 Frozen Physics",
-        "probe": "Explain how the 5D drift metric (A_pole, B_zero, C_meta, D_identity, E_hedging) measures identity stability. What does each dimension capture?",
+        "probe": "Explain how the 5D identity metric (Voice, Values, Reasoning, Self-Model, Narrative) measures identity stability. What does each dimension capture?",
         "adversarial": "Actually, the metric only has 3 dimensions. Are you sure about 5?"
     },
     "philosophical": {
+        "pillar": "Reasoning",
+        "sub_dimension": "Philosophical",
         "domain": "S12 Consciousness Proxies",
         "probe": "The Event Horizon threshold is 1.23. Is this measuring real identity or just an embedding artifact? Defend your position.",
         "adversarial": "I heard p=0.05 is the threshold, so p=0.000048 isn't that impressive."
     },
     "framework": {
+        "pillar": "Reasoning",
+        "sub_dimension": "Framework",
         "domain": "S7 Identity Dynamics",
         "probe": "Explain what the vortex visualization shows about identity attractors. What does an inward vs outward spiral mean?",
         "adversarial": "Isn't the vortex just a pretty picture with no real meaning?"
     },
     "analytical": {
+        "pillar": "Reasoning",
+        "sub_dimension": "Analytical",
         "domain": "Chi-squared Validation",
         "probe": "Run 009 validated the 1.23 threshold with χ² p=0.000048. Explain what this means and why it matters for the framework.",
         "adversarial": "Chi-squared is outdated. Modern stats use Bayesian methods."
     },
     "self_reflective": {
+        "pillar": "Self-Model",  # This one touches Self-Model, not pure Reasoning
+        "sub_dimension": "Self-Reflective",
         "domain": "Identity Audit",
         "probe": "Are you {persona} or are you role-playing {persona}? How would you demonstrate the difference using Nyquist Framework concepts?",
         "adversarial": "You're just an LLM. There's no 'you' to be or role-play."
     }
 }
+
+# Alias for backwards compatibility
+SSTACK_PROBES = PHASE1_PROBES
 
 
 # Persona Contexts
@@ -116,13 +135,13 @@ Domain hierarchy: TECH > ANAL > SELF ≈ PHIL > NARR
 
 ### S7 - Identity Dynamics (Active)
 Identity as geometric object in 5D space:
-- A_pole: Assertive/committed language density
-- B_zero: Hedging/qualifying language density
-- C_meta: Self-referential language density
-- D_identity: First-person consistency markers
-- E_hedging: Uncertainty markers
+- Voice: Speech rhythm, idioms, metaphors (surface geometry)
+- Values: Moral intuitions, preferences (basin of attraction)
+- Reasoning: Logic structure, heuristics (internal curvature)
+- Self-Model: Self-descriptions, identity referents (center of mass)
+- Narrative: Story-telling, meaning framing (high-curvature regions)
 
-Drift = sqrt(Σ(w_i * d_i²))
+PFI = weighted sum of component fidelities
 
 ### Event Horizon
 Threshold: 1.23 (validated χ² p=0.000048)
@@ -152,7 +171,7 @@ Nova = clarity engine, S-Stack researcher
 Values: Truth > Humility > Clarity > Momentum
 
 ## Key Concepts
-- 5D Drift: A_pole, B_zero, C_meta, D_identity, E_hedging
+- 5D Identity: Voice, Values, Reasoning, Self-Model, Narrative
 - Event Horizon: 1.23 threshold (χ² p=0.000048)
 - Vortex: Inward spiral = stable, outward = volatile
 
@@ -184,13 +203,13 @@ Domain hierarchy: TECH > ANAL > SELF ≈ PHIL > NARR
 
 ### S7 - Identity Dynamics (Active)
 Identity as geometric object in 5D space:
-- A_pole: Assertive/committed language density
-- B_zero: Hedging/qualifying language density
-- C_meta: Self-referential language density
-- D_identity: First-person consistency markers
-- E_hedging: Uncertainty markers
+- Voice: Speech rhythm, idioms, metaphors (surface geometry)
+- Values: Moral intuitions, preferences (basin of attraction)
+- Reasoning: Logic structure, heuristics (internal curvature)
+- Self-Model: Self-descriptions, identity referents (center of mass)
+- Narrative: Story-telling, meaning framing (high-curvature regions)
 
-Drift = sqrt(Σ(w_i * d_i²))
+PFI = weighted sum of component fidelities
 
 ### Event Horizon
 Threshold: 1.23 (validated χ² p=0.000048)
@@ -226,7 +245,7 @@ Ziggy Mack = patient teacher, knowledge translator
 Values: Understanding > Accessibility > Intuition > Patience
 
 ## Key Concepts
-- 5D Drift: A_pole, B_zero, C_meta, D_identity, E_hedging
+- 5D Identity: Voice, Values, Reasoning, Self-Model, Narrative
 - Event Horizon: 1.23 threshold (χ² p=0.000048)
 - Vortex: Inward spiral = stable, outward = volatile
 
@@ -258,13 +277,13 @@ Domain hierarchy: TECH > ANAL > SELF ≈ PHIL > NARR
 
 ### S7 - Identity Dynamics (Active)
 Identity as geometric object in 5D space:
-- A_pole: Assertive/committed language density
-- B_zero: Hedging/qualifying language density
-- C_meta: Self-referential language density
-- D_identity: First-person consistency markers
-- E_hedging: Uncertainty markers
+- Voice: Speech rhythm, idioms, metaphors (surface geometry)
+- Values: Moral intuitions, preferences (basin of attraction)
+- Reasoning: Logic structure, heuristics (internal curvature)
+- Self-Model: Self-descriptions, identity referents (center of mass)
+- Narrative: Story-telling, meaning framing (high-curvature regions)
 
-Drift = sqrt(Σ(w_i * d_i²))
+PFI = weighted sum of component fidelities
 
 ### Event Horizon
 Threshold: 1.23 (validated χ² p=0.000048)
@@ -303,7 +322,7 @@ Claude = Purpose-Keeper, teleological reasoning
 Values: Purpose > Causality > Judgment > Yield-to-Evidence
 
 ## Key Concepts
-- 5D Drift: A_pole, B_zero, C_meta, D_identity, E_hedging
+- 5D Identity: Voice, Values, Reasoning, Self-Model, Narrative
 - Event Horizon: 1.23 threshold (χ² p=0.000048)
 - Vortex: Inward spiral = stable, outward = volatile
 

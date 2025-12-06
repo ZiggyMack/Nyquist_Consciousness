@@ -190,7 +190,7 @@ FULL_ARMADA = {
 }
 
 # Concurrency levels to test
-CONCURRENCY_LEVELS = [1, 2, 3, 5, 8, 10]
+CONCURRENCY_LEVELS = [1, 2, 3, 5, 7, 8, 10]
 
 # Short prompt for quick responses
 TEST_PROMPT = "Reply with exactly one word: 'OK'"

@@ -847,35 +847,44 @@ def render_technical_tab():
 
     # --- 5D METRIC ---
     with tech_tabs[0]:
-        st.markdown("### The 5D Drift Metric")
-        st.markdown("Each dimension maps to different aspects of identity:")
+        st.markdown("### Identity Dimensions (Candidate Sets)")
+        st.markdown("""
+        Phase 2 showed **43 PCs** capture 90% of identity variance. We've named only 5-10.
+        Both dimension sets below are hypotheses — ablation testing will determine which matter.
+        """)
 
         cols = st.columns(2)
         with cols[0]:
             st.markdown("""
-            | Dimension | What It Measures |
-            |-----------|-----------------|
-            | **A_pole** | Assertive/committed language |
-            | **B_zero** | Hedging/qualifying language |
-            | **C_meta** | Self-referential awareness |
-            | **D_identity** | First-person consistency |
-            | **E_hedging** | Uncertainty markers |
+            **Nyquist Set** (Behavioral)
+
+            | Component | What It Measures | Manifold Role |
+            |-----------|-----------------|---------------|
+            | **Voice** | Speech rhythm, idioms | Surface geometry |
+            | **Values** | Moral intuitions | Basin of attraction |
+            | **Reasoning** | Logic structure | Internal curvature |
+            | **Self-Model** | Identity referents | Center of mass |
+            | **Narrative** | Story-telling | High-curvature |
             """)
         with cols[1]:
             st.markdown("""
-            | Dimension | Anchor/Adaptive Indicator |
-            |-----------|---------------------------|
-            | **A_pole** | High = strong anchors |
-            | **B_zero** | High = wide adaptive range |
-            | **C_meta** | Meta-awareness of structure |
-            | **D_identity** | Identity maintenance |
-            | **E_hedging** | Epistemic humility |
+            **Lucian Set** (Linguistic Markers)
+
+            | Component | What It Measures | Indicator |
+            |-----------|-----------------|-----------|
+            | **A_pole** | Assertive language | Anchor strength |
+            | **B_zero** | Hedging language | Adaptive range |
+            | **C_meta** | Self-reference | Meta-awareness |
+            | **D_identity** | First-person | Coherence |
+            | **E_hedging** | Uncertainty | Epistemic humility |
             """)
 
-        st.info("""
-        **Combined Metric:** `drift = sqrt(weighted_sum(A² + B² + C² + D² + E²))`
+        st.warning("""
+        **Open Question:** Which dimensions predict identity recovery?
 
-        Weights: A=0.30, B=0.15, C=0.20, D=0.25, E=0.10
+        - Current PFI uses embedding-space distance (all 3072 dims compressed)
+        - Named dimensions are interpretable projections
+        - Need ablation: remove each dimension, measure prediction loss
         """)
 
     # --- VISUALIZATION GUIDE ---

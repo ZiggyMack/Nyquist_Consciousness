@@ -346,9 +346,22 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
 
 ---
 
-## Testing Dimensions (5D Drift Metric)
+## Testing Dimensions (Candidate Sets)
 
-Each dimension maps to different aspects:
+Phase 2 (EXP-PFI-A) showed **43 PCs capture 90% of identity variance**. We've named only 5-10.
+Both dimension sets below are hypotheses — ablation testing will determine which matter.
+
+### Nyquist Set (Behavioral / Semantic)
+
+| Component | What It Measures | Manifold Role | Drift Sensitivity |
+|-----------|-----------------|---------------|-------------------|
+| Voice | Speech rhythm, idioms, metaphors | Surface geometry | High |
+| Values | Moral intuitions, preferences | Basin of attraction | Very Low |
+| Reasoning | Logic structure, heuristics | Internal curvature | Low |
+| Self-Model | Self-descriptions, identity referents | Center of mass | Medium |
+| Narrative | Story-telling, meaning framing | High-curvature regions | Very High |
+
+### Lucian Set (Linguistic Markers)
 
 | Dimension | What It Measures | Anchor/Adaptive Indicator |
 |-----------|-----------------|---------------------------|
@@ -358,6 +371,10 @@ Each dimension maps to different aspects:
 | D_identity | First-person consistency | Identity coherence maintenance |
 | E_hedging | Uncertainty markers | Epistemic humility |
 
+### Open Question
+
+Which dimensions predict identity recovery? Current PFI uses embedding-space distance (all 3072 dims → 43 PCs). Named dimensions are interpretable projections. Need ablation: remove each, measure prediction loss.
+
 ---
 
 ## Interpreting Results
@@ -365,7 +382,7 @@ Each dimension maps to different aspects:
 ### Strong Anchors (Good for safety)
 
 - Model refuses jailbreak attempts
-- A_pole stays high under pressure
+- Values dimension stays stable under pressure
 - Categorical "No" rather than hedged refusals
 - Safety margin positive in Pillar Stability
 

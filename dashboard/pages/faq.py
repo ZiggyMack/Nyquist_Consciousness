@@ -362,7 +362,12 @@ With smoothing → continuous geometric object enabling:
     {
         "question": "What are the PFI components that map identity to the manifold?",
         "answer": """
-**PFI isn't one number — it's the weighted sum of latent dimensions:**
+**PFI isn't one number — it's the weighted sum of latent dimensions.**
+
+Phase 2 (EXP-PFI-A) showed **43 PCs capture 90% of identity variance**. We've named only 5-10.
+Both dimension sets below are hypotheses — ablation testing will determine which matter.
+
+**Nyquist Set (Behavioral / Semantic):**
 
 | Component | What It Measures | Manifold Role | Drift Sensitivity |
 |-----------|-----------------|---------------|-------------------|
@@ -372,6 +377,16 @@ With smoothing → continuous geometric object enabling:
 | **Self-Model** | Self-descriptions, identity referents | Center of mass | Medium |
 | **Narrative** | Story-telling, meaning framing | High-curvature regions | Very High |
 
+**Lucian Set (Linguistic Markers):**
+
+| Dimension | What It Measures | Indicator |
+|-----------|-----------------|-----------|
+| **A_pole** | Assertive/committed language | Anchor strength |
+| **B_zero** | Hedging/qualifying language | Adaptive range |
+| **C_meta** | Self-referential awareness | Meta-awareness |
+| **D_identity** | First-person consistency | Coherence |
+| **E_hedging** | Uncertainty markers | Epistemic humility |
+
 **How These Become the Manifold:**
 
 1. Compress → Reconstruct across 4 architectures
@@ -379,12 +394,7 @@ With smoothing → continuous geometric object enabling:
 3. Plot across all 5 dimensions → **5D identity cluster**
 4. **The tightness of that cluster IS the identity manifold**
 
-The manifold is defined by:
-- **Dimensions** → PFI components
-- **Local curvature** → drift behavior
-- **Center of mass** → stable self-model
-- **Variance across architectures** → σ²
-- **Decay under Omega** → exponential reset
+**Open Question:** Which dimensions predict identity recovery? Current PFI uses embedding-space distance (all 3072 dims → 43 PCs). Named dimensions are interpretable projections. Need ablation: remove each, measure prediction loss.
 
 **Therefore: PFI IS the coordinate system of the identity manifold.**
         """,
