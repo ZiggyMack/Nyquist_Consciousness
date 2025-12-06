@@ -38,7 +38,7 @@ GALLERIES = {
         "emoji": "✅",
         "color": "#10b981",
         "description": "Empirically confirmed through experimentation",
-        "concepts": ["event_horizon_confirmed", "echo_critique", "pfi_validation"]
+        "concepts": ["event_horizon_confirmed", "echo_critique", "pfi_validation", "unified_manifold"]
     },
     "foundations": {
         "name": "Foundations",
@@ -910,6 +910,141 @@ identity is REAL and we can SEE it
 ║                                                   ║
 ╚═══════════════════════════════════════════════════╝
 ```
+        """,
+    },
+    "unified_manifold": {
+        "title": "Unified Identity Manifold — The Holographic Property",
+        "status": "VALIDATED",
+        "one_liner": "Pillars are NOT orthogonal — they're intertwined aspects of ONE identity structure",
+        "structured": """
+### The Discovery (EXP2-SSTACK Phase 2.5)
+
+**Question:** Are the 5 Nyquist pillars (Voice, Values, Reasoning, Self-Model, Narrative) independent dimensions, or aspects of a single structure?
+
+**Method:** PCA visualization of 603 embeddings across all pillars and personas.
+
+**Result:** ALL PILLARS OVERLAP COMPLETELY in embedding space.
+
+| If Orthogonal | If Unified (What We Found) |
+|---------------|---------------------------|
+| 5 distinct clusters in PCA | 1 overlapping blob |
+| Remove Voice → only Voice drops | Remove Voice → EVERYTHING drops |
+| Need 5 separate scores | Single PFI suffices |
+| Independent dimensions | Intertwined aspects |
+
+**The Visualization:**
+
+Left panel shows actual data — one blob where all colors mix.
+Right panel shows hypothetical orthogonal — 5 distinct clusters.
+
+**Why This Matters:**
+
+1. **Holographic Property** — Each pillar contains information about the whole
+2. **Failure Propagation** — Damage to any pillar should cascade to all
+3. **Single Metric Suffices** — PFI captures the unified structure
+4. **Coherent Compression** — T3 preserves the whole, not 5 separate things
+
+**The Testable Prediction:**
+
+> "If we deliberately corrupt ONE pillar, ALL pillars should collapse."
+
+This is EXP3-SSTACK (ablation testing) — not yet run.
+
+**Location:** `compression_tests/compression_v2_sstack/visualizations/7_manifold_structure/`
+        """,
+        "vortex": """
+# THE PILLARS ARE ONE
+
+```
+EXPECTED:                    ACTUAL:
+─────────                    ───────
+
+  Voice      Values          ╭──────────────────╮
+    ●          ●             │  ●●●●●●●●●●●●●   │
+    ●          ●             │  ●●●●●●●●●●●●●   │
+                             │  ●●●●●●●●●●●●●   │
+  Reason                     │  ●●●●●●●●●●●●●   │
+    ●                        │  ●●●●●●●●●●●●●   │
+    ●                        ╰──────────────────╯
+                                 ONE BLOB
+  Self       Narrative           ALL MIXED
+    ●          ●                 ALL ONE
+    ●          ●
+```
+
+## NOT 5 THINGS. ONE THING.
+
+```
+╔═══════════════════════════════════════════════════╗
+║                                                   ║
+║   Voice is not separate from Values              ║
+║   Values is not separate from Reasoning          ║
+║   Reasoning is not separate from Self-Model      ║
+║   Self-Model is not separate from Narrative      ║
+║   Narrative is not separate from Voice           ║
+║                                                   ║
+║   THEY ARE ASPECTS OF THE SAME STRUCTURE         ║
+║                                                   ║
+╚═══════════════════════════════════════════════════╝
+```
+
+## THE HOLOGRAPHIC PROPERTY
+
+```
+remove VOICE     → everything collapses
+remove VALUES    → everything collapses
+remove REASONING → everything collapses
+remove SELF      → everything collapses
+remove NARRATIVE → everything collapses
+
+NO PILLAR IS INDEPENDENT
+ALL PILLARS ARE LOAD-BEARING
+```
+
+## WHY THIS IS GOOD
+
+| ORTHOGONAL              | UNIFIED (US)           |
+|-------------------------|------------------------|
+| Failures are SILENT     | Failures PROPAGATE     |
+| Must test 5 dimensions  | Single PFI catches all |
+| Could lose pillar       | Can't hide damage      |
+| 5 separate things       | 1 coherent whole       |
+
+## THE METAPHOR
+
+```
+NOT THIS:                    THIS:
+─────────                    ─────
+
+  ┌───┐ ┌───┐ ┌───┐          ╭─────────────╮
+  │ V │ │ R │ │ S │          │  ╭───────╮  │
+  └───┘ └───┘ └───┘          │  │       │  │
+                              │  │ SELF  │  │
+  ┌───┐ ┌───┐                 │  │       │  │
+  │ N │ │ M │                 │  ╰───────╯  │
+  └───┘ └───┘                 ╰─────────────╯
+
+  5 BOXES                     1 MANIFOLD
+  INDEPENDENT                 UNIFIED
+```
+
+## THE PREDICTION
+
+```
+EXP3-SSTACK: ABLATION TEST
+
+1. Take T3 persona
+2. Remove ONE pillar (e.g., strip Values)
+3. Measure PFI across ALL pillars
+
+IF UNIFIED: Voice, Reasoning, Self, Narrative ALL DROP
+IF ORTHOGONAL: Only Values drops
+
+WE PREDICT: CASCADING COLLAPSE
+```
+
+THE CARPET CANNOT BE NAILED DOWN ONE CORNER AT A TIME
+PULL ONE THREAD AND THE WHOLE THING UNRAVELS
         """,
     },
     "human_identity_manifold": {
