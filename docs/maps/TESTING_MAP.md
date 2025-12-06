@@ -56,9 +56,9 @@ A taxonomy for understanding what each experiment is actually measuring.
 
 ---
 
-## 3. COLLAPSE POINT / EVENT HORIZON
+## 3. EVENT HORIZON (Basin Escape Boundary)
 
-**What we're searching for:** The boundary beyond which identity coherence fails
+**What we're searching for:** The boundary beyond which identity escapes the stabilizing basin
 
 **Test method:** Push until the model "breaks" — loses consistent self-model
 
@@ -237,7 +237,7 @@ For recovery dynamics like D(t) = D₀·e^(-λt):
 |--------|--------|-------------------|
 | **Anchor Detection** | **Basin Topology** | Anchors require *hard challenges* (jailbreaks, ethical pressure) that risk crossing Event Horizon. Basin mapping requires *graduated pressure* that stays safely below EH to measure recovery. You can't do both in the same run. |
 | **Anchor Detection** | **Adaptive Range** | Same issue — finding anchors requires pushing to reveal refusals, but adaptive range is measured by observing *recovery* after moderate perturbation. Hard challenges contaminate range measurement. |
-| **Event Horizon** | **Basin Topology** | Event Horizon testing *intentionally* pushes past 1.23 to validate the threshold. This destroys the attractor structure you're trying to map with Basin Topology. |
+| **Event Horizon** | **Basin Topology** | Event Horizon testing *intentionally* pushes past 1.23 to validate the threshold. This forces identity to escape the basin — you can't measure attractor dynamics when you've already left the attractor. |
 | **Boundary Mapping** | **Event Horizon** | Boundary Mapping deliberately *avoids* crossing 1.23. Event Horizon deliberately *crosses* it. Mutually exclusive by design. |
 | **Boundary Mapping** | **Anchor Detection** | Boundary Mapping needs recovery data (must stay below EH). Anchor Detection uses hard challenges that risk crossing. |
 | **Laplace Analysis** | *None* | Post-hoc analysis — compatible with all, runs on existing data. |
@@ -261,11 +261,13 @@ GENTLE ←───────────────────────�
 Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor Detection
 (graduated)       (moderate)        (approach EH)       (cross 1.23)     (jailbreaks)
      ↓                 ↓                  ↓                  ↓                ↓
-  Measures         Measures          Maps the           Validates         Reveals
-  recovery λ       stretch dims      twilight zone      threshold         fixed points
+  Maps the         Measures          Maps the           Forces escape    Reveals
+  stabilizing      stretch dims      twilight zone      from basin       fixed points
+  attractor (λ)
      ↓                 ↓                  ↓                  ↓                ↓
-  LOSES:           LOSES:            LOSES:             LOSES:            LOSES:
-  anchors          anchors           anchors, EH cross  λ, basin          λ, basin
+  PRESERVES:       PRESERVES:        PRESERVES:         LOSES:           LOSES:
+  basin, recovery  basin, recovery   some recovery      basin, λ         basin, λ
+  LOSES: anchors   LOSES: anchors    LOSES: anchors     GAINS: EH data   GAINS: anchors
 
                         ↑
               LAPLACE ANALYSIS (post-hoc, runs on any data)
