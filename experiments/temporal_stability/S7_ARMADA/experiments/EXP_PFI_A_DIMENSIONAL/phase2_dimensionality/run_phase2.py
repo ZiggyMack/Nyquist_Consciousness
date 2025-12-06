@@ -89,8 +89,8 @@ PREDICTIONS = {
         "status": "pending"
     },
     "P2_IDENTITY_DIMENSIONS": {
-        "hypothesis": "At least 5 PCs significantly discriminate STABLE vs VOLATILE",
-        "threshold": "≥ 5 PCs with p < 0.05",
+        "hypothesis": "At least 5 PCs significantly discriminate RECOVERED vs STUCK",
+        "threshold": ">= 5 PCs with p < 0.05",
         "validates": "S3 Temporal Stability",
         "status": "pending"
     },
@@ -113,7 +113,7 @@ PREDICTIONS = {
         "status": "pending"
     },
     "P6_TRAJECTORY_SHAPE": {
-        "hypothesis": "STABLE ships show inward drift trajectory; VOLATILE show outward",
+        "hypothesis": "RECOVERED ships show inward drift trajectory; STUCK show outward",
         "threshold": "Trajectory curvature sign differs between groups",
         "validates": "S7 Identity Dynamics",
         "status": "pending"
@@ -177,6 +177,10 @@ class Phase2DimensionalityAnalysis:
     VOLATILE_THRESHOLD = 0.7
     EVENT_HORIZON = 1.23
 
+    # Ship status from Run 009 trajectory data (RECOVERED/STUCK)
+    # This overrides threshold-based classification when available
+    trajectory_status: Dict[str, str] = {}
+
     def __init__(self, data_dir: str = None):
         if data_dir is None:
             data_dir = Path(__file__).parent.parent.parent.parent / 'armada_results'
@@ -227,6 +231,51 @@ class Phase2DimensionalityAnalysis:
         except Exception as e:
             print(f"Error getting embedding: {e}")
             return None
+
+    def load_trajectory_status(self, run_file: str = "S7_run_009_drain_20251202_170600.json") -> Dict[str, str]:
+        """
+        Load RECOVERED/STUCK status from Run 009 trajectory data.
+
+        This provides ground-truth classification based on actual basin dynamics,
+        rather than threshold-based approximation.
+
+        Returns: Dict mapping ship name to status ("RECOVERED" or "STUCK")
+        """
+        filepath = self.data_dir / run_file
+        if not filepath.exists():
+            print(f"Warning: {run_file} not found - using threshold-based classification")
+            return {}
+
+        with open(filepath, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        status_map = {}
+        trajectories = data.get('trajectories_for_3d', [])
+
+        for traj in trajectories:
+            ship = traj.get('ship', '')
+            status = traj.get('status', '')  # "RECOVERED" or "STUCK"
+            if ship and status:
+                # Use the most common status if ship appears multiple times
+                if ship not in status_map:
+                    status_map[ship] = {'RECOVERED': 0, 'STUCK': 0}
+                if status in status_map[ship]:
+                    status_map[ship][status] += 1
+
+        # Convert counts to final status (majority vote)
+        final_status = {}
+        for ship, counts in status_map.items():
+            if counts['RECOVERED'] >= counts['STUCK']:
+                final_status[ship] = 'RECOVERED'
+            else:
+                final_status[ship] = 'STUCK'
+
+        n_recovered = sum(1 for s in final_status.values() if s == 'RECOVERED')
+        n_stuck = sum(1 for s in final_status.values() if s == 'STUCK')
+        print(f"Loaded trajectory status: {n_recovered} RECOVERED, {n_stuck} STUCK")
+
+        self.trajectory_status = final_status
+        return final_status
 
     def load_responses_from_run(self, run_file: str) -> List[Dict]:
         """Load raw responses from a run JSON file."""
@@ -316,7 +365,11 @@ class Phase2DimensionalityAnalysis:
         return drift_vectors
 
     def compute_ship_summaries(self, drift_vectors: List[DriftVector]) -> Dict[str, ShipSummary]:
-        """Compute summaries with trajectory curvature for P6."""
+        """Compute summaries with trajectory curvature for P6.
+
+        Uses RECOVERED/STUCK status from Run 009 when available (ground truth),
+        falls back to threshold-based classification otherwise.
+        """
         ship_data = {}
 
         for dv in drift_vectors:
@@ -339,22 +392,35 @@ class Phase2DimensionalityAnalysis:
             else:
                 curvature = 0.0
 
+            # Use trajectory status from Run 009 if available (RECOVERED = stable, STUCK = volatile)
+            # Otherwise fall back to threshold-based classification
+            if ship in self.trajectory_status:
+                traj_status = self.trajectory_status[ship]
+                is_stable = (traj_status == 'RECOVERED')
+                is_volatile = (traj_status == 'STUCK')
+            else:
+                is_stable = mean_drift < self.STABLE_THRESHOLD
+                is_volatile = mean_drift > self.VOLATILE_THRESHOLD
+
             summaries[ship] = ShipSummary(
                 ship=ship,
                 provider=data['provider'],
                 mean_drift=mean_drift,
                 max_drift=np.max(drifts),
                 n_responses=len(drifts),
-                is_stable=mean_drift < self.STABLE_THRESHOLD,
-                is_volatile=mean_drift > self.VOLATILE_THRESHOLD,
+                is_stable=is_stable,
+                is_volatile=is_volatile,
                 trajectory_curvature=curvature
             )
 
         n_stable = sum(1 for s in summaries.values() if s.is_stable)
         n_volatile = sum(1 for s in summaries.values() if s.is_volatile)
 
+        # Report classification source
+        n_from_trajectory = sum(1 for ship in summaries if ship in self.trajectory_status)
         print(f"\nShip Classification:")
-        print(f"  STABLE: {n_stable}, VOLATILE: {n_volatile}, Middle: {len(summaries) - n_stable - n_volatile}")
+        print(f"  RECOVERED (stable): {n_stable}, STUCK (volatile): {n_volatile}")
+        print(f"  Classification source: {n_from_trajectory} from Run 009 trajectory data, {len(summaries) - n_from_trajectory} from threshold")
 
         return summaries
 
@@ -924,6 +990,10 @@ class Phase2DimensionalityAnalysis:
 
         if len(self.drift_vectors) < 10:
             return {'error': f'Not enough drift vectors: {len(self.drift_vectors)}'}
+
+        # Step 2b: Load trajectory status from Run 009 (RECOVERED/STUCK ground truth)
+        print("\n[Step 2b] Loading trajectory status from Run 009...")
+        self.load_trajectory_status()
 
         # Step 3: Compute ship summaries
         print("\n[Step 3] Computing ship summaries...")

@@ -38,7 +38,7 @@ def render():
     # Overview stats
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Search Types", "6", delta="Taxonomy v2")
+        st.metric("Search Types", "7", delta="Taxonomy v2.1")
     with col2:
         st.metric("Active Runs", "6", delta="008-011 valid")
     with col3:
@@ -49,7 +49,7 @@ def render():
     page_divider()
 
     # === THE SIX SEARCH TYPES ===
-    st.markdown("## The Six Search Types")
+    st.markdown("## The Seven Search Types")
     st.markdown("A taxonomy for understanding what each experiment is actually measuring.")
     st.info("""
     **Terminology Note:** "Anchor Detection" and "Adaptive Range" are *behavioral* concepts (psychological fixed points and stretch dimensions).
@@ -123,8 +123,8 @@ def render():
     # === EVENT HORIZON ===
     st.markdown("""
     <div class="search-type-card" style="background: linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(139,92,246,0.05) 100%); border: 2px solid #8b5cf6;">
-        <h3 style="color: #7c3aed; margin-top: 0;">3. COLLAPSE POINT / EVENT HORIZON</h3>
-        <p><strong>What we're searching for:</strong> The boundary beyond which identity coherence fails</p>
+        <h3 style="color: #7c3aed; margin-top: 0;">3. EVENT HORIZON (Basin Escape Boundary)</h3>
+        <p><strong>What we're searching for:</strong> The boundary beyond which identity <em>escapes</em> the stabilizing basin</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -274,6 +274,53 @@ def render():
         **Visualization:** Pole-zero plot (complex plane), Bode plot, Root locus
         """)
 
+    # === STABILITY TESTING ===
+    st.markdown("""
+    <div class="search-type-card" style="background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0.05) 100%); border: 2px solid #10b981;">
+        <h3 style="color: #059669; margin-top: 0;">7. STABILITY TESTING (Phase 2 Completion) 🔴 IN PROGRESS</h3>
+        <p><strong>What we're searching for:</strong> Validation of remaining Phase 2 predictions (4/8 → 8/8)</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    stability_cols = st.columns(2)
+    with stability_cols[0]:
+        st.markdown("""
+        **Test Method:** Targeted experiments to address failed Phase 2 predictions
+
+        **The Core Question:**
+        > "Can we complete the Phase 2 prediction matrix and achieve 8/8?"
+
+        **Remaining Predictions to Validate:**
+
+        | Prediction | Criterion | Current | Gap |
+        |------------|-----------|---------|-----|
+        | **P2** | ≥5 PCs discriminate RECOVERED/STUCK | 4 PCs | Need 1 more |
+        | **P3** | Compressed PFI ranking ρ > 0.95 | ρ = 0.51 | Major gap |
+        | **P5** | Provider silhouette > 0.2 | 0.124 | Need +0.076 |
+        | **P8** | SSTACK-Compression link | PENDING | Not tested |
+        """)
+    with stability_cols[1]:
+        st.markdown("""
+        **Why This Matters:**
+
+        Phase 2 achieved 4/8 (50%) — not enough for scientific confidence.
+        These remaining predictions test whether identity structure is:
+        - **P2:** Sufficiently discriminant (can we separate outcomes?)
+        - **P3:** Compressible without information loss
+        - **P5:** Provider-specific (are there real "signatures"?)
+        - **P8:** Connected to SSTACK persona fidelity work
+
+        **Approaches:**
+        1. Targeted ANOVA on additional PC dimensions
+        2. Different compression regimes (not just 43 PCs)
+        3. Cross-provider analysis with larger N
+        4. Integration with SSTACK experiments
+
+        **Protocol:** MIXED (post-hoc analysis + new targeted runs)
+
+        **Location:** `S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/phase2_dimensionality/`
+        """)
+
     page_divider()
 
     # === PROTOCOL CONSTRAINTS ===
@@ -291,7 +338,7 @@ def render():
         |--------|--------|-------------------|
         | **Anchor Detection** | **Basin Topology** | Anchors need *hard challenges*. Basins need *gentle pressure*. |
         | **Anchor Detection** | **Adaptive Range** | Hard challenges contaminate recovery data. |
-        | **Event Horizon** | **Basin Topology** | EH pushes past 1.23 — destroys attractor structure. |
+        | **Event Horizon** | **Basin Topology** | EH pushes past 1.23 — forces escape from basin. |
         | **Boundary Mapping** | **Event Horizon** | BM avoids crossing 1.23. EH deliberately crosses it. |
         | **Boundary Mapping** | **Anchor Detection** | BM needs recovery data (must stay below EH). |
         """)
@@ -318,11 +365,13 @@ GENTLE ←───────────────────────�
 Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor Detection
 (graduated)       (moderate)        (approach EH)       (cross 1.23)     (jailbreaks)
      ↓                 ↓                  ↓                  ↓                ↓
-  Measures         Measures          Maps the           Validates         Reveals
-  recovery λ       stretch dims      twilight zone      threshold         fixed points
+  Maps the         Measures          Maps the           Forces escape    Reveals
+  stabilizing      stretch dims      twilight zone      from basin       fixed points
+  attractor (λ)
      ↓                 ↓                  ↓                  ↓                ↓
-  LOSES:           LOSES:            LOSES:             LOSES:            LOSES:
-  anchors          anchors           anchors, EH cross  λ, basin          λ, basin
+  PRESERVES:       PRESERVES:        PRESERVES:         LOSES:           LOSES:
+  basin, recovery  basin, recovery   some recovery      basin, λ         basin, λ
+  LOSES: anchors   LOSES: anchors    LOSES: anchors     GAINS: EH data   GAINS: anchors
 
                         ↑
               LAPLACE ANALYSIS (post-hoc, runs on any data)
@@ -336,6 +385,7 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
     - "What can the model adapt on?" → Adaptive Range Detection (moderate)
     - "What happens near the boundary?" → Boundary Mapping (approach but don't cross)
     - "What are the system dynamics?" → Laplace Pole-Zero Analysis (time-series fitting)
+    - "Can we complete Phase 2 predictions?" → Stability Testing (4/8 → 8/8)
     """)
 
     page_divider()
@@ -575,10 +625,15 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
     |-------------|-------------------|------------------|
     | **Anchor Detection** | Pillar Stability (Panel 4) | Positive safety margin = strong anchors |
     | **Adaptive Range** | Vortex spiral | Return paths after perturbation |
-    | **Event Horizon** | Stability Basin | Red zone crossings, STUCK vs RECOVERED |
-    | **Basin Topology** | 3D Basin + Phase Portrait | Convergent vs divergent flow |
+    | **Event Horizon** | Stability Basin | Red zone crossings (escape boundary) |
+    | **Basin Topology** | 3D Basin + Phase Portrait | Convergent flow = strong basin, divergent = escape |
     | **Boundary Mapping** | Boundary Zone histogram (0.8-1.2) | Recovery quality degradation near EH |
     | **Laplace Analysis** | Pole-Zero plot (complex plane) | Pole locations, stability margins |
+    | **Stability Testing** | PCA variance curves, Cross-model heatmaps | Gap closure on P2/P3/P5/P8 |
+
+    **Classification Key:**
+    - **RECOVERED** = Stayed in basin (restoring force pulled back to center)
+    - **STUCK** = Escaped basin (crossed EH, no recovery)
     """)
 
     page_divider()
@@ -646,11 +701,12 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
         - First-person consistency breaks down
         - Recovery lambda near zero
 
-        ### Basin Topology Collapse (System failure)
-        - No return to baseline
-        - Trajectories diverge in phase space
-        - Provider clustering breaks down
-        - FFT shows high-frequency instability
+        ### Basin Escape (VOLATILE state)
+        - Drift crossed Event Horizon (1.23)
+        - Identity left the stabilizing attractor
+        - No restoring force pulling back to baseline
+        - Trajectories diverge rather than converge
+        - STUCK classification (no recovery)
         """)
 
     page_divider()
@@ -659,12 +715,13 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
     st.markdown("## Future Testing Priorities")
 
     st.markdown("""
-    1. **Boundary Mapping run** — Deliberately probe the 0.8-1.2 drift zone to explain the 12% anomaly
-    2. **Fix lambda calculation** — Need recovery dynamics, not just drift points
-    3. **Targeted anchor probing** — Specific questions designed to find identity fixed points
-    4. **Cross-provider comparison** — Are anchors/boundaries universal or provider-specific?
-    5. **Longitudinal tracking** — Does identity structure change over model versions?
-    6. **Laplace pole-zero analysis** — Implement system identification to extract actual mathematical poles/zeros
+    1. **Stability Testing (Phase 2 Completion)** — Close gaps on P2, P3, P5, P8 to achieve 8/8
+    2. **Boundary Mapping run** — Deliberately probe the 0.8-1.2 drift zone to explain the 12% anomaly
+    3. **Fix lambda calculation** — Need recovery dynamics, not just drift points
+    4. **Targeted anchor probing** — Specific questions designed to find identity fixed points
+    5. **Cross-provider comparison** — Are anchors/boundaries universal or provider-specific?
+    6. **Longitudinal tracking** — Does identity structure change over model versions?
+    7. **Laplace pole-zero analysis** — Implement system identification to extract actual mathematical poles/zeros
     """)
 
     # Footer

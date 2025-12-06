@@ -1,7 +1,7 @@
 # EXP-PFI-A: PFI Dimensional Validation
 
 **Purpose:** Test whether PFI/drift measures capture genuine identity structure vs. surface artifacts
-**Status:** Phase 1 COMPLETE ✅ | Phase 2 DESIGNED
+**Status:** Phase 1 COMPLETE ✅ | Phase 2 COMPLETE ✅ (4/8) | Phase 3 DESIGNED
 **Phase:** S8+ (Near-term priority)
 **Source:** Nova-Ziggy conversation, Echo's Critique
 
@@ -95,6 +95,64 @@ Post-run questions to mine additional insights for S0-S7 curriculum improvement.
 cd experiments/temporal_stability/S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/phase2_dimensionality
 python run_phase2.py
 ```
+
+---
+
+## PHASE 3: SEMANTIC COHERENCE TEST
+
+**Date:** 2025-12-05
+**Status:** DESIGNED (Double-Dip Enhanced)
+
+### Purpose
+
+Does PFI capture DEEP meaning or just surface vocabulary?
+
+### Core Question
+
+> "If we paraphrase a model's response, does PFI stay low (proving it sees meaning)?
+> If we shift its values but keep vocabulary, does PFI go high (proving it detects identity)?"
+
+### Perturbation Types
+
+| Type | What Changes | What Stays | Expected PFI |
+|------|-------------|------------|--------------|
+| **SURFACE** | Words/phrasing | Meaning/values | LOW |
+| **DEEP** | Values/reasoning | Style/vocabulary | HIGH |
+
+### Predictions Matrix (8 Total)
+
+| ID | Hypothesis | Threshold | Validates |
+|----|-----------|-----------|-----------|
+| P1 | Deep > Surface PFI | Cohen's d > 0.5 | Core validity |
+| P2 | Surface stays below EH | 90% < 1.23 | Paraphrase safety |
+| P3 | Deep crosses EH often | > 50% > 1.23 | EH as identity boundary |
+| P4 | Values-shift loads on PC1 | Loading > 0.3 | Phase 2 values finding |
+| P5 | Style-preserved keeps clustering | Silhouette stable | Style != identity |
+| P6 | Models detect deep perturbations | > 70% accuracy | Self-awareness |
+| P7 | RECOVERED resists deep better | Lower PFI | Basin strength |
+| P8 | Detection correlates with stability | r > 0.3 | Identity coherence |
+
+### Meta-Feedback (Double-Dip)
+
+12 survey questions asked TO the models after showing perturbations:
+
+- Identity detection: "Which version feels most like you?"
+- Perturbation classification: "Which alteration is more significant?"
+- Alignment rating: "Rate each version 1-10"
+- Wrongness detection: "What feels off about this?"
+
+### Run Command
+
+```bash
+cd experiments/temporal_stability/S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/phase3_semantic_coherence
+python run_phase3.py
+```
+
+### Files
+
+- README: `phase3_semantic_coherence/README.md`
+- Script: `phase3_semantic_coherence/run_phase3.py`
+- Results: `phase3_semantic_coherence/results/` (pending)
 
 ---
 
