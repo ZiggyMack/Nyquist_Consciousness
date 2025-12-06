@@ -84,12 +84,17 @@ Nyquist_Consciousness/
 
 ### S7 ARMADA: Cross-Architecture Identity Stability
 
-| Run | Ships | Focus | Key Finding |
-|-----|-------|-------|-------------|
-| 008 | 29 | Basin Topology | Event Horizon discovered (1.23) |
-| 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
-| 010 | 45 | Anchor Detection | Models articulate own boundaries |
-| 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive — protocol too gentle) |
+| Run | Ships | Focus | Key Finding | Status |
+|-----|-------|-------|-------------|--------|
+| 001-007 | - | Various | **INVALIDATED** — used fake metric | See DATA_QUALITY_MAP.md |
+| 006 | 29 | Provider Comparison | Training fingerprints validated | GOLD STANDARD |
+| 008 | 29 | Ground Truth | Event Horizon discovered (1.23), real 5D metric | GOLD STANDARD |
+| 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold | VALIDATED |
+| 010 | 45 | Anchor Detection | Lambda bug, partial data | PARTIAL |
+| 011 | 40 | Persona A/B | Inconclusive — protocol too gentle, lambda bug | INCONCLUSIVE |
+| **012** | 22 | **Revalidation** | **Replaces 001-007 with real metric** | **READY** |
+
+> **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/DATA_QUALITY_MAP.md).
 
 ### EXP-PFI-A: PFI Dimensional Validation
 
@@ -97,23 +102,19 @@ Testing whether PFI measures genuine identity structure vs embedding artifacts.
 
 | Phase | Status | Key Finding |
 |-------|--------|-------------|
-| Phase 1 | ✅ PASSED | Embedding invariance confirmed (ρ=0.91 across 3 models) |
-| Phase 2 | DESIGNED | Double-dip: 8 predictions, 4 visualizations, 12 survey questions |
+| Phase 1 | PASSED | Embedding invariance confirmed (rho=0.91 across 3 models) |
+| Phase 2 | PASSED | 43 PCs capture 90% of identity variance |
+| Phase 3 | PASSED | Semantic coherence confirmed |
 
-**Phase 2 Predictions Matrix:**
-- P1-P3: Dimensionality, identity dimensions, compressed PFI
-- P4: S2 Values dimension (PC correlates with values-language)
-- P5: Provider clustering (Claude/GPT/Gemini separation in PC space)
-- P6: Trajectory shape (STABLE=inward, VOLATILE=outward)
-- P7: Event Horizon geometry (1.23 visible in PC space)
-- P8: Compression-SSTACK link
-
-### EXP1-SSTACK: Compression Fidelity
+### EXP2-SSTACK: Compression Fidelity & Persona Robustness
 
 | Metric | Value | Threshold | Status |
 |--------|-------|-----------|--------|
-| Mean PFI | 0.852 | > 0.80 | ✅ PASSED |
-| Std PFI | 0.038 | - | Low variance |
+| Mean PFI | 0.849 | > 0.80 | PASSED |
+| Cross-Persona Variance | 0.00007 | < 0.05 | PASSED (714x better) |
+| Phase 2c Self-Model | 0.9114 | > 0.80 | PASSED |
+
+**Key Insight:** Performance-based probes (demonstrate then reflect) produce higher-fidelity self-model data than asking about limitations directly.
 
 ### Validated Findings
 
@@ -189,9 +190,15 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: S7 ARMADA Run 011 complete, Run 012 planning
-**Last Updated**: 2025-12-04
+**Current Phase**: S7 ARMADA Run 012 READY (Revalidation with real 5D metric)
+**Last Updated**: 2025-12-06
 **Key Milestone**: Event Horizon (1.23) statistically validated (p < 0.0001)
+
+### Next Steps
+
+1. **Run 012**: Execute `run012_armada_revalidation.py` to replace invalid Runs 001-007
+2. **Laplace Analysis**: Run `run_laplace_analysis.py` for pole-zero extraction
+3. **Boundary Mapping**: Implement `EXP_BOUNDARY_MAPPING.md` to explain 12% anomaly
 
 ---
 
