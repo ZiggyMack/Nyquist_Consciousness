@@ -916,6 +916,8 @@ identity is REAL and we can SEE it
         "title": "Unified Identity Manifold — The Holographic Property",
         "status": "VALIDATED",
         "one_liner": "Pillars are NOT orthogonal — they're intertwined aspects of ONE identity structure",
+        "image": "experiments/compression_tests/compression_v2_sstack/visualizations/7_manifold_structure/manifold_pca_comparison.png",
+        "image_caption": "LEFT: Actual data (unified blob) | RIGHT: Hypothetical orthogonal (5 clusters)",
         "structured": """
 ### The Discovery (EXP2-SSTACK Phase 2.5)
 
@@ -1751,6 +1753,13 @@ def render_concept_deep_dive(concept_id, concept, mode):
         </div>
         """, unsafe_allow_html=True)
         st.markdown(concept['structured'])
+
+        # Show image if present
+        if "image" in concept:
+            from pathlib import Path
+            img_path = Path(__file__).parent.parent.parent / concept["image"]
+            if img_path.exists():
+                st.image(str(img_path), caption=concept.get("image_caption", "Visualization"))
         st.markdown(f"""
         <div style="
             text-align: right;

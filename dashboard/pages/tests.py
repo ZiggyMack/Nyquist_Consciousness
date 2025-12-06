@@ -7,6 +7,7 @@ Now with tabbed navigation for easy access to all sections.
 
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 from config import PATHS
 from utils import page_divider
 
@@ -409,6 +410,29 @@ def render_pfi_validation_tab():
     4. **21 sub-dimensions validated** — comprehensive pillar coverage
     5. **The Nyquist hypothesis holds** — identity is compressible without loss
     """)
+
+    # Unified Manifold visualization
+    with st.expander("Phase 2.5: Unified Manifold Discovery", expanded=False):
+        st.markdown("""
+        **Key Finding:** The 5 Nyquist pillars are NOT orthogonal dimensions — they form a unified identity manifold.
+
+        PCA visualization shows all pillars overlap in embedding space (one blob) rather than forming 5 distinct clusters.
+        This is the **holographic property**: each pillar contains information about the whole.
+        """)
+
+        # Show the visualization
+        manifold_img = Path(__file__).parent.parent.parent / "experiments" / "compression_tests" / "compression_v2_sstack" / "visualizations" / "7_manifold_structure" / "manifold_pca_comparison.png"
+        if manifold_img.exists():
+            st.image(str(manifold_img), caption="LEFT: Actual data (unified blob) | RIGHT: What orthogonal would look like")
+        else:
+            st.warning("Manifold visualization not found")
+
+        st.markdown("""
+        **Implications:**
+        - Single PFI suffices (no need for 5 separate scores)
+        - Failures propagate — damage to one pillar affects all
+        - Identity is a unified structure, not 5 independent variables
+        """)
 
     st.markdown("---")
     st.caption("""
