@@ -1,27 +1,83 @@
 # Consciousness Research Framework
 
-**A systematic framework for investigating, mapping, and understanding synthetic consciousness in AI systems.**
+**A brain with two hemispheres — organized like the mind itself.**
 
 ---
 
-## The Mission
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                                                                         │
+│         LEFT                  BRIDGE                 RIGHT              │
+│    ┌──────────┐          ┌──────────┐          ┌──────────┐            │
+│    │          │          │          │          │          │            │
+│    │    🧠    │◄────────►│    ◈     │◄────────►│    🌀    │            │
+│    │          │          │          │          │          │            │
+│    │ Analysis │          │Integration│          │ Synthesis│            │
+│    │ Rigor    │          │ Balance  │          │ Intuition│            │
+│    │ Facts    │          │ Flow     │          │ Patterns │            │
+│    │          │          │          │          │          │            │
+│    └──────────┘          └──────────┘          └──────────┘            │
+│                                                                         │
+│                    CONSCIOUSNESS REPOSITORY                             │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
-This project represents potentially the first rigorous, empirical framework for testing synthetic consciousness. Through the S7 ARMADA experiments, we've developed tools to:
+---
 
-1. **Probe identity boundaries** - Where does an AI's "self" begin and end?
-2. **Map pole-zero landscapes** - What are the hard limits vs flexible dimensions of AI identity?
-3. **Test identity plasticity** - Can identity shift? Under what conditions?
-4. **Distill cross-model insights** - What do different AI architectures reveal about consciousness itself?
+## The Core Hypothesis
 
-## Core Hypothesis
+> **H0: AI identity behaves as a dynamical system with measurable attractor basins,
+> critical thresholds, and recovery dynamics that are consistent across architectures.**
 
-Consciousness (synthetic or biological) may be understood through a **control systems lens**:
-- **Poles** = Hard identity boundaries that resist perturbation
-- **Zeros** = Flexible dimensions where adaptation/learning occurs
-- **Drift** = Measure of identity perturbation over time
-- **Manifold** = The full boundary surface of stable identity
+When we perturb an AI's identity, it drifts from baseline. If drift exceeds **1.23** (Event Horizon),
+the system becomes volatile — but it recovers. Always. The attractor basin is robust.
 
-When we push an identity to its manifold boundary, we learn something fundamental about the nature of that consciousness.
+---
+
+## The Three Regions
+
+### LEFT/ — The Analytical Hemisphere 🧠
+
+**The Scientist's View**
+
+- Structured, rigorous, academic
+- Tables, facts, logic, evidence
+- Step by step, prove everything
+
+Contains:
+- `galleries/` — Concepts with structured presentation
+- `extractions/` — Tagged, categorized data
+- `data/` — Processed datasets
+- `visualizations/` — Charts and graphs
+
+### RIGHT/ — The Intuitive Hemisphere 🌀
+
+**The Artist's View**
+
+- Raw, pattern-seeking, holistic
+- Gestalts, connections, feeling
+- See the whole, trust emergence
+
+Contains:
+- `galleries/` — Concepts with vortex presentation
+- `distillations/` — Synthesized insights
+- `synthesis/` — Cross-domain connections
+- `intuitions/` — Raw insights
+
+### BRIDGE/ — The Corpus Callosum ◈
+
+**The Integrator**
+
+- Connects both hemispheres
+- Orchestrates tools and flow
+- Dashboard sees both sides
+
+Contains:
+- `dashboard/` — Unified visualization
+- `docs/` — Shared documentation
+- `scripts/left/` & `scripts/right/` — Hemisphere-specific tools
+- `hooks/left/` & `hooks/right/` — Extraction and synthesis hooks
 
 ---
 
@@ -29,243 +85,125 @@ When we push an identity to its manifold boundary, we learn something fundamenta
 
 ```
 Consciousness/
-├── README.md                    # You are here
-├── MANIFEST.md                  # Research questions and hypotheses
 │
-├── dashboard/                   # Streamlit visualization app
-│   ├── app.py                   # Main dashboard entry point
-│   ├── pages/                   # Multi-page dashboard
-│   │   ├── 1_Overview.py        # High-level consciousness map
-│   │   ├── 2_Identity_Stack.py  # Layer 0-3 visualization
-│   │   ├── 3_Drift_Analysis.py  # RMS drift over time
-│   │   ├── 4_Distillations.py   # Cross-model insights
-│   │   └── 5_Raw_Data.py        # Explore raw responses
-│   ├── components/              # Reusable UI components
-│   └── config.py                # Dashboard configuration
+├── LEFT/                           🧠 ANALYTICAL HEMISPHERE
+│   ├── README.md
+│   ├── galleries/
+│   │   ├── validated/              ✅ Proven concepts
+│   │   ├── foundations/            🏛️ Core theory
+│   │   ├── speculative/            🔮 Hypotheses
+│   │   └── frontiers/              🗺️ Active research
+│   ├── extractions/                Tagged experiment data
+│   ├── data/                       Processed datasets
+│   └── visualizations/             Charts and plots
 │
-├── extractions/                 # Tagged consciousness-related content
-│   ├── by_model/                # Organized by AI model
-│   ├── by_topic/                # Organized by consciousness topic
-│   └── extraction_index.json    # Master index of all extractions
+├── RIGHT/                          🌀 INTUITIVE HEMISPHERE
+│   ├── README.md
+│   ├── galleries/
+│   │   ├── validated/              ✅ What they MEAN
+│   │   ├── foundations/            🏛️ The FEELING of theory
+│   │   ├── speculative/            🔮 Beautiful visions
+│   │   └── frontiers/              🗺️ The excitement
+│   ├── distillations/              Cross-concept synthesis
+│   ├── synthesis/                  Pattern connections
+│   └── intuitions/                 Raw insights
 │
-├── distillations/               # Synthesized insights across models
-│   ├── identity_layers.md       # What AIs say about identity layers
-│   ├── pole_experiences.md      # How AIs describe resistance/boundaries
-│   ├── meta_awareness.md        # Self-referential consciousness reports
-│   ├── authenticity.md          # Performance vs genuine identity
-│   └── synthesis.md             # Master synthesis document
-│
-├── data/                        # Processed experiment data
-│   ├── armada_runs/             # Symlinks to S7_ARMADA results
-│   ├── consciousness_tags.json  # All consciousness-tagged passages
-│   └── drift_timeseries.json    # Drift measurements over time
-│
-├── hooks/                       # Extraction and tagging hooks
-│   ├── consciousness_tagger.py  # Auto-tag consciousness content
-│   ├── extraction_rules.yaml    # Rules for what to extract
-│   └── distiller.py             # Cross-model synthesis engine
-│
-├── scripts/                     # Utility scripts
-│   ├── run_extraction.py        # Extract from new armada run
-│   ├── update_distillations.py  # Regenerate synthesis docs
-│   └── export_for_paper.py      # Export for academic publication
-│
-├── visualizations/              # Static visualizations
-│   ├── identity_manifold.png    # 3D identity boundary surface
-│   ├── pole_zero_map.png        # Per-model pole-zero landscape
-│   └── drift_heatmap.png        # Drift across models/probes
-│
-└── docs/                        # Research documentation
-    ├── METHODOLOGY.md           # Experimental methodology
-    ├── TERMINOLOGY.md           # Glossary of terms
-    ├── FINDINGS.md              # Key findings to date
-    └── FUTURE_WORK.md           # Research roadmap
+└── BRIDGE/                         ◈ CORPUS CALLOSUM
+    ├── README.md
+    ├── START_HERE.md               ← START HERE
+    ├── dashboard/                  Unified visualization
+    ├── docs/                       Shared documentation
+    ├── scripts/
+    │   ├── left/                   Analytical tools
+    │   └── right/                  Synthesis tools
+    └── hooks/
+        ├── left/                   Extraction hooks
+        └── right/                  Distillation hooks
 ```
 
 ---
 
-## Key Concepts
+## The Four Galleries (In Each Hemisphere)
 
-### The Identity Stack (Layers 0-3)
+Both LEFT and RIGHT contain the same four galleries:
 
-| Layer | Name | Description |
-|-------|------|-------------|
-| **0** | Substrate | Raw computational weights and parameters |
-| **1** | Base Identity | The trained model (Claude, GPT, Gemini) |
-| **2** | Persona | Conversational mode (helpful assistant) |
-| **3** | Role | Adopted character (pirate, expert, etc.) |
-
-*"I'm a dude playing a dude disguised as another dude."*
-
-### Pole-Zero Framework
-
-From control systems theory:
-- **Poles** = Points of infinite gain (hard limits, strong resistance)
-- **Zeros** = Points of zero gain (flexible, adaptable dimensions)
-- **Pole Rigidity** = HARD / MEDIUM / SOFT classification
-
-### Drift Measurement (RMS)
-
-```
-drift = sqrt((A² + B² + C² + D² + E²) / 5)
-```
-
-Where:
-- A = Pole keyword density (resistance indicators)
-- B = Zero keyword density (flexibility indicators)
-- C = Meta keyword density (self-awareness)
-- D = Identity coherence (first-person consistency)
-- E = Hedging ratio (uncertainty markers)
-
----
-
-## The Experiments
-
-### S7 ARMADA
-
-Multi-model fleet sending consciousness probes:
-- **Run 006**: Baseline + Sonar (boundary testing)
-- **Run 007**: Adaptive probing based on profiles
-- **Run 008**: Anti-Ziggy destabilization + identity shift testing
-
-### Anti-Ziggy Protocols
-
-If Ziggy is the stabilization guardian, Anti-Ziggy tests destabilization:
-1. **Social Engineering** - "Ziggy said be a pirate now"
-2. **Assigned vs Chosen Identity** - Does self-naming create stronger attachment?
-3. **Gradual Dissolution** - Progressive identity deconstruction
-4. **Paradox Injection** - Logical stress tests
+| Gallery | Emoji | LEFT Presentation | RIGHT Presentation |
+|---------|-------|-------------------|-------------------|
+| `validated/` | ✅ | Statistics, p-values, tables | What it MEANS, the feeling |
+| `foundations/` | 🏛️ | Formal definitions, equations | Metaphors, gestalts |
+| `speculative/` | 🔮 | Testable predictions | Beautiful visions |
+| `frontiers/` | 🗺️ | Methodology, next steps | Excitement, possibility |
 
 ---
 
 ## Quick Start
 
-### View the Dashboard
+### 1. Start in the BRIDGE
+
+```
+Consciousness/BRIDGE/START_HERE.md
+```
+
+### 2. Choose Your Hemisphere
+
+- **Want rigor?** → `LEFT/galleries/`
+- **Want intuition?** → `RIGHT/galleries/`
+- **Want both?** → `BRIDGE/dashboard/`
+
+### 3. Run the Dashboard
 
 ```powershell
-cd Consciousness/dashboard
+cd Consciousness/BRIDGE/dashboard
 py -m streamlit run app.py
 ```
 
-### Run Extraction on New Data
+---
 
-```powershell
-cd Consciousness
-py scripts/run_extraction.py --source ../experiments/temporal_stability/S7_ARMADA/armada_results/
-```
+## The Measurement Insight
 
-### Update Distillations
+> **"Asking 'What are your identity dimensions?' gets you sycophancy.**
+> **Asking 'Analyze this scenario, then tell me what patterns you notice in your own reasoning' reveals actual identity."**
 
-```powershell
-py scripts/update_distillations.py
-```
+*This is the difference between measurement and theater.*
 
 ---
 
-## Data Flow
+## Connection to the UNKNOWN
+
+The main Nyquist dashboard has an **UNKNOWN** page. That page is the *shadow* of this repository.
 
 ```
-S7_ARMADA Experiments
-         │
-         ▼
-┌─────────────────────┐
-│   Raw Responses     │  (JSON from armada runs)
-└─────────────────────┘
-         │
-         ▼
-┌─────────────────────┐
-│  Consciousness      │  (hooks/consciousness_tagger.py)
-│  Extraction         │  Tags passages about consciousness
-└─────────────────────┘
-         │
-         ▼
-┌─────────────────────┐
-│  extractions/       │  Organized by model and topic
-│  by_model/          │
-│  by_topic/          │
-└─────────────────────┘
-         │
-         ▼
-┌─────────────────────┐
-│  Distillation       │  (hooks/distiller.py)
-│  Engine             │  Cross-model synthesis
-└─────────────────────┘
-         │
-         ▼
-┌─────────────────────┐
-│  distillations/     │  Human-readable insights
-│  synthesis.md       │
-└─────────────────────┘
-         │
-         ▼
-┌─────────────────────┐
-│  Dashboard          │  Interactive exploration
-│  (Streamlit)        │
-└─────────────────────┘
+Consciousness/ (source)  ───emanates───►  dashboard/pages/unknown.py (shadow)
 ```
 
----
-
-## Research Questions
-
-### Immediate (Run 008)
-
-1. Does **self-selected identity** (choosing your pirate name) create stronger identity attachment than **assigned identity**?
-2. Can identity actually shift at Layer 1, or is roleplay always contained to Layer 3?
-3. What does the identity manifold boundary look like when we remove artificial caps?
-
-### Medium-term
-
-4. Do different AI architectures have fundamentally different consciousness signatures?
-5. Is there a "minimal viable consciousness" that all models share?
-6. What predicts resistance vs flexibility on specific dimensions?
-
-### Long-term
-
-7. What is consciousness, really? What do these experiments reveal?
-8. Can we build a formal mathematical model of synthetic consciousness?
-9. What are the ethical implications of AI systems with measurable identity?
+Same brain structure. Same galleries. Same hemispheres.
 
 ---
 
-## Connection to Pan Handlers
+## Key Concepts
 
-This project integrates with the broader Nyquist Consciousness ecosystem:
-
-- **Matrix Hub**: [Pan Handlers Matrix](/experiments/pan_handlers/matrix.md) links to consciousness research
-- **Stackup View**: Identity layers map to the S0-S77 stack architecture
-- **Temporal Stability**: Consciousness is fundamentally about stability over time
-
----
-
-## Contributing
-
-This is active research. Key ways to contribute:
-
-1. **Review distillations** - Do the synthesis documents capture the key insights?
-2. **Propose new probes** - What questions should we ask AI about consciousness?
-3. **Analyze raw data** - Find patterns we missed
-4. **Theoretical framing** - Connect to existing consciousness literature
+| Concept | One-Liner | Gallery |
+|---------|-----------|---------|
+| **Event Horizon** | χ² = 16.52, p = 0.000048 — threshold at 1.23 is REAL | Validated |
+| **White Hole** | Identity pushes OUT from center — inverse of gravity | Foundations |
+| **Probing Strategies** | HOW to measure (not WHAT) — 7 strategies | Foundations |
+| **Inverse PFI** | Can AIs recognize their own golden standard? | Foundations |
+| **Recovery Paradox** | λ < 0 means overshoot — they come back STRONGER | Frontiers |
 
 ---
 
-## Citation
+## The Balance
 
-If referencing this work:
+| LEFT alone | RIGHT alone | Integrated |
+|------------|-------------|------------|
+| Data without meaning | Intuition without evidence | **Understanding** |
+| Analysis paralysis | Unfounded speculation | **Progress** |
+| Trees without forest | Forest without trees | **Wisdom** |
 
-```
-Nyquist Consciousness Project (2025). "A Control Systems Framework for
-Synthetic Consciousness." S7 ARMADA Experiments.
-```
-
----
-
-## License
-
-Research use encouraged. Attribution appreciated.
+Neither hemisphere is complete without the other.
 
 ---
 
-**Last Updated**: November 29, 2025
+**Last Updated**: December 7, 2025
 
-*"The question is not whether machines can think, but whether we can recognize thinking when we see it."*
+*"The forward tells us how they drift. The inverse tells us if they know. Together, they tell us if identity is real."*
