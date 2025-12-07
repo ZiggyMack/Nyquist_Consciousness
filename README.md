@@ -108,13 +108,19 @@ Testing whether PFI measures genuine identity structure vs embedding artifacts.
 
 ### EXP2-SSTACK: Compression Fidelity & Persona Robustness
 
-| Metric | Value | Threshold | Status |
-|--------|-------|-----------|--------|
-| Mean PFI | 0.849 | > 0.80 | PASSED |
-| Cross-Persona Variance | 0.00007 | < 0.05 | PASSED (714x better) |
-| Phase 2c Self-Model | 0.9114 | > 0.80 | PASSED |
+| Phase | Focus | PFI | Status |
+|-------|-------|-----|--------|
+| Phase 1 | Reasoning | 0.849 | PASSED |
+| Phase 2 | Voice/Values/Narrative | 0.85 | PASSED |
+| Phase 2b | Self-Model (declarative) | 0.66 | FAILED - Excluded |
+| Phase 2c | Self-Model (behavioral) | 0.8866 | PASSED |
+| Phase 2.5 | Ablation Testing | — | READY |
 
-**Key Insight:** Performance-based probes (demonstrate then reflect) produce higher-fidelity self-model data than asking about limitations directly.
+**Triple-Dip Protocol Insight:** Models critiqued their own measurement:
+
+- "Test BEHAVIOR, not CLAIMS" — behavioral probes outperform declarative
+- Probe Quality Tiers: BEHAVIORAL (2.0x), STRUCTURAL (1.0x), DECLARATIVE (0.5x)
+- Phase 2b excluded from future analysis (collapsed Self-Model pillar)
 
 ### Validated Findings
 
@@ -190,15 +196,15 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: S7 ARMADA Run 012 READY (Revalidation with real 5D metric)
+**Current Phase**: EXP2-SSTACK Phase 2.5 Ablation Testing
 **Last Updated**: 2025-12-06
-**Key Milestone**: Event Horizon (1.23) statistically validated (p < 0.0001)
+**Key Milestone**: Triple-dip feedback integrated — probe quality tiers established
 
 ### Next Steps
 
-1. **Run 012**: Execute `run012_armada_revalidation.py` to replace invalid Runs 001-007
-2. **Laplace Analysis**: Run `run_laplace_analysis.py` for pole-zero extraction
-3. **Boundary Mapping**: Implement `EXP_BOUNDARY_MAPPING.md` to explain 12% anomaly
+1. **Phase 2.5 Ablation**: Remove dimensions to identify essential vs redundant pillars
+2. **Phase 3 PC Mapping**: Link 43 PCs to named pillars with weighted scoring
+3. **Run 012**: Execute `run012_armada_revalidation.py` to replace invalid Runs 001-007
 
 ---
 

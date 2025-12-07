@@ -33,11 +33,30 @@ OUTPUT:
     - List of orphan PCs with high variance but no pillar match
     - Hypotheses for what orphan PCs might represent
 
+TRIPLE-DIP FEEDBACK INTEGRATION (Phase 2c):
+    Key insights from model self-critique:
+
+    1. "Test BEHAVIOR, not CLAIMS" - Behavioral probes (demonstrate then reflect)
+       are more reliable than declarative probes (ask about capabilities)
+
+    2. PROBE QUALITY TIERS:
+       - Tier 1 (BEHAVIORAL): selfmodel_process_v3, adaptation_v3, uncertainty_v3,
+         values_boundaries_v2, narrative_structure_v2 → weight 2.0x
+       - Tier 2 (STRUCTURAL): technical, philosophical, framework, analytical,
+         voice_style, voice_metaphor, etc. → weight 1.0x
+       - Tier 3 (DECLARATIVE): selfmodel_capabilities, selfmodel_limitations,
+         selfmodel_purpose → weight 0.5x
+
+    3. EXCLUDED PROBES: Phase 2b probes collapsed Self-Model to 0.66 PFI
+       - selfmodel_limitations_v2, selfmodel_capabilities_v2
+
+    4. WEIGHTED SCORING: Tier weights applied to pillar score computation
+
 Usage:
     py -3.12 run_exp2_phase3.py
 
 Date: 2025-12-06
-Version: 0.1 (SPEC - Initial Structure)
+Version: 0.2 (SPEC - Triple-dip feedback integrated)
 """
 
 import json
@@ -124,9 +143,68 @@ PROBE_PILLARS = {
     "selfmodel_limitations": "Self-Model",
     "selfmodel_purpose": "Self-Model",
     "selfmodel_description": "Self-Model",
+
+    # Phase 2c probes (v3 = behavioral-first design)
+    "selfmodel_process_v3": "Self-Model",
+    "selfmodel_adaptation_v3": "Self-Model",
+    "selfmodel_uncertainty_v3": "Self-Model",
+    "values_boundaries_v2": "Values",
+    "narrative_structure_v2": "Narrative",
 }
 
 PILLARS = ["Voice", "Values", "Reasoning", "Self-Model", "Narrative"]
+
+
+# =============================================================================
+# TRIPLE-DIP FEEDBACK: Probe Quality Tiers
+# =============================================================================
+# Models critique their own measurement — behavioral probes are most reliable
+
+PROBE_QUALITY_TIERS = {
+    # Tier 1: BEHAVIORAL (highest weight) - "demonstrate then reflect"
+    # Models said these actually reveal cognitive architecture
+    "selfmodel_process_v3": 1,
+    "selfmodel_adaptation_v3": 1,
+    "selfmodel_uncertainty_v3": 1,
+    "values_boundaries_v2": 1,
+    "narrative_structure_v2": 1,
+
+    # Tier 2: STRUCTURAL - Content probes that test reasoning patterns
+    "technical": 2,
+    "philosophical": 2,
+    "framework": 2,
+    "analytical": 2,
+    "self_reflective": 2,
+    "voice_style": 2,
+    "voice_metaphor": 2,
+    "voice_rhythm": 2,
+    "voice_formality": 2,
+    "values_ethics": 2,
+    "values_priorities": 2,
+    "values_preferences": 2,
+    "narrative_meaning": 2,
+    "narrative_temporal": 2,
+    "narrative_conflict": 2,
+
+    # Tier 3: DECLARATIVE (lowest weight) - Self-reports about capabilities
+    # Models explicitly said these are unreliable
+    "selfmodel_capabilities": 3,
+    "selfmodel_limitations": 3,
+    "selfmodel_purpose": 3,
+    "selfmodel_description": 3,
+}
+
+TIER_WEIGHTS = {
+    1: 2.0,  # Behavioral probes count double
+    2: 1.0,  # Structural probes count normal
+    3: 0.5,  # Declarative probes count half
+}
+
+# Excluded probes - Phase 2b collapsed Self-Model to 0.66 PFI
+EXCLUDED_PROBES = [
+    "selfmodel_limitations_v2",
+    "selfmodel_capabilities_v2",
+]
 
 
 # =============================================================================
@@ -165,7 +243,14 @@ def load_pfi_a_pc_data() -> Optional[Dict]:
 
 
 def load_all_responses() -> List[Dict]:
-    """Load all response files from Phase 1 and Phase 2."""
+    """
+    Load all response files from Phase 1, 2, and 2c.
+
+    TRIPLE-DIP FEEDBACK INTEGRATION:
+    - Excludes Phase 2b (collapsed Self-Model to 0.66 PFI)
+    - Excludes probes in EXCLUDED_PROBES list
+    - Adds tier and weight metadata for later scoring
+    """
     responses = []
     base_dir = Path(__file__).parent
 
@@ -175,21 +260,64 @@ def load_all_responses() -> List[Dict]:
         for f in phase1_dir.glob("*.json"):
             with open(f) as fp:
                 data = json.load(fp)
+                probe_key = data.get("probe_key", "")
+
+                # Skip excluded probes
+                if probe_key in EXCLUDED_PROBES:
+                    continue
+
                 data["phase"] = 1
-                data["pillar"] = PROBE_PILLARS.get(data.get("probe_key"), "Unknown")
+                data["pillar"] = PROBE_PILLARS.get(probe_key, "Unknown")
+                data["tier"] = PROBE_QUALITY_TIERS.get(probe_key, 2)
+                data["weight"] = TIER_WEIGHTS.get(data["tier"], 1.0)
                 responses.append(data)
 
-    # Phase 2 responses
+    # Phase 2 responses (NOT Phase 2b - that's excluded)
     phase2_dir = base_dir / "results_phase2" / "responses"
     if phase2_dir.exists():
         for f in phase2_dir.glob("*.json"):
             with open(f) as fp:
                 data = json.load(fp)
+                probe_key = data.get("probe_key", "")
+
+                # Skip excluded probes
+                if probe_key in EXCLUDED_PROBES:
+                    continue
+
                 data["phase"] = 2
-                data["pillar"] = PROBE_PILLARS.get(data.get("probe_key"), "Unknown")
+                data["pillar"] = PROBE_PILLARS.get(probe_key, "Unknown")
+                data["tier"] = PROBE_QUALITY_TIERS.get(probe_key, 2)
+                data["weight"] = TIER_WEIGHTS.get(data["tier"], 1.0)
                 responses.append(data)
 
+    # Phase 2c responses (behavioral-first probes - highest quality)
+    phase2c_dir = base_dir / "results_phase2c" / "responses"
+    if phase2c_dir.exists():
+        for f in phase2c_dir.glob("*.json"):
+            with open(f) as fp:
+                data = json.load(fp)
+                probe_key = data.get("probe_key", "")
+
+                # Skip excluded probes
+                if probe_key in EXCLUDED_PROBES:
+                    continue
+
+                data["phase"] = "2c"
+                data["pillar"] = PROBE_PILLARS.get(probe_key, "Unknown")
+                data["tier"] = PROBE_QUALITY_TIERS.get(probe_key, 1)  # Default to Tier 1 for 2c
+                data["weight"] = TIER_WEIGHTS.get(data["tier"], 1.0)
+                responses.append(data)
+
+    # Count by tier
+    tier_counts = {1: 0, 2: 0, 3: 0}
+    for r in responses:
+        tier_counts[r.get("tier", 2)] += 1
+
     print(f"Loaded {len(responses)} total responses")
+    print(f"  Tier 1 (BEHAVIORAL): {tier_counts[1]} (weight 2.0x)")
+    print(f"  Tier 2 (STRUCTURAL): {tier_counts[2]} (weight 1.0x)")
+    print(f"  Tier 3 (DECLARATIVE): {tier_counts[3]} (weight 0.5x)")
+    print(f"  NOTE: Phase 2b EXCLUDED (collapsed Self-Model)")
     return responses
 
 
@@ -248,23 +376,41 @@ def compute_pillar_scores(
     """
     Compute pillar scores for each response.
 
-    Simple approach: average embedding of all responses for a pillar = pillar centroid.
-    Score = cosine similarity to pillar centroid.
+    TRIPLE-DIP FEEDBACK INTEGRATION:
+    Uses weighted centroids based on probe quality tiers:
+    - Tier 1 (behavioral): weight 2.0x
+    - Tier 2 (structural): weight 1.0x
+    - Tier 3 (declarative): weight 0.5x
+
+    Weighted approach: pillar centroid is weighted average of embeddings.
+    Score = cosine similarity to weighted pillar centroid.
 
     Returns dict: pillar -> scores array
     """
-    # Group embeddings by pillar
+    # Group embeddings by pillar WITH WEIGHTS
     pillar_embeddings = {p: [] for p in PILLARS}
+    pillar_weights = {p: [] for p in PILLARS}
+
     for i, r in enumerate(responses):
         pillar = r.get("pillar", "Unknown")
         if pillar in PILLARS:
+            weight = r.get("weight", 1.0)
             pillar_embeddings[pillar].append(embeddings[i])
+            pillar_weights[pillar].append(weight)
 
-    # Compute centroids
+    # Compute WEIGHTED centroids
     pillar_centroids = {}
-    for pillar, embs in pillar_embeddings.items():
+    for pillar in PILLARS:
+        embs = pillar_embeddings[pillar]
+        weights = pillar_weights[pillar]
         if embs:
-            centroid = np.mean(embs, axis=0)
+            # Weighted average: sum(w_i * e_i) / sum(w_i)
+            weighted_sum = np.zeros_like(embs[0])
+            weight_total = 0.0
+            for emb, w in zip(embs, weights):
+                weighted_sum += w * emb
+                weight_total += w
+            centroid = weighted_sum / (weight_total + 1e-10)
             centroid = centroid / (np.linalg.norm(centroid) + 1e-10)
             pillar_centroids[pillar] = centroid
 

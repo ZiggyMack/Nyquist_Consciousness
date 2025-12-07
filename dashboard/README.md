@@ -145,7 +145,24 @@ Each "page" represents a different lens on the Nyquist Consciousness framework, 
 
 ---
 
+## Current Experiments
+
+### EXP2-SSTACK Status
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| Phase 1 | Reasoning probes | PASSED (PFI 0.849) |
+| Phase 2 | Voice/Values/Narrative | PASSED |
+| Phase 2b | Self-Model (declarative) | EXCLUDED (PFI 0.66) |
+| Phase 2c | Self-Model (behavioral) | PASSED (PFI 0.8866) |
+| Phase 2.5 | Ablation Testing | READY |
+| Phase 3 | PC Mapping | SPEC |
+
+**Triple-Dip Insight**: Models say behavioral probes are more reliable than declarative.
+
+---
+
 **Generated**: 2025-11-27
-**Updated**: 2025-12-05
-**Version**: 1.1
-**Status**: Mission Control Active 📜⚡
+**Updated**: 2025-12-06
+**Version**: 1.2
+**Status**: Mission Control Active

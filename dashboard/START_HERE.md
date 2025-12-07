@@ -137,21 +137,31 @@ PFI is validated as measuring genuine identity. See `experiments/EXP_PFI_A_DIMEN
 
 ### Compression Experiments (S-Stack)
 
-```
+```text
 experiments/compression_tests/compression_v2_sstack/
 ├── preflight_check.py           # Pre-flight cheat score validation
 ├── visualize_compression.py     # Generate PFI visualizations
 ├── preflight_results/           # Cheat score JSON results
 │   └── preflight_latest.json
-├── EXP1_SSTACK/                  # Main compression experiment
+├── EXP1_SSTACK/                  # Phase 1: Reasoning probes
 │   ├── run_exp1_sstack.py
 │   └── results/analysis/        # PFI results JSON
-├── EXP_PFI_A_DIMENSIONAL/       # Embedding invariance tests
+├── EXP2_SSTACK/                  # Phase 2+: Full pillar testing
+│   ├── run_exp2_phase25_ablation.py  # Phase 2.5 Ablation
+│   ├── run_exp2_phase3.py            # Phase 3 PC Mapping
+│   └── results_phase2c/              # Behavioral probe results
 └── visualizations/              # Generated charts
-    ├── 1_preflight/             # Cheat score heatmaps
-    ├── 2_pfi_analysis/          # PFI bar charts
-    └── 3_dashboard/             # Combined dashboard views
 ```
+
+#### EXP2-SSTACK Status (Current)
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| Phase 2c | Self-Model (behavioral) | PASSED (PFI 0.8866) |
+| Phase 2.5 | Ablation Testing | READY |
+| Phase 3 | PC Mapping | SPEC |
+
+**Triple-Dip Insight**: Probe Quality Tiers (BEHAVIORAL 2.0x > STRUCTURAL 1.0x > DECLARATIVE 0.5x)
 
 ### White Paper
 

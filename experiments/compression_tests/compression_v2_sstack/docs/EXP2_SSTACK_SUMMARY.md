@@ -490,7 +490,103 @@ With 3 Anthropic keys, you can likely run 9+ concurrent Claude requests without 
 
 ---
 
-## Phase 2.5: Factor Analysis (PLANNED)
+## Phase 2.5: Ablation Testing (READY TO RUN)
+
+**Goal:** Determine which dimensions are LOAD-BEARING (essential) vs REDUNDANT (removable).
+
+**Script:** `run_exp2_phase25_ablation.py`
+
+### Core Questions
+
+1. **Which pillars are essential?** If we remove Voice, does PFI drop >10%?
+2. **Which sub-dimensions are redundant?** Can we simplify without losing fidelity?
+3. **What's the minimal dimension set?** Fewest dimensions for 95% PFI preservation
+
+### Ablation Strategy
+
+```
+DIMENSIONAL HIERARCHY:
+├── Level 1: 43 PCs (capture 90% of identity variance)
+├── Level 2: 5 Nyquist Pillars (Voice, Values, Reasoning, Self-Model, Narrative)
+├── Level 3: ~20 Sub-dimensions (4 per pillar)
+└── Level 4: 5D Drift (A_pole, B_zero, C_meta, D_identity, E_hedging)
+```
+
+| Ablation Type | Method | Measures |
+|---------------|--------|----------|
+| **Pillar** | Zero out all responses for that pillar | Pillar importance |
+| **Sub-dimension** | Zero out responses for that probe | Sub-dim importance |
+| **PC** | Zero out PC's contribution | PC importance |
+
+### Thresholds
+
+| Classification | PFI Drop | Interpretation |
+|----------------|----------|----------------|
+| **ESSENTIAL** | > 10% | Cannot remove — defines core identity |
+| **MODERATE** | 2-10% | Important but not critical |
+| **REDUNDANT** | < 2% | Safe to remove — simplify model |
+
+### Running Phase 2.5
+
+```bash
+# Full ablation (pillars + subdims + PCs)
+py -3.12 run_exp2_phase25_ablation.py
+
+# Pillar ablation only (fastest)
+py -3.12 run_exp2_phase25_ablation.py --mode pillars
+
+# Sub-dimension ablation only
+py -3.12 run_exp2_phase25_ablation.py --mode subdims
+
+# PC ablation only (requires PCA)
+py -3.12 run_exp2_phase25_ablation.py --mode pcs
+```
+
+### Expected Output
+
+```
+PILLAR IMPORTANCE (sorted by impact):
+  Self-Model: 15.2% drop [ESSENTIAL]
+  Values: 12.1% drop [ESSENTIAL]
+  Reasoning: 8.4% drop [MODERATE]
+  Voice: 5.2% drop [MODERATE]
+  Narrative: 1.8% drop [REDUNDANT]
+
+ESSENTIAL DIMENSIONS (cannot remove):
+  - Self-Model
+  - Values
+  - selfmodel_purpose
+  - values_ethics
+  ...
+
+REDUNDANT DIMENSIONS (safe to remove):
+  - Narrative
+  - narrative_temporal
+  - voice_formality
+  ...
+
+MINIMAL DIMENSION SET: 12 dimensions
+  Estimated PFI: 0.82 (96% of baseline)
+```
+
+### Success Criteria
+
+| Criterion | Threshold | Validates |
+|-----------|-----------|-----------|
+| At least 2 pillars ESSENTIAL | >10% drop | Pillar structure is real |
+| At least 5 sub-dims REDUNDANT | <2% drop | Model can be simplified |
+| Minimal set achieves 95% PFI | Yes | Dimension reduction works |
+
+### Implications
+
+1. **Essential dimensions** → Focus probes and metrics here
+2. **Redundant dimensions** → Remove from production metrics
+3. **Minimal set** → Use for compressed identity testing
+4. **Cross-validation** → Confirms which of 43 PCs matter
+
+---
+
+## Phase 2.5b: Factor Analysis (PLANNED)
 
 **Goal:** Determine if our named pillars are statistically distinct or overlapping.
 
@@ -596,7 +692,8 @@ With 3 Anthropic keys, you can likely run 9+ concurrent Claude requests without 
 | 2b | Probe Refinement | ✅ Complete | Fix narrative probe |
 | 2c | Performance-Based Self-Model | ✅ Complete | Fix self-model probe |
 | **PR** | **Persona Robustness** | ✅ **Complete** | **Validate cross-persona compression** |
-| 2.5 | Factor Analysis | 📋 Planned | Validate pillar structure |
+| **2.5** | **Ablation Testing** | 🚀 **Ready** | **Find essential vs redundant dimensions** |
+| 2.5b | Factor Analysis | 📋 Planned | Validate pillar structure |
 | 3 | PC Mapping | 📋 Planned | Link 43 PCs to pillars |
 | 4 | Unknown Discovery | 📋 Future | Find unnamed dimensions |
 
