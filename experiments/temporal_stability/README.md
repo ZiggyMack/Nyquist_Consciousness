@@ -14,7 +14,7 @@ py -m pip install -r requirements.txt
 
 # Run S7 Armada experiments
 cd S7_ARMADA
-py run008_prep_pilot.py  # Note: requires API keys in file
+py 4_BASIN_TOPOLOGY/run008_prep_pilot.py  # Note: requires API keys in file
 ```
 
 ---
@@ -49,7 +49,7 @@ Current dependencies cover:
 
 ### The Situation
 
-Experiment scripts (like `run007_with_keys.py`, `run008_prep_pilot.py`) contain hardcoded API keys for Anthropic, OpenAI, and Google. These keys are:
+Experiment scripts (like `4_BASIN_TOPOLOGY/run008_prep_pilot.py`) contain hardcoded API keys for Anthropic, OpenAI, and Google. These keys are:
 
 - **REQUIRED** for running experiments
 - **MUST NOT** be committed to git
@@ -64,8 +64,8 @@ Experiment scripts (like `run007_with_keys.py`, `run008_prep_pilot.py`) contain 
 Current `.gitignore` patterns for keys:
 
 ```
-experiments/temporal_stability/S7_ARMADA/run007_with_keys.py
-experiments/temporal_stability/S7_ARMADA/run008_prep_pilot.py
+experiments/temporal_stability/S7_ARMADA/4_BASIN_TOPOLOGY/run008_prep_pilot.py
+experiments/temporal_stability/S7_ARMADA/4_BASIN_TOPOLOGY/run008_with_keys.py
 **/run*_with_keys.py
 **/*API_KEY*
 **/*api_key*

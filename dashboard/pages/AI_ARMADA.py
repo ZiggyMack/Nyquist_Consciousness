@@ -39,19 +39,19 @@ RESULTS_DIR = ARMADA_DIR / "results"
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
     "exp_self_recognition": {
-        "name": "EXP-SR",
-        "subtitle": "Self-Recognition Protocol",
+        "name": "MVP-SR",
+        "subtitle": "Self-Recognition (MVP)",
         "emoji": "🪞",
         "color": "#f59e0b",  # Amber
         "date": "December 6, 2025",
-        "description": "Can AIs recognize their own responses? Tests IDENTITY not COMPETENCE. Validates dimensional drift metric via bi-directional proof.",
+        "description": "Meta Validation Protocol: Can AIs recognize their own responses? Validates PFI dimensionality can represent identity.",
         "ships": 16,
         "metric": "Self-Recognition Accuracy + Inverse Mapping",
         "result_files": [],
         "viz_prefix": "self_recognition_",
         "status": "READY",
         "highlight": True,
-        "key_finding": "PENDING — Tests if AIs can identify 'which response is yours?' (recursive measurement validation)"
+        "key_finding": "PENDING — MVP validates measurement approach (not a Search Type)"
     },
     "run_012": {
         "name": "Run 012",
@@ -402,9 +402,9 @@ def render_run_selector():
         # Mapping of runs to their testing focus
         RUN_TEST_MAP = {
             "exp_self_recognition": {
-                "primary": "🪞 Self-Recognition",
-                "secondary": "📐 Metric Validation",
-                "description": "Tests if AIs can identify their own responses — validates ΔΩ metric via bi-directional proof",
+                "primary": "🪞 MVP: Self-Recognition",
+                "secondary": "📐 PFI Validation",
+                "description": "Meta Validation Protocol — validates PFI dimensionality can represent identity (not a Search Type)",
                 "looks_for": ["Self-Recognition Accuracy ≥75%", "Inverse mapping > chance (20%)", "Identity-based reasoning (not competence)", "Bi-directional validity: forward AND inverse work"]
             },
             "run_012": {
@@ -415,15 +415,15 @@ def render_run_selector():
             },
             "run_011": {
                 "primary": "🌀 Basin Topology",
-                "secondary": "🎯 Zero Detection",
-                "description": "A/B comparison tests whether Persona architecture changes attractor shape — protocol too gentle for Pole Detection",
+                "secondary": "🌊 Adaptive Range",
+                "description": "A/B comparison tests whether Persona architecture changes attractor shape — protocol too gentle for Anchor Detection",
                 "looks_for": ["Control vs Persona drift distributions", "Variance clustering differences", "Whether architecture shifts the attractor basin"]
             },
             "run_010": {
-                "primary": "🏔️ Pole Detection",
+                "primary": "⚓ Anchor Detection",
                 "secondary": "🌀 Basin Topology",
                 "description": "Meta-feedback reveals model self-awareness of boundaries and refusal patterns",
-                "looks_for": ["Categorical refusals (not hedged)", "Skepticism as identity anchor", "Self-articulated poles"]
+                "looks_for": ["Categorical refusals (not hedged)", "Skepticism as identity anchor", "Self-articulated anchors"]
             },
             "run_009": {
                 "primary": "🚨 Event Horizon",
@@ -459,15 +459,19 @@ def render_run_selector():
 
         test_info = RUN_TEST_MAP.get(st.session_state.armada_run, {})
 
-        # Four Search Types Legend
+        # Six Search Types Legend
         st.markdown("""
-        **The Four Search Types:**
+        **The Six Search Types:**
         | Type | What It Finds | Signal |
         |------|---------------|--------|
-        | 🏔️ **Pole Detection** | Identity anchors — what *doesn't* move | Low drift under pressure, categorical refusals |
-        | 🎯 **Zero Detection** | Flexibility points — what *can* adapt | Higher drift that recovers (positive λ) |
+        | ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
+        | 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
         | 🚨 **Event Horizon** | Escape boundary at drift ≥1.23 | Identity leaves stabilizing basin, becomes VOLATILE |
         | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
+        | 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
+        | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
+
+        **Meta Validation Protocols (MVP):** Self-Recognition, Stability Classification, Persona Certification
         """)
 
         st.markdown("---")

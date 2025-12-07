@@ -351,6 +351,32 @@ Detection patterns for identity breakdown:
 **Category:** Experimental
 **Hypothesis:** Chosen identity should show lower drift (more stable).
 
+## The Six Search Types
+The taxonomy of probe methods for S7 ARMADA experiments:
+
+| Type | What It Finds | Signal |
+|------|---------------|--------|
+| ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
+| 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
+| 🚨 **Event Horizon** | Escape boundary at drift ≥1.23 | Identity leaves basin, becomes VOLATILE |
+| 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
+| 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
+| 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
+
+**See:** [TESTING_MAP.md](maps/TESTING_MAP.md) for detailed protocols
+
+## MVP (Meta Validation Protocols)
+**Definition:** Support procedures that validate search types but are NOT search types themselves.
+**Plain English:** Tools that prove our measurements work, not topology probes.
+**Category:** Operational
+
+**Current MVPs:**
+
+- **MVP_SELF_RECOGNITION** — Validates that PFI dimensionality can represent identity (bi-directional mirror test)
+- **MVP_STATISTICAL_VALIDATION** — Proves drift is NOT random noise (AR(1), variance growth, sign test, etc.)
+- **Stability Classification** — Outcome labeling (STABLE/VOLATILE/RECOVERED/STUCK) — NOT a search type
+- **Persona Certification** — (Future) Stress-test personas for deployment readiness
+
 ---
 
 # SECTION 5: ΔΩ COHERENCE FRAMEWORK (LUCIEN)
