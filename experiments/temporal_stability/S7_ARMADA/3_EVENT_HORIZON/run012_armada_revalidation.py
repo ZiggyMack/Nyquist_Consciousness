@@ -881,10 +881,10 @@ def run_experiment(max_parallel=3, ship_filter=None):
     # ================================================================
     # SAVE RESULTS
     # ================================================================
-    output_dir = script_dir / "results" / "runs"
+    output_dir = script_dir / "0_results" / "runs"
     output_dir.mkdir(exist_ok=True)
 
-    viz_dir = script_dir / "visualizations" / "pics" / "12_revalidation"
+    viz_dir = script_dir / "0_visualizations" / "pics" / "12_revalidation"
     viz_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

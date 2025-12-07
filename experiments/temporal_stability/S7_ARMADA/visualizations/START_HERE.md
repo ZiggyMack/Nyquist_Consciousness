@@ -51,7 +51,7 @@ The `.env` file is gitignored for security.
 
 ```bash
 # Use -u flag for unbuffered output (see progress in real-time)
-py -3.12 -u run009_drain_capture.py
+py -3.12 -u 3_EVENT_HORIZON/run009_drain_capture.py
 ```
 
 ---
@@ -61,7 +61,7 @@ py -3.12 -u run009_drain_capture.py
 ## TL;DR - One Command
 
 ```bash
-cd experiments/temporal_stability/S7_ARMADA/visualizations
+cd experiments/temporal_stability/S7_ARMADA/0_visualizations
 py -3.12 visualize_armada.py
 ```
 
@@ -111,7 +111,7 @@ py -3.12 visualize_armada.py --run 012 --type unified  # NEW: all dimensions in 
 
 ## Output Location
 
-All outputs go to `visualizations/pics/run{ID}/`:
+All outputs go to `0_visualizations/pics/run{ID}/`:
 
 ```
 pics/
@@ -156,7 +156,7 @@ Plotly is optional (only needed for HTML exports).
 
 ## Data Sources
 
-The script auto-detects JSON files from `../armada_results/`:
+The script auto-detects JSON files from `../0_results/runs/`:
 
 - `S7_run_008_*.json` - Run 008 (dimensional drift metric)
 - `S7_run_009_*.json` - Run 009 drain capture
@@ -171,7 +171,7 @@ The script auto-detects JSON files from `../armada_results/`:
 
 **"No module named 'anthropic'"**: You're using Python 3.7. Use `py -3.11` instead of `python`.
 
-**"No runs found"**: Make sure JSON result files exist in `../armada_results/`
+**"No runs found"**: Make sure JSON result files exist in `../0_results/runs/`
 
 **Missing scipy**: `py -3.12 -m pip install scipy`
 

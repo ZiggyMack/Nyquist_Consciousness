@@ -1,8 +1,11 @@
-# Statistical Tests vs Random-Walk Null Model
+# MVP_STATISTICAL_VALIDATION: Random-Walk Null Model Tests
 
-**Purpose:** Rigorous statistical validation that identity drift is NOT random noise
+**Purpose:** Meta Validation Protocol — Rigorous statistical validation that identity drift is NOT random noise
 **Status:** Specification Complete
 **Source:** Nova-Ziggy conversation (NOVA_ZIGGY_1.md)
+**Location:** `S7_ARMADA/MVP/MVP_STATISTICAL_VALIDATION/`
+
+> **Note:** This is an MVP (Meta Validation Protocol), not a Search Type. It validates that drift measurements reflect real dynamics rather than random noise.
 
 ---
 

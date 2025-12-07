@@ -14,10 +14,10 @@ import numpy as np
 from pathlib import Path
 
 # Load Run 012 results
-results_path = Path(__file__).parent.parent / "results" / "runs" / "S7_run_012_20251206_145812.json"
+results_path = Path(__file__).parent.parent / "0_results" / "runs" / "S7_run_012_20251206_145812.json"
 
 # Output directories by concept (not run number)
-BASE_VIZ = Path(__file__).parent.parent / "visualizations" / "pics"
+BASE_VIZ = Path(__file__).parent.parent / "0_visualizations" / "pics"
 STABILITY_DIR = BASE_VIZ / "5_stability"
 PILLAR_DIR = BASE_VIZ / "4_pillar"
 REVALIDATION_DIR = BASE_VIZ / "12_revalidation"

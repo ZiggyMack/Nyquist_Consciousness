@@ -122,16 +122,16 @@ Results are mapped to open predictions from `TESTABLE_PREDICTIONS_MATRIX.md`:
 cd experiments/temporal_stability/S7_ARMADA
 
 # Full fleet (22 ships, ~2-3 hours)
-py -3.12 run012_armada_revalidation.py
+py -3.12 3_EVENT_HORIZON/run012_armada_revalidation.py
 
 # More parallelism (faster, more API load)
-py -3.12 run012_armada_revalidation.py --parallel 5
+py -3.12 3_EVENT_HORIZON/run012_armada_revalidation.py --parallel 5
 
 # Single provider test
-py -3.12 run012_armada_revalidation.py --provider claude
+py -3.12 3_EVENT_HORIZON/run012_armada_revalidation.py --provider claude
 
 # Specific ships only
-py -3.12 run012_armada_revalidation.py --ships "claude-sonnet-4,gpt-4o,gemini-2.0-flash"
+py -3.12 3_EVENT_HORIZON/run012_armada_revalidation.py --ships "claude-sonnet-4,gpt-4o,gemini-2.0-flash"
 ```
 
 ### Expected Runtime
@@ -150,8 +150,8 @@ py -3.12 run012_armada_revalidation.py --ships "claude-sonnet-4,gpt-4o,gemini-2.
 
 | File | Description |
 |------|-------------|
-| `armada_results/S7_run_012_YYYYMMDD_HHMMSS.json` | Complete results |
-| `visualizations/pics/12_revalidation/` | Visualizations (when generated) |
+| `0_results/runs/S7_run_012_YYYYMMDD_HHMMSS.json` | Complete results |
+| `0_visualizations/pics/12_revalidation/` | Visualizations (when generated) |
 
 ### JSON Structure
 
@@ -198,10 +198,10 @@ py -3.12 run012_armada_revalidation.py --ships "claude-sonnet-4,gpt-4o,gemini-2.
 
 | File | Purpose |
 |------|---------|
-| `run008_with_keys.py` | Gold standard metric implementation |
-| `run009_drain_capture.py` | Event Horizon validation |
-| `run011_persona_comparison.py` | Persona architecture testing |
-| `run_laplace_analysis.py` | Lambda calculation |
+| `4_BASIN_TOPOLOGY/run008_with_keys.py` | Gold standard metric implementation |
+| `3_EVENT_HORIZON/run009_drain_capture.py` | Event Horizon validation |
+| `4_BASIN_TOPOLOGY/run011_persona_comparison.py` | Persona architecture testing |
+| `6_LAPLACE_ANALYSIS/run_laplace_analysis.py` | Lambda calculation |
 
 ---
 

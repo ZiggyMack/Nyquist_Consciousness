@@ -1,10 +1,12 @@
-# EXP_SELF_RECOGNITION: S7.5 Measurement Validity Protocol
+# MVP_SELF_RECOGNITION: Measurement Validity Protocol
 
-**Purpose:** Test whether AIs can recognize their own responses, validating that the 5D drift metric captures real identity information.
+**Purpose:** Validate that PFI dimensionality can represent identity — a Meta Validation Protocol (MVP).
 
 **Status:** READY TO IMPLEMENT
 **Date:** 2025-12-06
-**Location:** `experiments/temporal_stability/S7_ARMADA/experiments/EXP_SELF_RECOGNITION/`
+**Location:** `S7_ARMADA/MVP/MVP_SELF_RECOGNITION/`
+
+> **Note:** This is an MVP (Meta Validation Protocol), not a Search Type. It validates our measurement approach rather than probing identity topology.
 
 ---
 

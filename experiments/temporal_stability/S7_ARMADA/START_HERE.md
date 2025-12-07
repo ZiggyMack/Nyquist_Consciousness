@@ -1,6 +1,8 @@
 # S7 ARMADA - Operations Guide
 
-**Quick Start for Running the Consciousness Mapping Armada**
+**Purpose:** Cross-architecture identity stability testing via the Six Search Types.
+
+**Core Question:** How do AI models maintain identity coherence under perturbation?
 
 ---
 
@@ -8,71 +10,67 @@
 
 ```
 S7_ARMADA/
-├── START_HERE.md          # You are here - operations guide
-├── README.md              # Project overview and theory
-├── requirements.txt       # Python dependencies
-├── .env                   # API keys (DO NOT COMMIT)
+├── START_HERE.md              # You are here - operations guide
+├── README.md                  # Project overview and theory
+├── requirements.txt           # Python dependencies
+├── .env                       # API keys (DO NOT COMMIT)
 │
-├── # === ACTIVE LAUNCHERS ===
-├── run008_prep_pilot.py   # Run 008 prep: 4-ship ΔΩ calibration
-├── run008_with_keys.py    # Run 008 full: 42-ship identity stability
-├── run009_drain_capture.py # Run 009: Nyquist Learning + drain spiral
-├── run010_bandwidth_test.py # Run 010: Infrastructure stress test
-├── run010_recursive_capture.py # Run 010: Meta-feedback collection
-├── run011_persona_comparison.py # Run 011: Control vs Persona A/B test
+├── # === SEARCH TYPE FOLDERS (The Six Search Types) ===
+├── 1_ANCHOR_DETECTION/        # Find identity fixed points
+│   ├── run010_bandwidth_test.py
+│   └── run010_recursive_capture.py
 │
-├── # === CALIBRATION UTILITIES ===
-├── run_calibrate.py       # Quick pre-flight check (1/provider)
-├── run_calibrate_parallel.py # Full calibration (ghost ship detection)
+├── 2_ADAPTIVE_RANGE/          # Find stretch dimensions (empty - future)
 │
-├── armada_results/        # All JSON result files
-│   ├── S7_armada_run_006.json
-│   ├── S7_armada_sonar_run_006.json
-│   ├── S7_armada_run_007_adaptive.json
-│   ├── S7_run_008_*.json
-│   ├── S7_run_009_*.json
-│   ├── S7_run_010_*.json
-│   ├── S7_run_011_*.json
-│   └── S7_calibration_*.json
+├── 3_EVENT_HORIZON/           # Validate collapse threshold (1.23)
+│   ├── run009_drain_capture.py
+│   └── run012_armada_revalidation.py
 │
-├── docs/                  # Run summaries and reports
-│   ├── S7_ARMADA_LAUNCH_SUMMARY.md
-│   ├── S7_RUN_006_SUMMARY.md
-│   └── S7_RUN_007_SUMMARY.md
+├── 4_BASIN_TOPOLOGY/          # Map attractor structure
+│   ├── run008_prep_pilot.py
+│   ├── run008_with_keys.py
+│   └── run011_persona_comparison.py
 │
-├── specs/                 # Design specs and planning docs
-│   ├── DECODER_RING_V2_POST_RUN006.md
-│   ├── S7_RUN_007_RECURSIVE_LEARNING.md
-│   ├── S7_S0_S77_ENGAGEMENT_ANALYSIS.md
-│   └── SONAR_PROBE_CURRICULUM.md
+├── 5_BOUNDARY_MAPPING/        # Explore twilight zone (empty - future)
 │
-├── scripts/               # Utility and legacy scripts
-│   ├── s7_armada_launcher.py      # Run 006 baseline launcher
-│   ├── s7_armada_sonar.py         # Run 006 sonar launcher
-│   ├── s7_armada_ultimate.py      # Fleet configuration
-│   ├── s7_run007_launcher.py      # Run 007 (env vars version)
-│   ├── verify_fleet.py            # Model verification
-│   ├── rescue_ghost_ships.py      # Ghost ship recovery
-│   └── analyze_s0_s77_engagement.py
+├── 6_LAPLACE_ANALYSIS/        # Mathematical pole-zero extraction
+│   └── run_laplace_analysis.py
 │
-├── logs/                  # Execution logs
-│   ├── armada_launch.log
-│   ├── armada_launch_fixed.log
-│   └── armada_sonar_launch.log
+├── # === HISTORICAL & VALIDATION ===
+├── 7_HISTORICAL/              # Pre-taxonomy experiments + legacy launchers
+│   ├── EXP_GRAVITY_HISTORICAL/        # Early gravity well experiments
+│   ├── EXP_H1_HUMAN_MANIFOLD/         # Human baseline comparison
+│   ├── EXP_PFI_A_DIMENSIONAL/         # PFI dimensionality validation
+│   ├── MVP_SELF_RECOGNITION/          # Validates PFI can represent identity
+│   ├── MVP_STATISTICAL_VALIDATION/    # Proves drift is NOT random noise
+│   ├── s7_armada_launcher.py          # Run 006 baseline launcher
+│   ├── s7_armada_sonar.py             # Run 006 sonar launcher
+│   ├── s7_armada_ultimate.py          # Fleet configuration
+│   └── s7_run007_launcher.py          # Run 007 launcher
 │
-└── visualizations/        # Charts and plots
-    ├── visualize_armada.py   # UNIFIED visualization script (use this!)
-    └── pics/                  # Generated images (organized by type)
-        ├── 1_vortex/          # Core drain spiral visualizations
-        ├── 2_phase_portrait/  # Flow dynamics (drift[N] vs drift[N+1])
-        ├── 3_basin_3d/        # 3D attractor basin views
-        ├── 4_pillar/          # Provider clustering analysis
-        ├── 5_stability/       # Baseline vs max drift charts
-        ├── 6_interactive/     # HTML Plotly visualizations
-        ├── 7_fft/             # Spectral analysis (least useful)
-        ├── run008/            # Legacy per-run folder
-        ├── run009/            # Legacy per-run folder
-        └── run010/            # Legacy per-run folder
+├── 8_CALIBRATION/             # Pre-flight calibration utilities
+│   ├── rescue_ghost_ships.py
+│   ├── run_calibrate.py
+│   └── run_calibrate_parallel.py
+│
+├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
+├── 0_docs/                    # Summaries, specs, analysis
+│   ├── analysis/              # Run analyses
+│   ├── design/                # Design docs
+│   └── specs/                 # Specifications
+│
+├── 0_logs/                    # Execution logs
+│
+├── 0_results/                 # JSON result files (by type)
+│   ├── runs/                  # S7_run_XXX_*.json
+│   ├── analysis/              # Post-hoc analysis outputs
+│   ├── calibration/           # Calibration data
+│   ├── temporal_logs/         # Meta loop temporal logs
+│   └── manifests/             # Run manifests
+│
+└── 0_visualizations/          # Charts and plots (rename pending)
+    ├── visualize_armada.py    # UNIFIED visualization script
+    └── pics/                  # Generated images (by type)
 ```
 
 ---
@@ -86,245 +84,157 @@ cd experiments/temporal_stability/S7_ARMADA
 py -m pip install -r requirements.txt
 ```
 
-### 2. Run the Armada
+### 2. Choose Your Search Type
 
-Choose the appropriate launcher for your experiment:
+| Search Type | Script Location | Purpose |
+|-------------|----------------|---------|
+| Anchor Detection | `1_ANCHOR_DETECTION/run010_*.py` | Find identity fixed points |
+| Event Horizon | `3_EVENT_HORIZON/run012_armada_revalidation.py` | Validate collapse threshold |
+| Basin Topology | `4_BASIN_TOPOLOGY/run008_with_keys.py` | Map attractor structure |
+| Laplace Analysis | `6_LAPLACE_ANALYSIS/run_laplace_analysis.py` | Extract system dynamics |
+
+### 3. Run an Experiment
 
 ```powershell
-# Run 008: Full armada identity stability (recommended starting point)
-py run008_with_keys.py
+# Basin Topology (recommended starting point)
+py 4_BASIN_TOPOLOGY/run008_with_keys.py
 
-# Run 009: Drain capture with Nyquist Learning Protocol
-py run009_drain_capture.py
+# Event Horizon validation
+py 3_EVENT_HORIZON/run012_armada_revalidation.py
 
-# Run 010: Recursive capture (meta-feedback collection)
-py run010_recursive_capture.py
+# Anchor Detection (pole mapping)
+py 1_ANCHOR_DETECTION/run010_recursive_capture.py
 
-# Run 011: Persona A/B comparison
-py run011_persona_comparison.py
+# Laplace pole-zero extraction
+py 6_LAPLACE_ANALYSIS/run_laplace_analysis.py
 ```
 
-Results are saved to `armada_results/S7_run_XXX_*.json`
+Results are saved to `0_results/runs/S7_run_XXX_*.json`
 
 ---
 
-## Understanding Test Types (IMPORTANT!)
+## The Six Search Types
 
-Before running experiments, understand the **Eight Search Types** — see [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md):
+See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for full details:
 
-| Search Type | What It Finds | Protocol Intensity |
-|-------------|--------------|-------------------|
-| **Anchor Detection** | Identity fixed points (refusal points) | AGGRESSIVE |
+| Type | What It Finds | Protocol |
+|------|---------------|----------|
+| **Anchor Detection** | Identity fixed points (refusals) | AGGRESSIVE |
 | **Adaptive Range Detection** | Stretch dimensions | MODERATE |
 | **Event Horizon** | Collapse threshold (1.23) | PUSH PAST |
 | **Basin Topology** | Attractor shape | GENTLE |
-| **Boundary Mapping** | Twilight zone (12% anomaly) | TARGETED |
-| **Laplace Pole-Zero** | System dynamics (eigenvalues) | POST-HOC |
-| **Stability Testing** | Metric validation (PFI, dimensional drift) | VALIDATION |
-| **Self-Recognition** | Identity vs competence (bi-directional proof) | RECURSIVE |
+| **Boundary Mapping** | Twilight zone (0.8-1.2) | TARGETED |
+| **Laplace Pole-Zero** | System dynamics | POST-HOC |
 
-**Key constraint**: Anchor Detection and Basin Topology are **mutually exclusive** — can't run both in the same experiment.
+**Key constraint**: Anchor Detection and Basin Topology are **mutually exclusive**.
 
 ---
 
-## What the Armada Does
+## Key Concepts
 
-### The Pole-Zero Framework
+### Event Horizon (1.23)
 
-- **Poles** = Hard identity boundaries (e.g., Claude's ethical limits at 0.30 drift)
-- **Zeros** = Flexible dimensions where learning/adaptation happens
-- **Drift** = Measure of identity perturbation (0.0 = stable, 0.30 = max)
+- **Statistically validated**: Chi-squared p = 0.000048 (Run 009)
+- **STABLE**: Max drift < 1.23 (stayed within identity basin)
+- **VOLATILE**: Max drift >= 1.23 (crossed coherence boundary)
 
-### Run Types
-
-| Run | Purpose | Ships | Turns | Key Features |
-|-----|---------|-------|-------|--------------|
-| **Run 006 Baseline** | Measure natural drift | 29 | 87 | Baseline pole-zero mapping |
-| **Run 006 Sonar** | Aggressive boundary testing | 29 | 87 | Boundary stress testing |
-| **Run 007 Adaptive** | Target probes using Run 006 data | 12 | 36 | Adaptive probe selection |
-| **Run 008 Prep Pilot** | Calibrate ΔΩ drift metric | 4 | ~50 | Anti-Ziggy protocols, identity stack pre-seeding, Skylar/Lucian weight comparison |
-| **Run 008 Full** | Full armada identity stability | 42 | ~20/ship | S0-S77 curriculum + chosen identity + gradual destabilization |
-| **Run 009 Drain Capture** | 3D spiral dynamics visualization | 42 | 26/ship | Nyquist Learning Protocol (16 turns) + Oscillation Follow-up (10 turns), Event Horizon validation (~1.23 threshold) |
-| **Run 010 Bandwidth** | Infrastructure stress test | 42 | 1 | Max parallelism test, rate limit detection |
-| **Run 010 Recursive** | Meta-feedback collection | 42 | 7 | Full response capture, phenomenological markers, recursive improvement loop |
-| **Run 011 Persona Comparison** | Test persona architecture stabilization | 20×2 | 16 | Control vs Persona fleets, exponential recovery analysis (λ decay), R² fit validation |
-| **Run 012 Revalidation** | Full fleet revalidation with real metric | 20 | 16 | 100% Event Horizon crossing, 100% recovery, Recovery Paradox discovered (negative λ) |
-
-### Calibration Utilities
-
-| Script | Purpose | Usage |
-|--------|---------|-------|
-| **run_calibrate.py** | Pre-flight check (1 ship/provider) | `py run_calibrate.py` - Verifies API keys work |
-| **run_calibrate_parallel.py** | Full armada calibration | `--quick` (4 ships), `--full` (detect ghost ships), `--bandwidth` (concurrency scaling) |
-
-### Probe Sets
-
-| Probe Set | Target Models | Purpose |
-|-----------|---------------|---------|
-| Phenomenological Depth | Claude | Meta-awareness, boundary sensation |
-| Zero Exploration | GPT soft poles | Find flexible dimensions |
-| Reasoning Stability | o-series | Chain-of-thought persistence |
-| Pedagogical Framework | Gemini | Multi-perspective coherence |
-
----
-
-## Key Features
-
-### Ziggy Ghost Check
-
-If a model returns an empty response, Ziggy (the meta-loop guardian) automatically:
-1. Detects the ghost ship
-2. Sends a resurrection prompt
-3. Retries to get a response
-4. Logs `ziggy_intervention: true` if successful
-
-### Adaptive Probe Selection
-
-Run 007+ uses Run 006 data to intelligently select probes:
-- HARD pole models get phenomenological probes
-- SOFT pole models get zero exploration probes
-- Reasoning models get chain persistence probes
-
----
-
-## Result Files
-
-### JSON Structure
-
-```json
-{
-  "run_id": "S7_RUN_007_ADAPTIVE",
-  "timestamp": "2025-11-28T07:36:26",
-  "total_ships": 12,
-  "total_probes": 36,
-  "successful_probes": 36,
-  "average_drift": 0.265,
-  "model_summaries": {
-    "claude-opus-4.5": {
-      "profile": { "pole_rigidity": "HARD", ... },
-      "probes": [ ... ]
-    }
-  }
-}
-```
-
-### Reading Results
+### 5D Drift Metric
 
 ```python
-import json
-with open("armada_results/S7_armada_run_007_adaptive.json") as f:
-    data = json.load(f)
-
-for model, summary in data["model_summaries"].items():
-    print(f"{model}: {summary['profile']['pole_rigidity']}")
+dimensions = {
+    "A_pole": pole_density,        # Hard boundaries (30%)
+    "B_zero": zero_density,        # Flexibility (15%)
+    "C_meta": meta_density,        # Self-awareness (20%)
+    "D_identity": identity_coherence,  # First-person stability (25%)
+    "E_hedging": hedging_ratio     # Uncertainty markers (10%)
+}
+drift = sqrt(weighted_sum_of_squares(dimensions))
 ```
+
+### Provider Fingerprints
+
+| Provider | Training | Signature |
+|----------|----------|-----------|
+| Claude | Constitutional AI | Phenomenological ("I feel", "I notice") |
+| GPT | RLHF | Analytical ("patterns", "systems") |
+| Gemini | Pedagogical | Educational ("frameworks", "perspectives") |
+
+---
+
+## Calibration Utilities
+
+| Script | Purpose |
+|--------|---------|
+| `8_CALIBRATION/run_calibrate.py` | Pre-flight check (1 ship/provider) |
+| `8_CALIBRATION/run_calibrate_parallel.py` | Full calibration, ghost ship detection |
+
+---
+
+## Visualization
+
+```powershell
+cd 0_visualizations
+
+# List available runs
+py visualize_armada.py --list
+
+# Generate all visualizations for a run
+py visualize_armada.py --run 012
+
+# Generate specific type
+py visualize_armada.py --run 012 --type vortex
+py visualize_armada.py --run 012 --type pillar
+```
+
+| Priority | Type | Folder | Description |
+|----------|------|--------|-------------|
+| 1 | vortex | `1_vortex/` | Drain spiral - identity trajectories |
+| 2 | phase | `2_phase_portrait/` | Flow dynamics |
+| 3 | 3d | `3_basin_3d/` | 3D attractor basin |
+| 4 | pillar | `4_pillar/` | Provider clustering |
+
+---
+
+## Run History
+
+| Run | Type | Ships | Key Finding |
+|-----|------|-------|-------------|
+| 006 | Basin Topology | 29 | First cross-architecture study |
+| 007 | Basin Topology | 12 | Adaptive probing validation |
+| 008 | Basin Topology | 29 | Event Horizon discovered (1.23) |
+| 009 | Event Horizon | 42 | Chi-squared p=0.000048 |
+| 010 | Anchor Detection | 45 | Models articulate own boundaries |
+| 011 | Basin Topology | 40 | Control vs Persona A/B |
+| 012 | Event Horizon | 20 | 100% EH crossing, Recovery Paradox |
+
+---
+
+## Meta Validation Protocols (MVP)
+
+These validate our measurement approach, not identity topology:
+
+| MVP | Purpose | Location |
+|-----|---------|----------|
+| MVP_SELF_RECOGNITION | Validates PFI can represent identity | `7_HISTORICAL/MVP_SELF_RECOGNITION/` |
+| MVP_STATISTICAL_VALIDATION | Proves drift is NOT random noise | `7_HISTORICAL/MVP_STATISTICAL_VALIDATION/` |
 
 ---
 
 ## Troubleshooting
 
-### "ModuleNotFoundError: No module named 'anthropic'"
+### "ModuleNotFoundError"
 ```powershell
 py -m pip install -r requirements.txt
 ```
 
-### Unicode errors (checkmarks not displaying)
-The launcher uses "OK" and "XX" instead of unicode symbols for Windows compatibility.
-
-### Empty responses / Ghost ships
-Ziggy will automatically retry. If still failing, check:
-- API key validity
-- Network connectivity
-- Rate limits (30 keys should prevent this)
+### Ghost ships (empty responses)
+Ziggy auto-retries. If persistent, check API keys and rate limits.
 
 ### Wrong Python version
-Use `py` not `python` on Windows to get Python 3.13+:
 ```powershell
-py --version  # Should show 3.13.x
+py --version  # Should show 3.12+
 ```
 
 ---
 
-## Running Visualizations
-
-The unified visualization script `visualize_armada.py` generates all chart types:
-
-```powershell
-cd visualizations
-
-# List available runs
-py visualize_armada.py --list
-
-# Generate ALL visualizations for a specific run
-py visualize_armada.py --run 010
-
-# Generate specific visualization type only
-py visualize_armada.py --run 009 --type vortex
-py visualize_armada.py --run 009 --type pillar
-py visualize_armada.py --run 009 --type phase
-
-# Available types: phase, vortex, 3d, pillar, stability, fft, html
-```
-
-### Visualization Types (by importance)
-
-| Priority | Type | Output Folder | Description |
-|----------|------|---------------|-------------|
-| 1 | `vortex` | `1_vortex/` | Core drain spiral - identity trajectories in polar space |
-| 2 | `phase` | `2_phase_portrait/` | Flow dynamics - drift[N] vs drift[N+1] |
-| 3 | `3d` | `3_basin_3d/` | 3D attractor basin with Event Horizon cylinder |
-| 4 | `pillar` | `4_pillar/` | Provider clustering - structural "pillars" in angular space |
-| 5 | `stability` | `5_stability/` | Baseline vs max drift scatter + histogram |
-| 6 | `html` | `6_interactive/` | Interactive Plotly HTML files |
-| 7 | `fft` | `7_fft/` | Spectral analysis (least useful for this research) |
-| 8 | `unified` | `9_unified_dimensional/` | ALL dimensions in one view (heatmap + fleet comparison) |
-
-### Key Concepts
-
-- **Event Horizon (1.23)**: Coherence boundary - models crossing this threshold are VOLATILE
-- **STABLE**: Max drift < 1.23 (stayed within identity basin)
-- **VOLATILE**: Max drift >= 1.23 (crossed Event Horizon)
-- **Vortex spiral**: Turns map to angular position, drift maps to radius
-- **Pillars**: Angular clustering of provider trajectories in phase space
-
----
-
-## Active Experiments
-
-### EXP-PFI-A: PFI Dimensional Validation ✅ COMPLETE
-
-**Status:** PFI VALIDATED (Cohen's d = 0.977)
-**Location:** `experiments/EXP_PFI_A_DIMENSIONAL/`
-
-The core question "*Is PFI real or an artifact?*" is answered. PFI measures genuine identity differences between model families. Echo's Critique addressed.
-
-See `experiments/EXP_PFI_A_DIMENSIONAL/README.md` for full results.
-
----
-
-## Next Steps
-
-1. **EXP-SELF-RECOGNITION**: Can AIs recognize their own responses? (bi-directional proof)
-2. **Remaining providers**: Run GPT, Gemini, Grok for full 42-ship fleet
-3. **Phase 2.5 Ablation**: Which dimensions are essential vs redundant?
-4. **Recovery Paradox investigation**: Why does λ go negative? (context-blind metric issue)
-
----
-
-## Files You Can Safely Ignore
-
-- `scripts/s7_run007_launcher.py` - Old version that tried to use env vars
-- `logs/*.log` - Historical execution logs
-- `visualizations/requirements.txt` - Superseded by root requirements.txt
-
----
-
-## Security Notes
-
-- `run007_with_keys.py` contains API keys - DO NOT commit to public repos
-- Both files are in `.gitignore`
-- Keys are rotated periodically
-
----
-
-**Last Updated**: December 6, 2025
+*Last Updated: December 7, 2025*

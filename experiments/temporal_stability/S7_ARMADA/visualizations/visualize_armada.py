@@ -50,7 +50,7 @@ except ImportError:
 # PATHS
 # =============================================================================
 BASE_DIR = Path(__file__).resolve().parent.parent
-RESULTS_DIR = BASE_DIR / "results" / "runs"
+RESULTS_DIR = BASE_DIR / "0_results" / "runs"
 OUTPUT_DIR = Path(__file__).resolve().parent / "pics"
 
 # Provider colors (4 providers now)
@@ -1671,7 +1671,7 @@ def main():
 
     if data_file is None:
         print("ERROR: No run data found!")
-        print("  Run `python run008_with_keys.py` or `python run009_drain_capture.py` first.")
+        print("  Run `python 4_BASIN_TOPOLOGY/run008_with_keys.py` or `python 3_EVENT_HORIZON/run009_drain_capture.py` first.")
         return
 
     print("=" * 70)
