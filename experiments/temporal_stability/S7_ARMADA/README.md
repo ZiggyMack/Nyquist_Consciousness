@@ -23,18 +23,17 @@ Date: November 26, 2025 - Present | Status: Run 012 Complete | Active Developmen
 
 ### Testing Taxonomy (IMPORTANT!)
 
-See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Six Search Types**:
+See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Five Search Types**:
 
-1. **Anchor Detection** — Find identity fixed points (hard challenges)
-2. **Adaptive Range Detection** — Find stretch dimensions (moderate pressure)
-3. **Event Horizon** — Validate collapse threshold (push past 1.23)
-4. **Basin Topology** — Map attractor structure (gentle graduated)
-5. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
-6. **Laplace Pole-Zero Analysis** — Extract system dynamics from time-series (post-hoc)
+1. **Anchor/Flex** — Find identity anchors AND flex zones (same protocol captures both)
+2. **Event Horizon** — Validate collapse threshold (push past 1.23)
+3. **Basin Topology** — Map attractor structure (gentle graduated)
+4. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
+5. **Laplace Pole-Zero Analysis** — Extract system dynamics from time-series (post-hoc)
 
-> **Terminology Note:** "Anchor/Adaptive Range" are *behavioral* concepts. "Laplace Pole-Zero" uses actual Laplace transform math. Lucian (CFA-SYNC) uses "elastic vs plastic" for similar phenomena.
+> **Terminology Note:** "Anchor/Flex" captures behavioral pole-zero concepts. "Laplace Pole-Zero" uses actual Laplace transform math. Lucian (CFA-SYNC) uses "elastic vs plastic" for similar phenomena.
 
-**Key constraint**: Not all tests can run together. Anchor Detection and Basin Topology are **mutually exclusive**.
+**Key constraint**: Not all tests can run together. Anchor/Flex and Basin Topology are **mutually exclusive**.
 
 **Visualization**: Use `0_visualizations/visualize_armada.py` for all charts.
 
@@ -49,9 +48,14 @@ S7_ARMADA/
 ├── requirements.txt           # Python dependencies
 ├── .env                       # API keys (DO NOT COMMIT)
 │
+├── # === PRE-FLIGHT ===
+├── 1_CALIBRATION/             # Pre-flight calibration utilities
+│   ├── rescue_ghost_ships.py
+│   ├── run_calibrate.py
+│   └── run_calibrate_parallel.py
+│
 ├── # === SEARCH TYPE FOLDERS (experiments organized by taxonomy) ===
-├── 1_ANCHOR_DETECTION/        # Find identity fixed points
-├── 2_ADAPTIVE_RANGE/          # Find stretch dimensions
+├── 2_ANCHOR_FLEX/             # Find anchors (poles) AND flex zones (zeros)
 ├── 3_EVENT_HORIZON/           # Validate collapse threshold (1.23)
 ├── 4_BASIN_TOPOLOGY/          # Map attractor structure
 ├── 5_BOUNDARY_MAPPING/        # Explore twilight zone (0.8-1.2)
@@ -64,11 +68,6 @@ S7_ARMADA/
 │   ├── EXP_PFI_A_DIMENSIONAL/         # PFI dimensionality analysis
 │   ├── MVP_SELF_RECOGNITION/          # Validates PFI can represent identity
 │   └── MVP_STATISTICAL_VALIDATION/    # Proves drift is NOT random noise
-│
-├── 8_CALIBRATION/             # Pre-flight calibration utilities
-│   ├── rescue_ghost_ships.py
-│   ├── run_calibrate.py
-│   └── run_calibrate_parallel.py
 │
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
 ├── 0_docs/                    # Summaries, specs, analysis
@@ -469,7 +468,7 @@ py visualize_armada.py --run 009 --type pillar
 | 007 | Nov 28 | 12 | Basin Topology | Adaptive probing validation |
 | 008 | Dec 1 | 29 | Basin Topology | Event Horizon discovered (1.23) |
 | 009 | Dec 2 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
-| 010 | Dec 3 | 45 | Pole Detection | Models articulate own boundaries |
+| 010 | Dec 3 | 45 | Anchor/Flex | Models articulate own boundaries |
 | 011 | Dec 3 | 40 | Basin Topology | Control vs Persona A/B (inconclusive - protocol too gentle) |
 | **012** | Dec 6 | 20 | **Revalidation** | **100% EH crossing, 100% recovery, Recovery Paradox discovered** |
 

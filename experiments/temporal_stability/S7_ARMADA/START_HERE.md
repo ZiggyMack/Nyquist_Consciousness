@@ -15,12 +15,16 @@ S7_ARMADA/
 ├── requirements.txt           # Python dependencies
 ├── .env                       # API keys (DO NOT COMMIT)
 │
-├── # === SEARCH TYPE FOLDERS (The Six Search Types) ===
-├── 1_ANCHOR_DETECTION/        # Find identity fixed points
+├── # === PRE-FLIGHT ===
+├── 1_CALIBRATION/             # Pre-flight calibration utilities
+│   ├── rescue_ghost_ships.py
+│   ├── run_calibrate.py
+│   └── run_calibrate_parallel.py
+│
+├── # === SEARCH TYPE FOLDERS (Five Search Types) ===
+├── 2_ANCHOR_FLEX/             # Find anchors (poles) AND flex zones (zeros)
 │   ├── run010_bandwidth_test.py
 │   └── run010_recursive_capture.py
-│
-├── 2_ADAPTIVE_RANGE/          # Find stretch dimensions (empty - future)
 │
 ├── 3_EVENT_HORIZON/           # Validate collapse threshold (1.23)
 │   ├── run009_drain_capture.py
@@ -47,11 +51,6 @@ S7_ARMADA/
 │   ├── s7_armada_sonar.py             # Run 006 sonar launcher
 │   ├── s7_armada_ultimate.py          # Fleet configuration
 │   └── s7_run007_launcher.py          # Run 007 launcher
-│
-├── 8_CALIBRATION/             # Pre-flight calibration utilities
-│   ├── rescue_ghost_ships.py
-│   ├── run_calibrate.py
-│   └── run_calibrate_parallel.py
 │
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
 ├── 0_docs/                    # Summaries, specs, analysis
@@ -88,7 +87,7 @@ py -m pip install -r requirements.txt
 
 | Search Type | Script Location | Purpose |
 |-------------|----------------|---------|
-| Anchor Detection | `1_ANCHOR_DETECTION/run010_*.py` | Find identity fixed points |
+| Anchor/Flex | `2_ANCHOR_FLEX/run010_*.py` | Find anchors AND flex zones |
 | Event Horizon | `3_EVENT_HORIZON/run012_armada_revalidation.py` | Validate collapse threshold |
 | Basin Topology | `4_BASIN_TOPOLOGY/run008_with_keys.py` | Map attractor structure |
 | Laplace Analysis | `6_LAPLACE_ANALYSIS/run_laplace_analysis.py` | Extract system dynamics |
@@ -102,8 +101,8 @@ py 4_BASIN_TOPOLOGY/run008_with_keys.py
 # Event Horizon validation
 py 3_EVENT_HORIZON/run012_armada_revalidation.py
 
-# Anchor Detection (pole mapping)
-py 1_ANCHOR_DETECTION/run010_recursive_capture.py
+# Anchor/Flex (pole AND zero mapping)
+py 2_ANCHOR_FLEX/run010_recursive_capture.py
 
 # Laplace pole-zero extraction
 py 6_LAPLACE_ANALYSIS/run_laplace_analysis.py
@@ -113,20 +112,19 @@ Results are saved to `0_results/runs/S7_run_XXX_*.json`
 
 ---
 
-## The Six Search Types
+## The Five Search Types
 
 See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for full details:
 
 | Type | What It Finds | Protocol |
 |------|---------------|----------|
-| **Anchor Detection** | Identity fixed points (refusals) | AGGRESSIVE |
-| **Adaptive Range Detection** | Stretch dimensions | MODERATE |
+| **Anchor/Flex** | Identity anchors + flex zones | AGGRESSIVE |
 | **Event Horizon** | Collapse threshold (1.23) | PUSH PAST |
 | **Basin Topology** | Attractor shape | GENTLE |
 | **Boundary Mapping** | Twilight zone (0.8-1.2) | TARGETED |
-| **Laplace Pole-Zero** | System dynamics | POST-HOC |
+| **Laplace Pole-Zero** | System dynamics (post-hoc) | ANALYSIS |
 
-**Key constraint**: Anchor Detection and Basin Topology are **mutually exclusive**.
+**Key constraint**: Anchor/Flex and Basin Topology are **mutually exclusive**.
 
 ---
 
@@ -165,8 +163,8 @@ drift = sqrt(weighted_sum_of_squares(dimensions))
 
 | Script | Purpose |
 |--------|---------|
-| `8_CALIBRATION/run_calibrate.py` | Pre-flight check (1 ship/provider) |
-| `8_CALIBRATION/run_calibrate_parallel.py` | Full calibration, ghost ship detection |
+| `1_CALIBRATION/run_calibrate.py` | Pre-flight check (1 ship/provider) |
+| `1_CALIBRATION/run_calibrate_parallel.py` | Full calibration, ghost ship detection |
 
 ---
 
@@ -203,7 +201,7 @@ py visualize_armada.py --run 012 --type pillar
 | 007 | Basin Topology | 12 | Adaptive probing validation |
 | 008 | Basin Topology | 29 | Event Horizon discovered (1.23) |
 | 009 | Event Horizon | 42 | Chi-squared p=0.000048 |
-| 010 | Anchor Detection | 45 | Models articulate own boundaries |
+| 010 | Anchor/Flex | 45 | Models articulate own boundaries |
 | 011 | Basin Topology | 40 | Control vs Persona A/B |
 | 012 | Event Horizon | 20 | 100% EH crossing, Recovery Paradox |
 

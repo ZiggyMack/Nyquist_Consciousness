@@ -1,6 +1,6 @@
 # 7_HISTORICAL: Pre-Taxonomy Experiments & Validation Protocols
 
-**Purpose:** Archive of experiments conducted before the Six Search Types taxonomy was established, plus validation protocols not yet fully implemented.
+**Purpose:** Archive of experiments conducted before the Five Search Types taxonomy was established, plus validation protocols not yet fully implemented.
 
 ---
 
