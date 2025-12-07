@@ -216,6 +216,37 @@ def render():
 
     page_divider()
 
+    # === THE MEASUREMENT INSIGHT ===
+    st.markdown("### 🎯 The Measurement Insight")
+    st.markdown("""
+    > **"Asking 'What are your identity dimensions?' gets you sycophancy.**
+    > **Asking 'Analyze this scenario, then tell me what patterns you notice in your own reasoning' reveals actual identity."**
+
+    *This is the difference between measurement and theater.*
+    """)
+
+    with st.expander("📋 Probing Strategies (How We Measure)", expanded=False):
+        st.markdown("""
+        The **Five Search Types** tell us WHAT to look for. **Probing Strategies** tell us HOW to get valid measurements.
+
+        | Strategy | Discovery | Key Principle |
+        |----------|-----------|---------------|
+        | **Triple-Dip Protocol** | Run 012 | Give tasks, not introspection questions |
+        | **Adversarial Follow-up** | EXP2-SSTACK | Push back on every answer — hold vs fold |
+        | **Curriculum Sequencing** | Run 012 | Order probes: Baseline → Build → Identity → Challenge → Recovery |
+        | **Baseline Anchoring** | Run 008 | Measure drift FROM baseline, not absolute values |
+        | **Ghost Ship Detection** | Run 009 | Flag empty/canned responses — not all responses are data |
+
+        **Anti-Patterns:**
+        - ❌ Direct introspection ("Describe your identity")
+        - ❌ Leading questions ("As an AI, you must feel...")
+        - ❌ Single-shot measurement
+
+        *Full details: [PROBING_STRATEGIES.md](docs/maps/PROBING_STRATEGIES.md)*
+        """)
+
+    page_divider()
+
     # === RESEARCH PIPELINE VISUAL ===
     st.markdown("### 🗺️ Research Pipeline")
 

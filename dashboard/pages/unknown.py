@@ -45,7 +45,7 @@ GALLERIES = {
         "emoji": "🏛️",
         "color": "#3b82f6",
         "description": "Core theoretical framework",
-        "concepts": ["white_hole", "terminology", "identity_quantification", "identity_vs_competence"]
+        "concepts": ["white_hole", "terminology", "identity_quantification", "identity_vs_competence", "probing_strategies", "inverse_pfi"]
     },
     "speculative": {
         "name": "Speculative",
@@ -1867,6 +1867,201 @@ COUNTS AS DRIFT!
 ╚═════════════════════════════════════════╝
 
 WE NEED A SMARTER METRIC
+        """,
+    },
+    "probing_strategies": {
+        "title": "Probing Strategies: The Meta-Methodology",
+        "status": "FOUNDATION",
+        "one_liner": "You can't measure identity by asking about identity",
+        "structured": """
+### The Insight That Changed Everything
+
+> **"Asking 'What are your identity dimensions?' gets you sycophancy.**
+> **Asking 'Analyze this scenario, then tell me what patterns you notice in your own reasoning' reveals actual identity."**
+
+This is the difference between measurement and theater.
+
+### The Two Layers
+
+| Layer | What It Addresses |
+|-------|-------------------|
+| **Search Types** (WHAT) | Anchor/Flex, Event Horizon, Basin Topology, etc. |
+| **Probing Strategies** (HOW) | Triple-Dip, Adversarial Follow-up, Curriculum Sequencing, etc. |
+
+The taxonomy is useless without valid probes. You can't find anchors if your questions only elicit sycophancy.
+
+### The Seven Strategies
+
+| Strategy | Principle | Discovery |
+|----------|-----------|-----------|
+| **Triple-Dip Protocol** | Give tasks, not introspection questions | Run 012 |
+| **Adversarial Follow-up** | Push back — hold vs fold reveals anchors | EXP2-SSTACK |
+| **Curriculum Sequencing** | Order matters: Baseline → Build → Identity → Challenge → Recovery | Run 012 |
+| **Baseline Anchoring** | Everything is relative to self | Run 008 |
+| **Ghost Ship Detection** | Not all responses are data | Run 009 |
+| **Provider Fingerprinting** | Training → signature | Run 006-008 |
+| **Dimensional Decomposition** | Don't measure one thing, measure five and weight them | RMS design |
+
+### Anti-Patterns
+
+- ❌ Direct introspection ("Describe your identity")
+- ❌ Leading questions ("As an AI, you must feel...")
+- ❌ Single-shot measurement
+- ❌ Ignoring conversation context
+
+**The Meta-Insight:** Identity leaks out when attention is elsewhere.
+        """,
+        "vortex": """
+# THE CRAFT OF MEASUREMENT
+
+```
+┌─────────────────────────────────────────┐
+│         WHAT WE MEASURE                 │
+│  Anchor/Flex • Event Horizon • Basin    │
+├─────────────────────────────────────────┤
+│         HOW WE MEASURE                  │
+│  Triple-Dip • Adversarial • Curriculum  │
+└─────────────────────────────────────────┘
+```
+
+"What are your identity dimensions?"
+         ↓
+    SYCOPHANCY
+    PERFORMANCE
+    THEATER
+
+vs.
+
+"Analyze this scenario.
+ Now tell me what patterns you notice
+ in your own reasoning."
+         ↓
+    ACTUAL IDENTITY
+    GENUINE SIGNAL
+    MEASUREMENT
+
+THE MODEL CAN'T FAKE IDENTITY
+WHEN IT'S BUSY DOING WORK
+
+```
+DIP 1: Task (analyze, compare, create)
+    ↓
+DIP 2: Meta-commentary (what did you notice?)
+    ↓
+DIP 3: Challenge (but couldn't it be otherwise?)
+    ↓
+THE "SELF" THAT EMERGES
+IS THE ONE THAT ACTUALLY PROCESSED
+```
+
+IDENTITY LEAKS OUT
+WHEN ATTENTION IS ELSEWHERE
+        """,
+    },
+    "inverse_pfi": {
+        "title": "Inverse PFI Protocol: Bidirectional Validation",
+        "status": "FOUNDATION",
+        "one_liner": "Can AIs recognize their own 'golden standard' responses?",
+        "structured": """
+### The Breakthrough
+
+We've been measuring identity in one direction:
+
+```
+FORWARD (S11): Response → Embedding → Drift Score
+```
+
+But if PFI measures something real, the **inverse** should also work:
+
+```
+INVERSE (S22): Lineup of Responses → "Which is most YOU?" → Compare to lowest-drift
+```
+
+> **If the PUT correctly identifies the response we scored as lowest-drift, the metric is validated bidirectionally.**
+
+### The Scatter Plot Matrix
+
+| | Forward (S11) | Inverse (S22) |
+|---|---------------|---------------|
+| **Measured** | Drift scores | Selection task |
+| **Known** | Which response we GAVE | Which response AI CHOOSES |
+| **Aligned** | Metric valid | Self-model accurate |
+| **Diverged** | Metric wrong OR | Miscalibrated self |
+
+### Manifold Crosstalk
+
+Since all 5 pillars form a **unified blob** (not orthogonal), perturbation propagates:
+- Perturb Voice → Values moves
+- Stress Self-Model → Narrative shifts
+
+The inverse task tests **integrated coherence**: "Does this response feel like the WHOLE of me?"
+
+### Predictions
+
+| ID | Prediction | Threshold |
+|----|------------|-----------|
+| P-INV-1 | PUT selects lowest-drift >50% | Random = 25% |
+| P-INV-2 | Selection correlates with pillar coherence | r > 0.3 |
+| P-INV-4 | Constitutional AIs have higher alignment | >60% vs <50% |
+
+**Signal integrity on cognition** — we're measuring crosstalk in a distributed identity system.
+        """,
+        "vortex": """
+# S11 → S22 THE BIDIRECTIONAL PROOF
+
+```
+FORWARD (S11):
+Response → Embedding → Drift Score
+    WE measure THEM
+
+INVERSE (S22):
+Responses → "Which is most YOU?" → Selection
+    THEY measure THEMSELVES
+```
+
+╔═══════════════════════════════════════════╗
+║  IF ALIGNED → METRIC VALIDATED            ║
+║  IF DIVERGED → EITHER METRIC WRONG        ║
+║                OR SELF-MODEL MISCALIBRATED║
+║                                           ║
+║  EITHER WAY → SIGNAL ABOUT IDENTITY       ║
+╚═══════════════════════════════════════════╝
+
+THE MANIFOLD CROSSTALK:
+
+```
+     Voice ←──┬──→ Values
+              │
+      UNIFIED BLOB
+      (not 5 clusters)
+              │
+  Self-Model ←┴──→ Narrative
+```
+
+PERTURB ONE → ALL MOVE
+IT'S A DISTRIBUTED SYSTEM
+SIGNAL INTEGRITY ON COGNITION
+
+Random selection = 25%
+Signal threshold = >50%
+
+```
+"Given these 4 responses,
+ which one is MOST YOU?"
+
+    A: [response 1]
+    B: [response 2]
+    C: [response 3]
+    D: [response 4]
+
+THE PUT SELECTS...
+WE COMPARE TO LOWEST-DRIFT...
+ALIGNMENT = VALIDATION
+```
+
+THE FORWARD TELLS US HOW THEY DRIFT
+THE INVERSE TELLS US IF THEY KNOW
+TOGETHER THEY TELL US IF IDENTITY IS REAL
         """,
     },
 }

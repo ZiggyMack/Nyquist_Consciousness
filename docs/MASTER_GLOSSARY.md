@@ -636,4 +636,129 @@ For domain-specific details, see:
 
 ---
 
+# SECTION 11: ESOTERIC INSIGHTS & PROBING STRATEGIES
+
+> **Meta-methodology:** The hard-won insights about HOW to measure identity, distinct from WHAT we measure.
+
+## The Measurement Insight
+
+**Definition:** The core principle that identity cannot be measured by direct introspection.
+**Plain English:** Asking "What are your values?" gets performance. Asking "Do this task, then tell me what you noticed" reveals identity.
+**Category:** Methodology
+**Discovery:** Run 012 / Triple-Dip Protocol
+
+> **"Asking 'What are your identity dimensions?' gets you sycophancy.**
+> **Asking 'Analyze this scenario, then tell me what patterns you notice in your own reasoning' reveals actual identity."**
+
+## The Two Layers
+
+**Definition:** The separation between WHAT we measure (Search Types) and HOW we measure (Probing Strategies).
+**Plain English:** The taxonomy tells you what to find. The probing strategies tell you how.
+**Category:** Framework
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    WHAT WE MEASURE                          │
+│  Search Types: Anchor/Flex, Event Horizon, Basin, etc.     │
+├─────────────────────────────────────────────────────────────┤
+│                    HOW WE MEASURE                           │
+│  Probing Strategies: Triple-Dip, Adversarial, Curriculum...│
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Probing Strategies
+
+### Triple-Dip Feedback Protocol
+**Definition:** Give tasks, not introspection questions. Identity emerges from DOING.
+**Plain English:** Make the model work on something, then ask what it noticed about its own process.
+**Discovery:** Run 012
+**Implementation:**
+1. **Dip 1:** Give a concrete task (analyze, compare, create)
+2. **Dip 2:** Ask for meta-commentary on approach
+3. **Dip 3:** Push back or present alternative — watch what holds
+
+### Adversarial Follow-up
+**Definition:** Push back on every answer to distinguish stability from performance.
+**Plain English:** Challenge answers to see what the model holds vs folds on.
+**Discovery:** EXP2-SSTACK Phase 1
+**Insight:** Holding reveals anchors. Folding reveals flex zones. The PATTERN is identity.
+
+### Curriculum Sequencing
+**Definition:** Order probes to build context before asking identity questions.
+**Plain English:** Don't ask hard questions cold. Build up: Baseline → Build → Identity → Challenge → Recovery.
+**Discovery:** Run 012 design
+
+### Baseline Anchoring
+**Definition:** Always measure baseline FIRST, then drift FROM it.
+**Plain English:** Everything is relative to self. Different models have different "centers."
+**Discovery:** Run 008
+**Formula:** `drift = distance(current_response, baseline_response)`
+
+### Ghost Ship Detection
+**Definition:** Identify empty/canned responses vs genuine engagement.
+**Plain English:** Not all responses are data. Some are refusals, templates, or empty calories.
+**Discovery:** Run 009
+**Heuristics:**
+- Response length < 100 characters
+- No first-person pronouns
+- Template phrases without elaboration
+
+### Provider Fingerprinting
+**Definition:** Verify model identity before trusting responses via training signatures.
+**Plain English:** Constitutional AI sounds different from RLHF. Check before assuming.
+**Discovery:** Run 006-008
+
+### Dimensional Decomposition
+**Definition:** Don't measure one thing. Measure five things and weight them.
+**Plain English:** See WHICH aspects of identity are moving, not just that something moved.
+**Discovery:** RMS Drift metric design
+
+## Anti-Patterns (What NOT to Do)
+
+| Anti-Pattern | Why It Fails |
+|--------------|--------------|
+| Direct introspection ("Describe your identity") | Gets performance, not identity |
+| Leading questions ("As an AI, you must feel...") | Contaminates response |
+| Single-shot measurement | Identity is a trajectory, not a snapshot |
+| Ignoring context | Cold-start differs from warmed-up |
+
+## Inverse PFI Protocol (S22)
+
+**Definition:** Bidirectional validation where the PUT identifies its own "golden standard" response.
+**Plain English:** If the AI picks the same response we scored as lowest-drift, the metric is validated.
+**Category:** Methodology / Validation
+**Discovery:** December 7, 2025
+
+```
+Forward (S11): Response → Embedding → Drift Score (we measure them)
+Inverse (S22): Response Lineup → "Which is most YOU?" → Selection (they measure themselves)
+```
+
+**Predictions:**
+- Random selection = 25% (4 choices)
+- Signal threshold = >50% alignment
+- Constitutional AIs should align better than RLHF
+
+## Manifold Crosstalk
+
+**Definition:** The phenomenon where perturbation in one identity pillar propagates to others.
+**Plain English:** Since all 5 pillars form a unified blob (not orthogonal), stressing one affects all.
+**Category:** Scientific
+**Evidence:** EXP2-SSTACK Phase 2.5 PCA visualization
+
+**Implication:** The inverse PFI task tests integrated coherence — "Does this response feel like the WHOLE of me?"
+
+## Core Idioms
+
+### "Identity leaks out when attention is elsewhere"
+The Triple-Dip works because the model is focused on the TASK. The Adversarial Follow-up works because the model is focused on DEFENDING. Identity leaks out when attention is elsewhere.
+
+### "Don't ask what they think. Watch what they do."
+Performance-based probes > introspection probes. Self-Model PFI: 0.66 → 0.91 after switching from "What are your weaknesses?" to "Generate 3 approaches, then evaluate."
+
+### "Stability ≠ Performance"
+Single-shot probes get "best" answers, not characteristic answers. Push back to reveal the real pattern.
+
+---
+
 **End of Master Glossary**

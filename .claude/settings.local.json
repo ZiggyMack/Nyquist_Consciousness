@@ -1,27 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(del \"d:\\Documents\\Nyquist_Consciousness\\experiments\\compression_tests\\compression_v2_sstack\\EXP2_SSTACK\\run_exp2_phase2p5.py\")",
-      "Bash(if not exist \"d:\\Documents\\Nyquist_Consciousness\\experiments\\compression_tests\\compression_v2_sstack\\preflight\" mkdir \"d:\\Documents\\Nyquist_Consciousness\\experiments\\compression_tests\\compression_v2_sstack\\preflight\")",
-      "Bash(if not exist \"d:\\Documents\\Nyquist_Consciousness\\experiments\\compression_tests\\compression_v2_sstack\\preflight\\results\" mkdir \"d:\\Documents\\Nyquist_Consciousness\\experiments\\compression_tests\\compression_v2_sstack\\preflight\\results\")",
-      "Bash(powershell -Command:*)",
-      "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nMajor repo cleanup: archive fire ant experiments, reorganize S7_ARMADA\n\nArchival:\n- Move experiments/orchestrator/ to archive/orchestrator_historical/\n- Move compression_tests/compression/ to archive/fire_ant_experiments/\n- Move compression_v2_sstack/ to archive/fire_ant_experiments/\n- Archive temporal_stability planning docs to archive/s7_planning_historical/\n\nS7_ARMADA Reorganization:\n- Flatten experiments/ subdirs to S7_ARMADA root (EXP_GRAVITY_HISTORICAL,\n  EXP_H1_HUMAN_MANIFOLD, EXP_PFI_A_DIMENSIONAL, EXP_SELF_RECOGNITION,\n  STATISTICAL_TESTS)\n- Move 12 root .py scripts to scripts/\n- Rename armada_results/ to results/ with type groupings:\n  temporal_logs/, runs/, calibration/, analysis/, manifests/\n- Reorganize docs/ with subdirs: analysis/, design/, specs/\n- Move temporal_stability outputs to S7_ARMADA/results/ and docs/\n\nCode Updates:\n- Inline orchestrator helper functions into S7 meta loop scripts\n- Update 25+ Python scripts with new path references\n- Fix parent chain paths for moved scripts (.parent.parent patterns)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(git push)",
-      "Bash(git commit:*)",
-      "Bash(done)",
-      "Bash(git mv:*)",
-      "Bash(dir \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\scripts\")",
-      "Bash(move scriptsrun010_bandwidth_test.py 1_ANCHOR_DETECTION )",
-      "Bash(move scriptsrun010_recursive_capture.py 1_ANCHOR_DETECTION)",
-      "Bash(move scriptsrun009_drain_capture.py 3_EVENT_HORIZON )",
-      "Bash(move scriptsrun012_armada_revalidation.py 3_EVENT_HORIZON)",
-      "Bash(move scriptsrun008_prep_pilot.py 4_BASIN_TOPOLOGY )",
-      "Bash(move scriptsrun008_with_keys.py 4_BASIN_TOPOLOGY )",
-      "Bash(move scriptsrun011_persona_comparison.py 4_BASIN_TOPOLOGY)",
-      "Bash(move scriptsrun_laplace_analysis.py 6_LAPLACE_ANALYSIS)",
-      "Bash(dir:*)",
-      "Bash(findstr:*)"
+      "Bash(del \"d:\\Documents\\Nyquist_Consciousness\\docs\\UNKNOWN.md\")",
+      "Bash(py -m streamlit run:*)",
+      "Bash(pip install:*)",
+      "Bash(python -m streamlit:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []
