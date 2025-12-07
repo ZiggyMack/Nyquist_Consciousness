@@ -110,7 +110,7 @@ To wire real experiment data:
 | Run | Ships | Focus | Key Finding |
 |-----|-------|-------|-------------|
 | 006 | 29 | Provider Comparison | Training fingerprints validated |
-| 008 | 29 | Ground Truth | Event Horizon discovered (1.23), real 5D metric |
+| 008 | 29 | Ground Truth | Event Horizon discovered (1.23), real drift metric |
 | 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
 | 010 | 45 | Anchor Detection | Lambda bug, partial data |
 | 011 | 40 | Persona A/B | Inconclusive — protocol too gentle |

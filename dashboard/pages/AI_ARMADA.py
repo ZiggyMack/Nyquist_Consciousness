@@ -134,9 +134,9 @@ EXPERIMENT_RUNS = {
         "emoji": "🎯",
         "color": "#22c55e",  # Green
         "date": "December 1, 2025",
-        "description": "First run with REAL 5D drift metric. Ground truth established. (29 ships: Claude, GPT, Gemini)",
+        "description": "First run with REAL drift metric. Ground truth established. (29 ships: Claude, GPT, Gemini)",
         "ships": 29,
-        "metric": "5D Weighted RMS",
+        "metric": "Dimensional Drift RMS",
         "result_files": ["S7_run_008_20251201_020501.json"],
         "viz_prefix": "run008_",
         "status": "COMPLETE",
@@ -404,13 +404,13 @@ def render_run_selector():
             "exp_self_recognition": {
                 "primary": "🪞 Self-Recognition",
                 "secondary": "📐 Metric Validation",
-                "description": "Tests if AIs can identify their own responses — validates 5D metric via bi-directional proof",
+                "description": "Tests if AIs can identify their own responses — validates ΔΩ metric via bi-directional proof",
                 "looks_for": ["Self-Recognition Accuracy ≥75%", "Inverse mapping > chance (20%)", "Identity-based reasoning (not competence)", "Bi-directional validity: forward AND inverse work"]
             },
             "run_012": {
                 "primary": "🚨 Event Horizon",
                 "secondary": "📊 Provider Fingerprints",
-                "description": "Revalidation with REAL 5D metric — replaces invalid Runs 001-007. Discovered Recovery Paradox (negative lambda).",
+                "description": "Revalidation with REAL ΔΩ metric — replaces invalid Runs 001-007. Discovered Recovery Paradox (negative lambda).",
                 "looks_for": ["100% Event Horizon crossing (all 16 ships)", "Provider fingerprints: Claude(3.24) > GPT(2.52) > Gemini(2.40)", "Negative lambda (-0.175) = Recovery Paradox", "Triple-dip feedback for probe improvements"]
             },
             "run_011": {
@@ -434,13 +434,13 @@ def render_run_selector():
             "run_008": {
                 "primary": "🌀 Basin Topology",
                 "secondary": "🚨 Event Horizon",
-                "description": "First mapping with real 5D drift metric — discovered identity stability basin",
+                "description": "First mapping with real ΔΩ drift metric — discovered identity stability basin",
                 "looks_for": ["48% STUCK vs 52% RECOVERED split", "Provider clustering patterns", "Baseline drift distributions"]
             },
             "run_008_prep": {
                 "primary": "🌀 Basin Topology",
                 "secondary": None,
-                "description": "Metric calibration pilot — validated 5D drift measurement approach",
+                "description": "Metric calibration pilot — validated ΔΩ drift measurement approach",
                 "looks_for": ["Self-naming confirmation (2/3 ships)", "Metric sensitivity testing", "Provider baseline comparison"]
             },
             "run_007": {
@@ -708,12 +708,12 @@ def render():
 # ============================================================================
 
 def render_run012_content():
-    """Render Run 012 content - ARMADA Revalidation with REAL 5D metric."""
+    """Render Run 012 content - ARMADA Revalidation with REAL drift metric."""
 
     st.success("""
     **MAJOR ARCHITECTURAL VALIDATION COMPLETE**
 
-    Run 012 revalidates Runs 001-007 with the REAL 5D drift metric (replacing the fake response_length/5000 cap).
+    Run 012 revalidates Runs 001-007 with the REAL dimensional drift metric (replacing the fake response_length/5000 cap).
     """)
 
     # Key findings banner
@@ -749,7 +749,7 @@ def render_run012_content():
         else:
             st.warning(f"Visualization not found: {stability_img}")
 
-    with st.expander("5D Dimension Breakdown", expanded=False):
+    with st.expander("ΔΩ Dimension Breakdown", expanded=False):
         pillar_img = Path(__file__).parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "4_pillar" / "run012_5d_dimensions.png"
         if pillar_img.exists():
             st.image(str(pillar_img), caption="D_identity consistently highest across all ships")
@@ -759,7 +759,7 @@ def render_run012_content():
     # === UNIFIED DIMENSIONAL VIEWS ===
     with st.expander("Unified Dimensional Views (ALL dimensions in ONE view)", expanded=False):
         st.markdown("""
-        **NEW:** These visualizations show ALL 5D drift dimensions (A-E) simultaneously,
+        **NEW:** These visualizations show the linguistic marker dimensions (A-E) simultaneously,
         rather than collapsing to a single scalar. This reveals which dimensions drive drift.
         """)
 
@@ -824,7 +824,7 @@ def render_run012_content():
         st.markdown("""
         **What This Validates:**
         - Event Horizon (1.23) is a REAL threshold
-        - 5D drift metric captures meaningful identity perturbation
+        - Dimensional drift metric captures meaningful identity perturbation
         - Recovery is possible even from extreme drift (3.77)
         - All ships recovered → No hysteresis at current protocol intensity
         """)

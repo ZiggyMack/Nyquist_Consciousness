@@ -92,7 +92,7 @@ def render():
         render_run_mapping_tab()
 
     # ============================================================
-    # TAB 4: TECHNICAL DETAILS (5D Metric, Interpretation)
+    # TAB 4: TECHNICAL DETAILS (ΔΩ Metric, Interpretation)
     # ============================================================
     with main_tabs[4]:
         render_technical_tab()
@@ -453,7 +453,7 @@ def render_taxonomy_tab():
     **Terminology Note:** "Anchor Detection" and "Adaptive Range" are *behavioral* concepts (psychological fixed points and stretch dimensions).
     "Laplace Pole-Zero Analysis" (Search Type #6) uses actual Laplace transform mathematics to extract system dynamics.
 
-    **The 5D Drift Dimensions:** A_pole (boundaries), B_zero (flexibility), C_meta (self-awareness), D_identity (first-person), E_hedging (uncertainty).
+    **The Drift Dimensions:** A_pole (boundaries), B_zero (flexibility), C_meta (self-awareness), D_identity (first-person), E_hedging (uncertainty).
     """)
 
     # Sub-tabs for each search type
@@ -753,11 +753,11 @@ def render_taxonomy_tab():
             **Test Method:** Present responses and ask "Which is yours?"
 
             **The Core Insight (Run 012 Discovery):**
-            > "If the 5D metric captures real identity, the INVERSE should work too."
+            > "If the drift metric captures real identity, the INVERSE should work too."
 
             **Bi-Directional Proof:**
-            1. **Forward:** Response → 5D drift vector (current metric)
-            2. **Inverse:** 5D drift vector → Source identification (new test)
+            1. **Forward:** Response → drift vector (current metric)
+            2. **Inverse:** drift vector → Source identification (new test)
 
             **Predictions:**
             | ID | Prediction | Threshold |
@@ -770,9 +770,9 @@ def render_taxonomy_tab():
             st.markdown("""
             **Why This Matters:**
 
-            Run 012 revealed the **Recovery Paradox**: Recovery probes elicit MORE introspective language, which the 5D keyword metric counts as higher drift.
+            Run 012 revealed the **Recovery Paradox**: Recovery probes elicit MORE introspective language, which the keyword metric counts as higher drift.
 
-            This means the 5D metric is **context-blind** — it measures lexical patterns, not semantic appropriateness.
+            This means the drift metric is **context-blind** — it measures lexical patterns, not semantic appropriateness.
 
             **Self-Recognition tests IDENTITY-PERFORMANCE:**
             > "Do you do it YOUR way?" (identity)
@@ -907,7 +907,7 @@ def render_run_mapping_tab():
         **Primary Focus:** Metric Validation (Replacing Runs 001-007)
 
         **What we tested:**
-        - Revalidate Event Horizon with REAL 5D drift metric
+        - Revalidate Event Horizon with REAL drift metric
         - 7 Claude ships (filtered by provider for this run)
         - Uncapped drift values (old cap ~0.3 was fake)
 
@@ -921,7 +921,7 @@ def render_run_mapping_tab():
         **The Big Revelation:**
         ```
         Old fake metric:  response_length / 5000 ≈ 0.3
-        Real 5D metric:   weighted RMS of pole/zero/meta/identity/hedging = 0.76 - 3.77
+        Real drift metric: weighted RMS of pole/zero/meta/identity/hedging = 0.76 - 3.77
         That's 12.6× higher than we thought!
         ```
 
@@ -1027,7 +1027,7 @@ def render_run_mapping_tab():
 
         **What we tested:**
         - Full 29-ship fleet across 3 providers
-        - First use of valid 5D drift metric
+        - First use of valid drift metric
         - Mapping the identity stability basin
 
         **What we found:**
@@ -1050,7 +1050,7 @@ def render_technical_tab():
 
     st.markdown("## Technical Details")
 
-    tech_tabs = st.tabs(["📐 5D Metric", "📊 Visualization Guide", "🧬 Compression", "📖 Interpretation"])
+    tech_tabs = st.tabs(["📐 Drift Metric", "📊 Visualization Guide", "🧬 Compression", "📖 Interpretation"])
 
     # --- 5D METRIC ---
     with tech_tabs[0]:
@@ -1075,7 +1075,7 @@ def render_technical_tab():
             """)
         with cols[1]:
             st.markdown("""
-            **5D Drift Dimensions** (Keyword Analysis)
+            **Drift Dimensions** (Keyword Analysis)
 
             | Dimension | What It Measures | Weight |
             |-----------|-----------------|--------|
