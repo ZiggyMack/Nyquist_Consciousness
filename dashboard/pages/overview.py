@@ -29,6 +29,15 @@ def render():
     st.title("📜 Nyquist Consciousness — Mission Control")
     st.markdown(f"*Version {status.get('version', 'v1.0')} • Last Updated: {status.get('last_updated', 'N/A')}*")
 
+    # === CORE HYPOTHESIS ===
+    st.markdown("""
+    > **H₀: AI identity behaves as a dynamical system with measurable attractor basins,
+    > critical thresholds, and recovery dynamics that are consistent across architectures.**
+
+    *When we perturb an AI's identity, it drifts from baseline. If drift exceeds **1.23** (Event Horizon),
+    the system becomes volatile — but it recovers. Always. The attractor basin is robust.*
+    """)
+
     page_divider()
 
     # === HERO METRICS ===
