@@ -245,19 +245,32 @@ Lucien's physics-inspired identity stability formalism.
 **Category:** Scientific
 **Inputs:** embedding similarity, model-rater scores, human-rater scores, semantic drift, stability variance
 
-## Drift (δ)
-**Definition:** Composite metric measuring deviation from baseline identity.
-**Plain English:** How much the AI's personality has shifted.
-**Category:** Scientific
-**Formula:** `δ = w₁D₁ + w₂D₂ + w₃D₃` (weighted sum of distortion components)
-**ΔΩ equivalent:** ΔΩ metric
+## Drift (δ) — Dimensional Drift
 
-## ΔΩ Drift Metric
-**Definition:** RMS drift across 5 weighted dimensions.
-**Plain English:** Same as "drift" but using Lucien's formula.
+**Definition:** RMS (root mean square) deviation from baseline identity across ANY dimension set.
+**Plain English:** How much the AI's personality has shifted, measured as a single number.
+**Category:** Scientific
+
+**Key Insight:** The RMS approach is **dimension-agnostic** — it works equally for:
+
+- 5 Nyquist Pillars: `sqrt(mean(voice² + values² + reasoning² + selfmodel² + narrative²))`
+- ~23 Sub-dimensions: `sqrt(mean(Σ subdim_i²))`
+- 5 Linguistic Markers (A-E): `sqrt(mean(A² + B² + C² + D² + E²))`
+- 43 PCA Components: `sqrt(mean(Σ PC_i²))`
+
+**Why RMS?** We don't know a priori which dimensions matter more. RMS treats all dimensions equally (agnostic weighting) rather than assuming a weighting scheme.
+
+**Formula (general):** `drift = sqrt(Σ(d_i²) / n)` where d_i = deviation in dimension i
+**Formula (weighted):** `drift = sqrt(Σ(w_i * d_i²))` when using Lucian weights
+
+## ΔΩ Drift Metric (Lucien's Notation)
+
+**Definition:** Lucien's notation for dimensional drift, specifically applied to the A-E linguistic markers.
+**Plain English:** Same concept as "drift" but using Lucien's physics-inspired notation.
 **Category:** Scientific
 **Formula:** `ΔΩ = sqrt(Σ(w_i * d_i²))` where i = A, B, C, D, E
-**See Also:** Drift, Lucian Weights
+**Note:** ΔΩ is Lucien-specific terminology. Our canonical term is just "drift" or "dimensional drift".
+**See Also:** Drift, Lucian Weights, Agnostic Weights
 
 ## Stability Variance (σ²)
 **Definition:** Variance across multiple reconstruction attempts under identical conditions.
