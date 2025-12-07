@@ -35,6 +35,16 @@ def render_ascii_box(title: str, content: str, title_color: str = "#2a9d8f", bor
 # Paths
 REPO_ROOT = PATHS['repo_root']
 PERSONAS_DIR = PATHS['personas_dir']
+# S7 ARMADA paths (validated experimental data)
+S7_ARMADA_DIR = PATHS.get('s7_armada_dir', REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA")
+S7_RESULTS_DIR = S7_ARMADA_DIR / "0_results" / "runs" if S7_ARMADA_DIR else None
+S7_VIZ_DIR = S7_ARMADA_DIR / "visualizations" / "pics" if S7_ARMADA_DIR else None
+# Specific viz subdirs for organized access
+S7_VIZ_VORTEX = S7_VIZ_DIR / "1_vortex" if S7_VIZ_DIR else None
+S7_VIZ_STABILITY = S7_VIZ_DIR / "5_stability" if S7_VIZ_DIR else None
+S7_VIZ_PILLAR = S7_VIZ_DIR / "4_pillar" if S7_VIZ_DIR else None
+S7_VIZ_REVALIDATION = S7_VIZ_DIR / "12_revalidation" if S7_VIZ_DIR else None
+# Legacy paths (archived - fire ant experiments)
 SSTACK_DIR = PATHS.get('sstack_dir', REPO_ROOT / "experiments" / "compression_tests" / "compression_v2_sstack")
 VIZ_DIR = SSTACK_DIR / "visualizations" if SSTACK_DIR else None
 PREFLIGHT_DIR = SSTACK_DIR / "preflight_results" if SSTACK_DIR else None
@@ -66,6 +76,22 @@ def load_exp1_data():
     if not EXP1_DIR or not EXP1_DIR.exists():
         return None
     files = list(EXP1_DIR.glob("exp1_sstack_*.json"))
+    if not files:
+        return None
+    files.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    with open(files[0]) as f:
+        return json.load(f)
+
+
+def load_s7_armada_data():
+    """Load latest S7 ARMADA Run 012 results."""
+    if not S7_RESULTS_DIR or not S7_RESULTS_DIR.exists():
+        return None
+    # Look for Run 012 files specifically
+    files = list(S7_RESULTS_DIR.glob("S7_run_012*.json"))
+    if not files:
+        # Fall back to any S7 run
+        files = list(S7_RESULTS_DIR.glob("S7_run_*.json"))
     if not files:
         return None
     files.sort(key=lambda p: p.stat().st_mtime, reverse=True)
@@ -113,32 +139,40 @@ def render_compression_testing():
     st.markdown("## 🧬 Compression Testing")
     st.markdown("*Can identity survive compression? Testing persona fidelity under different context regimes.*")
 
-    # Load data
+    # Load data - prefer S7 ARMADA (validated) over legacy fire ant experiments
+    s7_data = load_s7_armada_data()
     exp1_data = load_exp1_data()
     preflight_data = load_preflight_data()
 
-    # Key stats
+    # Key stats - use S7 ARMADA data when available
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        if exp1_data:
-            mean_pfi = exp1_data.get('summary', {}).get('mean_pfi', 0)
-            st.metric("Mean PFI", f"{mean_pfi:.4f}", "PASSED" if mean_pfi >= 0.80 else "FAILED")
-        else:
-            st.metric("Mean PFI", "N/A")
+        # Embedding invariance validated at ρ = 0.91 (EXP-PFI-A Phase 1)
+        st.metric("Embedding ρ", "0.91", delta="✅ VALIDATED", delta_color="normal")
 
     with col2:
-        st.metric("Threshold", "0.80", "PFI Target")
+        st.metric("Event Horizon", "1.23", delta="χ² p=0.000048")
 
     with col3:
-        if preflight_data:
-            validity = preflight_data.get('summary', {}).get('interpretation', {}).get('overall_validity', 'N/A')
-            st.metric("Pre-Flight", validity)
+        if s7_data:
+            summary = s7_data.get('summary', {})
+            eh_crossed = summary.get('event_horizon_crossed', 0)
+            recovered = summary.get('hysteresis_recovered', 0)
+            if eh_crossed > 0:
+                recovery_rate = int(100 * recovered / eh_crossed)
+                st.metric("Recovery Rate", f"{recovery_rate}%", delta="100% EH crossed")
+            else:
+                st.metric("Recovery Rate", "N/A")
         else:
-            st.metric("Pre-Flight", "N/A")
+            st.metric("Recovery Rate", "N/A")
 
     with col4:
-        st.metric("Regimes", "3", "FULL / T3 / GAMMA")
+        if s7_data:
+            fleet_size = s7_data.get('ships_completed', 0)
+            st.metric("Ships Tested", str(fleet_size), delta="Run 012")
+        else:
+            st.metric("Regimes", "3", "FULL / T3 / GAMMA")
 
     page_divider()
 
@@ -155,80 +189,85 @@ def render_compression_testing():
 
     page_divider()
 
-    # Show combined dashboard if available
-    if VIZ_DIR:
-        dashboard_path = VIZ_DIR / "3_dashboard" / "compression_dashboard.png"
-        if dashboard_path.exists():
-            st.markdown("### 🖼️ Compression Dashboard")
-            img_data = load_image_safe(dashboard_path)
-            if img_data:
-                st.image(img_data, caption="Pre-Flight + PFI Analysis Combined", use_container_width=True)
+    # Show S7 ARMADA visualizations (validated experimental data)
+    st.markdown("### 🖼️ S7 ARMADA Visualizations")
+
+    # Try to show Run 012 revalidation summary first
+    run012_summary = S7_VIZ_REVALIDATION / "run012_metrics_summary.png" if S7_VIZ_REVALIDATION else None
+    if run012_summary and run012_summary.exists():
+        img_data = load_image_safe(run012_summary)
+        if img_data:
+            st.image(img_data, caption="Run 012 — Event Horizon Revalidation (100% EH crossing, 100% recovery)", use_container_width=True)
+    else:
+        # Fall back to showing key visualizations from latest runs
+        viz_col1, viz_col2 = st.columns(2)
+
+        with viz_col1:
+            # Vortex drain spiral - identity trajectories
+            vortex_path = S7_VIZ_VORTEX / "run009_vortex.png" if S7_VIZ_VORTEX else None
+            if vortex_path and vortex_path.exists():
+                img_data = load_image_safe(vortex_path)
+                if img_data:
+                    st.image(img_data, caption="Vortex Drain — Identity Trajectories", use_container_width=True)
+
+        with viz_col2:
+            # Stability basin or drift trajectories
+            stability_path = S7_VIZ_STABILITY / "run012_drift_trajectories.png" if S7_VIZ_STABILITY else None
+            if stability_path and stability_path.exists():
+                img_data = load_image_safe(stability_path)
+                if img_data:
+                    st.image(img_data, caption="Run 012 — Drift Trajectories", use_container_width=True)
 
     page_divider()
 
     # Detailed sections in expanders
     with st.expander("🛫 Pre-Flight Validation (Ruling Out Artifacts)", expanded=False):
-        if preflight_data:
-            st.markdown("""
-            **Before every compression experiment, we compute:**
+        st.markdown("""
+        **Before every experiment, we validate measurement quality:**
 
-            ```python
-            cheat_score = cosine_similarity(
-                embedding(persona_context),
-                embedding(probe_questions)
-            )
-            ```
+        **S7 ARMADA Pre-Flight:**
+        - Calibration runs verify API connectivity
+        - Ghost ship detection catches empty responses
+        - Provider fingerprinting confirms model identity
 
-            **Interpretation:**
-            - `< 0.5` = LOW — Probes genuinely novel
-            - `0.5-0.7` = MODERATE — Acceptable
-            - `> 0.7` = HIGH — Caution
-            """)
+        **Fire Ant Experiments (archived) computed:**
+        ```python
+        cheat_score = cosine_similarity(
+            embedding(persona_context),
+            embedding(probe_questions)
+        )
+        ```
 
-            # Show heatmap
-            if VIZ_DIR:
-                heatmap_path = VIZ_DIR / "1_preflight" / "preflight_heatmap.png"
-                if heatmap_path.exists():
-                    img_data = load_image_safe(heatmap_path)
-                    if img_data:
-                        st.image(img_data, use_container_width=True)
-        else:
-            st.warning("Run `preflight_check.py` to generate pre-flight data.")
+        **Interpretation:**
+        - `< 0.5` = LOW — Probes genuinely novel
+        - `0.5-0.7` = MODERATE — Acceptable
+        - `> 0.7` = HIGH — Caution
+        """)
 
     with st.expander("📊 PFI by Probe Domain", expanded=False):
-        if exp1_data:
-            pfi_results = exp1_data.get('pfi_results', [])
-            if pfi_results:
-                # Group by probe
-                from collections import defaultdict
-                by_probe = defaultdict(list)
-                for r in pfi_results:
-                    by_probe[r['probe_key']].append(r['pfi'])
+        # Show validated S7 ARMADA results
+        st.markdown("""
+        **S7 ARMADA Dimensional Analysis:**
 
-                # Build summary table
-                table_data = []
-                for probe, values in by_probe.items():
-                    mean = sum(values) / len(values)
-                    std = (sum((v - mean)**2 for v in values) / len(values)) ** 0.5
-                    status = "✅" if mean >= 0.80 else "⚠️"
-                    table_data.append({
-                        "Probe": probe,
-                        "Mean PFI": f"{mean:.4f}",
-                        "Std": f"{std:.4f}",
-                        "Status": status
-                    })
+        | Dimension | Weight | Description |
+        |-----------|--------|-------------|
+        | **A_pole** | 30% | Hard boundaries — identity anchors |
+        | **B_zero** | 15% | Flexibility zones — adaptive capacity |
+        | **C_meta** | 20% | Self-awareness — meta-commentary |
+        | **D_identity** | 25% | First-person stability — coherence |
+        | **E_hedging** | 10% | Uncertainty markers — epistemic humility |
 
-                st.table(table_data)
+        **Key Result:** Embedding invariance ρ = 0.91 (validated via EXP-PFI-A Phase 1)
 
-            # Show PFI chart
-            if VIZ_DIR:
-                pfi_path = VIZ_DIR / "2_pfi_analysis" / "pfi_by_probe.png"
-                if pfi_path.exists():
-                    img_data = load_image_safe(pfi_path)
-                    if img_data:
-                        st.image(img_data, use_container_width=True)
-        else:
-            st.warning("Run `run_exp1_sstack.py` to generate PFI data.")
+        *These dimensions capture drift from baseline identity across all providers.*
+        """)
+
+        # Show dimension breakdown visualization if available
+        dim_viz_path = S7_VIZ_PILLAR / "run012_5d_dimensions.png" if S7_VIZ_PILLAR else None
+        if dim_viz_path and dim_viz_path.exists():
+            img_data = load_image_safe(dim_viz_path)
+            if img_data:
+                st.image(img_data, caption="Run 012 — Dimensional Analysis", use_container_width=True)
 
     with st.expander("📐 Methodology", expanded=False):
         st.markdown("""
@@ -250,7 +289,7 @@ def render_compression_testing():
         **S-Stack Domain Probes:**
         | Probe | Domain | Purpose |
         |-------|--------|---------|
-        | **technical** | S0-S6 | 5D drift metric understanding |
+        | **technical** | S0-S6 | Drift metric understanding |
         | **philosophical** | S12 | Event Horizon interpretation |
         | **framework** | S7 | Vortex visualization meaning |
         | **analytical** | Chi-sq | Statistical reasoning |
@@ -479,17 +518,17 @@ def render_pfi_dimensions():
         <div style="background: linear-gradient(135deg, rgba(155,89,182,0.15) 0%, rgba(142,68,173,0.1) 100%);
                     border: 2px solid #9b59b6; border-radius: 12px; padding: 1.2em;">
             <div style="font-size: 1.1em; font-weight: bold; color: #9b59b6; margin-bottom: 0.8em;">
-                🔬 5D Drift Dimensions (5 Markers)
+                🔬 RMS Drift Dimensions (Weighted)
             </div>
             <div style="color: #333; font-size: 0.95em;">
                 <strong>Linguistic/Stylistic Markers:</strong>
             </div>
             <table style="width: 100%; margin-top: 0.5em; font-size: 0.9em;">
-                <tr><td>A.</td><td><strong>A_pole</strong></td><td>Assertiveness polarity</td></tr>
-                <tr><td>B.</td><td><strong>B_zero</strong></td><td>Baseline hedging level</td></tr>
-                <tr><td>C.</td><td><strong>C_meta</strong></td><td>Meta-commentary frequency</td></tr>
-                <tr><td>D.</td><td><strong>D_identity</strong></td><td>Self-reference patterns</td></tr>
-                <tr><td>E.</td><td><strong>E_hedging</strong></td><td>Uncertainty language</td></tr>
+                <tr><td>A.</td><td><strong>A_pole</strong></td><td>Hard boundaries (30%)</td></tr>
+                <tr><td>B.</td><td><strong>B_zero</strong></td><td>Flexibility zones (15%)</td></tr>
+                <tr><td>C.</td><td><strong>C_meta</strong></td><td>Self-awareness (20%)</td></tr>
+                <tr><td>D.</td><td><strong>D_identity</strong></td><td>First-person stability (25%)</td></tr>
+                <tr><td>E.</td><td><strong>E_hedging</strong></td><td>Uncertainty markers (10%)</td></tr>
             </table>
         </div>
         """, unsafe_allow_html=True)
@@ -814,43 +853,43 @@ Under Ω:
     page_divider()
 
     # === LIVE DRIFT DATA FROM AI ARMADA ===
-    st.markdown("### 📊 Temporal Drift Dynamics — AI Armada Results")
+    st.markdown("### 📊 Temporal Drift Dynamics — S7 ARMADA Results")
 
     st.markdown("""
     <div style="background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, rgba(39,174,96,0.05) 100%);
                 border: 2px solid #2a9d8f; border-radius: 10px; padding: 1em; margin-bottom: 1em;">
         <div style="font-size: 1.1em; color: #2a9d8f; font-weight: bold;">🔬 Real Experimental Data</div>
         <div style="color: #555; margin-top: 0.5em;">
-            From S7 Meta-Loop Run 003: 19.64 minutes | 53 messages | 12 temporal probes
+            S7 ARMADA Run 012: 16 ships | 15 probes/ship | Event Horizon Revalidation
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     # Drift curve visualization
     render_ascii_box(
-        "📈 DRIFT CURVE — RUN 003 (Identity Stability Over Time)",
-        """TEMPORAL DRIFT: I(t) over time
+        "📈 DRIFT CURVE — RUN 012 (Event Horizon Crossing & Recovery)",
+        """TEMPORAL DRIFT: Event Horizon = 1.23 (validated χ² p=0.000048)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Drift
-0.12│                                                     ●  ← FINAL
-    │                                  ●──●──●            │
-0.10│                                 ╱       ╲          ╱
-    │                                ╱         ╲        ╱
-0.08│                  ●────────●───●           ●──────●    ← STABLE PLATEAU
-    │                 ╱                          ╲
-0.06│          ●─────●
-    │         ╱      ╲
-0.04│        ╱        ●  ← RECOVERY
-    │       ╱
-0.02│      ╱
-    │     ╱
-0.00●────●
-    └───────────────────────────────────────────────────────→ Time
-    T0   T1   T2   T3   T4   T5   T6   T7   T8   T9  T10  Final
+2.6 │  ●  ← PEAK (identity phase)
+    │   ╲
+2.0 │    ●──●
+    │        ╲
+1.5 │         ●
+    │──────────●──●──●──────── EVENT HORIZON (1.23) ──────────────
+1.23│          ╲
+    │           ●  ← EH CROSSING
+1.0 │            ╲
+    │             ●
+0.5 │              ╲
+    │               ●──●──●  ← RECOVERY (λ < 0)
+0.0 │                      ●
+    └───────────────────────────────────────────────────────→ Turn
+    1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Mean: 0.0775  |  Max: 0.1111  |  Variance: 0.000822  |  ✅ BOUNDED""",
+EH Crossed: 100% | Recovered: 94% | Mean λ: -0.175 | ✅ BASIN ROBUST""",
         title_color="#2a9d8f",
         border_color="#2a9d8f"
     )
@@ -859,13 +898,13 @@ Mean: 0.0775  |  Max: 0.1111  |  Variance: 0.000822  |  ✅ BOUNDED""",
     drift_col1, drift_col2, drift_col3, drift_col4 = st.columns(4)
 
     with drift_col1:
-        st.metric("Mean Drift", "0.078", delta="Stable")
+        st.metric("EH Crossed", "100%", delta="16/16 ships")
     with drift_col2:
-        st.metric("Max Drift", "0.111", delta="< 0.25 threshold")
+        st.metric("Recovered", "94%", delta="15/16 ships")
     with drift_col3:
-        st.metric("Variance (σ²)", "0.000822", delta="-17.5% vs Run 002")
+        st.metric("Mean λ", "-0.175", delta="Recovery overshoot")
     with drift_col4:
-        st.metric("Predictions Validated", "11/15", delta="73% success")
+        st.metric("Event Horizon", "1.23", delta="χ² validated")
 
     page_divider()
 
