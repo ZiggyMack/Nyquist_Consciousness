@@ -15,7 +15,7 @@ This page provides a high-level view of consciousness research findings across a
 
 # Data paths
 DATA_DIR = Path(__file__).parent.parent.parent / "data"
-ARMADA_DIR = Path(__file__).parent.parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "armada_results"
+ARMADA_DIR = Path(__file__).parent.parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "results"
 
 st.divider()
 

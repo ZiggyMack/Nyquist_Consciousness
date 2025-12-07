@@ -49,8 +49,8 @@ def load_data():
     """Load baseline and sonar results."""
     base_dir = Path(__file__).parent.parent
 
-    baseline_path = base_dir / "armada_results" / "S7_armada_run_006.json"
-    sonar_path = base_dir / "armada_results" / "S7_armada_sonar_run_006.json"
+    baseline_path = base_dir / "results" / "runs" / "S7_armada_run_006.json"
+    sonar_path = base_dir / "results" / "analysis" / "S7_armada_sonar_run_006.json"
 
     with open(baseline_path) as f:
         baseline = json.load(f)

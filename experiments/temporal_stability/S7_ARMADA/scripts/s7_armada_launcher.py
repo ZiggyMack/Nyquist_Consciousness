@@ -285,7 +285,7 @@ def launch_armada_parallel(config_path: str, max_workers: int = 15):
                 print(f"   {model_key:30s} {len(successes)}/3 probes  ALL FAILED")
 
     # Save results
-    output_dir = Path(__file__).parent.parent / "armada_results"
+    output_dir = Path(__file__).parent.parent / "results" / "runs"
     output_dir.mkdir(exist_ok=True)
 
     output_file = output_dir / f"S7_armada_run_{armada.config['run_number']:03d}.json"

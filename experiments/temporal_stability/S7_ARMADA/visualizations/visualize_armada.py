@@ -50,7 +50,7 @@ except ImportError:
 # PATHS
 # =============================================================================
 BASE_DIR = Path(__file__).resolve().parent.parent
-RESULTS_DIR = BASE_DIR / "armada_results"
+RESULTS_DIR = BASE_DIR / "results" / "runs"
 OUTPUT_DIR = Path(__file__).resolve().parent / "pics"
 
 # Provider colors (4 providers now)

@@ -94,7 +94,7 @@ st.divider()
 # Load and display drift data
 st.markdown("## Drift Data")
 
-ARMADA_DIR = Path(__file__).parent.parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "armada_results"
+ARMADA_DIR = Path(__file__).parent.parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "results" / "runs"
 
 # Check for prep pilot data
 prep_pilot_path = ARMADA_DIR / "S7_run_008_prep_pilot.json"

@@ -446,6 +446,48 @@ These are the actual statistical dimensions underlying all measurements.
 | "ΔΩ" | "drift" | Lucien's notation for the same concept |
 | "5D manifold" | "identity manifold" | The high-dimensional attractor space |
 
+### Two Weighting Systems (Important Distinction!)
+
+We use **two different weighting systems** for **two different purposes**:
+
+#### 1. Drift Calculation (S7 ARMADA) — Dimension Weights
+
+**Question:** "Which dimensions of identity matter more?"
+
+| Approach | Weights | Use |
+|----------|---------|-----|
+| **Agnostic/RMS** | All equal (0.20 each) | Default — we don't know which matters |
+| **Lucian** | A=0.30, B=0.15, C=0.20, D=0.25, E=0.10 | His physics-informed hypothesis |
+
+**Implementation:** We compute BOTH and store both. Analysis can compare.
+
+```python
+# Equal (agnostic)
+drift_equal = sqrt((A² + B² + C² + D² + E²) / 5)
+
+# Lucian weighted
+drift_lucian = sqrt(0.30*A² + 0.15*B² + 0.20*C² + 0.25*D² + 0.10*E²)
+```
+
+#### 2. PFI Calculation (EXP2-SSTACK) — Probe Quality Weights
+
+**Question:** "Which data points are more reliable?"
+
+| Tier | Type | Weight | Why |
+|------|------|--------|-----|
+| 1 | BEHAVIORAL | 2.0x | Models say "test behavior not claims" |
+| 2 | STRUCTURAL | 1.0x | Task-completion reveals real patterns |
+| 3 | DECLARATIVE | 0.5x | Models say self-reports are unreliable |
+
+**Implementation:** When computing PFI, behavioral probe results count double.
+
+```python
+# Weighted PFI average
+pfi = weighted_average(similarities, weights=tier_weights)
+```
+
+**Key insight:** These are orthogonal. Drift weights ask "which axes matter?" while PFI weights ask "which measurements are trustworthy?"
+
 ---
 
 # SECTION 6: COMPRESSION & TIERS

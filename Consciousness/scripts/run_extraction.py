@@ -23,7 +23,7 @@ def main():
     parser.add_argument(
         "--source",
         type=Path,
-        default=Path(__file__).parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "armada_results",
+        default=Path(__file__).parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "results" / "runs",
         help="Path to armada results directory"
     )
     parser.add_argument(

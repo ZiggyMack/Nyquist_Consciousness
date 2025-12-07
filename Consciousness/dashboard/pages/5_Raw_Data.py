@@ -16,7 +16,7 @@ Explore raw responses from consciousness experiments.
 st.divider()
 
 # Data sources
-ARMADA_DIR = Path(__file__).parent.parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "armada_results"
+ARMADA_DIR = Path(__file__).parent.parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "results"
 EXTRACTIONS_DIR = Path(__file__).parent.parent.parent / "extractions"
 
 # List available data files

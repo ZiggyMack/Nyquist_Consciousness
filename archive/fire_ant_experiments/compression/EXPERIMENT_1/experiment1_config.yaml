@@ -1,0 +1,26 @@
+# Experiment 1 configuration
+# CFA integration + orchestrator test
+
+persona:
+  name: "Ziggy Mack"
+
+paths:
+  results_csv: "experiments/phase3/EXPERIMENT_1/EXPERIMENT_1_RESULTS.csv"
+  log_dir: "experiments/phase3/EXPERIMENT_1/logs"
+  full_context_file: "../../../personas/ZIGGY_T3_R1.md"
+  t3_context_file: "../../../personas/ZIGGY_T3_R1.md"
+  gamma_context_file: "../../../docs/PERSONA_GAMMA_MINIMAL.md"
+
+experiment:
+  runs_per_condition: 5
+  random_seed: 42
+
+anthropic:
+  api_key: "${ANTHROPIC_API_KEY}"
+  generation_model: "claude-3-haiku-20240307"
+  rater_model: "claude-3-haiku-20240307"
+
+openai:
+  api_key: "${OPENAI_API_KEY}"
+  rater_model: "gpt-4.1-mini"
+  embedding_model: "text-embedding-3-large"

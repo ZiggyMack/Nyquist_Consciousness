@@ -450,7 +450,7 @@ def create_dimensional_heatmap(run_data: dict, output_dir: Path):
 def main():
     """Main entry point."""
     # Find most recent run
-    armada_dir = Path(__file__).parent.parent / 'armada_results'
+    armada_dir = Path(__file__).parent.parent / 'results' / 'runs'
     output_dir = Path(__file__).parent / 'pics' / '9_unified_dimensional'
     output_dir.mkdir(parents=True, exist_ok=True)
 

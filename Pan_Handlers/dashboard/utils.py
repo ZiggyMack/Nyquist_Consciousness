@@ -214,7 +214,7 @@ def get_nyquist_integration_stats():
     # Get S7 Armada stats if available
     s7_dir = PATHS['s7_armada_dir']
     if s7_dir.exists():
-        armada_results = list(s7_dir.glob("armada_results/*.json"))
+        armada_results = list(s7_dir.glob("results/**/*.json"))
         stats['armada_runs'] = len(armada_results)
     else:
         stats['armada_runs'] = 0

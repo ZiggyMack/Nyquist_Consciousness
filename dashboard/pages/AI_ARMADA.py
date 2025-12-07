@@ -34,7 +34,7 @@ def load_image_safe(image_path):
 VIZ_DIR = PATHS['s7_viz_dir']
 VIZ_PICS = PATHS['s7_viz_pics']
 ARMADA_DIR = PATHS['s7_armada_dir']
-RESULTS_DIR = ARMADA_DIR / "armada_results"
+RESULTS_DIR = ARMADA_DIR / "results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {

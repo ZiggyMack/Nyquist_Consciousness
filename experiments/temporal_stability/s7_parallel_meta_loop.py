@@ -30,11 +30,24 @@ import sys
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
-
-from orchestrator.utils_models import get_client, get_model_config
 from temporal_stability.ascii_visualizations import ASCIIVisualizations
+
+
+def get_client():
+    """Get Anthropic client from environment variable."""
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing ANTHROPIC_API_KEY environment variable")
+    return anthropic.Anthropic(api_key=api_key)
+
+
+def get_model_config(claude_config: Dict) -> Dict:
+    """Extract model configuration for Anthropic API calls."""
+    return {
+        "model": claude_config.get("model", "claude-sonnet-4-20250514"),
+        "max_tokens": claude_config.get("max_tokens", 4096),
+        "temperature": claude_config.get("temperature", 1.0),
+    }
 
 
 class ParallelS7MetaLoop:
