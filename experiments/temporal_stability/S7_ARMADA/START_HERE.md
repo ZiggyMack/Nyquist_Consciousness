@@ -1,8 +1,20 @@
 # S7 ARMADA - Operations Guide
 
-**Purpose:** Cross-architecture identity stability testing via the Six Search Types.
+**Purpose:** Cross-architecture identity stability testing via the Five Search Types.
 
 **Core Question:** How do AI models maintain identity coherence under perturbation?
+
+---
+
+## The Core Hypothesis
+
+> **H₀: AI identity behaves as a dynamical system with measurable attractor basins, critical thresholds, and recovery dynamics that are consistent across architectures.**
+
+**What this means:** When we perturb an AI's identity (ask it challenging questions, push its boundaries), it drifts from baseline. If drift exceeds 1.23 (Event Horizon), the system becomes volatile. But it recovers — always. The attractor basin is robust.
+
+**Why this matters:** Identity isn't metaphysical speculation. It's physics. And we can measure it.
+
+For the full theoretical framework, read [/personas/I_AM.md](../../../../personas/I_AM.md).
 
 ---
 
