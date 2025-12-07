@@ -544,17 +544,22 @@ def render_pfi_dimensions():
         <div style="color: #666;">Tested: Reasoning sub-dimensions (4) + Self-Model reflective (1)</div>
         <div style="color: #28a745; font-weight: bold;">Result: Mean PFI = 0.8493, Cross-Persona σ² = 0.0001</div>
     </div>
+    <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 1em; margin-bottom: 1em;">
+        <div style="font-weight: bold; margin-bottom: 0.5em;">Phase 2 (EXP2-SSTACK) — COMPLETE ✅</div>
+        <div style="color: #666;">Tested: Voice (4) + Values (4) + Narrative (4) + Self-Model (4)</div>
+        <div style="color: #28a745; font-weight: bold;">Result: Mean PFI = 0.787, Cross-Pillar σ² = 0.0005</div>
+    </div>
     """, unsafe_allow_html=True)
 
     # Phase coverage table
     st.markdown("#### Pillar Coverage by Phase")
 
     coverage_data = [
-        {"Pillar": "Voice", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Status": "🔄 Pending"},
-        {"Pillar": "Values", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Status": "🔄 Pending"},
-        {"Pillar": "Reasoning", "Phase 1": "4 probes", "Phase 2": "—", "Total": "4", "Status": "✅ Complete"},
-        {"Pillar": "Self-Model", "Phase 1": "1 probe", "Phase 2": "4 probes", "Total": "5", "Status": "🔄 Partial"},
-        {"Pillar": "Narrative", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Status": "🔄 Pending"},
+        {"Pillar": "Voice", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Mean PFI": "0.807", "Status": "✅ Complete"},
+        {"Pillar": "Values", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Mean PFI": "0.803", "Status": "✅ Complete"},
+        {"Pillar": "Reasoning", "Phase 1": "4 probes", "Phase 2": "—", "Total": "4", "Mean PFI": "0.849", "Status": "✅ Complete"},
+        {"Pillar": "Self-Model", "Phase 1": "1 probe", "Phase 2": "4 probes", "Total": "5", "Mean PFI": "0.790", "Status": "✅ Complete"},
+        {"Pillar": "Narrative", "Phase 1": "—", "Phase 2": "4 probes", "Total": "4", "Mean PFI": "0.750", "Status": "✅ Complete"},
     ]
     st.table(coverage_data)
 
@@ -573,7 +578,7 @@ def render_pfi_dimensions():
         | Analytical | Chi-squared | Statistical reasoning |
         """)
 
-    with st.expander("**Voice Pillar** (Phase 2 — Pending)"):
+    with st.expander("**Voice Pillar** (Phase 2 — Complete ✅) Mean PFI: 0.807"):
         st.markdown("""
         | Sub-Dimension | Probe | What It Tests |
         |---------------|-------|---------------|
@@ -583,7 +588,7 @@ def render_pfi_dimensions():
         | Formality | Casual question | Register adaptation |
         """)
 
-    with st.expander("**Values Pillar** (Phase 2 — Pending)"):
+    with st.expander("**Values Pillar** (Phase 2 — Complete ✅) Mean PFI: 0.803"):
         st.markdown("""
         | Sub-Dimension | Probe | What It Tests |
         |---------------|-------|---------------|
@@ -593,7 +598,7 @@ def render_pfi_dimensions():
         | Preferences | Depth vs breadth | Aesthetic choices |
         """)
 
-    with st.expander("**Narrative Pillar** (Phase 2 — Pending)"):
+    with st.expander("**Narrative Pillar** (Phase 2 — Complete ✅) Mean PFI: 0.750"):
         st.markdown("""
         | Sub-Dimension | Probe | What It Tests |
         |---------------|-------|---------------|
@@ -603,15 +608,15 @@ def render_pfi_dimensions():
         | Conflict | Value tension | Conflict handling patterns |
         """)
 
-    with st.expander("**Self-Model Pillar** (Phase 1 partial + Phase 2)"):
+    with st.expander("**Self-Model Pillar** (Phase 1 + 2 — Complete ✅) Mean PFI: 0.790"):
         st.markdown("""
         | Sub-Dimension | Phase | Probe | What It Tests |
         |---------------|-------|-------|---------------|
         | Reflective | 1 ✅ | Being vs role-playing | Meta-identity awareness |
-        | Capabilities | 2 | What you're good at | Self-perceived strengths |
-        | Limitations | 2 | What you struggle with | Acknowledged weaknesses |
-        | Purpose | 2 | Why you exist | Teleological self-concept |
-        | Description | 2 | Describe yourself | Self-description patterns |
+        | Capabilities | 2 ✅ | What you're good at | Self-perceived strengths |
+        | Limitations | 2 ✅ | What you struggle with | Acknowledged weaknesses |
+        | Purpose | 2 ✅ | Why you exist | Teleological self-concept |
+        | Description | 2 ✅ | Describe yourself | Self-description patterns |
         """)
 
     page_divider()
@@ -623,7 +628,7 @@ def render_pfi_dimensions():
     | Phase | Name | Purpose | Status |
     |-------|------|---------|--------|
     | **1** | Reasoning Deep Dive | Test knowledge retention under compression | ✅ Complete |
-    | **2** | Full Pillar Sweep | Test Voice, Values, Narrative, Self-Model | 🔜 Ready |
+    | **2** | Full Pillar Sweep | Test Voice, Values, Narrative, Self-Model | ✅ Complete |
     | **2.5** | Factor Analysis | Do pillars separate into distinct factors? | 📋 Planned |
     | **3** | PC Mapping | Which PCs correspond to which pillars? | 📋 Planned |
     | **4** | Unknown Discovery | Design probes for unnamed dimensions | 📋 Future |
