@@ -110,7 +110,7 @@ Results are saved to `armada_results/S7_run_XXX_*.json`
 
 ## Understanding Test Types (IMPORTANT!)
 
-Before running experiments, understand the **Six Search Types** — see [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md):
+Before running experiments, understand the **Eight Search Types** — see [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md):
 
 | Search Type | What It Finds | Protocol Intensity |
 |-------------|--------------|-------------------|
@@ -120,6 +120,8 @@ Before running experiments, understand the **Six Search Types** — see [TESTING
 | **Basin Topology** | Attractor shape | GENTLE |
 | **Boundary Mapping** | Twilight zone (12% anomaly) | TARGETED |
 | **Laplace Pole-Zero** | System dynamics (eigenvalues) | POST-HOC |
+| **Stability Testing** | Metric validation (PFI, dimensional drift) | VALIDATION |
+| **Self-Recognition** | Identity vs competence (bi-directional proof) | RECURSIVE |
 
 **Key constraint**: Anchor Detection and Basin Topology are **mutually exclusive** — can't run both in the same experiment.
 
@@ -146,6 +148,7 @@ Before running experiments, understand the **Six Search Types** — see [TESTING
 | **Run 010 Bandwidth** | Infrastructure stress test | 42 | 1 | Max parallelism test, rate limit detection |
 | **Run 010 Recursive** | Meta-feedback collection | 42 | 7 | Full response capture, phenomenological markers, recursive improvement loop |
 | **Run 011 Persona Comparison** | Test persona architecture stabilization | 20×2 | 16 | Control vs Persona fleets, exponential recovery analysis (λ decay), R² fit validation |
+| **Run 012 Revalidation** | Full fleet revalidation with real metric | 20 | 16 | 100% Event Horizon crossing, 100% recovery, Recovery Paradox discovered (negative λ) |
 
 ### Calibration Utilities
 
@@ -274,6 +277,7 @@ py visualize_armada.py --run 009 --type phase
 | 5 | `stability` | `5_stability/` | Baseline vs max drift scatter + histogram |
 | 6 | `html` | `6_interactive/` | Interactive Plotly HTML files |
 | 7 | `fft` | `7_fft/` | Spectral analysis (least useful for this research) |
+| 8 | `unified` | `9_unified_dimensional/` | ALL dimensions in one view (heatmap + fleet comparison) |
 
 ### Key Concepts
 
@@ -300,10 +304,10 @@ See `experiments/EXP_PFI_A_DIMENSIONAL/README.md` for full results.
 
 ## Next Steps
 
-1. **EXP-H1**: Human Manifold (requires validated identity measure ✅)
-2. **S12+**: Metric-Architecture Synergy (identity vectors feed back into personas)
-3. **Analyze λ decay constants**: Which models recover fastest from perturbation?
-4. **Cross-provider comparison**: Do Claude/GPT/Gemini/Grok have fundamentally different identity manifolds?
+1. **EXP-SELF-RECOGNITION**: Can AIs recognize their own responses? (bi-directional proof)
+2. **Remaining providers**: Run GPT, Gemini, Grok for full 42-ship fleet
+3. **Phase 2.5 Ablation**: Which dimensions are essential vs redundant?
+4. **Recovery Paradox investigation**: Why does λ go negative? (context-blind metric issue)
 
 ---
 

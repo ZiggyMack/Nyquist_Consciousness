@@ -2,7 +2,7 @@
 
 AI Fleet Experiments for Temporal Identity Coherence
 
-Date: November 26, 2025 - Present | Status: Run 011 Complete | Active Development
+Date: November 26, 2025 - Present | Status: Run 012 Complete | Active Development
 
 ---
 
@@ -452,18 +452,19 @@ py visualize_armada.py --run 009 --type pillar
 | 009 | Dec 2 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
 | 010 | Dec 3 | 45 | Pole Detection | Models articulate own boundaries |
 | 011 | Dec 3 | 40 | Basin Topology | Control vs Persona A/B (inconclusive - protocol too gentle) |
+| **012** | Dec 6 | 20 | **Revalidation** | **100% EH crossing, 100% recovery, Recovery Paradox discovered** |
 
 See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for detailed run-by-run breakdown.
 
 ## NEXT STEPS
 
-1. **Boundary Mapping run** — Probe drift 0.8-1.2 zone to explain the 12% anomaly
-2. **Fix lambda calculation** — Need recovery dynamics, not just drift points
-3. **Harder protocol** — Push 30-50% past Event Horizon for statistical power
-4. **Cross-provider comparison** — Are boundaries universal or provider-specific?
+1. **EXP-SELF-RECOGNITION** — Can AIs recognize their own responses? (bi-directional proof)
+2. **Remaining providers** — Run GPT, Gemini, Grok for full 42-ship fleet
+3. **Phase 2.5 Ablation** — Which dimensions are essential vs redundant?
+4. **Recovery Paradox investigation** — Why does lambda go negative?
 
 ---
 
-**Last Updated**: December 4, 2025
+**Last Updated**: December 6, 2025
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

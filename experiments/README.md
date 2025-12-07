@@ -45,7 +45,7 @@ experiments/
 ### ⭐ S7 ARMADA - Multi-Model Fleet (CURRENT PRIORITY)
 
 **Location:** `temporal_stability/S7_ARMADA/`
-**Status:** Run 011 COMPLETE, Run 012 planning
+**Status:** Run 012 COMPLETE, EXP-SELF-RECOGNITION ready
 **Purpose:** Cross-architecture AI identity stability testing
 
 **Key Discovery: Event Horizon at 1.23**
@@ -61,10 +61,11 @@ experiments/
 | 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
 | 010 | 45 | Pole Detection | Models articulate own boundaries |
 | 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive) |
+| **012** | 20 | **Revalidation** | **100% EH crossing, 100% recovery, Recovery Paradox** |
 
 **Testing Taxonomy (IMPORTANT):**
 
-See [TESTING_MAP.md](../docs/maps/TESTING_MAP.md) for the **Six Search Types**:
+See [TESTING_MAP.md](../docs/maps/TESTING_MAP.md) for the **Eight Search Types**:
 
 1. **Anchor Detection** — Find identity fixed points (hard challenges)
 2. **Adaptive Range Detection** — Find stretch dimensions (moderate)
@@ -72,6 +73,8 @@ See [TESTING_MAP.md](../docs/maps/TESTING_MAP.md) for the **Six Search Types**:
 4. **Basin Topology** — Map attractor structure (gentle)
 5. **Boundary Mapping** — Explore the 12% anomaly (targeted)
 6. **Laplace Pole-Zero Analysis** — Extract system dynamics (post-hoc)
+7. **Stability Testing** — Validate metrics predict outcomes (PFI, dimensional drift)
+8. **Self-Recognition** — Can AIs recognize their own responses? (bi-directional)
 
 **Key Constraint:** Not all tests are compatible. Anchor Detection and Basin Topology are **mutually exclusive**.
 
@@ -209,5 +212,5 @@ python ascii_visualizations.py
 
 ---
 
-**Last Updated:** 2025-11-30
-**Status:** Lucien Δ integration complete, S7 ARMADA active
+**Last Updated:** 2025-12-06
+**Status:** Run 012 complete, EXP-SELF-RECOGNITION ready, S7 ARMADA active

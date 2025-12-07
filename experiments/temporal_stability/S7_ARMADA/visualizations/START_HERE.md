@@ -104,6 +104,7 @@ py -3.12 visualize_armada.py --type html       # Interactive Plotly HTML
 ```bash
 py -3.12 visualize_armada.py --run 008 --type vortex
 py -3.12 visualize_armada.py --run 009 --type html
+py -3.12 visualize_armada.py --run 012 --type unified  # NEW: all dimensions in one view
 ```
 
 ---
@@ -139,6 +140,7 @@ pics/
 | **3D Basin** | Full phase space with time axis - Attractor dynamics |
 | **Stability Basin** | Baseline vs max drift + Event Horizon histogram |
 | **Interactive HTML** | Plotly 3D - Rotate, zoom, hover for details |
+| **Unified Dimensional** | ALL dimensions (A-E) in one view - heatmap + fleet comparison |
 
 ---
 
@@ -156,8 +158,11 @@ Plotly is optional (only needed for HTML exports).
 
 The script auto-detects JSON files from `../armada_results/`:
 
-- `S7_run_008_*.json` - Run 008 (5D drift metric)
+- `S7_run_008_*.json` - Run 008 (dimensional drift metric)
 - `S7_run_009_*.json` - Run 009 drain capture
+- `S7_run_010_*.json` - Run 010 recursive capture
+- `S7_run_011_*.json` - Run 011 persona comparison
+- `S7_run_012_*.json` - Run 012 fleet revalidation (100% EH crossing, 100% recovery)
 - Future runs will be auto-detected
 
 ---

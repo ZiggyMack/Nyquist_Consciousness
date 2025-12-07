@@ -9,7 +9,7 @@
   - **Compression Testing Tab** - PFI experiments, pre-flight validation, Identity Matrix
 - **Tests** - Experiment framework with S7 protocol, compression results, Run mapping
 - **Stack (S0–S9)** - Individual wings for each layer with specs
-- **S7 Armada Visualizations** - Identity manifold graphs from Run 006-011
+- **S7 Armada Visualizations** - Identity manifold graphs from Run 006-012
 - **Metrics & Comparisons** - PFI, σ², cross-architecture analysis
 - **Omega & Temporal** - Omega sessions and S7 temporal stability
 - **Cross-Modal / AVLAR** - S9 audio-visual ritual protocol
@@ -105,6 +105,17 @@ To wire real experiment data:
 2. Update `NYQUIST_STATUS.json` with latest run data
 3. Add new visualizations to S7_ARMADA/visualizations/
 
+## S7 ARMADA Run History
+
+| Run | Ships | Focus | Key Finding |
+|-----|-------|-------|-------------|
+| 006 | 29 | Provider Comparison | Training fingerprints validated |
+| 008 | 29 | Ground Truth | Event Horizon discovered (1.23), real 5D metric |
+| 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 010 | 45 | Anchor Detection | Lambda bug, partial data |
+| 011 | 40 | Persona A/B | Inconclusive — protocol too gentle |
+| **012** | 20 | **Revalidation** | **100% EH crossing, 100% recovery** |
+
 ## Future Enhancements
 
 Per Nova's spec, future additions could include:
@@ -114,6 +125,7 @@ Per Nova's spec, future additions could include:
 - **Live Run Monitoring** - Real-time S7 Meta-Loop or Armada execution status
 - **Comparison Matrix Gallery** - All cross-architecture comparison tables
 - **Interactive Glossary** - Click-through links between related terms
+- **Unified Dimensional Views** - ALL dimensions in one visualization
 
 ## File Structure
 
