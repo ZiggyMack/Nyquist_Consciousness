@@ -25,10 +25,11 @@ warnings.filterwarnings('ignore')
 
 # ============ CONFIG ============
 
-DATA_DIR = Path(__file__).parent.parent / "results" / "runs"
-OUTPUT_DIR = Path(__file__).parent.parent / "results" / "analysis"
+DATA_DIR = Path(__file__).parent.parent / "0_results" / "runs"
+OUTPUT_DIR = Path(__file__).parent.parent / "0_results" / "analysis"
 RUN_008_FILE = "S7_run_008_20251201_020501.json"
 RUN_009_FILE = "S7_run_009_drain_20251202_170600.json"
+RUN_012_FILE = "S7_run_012_20251206_160424.json"
 
 # ============ DATA LOADING ============
 

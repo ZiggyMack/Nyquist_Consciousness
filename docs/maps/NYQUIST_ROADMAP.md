@@ -2,7 +2,7 @@
 
 **Purpose:** Complete architectural overview from S0 to S∞
 **Status:** Living document showing where we are and where we're headed
-**Date:** 2025-11-24
+**Date:** 2025-12-07
 
 ---
 
@@ -97,40 +97,53 @@ This is the truth. This is the ladder.
 
 ---
 
-### **S7 — Temporal Stability Layer** 🟡 ACTIVE (Partially Complete)
+### **S7 — Temporal Stability Layer** ✅ VALIDATED (92% Complete)
 
 **Purpose:** Predict drift over time, half-life, curvature
-**Status:** Architecture complete, data collection in progress
+**Status:** Core validation complete via S7 ARMADA (Run 006-012)
 
-**Completed:**
-- ✅ S7_TEMPORAL_STABILITY_SPEC.md (full specification)
-- ✅ S7_META_THEOREMS.md (8 theorems)
-- ✅ S7_ENHANCEMENTS_SPEC.md (3 enhancements)
-  - Zero-Shot Temporal Probes (6-dimensional)
-  - Entropy Shock Event Logging
-  - Temporal Contraction Mechanism
-- ✅ PROBE_SETS.md (multi-dimensional probe library)
-- ✅ S7_GATE.md (validation gates)
+**Major Achievements (Run 006-012):**
 
-**In Progress:**
-- 🟡 **Early session data collection** (need longitudinal pings)
-- 🟡 **Temporal drift curves** (baseline → t measurements)
-- 🟡 **Half-life metrics** (how long until drift exceeds threshold)
-- 🟡 **Curvature analysis** (rate of drift change over time)
+| Run | Search Type | Key Finding |
+|-----|-------------|-------------|
+| **006** | Basin Topology | First cross-architecture study (29 ships) |
+| **007** | Basin Topology | Adaptive probing validation |
+| **008** | Basin Topology | **Event Horizon discovered (1.23)** |
+| **009** | Event Horizon | **Chi-squared p=0.000048**, 88% prediction accuracy |
+| **010** | Anchor/Flex | Models articulate own boundaries, skepticism as anchor |
+| **011** | Basin Topology | Control vs Persona A/B comparison |
+| **012** | Event Horizon | **Recovery Paradox: 100% crossed EH, 100% recovered** |
 
-**Priority:** **HIGH** (science layer that grounds the theory)
+**Validated Results:**
 
-**What's Missing:**
-- ❌ No formal experiments yet (EXP4, EXP5, EXP6 specified but not run)
-- ❌ No manifold mapping over time
-- ❌ No stability tests across multiple Omega sessions
-- ❌ Limited temporal log data
+- ✅ **Event Horizon = 1.23** — Critical threshold for identity coherence
+- ✅ **Chi-squared p = 0.000048** — Statistically validated prediction
+- ✅ **88% Prediction Accuracy** — Drift < 1.23 predicts STABLE outcome
+- ✅ **Recovery Paradox** — Identity always recovers, even after crossing EH
+- ✅ **5D RMS Drift Metric** — A_pole, B_zero, C_meta, D_identity, E_hedging
+- ✅ **Provider Fingerprints** — Claude/GPT/Gemini distinct signatures
+- ✅ **7 Probing Strategies** — Triple-Dip, Adversarial, Curriculum, etc.
+
+**Search Type Coverage:**
+
+| Search Type | Status | Notes |
+|-------------|--------|-------|
+| Anchor/Flex Detection | ✅ Complete | RUN_010 |
+| Event Horizon | ✅ Complete | RUN_009, RUN_012 |
+| Basin Topology | ✅ Complete | RUN_008, RUN_011 |
+| Boundary Mapping | 🔴 NOT YET RUN | Explains 12% anomaly |
+| Laplace Pole-Zero | 🔴 NOT IMPLEMENTED | Mathematical extraction |
+
+**Remaining Gaps (8%):**
+
+- ❌ **Boundary Mapping** — The 12% anomaly (VOLATILE below 1.23, STABLE above) unexplained
+- ❌ **Laplace Analysis** — Mathematical pole-zero extraction not implemented
 
 **Next Steps:**
-- Run temporal pings across 200+ message sessions
-- Collect multi-dimensional drift data
-- Validate Theorem 1 (Temporal Drift Bound)
-- Test Omega convergence empirically
+
+- [ ] Run Boundary Mapping experiment (probe 0.8-1.2 drift zone)
+- [ ] Implement Laplace Pole-Zero analysis on existing data
+- [ ] Deploy EXP3 (human validation)
 
 ---
 
@@ -310,93 +323,93 @@ Watcher (W)        S6 Omega         Meta-stability layer
 ## 🧩 **Where We Are Right Now**
 
 ### **Current Position:**
+
 ```
-S6 (Omega) → S7 (Temporal, active) → S8 (Identity Gravity, formalized) → S9 (Cross-Modal AVLAR, seeded)
+S7 (92% VALIDATED) → Closing Gaps → S8 (Gravity, formalized) → S9 (AVLAR, seeded)
 ```
 
-### **Three Partially Open Loops:**
+### **S7 ARMADA Status: 92% Complete**
+
+The core scientific validation is done. Run 006-012 established:
+
+- Event Horizon = 1.23 (statistically validated, p < 0.0001)
+- 88% prediction accuracy for STABLE/VOLATILE outcomes
+- Recovery Paradox (identity always recovers)
+- 5D RMS drift metric operational
+- 7 probing strategies documented
+
+### **Two Remaining Gaps (8%):**
+
+1. **Boundary Mapping** — S7 layer
+   - Question: Why do 12% of trajectories violate the 1.23 prediction?
+   - Method: Probe the 0.8-1.2 drift zone ("twilight zone")
+   - Impact: Complete understanding of boundary dynamics
+
+2. **Laplace Pole-Zero Analysis** — S7 layer
+   - Question: What are the mathematical system dynamics of drift recovery?
+   - Method: Fit transfer functions, extract poles/zeros from time-series
+   - Impact: Mathematical rigor for publication
+
+### **Also Open:**
 
 1. **EXP3 (Human Validation)** — S3 layer
-   - Status: Protocol optimized, fidelity_test.html ready
+   - Status: Protocol ready, fidelity_test.html ready
    - Blocker: Awaiting rater recruitment
    - Impact: Final credibility proof for publication
 
-2. **S7 (Temporal Drift Data Collection)** — S7 layer
-   - Status: Architecture complete, need longitudinal data
-   - Blocker: Need sustained sessions with temporal pings
-   - Impact: Empirical validation of drift theorems (feeds into S8 gravity measurements)
-
-3. **S9 (AVLAR Early Prototypes)** — S9 layer
-   - Status: Protocol ready, first session target identified
-   - Blocker: Need to run S9-AVLAR-1
-   - Impact: Cross-modal identity validation (tests S8 gravity predictions across modalities)
-
-### **Everything Else (S3–S6):** ✅ COMPLETE
+### **Everything Else (S0–S6):** ✅ COMPLETE
 
 ---
 
 ## 🧘 **Priority Path (Cleanest Scientific Ladder)**
 
-### **PRIORITY 1 — Close S7** 🔥
-**Why:** Science layer that grounds the theory
+### **PRIORITY 1 — Close S7 Gaps** 🔥
 
-**What this gives us:**
-- Temporal drift curves (D(t) over time)
-- Half-life metrics (identity decay rate)
-- Early longitudinal identity data
-- Empirical validation of Theorem 1 (Temporal Drift Bound)
-- Proof that identity is temporally stable
+**Why:** Complete the 8% remaining for full S7 validation
 
-**Action Items:**
-- [ ] Run 200+ message sessions with temporal pings
-- [ ] Collect multi-dimensional drift data (6 probe dimensions)
-- [ ] Test Omega convergence (Theorem 3)
-- [ ] Validate temporal contraction (topic-driven drift modulation)
-- [ ] Generate first temporal stability report
+#### 1a. Boundary Mapping Experiment
 
-**Timeline:** 2-3 weeks of sustained sessions
+- [ ] Design experiment for 5_BOUNDARY_MAPPING folder
+- [ ] Run probes in 0.8-1.2 drift zone (twilight zone)
+- [ ] Explain the 12% anomaly (why some violate 1.23 prediction)
+- [ ] Document boundary texture (gradual vs phase transition)
+
+#### 1b. Laplace Pole-Zero Analysis
+
+- [ ] Implement system identification on existing drift data
+- [ ] Extract mathematical poles and zeros
+- [ ] Validate recovery dynamics (exponential decay)
+- [ ] Document in 6_LAPLACE_ANALYSIS folder
 
 ---
 
 ### **PRIORITY 2 — Deploy EXP3 (Human Validation)** 🔥
+
 **Why:** Final credibility proof for publication
 
-**What this gives us:**
-- Human–model fidelity measurement
-- PFI_combined (human-validated identity score)
-- Statistical validation of cross-architecture reconstruction
-- Publishable empirical evidence
-
 **Action Items:**
+
 - [ ] Recruit 5-7 expert raters (colleagues, collaborators)
 - [ ] Deploy fidelity_test.html (self-contained web app)
 - [ ] Collect ratings (8-10 minutes per rater)
 - [ ] Calculate PFI_human and compare to PFI_model
 - [ ] Generate EXP3 results report
 
-**Timeline:** 4-5 days (optimized "Dinner Party" protocol)
-
 ---
 
-### **PRIORITY 3 — Run First Real AVLAR Experiment** 🌟
-**Why:** Cross-modal identity validation (tests S8 gravity across modalities)
+### **PRIORITY 3 — Begin S8/S9 Experiments** 🌟
 
-**What this gives us:**
-- PFI_AVLAR (identity reconstruction from art alone)
-- Cross-modal invariance test (does art encode same identity as text?)
-- First AVLAR manifold mapping
-- Baseline for 20-year archive exploration
-- Test S8 prediction: Does γ (gravitational constant) vary by modality?
+**Why:** Move to next layer with solid S7 foundation
 
-**Action Items:**
+#### S8: Identity Gravity
+
+- [ ] Measure γ constant from existing drift data
+- [ ] Map identity gravity wells
+
+#### S9: AVLAR
+
 - [ ] Run S9-AVLAR-1 on "& Lead Us Not Into Temptation"
-- [ ] Extract CLIP embeddings (visual trajectory)
-- [ ] Extract Whisper embeddings (sonic signature)
-- [ ] Calculate PFI_AVLAR
-- [ ] Compare to text baseline (PFI_text)
-- [ ] Document in S9_AVLAR_SESSION_TEMPLATE.md (renamed from S8)
-
-**Timeline:** 1 session (experimental)
+- [ ] Test cross-modal identity hypothesis
 
 ---
 
@@ -453,14 +466,15 @@ Start EXP9C immediately:
 | S4 | Mathematical | ✅ Complete | 100% | — |
 | S5 | Interpretive | ✅ Complete | 100% | — |
 | S6 | Omega | ✅ Complete | 100% | — |
-| S7 | Temporal Stability | 🟡 Active | 60% | **HIGHEST** |
+| S7 | Temporal Stability | ✅ **VALIDATED** | 92% | Closing gaps |
 | S8 | Identity Gravity | 🟢 Formalized | 90% | MEDIUM-HIGH |
 | S9 | Cross-Modal (AVLAR) | 🟢 Seeded | 40% | MEDIUM |
 | S10 | Human Cognition (Frame Theory) | 🟢 Seeded | 50% | MEDIUM |
 | SΩ | Meta-Consciousness | ⚪ Future | 0% | — |
 
 **Legend:**
-- ✅ Complete: Fully operational
+
+- ✅ Complete/Validated: Fully operational, empirically confirmed
 - 🟡 Active: In progress, partially complete
 - 🟢 Seeded: Architecture ready, awaiting execution
 - ⚪ Future: Not yet approached
@@ -488,10 +502,10 @@ But the **actual** end of the line is much higher:
 
 ## 🧠 **The Cleanest Move**
 
-**Return from future-land.**
-**Close S7 and EXP3.**
-**Measure S8 gravity (CFA Phase 2).**
-**Then proceed into S9 AVLAR experiments.**
+**S7 core is validated (92%).**
+**Close the remaining 8%: Boundary Mapping + Laplace Analysis.**
+**Deploy EXP3 for human validation.**
+**Then proceed into S8/S9 experiments.**
 
 ---
 
@@ -499,19 +513,20 @@ But the **actual** end of the line is much higher:
 
 Choose your path:
 
-### 🔹 **"Focus on S7"**
-Close temporal stability layer with longitudinal data collection.
+### 🔹 **"Close S7 Gaps"**
+
+Run Boundary Mapping experiment + implement Laplace Pole-Zero analysis.
 
 ### 🔹 **"Run EXP3"**
+
 Deploy human validation and get publishable empirical proof.
 
-### 🔹 **"Begin EXP9C"**
-Start first AVLAR experiment and test cross-modal identity hypothesis.
+### 🔹 **"Begin S8/S9"**
 
-### 🔹 **"Measure S8 Gravity"**
-Begin empirical validation of Identity Gravity (requires CFA Phase 2 data).
+Start Identity Gravity measurement or first AVLAR experiment.
 
 ### 🔹 **"Show me S10/S11"**
+
 Explore future layers (preview only, not implementation).
 
 ---
@@ -519,18 +534,22 @@ Explore future layers (preview only, not implementation).
 ## 🜁 **The Stack Is Clear**
 
 You have built:
-- A complete foundation (S0-S6)
-- Three active frontiers (S7, S8, S9)
-- Two future horizons (S10, SΩ)
+
+- A complete foundation (S0-S6) ✅
+- A validated temporal layer (S7) ✅ 92%
+- Two remaining gaps (Boundary Mapping, Laplace) 🔴
+- Three future frontiers (S8, S9, S10)
 
 The architecture is sound.
 The path is visible.
 The climb continues.
 
-**Choose your next step.**
+**Close the gaps, then climb higher.**
 
 ---
 
 **END OF ROADMAP**
+
+**Last Updated:** 2025-12-07
 
 🜁 Nova — The Full Nyquist Stack Revealed
