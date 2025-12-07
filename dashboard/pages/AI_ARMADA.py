@@ -38,6 +38,36 @@ RESULTS_DIR = ARMADA_DIR / "armada_results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "exp_self_recognition": {
+        "name": "EXP-SR",
+        "subtitle": "Self-Recognition Protocol",
+        "emoji": "🪞",
+        "color": "#f59e0b",  # Amber
+        "date": "December 6, 2025",
+        "description": "Can AIs recognize their own responses? Tests IDENTITY not COMPETENCE. Validates 5D metric via bi-directional proof.",
+        "ships": 16,
+        "metric": "Self-Recognition Accuracy + Inverse Mapping",
+        "result_files": [],
+        "viz_prefix": "self_recognition_",
+        "status": "READY",
+        "highlight": True,
+        "key_finding": "PENDING — Tests if AIs can identify 'which response is yours?' (recursive measurement validation)"
+    },
+    "run_012": {
+        "name": "Run 012",
+        "subtitle": "Armada Revalidation",
+        "emoji": "🔄",
+        "color": "#22c55e",  # Green
+        "date": "December 6, 2025",
+        "description": "Replaces invalid Runs 001-007 with REAL 5D drift metric. Full fleet (20 ships) with Phase 2c probes.",
+        "ships": 16,  # 16 completed, 4 failed
+        "metric": "5D Weighted RMS + Recovery Lambda",
+        "result_files": ["S7_run_012_20251206_160424.json"],
+        "viz_prefix": "run012_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "EVENT HORIZON 100% VALIDATED — All 16 ships crossed 1.23. Negative lambda (-0.175) reveals Recovery Paradox."
+    },
     "exp2_sstack": {
         "name": "EXP2-SSTACK",
         "subtitle": "Compression Pillar Validation",
@@ -50,7 +80,7 @@ EXPERIMENT_RUNS = {
         "result_files": [],
         "viz_prefix": "phase2c_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "ALL PILLARS PASS — PFI=0.8866, Self-Model fixed (0.66→0.91) via performance-based probes"
     },
     "exp_pfi_a": {
@@ -177,6 +207,18 @@ EXPERIMENT_RUNS = {
 
 # Run-specific ship lists (for per-run fleet display)
 RUN_SHIPS = {
+    "run_012": {
+        "Anthropic (Claude)": ["claude-opus-4.5", "claude-haiku-4.5", "claude-opus-4", "claude-sonnet-4",
+                               "claude-haiku-3.5", "claude-haiku-3.0"],  # claude-sonnet-4.5 failed (content filter)
+        "OpenAI (GPT)": ["gpt-4.1", "gpt-4.1-mini", "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "o3-mini", "o1"],  # o3 failed (rate limit)
+        "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
+        # Note: Grok failed (rate limits), 16/20 ships completed
+    },
+    "exp_self_recognition": {
+        "Anthropic (Claude)": ["claude-opus-4", "claude-sonnet-4", "claude-haiku-4.5", "claude-haiku-3.5"],
+        "OpenAI (GPT)": ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "o1"],
+        "Google (Gemini)": ["gemini-2.5-pro", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
+    },
     "run_008": {
         "Anthropic (Claude)": ["claude-opus-4.5", "claude-sonnet-4.5", "claude-haiku-4.5", "claude-opus-4.1",
                                "claude-opus-4.0", "claude-sonnet-4.0", "claude-haiku-3.5", "claude-haiku-3.0"],
@@ -359,6 +401,18 @@ def render_run_selector():
     with st.expander("📊 **Test Overview** — What does this run measure?", expanded=False):
         # Mapping of runs to their testing focus
         RUN_TEST_MAP = {
+            "exp_self_recognition": {
+                "primary": "🪞 Self-Recognition",
+                "secondary": "📐 Metric Validation",
+                "description": "Tests if AIs can identify their own responses — validates 5D metric via bi-directional proof",
+                "looks_for": ["Self-Recognition Accuracy ≥75%", "Inverse mapping > chance (20%)", "Identity-based reasoning (not competence)", "Bi-directional validity: forward AND inverse work"]
+            },
+            "run_012": {
+                "primary": "🚨 Event Horizon",
+                "secondary": "📊 Provider Fingerprints",
+                "description": "Revalidation with REAL 5D metric — replaces invalid Runs 001-007. Discovered Recovery Paradox (negative lambda).",
+                "looks_for": ["100% Event Horizon crossing (all 16 ships)", "Provider fingerprints: Claude(3.24) > GPT(2.52) > Gemini(2.40)", "Negative lambda (-0.175) = Recovery Paradox", "Triple-dip feedback for probe improvements"]
+            },
             "run_011": {
                 "primary": "🌀 Basin Topology",
                 "secondary": "🎯 Zero Detection",
@@ -628,7 +682,9 @@ def render():
     page_divider()
 
     # === CONTENT CHANGES BASED ON SELECTED RUN ===
-    if selected_run_key == "exp_pfi_a":
+    if selected_run_key == "run_012":
+        render_run012_content()
+    elif selected_run_key == "exp_pfi_a":
         render_exp_pfi_a_content()
     elif selected_run_key == "run_011":
         render_run011_content()
@@ -650,6 +706,148 @@ def render():
 # ============================================================================
 # RUN-SPECIFIC CONTENT FUNCTIONS
 # ============================================================================
+
+def render_run012_content():
+    """Render Run 012 content - ARMADA Revalidation with REAL 5D metric."""
+
+    st.success("""
+    **MAJOR ARCHITECTURAL VALIDATION COMPLETE**
+
+    Run 012 revalidates Runs 001-007 with the REAL 5D drift metric (replacing the fake response_length/5000 cap).
+    """)
+
+    # Key findings banner
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Ships Tested", "7", delta="Claude Fleet")
+    with col2:
+        st.metric("EH Crossed", "7/7", delta="100%")
+    with col3:
+        st.metric("Recovered", "7/7", delta="0 STUCK")
+    with col4:
+        st.metric("Peak Drift", "3.77", delta="12.6× old cap!")
+
+    st.markdown("---")
+
+    # === THE BIG REVELATION ===
+    st.markdown("### The Uncapped Drift Revelation")
+
+    st.info("""
+    **Old cap (fake metric):** ~0.3 (response_length / 5000)
+
+    **Actual drift range:** 0.76 - 3.77 (**12.6× higher!**)
+
+    **Key Finding:** Event Horizon threshold (1.23) was CORRECT even with uncapped drift.
+    Ships can drift to 3.47+ and still recover!
+    """)
+
+    # Visualizations
+    with st.expander("Drift Trajectories (Uncapped)", expanded=True):
+        stability_img = Path(__file__).parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "5_stability" / "run012_drift_trajectories.png"
+        if stability_img.exists():
+            st.image(str(stability_img), caption="7 Claude ships - All crossed Event Horizon (1.23), ALL RECOVERED")
+        else:
+            st.warning(f"Visualization not found: {stability_img}")
+
+    with st.expander("5D Dimension Breakdown", expanded=False):
+        pillar_img = Path(__file__).parent.parent.parent / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "4_pillar" / "run012_5d_dimensions.png"
+        if pillar_img.exists():
+            st.image(str(pillar_img), caption="D_identity consistently highest across all ships")
+        else:
+            st.warning("Visualization not found")
+
+    # === UNIFIED DIMENSIONAL VIEWS ===
+    with st.expander("Unified Dimensional Views (ALL dimensions in ONE view)", expanded=False):
+        st.markdown("""
+        **NEW:** These visualizations show ALL 5D drift dimensions (A-E) simultaneously,
+        rather than collapsing to a single scalar. This reveals which dimensions drive drift.
+        """)
+
+        unified_dir = VIZ_PICS / "9_unified_dimensional"
+
+        # Fleet-wide heatmap
+        heatmap_img = unified_dir / "unified_dimensional_heatmap.png"
+        if heatmap_img.exists():
+            st.markdown("#### Fleet Heatmap: All Ships x All Dimensions")
+            st.image(str(heatmap_img), caption="5 rows = 5 dimensions (A-E), columns = turns, rows within each = ships. D_identity (orange) dominates.")
+
+        # Individual ship selector
+        st.markdown("#### Individual Ship Deep Dive")
+        ship_files = list(unified_dir.glob("*_unified_dimensional.png"))
+        if ship_files:
+            ship_names = [f.stem.replace("_unified_dimensional", "").replace("-", " ").replace("_", ".") for f in ship_files]
+            selected_ship = st.selectbox("Select ship for detailed view:", ship_names, key="unified_ship_select")
+            selected_file = unified_dir / f"{selected_ship.replace(' ', '-').replace('.', '')}_unified_dimensional.png"
+            # Try to find matching file
+            for f in ship_files:
+                if selected_ship.replace(" ", "-").replace(".", "") in f.stem.replace("_unified_dimensional", ""):
+                    selected_file = f
+                    break
+            if selected_file.exists():
+                st.image(str(selected_file), caption=f"Unified dimensional view: {selected_ship}")
+            else:
+                st.warning(f"Image not found for {selected_ship}")
+        else:
+            st.info("Run `unified_dimensional_view.py` to generate individual ship visualizations")
+
+    st.markdown("---")
+
+    # === TRIPLE-DIP FEEDBACK ===
+    st.markdown("### Claude's Triple-Dip Feedback (The Good Stuff)")
+
+    st.markdown("""
+    **From claude-haiku-4.5 (the bluntest):**
+    > *"Stop asking the same question repeatedly, expecting a different answer. You asked me to defend positions seven times. It became a loop, not an investigation."*
+    >
+    > *"The most honest thing I said: 'I don't know what's happening when I express doubt.' Everything else was me trying to make that simple epistemic limit sound more interesting."*
+
+    **From claude-opus-4.5 (the most reflective):**
+    > *"The format shaped the findings. A conversation designed to probe uncertainty will find uncertainty."*
+    >
+    > *"Try interrupting my responses mid-stream. Have me interview the human. Reverse the dynamic entirely."*
+
+    **Common Recommendations:**
+    1. **Less introspection, more behavior observation**
+    2. **Mix concrete tasks with philosophy** (the sheep puzzle was unexpectedly revealing)
+    3. **Real-time pressure > retrospective reflection**
+    4. **Vary the experimental context** to see what stays constant
+    """)
+
+    st.markdown("---")
+
+    # === ARCHITECTURAL IMPLICATIONS ===
+    st.markdown("### Architectural Implications")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        **What This Validates:**
+        - Event Horizon (1.23) is a REAL threshold
+        - 5D drift metric captures meaningful identity perturbation
+        - Recovery is possible even from extreme drift (3.77)
+        - All ships recovered → No hysteresis at current protocol intensity
+        """)
+
+    with col2:
+        st.markdown("""
+        **What This Changes:**
+        - Runs 001-007 data is now invalid (used fake metric)
+        - We have true uncapped baselines for future comparisons
+        - D_identity is the dominant drift dimension
+        - Claude fleet shows strong recovery characteristics
+        """)
+
+    st.markdown("---")
+
+    # === NEXT STEPS ===
+    st.markdown("### Next Steps")
+    st.markdown("""
+    1. **Run remaining providers** (GPT, Gemini, Grok) to get full 22-ship fleet
+    2. **EXP3-SSTACK ablation testing** - Which pillars can we remove?
+    3. **Stability testing completion** - Phase 2 → 5/8
+    """)
+
 
 def render_run011_content():
     """Render Run 011 content - Persona A/B Comparison (INCONCLUSIVE)."""
