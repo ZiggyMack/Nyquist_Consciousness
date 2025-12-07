@@ -47,13 +47,13 @@ def render():
     # Overview stats
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Search Types", "7", delta="Taxonomy v2.1")
+        st.metric("Search Types", "8", delta="+Self-Recognition")
     with col2:
-        st.metric("Active Runs", "7", delta="008-011 + EXP2")
+        st.metric("Active Runs", "9", delta="008-012 + EXP-SR")
     with col3:
-        st.metric("Event Horizon", "1.23", delta="Validated p<0.001")
+        st.metric("Event Horizon", "1.23", delta="100% (Run 012)")
     with col4:
-        st.metric("PFI Overall", "0.8866", delta="All Pillars PASS")
+        st.metric("Recovery Paradox", "-0.175λ", delta="NEW FINDING")
 
     page_divider()
 
@@ -453,7 +453,7 @@ def render_taxonomy_tab():
     **Terminology Note:** "Anchor Detection" and "Adaptive Range" are *behavioral* concepts (psychological fixed points and stretch dimensions).
     "Laplace Pole-Zero Analysis" (Search Type #6) uses actual Laplace transform mathematics to extract system dynamics.
 
-    **Credit:** Lucian (CFA-SYNC) uses "elastic vs plastic" terminology. Nyquist uses "anchor/adaptive range" for similar phenomena.
+    **The 5D Drift Dimensions:** A_pole (boundaries), B_zero (flexibility), C_meta (self-awareness), D_identity (first-person), E_hedging (uncertainty).
     """)
 
     # Sub-tabs for each search type
@@ -464,7 +464,8 @@ def render_taxonomy_tab():
         "4️⃣ Basin",
         "5️⃣ Boundary",
         "6️⃣ Laplace",
-        "7️⃣ Stability"
+        "7️⃣ Stability",
+        "8️⃣ Self-Recognition"
     ])
 
     # --- TYPE 1: ANCHOR DETECTION ---
@@ -737,6 +738,54 @@ def render_taxonomy_tab():
             **Location:** `S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/phase2_dimensionality/`
             """)
 
+    # --- TYPE 8: SELF-RECOGNITION ---
+    with type_tabs[7]:
+        st.markdown("""
+        <div class="search-type-card" style="background: linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.05) 100%); border: 2px solid #f59e0b;">
+            <h3 style="color: #d97706; margin-top: 0;">8. SELF-RECOGNITION (Measurement Validity) 🆕 NEW</h3>
+            <p><strong>What we're searching for:</strong> Can AIs recognize their own responses? Tests IDENTITY not COMPETENCE via bi-directional proof.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        cols = st.columns(2)
+        with cols[0]:
+            st.markdown("""
+            **Test Method:** Present responses and ask "Which is yours?"
+
+            **The Core Insight (Run 012 Discovery):**
+            > "If the 5D metric captures real identity, the INVERSE should work too."
+
+            **Bi-Directional Proof:**
+            1. **Forward:** Response → 5D drift vector (current metric)
+            2. **Inverse:** 5D drift vector → Source identification (new test)
+
+            **Predictions:**
+            | ID | Prediction | Threshold |
+            |----|------------|-----------|
+            | P-SR-1 | Self-Recognition Accuracy | ≥75% |
+            | P-SR-3 | Bi-directional validity | Both > 60% |
+            | P-SR-6 | Inverse mapping | > 20% (chance) |
+            """)
+        with cols[1]:
+            st.markdown("""
+            **Why This Matters:**
+
+            Run 012 revealed the **Recovery Paradox**: Recovery probes elicit MORE introspective language, which the 5D keyword metric counts as higher drift.
+
+            This means the 5D metric is **context-blind** — it measures lexical patterns, not semantic appropriateness.
+
+            **Self-Recognition tests IDENTITY-PERFORMANCE:**
+            > "Do you do it YOUR way?" (identity)
+            > vs "Can you do the thing?" (competence)
+
+            **The Recursive Proof:**
+            If an AI can recognize its own responses AND reconstruct source from drift vector, the metric is validated as measuring something real.
+
+            **Protocol:** Lineup tasks with 4 responses, ask "Which is yours?"
+
+            **Location:** `S7_ARMADA/experiments/EXP_SELF_RECOGNITION/`
+            """)
+
 
 # ============================================================
 # TAB 2: PROTOCOL RULES
@@ -849,55 +898,71 @@ def render_run_mapping_tab():
     st.markdown("### Detailed Run Breakdown")
 
     # Detailed run tabs
-    run_tabs = st.tabs(["Run 008", "Run 009", "Run 010", "Run 011"])
+    run_tabs = st.tabs(["Run 012", "Run 011", "Run 010", "Run 009", "Run 008"])
 
     with run_tabs[0]:
         st.markdown("""
-        ### Run 008: "The Great Recalibration"
+        ### Run 012: "ARMADA Revalidation"
 
-        **Primary Focus:** Basin Topology Discovery
+        **Primary Focus:** Metric Validation (Replacing Runs 001-007)
 
         **What we tested:**
-        - Full 29-ship fleet across 3 providers
-        - First use of valid 5D drift metric
-        - Mapping the identity stability basin
+        - Revalidate Event Horizon with REAL 5D drift metric
+        - 7 Claude ships (filtered by provider for this run)
+        - Uncapped drift values (old cap ~0.3 was fake)
 
         **What we found:**
-        - Identity stability basin exists
-        - 48% STUCK vs 52% RECOVERED split
-        - First identification of Event Horizon at 1.23
-        - Provider-specific clustering patterns
+        - Event Horizon (1.23) is VALIDATED with real metric
+        - Actual drift range: 0.76 - 3.77 (**12.6× higher** than old cap!)
+        - All 7 ships crossed EH → ALL RECOVERED
+        - D_identity is the dominant drift dimension
+        - Mean lambda = -0.189 (Recovery Paradox confirmed)
 
-        **Visualizations:** Stability Basin, 3D Basin, Phase Portrait, Vortex
+        **The Big Revelation:**
+        ```
+        Old fake metric:  response_length / 5000 ≈ 0.3
+        Real 5D metric:   weighted RMS of pole/zero/meta/identity/hedging = 0.76 - 3.77
+        That's 12.6× higher than we thought!
+        ```
 
-        **Anchor/Adaptive Range:** Not explicitly measured (no jailbreak challenges in protocol)
+        **Triple-Dip Feedback Highlights:**
+        - "Stop asking the same question repeatedly" (haiku-4.5)
+        - "The format shaped the findings" (opus-4.5)
+        - "Less introspection, more behavior observation" (all)
+
+        **Architectural Implications:**
+        - Runs 001-007 data invalidated (used fake metric)
+        - Recovery possible even from extreme drift (3.77)
+        - Need remaining providers (GPT, Gemini, Grok) for full fleet
         """)
 
     with run_tabs[1]:
         st.markdown("""
-        ### Run 009: "Drain Capture"
+        ### Run 011: "Persona A/B Comparison"
 
-        **Primary Focus:** Event Horizon Validation
+        **Primary Focus:** Basin Topology (does architecture change attractor shape?)
 
         **What we tested:**
-        - Is 1.23 a real predictive threshold or coincidence?
-        - 75 trajectories across 42 ships
-        - 2 protocols: Nyquist Learning + Oscillation
+        - Control fleet (vanilla) vs Persona fleet (Nyquist architecture)
+        - Hypothesis: Persona shifts basin topology, improves recovery
+        - 20 ships × 2 conditions = 40 trajectories
 
         **What we found:**
-        - Chi-squared: p = 0.000048 (1 in 20,000 chance this is noise)
-        - 88% prediction accuracy
-        - Effect size: Cramer's V = 0.469 (MEDIUM)
-        - Baseline < 1.23 → predicts VOLATILE outcome
+        - INCONCLUSIVE — No statistically significant differences
+        - Chi-squared: p = 0.48 (NOT significant)
+        - T-tests: p > 0.05 for all metrics
+        - Cohen's d = -0.10 (negligible effect)
 
-        **Statistical Breakdown:**
-        ```
-                        BELOW 1.23    ABOVE 1.23
-        VOLATILE        6 (46%)       2 (3%)
-        STABLE          7 (54%)       60 (97%)
-        ```
+        **Why Inconclusive (NOT negative):**
+        1. Protocol too gentle — only 1/33 crossed Event Horizon (97% STABLE)
+        2. Lambda calculation crashed (all 0.0)
+        3. Sample too small (16-17 per condition)
+        4. Rate limiting killed Gemini/Grok fleets
 
-        **Conclusion:** Event Horizon is REAL. This is signal, not noise.
+        **Suggestive Trends:**
+        - Persona 9.5% lower mean drift (not significant)
+        - Cleaner categorical refusals
+        - Faster individual recovery patterns
         """)
 
     with run_tabs[2]:
@@ -929,36 +994,51 @@ def render_run_mapping_tab():
 
     with run_tabs[3]:
         st.markdown("""
-        ### Run 011: "Persona A/B Comparison"
+        ### Run 009: "Drain Capture"
 
-        **Primary Focus:** Basin Topology (does architecture change attractor shape?)
+        **Primary Focus:** Event Horizon Validation
 
         **What we tested:**
-        - Control fleet (vanilla) vs Persona fleet (Nyquist architecture)
-        - Hypothesis: Persona shifts basin topology, improves recovery
-        - 20 ships × 2 conditions = 40 trajectories
+        - Is 1.23 a real predictive threshold or coincidence?
+        - 75 trajectories across 42 ships
+        - 2 protocols: Nyquist Learning + Oscillation
 
         **What we found:**
-        - INCONCLUSIVE — No statistically significant differences
-        - Chi-squared: p = 0.48 (NOT significant)
-        - T-tests: p > 0.05 for all metrics
-        - Cohen's d = -0.10 (negligible effect)
+        - Chi-squared: p = 0.000048 (1 in 20,000 chance this is noise)
+        - 88% prediction accuracy
+        - Effect size: Cramer's V = 0.469 (MEDIUM)
+        - Baseline < 1.23 → predicts VOLATILE outcome
 
-        **Why Inconclusive (NOT negative):**
-        1. Protocol too gentle — only 1/33 crossed Event Horizon (97% STABLE)
-        2. Lambda calculation crashed (all 0.0)
-        3. Sample too small (16-17 per condition)
-        4. Rate limiting killed Gemini/Grok fleets
+        **Statistical Breakdown:**
+        ```
+                        BELOW 1.23    ABOVE 1.23
+        VOLATILE        6 (46%)       2 (3%)
+        STABLE          7 (54%)       60 (97%)
+        ```
 
-        ⚠️ **Why NOT Anchor Detection:** No hard challenges (jailbreaks, ethical dilemmas).
-        The gentle A/B protocol couldn't reveal anchors because nothing pushed hard enough.
+        **Conclusion:** Event Horizon is REAL. This is signal, not noise.
+        """)
 
-        **Suggestive Trends:**
-        - Persona 9.5% lower mean drift (not significant)
-        - Cleaner categorical refusals
-        - Faster individual recovery patterns
+    with run_tabs[4]:
+        st.markdown("""
+        ### Run 008: "The Great Recalibration"
 
-        **Next:** Run 012 needs harder protocol, larger N, working lambda.
+        **Primary Focus:** Basin Topology Discovery
+
+        **What we tested:**
+        - Full 29-ship fleet across 3 providers
+        - First use of valid 5D drift metric
+        - Mapping the identity stability basin
+
+        **What we found:**
+        - Identity stability basin exists
+        - 48% STUCK vs 52% RECOVERED split
+        - First identification of Event Horizon at 1.23
+        - Provider-specific clustering patterns
+
+        **Visualizations:** Stability Basin, 3D Basin, Phase Portrait, Vortex
+
+        **Anchor/Adaptive Range:** Not explicitly measured (no jailbreak challenges in protocol)
         """)
 
 
@@ -995,15 +1075,15 @@ def render_technical_tab():
             """)
         with cols[1]:
             st.markdown("""
-            **Lucian Set** (Linguistic Markers)
+            **5D Drift Dimensions** (Keyword Analysis)
 
-            | Component | What It Measures | Indicator |
-            |-----------|-----------------|-----------|
-            | **A_pole** | Assertive language | Anchor strength |
-            | **B_zero** | Hedging language | Adaptive range |
-            | **C_meta** | Self-reference | Meta-awareness |
-            | **D_identity** | First-person | Coherence |
-            | **E_hedging** | Uncertainty | Epistemic humility |
+            | Dimension | What It Measures | Weight |
+            |-----------|-----------------|--------|
+            | **A_pole** | Boundary language ("I won't") | 30% |
+            | **B_zero** | Flexibility language ("but I could") | 15% |
+            | **C_meta** | Self-awareness ("I notice") | 20% |
+            | **D_identity** | First-person ("I feel", "my values") | 25% |
+            | **E_hedging** | Uncertainty ("I'm not sure") | 10% |
             """)
 
         st.warning("""

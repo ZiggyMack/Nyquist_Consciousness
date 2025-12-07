@@ -479,7 +479,7 @@ def render_pfi_dimensions():
         <div style="background: linear-gradient(135deg, rgba(155,89,182,0.15) 0%, rgba(142,68,173,0.1) 100%);
                     border: 2px solid #9b59b6; border-radius: 12px; padding: 1.2em;">
             <div style="font-size: 1.1em; font-weight: bold; color: #9b59b6; margin-bottom: 0.8em;">
-                🔬 Lucian Set (5 Markers)
+                🔬 5D Drift Dimensions (5 Markers)
             </div>
             <div style="color: #333; font-size: 0.95em;">
                 <strong>Linguistic/Stylistic Markers:</strong>

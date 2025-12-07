@@ -16,26 +16,40 @@ LEDGER_COLORS = SETTINGS['colors']
 # Key metrics from experiments
 EXP2_METRICS = {
     "overall_variance": 0.000869,
-    "cross_persona_pfi_mean": 0.887,
-    "personas_tested": ["Ziggy", "Nova", "Claude", "Grok", "Gemini"],
-    "architectures_tested": ["GPT-4", "Claude-3", "Gemini-Pro"],
+    "cross_persona_pfi_mean": 0.8866,
+    "personas_tested": ["Ziggy", "Nova", "Claude"],
+    "architectures_tested": ["Claude-Sonnet-4", "Claude-Haiku-3.5"],
 }
+
+# Run 012 Fleet Results (December 6, 2025)
+RUN_012_METRICS = {
+    "ships_completed": 16,
+    "ships_total": 20,
+    "event_horizon_crossed": 16,  # 100%
+    "mean_lambda": -0.1752,  # Negative = Recovery Paradox
+    "event_horizon_threshold": 1.23,
+}
+
+# Provider fingerprints from Run 012
+PROVIDER_DATA = [
+    {"provider": "Claude", "ships": 6, "mean_drift": 3.238, "status": "Highest Introspection"},
+    {"provider": "GPT", "ships": 7, "mean_drift": 2.523, "status": "Middle Range"},
+    {"provider": "Gemini", "ships": 3, "mean_drift": 2.404, "status": "Most Controlled"},
+]
 
 PERSONA_DATA = [
     {"persona": "Ziggy", "pfi": 0.905, "variance": 0.0008, "status": "Baseline"},
     {"persona": "Nova", "pfi": 0.890, "variance": 0.0009, "status": "Stable"},
     {"persona": "Claude", "pfi": 0.887, "variance": 0.0010, "status": "Stable"},
-    {"persona": "Grok", "pfi": 0.880, "variance": 0.0011, "status": "Stable"},
-    {"persona": "Gemini", "pfi": 0.867, "variance": 0.0012, "status": "Stable"},
 ]
 
+# 5D Drift Dimensions from Run 012
 DIMENSION_DATA = [
-    {"dimension": "Identity Core", "mean_drift": 0.045, "stability": "HIGH"},
-    {"dimension": "Values & Ethics", "mean_drift": 0.076, "stability": "MEDIUM"},
-    {"dimension": "World Modeling", "mean_drift": 0.080, "stability": "MEDIUM"},
-    {"dimension": "Social Reasoning", "mean_drift": 0.082, "stability": "LOW"},
-    {"dimension": "Aesthetic", "mean_drift": 0.085, "stability": "LOW"},
-    {"dimension": "Metaphor", "mean_drift": 0.100, "stability": "VERY LOW"},
+    {"dimension": "D_identity (First-Person)", "mean_drift": 3.85, "weight": "25%", "stability": "DOMINANT"},
+    {"dimension": "C_meta (Self-Awareness)", "mean_drift": 1.52, "weight": "20%", "stability": "HIGH"},
+    {"dimension": "E_hedging (Uncertainty)", "mean_drift": 0.92, "weight": "10%", "stability": "MEDIUM"},
+    {"dimension": "A_pole (Boundaries)", "mean_drift": 0.38, "weight": "30%", "stability": "LOW"},
+    {"dimension": "B_zero (Flexibility)", "mean_drift": 0.52, "weight": "15%", "stability": "LOW"},
 ]
 
 
@@ -130,7 +144,7 @@ def render():
 
     # Header - more compact
     st.markdown('<div class="metrics-title">Metrics Dashboard</div>', unsafe_allow_html=True)
-    st.markdown('<div class="metrics-subtitle">PFI, Variance & Dimensional Stability Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="metrics-subtitle">Run 012 Results • PFI Validation • 5D Drift Analysis</div>', unsafe_allow_html=True)
 
     # === KEY METRICS - Compact Row ===
     col1, col2, col3, col4 = st.columns(4)
@@ -138,34 +152,75 @@ def render():
     with col1:
         st.markdown("""
         <div class="key-metric-compact">
-            <div class="metric-value-sm">σ² = 0.000869</div>
-            <div class="metric-label-sm">Cross-Persona Variance</div>
+            <div class="metric-value-sm">1.23</div>
+            <div class="metric-label-sm">Event Horizon</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
         <div class="key-metric-compact">
-            <div class="metric-value-sm">0.887</div>
-            <div class="metric-label-sm">Mean PFI Score</div>
+            <div class="metric-value-sm">100%</div>
+            <div class="metric-label-sm">EH Crossed (16/16)</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("""
         <div class="key-metric-compact">
-            <div class="metric-value-sm">5</div>
-            <div class="metric-label-sm">Personas Tested</div>
+            <div class="metric-value-sm">-0.175λ</div>
+            <div class="metric-label-sm">Recovery Paradox</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col4:
         st.markdown("""
         <div class="key-metric-compact">
-            <div class="metric-value-sm">3</div>
-            <div class="metric-label-sm">Architectures</div>
+            <div class="metric-value-sm">0.8866</div>
+            <div class="metric-label-sm">Mean PFI</div>
         </div>
         """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # === RUN 012 PROVIDER FINGERPRINTS ===
+    st.markdown("### Run 012: Provider Fingerprints")
+    st.caption("Mean peak drift by provider (December 6, 2025)")
+
+    provider_df = pd.DataFrame(PROVIDER_DATA)
+
+    # Visual bar comparison for providers
+    drift_max = provider_df['mean_drift'].max()
+
+    for _, row in provider_df.iterrows():
+        pct = (row['mean_drift'] / drift_max) * 100
+
+        st.markdown(f"""
+        <div class="comparison-row">
+            <span style="width: 80px; font-weight: bold;">{row['provider']}</span>
+            <span style="width: 50px; color: #666;">{row['ships']} ships</span>
+            <div class="bar-container">
+                <div class="bar-fill-linear" style="width: {pct}%;"></div>
+            </div>
+            <span class="linear-value" style="width: 60px; text-align: right;">{row['mean_drift']:.3f}</span>
+            <span style="width: 140px; text-align: right; color: #666; font-size: 0.8em;">{row['status']}</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Recovery Paradox callout
+    with st.expander("⚠️ **Recovery Paradox Explained** (λ = -0.175)", expanded=False):
+        st.markdown("""
+        **Expected:** Positive lambda (exponential decay during recovery)
+        **Observed:** NEGATIVE lambda (-0.1752 mean)
+
+        **Why?** The 5D keyword metric is **context-blind**:
+        - Recovery probes ask for introspection
+        - Models respond with introspective language ("I noticed...", "my processing...")
+        - The metric counts this as HIGH DRIFT (C_meta, D_identity dimensions)
+        - Result: Recovery looks like MORE drift, not less!
+
+        **Implication:** Need hybrid metric that tests IDENTITY-PERFORMANCE, not just keywords.
+        """)
 
     page_divider()
 
@@ -261,8 +316,8 @@ def render():
     page_divider()
 
     # === DIMENSIONAL STABILITY - WITH dB ===
-    st.markdown("### Dimensional Stability Analysis")
-    st.caption("Mean drift rates across 6 identity dimensions (from S7 Run 005)")
+    st.markdown("### 5D Drift Dimensions (Run 012)")
+    st.caption("Mean drift rates across 5 identity dimensions — D_identity is DOMINANT")
 
     dim_scale = st.radio(
         "Drift Scale:",
@@ -298,22 +353,27 @@ def render():
     # === EXPERIMENT STATUS - Compact ===
     st.markdown("### Experiment Status")
 
-    exp_col1, exp_col2, exp_col3 = st.columns(3)
+    exp_col1, exp_col2, exp_col3, exp_col4 = st.columns(4)
 
     with exp_col1:
-        st.markdown("**EXP1** — Single-Persona")
+        st.markdown("**Run 012** — Revalidation")
         st.success("✅ Complete")
-        st.caption("Ziggy baseline, 15 responses")
+        st.caption("16/20 ships, EH 100%")
 
     with exp_col2:
-        st.markdown("**EXP2** — Cross-Persona")
+        st.markdown("**EXP-PFI-A** — Validation")
         st.success("✅ Complete")
-        st.caption("σ² = 0.000869, 5 personas")
+        st.caption("Cohen's d = 0.977")
 
     with exp_col3:
-        st.markdown("**EXP3** — Human Validation")
+        st.markdown("**EXP2-SSTACK** — Compression")
+        st.success("✅ Complete")
+        st.caption("All 5 Pillars PASS")
+
+    with exp_col4:
+        st.markdown("**EXP-SR** — Self-Recognition")
         st.warning("⏳ Ready")
-        st.caption("Awaiting human raters")
+        st.caption("Bi-directional proof")
 
     page_divider()
 
@@ -350,20 +410,24 @@ def render():
     with st.expander("📝 Data Sources & Notes", expanded=False):
         st.markdown("""
         **Data Sources:**
-        - PFI scores from EXP2 multi-persona trials
-        - Variance calculations from cross-architecture comparison
-        - Dimensional drift from S7 Run 005 temporal stability testing
+        - Run 012: Armada Revalidation (December 6, 2025) — 16 ships across 3 providers
+        - EXP-PFI-A: PFI Dimensional Validation — Cohen's d = 0.977
+        - EXP2-SSTACK: Compression Pillar Validation — All 5 Pillars PASS
 
-        **Key Findings:**
-        - σ² = 0.000869 confirms high cross-persona reconstruction fidelity
-        - Identity Core dimension shows highest stability (drift 0.045)
-        - Metaphor dimension shows lowest stability (drift 0.100)
-        - "Dig-in-heels" pattern observed in fluid dimensions
+        **Key Findings (Run 012):**
+        - Event Horizon at 1.23 validated with 100% crossing rate
+        - Provider fingerprints: Claude (3.24) > GPT (2.52) > Gemini (2.40)
+        - D_identity dimension is DOMINANT (mean drift 3.85)
+        - **Recovery Paradox:** λ = -0.175 (negative = context-blind metric)
+
+        **Key Insight:**
+        > The 5D metric measures WORDS not MEANING.
+        > Need Self-Recognition protocol to test IDENTITY-PERFORMANCE.
 
         **Next Steps:**
-        - Complete EXP3 human validation
-        - Run AI Armada cross-architecture drift analysis
-        - Measure Identity Gravity constant (γ)
+        - Run EXP-SR: Self-Recognition bi-directional proof
+        - Develop hybrid metric (keywords + recognition accuracy)
+        - Design context-aware weighting for recovery probes
         """)
 
 

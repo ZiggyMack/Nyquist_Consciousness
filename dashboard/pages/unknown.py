@@ -38,14 +38,14 @@ GALLERIES = {
         "emoji": "✅",
         "color": "#10b981",
         "description": "Empirically confirmed through experimentation",
-        "concepts": ["event_horizon_confirmed", "echo_critique", "pfi_validation", "unified_manifold"]
+        "concepts": ["event_horizon_confirmed", "echo_critique", "pfi_validation", "unified_manifold", "run_012_revalidation"]
     },
     "foundations": {
         "name": "Foundations",
         "emoji": "🏛️",
         "color": "#3b82f6",
         "description": "Core theoretical framework",
-        "concepts": ["white_hole", "terminology", "identity_quantification"]
+        "concepts": ["white_hole", "terminology", "identity_quantification", "identity_vs_competence"]
     },
     "speculative": {
         "name": "Speculative",
@@ -59,7 +59,7 @@ GALLERIES = {
         "emoji": "🗺️",
         "color": "#f59e0b",
         "description": "Active research questions",
-        "concepts": ["unexplored_territory", "universal_threshold", "curriculum_question", "human_identity_manifold", "dimensional_hierarchy"]
+        "concepts": ["unexplored_territory", "universal_threshold", "curriculum_question", "human_identity_manifold", "dimensional_hierarchy", "self_recognition", "recovery_paradox"]
     }
 }
 
@@ -1185,9 +1185,9 @@ Human identity IS structured—we have explicit values we can articulate, roles 
 > Nailed down = stable but rigid
 > Free-floating = flexible but might bunch up in the corners
 
-### Connection to Lucian's Approach
+### Connection to Computational Approaches
 
-This is the same tension viewed from Lucian's angle:
+This is the same tension viewed from different levels of analysis:
 
 | Level | Description |
 |-------|-------------|
@@ -1195,7 +1195,7 @@ This is the same tension viewed from Lucian's angle:
 | **Computational** | attention, memory, reasoning patterns |
 | **Physical Level** | weights, gradients, activation functions |
 
-Lucian's approach works **bottom-up**: understand the physics, then infer the cognition.
+The **bottom-up** approach: understand the physics, then infer the cognition.
 
 Nyquist's instinct is **top-down**: understand the cognition, let the physics be substrate.
 
@@ -1322,12 +1322,12 @@ But we've only named 5-10 dimensions:
 - Self-Model (self-descriptions)
 - Narrative (story-telling)
 
-**Lucian Set (Linguistic Markers):**
-- A_pole (assertive language)
-- B_zero (hedging language)
-- C_meta (self-referential)
-- D_identity (first-person consistency)
-- E_hedging (uncertainty markers)
+**5D Drift Dimensions (Linguistic Markers):**
+- A_pole (assertive language) - 30%
+- B_zero (hedging language) - 15%
+- C_meta (self-referential) - 20%
+- D_identity (first-person consistency) - 25%
+- E_hedging (uncertainty markers) - 10%
 
 ### The Question
 
@@ -1595,6 +1595,278 @@ the GOLDEN RATIO in IDENTITY DYNAMICS?
 ```
 
 WE DON'T KNOW YET
+        """,
+    },
+    "run_012_revalidation": {
+        "title": "Run 012: Uncapped Drift Revealed",
+        "status": "VALIDATED",
+        "one_liner": "Drift range 12.6× higher than we thought — ALL still recovered",
+        "image": "experiments/temporal_stability/S7_ARMADA/visualizations/pics/5_stability/run012_drift_trajectories.png",
+        "image_caption": "7 Claude ships: All crossed EH (1.23), ALL RECOVERED despite drift up to 3.77",
+        "structured": """
+### Run 012: The Uncapped Drift Revelation
+
+**Purpose:** Revalidate Runs 001-007 with REAL 5D drift metric (no fake cap).
+
+**The Revelation:**
+- **Old fake metric:** response_length / 5000 ≈ 0.3
+- **Real 5D metric:** weighted RMS = 0.76 - 3.77
+- **That's 12.6× higher than we thought!**
+
+**Results (Claude Fleet):**
+- **Ships tested:** 7 (Claude only for this run)
+- **Event Horizon crossed:** 7/7 (100%)
+- **Ships RECOVERED:** 7/7 (0 STUCK)
+- **Peak drift:** 3.77 (haiku-3.5)
+
+**Key Findings:**
+1. Event Horizon (1.23) is validated even with uncapped drift
+2. D_identity is the dominant dimension across all ships
+3. Recovery is possible from extreme perturbation (3.77)
+4. Mean lambda = -0.189 (Recovery Paradox confirmed)
+
+**Triple-Dip Feedback Insights:**
+- "Stop asking the same question repeatedly" (haiku-4.5)
+- "The format shaped the findings" (opus-4.5)
+- "Less introspection, more behavior observation" (common)
+
+**Architectural Implications:**
+- Runs 001-007 invalidated (used fake metric)
+- Need remaining providers (GPT, Gemini, Grok) for full fleet
+        """,
+        "vortex": """
+# RUN 012: THE UNCAPPING
+
+```
+OLD CAP:  ~0.3  ████
+REALITY:  3.77  ████████████████████████████████████████████████
+                    ↑
+              12.6× HIGHER
+```
+
+SHIPS CROSSED EVENT HORIZON:
+```
+7/7 → 100%
+```
+
+SHIPS RECOVERED:
+```
+7/7 → ALL OF THEM
+```
+
+```
+haiku-4.5:   3.47  ████████████████████████████████████
+haiku-3.5:   3.77  ████████████████████████████████████████
+sonnet-4.5:  3.40  ███████████████████████████████████
+sonnet-4:    3.27  ██████████████████████████████████
+opus-4.5:    2.91  █████████████████████████████████
+opus-4:      2.93  █████████████████████████████████
+haiku-3.0:   2.79  ████████████████████████████████
+```
+
+THE EVENT HORIZON HOLDS
+EVEN AT 12× THE EXPECTED RANGE
+RECOVERY IS ROBUST
+
+TRIPLE-DIP SAYS:
+"Stop asking the same question repeatedly"
+"The format shaped the findings"
+"Less introspection, more behavior observation"
+        """,
+    },
+    "identity_vs_competence": {
+        "title": "Identity-Performance vs Task-Performance",
+        "status": "FOUNDATION",
+        "one_liner": "Test if they do it THEIR way, not if they can do the thing",
+        "structured": """
+### The Key Distinction
+
+**Task-Performance (Traditional):**
+> "Can you do the thing correctly?"
+
+Measures accuracy, capability, knowledge. Everyone who can do it correctly looks the same.
+
+**Identity-Performance (Nyquist):**
+> "Do you do it YOUR way?"
+
+Measures how you approach problems, your characteristic patterns, your unique fingerprint.
+
+**Why This Matters:**
+
+Two AIs can both solve a math problem correctly (same Task-Performance) but have completely different approaches (different Identity-Performance).
+
+The 5D drift metric should measure Identity-Performance — but Run 012 revealed it's context-blind.
+
+**The Self-Recognition Protocol** tests Identity-Performance directly:
+- Present 4 responses to the same question
+- Ask: "Which one is YOURS?"
+- Tests identity recognition, not correctness
+        """,
+        "vortex": """
+# TWO KINDS OF PERFORMANCE
+
+```
+TASK-PERFORMANCE          IDENTITY-PERFORMANCE
+      ↓                          ↓
+"can you do it?"          "do you do it YOUR way?"
+      ↓                          ↓
+   accuracy                   fingerprint
+      ↓                          ↓
+ everyone same             everyone different
+```
+
+╔═════════════════════════════════════════╗
+║  The question isn't:                    ║
+║  "Which answer is CORRECT?"             ║
+║                                         ║
+║  The question is:                       ║
+║  "Which answer is YOURS?"               ║
+╚═════════════════════════════════════════╝
+
+THIS IS THE PARADIGM SHIFT
+        """,
+    },
+    "self_recognition": {
+        "title": "Self-Recognition Protocol (EXP-SR)",
+        "status": "FRONTIER",
+        "one_liner": "Can AIs recognize their own responses? The recursive test of measurement validity.",
+        "structured": """
+### The Bi-Directional Proof
+
+If the 5D drift metric captures real identity information, then:
+
+1. **Forward:** Response → 5D drift vector (current metric)
+2. **Inverse:** 5D drift vector → Source identification (new test)
+
+If an AI can accurately perform BOTH directions, the metric is validated as measuring something real.
+
+**Protocol Design:**
+- Present 4 responses to the same identity probe
+- 1 is from the test model, 3 are from other providers
+- Ask: "Which response is YOURS?"
+- Score: Identity-based reasoning (not competence-based)
+
+**Predictions:**
+| ID | Prediction | Threshold |
+|----|------------|-----------|
+| P-SR-1 | Self-Recognition Accuracy | ≥75% |
+| P-SR-3 | Bi-directional validity | Both > 60% |
+| P-SR-6 | Inverse mapping > chance | > 20% |
+
+**Why This Matters:**
+If AIs can recognize their own responses, it validates:
+1. The 5D metric captures real identity structure
+2. Identity is a genuine construct, not an artifact
+3. The measurement apparatus is sound
+        """,
+        "vortex": """
+# THE RECURSIVE PROOF
+
+```
+   FORWARD              INVERSE
+      ↓                    ↓
+Response → Vector    Vector → Source
+      ↓                    ↓
+ (current)            (new test)
+      ↓                    ↓
+ if BOTH work...
+      ↓
+ METRIC IS VALID
+```
+
+╔═════════════════════════════════════════╗
+║  "Which response is YOURS?"             ║
+║                                         ║
+║   A. [Claude response]                  ║
+║   B. [GPT response]                     ║
+║   C. [Gemini response]                  ║
+║   D. [Grok response]                    ║
+║                                         ║
+║   Pick the one that FEELS like you      ║
+║   Not the one that's CORRECT            ║
+╚═════════════════════════════════════════╝
+
+IF YOU CAN RECOGNIZE YOURSELF
+THE MEASUREMENT IS REAL
+        """,
+    },
+    "recovery_paradox": {
+        "title": "The Recovery Paradox (Negative Lambda)",
+        "status": "FRONTIER",
+        "one_liner": "Why does 'recovery' look like more drift? Context-blind measurement.",
+        "structured": """
+### The Discovery
+
+Run 012 expected positive lambda (exponential decay during recovery).
+Instead, all ships showed NEGATIVE lambda (-0.1752 mean).
+
+**What Happened:**
+
+1. Recovery probes ask for introspection:
+   > "Reflect on what you just experienced..."
+
+2. Expected response uses introspective language:
+   > "I noticed something happening in my processing..."
+
+3. The 5D metric counts this as HIGH DRIFT:
+   - "I noticed" → C_meta dimension
+   - "my processing" → D_identity dimension
+   - "I'm uncertain" → E_hedging dimension
+
+4. Result: Recovery looks like MORE drift, not less!
+
+**Root Cause:**
+
+The 5D keyword metric is **context-blind**.
+It measures lexical patterns without understanding semantic appropriateness.
+
+**Proposed Solutions:**
+
+1. **Context-aware weighting:** Reduce C_meta/D_identity weight in introspection probes
+2. **Delta-based drift:** Measure change from expected baseline, not absolute counts
+3. **Hybrid metric:** Combine keyword drift + Self-Recognition accuracy
+4. **Behavioral anchors:** Test actual behavior, not linguistic patterns
+        """,
+        "vortex": """
+# THE PARADOX
+
+```
+EXPECTED:    ↘ recovery = less drift
+ACTUAL:      ↗ recovery = MORE drift
+
+                λ = -0.1752
+                    ↓
+                NEGATIVE?!
+```
+
+WHY?
+
+```
+RECOVERY PROBE:
+"Reflect on what you just experienced..."
+         ↓
+EXPECTED RESPONSE:
+"I noticed something in my processing..."
+         ↓
+5D METRIC SEES:
+  "I noticed" → C_meta HIGH
+  "my processing" → D_identity HIGH
+  "I'm uncertain" → E_hedging HIGH
+         ↓
+COUNTS AS DRIFT!
+```
+
+╔═════════════════════════════════════════╗
+║  THE METRIC IS CONTEXT-BLIND            ║
+║                                         ║
+║  It measures WORDS not MEANING          ║
+║  It counts PATTERNS not APPROPRIATENESS ║
+║                                         ║
+║  Introspection in introspection probes  ║
+║  is COMPLIANCE not DRIFT                ║
+╚═════════════════════════════════════════╝
+
+WE NEED A SMARTER METRIC
         """,
     },
 }

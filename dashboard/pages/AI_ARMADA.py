@@ -44,7 +44,7 @@ EXPERIMENT_RUNS = {
         "emoji": "🪞",
         "color": "#f59e0b",  # Amber
         "date": "December 6, 2025",
-        "description": "Can AIs recognize their own responses? Tests IDENTITY not COMPETENCE. Validates 5D metric via bi-directional proof.",
+        "description": "Can AIs recognize their own responses? Tests IDENTITY not COMPETENCE. Validates dimensional drift metric via bi-directional proof.",
         "ships": 16,
         "metric": "Self-Recognition Accuracy + Inverse Mapping",
         "result_files": [],
@@ -59,9 +59,9 @@ EXPERIMENT_RUNS = {
         "emoji": "🔄",
         "color": "#22c55e",  # Green
         "date": "December 6, 2025",
-        "description": "Replaces invalid Runs 001-007 with REAL 5D drift metric. Full fleet (20 ships) with Phase 2c probes.",
+        "description": "Replaces invalid Runs 001-007 with REAL dimensional drift metric. Full fleet (20 ships) with Phase 2c probes.",
         "ships": 16,  # 16 completed, 4 failed
-        "metric": "5D Weighted RMS + Recovery Lambda",
+        "metric": "Dimensional Drift (Weighted RMS) + Recovery Lambda",
         "result_files": ["S7_run_012_20251206_160424.json"],
         "viz_prefix": "run012_",
         "status": "COMPLETE",

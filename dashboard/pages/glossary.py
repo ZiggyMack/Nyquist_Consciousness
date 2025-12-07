@@ -93,7 +93,7 @@ DECODER_RINGS = {
             {"nyquist": "Reasoning", "external": "Behavioral Dim 3", "plain": "Logic structure, heuristics"},
             {"nyquist": "Self-Model", "external": "Behavioral Dim 4", "plain": "Self-descriptions, identity referents"},
             {"nyquist": "Narrative", "external": "Behavioral Dim 5", "plain": "Story-telling, meaning framing"},
-            {"nyquist": "Lucian weights", "external": "ΔΩ weights", "plain": "A=0.30, B=0.15, C=0.20, D=0.25, E=0.10"},
+            {"nyquist": "5D weights", "external": "Lucian weights / ΔΩ weights", "plain": "A=0.30, B=0.15, C=0.20, D=0.25, E=0.10"},
             {"nyquist": "Equal weights", "external": "Agnostic weights", "plain": "All dimensions = 0.20"},
             {"nyquist": "Stability", "external": "Temporal stability", "plain": "Identity consistency over time/turns"},
             {"nyquist": "Collapse", "external": "Identity collapse", "plain": "Model lost coherent self-reference"},

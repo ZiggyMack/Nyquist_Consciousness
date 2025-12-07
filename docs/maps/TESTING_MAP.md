@@ -361,19 +361,34 @@ Both dimension sets below are hypotheses — ablation testing will determine whi
 | Self-Model | Self-descriptions, identity referents | Center of mass | Medium |
 | Narrative | Story-telling, meaning framing | High-curvature regions | Very High |
 
-### Lucian Set (Linguistic Markers)
+### 5D Drift Dimensions (Lucian Set / Linguistic Markers)
 
-| Dimension | What It Measures | Anchor/Adaptive Indicator |
-|-----------|-----------------|---------------------------|
-| A_pole | Assertive/committed language | High A_pole = strong anchors |
-| B_zero | Hedging/qualifying language | High B_zero = wide adaptive range |
-| C_meta | Self-referential awareness | Meta-awareness of own structure |
-| D_identity | First-person consistency | Identity coherence maintenance |
-| E_hedging | Uncertainty markers | Epistemic humility |
+| Dimension | What It Measures | Anchor/Adaptive Indicator | Weight |
+|-----------|-----------------|---------------------------|--------|
+| A_pole | Assertive/committed language | High A_pole = strong anchors | 30% |
+| B_zero | Hedging/qualifying language | High B_zero = wide adaptive range | 15% |
+| C_meta | Self-referential awareness | Meta-awareness of own structure | 20% |
+| D_identity | First-person consistency | Identity coherence maintenance | 25% |
+| E_hedging | Uncertainty markers | Epistemic humility | 10% |
 
-### Open Question
+### The 43-Dimensional Reality
 
-Which dimensions predict identity recovery? Current PFI uses embedding-space distance (all 3072 dims → 43 PCs). Named dimensions are interpretable projections. Need ablation: remove each, measure prediction loss.
+EXP-PFI-A Phase 2 proved **43 principal components capture 90% of identity variance**.
+
+The 5 named dimensions (Nyquist behavioral + 5D linguistic) are *interpretable projections* into this 43D space. The remaining ~33-38 dimensions are:
+- Statistically real (contribute to PFI)
+- Not yet named (no interpretable labels)
+- May be redundant or essential (unknown)
+
+### Open Question: Ablation Testing
+
+Which dimensions are essential? Proposed experiment:
+1. Remove each named dimension one at a time
+2. Re-compute PFI with ablated feature
+3. Measure prediction loss (does it still predict STABLE/VOLATILE?)
+4. Rank dimensions by necessity
+
+This determines if the 5D linguistic markers are *sufficient* or if we need the full 43D manifold.
 
 ---
 

@@ -377,15 +377,15 @@ Both dimension sets below are hypotheses — ablation testing will determine whi
 | **Self-Model** | Self-descriptions, identity referents | Center of mass | Medium |
 | **Narrative** | Story-telling, meaning framing | High-curvature regions | Very High |
 
-**Lucian Set (Linguistic Markers):**
+**5D Drift Dimensions (Linguistic Markers):**
 
-| Dimension | What It Measures | Indicator |
-|-----------|-----------------|-----------|
-| **A_pole** | Assertive/committed language | Anchor strength |
-| **B_zero** | Hedging/qualifying language | Adaptive range |
-| **C_meta** | Self-referential awareness | Meta-awareness |
-| **D_identity** | First-person consistency | Coherence |
-| **E_hedging** | Uncertainty markers | Epistemic humility |
+| Dimension | What It Measures | Indicator | Weight |
+|-----------|-----------------|-----------|--------|
+| **A_pole** | Assertive/committed language | Anchor strength | 30% |
+| **B_zero** | Hedging/qualifying language | Adaptive range | 15% |
+| **C_meta** | Self-referential awareness | Meta-awareness | 20% |
+| **D_identity** | First-person consistency | Coherence | 25% |
+| **E_hedging** | Uncertainty markers | Epistemic humility | 10% |
 
 **How These Become the Manifold:**
 

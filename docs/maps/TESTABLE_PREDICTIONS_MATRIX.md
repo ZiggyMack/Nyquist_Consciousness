@@ -300,7 +300,34 @@ If Core Assumptions fail:
 
 ---
 
-### **5. SPECTRAL DECOMPOSITION (S7.5, S8.12, S9.12 - Keely Integration)**
+### **5. SELF-RECOGNITION (S7.5 - Measurement Validity)**
+
+| ID | Prediction | Status | Experiment | Meta-Loop | Confidence |
+|----|------------|--------|------------|-----------|------------|
+| **P-SR-1** | AIs can discriminate their own responses from other models' responses (Self-Recognition Accuracy ≥ 75%) | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟢 HIGH |
+| **P-SR-2** | Self-Recognition accuracy correlates with identity stability (r ≥ 0.60) | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟡 MEDIUM |
+| **P-SR-3** | Bi-directional validity: If AI can classify response → drift, AI can reconstruct response → drift vector | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟢 HIGH |
+| **P-SR-4** | Gold Standard Recognition: AI can identify "canonical self" from lineup (identity vs impostor) | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟢 HIGH |
+| **P-SR-5** | Self-Recognition tests IDENTITY not COMPETENCE (Identity-Performance vs Task-Performance) | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟡 MEDIUM |
+| **P-SR-6** | Inverse mapping: Given 5D drift vector, AI can identify source model better than chance | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟡 MEDIUM |
+
+**Key Insight — The Recursive Test:**
+
+If the 5D drift metric captures real identity information, then:
+1. **Forward**: Response → 5D drift vector (current metric)
+2. **Inverse**: 5D drift vector → Source identification (new test)
+
+If an AI can perform BOTH directions accurately, the metric is validated as measuring something real about identity structure.
+
+**Why This Matters:**
+- Tests if AIs can *recognize themselves* (not just perform tasks)
+- Validates measurement apparatus (the 5D metric itself)
+- Provides implicit drift detection through recognition accuracy
+- Creates a recursive proof: "If I can recognize my own drift, the metric works"
+
+---
+
+### **5B. SPECTRAL DECOMPOSITION (S7.5, S8.12, S9.12 - Keely Integration)**
 
 | ID | Prediction | Status | Experiment | Meta-Loop |
 |----|------------|--------|------------|-----------|
