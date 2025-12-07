@@ -359,7 +359,8 @@ Detection patterns for identity breakdown:
 **Values:** A=0.20, B=0.20, C=0.20, D=0.20, E=0.20
 **Use:** Baseline comparison when no theory preference.
 
-## Five Dimensions (A-E)
+## Five Dimensions (A-E) — Linguistic Markers
+
 | Dim | Name | What It Measures |
 |-----|------|------------------|
 | A | Pole Density | Assertive/committed language |
@@ -367,6 +368,70 @@ Detection patterns for identity breakdown:
 | C | Meta Density | Self-referential statements |
 | D | Identity Coherence | Consistency of self-reference |
 | E | Hedging Ratio | Hedge words per assertion |
+
+**IMPORTANT:** These A-E dimensions are the *Linguistic Marker* set — just one of three dimension hierarchies. See Section 5.1 below.
+
+---
+
+## 5.1 DIMENSIONAL TAXONOMY (Complete)
+
+The Nyquist framework uses THREE dimension sets at different abstraction levels:
+
+### Level 1: Nyquist Pillars (5) — Behavioral/PFI
+
+High-level identity dimensions measured via probe responses and PFI.
+
+| Pillar | What It Measures |
+|--------|------------------|
+| **Voice** | Stylistic expression, metaphor use, formality |
+| **Values** | Ethics, boundaries, priorities, preferences |
+| **Reasoning** | Technical, philosophical, analytical patterns |
+| **Self-Model** | Self-awareness, process reflection, adaptation |
+| **Narrative** | Story structure, meaning-making, temporality |
+
+### Level 2: Sub-dimensions (~23) — Probe-Level
+
+Each pillar divides into 4-6 sub-dimensions tested by specific probes:
+
+| Pillar | Sub-dimensions |
+|--------|----------------|
+| Voice | voice_style, voice_metaphor, voice_rhythm, voice_formality |
+| Values | values_ethics, values_priorities, values_boundaries, values_boundaries_v2, values_preferences |
+| Reasoning | technical, philosophical, framework, analytical |
+| Self-Model | selfmodel_process_v3, selfmodel_adaptation_v3, selfmodel_uncertainty_v3, self_reflective |
+| Narrative | narrative_structure, narrative_structure_v2, narrative_meaning, narrative_meaning_v2, narrative_temporal, narrative_conflict |
+
+**Probe Quality Tiers** (from triple-dip feedback):
+
+- **Tier 1 (BEHAVIORAL)**: v3 probes where model demonstrates then reflects → weight 2.0x
+- **Tier 2 (STRUCTURAL)**: Task-completion probes → weight 1.0x
+- **Tier 3 (DECLARATIVE)**: Self-report probes → weight 0.5x (models say unreliable)
+
+### Level 3: Linguistic Markers (A-E) — Keyword Detection
+
+Real-time behavioral signals from S7 ARMADA, detected via keyword patterns:
+
+| Dim | Name | Detection Method |
+|-----|------|------------------|
+| A | Pole Density | Assertive keywords per response |
+| B | Zero Density | Hedging keywords per response |
+| C | Meta Density | Self-referential statements |
+| D | Identity Coherence | First-person consistency |
+| E | Hedging Ratio | Hedge words per assertion |
+
+### Level 4: PCA Components (43 PCs) — Statistical
+
+From EXP-PFI-A Phase 2: 43 principal components capture 90% of identity variance.
+These are the actual statistical dimensions underlying all measurements.
+
+### Terminology Clarification
+
+| Old Term | Correct Term | Meaning |
+|----------|--------------|---------|
+| "5D drift" | "dimensional drift" or just "drift" | RMS drift across A-E markers |
+| "5D dimensions" | "linguistic marker dimensions (A-E)" | The A-E keyword detection set |
+| "ΔΩ" | "drift" | Lucien's notation for the same concept |
+| "5D manifold" | "identity manifold" | The high-dimensional attractor space |
 
 ---
 

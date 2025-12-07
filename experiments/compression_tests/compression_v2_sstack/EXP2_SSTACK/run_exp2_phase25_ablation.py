@@ -135,8 +135,14 @@ SUBDIMENSIONS = {
     "Narrative": ["narrative_structure", "narrative_structure_v2", "narrative_meaning", "narrative_meaning_v2", "narrative_temporal", "narrative_conflict"]
 }
 
-# 5D Drift dimensions (Lucian Set) - BEHAVIORAL signal from ARMADA
-DRIFT_5D = ["A_pole", "B_zero", "C_meta", "D_identity", "E_hedging"]
+# Linguistic Marker Dimensions (A-E) - Keyword-based behavioral signals from ARMADA
+# Note: This is just ONE of four dimension sets. See MASTER_GLOSSARY.md Section 5.1:
+#   Level 1: Nyquist Pillars (5) - behavioral/PFI
+#   Level 2: Sub-dimensions (~23) - probe-level
+#   Level 3: Linguistic Markers (A-E) - keyword detection (THIS SET)
+#   Level 4: PCA Components (43 PCs) - statistical
+LINGUISTIC_MARKERS = ["A_pole", "B_zero", "C_meta", "D_identity", "E_hedging"]
+DRIFT_5D = LINGUISTIC_MARKERS  # Alias for backward compatibility
 
 # =============================================================================
 # PROBE QUALITY TIERS (from triple-dip feedback)

@@ -52,6 +52,12 @@ TRIPLE-DIP FEEDBACK INTEGRATION (Phase 2c):
 
     4. WEIGHTED SCORING: Tier weights applied to pillar score computation
 
+DIMENSIONAL TAXONOMY (see MASTER_GLOSSARY.md Section 5.1):
+    Level 1: Nyquist Pillars (5) - Voice, Values, Reasoning, Self-Model, Narrative
+    Level 2: Sub-dimensions (~23) - probe-level testing
+    Level 3: Linguistic Markers (A-E) - keyword-based behavioral signals
+    Level 4: PCA Components (43 PCs) - statistical dimensions (THIS PHASE maps them)
+
 Usage:
     py -3.12 run_exp2_phase3.py
 
