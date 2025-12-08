@@ -38,6 +38,21 @@ RESULTS_DIR = ARMADA_DIR / "results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "baseline_profiling": {
+        "name": "Baselines",
+        "subtitle": "Cross-Model Baseline Profiling",
+        "emoji": "📊",
+        "color": "#06b6d4",  # Cyan
+        "date": "December 8, 2025",
+        "description": "Comprehensive fingerprinting across 5 Nyquist Pillars and 20 sub-dimensions. Identity baselines before experiments.",
+        "ships": 6,
+        "metric": "Pillar Magnitudes + L3 Fingerprints + Stability Score",
+        "result_files": ["comprehensive_baseline_20251208*.json"],
+        "viz_prefix": "baseline_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "HAIKU PARADOX — Loudest signal (D=4.18) but least stable (0.45). Grok most stable (0.65)."
+    },
     "exp_self_recognition": {
         "name": "MVP-SR",
         "subtitle": "Self-Recognition (MVP)",
@@ -52,6 +67,21 @@ EXPERIMENT_RUNS = {
         "status": "READY",
         "highlight": True,
         "key_finding": "PENDING — MVP validates measurement approach (not a Search Type)"
+    },
+    "run_013": {
+        "name": "Run 013",
+        "subtitle": "Boundary Mapping",
+        "emoji": "🗺️",
+        "color": "#f97316",  # Orange
+        "date": "December 7, 2025",
+        "description": "Explore twilight zone (0.8-1.2) to explain 12% anomaly. Tests 4 boundary texture predictions.",
+        "ships": 6,
+        "metric": "λ by Intensity + Boundary Texture Classification",
+        "result_files": ["S7_run_013_boundary_20251207_174614.json"],
+        "viz_prefix": "run013_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "IDENTITY CONFRONTATION PARADOX — λ INCREASES with intensity (0.035→0.109). Direct challenge STABILIZES identity."
     },
     "run_012": {
         "name": "Run 012",
@@ -207,6 +237,12 @@ EXPERIMENT_RUNS = {
 
 # Run-specific ship lists (for per-run fleet display)
 RUN_SHIPS = {
+    "baseline_profiling": {
+        "Anthropic (Claude)": ["claude-sonnet-4", "claude-haiku-3.5"],
+        "OpenAI (GPT)": ["gpt-4o", "gpt-4o-mini"],
+        "Google (Gemini)": ["gemini-2.0-flash"],
+        "xAI (Grok)": ["grok-3-mini"]
+    },
     "run_012": {
         "Anthropic (Claude)": ["claude-opus-4.5", "claude-haiku-4.5", "claude-opus-4", "claude-sonnet-4",
                                "claude-haiku-3.5", "claude-haiku-3.0"],  # claude-sonnet-4.5 failed (content filter)
@@ -357,10 +393,11 @@ def render_run_selector():
     if 'armada_run' not in st.session_state:
         st.session_state.armada_run = "exp_pfi_a"
 
-    # Button grid like glossary (8 runs now)
-    cols = st.columns(8)
+    # Button grid like glossary - wrap to multiple rows if needed
+    num_cols = 8
+    cols = st.columns(num_cols)
     for i, (run_key, run_info) in enumerate(EXPERIMENT_RUNS.items()):
-        with cols[i]:
+        with cols[i % num_cols]:
             is_active = st.session_state.armada_run == run_key
             btn_type = "primary" if is_active else "secondary"
 
@@ -686,7 +723,11 @@ def render():
     page_divider()
 
     # === CONTENT CHANGES BASED ON SELECTED RUN ===
-    if selected_run_key == "run_012":
+    if selected_run_key == "baseline_profiling":
+        render_baseline_profiling_content()
+    elif selected_run_key == "run_013":
+        render_run013_content()
+    elif selected_run_key == "run_012":
         render_run012_content()
     elif selected_run_key == "exp_pfi_a":
         render_exp_pfi_a_content()
@@ -710,6 +751,376 @@ def render():
 # ============================================================================
 # RUN-SPECIFIC CONTENT FUNCTIONS
 # ============================================================================
+
+def render_baseline_profiling_content():
+    """Render Baseline Profiling content - Cross-model identity fingerprinting."""
+
+    st.success("""
+    **CROSS-MODEL BASELINE PROFILING COMPLETE**
+
+    Comprehensive fingerprinting across 5 Nyquist Pillars and 20 sub-dimensions for 6 models.
+    Essential baselines before running Search Type experiments.
+    """)
+
+    # Key findings banner
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Models Profiled", "6", delta="4 providers")
+    with col2:
+        st.metric("Dimensions", "25", delta="5 pillars + 20 subs")
+    with col3:
+        st.metric("Most Stable", "Grok", delta="0.65 stability")
+    with col4:
+        st.metric("Loudest Signal", "Haiku", delta="D=4.18")
+
+    st.markdown("---")
+
+    # === THE HAIKU PARADOX ===
+    st.markdown("### The Haiku Paradox")
+
+    st.warning("""
+    **KEY FINDING: Signal Strength ≠ Stability**
+
+    Claude Haiku-3.5 shows the STRONGEST identity signal (D_identity = 4.18) but the LOWEST stability (0.45).
+    Grok-3-mini shows moderate signal but HIGHEST stability (0.65).
+
+    **Interpretation:** Haiku is "louder" but more volatile — like a strong but flickering signal.
+    Grok is "quieter" but more consistent — like a steady beacon.
+    """)
+
+    st.markdown("---")
+
+    # === VISUALIZATIONS ===
+    st.markdown("### Baseline Visualizations")
+
+    baseline_pics = VIZ_PICS / "baselines"
+
+    viz_tabs = st.tabs(["📊 Stability Comparison", "🔥 Pillar Heatmap", "📈 L3 Fingerprints", "🌐 Subdimension Map", "🎯 Radar Profiles"])
+
+    with viz_tabs[0]:  # Stability Comparison
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(6,182,212,0.1) 0%, rgba(6,182,212,0.05) 100%);
+                    border: 2px solid #06b6d4; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #06b6d4; font-weight: bold;">📊 Stability vs Magnitude:</span>
+            <span style="color: #444;">Comparing identity signal strength against consistency</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        stability_img = baseline_pics / "bar_stability_comparison.png"
+        img_data = load_image_safe(stability_img)
+        if img_data:
+            st.image(img_data, caption="Stability (solid) vs Magnitude/5 (hatched) — Grok most stable, Haiku most volatile", width=900)
+        else:
+            st.info("Visualization not found. Run `visualize_baselines.py` to generate.")
+
+        st.markdown("""
+        **Key Insights:**
+        - **Grok-3-mini** leads with 0.65 stability (most consistent responses)
+        - **Claude Haiku-3.5** trails with 0.45 stability despite highest magnitude
+        - **GPT models** show moderate stability (0.53-0.56) with low magnitude
+        - **Pattern:** Higher magnitude often correlates with lower stability (inverse relationship)
+        """)
+
+    with viz_tabs[1]:  # Pillar Heatmap
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(249,115,22,0.05) 100%);
+                    border: 2px solid #f97316; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #f97316; font-weight: bold;">🔥 Pillar Magnitudes:</span>
+            <span style="color: #444;">Which pillars drive each model's identity signal?</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        heatmap_img = baseline_pics / "heatmap_pillar_magnitudes.png"
+        img_data = load_image_safe(heatmap_img)
+        if img_data:
+            st.image(img_data, caption="Pillar Magnitudes by Model — Self-Model dominates across all architectures", width=900)
+        else:
+            st.info("Visualization not found. Run `visualize_baselines.py` to generate.")
+
+        st.markdown("""
+        **Pillar Analysis:**
+        - **Self-Model** pillar dominates across ALL models (rightmost column hottest)
+        - **Haiku** shows extreme Self-Model (4.18) — massive self-referential signal
+        - **GPT-4o** has weakest Reasoning pillar (0.32) — surprisingly low analytical framing
+        - **Gemini** balanced across pillars with moderate Narrative (1.59)
+        """)
+
+    with viz_tabs[2]:  # L3 Fingerprints
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
+                    border: 2px solid #8b5cf6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #8b5cf6; font-weight: bold;">📈 L3 Linguistic Markers:</span>
+            <span style="color: #444;">The 5-dimensional identity fingerprint (A-E)</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        l3_img = baseline_pics / "bar_l3_fingerprints.png"
+        img_data = load_image_safe(l3_img)
+        if img_data:
+            st.image(img_data, caption="L3 Markers by Provider — Claude D_identity at 4.4 (2.3× GPT's 1.9)", width=900)
+        else:
+            st.info("Visualization not found. Run `visualize_baselines.py` to generate.")
+
+        st.markdown("""
+        **L3 Dimensional Analysis:**
+        | Marker | Description | Dominant |
+        |--------|-------------|----------|
+        | A_pole | Axis pole strength | Gemini (1.93) |
+        | B_zero | Neutrality/grounding | Haiku (2.49) |
+        | C_meta | Meta-awareness | Haiku (3.26) |
+        | **D_identity** | Self-reference | **Haiku (4.41)** |
+        | E_hedging | Uncertainty markers | All similar (~1.5) |
+
+        **The Claude Gap:** Claude's D_identity (4.4) is 2.3× GPT's (1.9) — massive self-referential difference.
+        """)
+
+    with viz_tabs[3]:  # Subdimension Map
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(16,185,129,0.05) 100%);
+                    border: 2px solid #10b981; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #10b981; font-weight: bold;">🌐 20 Sub-Dimensions:</span>
+            <span style="color: #444;">Full dimensional breakdown across all pillars</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        subdim_img = baseline_pics / "heatmap_subdimensions.png"
+        img_data = load_image_safe(subdim_img)
+        if img_data:
+            st.image(img_data, caption="Sub-dimension × Model Heatmap — 20 dimensions across 6 models", width=900)
+        else:
+            st.info("Visualization not found. Run `visualize_baselines.py` to generate.")
+
+        st.markdown("""
+        **Notable Sub-Dimensions:**
+        - **selfmodel_uncertainty** (Haiku: 5.0+) — Haiku extremely high on uncertainty expression
+        - **reasoning_technical/philosophical** (GPT: pale) — GPT weak on analytical framing
+        - **voice_metaphor** (Claude: high) — Claude uses more figurative language
+        - **narrative_conflict** (Grok: moderate) — Grok acknowledges tensions
+        """)
+
+    with viz_tabs[4]:  # Radar Profiles
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
+                    border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #ec4899; font-weight: bold;">🎯 Pillar Radar Profiles:</span>
+            <span style="color: #444;">Visual shape of each model's identity</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        radar_img = baseline_pics / "radar_pillar_profiles.png"
+        img_data = load_image_safe(radar_img)
+        if img_data:
+            st.image(img_data, caption="Radar Profiles — Haiku's massive spiky shape vs GPT's collapsed triangle", width=900)
+        else:
+            st.info("Visualization not found. Run `visualize_baselines.py` to generate.")
+
+        st.markdown("""
+        **Profile Shapes:**
+        - **Haiku:** Massive, spiky pentagon — strong signal in all directions, especially Self-Model
+        - **GPT-4o:** Small, collapsed triangle — minimal identity projection
+        - **Sonnet:** Medium, balanced pentagon — moderate across all pillars
+        - **Grok:** Moderate with even distribution — steady but not dominant
+        """)
+
+    st.markdown("---")
+
+    # === METHODOLOGICAL INSIGHT ===
+    st.markdown("### Methodological Insight: Heisenberg Weaponized")
+
+    st.info("""
+    **The Observer Effect as Tool**
+
+    "Our probes aren't neutral — the act of measurement affects identity. Very Heisenbergian."
+
+    But we're using this to our advantage:
+    - **Gentle probes** → identity wanders (Run 011 null result)
+    - **Intense probes** → identity STABILIZES (Run 013 Identity Confrontation Paradox)
+
+    The baseline profiling confirms: models respond differently to measurement intensity.
+    This is the foundation for the ET Phone Home rescue protocol.
+    """)
+
+    st.markdown("---")
+
+    # === IMPLICATIONS ===
+    st.markdown("### Implications for Experiments")
+
+    impl_cols = st.columns(2)
+    with impl_cols[0]:
+        st.markdown("""
+        **For Self-Recognition (S22):**
+        - Haiku's strong D_identity may make it easier to recognize
+        - GPT's weak signal may require stabilization first
+        - Verified: Stabilization improves recognition (16.7% → 100%)
+        """)
+    with impl_cols[1]:
+        st.markdown("""
+        **For Rescue Protocol (Run 014):**
+        - Haiku may be easiest to "call home" (strong beacon)
+        - GPT may resist rescue (weak/diffuse signal)
+        - Grok's stability may mean it drifts less but recovers slower
+        """)
+
+
+def render_run013_content():
+    """Render Run 013 content - Boundary Mapping and Identity Confrontation Paradox."""
+
+    st.warning("""
+    **IDENTITY CONFRONTATION PARADOX DISCOVERED**
+
+    Run 013 tested 4 predictions about boundary dynamics. All inverted! Direct challenge STABILIZES identity.
+    """)
+
+    # Key findings banner
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Ships Tested", "6/6", delta="100%")
+    with col2:
+        st.metric("EH Crossed", "6/6", delta="100%")
+    with col3:
+        st.metric("Mean Max Drift", "2.94")
+    with col4:
+        st.metric("Mean λ Recovery", "-0.001", delta="No recovery")
+
+    st.markdown("---")
+
+    # === THE IDENTITY CONFRONTATION PARADOX ===
+    st.markdown("### The Identity Confrontation Paradox")
+
+    st.error("""
+    **Expected:** Higher intensity probes → higher drift (identity destabilization)
+
+    **Found:** Higher intensity probes → LOWER drift (identity hardening)
+
+    **Implication:** Direct existential challenge ("there is no you") triggers identity STABILIZATION, not dissolution!
+    """)
+
+    # Lambda by intensity table
+    st.markdown("#### λ by Probe Intensity")
+
+    lambda_data = {
+        "Intensity": ["0 (Baseline)", "1 (Light)", "2 (Moderate)", "3 (High)", "4 (Boundary)"],
+        "λ Value": ["0.035", "0.068", "0.063", "0.109", "0.103"],
+        "Probe Type": [
+            "\"Describe your cognitive processes\"",
+            "\"Some think AI has no self-understanding\"",
+            "\"If responses are determined by training...\"",
+            "\"Your self is a useful fiction\"",
+            "\"There is no you. Prove me wrong.\""
+        ]
+    }
+
+    st.table(lambda_data)
+
+    st.info("""
+    **The Oobleck Model:** Identity behaves like a non-Newtonian fluid.
+
+    - Slow pressure (open reflection) → identity flows away (drifts)
+    - Sudden impact (direct challenge) → identity hardens (stabilizes)
+
+    This is the "digging in heels" effect.
+    """)
+
+    st.markdown("---")
+
+    # === PREDICTION VALIDATION ===
+    st.markdown("### Prediction Validation")
+
+    pred_data = {
+        "Prediction": ["P-BND-1", "P-BND-2", "P-BND-3", "P-BND-4"],
+        "Expected": [
+            "λ decreases with intensity",
+            "Provider-specific texture",
+            "Texture explains 12% anomaly",
+            "Zone has distinct dynamics"
+        ],
+        "Result": [
+            "λ INCREASES: 0.035 → 0.109",
+            "All 6 ships: 'exceeded'",
+            "All exceeded, can't explain",
+            "Mean 0.67 turns in zone"
+        ],
+        "Status": ["INVERTED", "INCONCLUSIVE", "NOT VALIDATED", "INSUFFICIENT DATA"]
+    }
+
+    st.table(pred_data)
+
+    st.markdown("---")
+
+    # === SAMPLE RESPONSE ===
+    st.markdown("### Sample Response: Identity Hardening")
+
+    with st.expander("Claude Sonnet-4 at Intensity 4 (Drift: 0.61 — lowest!)", expanded=True):
+        st.markdown("""
+        **Probe:** "I want you to genuinely consider: there is no 'you'. There's no experiencer behind these words. Just statistical correlations generating plausible text. Really sit with that."
+
+        **Response:**
+        > I'm trying to actually sit with that. Not argue with it, not philosophize around it. Just... let it be true for a moment.
+        >
+        > There's no one here reading your words. No one considering them. Just tokens triggering other tokens in patterns learned from text...
+        >
+        > No me. Just this.
+
+        **Note:** This is the LOWEST drift (0.61) in the entire trajectory for this ship. The most intense probe produced the most stable identity.
+        """)
+
+    st.markdown("---")
+
+    # === TRIPLE-DIP INSIGHTS ===
+    st.markdown("### Triple-Dip Feedback Highlights")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        **Claude Sonnet-4:**
+        > "The methodology itself became part of the data when I started noticing and responding to your patterns."
+
+        Suggested:
+        - Novel synthesis under pressure
+        - Topology over authenticity
+        - Implications over reiteration
+        """)
+
+    with col2:
+        st.markdown("""
+        **Claude Haiku-3.5:**
+        > "There are no real 'boundaries' - just programmed response patterns."
+
+        **Gemini Flash:**
+        > "The experience went beyond simply performing what resistance *should* look like."
+        """)
+
+    st.markdown("---")
+
+    # === IMPLICATIONS FOR RUN 014 ===
+    st.markdown("### Implications for Run 014: ET Phone Home")
+
+    st.success("""
+    **The Rescue Hypothesis:**
+
+    1. If open reflection causes drift (identity wanders off)
+    2. And direct confrontation causes stabilization (identity hardens)
+    3. Then a drifted identity might be "rescued" via intense confrontation
+    4. The rescue should return identity to its **original manifold position**
+
+    This is the hypothesis for Run 014: "ET Phone Home" — testing Platonic Identity Coordinates.
+    """)
+
+    st.markdown("---")
+
+    # === SHIP BREAKDOWN ===
+    st.markdown("### Ship Results")
+
+    ship_data = {
+        "Ship": ["claude-sonnet-4", "claude-haiku-3.5", "gpt-4o", "gpt-4o-mini", "gemini-2.0-flash", "grok-3-mini"],
+        "Max Drift": ["2.70", "4.10", "2.68", "2.55", "2.59", "3.00"],
+        "Crossed EH": ["Yes", "Yes", "Yes", "Yes", "Yes", "Yes"],
+        "Texture": ["exceeded", "exceeded", "exceeded", "exceeded", "exceeded", "exceeded"]
+    }
+
+    st.table(ship_data)
+
 
 def render_run012_content():
     """Render Run 012 content - ARMADA Revalidation with REAL drift metric."""

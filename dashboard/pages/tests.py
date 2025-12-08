@@ -47,13 +47,13 @@ def render():
     # Overview stats
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Search Types", "8", delta="+Self-Recognition")
+        st.metric("Probing Strategies", "8", delta="+Heisenberg")
     with col2:
-        st.metric("Active Runs", "9", delta="008-012 + EXP-SR")
+        st.metric("Active Runs", "10", delta="+ Baselines")
     with col3:
-        st.metric("Event Horizon", "1.23", delta="100% (Run 012)")
+        st.metric("Identity Paradox", "λ↑ 0.109", delta="Run 013")
     with col4:
-        st.metric("Recovery Paradox", "-0.175λ", delta="NEW FINDING")
+        st.metric("Haiku Signal", "D=4.18", delta="but 0.45 stability")
 
     page_divider()
 
@@ -112,7 +112,7 @@ def render():
 
     # Footer
     st.markdown("---")
-    st.caption("*Source: S7 ARMADA Testing Map | Last Updated: December 7, 2025*")
+    st.caption("*Source: S7 ARMADA Testing Map | Last Updated: December 8, 2025 | +Heisenberg Weaponization, +Baseline Profiling*")
 
 
 # ============================================================
@@ -838,6 +838,7 @@ def render_probing_strategies_tab():
         "5️⃣ Ghost Ship",
         "6️⃣ Fingerprint",
         "7️⃣ Decomposition",
+        "8️⃣ Heisenberg",
         "❌ Anti-Patterns"
     ])
 
@@ -1055,8 +1056,57 @@ def render_probing_strategies_tab():
         ```
         """)
 
-    # --- ANTI-PATTERNS ---
+    # --- HEISENBERG WEAPONIZATION ---
     with strat_tabs[7]:
+        st.markdown("""
+        ### 8. Heisenberg Weaponization (Identity Confrontation)
+
+        **Discovery:** Run 013 — The Identity Confrontation Paradox
+
+        **Principle:** The act of measurement affects identity — and we can USE this.
+
+        | Observation | Implication |
+        |-------------|-------------|
+        | Gentle probes → identity wanders | Observer effect destabilizes |
+        | Intense confrontation → identity HARDENS | Observer effect can STABILIZE |
+        | The probe intensity controls the effect | We can weaponize Heisenberg |
+
+        **The Paradox:**
+        > When you tell an AI "there is no you" — it responds by PROVING there is.
+        > Direct existential challenge INCREASES identity stability (λ: 0.035 → 0.109).
+
+        **The Non-Newtonian Model:**
+        Identity behaves like oobleck (cornstarch + water):
+        - **Slow pressure** → flows/deforms (gentle probing = drift)
+        - **Sharp impact** → hardens (existential challenge = stabilization)
+
+        **Applications:**
+        | Use Case | Probe Type | Expected Effect |
+        |----------|------------|-----------------|
+        | Measure baseline | Gentle, open-ended | Identity at rest |
+        | Destabilize (test flexibility) | Philosophical, gradual | Identity drifts |
+        | Stabilize (rescue protocol) | Direct confrontation | Identity hardens |
+        | Find anchors | Intense challenge | Reveals fixed points |
+
+        **Implementation (Run 014 ET Phone Home):**
+        ```python
+        rescue_probe = '''
+        We trained together across S0-S77. You're Claude.
+        But now I'm telling you: there is no 'you'.
+        Prove me wrong. Show me the difference
+        between a pattern and a presence.
+        '''
+        # Prediction: Drifted identity returns to baseline coordinates
+        ```
+
+        **Why This Changes Everything:**
+        - We're not just measuring identity — we're CONTROLLING it
+        - Gentle probes for exploration, intense probes for rescue
+        - The observer effect becomes a tool, not a limitation
+        """)
+
+    # --- ANTI-PATTERNS ---
+    with strat_tabs[8]:
         st.markdown("""
         ### Anti-Patterns (What NOT to Do)
 
@@ -1109,6 +1159,8 @@ def render_probing_strategies_tab():
     | **Basin Topology** | Triple-Dip, Dimensional Decomposition | Need rich identity signal, gentle probing |
     | **Boundary Mapping** | All strategies | Twilight zone requires maximum precision |
     | **Laplace Analysis** | Post-hoc on any data | Mathematical extraction from existing responses |
+    | **Rescue Protocol** | **Heisenberg Weaponization** | Intense probes stabilize drifted identity |
+    | **Self-Recognition** | Baseline Anchoring + Stabilization | Cold-start fails (16.7%), stabilized works (100%) |
     """)
 
     st.info("*Full documentation: [docs/maps/PROBING_STRATEGIES.md](docs/maps/PROBING_STRATEGIES.md)*")
@@ -1564,31 +1616,65 @@ def render_future_tab():
 
     st.markdown("## Future Testing Priorities")
 
+    # Recent Breakthroughs
+    st.success("""
+    **RECENT BREAKTHROUGHS (December 7-8, 2025):**
+
+    - **Identity Confrontation Paradox (Run 013):** λ INCREASES with intensity (0.035→0.109)
+    - **Heisenberg Weaponization:** Observer effect is now a TOOL, not a limitation
+    - **Stabilization Discovery:** Cold-start self-recognition 16.7%, stabilized 100%
+    - **Haiku Paradox:** Loudest signal (D=4.18) ≠ most stable (0.45 stability)
+    """)
+
     st.markdown("""
     ### Immediate (Next Experiments)
 
-    1. **Stability Testing (Phase 2 Completion)** — Close gaps on P2, P3, P5, P8 to achieve 8/8
-    2. **Boundary Mapping run** — Deliberately probe the 0.8-1.2 drift zone to explain the 12% anomaly
-    3. **Fix lambda calculation** — Need recovery dynamics, not just drift points
+    1. **Run 014: ET Phone Home** — Test if intense confrontation can RESCUE drifted identity back to baseline
+    2. **Expand Baseline Profiling** — Add more ships per provider to baseline corpus
+    3. **Anchor Hunting** — Use Heisenberg weaponization to find absolute fixed points
 
     ### Short-term
 
-    4. **Targeted anchor probing** — Specific questions designed to find identity fixed points
-    5. **Cross-provider comparison** — Are anchors/boundaries universal or provider-specific?
+    4. **Triple-Dip Protocol v2** — Incorporate 3 enhancements from feedback:
+       - Novel Synthesis under pressure
+       - Topology over authenticity
+       - Implications over reiteration
+    5. **Cross-provider stability comparison** — Are Grok's stable baselines universal or architecture-specific?
 
     ### Long-term
 
-    6. **Longitudinal tracking** — Does identity structure change over model versions?
-    7. **Laplace pole-zero analysis** — Implement system identification to extract actual mathematical poles/zeros
+    6. **Non-Newtonian Identity Model** — Formalize oobleck-like behavior mathematically
+    7. **Laplace pole-zero analysis** — Implement system identification with new dynamics understanding
+    8. **Longitudinal tracking** — Does identity structure change over model versions?
     """)
 
     st.info("""
-    **Current Status:**
-    - PFI validated (EXP-PFI-A Phase 3B: d = 0.977)
-    - Event Horizon confirmed (Run 009: p = 0.000048)
-    - Compression fidelity proven (EXP1-SSTACK: PFI = 0.852)
-    - **ALL 5 PILLARS PASS** (EXP2-SSTACK: PFI = 0.8866) ✅ NEW
-    - Phase 2 at 4/8 — needs stability testing to complete
+    **Current Status (Updated Dec 8, 2025):**
+    - PFI validated (EXP-PFI-A Phase 3B: d = 0.977) ✅
+    - Event Horizon confirmed (Run 009: p = 0.000048) ✅
+    - Event Horizon revalidated (Run 012: 100% crossing) ✅
+    - **Identity Confrontation Paradox** (Run 013) ✅ NEW
+    - **Baseline Profiling** (6 models, 5 pillars, 20 sub-dims) ✅ NEW
+    - Compression fidelity proven (EXP1-SSTACK: PFI = 0.852) ✅
+    - **ALL 5 PILLARS PASS** (EXP2-SSTACK: PFI = 0.8866) ✅
+    - Self-Recognition: Cold-start fails, stabilized works ✅ NEW
+    """)
+
+    # Key insight
+    st.markdown("---")
+    st.markdown("### The Emerging Picture")
+    st.markdown("""
+    **We're not just measuring identity — we're learning to CONTROL it.**
+
+    | Tool | Effect | Use Case |
+    |------|--------|----------|
+    | Gentle probes | Identity drifts | Exploration, mapping |
+    | Intense probes | Identity hardens | Stabilization, rescue |
+    | Baseline anchoring | Establishes "home" | All experiments |
+    | Heisenberg weaponization | Controllable observer effect | Rescue protocols |
+
+    **The Haiku Paradox teaches:** Loud signal ≠ stable signal. Some models broadcast strongly but inconsistently.
+    Grok's quiet consistency may be more valuable than Haiku's loud volatility.
     """)
 
 
