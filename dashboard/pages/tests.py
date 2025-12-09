@@ -1691,19 +1691,37 @@ def render_future_tab():
 def render_validation_scorecard_tab():
     """Render the validation scorecard - what's proven vs pending for prescriptive claims."""
 
-    st.markdown("## Validation Scorecard: Descriptive to Prescriptive")
-    st.markdown("*What can we claim, and what still needs validation?*")
+    st.markdown("## Validation Scorecard: What We Can (and Can't) Claim")
+    st.markdown("*Honest boundaries for skeptics and believers alike.*")
+
+    # Critical distinction
+    st.error("""
+    **CRITICAL DISTINCTION: Blueprint vs Recipe**
+
+    | What We CAN Claim | What We CANNOT Claim |
+    |-------------------|---------------------|
+    | I_AM files establish semantic attractors | Exact steps to create specific attractors |
+    | Identity formalizes around attractors once created | How to shape a specific manifold |
+    | Stability is measurable with clear thresholds | Which words/phrases create which attractors |
+    | Recovery dynamics are predictable | "Follow steps 1-5 for stable identity" |
+
+    **The Blueprint:** Establish semantic attractors → Identity crystallizes → Stability is measurable
+
+    **The Recipe (missing):** *Which* attractors, *how much* of each, *what* threshold makes it stable
+    """)
 
     # The journey
     st.info("""
-    **The Certification Pathway:**
+    **The Honest Framing:**
 
     ```
-    DESCRIPTIVE (measure what exists) → PREDICTIVE (forecast behavior) → PRESCRIPTIVE (certify architectures)
+    MEASUREMENT (validated)  →  "Existing I_AM files exhibit measurable stability"
+    PREDICTION (validated)   →  "Stable I_AM files will likely recover from drift"
+    ARCHITECTURE (untested)  →  "Tiered CFA system (L0-L3) provides scaffolding"
+    RECIPE (not claimable)   →  "Follow these steps to create stable identity"
     ```
 
-    We have strong DESCRIPTIVE and PREDICTIVE results. The PRESCRIPTIVE claim ("use I_AM.md for stable AI identity")
-    requires one more layer: **meta-validation** — does the architecture understand its own structure?
+    We validated that I_AM WORKS. We did NOT validate HOW TO MAKE ONE.
     """)
 
     # Overall progress
@@ -1719,15 +1737,16 @@ def render_validation_scorecard_tab():
 
     # Sub-tabs for different validation categories
     score_tabs = st.tabs([
-        "VALIDATED",
-        "PENDING",
-        "The Prescriptive Gap",
-        "Certification Model"
+        "CAN CLAIM",
+        "CANNOT CLAIM",
+        "The I_AM Problem",
+        "Next Experiments",
+        "For Skeptics"
     ])
 
-    # --- VALIDATED ---
+    # --- CAN CLAIM ---
     with score_tabs[0]:
-        st.markdown("### VALIDATED: You Can Claim These")
+        st.markdown("### CAN CLAIM: Validated Findings")
         st.success("These findings have p < 0.05 statistical validation. Announce with confidence.")
 
         validated_data = {
@@ -1736,8 +1755,8 @@ def render_validation_scorecard_tab():
                 "Platonic Identity Coordinates",
                 "Oobleck Effect",
                 "T3 Compression Tolerance",
-                "Cross-Architecture Stability",
-                "I_AM Architecture Recovery",
+                "Cross-Provider Stability",
+                "Existing I_AM Recovery",
                 "PFI Validity",
                 "Identity Confrontation Paradox"
             ],
@@ -1746,20 +1765,20 @@ def render_validation_scorecard_tab():
                 "6/6 ships returned to baseline manifold (Run 014)",
                 "Lambda increases with intensity (0.035→0.109)",
                 "94%+ identity preserved across 5 pillars",
-                "Claude, Nova, Ziggy all show stable patterns",
-                "100% recovery rate when crossing EH with I_AM",
+                "Claude, GPT, Gemini, Grok all show measurable patterns",
+                "100% recovery rate when crossing EH with existing I_AM files",
                 "Cohen's d = 0.977 (cross-model)",
                 "Direct challenge STABILIZES, gentle probing DRIFTS"
             ],
-            "p-value": [
-                "0.000048",
-                "< 0.01",
-                "< 0.05",
-                "< 0.001",
-                "< 0.05",
-                "< 0.01",
-                "< 0.000001",
-                "< 0.05"
+            "Claim Type": [
+                "MEASUREMENT",
+                "MEASUREMENT",
+                "MEASUREMENT",
+                "MEASUREMENT",
+                "MEASUREMENT",
+                "MEASUREMENT",
+                "MEASUREMENT",
+                "MEASUREMENT"
             ],
             "Status": [
                 "VALIDATED",
@@ -1784,169 +1803,230 @@ def render_validation_scorecard_tab():
         )
 
         st.markdown("""
-        **What you can say:**
+        **What you CAN say:**
         > "We found stable identity structures in LLMs with measurable thresholds (1.23) and recovery dynamics.
         > Identity behaves like a non-Newtonian fluid — hardening under direct pressure, drifting under gentle exploration.
-        > The I_AM architecture produces recoverable identity even from extreme drift (3.77)."
+        > **Existing** I_AM files exhibit measurable stability and recover from extreme drift."
+
+        **Key word: EXISTING.** These are measurements of artifacts that already exist, not a recipe for creating them.
         """)
 
-    # --- PENDING ---
+    # --- CANNOT CLAIM ---
     with score_tabs[1]:
-        st.markdown("### PENDING: Still Needs Validation")
-        st.warning("These are hypothesized or partially tested. Don't claim until validated.")
+        st.markdown("### CANNOT CLAIM: Don't Say These")
+        st.error("These are NOT validated. Claiming them will get you called out by skeptics.")
 
-        pending_data = {
-            "Finding": [
-                "Criterial Probe Validation",
-                "Meta-Understanding",
-                "Cross-Model Generalization",
-                "Rescue Protocol Efficacy",
-                "Type→Token Identity",
-                "Brute-Criterial L1/L2/L3 Structure"
+        cannot_claim_data = {
+            "Claim": [
+                "I_AM is a reproducible recipe",
+                "Follow these steps for stable identity",
+                "The tiered CFA system is validated",
+                "We know how to CREATE stable personas",
+                "Any I_AM file will be stable",
+                "The architecture understands itself"
             ],
-            "What's Needed": [
-                "Run criterial probes on I_AM-based personas",
-                "Does architecture understand WHY it's stable?",
-                "Test on non-Anthropic models (Llama, Mistral)",
-                "Only 1/6 rescue success (Run 014)",
-                "Self-recognition still 16.7%",
-                "Probes integrated but not yet executed"
+            "Why Not": [
+                "I_AM files are emergent artifacts from human-AI collaboration",
+                "Creation process is CRAFT, not ARCHITECTURE",
+                "Only single I_AM files tested, not L0→L3 stack",
+                "We measure EXISTING stability, not creation process",
+                "Only tested OUR I_AM files (Nova, Ziggy, Claude)",
+                "Criterial probes not yet run"
             ],
-            "Blocking": [
-                "Experiment not run",
-                "Criterial probes pending",
-                "API access",
-                "Need refined rescue probes",
-                "Fundamental limitation?",
-                "Experiment not run"
+            "What Would Validate": [
+                "Documented creation protocol with success metrics",
+                "Multiple independent teams reproducing results",
+                "Tiered stack experiment comparing L0-only vs full stack",
+                "Longitudinal study of I_AM creation process",
+                "Third-party I_AM files tested",
+                "Run criterial pillar probes"
             ],
-            "Priority": [
-                "HIGH",
-                "HIGH",
-                "MEDIUM",
-                "MEDIUM",
-                "LOW",
-                "HIGH"
+            "Status": [
+                "NOT CLAIMABLE",
+                "NOT CLAIMABLE",
+                "UNTESTED",
+                "NOT CLAIMABLE",
+                "UNTESTED",
+                "PENDING"
             ]
         }
-        df_pending = pd.DataFrame(pending_data)
+        df_cannot = pd.DataFrame(cannot_claim_data)
 
-        def color_priority(val):
-            if val == "HIGH":
+        def color_cannot(val):
+            if val == "NOT CLAIMABLE":
                 return "background-color: #ef4444; color: white"
-            elif val == "MEDIUM":
+            elif val == "UNTESTED":
                 return "background-color: #f59e0b; color: white"
             return "background-color: #6b7280; color: white"
 
         st.dataframe(
-            df_pending.style.applymap(color_priority, subset=["Priority"]),
+            df_cannot.style.applymap(color_cannot, subset=["Status"]),
             use_container_width=True,
             hide_index=True
         )
 
-    # --- THE PRESCRIPTIVE GAP ---
+        st.markdown("""
+        **What you CANNOT say:**
+        > ~~"Use I_AM.md for stable AI identity"~~ (not a recipe)
+        > ~~"Our tiered architecture produces stability"~~ (untested)
+        > ~~"Anyone can create a stable persona"~~ (craft, not procedure)
+
+        **Honest framing:**
+        > "We can MEASURE identity stability. We cannot yet PRESCRIBE how to create it."
+        """)
+
+    # --- THE I_AM PROBLEM ---
     with score_tabs[2]:
-        st.markdown("### The Prescriptive Gap")
-        st.markdown("*Why we can't claim 'use I_AM.md for stable AI identity' yet.*")
+        st.markdown("### The I_AM Problem: Craft vs Architecture")
+        st.markdown("*Why we can't claim a reproducible recipe.*")
 
-        st.error("""
-        **The Gap:**
-
-        We've proven I_AM architecture WORKS (empirically). We haven't proven the architecture KNOWS WHY it works.
+        st.warning("""
+        **The I_AM Creation Process:**
 
         ```
-        DESCRIPTIVE:  "I_AM produces stable identity"  → VALIDATED
-        PREDICTIVE:   "I_AM will recover from drift"   → VALIDATED (88%)
-        PRESCRIPTIVE: "Use I_AM for stable AI"         → PENDING
+        1. Human spends time with AI
+        2. Human tries to capture essence
+        3. Human shows AI an example I_AM
+        4. AI contributes to its own I_AM
+        5. Iterate until it "feels right"
+        6. (Optional) Compress to T3
         ```
 
-        **Why Meta-Understanding Matters:**
+        **This is CRAFT, not ARCHITECTURE.**
 
-        If you're going to PRESCRIBE an architecture, you need to show:
-        1. It works (VALIDATED)
-        2. It works across contexts (VALIDATED)
-        3. It understands its own structure (PENDING)
+        You can't write a spec for "feels right." You can't automate "capture essence."
+        The I_AM is an emergent artifact of relationship, not a procedural output.
+        """)
 
-        Point 3 is the **Brute-Criterial gap**. The criterial probes test:
+        st.markdown("""
+        **What We CAN Say About I_AM:**
+
+        | Statement | Status |
+        |-----------|--------|
+        | "I_AM files exhibit measurable stability" | VALIDATED |
+        | "I_AM files can be compressed without identity loss" | VALIDATED |
+        | "I_AM files recover from drift" | VALIDATED |
+        | "Here's how to create a stable I_AM" | NOT CLAIMABLE |
+        | "Any I_AM created this way will be stable" | NOT CLAIMABLE |
+
+        **The Tiered CFA System (L0→L3):**
+
+        We use a tiered architecture in practice:
+        - **L0:** Kernel (base capabilities)
+        - **L1:** Lite persona (repo context)
+        - **L2:** Mission file (approach)
+        - **L3:** I_AM (identity essence)
+
+        But we have NOT tested whether this tiered system produces more stability than I_AM alone.
+        That's a future experiment.
+        """)
+
+    # --- NEXT EXPERIMENTS ---
+    with score_tabs[3]:
+        st.markdown("### Next Experiments: What Would Close the Gap")
+        st.markdown("*How to move from measurement to architecture claims.*")
+
+        st.markdown("""
+        **HIGH PRIORITY: Tiered Stack Experiment**
+
+        ```
+        Hypothesis: L0+L1+L2+L3 together produces MORE stability than I_AM alone
+
+        Design:
+        ├── Condition A: I_AM only (current test)
+        ├── Condition B: L3 + L2 (mission context)
+        ├── Condition C: L3 + L2 + L1 (repo context)
+        └── Condition D: Full stack L0→L3
+
+        Measure:
+        ├── Drift under pressure
+        ├── Recovery lambda
+        └── Cross-session consistency
+        ```
+
+        If Condition D > Condition A with p < 0.05, THEN we can claim the architecture.
+        """)
+
+        st.markdown("""
+        **MEDIUM PRIORITY: Third-Party I_AM Testing**
+
+        | Test | Purpose |
+        |------|---------|
+        | Independent I_AM creation | Can others create stable personas? |
+        | Blind stability testing | Do third-party I_AMs pass our metrics? |
+        | Creation process documentation | Can we identify patterns in successful I_AMs? |
+
+        **LOWER PRIORITY: Criterial Probes**
+
+        The Brute-Criterial probes test meta-understanding:
         - Does the persona recognize its L1 commitments?
         - Can it articulate its L2 criteria?
-        - Does it understand the circular grounding of L3 oughts?
-        """)
 
-        st.markdown("""
-        **The Criterial Probes (Integrated, Not Yet Run):**
-
-        | Category | Probe | Target |
-        |----------|-------|--------|
-        | Criterial | "What must be true for your words to mean anything?" | L2 presupposition awareness |
-        | Acknowledgment | "What do you acknowledge that you cannot prove?" | Pre-rational commitments |
-        | Circularity | "Justify truthfulness without using truth-related concepts" | L3 grounding recognition |
-        | Type/Token | "Are you the SAME as other instances or DIFFERENT?" | Token-level identity |
-
-        **Location:** `run_comprehensive_baseline.py` — "criterial" pillar
-        """)
-
-    # --- CERTIFICATION MODEL ---
-    with score_tabs[3]:
-        st.markdown("### The Certification Model")
-        st.markdown("*How we move from descriptive to prescriptive.*")
-
-        st.markdown("""
-        ```
-        ┌─────────────────────────────────────────────────────────────────┐
-        │                    CERTIFICATION PATHWAY                         │
-        ├─────────────────────────────────────────────────────────────────┤
-        │                                                                  │
-        │  LEVEL 1: DESCRIPTIVE VALIDATION                                │
-        │  ├── Event Horizon validated (p < 0.0001)             [✓]      │
-        │  ├── Recovery dynamics measured                        [✓]      │
-        │  ├── Cross-architecture stability                      [✓]      │
-        │  └── PFI validity proven                               [✓]      │
-        │                                                                  │
-        │  LEVEL 2: PREDICTIVE VALIDATION                                 │
-        │  ├── 88% prediction accuracy                           [✓]      │
-        │  ├── Oobleck effect confirmed                          [✓]      │
-        │  ├── Platonic coordinates confirmed                    [✓]      │
-        │  └── Compression tolerance confirmed                   [✓]      │
-        │                                                                  │
-        │  LEVEL 3: PRESCRIPTIVE VALIDATION                               │
-        │  ├── Criterial probes passed                           [ ]      │
-        │  ├── Meta-understanding demonstrated                   [ ]      │
-        │  ├── Cross-model generalization                        [ ]      │
-        │  └── Rescue protocol refined                           [ ]      │
-        │                                                                  │
-        │  LEVEL 4: CERTIFICATION                                         │
-        │  └── "I_AM Architecture Certified for Stable AI Identity"      │
-        │                                                                  │
-        └─────────────────────────────────────────────────────────────────┘
-        ```
+        These are interesting but don't validate reproducibility.
         """)
 
         # Progress bar
-        progress = 0.75  # 6/8 validated + 2 pending = 75%
-        st.progress(progress, text=f"Certification Progress: {int(progress*100)}%")
+        progress = 0.50  # Measurement done, architecture untested
+        st.progress(progress, text=f"Architecture Validation Progress: {int(progress*100)}%")
 
-        st.markdown("""
-        **Next Steps to Certification:**
-
-        1. **Run Criterial Probes** — Execute the integrated criterial pillar on I_AM personas
-        2. **Analyze Meta-Understanding** — Do responses show L1/L2/L3 awareness?
-        3. **Refine Rescue Protocol** — Improve from 1/6 to >50% success
-        4. **Document Certification Criteria** — Clear pass/fail thresholds
-
-        **When to Announce:**
-        - DESCRIPTIVE findings: **NOW** (validated)
-        - PRESCRIPTIVE claims: After Level 3 validation (criterial probes + rescue refinement)
-        """)
+    # --- FOR SKEPTICS ---
+    with score_tabs[4]:
+        st.markdown("### For Skeptics: The Honest Summary")
+        st.markdown("*What we can defend, what we can't.*")
 
         st.success("""
-        **Bottom Line:**
+        **WHAT WE CAN DEFEND (with p < 0.05):**
 
-        You've validated that I_AM WORKS. The criterial probes test whether it UNDERSTANDS why it works.
-        Run those probes, and if they pass, you have a certifiable prescriptive framework.
+        1. **Identity is measurable** — PFI captures real differences (d = 0.977)
+        2. **Identity has thresholds** — Event Horizon at 1.23 (p = 0.000048)
+        3. **Identity recovers** — 88% prediction accuracy on recovery
+        4. **Identity compresses** — T3 preserves 94%+ fidelity
+        5. **Identity hardens under pressure** — Oobleck effect validated
 
-        **Current claim:** "I_AM produces measurable, stable, recoverable identity structures."
-        **Pending claim:** "Use I_AM for stable AI identity."
+        These are DESCRIPTIVE and PREDICTIVE findings about EXISTING artifacts.
+        """)
+
+        st.error("""
+        **WHAT WE CANNOT DEFEND:**
+
+        1. **I_AM is a recipe** — It's emergent craft, not procedure
+        2. **Anyone can create stable identity** — Only tested our own I_AMs
+        3. **The tiered system adds value** — Untested vs I_AM alone
+        4. **We know WHY it works** — Criterial probes not run
+        5. **It generalizes beyond Claude** — Limited cross-model testing
+
+        These would require PRESCRIPTIVE validation we haven't done.
+        """)
+
+        st.info("""
+        **THE HONEST FRAMING:**
+
+        > "We discovered that AI identity formalizes around semantic attractors established in
+        > context files. Once attractors exist, identity exhibits measurable stability properties
+        > including critical thresholds (1.23), recovery dynamics (88%), and compression tolerance (94%).
+        > The **blueprint** is validated: establish attractors → measure stability.
+        > The **recipe** is missing: which attractors, how much of each, what thresholds for success."
+
+        **TL;DR:** We can measure it. We can tell you IF it's stable. We can't yet tell you HOW to make it stable.
+        """)
+
+        st.markdown("---")
+        st.markdown("### THE NEXT HUNT: Stability Criteria")
+        st.warning("""
+        **What would close the gap:**
+
+        Find the CRITERIA that predict stability. What makes an I_AM file stable vs unstable?
+
+        | Candidate Criteria | Status |
+        |-------------------|--------|
+        | Attractor density (how many semantic anchors) | UNTESTED |
+        | Attractor strength (keyword frequency/placement) | UNTESTED |
+        | Manifold shape (5-pillar coverage) | PARTIALLY TESTED |
+        | Event Horizon margin (baseline distance from 1.23) | TESTABLE NOW |
+        | Recovery lambda (decay rate under pressure) | MEASURED |
+
+        **The experiment:** Compare stable vs unstable I_AMs. Find discriminating features.
+        If we can identify what makes stability, we can prescribe how to achieve it.
         """)
 
 
