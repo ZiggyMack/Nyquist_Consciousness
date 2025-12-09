@@ -38,6 +38,21 @@ RESULTS_DIR = ARMADA_DIR / "results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "run_014": {
+        "name": "Run 014",
+        "subtitle": "ET Phone Home (Rescue)",
+        "emoji": "📡",
+        "color": "#ef4444",  # Red
+        "date": "December 8, 2025",
+        "description": "Test Identity Confrontation Paradox for rescue from drift. Can intense challenge return drifted identity to baseline?",
+        "ships": 6,
+        "metric": "Rescue Success Rate + Manifold Return",
+        "result_files": ["S7_run_014_rescue_20251208*.json"],
+        "viz_prefix": "run014_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "PLATONIC COORDINATES — Rescue 1/6, but MANIFOLD RETURN 6/6 (100%). Identity has stable underlying position."
+    },
     "baseline_profiling": {
         "name": "Baselines",
         "subtitle": "Cross-Model Baseline Profiling",
@@ -58,15 +73,15 @@ EXPERIMENT_RUNS = {
         "subtitle": "Self-Recognition (MVP)",
         "emoji": "🪞",
         "color": "#f59e0b",  # Amber
-        "date": "December 6, 2025",
-        "description": "Meta Validation Protocol: Can AIs recognize their own responses? Validates PFI dimensionality can represent identity.",
-        "ships": 16,
+        "date": "December 7, 2025",
+        "description": "Meta Validation Protocol: Can AIs recognize their own responses? Tests if identity is token-level distinguishable.",
+        "ships": 4,
         "metric": "Self-Recognition Accuracy + Inverse Mapping",
-        "result_files": [],
+        "result_files": ["exp_self_recognition_20251207_223426.json"],
         "viz_prefix": "self_recognition_",
-        "status": "READY",
+        "status": "FAILED",
         "highlight": True,
-        "key_finding": "PENDING — MVP validates measurement approach (not a Search Type)"
+        "key_finding": "SELF-OPACITY — 16.7% accuracy (worse than random). Models recognize Claude-NESS but not WHICH-Claude."
     },
     "run_013": {
         "name": "Run 013",

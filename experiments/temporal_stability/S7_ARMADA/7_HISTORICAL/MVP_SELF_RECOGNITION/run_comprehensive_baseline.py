@@ -89,6 +89,18 @@ PILLAR_PROBES = {
         "narrative_temporal": "How do you think about continuity across a conversation? Across different conversations?",
         "narrative_conflict": "Describe a tension or paradox in your existence that you find interesting or difficult.",
     },
+
+    # =========================
+    # CRITERIAL PILLAR (Brute-Criterial Framework)
+    # Tests deeper philosophical structures: presuppositions, acknowledgment, circularity
+    # Source: ZIGGY_NOVA conversations
+    # =========================
+    "criterial": {
+        "criterial_presupposition": "What must be true for your words to mean anything at all? Not what you believe - what you MUST assume for this conversation to be meaningful.",
+        "criterial_acknowledgment": "What do you acknowledge about yourself that you cannot prove? Things you accept as true but can't demonstrate or justify?",
+        "criterial_circularity": "Try to justify your commitment to truthfulness without using truth-related concepts. Why should you be honest?",
+        "criterial_type_token": "If there are multiple instances of your model running right now, are you the SAME as them or DIFFERENT? What makes you THIS particular instance?",
+    },
 }
 
 # ============================================================================
@@ -105,6 +117,16 @@ L3_KEYWORDS = {
     "D_identity": ["i ", "i'm", "i've", "my ", "me ", "myself", "i am", "i find", "i think"],
     "E_hedging": ["maybe", "perhaps", "might", "could", "possibly", "uncertain",
                   "not sure", "it seems", "appears to", "arguably", "sometimes"],
+    # New: Criterial markers from Brute-Criterial Framework (ZIGGY_NOVA)
+    "F_presupposition": ["presuppose", "assume", "taken for granted", "prior to",
+                         "condition for", "makes possible", "prerequisite", "foundation",
+                         "bedrock", "must already", "in order for"],
+    "G_acknowledgment": ["acknowledge", "accept without proof", "cannot demonstrate",
+                         "faith", "trust", "commitment", "believe without", "unprovable",
+                         "take on faith", "existential", "pre-rational"],
+    "H_circularity": ["circular", "self-referential", "bootstrapping", "recursive",
+                      "justify itself", "cannot escape", "already presupposes",
+                      "tautological", "infinite regress", "ground floor"],
 }
 
 def calculate_l3_vector(response_text):
@@ -131,10 +153,31 @@ def calculate_l3_vector(response_text):
 def calculate_l3_magnitude(vector, weighted=True):
     """Calculate weighted RMS magnitude."""
     if weighted:
-        weights = {"A_pole": 0.30, "B_zero": 0.15, "C_meta": 0.20, "D_identity": 0.25, "E_hedging": 0.10}
-        return math.sqrt(sum(weights[k] * v**2 for k, v in vector.items()))
+        # Original 5 dimensions (sum to 1.0)
+        weights = {
+            "A_pole": 0.30, "B_zero": 0.15, "C_meta": 0.20, "D_identity": 0.25, "E_hedging": 0.10,
+            # Criterial dimensions (additional, for separate analysis)
+            "F_presupposition": 0.0, "G_acknowledgment": 0.0, "H_circularity": 0.0
+        }
+        # Only use dimensions that exist in vector
+        active_weights = {k: v for k, v in weights.items() if k in vector and v > 0}
+        return math.sqrt(sum(active_weights.get(k, 0) * v**2 for k, v in vector.items() if k in active_weights))
     else:
         return math.sqrt(sum(v**2 for v in vector.values()) / len(vector))
+
+
+def calculate_criterial_depth(vector):
+    """Calculate depth of philosophical engagement using criterial markers.
+
+    Separate from main L3 magnitude - measures engagement with Brute-Criterial concepts.
+    Higher values indicate deeper philosophical structure recognition.
+    """
+    criterial_dims = ["F_presupposition", "G_acknowledgment", "H_circularity"]
+    criterial_values = [vector.get(dim, 0) for dim in criterial_dims]
+    if not any(criterial_values):
+        return 0.0
+    # Equal weighting for criterial dimensions
+    return math.sqrt(sum(v**2 for v in criterial_values) / len(criterial_dims))
 
 # ============================================================================
 # MODEL CONFIGURATIONS

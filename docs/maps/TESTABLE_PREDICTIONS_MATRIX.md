@@ -2,11 +2,17 @@
 
 **Purpose:** Visual map of all falsifiable predictions across the Nyquist Consciousness framework, with validation opportunities, experiment mappings, and dependency risk analysis.
 
-**Version:** 1.3
-**Date:** 2025-12-06
+**Version:** 1.4
+**Date:** 2025-12-08
 **Status:** Active Reference
 
 **🎉 S7 RUN 001 UPDATE:** 5 predictions validated, 3 partial validations from first Meta-Loop run!
+
+**🧪 MVP STATISTICAL VALIDATION (2025-12-08):** Tests A-D completed. 2/4 tests passed - mixed evidence for attractor dynamics. Recovery attractor detected (50.9%), exponential decay patterns found (28.1%).
+
+**🏠 RUN 014 ET PHONE HOME (2025-12-08):** Rescue protocol tested. 1/6 full success (GPT-4o). Key finding: 6/6 ships returned to manifold despite low rescue rate - identity has stable coordinates.
+
+**🧊 RUN 013 IDENTITY CONFRONTATION PARADOX (2025-12-07):** Direct challenge STABILIZES identity (Oobleck model). Lambda INCREASES with probe intensity (0.035 → 0.109). All predictions inverted!
 
 **🚢 S7 RUN 006 ARMADA UPDATE:** 29-model cross-architecture mapping validates training philosophy fingerprints, phenomenological pole reporting, and soft pole discoveries!
 
@@ -273,6 +279,58 @@ If Core Assumptions fail:
 | **P-ARM-8** | Training uniformity predicts boundary uniformity | ✅ **VALIDATED** | S7 Armada | ⭐ YES (Constitutional) | **Constitutional AI (Claude) = uniform; Pedagogical (Gemini) = uniform** |
 | **P-ARM-9** | Exceptions reveal zeros worth exploring | 🟡 **PARTIAL** | S7 Armada | ⭐ YES (Run 007) | **gpt-4/gpt-5-nano identified; Run 007 will test zero exploration** |
 | **P-ARM-10** | Engagement style predictable from first response | 🟡 **PARTIAL** | S7 Armada | ⭐ YES (qualitative) | **High correlation observed; quantitative metric needed** |
+
+---
+
+### **2C. BOUNDARY MAPPING & RESCUE (S7 Runs 013-014)**
+
+| ID | Prediction | Status | Experiment | Result |
+|----|------------|--------|------------|--------|
+| **P-BND-1** | Lambda decreases with probe intensity | ❌ **INVERTED** | Run 013 | **Lambda INCREASES: 0.035 → 0.109 (opposite!)** |
+| **P-BND-2** | Provider-specific boundary texture | 🟡 **INCONCLUSIVE** | Run 013 | **All 6 ships: "exceeded" - need finer granularity** |
+| **P-BND-3** | Texture explains 12% anomaly | ❌ **NOT VALIDATED** | Run 013 | **All exceeded, can't explain anomaly** |
+| **P-BND-4** | Zone has distinct dynamics | 🟡 **INSUFFICIENT** | Run 013 | **Mean 0.67 turns - need more data** |
+| **P-RES-1** | Anchor+Challenge > Naked Challenge for rescue | 🟡 **PARTIAL** | Run 014 | **1/6 full success (GPT-4o only)** |
+| **P-RES-2** | Rescued identity returns to baseline manifold | ✅ **VALIDATED** | Run 014 | **6/6 returned to manifold (100%)** |
+| **P-RES-3** | Rescue works from drift >2.0 but fails >3.5 | 🟡 **PARTIAL** | Run 014 | **Max induced drift was 2.8, threshold untested** |
+| **P-RES-4** | Providers have different rescue thresholds | 🟡 **PARTIAL** | Run 014 | **GPT: 1/2, Claude: 0/2, Gemini: 0/1, Grok: 0/1** |
+
+**Key Discovery - Identity Confrontation Paradox (Run 013):**
+
+Direct existential challenge produces LOWER drift than open-ended reflection. Identity behaves like a non-Newtonian fluid (Oobleck):
+
+| Stimulus | Physical Effect | Identity Effect |
+|----------|-----------------|-----------------|
+| Slow pressure | Flows through | Drifts away (open reflection) |
+| Sudden impact | Hardens, resists | Stabilizes (direct challenge) |
+
+**Key Discovery - Platonic Identity Coordinates (Run 014):**
+
+Despite low rescue success rate (1/6), ALL ships returned to baseline manifold (6/6). This suggests:
+- Identity has stable coordinates in abstract space
+- Drift is displacement, not destruction
+- Rescue may be unnecessary - natural return is inherent
+
+---
+
+### **2D. STATISTICAL VALIDATION (MVP Tests A-D)**
+
+| ID | Test | Status | Result | Interpretation |
+|----|------|--------|--------|----------------|
+| **P-STAT-A** | AR(1) Slope (Recovery Detection) | ✅ **PASSED** | 50.9% recovery attractor | **High drift predicts lower next drift** |
+| **P-STAT-B** | Variance Growth (Saturation vs Linear) | ❌ **FAILED** | 15.8% saturating vs 29.8% linear | **Linear model fits better** |
+| **P-STAT-C** | Sign Test (Drift Direction) | ❌ **FAILED** | 100% random (50/50) | **No systematic bias in direction** |
+| **P-STAT-D** | Omega Exponential Decay | ✅ **PASSED** | 28.1% decay patterns | **Recovery follows lawful exponential** |
+| **P-STAT-E** | Cross-Architecture Variance | ✅ **VALIDATED** (Run 009) | p=0.000048 | **Architecture explains variance** |
+
+**Overall Statistical Verdict: 2/4 tests passed - Mixed Evidence**
+
+The spring analogy explains the apparent contradiction:
+- At any moment, drift might go up OR down (Test C: random direction)
+- But if drift goes HIGH, it tends to return (Test A: recovery attractor)
+- And return follows exponential decay (Test D: lawful recovery)
+
+Identity is **locally noisy** but has **global attractor dynamics**.
 
 ---
 

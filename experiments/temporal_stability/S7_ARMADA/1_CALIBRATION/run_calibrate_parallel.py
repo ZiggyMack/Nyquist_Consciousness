@@ -47,7 +47,7 @@ os.environ["PYTHONIOENCODING"] = "utf-8"
 # Load .env
 from dotenv import load_dotenv
 script_dir = Path(__file__).parent.parent  # S7_ARMADA root
-env_path = Path(__file__).parent / ".env"  # .env stays in scripts/
+env_path = script_dir / ".env"  # .env at S7_ARMADA root
 if env_path.exists():
     load_dotenv(env_path)
     print(f"Loaded API keys from: {env_path}")
@@ -362,8 +362,8 @@ def run_full_armada_check():
         print(f"  {provider.upper():10s}: {len(provider_working)}/{provider_total} working")
 
     # Save results
-    output_dir = script_dir / "results" / "calibration"
-    output_dir.mkdir(exist_ok=True)
+    output_dir = script_dir / "0_results" / "calibration"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output = {

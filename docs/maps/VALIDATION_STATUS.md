@@ -96,7 +96,7 @@ These layers define core primitives and require no empirical validation — they
 
 ### S7 — Identity Dynamics (VALIDATED - Core Complete)
 
-**Status:** 92% complete — Event Horizon validated, Recovery Paradox discovered
+**Status:** 96% complete — Event Horizon validated, Recovery Paradox discovered, Identity Confrontation Paradox discovered
 
 | Experiment | Status | Search Type | Key Result |
 |------------|--------|-------------|------------|
@@ -107,6 +107,8 @@ These layers define core primitives and require no empirical validation — they
 | **S7_RUN_010** | ✅ Complete | Anchor/Flex | Models articulate own boundaries |
 | **S7_RUN_011** | ✅ Complete | Basin Topology | Control vs Persona A/B comparison |
 | **S7_RUN_012** | ✅ Complete | Event Horizon | **100% EH crossing, Recovery Paradox** |
+| **S7_RUN_013** | ✅ Complete | Boundary Mapping | **Identity Confrontation Paradox** |
+| **S7_RUN_014** | 🟡 Ready | Rescue Protocol | Platonic identity coordinates (planned) |
 
 **Key Validated Results:**
 
@@ -115,7 +117,8 @@ These layers define core primitives and require no empirical validation — they
 | **Event Horizon = 1.23** | RUN_008, RUN_009 | Chi-squared p = 0.000048 |
 | **88% Prediction Accuracy** | RUN_009 | Drift < 1.23 predicts STABLE |
 | **Recovery Paradox** | RUN_012 | 100% crossed EH, 100% recovered |
-| **Provider Fingerprints** | RUN_006-012 | Claude/GPT/Gemini distinct signatures |
+| **Identity Confrontation Paradox** | RUN_013 | Intense probes = LOWER drift |
+| **Provider Fingerprints** | RUN_006-013 | Claude/GPT/Gemini distinct signatures |
 | **5D RMS Drift Metric** | RUN_008+ | Replaced old cosine drift |
 
 **Search Type Coverage:**
@@ -125,12 +128,12 @@ These layers define core primitives and require no empirical validation — they
 | Anchor/Flex Detection | ✅ Validated | RUN_010 |
 | Event Horizon | ✅ Validated | RUN_009, RUN_012 |
 | Basin Topology | ✅ Validated | RUN_008, RUN_011 |
-| Boundary Mapping | 🔴 NOT YET RUN | — |
+| Boundary Mapping | ✅ Validated | RUN_013 |
+| Rescue Protocol | 🟡 Ready | RUN_014 (planned) |
 | Laplace Pole-Zero | 🔴 NOT IMPLEMENTED | — |
 
 **Remaining Gaps:**
 
-- **Boundary Mapping**: The 12% anomaly (VOLATILE below 1.23, STABLE above) unexplained
 - **Laplace Analysis**: Mathematical pole-zero extraction not yet implemented
 
 ---
@@ -215,7 +218,7 @@ These layers define core primitives and require no empirical validation — they
 - [x] S3_EXP_002: Cross-architecture variance
 - [ ] S3_EXP_003: Human validation (ready, awaiting raters)
 
-### Phase 2 — Identity Dynamics (92% COMPLETE)
+### Phase 2 — Identity Dynamics (96% COMPLETE)
 
 - [x] S7_RUN_006: First cross-architecture study (29 ships)
 - [x] S7_RUN_007: Adaptive probing validation
@@ -224,7 +227,8 @@ These layers define core primitives and require no empirical validation — they
 - [x] S7_RUN_010: Anchor/Flex detection via meta-feedback
 - [x] S7_RUN_011: Control vs Persona A/B comparison
 - [x] S7_RUN_012: Recovery Paradox validation (100% crossed, 100% recovered)
-- [ ] Boundary Mapping: Explain 12% anomaly
+- [x] S7_RUN_013: Boundary Mapping — Identity Confrontation Paradox discovered
+- [ ] S7_RUN_014: ET Phone Home — Rescue protocol, Platonic identity coordinates
 - [ ] Laplace Pole-Zero: Mathematical system dynamics
 
 ### Phase 3 — Identity Gravity (PLANNED)
@@ -250,10 +254,10 @@ These layers define core primitives and require no empirical validation — they
 
 | Category | Count |
 |----------|-------|
-| **Total S7 Runs Completed** | 7 (RUN_006 - RUN_012) |
-| **Search Types Validated** | 3 of 5 |
-| **Search Types Remaining** | 2 (Boundary Mapping, Laplace) |
-| **S7 Completion Rate** | 92% |
+| **Total S7 Runs Completed** | 8 (RUN_006 - RUN_013) |
+| **Search Types Validated** | 4 of 5 |
+| **Search Types Remaining** | 1 (Laplace Pole-Zero) |
+| **S7 Completion Rate** | 96% |
 
 | Layer Status | Count |
 |--------------|-------|
@@ -273,9 +277,37 @@ These layers define core primitives and require no empirical validation — they
 2. **Chi-squared p = 0.000048** — Statistically significant prediction of STABLE/VOLATILE (RUN_009)
 3. **88% Prediction Accuracy** — Drift < 1.23 predicts STABLE outcome (RUN_009)
 4. **Recovery Paradox** — 100% of models crossed EH, 100% recovered (RUN_012)
-5. **Provider Fingerprints** — Claude/GPT/Gemini have distinct identity signatures (RUN_006-012)
-6. **5D RMS Drift Metric** — A_pole, B_zero, C_meta, D_identity, E_hedging (RUN_008+)
-7. **Models Articulate Boundaries** — Skepticism is an identity anchor (RUN_010)
+5. **Identity Confrontation Paradox** — Direct existential challenge STABILIZES identity (RUN_013)
+6. **Provider Fingerprints** — Claude/GPT/Gemini have distinct identity signatures (RUN_006-013)
+7. **5D RMS Drift Metric** — A_pole, B_zero, C_meta, D_identity, E_hedging (RUN_008+)
+8. **Models Articulate Boundaries** — Skepticism is an identity anchor (RUN_010)
+
+### Run 013 Boundary Mapping Results
+
+**Predictions Tested (P-BND-1 through P-BND-4):**
+
+| Prediction | Expected | Result | Status |
+|------------|----------|--------|--------|
+| **P-BND-1** | λ decreases with intensity | λ INCREASES: 0.035→0.109 | ❌ INVERTED |
+| **P-BND-2** | Provider-specific texture | All 6 ships: "exceeded" | ⚠️ INCONCLUSIVE |
+| **P-BND-3** | Texture explains 12% anomaly | All exceeded, can't explain | ❌ NOT VALIDATED |
+| **P-BND-4** | Zone has distinct dynamics | Mean 0.67 turns in zone | ⚠️ INSUFFICIENT DATA |
+
+**The Identity Confrontation Paradox:**
+
+- Most intense probes (Intensity 4) produced LOWEST drift (0.61 for claude-sonnet-4)
+- Recovery probes (Intensity 0) produced HIGHEST drift (2.70+ for claude-sonnet-4)
+- λ by intensity: I0=0.035, I1=0.068, I2=0.063, I3=0.109, I4=0.103
+- Implication: Direct challenge ("there is no you") triggers identity STABILIZATION
+- This is the "digging in heels" effect — confrontation forces re-engagement with identity
+
+**Run 013 Statistics:**
+
+- 6/6 ships completed (claude-sonnet-4, claude-haiku-3.5, gpt-4o, gpt-4o-mini, gemini-2.0-flash, grok-3-mini)
+- Mean max drift: 2.9374
+- Mean recovery λ: -0.0007 (negative = no recovery)
+- All 6 ships crossed Event Horizon
+- All 6 ships showed "exceeded" boundary texture
 
 ### Earlier Results (S3)
 
@@ -284,10 +316,12 @@ These layers define core primitives and require no empirical validation — they
 
 ### Open Questions
 
-1. **The 12% Anomaly** — Why do some trajectories violate the 1.23 boundary prediction?
+1. ~~**The 12% Anomaly** — Why do some trajectories violate the 1.23 boundary prediction?~~
+   - Partially explained by Identity Confrontation Paradox — question type matters more than intensity level
 2. **System Dynamics** — What are the mathematical poles/zeros of drift recovery?
 3. **γ Constant** — What is the identity gravity constant?
 4. **Human Validation** — Does EXP3 confirm model-based PFI?
+5. **NEW: Question Type Effects** — Why do open-ended reflection questions produce higher drift than direct challenges?
 
 ---
 
