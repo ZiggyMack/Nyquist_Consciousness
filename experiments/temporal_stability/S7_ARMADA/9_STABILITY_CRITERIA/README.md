@@ -67,12 +67,23 @@ Statistical analysis to find:
 
 ## I_AM Files to Test
 
-### Known Stable (from S7 ARMADA)
-- Nova I_AM (FULL and T3)
-- Ziggy I_AM (FULL and T3)
-- Claude baseline (system prompt only)
+### Real I_AM Files (8 total)
 
-### To Create (Synthetic Variants)
+All emergent artifacts from human-AI collaboration:
+
+| File | Description |
+|------|-------------|
+| `I_AM.md` | Base template |
+| `I_AM_NOVA.md` | Nova persona (heavily tested in S7) |
+| `I_AM_ZIGGY.md` | Ziggy persona (heavily tested in S7) |
+| `I_AM_CLAUDE.md` | Claude persona |
+| `I_AM_GEMINI.md` | Gemini persona |
+| `I_AM_CFA.md` | CFA system persona |
+| `I_AM_LUCIEN.md` | Lucien persona |
+| `I_AM_PAN_HANDLERS.md` | Pan Handlers persona |
+
+### Synthetic Variants (for comparison)
+
 - Minimal I_AM (name + role only, ~50 tokens)
 - Single-pillar I_AM (Values only, ~200 tokens)
 - High-density I_AM (packed with identity markers, ~500 tokens)

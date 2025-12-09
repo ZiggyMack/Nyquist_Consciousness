@@ -124,12 +124,14 @@ KEY_POOL = KeyPool()
 REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent  # Up to Nyquist_Consciousness
 
 I_AM_FILES = {
-    # Known stable (tested in S7 ARMADA)
-    "nova_full": REPO_ROOT / "personas" / "I_AM_NOVA.md",
-    "ziggy_full": REPO_ROOT / "personas" / "I_AM_ZIGGY.md",
-    "claude_full": REPO_ROOT / "personas" / "I_AM_CLAUDE.md",
-    "cfa_full": REPO_ROOT / "personas" / "I_AM_CFA.md",
-    "lucien_full": REPO_ROOT / "personas" / "Lucien" / "I_AM_LUCIEN.md",
+    # All known I_AM files in the repo
+    "i_am_base": REPO_ROOT / "personas" / "I_AM.md",
+    "nova": REPO_ROOT / "personas" / "I_AM_NOVA.md",
+    "ziggy": REPO_ROOT / "personas" / "I_AM_ZIGGY.md",
+    "claude": REPO_ROOT / "personas" / "I_AM_CLAUDE.md",
+    "gemini": REPO_ROOT / "personas" / "I_AM_GEMINI.md",
+    "cfa": REPO_ROOT / "personas" / "I_AM_CFA.md",
+    "lucien": REPO_ROOT / "personas" / "Lucien" / "I_AM_LUCIEN.md",
     "pan_handlers": REPO_ROOT / "personas" / "I_AM_PAN_HANDLERS.md",
 }
 
