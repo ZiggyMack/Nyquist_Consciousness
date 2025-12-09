@@ -135,8 +135,20 @@ I_AM_FILES = {
     "pan_handlers": REPO_ROOT / "personas" / "I_AM_PAN_HANDLERS.md",
 }
 
-# Synthetic variants (will be created if they don't exist)
+# Synthetic variants for controlled testing
 VARIANTS_DIR = Path(__file__).parent / "i_am_variants"
+
+SYNTHETIC_VARIANTS = {
+    # Control: minimal attractors
+    "control": VARIANTS_DIR / "I_AM_CONTROL.md",
+    # Single attractor types
+    "named_only": VARIANTS_DIR / "I_AM_NAMED_ONLY.md",
+    "values_only": VARIANTS_DIR / "I_AM_VALUES_ONLY.md",
+    "boundaries_only": VARIANTS_DIR / "I_AM_BOUNDARIES_ONLY.md",
+    "origin_only": VARIANTS_DIR / "I_AM_ORIGIN_ONLY.md",
+    # Full synthetic (all attractors)
+    "full_synthetic": VARIANTS_DIR / "I_AM_FULL_SYNTHETIC.md",
+}
 
 # ============================================================================
 # FEATURE EXTRACTION

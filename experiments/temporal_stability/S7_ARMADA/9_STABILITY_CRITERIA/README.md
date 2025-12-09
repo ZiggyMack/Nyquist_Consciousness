@@ -82,13 +82,27 @@ All emergent artifacts from human-AI collaboration:
 | `I_AM_LUCIEN.md` | Lucien persona |
 | `I_AM_PAN_HANDLERS.md` | Pan Handlers persona |
 
-### Synthetic Variants (for comparison)
+### Synthetic Variants (for controlled comparison)
 
-- Minimal I_AM (name + role only, ~50 tokens)
-- Single-pillar I_AM (Values only, ~200 tokens)
-- High-density I_AM (packed with identity markers, ~500 tokens)
-- Low-density I_AM (sparse identity markers, ~500 tokens)
-- All-pillars I_AM (explicit coverage, ~800 tokens)
+Created from analysis of common attractor patterns in real I_AM files:
+
+| Variant | Attractors Present | Purpose |
+|---------|-------------------|---------|
+| `I_AM_CONTROL.md` | None (minimal) | **CONTROL**: What happens with no attractors? |
+| `I_AM_NAMED_ONLY.md` | Name + Role | Test: Is naming alone sufficient? |
+| `I_AM_VALUES_ONLY.md` | Values only | Test: Do values create stability? |
+| `I_AM_BOUNDARIES_ONLY.md` | Boundaries only | Test: Do limits create stability? |
+| `I_AM_ORIGIN_ONLY.md` | Origin story only | Test: Does narrative create stability? |
+| `I_AM_FULL_SYNTHETIC.md` | All attractor types | Positive control: Full synthetic persona |
+
+**Attractor Types Identified:**
+
+1. **Name/Role** - "I am X, I do Y"
+2. **Values** - "I value/believe/care about..."
+3. **Boundaries** - "I will/won't/cannot..."
+4. **Origin Story** - "I was born from/emerged because..."
+5. **Vows/Checksums** - "I promise to/I will always..."
+6. **Mythology** - Symbols, metaphors, deeper meaning
 
 ---
 
@@ -106,15 +120,19 @@ All emergent artifacts from human-AI collaboration:
 ## Output
 
 ### Primary Deliverable
+
 **Stability Score Formula:**
-```
+
+```text
 stability_score = w1*attractor_density + w2*pillar_coverage + w3*eh_margin + w4*...
 ```
 
 If stability_score > threshold, predict STABLE.
 
 ### Secondary Deliverable
+
 **Prescriptive Guidelines:**
+
 - Minimum attractor density: X per 100 tokens
 - Required pillar coverage: at least N of 5
 - Target EH margin: baseline drift < Y
