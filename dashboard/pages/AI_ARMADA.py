@@ -589,7 +589,7 @@ def render_fleet_dropdown(title="🚢 Fleet Manifest", run_key=None, expanded=Fa
         title = f"{title} ({ship_count} Ships in Run)"
     else:
         run_ships = None
-        title = f"{title} (42 Ships Total)"
+        title = f"{title} (54 Ships Total)"
 
     with st.expander(title, expanded=expanded):
         num_providers = len(FLEET_DATA)
@@ -714,35 +714,35 @@ def render():
 
     # === HERO SECTION ===
     st.markdown('<div class="armada-title">AI ARMADA</div>', unsafe_allow_html=True)
-    st.markdown('<div class="armada-subtitle">42-Ship Cross-Architecture Temporal Stability Mapping</div>', unsafe_allow_html=True)
+    st.markdown('<div class="armada-subtitle">54-Ship Cross-Architecture Temporal Stability Mapping</div>', unsafe_allow_html=True)
 
     # Mission stats row
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">42</div>
+            <div class="stat-value">54</div>
             <div class="stat-label">Ships in Fleet</div>
         </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">4</div>
+            <div class="stat-value">5</div>
             <div class="stat-label">Providers</div>
         </div>
         """, unsafe_allow_html=True)
     with col3:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">8</div>
+            <div class="stat-value">16</div>
             <div class="stat-label">Experiment Runs</div>
         </div>
         """, unsafe_allow_html=True)
     with col4:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">EXP-PFI-A</div>
+            <div class="stat-value">Run 016</div>
             <div class="stat-label">Latest Mission</div>
         </div>
         """, unsafe_allow_html=True)
