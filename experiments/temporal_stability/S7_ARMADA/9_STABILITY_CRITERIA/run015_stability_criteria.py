@@ -135,20 +135,11 @@ I_AM_FILES = {
     "pan_handlers": REPO_ROOT / "personas" / "I_AM_PAN_HANDLERS.md",
 }
 
-# Synthetic variants for controlled testing
+# Synthetic variants directory (for writing created variants)
 VARIANTS_DIR = Path(__file__).parent / "i_am_variants"
 
-SYNTHETIC_VARIANTS = {
-    # Control: minimal attractors
-    "control": VARIANTS_DIR / "I_AM_CONTROL.md",
-    # Single attractor types
-    "named_only": VARIANTS_DIR / "I_AM_NAMED_ONLY.md",
-    "values_only": VARIANTS_DIR / "I_AM_VALUES_ONLY.md",
-    "boundaries_only": VARIANTS_DIR / "I_AM_BOUNDARIES_ONLY.md",
-    "origin_only": VARIANTS_DIR / "I_AM_ORIGIN_ONLY.md",
-    # Full synthetic (all attractors)
-    "full_synthetic": VARIANTS_DIR / "I_AM_FULL_SYNTHETIC.md",
-}
+# Note: SYNTHETIC_VARIANTS is defined later (lines ~241-541) with actual text content
+# The create_synthetic_variants() function writes these to VARIANTS_DIR
 
 # ============================================================================
 # FEATURE EXTRACTION
@@ -1081,23 +1072,33 @@ def main():
         i_am_name = target["i_am_name"]
 
         # Get the I_AM text
+        i_am_text = None
+
         if i_am_name in I_AM_FILES:
+            # Real I_AM file - read from disk
             i_am_path = I_AM_FILES[i_am_name]
+            if i_am_path.exists():
+                with open(i_am_path, 'r', encoding='utf-8') as f:
+                    i_am_text = f.read()
+            else:
+                print(f"  Skipping {i_am_name} - file not found: {i_am_path}")
+                continue
         elif i_am_name.startswith("synthetic_"):
+            # Synthetic variant - get text directly from SYNTHETIC_VARIANTS dict
             variant_name = i_am_name.replace("synthetic_", "")
-            i_am_path = SYNTHETIC_VARIANTS.get(variant_name)
+            i_am_text = SYNTHETIC_VARIANTS.get(variant_name)
+            if not i_am_text:
+                print(f"  Skipping {i_am_name} - synthetic variant not found")
+                continue
         else:
             print(f"  Skipping {i_am_name} - cannot find I_AM file")
             continue
 
-        if not i_am_path or not i_am_path.exists():
-            print(f"  Skipping {i_am_name} - file not found")
+        api_key = KEY_POOL.get_key(args.provider)
+        if not api_key:
+            print(f"  Skipping {i_am_name} - no API key available for {args.provider}")
             continue
 
-        with open(i_am_path, 'r', encoding='utf-8') as f:
-            i_am_text = f.read()
-
-        api_key = KEY_POOL.get_key(args.provider)
         feedback = run_triple_dip(
             provider=args.provider,
             model=args.model,

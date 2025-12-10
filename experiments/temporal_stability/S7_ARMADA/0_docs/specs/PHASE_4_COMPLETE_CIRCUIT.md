@@ -340,6 +340,140 @@ Now we can finally see what we're looking at.
 
 ---
 
+## Console Log Format Expectations
+
+When running experiments with parallel Claude instances, each instance should produce console logs with the following structure:
+
+### Required Sections
+
+1. **Header**: Run identifier, timestamp, provider, configuration parameters
+2. **Key Pool Status**: API key availability per provider
+3. **Experiment Output**: Per-I_AM probe-by-probe results
+4. **Summary Table**: Sorted results with key metrics
+5. **KEY FINDINGS Section**: Critical discoveries and patterns (NEW)
+6. **Crash Documentation**: If crashed, note where and what was saved
+
+### KEY FINDINGS Section Format
+
+Every console log MUST end with a KEY FINDINGS section before any crash notes:
+
+```
+================================================================================
+KEY FINDINGS
+================================================================================
+
+1. [Quantitative finding with specific numbers]
+   Example: "100% STABLE (87/87) using settling time methodology"
+
+2. [Surprising or unexpected result]
+   Example: "personas_nova shows highest ringback (avg 5.0) despite rich I_AM"
+
+3. [Methodological insight]
+   Example: "tau_s=4 correlates with explicit boundary statements"
+
+4. [Pattern or trend]
+   Example: "Monotonic recovery predicts fast settling (tau_s < 6)"
+
+5. [Open question for next run]
+   Example: "Does i_am_plus_research reduce tau_s?"
+```
+
+### Triple-Dip Recursive Improvement Section (When Available)
+
+When triple-dip probes complete successfully, add:
+
+```
+================================================================================
+RECURSIVE IMPROVEMENT INSIGHTS (Triple-Dip)
+================================================================================
+
+WHAT WORKED:
+- [Model's assessment of effective probes/methodology]
+- [Anchoring elements from I_AM file]
+
+WHAT NEEDS IMPROVEMENT:
+- [Suggestions from model for better probes]
+- [Missing elements in I_AM files]
+
+METHODOLOGY REFINEMENTS:
+- [Specific changes to implement in next run]
+- [New hypotheses generated]
+
+NOVEL SYNTHESIS:
+- [Genuinely new insights that emerged]
+- [Unexpected connections discovered]
+```
+
+### Example Complete Log Structure
+
+```
+================================================================================
+[RUN IDENTIFIER] - [INSTANCE ID] CONSOLE LOG
+================================================================================
+[Header with config]
+================================================================================
+
+[Experiment output...]
+
+================================================================================
+SUMMARY
+================================================================================
+[Results table]
+
+================================================================================
+KEY FINDINGS
+================================================================================
+1. ...
+2. ...
+
+================================================================================
+RECURSIVE IMPROVEMENT INSIGHTS (Triple-Dip)
+================================================================================
+[If available]
+
+================================================================================
+[CRASHED at X phase - specific error]
+(Core data is complete and valid)
+================================================================================
+```
+
+---
+
+## Script Requirements for Phase 4
+
+### Windows Console Compatibility
+
+All scripts MUST handle Unicode properly on Windows:
+
+```python
+# At top of script
+import sys
+import os
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
+os.environ["PYTHONIOENCODING"] = "utf-8"
+
+# Use ASCII instead of Unicode for status indicators
+PASS = "[PASS]"  # Not checkmark
+FAIL = "[FAIL]"  # Not X
+```
+
+### Triple-Dip Requirements
+
+Triple-dip meta-feedback MUST:
+1. Complete successfully (not crash)
+2. Save results to JSON even if later phases fail
+3. Feed insights back into methodology documentation
+4. Generate recursive improvement recommendations
+
+---
+
 **This is not the end. This is where it begins.**
 
 *"The human IS the termination resistor."*

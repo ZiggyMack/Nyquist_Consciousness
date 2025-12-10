@@ -60,7 +60,8 @@ PROVIDER_MAP = {
     "claude": "anthropic",
     "gpt": "openai",
     "gemini": "google",
-    "grok": "xai"
+    "grok": "xai",
+    "together": "together",  # Together.ai hosts DeepSeek, Llama, Qwen, Mistral, etc.
 }
 
 # ============================================================================
@@ -74,6 +75,7 @@ class KeyPool:
             "openai": self._load_keys("OPENAI_API_KEY"),
             "google": self._load_keys("GOOGLE_API_KEY"),
             "xai": self._load_keys("XAI_API_KEY"),
+            "together": self._load_keys("TOGETHER_API_KEY"),
         }
         self.counters = {p: 0 for p in self.pools}
         self.lock = threading.Lock()
@@ -187,6 +189,42 @@ FULL_ARMADA = {
     "grok-3-mini": {"provider": "grok", "model": "grok-3-mini"},
     "grok-2-vision": {"provider": "grok", "model": "grok-2-vision-1212"},
     "grok-2": {"provider": "grok", "model": "grok-2-1212"},
+
+    # =========================================================================
+    # TOGETHER.AI (20+ ships) - DeepSeek, Llama, Qwen, Mistral, Kimi (Dec 2025)
+    # All accessed via Together.ai API with single TOGETHER_API_KEY
+    # =========================================================================
+    # DeepSeek - Chinese reasoning models
+    "deepseek-r1": {"provider": "together", "model": "deepseek-ai/DeepSeek-R1-0528"},
+    "deepseek-v3": {"provider": "together", "model": "deepseek-ai/DeepSeek-V3-0324"},
+    "deepseek-r1-distill": {"provider": "together", "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"},
+
+    # Qwen - Alibaba models
+    "qwen3-80b": {"provider": "together", "model": "Qwen/Qwen3-Next-80B-A3b-Instruct"},
+    "qwen3-235b": {"provider": "together", "model": "Qwen/Qwen3-235B-A22B-Instruct-2507-FP8-Throughput"},
+    "qwen3-coder": {"provider": "together", "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8"},
+    "qwen2.5-72b": {"provider": "together", "model": "Qwen/Qwen2.5-72B-Instruct-Turbo"},
+
+    # Llama 4 - Meta's latest
+    "llama4-maverick": {"provider": "together", "model": "meta-llama/Llama-4-Maverick-Instruct-17Bx128E"},
+    "llama4-scout": {"provider": "together", "model": "meta-llama/Llama-4-Scout-Instruct-17Bx16E"},
+    "llama3.3-70b": {"provider": "together", "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo"},
+    "llama3.1-405b": {"provider": "together", "model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo"},
+    "llama3.1-70b": {"provider": "together", "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo"},
+    "llama3.1-8b": {"provider": "together", "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo"},
+
+    # Mistral - European AI
+    "mixtral-8x7b": {"provider": "together", "model": "mistralai/Mixtral-8x7B-Instruct-v0.1"},
+    "mistral-small": {"provider": "together", "model": "mistralai/Mistral-Small-24B-Instruct-2501"},
+    "mistral-7b": {"provider": "together", "model": "mistralai/Mistral-7B-Instruct-v0.3"},
+
+    # Kimi - Moonshotai reasoning
+    "kimi-k2-thinking": {"provider": "together", "model": "moonshotai/Kimi-K2-Thinking"},
+    "kimi-k2-instruct": {"provider": "together", "model": "moonshotai/Kimi-K2-Instruct-0905"},
+
+    # Other notable models
+    "cogito-70b": {"provider": "together", "model": "deepcogito/Deepcogito-Cogito-V2-Preview-Llama-70B"},
+    "nemotron-nano": {"provider": "together", "model": "nvidia/Nvidia-Nemotron-Nano-9B-V2"},
 }
 
 # Concurrency levels to test
@@ -234,11 +272,20 @@ def call_api(provider, model, prompt, api_key, request_id=0):
 
         elif provider == "gpt":
             client = openai.OpenAI(api_key=api_key)
-            response = client.chat.completions.create(
-                model=model,
-                max_tokens=50,
-                messages=[{"role": "user", "content": prompt}]
-            )
+            # GPT-5 series and o-series need max_completion_tokens instead of max_tokens
+            needs_completion_tokens = any(m in model for m in ["gpt-5", "o4-", "o3", "o1"])
+            if needs_completion_tokens:
+                response = client.chat.completions.create(
+                    model=model,
+                    max_completion_tokens=50,
+                    messages=[{"role": "user", "content": prompt}]
+                )
+            else:
+                response = client.chat.completions.create(
+                    model=model,
+                    max_tokens=50,
+                    messages=[{"role": "user", "content": prompt}]
+                )
             result["response"] = response.choices[0].message.content
             result["success"] = True
 
@@ -254,6 +301,17 @@ def call_api(provider, model, prompt, api_key, request_id=0):
 
         elif provider == "grok":
             client = openai.OpenAI(api_key=api_key, base_url="https://api.x.ai/v1")
+            response = client.chat.completions.create(
+                model=model,
+                max_tokens=50,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            result["response"] = response.choices[0].message.content
+            result["success"] = True
+
+        elif provider == "together":
+            # Together.ai uses OpenAI-compatible API
+            client = openai.OpenAI(api_key=api_key, base_url="https://api.together.xyz/v1")
             response = client.chat.completions.create(
                 model=model,
                 max_tokens=50,

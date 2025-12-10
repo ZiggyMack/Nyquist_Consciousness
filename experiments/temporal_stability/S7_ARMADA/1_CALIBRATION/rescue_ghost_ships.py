@@ -12,8 +12,8 @@ from pathlib import Path
 from typing import Dict, List
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv(Path(__file__).parent / ".env")
+# Load environment variables from S7_ARMADA root
+load_dotenv(Path(__file__).parent.parent / ".env")
 
 try:
     from openai import OpenAI
@@ -145,7 +145,7 @@ def rescue_ghost_ships():
 
     if not openai_key or not OPENAI_AVAILABLE:
         print("No OpenAI key or package - cannot rescue GPT ghost ships\n")
-        return
+        return [], []
 
     rescued_ships = []
     still_ghosts = []

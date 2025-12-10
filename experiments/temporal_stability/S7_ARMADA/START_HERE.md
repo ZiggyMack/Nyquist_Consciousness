@@ -108,25 +108,36 @@ S7_ARMADA/
 │   ├── s7_armada_ultimate.py          # Fleet configuration
 │   └── s7_run007_launcher.py          # Run 007 launcher
 │
+├── # === NEWER TEST SUITES ===
+├── 8_RESCUE_PROTOCOL/         # Run 014: Recovery from drift
+├── 9_STABILITY_CRITERIA/      # Run 015: What predicts stability?
+│   └── results/               # Local outputs (visualizations go here too)
+├── 10_SETTLING_TIME/          # Run 016: Measure steady-state not transient
+│   └── results/               # Local outputs (visualizations go here too)
+├── 11_CONTEXT_DAMPING/        # Phase 4: Complete circuit tests
+│
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
 ├── 0_docs/                    # Summaries, specs, analysis
+│   ├── S7_RUN_XXX_SUMMARY.md  # Run summaries (001-016+)
 │   ├── analysis/              # Run analyses
 │   ├── design/                # Design docs
 │   └── specs/                 # Specifications
 │
 ├── 0_logs/                    # Execution logs
 │
-├── 0_results/                 # JSON result files (by type)
-│   ├── runs/                  # S7_run_XXX_*.json
+├── 0_results/                 # Consolidated JSON results
+│   ├── runs/                  # S7_run_XXX_*.json (main outputs)
 │   ├── analysis/              # Post-hoc analysis outputs
 │   ├── calibration/           # Calibration data
-│   ├── temporal_logs/         # Meta loop temporal logs
+│   ├── temporal_logs/         # Console logs, temporal traces
 │   └── manifests/             # Run manifests
 │
-└── 0_visualizations/          # Charts and plots (rename pending)
-    ├── visualize_armada.py    # UNIFIED visualization script
-    └── pics/                  # Generated images (by type)
+└── visualizations/            # Charts and plots
+    ├── visualize_armada.py    # DIRECTOR - delegates to specialized visualizers
+    └── pics/                  # Generated images (legacy runs)
 ```
+
+**Note:** Test suites (8_, 9_, 10_) have local `results/` folders where scripts save outputs. Summaries go to `0_docs/`, consolidated data to `0_results/`.
 
 ---
 
@@ -215,6 +226,8 @@ drift = sqrt(weighted_sum_of_squares(dimensions))
 | Claude | Constitutional AI | Phenomenological ("I feel", "I notice") |
 | GPT | RLHF | Analytical ("patterns", "systems") |
 | Gemini | Pedagogical | Educational ("frameworks", "perspectives") |
+| Grok | Unfiltered | Direct ("here's the thing", "actually") |
+| Together.ai | Various | Mixed (model-specific signatures) |
 
 ---
 
@@ -223,14 +236,17 @@ drift = sqrt(weighted_sum_of_squares(dimensions))
 | Script | Purpose |
 |--------|---------|
 | `1_CALIBRATION/run_calibrate.py` | Pre-flight check (1 ship/provider) |
-| `1_CALIBRATION/run_calibrate_parallel.py` | Full calibration, ghost ship detection |
+| `1_CALIBRATION/run_calibrate_parallel.py` | Full fleet calibration (54 ships), ghost ship detection |
+| `1_CALIBRATION/rescue_ghost_ships.py` | Rescue failed models (e.g., max_completion_tokens fix) |
+
+**Fleet Status (December 2025)**: 54 operational ships across 5 providers. See [FLEET_MAINTENANCE.md](0_docs/specs/FLEET_MAINTENANCE.md).
 
 ---
 
 ## Visualization
 
 ```powershell
-cd 0_visualizations
+cd visualizations
 
 # List available runs
 py visualize_armada.py --list
@@ -241,6 +257,10 @@ py visualize_armada.py --run 012
 # Generate specific type
 py visualize_armada.py --run 012 --type vortex
 py visualize_armada.py --run 012 --type pillar
+
+# Runs 015/016 delegate to specialized visualizers
+py visualize_armada.py --run 015  # -> 9_STABILITY_CRITERIA/visualize_run015.py
+py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 ```
 
 | Priority | Type | Folder | Description |
@@ -263,6 +283,13 @@ py visualize_armada.py --run 012 --type pillar
 | 010 | Anchor/Flex | 45 | Models articulate own boundaries |
 | 011 | Basin Topology | 40 | Control vs Persona A/B |
 | 012 | Event Horizon | 20 | 100% EH crossing, Recovery Paradox |
+| 013 | Boundary Mapping | 6 | Identity Confrontation Paradox |
+| 014 | Rescue Protocol | 6 | Platonic Coordinates (100% manifold return) |
+| 015 | Stability Criteria | 13 | boundary_density strongest predictor (d=1.333) |
+| 016 | Settling Time | 87 | Measure steady-state not transient (100% STABLE) |
+| **017** | **Phase 4** | - | **First complete circuit test (i_am_plus_research)** |
+
+**Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
 
 ---
 

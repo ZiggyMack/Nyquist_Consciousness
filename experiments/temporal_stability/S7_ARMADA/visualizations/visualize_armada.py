@@ -31,6 +31,8 @@ VISUALIZATION TYPES:
 
 import argparse
 import json
+import sys
+import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -1663,7 +1665,30 @@ def main():
                 print(f"    - {f.name}")
         return
 
-    # Find run data
+    # Handle specialized runs (015, 016) that have their own visualizers
+    if args.run in ['015', '15']:
+        print("=" * 70)
+        print("DELEGATING TO SPECIALIZED VISUALIZER: Run 015")
+        print("=" * 70)
+        print("\nRun 015 uses different data format (stability criteria).")
+        print("Launching: 9_STABILITY_CRITERIA/visualize_run015.py")
+        print("-" * 70)
+        script_path = BASE_DIR / "9_STABILITY_CRITERIA" / "visualize_run015.py"
+        subprocess.run([sys.executable, str(script_path)])
+        return
+
+    if args.run in ['016', '16']:
+        print("=" * 70)
+        print("DELEGATING TO SPECIALIZED VISUALIZER: Run 016")
+        print("=" * 70)
+        print("\nRun 016 uses different data format (settling time).")
+        print("Launching: 10_SETTLING_TIME/visualize_run016.py")
+        print("-" * 70)
+        script_path = BASE_DIR / "10_SETTLING_TIME" / "visualize_run016.py"
+        subprocess.run([sys.executable, str(script_path)])
+        return
+
+    # Find run data (for standard trajectory runs 008-014)
     if args.run:
         run_id, data_file = get_run_file(args.run)
     else:
@@ -1672,6 +1697,9 @@ def main():
     if data_file is None:
         print("ERROR: No run data found!")
         print("  Run `python 4_BASIN_TOPOLOGY/run008_with_keys.py` or `python 3_EVENT_HORIZON/run009_drain_capture.py` first.")
+        print("\n  For specialized runs:")
+        print("    --run 015  -> Stability Criteria (9_STABILITY_CRITERIA/visualize_run015.py)")
+        print("    --run 016  -> Settling Time (10_SETTLING_TIME/visualize_run016.py)")
         return
 
     print("=" * 70)

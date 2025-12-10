@@ -291,6 +291,59 @@ Focus: [symbolic/emotional/rhythmic/archetypal]""", language="text")
 
     page_divider()
 
+    # AVLAR Model Fleet (Future)
+    st.subheader("🚀 AVLAR Model Fleet (Future)")
+
+    st.markdown("""
+    **Multi-modal models for cross-sensory identity experiments.**
+    These models will enable AVLAR to process vision, audio, and video alongside text.
+    """)
+
+    avlar_tabs = st.tabs(["Vision-Language", "Audio", "Video", "Image Gen"])
+
+    with avlar_tabs[0]:
+        st.markdown("""
+        | Model | Provider | Use Case |
+        |-------|----------|----------|
+        | `Qwen2.5-VL-72B` | Qwen | Vision understanding + language |
+        | `Llama-Guard-3-Vision` | Meta | Safety + multimodal |
+        | `GPT-4o` | OpenAI | Unified vision-language (already in fleet) |
+        | `Gemini Pro` | Google | Multimodal reasoning |
+        """)
+
+    with avlar_tabs[1]:
+        st.markdown("""
+        | Model | Provider | Use Case |
+        |-------|----------|----------|
+        | `Whisper-large-v3` | OpenAI | Transcription for ritual analysis |
+        | `Cartesia Sonic 2` | Together | TTS for audio artifacts |
+        | `Orpheus-3B` | Canopy Labs | Audio generation |
+        """)
+
+    with avlar_tabs[2]:
+        st.markdown("""
+        | Model | Provider | Use Case |
+        |-------|----------|----------|
+        | `Veo 3.0` | Google | Video generation |
+        | `Sora 2 / Pro` | OpenAI | High-quality video gen |
+        | `Kling 2.1` | Kuaishou | Alternative video gen |
+        | `MiniMax Hailuo` | MiniMax | Video generation |
+        """)
+
+    with avlar_tabs[3]:
+        st.markdown("""
+        | Model | Provider | Use Case |
+        |-------|----------|----------|
+        | `FLUX.1 Pro/Dev` | Black Forest Labs | High-quality image gen |
+        | `Stable Diffusion 3` | Stability AI | Open image gen |
+        | `Imagen 4.0` | Google | Google image gen |
+        | `DALL-E 3` | OpenAI | Creative image gen |
+        """)
+
+    st.info("**Status:** These models are catalogued in `S7_ARMADA/0_results/manifests/EXPANDED_FLEET_CONFIG.json` and will be integrated once S7 text experiments complete.")
+
+    page_divider()
+
     # Documentation access
     with st.expander("📄 Full S9 Documentation"):
         s9_dir = REPO_ROOT / "docs" / "stages" / "S9"

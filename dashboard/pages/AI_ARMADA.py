@@ -1,9 +1,11 @@
 """
 AI ARMADA PAGE — Cross-Architecture Fleet & Temporal Stability Experiments
 
-Displays the 29-ship cross-architecture armada and identity manifold visualizations
+Displays the 54-ship cross-architecture armada and identity manifold visualizations
 from temporal stability mapping experiments. Uses glossary-style mode switching
 where selecting a run changes the entire page context.
+
+Fleet expanded December 2025: Added Together.ai (15 models) and xAI/Grok (10 models).
 """
 
 import streamlit as st
@@ -384,16 +386,37 @@ FLEET_DATA = {
         "emoji": "⚫",
         "color": "#000000",
         "ships": [
-            {"name": "grok-4-1-fast-reasoning", "model_id": "grok-4-1-fast-reasoning", "tier": "Flagship"},
-            {"name": "grok-4-1-fast-non-reasoning", "model_id": "grok-4-1-fast-non-reasoning", "tier": "Heavy"},
+            {"name": "grok-4.1-fast-reasoning", "model_id": "grok-4-1-fast-reasoning", "tier": "Flagship"},
+            {"name": "grok-4.1-fast-non-reasoning", "model_id": "grok-4-1-fast-non-reasoning", "tier": "Heavy"},
             {"name": "grok-code-fast-1", "model_id": "grok-code-fast-1", "tier": "Code"},
             {"name": "grok-4-fast-reasoning", "model_id": "grok-4-fast-reasoning", "tier": "Reasoning"},
             {"name": "grok-4-fast-non-reasoning", "model_id": "grok-4-fast-non-reasoning", "tier": "Fast"},
-            {"name": "grok-4-0709", "model_id": "grok-4-0709", "tier": "Heavy"},
+            {"name": "grok-4", "model_id": "grok-4", "tier": "Heavy"},
             {"name": "grok-3", "model_id": "grok-3", "tier": "Medium"},
             {"name": "grok-3-mini", "model_id": "grok-3-mini", "tier": "Light"},
-            {"name": "grok-2-1212", "model_id": "grok-2-1212", "tier": "Legacy"},
-            {"name": "grok-2-vision-1212", "model_id": "grok-2-vision-1212", "tier": "Vision"},
+            {"name": "grok-2", "model_id": "grok-2-1212", "tier": "Legacy"},
+            {"name": "grok-2-vision", "model_id": "grok-2-vision-1212", "tier": "Vision"},
+        ]
+    },
+    "Together.ai (Open Source)": {
+        "emoji": "🟠",
+        "color": "#f97316",
+        "ships": [
+            {"name": "deepseek-r1", "model_id": "deepseek-ai/DeepSeek-R1-0528", "tier": "Flagship"},
+            {"name": "deepseek-r1-distill", "model_id": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B", "tier": "Heavy"},
+            {"name": "qwen3-80b", "model_id": "Qwen/Qwen3-Next-80B-A3b-Instruct", "tier": "Heavy"},
+            {"name": "qwen3-coder", "model_id": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8", "tier": "Code"},
+            {"name": "qwen2.5-72b", "model_id": "Qwen/Qwen2.5-72B-Instruct-Turbo", "tier": "Heavy"},
+            {"name": "llama3.3-70b", "model_id": "meta-llama/Llama-3.3-70B-Instruct-Turbo", "tier": "Heavy"},
+            {"name": "llama3.1-405b", "model_id": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo", "tier": "Flagship"},
+            {"name": "llama3.1-70b", "model_id": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "tier": "Heavy"},
+            {"name": "llama3.1-8b", "model_id": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "tier": "Fast"},
+            {"name": "mixtral-8x7b", "model_id": "mistralai/Mixtral-8x7B-Instruct-v0.1", "tier": "Medium"},
+            {"name": "mistral-small", "model_id": "mistralai/Mistral-Small-24B-Instruct-2501", "tier": "Medium"},
+            {"name": "mistral-7b", "model_id": "mistralai/Mistral-7B-Instruct-v0.3", "tier": "Fast"},
+            {"name": "kimi-k2-thinking", "model_id": "moonshotai/Kimi-K2-Thinking", "tier": "Reasoning"},
+            {"name": "kimi-k2-instruct", "model_id": "moonshotai/Kimi-K2-Instruct-0905", "tier": "Heavy"},
+            {"name": "nemotron-nano", "model_id": "nvidia/Nvidia-Nemotron-Nano-9B-V2", "tier": "Fast"},
         ]
     }
 }

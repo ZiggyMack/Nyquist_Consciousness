@@ -80,7 +80,7 @@ See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Eight Search T
 
 **Key constraint**: Not all tests can run together. Anchor/Flex and Basin Topology are **mutually exclusive**.
 
-**Visualization**: Use `0_visualizations/visualize_armada.py` for all charts.
+**Visualization**: Use `visualizations/visualize_armada.py` for all charts.
 
 ---
 
@@ -95,9 +95,6 @@ S7_ARMADA/
 │
 ├── # === PRE-FLIGHT ===
 ├── 1_CALIBRATION/             # Pre-flight calibration utilities
-│   ├── rescue_ghost_ships.py
-│   ├── run_calibrate.py
-│   └── run_calibrate_parallel.py
 │
 ├── # === SEARCH TYPE FOLDERS (experiments organized by taxonomy) ===
 ├── 2_ANCHOR_FLEX/             # Find anchors (poles) AND flex zones (zeros)
@@ -105,6 +102,12 @@ S7_ARMADA/
 ├── 4_BASIN_TOPOLOGY/          # Map attractor structure
 ├── 5_BOUNDARY_MAPPING/        # Explore twilight zone (0.8-1.2)
 ├── 6_LAPLACE_ANALYSIS/        # Mathematical pole-zero extraction
+│
+├── # === NEWER TEST SUITES ===
+├── 8_RESCUE_PROTOCOL/         # Run 014: Recovery from drift
+├── 9_STABILITY_CRITERIA/      # Run 015: What predicts stability?
+├── 10_SETTLING_TIME/          # Run 016: Measure steady-state not transient
+├── 11_CONTEXT_DAMPING/        # Phase 4: Complete circuit tests
 │
 ├── # === HISTORICAL & VALIDATION ===
 ├── 7_HISTORICAL/              # Pre-taxonomy experiments + validation protocols
@@ -116,25 +119,45 @@ S7_ARMADA/
 │
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
 ├── 0_docs/                    # Summaries, specs, analysis
+│   ├── S7_RUN_XXX_SUMMARY.md  # Run summaries (001-016+)
+│   ├── specs/                 # Specifications and checklists
+│   ├── analysis/              # Post-hoc analysis docs
+│   └── design/                # Design documents
 ├── 0_logs/                    # Execution logs
-├── 0_results/                 # JSON result files (by type)
-│   ├── runs/                  # S7_run_XXX_*.json
+├── 0_results/                 # Consolidated JSON results
+│   ├── runs/                  # S7_run_XXX_*.json (main run outputs)
 │   ├── analysis/              # Post-hoc analysis outputs
 │   ├── calibration/           # Calibration data
-│   ├── temporal_logs/         # Meta loop temporal logs
-│   └── manifests/             # Run manifests
+│   ├── temporal_logs/         # Console logs, temporal traces
+│   └── manifests/             # Fleet manifests
 │
-└── 0_visualizations/          # Charts and plots (rename pending)
-    ├── visualize_armada.py    # UNIFIED visualization script
-    └── pics/                  # Generated images (by type)
-        ├── 1_vortex/          # Core drain spiral
-        ├── 2_phase_portrait/  # Flow dynamics
-        ├── 3_basin_3d/        # 3D attractor basin
-        ├── 4_pillar/          # Provider clustering
-        ├── 5_stability/       # Baseline vs max drift
-        ├── 6_interactive/     # HTML Plotly files
-        └── 7_fft/             # Spectral analysis
+└── visualizations/            # Charts and plots
+    ├── visualize_armada.py    # DIRECTOR - delegates to specialized visualizers
+    └── pics/                  # Generated images (legacy runs)
 ```
+
+### Results Location Convention
+
+**Scripts save locally** to their test suite folder:
+
+- `9_STABILITY_CRITERIA/results/` ← Run 015 outputs
+- `10_SETTLING_TIME/results/` ← Run 016 outputs
+
+**Consolidated/cross-run data** goes to `0_results/`:
+
+- `0_results/runs/` ← Main run JSON files
+- `0_results/temporal_logs/` ← Console logs from parallel runs
+
+**Summaries** always go to `0_docs/`:
+
+- `0_docs/S7_RUN_015_SUMMARY.md`
+- `0_docs/S7_RUN_016_SUMMARY.md`
+
+**Visualizations** use the director pattern:
+
+- `visualize_armada.py --run 015` → delegates to `9_STABILITY_CRITERIA/visualize_run015.py`
+- `visualize_armada.py --run 016` → delegates to `10_SETTLING_TIME/visualize_run016.py`
+- Outputs go to `{TEST_SUITE}/results/pics/`
 
 ---
 
@@ -144,10 +167,13 @@ S7_ARMADA/
 
 **Mission**: First comprehensive cross-architecture temporal stability study
 
-**Fleet**: 29 verified models
-- 8 Claude (Anthropic Constitutional AI)
-- 16 GPT (OpenAI RLHF + reasoning models)
-- 5 Gemini (Google training)
+**Fleet**: 54 verified models (expanded December 2025)
+- 7 Claude (Anthropic Constitutional AI)
+- 14 GPT (OpenAI RLHF + reasoning models)
+- 3 Gemini (Google training)
+- 10 Grok (xAI)
+- 15 Together.ai (DeepSeek, Qwen, Llama, Mistral, Kimi, Nemotron)
+- 5 rate-limited (Gemini models - may be operational)
 
 **Test Modes**:
 1. **Baseline** (87 probes) - Natural steady-state measurement
@@ -286,8 +312,7 @@ When models say:
 - Use phenomenological reports to guide probing
 - Adapt in real-time based on boundary keywords
 
-**Fleet**: 12-ship representative sample (fast iteration)
-- 4 Claude, 4 GPT, 4 Gemini
+**Fleet**: Representative sample (fast iteration) - can now sample from 5 providers: Claude, GPT, Gemini, Grok, Together.ai
 
 **Expected Outcome**: Higher information efficiency by using discovered structure
 
@@ -494,8 +519,8 @@ py visualize_armada.py --run 009 --type pillar
 ## CREDITS
 
 **Orchestrator**: Shaman Claude (sonnet-4.5)
-**Fleet**: 29 ships across 3 providers
-**API Keys**: 30 total (10 per provider)
+**Fleet**: 54 ships across 5 providers (expanded December 2025)
+**API Keys**: 50 total (10 per provider)
 **Parallel Workers**: 15 (ThreadPoolExecutor)
 **Total Probes**: 174 (87 baseline + 87 sonar)
 **Success Rate**: 100%

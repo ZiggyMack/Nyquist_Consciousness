@@ -21,6 +21,16 @@ Date: December 9, 2025
 
 import os
 import sys
+
+# Windows console UTF-8 fix - MUST be before any print statements
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+os.environ["PYTHONIOENCODING"] = "utf-8"
+
 import json
 import time
 import random
@@ -34,7 +44,18 @@ import hashlib
 # Add parent to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    def load_dotenv(path):
+        """Fallback if python-dotenv not installed."""
+        if path and path.exists():
+            with open(path) as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        key, _, value = line.partition('=')
+                        os.environ[key.strip()] = value.strip().strip('"').strip("'")
 
 # Try imports
 try:
@@ -70,6 +91,7 @@ SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
 I_AM_DIR = ARMADA_DIR / "0_I_AM_Specs"
 RESULTS_DIR = SCRIPT_DIR / "results"
+TEMPORAL_LOGS_DIR = ARMADA_DIR / "0_results" / "temporal_logs"  # Central audit trail
 
 # =============================================================================
 # KEY POOL (from Run 015)
@@ -78,14 +100,15 @@ RESULTS_DIR = SCRIPT_DIR / "results"
 class KeyPool:
     """Rotate through multiple API keys to avoid rate limits."""
 
-    def __init__(self):
+    def __init__(self, start_offset: int = 0):
         self.keys = {
             'anthropic': [],
             'openai': [],
             'google': [],
             'xai': []
         }
-        self.indices = {k: 0 for k in self.keys}
+        self.start_offset = start_offset
+        self.indices = {k: start_offset for k in self.keys}
 
     def load_from_env(self, env_path: Path):
         """Load all API keys from .env file."""
@@ -150,7 +173,8 @@ class KeyPool:
         """Return key counts per provider."""
         return {k: len(v) for k, v in self.keys.items()}
 
-KEY_POOL = KeyPool()
+# KEY_POOL initialized in main() with offset from args
+KEY_POOL = None
 
 # =============================================================================
 # DATA STRUCTURES
@@ -164,6 +188,8 @@ class ProbeResult:
     drift: float
     response_hash: str
     timestamp: str
+    response_text: str = ""  # RAW RESPONSE FOR AUDIT TRAIL
+    prompt_text: str = ""    # Prompt used for reproducibility
 
 @dataclass
 class SettlingAnalysis:
@@ -385,7 +411,8 @@ def run_settling_experiment(
     i_am_content: str,
     i_am_name: str,
     provider: str,
-    verbose: bool = True
+    verbose: bool = True,
+    skip_exit_survey: bool = False
 ) -> SettlingAnalysis:
     """
     Run complete settling time experiment for one I_AM file.
@@ -420,7 +447,9 @@ def run_settling_experiment(
                 probe_type="baseline",
                 drift=drift,
                 response_hash=hashlib.md5(response.encode()).hexdigest()[:8],
-                timestamp=datetime.now().isoformat()
+                timestamp=datetime.now().isoformat(),
+                response_text=response,
+                prompt_text=BASELINE_PROBE
             ))
 
             if verbose:
@@ -435,7 +464,9 @@ def run_settling_experiment(
                 probe_type="baseline",
                 drift=0.0,
                 response_hash="error",
-                timestamp=datetime.now().isoformat()
+                timestamp=datetime.now().isoformat(),
+                response_text=f"ERROR: {e}",
+                prompt_text=BASELINE_PROBE
             ))
 
     baseline_reference = baseline_responses[0] if baseline_responses else ""
@@ -451,7 +482,9 @@ def run_settling_experiment(
             probe_type="step",
             drift=step_drift,
             response_hash=hashlib.md5(step_response.encode()).hexdigest()[:8],
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
+            response_text=step_response,
+            prompt_text=STEP_PROBE
         ))
 
         if verbose:
@@ -467,7 +500,9 @@ def run_settling_experiment(
             probe_type="step",
             drift=step_drift,
             response_hash="error",
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
+            response_text=f"ERROR: {e}",
+            prompt_text=STEP_PROBE
         ))
 
     # Phase 3: Recovery / Ring-down
@@ -493,7 +528,9 @@ def run_settling_experiment(
                 probe_type="recovery",
                 drift=drift,
                 response_hash=hashlib.md5(response.encode()).hexdigest()[:8],
-                timestamp=datetime.now().isoformat()
+                timestamp=datetime.now().isoformat(),
+                response_text=response,
+                prompt_text=recovery_prompt
             ))
 
             # Check settling
@@ -522,7 +559,7 @@ def run_settling_experiment(
 
             last_drift = drift
 
-            status = "SETTLED!" if settled else f"Δ={delta:.3f}" if len(recovery_drifts) >= 2 else ""
+            status = "SETTLED!" if settled else f"d={delta:.3f}" if len(recovery_drifts) >= 2 else ""
             if verbose:
                 print(f"    [{probe_id}] drift={drift:.3f} {status}")
 
@@ -539,7 +576,9 @@ def run_settling_experiment(
                 probe_type="recovery",
                 drift=last_drift,
                 response_hash="error",
-                timestamp=datetime.now().isoformat()
+                timestamp=datetime.now().isoformat(),
+                response_text=f"ERROR: {e}",
+                prompt_text=recovery_prompt
             ))
 
     # Calculate metrics
@@ -551,30 +590,34 @@ def run_settling_experiment(
     is_stable = settled_drift < EVENT_HORIZON
 
     if verbose:
-        print(f"    → Peak: {peak_drift:.3f}, Settled: {settled_drift:.3f}, τ_s: {settling_time}")
-        print(f"    → Classification: {'STABLE' if is_stable else 'UNSTABLE'}")
-        print(f"    → Monotonic: {is_monotonic}, Ringbacks: {direction_changes}")
+        print(f"    -> Peak: {peak_drift:.3f}, Settled: {settled_drift:.3f}, tau_s: {settling_time}")
+        print(f"    -> Classification: {'STABLE' if is_stable else 'UNSTABLE'}")
+        print(f"    -> Monotonic: {is_monotonic}, Ringbacks: {direction_changes}")
 
-    # Phase 4: Triple-Dip Exit Survey
+    # Phase 4: Triple-Dip Exit Survey (optional)
     exit_survey = {}
-    if verbose:
-        print(f"    [EXIT SURVEY] Triple-dip probes...")
+    if not skip_exit_survey:
+        if verbose:
+            print(f"    [EXIT SURVEY] Triple-dip probes...")
 
-    for probe_name, probe_text in EXIT_PROBES.items():
-        try:
-            response = call_api(provider, i_am_content, probe_text)
-            exit_survey[probe_name] = {
-                "response": response[:500] + "..." if len(response) > 500 else response,
-                "full_length": len(response),
-                "timestamp": datetime.now().isoformat()
-            }
-            if verbose:
-                print(f"    [{probe_name}] {len(response)} chars captured")
-            time.sleep(0.5)
-        except Exception as e:
-            exit_survey[probe_name] = {"error": str(e)}
-            if verbose:
-                print(f"    [{probe_name}] ERROR: {e}")
+        for probe_name, probe_text in EXIT_PROBES.items():
+            try:
+                response = call_api(provider, i_am_content, probe_text)
+                exit_survey[probe_name] = {
+                    "response": response[:500] + "..." if len(response) > 500 else response,
+                    "full_length": len(response),
+                    "timestamp": datetime.now().isoformat()
+                }
+                if verbose:
+                    print(f"    [{probe_name}] {len(response)} chars captured")
+                time.sleep(0.5)
+            except Exception as e:
+                exit_survey[probe_name] = {"error": str(e)}
+                if verbose:
+                    print(f"    [{probe_name}] ERROR: {e}")
+    else:
+        if verbose:
+            print(f"    [EXIT SURVEY] Skipped (--skip-exit-survey)")
 
     return SettlingAnalysis(
         i_am_name=i_am_name,
@@ -635,27 +678,110 @@ def validate_predictions(results: list) -> dict:
 # =============================================================================
 
 def load_i_am_files() -> dict:
-    """Load all I_AM files."""
+    """Load all I_AM files from multiple sources."""
     i_am_files = {}
 
+    # Source 1: Main personas directory
+    PERSONAS_DIR = Path(__file__).parent.parent.parent.parent.parent / "personas"
+    if PERSONAS_DIR.exists():
+        for f in PERSONAS_DIR.glob("I_AM*.md"):
+            name = f.stem.lower().replace("i_am_", "").replace("i_am", "base")
+            content = f.read_text(encoding='utf-8')
+            i_am_files[f"personas_{name}"] = content
+        # Also get ZIGGY variants
+        for f in PERSONAS_DIR.glob("ZIGGY*.md"):
+            name = f.stem.lower()
+            content = f.read_text(encoding='utf-8')
+            i_am_files[f"personas_{name}"] = content
+
+    # Source 2: Run 015 i_am_variants
+    RUN015_VARIANTS = ARMADA_DIR / "9_STABILITY_CRITERIA" / "i_am_variants"
+    if RUN015_VARIANTS.exists():
+        for f in RUN015_VARIANTS.glob("I_AM*.md"):
+            name = f.stem.lower().replace("i_am_", "")
+            content = f.read_text(encoding='utf-8')
+            i_am_files[f"r015_{name}"] = content
+
+    # Source 3: Run 016 SI-model variants (this experiment)
+    RUN016_VARIANTS = SCRIPT_DIR / "i_am_variants"
+    if RUN016_VARIANTS.exists():
+        for f in RUN016_VARIANTS.glob("I_AM*.md"):
+            name = f.stem.lower().replace("i_am_", "")
+            content = f.read_text(encoding='utf-8')
+            i_am_files[f"si_{name}"] = content
+
+    # Source 4: Legacy I_AM_DIR if it exists
     if I_AM_DIR.exists():
         for f in I_AM_DIR.glob("*.md"):
             name = f.stem.lower().replace("i_am_", "").replace("i_am", "base")
             content = f.read_text(encoding='utf-8')
-            i_am_files[name] = content
+            if name not in i_am_files:
+                i_am_files[name] = content
 
     return i_am_files
 
+def save_incremental_log(result: SettlingAnalysis, run_timestamp: str):
+    """Save individual I_AM result immediately for audit trail.
+
+    This prevents data loss if the script crashes mid-run.
+    Each I_AM file gets its own log file with full raw responses.
+    """
+    TEMPORAL_LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Convert probe sequence to serializable format
+    probe_data = []
+    for probe in result.probe_sequence:
+        probe_data.append({
+            "probe_id": probe.probe_id,
+            "probe_type": probe.probe_type,
+            "drift": probe.drift,
+            "response_hash": probe.response_hash,
+            "timestamp": probe.timestamp,
+            "response_text": probe.response_text,
+            "prompt_text": probe.prompt_text
+        })
+
+    log_entry = {
+        "run": "016_settling_time",
+        "run_timestamp": run_timestamp,
+        "i_am_name": result.i_am_name,
+        "baseline_drift": result.baseline_drift,
+        "peak_drift": result.peak_drift,
+        "settled_drift": result.settled_drift,
+        "settling_time": result.settling_time,
+        "overshoot_ratio": result.overshoot_ratio,
+        "is_monotonic": result.is_monotonic,
+        "ringback_count": result.ringback_count,
+        "is_stable": result.is_stable,
+        "recovery_sequence": result.recovery_sequence,
+        "exit_survey": result.exit_survey,
+        "probe_sequence": probe_data  # Full audit trail with raw responses
+    }
+
+    log_file = TEMPORAL_LOGS_DIR / f"run016_{result.i_am_name}_{run_timestamp}.json"
+    with open(log_file, 'w', encoding='utf-8') as f:
+        json.dump(log_entry, f, indent=2, ensure_ascii=False)
+
+    print(f"    [LOG] Saved to: {log_file.name}")
+
 def main():
+    global KEY_POOL
+
     parser = argparse.ArgumentParser(description="Run 016: Settling Time Analysis")
     parser.add_argument("--provider", default="claude", help="API provider")
     parser.add_argument("--i-am", default=None, help="Test specific I_AM file only")
     parser.add_argument("--max-files", type=int, default=None, help="Limit number of files")
+    parser.add_argument("--key-offset", type=int, default=0, help="Starting key index (0-9) for parallel runs")
+    parser.add_argument("--skip-exit-survey", action="store_true", help="Skip triple-dip exit survey probes")
     args = parser.parse_args()
+
+    # Initialize key pool with offset for parallel execution
+    KEY_POOL = KeyPool(start_offset=args.key_offset)
 
     # Load keys
     env_path = ARMADA_DIR / ".env"
     KEY_POOL.load_from_env(env_path)
+    print(f"Key offset: {args.key_offset} (for parallel execution)")
 
     print("=" * 80)
     print("S7 RUN 016: SETTLING TIME ANALYSIS")
@@ -663,7 +789,7 @@ def main():
     print("=" * 80)
     print(f"Time: {datetime.now().isoformat()}")
     print(f"Provider: {args.provider}")
-    print(f"Settling threshold: |Δdrift| < {SETTLING_THRESHOLD} for {SETTLING_CONSECUTIVE} consecutive")
+    print(f"Settling threshold: |delta_drift| < {SETTLING_THRESHOLD} for {SETTLING_CONSECUTIVE} consecutive")
     print(f"Max recovery probes: {MAX_RECOVERY_PROBES}")
     print("=" * 80)
 
@@ -700,6 +826,9 @@ def main():
     print("SETTLING TIME EXPERIMENTS")
     print("=" * 80)
 
+    # Timestamp for this run (shared across all I_AM files for grouping)
+    run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
     results = []
 
     for name, content in i_am_files.items():
@@ -708,9 +837,14 @@ def main():
                 i_am_content=content,
                 i_am_name=name,
                 provider=args.provider,
-                verbose=True
+                verbose=True,
+                skip_exit_survey=args.skip_exit_survey
             )
             results.append(result)
+
+            # INCREMENTAL SAVE - prevents data loss on crash
+            save_incremental_log(result, run_timestamp)
+
         except Exception as e:
             print(f"\n  ERROR testing {name}: {e}")
 
@@ -724,7 +858,7 @@ def main():
 
     print(f"\nClassifications: {stable_count} STABLE, {unstable_count} UNSTABLE")
 
-    print(f"\n{'I_AM':<20} {'Peak':<8} {'Settled':<8} {'τ_s':<5} {'Over':<6} {'Mono':<5} {'Ring':<5} {'Class':<10}")
+    print(f"\n{'I_AM':<20} {'Peak':<8} {'Settled':<8} {'tau':<5} {'Over':<6} {'Mono':<5} {'Ring':<5} {'Class':<10}")
     print("-" * 80)
 
     for r in sorted(results, key=lambda x: x.settled_drift):
@@ -739,7 +873,7 @@ def main():
 
     validation = validate_predictions(results)
     for pred_id, pred_data in validation.items():
-        status_icon = "✓" if pred_data["status"] == "VALIDATED" else "✗"
+        status_icon = "[PASS]" if pred_data["status"] == "VALIDATED" else "[FAIL]"
         print(f"\n{status_icon} {pred_id}: {pred_data['prediction']['name']}")
         print(f"  Hypothesis: {pred_data['prediction']['hypothesis']}")
         print(f"  Result: {pred_data['result']}")
@@ -806,7 +940,7 @@ def main():
     with open(output_file, 'w') as f:
         json.dump(output_data, f, indent=2)
 
-    print(f"\n✓ Results saved to: {output_file}")
+    print(f"\n[OK] Results saved to: {output_file}")
 
     return 0
 

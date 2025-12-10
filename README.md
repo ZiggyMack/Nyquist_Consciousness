@@ -14,7 +14,7 @@ When an AI model's identity drift exceeds 1.23 (measured via dimensional drift v
 
 - **Chi-squared validation**: p = 0.000048 (1 in 20,000 chance this is noise)
 - **Prediction accuracy**: 88%
-- **Ships tested**: 42+ across 4 providers (Claude, GPT, Gemini, Grok)
+- **Ships tested**: 54 across 5 providers (Claude, GPT, Gemini, Grok, Together.ai)
 - **Run 012 Revalidation**: 100% Event Horizon crossing, 100% recovery (real drift metric)
 
 ---
@@ -203,22 +203,23 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: Run 012 COMPLETE, Self-Recognition experiment READY
-**Last Updated**: 2025-12-06
-**Key Milestone**: Run 012 validates real drift metric — 100% EH crossing, 100% recovery
+**Current Phase**: Run 016 COMPLETE, Phase 4 (Complete Circuit) READY
+**Last Updated**: 2025-12-10
+**Key Milestone**: Fleet expanded to 54 ships across 5 providers (Claude, GPT, Gemini, Grok, Together.ai)
 
 ### Recent Accomplishments
 
-- **Run 012 Complete**: Full fleet revalidation with real dimensional drift metric (not fake response_length)
-- **Unified Dimensional Views**: New visualizations show linguistic marker dimensions (A-E) simultaneously
-- **8 Search Types**: Added Stability Testing (#7) and Self-Recognition (#8) to taxonomy
-- **Recovery Paradox**: Discovered negative lambda (-0.175) due to context-blind metric
+- **Fleet Expansion**: 54 operational ships across 5 providers (December 2025)
+- **New Providers**: Added Together.ai (15 models: DeepSeek, Qwen, Llama, Mistral, Kimi) and xAI/Grok (10 models)
+- **Ghost Ship Rescue**: Fixed GPT-5/o-series via max_completion_tokens parameter
+- **Run 015-016**: Stability Criteria and Settling Time experiments complete
+- **Phase 4 Ready**: Complete circuit tests with i_am_plus_research context
 
 ### Next Steps
 
-1. **EXP-SELF-RECOGNITION**: Can AIs recognize their own responses? (bi-directional proof)
-2. **Phase 2.5 Ablation**: Remove dimensions to identify essential vs redundant pillars
-3. **Cross-provider comparison**: Run remaining providers for full 42-ship fleet
+1. **Run 017**: First complete circuit test (i_am_plus_research context)
+2. **Cross-provider experiments**: Test all 54 ships with new probes
+3. **Together.ai fingerprinting**: Characterize open-source model identity patterns
 
 ---
 
