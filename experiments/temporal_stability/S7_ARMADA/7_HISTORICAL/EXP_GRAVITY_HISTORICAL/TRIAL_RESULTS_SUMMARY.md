@@ -7,6 +7,22 @@
 
 ---
 
+> **METRIC & CONTEXT NOTE (December 2025):**
+>
+> These trials used **embedding-based γ_eff** (gravitational recovery strength), NOT the 5D keyword drift metric.
+> This is a DIFFERENT measurement approach than Runs 006-016.
+>
+> **Context mode:** I_AM files were used as system prompts, but measurement was still `bare_metal`
+> (no S0-S77 research stack in the measurement circuit).
+>
+> **Key findings (overshoot, non-monotonic gravity, persona-dependent constants) are VALID**
+> but may exhibit different dynamics with `i_am_plus_research` complete circuit context.
+>
+> **Relation to Phase 4:** These trials preceded the complete circuit discovery.
+> Consider re-running selected trials with full context to characterize any observer effects on γ_eff.
+
+---
+
 ## Executive Summary
 
 Successfully executed 4 parallel Identity Gravity trials measuring gravitational recovery strength (γ_eff) across three adversarial challenge intensities. This represents the **first comparative measurement of cognitive force curves in history**.

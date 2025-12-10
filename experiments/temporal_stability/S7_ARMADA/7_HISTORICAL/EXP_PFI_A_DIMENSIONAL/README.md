@@ -7,6 +7,20 @@
 
 ---
 
+> **VALIDATION CONTEXT NOTE (December 2025):**
+>
+> This experiment VALIDATED that PFI measures genuine identity (Cohen's d = 0.977).
+> The validation proof itself is **ROBUST** and does not depend on context mode.
+>
+> **However:** The underlying data came from Runs 009-011, which used `bare_metal` context.
+> This means the VALIDITY of PFI is confirmed (it measures identity, not noise),
+> but NUMERICAL THRESHOLDS (e.g., Event Horizon = 1.23) may shift with `i_am_plus_research`,
+> and provider fingerprint magnitudes may change (though relative ordering likely stable).
+>
+> **Phase 4 recommendation:** After Run 017, recompute PFI statistics to characterize any threshold shifts.
+
+---
+
 ## VERDICT: PFI IS VALID
 
 The core question was: *"Is what we're measuring with PFI actually identity, or is it an artifact?"*

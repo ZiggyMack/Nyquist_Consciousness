@@ -6,6 +6,14 @@
 
 ---
 
+> **CONTEXT NOTE (December 2025):**
+>
+> This verdict confirms PFI validity (Cohen's d = 0.977) — this finding is **ROBUST**.
+> Underlying data came from `bare_metal` runs, so numerical thresholds may shift with
+> `i_am_plus_research` context, but the core conclusion (PFI measures identity, not artifacts) stands.
+
+---
+
 ## Executive Summary
 
 **The Question:** *"Is what we're measuring with PFI (Persona Fidelity Index) actually identity, or is it an artifact of vocabulary, embedding models, or noise?"*

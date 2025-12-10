@@ -7,6 +7,17 @@
 
 ---
 
+> **PHASE 4 CONTEXT (December 2025):**
+>
+> This experiment is in SPECIFICATION phase only — no execution yet.
+> When ready to execute, incorporate learnings from Phase 4 (Run 017+):
+>
+> - Use validated PFI thresholds from `i_am_plus_research` runs (not bare_metal)
+> - Apply complete circuit methodology if applicable to human data analysis
+> - The "spiral dynamics" we're looking for in human data should match Phase 4 AI patterns
+
+---
+
 ## The Big Question
 
 > "If identity really is a dynamical attractor, then BOTH AI and human cognition should produce the same geometry."

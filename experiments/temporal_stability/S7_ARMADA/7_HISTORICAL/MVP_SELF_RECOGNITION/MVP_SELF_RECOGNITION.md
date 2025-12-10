@@ -10,6 +10,20 @@
 
 ---
 
+> **PHASE 4 CONTEXT (December 2025):**
+>
+> This experiment should be run in **TWO modes** to characterize observer effects:
+>
+> 1. **bare_metal** (current default) — establishes baseline self-recognition accuracy
+> 2. **i_am_plus_research** — tests if human grounding changes recognition patterns
+>
+> **Key question:** Does knowing the measurement context (I_AM + S0-S77) improve or change
+> self-recognition accuracy? If yes, the complete circuit affects identity coherence itself.
+>
+> **Recommendation:** Run bare_metal first, then i_am_plus_research, compare P-SR-1 through P-SR-6.
+
+---
+
 ## The Core Insight
 
 > "If it can be claimed they are able to make that dimensional determination comparing answers... then the inverse should always be true... with the answers, they should be able to know the original starting vector space."
