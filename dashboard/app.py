@@ -51,7 +51,24 @@ def apply_custom_css():
     /* Hide Streamlit's default page navigation in sidebar */
     [data-testid="stSidebarNav"] {display: none !important;}
     section[data-testid="stSidebarNav"] {display: none !important;}
-    nav[role="navigation"] {display: none !important;}
+    /* Don't hide all nav - keep sidebar collapse control visible */
+    /* nav[role="navigation"] {display: none !important;} */
+
+    /* Keep sidebar collapse/expand button visible and styled */
+    [data-testid="collapsedControl"] {
+        display: flex !important;
+        visibility: visible !important;
+    }
+
+    button[data-testid="baseButton-headerNoPadding"] {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    /* Ensure the sidebar toggle arrow is visible */
+    [data-testid="stSidebar"] [data-testid="collapsedControl"] {
+        color: #00ff41 !important;
+    }
 
     /* ===== LIGHT THEME FOR MAIN CONTENT ===== */
     .stApp {
