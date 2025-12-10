@@ -500,6 +500,7 @@ def main():
         page_title="Nyquist Dashboard",
         page_icon="🛰️",
         layout="wide",
+        initial_sidebar_state="expanded",
     )
 
     apply_custom_css()
