@@ -2,13 +2,24 @@
 
 AI Fleet Experiments for Temporal Identity Coherence
 
-Date: November 26, 2025 - Present | Status: Run 012 Complete | Active Development
+Date: November 26, 2025 - Present | Status: **Run 015 Active** | Active Development
 
 ---
 
 ## FOR NEW CLAUDE INSTANCES
 
 **Start here**: Read `START_HERE.md` for operations guide and quick start.
+
+### What We're Testing (Important Framing!)
+
+**Context Fidelity Engineering**: Can we give an AI a specification and keep it "in character"?
+
+- The specification IS the identity (for AI, there's no hidden self underneath)
+- Stronger specifications = stronger identities
+- Drift from spec = identity erosion
+- Event Horizon = point where specification loses grip on output
+
+We are NOT claiming consciousness or sentience - we're engineering robust context adherence.
 
 ### Key Concepts
 
@@ -17,19 +28,22 @@ Date: November 26, 2025 - Present | Status: Run 012 Complete | Active Developmen
   - **Statistically validated**: Chi-squared p = 0.000048 (Run 009)
   - **Prediction accuracy**: 88% of trajectories follow this threshold
 - **STABLE**: Max drift < 1.23 (remained in identity basin)
-- **VOLATILE**: Max drift >= 1.23 (crossed coherence boundary)
-- **Vortex**: Polar spiral visualization where radius = drift, angle = turn progression
-- **Pillars**: Angular clustering of provider trajectories in phase space
+- **VOLATILE/UNSTABLE**: Max drift >= 1.23 (crossed coherence boundary)
+- **Lambda (λ)**: Recovery rate - how fast identity snaps back after pressure
+- **I_AM File**: Specification that defines AI identity (boundaries, values, philosophy)
 
 ### Testing Taxonomy (IMPORTANT!)
 
-See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Five Search Types**:
+See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Eight Search Types**:
 
-1. **Anchor/Flex** — Find identity anchors AND flex zones (same protocol captures both)
+1. **Anchor/Flex** — Find identity anchors AND flex zones
 2. **Event Horizon** — Validate collapse threshold (push past 1.23)
 3. **Basin Topology** — Map attractor structure (gentle graduated)
-4. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
-5. **Laplace Pole-Zero Analysis** — Extract system dynamics from time-series (post-hoc)
+4. **Boundary Mapping** — Explore the twilight zone (0.8-1.2)
+5. **Laplace Analysis** — Extract system dynamics from time-series
+6. **Rescue Protocol** — Can we recover drifted identities? (Run 014)
+7. **Self-Recognition** — Can AIs recognize their own responses?
+8. **Stability Criteria** — What makes an I_AM file stable vs unstable? (Run 015) **ACTIVE**
 
 > **Terminology Note:** "Anchor/Flex" captures behavioral pole-zero concepts. "Laplace Pole-Zero" uses actual Laplace transform math. Lucian (CFA-SYNC) uses "elastic vs plastic" for similar phenomena.
 

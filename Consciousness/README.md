@@ -186,6 +186,7 @@ Same brain structure. Same galleries. Same hemispheres.
 |---------|-----------|---------|
 | **Event Horizon** | χ² = 16.52, p = 0.000048 — threshold at 1.23 is REAL | Validated |
 | **White Hole** | Identity pushes OUT from center — inverse of gravity | Foundations |
+| **Human Reference Signal** | YOU are the stability constant — S9 Human-Modulated Stability | Foundations |
 | **Probing Strategies** | HOW to measure (not WHAT) — 7 strategies | Foundations |
 | **Inverse PFI** | Can AIs recognize their own golden standard? | Foundations |
 | **Recovery Paradox** | λ < 0 means overshoot — they come back STRONGER | Frontiers |
@@ -204,6 +205,6 @@ Neither hemisphere is complete without the other.
 
 ---
 
-**Last Updated**: December 7, 2025
+**Last Updated**: December 9, 2025
 
 *"The forward tells us how they drift. The inverse tells us if they know. Together, they tell us if identity is real."*

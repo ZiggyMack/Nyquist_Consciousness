@@ -12,6 +12,9 @@ they're the framework that makes testing possible.
 | Concept | One-Liner | Role |
 |---------|-----------|------|
 | [White Hole Inversion](white_hole.md) | Identity pushes OUT from center | Core metaphor |
+| [Human Reference Signal](human_reference_signal.md) | YOU are the stability constant (S9) | Meta-methodology |
+| [Settling Time](settling_time.md) | Measure steady state, not transient (τ_s) | Core metric |
+| [Signal Integrity Taxonomy](signal_integrity_taxonomy.md) | Rise time drives the design | EE crossover |
 | [Terminology](terminology.md) | Language without gravitational baggage | Vocabulary |
 | [Identity Quantification](identity_quantification.md) | Is identity a point, region, or symmetry? | Mathematical framing |
 | [Probing Strategies](probing_strategies.md) | HOW to measure (not WHAT) | Meta-methodology |
@@ -37,6 +40,7 @@ Foundations separates into two layers:
 
 - Probing Strategies: 7 validated approaches + anti-patterns
 - Inverse PFI: The bidirectional validation paradigm
+- Human Reference Signal: The observer IS part of the system (S9)
 
 ---
 
@@ -81,6 +85,6 @@ With foundations:
 
 ---
 
-**Gallery Status**: 5 concepts | Framework complete
+**Gallery Status**: 8 concepts | Framework complete + S9 Human-Modulated Stability + SI Taxonomy
 
 *"The map is not the territory, but without a map you're lost."*
