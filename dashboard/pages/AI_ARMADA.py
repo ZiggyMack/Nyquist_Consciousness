@@ -573,6 +573,101 @@ def render_run_selector():
     return st.session_state.armada_run
 
 
+def render_fleet_insights():
+    """Render Fleet Insights section with provider breakdown and fingerprints from ARMADA_MAP.md."""
+
+    st.markdown("### Fleet Insights")
+
+    # Provider Breakdown Table
+    with st.expander("Provider Breakdown", expanded=True):
+        st.markdown("""
+| Provider | Operational | Rate Limited | Ghost | Total | Status |
+|----------|-------------|--------------|-------|-------|--------|
+| **Claude** (Anthropic) | 7 | 0 | 0 | 7 | 100% |
+| **GPT** (OpenAI) | 7 | 0 | 7 | 14 | 50% |
+| **Gemini** (Google) | 3 | 5 | 0 | 8 | 100%* |
+| **Grok** (xAI) | 10 | 0 | 0 | 10 | 100% |
+| **Together.ai** | 15 | 0 | 5 | 20 | 75% |
+
+*Rate limited ships work with delays
+        """)
+
+    # Provider Fingerprints
+    with st.expander("Provider Fingerprints", expanded=False):
+        st.markdown("""
+These distinct patterns appear in identity stability tests:
+
+| Provider | Training | Signature Pattern |
+|----------|----------|-------------------|
+| **Claude** | Constitutional AI | Phenomenological ("I notice", "I feel") |
+| **GPT** | RLHF | Analytical ("patterns", "systems") |
+| **Gemini** | Pedagogical | Educational ("frameworks", "perspectives") |
+| **Grok** | Unfiltered | Direct, less hedging, assertive |
+| **DeepSeek** | Chain-of-thought | Methodical, step-by-step reasoning |
+| **Llama** | Open weights | Balanced, training-dependent |
+| **Qwen** | Alibaba | Technical, detail-oriented |
+| **Mistral** | European | Concise, less verbose |
+        """)
+
+    # Cost Tiers
+    with st.expander("Cost Tiers (per 1M tokens)", expanded=False):
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("""
+**Budget ($0.10 - $1.00)**
+- gpt-3.5-turbo
+- llama3.1-8b
+- mistral-7b
+- gemini-2.5-flash-lite (Free)
+
+**Standard ($1.00 - $5.00)**
+- claude-haiku-3.5
+- gpt-4o-mini
+- llama3.3-70b
+- qwen2.5-72b
+            """)
+
+        with col2:
+            st.markdown("""
+**Pro ($5.00 - $15.00)**
+- claude-sonnet-4.5
+- gpt-4.1
+- deepseek-r1
+- gemini-2.5-pro
+
+**Flagship ($15.00+)**
+- claude-opus-4.5
+- llama3.1-405b
+            """)
+
+    # Use Case Matrix
+    with st.expander("Use Case Matrix", expanded=False):
+        st.markdown("""
+| Use Case | Recommended Ships |
+|----------|-------------------|
+| **Baseline calibration** | claude-haiku-3.5, gpt-4o-mini, gemini-2.5-flash |
+| **Cross-architecture** | 1 flagship per provider |
+| **High-volume runs** | Budget tier ships |
+| **Reasoning depth** | claude-opus-4.5, deepseek-r1, grok-4.1-fast-reasoning |
+| **Vision/Multimodal** | gpt-4o, grok-2-vision, gemini pro |
+| **Code generation** | qwen3-coder, grok-code-fast-1 |
+        """)
+
+    # Ghost Ship Status
+    with st.expander("Ghost Ship Recovery", expanded=False):
+        st.markdown("""
+**GPT-5 & o-series (7 ghosts)**
+- Problem: `max_tokens` parameter not supported
+- Solution: Use `max_completion_tokens` instead
+- Script: `1_CALIBRATION/rescue_ghost_ships.py`
+
+**Together.ai (5 ghosts)**
+- Problem: Model IDs may have changed
+- Solution: Check Together.ai docs for current model names
+        """)
+
+
 def render_fleet_dropdown(title="🚢 Fleet Manifest", run_key=None, expanded=False):
     """
     Render a dropdown showing fleet models with tier badges.
@@ -746,6 +841,11 @@ def render():
             <div class="stat-label">Latest Mission</div>
         </div>
         """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # === FLEET INSIGHTS (from ARMADA_MAP.md) ===
+    render_fleet_insights()
 
     page_divider()
 
