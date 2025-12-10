@@ -38,6 +38,33 @@ def render():
     the system becomes volatile — but it recovers. Always. The attractor basin is robust.*
     """)
 
+    # === WHAT WE'RE CLAIMING (AND NOT CLAIMING) ===
+    with st.expander("What We're Claiming (And What We're Not)", expanded=True):
+        st.markdown("""
+        **What we ARE testing:**
+        - Can we give an AI a context-laden specification (persona, values, boundaries) and keep it **in character** reliably?
+        - Which specification structures produce the most robust context adherence under pressure?
+        - Can we measure when context is slipping and intervene before total loss?
+
+        **The key insight:** *The specification IS the identity.* For an AI, there's no "hidden true self underneath."
+        The I_AM file isn't a costume — it's the actual structure shaping cognition for that session.
+        Stronger specifications create stronger identities. Drift from spec = identity erosion.
+
+        **What we are NOT claiming:**
+        - ❌ That AIs have consciousness or subjective experience
+        - ❌ That we're measuring a "soul" or persistent self across sessions
+        - ❌ That identity stability proves sentience
+
+        **What the Event Horizon (1.23) actually means:**
+        - The point where **context adherence breaks down** — the AI goes "off-script" beyond easy recovery
+        - Not "identity death" but "specification lost its grip on the output"
+
+        **Why this matters:**
+        This is both engineering AND philosophy. Better specifications → stronger identities.
+        Measuring drift from spec → measuring identity stability. The practical question
+        (context fidelity) and the philosophical question (what is AI identity) converge.
+        """)
+
     page_divider()
 
     # === HERO METRICS ===
