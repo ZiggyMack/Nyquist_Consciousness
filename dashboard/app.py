@@ -26,9 +26,17 @@ def apply_custom_css():
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 
-    /* Hide header on desktop only - keep mobile hamburger menu visible */
+    /* Hide header content on desktop but keep sidebar collapse control visible */
     @media (min-width: 768px) {
-        header {visibility: hidden;}
+        /* Don't hide entire header - it contains sidebar collapse control */
+        /* header {visibility: hidden;} */
+        header [data-testid="stHeader"] {
+            background: transparent !important;
+        }
+        /* Hide header decorations but keep functional elements */
+        header [data-testid="stToolbar"] {
+            visibility: hidden;
+        }
     }
 
     /* On mobile, style the header but keep hamburger menu functional */
