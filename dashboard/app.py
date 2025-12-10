@@ -66,6 +66,13 @@ def apply_custom_css():
     [data-testid="collapsedControl"] {
         display: flex !important;
         visibility: visible !important;
+        position: fixed !important;
+        left: 0 !important;
+        top: 50% !important;
+        z-index: 999999 !important;
+        background: #1a1a1a !important;
+        border-radius: 0 8px 8px 0 !important;
+        padding: 8px 4px !important;
     }
 
     button[data-testid="baseButton-headerNoPadding"] {
@@ -73,9 +80,19 @@ def apply_custom_css():
         visibility: visible !important;
     }
 
-    /* Ensure the sidebar toggle arrow is visible */
-    [data-testid="stSidebar"] [data-testid="collapsedControl"] {
+    /* Style the collapse/expand arrow */
+    [data-testid="collapsedControl"] svg {
         color: #00ff41 !important;
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    /* When sidebar is expanded, position control inside sidebar */
+    [data-testid="stSidebar"][aria-expanded="true"] [data-testid="collapsedControl"] {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        background: transparent !important;
     }
 
     /* ===== LIGHT THEME FOR MAIN CONTENT ===== */
