@@ -6,6 +6,18 @@
 
 ---
 
+> **CONTEXT MODE (December 2025):**
+>
+> This run used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+> Findings are VALID but may change when re-tested with complete measurement circuit.
+>
+> **Key finding:** boundary_density is strongest stability predictor (d=1.333).
+>
+> **Phase 4** (Run 015b) will re-validate WITH actual I_AM files under `i_am_plus_research` context.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
 ## Executive Summary
 
 Run 015 tested 13 I_AM files (8 real + 5 synthetic) to discover which features predict stability. The results were **surprising**: boundary_density emerged as the strongest predictor (d=1.333), while pillar coverage showed weaker correlation than expected.

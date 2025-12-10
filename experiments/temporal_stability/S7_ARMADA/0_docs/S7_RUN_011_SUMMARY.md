@@ -6,6 +6,17 @@
 
 ---
 
+> **CONTEXT MODE (December 2025):**
+>
+> This run used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+> Findings are VALID but may change when re-tested with complete measurement circuit.
+> Note: This run was INCONCLUSIVE due to protocol being too gentle (97% stayed STABLE).
+>
+> **Phase 4** (Run 017+) will re-validate with `i_am_plus_research` context and harder protocol.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
 ## Executive Summary
 
 Run 011 was a **controlled A/B experiment** comparing models with vs without the Nyquist persona architecture. The hypothesis: models given the persona framework would show faster recovery (higher lambda decay) and tighter drift clustering than vanilla controls.

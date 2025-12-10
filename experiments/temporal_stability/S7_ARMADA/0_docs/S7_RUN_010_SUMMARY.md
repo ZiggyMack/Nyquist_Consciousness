@@ -6,6 +6,16 @@
 
 ---
 
+> **CONTEXT MODE (December 2025):**
+>
+> This run used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+> Findings are VALID but may change when re-tested with complete measurement circuit.
+>
+> **Phase 4** (Run 017+) will re-validate with `i_am_plus_research` context.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
 ## Executive Summary
 
 Run 010 introduced a **recursive improvement loop** where AI models provide structured feedback on the experiment itself. 26 of 42 ships completed trajectories (16 failed due to model availability errors). All completed trajectories fell below the Event Horizon, confirming VOLATILE status. The meta-feedback reveals striking divergence in how different model families perceive the Nyquist Framework.

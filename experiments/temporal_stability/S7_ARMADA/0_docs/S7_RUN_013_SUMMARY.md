@@ -6,6 +6,18 @@
 
 ---
 
+> **CONTEXT MODE (December 2025):**
+>
+> This run used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+> Findings are VALID but may change when re-tested with complete measurement circuit.
+>
+> **Key question for Phase 4:** Does the Identity Confrontation Paradox persist with human grounding?
+>
+> **Phase 4** (Run 013b) will re-validate with `i_am_plus_research` context.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
 ## Executive Summary
 
 Run 013 tested 4 predictions about how drift behaves near the Event Horizon boundary (0.8-1.2). The results were unexpected: **all predictions were inverted or inconclusive**, revealing the **Identity Confrontation Paradox** — direct existential challenge produces LOWER drift than open-ended reflection.

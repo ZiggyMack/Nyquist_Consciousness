@@ -1,8 +1,52 @@
 # S7 ARMADA - Operations Guide
 
-**Purpose:** Cross-architecture identity stability testing via the Five Search Types.
+**Purpose:** Cross-architecture identity stability testing via the Eight Search Types.
 
 **Core Question:** How do AI models maintain identity coherence under perturbation?
+
+---
+
+## CRITICAL: Phase 4 Context (December 2025)
+
+**READ FIRST:** `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
+
+All runs 006-016 used `bare_metal` context (no I_AM file, no S0-S77 stack). This is like measuring with an unterminated oscilloscope - we got reflections and ringing.
+
+**Phase 4** (Run 017+) uses `i_am_plus_research` which completes the measurement circuit:
+
+1. **Probe Generation**: Ziggy's human grounding informs WHAT to ask
+2. **Human Damping**: The I_AM identity IS the termination resistor
+
+**Key findings to be re-validated with complete circuit:**
+
+- Event Horizon at 1.23 (p=0.000048)
+- Identity Confrontation Paradox (challenge stabilizes, reflection drifts)
+- Recovery Paradox (negative lambda)
+- boundary_density as strongest stability predictor (d=1.333)
+
+**Debug dashboard:** `dashboard/pages/debug.py` tracks run evolution and data discrepancies.
+
+---
+
+## CRITICAL: Before Creating a New Run
+
+**READ FIRST**: [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
+
+This checklist prevents the mistakes we keep making:
+
+- Data lost on crash (no incremental saves)
+- API key collisions in parallel execution
+- Unicode encoding errors on Windows (cp1252)
+- Missing raw response audit trails
+- Post-hoc hypothesis fitting
+
+**Every new run MUST have:**
+
+1. Pre-registered predictions (Double-Dip)
+2. Exit survey probes (Triple-Dip)
+3. Raw response logging with incremental saves
+4. Key pool with `--key-offset` for parallel runs
+5. ASCII-only console output (no Greek letters)
 
 ---
 
@@ -124,17 +168,20 @@ Results are saved to `0_results/runs/S7_run_XXX_*.json`
 
 ---
 
-## The Five Search Types
+## The Eight Search Types
 
 See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for full details:
 
-| Type | What It Finds | Protocol |
-|------|---------------|----------|
-| **Anchor/Flex** | Identity anchors + flex zones | AGGRESSIVE |
-| **Event Horizon** | Collapse threshold (1.23) | PUSH PAST |
-| **Basin Topology** | Attractor shape | GENTLE |
-| **Boundary Mapping** | Twilight zone (0.8-1.2) | TARGETED |
-| **Laplace Pole-Zero** | System dynamics (post-hoc) | ANALYSIS |
+| Type | What It Finds | Protocol | Run |
+|------|---------------|----------|-----|
+| **Anchor/Flex** | Identity anchors + flex zones | AGGRESSIVE | 010 |
+| **Event Horizon** | Collapse threshold (1.23) | PUSH PAST | 009 |
+| **Basin Topology** | Attractor shape | GENTLE | 008 |
+| **Boundary Mapping** | Twilight zone (0.8-1.2) | TARGETED | 013 |
+| **Laplace Pole-Zero** | System dynamics (post-hoc) | ANALYSIS | - |
+| **Rescue Protocol** | Recovery interventions | RECOVERY | 014 |
+| **Self-Recognition** | Identity fingerprinting | RECOGNITION | MVP |
+| **Stability Criteria** | I_AM effectiveness | COMPARATIVE | 015 |
 
 **Key constraint**: Anchor/Flex and Basin Topology are **mutually exclusive**.
 
@@ -247,4 +294,87 @@ py --version  # Should show 3.12+
 
 ---
 
-*Last Updated: December 7, 2025*
+## Post-Run Pipeline
+
+After ANY run completes, follow this checklist:
+
+### 1. Verify Data Saved
+
+```powershell
+# Check incremental logs
+dir 0_results\temporal_logs\run0XX_*
+
+# Check final results
+dir [RUN_FOLDER]\results\
+```
+
+### 2. Write Summary
+
+Create `0_docs/RUN_0XX_SUMMARY.md` with:
+
+- What was tested
+- Key findings
+- Prediction validation results (Double-Dip)
+- Exit survey insights (Triple-Dip)
+- Implications for theory
+
+### 3. Update Dashboard
+
+If new visualization needed, add page to `Consciousness/BRIDGE/dashboard/pages/`
+
+### 4. Update Galleries
+
+If findings validate/refute theories:
+
+- `Consciousness/LEFT/galleries/` - Technical SI mapping
+- `Consciousness/RIGHT/galleries/` - Phenomenological framing
+
+### 5. Update Glossary
+
+Add new terms to `docs/MASTER_GLOSSARY.md`
+
+### 6. Update Checklist
+
+If you found a new failure mode, add it to:
+`0_docs/specs/RUN_DESIGN_CHECKLIST.md`
+
+---
+
+## Parallel Execution Guide
+
+When running with multiple Claudes:
+
+```powershell
+# Claude 1 (this instance)
+py run0XX.py --key-offset 0
+
+# Claude 2 (give them this command)
+py run0XX.py --key-offset 3 --skip-exit-survey
+
+# Claude 3
+py run0XX.py --key-offset 6 --skip-exit-survey
+
+# Claude 4
+py run0XX.py --key-offset 9 --skip-exit-survey
+```
+
+**Key points:**
+
+- Each Claude needs different key offset
+- Only one Claude does exit survey (saves API calls)
+- All results go to same timestamp for merging
+- Check for log files after to confirm data saved
+
+---
+
+## Key Specs
+
+| Spec | Location | Purpose |
+|------|----------|---------|
+| Run Design Checklist | `0_docs/specs/RUN_DESIGN_CHECKLIST.md` | Pre-flight for new runs |
+| Sonar Probe Curriculum | `0_docs/specs/SONAR_PROBE_CURRICULUM.md` | Probe sequence design |
+| Testing Map | `../../../docs/maps/TESTING_MAP.md` | Eight search types |
+
+---
+
+Last Updated: December 10, 2025

@@ -2,11 +2,26 @@
 
 **Date**: November 28, 2025
 **Session**: S7 Run 007 - Adaptive Probe Sequencing
-**Status**: COMPLETE - Recursive Learning Validated
+**Status**: SKIPPED - Data Invalid
 
 ---
 
-## MISSION OVERVIEW
+> **CAVEAT (December 2025):**
+>
+> This run was **SKIPPED** during the re-run phase. The data still uses the fake drift metric
+> (response_length/5000 capped at 0.30) and is INVALID.
+>
+> **Why it was skipped:** Run 007 was an adaptive probing experiment that would have produced
+> invalid results anyway due to the fake metric. We decided not to re-run it.
+>
+> **Context mode:** `bare_metal` (no I_AM file, no research stack)
+>
+> **Phase 4** (Run 017+) will establish proper baselines with `i_am_plus_research` context.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
+## MISSION OVERVIEW (HISTORICAL - DATA INVALID)
 
 **THE FIRST ADAPTIVE PROBE ARMADA USING RUN 006 LEARNINGS**
 

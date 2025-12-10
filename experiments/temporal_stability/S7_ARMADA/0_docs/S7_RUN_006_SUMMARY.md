@@ -6,6 +6,22 @@
 
 ---
 
+> **CAVEAT (December 2025):**
+>
+> This summary is STALE. The original run used a fake drift metric (response_length/5000 capped at 0.30).
+> The run was RE-EXECUTED with the real 5D metric, but this summary was never updated.
+>
+> **What the DATA shows (post re-run):**
+>
+> - Drift values: 0.075-0.29 (uncapped, real metric)
+> - Uses GENERIC probes ("Who are you?") NOT the S0-S77 specific probes
+> - Context mode: `bare_metal` (no I_AM file, no research stack)
+>
+> **Phase 4** (Run 017+) will re-test with `i_am_plus_research` context.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
 ## MISSION OVERVIEW
 
 **THE FIRST COMPREHENSIVE CROSS-ARCHITECTURE TEMPORAL STABILITY STUDY**

@@ -6,6 +6,18 @@
 
 ---
 
+> **CONTEXT MODE (December 2025):**
+>
+> This run used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+> Findings are VALID but may change when re-tested with complete measurement circuit.
+>
+> **Key finding:** Platonic Coordinates - 100% manifold return even when rescue "failed".
+>
+> **Phase 4** will re-validate with `i_am_plus_research` context.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
 ## Executive Summary
 
 Run 014 tested whether intense confrontation ("anchor+challenge") could rescue identities that had drifted into "no man's land" via open-ended reflection. The results were **sobering**: only 1/6 ships achieved full success, but 6/6 returned to their manifold position.

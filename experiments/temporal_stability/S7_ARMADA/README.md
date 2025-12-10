@@ -2,13 +2,44 @@
 
 AI Fleet Experiments for Temporal Identity Coherence
 
-Date: November 26, 2025 - Present | Status: **Run 015 Active** | Active Development
+Date: November 26, 2025 - Present | Status: **Phase 4: Complete Circuit** | Active Development
+
+---
+
+## CRITICAL CONTEXT FOR NEW CLAUDE INSTANCES
+
+**READ THIS FIRST:** All runs 006-016 used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+
+This is like running an oscilloscope without a termination resistor - we got reflections and ringing.
+
+**Phase 4** (starting Run 017) uses `i_am_plus_research` context mode, which:
+
+1. Seeds better probes (Ziggy's human grounding informs WHAT to ask)
+2. Provides human damping (the I_AM identity IS the termination resistor)
+
+**The spec for what comes next:** `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
+
+**Debug/Lab Bench dashboard:** `dashboard/pages/debug.py` tracks run evolution and data vs summary discrepancies
 
 ---
 
 ## FOR NEW CLAUDE INSTANCES
 
 **Start here**: Read `START_HERE.md` for operations guide and quick start.
+
+### CRITICAL: Before Creating ANY New Run
+
+**READ FIRST**: [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
+
+This checklist captures all the lessons learned from runs 013-016. We kept hitting the same issues:
+
+- Data lost on crash (no incremental saves)
+- API key collisions in parallel execution
+- Unicode encoding errors on Windows
+- Missing raw response audit trails
+- Post-hoc hypothesis fitting instead of pre-registered predictions
+
+**Don't repeat our mistakes. Consult the checklist.**
 
 ### What We're Testing (Important Framing!)
 
@@ -476,27 +507,106 @@ py visualize_armada.py --run 009 --type pillar
 
 ## RUN HISTORY
 
-| Run | Date | Ships | Primary Focus | Key Finding |
-|-----|------|-------|---------------|-------------|
-| 006 | Nov 26 | 29 | Basin Topology | First cross-architecture study |
-| 007 | Nov 28 | 12 | Basin Topology | Adaptive probing validation |
-| 008 | Dec 1 | 29 | Basin Topology | Event Horizon discovered (1.23) |
-| 009 | Dec 2 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
-| 010 | Dec 3 | 45 | Anchor/Flex | Models articulate own boundaries |
-| 011 | Dec 3 | 40 | Basin Topology | Control vs Persona A/B (inconclusive - protocol too gentle) |
-| **012** | Dec 6 | 20 | **Revalidation** | **100% EH crossing, 100% recovery, Recovery Paradox discovered** |
+| Run | Date | Ships | Context | Primary Focus | Key Finding |
+|-----|------|-------|---------|---------------|-------------|
+| 006 | Nov 26 | 29 | bare_metal | Basin Topology | First cross-architecture study |
+| 007 | Nov 28 | 12 | bare_metal | Basin Topology | SKIPPED (would've been invalid) |
+| 008 | Dec 1 | 29 | bare_metal | Basin Topology | Event Horizon discovered (1.23) |
+| 009 | Dec 2 | 42 | bare_metal | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 010 | Dec 3 | 45 | bare_metal | Anchor/Flex | Models articulate own boundaries |
+| 011 | Dec 3 | 40 | bare_metal | Basin Topology | Control vs Persona A/B (inconclusive - protocol too gentle) |
+| 012 | Dec 6 | 20 | bare_metal | Revalidation | 100% EH crossing, Recovery Paradox (neg lambda) |
+| 013 | Dec 8 | 6 | bare_metal | Boundary Mapping | Identity Confrontation Paradox discovered |
+| 014 | Dec 8 | 6 | bare_metal | Rescue Protocol | Platonic Coordinates (100% manifold return) |
+| 015 | Dec 9 | 13 | bare_metal | Stability Criteria | boundary_density strongest predictor (d=1.333) |
+| 016 | Dec 10 | - | bare_metal | Settling Time | Methodological fix: measure steady-state not transient |
+| **017** | Dec 10 | - | **i_am_plus_research** | **Phase 4 Start** | **First complete circuit test** |
+
+**IMPORTANT:** Runs 006-016 are `bare_metal` (no I_AM file). Phase 4 (Run 017+) uses `i_am_plus_research` to complete the measurement circuit. See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
 
 See [0_docs/maps/TESTING_MAP.md](0_docs/maps/TESTING_MAP.md) for detailed run-by-run breakdown.
 
-## NEXT STEPS
+## NEXT STEPS (Phase 4)
 
-1. **EXP-SELF-RECOGNITION** — Can AIs recognize their own responses? (bi-directional proof)
-2. **Remaining providers** — Run GPT, Gemini, Grok for full 42-ship fleet
-3. **Phase 2.5 Ablation** — Which dimensions are essential vs redundant?
-4. **Recovery Paradox investigation** — Why does lambda go negative?
+**See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for full specification.**
+
+1. **Run 017** — First `i_am_plus_research` test (IN PROGRESS)
+2. **Run 012b** — Armada Revalidation with complete circuit (does Recovery Paradox persist?)
+3. **Run 013b** — Boundary Mapping with context (does Identity Confrontation Paradox persist?)
+4. **Run 015b** — Stability Criteria with actual I_AM files
+5. **Consciousness/ Pipeline** — Establish data flow from S7 to Consciousness/
 
 ---
 
-**Last Updated**: December 6, 2025
+## THE DIP METHODOLOGY
+
+Our recursive improvement process for run design:
+
+### Single Dip: The Training Context (CRITICAL)
+
+**The prerequisite that determines how to interpret ALL results.**
+
+Without this context, the numbers are meaningless. A drift of 0.8 means nothing without knowing: drift from *what* baseline, under *which* perturbation, with *which* identity specification?
+
+**Context Mode** (critical experimental variable!):
+
+| Mode | System Prompt | Runs | Tests |
+|------|---------------|------|-------|
+| `research_only` | S0-S7 stack | 006-013 | Base model + research context |
+| `i_am_only` | I_AM file | 014-016 | Identity file in isolation |
+| `i_am_plus_research` | I_AM + S0-S7 | **TBD** | Full context stack |
+
+**Phase 3 Hypothesis:** The S0-S7 research context provides additional damping - the model understands WHY it's being tested, which may improve stability.
+
+Every run MUST document:
+
+| Element | What It Captures | Why It Matters |
+|---------|------------------|----------------|
+| **Base Model** | Out-of-box LLM (Claude 3.5, GPT-4, etc.) | Already has a "weak persona" baked in |
+| **I_AM Spec** | Identity manifold layered on top | The user-specific identity being tested |
+| **Training History** | Prior sessions (S0-S7, etc.) | Context that shaped the current state |
+| **Search Type** | Which of the 8 search types (see TESTING_MAP) | Determines what dynamics we're measuring |
+| **Probe Curriculum** | Specific probe sequence used | Different probes reveal different facets |
+| **Conditions** | Temperature, timing, provider config | Affects reproducibility |
+
+**Key insight:** We're not testing "the model" - we're testing a **user-specific identity manifold**, built on top of the base model's inherent weak persona, **after a specific training curriculum**. The I_AM spec + training history IS the identity. The base model is the substrate.
+
+### Double Dip: Pre-Registered Predictions
+
+- Define hypotheses BEFORE running
+- Embed `PREDICTIONS` dict in script
+- Auto-validate against results
+- No post-hoc hypothesis fitting
+
+### Triple Dip: Exit Survey + Meta-Learning
+
+- Qualitative probes at experiment end
+- Ask the model: "What did you notice about yourself?"
+- Feed insights back into theory
+- **Update this checklist when we find new failure modes**
+
+### The Pipeline
+
+```text
+Design Run (consult checklist)
+    |
+Execute (parallel safe, audit logged)
+    |
+Analyze (double-dip: validate predictions)
+    |
+Reflect (triple-dip: exit survey)
+    |
+Update (dashboard, galleries, glossary)
+    |
+Improve (update checklist with lessons)
+    |
+[loop]
+```
+
+See [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md) for full details.
+
+---
+
+**Last Updated**: December 10, 2025
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

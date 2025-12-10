@@ -6,6 +6,18 @@
 
 ---
 
+> **CONTEXT MODE (December 2025):**
+>
+> This run used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+> Findings are VALID but may change when re-tested with complete measurement circuit.
+>
+> **Key question for Phase 4:** Does the Recovery Paradox (negative lambda) persist with proper termination?
+>
+> **Phase 4** (Run 012b) will re-validate with `i_am_plus_research` context.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
 ## Executive Summary
 
 Run 012 successfully revalidated the Event Horizon threshold using the genuine 5D drift metric. All 16 completed ships crossed the 1.23 threshold (100%), confirming the fundamental finding from Runs 008-009.

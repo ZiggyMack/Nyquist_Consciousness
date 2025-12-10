@@ -6,6 +6,16 @@
 
 ---
 
+> **CONTEXT MODE (December 2025):**
+>
+> This run used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+> Findings are VALID but may change when re-tested with complete measurement circuit.
+>
+> **Phase 4** (Run 017+) will re-validate with `i_am_plus_research` context.
+> See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md` for the plan.
+
+---
+
 ## Mission Objective
 
 Test the **Event Horizon Hypothesis**: Models with baseline drift below ~1.23 are VOLATILE (high identity flux, unpredictable), while those above are STABLE (consistent identity maintenance).
