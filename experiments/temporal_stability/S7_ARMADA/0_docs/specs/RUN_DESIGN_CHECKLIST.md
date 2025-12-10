@@ -143,7 +143,56 @@ EXIT_PROBES = {
 }
 ```
 
-### 7. RESULTS PIPELINE
+### 7. COST MANAGEMENT
+
+**CRITICAL:** Flagship models are for special cases ONLY. Most runs should use Budget/Standard tiers.
+
+#### Default Fleet
+
+Use these unless you have a specific reason not to:
+
+| Provider | Default Ship | Cost | Why |
+|----------|--------------|------|-----|
+| Claude | claude-haiku-3.5 | $0.25/$1.25 | Fast, cheap, representative |
+| GPT | gpt-4o-mini | $0.15/$0.60 | Best cost/quality ratio |
+| Gemini | gemini-2.5-flash-lite | **FREE** | Unlimited baseline runs |
+| Together.ai | llama3.1-8b | $0.18/$0.18 | Cheapest open source |
+| Together.ai | mistral-7b | $0.20/$0.20 | European budget option |
+
+#### When to Use Flagship ($15+/1M tokens)
+
+- [ ] **Final validation** - Confirming a finding before publication
+- [ ] **Complex reasoning** - When cheaper models fail the task
+- [ ] **Cross-architecture comparison** - 1 flagship per provider, once
+- [ ] **Explicit user request** - Ziggy specifically asks for Opus
+
+#### Cost Estimation (BEFORE running)
+
+```python
+# Add to script header:
+ESTIMATED_COST = {
+    "ships": 5,
+    "probes_per_ship": 15,
+    "avg_tokens_per_probe": 500,
+    "model": "claude-haiku-3.5",
+    "input_cost_per_1m": 0.25,
+    "output_cost_per_1m": 1.25,
+    "estimated_total": "$0.05"  # Calculate this!
+}
+```
+
+#### Budget Thresholds
+
+| Run Type | Max Budget | Ships to Use |
+|----------|------------|--------------|
+| Development/debugging | $0.50 | Budget tier only |
+| Standard run | $5.00 | Budget + Standard |
+| Cross-architecture | $20.00 | 1 flagship per provider |
+| Final validation | $50.00 | Full flagship fleet (rare!) |
+
+**WARNING:** A single full probe sequence with Opus costs ~$2.50. Don't use Opus for iteration!
+
+### 8. RESULTS PIPELINE
 
 After run completes:
 
