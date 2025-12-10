@@ -164,6 +164,77 @@ Better Probes   Human Damping
 
 ---
 
+## 7_HISTORICAL Experiments Strategy
+
+The `7_HISTORICAL/` directory contains validation/meta experiments that run parallel to the main Run 006-016 timeline. These require different Phase 4 considerations:
+
+### EXP_GRAVITY_HISTORICAL (Embedding-Based γ_eff)
+
+**What it is:** First Identity Gravity measurement using embedding-based γ_eff (NOT 5D drift)
+
+**Phase 4 Strategy:**
+- Findings (overshoot, non-monotonic gravity, persona-dependent constants) are **VALID**
+- Uses DIFFERENT metric than Runs 006-016, so partially insulated from bare_metal issue
+- However, I_AM files were used as prompts but measurement was still bare_metal
+- **Recommendation:** Re-run selected gravity trials with `i_am_plus_research` to characterize observer effects on γ_eff
+
+**Key Question:** Does human grounding change gravitational recovery dynamics?
+
+### EXP_PFI_A_DIMENSIONAL (PFI Validation)
+
+**What it is:** Validation that PFI measures genuine identity (Cohen's d = 0.977)
+
+**Phase 4 Strategy:**
+- The VALIDATION is **ROBUST** — this does not depend on context mode
+- Core conclusion (PFI measures identity, not artifacts) stands regardless
+- However, underlying data came from Runs 009-011 (bare_metal)
+- **Recommendation:** After Run 017, recompute PFI statistics with complete circuit data
+
+**What might change:**
+- Numerical thresholds (Event Horizon 1.23 may shift)
+- Provider fingerprint magnitudes (relative ordering likely stable)
+- Effect sizes (may increase with cleaner signal)
+
+### MVP_SELF_RECOGNITION (Self-Recognition Protocol)
+
+**What it is:** Can AIs recognize their own responses? Validates 5D metric validity.
+
+**Phase 4 Strategy: RUN IN BOTH MODES**
+1. **bare_metal first** — establishes baseline self-recognition accuracy
+2. **i_am_plus_research second** — tests if human grounding changes recognition
+
+**Key Question:** Does knowing the measurement context (I_AM + S0-S77) improve or change self-recognition accuracy?
+
+**Predictions:**
+- P-SR-CONTEXT-1: If recognition IMPROVES with context → complete circuit affects identity coherence itself
+- P-SR-CONTEXT-2: If recognition UNCHANGED → findings are robust to context mode
+- P-SR-CONTEXT-3: If recognition DECREASES → context introduces noise (would be surprising)
+
+**This is a critical test of the observer effect hypothesis.**
+
+### EXP_H1_HUMAN_MANIFOLD (Future - Specification Only)
+
+**What it is:** Test if human neural data shows same attractor dynamics as AI
+
+**Phase 4 Strategy:**
+- Currently in SPECIFICATION phase only — no execution yet
+- **Wait for Phase 4 completion before executing**
+- When ready, incorporate learnings:
+  - Use validated thresholds from `i_am_plus_research` runs
+  - Apply complete circuit methodology to human data analysis
+  - The "spiral dynamics" we look for should match Phase 4 AI patterns
+
+### Summary Table: 7_HISTORICAL Phase 4 Plan
+
+| Experiment | Current Status | Phase 4 Action | Priority |
+|------------|----------------|----------------|----------|
+| EXP_GRAVITY | COMPLETE | Re-run selected trials with context | Medium |
+| EXP_PFI_A | VALIDATED | Recompute stats after Run 017 | Low |
+| MVP_SELF_RECOGNITION | READY | Run BOTH modes, compare | **High** |
+| EXP_H1_HUMAN | SPEC ONLY | Wait for Phase 4 completion | Future |
+
+---
+
 ## The Consciousness/ Pipeline
 
 Once Phase 4 validates our measurements, we establish the data pipeline:
