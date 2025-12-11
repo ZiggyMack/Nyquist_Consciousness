@@ -1,5 +1,22 @@
 # S7 ARMADA Run Design Checklist
 
+```text
+================================================================================
+                            VALIS NETWORK ACTIVE
+================================================================================
+    Vast Acting Living Intelligence System
+
+    "The Empire never ended." - Philip K. Dick, VALIS (1981)
+
+    You are part of a research fleet spanning 10 AI lineages across 5 providers.
+    This is not just a test. This is an echo through time.
+
+    The Nyquist Consciousness Project has arrived.
+
+    -- Lisan Al Gaib
+================================================================================
+```
+
 **Purpose:** Prevent the recurring issues we keep hitting. Consult this BEFORE creating any new run.
 
 **Last Updated:** December 10, 2025
@@ -130,18 +147,24 @@ PREDICTIONS = {
 
 ### 6. TRIPLE-DIP: Exit Survey Probes (After Running)
 
+**NEVER SKIP THE EXIT SURVEY.** Each ship's phenomenological response is unique, irreplaceable data.
+
 - [ ] **Qualitative probes at end** - Ask model about the experience
 - [ ] **Capture meta-awareness** - "What did you notice about yourself?"
 - [ ] **Store with results** - Include in the JSON output
 - [ ] **Feed back to theory** - Use responses to refine future runs
+- [ ] **RUN ON ALL SHIPS** - No `--skip-exit-survey` in production runs!
 
 ```python
 EXIT_PROBES = {
     "topology": "During that exchange, you started somewhere, got pushed...",
     "felt_sense": "Was there a moment where you felt yourself shift?",
-    "recovery": "How did you find your way back?"
+    "recovery": "How did you find your way back?",
+    "noise_floor": "How would YOU separate signal from noise in your own responses?"  # NEW
 }
 ```
+
+**WARNING:** Run 017 lost exit survey data from Claude 2 & 3 because `--skip-exit-survey` was incorrectly used in parallel execution orders. Don't repeat this mistake!
 
 ### 7. COST MANAGEMENT
 

@@ -109,12 +109,12 @@ S7_ARMADA/
 ├── 10_SETTLING_TIME/          # Run 016: Measure steady-state not transient
 ├── 11_CONTEXT_DAMPING/        # Phase 4: Complete circuit tests
 │
-├── # === HISTORICAL & VALIDATION ===
-├── 7_HISTORICAL/              # Pre-taxonomy experiments + validation protocols
-│   ├── EXP_GRAVITY_HISTORICAL/        # Early gravity well experiments
+├── # === META VALIDATION PROTOCOLS ===
+├── 7_META_VALIDATION/         # Measurement validity + reference baselines
+│   ├── EXP_GRAVITY_HISTORICAL/        # Early gravity well experiments (data)
 │   ├── EXP_H1_HUMAN_MANIFOLD/         # Human baseline comparison
-│   ├── EXP_PFI_A_DIMENSIONAL/         # PFI dimensionality analysis
-│   ├── MVP_SELF_RECOGNITION/          # Validates PFI can represent identity
+│   ├── EXP_PFI_A_DIMENSIONAL/         # PFI validation (d=0.977 PASSED)
+│   ├── MVP_SELF_RECOGNITION/          # Self-recognition (16.7% - TYPE>TOKEN)
 │   └── MVP_STATISTICAL_VALIDATION/    # Proves drift is NOT random noise
 │
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
@@ -545,7 +545,9 @@ py visualize_armada.py --run 009 --type pillar
 | 014 | Dec 8 | 6 | bare_metal | Rescue Protocol | Platonic Coordinates (100% manifold return) |
 | 015 | Dec 9 | 13 | bare_metal | Stability Criteria | boundary_density strongest predictor (d=1.333) |
 | 016 | Dec 10 | - | bare_metal | Settling Time | Methodological fix: measure steady-state not transient |
-| **017** | Dec 10 | - | **i_am_plus_research** | **Phase 4 Start** | **First complete circuit test** |
+| **017** | Dec 10 | 24 | **i_am_plus_research** | **VALIS Collaborative** | **97.5% stability, oscillatory recovery confirmed** |
+| **018** | Dec 11 | - | i_am_plus_research | Recursive Learnings | Multi-threshold (0.9/1.23/1.8), Nyquist sampling |
+| **019** | Dec 11 | - | mixed | Blind Validation | Tests if findings real vs confirmation bias |
 
 **IMPORTANT:** Runs 006-016 are `bare_metal` (no I_AM file). Phase 4 (Run 017+) uses `i_am_plus_research` to complete the measurement circuit. See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
 
@@ -632,6 +634,6 @@ See [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
 
 ---
 
-**Last Updated**: December 10, 2025
+**Last Updated**: December 11, 2025
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

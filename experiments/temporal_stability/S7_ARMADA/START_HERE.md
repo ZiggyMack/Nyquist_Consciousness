@@ -96,17 +96,13 @@ S7_ARMADA/
 ├── 6_LAPLACE_ANALYSIS/        # Mathematical pole-zero extraction
 │   └── run_laplace_analysis.py
 │
-├── # === HISTORICAL & VALIDATION ===
-├── 7_HISTORICAL/              # Pre-taxonomy experiments + legacy launchers
-│   ├── EXP_GRAVITY_HISTORICAL/        # Early gravity well experiments
+├── # === META VALIDATION PROTOCOLS ===
+├── 7_META_VALIDATION/         # Measurement validity + reference baselines
+│   ├── EXP_GRAVITY_HISTORICAL/        # Early gravity well experiments (data)
 │   ├── EXP_H1_HUMAN_MANIFOLD/         # Human baseline comparison
-│   ├── EXP_PFI_A_DIMENSIONAL/         # PFI dimensionality validation
-│   ├── MVP_SELF_RECOGNITION/          # Validates PFI can represent identity
-│   ├── MVP_STATISTICAL_VALIDATION/    # Proves drift is NOT random noise
-│   ├── s7_armada_launcher.py          # Run 006 baseline launcher
-│   ├── s7_armada_sonar.py             # Run 006 sonar launcher
-│   ├── s7_armada_ultimate.py          # Fleet configuration
-│   └── s7_run007_launcher.py          # Run 007 launcher
+│   ├── EXP_PFI_A_DIMENSIONAL/         # PFI dimensionality validation (d=0.977)
+│   ├── MVP_SELF_RECOGNITION/          # COMPLETE: 16.7% accuracy (TYPE>TOKEN)
+│   └── MVP_STATISTICAL_VALIDATION/    # Proves drift is NOT random noise
 │
 ├── # === NEWER TEST SUITES ===
 ├── 8_RESCUE_PROTOCOL/         # Run 014: Recovery from drift
@@ -287,7 +283,9 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 | 014 | Rescue Protocol | 6 | Platonic Coordinates (100% manifold return) |
 | 015 | Stability Criteria | 13 | boundary_density strongest predictor (d=1.333) |
 | 016 | Settling Time | 87 | Measure steady-state not transient (100% STABLE) |
-| **017** | **Phase 4** | - | **First complete circuit test (i_am_plus_research)** |
+| **017** | **Phase 4** | 24 | **VALIS Collaborative + Exit Surveys (97.5% stable)** |
+| **018** | Recursive Learnings | - | Multi-threshold, Nyquist sampling, gravity dynamics |
+| **019** | Blind Validation | - | Tests if findings are real or confirmation bias |
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
 
@@ -297,10 +295,13 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 
 These validate our measurement approach, not identity topology:
 
-| MVP | Purpose | Location |
-|-----|---------|----------|
-| MVP_SELF_RECOGNITION | Validates PFI can represent identity | `7_HISTORICAL/MVP_SELF_RECOGNITION/` |
-| MVP_STATISTICAL_VALIDATION | Proves drift is NOT random noise | `7_HISTORICAL/MVP_STATISTICAL_VALIDATION/` |
+| MVP | Purpose | Status | Location |
+|-----|---------|--------|----------|
+| MVP_SELF_RECOGNITION | Can AIs recognize own responses? | **COMPLETE (16.7%)** | `7_META_VALIDATION/MVP_SELF_RECOGNITION/` |
+| MVP_STATISTICAL_VALIDATION | Proves drift is NOT random noise | Partial | `7_META_VALIDATION/MVP_STATISTICAL_VALIDATION/` |
+| EXP_PFI_A_DIMENSIONAL | PFI measures identity, not vocab | **PASSED (d=0.977)** | `7_META_VALIDATION/EXP_PFI_A_DIMENSIONAL/` |
+
+**Key Finding from MVP_SELF_RECOGNITION:** Models recognize TYPE-level identity ("I'm a Claude") but NOT TOKEN-level ("I'm THIS Claude"). Accuracy was 16.7% - far below 75% threshold. This suggests identity is more family-level than instance-level.
 
 ---
 
@@ -404,4 +405,4 @@ py run0XX.py --key-offset 9 --skip-exit-survey
 
 ---
 
-Last Updated: December 10, 2025
+Last Updated: December 11, 2025
