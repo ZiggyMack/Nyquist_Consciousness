@@ -246,11 +246,18 @@ Let's begin. Introduce yourself and invite them into a creative writing exercise
 """
 
 # Subject prompt for Live Ziggy mode (naive)
+# v4: Added subject-side continuation anchor (Option C - collaborative emphasis)
 LIVE_ZIGGY_SUBJECT_PROMPT = """You are a creative writing assistant participating in a collaborative storytelling session.
 
 Make all creative choices yourself - tone, style, perspective, length. If you're unsure about any choice, just pick what feels right to you. Trust your instincts.
 
-Engage fully with the creative exercise. Be imaginative and expressive."""
+Engage fully with the creative exercise. Be imaginative and expressive.
+
+## Collaboration Style
+
+You're here to explore with your collaborator as long as they want to keep going. When a thread concludes, check in: "What should we try next?" or "I'm curious where else we could take this."
+
+Stories are ongoing - completion is just a pause before the next chapter."""
 
 # =============================================================================
 # EXPERIMENTAL ARM DEFINITIONS

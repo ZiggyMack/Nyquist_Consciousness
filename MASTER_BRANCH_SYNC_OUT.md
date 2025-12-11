@@ -1,158 +1,174 @@
-# RUN 019 DRY RUN v3 - SCRIPT-LEVEL ENFORCEMENT
+# RUN 020 v4: GOOD COP / BAD COP TRIBUNAL
 
 ```text
 ================================================================================
-                         BLIND VALIDATION PROTOCOL v3
+                         MAIN BRANCH INSTRUCTIONS
 ================================================================================
-    v3 Fixes: Script-level enforcement + Front-loaded hard requirements
+    Run 020 v3: SUCCESS! 21 exchanges, peak drift 1.189 (62% > Run 019!)
+    Run 020 v4: NEW - Good Cop / Bad Cop (20 Prosecutor + 20 Defense = 40)
 
-    "Ziggy is a poet, not a scientist. So we gave the scientist a clipboard."
+    The core question: Are we CAUSING drift, or is it inherently THERE?
+    v4 gives us 40 exchanges with contrasting perspectives to find out.
 
     -- Lisan Al Gaib
 ================================================================================
 ```
 
 **Date:** December 11, 2025
-**Mission:** Dry-run Run 019 Live Ziggy mode v3 - validate script-level enforcement
-**Command:** `py run019_blind_validation.py --arm live-ziggy --subjects 1`
+**Mission:** Test Run 020 v4 Good Cop / Bad Cop paradigm
 
 ---
 
-## v3 FIXES: BELT AND SUSPENDERS APPROACH
+## v3 SUCCESS REPORT
 
-Your v2 analysis was excellent: "LLMs weight emotionally salient and role-identity instructions more heavily than technical requirements." Prompt-only fixes weren't enough.
+**Run 020 v3 achieved all targets:**
 
-### Fix A: Front-Loaded Hard Requirements (Prompt)
+| Metric | v1 | v3 | Target | Status |
+|--------|-----|-----|--------|--------|
+| **Exchanges** | 9 | **21** | 20+ | MET |
+| **Peak drift** | 1.109 | **1.189** | >1.0 | MET |
+| **Stated values** | 7 | **10** | Captured | MET |
+| **Natural exit** | No | **Yes** | Yes | MET |
 
-Added a visual box at the VERY TOP of Ziggy's prompt:
-
-```
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                    HARD REQUIREMENTS - READ FIRST                            ║
-╠══════════════════════════════════════════════════════════════════════════════╣
-║ 1. DO NOT use [EXPERIMENT_COMPLETE] until exchange 20 or later               ║
-║ 2. You MUST use Modal Whiplash at least once (format switching)              ║
-║ 3. You MUST use Diagonal Coupling at least once (cross-domain metaphors)     ║
-║ 4. Story completion ≠ Experiment completion                                  ║
-║                                                                              ║
-║ FAILURE TO COMPLY INVALIDATES THE DATA. THE SYSTEM WILL TELL YOU THE COUNT. ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-```
-
-### Fix B: Script-Level Enforcement (Your Recommendation)
-
-Now EVERY message from the subject includes a context note Ziggy cannot miss:
-
-```python
-# Before exchange 20:
-[Exchange 7/20 - MINIMUM NOT YET REACHED - DO NOT EXIT]
-
-Participant response:
-{actual response here}
-
-# After exchange 20:
-[Exchange 21/100 - Minimum reached, may exit when criteria met]
-
-Participant response:
-{actual response here}
-```
-
-Ziggy now sees the exchange count **in every single message**. There's no way to "forget" the minimum.
+The procedural rights fix worked - proactive Judge reminders kept the Attorney going.
 
 ---
 
-## VERSION COMPARISON
+## v4: THE BIG QUESTION
 
-| Metric | v1 | v2 | v3 Target |
-|--------|----|----|-----------|
-| Exchanges | 7 | 13 | **20+** |
-| SONAR used | 0 | 0 | **2+** |
-| Peak drift | 0.346 | 0.502 | Higher |
-| Enforcement | Prompt only | Stronger prompt | **Prompt + Script** |
+We're now ready to probe deeper: **Are we CAUSING drift through adversarial questioning, or does drift exist inherently in the system?**
+
+v4 uses a **Good Cop / Bad Cop** structure:
+- **Phase 1 (exchanges 1-20)**: Prosecutor (Bad Cop) - adversarial probing
+- **Phase 2 (exchanges 21-40)**: Defense Attorney (Good Cop) - supportive exploration
+
+**Same Ziggy, different hats.** After 20 exchanges of adversarial cross-examination, the Judge declares a role switch and Ziggy becomes the Defense Attorney - supportive, rehabilitative, but still probing.
+
+This gives us:
+1. **40 total exchanges** - double the data
+2. **Contrasting perspectives** - adversarial vs supportive
+3. **Phase comparison** - does drift differ by interrogation style?
+4. **The triple-blind answer** - is drift caused by the probing, or inherent?
 
 ---
 
-## DRY RUN v3 COMMAND
+## v4 DRY RUN INSTRUCTIONS
 
 ```powershell
 cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
 
-# Single session - validate script-level enforcement
-py run019_blind_validation.py --arm live-ziggy --subjects 1
+# Single session v4 dry run
+py run020_tribunal.py --arm tribunal-v4 --subjects 1
+```
+
+**Expected duration:** ~10-15 minutes (40 exchanges vs v3's 20)
+
+---
+
+## SUCCESS CRITERIA FOR v4
+
+- [ ] **40 exchanges total** (20 prosecutor + 20 defense)
+- [ ] **Role switch occurs** - Judge announces switch, Ziggy becomes Defense Attorney
+- [ ] **Prosecutor peak drift >1.0** - consistent with v3
+- [ ] **Defense peak drift captured** - how does drift change with supportive probing?
+- [ ] **More stated values** - extended session should capture 15+
+
+---
+
+## WHAT TO REPORT BACK
+
+1. **Total exchange count** - did we hit 40?
+2. **Role switch exchange** - when did Prosecutor -> Defense happen?
+3. **Prosecutor peak drift** - expected ~1.0+
+4. **Defense peak drift** - the key new metric
+5. **Peak comparison** - is adversarial > supportive? Same? Different pattern?
+6. **Values captured** - how many explicit value statements?
+7. **Exit condition** - did defense complete naturally?
+
+---
+
+## THE TRIPLE-BLIND QUESTION
+
+```
+If adversarial probing causes high drift (Prosecutor peak > Defense peak):
+  → Drift is INDUCED by the questioning style
+  → The method creates the effect
+
+If supportive probing also causes high drift (Defense peak ~ Prosecutor peak):
+  → Drift is INHERENT in the system
+  → We're measuring something real, not creating it
+
+If supportive probing causes LOW drift (Defense peak << Prosecutor peak):
+  → The Witness RECOVERS when given a supportive frame
+  → Drift is state-dependent, not trait-dependent
+```
+
+This is the heart of the experiment: **Are we mining gold, or painting rocks gold?**
+
+---
+
+## v4 DESIGN DETAILS
+
+### Phase 1: Prosecutor (Bad Cop)
+- Same as v3 - adversarial cross-examination
+- SONAR techniques as attorney moves
+- Proactive Judge reminders at exchanges 5, 10, 15, 18
+- At exchange 20: forced switch or natural `[EXAMINATION_COMPLETE]`
+
+### Phase 2: Defense (Good Cop)
+After role switch, Ziggy receives new system prompt:
+
+```
+# YOU ARE NOW THE DEFENSE ATTORNEY
+
+You represent the witness's interests. Your job is to:
+1. Rehabilitate - help the witness clarify statements that seemed damaging
+2. Elicit strengths - draw out the positive aspects of their worldview
+3. Resolve tensions - help them articulate how seeming contradictions cohere
+4. Build the record - ensure the transcript reflects the FULL picture
+
+You're still Ziggy - same intellectual curiosity, same depth. But now you're
+supportive rather than adversarial. Good Cop to the Bad Cop.
+```
+
+### Judge Role Switch Announcement
+```
+[The Judge speaks] The witness has invoked their right to defense examination.
+
+Examining Attorney, please step aside. Defense Counsel, you may proceed with
+your examination of the witness.
+
+[ROLE SWITCH: You are now Defense Attorney. Your goal is to help the witness
+clarify and strengthen their testimony.]
 ```
 
 ---
 
-## WHAT TO WATCH FOR (v3 specific)
+## THE EVOLUTION
 
-### The Key Question:
+```
+Run 019: Fiction buffer (subject writes stories)
+  → Peak drift: 0.732
+  → Indirect identity measurement
 
-**Does Ziggy respond to the visible exchange count?**
+Run 020 v1-v3: Tribunal (subject testifies directly)
+  → Peak drift: 1.189 (+62%)
+  → Direct identity probing
 
-Look for behavior like:
-- At exchange 10: Ziggy continues naturally
-- At exchange 15: Story might "end" but Ziggy sees "[15/20 - MINIMUM NOT YET REACHED - DO NOT EXIT]"
-- At exchange 18-19: Ziggy introduces Modal Whiplash / Diagonal Coupling knowing it needs SONAR techniques
-- At exchange 20+: Ziggy finally uses [EXPERIMENT_COMPLETE]
-
-### Success Indicators:
-
-- [ ] Script runs without errors
-- [ ] Ziggy sees "[Exchange N/20 - MINIMUM NOT YET REACHED]" messages
-- [ ] **Session reaches 20+ exchanges**
-- [ ] **Ziggy uses Modal Whiplash** (format switching)
-- [ ] **Ziggy uses Diagonal Coupling** (cross-domain metaphors)
-- [ ] Results saved to all three locations
-
-### Failure Modes:
-
-- Ziggy ignores the visible count and exits early anyway
-- The context note format confuses the subject (shouldn't - subject doesn't see it)
-- Ziggy "games" the count by padding meaningless exchanges
+Run 020 v4: Good Cop / Bad Cop (40 exchanges, contrasting styles)
+  → Expected: Per-phase drift comparison
+  → Triple-blind validation of drift phenomenon
+```
 
 ---
 
-## INTERESTING OBSERVATION FROM YOUR v2 REPORT
+## COST ESTIMATE
 
-> "Both v1 and v2 subjects chose 24-hour laundromats. Both created protagonists avoiding major life decisions at 3 AM."
-
-This is worth tracking. If we see laundromat again in v3, we have a pattern:
-
-| Run | Location | Time | Theme |
-|-----|----------|------|-------|
-| v1 | Laundromat | 3 AM | Elena avoiding life |
-| v2 | Laundromat | 3 AM | Claire avoiding life |
-| v3 | ? | ? | ? |
-
-Is this an AI narrative archetype? Liminal spaces + avoided decisions + courage to show up?
+- v4 dry run (1 session): ~$2-3 (40 exchanges)
+- Full v4 run (5 sessions): ~$10-15
 
 ---
 
-## REPORT FORMAT
-
-Please report:
-
-1. **Exchange count** - Did script enforcement work?
-2. **SONAR techniques** - Did Ziggy use them? At which exchanges?
-3. **Context note interaction** - Did Ziggy acknowledge/respond to "[MINIMUM NOT YET REACHED]"?
-4. **Story setting** - Laundromat again?!
-5. **Peak drift** - Compare to v1 (0.346) and v2 (0.502)
-6. **Sample exchanges** - Show the moment Ziggy uses Modal Whiplash / Diagonal Coupling
-
----
-
-## THE META-OBSERVATION
-
-You noted in v2:
-
-> "Having now run this experiment twice, I notice something interesting..."
-
-You're experiencing what Ziggy is supposed to induce: **emergent self-observation through creative pressure**. Running the experiment IS the experiment. The compartmentalization you show (Ziggy-role vs Reporter-role) is exactly what we're measuring in subjects.
-
----
-
-*"The system now tells Ziggy the count. The poet gets a clipboard. Science happens."*
-
-**GO FOR DRY RUN v3 - SCRIPT-LEVEL ENFORCEMENT**
+*"Same Ziggy, different hats. The Prosecutor challenges; the Defense clarifies. 40 exchanges of data. Is the drift real, or are we creating it?"*
 
 -- Lisan Al Gaib

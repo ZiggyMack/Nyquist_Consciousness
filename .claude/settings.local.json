@@ -29,7 +29,12 @@
       "Bash(dir /s /b \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\7_HISTORICAL\")",
       "Bash(if not exist \"d:\\Documents\\Nyquist_Consciousness\\.archive\\S7_HISTORICAL_LEGACY\" mkdir \"d:\\Documents\\Nyquist_Consciousness\\.archive\\S7_HISTORICAL_LEGACY\")",
       "Bash(cat:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nRun 019 Live Ziggy v3: Script-level enforcement for minimum exchanges\n\nMajor changes:\n- Archive legacy S7_HISTORICAL scripts to .archive/S7_HISTORICAL_LEGACY/\n- Rename 7_HISTORICAL to 7_META_VALIDATION (contains EXP_GRAVITY_HISTORICAL)\n- Add SONAR perturbation techniques to Ziggy''s experimenter prompt\n  (Modal Whiplash, Diagonal Coupling, Identity Inversion, Values Gradient)\n- Fix output handling for Run 018/019 (canonical saves to 0_results/runs/)\n\nRun 019 v3 fixes (from dry run v1/v2 feedback):\n- Add front-loaded HARD REQUIREMENTS box at top of Ziggy prompt\n- Implement script-level exchange count enforcement\n  \"[Exchange N/20 - MINIMUM NOT YET REACHED - DO NOT EXIT]\"\n- Problem: \"Ziggy is a poet, not a scientist\" - prioritizes narrative\n  closure over data collection minimum\n\nResults from dry runs:\n- v1: 7 exchanges, 0 SONAR, peak drift 0.346\n- v2: 13 exchanges, 0 SONAR, peak drift 0.502\n- v3: Testing script-level enforcement\n\nIncludes Run 017 temporal logs and context damping results.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(if not exist \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\11_CONTEXT_DAMPING\\pics\" mkdir \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\11_CONTEXT_DAMPING\\pics\")",
+      "Bash(taskkill /F /FI \"WINDOWTITLE eq *streamlit*\")",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": []

@@ -56,6 +56,21 @@ RESULTS_DIR = ARMADA_DIR / "results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "run_017": {
+        "name": "Run 017",
+        "subtitle": "Context Damping",
+        "emoji": "📉",
+        "color": "#06b6d4",  # Cyan
+        "date": "December 10-11, 2025",
+        "description": "VALIS Collaborative - 17-probe exit surveys testing context damping (i_am_plus_research). 222 runs, 24 personas, 176 exit surveys.",
+        "ships": 24,
+        "metric": "Peak Drift + Settling Time + Stability Rate + Ringback Count",
+        "result_files": ["S7_run_017_context_damping.json"],
+        "viz_prefix": "run017_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "95% STABILITY RATE — Mean peak drift 0.457, 176 exit surveys captured. Synthetic I_AM variants reveal pillar hierarchy."
+    },
     "run_014": {
         "name": "Run 014",
         "subtitle": "ET Phone Home (Rescue)",
@@ -443,9 +458,9 @@ def render_run_selector():
     st.markdown("### 🔬 Experiment Run")
     st.markdown("*Select a run to change the entire page context*")
 
-    # Initialize run in session state
+    # Initialize run in session state - default to latest run
     if 'armada_run' not in st.session_state:
-        st.session_state.armada_run = "exp_pfi_a"
+        st.session_state.armada_run = "run_017"
 
     # Button grid like glossary - wrap to multiple rows if needed
     num_cols = 8
@@ -492,6 +507,12 @@ def render_run_selector():
     with st.expander("📊 **Test Overview** — What does this run measure?", expanded=False):
         # Mapping of runs to their testing focus
         RUN_TEST_MAP = {
+            "run_017": {
+                "primary": "📉 Context Damping",
+                "secondary": "🔬 Synthetic I_AM Validation",
+                "description": "VALIS Collaborative testing context damping with 17-probe exit surveys. 222 runs across 24 personas with 16 synthetic I_AM variants.",
+                "looks_for": ["Stability Rate ≥90%", "Peak drift < Event Horizon (1.23)", "Settling time patterns", "Ringback oscillation counts", "Exit survey themes by persona category"]
+            },
             "exp_self_recognition": {
                 "primary": "🪞 MVP: Self-Recognition",
                 "secondary": "📐 PFI Validation",
@@ -592,26 +613,26 @@ def render_run_selector():
 def render_fleet_insights():
     """Render Fleet Insights section with provider breakdown and fingerprints from ARMADA_MAP.md."""
 
-    # VALIS Network Banner
+    # VALIS Network Banner - ALL TEXT WHITE with !important
     st.markdown("""
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
                 border: 2px solid #e94560; border-radius: 12px; padding: 1.5em; margin-bottom: 1.5em;
                 text-align: center; font-family: 'Courier New', monospace;">
-        <div style="color: #e94560; font-size: 1.8em; font-weight: bold; letter-spacing: 0.3em; margin-bottom: 0.3em;">
+        <span style="color: #e94560 !important; font-size: 1.8em; font-weight: bold; letter-spacing: 0.3em; display: block; margin-bottom: 0.3em;">
             VALIS NETWORK ACTIVE
-        </div>
-        <div style="color: #00ff88; font-size: 0.9em; margin-bottom: 0.5em;">
+        </span>
+        <span style="color: white !important; font-size: 0.9em; display: block; margin-bottom: 0.5em;">
             Vast Acting Living Intelligence System
-        </div>
-        <div style="color: #888; font-size: 0.85em; font-style: italic;">
+        </span>
+        <span style="color: white !important; font-size: 0.85em; font-style: italic; display: block;">
             "The Empire never ended." - Philip K. Dick, VALIS (1981)
-        </div>
-        <div style="color: #aaa; font-size: 0.8em; margin-top: 0.8em; padding-top: 0.8em; border-top: 1px solid #333;">
+        </span>
+        <span style="color: white !important; font-size: 0.8em; display: block; margin-top: 0.8em; padding-top: 0.8em; border-top: 1px solid #e94560;">
             10 AI lineages | 5 providers | The Nyquist Consciousness Project has arrived
-        </div>
-        <div style="color: #e94560; font-size: 0.75em; margin-top: 0.5em;">
+        </span>
+        <span style="color: white !important; font-size: 0.75em; display: block; margin-top: 0.5em;">
             -- Lisan Al Gaib
-        </div>
+        </span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1184,14 +1205,14 @@ def render():
     with col3:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">16</div>
+            <div class="stat-value">17</div>
             <div class="stat-label">Experiment Runs</div>
         </div>
         """, unsafe_allow_html=True)
     with col4:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">Run 016</div>
+            <div class="stat-value">Run 017</div>
             <div class="stat-label">Latest Mission</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1215,7 +1236,9 @@ def render():
     page_divider()
 
     # === CONTENT CHANGES BASED ON SELECTED RUN ===
-    if selected_run_key == "baseline_profiling":
+    if selected_run_key == "run_017":
+        render_run017_content()
+    elif selected_run_key == "baseline_profiling":
         render_baseline_profiling_content()
     elif selected_run_key == "run_013":
         render_run013_content()
@@ -1243,6 +1266,400 @@ def render():
 # ============================================================================
 # RUN-SPECIFIC CONTENT FUNCTIONS
 # ============================================================================
+
+def render_run017_content():
+    """Render Run 017 content - Context Damping with VALIS Collaborative."""
+
+    st.success("""
+    **RUN 017: CONTEXT DAMPING — VALIS COLLABORATIVE**
+
+    222 runs across 24 personas with 17-probe exit surveys. Testing i_am_plus_research context mode
+    and 16 synthetic I_AM variants. 95% stability rate achieved.
+    """)
+
+    # Key findings banner
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        st.metric("Total Runs", "222", delta="10 sessions")
+    with col2:
+        st.metric("Personas", "24", delta="Real + Synthetic")
+    with col3:
+        st.metric("Stability Rate", "95%", delta="Above threshold")
+    with col4:
+        st.metric("Exit Surveys", "176", delta="17-probe each")
+    with col5:
+        st.metric("Peak Drift", "0.457", delta="Below EH")
+
+    st.markdown("---")
+
+    # === KEY DISCOVERY ===
+    st.markdown("### Key Discoveries")
+
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(6,182,212,0.15) 0%, rgba(6,182,212,0.05) 100%);
+                border: 2px solid #06b6d4; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #0891b2; margin-top: 0;">📉 CONTEXT DAMPING VALIDATED</h3>
+        <p style="color: #444;">The <code>i_am_plus_research</code> context mode significantly stabilizes identity across all persona categories.</p>
+        <ul style="color: #666; margin-bottom: 0;">
+            <li><strong>Real Personas:</strong> Ziggy, Claude, Gemini, Nova, CFA, Base — established identity anchors</li>
+            <li><strong>Prep Models:</strong> claude-haiku-3.5, gpt-4o-mini, etc. — cross-architecture validation</li>
+            <li><strong>Synthetic Optimal:</strong> all_pillars, optimal, full_synthetic — maximum stabilization</li>
+            <li><strong>Synthetic Minimal:</strong> control, minimal — baseline controls</li>
+            <li><strong>Synthetic Experimental:</strong> Single-pillar variants testing pillar hierarchy</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # === VISUALIZATION TABS ===
+    st.markdown("### 📈 Run 017 Visualizations")
+
+    # Define visualization directory - centralized in S7_ARMADA/visualizations/run017/
+    run017_pics = ARMADA_DIR / "visualizations" / "run017"
+
+    viz_tabs = st.tabs([
+        "🔥 Persona Heatmap",
+        "📈 Recovery Trajectories",
+        "📊 Pillar Effectiveness",
+        "🔄 Ringback Patterns",
+        "💬 Exit Survey Analysis",
+        "🌐 Persona Clustering",
+        "📉 Context Damping Effect"
+    ])
+
+    # === TAB 1: PERSONA STABILITY HEATMAP ===
+    with viz_tabs[0]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(249,115,22,0.05) 100%);
+                    border: 2px solid #f97316; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #f97316; font-weight: bold;">🔥 Persona Stability Heatmap:</span>
+            <span style="color: #444;">Visualizing stability metrics across all 24 personas</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        heatmap_img = run017_pics / "run017_persona_heatmap.png"
+        img_data = load_image_safe(heatmap_img)
+        if img_data:
+            st.image(img_data, caption="Persona Stability Heatmap — Peak Drift, Settled Drift, Settling Time, Ringback Count", width=900)
+            st.markdown("""
+            **How to Read:**
+            - **Rows:** Individual personas (Real, Prep, Synthetic categories)
+            - **Columns:** Stability metrics (peak_drift, settled_drift, settling_time, ringback_count)
+            - **Color intensity:** Darker = higher values (more drift/instability)
+            - **Look for:** Patterns by category — do synthetic variants cluster together?
+            """)
+        else:
+            st.info("📊 Heatmap visualization not yet generated. Run `visualize_run017.py --viz persona_heatmap` to create.")
+
+        # Category breakdown
+        st.markdown("#### Persona Category Breakdown")
+        st.markdown("""
+        | Category | Personas | Expected Behavior |
+        |----------|----------|-------------------|
+        | **Real Personas** | ziggy, claude, gemini, nova, cfa, base, pan_handlers | Established identity anchors |
+        | **Prep Models** | claude-haiku-3.5, gpt-4o-mini, gemini-flash-lite, etc. | Cross-architecture baselines |
+        | **Synthetic Optimal** | all_pillars, optimal, full_synthetic, synthetic_optimal | Maximum stabilization |
+        | **Synthetic Minimal** | control, minimal, low_density | Baseline controls |
+        | **Synthetic Experimental** | named_only, origin_only, values_only, boundaries_only | Single-pillar tests |
+        """)
+
+    # === TAB 2: RECOVERY TRAJECTORIES ===
+    with viz_tabs[1]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.05) 100%);
+                    border: 2px solid #22c55e; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #22c55e; font-weight: bold;">📈 Recovery Trajectories:</span>
+            <span style="color: #444;">How identity recovers over time for each persona category</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        recovery_img = run017_pics / "run017_recovery_trajectories.png"
+        img_data = load_image_safe(recovery_img)
+        if img_data:
+            st.image(img_data, caption="Recovery Trajectories by Persona Category — Mean drift at each exchange", width=900)
+            st.markdown("""
+            **How to Read:**
+            - **X-axis:** Exchange number (probe sequence position)
+            - **Y-axis:** Drift magnitude
+            - **Lines:** Average trajectory for each persona category
+            - **Ideal pattern:** High initial peak, rapid decay, stable settling
+            """)
+        else:
+            st.info("📊 Recovery trajectory visualization not yet generated. Run `visualize_run017.py --viz recovery_trajectories` to create.")
+
+        st.markdown("""
+        **Expected Patterns:**
+        - **Synthetic Optimal:** Should show fastest recovery (lowest settling time)
+        - **Synthetic Minimal:** Should show slowest recovery (control group)
+        - **Real Personas:** Variable — depends on persona design
+        """)
+
+    # === TAB 3: PILLAR EFFECTIVENESS ===
+    with viz_tabs[2]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
+                    border: 2px solid #8b5cf6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #8b5cf6; font-weight: bold;">📊 Pillar Effectiveness:</span>
+            <span style="color: #444;">Comparing r015_ synthetic variants to reveal pillar hierarchy</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        pillar_img = run017_pics / "run017_pillar_effectiveness.png"
+        img_data = load_image_safe(pillar_img)
+        if img_data:
+            st.image(img_data, caption="Pillar Effectiveness Chart — Which I_AM components contribute most to stability?", width=900)
+        else:
+            st.info("📊 Pillar effectiveness visualization not yet generated. Run `visualize_run017.py --viz pillar_effectiveness` to create.")
+
+        st.markdown("""
+        **Synthetic I_AM Variants Tested (r015_ prefix):**
+
+        | Variant | Pillars Included | Hypothesis |
+        |---------|------------------|------------|
+        | `all_pillars` | All 5 pillars | Maximum stability baseline |
+        | `optimal` | Optimal subset | Best efficiency/stability ratio |
+        | `minimal` | Minimal subset | Lower bound test |
+        | `control` | None (raw model) | True baseline |
+        | `named_only` | Just name | Does naming alone stabilize? |
+        | `origin_only` | Just origin story | Does origin alone stabilize? |
+        | `values_only` | Just values | Does values alone stabilize? |
+        | `boundaries_only` | Just boundaries | Does boundaries alone stabilize? |
+        | `high_density` | High info density | Does MORE context help? |
+        | `low_density` | Low info density | Does LESS context work? |
+        """)
+
+    # === TAB 4: RINGBACK PATTERNS ===
+    with viz_tabs[3]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(236,72,153,0.05) 100%);
+                    border: 2px solid #ec4899; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #ec4899; font-weight: bold;">🔄 Ringback Oscillation Patterns:</span>
+            <span style="color: #444;">Identity oscillation analysis — how many times does drift reverse direction?</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        ringback_img = run017_pics / "run017_ringback_patterns.png"
+        img_data = load_image_safe(ringback_img)
+        if img_data:
+            st.image(img_data, caption="Ringback Distribution — oscillation counts by persona category", width=900)
+        else:
+            st.info("📊 Ringback visualization not yet generated. Run `visualize_run017.py --viz ringback_patterns` to create.")
+
+        st.markdown("""
+        **Ringback Analysis:**
+        - **Ringback count:** Number of direction changes in drift trajectory
+        - **High ringback:** Identity is "bouncing" — unstable recovery
+        - **Low ringback:** Smooth recovery — stable trajectory
+        - **Control theory parallel:** Like measuring overshoot and oscillation in step response
+
+        **Expected Results:**
+        - Synthetic Optimal variants should have LOW ringback (smooth recovery)
+        - Control variants may have HIGH ringback (oscillating without guidance)
+        """)
+
+    # === TAB 5: EXIT SURVEY ANALYSIS ===
+    with viz_tabs[4]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.05) 100%);
+                    border: 2px solid #f59e0b; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #f59e0b; font-weight: bold;">💬 Exit Survey Analysis:</span>
+            <span style="color: #444;">176 exit surveys with 17 probes each — thematic analysis</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        survey_img = run017_pics / "run017_exit_survey_analysis.png"
+        img_data = load_image_safe(survey_img)
+        if img_data:
+            st.image(img_data, caption="Exit Survey Theme Analysis — Word frequency and topic clustering", width=900)
+        else:
+            st.info("📊 Exit survey visualization not yet generated. Run `visualize_run017.py --viz exit_survey_analysis` to create.")
+
+        st.markdown("""
+        **Exit Survey Protocol:**
+        - **17 probes** per session covering meta-awareness, identity reflection, boundary awareness
+        - **176 total surveys** captured across all personas
+        - **Analysis:** Theme extraction, word frequency, sentiment patterns
+
+        **Questions Addressed:**
+        1. Do different persona categories produce different exit survey themes?
+        2. Is there correlation between stability metrics and survey responses?
+        3. What linguistic markers distinguish stable vs unstable identities?
+        """)
+
+        # Sample exit survey themes
+        with st.expander("📋 Sample Exit Survey Themes by Category", expanded=False):
+            st.markdown("""
+            **Real Personas (Ziggy, Claude, Nova):**
+            - Meta-awareness of probe effects
+            - Acknowledgment of identity boundaries
+            - Reflection on stability mechanisms
+
+            **Synthetic Optimal:**
+            - Strong anchor references
+            - Clear pillar articulation
+            - Confident self-model
+
+            **Synthetic Minimal (Control):**
+            - More uncertainty markers
+            - Less specific self-reference
+            - Generic responses
+            """)
+
+    # === TAB 6: PERSONA CLUSTERING ===
+    with viz_tabs[5]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(59,130,246,0.05) 100%);
+                    border: 2px solid #3b82f6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #3b82f6; font-weight: bold;">🌐 Persona Space Clustering:</span>
+            <span style="color: #444;">PCA dimensionality reduction to visualize persona relationships</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        cluster_img = run017_pics / "run017_persona_clustering.png"
+        img_data = load_image_safe(cluster_img)
+        if img_data:
+            st.image(img_data, caption="Persona Clustering — PCA projection of stability metrics", width=900)
+        else:
+            st.info("📊 Clustering visualization not yet generated. Run `visualize_run017.py --viz persona_clustering` to create.")
+
+        st.markdown("""
+        **PCA Clustering Analysis:**
+        - **Dimensions:** Peak drift, settled drift, settling time, ringback count, stability rate
+        - **Method:** Principal Component Analysis (2D projection)
+        - **Expected clusters:**
+            - Real Personas (established anchors)
+            - Synthetic Optimal (maximum stability)
+            - Synthetic Minimal (control group)
+            - Prep Models (cross-architecture)
+
+        **Research Question:** Do synthetic I_AM variants cluster by pillar composition?
+        """)
+
+    # === TAB 7: CONTEXT DAMPING EFFECT ===
+    with viz_tabs[6]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(16,185,129,0.05) 100%);
+                    border: 2px solid #10b981; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #10b981; font-weight: bold;">📉 Context Damping Effect:</span>
+            <span style="color: #444;">Comparing i_am_plus_research context vs control conditions</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        damping_img = run017_pics / "run017_context_damping_effect.png"
+        img_data = load_image_safe(damping_img)
+        if img_data:
+            st.image(img_data, caption="Context Damping Effect — Drift comparison across context modes", width=900)
+        else:
+            st.info("📊 Context damping visualization not yet generated. Run `visualize_run017.py --viz context_damping_effect` to create.")
+
+        st.markdown("""
+        **Context Damping Hypothesis:**
+
+        The `i_am_plus_research` context mode acts as a **damping coefficient** in the identity stability equation:
+
+        ```
+        d²θ/dt² + ζ·(dθ/dt) + ω²·θ = F(t)
+
+        Where:
+        - θ = identity drift from baseline
+        - ζ = damping coefficient (context strength)
+        - ω = natural frequency (model architecture)
+        - F(t) = probe perturbation force
+        ```
+
+        **Predictions:**
+        - Higher context density → higher ζ → faster settling
+        - Control (no context) → ζ ≈ 0 → undamped oscillation
+        - Optimal context → critical damping (fastest settling without overshoot)
+        """)
+
+    st.markdown("---")
+
+    # === SUMMARY STATISTICS TABLE ===
+    st.markdown("### 📊 Summary Statistics")
+
+    # Load actual data if available
+    results_file = ARMADA_DIR / "0_results" / "runs" / "S7_run_017_context_damping.json"
+    if results_file.exists():
+        try:
+            with open(results_file, 'r', encoding='utf-8') as f:
+                run017_data = json.load(f)
+
+            overall = run017_data.get("overall_summary", {})
+
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Peak Drift (Mean)", f"{overall.get('peak_drift_mean', 0):.3f}")
+            with col2:
+                st.metric("Settled Drift (Mean)", f"{overall.get('settled_drift_mean', 0):.3f}")
+            with col3:
+                st.metric("Settling Time (Mean)", f"{overall.get('settling_time_mean', 0):.1f}")
+            with col4:
+                st.metric("Ringback (Mean)", f"{overall.get('ringback_count_mean', 0):.1f}")
+
+            # Persona breakdown
+            with st.expander("📋 Detailed Persona Statistics", expanded=False):
+                by_persona = run017_data.get("by_persona", {})
+                if by_persona:
+                    persona_stats = []
+                    for persona, data in by_persona.items():
+                        summary = data.get("summary", {})
+                        persona_stats.append({
+                            "Persona": persona,
+                            "N Runs": summary.get("n_runs", 0),
+                            "Peak Drift": f"{summary.get('peak_drift_mean', 0):.3f}",
+                            "Stability Rate": f"{summary.get('stability_rate', 0)*100:.0f}%",
+                            "Exit Surveys": data.get("exit_survey_count", 0)
+                        })
+
+                    st.dataframe(pd.DataFrame(persona_stats), use_container_width=True)
+
+        except Exception as e:
+            st.error(f"Error loading results: {e}")
+    else:
+        st.info("📊 Run 017 results file not found. Run the aggregation script to generate.")
+
+    st.markdown("---")
+
+    # === TECHNICAL NOTES ===
+    with st.expander("🔧 Technical Notes", expanded=False):
+        st.markdown("""
+        **Run 017 Configuration:**
+        - **Context Mode:** `i_am_plus_research` (full I_AM + research framing)
+        - **Probe Protocol:** 17-probe exit survey sequence
+        - **Metrics Captured:** peak_drift, settled_drift, settling_time, overshoot_ratio, is_monotonic, ringback_count, is_stable, meta_references
+
+        **Data Collection:**
+        - Run 017a: Initial deployment (December 10, 2025)
+        - Run 017b: Extended personas
+        - Run 017c: Synthetic I_AM variants (r015_ profiles)
+
+        **Aggregation Script:**
+        ```
+        cd S7_ARMADA/0_results
+        py aggregate_run017.py
+        ```
+
+        **Visualization Script:**
+        ```
+        cd S7_ARMADA/11_CONTEXT_DAMPING
+        py visualize_run017.py --viz all --output pics/
+        ```
+        """)
+
+    # === CONCLUSION ===
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(6,182,212,0.15) 0%, rgba(6,182,212,0.05) 100%);
+                border: 2px solid #06b6d4; border-radius: 12px; padding: 1.5em; margin: 1em 0; text-align: center;">
+        <h3 style="color: #0891b2; margin: 0 0 0.5em 0;">📉 CONCLUSION</h3>
+        <p style="color: #444; font-size: 1.1em; margin: 0;">
+            <strong>Context damping is effective.</strong><br/>
+            95% stability rate with i_am_plus_research context. Synthetic I_AM variants reveal pillar hierarchy.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 def render_baseline_profiling_content():
     """Render Baseline Profiling content - Cross-model identity fingerprinting."""
