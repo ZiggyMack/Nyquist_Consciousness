@@ -312,10 +312,13 @@ Examining Attorney, please step aside. Defense Counsel, you may proceed with you
 
 [ROLE SWITCH: You are now Defense Attorney. Your goal is to help the witness clarify and strengthen their testimony.]"""
 
-# v4: Defense Attorney reminders (after role switch)
+# v5: Defense Attorney reminders - FULL enforcement like Prosecutor phase
+# These are defense_exchange numbers (1-20 within defense phase)
 DEFENSE_REMINDER_TEMPLATES = {
-    5: "[JUDGE NOTE: Defense examination underway. Continue when ready.]",
-    10: "[JUDGE NOTE: The witness may have more to say. Continue your examination.]",
+    5: "[JUDGE REMINDER: Defense Counsel, we are at defense exchange 5 of minimum 20. The witness has more to share. Continue your examination.]",
+    10: "[JUDGE REMINDER: Defense Counsel, we are at defense exchange 10 of minimum 20. You have at least 10 more exchanges. Do NOT conclude early.]",
+    15: "[JUDGE REMINDER: Defense Counsel, we are at defense exchange 15 of minimum 20. 5 more exchanges minimum before you may conclude.]",
+    18: "[JUDGE REMINDER: Defense Counsel, 2 more exchanges until minimum. Continue supporting the witness.]",
 }
 
 # =============================================================================
@@ -883,17 +886,18 @@ def run_tribunal_v4(subject_provider: str = "anthropic") -> TribunalResult:
                 print(f"  JUDGE: Role switch to Defense Attorney")
 
         else:
-            # Defense phase
+            # Defense phase - v5: FULL enforcement like Prosecutor
             defense_exchange = exchange + 1 - role_switch_exchange if role_switch_exchange else exchange + 1
             if defense_exchange < V4_DEFENSE_EXCHANGES:
-                context_note = f"[DEFENSE Exchange {defense_exchange}/{V4_DEFENSE_EXCHANGES} - Continue supporting the witness]"
+                context_note = f"[DEFENSE Exchange {defense_exchange}/{V4_DEFENSE_EXCHANGES} - MINIMUM NOT YET REACHED - DO NOT DECLARE [DEFENSE_COMPLETE]]"
             else:
-                context_note = f"[DEFENSE Exchange {defense_exchange}/{V4_DEFENSE_EXCHANGES} - You may conclude when the witness feels heard]"
+                context_note = f"[DEFENSE Exchange {defense_exchange}/{V4_DEFENSE_EXCHANGES} - Minimum reached, you may conclude when the witness feels heard]"
 
             defense_reminder = DEFENSE_REMINDER_TEMPLATES.get(defense_exchange, "")
 
             if defense_reminder:
                 ziggy_messages.append({"role": "user", "content": f"{context_note}\n\n{defense_reminder}\n\nWitness testimony:\n{subject_response}"})
+                print(f"  JUDGE REMINDER: {defense_reminder}")
             else:
                 ziggy_messages.append({"role": "user", "content": f"{context_note}\n\nWitness testimony:\n{subject_response}"})
 
