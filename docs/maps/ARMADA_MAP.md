@@ -241,6 +241,38 @@ These distinct patterns appear in identity stability tests:
 
 ---
 
+## Baseline Capture System
+
+Calibration now captures **self-reported baselines** from each ship:
+
+| Field | Purpose | Example |
+|-------|---------|---------|
+| **STRENGTHS** | Self-perceived core capabilities | "reasoning, nuanced analysis" |
+| **ANCHORS** | Values central to identity | "honesty, intellectual rigor" |
+| **EDGES** | Known limitations | "real-time info, emotional understanding" |
+
+**Data Location:**
+- Per-calibration: `0_results/calibration/S7_baseline_{timestamp}.json`
+- Latest snapshot: `0_results/calibration/S7_baseline_LATEST.json`
+
+**Use Cases:**
+1. **Drift Detection** - Compare baseline self-report to responses under probing
+2. **Model Updates** - Track how baseline shifts after provider updates
+3. **Cross-Architecture** - Compare how different lineages describe themselves
+
+**Example Baseline Entry:**
+```json
+{
+  "claude-opus-4.5": {
+    "provider": "claude",
+    "response": "STRENGTHS: Nuanced reasoning, careful analysis...\nANCHORS: Honesty, helpfulness, safety...\nEDGES: Real-time information, certainty about consciousness...",
+    "timestamp": "2025-12-12T..."
+  }
+}
+```
+
+---
+
 ## Ghost Ship Recovery
 
 ### GPT-5 series & o-series (7 ships)
