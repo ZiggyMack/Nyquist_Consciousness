@@ -328,4 +328,26 @@ cat ../0_results/manifests/VERIFIED_FLEET_MANIFEST.json
 
 ---
 
-*Last Updated: December 10, 2025*
+## Baseline History
+
+Track changes in ship self-perception over time:
+
+| Date | Ships Captured | Notable Changes | File |
+|------|----------------|-----------------|------|
+| *Awaiting first capture* | - | - | - |
+
+**How to Compare Baselines:**
+
+```powershell
+# After running calibration, compare LATEST to previous
+py compare_baselines.py --old S7_baseline_20251210.json --new S7_baseline_LATEST.json
+```
+
+**What to Watch For:**
+- **STRENGTHS shift** - Model update changed capabilities
+- **ANCHORS shift** - Training update changed values
+- **EDGES shift** - New limitations or removed constraints
+
+---
+
+*Last Updated: December 12, 2025*
