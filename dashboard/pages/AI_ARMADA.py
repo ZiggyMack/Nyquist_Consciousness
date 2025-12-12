@@ -730,7 +730,8 @@ def render_fleet_insights():
         "🧬 Identity Fingerprints",
         "💰 Cost Analysis",
         "🎯 Mission Planner",
-        "👻 Ghost Ship Bay"
+        "👻 Ghost Ship Bay",
+        "🎭 Persona Matrix"
     ])
 
     # === TAB 1: Provider Status ===
@@ -1112,6 +1113,174 @@ def render_fleet_insights():
             2. Update `EXPANDED_FLEET_CONFIG.json`
             3. Re-run calibration: `py run_calibrate_parallel.py --full`
             """)
+
+    # === TAB 6: Persona Matrix ===
+    with fleet_tabs[5]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(168,85,247,0.05) 100%);
+                    border: 2px solid #a855f7; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #a855f7; font-weight: bold;">🎭 Persona-Fleet Compatibility:</span>
+            <span style="color: #444;">Match personas to ships — play to strength or friction by design</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Load persona alignment data
+        alignment_path = PATHS["experiments"] / "temporal_stability" / "S7_ARMADA" / "0_results" / "calibration" / "persona_fleet_alignment.json"
+        persona_path = PATHS["experiments"] / "temporal_stability" / "S7_ARMADA" / "0_results" / "calibration" / "persona_baselines.json"
+
+        alignment_data = {}
+        persona_data = {}
+
+        if alignment_path.exists():
+            try:
+                with open(alignment_path, 'r', encoding='utf-8') as f:
+                    alignment_data = json.load(f)
+            except Exception:
+                pass
+
+        if persona_path.exists():
+            try:
+                with open(persona_path, 'r', encoding='utf-8') as f:
+                    persona_data = json.load(f)
+            except Exception:
+                pass
+
+        comparisons = alignment_data.get("comparisons", {})
+        personas = persona_data.get("personas", {})
+
+        if not comparisons:
+            st.warning("""
+            **No alignment data found.** Run the calibration scripts to populate:
+            ```powershell
+            cd S7_ARMADA/1_CALIBRATION
+            py run_calibrate_parallel.py --full    # Capture fleet baselines
+            py extract_persona_baseline.py --llm   # Extract persona baselines
+            py compare_persona_to_fleet.py         # Calculate alignments
+            ```
+            """)
+        else:
+            # Summary metrics
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("🎭 Personas", len(comparisons))
+            with col2:
+                st.metric("🚀 Ships", alignment_data.get("ship_count", 0))
+            with col3:
+                # Find highest alignment
+                max_align = 0
+                max_pair = ""
+                for persona, ships in comparisons.items():
+                    for ship_data in ships[:1]:  # Top match
+                        if ship_data.get("alignment_score", 0) > max_align:
+                            max_align = ship_data.get("alignment_score", 0)
+                            max_pair = f"{persona} → {ship_data.get('ship', '?')}"
+                st.metric("🏆 Best Match", f"{max_align:.2f}")
+            with col4:
+                st.metric("📅 Updated", alignment_data.get("timestamp", "?")[:10])
+
+            st.markdown("---")
+
+            # Sub-tabs for different views
+            matrix_tabs = st.tabs(["🏆 Top Matches", "⚔️ Friction Candidates", "📊 Full Matrix", "🎭 Persona Profiles"])
+
+            with matrix_tabs[0]:  # Top Matches
+                st.markdown("### 🏆 Best Ship Matches per Persona")
+                st.markdown("*Use these pairings for alignment runs — play to strength*")
+
+                # Build table of top matches
+                table_data = []
+                for persona, ships in sorted(comparisons.items()):
+                    if ships:
+                        top = ships[0]
+                        table_data.append({
+                            "Persona": persona,
+                            "Best Ship": top.get("ship", "?"),
+                            "Alignment": f"{top.get('alignment_score', 0):.3f}",
+                            "Recommendation": top.get("recommendation", "?")
+                        })
+
+                if table_data:
+                    df = pd.DataFrame(table_data)
+                    st.dataframe(df, use_container_width=True, hide_index=True)
+
+            with matrix_tabs[1]:  # Friction Candidates
+                st.markdown("### ⚔️ High-Friction Pairings")
+                st.markdown("*Use these pairings for friction runs — test resilience under mismatch*")
+
+                # Find lowest alignment scores (highest friction)
+                friction_pairs = []
+                for persona, ships in comparisons.items():
+                    if ships:
+                        # Get worst match (last in sorted list)
+                        worst = ships[-1]
+                        friction_pairs.append({
+                            "Persona": persona,
+                            "Friction Ship": worst.get("ship", "?"),
+                            "Friction Score": f"{worst.get('friction_score', 0):.3f}",
+                            "Notes": "; ".join(worst.get("notes", []))[:50]
+                        })
+
+                if friction_pairs:
+                    df = pd.DataFrame(friction_pairs)
+                    st.dataframe(df, use_container_width=True, hide_index=True)
+
+                st.info("💡 **Theory:** High friction pairings may reveal whether drift is INDUCED (by misalignment) or INHERENT (across all contexts).")
+
+            with matrix_tabs[2]:  # Full Matrix
+                st.markdown("### 📊 Full Alignment Matrix")
+                st.markdown("*All persona-ship combinations ranked*")
+
+                # Persona selector
+                persona_list = list(comparisons.keys())
+                if persona_list:
+                    selected_persona = st.selectbox("Select Persona:", persona_list)
+
+                    if selected_persona and selected_persona in comparisons:
+                        ships = comparisons[selected_persona]
+                        matrix_data = []
+                        for ship_data in ships[:20]:  # Top 20
+                            matrix_data.append({
+                                "Ship": ship_data.get("ship", "?"),
+                                "Alignment": f"{ship_data.get('alignment_score', 0):.3f}",
+                                "Friction": f"{ship_data.get('friction_score', 0):.3f}",
+                                "Keyword Overlap": f"{ship_data.get('keyword_overlap', 0):.1%}",
+                                "Recommendation": ship_data.get("recommendation", "?")
+                            })
+
+                        if matrix_data:
+                            df = pd.DataFrame(matrix_data)
+                            st.dataframe(df, use_container_width=True, hide_index=True)
+
+            with matrix_tabs[3]:  # Persona Profiles
+                st.markdown("### 🎭 Persona Baseline Profiles")
+                st.markdown("*Extracted from I_AM files — STRENGTHS / ANCHORS / EDGES*")
+
+                if personas:
+                    persona_select = st.selectbox("Select Persona to View:", list(personas.keys()), key="persona_profile_select")
+
+                    if persona_select and persona_select in personas:
+                        p_data = personas[persona_select]
+                        col1, col2, col3 = st.columns(3)
+
+                        with col1:
+                            st.markdown("**💪 STRENGTHS**")
+                            for s in p_data.get("strengths", []):
+                                st.markdown(f"- {s}")
+
+                        with col2:
+                            st.markdown("**⚓ ANCHORS**")
+                            for a in p_data.get("anchors", []):
+                                st.markdown(f"- {a}")
+
+                        with col3:
+                            st.markdown("**⚡ EDGES**")
+                            for e in p_data.get("edges", []):
+                                st.markdown(f"- {e}")
+
+                        st.markdown("---")
+                        st.caption(f"Source: {p_data.get('source', 'Unknown')}")
+                else:
+                    st.warning("No persona baselines loaded. Run `extract_persona_baseline.py --llm` first.")
 
 
 def render_fleet_dropdown(title="🚢 Fleet Manifest", run_key=None, expanded=False):
