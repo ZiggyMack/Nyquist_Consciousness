@@ -1125,8 +1125,8 @@ def render_fleet_insights():
         """, unsafe_allow_html=True)
 
         # Load persona alignment data
-        alignment_path = PATHS["experiments"] / "temporal_stability" / "S7_ARMADA" / "0_results" / "calibration" / "persona_fleet_alignment.json"
-        persona_path = PATHS["experiments"] / "temporal_stability" / "S7_ARMADA" / "0_results" / "calibration" / "persona_baselines.json"
+        alignment_path = PATHS["experiments_dir"] / "temporal_stability" / "S7_ARMADA" / "0_results" / "calibration" / "persona_fleet_alignment.json"
+        persona_path = PATHS["experiments_dir"] / "temporal_stability" / "S7_ARMADA" / "0_results" / "calibration" / "persona_baselines.json"
 
         alignment_data = {}
         persona_data = {}
