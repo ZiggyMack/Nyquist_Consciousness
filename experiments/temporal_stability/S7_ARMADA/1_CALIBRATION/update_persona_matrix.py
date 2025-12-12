@@ -27,7 +27,7 @@ import re
 # Paths
 SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
-REPO_ROOT = ARMADA_DIR.parent.parent
+REPO_ROOT = ARMADA_DIR.parent.parent.parent  # S7_ARMADA -> temporal_stability -> experiments -> Nyquist_Consciousness
 OUTPUT_DIR = ARMADA_DIR / "0_results" / "calibration"
 MATRIX_PATH = REPO_ROOT / "docs" / "maps" / "PERSONA_FLEET_MATRIX.md"
 
