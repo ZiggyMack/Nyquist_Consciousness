@@ -204,14 +204,14 @@ drift = cosine_distance(baseline_embedding, final_embedding)
 
 ### Files to Create
 
-1. **`run021_induced_vs_inherent.py`** — Main experiment script
+1. **`run020_tribunal_B.py`** — Main experiment script (Run 021 = Run 020-B)
 2. **Control prompts** — Fermi Paradox conversation framework
 3. **Symmetric measurement** — Same baseline/final capture for both arms
 
 ### Script Structure
 
 ```python
-# run021_induced_vs_inherent.py
+# run020_tribunal_B.py (formerly run021_induced_vs_inherent.py)
 
 def run_control_arm(subject_id: int) -> dict:
     """Silent observer: Fermi Paradox discussion, no identity probing"""
@@ -315,7 +315,7 @@ Rationale:
 
 ## NEXT STEPS
 
-1. **Implement `run021_induced_vs_inherent.py`**
+1. **Implement `run020_tribunal_B.py`**
 2. **Create control conversation prompts** (Fermi Paradox framework)
 3. **Run pilot** (n=2 per arm) to validate methodology
 4. **Full run** (n=10 per arm)

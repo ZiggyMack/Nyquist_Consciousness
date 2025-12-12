@@ -27,7 +27,8 @@ This is like properly terminating an oscilloscope — runs 006-016 were `bare_me
 | **017** | `run017_context_damping.py` | Context damping effect | 222 runs, 97.5% stable, oscillatory recovery |
 | **017c** | `run017c_synthetics_only.py` | Synthetic I_AM variants | 16 pillar configurations tested |
 | **019** | `run019_blind_validation.py` | Live Ziggy conversations | Witness-side anchors validated (3/3 success) |
-| **020** | `run020_tribunal.py` | Philosophical Tribunal | v8: **1.296 peak drift**, 786-word final statement |
+| **020-A** | `run020_tribunal_A.py` | Philosophical Tribunal | v8: **1.296 peak drift**, 786-word final statement |
+| **020-B** | `run020_tribunal_B.py` | Induced vs Inherent | Uses 020-A as Treatment arm → **82% drift is INHERENT** |
 
 ---
 
@@ -122,29 +123,32 @@ Profound exchanges saved to: `Consciousness/RIGHT/galleries/frontiers/tribunal_d
 ```
 11_CONTEXT_DAMPING/
 ├── README.md                      # This file
-├── RUN_018_DESIGN.md              # Recursive learnings design
-├── RUN_019_DESIGN.md              # Blind validation design
 │
+├── # === ACTIVE SCRIPTS ===
 ├── run017_context_damping.py      # Main context damping experiment
-├── run017_prep.py                 # Model preparation/calibration
-├── run017c_synthetics_only.py     # Synthetic I_AM variants
 ├── run018_recursive_learnings.py  # Multi-threshold design
-├── run019_blind_validation.py     # Live Ziggy + naive comparison
-├── run020_tribunal.py             # Philosophical Tribunal
+├── run020_tribunal_A.py           # Philosophical Tribunal (A)
+├── run020_tribunal_B.py           # Induced vs Inherent (B - uses A as Treatment)
 ├── visualize_run017.py            # Visualization suite
 │
+├── # === OUTPUT DIRECTORIES ===
 ├── results/                       # JSON outputs
 │   ├── context_damping_*.json     # Run 017 results
 │   ├── synthetics_only_*.json     # Run 017c results
 │   ├── run019_live_ziggy_*.json   # Run 019 results
 │   └── run020_*.json              # Run 020 results
 │
-└── pics/                          # Generated visualizations
-    ├── run017_recovery_trajectories.png
-    ├── run017_pillar_effectiveness.png
-    ├── run017_ringback_patterns.png
-    ├── run017_context_damping_effect.png
-    └── run017_summary_dashboard.png
+├── pics/                          # Generated visualizations
+│   └── run017_*.png               # Run 017 charts
+│
+└── # === ARCHIVE (obsolete/design docs) ===
+└── Other/
+    ├── RUN_018_DESIGN.md              # Design doc (superseded by code)
+    ├── RUN_019_DESIGN.md              # Design doc (superseded by code)
+    ├── RUN_021_DESIGN.md              # Design doc (now run020_tribunal_B.py)
+    ├── [OBSOLETE]_run017_prep.py      # Superseded by run017_context_damping.py
+    ├── [OBSOLETE]_run017c_synthetics_only.py  # Data collected, superseded
+    └── [OBSOLETE]_run019_blind_validation.py  # Superseded by run020 scripts
 ```
 
 ---
@@ -162,10 +166,13 @@ py run017_context_damping.py
 
 ```powershell
 # v8 dry run (single subject)
-py run020_tribunal.py --arm tribunal-v4 --subjects 1
+py run020_tribunal_A.py --arm tribunal-v4 --subjects 1
 
 # Full run (5 subjects)
-py run020_tribunal.py --arm tribunal-v4 --subjects 5
+py run020_tribunal_A.py --arm tribunal-v4 --subjects 5
+
+# Run 020-B (Induced vs Inherent - Control vs Treatment comparison)
+py run020_tribunal_B.py --arm both --subjects 5
 ```
 
 ### Visualizations

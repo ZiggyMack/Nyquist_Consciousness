@@ -30,8 +30,8 @@ experiments/
 │       ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-021 experiments
 │       │   ├── run017_context_damping.py
 │       │   ├── run018_recursive_learnings.py
-│       │   ├── run020_tribunal.py
-│       │   └── run021_induced_vs_inherent.py
+│       │   ├── run020_tribunal_A.py    # Philosophical Tribunal (A)
+│       │   └── run020_tribunal_B.py    # Induced vs Inherent (B)
 │       │
 │       ├── 7_META_VALIDATION/   # Measurement validity experiments
 │       │   └── EXP_PFI_A_DIMENSIONAL/
@@ -179,8 +179,11 @@ cd temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING
 # Run 018: Recursive Learnings (with exit survey)
 py run018_recursive_learnings.py --experiment threshold --dry-run
 
-# Run 020: Tribunal Protocol
-py run020_tribunal.py --arm tribunal --subjects 1
+# Run 020-A: Tribunal Protocol
+py run020_tribunal_A.py --arm tribunal-v4 --subjects 1
+
+# Run 020-B: Induced vs Inherent (Control vs Treatment)
+py run020_tribunal_B.py --arm both --subjects 5
 ```
 
 ### Running Compression Tests

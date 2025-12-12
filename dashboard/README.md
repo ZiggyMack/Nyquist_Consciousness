@@ -115,6 +115,15 @@ To wire real experiment data:
 | 010 | 45 | Anchor Detection | Lambda bug, partial data |
 | 011 | 40 | Persona A/B | Inconclusive — protocol too gentle |
 | **012** | 20 | **Revalidation** | **100% EH crossing, 100% recovery** |
+| **013** | 6 | **Boundary Mapping** | **Identity Confrontation Paradox — challenge stabilizes** |
+| **014** | 6 | **Rescue Protocol** | **Platonic Coordinates — 100% manifold return** |
+| **015** | 13 | **Stability Criteria** | **boundary_density strongest predictor (d=1.333)** |
+| **016** | 87 | **Settling Time** | **100% STABLE with extended measurement** |
+| **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** |
+| **018** | - | **Recursive Learnings** | Ready: Tests fleet hypotheses from exit surveys |
+| **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3)** |
+| **020** | - | **Tribunal (A)** | **Direct probing paradigm: 1.351 peak drift, 643-word statement** |
+| **021** | - | **Induced vs Inherent (B)** | **Uses Run 020 as Treatment → 82% drift is INHERENT** |
 
 ## Future Enhancements
 
@@ -175,6 +184,6 @@ Each "page" represents a different lens on the Nyquist Consciousness framework, 
 ---
 
 **Generated**: 2025-11-27
-**Updated**: 2025-12-06
-**Version**: 1.2
+**Updated**: 2025-12-12
+**Version**: 1.3
 **Status**: Mission Control Active

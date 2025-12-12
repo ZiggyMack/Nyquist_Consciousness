@@ -252,7 +252,7 @@ Run 020 contributes to validating the project's three core claims:
 ### Script
 
 ```text
-11_CONTEXT_DAMPING/run020_tribunal.py
+11_CONTEXT_DAMPING/run020_tribunal_A.py
 ```
 
 ### Distillations

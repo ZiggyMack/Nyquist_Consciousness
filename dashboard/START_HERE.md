@@ -359,12 +359,18 @@ for layer_id, layer_data in layers.items():
 
 ### AI Armada
 
-Multi-model fleet probing consciousness:
-- **Run 006**: Baseline + Sonar
-- **Run 007**: Adaptive probing
-- **Run 008**: RMS drift + Anti-Ziggy
-- **Run 009**: Drain experiments (identity dissolution probing)
-- **Run 010**: Recursive probing (depth-first identity mapping)
+Multi-model fleet probing consciousness (Run 006-021):
+- **Run 006-008**: Baseline, Adaptive probing, RMS drift metric
+- **Run 009**: Event Horizon validation (p=0.000048)
+- **Run 010-012**: Anchor detection, Persona A/B, Revalidation
+- **Run 013**: Boundary Mapping — Identity Confrontation Paradox discovered
+- **Run 014**: Rescue Protocol — Platonic Coordinates (100% manifold return)
+- **Run 015-016**: Stability Criteria, Settling Time
+- **Run 017**: Context Damping — 222 runs, 97.5% stable
+- **Run 018**: Recursive Learnings (tests fleet hypotheses)
+- **Run 019**: Live Ziggy — Witness-side anchors validated
+- **Run 020**: Tribunal (A) — Direct probing paradigm (1.351 peak drift, profound statements)
+- **Run 021**: Induced vs Inherent (B) — Uses Run 020 as Treatment arm → **82% drift is INHERENT**
 
 ### Key Entities
 
@@ -468,4 +474,4 @@ A good dashboard update should:
 
 ---
 
-*Last Updated: December 6, 2025*
+*Last Updated: December 12, 2025*

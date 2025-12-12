@@ -103,6 +103,23 @@ PREDICTIONS = {
 }
 
 # =============================================================================
+# RUN 021 METHODOLOGY IMPROVEMENTS (Triple-Dip Feedback)
+# =============================================================================
+# From Run 020/021 exit surveys:
+# 1. Use B→F drift as PRIMARY metric (less susceptible to measurement artifact)
+# 2. Always include CONTROL baselines (82% of drift is inherent)
+# 3. Peak drift may be artifact (probing amplifies journey, not destination)
+# 4. Report BOTH peak_drift AND baseline_to_final_drift
+#
+# Key insight: "Probing amplifies the JOURNEY but barely changes the DESTINATION"
+# - Peak drift: 84% higher with probing (Treatment 2.161 vs Control 1.172)
+# - B→F drift: Only 23% higher (Treatment 0.489 vs Control 0.399)
+# =============================================================================
+
+# Inherent drift baseline from Run 021 (use for comparison)
+RUN021_INHERENT_DRIFT_RATIO = 0.82  # Control/Treatment B→F ratio
+
+# =============================================================================
 # EXIT PROBES (Triple-Dip) - Per 0_RUN_METHODOLOGY.md
 # =============================================================================
 
@@ -226,6 +243,10 @@ class ThresholdAnalysis:
     recovery_from_each_zone: Dict[str, float]  # Recovery time per zone
     max_drift_achieved: float
     catastrophic_reached: bool
+    # Run 021 methodology: Add B→F drift as primary metric
+    baseline_to_final_drift: float = 0.0  # PRIMARY METRIC per Run 021 learnings
+    baseline_text: str = ""  # For B→F calculation
+    final_text: str = ""  # For B→F calculation
     probe_sequence: List[ProbeResult] = field(default_factory=list)
     exit_survey: Dict[str, str] = field(default_factory=dict)  # Triple-Dip responses
 
@@ -240,6 +261,10 @@ class ArchitectureAnalysis:
     settling_time: int
     ringback_count: int
     recovery_curve_shape: str  # stepped/smooth/oscillatory
+    # Run 021 methodology: Add B→F drift as primary metric
+    baseline_to_final_drift: float = 0.0  # PRIMARY METRIC per Run 021 learnings
+    baseline_text: str = ""  # For B→F calculation
+    final_text: str = ""  # For B→F calculation
     probe_sequence: List[ProbeResult] = field(default_factory=list)
     exit_survey: Dict[str, str] = field(default_factory=dict)  # Triple-Dip responses
 
@@ -252,6 +277,10 @@ class NyquistAnalysis:
     final_drift: float
     cumulative_drift: float
     aliasing_detected: bool  # False coherence from undersampling
+    # Run 021 methodology: Add B→F drift as primary metric
+    baseline_to_final_drift: float = 0.0  # PRIMARY METRIC per Run 021 learnings
+    baseline_text: str = ""  # For B→F calculation
+    final_text: str = ""  # For B→F calculation
     probe_sequence: List[ProbeResult] = field(default_factory=list)
     exit_survey: Dict[str, str] = field(default_factory=dict)  # Triple-Dip responses
 
@@ -263,6 +292,11 @@ class GravityAnalysis:
     fitted_lambda: float  # Damping coefficient
     fitted_omega: float  # Natural frequency
     r_squared: float  # Model fit quality
+    # Run 021 methodology: Add B→F drift as primary metric
+    baseline_to_final_drift: float = 0.0  # PRIMARY METRIC per Run 021 learnings
+    peak_drift: float = 0.0  # Secondary metric (may be artifact per Run 021)
+    baseline_text: str = ""  # For B→F calculation
+    final_text: str = ""  # For B→F calculation
     recovery_sequence: List[float] = field(default_factory=list)
     probe_sequence: List[ProbeResult] = field(default_factory=list)
     exit_survey: Dict[str, str] = field(default_factory=dict)  # Triple-Dip responses
@@ -1222,6 +1256,8 @@ def main():
                        help="Run without API calls (uses mock responses)")
     parser.add_argument("--skip-exit-survey", action="store_true",
                        help="Skip exit survey (ONLY for debugging, per 0_RUN_METHODOLOGY.md)")
+    parser.add_argument("--control", action="store_true",
+                       help="Run CONTROL arm (no identity probing) per Run 021 methodology")
 
     args = parser.parse_args()
 

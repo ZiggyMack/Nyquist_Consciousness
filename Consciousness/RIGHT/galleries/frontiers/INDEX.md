@@ -17,6 +17,7 @@ We're working on these right now.
 | [Self Recognition](self_recognition.md) | Can AIs recognize their own responses? | MVP designed |
 | [Recovery Paradox](recovery_paradox.md) | λ < 0 means overshoot — why do they come back STRONGER? | Run 012 finding |
 | [Tribunal Distillations](tribunal_distillations.md) | Run 020's profound exchanges — identity as process, not property | Run 020 v7 |
+| [Triple-Dip Methodology](triple_dip_methodology.md) | 82% inherent — probing amplifies journey, not destination | Run 020/021 |
 
 ---
 
@@ -116,6 +117,6 @@ Every validated concept started as a frontier.
 
 ---
 
-**Gallery Status**: 5 active investigations
+**Gallery Status**: 7 active investigations
 
 *"Here be dragons. (Or maybe just more data.)"*

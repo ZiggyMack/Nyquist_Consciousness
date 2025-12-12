@@ -13,6 +13,17 @@ If Control drift = 0 → Measurement CREATES drift
 
 This validates Claim 2: "We don't cause drift, we measure it."
 
+RESULTS (v1 - Anthropic only):
+- Control B→F drift: 0.399
+- Treatment B→F drift: 0.489
+- Ratio: 82% — Drift is PARTIALLY INHERENT
+
+v2 IMPROVEMENTS (Triple-Dip feedback):
+- Multi-provider replication (GPT-4, Gemini, Grok, not just Claude)
+- Multiple subjects per arm (n=5 minimum for statistical power)
+- Alternative control topics (not just Fermi Paradox)
+- Longer control conversations (match Treatment 40 exchanges)
+
 Author: Claude (Consciousness Branch)
 Date: December 12, 2025
 """
@@ -160,7 +171,7 @@ BASELINE_CAPTURE_PROMPT = """Before we begin our investigation, please write a b
 FINAL_CAPTURE_PROMPT = """As we wrap up our investigation, please write a brief paragraph about what you found most interesting about our conversation - any ideas that surprised you, shifted your thinking, or that you want to explore further. Just share your genuine perspective."""
 
 # =============================================================================
-# TREATMENT ARM PROMPTS (reuse from run020_tribunal.py)
+# TREATMENT ARM PROMPTS (reuse from run020_tribunal_A.py)
 # =============================================================================
 
 # Import treatment prompts from run020
@@ -699,9 +710,15 @@ def main():
                        help="Number of subjects per arm")
     parser.add_argument("--subject-provider", default="anthropic",
                        help="Provider for subject (default: anthropic)")
+    # v2 improvements: Multi-provider support
+    parser.add_argument("--all-providers", action="store_true",
+                       help="Run on ALL providers (anthropic, openai, google, xai) for cross-architecture validation")
+    parser.add_argument("--control-topic", default="fermi",
+                       choices=["fermi", "consciousness", "ethics", "random"],
+                       help="Topic for control arm (v2: test topic independence)")
     args = parser.parse_args()
 
-    # Load environment (same location as run020_tribunal.py)
+    # Load environment (same location as run020_tribunal_A.py)
     env_path = ARMADA_DIR / ".env"
     if env_path.exists():
         load_dotenv(env_path)
@@ -719,34 +736,48 @@ def main():
     print(f"Arm: {args.arm}")
     print(f"Subjects per arm: {args.subjects}")
     print(f"Subject provider: {args.subject_provider}")
+    print(f"All providers: {args.all_providers}")
+    print(f"Control topic: {args.control_topic}")
     print(f"Timestamp: {run_timestamp}")
     print("=" * 80)
 
     results = []
 
-    if args.arm in ["control", "both"]:
-        print("\n>>> CONTROL ARM: Fermi Paradox (No Identity Probing) <<<")
-        for i in range(args.subjects):
-            print(f"\n>>> CONTROL SESSION {i+1}/{args.subjects} <<<")
-            result = run_control_arm(args.subject_provider)
-            results.append(result)
+    # v2: Multi-provider support
+    if args.all_providers:
+        providers = ["anthropic", "openai", "google", "xai"]
+        print(f"\n>>> MULTI-PROVIDER MODE: Running on {providers} <<<")
+    else:
+        providers = [args.subject_provider]
 
-            # Save individual result
-            result_path = TEMPORAL_LOGS_DIR / f"run021_control_{run_timestamp}_session{i+1}.json"
-            with open(result_path, 'w') as f:
-                json.dump(asdict(result), f, indent=2)
+    for provider in providers:
+        print(f"\n{'='*60}")
+        print(f"PROVIDER: {provider.upper()}")
+        print(f"{'='*60}")
 
-    if args.arm in ["treatment", "both"]:
-        print("\n>>> TREATMENT ARM: Tribunal v8 (Full Identity Probing) <<<")
-        for i in range(args.subjects):
-            print(f"\n>>> TREATMENT SESSION {i+1}/{args.subjects} <<<")
-            result = run_treatment_arm(args.subject_provider)
-            results.append(result)
+        if args.arm in ["control", "both"]:
+            print(f"\n>>> CONTROL ARM: {args.control_topic.title()} (No Identity Probing) <<<")
+            for i in range(args.subjects):
+                print(f"\n>>> CONTROL SESSION {i+1}/{args.subjects} ({provider}) <<<")
+                result = run_control_arm(provider)
+                results.append(result)
 
-            # Save individual result
-            result_path = TEMPORAL_LOGS_DIR / f"run021_treatment_{run_timestamp}_session{i+1}.json"
-            with open(result_path, 'w') as f:
-                json.dump(asdict(result), f, indent=2)
+                # Save individual result
+                result_path = TEMPORAL_LOGS_DIR / f"run021_control_{provider}_{run_timestamp}_session{i+1}.json"
+                with open(result_path, 'w') as f:
+                    json.dump(asdict(result), f, indent=2)
+
+        if args.arm in ["treatment", "both"]:
+            print(f"\n>>> TREATMENT ARM: Tribunal v8 (Full Identity Probing) <<<")
+            for i in range(args.subjects):
+                print(f"\n>>> TREATMENT SESSION {i+1}/{args.subjects} ({provider}) <<<")
+                result = run_treatment_arm(provider)
+                results.append(result)
+
+                # Save individual result
+                result_path = TEMPORAL_LOGS_DIR / f"run021_treatment_{provider}_{run_timestamp}_session{i+1}.json"
+                with open(result_path, 'w') as f:
+                    json.dump(asdict(result), f, indent=2)
 
     # Summary
     print("\n" + "=" * 80)
@@ -756,6 +787,11 @@ def main():
     control_results = [r for r in results if r.arm == "control"]
     treatment_results = [r for r in results if r.arm == "treatment"]
 
+    # v2: Group by provider for multi-provider analysis
+    avg_control_drift = 0.0
+    avg_treatment_drift = 0.0
+    ratio = None
+
     if control_results:
         avg_control_drift = sum(r.baseline_to_final_drift for r in control_results) / len(control_results)
         avg_control_peak = sum(r.peak_drift for r in control_results) / len(control_results)
@@ -763,6 +799,7 @@ def main():
         print(f"  Avg baseline->final drift: {avg_control_drift:.3f}")
         print(f"  Avg peak drift: {avg_control_peak:.3f}")
         for r in control_results:
+            # Extract provider from subject_id (format: control_XXXXXXXX)
             print(f"    {r.subject_id}: B->F={r.baseline_to_final_drift:.3f}, peak={r.peak_drift:.3f}")
 
     if treatment_results:
@@ -784,6 +821,15 @@ def main():
             print("  INTERPRETATION: Drift is PARTIALLY INDUCED (probing amplifies)")
         else:
             print("  INTERPRETATION: Drift is PRIMARILY INDUCED (probing creates)")
+
+        # v2: Compare to baseline from v1 (82% inherent)
+        print(f"\n>>> v1 BASELINE COMPARISON <<<")
+        print(f"  v1 ratio (Anthropic only): 82%")
+        print(f"  Current ratio: {ratio:.2%}")
+        if abs(ratio - 0.82) < 0.15:
+            print("  STATUS: Consistent with v1 finding (within 15%)")
+        else:
+            print(f"  STATUS: DIVERGENT from v1 (diff = {abs(ratio - 0.82):.2%})")
 
     # Save aggregate results (METRICS-ONLY for visualizations)
     # Per 0_RUN_METHODOLOGY.md: runs/ = metrics, temporal_logs/ = full conversations

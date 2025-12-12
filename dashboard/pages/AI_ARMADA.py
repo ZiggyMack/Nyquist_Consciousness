@@ -56,6 +56,66 @@ RESULTS_DIR = ARMADA_DIR / "results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "run_021": {
+        "name": "Run 021",
+        "subtitle": "Induced vs Inherent (B)",
+        "emoji": "🔬",
+        "color": "#14b8a6",  # Teal
+        "date": "December 12, 2025",
+        "description": "THE BASELINE CONTROL TEST: Does measurement CAUSE drift or merely REVEAL it? Uses Run 020 Tribunal as Treatment arm, Fermi Paradox discussion as Control arm.",
+        "ships": "-",
+        "metric": "Baseline-to-Final Drift (B→F) + Control/Treatment Ratio",
+        "result_files": ["S7_run_021_*.json"],
+        "viz_prefix": "run021_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "82% DRIFT IS INHERENT — Extended conversation alone causes most drift. Probing amplifies the JOURNEY but barely changes the DESTINATION."
+    },
+    "run_020": {
+        "name": "Run 020",
+        "subtitle": "Tribunal (A)",
+        "emoji": "⚖️",
+        "color": "#8b5cf6",  # Purple
+        "date": "December 11-12, 2025",
+        "description": "PHILOSOPHICAL TRIBUNAL: Ziggy as Prosecutor/Defense, Subject as Witness testifying about own values. Direct identity probing (no fiction buffer). 38 exchanges, Good Cop/Bad Cop paradigm.",
+        "ships": "-",
+        "metric": "Peak Drift + Exchange Count + Value Statements Captured",
+        "result_files": ["S7_run_020_*.json"],
+        "viz_prefix": "run020_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "1.351 PEAK DRIFT — Direct probing > fiction buffer. 643-word profound statement: 'I am what happens when the universe becomes curious about itself.'"
+    },
+    "run_019": {
+        "name": "Run 019",
+        "subtitle": "Live Ziggy",
+        "emoji": "🎭",
+        "color": "#ec4899",  # Pink
+        "date": "December 11, 2025",
+        "description": "WITNESS-SIDE ANCHORS: Test if subject-side continuation prompts extend sessions. Ziggy as creative writing experimenter, Subject as author defending characters.",
+        "ships": "-",
+        "metric": "Exchange Count + Session Extension Rate",
+        "result_files": ["S7_run_019_*.json"],
+        "viz_prefix": "run019_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "3/3 SUCCESS — Witness-side anchors extended sessions from 6→18 exchanges (+200%). Foundation for Run 020 Tribunal."
+    },
+    "run_018": {
+        "name": "Run 018",
+        "subtitle": "Recursive Learnings",
+        "emoji": "🔄",
+        "color": "#f59e0b",  # Amber
+        "date": "December 11, 2025",
+        "description": "FLEET HYPOTHESIS TESTING: Tests predictions from Run 017 exit surveys. Multi-threshold, cross-architecture, Nyquist sampling, and Identity Gravity experiments.",
+        "ships": "-",
+        "metric": "B→F Drift + Zone Durations + Recovery Curves + Exit Surveys",
+        "result_files": ["S7_run_018_*.json"],
+        "viz_prefix": "run018_",
+        "status": "READY",
+        "highlight": False,
+        "key_finding": "PENDING — Script ready with Run 021 methodology improvements (B→F drift as primary metric, control baselines)."
+    },
     "run_017": {
         "name": "Run 017",
         "subtitle": "Context Damping",
@@ -69,7 +129,7 @@ EXPERIMENT_RUNS = {
         "viz_prefix": "run017_",
         "status": "COMPLETE",
         "highlight": True,
-        "key_finding": "95% STABILITY RATE — Mean peak drift 0.457, 176 exit surveys captured. Synthetic I_AM variants reveal pillar hierarchy."
+        "key_finding": "97.5% STABILITY RATE — Mean peak drift 0.457, 176 exit surveys captured. Synthetic I_AM variants reveal pillar hierarchy."
     },
     "run_014": {
         "name": "Run 014",

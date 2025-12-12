@@ -125,7 +125,7 @@ Both arms use identical baseline establishment and drift measurement methodology
 
 **Files:**
 
-- Script: `11_CONTEXT_DAMPING/run021_induced_vs_inherent.py`
+- Script: `11_CONTEXT_DAMPING/run020_tribunal_B.py` (Run 021 = Run 020-B)
 - Results: `0_results/runs/S7_run_021_*.json`
 - This summary: `0_docs/S7_RUN_021_SUMMARY.md`
 
