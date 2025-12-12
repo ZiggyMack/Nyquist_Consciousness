@@ -548,6 +548,7 @@ py visualize_armada.py --run 009 --type pillar
 | **018** | Dec 12 | - | **i_am_plus_research** | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** |
 | **019** | Dec 11 | - | mixed | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** |
 | **020** | Dec 11 | - | tribunal | **Philosophical Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
+| **021** | Dec 12 | - | control/treatment | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
 
 **IMPORTANT:** Runs 006-016 are `bare_metal` (no I_AM file). Phase 4 (Run 017+) uses `i_am_plus_research` to complete the measurement circuit. See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
 

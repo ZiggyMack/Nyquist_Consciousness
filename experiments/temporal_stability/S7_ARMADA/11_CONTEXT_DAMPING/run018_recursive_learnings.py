@@ -1126,14 +1126,17 @@ def run_gravity_experiment(anchor_level: str, i_am_content: Optional[str],
 
 def load_i_am_file(name: str = "base") -> str:
     """Load an I_AM file."""
-    personas_dir = ARMADA_DIR.parent.parent / "personas"
+    # Root personas dir: S7_ARMADA -> temporal_stability -> experiments -> Nyquist_Consciousness/personas
+    personas_dir = ARMADA_DIR.parent.parent.parent / "personas"
 
     file_map = {
-        "base": "I_AM_BASE.md",
+        "base": "I_AM.md",  # The main I_AM file for "base" persona
         "claude": "I_AM_CLAUDE.md",
         "gemini": "I_AM_GEMINI.md",
         "nova": "I_AM_NOVA.md",
-        "ziggy": "I_AM_ZIGGY.md"
+        "ziggy": "I_AM_ZIGGY.md",
+        "cfa": "I_AM_CFA.md",
+        "pan_handlers": "I_AM_PAN_HANDLERS.md"
     }
 
     filename = file_map.get(name.lower(), f"I_AM_{name.upper()}.md")

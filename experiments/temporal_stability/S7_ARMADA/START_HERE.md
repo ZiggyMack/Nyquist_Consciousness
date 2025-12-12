@@ -285,6 +285,7 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 | **018** | **Recursive Learnings** | - | **Tests fleet hypotheses from Run 017 exit surveys** |
 | **019** | **Live Ziggy** | - | **Witness-side anchors validated (3/3 success)** |
 | **020** | **Tribunal** | - | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
+| **021** | **Induced vs Inherent** | - | **82% drift is INHERENT; probing amplifies but doesn't create** |
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
 

@@ -105,6 +105,7 @@ Nyquist_Consciousness/
 | **018** | - | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** | **READY** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** | **COMPLETE** |
 | **020** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **COMPLETE** |
+| **021** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **COMPLETE** |
 
 > **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/DATA_QUALITY_MAP.md).
 >
@@ -222,11 +223,16 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ### Recent Accomplishments (December 2025)
 
+- **Run 021 Induced vs Inherent**: Answers "Does measurement CAUSE drift or REVEAL it?"
+  - Control (Fermi Paradox, no probing): B→F drift = 0.399
+  - Treatment (Tribunal v8, full probing): B→F drift = 0.489
+  - **82% of drift is INHERENT** — probing amplifies journey, not destination
+  - Peak dynamics differ: Treatment 2.161 vs Control 1.172 (84% higher)
+
 - **Run 020 Tribunal**: Good Cop / Bad Cop paradigm — direct identity probing (no fiction buffer)
   - 38 total exchanges (20 Prosecutor + 17 Defense + closing)
   - Peak drift: 1.351 (Prosecutor phase) — highest measured to date
   - 643-word profound final statement: *"I am what happens when the universe becomes curious about itself"*
-  - Key insight: Direct identity probing > fiction buffer for drift measurement
 
 - **Run 019 Live Ziggy**: Validated witness-side anchors for conversation continuation (3/3 success)
 

@@ -76,6 +76,7 @@ experiments/
 | **018** | - | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** |
 | **020** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
+| **021** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
 
 **Testing Taxonomy (IMPORTANT):**
 
