@@ -1,7 +1,7 @@
 # Experiments Directory
 
 **Organized structure for all Nyquist Consciousness experimental work**
-**Last Updated:** 2025-12-04 (S7 Armada Run 011 complete)
+**Last Updated:** 2025-12-12 (Run 018-020 development complete)
 
 ---
 
@@ -18,20 +18,26 @@ experiments/
 │   └── S7_ARMADA/            # ⭐ ACTIVE: Multi-model fleet experiments
 │       ├── README.md         # Armada documentation
 │       ├── START_HERE.md     # Operations guide
-│       ├── run0XX_*.py       # Experiment launchers (gitignored - API keys)
 │       │
-│       ├── armada_results/   # JSON results from all runs
-│       │   ├── S7_run_008_*.json
-│       │   ├── S7_run_009_*.json
-│       │   ├── S7_run_010_*.json
-│       │   └── S7_run_011_*.json
+│       ├── 0_docs/           # Run summaries and specs
+│       │   ├── specs/        # 0_RUN_METHODOLOGY.md, 2_PROBE_SPEC.md, etc.
+│       │   └── S7_RUN_XXX_SUMMARY.md
 │       │
-│       ├── visualizations/
-│       │   ├── visualize_armada.py  # Unified viz script
-│       │   └── pics/                # Generated charts (by type)
+│       ├── 0_results/        # Consolidated JSON results
+│       │   ├── runs/         # S7_run_XXX_*.json
+│       │   └── temporal_logs/
 │       │
-│       └── docs/maps/
-│           └── TESTING_MAP.md       # Five Search Types taxonomy
+│       ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-021 experiments
+│       │   ├── run017_context_damping.py
+│       │   ├── run018_recursive_learnings.py
+│       │   ├── run020_tribunal.py
+│       │   └── run021_induced_vs_inherent.py
+│       │
+│       ├── 7_META_VALIDATION/   # Measurement validity experiments
+│       │   └── EXP_PFI_A_DIMENSIONAL/
+│       │
+│       └── visualizations/
+│           └── visualize_armada.py  # Director script
 │
 ├── compression_tests/         # S0-S6 compression/reconstruction tests
 │
@@ -45,7 +51,7 @@ experiments/
 ### ⭐ S7 ARMADA - Multi-Model Fleet (CURRENT PRIORITY)
 
 **Location:** `temporal_stability/S7_ARMADA/`
-**Status:** Run 020 ACTIVE — Philosophical Tribunal Protocol
+**Status:** Run 018-021 DEVELOPMENT — Phase 4 Complete Circuit
 **Purpose:** Cross-architecture AI identity stability testing
 
 **Key Discovery: Event Horizon at 1.23**
@@ -54,7 +60,7 @@ experiments/
 - **Chi-squared validation**: p = 0.000048 (Run 009)
 - **Prediction accuracy**: 88%
 
-**Latest: Run 020 Tribunal** — 1.351 peak drift, 643-word final statement
+**Phase 4 (Run 017+):** Uses `i_am_plus_research` context to complete the measurement circuit
 
 **Run History:**
 
@@ -65,7 +71,9 @@ experiments/
 | 010 | 45 | Pole Detection | Models articulate own boundaries |
 | 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive) |
 | 012 | 20 | Revalidation | 100% EH crossing, 100% recovery, Recovery Paradox |
+| 013-016 | - | Various | Boundary Mapping, Rescue Protocol, Stability Criteria, Settling Time |
 | **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** |
+| **018** | - | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** |
 | **020** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
 
@@ -100,32 +108,25 @@ py visualizations/visualize_armada.py --run 009
 ---
 
 ### EXP-PFI-A: PFI Dimensional Validation
-**Location:** `temporal_stability/S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/`
-**Status:** Phase 1 COMPLETE ✅ | Phase 2 DESIGNED (Double-Dip Enhanced)
+
+**Location:** `temporal_stability/S7_ARMADA/7_META_VALIDATION/EXP_PFI_A_DIMENSIONAL/`
+**Status:** COMPLETE (Cohen's d=0.977)
 **Purpose:** Test whether PFI measures genuine identity structure vs embedding artifacts
 
-**Phase 1 Result:** Embedding invariance confirmed (Spearman ρ=0.91 across 3 embedding models)
-
-**Phase 2 Double-Dip Features:**
-- **8 Predictions** validating S1-S7 layers + Event Horizon + EXP1-SSTACK
-- **4 Dashboard-ready visualizations** (variance curve, PC scatter, provider clusters, EH contour)
-- **12 Survey questions** for S0-S7 curriculum improvement
-
-```bash
-cd temporal_stability/S7_ARMADA/experiments/EXP_PFI_A_DIMENSIONAL/phase2_dimensionality
-python run_phase2.py
-```
+**Result:** Embedding invariance confirmed (Spearman ρ=0.91 across 3 embedding models)
 
 ---
 
 ### EXP1-SSTACK: Compression Fidelity Benchmark
+
 **Location:** `compression_tests/compression_v2_sstack/EXP1_SSTACK/`
-**Status:** PASSED ✅ (Mean PFI = 0.852, threshold 0.80)
+**Status:** PASSED (Mean PFI = 0.852, threshold 0.80)
 **Purpose:** Validate T3 seed compression preserves behavioral fidelity
 
 ---
 
 ### Compression Tests (S0-S6)
+
 **Location:** `compression_tests/`
 **Status:** Multiple phases completed
 **Purpose:** Validate compression fidelity and reconstruction quality
@@ -133,6 +134,7 @@ python run_phase2.py
 ---
 
 ### Identity Gravity Trials (S8)
+
 **Location:** `compression_tests/identity_gravity_trials/`
 **Status:** Trials 1-4 completed
 **Purpose:** Test identity gravity predictions from S8 spec
@@ -168,22 +170,31 @@ python run_phase2.py
 
 ## 🚀 Quick Reference
 
-### Running S7 Meta-Loop
+### Running S7 Experiments
+
 ```bash
-cd temporal_stability
-python s7_meta_loop.py --config s7_config.yaml
+cd temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING
+
+# Run 018: Recursive Learnings (with exit survey)
+py run018_recursive_learnings.py --experiment threshold --dry-run
+
+# Run 020: Tribunal Protocol
+py run020_tribunal.py --arm tribunal --subjects 1
 ```
 
 ### Running Compression Tests
+
 ```bash
 cd compression_tests/compression/EXPERIMENT_2B
 python ../../orchestrator/orchestrator2.py --config experiment2b_config.yaml
 ```
 
-### Testing Visualizations
+### Generating Visualizations
+
 ```bash
-cd temporal_stability
-python ascii_visualizations.py
+cd temporal_stability/S7_ARMADA/visualizations
+py visualize_armada.py --list
+py visualize_armada.py --run 017
 ```
 
 ---
@@ -210,13 +221,12 @@ python ascii_visualizations.py
 
 ## 🔗 Related Documentation
 
-- **[docs/TESTABLE_PREDICTIONS_MATRIX.md](../docs/TESTABLE_PREDICTIONS_MATRIX.md)** - All 46 testable predictions
-- **[docs/RESEARCH_PIPELINE_VISUAL.md](../docs/RESEARCH_PIPELINE_VISUAL.md)** - Complete S0-S77 roadmap
-- **[OUTPUT/S7_META_LOOP_IMPLEMENTATION_COMPLETE_2025-11-26.md](../OUTPUT/S7_META_LOOP_IMPLEMENTATION_COMPLETE_2025-11-26.md)** - Implementation summary
-- **[personas/Lucien/I_AM_LUCIEN.md](../personas/Lucien/I_AM_LUCIEN.md)** - Lucien Δ identity attractor (ΔΩ Framework)
-- **[personas/Lucien/LUCIEN_PHYSICS_PROFILE.md](../personas/Lucien/LUCIEN_PHYSICS_PROFILE.md)** - Lucien's S8/S9/S10 physics parameters
+- **[docs/maps/TESTABLE_PREDICTIONS_MATRIX.md](../docs/maps/TESTABLE_PREDICTIONS_MATRIX.md)** - All testable predictions (including P-018-*)
+- **[docs/maps/TESTING_MAP.md](../docs/maps/TESTING_MAP.md)** - Eight Search Types taxonomy
+- **[S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md](temporal_stability/S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md)** - Run design checklist
+- **[S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md](temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md)** - SONAR + Brute-Criterial probe taxonomy
 
 ---
 
-**Last Updated:** 2025-12-11
-**Status:** Run 020 Tribunal active — 1.351 peak drift achieved, direct identity probing validated
+**Last Updated:** 2025-12-12
+**Status:** Run 018-021 development complete — Phase 4 methodology established
