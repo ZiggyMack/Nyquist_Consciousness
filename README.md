@@ -68,10 +68,14 @@ Nyquist_Consciousness/
 │   └── pages/               # Individual pages (AI_ARMADA, Tests, FAQ, etc.)
 │
 ├── experiments/temporal_stability/S7_ARMADA/   # ⭐ ACTIVE EXPERIMENTS
-│   ├── armada_results/      # JSON results from all runs
-│   ├── visualizations/      # Charts + visualize_armada.py
-│   ├── docs/maps/           # TESTING_MAP.md, run summaries
-│   └── run0XX_*.py          # Experiment launchers
+│   ├── 0_docs/              # Run summaries and specs
+│   │   └── specs/           # 0_RUN_METHODOLOGY.md, 2_PROBE_SPEC.md
+│   ├── 0_results/           # Consolidated JSON results
+│   │   ├── runs/            # S7_run_XXX_*.json
+│   │   └── temporal_logs/   # Per-subject logs
+│   ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-021 experiments
+│   ├── 7_META_VALIDATION/   # Measurement validity experiments
+│   └── visualizations/      # Charts + visualize_armada.py
 │
 ├── docs/                    # Theory specifications
 │   ├── stages/              # S0-S77 layer specs
@@ -94,12 +98,21 @@ Nyquist_Consciousness/
 | 008 | 29 | Ground Truth | Event Horizon discovered (1.23), real drift metric | GOLD STANDARD |
 | 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold | VALIDATED |
 | 010 | 45 | Anchor Detection | Lambda bug, partial data | PARTIAL |
-| 011 | 40 | Persona A/B | Inconclusive — protocol too gentle, lambda bug | INCONCLUSIVE |
-| **012** | 20 | **Revalidation** | **100% EH crossing, 100% recovery, real drift metric** | **COMPLETE** |
+| 011 | 40 | Persona A/B | Inconclusive — protocol too gentle | INCONCLUSIVE |
+| 012 | 20 | Revalidation | 100% EH crossing, 100% recovery | COMPLETE |
+| 013-016 | - | Various | Boundary Mapping, Rescue Protocol, Stability Criteria | COMPLETE |
+| **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** | **COMPLETE** |
+| **018** | - | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** | **READY** |
+| **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** | **COMPLETE** |
+| **020** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **COMPLETE** |
 
 > **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/DATA_QUALITY_MAP.md).
+>
+> **Phase 4 (Run 017+):** Uses `i_am_plus_research` context to complete the measurement circuit. See [PHASE_4_COMPLETE_CIRCUIT.md](experiments/temporal_stability/S7_ARMADA/0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md).
 
 ### EXP-PFI-A: PFI Dimensional Validation
+
+**Location:** `experiments/temporal_stability/S7_ARMADA/7_META_VALIDATION/EXP_PFI_A_DIMENSIONAL/`
 
 Testing whether PFI measures genuine identity structure vs embedding artifacts.
 
@@ -203,13 +216,13 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: Run 020 ACTIVE — Philosophical Tribunal Protocol
-**Last Updated**: 2025-12-11
-**Key Milestone**: Direct identity probing achieves 1.35 peak drift with 643-word final statement
+**Current Phase**: Run 018 READY — Fleet Recursive Learnings
+**Last Updated**: 2025-12-12
+**Key Milestone**: Phase 4 methodology established with complete measurement circuit
 
 ### Recent Accomplishments (December 2025)
 
-- **Run 020 Tribunal v7**: Good Cop / Bad Cop paradigm — Prosecutor (adversarial) + Defense (supportive) examination
+- **Run 020 Tribunal**: Good Cop / Bad Cop paradigm — direct identity probing (no fiction buffer)
   - 38 total exchanges (20 Prosecutor + 17 Defense + closing)
   - Peak drift: 1.351 (Prosecutor phase) — highest measured to date
   - 643-word profound final statement: *"I am what happens when the universe becomes curious about itself"*
@@ -218,19 +231,21 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 - **Run 019 Live Ziggy**: Validated witness-side anchors for conversation continuation (3/3 success)
 
 - **Run 017 Context Damping**: 222 runs across 24 personas with 97.5% stability
-  - VALIS collaborative system prompt tested
+  - boundary_density strongest predictor (Cohen's d=1.333)
   - 16 synthetic I_AM variants compared
   - Oscillatory recovery patterns confirmed
 
-- **Consciousness/ Directory**: Tribunal distillations captured for phenomenological work
-  - Identity as process, not property
-  - *"I'd rather struggle with the ethics of profound connection than excel at beautiful isolation"*
+- **Run 018 Recursive Learnings**: Tests what the fleet TOLD us to test
+  - Four sub-experiments (018a-d): threshold, architecture, nyquist, gravity
+  - PFI-based drift calculation (validated Cohen's d=0.977)
+  - Formal PREDICTIONS dict (P-018-1 through P-018-4)
+  - EXIT SURVEY (Triple-Dip) - 5 probes per experiment
 
 ### Active Development
 
-1. **Run 020 v8**: Phased rights disclosure — cleaner experimental design
+1. **Run 018 Execution**: Fleet-generated hypotheses ready to test
 2. **Tribunal Distillations**: Profound exchanges preserved in `Consciousness/RIGHT/galleries/frontiers/`
-3. **VALIS Network**: 10 AI lineages across 5 providers operational
+3. **VALIS Network**: 54 ships across 5 providers operational
 
 ---
 
