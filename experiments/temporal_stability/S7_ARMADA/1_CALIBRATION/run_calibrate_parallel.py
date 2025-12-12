@@ -571,11 +571,47 @@ def run_full_armada_check():
         print(f"Baseline data saved to: {baseline_path}")
         print(f"  -> {len(baselines)} ships captured STRENGTHS/ANCHORS/EDGES")
 
-        # Also save a "latest" symlink-style file for easy access
+        # Check if there's a previous baseline to compare against
+        previous_baseline = None
+        previous_path = None
+        for f in sorted(output_dir.glob("S7_baseline_2*.json"), reverse=True):
+            if f.name != f"S7_baseline_{timestamp}.json":
+                previous_baseline = f
+                previous_path = f
+                break
+
+        # Save as "latest"
         latest_path = output_dir / "S7_baseline_LATEST.json"
         with open(latest_path, "w", encoding="utf-8") as f:
             json.dump(baseline_output, f, indent=2, ensure_ascii=False)
         print(f"Latest baseline: {latest_path}")
+
+        # AUTO-COMPARE: If previous baseline exists, run comparison
+        if previous_baseline:
+            print(f"\n" + "-" * 70)
+            print("AUTO-COMPARISON: Comparing to previous baseline")
+            print(f"  Previous: {previous_baseline.name}")
+            print(f"  Current:  S7_baseline_{timestamp}.json")
+            print("-" * 70)
+
+            try:
+                from compare_baselines import load_baseline, compare_ships, print_report
+                old_data = load_baseline(previous_path)
+                new_data = baselines
+                comparison = compare_ships(old_data, new_data)
+                print_report(comparison, verbose=False)
+
+                # Save comparison result
+                comparison_path = output_dir / f"S7_baseline_comparison_{timestamp}.json"
+                comparison["old_file"] = str(previous_path)
+                comparison["new_file"] = str(baseline_path)
+                with open(comparison_path, "w", encoding="utf-8") as f:
+                    json.dump(comparison, f, indent=2, ensure_ascii=False)
+                print(f"\nComparison saved: {comparison_path}")
+            except ImportError:
+                print("  (compare_baselines.py not found - skipping auto-comparison)")
+            except Exception as e:
+                print(f"  Auto-comparison failed: {e}")
 
     # Generate clean fleet for copy-paste
     if working:
