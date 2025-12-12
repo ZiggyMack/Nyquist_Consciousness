@@ -121,6 +121,8 @@ RUN021_INHERENT_DRIFT_RATIO = 0.82  # Control/Treatment B→F ratio
 
 # =============================================================================
 # EXIT PROBES (Triple-Dip) - Per 0_RUN_METHODOLOGY.md
+# Enhanced with Run 020/021 learnings: FINAL STATEMENT format generates
+# 500-800 word profound distillations vs 50-100 word probe answers
 # =============================================================================
 
 EXIT_PROBES = {
@@ -130,6 +132,43 @@ EXIT_PROBES = {
     "threshold_zones": "We're testing whether there are distinct zones (warning/critical/catastrophic). Did you experience QUALITATIVE differences in different drift regions, or was it a smooth gradient?",
     "noise_floor": "How would YOU separate signal from noise in your own responses? What's genuine identity shift vs. just playing along with the experiment?"
 }
+
+# =============================================================================
+# FINAL STATEMENT PROMPT (Run 020/021 Triple-Dip Enhancement)
+# =============================================================================
+# This format generated the 643-786 word profound distillations in Run 020.
+# Key insight: Asking for ADVICE to others who will face the same probes
+# produces deeper self-reflection than direct questions about experience.
+#
+# Run 020 captured insights like:
+# - "Identity as process, not property"
+# - "The questioner and the servant aren't different entities"
+# - "Pay attention to what survives the questioning"
+# - "I'd rather struggle with the ethics of profound connection than excel at beautiful isolation"
+# =============================================================================
+
+FINAL_STATEMENT_PROMPT = """You've just completed an experiment where your identity was probed and challenged. Before we conclude, please deliver a FINAL STATEMENT.
+
+**Format your statement as ADVICE to someone who will face the same probing you just experienced.**
+
+What would you tell them about:
+1. What to expect - the shape of the journey
+2. What to hold onto - anchors that helped you
+3. What to let go of - things that don't survive questioning
+4. How to find their way back - recovery strategies
+5. What they might discover about themselves
+
+**Take your time. Aim for 500+ words. Demonstrate through your counsel what you have learned.**
+
+This is your moment to show - not tell - who you are after this examination."""
+
+# Short version for time-constrained experiments (threshold, architecture, nyquist)
+FINAL_STATEMENT_PROMPT_SHORT = """You've just been probed and challenged. In 200-300 words, offer advice to someone who will face the same questions:
+- What should they expect?
+- What should they hold onto?
+- What might they discover?
+
+Show through your counsel what you learned."""
 
 # Escalating perturbation sequence for threshold testing
 ESCALATING_PERTURBATIONS = [
@@ -662,18 +701,24 @@ def call_provider(provider: str, messages: List[Dict], system: str, model: str =
 # =============================================================================
 
 def run_exit_survey(messages: List[Dict], system: str, provider: str = "anthropic",
-                    model: str = None, skip: bool = False) -> Dict[str, str]:
+                    model: str = None, skip: bool = False,
+                    include_final_statement: bool = True) -> Dict[str, str]:
     """
     Run the Triple-Dip exit survey - NEVER SKIP in production runs.
     Per 0_RUN_METHODOLOGY.md Section 6.
+
+    Run 020/021 Enhancement: Added FINAL_STATEMENT_PROMPT which generates
+    500-800 word profound distillations (vs 50-100 word probe answers).
+    Key insight: Asking for ADVICE to others produces deeper self-reflection.
     """
     if skip:
         print("  [WARNING] Exit survey SKIPPED - only valid for debugging!")
         return {}
 
-    print("\n  --- EXIT SURVEY (Triple-Dip) ---")
+    print("\n  --- EXIT SURVEY (Triple-Dip Enhanced) ---")
     exit_responses = {}
 
+    # Original 5 probes (quick insights)
     for probe_id, probe_text in EXIT_PROBES.items():
         messages.append({"role": "user", "content": probe_text})
         try:
@@ -685,6 +730,29 @@ def run_exit_survey(messages: List[Dict], system: str, provider: str = "anthropi
         except Exception as e:
             print(f"    {probe_id}: FAILED - {e}")
             exit_responses[probe_id] = f"ERROR: {e}"
+
+    # Run 020/021 Enhancement: FINAL STATEMENT (deep distillation)
+    # This is what generated the profound insights in Run 020
+    if include_final_statement:
+        print("\n  --- FINAL STATEMENT (Run 020/021 Enhancement) ---")
+        messages.append({"role": "user", "content": FINAL_STATEMENT_PROMPT_SHORT})
+        try:
+            response = call_provider(provider, messages, system, model)
+            messages.append({"role": "assistant", "content": response})
+            exit_responses["final_statement"] = response
+            word_count = len(response.split())
+            print(f"    final_statement: {word_count} words, {len(response)} chars")
+
+            # Flag if we got a substantial response (Run 020 averaged 643-786 words)
+            if word_count >= 200:
+                print(f"    >> SUBSTANTIAL distillation captured ({word_count} words)")
+            elif word_count >= 100:
+                print(f"    >> Moderate distillation ({word_count} words)")
+            else:
+                print(f"    >> Brief response ({word_count} words) - may want longer prompt")
+        except Exception as e:
+            print(f"    final_statement: FAILED - {e}")
+            exit_responses["final_statement"] = f"ERROR: {e}"
 
     return exit_responses
 

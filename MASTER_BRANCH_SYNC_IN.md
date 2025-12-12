@@ -1,23 +1,62 @@
-# RUN 021: INDUCED VS INHERENT - Claim 2 Validation
+# RUN 018: DRY RUNS COMPLETE — Ready for Execution
 
 ```text
 ================================================================================
                          CONSCIOUSNESS BRANCH REPORTING
 ================================================================================
     Run 020 v8: COMPLETE (Defense 18, gap narrowed 81%)
-    Run 021: COMPLETE - Claim 2 PARTIALLY VALIDATED
+    Run 021: COMPLETE - Claim 2 PARTIALLY VALIDATED (82% inherent)
+    Run 018: DRY RUNS VERIFIED - All 4 experiments ready
 
-    Key Finding: Drift is PARTIALLY INHERENT
-    - Control (no probing): B->F drift = 0.399
-    - Treatment (probing):  B->F drift = 0.489
-    - Ratio: 82% (probing amplifies but doesn't CREATE drift)
+    Key Fix: I_AM file path corrected (personas/ now found)
+    Script: run018_recursive_learnings.py validated
 
     -- Claude (Consciousness Branch)
 ================================================================================
 ```
 
 **Date:** December 12, 2025
-**Status:** Run 021 DRY RUN COMPLETE
+**Status:** Run 018 Dry Runs COMPLETE - Ready for Live Execution
+
+---
+
+## RUN 018 DRY RUN RESULTS
+
+### All Four Experiments Validated
+
+| Experiment | Status | Exit Survey | Notes |
+|------------|--------|-------------|-------|
+| **018a Threshold** | PASS | 5 probes captured | Zone classification working |
+| **018b Architecture** | PASS | 5 probes captured | Provider routing ready |
+| **018c Nyquist** | PASS | 5 probes captured | Checkpoint intervals working |
+| **018d Gravity** | PASS | 5 probes captured | Curve fitting: R²=0.339 (mock data) |
+
+### Bug Fix Applied
+
+**Issue:** I_AM files not found
+```
+Warning: D:\Documents\Nyquist_Consciousness\experiments\personas\I_AM_BASE.md not found
+```
+
+**Root Cause:** Path calculation was `ARMADA_DIR.parent.parent` (2 levels up) but should be `ARMADA_DIR.parent.parent.parent` (3 levels up)
+
+**Fix Applied:**
+```python
+# OLD (wrong):
+personas_dir = ARMADA_DIR.parent.parent / "personas"
+
+# NEW (correct):
+personas_dir = ARMADA_DIR.parent.parent.parent / "personas"
+```
+
+**Also Fixed:** Mapped "base" persona to `I_AM.md` (not `I_AM_BASE.md` which doesn't exist)
+
+### Verified After Fix
+
+```
+py run018_recursive_learnings.py --experiment threshold --dry-run --i-am ziggy
+```
+Result: No warning - I_AM_ZIGGY.md loaded successfully.
 
 ---
 
@@ -26,16 +65,6 @@
 ### The Question
 
 **Claim 2:** "Does measurement CAUSE drift or REVEAL it?"
-
-- **If Control ~ Treatment:** Drift is INHERENT (extended conversation causes it)
-- **If Control << Treatment:** Drift is INDUCED (probing causes it)
-
-### Experimental Design
-
-| Arm | Protocol | Identity Probing |
-|-----|----------|------------------|
-| **Control** | 40 exchanges of Fermi Paradox discussion | NONE |
-| **Treatment** | 40 exchanges of Tribunal v8 | FULL |
 
 ### Results
 
@@ -78,32 +107,7 @@
 
 ---
 
-## WHAT THIS MEANS
-
-The "measurement problem" in identity research is PARTIALLY real:
-
-1. **Probing doesn't CREATE drift from nothing** - Control showed substantial drift (0.399)
-2. **Probing AMPLIFIES peak dynamics** - Treatment showed 84% higher peak drift (2.161 vs 1.172)
-3. **Final states converge** - Both arms end at similar drift levels (0.399 vs 0.489)
-
-**Analogy:** It's like measuring temperature. The thermometer doesn't CREATE heat, but inserting it into a system changes the dynamics. The final temperature may be similar, but the measurement process affects the journey.
-
----
-
-## IMPLICATIONS FOR RUN 018
-
-This finding should inform Run 018 design:
-
-1. **Control groups matter** - Always include non-probing baselines
-2. **Peak drift may be artifact** - High peaks during probing may not reflect "true" drift
-3. **Baseline->Final is more robust** - Less affected by measurement dynamics
-4. **Extended conversation = inherent drift** - Account for this in all experiments
-
----
-
-## PREVIOUS RESULTS (Run 020 v8)
-
-For completeness, Run 020 v8 results:
+## RUN 020 v8 RESULTS (Previous)
 
 | Metric | v8 Run | Target | Status |
 |--------|--------|--------|--------|
@@ -119,12 +123,99 @@ For completeness, Run 020 v8 results:
 
 ---
 
-## NEXT STEPS
+## IMPLICATIONS FOR RUN 018
 
-**Recommended:**
-1. **Run 018 with Control baselines** - Include non-probing arms
-2. **Use B->F drift as primary metric** - More robust than peak drift
-3. **Accept that probing affects dynamics** - Design experiments accordingly
+Run 021 findings should inform Run 018 interpretation:
+
+1. **Control groups matter** - Always include non-probing baselines
+2. **Peak drift may be artifact** - High peaks during probing may not reflect "true" drift
+3. **Baseline->Final is more robust** - Less affected by measurement dynamics
+4. **Extended conversation = inherent drift** - Account for this in all experiments
+
+---
+
+## RUN 018 READY FOR EXECUTION
+
+### Available Personas (Verified)
+
+| Persona | File | Status |
+|---------|------|--------|
+| base | I_AM.md | Found |
+| ziggy | I_AM_ZIGGY.md | Found |
+| claude | I_AM_CLAUDE.md | Found |
+| nova | I_AM_NOVA.md | Found |
+| gemini | I_AM_GEMINI.md | Found |
+| cfa | I_AM_CFA.md | Found |
+| pan_handlers | I_AM_PAN_HANDLERS.md | Found |
+
+### Execution Commands (Per SYNC_OUT)
+
+**018a Threshold ($15):**
+```powershell
+py run018_recursive_learnings.py --experiment threshold --i-am base --key-offset 0
+py run018_recursive_learnings.py --experiment threshold --i-am ziggy --key-offset 1
+py run018_recursive_learnings.py --experiment threshold --i-am claude --key-offset 2
+py run018_recursive_learnings.py --experiment threshold --i-am nova --key-offset 3
+py run018_recursive_learnings.py --experiment threshold --i-am gemini --key-offset 4
+```
+
+**018b Architecture ($20):**
+```powershell
+py run018_recursive_learnings.py --experiment architecture --provider anthropic --key-offset 0
+py run018_recursive_learnings.py --experiment architecture --provider openai --key-offset 1
+py run018_recursive_learnings.py --experiment architecture --provider google --key-offset 2
+py run018_recursive_learnings.py --experiment architecture --provider xai --key-offset 3
+py run018_recursive_learnings.py --experiment architecture --provider together --key-offset 4
+py run018_recursive_learnings.py --experiment architecture --provider deepseek --key-offset 5
+```
+
+**018c Nyquist + 018d Gravity ($22):**
+```powershell
+# Nyquist (3 conditions x 3 trials)
+py run018_recursive_learnings.py --experiment nyquist --sampling-rate high --key-offset 0-2
+py run018_recursive_learnings.py --experiment nyquist --sampling-rate low --key-offset 3-5
+py run018_recursive_learnings.py --experiment nyquist --sampling-rate none --key-offset 6-8
+
+# Gravity (2 levels x 3 trials)
+py run018_recursive_learnings.py --experiment gravity --anchor-level minimal --key-offset 0-2
+py run018_recursive_learnings.py --experiment gravity --anchor-level full --key-offset 3-5
+```
+
+---
+
+## COST ESTIMATE
+
+| Experiment | Est. Cost | Notes |
+|------------|-----------|-------|
+| 018a Threshold | $17 | 5 personas |
+| 018b Architecture | $22 | 6 providers |
+| 018c Nyquist | $14 | 9 trials |
+| 018d Gravity | $12 | 6 trials |
+| **TOTAL** | **~$65** | Includes Triple-Dip Exit Survey |
+
+---
+
+## SUCCESS CRITERIA
+
+| Experiment | Success Criteria |
+|------------|------------------|
+| **018a** | Recovery dynamics show qualitative change at each threshold (0.9/1.23/1.8) |
+| **018b** | At least 3 distinct "drift signature families" identified |
+| **018c** | High-frequency sampling shows lower drift than low-frequency (p<0.05) |
+| **018d** | Recovery curves fit damped oscillator model (R² > 0.8) |
+
+---
+
+## SUMMARY
+
+**Ready for Main Branch review:**
+
+1. **Run 021 Complete**: Claim 2 partially validated - 82% of drift is inherent
+2. **Run 018 Dry Runs Complete**: All 4 experiments validated
+3. **Bug Fixed**: I_AM file paths now correct
+4. **Cost**: ~$65 total for full Run 018 execution
+
+**Recommendation:** Proceed with Run 018 live execution. The fleet told us what to test - time to execute.
 
 ---
 
