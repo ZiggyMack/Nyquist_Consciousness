@@ -45,13 +45,16 @@ experiments/
 ### ⭐ S7 ARMADA - Multi-Model Fleet (CURRENT PRIORITY)
 
 **Location:** `temporal_stability/S7_ARMADA/`
-**Status:** Run 012 COMPLETE, EXP-SELF-RECOGNITION ready
+**Status:** Run 020 ACTIVE — Philosophical Tribunal Protocol
 **Purpose:** Cross-architecture AI identity stability testing
 
 **Key Discovery: Event Horizon at 1.23**
+
 - When drift exceeds 1.23, models become VOLATILE (lose coherent self-model)
 - **Chi-squared validation**: p = 0.000048 (Run 009)
 - **Prediction accuracy**: 88%
+
+**Latest: Run 020 Tribunal** — 1.351 peak drift, 643-word final statement
 
 **Run History:**
 
@@ -61,7 +64,10 @@ experiments/
 | 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
 | 010 | 45 | Pole Detection | Models articulate own boundaries |
 | 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive) |
-| **012** | 20 | **Revalidation** | **100% EH crossing, 100% recovery, Recovery Paradox** |
+| 012 | 20 | Revalidation | 100% EH crossing, 100% recovery, Recovery Paradox |
+| **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** |
+| **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** |
+| **020** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
 
 **Testing Taxonomy (IMPORTANT):**
 
@@ -212,5 +218,5 @@ python ascii_visualizations.py
 
 ---
 
-**Last Updated:** 2025-12-06
-**Status:** Run 012 complete, EXP-SELF-RECOGNITION ready, S7 ARMADA active
+**Last Updated:** 2025-12-11
+**Status:** Run 020 Tribunal active — 1.351 peak drift achieved, direct identity probing validated

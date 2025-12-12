@@ -1688,6 +1688,28 @@ def main():
         subprocess.run([sys.executable, str(script_path)])
         return
 
+    if args.run in ['017', '17']:
+        print("=" * 70)
+        print("DELEGATING TO SPECIALIZED VISUALIZER: Run 017")
+        print("=" * 70)
+        print("\nRun 017 uses context damping format.")
+        print("Launching: 11_CONTEXT_DAMPING/visualize_run017.py")
+        print("-" * 70)
+        script_path = BASE_DIR / "11_CONTEXT_DAMPING" / "visualize_run017.py"
+        subprocess.run([sys.executable, str(script_path)])
+        return
+
+    if args.run in ['018', '18']:
+        print("=" * 70)
+        print("DELEGATING TO SPECIALIZED VISUALIZER: Run 018")
+        print("=" * 70)
+        print("\nRun 018: Recursive Learnings (4 sub-experiments).")
+        print("Launching: 11_CONTEXT_DAMPING/visualize_run018.py")
+        print("-" * 70)
+        script_path = BASE_DIR / "11_CONTEXT_DAMPING" / "visualize_run018.py"
+        subprocess.run([sys.executable, str(script_path)])
+        return
+
     # Find run data (for standard trajectory runs 008-014)
     if args.run:
         run_id, data_file = get_run_file(args.run)

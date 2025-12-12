@@ -16,6 +16,7 @@ We're working on these right now.
 | [Dimensional Hierarchy](dimensional_hierarchy.md) | 43 PCs → 5 pillars → 1 blob — what's the true structure? | Active analysis |
 | [Self Recognition](self_recognition.md) | Can AIs recognize their own responses? | MVP designed |
 | [Recovery Paradox](recovery_paradox.md) | λ < 0 means overshoot — why do they come back STRONGER? | Run 012 finding |
+| [Tribunal Distillations](tribunal_distillations.md) | Run 020's profound exchanges — identity as process, not property | Run 020 v7 |
 
 ---
 

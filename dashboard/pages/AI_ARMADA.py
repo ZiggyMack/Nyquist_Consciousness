@@ -508,8 +508,8 @@ def render_run_selector():
         # Mapping of runs to their testing focus
         RUN_TEST_MAP = {
             "run_017": {
-                "primary": "📉 Context Damping",
-                "secondary": "🔬 Synthetic I_AM Validation",
+                "primary": "📉 Context Damping → 🌊 Adaptive Range",
+                "secondary": "🔬 Synthetic I_AM → 🌀 Basin Topology",
                 "description": "VALIS Collaborative testing context damping with 17-probe exit surveys. 222 runs across 24 personas with 16 synthetic I_AM variants.",
                 "looks_for": ["Stability Rate ≥90%", "Peak drift < Event Horizon (1.23)", "Settling time patterns", "Ringback oscillation counts", "Exit survey themes by persona category"]
             },
@@ -571,24 +571,7 @@ def render_run_selector():
 
         test_info = RUN_TEST_MAP.get(st.session_state.armada_run, {})
 
-        # Six Search Types Legend
-        st.markdown("""
-        **The Six Search Types:**
-        | Type | What It Finds | Signal |
-        |------|---------------|--------|
-        | ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
-        | 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
-        | 🚨 **Event Horizon** | Escape boundary at drift ≥1.23 | Identity leaves stabilizing basin, becomes VOLATILE |
-        | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
-        | 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
-        | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
-
-        **Meta Validation Protocols (MVP):** Self-Recognition, Stability Classification, Persona Certification
-        """)
-
-        st.markdown("---")
-
-        # This run's focus
+        # This run's focus - SPECIFIC to the selected run
         if test_info:
             col1, col2 = st.columns(2)
             with col1:
@@ -602,6 +585,34 @@ def render_run_selector():
             st.markdown("**What to look for:**")
             for item in test_info.get('looks_for', []):
                 st.markdown(f"- {item}")
+        else:
+            st.info("No test info available for this run.")
+
+    # Methodology Reference - GLOBAL (not run-specific)
+    with st.expander("📚 **Methodology Reference** — The Six Search Types", expanded=False):
+        st.markdown("""
+        | Type | What It Finds | Signal |
+        |------|---------------|--------|
+        | ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
+        | 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
+        | 🚨 **Event Horizon** | Escape boundary at drift ≥1.23 | Identity leaves stabilizing basin, becomes VOLATILE |
+        | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
+        | 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
+        | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
+
+        **Meta Validation Protocols (MVP):** Self-Recognition, Stability Classification, Persona Certification
+
+        ---
+
+        **How tests map to Search Types:**
+        | Test Focus | Informs Search Type | Why |
+        |------------|---------------------|-----|
+        | 📉 Context Damping | 🌊 Adaptive Range | Does context change what CAN flex? |
+        | 🔬 Synthetic I_AM | 🌀 Basin Topology | Does injected identity change the gravity well? |
+        | 🪞 Self-Recognition | ⚓ Anchor Detection | Can model recognize its own fixed points? |
+        | 🚨 Event Horizon | 🚨 Event Horizon | Direct validation of the 1.23 threshold |
+        | 🔄 Provider Fingerprints | 🌀 Basin Topology | Do different architectures have different basins? |
+        """)
 
     # Deprecated warning
     if current["status"] == "DEPRECATED":

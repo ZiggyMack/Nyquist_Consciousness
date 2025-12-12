@@ -389,6 +389,13 @@ The recursive loop is closed. We're not just measuring anymore - we're learning 
 - `S7_armada_run_007_adaptive.json` - Full results
 - `S7_RUN_007_SUMMARY.md` - This file
 
+### Archived Design Documents (Historical)
+
+> This was the original design document for Run 007. Now archived since
+> PFI validation and Phase 4 have superseded the methodology.
+
+- [S7_RUN_007_RECURSIVE_LEARNING.md](../../.archive/Temporal_History/S7_RUN_007_RECURSIVE_LEARNING.md) - Original adaptive probe strategy design
+
 ---
 
 **MISSION: COMPLETE**

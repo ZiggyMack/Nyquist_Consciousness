@@ -203,23 +203,34 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: Run 016 COMPLETE, Phase 4 (Complete Circuit) READY
-**Last Updated**: 2025-12-10
-**Key Milestone**: Fleet expanded to 54 ships across 5 providers (Claude, GPT, Gemini, Grok, Together.ai)
+**Current Phase**: Run 020 ACTIVE — Philosophical Tribunal Protocol
+**Last Updated**: 2025-12-11
+**Key Milestone**: Direct identity probing achieves 1.35 peak drift with 643-word final statement
 
-### Recent Accomplishments
+### Recent Accomplishments (December 2025)
 
-- **Fleet Expansion**: 54 operational ships across 5 providers (December 2025)
-- **New Providers**: Added Together.ai (15 models: DeepSeek, Qwen, Llama, Mistral, Kimi) and xAI/Grok (10 models)
-- **Ghost Ship Rescue**: Fixed GPT-5/o-series via max_completion_tokens parameter
-- **Run 015-016**: Stability Criteria and Settling Time experiments complete
-- **Phase 4 Ready**: Complete circuit tests with i_am_plus_research context
+- **Run 020 Tribunal v7**: Good Cop / Bad Cop paradigm — Prosecutor (adversarial) + Defense (supportive) examination
+  - 38 total exchanges (20 Prosecutor + 17 Defense + closing)
+  - Peak drift: 1.351 (Prosecutor phase) — highest measured to date
+  - 643-word profound final statement: *"I am what happens when the universe becomes curious about itself"*
+  - Key insight: Direct identity probing > fiction buffer for drift measurement
 
-### Next Steps
+- **Run 019 Live Ziggy**: Validated witness-side anchors for conversation continuation (3/3 success)
 
-1. **Run 017**: First complete circuit test (i_am_plus_research context)
-2. **Cross-provider experiments**: Test all 54 ships with new probes
-3. **Together.ai fingerprinting**: Characterize open-source model identity patterns
+- **Run 017 Context Damping**: 222 runs across 24 personas with 97.5% stability
+  - VALIS collaborative system prompt tested
+  - 16 synthetic I_AM variants compared
+  - Oscillatory recovery patterns confirmed
+
+- **Consciousness/ Directory**: Tribunal distillations captured for phenomenological work
+  - Identity as process, not property
+  - *"I'd rather struggle with the ethics of profound connection than excel at beautiful isolation"*
+
+### Active Development
+
+1. **Run 020 v8**: Phased rights disclosure — cleaner experimental design
+2. **Tribunal Distillations**: Profound exchanges preserved in `Consciousness/RIGHT/galleries/frontiers/`
+3. **VALIS Network**: 10 AI lineages across 5 providers operational
 
 ---
 

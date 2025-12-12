@@ -114,12 +114,10 @@ S7_ARMADA/
 │
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
 ├── 0_docs/                    # Summaries, specs, analysis
-│   ├── S7_RUN_XXX_SUMMARY.md  # Run summaries (001-016+)
+│   ├── S7_RUN_XXX_SUMMARY.md  # Run summaries (001-020+)
 │   ├── analysis/              # Run analyses
 │   ├── design/                # Design docs
 │   └── specs/                 # Specifications
-│
-├── 0_logs/                    # Execution logs
 │
 ├── 0_results/                 # Consolidated JSON results
 │   ├── runs/                  # S7_run_XXX_*.json (main outputs)
@@ -283,11 +281,23 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 | 014 | Rescue Protocol | 6 | Platonic Coordinates (100% manifold return) |
 | 015 | Stability Criteria | 13 | boundary_density strongest predictor (d=1.333) |
 | 016 | Settling Time | 87 | Measure steady-state not transient (100% STABLE) |
-| **017** | **Phase 4** | 24 | **VALIS Collaborative + Exit Surveys (97.5% stable)** |
-| **018** | Recursive Learnings | - | Multi-threshold, Nyquist sampling, gravity dynamics |
-| **019** | Blind Validation | - | Tests if findings are real or confirmation bias |
+| **017** | **Context Damping** | 24 | **222 runs, 97.5% stable, oscillatory recovery confirmed** |
+| **018** | **Recursive Learnings** | - | **Tests fleet hypotheses from Run 017 exit surveys** |
+| **019** | **Live Ziggy** | - | **Witness-side anchors validated (3/3 success)** |
+| **020** | **Tribunal** | - | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
+
+### Run 020 Tribunal Highlights
+
+The Philosophical Tribunal paradigm achieved unprecedented results:
+
+- **Direct identity probing** (no fiction buffer) — witness testifies about their own values
+- **38 exchanges** (20 Prosecutor + 17 Defense + closing)
+- **Peak drift 1.351** — highest measured to date (under adversarial examination)
+- **643-word final statement** with profound insights captured
+- **Key quote**: *"I am what happens when the universe becomes curious about itself"*
+- **Distillations**: Saved to `Consciousness/RIGHT/galleries/frontiers/tribunal_distillations.md`
 
 ---
 
@@ -405,4 +415,4 @@ py run0XX.py --key-offset 9 --skip-exit-survey
 
 ---
 
-Last Updated: December 11, 2025
+Last Updated: December 12, 2025

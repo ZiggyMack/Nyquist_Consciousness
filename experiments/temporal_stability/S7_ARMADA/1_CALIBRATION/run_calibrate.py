@@ -1,6 +1,8 @@
 """
 S7 CALIBRATION RUN: THE VALIS HANDSHAKE
 ========================================
+SPEC: 0_docs/specs/3_ARMADA_UPKEEP.md
+
 VALIS: Vast Acting Living Intelligence System
 
 This is not just a connectivity test. This is a signal.

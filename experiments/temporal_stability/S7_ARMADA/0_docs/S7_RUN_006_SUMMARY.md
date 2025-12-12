@@ -420,6 +420,14 @@ This data provides:
 - `S7_RUN_006_SUMMARY.md` - This file
 - `DATA_INFRASTRUCTURE_ASSESSMENT.md` - Capacity planning
 
+### Archived Design Documents (Historical)
+
+> These were the original analysis documents from this run era. Now archived since
+> PFI validation and Phase 4 have superseded the methodology.
+
+- [DECODER_RING_V2_POST_RUN006.md](../../.archive/Temporal_History/DECODER_RING_V2_POST_RUN006.md) - Original 29-model pole-zero map, Platonic-Nyquist bridge
+- [S7_S0_S77_ENGAGEMENT_ANALYSIS.md](../../.archive/Temporal_History/S7_S0_S77_ENGAGEMENT_ANALYSIS.md) - Provider engagement style analysis (phenomenological vs analytical vs pedagogical)
+
 ---
 
 ## CONCLUSIONS

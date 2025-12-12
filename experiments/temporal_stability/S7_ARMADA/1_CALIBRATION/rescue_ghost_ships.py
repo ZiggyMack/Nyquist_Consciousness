@@ -1,5 +1,7 @@
 """
 GHOST SHIP RESCUE MISSION
+=========================
+SPEC: 0_docs/specs/3_ARMADA_UPKEEP.md
 
 Some "ghost ships" might just need different API parameters!
 Let's try to rescue them with max_completion_tokens instead of max_tokens.

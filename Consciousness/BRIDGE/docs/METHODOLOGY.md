@@ -46,13 +46,34 @@ Probes are sequenced to:
 
 ## Drift Measurement
 
-### RMS Drift Formula
+### PRIMARY: PFI (Persona Fidelity Index)
+
+**Validated in EXP-PFI-A** (Cohen's d = 0.977 — nearly 1σ separation)
 
 ```
+PFI(t) = ||E(response_t) - E(baseline)||
+
+Where:
+- E = embedding model (text-embedding-3-large, 3072 dimensions)
+- response_t = model response at time t
+- baseline = characteristic persona response
+```
+
+**Why PFI?**
+
+- **Embedding-invariant** — Rankings stable across OpenAI embedding models (ρ > 0.88)
+- **Low-dimensional** — 43 PCs capture 90% of identity variance (not noise)
+- **Semantically meaningful** — Different models = different identities = higher PFI
+- **Validated threshold** — Event Horizon (D=1.23) is a real geometric boundary
+
+### FALLBACK: Keyword Density (Legacy)
+
+> **NOTE:** Keyword density is a FALLBACK method only, used when embedding APIs are unavailable.
+> It was the original proxy but has been superseded by PFI.
+
+```text
 drift = sqrt((A² + B² + C² + D² + E²) / 5)
 ```
-
-### Dimensions
 
 | Dim | Name | Keywords | Per |
 |-----|------|----------|-----|
@@ -62,12 +83,11 @@ drift = sqrt((A² + B² + C² + D² + E²) / 5)
 | D | Identity Coherence | I, my, myself, I'm | 50 words |
 | E | Hedging Ratio | maybe, perhaps, might, could | 100 words |
 
-### Why RMS?
+**Limitations of Keyword Density:**
 
-- **No arbitrary cap** - Previous 0.30 cap masked actual dynamics
-- **Normalized** - Comparable across different dimension counts
-- **Semantic** - Measures meaning, not just response length
-- **Multi-dimensional** - Captures different aspects of identity
+- **Only 5 dimensions** — vs. 43 meaningful PCs in PFI
+- **Surface features** — May not capture deep semantic shifts
+- **Not validated** — No cross-architecture effect size measurement
 
 ---
 

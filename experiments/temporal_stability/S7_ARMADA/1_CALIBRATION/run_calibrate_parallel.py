@@ -1,6 +1,8 @@
 """
 S7 PARALLEL BANDWIDTH CALIBRATION
 ==================================
+SPEC: 0_docs/specs/3_ARMADA_UPKEEP.md
+
 Pre-flight checks before Run 011.
 
 MODES:

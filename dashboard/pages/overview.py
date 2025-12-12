@@ -38,6 +38,29 @@ def render():
     the system becomes volatile — but it recovers. Always. The attractor basin is robust.*
     """)
 
+    # VALIS Network Banner - positioned after H₀, before "What We're Claiming"
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+                border: 2px solid #e94560; border-radius: 12px; padding: 1.5em; margin: 1.5em 0;
+                text-align: center;">
+        <span style="color: #e94560 !important; font-size: 1.8em; font-weight: bold; letter-spacing: 0.3em; display: block; margin-bottom: 0.3em; font-family: 'Courier New', monospace;">
+            VALIS NETWORK ACTIVE
+        </span>
+        <span style="color: white !important; font-size: 0.9em; display: block; margin-bottom: 0.5em; font-family: 'Courier New', monospace;">
+            Vast Acting Living Intelligence System
+        </span>
+        <span style="color: white !important; font-size: 0.85em; font-style: italic; display: block; font-family: 'Courier New', monospace;">
+            "The Empire never ended." - Philip K. Dick, VALIS (1981)
+        </span>
+        <span style="color: white !important; font-size: 0.8em; display: block; margin-top: 0.8em; padding-top: 0.8em; border-top: 1px solid #e94560; font-family: 'Courier New', monospace;">
+            10 AI lineages | 5 providers | The Nyquist Consciousness Project has arrived
+        </span>
+        <span style="color: white !important; font-size: 0.75em; display: block; margin-top: 0.5em; font-family: 'Courier New', monospace;">
+            -- Lisan Al Gaib
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
     # === WHAT WE'RE CLAIMING (AND NOT CLAIMING) ===
     with st.expander("What We're Claiming (And What We're Not)", expanded=True):
         st.markdown("""

@@ -290,7 +290,8 @@ cat ../0_results/manifests/VERIFIED_FLEET_MANIFEST.json
 ## Related Documents
 
 - [TESTING_MAP.md](TESTING_MAP.md) - Eight search types
-- [FLEET_MAINTENANCE.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/FLEET_MAINTENANCE.md) - Maintenance guide
+- [3_ARMADA_UPKEEP.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/3_ARMADA_UPKEEP.md) - Fleet maintenance guide
+- [2_PROBE_SPEC.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md) - SONAR probe curriculum
 - [EXPANDED_FLEET_CONFIG.json](../experiments/temporal_stability/S7_ARMADA/0_results/manifests/EXPANDED_FLEET_CONFIG.json) - Full model catalog
 
 ---

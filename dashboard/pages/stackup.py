@@ -299,6 +299,268 @@ def render_layer_details(selected, layers, status_data, key_suffix=""):
         st.caption("No spec file defined.")
 
 
+# Layer-to-experiment mapping
+LAYER_EXPERIMENTS = {
+    "S0": ["EXP1-SSTACK (Compression Fidelity)", "Defines ground physics validated in all experiments"],
+    "S1": ["EXP1-SSTACK (Bootstrap)", "Tier-3 seed compression validated"],
+    "S2": ["EXP1-SSTACK (Cross-arch)", "Reconstruction across Claude/GPT/Gemini"],
+    "S3": ["EXP-PFI-A (Temporal)", "σ² = 0.000869 validated"],
+    "S4": ["EXP-PFI-A Phase 2 (Dimensionality)", "43 PCs capture 90% variance"],
+    "S5": ["Self-Recognition MVP", "Validates CFA-Nyquist bridge"],
+    "S6": ["Five Pillar Fusion", "Omega Nova synthesis tests"],
+    "S7": ["S7 ARMADA (Run 008-020)", "Identity dynamics under perturbation", "Run 017: Context Damping", "Run 019-020: Live Ziggy Tribunal"],
+    "S8": ["Identity Gravity Trials", "γ measurement pending"],
+    "S9": ["AVLAR Coupling Tests (pending)", "Human modulation coefficient"],
+    "S10": ["Hybrid Emergence Validation", "Zone classification tests"],
+    "S10.7": ["Zone Classification", "A/B/C/D zone validation"],
+    "S10.8": ["Multi-AI Tests (pending)", "Symmetry condition validation"],
+    "S10.9": ["HARP Recovery Tests", "6-step protocol validation"],
+    "S10.HC": ["Frame Theory Mapping", "Human-side validation"],
+    "S11": ["AVLAR Protocol (design)", "Multimodal identity tests"],
+    "S12": ["Consciousness Proxy (projected)", "Proxy definition experiments"],
+    "S77": ["Archetype Engine (conceptual)", "Synthetic persona generation"],
+}
+
+# Layer-specific deep dive content
+LAYER_DEEP_DIVE = {
+    "S0": {
+        "key_equations": [
+            "PFI = Σ(wᵢ · scoreᵢ) where Σwᵢ = 1",
+            "Drift D = 1 - PFI",
+            "IPC ∈ [200, 300] words"
+        ],
+        "key_constants": {
+            "IPC Range": "200-300 words",
+            "PFI Threshold": "≥ 0.80",
+            "Catastrophic Drift": "≤ 0.80",
+        },
+        "domain_hierarchy": "TECH(0.05) > ANAL(0.14) > SELF(0.20) ≈ PHIL(0.28) > NARR(0.33)",
+    },
+    "S7": {
+        "key_equations": [
+            "ΔΩ = sqrt(Σ(wᵢ · dᵢ²))",
+            "Event Horizon: ΔΩ ≥ 1.23",
+            "Recovery Rate: λ (exponential decay)"
+        ],
+        "key_constants": {
+            "Event Horizon": "1.23",
+            "Chi-squared p": "0.000048",
+            "Silhouette Score": "0.40-0.60",
+        },
+        "active_runs": ["Run 017 (Context Damping)", "Run 019 (Live Ziggy)", "Run 020 (Tribunal)"],
+    },
+    "S8": {
+        "key_equations": [
+            "G_I = -γ · ∇F(I_t)",
+            "Gravity measured in Zigs (Zg)",
+            "1 Zig = pull to reduce drift by 0.01 PFI"
+        ],
+        "key_constants": {
+            "γ (gamma)": "TBD (pending validation)",
+            "I_AM Attractor": "Core gravitational center",
+        },
+    },
+    "S10": {
+        "key_equations": [
+            "F_stable = H · G · R · f(T) · B",
+            "H ≥ 0.32 (human coupling)",
+            "G ≥ 0.65 (gravity)",
+        ],
+        "key_constants": {
+            "H Threshold": "≥ 0.32",
+            "G Threshold": "≥ 0.65",
+            "R Threshold": "≥ 2",
+            "T Threshold": "≥ 18 min",
+        },
+        "zones": {
+            "Zone A": "Emergent (all thresholds met)",
+            "Zone B": "Semi (partial thresholds)",
+            "Zone C": "Fragile (danger zone)",
+            "Zone D": "Uncoupled (baseline)",
+        },
+    },
+}
+
+
+def render_layer_overview(selected, layers, status_data):
+    """Render the Overview tab for a layer."""
+    layer_data = get_layer_data(selected, layers)
+    layer_status = layer_data.get("status", "unknown")
+    status_info = STATUS_DISPLAY.get(layer_status, {"emoji": "⚪", "color": "#999", "label": "UNKNOWN"})
+    fallback = LAYER_FALLBACK.get(selected, {})
+
+    # Status badges
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Status", f"{status_info['emoji']} {status_info['label']}")
+    with col2:
+        st.metric("Layer", selected)
+    with col3:
+        freeze_info = status_data.get("freeze", {})
+        if layer_status == "frozen":
+            st.metric("Freeze", freeze_info.get("branch", "v1.0")[:12])
+        else:
+            st.metric("Phase", "Active Dev")
+
+    page_divider()
+
+    # Summary notes
+    st.markdown("**Summary:**")
+    notes = fallback.get("notes", layer_data.get("notes", "No notes available."))
+    st.info(notes)
+
+    # Extended details
+    details = fallback.get("details", "")
+    if details:
+        st.markdown("**Details:**")
+        st.markdown(details)
+
+
+def render_layer_spec(selected, layers):
+    """Render the Spec tab for a layer."""
+    layer_data = get_layer_data(selected, layers)
+    spec_path = layer_data.get("spec", "")
+
+    # For sub-layers, check parent spec
+    is_sublayer = '.' in selected and selected.startswith('S')
+    parent_layer = selected.split('.')[0] if is_sublayer else None
+    parent_spec_path = None
+
+    if is_sublayer and parent_layer:
+        parent_data = layers.get(parent_layer, {})
+        parent_spec_path = parent_data.get("spec", "")
+
+    # Try to extract section from parent spec for sub-layers
+    extracted_content = None
+    if is_sublayer and parent_spec_path:
+        parent_spec_file = REPO_ROOT / parent_spec_path
+        if parent_spec_file.exists():
+            full_content = load_markdown_file(parent_spec_file)
+            extracted_content = extract_section_from_spec(full_content, selected)
+
+    if extracted_content:
+        st.markdown(f"**From Parent Spec** (`{parent_spec_path}`):")
+        st.markdown(extracted_content)
+    elif spec_path:
+        st.markdown(f"**Spec File:** `{spec_path}`")
+        spec_file = REPO_ROOT / spec_path
+        if spec_file.exists():
+            content = load_markdown_file(spec_file)
+            st.markdown(content)
+        else:
+            if is_sublayer and parent_spec_path:
+                st.info(f"📍 Sub-layer content located in parent spec: `{parent_spec_path}`")
+            else:
+                st.warning(f"Spec file not yet created: `{spec_path}`")
+    else:
+        st.info("No spec file defined for this layer.")
+
+        # Suggest where spec should go
+        suggested_path = f"docs/stages/{selected}/README.md"
+        st.caption(f"*Suggested location: `{suggested_path}`*")
+
+
+def render_layer_experiments(selected):
+    """Render the Experiments tab for a layer."""
+    experiments = LAYER_EXPERIMENTS.get(selected, [])
+
+    if experiments:
+        st.markdown("**Related Experiments:**")
+        for exp in experiments:
+            st.markdown(f"- {exp}")
+
+        # Special handling for S7 - show ARMADA link
+        if selected == "S7":
+            st.markdown("---")
+            st.markdown("**🚀 S7 ARMADA Active Runs:**")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("""
+                **Run 017** — Context Damping
+                - 222 runs across 24 personas
+                - 16 synthetic I_AM variants
+                - Status: Complete
+                """)
+            with col2:
+                st.markdown("""
+                **Run 020** — Tribunal
+                - Good Cop / Bad Cop paradigm
+                - Bare metal identity probing
+                - Status: v5 in progress
+                """)
+
+            st.info("💡 See **AI Armada** page for full experiment results and visualizations.")
+    else:
+        st.info("No experiments mapped to this layer yet.")
+
+        # Show what kind of experiments would be relevant
+        st.markdown("**Potential Experiments:**")
+        if selected.startswith("S1"):
+            st.markdown("- Bootstrap sequence validation")
+            st.markdown("- Tier compression testing")
+        elif selected.startswith("S10"):
+            st.markdown("- Hybrid emergence threshold validation")
+            st.markdown("- Zone classification testing")
+            st.markdown("- HARP recovery protocol tests")
+        else:
+            st.markdown("- Layer-specific validation tests")
+            st.markdown("- Cross-layer interaction tests")
+
+
+def render_layer_deep_dive(selected):
+    """Render the Deep Dive tab for a layer with equations and constants."""
+    deep_data = LAYER_DEEP_DIVE.get(selected, {})
+
+    if deep_data:
+        # Key equations
+        if "key_equations" in deep_data:
+            st.markdown("### Key Equations")
+            for eq in deep_data["key_equations"]:
+                st.code(eq, language=None)
+
+        # Key constants
+        if "key_constants" in deep_data:
+            st.markdown("### Key Constants")
+            for name, value in deep_data["key_constants"].items():
+                st.markdown(f"**{name}:** `{value}`")
+
+        # Domain hierarchy (for S0)
+        if "domain_hierarchy" in deep_data:
+            st.markdown("### Domain Fragility Hierarchy")
+            st.code(deep_data["domain_hierarchy"], language=None)
+            st.caption("*Lower weight = more stable under compression*")
+
+        # Zones (for S10)
+        if "zones" in deep_data:
+            st.markdown("### Emergence Zones")
+            for zone, desc in deep_data["zones"].items():
+                if zone == "Zone A":
+                    st.success(f"**{zone}:** {desc}")
+                elif zone == "Zone C":
+                    st.warning(f"**{zone}:** {desc}")
+                elif zone == "Zone D":
+                    st.info(f"**{zone}:** {desc}")
+                else:
+                    st.markdown(f"**{zone}:** {desc}")
+
+        # Active runs (for S7)
+        if "active_runs" in deep_data:
+            st.markdown("### Active Experiment Runs")
+            for run in deep_data["active_runs"]:
+                st.markdown(f"- {run}")
+
+    else:
+        st.info("Deep dive content not yet available for this layer.")
+
+        # Provide structure hint
+        st.markdown("**Deep Dive Content Could Include:**")
+        st.markdown("- Key mathematical equations")
+        st.markdown("- Important constants and thresholds")
+        st.markdown("- Visualizations and diagrams")
+        st.markdown("- Interactive calculators")
+
+
 def render():
     """Render the Stackup page."""
     status = load_status()
@@ -441,10 +703,37 @@ def render():
                 if st.button(btn_label, key=f"btn_future_{layer_id}", use_container_width=True, type="primary" if is_selected else "secondary"):
                     st.session_state.selected_layer = layer_id
 
-    # === RIGHT COLUMN: LAYER DETAILS ===
+    # === RIGHT COLUMN: LAYER DETAILS WITH TABS ===
     with col_detail:
         selected = st.session_state.selected_layer
-        render_layer_details(selected, layers, status, key_suffix="_top")
+        layer_data = get_layer_data(selected, layers)
+        fallback = LAYER_FALLBACK.get(selected, {})
+        display_name = layer_data.get('name', fallback.get('name', 'Unknown Layer'))
+
+        # Header for selected layer
+        layer_status = layer_data.get("status", "unknown")
+        status_info = STATUS_DISPLAY.get(layer_status, {"emoji": "⚪", "color": "#999", "label": "UNKNOWN"})
+        st.markdown(f"### {status_info['emoji']} {selected} - {display_name}")
+
+        # Tabs for different views of this layer
+        tab_overview, tab_spec, tab_experiments, tab_deep = st.tabs([
+            "📋 Overview",
+            "📄 Spec",
+            "🧪 Experiments",
+            "🔬 Deep Dive"
+        ])
+
+        with tab_overview:
+            render_layer_overview(selected, layers, status)
+
+        with tab_spec:
+            render_layer_spec(selected, layers)
+
+        with tab_experiments:
+            render_layer_experiments(selected)
+
+        with tab_deep:
+            render_layer_deep_dive(selected)
 
     page_divider()
 

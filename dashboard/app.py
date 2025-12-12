@@ -12,7 +12,7 @@ from config import PATHS, SETTINGS
 from utils import load_status
 
 # Import page modules
-from pages import overview, personas, stackup, AI_ARMADA, tests, metrics, omega, avlar, roadmap, glossary, publications, matrix, faq, unknown
+from pages import Overview, personas, Stackup, AI_ARMADA, tests, metrics, omega, avlar, roadmap, Glossary, publications, matrix, faq, unknown
 
 # ========== THEME & STYLING ==========
 
@@ -475,16 +475,16 @@ def apply_custom_css():
 # ========== PAGE ROUTING ==========
 
 PAGE_MODULES = {
-    "Overview": overview,
+    "Overview": Overview,
     "Personas": personas,
-    "Stackup": stackup,
+    "Stackup": Stackup,
     "AI Armada": AI_ARMADA,
     "Tests": tests,
     "Metrics": metrics,
     "OMEGA NOVA": omega,
     "AVLAR": avlar,
     "Roadmap": roadmap,
-    "Glossary": glossary,
+    "Glossary": Glossary,
     "Publications": publications,
     "FAQ": faq,
     "The Unknown": unknown,

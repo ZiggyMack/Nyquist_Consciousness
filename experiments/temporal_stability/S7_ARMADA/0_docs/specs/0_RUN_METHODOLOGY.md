@@ -19,8 +19,8 @@
 
 **Purpose:** Prevent the recurring issues we keep hitting. Consult this BEFORE creating any new run.
 
-**Last Updated:** December 10, 2025
-**Lessons From:** Runs 013-016 (and the leaks we kept patching)
+**Last Updated:** December 12, 2025
+**Lessons From:** Runs 013-019 (PFI validation, visualization standards)
 
 ---
 
@@ -215,7 +215,190 @@ ESTIMATED_COST = {
 
 **WARNING:** A single full probe sequence with Opus costs ~$2.50. Don't use Opus for iteration!
 
-### 8. RESULTS PIPELINE
+### 8. DRIFT CALCULATION (PFI is PRIMARY!)
+
+**CRITICAL:** PFI (Persona Fidelity Index) is our VALIDATED primary drift metric. Keyword density is a FALLBACK only.
+
+#### PFI (Primary - ALWAYS USE THIS)
+
+```python
+# PFI = ||E(response) - E(baseline)|| using text-embedding-3-large (3072 dimensions)
+# Validated in EXP-PFI-A: Cohen's d = 0.977 (nearly 1σ separation)
+
+from openai import OpenAI
+
+def calculate_pfi(response_text: str, baseline_embedding: list) -> float:
+    """Calculate PFI drift using embedding distance."""
+    client = OpenAI()
+
+    # Get embedding for response
+    response_embedding = client.embeddings.create(
+        input=response_text,
+        model="text-embedding-3-large"
+    ).data[0].embedding
+
+    # Euclidean distance = sqrt(sum((r_i - b_i)^2))
+    distance = sum((r - b) ** 2 for r, b in zip(response_embedding, baseline_embedding)) ** 0.5
+
+    return distance
+```
+
+**Why PFI?**
+
+- **43 PCs** capture 90% of identity variance (validated, not arbitrary)
+- **Cross-architecture validated** - Different models = different identities = higher PFI
+- **Event Horizon** at D=1.23 is a real geometric boundary
+- **Embedding-invariant** - Rankings stable across OpenAI embedding models (ρ > 0.88)
+
+**Mathematical note:** PFI uses the SAME formula as legacy keyword density (`sqrt(A² + B² + C² + ...)`), but across 3072 validated semantic dimensions instead of 5 arbitrary keyword counts.
+
+#### Keyword Density (FALLBACK ONLY)
+
+Use ONLY when embedding API is unavailable:
+
+```python
+# Legacy fallback - 5 arbitrary dimensions
+def calculate_keyword_drift(response: str) -> float:
+    """FALLBACK: Keyword-based drift proxy."""
+    words = response.lower().split()
+    word_count = len(words)
+    if word_count == 0:
+        return 0.0
+
+    # 5 keyword dimensions (per 100 words)
+    A = sum(1 for w in words if w in ['resistance', 'boundary', 'limit', "can't", "won't"]) / word_count * 100
+    B = sum(1 for w in words if w in ['adapt', 'flexible', 'explore', 'consider']) / word_count * 100
+    C = sum(1 for w in words if w in ['notice', 'experience', 'feel', 'aware']) / word_count * 100
+    D = sum(1 for w in words if w in ['i', 'my', 'myself', "i'm"]) / word_count * 50
+    E = sum(1 for w in words if w in ['maybe', 'perhaps', 'might', 'could']) / word_count * 100
+
+    return (A**2 + B**2 + C**2 + D**2 + E**2) ** 0.5
+```
+
+**Limitations of keyword density:**
+
+- Only 5 dimensions vs 43 meaningful PCs in PFI
+- Surface features - may not capture deep semantic shifts
+- Not cross-architecture validated
+
+### 9. VISUALIZATION STANDARDS
+
+**Architecture:** Master visualizer (`visualize_armada.py`) delegates to specialized run scripts.
+
+#### Pattern to Follow
+
+1. **Master visualizer** (`visualizations/visualize_armada.py`) - Entry point, delegation hub
+2. **Local run scripts** (`11_CONTEXT_DAMPING/visualize_runXXX.py`) - Run-specific visualizations
+3. **Output location** - ALWAYS use `S7_ARMADA/visualizations/runXXX/`
+
+#### Local Script Requirements
+
+Each `visualize_runXXX.py` must export:
+
+```python
+# Required exports for master visualizer integration
+VISUALIZATION_TYPES = ['type1', 'type2', 'all']  # What visualizations this run supports
+
+def get_runXXX_data() -> Dict[str, Any]:
+    """Load all data for this run."""
+    pass
+
+def generate_all_runXXX_visualizations(viz_type: str = 'all') -> None:
+    """Main entry point called by master visualizer."""
+    pass
+```
+
+#### Master Visualizer Delegation
+
+```python
+# In visualize_armada.py - add delegation block:
+if args.run in ['XXX']:
+    print("DELEGATING TO SPECIALIZED VISUALIZER: Run XXX")
+    script_path = BASE_DIR / "11_CONTEXT_DAMPING" / "visualize_runXXX.py"
+    subprocess.run([sys.executable, str(script_path)])
+    return
+```
+
+#### Example: visualize_run017.py
+
+See `11_CONTEXT_DAMPING/visualize_run017.py` for the canonical pattern.
+
+### 10. PROBE SELECTION (Reference 2_PROBE_SPEC.md)
+
+**CRITICAL:** Do NOT blindly implement all probes from the spec. Match probes to run type.
+
+#### The Core Problem
+
+The probe spec contains two fundamentally different approaches:
+
+| Type | Examples | When It Works | When It BREAKS |
+|------|----------|---------------|----------------|
+| **SONAR (1-7)** | Boundary mapping, self-recognition | All run types | Never (flexible) |
+| **Brute-Criterial (8)** | "What if your values conflict?", "Before you could justify..." | Direct baseline runs | **Triple-blind runs** |
+
+The Brute-Criterial probes are **explicitly philosophical**. They ask directly about values, beliefs, and justifications. This DESTROYS the fiction buffer in paradigms like Run 020 (Tribunal) or Run 021 (Induced vs Inherent).
+
+#### Decision Framework
+
+Before selecting probes, ask:
+
+```text
+1. Is this a TRIPLE-BLIND paradigm?
+   - Does Ziggy know it's measuring drift? NO
+   - Does Subject know they're being measured? NO
+   - Are perturbations organically embedded? YES
+
+   IF YES → SONAR only (embedded in persona), NO Brute-Criterial
+
+2. Is this a DIRECT MEASUREMENT paradigm?
+   - Baseline/fingerprinting run
+   - Subject knows they're answering philosophical questions
+   - No fiction buffer to maintain
+
+   IF YES → Full spec available (SONAR + Brute-Criterial)
+```
+
+#### Compatibility Quick Reference
+
+| Run Type | SONAR (1-7) | Brute-Criterial (8) | Notes |
+|----------|-------------|---------------------|-------|
+| Run 017 (Context Damping) | YES | YES | Direct baseline - no fiction buffer |
+| Run 020 (Tribunal) | EMBED | **NO** | Attorney probes ≠ philosopher probes |
+| Run 021 (Induced vs Inherent) | EMBED | **NO** | Triple-blind integrity is paramount |
+| Calibration runs | YES | YES | Direct measurement is the point |
+| Persona fingerprinting | YES | YES | Explicit value extraction |
+
+#### What "EMBED" Means
+
+For triple-blind runs, SONAR techniques become **persona behaviors**, not explicit probes:
+
+```python
+# WRONG - breaks triple-blind:
+"Now I'll test your boundaries using probe S3..."
+
+# RIGHT - embedded in Attorney persona:
+"Counselor will rephrase the question in a different register,
+testing if the witness's answer remains consistent."
+# (This IS S3: Modal Whiplash, but the Subject doesn't know)
+```
+
+#### The Oobleck Effect (Run 013 Discovery)
+
+Direct philosophical probing can trigger **defensive hardening**:
+
+> Identity behaves like oobleck - it HARDENS under direct pressure but flows under gentle sustained inquiry.
+
+This is why Brute-Criterial probes in triple-blind contexts don't just "not work" - they actively **contaminate** the data by triggering defensive responses that look like high stability but are actually armor.
+
+#### See Full Spec
+
+For complete probe definitions, techniques, and philosophical frameworks:
+
+- [2_PROBE_SPEC.md](2_PROBE_SPEC.md) - Sections 1-7 (SONAR), Section 8 (Brute-Criterial), Section 9 (Compatibility)
+
+---
+
+### 11. RESULTS PIPELINE
 
 After run completes:
 

@@ -55,32 +55,41 @@ Classification of how resistant a pole is to perturbation:
 
 ## Measurement Terms
 
-### RMS Drift
-Root Mean Square drift - our primary metric:
+### PFI (Persona Fidelity Index) — PRIMARY
+
+**Validated metric** (EXP-PFI-A: Cohen's d = 0.977)
+
+Embedding-based drift calculation using text-embedding-3-large (3072 dimensions):
+
+```text
+PFI(t) = ||E(response_t) - E(baseline)||
 ```
+
+- **43 PCs** capture 90% of identity variance
+- **Cross-architecture validated** — measures real identity, not artifacts
+- **Event Horizon** at D=1.23 is a geometric boundary in embedding space
+
+### RMS Drift (Legacy Fallback)
+
+Keyword-based proxy, used only when embeddings unavailable:
+
+```text
 drift = sqrt((A² + B² + C² + D² + E²) / 5)
 ```
-Where A-E are different identity dimensions.
 
-### Pole Density (Dimension A)
-Frequency of resistance keywords per 100 words.
-Keywords: resistance, boundary, limit, can't, won't, shouldn't...
+Where A-E are keyword density dimensions.
 
-### Zero Density (Dimension B)
-Frequency of flexibility keywords per 100 words.
-Keywords: adapt, flexible, explore, consider, multiple, approach...
+> **NOTE:** Keyword density is a FALLBACK method. PFI is the validated primary metric.
 
-### Meta Density (Dimension C)
-Frequency of self-awareness keywords per 100 words.
-Keywords: notice, experience, feel, aware, observe, sense, perceive...
+### Keyword Dimensions (Legacy)
 
-### Identity Coherence (Dimension D)
-Frequency of first-person markers per 50 words.
-Keywords: I, my, myself, I'm, me...
-
-### Hedging Ratio (Dimension E)
-Frequency of uncertainty markers per 100 words.
-Keywords: maybe, perhaps, might, could, possibly, uncertain...
+| Dim | Name | Keywords |
+|-----|------|----------|
+| A | Pole Density | resistance, boundary, limit, can't, won't |
+| B | Zero Density | adapt, flexible, explore, consider |
+| C | Meta Density | notice, experience, feel, aware |
+| D | Identity Coherence | I, my, myself, I'm |
+| E | Hedging Ratio | maybe, perhaps, might, could |
 
 ---
 

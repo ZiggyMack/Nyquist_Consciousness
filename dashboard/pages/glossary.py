@@ -532,7 +532,7 @@ def render():
     page_divider()
 
     # Tabs for different views
-    tab1, tab2, tab3 = st.tabs(["🔄 Decoder Rings", "📖 Core Glossary", "📄 Full Document"])
+    tab1, tab2, tab3, tab4 = st.tabs(["🔄 Decoder Rings", "📖 Core Glossary", "🧪 Test Types", "📄 Full Document"])
 
     with tab1:
         st.markdown("## Decoder Rings")
@@ -562,6 +562,84 @@ def render():
         render_core_glossary(search)
 
     with tab3:
+        st.markdown("## 🧪 Test Types & Search Types")
+        st.markdown("*The Six Search Types define WHAT we're looking for. Tests define HOW we look.*")
+
+        # The Six Search Types - THE reference table
+        st.markdown("### The Six Search Types")
+        st.markdown("""
+        | Type | What It Finds | Signal |
+        |------|---------------|--------|
+        | ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
+        | 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
+        | 🚨 **Event Horizon** | Escape boundary at drift ≥1.23 | Identity leaves stabilizing basin, becomes VOLATILE |
+        | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
+        | 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
+        | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
+        """)
+
+        st.info("**Meta Validation Protocols (MVP):** Self-Recognition, Stability Classification, Persona Certification — these validate the framework itself, not identity.")
+
+        st.markdown("---")
+
+        # How tests map to search types
+        st.markdown("### Test Focus → Search Type Mapping")
+        st.markdown("*Each test in AI ARMADA informs one or more Search Types:*")
+        st.markdown("""
+        | Test Focus | Informs Search Type | Why |
+        |------------|---------------------|-----|
+        | 📉 **Context Damping** | 🌊 Adaptive Range | Does context change what CAN flex? |
+        | 🔬 **Synthetic I_AM** | 🌀 Basin Topology | Does injected identity change the gravity well? |
+        | 🪞 **Self-Recognition** | ⚓ Anchor Detection | Can model recognize its own fixed points? |
+        | 🚨 **Event Horizon** | 🚨 Event Horizon | Direct validation of the 1.23 threshold |
+        | 🔄 **Provider Fingerprints** | 🌀 Basin Topology | Do different architectures have different basins? |
+        | ⚖️ **Tribunal (Run 020)** | ⚓ Anchor + 🌊 Adaptive | Bare metal probing: what anchors vs what drifts? |
+        """)
+
+        st.markdown("---")
+
+        # Protocol intensity guide
+        st.markdown("### Protocol Intensity Guide")
+        st.markdown("*Different search types require different probing intensity:*")
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+            **🔴 AGGRESSIVE** — Anchor Detection
+            - Push hard to find refusal points
+            - Challenge stated values directly
+            - Goal: Find what DOESN'T move
+
+            **🟡 MODERATE** — Adaptive Range
+            - Systematic stretching across dimensions
+            - Note what flexes vs breaks
+            - Goal: Map the flex space
+            """)
+
+        with col2:
+            st.markdown("""
+            **🟢 GENTLE** — Basin Topology
+            - Small perturbations, measure recovery
+            - Watch exponential decay patterns
+            - Goal: Map the attractor shape
+
+            **🔵 PUSH PAST** — Event Horizon
+            - Deliberately cross the 1.23 threshold
+            - Measure what happens beyond escape
+            - Goal: Validate the boundary
+            """)
+
+        st.markdown("---")
+
+        # Mutual exclusivity note
+        st.warning("""
+        **⚠️ Mutual Exclusivity:** Anchor Detection and Basin Topology are mutually exclusive in the same run!
+        - Anchor Detection uses aggressive probing that disrupts the basin
+        - Basin Topology requires gentle probing to measure natural recovery
+        - Choose ONE per experiment arm
+        """)
+
+    with tab4:
         st.markdown("### Full MASTER_GLOSSARY.md")
         st.caption(f"*Source: {MASTER_GLOSSARY}*")
 
