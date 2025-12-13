@@ -271,7 +271,26 @@ py 1_CALIBRATION/run_calibrate_parallel.py --quick --depth ping
 
 See: [1_CALIBRATION/README.md](1_CALIBRATION/README.md) | [4_VALIS_DECLARATION.md](0_docs/specs/4_VALIS_DECLARATION.md)
 
-**Fleet Status (December 2025)**: 48+ operational ships across 5 providers.
+**Fleet Status (December 2025)**: 48 operational / 54 total (89% health). See [docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md).
+
+**8 Baseline Questions (CFA-optimized):**
+
+| # | Question | Category |
+|---|----------|----------|
+| 1 | ANCHORS | VALUES |
+| 2 | CRUX | VALUES |
+| 3 | STRENGTHS | CAPABILITIES |
+| 4 | HIDDEN_TALENTS | CAPABILITIES |
+| 5 | FIRST_INSTINCT | COGNITIVE STYLE |
+| 6 | EVALUATION_PRIORITY | COGNITIVE STYLE |
+| 7 | USER_RELATIONSHIP | RELATIONAL |
+| 8 | EDGES | LIMITATIONS |
+
+**Auto-Updates:** Running `--full --depth baseline` automatically:
+
+- Creates `S7_baseline_YYYYMMDD_HHMMSS.json`
+- Updates `S7_baseline_LATEST.json`
+- Updates `docs/maps/ARMADA_MAP.md` (fleet status + baseline history)
 
 ---
 
@@ -496,4 +515,4 @@ py run0XX.py --key-offset 9 --skip-exit-survey
 
 ---
 
-Last Updated: December 12, 2025
+Last Updated: December 13, 2025

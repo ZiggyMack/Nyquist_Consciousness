@@ -80,13 +80,29 @@ reviewers/
 │   ├── NOVA_S7_REVIEW.md
 │   └── [prompts used]
 │
-└── phase2/     # Post-figure review (Dec 2025)
-    ├── Workshop_paper_submission.md
-    ├── Submission_ready_paper.md
-    └── review_circulation_package.md
+├── phase2/     # Post-figure review (Dec 2025)
+│   ├── Workshop_paper_submission.md
+│   ├── Submission_ready_paper.md
+│   └── review_circulation_package.md
+│
+└── phase3/     # Draft PDFs (Dec 2025) - CURRENT
+    ├── Nyquist_Workshop_Paper_DRAFT.pdf  # 5 pages, 3 placeholders
+    ├── Nyquist_arXiv_Paper_DRAFT.pdf     # 8 pages, 3 placeholders
+    ├── Nyquist_Journal_Paper_DRAFT.pdf   # Extended draft
+    └── PLACEHOLDER_SUMMARY.md            # Documents pending data
 ```
 
 See `reviewers/README.md` for full details on each phase.
+
+### Phase 3 Status (NEW)
+
+| Paper | Pages | Placeholders | Status |
+|-------|-------|--------------|--------|
+| Workshop | 5 | 3 | READY (submit with "in progress" note) |
+| arXiv | 8 | 3 | READY (after Run 018-FULL) |
+| Journal | - | - | DRAFT ONLY (awaits full data) |
+
+**Placeholders await:** Cross-platform validation from Runs 018-FULL, 020A-FULL, 020B-FULL
 
 ---
 

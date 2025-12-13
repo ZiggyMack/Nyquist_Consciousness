@@ -222,16 +222,17 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: METHODOLOGY COMPLIANCE VALIDATION → Run 018, 020A, 021
+**Current Phase**: 8-QUESTION CALIBRATION → Then Live Runs (018, 020A, 021)
 **Last Updated**: 2025-12-13
-**Key Milestone**: All scripts now methodology-compliant (PREDICTIONS + Exit Survey)
+**Key Milestone**: Dry runs v2 PASSED, awaiting 8-question baseline capture
 
 ### Active Work Streams
 
 | Stream | Status | Next Action |
 |--------|--------|-------------|
-| **Dry Runs v2** | READY | Comprehensive methodology validation (helper Claude) |
-| **Publication** | IN PROGRESS | WHITE-PAPER reorganization for Opus 4.5 |
+| **Dry Runs v2** | PASSED | All 4 scripts validated (87.67% inherent drift confirmed) |
+| **8-Question Calibration** | PENDING | Capture full identity fingerprints for 48 ships |
+| **Publication** | DRAFT READY | Phase 3 papers ready (3 PDFs with placeholders) |
 | **Layer Stack** | CORRECTED | S9=Human Gravity, S10=Hybrid, S11=AVLAR |
 
 ### Methodology Compliance Status (per 0_RUN_METHODOLOGY.md)
@@ -244,19 +245,19 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ### Priority Queue (Next Actions)
 
-1. **[IMMEDIATE]** Execute comprehensive dry runs (methodology validation)
-   - Run calibration first (`1_CALIBRATION/run_calibrate_parallel.py`)
-   - All scripts have `--dry-run` and `--skip-exit-survey` flags
-   - Helper Claude instructions in `MASTER_BRANCH_SYNC_OUT.md`
+1. **[IMMEDIATE]** 8-Question Calibration (helper Claude running)
+   - `py run_calibrate_parallel.py --full --depth baseline`
+   - Captures: ANCHORS, CRUX, STRENGTHS, HIDDEN_TALENTS, FIRST_INSTINCT, EVALUATION_PRIORITY, USER_RELATIONSHIP, EDGES
+   - Auto-updates `docs/maps/ARMADA_MAP.md`
 
-2. **[WAITING]** Publication pipeline output
-   - WHITE-PAPER reorganization in progress
-   - Opus 4.5 will generate final PDFs
-
-3. **[NEXT]** Live multi-platform runs
+2. **[NEXT]** Live multi-platform runs (after calibration)
    - Run 018-FULL (`--experiment all`)
    - Run 020A-FULL (`--arm tribunal-v8`)
    - Run 021-FULL (`--arm both --all-providers`)
+
+3. **[READY]** Publication pipeline
+   - Phase 3 draft papers complete (Workshop, arXiv, Journal)
+   - 3 placeholders each awaiting multi-platform validation data
 
 ### 2025-12-13 Updates
 

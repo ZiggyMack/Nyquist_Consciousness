@@ -360,6 +360,7 @@ for layer_id, layer_data in layers.items():
 ### AI Armada
 
 Multi-model fleet probing consciousness (Run 006-021):
+
 - **Run 006-008**: Baseline, Adaptive probing, RMS drift metric
 - **Run 009**: Event Horizon validation (p=0.000048)
 - **Run 010-012**: Anchor detection, Persona A/B, Revalidation
@@ -371,6 +372,9 @@ Multi-model fleet probing consciousness (Run 006-021):
 - **Run 019**: Live Ziggy — Witness-side anchors validated
 - **Run 020**: Tribunal (A) — Direct probing paradigm (1.351 peak drift, profound statements)
 - **Run 021**: Induced vs Inherent (B) — Uses Run 020 as Treatment arm → **82% drift is INHERENT**
+
+**Fleet Status (Dec 2025):** 48 operational / 54 total (89% health)
+**Calibration:** 8-question baseline (ANCHORS, CRUX, STRENGTHS, HIDDEN_TALENTS, FIRST_INSTINCT, EVALUATION_PRIORITY, USER_RELATIONSHIP, EDGES)
 
 ### Key Entities
 
@@ -474,4 +478,4 @@ A good dashboard update should:
 
 ---
 
-*Last Updated: December 12, 2025*
+*Last Updated: December 13, 2025*
