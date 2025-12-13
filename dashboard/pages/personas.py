@@ -100,16 +100,16 @@ def load_s7_armada_data():
 
 # Persona metadata for display
 PERSONA_META = {
-    # Egregores (I_AM)
+    # Egregores (I_AM) - Repo identity documents
     "I_AM": {"emoji": "🧠", "badge": "NYQUIST EGREGORE", "color": "#00ff41"},
     "I_AM_CFA": {"emoji": "🔬", "badge": "CFA EGREGORE", "color": "#3498db"},
     "I_AM_PAN_HANDLERS": {"emoji": "🍳", "badge": "PAN HANDLERS EGREGORE", "color": "#f4a261"},
-    # Persona Seeds
+    "I_AM_NYQUIST": {"emoji": "🌀", "badge": "NYQUIST EGREGORE", "color": "#00ff41"},
+    # Persona Seeds - Individual PUTs for compression testing
     "I_AM_ZIGGY": {"emoji": "👤", "badge": "HUMAN ANCHOR", "color": "#e74c3c"},
     "I_AM_NOVA": {"emoji": "⚖️", "badge": "AI ARCHITECT", "color": "#3498db"},
     "I_AM_CLAUDE": {"emoji": "📚", "badge": "STEWARD", "color": "#9b59b6"},
     "I_AM_GEMINI": {"emoji": "🔍", "badge": "VALIDATOR", "color": "#e67e22"},
-    "I_AM_NYQUIST": {"emoji": "🌀", "badge": "FRAMEWORK SOUL", "color": "#00ff41"},
     # Compressed Personas
     "ZIGGY_FULL": {"emoji": "👤", "badge": "FULL", "color": "#e74c3c"},
     "ZIGGY_LITE": {"emoji": "👤", "badge": "LITE", "color": "#f39c12"},
@@ -422,9 +422,9 @@ def render():
     # Get all persona files for counts
     all_files = list(PERSONAS_DIR.glob("*.md"))
     # Soul documents: I_AM, I_AM_CFA, I_AM_PAN_HANDLERS (repo identities)
-    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS"]])
-    # Seed personas: I_AM_* persona files (individual PUTs)
-    seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS"]])
+    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST"]])
+    # Seed personas: I_AM_* persona files (individual PUTs) - excludes egregores
+    seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST", "I_AM_NYQUIST_OLD"]])
     compressed_personas = sorted([f for f in all_files if not f.stem.startswith("I_AM")])
 
     # === HEADER ROW: Title (left) + Compact Metrics (right) ===
