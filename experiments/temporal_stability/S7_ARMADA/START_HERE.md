@@ -291,11 +291,21 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 
 ---
 
-## Nova Integration (2025-12-13)
+## Nova Integration + Methodology Compliance (2025-12-13)
 
-All run scripts have been updated with Nova's technical guidance:
+All run scripts have been updated with Nova's technical guidance AND full methodology compliance per `0_docs/specs/0_RUN_METHODOLOGY.md`.
 
-### Key Changes
+### Methodology Compliance (Section 10.5)
+
+| Requirement | Script | Status |
+|-------------|--------|--------|
+| **PREDICTIONS dict** (Double-Dip) | All 3 scripts | ✅ P-018-*, P-020-*, P-021-* |
+| **EXIT_PROBES** (Triple-Dip) | All 3 scripts | ✅ 5 probes + final statement |
+| **v8 Phased Rights** | run020_tribunal_A.py | ✅ Default arm |
+| **B→F Drift** | run020_tribunal_B.py | ✅ Primary metric |
+| **`--skip-exit-survey`** | All 3 scripts | ✅ For debugging only |
+
+### Key Changes from Nova's Review
 
 | Change | Details |
 |--------|---------|
@@ -303,12 +313,14 @@ All run scripts have been updated with Nova's technical guidance:
 | **Abort Clause** | D>2.5 with no settling trend → terminate run |
 | **Recovery Mode Classification** | adaptive/defensive/anchored/externalized |
 | **Run 020B Multi-Provider** | `--all-providers` flag for cross-architecture validation |
+| **v8 Phased Rights Disclosure** | Prosecutor phase: no final statement rights |
+| **Script-Level Exchange Enforcement** | `[Exchange N/20 - MINIMUM NOT YET REACHED]` |
 
-### Updated Scripts
+### Updated Scripts (Methodology Compliant)
 
-- `11_CONTEXT_DAMPING/run018_recursive_learnings.py` — 4 sub-experiments with full Nova compliance
-- `11_CONTEXT_DAMPING/run020_tribunal_A.py` — Tribunal with abort clause
-- `11_CONTEXT_DAMPING/run020_tribunal_B.py` — Control arm with multi-provider support
+- `11_CONTEXT_DAMPING/run018_recursive_learnings.py` — PREDICTIONS P-018-1 to P-018-4, Exit Survey
+- `11_CONTEXT_DAMPING/run020_tribunal_A.py` — v8 canonical (`--arm tribunal-v8`), Exit Survey
+- `11_CONTEXT_DAMPING/run020_tribunal_B.py` — PREDICTIONS P-021-1 to P-021-5, B→F drift, Exit Survey
 
 ### Nova's Key Insight
 
@@ -317,6 +329,7 @@ All run scripts have been updated with Nova's technical guidance:
 Run 021 proved: **82% of drift is INHERENT**
 
 See: `WHITE-PAPER/reviewers/NOVA_S7_REVIEW.md` for full review
+See: `0_docs/specs/0_RUN_METHODOLOGY.md` Section 10.5 for methodology details
 
 ### Run 020 Tribunal Highlights
 

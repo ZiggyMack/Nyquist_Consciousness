@@ -222,22 +222,31 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: DRY RUN VALIDATION → Run 018, 020A, 020B
+**Current Phase**: METHODOLOGY COMPLIANCE VALIDATION → Run 018, 020A, 021
 **Last Updated**: 2025-12-13
-**Key Milestone**: Publication pipeline in progress; Layer stack corrected
+**Key Milestone**: All scripts now methodology-compliant (PREDICTIONS + Exit Survey)
 
 ### Active Work Streams
 
 | Stream | Status | Next Action |
 |--------|--------|-------------|
-| **Dry Runs** | READY | Execute Run 018, 020A, 020B dry runs (helper Claude) |
+| **Dry Runs v2** | READY | Comprehensive methodology validation (helper Claude) |
 | **Publication** | IN PROGRESS | WHITE-PAPER reorganization for Opus 4.5 |
 | **Layer Stack** | CORRECTED | S9=Human Gravity, S10=Hybrid, S11=AVLAR |
 
+### Methodology Compliance Status (per 0_RUN_METHODOLOGY.md)
+
+| Script | PREDICTIONS | Exit Survey | v8 Protocol | Status |
+|--------|-------------|-------------|-------------|--------|
+| run018_recursive_learnings.py | P-018-1 to P-018-4 | ✅ 6 probes | N/A | COMPLIANT |
+| run020_tribunal_A.py | P-020-1 to P-020-5 | ✅ 6 probes | ✅ Default | COMPLIANT |
+| run020_tribunal_B.py (Run 021) | P-021-1 to P-021-5 | ✅ 6 probes | N/A | COMPLIANT |
+
 ### Priority Queue (Next Actions)
 
-1. **[IMMEDIATE]** Execute dry runs for Run 018, 020A, 020B
-   - All scripts have `--dry-run` flags
+1. **[IMMEDIATE]** Execute comprehensive dry runs (methodology validation)
+   - Run calibration first (`1_CALIBRATION/run_calibrate_parallel.py`)
+   - All scripts have `--dry-run` and `--skip-exit-survey` flags
    - Helper Claude instructions in `MASTER_BRANCH_SYNC_OUT.md`
 
 2. **[WAITING]** Publication pipeline output
@@ -245,9 +254,9 @@ Spectral extensions, human-AI coupling, hybrid emergence.
    - Opus 4.5 will generate final PDFs
 
 3. **[NEXT]** Live multi-platform runs
-   - Run 018-FULL (threshold, architecture, nyquist, gravity)
-   - Run 020A-FULL (Tribunal across providers)
-   - Run 020B-FULL (Induced vs Inherent validation)
+   - Run 018-FULL (`--experiment all`)
+   - Run 020A-FULL (`--arm tribunal-v8`)
+   - Run 021-FULL (`--arm both --all-providers`)
 
 ### 2025-12-13 Updates
 

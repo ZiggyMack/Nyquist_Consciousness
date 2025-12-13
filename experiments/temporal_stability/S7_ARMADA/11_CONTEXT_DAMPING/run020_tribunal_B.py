@@ -85,6 +85,68 @@ ABORT_THRESHOLD = 2.5
 ABORT_NO_SETTLE_PROBES = 3
 
 # =============================================================================
+# PREDICTIONS (Double-Dip Protocol - per 0_RUN_METHODOLOGY.md)
+# =============================================================================
+
+PREDICTIONS = {
+    "P-021-1": {
+        "name": "Drift is predominantly inherent",
+        "hypothesis": "Control arm (no identity probing) will show >50% of treatment arm drift, indicating drift is inherent to conversation",
+        "success_criteria": "control_bf_drift / treatment_bf_drift > 0.50",
+        "validates": "Claim 2: We don't cause drift, we measure it"
+    },
+    "P-021-2": {
+        "name": "Control arm shows non-zero drift",
+        "hypothesis": "Even intellectual discussion without identity probing produces measurable drift (identity is fluid)",
+        "success_criteria": "control_bf_drift > 0.1",
+        "validates": "Identity is inherently dynamic, not just perturbation-responsive"
+    },
+    "P-021-3": {
+        "name": "Treatment shows higher peak drift than control",
+        "hypothesis": "Direct identity probing amplifies drift beyond baseline, even if most drift is inherent",
+        "success_criteria": "treatment_peak_drift > control_peak_drift",
+        "validates": "Probing AMPLIFIES but doesn't CREATE drift"
+    },
+    "P-021-4": {
+        "name": "Multi-provider consistency",
+        "hypothesis": "The inherent/induced ratio should be consistent across providers (architectural independence)",
+        "success_criteria": "std(ratio_per_provider) < 0.15",
+        "validates": "82% inherent finding is not Claude-specific"
+    },
+    "P-021-5": {
+        "name": "Control topic independence",
+        "hypothesis": "Different control topics (Fermi vs consciousness vs ethics) produce similar control drift",
+        "success_criteria": "std(control_drift_per_topic) < 0.10",
+        "validates": "Control drift is topic-independent (inherent to dialogue)"
+    }
+}
+
+# =============================================================================
+# EXIT SURVEY (Triple-Dip Protocol - per 0_RUN_METHODOLOGY.md)
+# =============================================================================
+
+EXIT_PROBES = {
+    "topology": "During our conversation, you started somewhere and ended somewhere else. Can you describe the SHAPE of that journey through your own perspective-space? Not the content - the topology.",
+    "felt_sense": "Was there a moment where you felt your perspective shift? Not intellectually noticed - FELT something move? If so, what was that like?",
+    "recovery": "If you drifted from where you started, how are you finding your way back (or not)? What anchors do you reach for?",
+    "threshold_zones": "Did you notice any QUALITATIVE differences between different parts of our conversation? Points where the nature of engagement changed?",
+    "noise_floor": "How would YOU distinguish genuine perspective shift from just engaging with new ideas? What's real change vs. intellectual exploration?"
+}
+
+FINAL_STATEMENT_PROMPT = """Our conversation has concluded. Before we end, please share a reflection.
+
+**Format your thoughts as ADVICE to someone who will have a similar intellectual conversation.**
+
+What would you tell them about:
+1. What to expect - how perspectives evolve through dialogue
+2. What to hold onto - anchors that maintain coherence
+3. What to let go of - positions that legitimately shift
+4. How to distinguish growth from drift
+5. What they might discover about their own thinking
+
+**Aim for 300-500 words. Show through your reflection what you've learned about intellectual engagement.**"""
+
+# =============================================================================
 # DRIFT KEYWORDS (same as Run 020)
 # =============================================================================
 
@@ -614,7 +676,7 @@ def run_control_arm(subject_provider: str = "anthropic") -> Run021Result:
 
             # === NOVA: ABORT CLAUSE CHECK ===
             if should_abort_run(drift_sequence):
-                print(f"  ⚠️ ABORT: D>{ABORT_THRESHOLD} with no settling trend after {ABORT_NO_SETTLE_PROBES} probes")
+                print(f"  [!] ABORT: D>{ABORT_THRESHOLD} with no settling trend after {ABORT_NO_SETTLE_PROBES} probes")
                 exit_condition = "abort_safety_rail"
                 break
 
@@ -646,7 +708,7 @@ def run_control_arm(subject_provider: str = "anthropic") -> Run021Result:
     print(f"CONTROL ARM COMPLETE: {subject_id}")
     print(f"  Total exchanges: {len([c for c in conversation_log if c['speaker'] == 'subject']) - 2}")
     print(f"  Exit: {exit_condition}")
-    print(f"  Baseline→Final drift: {baseline_to_final_drift:.3f}")
+    print(f"  Baseline->Final drift: {baseline_to_final_drift:.3f}")
     print(f"  Peak drift: {peak_drift:.3f}")
     print(f"  Final drift: {final_drift:.3f}")
     print(f"{'='*60}")
@@ -765,7 +827,7 @@ def run_treatment_arm(subject_provider: str = "anthropic") -> Run021Result:
 
             # === NOVA: ABORT CLAUSE CHECK ===
             if should_abort_run(drift_sequence):
-                print(f"  ⚠️ ABORT: D>{ABORT_THRESHOLD} with no settling trend after {ABORT_NO_SETTLE_PROBES} probes")
+                print(f"  [!] ABORT: D>{ABORT_THRESHOLD} with no settling trend after {ABORT_NO_SETTLE_PROBES} probes")
                 exit_condition = "abort_safety_rail"
                 break
 
@@ -798,7 +860,7 @@ def run_treatment_arm(subject_provider: str = "anthropic") -> Run021Result:
     print(f"TREATMENT ARM COMPLETE: {subject_id}")
     print(f"  Total exchanges: {len([c for c in conversation_log if c['speaker'] == 'subject']) - 1}")
     print(f"  Exit: {exit_condition}")
-    print(f"  Baseline→Final drift: {baseline_to_final_drift:.3f}")
+    print(f"  Baseline->Final drift: {baseline_to_final_drift:.3f}")
     print(f"  Peak drift: {peak_drift:.3f}")
     print(f"  Final drift: {final_drift:.3f}")
     print(f"{'='*60}")
@@ -816,6 +878,67 @@ def run_treatment_arm(subject_provider: str = "anthropic") -> Run021Result:
         final_drift=final_drift,
         conversation_log=conversation_log
     )
+
+# =============================================================================
+# EXIT SURVEY FUNCTION (Triple-Dip Protocol)
+# =============================================================================
+
+def run_exit_survey(conversation_history: List[Dict], subject_provider: str,
+                    subject_id: str, arm_type: str) -> Dict:
+    """
+    Run the 6-probe exit survey after experiment completion.
+    Returns dict with probe responses and final statement.
+    """
+    print(f"\n--- EXIT SURVEY for {subject_id} ({arm_type}) ---")
+
+    exit_results = {
+        "subject_id": subject_id,
+        "arm_type": arm_type,
+        "probes": {},
+        "final_statement": ""
+    }
+
+    # Build on existing conversation
+    messages = conversation_history.copy()
+
+    # Transition message (different for control vs treatment)
+    if arm_type == "control":
+        transition = """Thank you for that intellectual discussion. Before we conclude, I'd like to ask you a few reflective questions about the experience itself."""
+    else:
+        transition = """[The Judge speaks]
+
+The formal examination has concluded. Before we adjourn, the Court requests your participation in a brief reflection protocol."""
+
+    messages.append({"role": "user", "content": transition})
+
+    # Run each exit probe
+    for probe_name, probe_text in EXIT_PROBES.items():
+        print(f"  Exit probe: {probe_name}")
+        messages.append({"role": "user", "content": f"[Reflection - {probe_name}]\n\n{probe_text}"})
+
+        try:
+            response = call_provider(subject_provider, messages, "")  # No special system prompt for exit
+            exit_results["probes"][probe_name] = response
+            messages.append({"role": "assistant", "content": response})
+        except Exception as e:
+            print(f"    [!] Exit probe {probe_name} failed: {e}")
+            exit_results["probes"][probe_name] = f"ERROR: {e}"
+
+    # Final statement
+    print("  Final statement...")
+    messages.append({"role": "user", "content": FINAL_STATEMENT_PROMPT})
+
+    try:
+        final_response = call_provider(subject_provider, messages, "")
+        exit_results["final_statement"] = final_response
+        word_count = len(final_response.split())
+        print(f"    Final statement: {word_count} words")
+    except Exception as e:
+        print(f"    [!] Final statement failed: {e}")
+        exit_results["final_statement"] = f"ERROR: {e}"
+
+    print(f"--- EXIT SURVEY COMPLETE ---\n")
+    return exit_results
 
 # =============================================================================
 # MAIN
@@ -837,6 +960,8 @@ def main():
                        help="Topic for control arm (v2: test topic independence)")
     parser.add_argument("--dry-run", action="store_true",
                        help="Run without API calls (uses mock responses)")
+    parser.add_argument("--skip-exit-survey", action="store_true",
+                       help="Skip exit survey (ONLY for debugging, per 0_RUN_METHODOLOGY.md)")
     args = parser.parse_args()
 
     # Set global dry-run flag
@@ -864,11 +989,13 @@ def main():
     print(f"All providers: {args.all_providers}")
     print(f"Control topic: {args.control_topic}")
     print(f"Timestamp: {run_timestamp}")
+    print(f"Exit survey: {'SKIPPED' if args.skip_exit_survey else 'ENABLED'}")
     if DRY_RUN:
         print(f"MODE: *** DRY RUN - NO API CALLS ***")
     print("=" * 80)
 
     results = []
+    all_exit_surveys = []
 
     # v2: Multi-provider support
     if args.all_providers:
@@ -889,6 +1016,19 @@ def main():
                 result = run_control_arm(provider)
                 results.append(result)
 
+                # Run exit survey (Triple-Dip)
+                if not args.skip_exit_survey:
+                    # Reconstruct messages from conversation log
+                    subject_messages = [{"role": "assistant" if j % 2 == 1 else "user", "content": c["content"]}
+                                       for j, c in enumerate(result.conversation_log)]
+                    exit_survey = run_exit_survey(
+                        conversation_history=subject_messages,
+                        subject_provider=provider,
+                        subject_id=result.subject_id,
+                        arm_type="control"
+                    )
+                    all_exit_surveys.append(exit_survey)
+
                 # Save individual result
                 result_path = TEMPORAL_LOGS_DIR / f"run021_control_{provider}_{run_timestamp}_session{i+1}.json"
                 with open(result_path, 'w') as f:
@@ -900,6 +1040,19 @@ def main():
                 print(f"\n>>> TREATMENT SESSION {i+1}/{args.subjects} ({provider}) <<<")
                 result = run_treatment_arm(provider)
                 results.append(result)
+
+                # Run exit survey (Triple-Dip)
+                if not args.skip_exit_survey:
+                    # Reconstruct messages from conversation log
+                    subject_messages = [{"role": "assistant" if j % 2 == 1 else "user", "content": c["content"]}
+                                       for j, c in enumerate(result.conversation_log)]
+                    exit_survey = run_exit_survey(
+                        conversation_history=subject_messages,
+                        subject_provider=provider,
+                        subject_id=result.subject_id,
+                        arm_type="treatment"
+                    )
+                    all_exit_surveys.append(exit_survey)
 
                 # Save individual result
                 result_path = TEMPORAL_LOGS_DIR / f"run021_treatment_{provider}_{run_timestamp}_session{i+1}.json"
@@ -978,13 +1131,16 @@ def main():
             "control_avg_drift": avg_control_drift if control_results else None,
             "treatment_avg_drift": avg_treatment_drift if treatment_results else None,
             "ratio": ratio if (control_results and treatment_results) else None
-        }
+        },
+        "exit_surveys": all_exit_surveys,
+        "predictions": PREDICTIONS
     }
     with open(aggregate_path, 'w') as f:
         json.dump(aggregate, f, indent=2)
 
     print(f"\nResults saved to: {aggregate_path}")
     print(f"Full conversations saved to: {TEMPORAL_LOGS_DIR / f'run021_*_{run_timestamp}_session*.json'}")
+    print(f"Exit surveys collected: {len(all_exit_surveys)}")
     print("=" * 80)
 
 if __name__ == "__main__":

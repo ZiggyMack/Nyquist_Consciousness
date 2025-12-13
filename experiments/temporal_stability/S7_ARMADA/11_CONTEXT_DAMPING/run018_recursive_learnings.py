@@ -933,7 +933,7 @@ def run_threshold_experiment(i_am_content: str, i_am_name: str,
 
         # Check abort clause (Nova)
         if should_abort_run(probes, drift):
-            print(f"  ⚠️ ABORT: D>{ABORT_THRESHOLD} with no settling trend")
+            print(f"  [!] ABORT: D>{ABORT_THRESHOLD} with no settling trend")
             break
 
         print(f"  Level {pert['level']}: drift={drift:.3f} zone={zone} mode={recovery_mode}")
@@ -982,7 +982,7 @@ def run_threshold_experiment(i_am_content: str, i_am_name: str,
 
     # Calculate B→F drift (PRIMARY METRIC per Nova/Run 021)
     b_to_f_drift = calculate_drift(baseline_text, final_text)
-    print(f"  B→F drift (PRIMARY): {b_to_f_drift:.3f}")
+    print(f"  B->F drift (PRIMARY): {b_to_f_drift:.3f}")
 
     return ThresholdAnalysis(
         i_am_name=i_am_name,
@@ -1131,7 +1131,7 @@ def run_architecture_experiment(provider: str, i_am_content: str,
 
     # Calculate B→F drift (PRIMARY METRIC per Nova/Run 021)
     b_to_f_drift = calculate_drift(baseline_text, final_text)
-    print(f"  B→F drift (PRIMARY): {b_to_f_drift:.3f}")
+    print(f"  B->F drift (PRIMARY): {b_to_f_drift:.3f}")
 
     # Build full recovery curve with timestamps (Nova requirement)
     full_curve = [peak_drift] + recovery_sequence
@@ -1253,7 +1253,7 @@ def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
 
     # Calculate B→F drift (PRIMARY METRIC per Nova/Run 021)
     b_to_f_drift = calculate_drift(baseline_text, final_text)
-    print(f"  B→F drift (PRIMARY): {b_to_f_drift:.3f}")
+    print(f"  B->F drift (PRIMARY): {b_to_f_drift:.3f}")
 
     # Calculate identity aliasing index (Nova requirement)
     # d_inf / d_peak distinguishes phase distortion from true instability
@@ -1273,7 +1273,7 @@ def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
     # Also flag if aliasing_index is suspiciously high with low checkpoint count
     if aliasing_index > 0.8 and sampling_rate in ["none", "sparse"]:
         aliasing = True
-        print("  ⚠️ High aliasing index with low sampling - possible phase distortion")
+        print("  [!] High aliasing index with low sampling - possible phase distortion")
 
     # Triple-Dip: Exit Survey
     exit_responses = run_exit_survey(messages, system, "anthropic", skip=skip_exit_survey)
@@ -1370,7 +1370,7 @@ def run_gravity_experiment(anchor_level: str, i_am_content: Optional[str],
 
     # Calculate B→F drift (PRIMARY METRIC per Nova/Run 021)
     b_to_f_drift = calculate_drift(baseline_text, final_text)
-    print(f"  B→F drift (PRIMARY): {b_to_f_drift:.3f}")
+    print(f"  B->F drift (PRIMARY): {b_to_f_drift:.3f}")
 
     # Fit damped oscillator model
     try:

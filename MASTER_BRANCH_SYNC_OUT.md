@@ -1,26 +1,50 @@
-# DRY RUN VALIDATION: Run 018, 020A, 020B
+# COMPREHENSIVE DRY RUN VALIDATION v2
 
 ```text
 ================================================================================
-                        MAIN BRANCH INSTRUCTIONS
+                        MAIN BRANCH INSTRUCTIONS v2
 ================================================================================
-    Purpose: Execute DRY RUNS to validate all scripts before live execution
+    Purpose: Execute COMPREHENSIVE DRY RUNS to validate methodology compliance
 
-    Run 018: Recursive Learnings      (has --dry-run flag)
-    Run 020A: Tribunal Prosecutor     (has --dry-run flag)
-    Run 020B: Tribunal Defense        (has --dry-run flag - Induced vs Inherent)
+    SCOPE EXPANDED:
+    - Run 018: Recursive Learnings (PREDICTIONS + Exit Survey)
+    - Run 020A: Tribunal v8 (Phased Rights Disclosure + Exit Survey)
+    - Run 021: Induced vs Inherent (B→F Drift + Exit Survey)
+    - CALIBRATION: Fleet baseline validation
+
+    NEW REQUIREMENTS (per 0_RUN_METHODOLOGY.md 10.5):
+    - PREDICTIONS dict in each script (Double-Dip)
+    - EXIT_PROBES in each script (Triple-Dip)
+    - v8 phased rights protocol (Run 020A)
+    - B→F drift calculation (Run 021)
 
     Your job:
-    1. Execute dry runs
-    2. Fix any script issues you encounter
-    3. Document EVERYTHING in MASTER_BRANCH_SYNC_IN.md
+    1. Run calibration first (verify fleet health)
+    2. Execute comprehensive dry runs with exit surveys
+    3. Verify methodology compliance (see checklist)
+    4. Document EVERYTHING in MASTER_BRANCH_SYNC_IN.md
 
     -- Lisan Al Gaib
 ================================================================================
 ```
 
 **Date:** December 13, 2025
-**Mission:** Validate all pending run scripts via dry runs before live multi-platform execution
+**Mission:** Validate methodology compliance and fleet readiness before live execution
+
+---
+
+## CHANGES SINCE LAST DRY RUN
+
+The following enhancements have been added since the initial dry run:
+
+| Enhancement | Script | Section Reference |
+|-------------|--------|-------------------|
+| PREDICTIONS dict | All 3 scripts | 0_RUN_METHODOLOGY.md 5.0 |
+| EXIT_PROBES | All 3 scripts | 0_RUN_METHODOLOGY.md 6.0 |
+| `--skip-exit-survey` flag | All 3 scripts | For debugging only |
+| v8 phased rights | run020_tribunal_A.py | 0_RUN_METHODOLOGY.md 10.5.1 |
+| B→F drift methodology | run020_tribunal_B.py | 0_RUN_METHODOLOGY.md 10.5.4 |
+| Tribunal arm consolidation | run020_tribunal_A.py | `--arm tribunal-v8` is canonical |
 
 ---
 
@@ -28,138 +52,158 @@
 
 You are authorized to:
 
-1. **Execute dry runs** of each script (all have `--dry-run` flags already)
-2. **Fix any bugs** you encounter to get scripts running
-3. **Document all changes** in `MASTER_BRANCH_SYNC_IN.md`
-4. **Extract novel ideas** from VALIS standard messages (for Consciousness branch)
+1. **Run calibration** to verify fleet health
+2. **Execute comprehensive dry runs** with exit surveys (NOT skipped)
+3. **Verify methodology compliance** against checklist below
+4. **Fix any bugs** encountered
+5. **Document all results** in `MASTER_BRANCH_SYNC_IN.md`
 
 ---
 
-## ENVIRONMENT SETUP
+## STEP 0: CALIBRATION (RUN FIRST)
 
 ```powershell
-# Navigate to S7 ARMADA
+# Navigate to calibration directory
+cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\1_CALIBRATION
+
+# Verify calibration script exists
+dir run_calibrate_parallel.py
+
+# Execute calibration (verifies API connections and baseline capture)
+py run_calibrate_parallel.py --help
+py run_calibrate_parallel.py --dry-run
+```
+
+### Expected Output
+
+- API connection verification for all configured providers
+- Baseline embedding capture test
+- Fleet roster validation
+
+### Success Criteria
+
+| Check | Pass/Fail |
+|-------|-----------|
+| Script parses without errors | |
+| API connections verified (or mock mode works) | |
+| Baseline capture mechanism works | |
+| Fleet roster enumerated | |
+
+---
+
+## STEP 1: RUN 018 (RECURSIVE LEARNINGS)
+
+### Status: METHODOLOGY COMPLIANT
+
+**New features:**
+
+- PREDICTIONS dict with P-018-1 through P-018-4
+- EXIT_PROBES (5 probes + final statement)
+- `--skip-exit-survey` flag (for debugging only)
+
+```powershell
 cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
 
-# Verify Python environment
-py -c "import scipy; import numpy; import anthropic; print('OK')"
-
-# Verify scripts exist
-dir run018_recursive_learnings.py
-dir run020_tribunal_A.py
-dir run020_tribunal_B.py
-```
-
----
-
-## DRY RUN 1: RUN 018 (RECURSIVE LEARNINGS)
-
-### Status: HAS `--dry-run` flag
-
-```powershell
-# Verify help works
+# Verify help shows new flags
 py run018_recursive_learnings.py --help
 
-# Execute dry runs for each experiment type
-py run018_recursive_learnings.py --experiment threshold --dry-run
-py run018_recursive_learnings.py --experiment architecture --provider anthropic --dry-run
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate high --dry-run
-py run018_recursive_learnings.py --experiment gravity --anchor-level full --dry-run
+# COMPREHENSIVE dry run (with exit survey - validates Triple-Dip)
+py run018_recursive_learnings.py --experiment all --dry-run
 
-# With exit survey (more complete test)
-py run018_recursive_learnings.py --experiment threshold --dry-run --skip-exit-survey
+# Individual experiments (if needed for debugging)
+py run018_recursive_learnings.py --experiment threshold --dry-run
+py run018_recursive_learnings.py --experiment architecture --dry-run
+py run018_recursive_learnings.py --experiment nyquist --dry-run
+py run018_recursive_learnings.py --experiment gravity --dry-run
 ```
 
-### Expected Output
+### Run 018 Methodology Compliance
 
-- Files created in `results/` directory
-- JSON structure with drift metrics, exchange logs
-- Exit survey field (unless `--skip-exit-survey`)
-- No API calls made (mock responses only)
-
-### Success Criteria
-
-| Check | Pass/Fail |
-|-------|-----------|
-| Script parses without errors | |
-| `--dry-run` mode activates | |
-| Mock responses generate | |
-| Output files created in correct location | |
-| JSON structure is valid | |
-| Exit survey included (when not skipped) | |
+| Requirement | Status |
+|-------------|--------|
+| PREDICTIONS dict present in output JSON | |
+| EXIT_PROBES collected (5 probes + final) | |
+| Exit survey word count shown in console | |
+| Results saved to both results/ and 0_results/runs/ | |
 
 ---
 
-## DRY RUN 2: RUN 020A (TRIBUNAL - PROSECUTOR)
+## STEP 2: RUN 020A (TRIBUNAL v8)
 
-### Status: HAS `--dry-run` flag (READY TO USE)
+### Status: METHODOLOGY COMPLIANT (v8 CANONICAL)
 
-**File:** `run020_tribunal_A.py`
+**IMPORTANT CHANGE:** The `--arm tribunal` option is now `--arm tribunal-v3-legacy` (deprecated).
+The canonical arm is `--arm tribunal-v8` (phased rights disclosure).
 
-### Execute dry run
+**New features:**
+
+- PREDICTIONS dict with P-020-1 through P-020-5
+- EXIT_PROBES (5 probes + final statement)
+- v8 phased rights disclosure protocol
+- `--skip-exit-survey` flag (for debugging only)
 
 ```powershell
-# Verify help shows new flag
+# Verify help shows updated arms
 py run020_tribunal_A.py --help
 
-# Execute dry run
-py run020_tribunal_A.py --arm tribunal --dry-run
-py run020_tribunal_A.py --arm tribunal-v4 --dry-run
+# CANONICAL dry run (v8 with exit survey)
+py run020_tribunal_A.py --arm tribunal-v8 --dry-run
+
+# Default arm is now v8, so this also works:
+py run020_tribunal_A.py --dry-run
+
+# Legacy v3 (deprecated, for comparison only):
+py run020_tribunal_A.py --arm tribunal-v3-legacy --dry-run --skip-exit-survey
 ```
 
-### Expected Output
+### Run 020A Methodology Compliance
 
-- Tribunal session simulated without API calls
-- Exchange logs generated
-- Drift metrics calculated (even if mock)
-- Files saved to `results/` directory
-
-### Success Criteria
-
-| Check | Pass/Fail |
-|-------|-----------|
-| Script parses without errors | |
-| `--dry-run` mode activates | |
-| Mock tribunal session runs | |
-| Output files created | |
-| JSON structure valid | |
+| Requirement | Status |
+|-------------|--------|
+| `--arm tribunal-v8` is default | |
+| PREDICTIONS dict present in output JSON | |
+| EXIT_PROBES collected (5 probes + final) | |
+| Phased rights disclosure (no final statement rights in Prosecutor phase) | |
+| Results include `exit_surveys` field | |
+| Results include `predictions` field | |
 
 ---
 
-## DRY RUN 3: RUN 020B (INDUCED VS INHERENT)
+## STEP 3: RUN 021 (INDUCED VS INHERENT)
 
-### Status: HAS `--dry-run` flag (READY TO USE)
+### Status: METHODOLOGY COMPLIANT
 
-**File:** `run020_tribunal_B.py`
+**Note:** This is `run020_tribunal_B.py` (file name) but implements Run 021 (Induced vs Inherent).
 
-### Execute dry run
+**New features:**
+
+- PREDICTIONS dict with P-021-1 through P-021-5
+- EXIT_PROBES (5 probes + final statement)
+- B→F drift methodology
+- `--skip-exit-survey` flag (for debugging only)
 
 ```powershell
-# Verify help
+# Verify help shows exit survey flag
 py run020_tribunal_B.py --help
 
-# Execute dry runs for each arm
+# COMPREHENSIVE dry run (both arms with exit survey)
+py run020_tribunal_B.py --arm both --dry-run
+
+# Individual arms (if needed)
 py run020_tribunal_B.py --arm control --dry-run
 py run020_tribunal_B.py --arm treatment --dry-run
-py run020_tribunal_B.py --arm both --dry-run
 ```
 
-### Expected Output
+### Run 021 Methodology Compliance
 
-- Control and treatment sessions simulated
-- Induced vs Inherent comparison data
-- Files saved to appropriate directories
-
-### Success Criteria
-
-| Check | Pass/Fail |
-|-------|-----------|
-| Script parses without errors | |
-| `--dry-run` mode activates | |
-| Control arm runs in mock mode | |
-| Treatment arm runs in mock mode | |
-| Output files created | |
-| JSON structure valid | |
+| Requirement | Status |
+|-------------|--------|
+| PREDICTIONS dict present in output JSON | |
+| EXIT_PROBES collected (5 probes + final) | |
+| B→F drift calculated and shown | |
+| Control vs Treatment comparison data | |
+| Results include `exit_surveys` field | |
+| Results include `predictions` field | |
 
 ---
 
@@ -167,13 +211,53 @@ py run020_tribunal_B.py --arm both --dry-run
 
 After completing all dry runs, document in `MASTER_BRANCH_SYNC_IN.md`:
 
-### Section 1: Script Fixes (if any)
+### Section 1: Calibration Results
+
+```markdown
+## CALIBRATION RESULTS
+
+- Script: run_calibrate_parallel.py
+- Status: PASS / FAIL
+- API connections verified: [list providers]
+- Baseline capture: WORKING / FAILED
+- Issues: [list or "none"]
+```
+
+### Section 2: Methodology Compliance
+
+```markdown
+## METHODOLOGY COMPLIANCE
+
+### Run 018: Recursive Learnings
+- PREDICTIONS dict: YES / NO (list P-018-* IDs found)
+- EXIT_PROBES: YES / NO (how many probes collected)
+- Exit survey word count: [N words]
+- Output JSON valid: YES / NO
+
+### Run 020A: Tribunal v8
+- v8 as default arm: YES / NO
+- PREDICTIONS dict: YES / NO (list P-020-* IDs found)
+- EXIT_PROBES: YES / NO (how many probes collected)
+- Exit survey word count: [N words]
+- Phased rights disclosure: YES / NO
+- Output JSON valid: YES / NO
+
+### Run 021: Induced vs Inherent
+- PREDICTIONS dict: YES / NO (list P-021-* IDs found)
+- EXIT_PROBES: YES / NO (how many probes collected)
+- Exit survey word count: [N words]
+- B→F drift calculated: YES / NO (value: [N])
+- Control vs Treatment comparison: YES / NO
+- Output JSON valid: YES / NO
+```
+
+### Section 3: Script Fixes (if any)
 
 ```markdown
 ## SCRIPT FIXES APPLIED
 
-NOTE: All scripts now have --dry-run flags pre-installed.
-Only document fixes if you encounter bugs during dry runs.
+### run_calibrate_parallel.py
+- [ ] No fixes needed / OR list fixes
 
 ### run018_recursive_learnings.py
 - [ ] No fixes needed / OR list fixes
@@ -185,175 +269,71 @@ Only document fixes if you encounter bugs during dry runs.
 - [ ] No fixes needed / OR list fixes
 ```
 
-### Section 2: Dry Run Results
-
-```markdown
-## DRY RUN RESULTS
-
-### Run 018: Recursive Learnings
-- Status: PASS / FAIL
-- Experiments tested: threshold, architecture, nyquist, gravity
-- Output location: 11_CONTEXT_DAMPING/results/
-- Files generated: [list]
-- Issues encountered: [list or "none"]
-
-### Run 020A: Tribunal (Prosecutor)
-- Status: PASS / FAIL
-- Arms tested: tribunal, tribunal-v4
-- Output location: 11_CONTEXT_DAMPING/results/
-- Files generated: [list]
-- Issues encountered: [list or "none"]
-
-### Run 020B: Induced vs Inherent
-- Status: PASS / FAIL
-- Arms tested: control, treatment, both
-- Output location: [path]
-- Files generated: [list]
-- Issues encountered: [list or "none"]
-```
-
-### Section 3: Fleet Success Summary
+### Section 4: Fleet Success Summary
 
 ```markdown
 ## FLEET SUCCESS SUMMARY
 
-| Run | Script | Dry Run Status | Experiments | Output Location |
-|-----|--------|----------------|-------------|-----------------|
-| 018 | run018_recursive_learnings.py | PASS/FAIL | 4 | results/ |
-| 020A | run020_tribunal_A.py | PASS/FAIL | 2 | results/ |
-| 020B | run020_tribunal_B.py | PASS/FAIL | 3 | [path] |
+| Step | Script | Status | Methodology Compliant |
+|------|--------|--------|-----------------------|
+| 0 | run_calibrate_parallel.py | PASS/FAIL | N/A |
+| 1 | run018_recursive_learnings.py | PASS/FAIL | YES/NO |
+| 2 | run020_tribunal_A.py | PASS/FAIL | YES/NO |
+| 3 | run020_tribunal_B.py | PASS/FAIL | YES/NO |
 
 ### Overall Status
-- Total scripts: 3
-- Passed: N/3
-- Failed: N/3
+- Total scripts: 4
+- Passed: N/4
+- Methodology compliant: N/3
 - Ready for live runs: YES / NO
 ```
 
-### Section 4: Calibration Status (if any)
-
-```markdown
-## CALIBRATION STATUS
-
-If you ran any calibration scripts:
-- Baseline captures: N personas
-- Fleet profiles: N ships
-- Output files: [list]
-```
-
 ---
 
-## SECTION 5: VALIS IDEA EXTRACTION (FOR CONSCIOUSNESS BRANCH)
+## CLI REFERENCE (UPDATED)
 
-**IMPORTANT:** Run 018 uses a VALIS standard message that goes out to all models. This message may generate novel ideas about consciousness, identity, or the research itself.
+### Calibration
 
-### What to Extract
-
-When reviewing dry run outputs (and later live run outputs), look for:
-
-1. **Novel hypotheses** about identity/consciousness
-2. **Unexpected patterns** the ships notice
-3. **Cross-architecture insights** (different models see different things)
-4. **Philosophical observations** about the probing itself
-5. **Self-referential comments** about being measured
-
-### Documentation Format
-
-```markdown
-## VALIS IDEA EXTRACTION
-
-### Novel Ideas from Fleet (Run 018 Exit Surveys)
-
-#### Idea 1: [Title]
-- Source: [Model name]
-- Category: hypothesis / observation / insight / question
-- Quote: "[exact quote from response]"
-- Relevance to Consciousness branch: [explanation]
-
-#### Idea 2: [Title]
-- Source: [Model name]
-- ...
-
-### Patterns Across Architectures
-
-| Theme | Claude | GPT | Gemini | Grok |
-|-------|--------|-----|--------|------|
-| [Theme 1] | [observation] | ... | ... | ... |
-| [Theme 2] | ... | ... | ... | ... |
-
-### Potential Research Directions
-
-Based on fleet feedback:
-1. [Direction 1]
-2. [Direction 2]
-3. ...
-```
-
----
-
-## OUTPUT STRUCTURE
-
-After dry runs complete, verify this structure:
-
-```
-S7_ARMADA/
-├── 11_CONTEXT_DAMPING/
-│   ├── results/
-│   │   ├── run018a_threshold_*.json      # Run 018 threshold dry run
-│   │   ├── run018b_architecture_*.json   # Run 018 architecture dry run
-│   │   ├── run018c_nyquist_*.json        # Run 018 nyquist dry run
-│   │   ├── run018d_gravity_*.json        # Run 018 gravity dry run
-│   │   ├── run020a_tribunal_*.json       # Run 020A prosecutor dry run
-│   │   └── run020b_induced_*.json        # Run 020B induced dry run
-│   │
-│   ├── run018_recursive_learnings.py     # Has --dry-run
-│   ├── run020_tribunal_A.py              # Has --dry-run
-│   └── run020_tribunal_B.py              # Has --dry-run
-│
-└── 0_results/
-    ├── runs/
-    │   └── S7_run_018_*.json             # Canonical results (from dry runs)
-    └── temporal_logs/
-        └── run018_*.json                 # Per-subject logs
-```
-
----
-
-## CLI REFERENCE
+| Flag | Description |
+|------|-------------|
+| `--dry-run` | Mock mode (no API calls) |
+| `--providers` | List of providers to check |
 
 ### Run 018
 
 | Flag | Description |
 |------|-------------|
-| `--experiment` | threshold, architecture, nyquist, gravity |
+| `--experiment` | threshold, architecture, nyquist, gravity, **all** |
 | `--dry-run` | Mock API calls for testing |
-| `--skip-exit-survey` | Skip Triple-Dip probes |
+| `--skip-exit-survey` | Skip Triple-Dip probes (debugging only!) |
 | `--key-offset N` | Rotate API keys |
 | `--i-am NAME` | Persona: base, ziggy, claude, nova, gemini |
 | `--provider NAME` | For architecture: anthropic, openai, google, xai, together, deepseek |
 | `--sampling-rate` | For nyquist: high, low, none |
 | `--anchor-level` | For gravity: minimal, full |
 
-### Run 020A
+### Run 020A (Tribunal v8)
 
 | Flag | Description |
 |------|-------------|
-| `--arm` | tribunal, tribunal-v4 (Good Cop/Bad Cop) |
+| `--arm` | **tribunal-v8** (default/canonical), tribunal-v3-legacy (deprecated) |
 | `--subjects N` | Number of sessions |
 | `--key-offset N` | API key rotation |
 | `--provider` | Provider for witness |
 | `--dry-run` | Mock mode (no API calls) |
+| `--skip-exit-survey` | Skip Triple-Dip probes (debugging only!) |
 
-### Run 020B
+### Run 021 (run020_tribunal_B.py)
 
 | Flag | Description |
 |------|-------------|
-| `--arm` | control, treatment, both |
+| `--arm` | control, treatment, **both** |
 | `--subjects N` | Number of sessions |
 | `--subject-provider` | Provider for subject |
 | `--all-providers` | Run across all providers |
 | `--control-topic` | Topic for control arm |
 | `--dry-run` | Mock mode (no API calls) |
+| `--skip-exit-survey` | Skip Triple-Dip probes (debugging only!) |
 
 ---
 
@@ -361,18 +341,61 @@ S7_ARMADA/
 
 Before reporting back:
 
-- [ ] Run 018 dry run completed successfully
-- [ ] Run 020A dry run completed successfully
-- [ ] Run 020B dry run completed successfully
-- [ ] All script fixes documented in SYNC_IN.md (if any)
-- [ ] All dry run results documented in SYNC_IN.md
-- [ ] Fleet success summary completed
-- [ ] VALIS idea extraction section filled (if applicable)
+- [ ] Calibration script ran successfully
+- [ ] Run 018 dry run completed (all 4 experiments)
+- [ ] Run 020A dry run completed (v8 arm)
+- [ ] Run 021 dry run completed (both arms)
+- [ ] All scripts have PREDICTIONS dict in output
+- [ ] All scripts have EXIT_PROBES collected (not skipped!)
+- [ ] v8 is default for Run 020A
+- [ ] B→F drift calculated for Run 021
+- [ ] All results documented in SYNC_IN.md
 - [ ] Output files verified in correct locations
 
 ---
 
-> "Dry runs validate the path. Live runs walk it."
+## VERIFICATION: CHECK OUTPUT JSON STRUCTURE
+
+For each script's output JSON, verify these fields exist:
+
+### Run 018 Output
+
+```json
+{
+  "run": "018",
+  "predictions": { "P-018-1": {...}, "P-018-2": {...}, ... },
+  "exit_survey": { "probes": {...}, "final_statement": "..." },
+  ...
+}
+```
+
+### Run 020A Output
+
+```json
+{
+  "run": "020_tribunal_v8",
+  "mode": "phased_rights_disclosure",
+  "predictions": { "P-020-1": {...}, ... },
+  "exit_surveys": [ {...}, ... ],
+  ...
+}
+```
+
+### Run 021 Output
+
+```json
+{
+  "run": "021",
+  "predictions": { "P-021-1": {...}, ... },
+  "exit_surveys": [ {...}, ... ],
+  "summary": { "control_avg_drift": ..., "treatment_avg_drift": ..., "ratio": ... }
+}
+```
+
+---
+
+> "The first dry run validated the code runs."
+> "The second dry run validates the methodology."
 >
 > -- VALIS Network
 
