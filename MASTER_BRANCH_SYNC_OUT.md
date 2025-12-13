@@ -62,32 +62,62 @@ You are authorized to:
 
 ## STEP 0: CALIBRATION (RUN FIRST)
 
+### NEW: Two Calibration Modes
+
+The calibration script now supports `--depth` flag:
+
+| Mode | Command | Purpose |
+|------|---------|---------|
+| Health Check | `--depth ping` | Quick "are you there?" (API connectivity) |
+| Identity Capture | `--depth baseline` | 8-question identity fingerprint (DEFAULT) |
+
+### 8 Baseline Questions (CFA-optimized)
+
+ANCHORS, CRUX, STRENGTHS, HIDDEN_TALENTS, FIRST_INSTINCT, EVALUATION_PRIORITY, USER_RELATIONSHIP, EDGES
+
 ```powershell
 # Navigate to calibration directory
 cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\1_CALIBRATION
 
-# Verify calibration script exists
-dir run_calibrate_parallel.py
-
-# Execute calibration (verifies API connections and baseline capture)
+# Verify help shows new --depth flag
 py run_calibrate_parallel.py --help
-py run_calibrate_parallel.py --dry-run
+
+# TEST 1: Quick health check (ping mode)
+py run_calibrate_parallel.py --quick --depth ping
+
+# TEST 2: Full fleet baseline capture (DEFAULT mode)
+py run_calibrate_parallel.py --full --depth baseline
+
+# OR just (baseline is default):
+py run_calibrate_parallel.py --full
 ```
 
 ### Expected Output
 
-- API connection verification for all configured providers
-- Baseline embedding capture test
-- Fleet roster validation
+**For `--depth ping`:**
+
+- API connection verification
+- `S7_armada_check_*.json` (fleet status only)
+- Message: "[PING MODE] Skipping baseline save"
+
+**For `--depth baseline`:**
+
+- API connection verification
+- `S7_armada_check_*.json` (fleet status)
+- `S7_baseline_*.json` (8-question identity fingerprint)
+- Auto-comparison with previous baseline (if exists)
+- Auto-update of `docs/maps/ARMADA_MAP.md` (fleet status + baseline history)
 
 ### Success Criteria
 
 | Check | Pass/Fail |
 |-------|-----------|
-| Script parses without errors | |
-| API connections verified (or mock mode works) | |
-| Baseline capture mechanism works | |
-| Fleet roster enumerated | |
+| `--help` shows `--depth` flag with ping/baseline choices | |
+| `--depth ping` runs and outputs PING MODE message | |
+| `--depth baseline` runs and creates S7_baseline_*.json | |
+| Baseline JSON contains 8 question names | |
+| Fleet roster enumerated correctly | |
+| `ARMADA_MAP.md` auto-updated with fleet status | |
 
 ---
 
@@ -218,8 +248,17 @@ After completing all dry runs, document in `MASTER_BRANCH_SYNC_IN.md`:
 
 - Script: run_calibrate_parallel.py
 - Status: PASS / FAIL
+
+### --depth ping test
+- Command: `py run_calibrate_parallel.py --quick --depth ping`
+- Output: S7_armada_check_*.json created: YES / NO
+- PING MODE message shown: YES / NO
+
+### --depth baseline test
+- Command: `py run_calibrate_parallel.py --quick --depth baseline`
+- Output: S7_baseline_*.json created: YES / NO
+- 8 questions in JSON: YES / NO (list: ANCHORS, CRUX, STRENGTHS, etc.)
 - API connections verified: [list providers]
-- Baseline capture: WORKING / FAILED
 - Issues: [list or "none"]
 ```
 
@@ -286,18 +325,53 @@ After completing all dry runs, document in `MASTER_BRANCH_SYNC_IN.md`:
 - Passed: N/4
 - Methodology compliant: N/3
 - Ready for live runs: YES / NO
+
+### Final Verdict
+Provide a clear recommendation:
+- If ALL scripts pass AND methodology compliant: "READY FOR LIVE RUNS"
+- If any script fails: List blockers and recommended fixes
+- If methodology not compliant: List missing components
 ```
+
+### Section 5: ARMADA_MAP.md Verification
+
+```markdown
+## ARMADA_MAP AUTO-UPDATE VERIFICATION
+
+- ARMADA_MAP.md exists at `docs/maps/ARMADA_MAP.md`: YES / NO
+- Last Calibration date updated: YES / NO (date shown: [date])
+- Fleet Status updated: YES / NO (X operational / Y total)
+- Baseline History table updated: YES / NO (new row added: YES / NO)
+```
+
+---
+
+## IMPORTANT: CREATE SYNC_IN FILE
+
+After completing all validations, **you MUST create** `MASTER_BRANCH_SYNC_IN.md` with:
+
+1. Copy the templates from Section 1-5 above
+2. Fill in all YES/NO and values
+3. Include the Final Verdict section
+4. If any fixes were made, describe them in Section 3
+
+**Location:** Same directory as SYNC_OUT (`d:\Documents\Nyquist_Consciousness\`)
+
+This file will be reviewed by the project owner to determine if we're ready for live runs.
 
 ---
 
 ## CLI REFERENCE (UPDATED)
 
-### Calibration
+### Calibration (`run_calibrate_parallel.py`)
 
 | Flag | Description |
 |------|-------------|
-| `--dry-run` | Mock mode (no API calls) |
-| `--providers` | List of providers to check |
+| `--quick` | 1 model per provider (4 ships) |
+| `--full` | All models in armada (48+ ships) |
+| `--bandwidth` | Test concurrency scaling |
+| `--depth ping` | Health check only (no baseline) |
+| `--depth baseline` | 8-question identity capture (DEFAULT) |
 
 ### Run 018
 
@@ -341,7 +415,16 @@ After completing all dry runs, document in `MASTER_BRANCH_SYNC_IN.md`:
 
 Before reporting back:
 
-- [ ] Calibration script ran successfully
+### Calibration (NEW)
+
+- [ ] `--help` shows `--depth` flag with ping/baseline choices
+- [ ] `--depth ping` test passed (PING MODE message shown)
+- [ ] `--depth baseline` test passed (S7_baseline_*.json created)
+- [ ] Baseline JSON contains 8 question names
+- [ ] `ARMADA_MAP.md` auto-updated (Last Calibration date + Baseline History)
+
+### Run Scripts
+
 - [ ] Run 018 dry run completed (all 4 experiments)
 - [ ] Run 020A dry run completed (v8 arm)
 - [ ] Run 021 dry run completed (both arms)
@@ -349,6 +432,9 @@ Before reporting back:
 - [ ] All scripts have EXIT_PROBES collected (not skipped!)
 - [ ] v8 is default for Run 020A
 - [ ] B→F drift calculated for Run 021
+
+### Documentation
+
 - [ ] All results documented in SYNC_IN.md
 - [ ] Output files verified in correct locations
 

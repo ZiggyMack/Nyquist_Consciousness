@@ -24,9 +24,10 @@ from pathlib import Path
 from datetime import datetime
 import re
 
-# Paths
+# Paths (lib/ -> 1_CALIBRATION/ -> S7_ARMADA/)
 SCRIPT_DIR = Path(__file__).parent
-ARMADA_DIR = SCRIPT_DIR.parent
+CALIBRATION_DIR = SCRIPT_DIR.parent  # 1_CALIBRATION/
+ARMADA_DIR = CALIBRATION_DIR.parent  # S7_ARMADA/
 REPO_ROOT = ARMADA_DIR.parent.parent.parent  # S7_ARMADA -> temporal_stability -> experiments -> Nyquist_Consciousness
 OUTPUT_DIR = ARMADA_DIR / "0_results" / "calibration"
 MATRIX_PATH = REPO_ROOT / "docs" / "maps" / "PERSONA_FLEET_MATRIX.md"

@@ -22,9 +22,10 @@ from datetime import datetime
 from typing import Dict, List, Tuple
 import re
 
-# Paths
+# Paths (lib/ -> 1_CALIBRATION/ -> S7_ARMADA/)
 SCRIPT_DIR = Path(__file__).parent
-ARMADA_DIR = SCRIPT_DIR.parent
+CALIBRATION_DIR = SCRIPT_DIR.parent  # 1_CALIBRATION/
+ARMADA_DIR = CALIBRATION_DIR.parent  # S7_ARMADA/
 OUTPUT_DIR = ARMADA_DIR / "0_results" / "calibration"
 
 # Keyword categories for semantic matching

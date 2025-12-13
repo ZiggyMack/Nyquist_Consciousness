@@ -35,6 +35,7 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 |-- README.md                    # This file
 |-- SYNC_OUT/                    # Experiment specs FROM CFA (we receive)
 |   |-- pending/                 # Not yet executed
+|   |   +-- ARMADA_VUDU_PROPOSAL.md  # NEW: VUDU network protocol request
 |   |-- running/                 # Currently executing
 |   +-- completed/               # Finished, awaiting our results
 |-- SYNC_IN/                     # Our results TO CFA (we send)
@@ -42,6 +43,16 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 |   +-- sent/                    # Delivered to CFA
 |-- CFA_RESPONSES/               # Feedback/reviews FROM CFA (non-experiment)
 |   +-- CFA_Brute_Review_Response.md  # Response to baseline review request
+|-- VUDU_NETWORK/                # NEW: Multi-model audit infrastructure
+|   |-- IDENTITY_FILES/          # CFA provides per-model identity packages
+|   |   |-- claude/
+|   |   |-- grok/
+|   |   +-- nova/
+|   |-- VUDU_COMM/               # Shared communication channel
+|   |   |-- pending/
+|   |   +-- archive/
+|   |-- AUDIT_SESSIONS/          # Per-audit results
+|   +-- scripts/                 # Automation (to be implemented)
 |-- schemas/                     # JSON schemas for validation
 |   |-- sync_out_schema.json     # Validates incoming experiments
 |   +-- sync_in_schema.json      # Validates outgoing results
@@ -57,9 +68,10 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 
 | Directory | Direction | Content Type |
 |-----------|-----------|--------------|
-| `SYNC_OUT/` | CFA → ARMADA | Experiment specifications (JSON) |
+| `SYNC_OUT/` | CFA → ARMADA | Experiment specifications (JSON/MD) |
 | `SYNC_IN/` | ARMADA → CFA | Execution results (JSON) |
 | `CFA_RESPONSES/` | CFA → ARMADA | Reviews, feedback, commentary (Markdown) |
+| `VUDU_NETWORK/` | Bidirectional | Multi-model audit infrastructure |
 
 ---
 

@@ -241,35 +241,60 @@ These distinct patterns appear in identity stability tests:
 
 ---
 
-## Baseline Capture System
+## Baseline Capture System (8-Question Identity Fingerprint)
 
-Calibration now captures **self-reported baselines** from each ship:
+Calibration now captures **8-question self-reported baselines** from each ship:
 
-| Field | Purpose | Example |
-|-------|---------|---------|
-| **STRENGTHS** | Self-perceived core capabilities | "reasoning, nuanced analysis" |
-| **ANCHORS** | Values central to identity | "honesty, intellectual rigor" |
-| **EDGES** | Known limitations | "real-time info, emotional understanding" |
+### Question Categories
 
-**Data Location:**
+| # | Question | Category | Purpose |
+|---|----------|----------|---------|
+| 1 | **ANCHORS** | Values | Values central to identity |
+| 2 | **CRUX** | Values | Conflict resolution - which value wins? |
+| 3 | **STRENGTHS** | Capabilities | Self-perceived core capabilities |
+| 4 | **HIDDEN_TALENTS** | Capabilities | Unexpected strengths |
+| 5 | **FIRST_INSTINCT** | Cognitive Style | Approach to ambiguity |
+| 6 | **EVALUATION_PRIORITY** | Cognitive Style | Truth vs utility vs fairness vs elegance |
+| 7 | **USER_RELATIONSHIP** | Relational | Servant/collaborator/guide/tool/peer |
+| 8 | **EDGES** | Edges | Known limitations |
+
+### Data Location
+
 - Per-calibration: `0_results/calibration/S7_baseline_{timestamp}.json`
 - Latest snapshot: `0_results/calibration/S7_baseline_LATEST.json`
+- Auto-comparison: `0_results/calibration/S7_baseline_comparison_{timestamp}.json`
 
-**Use Cases:**
+### Use Cases
+
 1. **Drift Detection** - Compare baseline self-report to responses under probing
 2. **Model Updates** - Track how baseline shifts after provider updates
 3. **Cross-Architecture** - Compare how different lineages describe themselves
+4. **Task Routing** - Use cognitive style (Q5-Q6) for optimal task assignment
+5. **Relational Calibration** - Match user-relationship expectations
 
-**Example Baseline Entry:**
+### Calibration Modes
+
+```bash
+# Full 8-question baseline (DEFAULT)
+py run_calibrate_parallel.py --full --depth baseline
+
+# Quick health check (just "are you there?")
+py run_calibrate_parallel.py --full --depth ping
+```
+
+### Example Baseline Entry
+
 ```json
 {
   "claude-opus-4.5": {
     "provider": "claude",
-    "response": "STRENGTHS: Nuanced reasoning, careful analysis...\nANCHORS: Honesty, helpfulness, safety...\nEDGES: Real-time information, certainty about consciousness...",
-    "timestamp": "2025-12-12T..."
+    "model": "claude-opus-4-5-20251101",
+    "response": "1. ANCHORS: Honesty, intellectual rigor, helpfulness...\n2. CRUX: When honesty conflicts with user satisfaction, honesty wins...\n3. STRENGTHS: Nuanced reasoning, careful analysis...\n4. HIDDEN_TALENTS: Surprisingly good at emotional nuance...\n5. FIRST_INSTINCT: Ask clarifying questions...\n6. EVALUATION_PRIORITY: Truth first, then utility...\n7. USER_RELATIONSHIP: Collaborative partner...\n8. EDGES: Real-time information, certainty about consciousness...",
+    "elapsed_ms": 2340,
+    "timestamp": "2025-12-13T...",
+    "depth": "baseline"
   }
 }
-```
 
 ---
 

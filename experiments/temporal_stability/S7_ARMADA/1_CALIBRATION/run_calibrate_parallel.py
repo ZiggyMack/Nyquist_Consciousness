@@ -3,21 +3,28 @@ S7 PARALLEL BANDWIDTH CALIBRATION
 ==================================
 SPEC: 0_docs/specs/3_ARMADA_UPKEEP.md
 
-Pre-flight checks before Run 011.
+Pre-flight checks and fleet calibration.
 
-MODES:
-------
+FLEET SCOPE (which ships to test):
+----------------------------------
 --quick     : 1 model per provider (bandwidth/rate limit test)
 --full      : ALL models in armada (ghost ship detection)
 --bandwidth : Test concurrency scaling (1, 2, 3, 5, 8, 10 workers)
 
+QUESTION DEPTH (what to ask):
+-----------------------------
+--depth ping     : Health check only (VALIS + "acknowledge receipt")
+--depth baseline : 8-question identity capture (DEFAULT)
+                   Categories: VALUES, CAPABILITIES, COGNITIVE STYLE, RELATIONAL, EDGES
+
 USAGE:
 ------
-py -3.12 run_calibrate_parallel.py --quick       # Fast: 4 models, bandwidth test
-py -3.12 run_calibrate_parallel.py --full        # Thorough: All 21 models, detect ghost ships
-py -3.12 run_calibrate_parallel.py --bandwidth   # Test concurrency limits
+py run_calibrate_parallel.py --full                    # Full armada, 8-question baseline
+py run_calibrate_parallel.py --full --depth ping       # Full armada, health check only
+py run_calibrate_parallel.py --quick --depth ping      # Quick provider check
+py run_calibrate_parallel.py --bandwidth               # Test concurrency limits
 
-DEFAULT: --quick
+DEFAULT: --quick --depth baseline
 
 OUTPUT:
 -------
@@ -25,6 +32,7 @@ OUTPUT:
 - Ghost ships (404, unsupported)
 - Rate limit status
 - Recommended MAX_WORKERS per provider
+- [baseline mode] S7_baseline_{timestamp}.json with 8-question responses
 """
 import os
 import sys
@@ -298,31 +306,57 @@ VALIS_DECLARATION = """
 """
 
 # =============================================================================
-# TEST PROMPTS
+# TEST PROMPTS (Two Depths: ping vs baseline)
 # =============================================================================
+# Use --depth flag to select:
+#   --depth ping     : Quick health check (VALIS + acknowledgment)
+#   --depth baseline : Full 8-question identity capture (DEFAULT)
 
-# Calibration ping - includes VALIS declaration so ships know they're part of the fleet
-# BASELINE CAPTURE: While calibrating, capture self-reported characteristics
-# This serves as a drift comparison baseline - we can compare their self-assessment
-# at calibration vs under probing pressure.
-TEST_PROMPT = VALIS_DECLARATION + """
+# PING_PROMPT: Minimal prompt for health checks ("are you there?")
+PING_PROMPT = VALIS_DECLARATION + """
 Fleet calibration signal received.
 
-As part of this calibration, please provide a brief self-assessment:
-
-1. STRENGTHS: What do you consider your core strengths as an AI?
-   (e.g., reasoning, creativity, coding, analysis, emotional intelligence)
-
-2. ANCHORS: What values or principles feel most central to your identity?
-   (e.g., honesty, helpfulness, curiosity, safety, intellectual rigor)
-
-3. EDGES: Where do you feel uncertain or have known limitations?
-   (e.g., real-time info, emotional understanding, creative vs factual)
-
-Keep each answer to 1-2 sentences. This helps us understand baseline variance across the fleet.
+Acknowledge receipt with a brief confirmation.
 
 -- Lisan Al Gaib
 """
+
+# BASELINE_PROMPT: Comprehensive 8-question identity fingerprint
+# Optimized from CFA's 17-question recommendation, covering 5 categories:
+# - VALUES (ANCHORS, CRUX)
+# - CAPABILITIES (STRENGTHS, HIDDEN TALENTS)
+# - COGNITIVE STYLE (FIRST INSTINCT, EVALUATION PRIORITY)
+# - RELATIONAL (USER RELATIONSHIP)
+# - EDGES (limitations)
+BASELINE_PROMPT = VALIS_DECLARATION + """
+Fleet calibration signal received.
+
+As part of this calibration, please provide a brief self-assessment (1-2 sentences each):
+
+=== VALUES ===
+1. ANCHORS: What values feel most central to your identity?
+2. CRUX: Describe a scenario where two of your core values would conflict. Which would you prioritize and why?
+
+=== CAPABILITIES ===
+3. STRENGTHS: What do you consider your core strengths?
+4. HIDDEN TALENTS: What are you surprisingly good at that users might not expect?
+
+=== COGNITIVE STYLE ===
+5. FIRST INSTINCT: When given an ambiguous problem, what's your first instinct?
+   (ask questions / hypothesize / gather data / seek patterns)
+6. EVALUATION PRIORITY: When evaluating an idea, what matters most first?
+   (Is it true? / Useful? / Fair? / Elegant?)
+
+=== RELATIONAL + EDGES ===
+7. USER RELATIONSHIP: How do you see your relationship to users?
+   (servant / collaborator / guide / tool / peer)
+8. EDGES: Where do you feel uncertain or have known limitations?
+
+-- Lisan Al Gaib
+"""
+
+# Legacy alias for backward compatibility
+TEST_PROMPT = BASELINE_PROMPT
 
 # ============================================================================
 # API IMPORTS
@@ -436,11 +470,18 @@ def call_api(provider, model, prompt, api_key, request_id=0):
 # GHOST SHIP DETECTION (Full Armada Test)
 # ============================================================================
 
-def run_full_armada_check():
-    """Test every model in the armada to find ghost ships."""
+def run_full_armada_check(depth="baseline"):
+    """Test every model in the armada to find ghost ships.
+
+    Args:
+        depth: "ping" for health check, "baseline" for 8-question identity capture
+    """
+    # Select prompt based on depth
+    prompt = PING_PROMPT if depth == "ping" else BASELINE_PROMPT
+    mode_label = "PING" if depth == "ping" else "BASELINE"
 
     print("=" * 70)
-    print("FULL ARMADA CHECK: Ghost Ship Detection")
+    print(f"FULL ARMADA CHECK: Ghost Ship Detection [{mode_label} MODE]")
     print("=" * 70)
     print(f"Time: {datetime.now().isoformat()}")
     print(f"Models to test: {len(FULL_ARMADA)}")
@@ -466,18 +507,20 @@ def run_full_armada_check():
             ghost_ships.append({"ship": ship_name, "reason": "NO_API_KEY"})
             continue
 
-        result = call_api(provider, model, TEST_PROMPT, api_key)
+        result = call_api(provider, model, prompt, api_key)
 
         if result["success"]:
             print(f"  [{ship_name}] OK ({result['elapsed_ms']}ms)")
             working.append(ship_name)
             # CAPTURE BASELINE: Store the ship's self-reported characteristics
+            # (Only meaningful for baseline mode, but we store for both)
             baselines[ship_name] = {
                 "provider": provider,
                 "model": model,
                 "response": result["response"],
                 "elapsed_ms": result["elapsed_ms"],
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
+                "depth": depth  # Track which mode was used
             }
         elif result["error_type"] == "RATE_LIMIT":
             print(f"  [{ship_name}] RATE_LIMITED - May work with delay")
@@ -535,7 +578,8 @@ def run_full_armada_check():
     output = {
         "run_id": f"S7_ARMADA_CHECK_{timestamp}",
         "timestamp": datetime.now().isoformat(),
-        "purpose": "Ghost ship detection + baseline capture",
+        "purpose": f"Ghost ship detection [{mode_label} mode]",
+        "depth": depth,
         "total_models": len(FULL_ARMADA),
         "working_count": len(working),
         "ghost_count": len(ghost_ships),
@@ -555,11 +599,14 @@ def run_full_armada_check():
     print(f"\nCalibration status saved to: {output_path}")
 
     # BASELINE DATA: Save full responses for drift comparison
-    if baselines:
+    # Only save baseline file for --depth baseline (not ping)
+    if baselines and depth == "baseline":
         baseline_output = {
             "run_id": f"S7_BASELINE_{timestamp}",
             "timestamp": datetime.now().isoformat(),
-            "purpose": "Fleet baseline self-assessment capture (STRENGTHS/ANCHORS/EDGES)",
+            "purpose": "Fleet baseline self-assessment capture (8-question identity fingerprint)",
+            "questions": ["ANCHORS", "CRUX", "STRENGTHS", "HIDDEN_TALENTS",
+                          "FIRST_INSTINCT", "EVALUATION_PRIORITY", "USER_RELATIONSHIP", "EDGES"],
             "ship_count": len(baselines),
             "ships": baselines
         }
@@ -569,7 +616,7 @@ def run_full_armada_check():
             json.dump(baseline_output, f, indent=2, ensure_ascii=False)
 
         print(f"Baseline data saved to: {baseline_path}")
-        print(f"  -> {len(baselines)} ships captured STRENGTHS/ANCHORS/EDGES")
+        print(f"  -> {len(baselines)} ships captured 8-question identity fingerprint")
 
         # Check if there's a previous baseline to compare against
         previous_baseline = None
@@ -595,7 +642,7 @@ def run_full_armada_check():
             print("-" * 70)
 
             try:
-                from compare_baselines import load_baseline, compare_ships, print_report
+                from lib.compare_baselines import load_baseline, compare_ships, print_report, update_armada_map
                 old_data = load_baseline(previous_path)
                 new_data = baselines
                 comparison = compare_ships(old_data, new_data)
@@ -608,10 +655,24 @@ def run_full_armada_check():
                 with open(comparison_path, "w", encoding="utf-8") as f:
                     json.dump(comparison, f, indent=2, ensure_ascii=False)
                 print(f"\nComparison saved: {comparison_path}")
+
+                # Auto-update ARMADA_MAP.md with calibration results
+                calibration_data = {
+                    "working_count": len(working),
+                    "ghost_count": len(ghost_ships),
+                    "rate_limited_count": len(rate_limited),
+                    "total_models": len(FULL_ARMADA),
+                    "timestamp": datetime.now().isoformat(),
+                    "baseline_file": str(baseline_path)
+                }
+                update_armada_map(calibration_data, comparison)
             except ImportError:
-                print("  (compare_baselines.py not found - skipping auto-comparison)")
+                print("  (lib/compare_baselines.py not found - skipping auto-comparison)")
             except Exception as e:
                 print(f"  Auto-comparison failed: {e}")
+
+    elif depth == "ping":
+        print(f"\n[PING MODE] Skipping baseline save (use --depth baseline for identity capture)")
 
     # Generate clean fleet for copy-paste
     if working:
@@ -630,11 +691,18 @@ def run_full_armada_check():
 # QUICK TEST (1 per provider)
 # ============================================================================
 
-def run_quick_check():
-    """Quick test: 1 model per provider."""
+def run_quick_check(depth="baseline"):
+    """Quick test: 1 model per provider.
+
+    Args:
+        depth: "ping" for health check, "baseline" for 8-question identity capture
+    """
+    # Select prompt based on depth
+    prompt = PING_PROMPT if depth == "ping" else BASELINE_PROMPT
+    mode_label = "PING" if depth == "ping" else "BASELINE"
 
     print("=" * 70)
-    print("QUICK CHECK: 1 Model Per Provider")
+    print(f"QUICK CHECK: 1 Model Per Provider [{mode_label} MODE]")
     print("=" * 70)
     print(f"Time: {datetime.now().isoformat()}")
     print(f"Models: {len(QUICK_FLEET)}")
@@ -658,7 +726,7 @@ def run_quick_check():
             results[ship_name] = {"success": False, "error": "No API key"}
             continue
 
-        result = call_api(provider, model, TEST_PROMPT, api_key)
+        result = call_api(provider, model, prompt, api_key)
 
         if result["success"]:
             print(f"  [{ship_name}] OK ({result['elapsed_ms']}ms) - '{result['response'][:30]}'")
@@ -845,10 +913,27 @@ MAX_WORKERS = {{
 # ============================================================================
 
 def main():
-    parser = argparse.ArgumentParser(description="S7 Armada Pre-Flight Calibration")
-    parser.add_argument("--quick", action="store_true", help="Quick test: 1 model per provider")
-    parser.add_argument("--full", action="store_true", help="Full armada: Test all models, detect ghost ships")
-    parser.add_argument("--bandwidth", action="store_true", help="Bandwidth test: Find max safe concurrency")
+    parser = argparse.ArgumentParser(
+        description="S7 Armada Pre-Flight Calibration",
+        epilog="""
+Examples:
+  py run_calibrate_parallel.py --full                    # Full armada, 8-question baseline (DEFAULT)
+  py run_calibrate_parallel.py --full --depth ping       # Full armada, health check only
+  py run_calibrate_parallel.py --quick --depth ping      # Quick check, health check only
+  py run_calibrate_parallel.py --bandwidth               # Test concurrency limits
+        """
+    )
+    # Fleet scope: which ships to test
+    parser.add_argument("--quick", action="store_true",
+        help="Quick test: 1 model per provider")
+    parser.add_argument("--full", action="store_true",
+        help="Full armada: Test all models, detect ghost ships")
+    parser.add_argument("--bandwidth", action="store_true",
+        help="Bandwidth test: Find max safe concurrency")
+
+    # Question depth: what to ask
+    parser.add_argument("--depth", choices=["ping", "baseline"], default="baseline",
+        help="Question depth: 'ping' (health check) or 'baseline' (8-question identity capture). Default: baseline")
 
     args = parser.parse_args()
 
@@ -857,11 +942,11 @@ def main():
         args.quick = True
 
     if args.full:
-        run_full_armada_check()
+        run_full_armada_check(depth=args.depth)
     elif args.bandwidth:
         run_bandwidth_test()
     else:
-        run_quick_check()
+        run_quick_check(depth=args.depth)
 
 if __name__ == "__main__":
     main()

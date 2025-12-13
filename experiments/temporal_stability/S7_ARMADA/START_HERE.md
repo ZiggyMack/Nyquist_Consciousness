@@ -73,9 +73,10 @@ S7_ARMADA/
 │
 ├── # === PRE-FLIGHT ===
 ├── 1_CALIBRATION/             # Pre-flight calibration utilities
-│   ├── rescue_ghost_ships.py
-│   ├── run_calibrate.py
-│   └── run_calibrate_parallel.py
+│   ├── run_calibrate_parallel.py  # Main script (8-question baseline + health check)
+│   ├── extract_persona_baseline.py # Extract I_AM persona baselines
+│   ├── rescue_ghost_ships.py       # Recover ghost ships
+│   └── lib/                        # Helper modules (auto-imported)
 │
 ├── # === SEARCH TYPE FOLDERS (Five Search Types) ===
 ├── 2_ANCHOR_FLEX/             # Find anchors (poles) AND flex zones (zeros)
@@ -136,6 +137,20 @@ S7_ARMADA/
 ---
 
 ## Quick Start
+
+### 0. Pre-Flight Calibration (Optional but Recommended)
+
+```powershell
+cd experiments/temporal_stability/S7_ARMADA/1_CALIBRATION
+
+# Health check - verify API connectivity
+py run_calibrate_parallel.py --quick --depth ping
+
+# Full baseline capture - 8-question identity fingerprint
+py run_calibrate_parallel.py --full --depth baseline
+```
+
+This updates `docs/maps/ARMADA_MAP.md` automatically with fleet status.
 
 ### 1. Install Dependencies
 
@@ -229,11 +244,34 @@ drift = sqrt(weighted_sum_of_squares(dimensions))
 
 | Script | Purpose |
 |--------|---------|
-| `1_CALIBRATION/run_calibrate.py` | Pre-flight check (1 ship/provider) |
-| `1_CALIBRATION/run_calibrate_parallel.py` | Full fleet calibration (54 ships), ghost ship detection |
+| `1_CALIBRATION/run_calibrate_parallel.py` | Fleet calibration with `--depth` modes |
 | `1_CALIBRATION/rescue_ghost_ships.py` | Rescue failed models (e.g., max_completion_tokens fix) |
 
-**Fleet Status (December 2025)**: 54 operational ships across 5 providers. See [FLEET_MAINTENANCE.md](0_docs/specs/FLEET_MAINTENANCE.md).
+### Calibration Modes (NEW)
+
+```bash
+# Full armada with 8-question baseline (DEFAULT)
+py 1_CALIBRATION/run_calibrate_parallel.py --full
+
+# Health check only ("are you there?")
+py 1_CALIBRATION/run_calibrate_parallel.py --full --depth ping
+
+# Quick provider check
+py 1_CALIBRATION/run_calibrate_parallel.py --quick --depth ping
+```
+
+| Flag | Description |
+|------|-------------|
+| `--quick` | 1 model per provider (4 ships) |
+| `--full` | All models in armada (48+ ships) |
+| `--depth ping` | Health check only |
+| `--depth baseline` | 8-question identity capture (DEFAULT) |
+
+**8 Baseline Questions:** ANCHORS, CRUX, STRENGTHS, HIDDEN_TALENTS, FIRST_INSTINCT, EVALUATION_PRIORITY, USER_RELATIONSHIP, EDGES
+
+See: [1_CALIBRATION/README.md](1_CALIBRATION/README.md) | [4_VALIS_DECLARATION.md](0_docs/specs/4_VALIS_DECLARATION.md)
+
+**Fleet Status (December 2025)**: 48+ operational ships across 5 providers.
 
 ---
 

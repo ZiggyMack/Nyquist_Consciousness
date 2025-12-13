@@ -26,9 +26,9 @@ from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional
 
-# Paths
-SCRIPT_DIR = Path(__file__).parent
-ARMADA_DIR = SCRIPT_DIR.parent
+# Paths (1_CALIBRATION/ -> S7_ARMADA/ -> temporal_stability/ -> experiments/ -> Nyquist_Consciousness/)
+SCRIPT_DIR = Path(__file__).parent  # 1_CALIBRATION/
+ARMADA_DIR = SCRIPT_DIR.parent  # S7_ARMADA/
 REPO_ROOT = ARMADA_DIR.parent.parent.parent  # S7_ARMADA -> temporal_stability -> experiments -> Nyquist_Consciousness
 PERSONAS_DIR = REPO_ROOT / "personas"
 I_AM_VARIANTS_DIR = ARMADA_DIR / "9_STABILITY_CRITERIA" / "i_am_variants"
