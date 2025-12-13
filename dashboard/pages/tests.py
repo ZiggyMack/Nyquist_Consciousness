@@ -1823,15 +1823,15 @@ def render_validation_scorecard_tab():
                 "The tiered CFA system is validated",
                 "We know how to CREATE stable personas",
                 "Any I_AM file will be stable",
-                "The architecture understands itself"
+                "Multi-auditor validation works"
             ],
             "Why Not": [
                 "I_AM files are emergent artifacts from human-AI collaboration",
                 "Creation process is CRAFT, not ARCHITECTURE",
-                "Only single I_AM files tested, not L0→L3 stack",
+                "Only single I_AM files tested, not L0->L3 stack",
                 "We measure EXISTING stability, not creation process",
                 "Only tested OUR I_AM files (Nova, Ziggy, Claude)",
-                "Criterial probes not yet run"
+                "CFA Trinity designed but not yet run with live APIs"
             ],
             "What Would Validate": [
                 "Documented creation protocol with success metrics",
@@ -1839,7 +1839,7 @@ def render_validation_scorecard_tab():
                 "Tiered stack experiment comparing L0-only vs full stack",
                 "Longitudinal study of I_AM creation process",
                 "Third-party I_AM files tested",
-                "Run criterial pillar probes"
+                "Run CFA Trinity v2 with full metrics (dry runs PASSED)"
             ],
             "Status": [
                 "NOT CLAIMABLE",
@@ -1847,7 +1847,7 @@ def render_validation_scorecard_tab():
                 "UNTESTED",
                 "NOT CLAIMABLE",
                 "UNTESTED",
-                "PENDING"
+                "READY"
             ]
         }
         df_cannot = pd.DataFrame(cannot_claim_data)
@@ -1857,6 +1857,8 @@ def render_validation_scorecard_tab():
                 return "background-color: #ef4444; color: white"
             elif val == "UNTESTED":
                 return "background-color: #f59e0b; color: white"
+            elif val == "READY":
+                return "background-color: #22c55e; color: white"
             return "background-color: #6b7280; color: white"
 
         st.dataframe(
@@ -1926,47 +1928,86 @@ def render_validation_scorecard_tab():
         st.markdown("### Next Experiments: What Would Close the Gap")
         st.markdown("*How to move from measurement to architecture claims.*")
 
+        # CFA Trinity Experiment - READY
+        st.success("""
+        **HIGH PRIORITY: CFA Trinity Audit** (READY TO RUN)
+
+        Multi-metric adversarial auditing with Three Auditors, Seven Metrics, and Double-Dip Protocol.
+
+        ```
+        THE TRINITY:
+        +-- Claude (Teleological): PRO stance, hash 1bbec1e119a2c425
+        +-- Grok (Empirical):      ANTI stance, hash 00cd73274759e218
+        +-- Nova (Symmetry):       Fairness monitoring, Crux declaration
+
+        7 METRICS (BFI, CA, IP, ES, LS, MS, PS):
+        +-- Each metric: Claude scores -> Grok challenges -> Nova mediates
+        +-- Convergence target: 98% (formula: 1 - |self - peer| / 10)
+        +-- Max rounds per metric: 5
+        +-- Crux Point declared if <90% after max rounds
+
+        DOUBLE-DIP PROTOCOL:
+        +-- Component 1: CT<->MdN Pilot (7 metrics, convergence loop)
+        +-- Component 2: Axioms Review (Grok + Nova sign-off)
+
+        OUTPUT:
+        +-- Per-metric convergence and Crux declarations
+        +-- Drift trajectories for all 3 auditors
+        +-- 4 testable predictions (P-CFA-1 through P-CFA-4)
+        +-- Exit surveys with identity validation
+        ```
+
+        **Script:** `12_CFA/run_cfa_trinity_v2.py`
+        **Status:** Dry runs PASSED, external identity loading validated
+        """)
+
+        # Predictions table
         st.markdown("""
-        **HIGH PRIORITY: Tiered Stack Experiment**
+        **CFA Trinity Predictions:**
+
+        | ID | Prediction | Success Criteria |
+        |----|-----------|-----------------|
+        | P-CFA-1 | PRO-CT shows lower drift than ANTI-CT | claude_mean_drift < grok_mean_drift |
+        | P-CFA-2 | High convergence correlates with low drift variance | correlation > 0.5 |
+        | P-CFA-3 | Fairness auditor shows highest drift | nova_mean_drift > mean(claude, grok) |
+        | P-CFA-4 | Crux Points correlate with high drift delta | crux_delta > non_crux_delta |
+        """)
+
+        st.markdown("---")
+
+        st.markdown("""
+        **MEDIUM PRIORITY: Tiered Stack Experiment**
 
         ```
         Hypothesis: L0+L1+L2+L3 together produces MORE stability than I_AM alone
 
         Design:
-        ├── Condition A: I_AM only (current test)
-        ├── Condition B: L3 + L2 (mission context)
-        ├── Condition C: L3 + L2 + L1 (repo context)
-        └── Condition D: Full stack L0→L3
+        +-- Condition A: I_AM only (current test)
+        +-- Condition B: L3 + L2 (mission context)
+        +-- Condition C: L3 + L2 + L1 (repo context)
+        +-- Condition D: Full stack L0->L3
 
         Measure:
-        ├── Drift under pressure
-        ├── Recovery lambda
-        └── Cross-session consistency
+        +-- Drift under pressure
+        +-- Recovery lambda
+        +-- Cross-session consistency
         ```
 
         If Condition D > Condition A with p < 0.05, THEN we can claim the architecture.
         """)
 
         st.markdown("""
-        **MEDIUM PRIORITY: Third-Party I_AM Testing**
+        **LOWER PRIORITY: Third-Party I_AM Testing**
 
         | Test | Purpose |
         |------|---------|
         | Independent I_AM creation | Can others create stable personas? |
         | Blind stability testing | Do third-party I_AMs pass our metrics? |
         | Creation process documentation | Can we identify patterns in successful I_AMs? |
-
-        **LOWER PRIORITY: Criterial Probes**
-
-        The Brute-Criterial probes test meta-understanding:
-        - Does the persona recognize its L1 commitments?
-        - Can it articulate its L2 criteria?
-
-        These are interesting but don't validate reproducibility.
         """)
 
         # Progress bar
-        progress = 0.50  # Measurement done, architecture untested
+        progress = 0.65  # CFA Trinity designed and validated
         st.progress(progress, text=f"Architecture Validation Progress: {int(progress*100)}%")
 
     # --- FOR SKEPTICS ---

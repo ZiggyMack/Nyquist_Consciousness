@@ -2407,9 +2407,9 @@ def render_run012_content():
     # === NEXT STEPS ===
     st.markdown("### Next Steps")
     st.markdown("""
-    1. **Run remaining providers** (GPT, Gemini, Grok) to get full 22-ship fleet
-    2. **EXP3-SSTACK ablation testing** - Which pillars can we remove?
-    3. **Stability testing completion** - Phase 2 → 5/8
+    1. **CFA Trinity Audit** - Multi-auditor validation (Claude/Grok/Nova) with 7 metrics and convergence loops
+    2. **Run 018 (Recursive Learnings)** - Test what the fleet told us in exit surveys
+    3. **EXP3 Human Validation** - Updated survey with control-systems domain (fire-ant era retired)
     """)
 
 

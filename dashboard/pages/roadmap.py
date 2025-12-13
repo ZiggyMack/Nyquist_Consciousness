@@ -261,10 +261,10 @@ def render():
             <hr style="border-color: #ccc; margin: 1rem 0;">
             <p style="font-size: 0.95em; color: #333; margin: 0;">
                 <strong style="color: #e94560;">Current Focus:</strong>
-                Run 018 (Recursive Learnings), Run 021v2 (Multi-provider), EXP3 (Human validation)
+                CFA Trinity (Multi-Auditor), Run 018 (Recursive Learnings), EXP3 (Human validation)
             </p>
             <p style="font-size: 0.85em; color: #666; margin-top: 0.5rem;">
-                Foundation locked. Control-systems era complete. 82% inherent drift proven.
+                Foundation locked. CFA Trinity READY (dry runs passed). 82% inherent drift proven.
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -490,12 +490,12 @@ def render():
         st.markdown("""
         <div class="priority-action">
             <h4 style="color: #c0392b; margin-top: 0;">PRIORITY 1</h4>
-            <p style="font-weight: bold; color: #333;">Run 018 + Run 021v2</p>
+            <p style="font-weight: bold; color: #333;">CFA Trinity Audit</p>
             <p style="color: #555; font-size: 0.85em;">
-                Execute recursive learnings and multi-provider replication.
-                Apply Triple-Dip methodology improvements.
+                Multi-auditor validation: Claude (PRO) vs Grok (ANTI) vs Nova (Fairness).
+                7 metrics, convergence loops, Crux declarations. Dry runs PASSED.
             </p>
-            <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Cost: $50-100</p>
+            <p style="color: #22c55e; font-size: 0.8em; font-weight: bold;">Status: READY TO RUN</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -503,12 +503,12 @@ def render():
         st.markdown("""
         <div class="priority-action">
             <h4 style="color: #e67e22; margin-top: 0;">PRIORITY 2</h4>
-            <p style="font-weight: bold; color: #333;">Deploy EXP3</p>
+            <p style="font-weight: bold; color: #333;">Run 018 + EXP3</p>
             <p style="color: #555; font-size: 0.85em;">
-                Human validation study. Recruit 5-7 raters,
-                deploy fidelity_test.html. Final credibility proof.
+                Recursive learnings from fleet exit surveys. Human validation
+                with updated control-systems domain survey.
             </p>
-            <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Cost: $0 (volunteer raters)</p>
+            <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Cost: $50-100</p>
         </div>
         """, unsafe_allow_html=True)
 
