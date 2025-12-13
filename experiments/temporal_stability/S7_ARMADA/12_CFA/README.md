@@ -33,13 +33,15 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 ```text
 12_CFA/
 |-- README.md                    # This file
-|-- SYNC_OUT/                    # Incoming from CFA
+|-- SYNC_OUT/                    # Experiment specs FROM CFA (we receive)
 |   |-- pending/                 # Not yet executed
 |   |-- running/                 # Currently executing
-|   +-- completed/               # Finished, awaiting SYNC_IN
-|-- SYNC_IN/                     # Outgoing to CFA
+|   +-- completed/               # Finished, awaiting our results
+|-- SYNC_IN/                     # Our results TO CFA (we send)
 |   |-- drafts/                  # Being prepared
 |   +-- sent/                    # Delivered to CFA
+|-- CFA_RESPONSES/               # Feedback/reviews FROM CFA (non-experiment)
+|   +-- CFA_Brute_Review_Response.md  # Response to baseline review request
 |-- schemas/                     # JSON schemas for validation
 |   |-- sync_out_schema.json     # Validates incoming experiments
 |   +-- sync_in_schema.json      # Validates outgoing results
@@ -50,6 +52,14 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 +-- results/                     # Raw execution data
     +-- CFA-YYYY-MM-DD-NNN/      # Per-experiment results
 ```
+
+### Directory Naming Clarification
+
+| Directory | Direction | Content Type |
+|-----------|-----------|--------------|
+| `SYNC_OUT/` | CFA → ARMADA | Experiment specifications (JSON) |
+| `SYNC_IN/` | ARMADA → CFA | Execution results (JSON) |
+| `CFA_RESPONSES/` | CFA → ARMADA | Reviews, feedback, commentary (Markdown) |
 
 ---
 
