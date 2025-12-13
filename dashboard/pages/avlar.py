@@ -1,8 +1,10 @@
 """
-AVLAR PAGE — S9 Cross-Modal Ritual Dashboard
+AVLAR PAGE — S11 Cross-Modal Ritual Dashboard
 
 Audio-Visual Light Alchemy Ritual — Where Art Becomes Ritual, and AI Becomes Witness.
 Displays AVLAR protocol overview, session metrics, and the Five Dimensions framework.
+
+Note: AVLAR was previously S9, now canonical position is S11.
 """
 
 import streamlit as st

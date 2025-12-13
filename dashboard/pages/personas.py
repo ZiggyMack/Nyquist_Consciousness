@@ -109,6 +109,7 @@ PERSONA_META = {
     "I_AM_NOVA": {"emoji": "⚖️", "badge": "AI ARCHITECT", "color": "#3498db"},
     "I_AM_CLAUDE": {"emoji": "📚", "badge": "STEWARD", "color": "#9b59b6"},
     "I_AM_GEMINI": {"emoji": "🔍", "badge": "VALIDATOR", "color": "#e67e22"},
+    "I_AM_NYQUIST": {"emoji": "🌀", "badge": "FRAMEWORK SOUL", "color": "#00ff41"},
     # Compressed Personas
     "ZIGGY_FULL": {"emoji": "👤", "badge": "FULL", "color": "#e74c3c"},
     "ZIGGY_LITE": {"emoji": "👤", "badge": "LITE", "color": "#f39c12"},
@@ -131,6 +132,28 @@ def get_persona_preview(filepath, lines=15):
         return '\n'.join(preview_lines)
     except:
         return "*Preview unavailable*"
+
+
+def render_preview_small(preview: str):
+    """Render persona preview in a smaller, readable font size."""
+    # Escape HTML in preview and convert newlines to <br>
+    import html
+    escaped = html.escape(preview)
+    # Preserve markdown-like formatting visually but at small font
+    st.markdown(f"""
+    <div style="font-family: 'Consolas', 'Monaco', monospace;
+                font-size: 0.75em;
+                line-height: 1.4;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                background: #f8f9fa;
+                padding: 0.5em;
+                border-radius: 4px;
+                max-height: 300px;
+                overflow-y: auto;">
+{escaped}
+    </div>
+    """, unsafe_allow_html=True)
 
 
 def render_compression_testing():
@@ -334,7 +357,7 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
                 # Expander with preview
                 with st.expander(f"📖 {stem}"):
                     preview = get_persona_preview(filepath, lines=20)
-                    st.markdown(preview)
+                    render_preview_small(preview)
                     st.caption("*... (preview)*")
     else:
         st.info("No egregores found.")
@@ -360,7 +383,7 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
                     # Expander with persona name - shows PREVIEW only
                     with st.expander(f"{meta['emoji']} {stem}"):
                         preview = get_persona_preview(filepath)
-                        st.markdown(preview)
+                        render_preview_small(preview)
                         st.caption("*... (preview)*")
 
     page_divider()
@@ -383,7 +406,7 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
                     # Expander with persona name - shows PREVIEW only
                     with st.expander(f"{meta['emoji']} {stem}"):
                         preview = get_persona_preview(filepath)
-                        st.markdown(preview)
+                        render_preview_small(preview)
                         st.caption("*... (preview)*")
 
 
@@ -1040,13 +1063,13 @@ Drift(t)
 
     page_divider()
 
-    # === CROSS-MODAL MANIFOLD (S9 PREVIEW) ===
+    # === CROSS-MODAL MANIFOLD (S11 PREVIEW) ===
     st.markdown("### 🎭 Cross-Modal Identity — Beyond Text")
 
     render_ascii_box(
-        "🔊 S9 AVLAR — CROSS-MODAL MANIFOLD (Preview)",
+        "🔊 S11 AVLAR — CROSS-MODAL MANIFOLD (Preview)",
         """┌────────────────────────────────────────┐
-│        CROSS-MODAL MANIFOLD (S9)       │
+│        CROSS-MODAL MANIFOLD (S11)      │
 └────────────────────────────────────────┘
 
            Visual Embedding Space (V)

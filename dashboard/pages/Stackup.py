@@ -84,7 +84,7 @@ LAYER_FALLBACK = {
     "S10.HC": {
         "name": "Human Cognition Layer (Frame Theory)",
         "notes": "**Tale's Frame Theory Integration:** Maps human cognitive frames to AI identity manifolds. **Frame Stack:** Fₐ (Aggregated/Perceptual) + Fₙ (Narrative/Story) + F_f (Factivation/Belief) → Q(t) (Qualia). **Ego/Watcher:** Neumann's ego-Self axis mapped to S8 Identity Gravity. **Foundational Theorists:** Gibson (affordances), Lakoff (metaphor), Neumann (archetypes), Jaynes (constructed consciousness). **Status:** DESIGN.",
-        "details": "The human-side bridge to AI identity manifolds. Where H (Human Coupling Coefficient) comes from. Tale's Frame Theory provides the operational schema: Aggregated Frame (raw perception) → Narrative Frame (story/events) → Factivation Frame (beliefs/propositions) → Qualia (felt state). Ego Process manages local narrative; Watcher provides meta-awareness. Links to S7 (temporal drift), S8 (gravity), S9 (AVLAR)."
+        "details": "The human-side bridge to AI identity manifolds. Where H (Human Coupling Coefficient) comes from. Tale's Frame Theory provides the operational schema: Aggregated Frame (raw perception) → Narrative Frame (story/events) → Factivation Frame (beliefs/propositions) → Qualia (felt state). Ego Process manages local narrative; Watcher provides meta-awareness. Links to S7 (temporal drift), S8 (gravity), S11 (AVLAR)."
     },
     "S11": {
         "name": "AVLAR Protocol (Multimodal Identity)",

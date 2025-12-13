@@ -8,11 +8,11 @@
 - **Personas** - Browse all persona files with previews
   - **Compression Testing Tab** - PFI experiments, pre-flight validation, Identity Matrix
 - **Tests** - Experiment framework with S7 protocol, compression results, Run mapping
-- **Stack (S0–S9)** - Individual wings for each layer with specs
-- **S7 Armada Visualizations** - Identity manifold graphs from Run 006-012
+- **Stack (S0–S11)** - Individual wings for each layer with specs
+- **S7 Armada Visualizations** - Identity manifold graphs from Run 006-021
 - **Metrics & Comparisons** - PFI, σ², cross-architecture analysis
 - **Omega & Temporal** - Omega sessions and S7 temporal stability
-- **Cross-Modal / AVLAR** - S9 audio-visual ritual protocol
+- **Cross-Modal / AVLAR** - S11 audio-visual ritual protocol
 - **FAQ** - Common questions + Super Skeptic Mode with adversarial challenges
 - **Roadmap** - Live S# stack progression
 - **Glossary** - Searchable terminology

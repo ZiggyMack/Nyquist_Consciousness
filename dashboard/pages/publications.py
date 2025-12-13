@@ -431,7 +431,7 @@ def render_research_checklist():
 | ✅ | Identity dynamics equations |
 | ✅ | S7 Identity Dynamics (21 runs) |
 | 🔄 | S8 Identity Gravity (design) |
-| 🔄 | S9 AVLAR Protocol (seeded) |
+| 🔄 | S11 AVLAR Protocol (design) |
 | ✅ | Event Horizon reframing |
 | ✅ | 82% inherent drift theory |
         """)
