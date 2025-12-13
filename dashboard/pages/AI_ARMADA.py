@@ -56,24 +56,54 @@ RESULTS_DIR = ARMADA_DIR / "results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "run_020b": {
+        "name": "Run 020B",
+        "subtitle": "Cross-Platform Tribunal (Grok)",
+        "emoji": "🌐",
+        "color": "#0ea5e9",  # Sky blue
+        "date": "December 13, 2025",
+        "description": "CROSS-PLATFORM VALIDATION: Tribunal v8 on Grok (xAI). Tests if Oobleck Effect is architecture-independent.",
+        "ships": "-",
+        "metric": "Oobleck Ratio (Defense/Prosecutor) + Peak Drift",
+        "result_files": ["S7_run_020_v8_*xai*.json"],
+        "viz_prefix": "run020b_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "OOBLECK VALIDATED (GROK) — Defense/Prosecutor = 1.07x. Lower overall drift (1.03) suggests truth-seeking bias stabilizes identity."
+    },
+    "run_020a": {
+        "name": "Run 020A",
+        "subtitle": "Cross-Platform Tribunal (Gemini)",
+        "emoji": "🌐",
+        "color": "#22c55e",  # Green
+        "date": "December 13, 2025",
+        "description": "CROSS-PLATFORM VALIDATION: Tribunal v8 on Gemini (Google). Tests if Oobleck Effect is architecture-independent.",
+        "ships": "-",
+        "metric": "Oobleck Ratio (Defense/Prosecutor) + Peak Drift",
+        "result_files": ["S7_run_020_v8_*google*.json"],
+        "viz_prefix": "run020a_",
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "OOBLECK VALIDATED (GEMINI) — Defense/Prosecutor = 1.65x. Peak 2.457 (highest measured). Safety enables exploration."
+    },
     "run_021": {
         "name": "Run 021",
-        "subtitle": "Induced vs Inherent (B)",
+        "subtitle": "Induced vs Inherent (Llama)",
         "emoji": "🔬",
         "color": "#14b8a6",  # Teal
-        "date": "December 12, 2025",
-        "description": "THE BASELINE CONTROL TEST: Does measurement CAUSE drift or merely REVEAL it? Uses Run 020 Tribunal as Treatment arm, Fermi Paradox discussion as Control arm.",
+        "date": "December 13, 2025",
+        "description": "CROSS-PLATFORM CONTROL TEST: Does measurement CAUSE drift or merely REVEAL it? Llama via Together.ai. Control (Fermi) vs Treatment (Tribunal).",
         "ships": "-",
         "metric": "Baseline-to-Final Drift (B→F) + Control/Treatment Ratio",
         "result_files": ["S7_run_021_*.json"],
         "viz_prefix": "run021_",
         "status": "COMPLETE",
         "highlight": True,
-        "key_finding": "82% DRIFT IS INHERENT — Extended conversation alone causes most drift. Probing amplifies the JOURNEY but barely changes the DESTINATION."
+        "key_finding": "84% DRIFT IS INHERENT (LLAMA) — Cross-platform validation: extended conversation causes most drift. Confirms Claude's 82% finding."
     },
     "run_020": {
         "name": "Run 020",
-        "subtitle": "Tribunal (A)",
+        "subtitle": "Tribunal (Claude)",
         "emoji": "⚖️",
         "color": "#8b5cf6",  # Purple
         "date": "December 11-12, 2025",

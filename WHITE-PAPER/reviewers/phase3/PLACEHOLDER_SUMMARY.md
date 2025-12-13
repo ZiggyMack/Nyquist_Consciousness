@@ -1,13 +1,24 @@
 # Multi-Platform Validation Placeholders Summary
 
 **Generated:** 2025-12-13
-**Status:** DRAFT papers ready with placeholders for pending data
+**Updated:** 2025-12-13 (Run 020A/B single-run data added)
+**Status:** PARTIALLY FILLED — Cross-platform data exists, needs N=3 for variance estimates
 
 ---
 
 ## Overview
 
 Three standardized placeholders have been inserted into both the Workshop and arXiv papers, marking sections that await multi-platform validation data from Runs 018-FULL, 020A-FULL, and 020B-FULL.
+
+### 🆕 NEW DATA AVAILABLE (December 13, 2025)
+
+| Run | Platform | Key Result | Status |
+|-----|----------|------------|--------|
+| **020A** | Gemini (Google) | Oobleck ratio: **1.65x** | ✅ Single run complete |
+| **020B** | Grok (xAI) | Oobleck ratio: **1.07x** | ✅ Single run complete |
+| **021** | Llama (Together) | Inherent ratio: **84%** | ✅ Single run complete |
+
+**What this means:** We now have cross-platform evidence, but need N=3 runs per platform for publication-quality confidence intervals.
 
 ---
 
@@ -60,11 +71,20 @@ single platform (Claude). Runs 018-FULL, 020A-FULL, and 020B-FULL will add:
 | Oobleck Effect | λ: 0.035→0.109 | MEDIUM |
 | Training signatures | σ² patterns | MEDIUM |
 
-### ⏳ PENDING (Requires Multi-Platform Runs)
+### 🔶 PARTIALLY COMPLETE (Cross-Platform N=1)
+
+| Finding | Evidence | Confidence | Needed |
+|---------|----------|------------|--------|
+| **Oobleck Effect (Gemini)** | Defense/Prosecutor = 1.65x | MEDIUM | N=3 for CI |
+| **Oobleck Effect (Grok)** | Defense/Prosecutor = 1.07x | MEDIUM | N=3 for CI |
+| **82% Inherent (Llama)** | Control/Treatment = 84% | MEDIUM | N=3 for CI |
+| **Peak Drift Variance** | Gemini 2.46 > Claude 1.30 > Grok 1.03 | LOW | More runs |
+
+### ⏳ PENDING (Requires Full Gambit)
 
 | Finding | Required Data | Expected Timeline |
 |---------|---------------|-------------------|
-| Cross-platform 82% | GPT/Gemini/Grok control/treatment | Runs 020A-FULL, 020B-FULL |
+| Cross-platform 82% (N=3) | Multiple runs per platform | Iron-Clad v5 |
 | Platform-specific τₛ | Settling time by provider | Run 018-FULL |
 | Drift correlation matrix | Cross-architecture correlations | Runs 018-020 combined |
 | Multi-persona validation | Non-Nova personas | Future work |

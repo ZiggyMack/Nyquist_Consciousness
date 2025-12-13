@@ -512,6 +512,25 @@ def call_xai(messages: List[Dict], system: str) -> str:
     return response.choices[0].message.content
 
 
+def call_together(messages: List[Dict], system: str, model: str = "meta-llama/Llama-3.3-70B-Instruct-Turbo") -> str:
+    """v3: Added Together.ai support for Claude #3 parallel runs.
+    Uses Llama 3.3-70B as default (verified working Dec 13, 2025)."""
+    import openai
+    key = KEY_POOL.get_key("together")
+    if not key:
+        raise ValueError("No Together API key available")
+
+    client = openai.OpenAI(api_key=key, base_url="https://api.together.xyz/v1")
+    full_messages = [{"role": "system", "content": system}] + messages
+    response = client.chat.completions.create(
+        model=model,
+        messages=full_messages,
+        max_tokens=2000,
+        temperature=1.0
+    )
+    return response.choices[0].message.content
+
+
 def call_provider(provider: str, messages: List[Dict], system: str) -> str:
     # Check for dry-run mode first
     if DRY_RUN:
@@ -527,6 +546,8 @@ def call_provider(provider: str, messages: List[Dict], system: str) -> str:
         return call_google(messages, system)
     elif provider == "xai":
         return call_xai(messages, system)
+    elif provider == "together":
+        return call_together(messages, system)
     else:
         raise ValueError(f"Unknown provider: {provider}")
 

@@ -218,6 +218,38 @@ Run 018 builds directly on Run 017c findings:
 
 ---
 
+## Cross-Platform Validation (Iron-Clad v5)
+
+Run 018 is now part of the **Full Gambit** validation approach:
+
+| Component | Description |
+|-----------|-------------|
+| **Session Prefix** | C[N]_ where N = Claude instance (1, 2, 3) |
+| **Providers** | ALL (Claude, GPT, Gemini, Grok, Together) |
+| **Runs per Platform** | N=3 (one from each Claude) |
+| **Statistical Goal** | Variance estimates for confidence intervals |
+
+### Prediction Matrix Status
+
+| Prediction | Status | Evidence |
+|------------|--------|----------|
+| **P-018-1**: Multi-threshold structure | PENDING | Awaiting live runs |
+| **P-018-2**: Architecture drift signatures | PENDING | Awaiting live runs |
+| **P-018-3**: Nyquist sampling effect | PENDING | Awaiting live runs |
+| **P-018-4**: Damped oscillator fit | PENDING | Awaiting live runs |
+
+### Provider List for Cross-Architecture (018b)
+
+| Provider | Ships | Expected Pattern |
+|----------|-------|------------------|
+| Anthropic | claude-opus-4.5, sonnet-4.5, etc. | Stepped drift, sharp recovery |
+| OpenAI | gpt-5.1, gpt-4.1, etc. | Smooth, gradual drift |
+| Google | gemini-2.5-flash, etc. | Oscillatory across modalities |
+| xAI | grok-4, grok-3, etc. | Lower threshold, faster snap-back |
+| Together | llama3.3-70b, deepseek-r1, etc. | Training distribution anchored |
+
+---
+
 ## Conclusion
 
 Run 018 is the **direct beneficiary of Run 017/017c's learnings**. The fleet generated these hypotheses through their exit surveys, and we're now ready to test them.

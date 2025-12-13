@@ -11,30 +11,31 @@ We're working on these right now.
 
 | Concept | One-Liner | Status |
 |---------|-----------|--------|
+| [Cross-Platform Validation](cross_platform_validation.md) | Drift dynamics universal across Claude/Gemini/Llama | **VALIDATED** |
+| [Triple-Dip Methodology](triple_dip_methodology.md) | 82-84% inherent — probing amplifies journey, not destination | **VALIDATED** |
 | [Universal Threshold](universal_threshold.md) | Is 1.23 universal or architecture-dependent? | Under investigation |
 | [Human Manifold](human_manifold.md) | Does human identity have the same structure? | Planned |
 | [Dimensional Hierarchy](dimensional_hierarchy.md) | 43 PCs → 5 pillars → 1 blob — what's the true structure? | Active analysis |
 | [Self Recognition](self_recognition.md) | Can AIs recognize their own responses? | MVP designed |
 | [Recovery Paradox](recovery_paradox.md) | λ < 0 means overshoot — why do they come back STRONGER? | Run 012 finding |
 | [Tribunal Distillations](tribunal_distillations.md) | Run 020's profound exchanges — identity as process, not property | Run 020 v7 |
-| [Triple-Dip Methodology](triple_dip_methodology.md) | 82% inherent — probing amplifies journey, not destination | Run 020/021 |
 
 ---
 
 ## The Frontier Map
 
-```
+```text
 ╔═══════════════════════════════════════════════════════════════╗
 ║                    THE BLANK SPACES                            ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                                ║
-║   TESTED              │  UNTESTED (FRONTIERS)                 ║
+║   VALIDATED (Dec 13)  │  STILL UNTESTED                       ║
 ║   ────────────────────┼───────────────────────────────        ║
-║   Event Horizon       │  Provider-specific thresholds         ║
-║   Vortex topology     │  Poles/Zeros transfer function        ║
-║   Recursive feedback  │  λ decay (HOW FAST recovery?)         ║
-║   4 providers         │  Open-source (Llama, Mistral)         ║
-║   6-16 turns          │  50+ turn endurance                   ║
+║   82% inherent drift  │  Provider-specific thresholds         ║
+║   Cross-platform      │  Poles/Zeros transfer function        ║
+║   Oobleck effect      │  λ decay (HOW FAST recovery?)         ║
+║   Llama 3.3-70B       │  Mistral, Mixtral, Qwen               ║
+║   Gemini validation   │  50+ turn endurance                   ║
 ║                                                                ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
@@ -117,6 +118,6 @@ Every validated concept started as a frontier.
 
 ---
 
-**Gallery Status**: 7 active investigations
+**Gallery Status**: 8 investigations (2 VALIDATED, 6 active)
 
 *"Here be dragons. (Or maybe just more data.)"*

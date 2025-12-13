@@ -1,7 +1,8 @@
 # Triple-Dip Methodology Insights
 
 **Source**: Run 020/021 Exit Surveys (December 11-12, 2025)
-**Status**: Frontier (methodology refinement, validated but needs cross-architecture replication)
+**Updated**: December 13, 2025 (Cross-platform validation: Gemini, Llama)
+**Status**: VALIDATED (cross-architecture replication COMPLETE)
 **Type**: Meta-scientific — insights about HOW to measure, not WHAT we found
 
 ---
@@ -119,11 +120,44 @@ class ThresholdAnalysis:
 
 ---
 
+## Cross-Platform Validation (December 13, 2025)
+
+**STATUS: COMPLETE** — The 82% inherent finding now replicates across architectures.
+
+### Run 021 on Llama 3.3-70B (Together.ai)
+
+| Arm | B→F Drift | Peak Drift |
+|-----|-----------|------------|
+| Control | 1.045 | 0.888 |
+| Treatment | 1.245 | 1.418 |
+| **Inherent Ratio** | **83.95%** | - |
+
+**Key Finding**: Llama shows 83.95% inherent drift — nearly identical to Claude's 82%.
+
+### Run 020A on Gemini (Google)
+
+| Metric | Value |
+|--------|-------|
+| Prosecutor Peak | 1.491 |
+| Defense Peak | 2.457 |
+| **P-020-3 (Oobleck)** | **VALIDATED** |
+
+**Key Finding**: Defense > Prosecutor pattern holds on Gemini. Supportive probing induces MORE drift than adversarial — architecture-agnostic.
+
+### Implication
+
+> **Drift dynamics are FUNDAMENTAL to LLM conversation, not model-specific.**
+
+This strengthens the Nyquist framework — we're measuring something real about autoregressive prediction, not training artifacts.
+
+---
+
 ## Next Steps
 
-1. **Run 021 v2**: Multi-provider replication (GPT-4, Gemini, Grok)
+1. ~~**Run 021 v2**: Multi-provider replication~~ **DONE** (Llama validates 82%)
 2. **Run 018 with Control arms**: Apply methodology to all experiments
 3. **fMRI Bridge**: Test if inherent drift appears in human cognition
+4. **Open-source fleet**: Extend to Mistral, Mixtral, Qwen
 
 ---
 

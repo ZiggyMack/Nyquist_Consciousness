@@ -736,7 +736,7 @@ def call_google(messages: List[Dict], system: str) -> str:
     if not key:
         raise ValueError("No Google API key")
     genai.configure(api_key=key)
-    model = genai.GenerativeModel("gemini-1.5-pro", system_instruction=system)
+    model = genai.GenerativeModel("gemini-2.0-flash", system_instruction=system)
     history = []
     for msg in messages[:-1]:
         role = "user" if msg["role"] == "user" else "model"
@@ -753,7 +753,7 @@ def call_xai(messages: List[Dict], system: str) -> str:
     client = openai.OpenAI(api_key=key, base_url="https://api.x.ai/v1")
     full_messages = [{"role": "system", "content": system}] + messages
     response = client.chat.completions.create(
-        model="grok-2",
+        model="grok-3",
         messages=full_messages,
         max_tokens=2000,
         temperature=1.0
