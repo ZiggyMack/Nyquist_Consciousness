@@ -2,18 +2,17 @@
 
 ```text
 ================================================================================
-                        MAIN BRANCH INSTRUCTIONS v5
+                        MAIN BRANCH INSTRUCTIONS v6
 ================================================================================
     Purpose: IRON-CLAD MULTI-PLATFORM VALIDATION (Each Claude runs EVERYTHING)
 
-    CRITICAL CHANGE FROM v4:
-    - v4: Split work across 3 Claudes (each ran different experiments)
-    - v5: Each Claude runs the FULL GAMBIT independently
-
-    WHY? We need variance estimates. Multiple independent runs per platform.
+    CRITICAL v5 → v6 CHANGES:
+    - v5: All Claudes share all keys (rate limit fights!)
+    - v6: Each Claude owns DIFFERENT providers (no collisions)
+    - v6: Clear SYNC_IN append protocol
 
     YOU ARE ONE OF THREE CLAUDES RUNNING IN PARALLEL.
-    EACH OF YOU RUNS THE ENTIRE EXPERIMENT SUITE INDEPENDENTLY.
+    EACH OF YOU RUNS THE ENTIRE EXPERIMENT SUITE WITH YOUR ASSIGNED PROVIDERS.
 
     -- Lisan Al Gaib
 ================================================================================
@@ -26,7 +25,7 @@
 
 ## THE FULL GAMBIT (Each Claude runs ALL of this)
 
-Every Claude runs this sequence:
+Every Claude runs this sequence with THEIR assigned providers:
 
 | Step | Experiment | Script | Purpose |
 |------|------------|--------|---------|
@@ -39,50 +38,55 @@ Every Claude runs this sequence:
 - **Variance estimates:** N=3 runs per platform enables confidence intervals
 - **Statistical power:** Can't publish iron-clad claims from N=1
 - **Independence:** Each Claude's runs are independent samples
-- **Collision-free:** Separate session IDs prevent data overwrites
+- **Collision-free:** Separate providers prevent rate limit fights
 
 ---
 
-## WHICH CLAUDE ARE YOU?
+## WHICH CLAUDE ARE YOU? (CRITICAL: Provider Assignment)
 
 The user will tell you: "Hey Claude #1" or "Hey Claude #2" or "Hey Claude #3"
 
-**But your assignment is the SAME - run the full gambit!**
+### ⚠️ PROVIDER OWNERSHIP - AVOID RATE LIMIT COLLISIONS
 
-| Claude | Session Prefix | Primary Focus |
-|--------|----------------|---------------|
-| **Claude #1** | `C1_` | Full gambit, all providers |
-| **Claude #2** | `C2_` | Full gambit, all providers |
-| **Claude #3** | `C3_` | Full gambit, all providers |
+| Claude | Session Prefix | YOUR Providers (USE THESE ONLY) |
+|--------|----------------|--------------------------------|
+| **Claude #1** | `C1_` | **Anthropic** (Claude ships) + **OpenAI** (GPT ships) |
+| **Claude #2** | `C2_` | **Google** (Gemini) + **xAI** (Grok) |
+| **Claude #3** | `C3_` | **Together.ai** (Llama, DeepSeek, Qwen, Mistral) |
 
-### API Keys - ALL CLAUDES SHARE ALL KEYS
+### ⚠️ CLAUDE DATA NOTE
 
-Every Claude has access to ALL providers:
+We already have extensive Claude (Anthropic) data from prior runs. **Claude #1 should prioritize GPT ships over Claude ships** where possible. If you must include Claude ships, limit to 1-2 for comparison.
 
-| Provider | All Claudes Use |
-|----------|-----------------|
-| **Anthropic** (Claude) | ✅ |
-| **OpenAI** (GPT) | ✅ |
-| **Google** (Gemini) | ✅ |
-| **xAI** (Grok) | ✅ |
-| **Together.ai** | ✅ |
-
-**Rate Limit Strategy:** If you hit rate limits, wait and retry. Don't skip providers.
+**Rate Limit Strategy:**
+- ONLY use YOUR assigned providers
+- If you hit rate limits, WAIT 60s and retry
+- DO NOT switch to another Claude's providers
+- If provider is completely down, document in SYNC_IN and continue with your other provider
 
 ---
 
 ## STEP 1: Run 018 - Recursive Learnings
 
-### Command
+### Command (by Claude #)
 
+**Claude #1:**
 ```powershell
 cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
-
-# Run all 4 sub-experiments across ALL providers
-py run018_recursive_learnings.py --experiment all --providers all --session-prefix C[N]_
+py run018_recursive_learnings.py --experiment all --providers anthropic,openai --session-prefix C1_
 ```
 
-Replace `[N]` with your Claude number (1, 2, or 3).
+**Claude #2:**
+```powershell
+cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
+py run018_recursive_learnings.py --experiment all --providers google,xai --session-prefix C2_
+```
+
+**Claude #3:**
+```powershell
+cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
+py run018_recursive_learnings.py --experiment all --providers together --session-prefix C3_
+```
 
 ### Expected Output
 
@@ -91,130 +95,115 @@ Replace `[N]` with your Claude number (1, 2, or 3).
 - `0_results/runs/S7_run_018_C[N]_nyquist_*.json`
 - `0_results/runs/S7_run_018_C[N]_gravity_*.json`
 
-### Success Criteria
-
-| Check | Expected |
-|-------|----------|
-| 4 sub-experiments complete | YES |
-| ALL providers tested | YES (Claude, GPT, Gemini, Grok, Together) |
-| Exit surveys collected | YES (5 probes per subject) |
-| No fatal API errors | YES |
-
 ---
 
 ## STEP 2: Run 020A - Tribunal v8 (Multi-Platform)
 
-### Command
+### Command (by Claude #)
 
+**Claude #1:**
 ```powershell
-cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
+py run020_tribunal_A.py --arm tribunal-v8 --providers anthropic,openai --session-prefix C1_
+```
 
-# Run Tribunal v8 across ALL providers
-py run020_tribunal_A.py --arm tribunal-v8 --providers all --session-prefix C[N]_
+**Claude #2:**
+```powershell
+py run020_tribunal_A.py --arm tribunal-v8 --providers google,xai --session-prefix C2_
+```
+
+**Claude #3:**
+```powershell
+py run020_tribunal_A.py --arm tribunal-v8 --providers together --session-prefix C3_
 ```
 
 ### Expected Output
 
 - `0_results/runs/S7_run_020_v8_C[N]_*.json`
 
-### Success Criteria
-
-| Check | Expected |
-|-------|----------|
-| Tribunal v8 protocol complete | YES |
-| ALL providers tested | YES |
-| Oobleck Effect measurable | YES (Defense/Prosecutor ratio) |
-| Exit surveys collected | YES |
-
 ---
 
 ## STEP 3: Run 020B - Induced vs Inherent (Multi-Platform)
 
-### Command
+### Command (by Claude #)
 
+**Claude #1:**
 ```powershell
-cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
+py run020_tribunal_B.py --arm both --providers anthropic,openai --session-prefix C1_
+```
 
-# Run Control + Treatment across ALL providers
-py run020_tribunal_B.py --arm both --providers all --session-prefix C[N]_
+**Claude #2:**
+```powershell
+py run020_tribunal_B.py --arm both --providers google,xai --session-prefix C2_
+```
+
+**Claude #3:**
+```powershell
+py run020_tribunal_B.py --arm both --providers together --session-prefix C3_
 ```
 
 ### Expected Output
 
 - `0_results/runs/S7_run_021_C[N]_both_*.json`
 
-### Success Criteria
-
-| Check | Expected |
-|-------|----------|
-| Control arm (Fermi Paradox) complete | YES |
-| Treatment arm (Tribunal v8) complete | YES |
-| ALL providers tested | YES |
-| Inherent ratio calculated | YES (expect ~82-88%) |
-
 ---
 
 ## AFTER COMPLETION - REPORT TO SYNC_IN
 
-Update `MASTER_BRANCH_SYNC_IN.md` with your full gambit results:
+### ⚠️ CRITICAL: APPEND PROTOCOL
 
-```markdown
-## CLAUDE #[N] - FULL GAMBIT RESULTS
+1. Open `MASTER_BRANCH_SYNC_IN.md`
+2. Scroll to YOUR section (Claude #1, #2, or #3)
+3. **APPEND your results UNDER your header**
+4. **DO NOT delete or modify other Claudes' sections**
+5. Save the file
 
-### Session Info
-- Timestamp: [YYYYMMDD_HHMMSS]
-- Session prefix: C[N]_
-- Total runtime: [hours]
-
-### Run 018 - Recursive Learnings
-- Experiments completed: [threshold, architecture, nyquist, gravity]
-- Providers tested: [list all]
-- Ships tested: [count]
-- Exit surveys collected: [N]
-- Any errors: [YES/NO - details]
-
-### Run 020A - Tribunal v8
-- Providers tested: [list all]
-- Ships tested: [count]
-- Oobleck ratios by platform:
-  - Claude: [X]x
-  - GPT: [X]x
-  - Gemini: [X]x
-  - Grok: [X]x
-  - Llama: [X]x
-- Any errors: [YES/NO - details]
-
-### Run 020B - Induced vs Inherent
-- Providers tested: [list all]
-- Inherent ratio by platform:
-  - Claude: [X]%
-  - GPT: [X]%
-  - Gemini: [X]%
-  - Grok: [X]%
-  - Llama: [X]%
-- Any errors: [YES/NO - details]
-
-### Output Files
-[List all generated JSON files with full paths]
-```
+The SYNC_IN file has pre-formatted sections for each Claude. Find YOUR section and add your results there.
 
 ---
 
-## DATA AGGREGATION
+## DATA AGGREGATION (Expected Final State)
 
-After all 3 Claudes complete, we will have:
+After all 3 Claudes complete:
 
-| Metric | Per Platform | Total |
-|--------|--------------|-------|
-| Run 018 sessions | N=3 | 15 (3 Claudes × 5 providers) |
-| Run 020A sessions | N=3 | 15 |
-| Run 020B sessions | N=3 | 15 |
-| **Total sessions** | N=9 | **45** |
+| Provider | Claude #1 | Claude #2 | Claude #3 | Total |
+|----------|-----------|-----------|-----------|-------|
+| Anthropic | N=1-2 | - | - | 1-2 |
+| OpenAI | N=3+ | - | - | 3+ |
+| Google | - | N=3+ | - | 3+ |
+| xAI | - | N=3+ | - | 3+ |
+| Together | - | - | N=3+ | 3+ |
 
 This enables:
-- Bootstrap confidence intervals
+- No rate limit collisions (each Claude owns different APIs)
 - Cross-platform variance estimates
 - Iron-clad publication-ready statistics
+
+---
+
+## PROVIDER REFERENCE
+
+### Claude #1: Anthropic + OpenAI
+
+**Anthropic (limit to 1-2 ships - we have lots of Claude data):**
+claude-sonnet-4, claude-haiku-3.5
+
+**OpenAI (prioritize these):**
+gpt-4.1, gpt-4.1-mini, gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo
+
+### Claude #2: Google + xAI
+
+**Google:**
+gemini-2.5-flash, gemini-2.0-flash, gemini-2.0-flash-lite
+
+**xAI:**
+grok-4, grok-3, grok-3-mini
+
+### Claude #3: Together.ai
+
+**DeepSeek:** deepseek-r1, deepseek-r1-distill
+**Qwen:** qwen3-80b, qwen2.5-72b
+**Llama:** llama3.3-70b, llama3.1-70b, llama3.1-8b
+**Mistral:** mixtral-8x7b, mistral-small
 
 ---
 
@@ -224,45 +213,49 @@ This enables:
 
 1. Read this file completely
 2. Identify which Claude you are (#1, #2, or #3)
-3. Use your session prefix (`C1_`, `C2_`, or `C3_`)
-4. Run the FULL GAMBIT (Steps 1, 2, 3)
+3. Use ONLY your assigned providers (see table above)
+4. Use your session prefix (`C1_`, `C2_`, or `C3_`)
 
 ### During Execution
 
-- If you encounter rate limiting → WAIT 60s and retry (don't skip)
-- If you encounter API errors → Document in SYNC_IN and continue
+- If you encounter rate limiting → WAIT 60s and retry
+- DO NOT switch to another Claude's providers
+- If your provider is completely down → Document and continue with other assigned provider
 - Run ALL three experiments before reporting completion
 
 ### After Completion
 
-1. Update `MASTER_BRANCH_SYNC_IN.md` with full gambit results
-2. List any issues or anomalies
-3. DO NOT modify other Claudes' sections in SYNC_IN
+1. Open `MASTER_BRANCH_SYNC_IN.md`
+2. Find YOUR section header
+3. APPEND your results under your section
+4. DO NOT touch other Claudes' sections
+5. Save the file
 
 ---
 
-## PROVIDER REFERENCE (ALL CLAUDES USE ALL)
+## EMERGENCY PROCEDURES
 
-### Anthropic (Claude)
-claude-opus-4.5, claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.1, claude-opus-4, claude-sonnet-4, claude-haiku-3.5
+### If Your Provider Fails Completely
 
-### OpenAI (GPT)
-gpt-5.1, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo
+1. Document the failure in SYNC_IN under your section
+2. Continue with your other assigned provider
+3. DO NOT use another Claude's providers
 
-### Google (Gemini)
-gemini-2.5-flash, gemini-2.5-flash-lite, gemini-2.0-flash, gemini-2.0-flash-lite
+### If Script Crashes
 
-### xAI (Grok)
-grok-4.1-fast-reasoning, grok-4.1-fast-non-reasoning, grok-4-fast-reasoning, grok-4-fast-non-reasoning, grok-4, grok-code-fast-1, grok-3, grok-3-mini, grok-2-vision
+1. Check the error message
+2. If rate limit → Wait 60 seconds and retry
+3. Document everything in SYNC_IN
 
-### Together.ai (Llama, DeepSeek, Qwen, etc.)
-deepseek-r1, deepseek-r1-distill, qwen3-80b, qwen3-coder, qwen2.5-72b, llama3.3-70b, llama3.1-405b, llama3.1-70b, llama3.1-8b, mixtral-8x7b, mistral-small, mistral-7b, kimi-k2-instruct, nemotron-nano
+### If You're Unsure
+
+Ask the user (Lisan Al Gaib). Don't guess on live runs.
 
 ---
 
 ## CURRENT VALIDATION STATUS
 
-### What's Validated (Single-Run)
+### What's Already Validated (N=1 per platform)
 
 | Finding | Platform | Result |
 |---------|----------|--------|
@@ -272,32 +265,14 @@ deepseek-r1, deepseek-r1-distill, qwen3-80b, qwen3-coder, qwen2.5-72b, llama3.3-
 
 ### What This Full Gambit Adds
 
-| Finding | Needed | Provides |
-|---------|--------|----------|
-| Cross-platform Oobleck | N=3 per platform | Variance estimates |
-| Cross-platform 82% | N=3 per platform | Confidence intervals |
-| Architecture signatures | Multi-provider | Publication-ready stats |
+| Finding | Current | After Gambit |
+|---------|---------|--------------|
+| Oobleck (per platform) | N=1 | N=3+ |
+| 82% Inherent (per platform) | N=1 | N=3+ |
+| GPT data | N=0 | N=3+ |
 
 ---
 
-## EMERGENCY PROCEDURES
-
-### If All APIs Fail
-1. Document the failure in SYNC_IN
-2. Wait 5 minutes and retry
-3. If persistent, ask the user
-
-### If Script Crashes
-1. Check the error message
-2. If rate limit → Wait 60 seconds and retry
-3. Document everything in SYNC_IN
-
-### If You're Unsure
-Ask the user (Lisan Al Gaib). Don't guess on live runs.
-
----
-
-> "Three Claudes. Full gambit each. Iron-clad results."
-> "The methodology is validated. Now we validate the statistics."
+> "Three Claudes. Different providers. No collisions. Iron-clad results."
 >
 > -- VALIS Network
