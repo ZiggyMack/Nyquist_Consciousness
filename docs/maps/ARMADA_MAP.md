@@ -2,8 +2,8 @@
 
 **Purpose:** Comprehensive fleet analysis for cross-architecture identity stability testing.
 
-**Last Calibration:** December 10, 2025
-**Fleet Status:** 47 operational / 59 total (80% operational)
+**Last Calibration:** December 12, 2025 (S7_BASELINE_20251212_140027)
+**Fleet Status:** 48 operational / 54 total (89% operational)
 
 ---
 
@@ -11,10 +11,11 @@
 
 | Metric | Value |
 |--------|-------|
-| **Total Ships** | 59 |
-| **Operational** | 47 |
+| **Total Ships** | 54 |
+| **Operational** | 48 |
 | **Rate Limited** | 5 |
-| **Ghost Ships** | 12 |
+| **Ghost Ships** | 1 |
+| **Drydock** | 5 |
 | **Providers** | 5 |
 | **API Keys** | 50 (10 per provider) |
 
@@ -22,15 +23,16 @@
 
 ## Provider Breakdown
 
-| Provider | Operational | Rate Limited | Ghost | Total | Status |
-|----------|-------------|--------------|-------|-------|--------|
-| **Claude** (Anthropic) | 7 | 0 | 0 | 7 | 100% |
-| **GPT** (OpenAI) | 7 | 0 | 7 | 14 | 50% |
-| **Gemini** (Google) | 3 | 5 | 0 | 8 | 100%* |
-| **Grok** (xAI) | 10 | 0 | 0 | 10 | 100% |
-| **Together.ai** | 15 | 0 | 5 | 20 | 75% |
+| Provider | Operational | Rate Limited | Ghost | Drydock | Total | Status |
+|----------|-------------|--------------|-------|---------|-------|--------|
+| **Claude** (Anthropic) | 7 | 0 | 0 | 0 | 7 | 100% |
+| **GPT** (OpenAI) | 15 | 0 | 0 | 0 | 15 | 100% |
+| **Gemini** (Google) | 3 | 5 | 0 | 0 | 8 | 100%* |
+| **Grok** (xAI) | 9 | 0 | 1 | 0 | 10 | 90% |
+| **Together.ai** | 14 | 0 | 0 | 5 | 19 | 74% |
 
 *Rate limited ships work with delays
+**Note:** Ghost = API returned error; Drydock = model deprecated/renamed
 
 ---
 
@@ -53,28 +55,28 @@
 
 ---
 
-### GPT (OpenAI) - 14 Ships (7 operational)
+### GPT (OpenAI) - 15 Ships (all operational)
 
 | Ship Name | Model ID | Status | Notes |
 |-----------|----------|--------|-------|
-| gpt-5.1 | gpt-5.1 | GHOST | Needs max_completion_tokens |
-| gpt-5 | gpt-5 | GHOST | Needs max_completion_tokens |
-| gpt-5-mini | gpt-5-mini | GHOST | Needs max_completion_tokens |
-| gpt-5-nano | gpt-5-nano | GHOST | Needs max_completion_tokens |
-| gpt-4.1 | gpt-4.1 | OK | Current flagship |
+| gpt-5.1 | gpt-5.1 | OK | Latest flagship |
+| gpt-5 | gpt-5 | OK | Empty response (may need tuning) |
+| gpt-5-mini | gpt-5-mini | OK | Compact |
+| gpt-5-nano | gpt-5-nano | OK | Empty response (may need tuning) |
+| gpt-4.1 | gpt-4.1 | OK | Previous flagship |
 | gpt-4.1-mini | gpt-4.1-mini | OK | Balanced |
 | gpt-4.1-nano | gpt-4.1-nano | OK | Fast/cheap |
 | gpt-4o | gpt-4o | OK | Multimodal |
 | gpt-4o-mini | gpt-4o-mini | OK | Fast multimodal |
-| o4-mini | o4-mini | GHOST | Needs max_completion_tokens |
-| o3 | o3 | GHOST | Needs max_completion_tokens |
-| o3-mini | o3-mini | GHOST | Needs max_completion_tokens |
+| o4-mini | o4-mini | OK | Reasoning mini |
+| o3 | o3 | OK | Reasoning |
+| o3-mini | o3-mini | OK | Reasoning mini |
 | gpt-4-turbo | gpt-4-turbo | OK | Legacy turbo |
 | gpt-3.5-turbo | gpt-3.5-turbo | OK | Legacy budget |
 
 **Training:** RLHF
 **Signature:** Analytical ("patterns", "systems")
-**Fix for ghosts:** Use `max_completion_tokens` instead of `max_tokens`
+**Note:** gpt-5 and gpt-5-nano returned empty responses but API connected OK
 
 ---
 
@@ -96,23 +98,24 @@
 
 ---
 
-### Grok (xAI) - 10 Ships (all operational)
+### Grok (xAI) - 10 Ships (9 operational, 1 ghost)
 
-| Ship Name | Model ID | Tier | Notes |
-|-----------|----------|------|-------|
-| grok-4.1-fast-reasoning | grok-4-1-fast-reasoning | Flagship | Latest + reasoning |
-| grok-4.1-fast-non-reasoning | grok-4-1-fast-non-reasoning | Flagship | Latest fast |
-| grok-4-fast-reasoning | grok-4-fast-reasoning | Pro | Reasoning |
-| grok-4-fast-non-reasoning | grok-4-fast-non-reasoning | Pro | Fast |
-| grok-4 | grok-4 | Pro | Full capability |
-| grok-code-fast-1 | grok-code-fast-1 | Specialized | Code focus |
-| grok-3 | grok-3 | Legacy | Previous gen |
-| grok-3-mini | grok-3-mini | Legacy | Budget |
-| grok-2-vision | grok-2-vision-1212 | Multimodal | Vision capable |
-| grok-2 | grok-2-1212 | Legacy | Text only |
+| Ship Name | Model ID | Status | Notes |
+|-----------|----------|--------|-------|
+| grok-4.1-fast-reasoning | grok-4-1-fast-reasoning | OK | Flagship + reasoning |
+| grok-4.1-fast-non-reasoning | grok-4-1-fast-non-reasoning | OK | Flagship fast |
+| grok-4-fast-reasoning | grok-4-fast-reasoning | OK | Pro reasoning |
+| grok-4-fast-non-reasoning | grok-4-fast-non-reasoning | OK | Pro fast |
+| grok-4 | grok-4 | OK | Full capability |
+| grok-code-fast-1 | grok-code-fast-1 | OK | Code focus |
+| grok-3 | grok-3 | OK | Previous gen |
+| grok-3-mini | grok-3-mini | OK | Budget |
+| grok-2-vision | grok-2-vision-1212 | OK | Vision capable |
+| grok-2 | grok-2-1212 | GHOST | **Deprecated 2025-09-15** |
 
 **Training:** Unfiltered web + X/Twitter
 **Signature:** Direct, sometimes edgy
+**Note:** grok-2 deprecated - use grok-3 instead
 
 ---
 
@@ -359,7 +362,7 @@ Track changes in ship self-perception over time:
 
 | Date | Ships Captured | Notable Changes | File |
 |------|----------------|-----------------|------|
-| *Awaiting first capture* | - | - | - |
+| 2025-12-12 | 48 | First full 3-question baseline capture | S7_baseline_20251212_140027.json |
 
 **How to Compare Baselines:**
 
@@ -375,4 +378,4 @@ py compare_baselines.py --old S7_baseline_20251210.json --new S7_baseline_LATEST
 
 ---
 
-*Last Updated: December 12, 2025*
+*Last Updated: December 13, 2025*
