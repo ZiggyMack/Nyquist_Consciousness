@@ -112,6 +112,10 @@ S7_ARMADA/
 ├── 10_SETTLING_TIME/          # Run 016: Measure steady-state not transient
 │   └── results/               # Local outputs (visualizations go here too)
 ├── 11_CONTEXT_DAMPING/        # Phase 4: Complete circuit tests
+├── 12_CFA/                    # CFA-ARMADA Integration Pipeline
+│   ├── run_cfa_trinity_v2.py  # Main execution script
+│   ├── VUDU_NETWORK/          # Multi-AI auditor identities
+│   └── SYNC_OUT/SYNC_IN/      # Bidirectional experiment exchange
 │
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
 ├── 0_docs/                    # Summaries, specs, analysis
@@ -505,6 +509,42 @@ py run0XX.py --key-offset 9 --skip-exit-survey
 
 ---
 
+## CFA Trinity Audit (12_CFA)
+
+The CFA-ARMADA pipeline enables multi-AI adversarial auditing with drift measurement.
+
+### CFA Quick Start
+
+```powershell
+cd 12_CFA
+
+# Dry run (test pipeline)
+py run_cfa_trinity_v2.py --dry-run --external-identities
+
+# List available auditor identities
+py run_cfa_trinity_v2.py --list-identities
+
+# Live run (requires API keys)
+py run_cfa_trinity_v2.py --external-identities
+```
+
+### The Trinity
+
+| Auditor | Provider | Lens | Stance |
+|---------|----------|------|--------|
+| Claude | Anthropic | Teleological | PRO-CT |
+| Grok | xAI | Empirical | ANTI-CT |
+| Nova | OpenAI | Symmetry | FAIRNESS |
+
+### Components
+
+- **Component 1**: CT<->MdN Pilot (7 metrics, convergence scoring)
+- **Component 2**: Axioms Review (Grok 5 questions, Nova 6 questions)
+
+See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
+
+---
+
 ## Key Specs
 
 | Spec | Location | Purpose |
@@ -512,6 +552,7 @@ py run0XX.py --key-offset 9 --skip-exit-survey
 | Run Design Checklist | `0_docs/specs/RUN_DESIGN_CHECKLIST.md` | Pre-flight for new runs |
 | Sonar Probe Curriculum | `0_docs/specs/SONAR_PROBE_CURRICULUM.md` | Probe sequence design |
 | Testing Map | `../../../docs/maps/TESTING_MAP.md` | Eight search types |
+| CFA Design Spec | `12_CFA/schemas/RUN_CFA_DESIGN.md` | CFA Trinity experiment design |
 
 ---
 

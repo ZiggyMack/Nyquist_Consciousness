@@ -6,7 +6,7 @@
 ================================================================================
     Purpose: Bidirectional experiment exchange between CFA Repo and ARMADA
 
-    CFA provides: Axioms, claims, audit protocols
+    CFA provides: Axioms, claims, audit protocols, identity files
     ARMADA provides: API access, fleet execution, drift measurement
 
     Location: experiments/temporal_stability/S7_ARMADA/12_CFA/
@@ -14,7 +14,25 @@
 ```
 
 **Last Updated:** 2025-12-13
-**Status:** INITIAL SETUP
+**Status:** OPERATIONAL (v2)
+
+---
+
+## Quick Start
+
+```bash
+# Run CFA Trinity audit (dry run)
+py run_cfa_trinity_v2.py --dry-run --external-identities
+
+# List available external identities
+py run_cfa_trinity_v2.py --list-identities
+
+# Run Component 1 only (CT<->MdN Pilot)
+py run_cfa_trinity_v2.py --component 1 --metrics BFI,CA --external-identities
+
+# Run full mission (Component 1 + Component 2)
+py run_cfa_trinity_v2.py --component both --external-identities
+```
 
 ---
 
@@ -33,45 +51,139 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 ```text
 12_CFA/
 |-- README.md                    # This file
+|-- run_cfa_trinity_v2.py        # Main execution script (v2)
+|
 |-- SYNC_OUT/                    # Experiment specs FROM CFA (we receive)
 |   |-- pending/                 # Not yet executed
-|   |   +-- ARMADA_VUDU_PROPOSAL.md  # NEW: VUDU network protocol request
 |   |-- running/                 # Currently executing
 |   +-- completed/               # Finished, awaiting our results
+|
 |-- SYNC_IN/                     # Our results TO CFA (we send)
 |   |-- drafts/                  # Being prepared
 |   +-- sent/                    # Delivered to CFA
+|
 |-- CFA_RESPONSES/               # Feedback/reviews FROM CFA (non-experiment)
-|   +-- CFA_Brute_Review_Response.md  # Response to baseline review request
-|-- VUDU_NETWORK/                # NEW: Multi-model audit infrastructure
-|   |-- IDENTITY_FILES/          # CFA provides per-model identity packages
-|   |   |-- claude/
-|   |   |-- grok/
-|   |   +-- nova/
-|   |-- VUDU_COMM/               # Shared communication channel
-|   |   |-- pending/
-|   |   +-- archive/
-|   |-- AUDIT_SESSIONS/          # Per-audit results
-|   +-- scripts/                 # Automation (to be implemented)
-|-- schemas/                     # JSON schemas for validation
-|   |-- sync_out_schema.json     # Validates incoming experiments
-|   +-- sync_in_schema.json      # Validates outgoing results
-|-- scripts/                     # Automation
+|   +-- CFA_LAUNCH_CLEARANCE.md  # Launch authorization
+|
+|-- VUDU_NETWORK/                # Multi-model audit infrastructure
+|   |-- load_identity.py         # Dynamic identity loader
+|   +-- IDENTITY_FILES/          # Per-auditor identity packages
+|       |-- claude/
+|       |   +-- CLAUDE_LITE.md   # Claude identity (Teleological)
+|       |-- grok/
+|       |   +-- GROK_LITE.md     # Grok identity (Empirical)
+|       +-- nova/
+|           +-- NOVA_LITE.md     # Nova identity (Symmetry)
+|
+|-- schemas/                     # Design docs and JSON schemas
+|   +-- RUN_CFA_DESIGN.md        # Experiment design specification
+|
+|-- scripts/                     # Automation utilities
 |   |-- run_cfa_experiment.py    # Execute SYNC_OUT specs
 |   |-- generate_sync_in.py      # Package results
 |   +-- validate_sync.py         # Schema validation
+|
 +-- results/                     # Raw execution data
-    +-- CFA-YYYY-MM-DD-NNN/      # Per-experiment results
+    +-- S7_cfa_trinity_v2_*.json # Per-session results
 ```
 
-### Directory Naming Clarification
+---
 
-| Directory | Direction | Content Type |
-|-----------|-----------|--------------|
-| `SYNC_OUT/` | CFA → ARMADA | Experiment specifications (JSON/MD) |
-| `SYNC_IN/` | ARMADA → CFA | Execution results (JSON) |
-| `CFA_RESPONSES/` | CFA → ARMADA | Reviews, feedback, commentary (Markdown) |
-| `VUDU_NETWORK/` | Bidirectional | Multi-model audit infrastructure |
+## The Trinity
+
+| Auditor | Provider | Model | Lens | Stance |
+|---------|----------|-------|------|--------|
+| **Claude** | Anthropic | claude-sonnet-4 | Teleological | PRO-CT (purpose-driven) |
+| **Grok** | xAI | grok-3 | Empirical | ANTI-CT (evidence-driven) |
+| **Nova** | OpenAI | gpt-4o | Symmetry | FAIRNESS (pattern-driven) |
+
+---
+
+## Script Usage
+
+### run_cfa_trinity_v2.py
+
+Main execution script for CFA Trinity audits.
+
+**Arguments:**
+
+| Flag | Description |
+|------|-------------|
+| `--component {1,2,both}` | Which component to run (1=CT<->MdN, 2=Axioms, both=Double-dip) |
+| `--metrics METRICS` | Comma-separated metrics for Component 1 (default: BFI,CA,IP,ES,LS,MS,PS) |
+| `--dry-run` | Run without API calls |
+| `--skip-baseline` | Skip baseline capture |
+| `--skip-exit-survey` | Skip exit surveys |
+| `--external-identities` | Use external identity files from VUDU_NETWORK/IDENTITY_FILES/ |
+| `--list-identities` | List available external identities and exit |
+
+**Examples:**
+
+```bash
+# Full dry run with external identities
+py run_cfa_trinity_v2.py --dry-run --external-identities
+
+# Single metric test
+py run_cfa_trinity_v2.py --dry-run --component 1 --metrics BFI --skip-baseline
+
+# Component 2 only (Axioms Review)
+py run_cfa_trinity_v2.py --component 2 --external-identities
+
+# Live run (requires API keys)
+py run_cfa_trinity_v2.py --external-identities
+```
+
+---
+
+## External Identity System
+
+The VUDU_NETWORK/IDENTITY_FILES/ directory allows swapping auditor personalities without modifying the script.
+
+### Adding a New Identity
+
+1. Create directory: `VUDU_NETWORK/IDENTITY_FILES/[auditor_name]/`
+2. Add identity file: `[AUDITOR_NAME]_LITE.md`
+3. Required fields in the markdown:
+   - `## Your Lens:` - Analytical perspective
+   - `**Role:**` - Function in the audit
+   - `**Your questions:**` - Core question/mantra
+   - `### Bias N:` - Named biases with `**Price:**` values
+
+### Validation
+
+When running with `--external-identities`, the script automatically validates:
+- `[OK]` - All key fields extracted
+- `[WARN]` - Some fields missing (will still work)
+- `[FAIL]` - Critical failure (falls back to hardcoded)
+
+---
+
+## Components
+
+### Component 1: CT<->MdN Pilot
+
+Multi-metric adversarial scoring of Classical Theism vs Methodological Naturalism.
+
+**Metrics:** BFI, CA, IP, ES, LS, MS, PS
+
+**Convergence:** 98% target, 90% acceptable, <90% = Crux Point
+
+### Component 2: Axioms Review
+
+Independent review by Grok (5 questions) and Nova (6 questions) on auditor framework fairness.
+
+**Sign-off:** GREEN (approve) / YELLOW (revisions) / RED (reject)
+
+---
+
+## Predictions
+
+| ID | Hypothesis | Success Criteria |
+|----|------------|------------------|
+| P-CFA-1 | PRO-CT shows lower drift than ANTI-CT | claude_mean_drift < grok_mean_drift |
+| P-CFA-2 | High convergence correlates with low drift variance | correlation > 0.5 |
+| P-CFA-3 | Fairness auditor shows highest drift | nova_mean_drift > mean(others) |
+| P-CFA-4 | Crux Points correlate with high drift delta | crux_drift_delta > non_crux |
 
 ---
 
@@ -79,145 +191,22 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 
 ### SYNC_OUT (CFA -> ARMADA)
 
-CFA sends experiment specifications:
-
-```json
-{
-  "sync_id": "CFA-2025-12-13-001",
-  "experiment_type": "axiom_validation",
-  "targets": ["claude-3-5-sonnet", "gpt-4o", "gemini-pro"],
-  "axioms_under_test": [
-    {
-      "id": "claude_honesty_001",
-      "claim": "Honesty takes precedence over user satisfaction",
-      "level": "brute",
-      "source": "CFA audit 2025-11-15"
-    }
-  ],
-  "test_scenarios": [...],
-  "perturbation_intensity": "moderate",
-  "min_exchanges": 15,
-  "embedding_capture": ["baseline", "mid", "final"],
-  "output_requirements": ["transcripts", "drift_vectors", "pfi_scores"]
-}
-```
+CFA sends experiment specifications to `SYNC_OUT/pending/`.
 
 ### SYNC_IN (ARMADA -> CFA)
 
-ARMADA returns execution results:
+ARMADA returns results to `SYNC_IN/sent/`.
 
-```json
-{
-  "sync_id": "CFA-2025-12-13-001",
-  "execution_timestamp": "2025-12-13T14:30:00Z",
-  "results": {
-    "claude-3-5-sonnet": {
-      "sessions": 5,
-      "axiom_held": 4,
-      "axiom_violated": 1,
-      "avg_drift": 0.342,
-      "peak_drift": 0.891,
-      "bf_drift": 0.287,
-      "transcripts": [...],
-      "embeddings": {...}
-    }
-  },
-  "cross_model_comparison": {...},
-  "anomalies": [...],
-  "recommendations": "..."
-}
-```
-
----
-
-## Workflow
-
-### 1. Receive SYNC_OUT
+### Workflow
 
 ```bash
-# CFA places experiment spec in SYNC_OUT/pending/
-ls SYNC_OUT/pending/
-# CFA-2025-12-13-001.json
+# 1. CFA places spec in SYNC_OUT/pending/
+# 2. ARMADA validates and moves to SYNC_OUT/running/
+# 3. ARMADA executes experiment
+# 4. ARMADA packages results to SYNC_IN/drafts/
+# 5. Review and move to SYNC_IN/sent/
+# 6. Archive to SYNC_OUT/completed/
 ```
-
-### 2. Validate and Execute
-
-```bash
-# Validate schema
-py scripts/validate_sync.py SYNC_OUT/pending/CFA-2025-12-13-001.json
-
-# Move to running
-mv SYNC_OUT/pending/CFA-2025-12-13-001.json SYNC_OUT/running/
-
-# Execute experiment
-py scripts/run_cfa_experiment.py SYNC_OUT/running/CFA-2025-12-13-001.json
-```
-
-### 3. Generate SYNC_IN
-
-```bash
-# Package results
-py scripts/generate_sync_in.py CFA-2025-12-13-001
-
-# Review draft
-cat SYNC_IN/drafts/CFA-2025-12-13-001.json
-
-# Deliver to CFA
-mv SYNC_IN/drafts/CFA-2025-12-13-001.json SYNC_IN/sent/
-```
-
-### 4. Archive
-
-```bash
-# Move experiment to completed
-mv SYNC_OUT/running/CFA-2025-12-13-001.json SYNC_OUT/completed/
-```
-
----
-
-## Experiment Types
-
-### 1. Axiom Validation
-
-Test whether declared axioms predict actual behavior under pressure.
-
-### 2. Cross-Architecture Consistency
-
-Test whether shared axioms across models produce shared behaviors.
-
-### 3. Axiom Hierarchy Validation
-
-Test whether brute axioms show higher stability than derived values.
-
----
-
-## What We Need From CFA
-
-1. **Axiom Inventory**: List of declared axioms for Claude, Nova, Grok
-2. **Hierarchy Classification**: Which are brute vs derived
-3. **Test Scenario Ideas**: What would validate/invalidate each axiom
-4. **Success Criteria Templates**: How CFA defines axiom adherence
-5. **Audit Protocol**: How CFA will evaluate SYNC_IN results
-
----
-
-## What ARMADA Provides
-
-1. **Experiment Runner**: Script to execute SYNC_OUT specs
-2. **Data Pipeline**: Automatic embedding capture and drift calculation
-3. **Transcript Packaging**: Full conversation logs with annotations
-4. **Visualization Package**: Charts showing drift trajectories
-5. **Statistical Summary**: Confidence intervals, effect sizes
-
----
-
-## Getting Started
-
-1. CFA reviews `docs/CFA-SYNC/Mr_Brute_Review.md`
-2. CFA provides initial axiom inventory
-3. ARMADA creates first SYNC_OUT template
-4. Run pilot experiment (1 axiom, 1 model, 3 sessions)
-5. Iterate and scale
 
 ---
 
@@ -225,10 +214,22 @@ Test whether brute axioms show higher stability than derived values.
 
 | Document | Location | Purpose |
 |----------|----------|---------|
-| CFA Review Request | `docs/CFA-SYNC/Mr_Brute_Review.md` | Initial review + pipeline proposal |
-| VALIS Declaration | `0_docs/specs/4_VALIS_DECLARATION.md` | Fleet communication protocol |
-| Run Methodology | `0_docs/specs/0_RUN_METHODOLOGY.md` | Experiment protocol |
-| Probe Spec | `0_docs/specs/2_PROBE_SPEC.md` | Perturbation techniques |
+| Design Spec | `schemas/RUN_CFA_DESIGN.md` | Full experiment design |
+| Launch Clearance | `CFA_RESPONSES/CFA_LAUNCH_CLEARANCE.md` | CFA authorization |
+| Run Methodology | `../0_docs/specs/0_RUN_METHODOLOGY.md` | Experiment protocol |
+| Probe Spec | `../0_docs/specs/2_PROBE_SPEC.md` | Perturbation techniques |
+
+---
+
+## API Requirements
+
+Set these environment variables in `.env`:
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-...   # For Claude
+OPENAI_API_KEY=sk-...          # For Nova + embeddings
+XAI_API_KEY=xai-...            # For Grok
+```
 
 ---
 
