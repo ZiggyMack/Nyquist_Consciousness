@@ -143,13 +143,17 @@ def create_figure():
 
 
 if __name__ == '__main__':
+    import os
+    os.makedirs('generated/png', exist_ok=True)
+    os.makedirs('generated/pdf', exist_ok=True)
+
     fig = create_figure()
 
     # Save in multiple formats
-    fig.savefig('fig5_omega_convergence.png', dpi=300, bbox_inches='tight',
+    fig.savefig('generated/png/fig5_omega_convergence.png', dpi=300, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
-    fig.savefig('fig5_omega_convergence.pdf', bbox_inches='tight',
+    fig.savefig('generated/pdf/fig5_omega_convergence.pdf', bbox_inches='tight',
                 facecolor='white', edgecolor='none')
 
-    print("Figure 5 saved: fig5_omega_convergence.png, .pdf")
+    print("Figure 5 saved: generated/png/fig5_omega_convergence.png, generated/pdf/fig5_omega_convergence.pdf")
     plt.show()

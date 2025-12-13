@@ -39,14 +39,25 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │
 ├── figures/                          # All visuals
 │   ├── fig*.md + .py (×9)           # Publication figures
+│   ├── generate_all_figures.py      # Batch script to regenerate all
+│   ├── generated/                   # Rendered output
+│   │   ├── png/ (9 files @ 300 DPI)
+│   │   └── pdf/ (9 files)
+│   ├── suggested/                   # S7 ARMADA supplementary visuals (8 files)
 │   └── ascii/                       # ASCII diagrams (7 files)
 │
 ├── reviewers/                        # Draft papers + reviews
-│   ├── NYQUIST_ARXIV_PAPER_FINAL.md
-│   ├── NYQUIST_WHITE_PAPER_FINAL.md
-│   ├── Nyquist_workshop_paper_FINAL.md
-│   ├── NOVA_S7_REVIEW.md            # Nova's comprehensive S7 review
-│   └── FINAL_VALIDATION_CHECKLIST.md
+│   ├── README.md                    # Phase structure guide
+│   ├── phase1/                      # Initial drafts (Dec 2025)
+│   │   ├── NYQUIST_ARXIV_PAPER_FINAL.md
+│   │   ├── NYQUIST_WHITE_PAPER_FINAL.md
+│   │   ├── Nyquist_workshop_paper_FINAL.md
+│   │   ├── NOVA_S7_REVIEW.md
+│   │   └── FINAL_VALIDATION_CHECKLIST.md
+│   └── phase2/                      # Post-figure review (Dec 2025)
+│       ├── Workshop_paper_submission.md
+│       ├── Submission_ready_paper.md
+│       └── review_circulation_package.md
 │
 ├── submissions/                      # ★ 3 PUBLICATION PATHS
 │   ├── blueprints/                  # Planning docs for each path
@@ -92,9 +103,21 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 2. **Review** `theory/` for core content
 3. **Use** `submissions/blueprints/` for writing guidance per path
 4. **Reference** `reviewers/` for existing drafts
-5. **Include** `figures/` visuals in final documents
-6. **Cite** `references/references.bib`
-7. **Generate** PDFs for each publication path
+5. **Include** `figures/generated/png/` for main figures (9 files rendered @ 300 DPI)
+6. **Optionally include** `figures/suggested/` for S7 supplementary visuals (8 files)
+7. **Cite** `references/references.bib`
+8. **Generate** PDFs for each publication path
+
+### Regenerating Figures
+
+To regenerate all figures:
+
+```bash
+cd WHITE-PAPER/figures
+py generate_all_figures.py
+```
+
+Output: `generated/png/` and `generated/pdf/` directories with all 9 publication figures.
 
 ---
 

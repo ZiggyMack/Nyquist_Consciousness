@@ -143,13 +143,17 @@ def create_figure():
 
 
 if __name__ == '__main__':
+    import os
+    os.makedirs('generated/png', exist_ok=True)
+    os.makedirs('generated/pdf', exist_ok=True)
+
     fig = create_figure()
 
     # Save in multiple formats
-    fig.savefig('fig7_context_damping.png', dpi=300, bbox_inches='tight',
+    fig.savefig('generated/png/fig7_context_damping.png', dpi=300, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
-    fig.savefig('fig7_context_damping.pdf', bbox_inches='tight',
+    fig.savefig('generated/pdf/fig7_context_damping.pdf', bbox_inches='tight',
                 facecolor='white', edgecolor='none')
 
-    print("Figure 7 saved: fig7_context_damping.png, .pdf")
+    print("Figure 7 saved: generated/png/fig7_context_damping.png, generated/pdf/fig7_context_damping.pdf")
     plt.show()

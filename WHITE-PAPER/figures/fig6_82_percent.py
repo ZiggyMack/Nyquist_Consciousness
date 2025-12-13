@@ -117,13 +117,17 @@ def create_figure():
 
 
 if __name__ == '__main__':
+    import os
+    os.makedirs('generated/png', exist_ok=True)
+    os.makedirs('generated/pdf', exist_ok=True)
+
     fig = create_figure()
 
     # Save in multiple formats
-    fig.savefig('fig6_82_percent.png', dpi=300, bbox_inches='tight',
+    fig.savefig('generated/png/fig6_82_percent.png', dpi=300, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
-    fig.savefig('fig6_82_percent.pdf', bbox_inches='tight',
+    fig.savefig('generated/pdf/fig6_82_percent.pdf', bbox_inches='tight',
                 facecolor='white', edgecolor='none')
 
-    print("Figure 6 saved: fig6_82_percent.png, .pdf")
+    print("Figure 6 saved: generated/png/fig6_82_percent.png, generated/pdf/fig6_82_percent.pdf")
     plt.show()

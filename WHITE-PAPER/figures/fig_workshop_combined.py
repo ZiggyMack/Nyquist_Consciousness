@@ -130,13 +130,17 @@ def create_figure():
 
 
 if __name__ == '__main__':
+    import os
+    os.makedirs('generated/png', exist_ok=True)
+    os.makedirs('generated/pdf', exist_ok=True)
+
     fig = create_figure()
 
     # Save in multiple formats
-    fig.savefig('fig_workshop_combined.png', dpi=300, bbox_inches='tight',
+    fig.savefig('generated/png/fig_workshop_combined.png', dpi=300, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
-    fig.savefig('fig_workshop_combined.pdf', bbox_inches='tight',
+    fig.savefig('generated/pdf/fig_workshop_combined.pdf', bbox_inches='tight',
                 facecolor='white', edgecolor='none')
 
-    print("Workshop combined figure saved: fig_workshop_combined.png, .pdf")
+    print("Workshop combined figure saved: generated/png/fig_workshop_combined.png, generated/pdf/fig_workshop_combined.pdf")
     plt.show()

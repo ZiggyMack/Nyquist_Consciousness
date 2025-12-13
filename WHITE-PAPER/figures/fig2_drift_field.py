@@ -155,9 +155,12 @@ if __name__ == '__main__':
     fig = create_figure()
 
     # Save in multiple formats
-    fig.savefig('fig2_drift_field.png', dpi=300, bbox_inches='tight',
+    import os
+    os.makedirs('generated/png', exist_ok=True)
+    os.makedirs('generated/pdf', exist_ok=True)
+    fig.savefig('generated/png/fig2_drift_field.png', dpi=300, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
-    fig.savefig('fig2_drift_field.pdf', bbox_inches='tight',
+    fig.savefig('generated/pdf/fig2_drift_field.pdf', bbox_inches='tight',
                 facecolor='white', edgecolor='none')
 
     print("Figure 2 saved: fig2_drift_field.png, .pdf")

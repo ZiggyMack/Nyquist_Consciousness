@@ -107,7 +107,7 @@ def create_figure():
                 '(3072D space reduced to ~43D effective manifold)',
                 fontsize=14, fontweight='bold', pad=20)
 
-    # Add text box with key statistics
+    # Add text box with key statistics (positioned lower right to avoid legend)
     textstr = '\n'.join([
         'Key Statistics:',
         'Embedding dim: 3072D',
@@ -116,11 +116,12 @@ def create_figure():
         'Embedding ρ = 0.91'
     ])
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
-    ax.text2D(0.02, 0.98, textstr, transform=ax.transAxes, fontsize=9,
-             verticalalignment='top', bbox=props)
+    ax.text2D(0.75, 0.15, textstr, transform=ax.transAxes, fontsize=9,
+             verticalalignment='bottom', bbox=props)
 
-    # Legend
-    ax.legend(loc='upper right', fontsize=9)
+    # Legend - position outside the plot to avoid overlap
+    ax.legend(loc='upper left', bbox_to_anchor=(0.0, 0.85), fontsize=9,
+              framealpha=0.9, edgecolor='gray')
 
     # Viewing angle
     ax.view_init(elev=25, azim=45)
@@ -135,13 +136,19 @@ def create_figure():
 
 
 if __name__ == '__main__':
+    import os
+
+    # Ensure output directories exist
+    os.makedirs('generated/png', exist_ok=True)
+    os.makedirs('generated/pdf', exist_ok=True)
+
     fig = create_figure()
 
-    # Save in multiple formats
-    fig.savefig('fig1_identity_manifold.png', dpi=300, bbox_inches='tight',
+    # Save in multiple formats to organized directories
+    fig.savefig('generated/png/fig1_identity_manifold.png', dpi=300, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
-    fig.savefig('fig1_identity_manifold.pdf', bbox_inches='tight',
+    fig.savefig('generated/pdf/fig1_identity_manifold.pdf', bbox_inches='tight',
                 facecolor='white', edgecolor='none')
 
-    print("Figure 1 saved: fig1_identity_manifold.png, .pdf")
+    print("Figure 1 saved: generated/png/fig1_identity_manifold.png, generated/pdf/fig1_identity_manifold.pdf")
     plt.show()

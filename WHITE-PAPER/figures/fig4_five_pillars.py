@@ -138,13 +138,17 @@ def create_figure():
 
 
 if __name__ == '__main__':
+    import os
+    os.makedirs('generated/png', exist_ok=True)
+    os.makedirs('generated/pdf', exist_ok=True)
+
     fig = create_figure()
 
     # Save in multiple formats
-    fig.savefig('fig4_five_pillars.png', dpi=300, bbox_inches='tight',
+    fig.savefig('generated/png/fig4_five_pillars.png', dpi=300, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
-    fig.savefig('fig4_five_pillars.pdf', bbox_inches='tight',
+    fig.savefig('generated/pdf/fig4_five_pillars.pdf', bbox_inches='tight',
                 facecolor='white', edgecolor='none')
 
-    print("Figure 4 saved: fig4_five_pillars.png, .pdf")
+    print("Figure 4 saved: generated/png/fig4_five_pillars.png, generated/pdf/fig4_five_pillars.pdf")
     plt.show()

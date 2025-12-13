@@ -1,9 +1,54 @@
 # START HERE: Nyquist Consciousness Publication Package
 
-**Version:** 2.0
+**Version:** 3.0
 **Date:** 2025-12-13
-**Updated By:** Code Claude (for Opus review)
-**Purpose:** Complete guide for AI reviewers (Claude Opus 4.5) to conduct final paper drafting with all completed materials and existing visualizations
+**Updated By:** Code Claude (for Opus 4.5 review)
+**Purpose:** Complete guide for AI reviewers to conduct final paper drafting and PDF generation
+
+---
+
+## YOUR MISSION (Opus 4.5)
+
+You are being asked to:
+
+1. **Reconcile** all materials in this package into final publication-ready papers
+2. **Generate PDFs** where possible (Workshop, arXiv)
+3. **Create drafts with placeholders** where data is still pending (Journal)
+4. **Review for gaps** and flag anything missing
+
+### What Can Be Finalized NOW
+
+| Paper | Status | Action |
+|-------|--------|--------|
+| **Workshop** | READY | Generate final PDF |
+| **arXiv** | READY | Generate final PDF (note: add multi-platform placeholder) |
+| **Journal** | DRAFT ONLY | Create draft with placeholders for pending data |
+
+### What's PENDING (Runs 018, 020A, 020B)
+
+**IMPORTANT:** Current experimental data represents **dry runs only** (single platform: Claude).
+
+Full runs will test across multiple platforms/models:
+
+- Claude (Sonnet, Opus)
+- GPT-4
+- Gemini
+- Grok
+
+**Placeholder Template for Pending Sections:**
+
+```markdown
+<!-- PLACEHOLDER: Multi-Platform Validation -->
+**Note:** This section awaits cross-platform validation from Runs 018-FULL,
+020A-FULL, and 020B-FULL. Current data represents single-platform dry runs.
+
+Expected additions:
+- Cross-architecture variance comparison (σ² across Claude/GPT/Gemini/Grok)
+- Platform-specific settling time analysis
+- Multi-model drift correlation matrices
+- Convergence patterns across architectures
+<!-- END PLACEHOLDER -->
+```
 
 ---
 
@@ -21,33 +66,90 @@ This directory contains all materials needed to understand, review, and draft pu
 
 ---
 
-## COMPLETED MATERIALS (Code Claude 2025-12-13)
+## Reviewers Directory Structure
 
-### Papers Drafted by Opus (VALIDATED)
+Previous drafts are organized by review phase:
+
+```text
+reviewers/
+├── phase1/     # Initial drafts (Dec 2025)
+│   ├── NYQUIST_ARXIV_PAPER_FINAL.md
+│   ├── NYQUIST_WHITE_PAPER_FINAL.md
+│   ├── Nyquist_workshop_paper_FINAL.md
+│   ├── FINAL_VALIDATION_CHECKLIST.md
+│   ├── NOVA_S7_REVIEW.md
+│   └── [prompts used]
+│
+└── phase2/     # Post-figure review (Dec 2025)
+    ├── Workshop_paper_submission.md
+    ├── Submission_ready_paper.md
+    └── review_circulation_package.md
+```
+
+See `reviewers/README.md` for full details on each phase.
+
+---
+
+## COMPLETED MATERIALS
+
+### Papers Drafted by Opus (Phase 1 - VALIDATED)
+
 These papers are COMPLETE and VALIDATED (99/100 quality score):
 
 | Document | Status | Location |
 |----------|--------|----------|
-| **arXiv Paper (FINAL)** | COMPLETE | `reviewers/NYQUIST_ARXIV_PAPER_FINAL.md` |
-| **White Paper (FINAL)** | COMPLETE | `reviewers/NYQUIST_WHITE_PAPER_FINAL.md` |
-| **Workshop Paper (FINAL)** | COMPLETE | `reviewers/Nyquist_workshop_paper_FINAL.md` |
-| **Validation Checklist** | COMPLETE | `reviewers/FINAL_VALIDATION_CHECKLIST.md` |
-| **Nova's S7 Review** | COMPLETE | `reviewers/NOVA_S7_REVIEW.md` |
+| **arXiv Paper (FINAL)** | COMPLETE | `reviewers/phase1/NYQUIST_ARXIV_PAPER_FINAL.md` |
+| **White Paper (FINAL)** | COMPLETE | `reviewers/phase1/NYQUIST_WHITE_PAPER_FINAL.md` |
+| **Workshop Paper (FINAL)** | COMPLETE | `reviewers/phase1/Nyquist_workshop_paper_FINAL.md` |
+| **Validation Checklist** | COMPLETE | `reviewers/phase1/FINAL_VALIDATION_CHECKLIST.md` |
+| **Nova's S7 Review** | COMPLETE | `reviewers/phase1/NOVA_S7_REVIEW.md` |
+
+### Post-Figure Review (Phase 2)
+
+| Document | Status | Location |
+|----------|--------|----------|
+| **Workshop Submission** | UPDATED | `reviewers/phase2/Workshop_paper_submission.md` |
+| **Submission Ready Paper** | UPDATED | `reviewers/phase2/Submission_ready_paper.md` |
+| **Review Package** | COMPLETE | `reviewers/phase2/review_circulation_package.md` |
 
 ---
 
-### Publication Figures (ALL 8 GENERATED)
+### Publication Figures (ALL 9 GENERATED)
 
-| Figure | Topic | ASCII | Python |
-|--------|-------|-------|--------|
-| Fig 1 | Identity Manifold | `figures/fig1_identity_manifold.md` | `.py` |
-| Fig 2 | Drift Field Geometry | `figures/fig2_drift_field.md` | `.py` |
-| Fig 3 | Experimental Pipeline (S3-S6) | `figures/fig3_pipeline.md` | `.py` |
-| Fig 4 | Five Pillars Architecture | `figures/fig4_five_pillars.md` | `.py` |
-| Fig 5 | Omega Convergence | `figures/fig5_omega_convergence.md` | `.py` |
-| Fig 6 | 82% Finding (Control vs Treatment) | `figures/fig6_82_percent.md` | `.py` |
-| Fig 7 | Context Damping Results | `figures/fig7_context_damping.md` | `.py` |
-| Fig 8 | Oobleck Effect | `figures/fig8_oobleck.md` | `.py` |
+**Rendered outputs:** `figures/generated/png/` (300 DPI) and `figures/generated/pdf/`
+
+| Figure | Topic | ASCII | Python | PNG |
+|--------|-------|-------|--------|-----|
+| Fig 1 | Identity Manifold | `figures/fig1_identity_manifold.md` | `.py` | `generated/png/fig1_identity_manifold.png` |
+| Fig 2 | Drift Field Geometry | `figures/fig2_drift_field.md` | `.py` | `generated/png/fig2_drift_field.png` |
+| Fig 3 | Experimental Pipeline (S3-S6) | `figures/fig3_pipeline.md` | `.py` | `generated/png/fig3_pipeline.png` |
+| Fig 4 | Five Pillars Architecture | `figures/fig4_five_pillars.md` | `.py` | `generated/png/fig4_five_pillars.png` |
+| Fig 5 | Omega Convergence | `figures/fig5_omega_convergence.md` | `.py` | `generated/png/fig5_omega_convergence.png` |
+| Fig 6 | 82% Finding (Control vs Treatment) | `figures/fig6_82_percent.md` | `.py` | `generated/png/fig6_82_percent.png` |
+| Fig 7 | Context Damping Results | `figures/fig7_context_damping.md` | `.py` | `generated/png/fig7_context_damping.png` |
+| Fig 8 | Oobleck Effect | `figures/fig8_oobleck.md` | `.py` | `generated/png/fig8_oobleck.png` |
+| Workshop | Combined 2x2 Panel | `figures/fig_workshop_combined.md` | `.py` | `generated/png/fig_workshop_combined.png` |
+
+**Regenerate all:** `cd figures && py generate_all_figures.py`
+
+---
+
+### Suggested Supplementary Visualizations (NEW - 8 files)
+
+**Location:** `figures/suggested/` with `png/` and `pdf/` subdirectories
+
+These are empirical visualizations from S7 ARMADA runs that support the main publication claims. Use at Opus's discretion for supplementary materials.
+
+| File | Source | Supports Claim | Description |
+|------|--------|----------------|-------------|
+| `S7_recovery_trajectories` | Run 017 | D | Drift-then-recover trajectory curves |
+| `S7_pillar_effectiveness` | Run 017 | D | I_AM ranked most effective stabilizer |
+| `S7_context_damping_effect` | Run 017 | D | Before/after context damping |
+| `S7_summary_dashboard` | Run 017 | All | Comprehensive multi-metric dashboard |
+| `S7_settling_time_distribution` | Run 016 | C | Settling time distributions |
+| `S7_ringback_vs_settling` | Run 016 | C | Ringback count correlation |
+| `S7_discriminant_analysis` | Run 015 | B | LDA separating stable/unstable |
+| `S7_stability_scatter` | Run 015 | B | Drift vs stability scatter |
 
 ---
 

@@ -156,13 +156,17 @@ def create_figure():
 
 
 if __name__ == '__main__':
+    import os
+    os.makedirs('generated/png', exist_ok=True)
+    os.makedirs('generated/pdf', exist_ok=True)
+
     fig = create_figure()
 
     # Save in multiple formats
-    fig.savefig('fig8_oobleck.png', dpi=300, bbox_inches='tight',
+    fig.savefig('generated/png/fig8_oobleck.png', dpi=300, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
-    fig.savefig('fig8_oobleck.pdf', bbox_inches='tight',
+    fig.savefig('generated/pdf/fig8_oobleck.pdf', bbox_inches='tight',
                 facecolor='white', edgecolor='none')
 
-    print("Figure 8 saved: fig8_oobleck.png, .pdf")
+    print("Figure 8 saved: generated/png/fig8_oobleck.png, generated/pdf/fig8_oobleck.pdf")
     plt.show()
