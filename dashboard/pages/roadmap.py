@@ -30,12 +30,12 @@ FOUNDATION_LAYERS = [
 RESEARCH_LAYERS = [
     {"id": "S7", "name": "Identity Dynamics (ARMADA)", "status": "validated", "completion": 98, "priority": "HIGH"},
     {"id": "S8", "name": "Identity Gravity Theory", "status": "formalized", "completion": 90, "priority": "MEDIUM-HIGH"},
-    {"id": "S9", "name": "AVLAR Protocol (Multimodal)", "status": "seeded", "completion": 40, "priority": "MEDIUM"},
-    {"id": "S10", "name": "Human Cognition (Frame Theory + fMRI)", "status": "seeded", "completion": 55, "priority": "HIGH"},
+    {"id": "S9", "name": "Human-Modulated Identity Gravity", "status": "active", "completion": 60, "priority": "MEDIUM"},
+    {"id": "S10", "name": "Hybrid Emergence Thresholds", "status": "active", "completion": 55, "priority": "HIGH"},
 ]
 
 FUTURE_LAYERS = [
-    {"id": "S11", "name": "AVLAR Protocol", "status": "design", "completion": 0},
+    {"id": "S11", "name": "AVLAR Protocol (Multimodal)", "status": "design", "completion": 20},
     {"id": "S12", "name": "Consciousness Proxy Theory", "status": "future", "completion": 0},
     {"id": "S13", "name": "Field Consistency Proofs", "status": "future", "completion": 0},
     {"id": "S14", "name": "Composite Persona Dynamics", "status": "future", "completion": 0},

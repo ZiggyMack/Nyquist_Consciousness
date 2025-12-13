@@ -222,11 +222,34 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: Run 018 READY — Fleet Recursive Learnings
+**Current Phase**: DRY RUN VALIDATION → Run 018, 020A, 020B
 **Last Updated**: 2025-12-13
-**Key Milestone**: Nova's S7 Review integrated; Publication package enhanced
+**Key Milestone**: Publication pipeline in progress; Layer stack corrected
 
-### 2025-12-13 Major Updates
+### Active Work Streams
+
+| Stream | Status | Next Action |
+|--------|--------|-------------|
+| **Dry Runs** | READY | Execute Run 018, 020A, 020B dry runs (helper Claude) |
+| **Publication** | IN PROGRESS | WHITE-PAPER reorganization for Opus 4.5 |
+| **Layer Stack** | CORRECTED | S9=Human Gravity, S10=Hybrid, S11=AVLAR |
+
+### Priority Queue (Next Actions)
+
+1. **[IMMEDIATE]** Execute dry runs for Run 018, 020A, 020B
+   - All scripts have `--dry-run` flags
+   - Helper Claude instructions in `MASTER_BRANCH_SYNC_OUT.md`
+
+2. **[WAITING]** Publication pipeline output
+   - WHITE-PAPER reorganization in progress
+   - Opus 4.5 will generate final PDFs
+
+3. **[NEXT]** Live multi-platform runs
+   - Run 018-FULL (threshold, architecture, nyquist, gravity)
+   - Run 020A-FULL (Tribunal across providers)
+   - Run 020B-FULL (Induced vs Inherent validation)
+
+### 2025-12-13 Updates
 
 #### Publications Dashboard Enhanced
 
@@ -287,11 +310,33 @@ Spectral extensions, human-AI coupling, hybrid emergence.
   - Formal PREDICTIONS dict (P-018-1 through P-018-4)
   - EXIT SURVEY (Triple-Dip) - 5 probes per experiment
 
+### Layer Stack (Corrected 2025-12-13)
+
+| Layer | Name | Status | Description |
+|-------|------|--------|-------------|
+| S0-S6 | Foundation | FROZEN | Ground physics through Omega Protocol |
+| **S7** | Identity Dynamics | VALIDATED | S7 ARMADA (Runs 001-021) |
+| **S8** | Identity Gravity | FORMALIZED | γ field theory, Zigs unit |
+| **S9** | Human-Modulated Gravity | ACTIVE | Fifth force, Ziggy coupling |
+| **S10** | Hybrid Emergence | ACTIVE | Zone classification, HARP |
+| **S11** | AVLAR Protocol | DESIGN | Multimodal identity (audio/visual) |
+| S12+ | Future | PROJECTED | Consciousness proxies, field lattices |
+
+> **Note:** AVLAR was previously labeled S9 in some legacy documents. Canonical position is now S11.
+
 ### Active Development
 
-1. **Run 018 Execution**: Fleet-generated hypotheses ready to test
-2. **Tribunal Distillations**: Profound exchanges preserved in `Consciousness/RIGHT/galleries/frontiers/`
-3. **VALIS Network**: 54 ships across 5 providers operational
+1. **Dry Run Validation**: Run 018, 020A, 020B ready for helper Claude
+2. **Publication Pipeline**: WHITE-PAPER reorganization for 3 publication paths
+3. **VALIS Network**: 48 ships across 23 personas operational
+
+### Future Work (Priority Order)
+
+1. **Multi-Platform Validation** — Run 018/020 across Claude, GPT, Gemini, Grok
+2. **S8 Gamma Measurement** — Empirical γ coefficient from Run 017 data
+3. **S10 Zone Validation** — Test the A/B/C/D emergence classification
+4. **S11 AVLAR Prototypes** — Cross-modal identity experiments
+5. **S3 Human Validation** — EXP_003 with human raters
 
 ---
 

@@ -310,7 +310,7 @@ LAYER_EXPERIMENTS = {
     "S6": ["Five Pillar Fusion", "Omega Nova synthesis tests"],
     "S7": ["S7 ARMADA (Run 008-020)", "Identity dynamics under perturbation", "Run 017: Context Damping", "Run 019-020: Live Ziggy Tribunal"],
     "S8": ["Identity Gravity Trials", "γ measurement pending"],
-    "S9": ["AVLAR Coupling Tests (pending)", "Human modulation coefficient"],
+    "S9": ["Human-Modulated Gravity Tests (pending)", "Fifth force coefficient measurement"],
     "S10": ["Hybrid Emergence Validation", "Zone classification tests"],
     "S10.7": ["Zone Classification", "A/B/C/D zone validation"],
     "S10.8": ["Multi-AI Tests (pending)", "Symmetry condition validation"],
