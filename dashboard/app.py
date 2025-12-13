@@ -12,7 +12,7 @@ from config import PATHS, SETTINGS
 from utils import load_status
 
 # Import page modules
-from pages import Overview, personas, Stackup, AI_ARMADA, tests, metrics, omega, avlar, roadmap, glossary, publications, matrix, faq, unknown
+from pages import Overview, personas, Stackup, AI_ARMADA, tests, metrics, omega, avlar, roadmap, Glossary, publications, matrix, faq, unknown
 
 # ========== THEME & STYLING ==========
 
@@ -484,7 +484,7 @@ PAGE_MODULES = {
     "OMEGA NOVA": omega,
     "AVLAR": avlar,
     "Roadmap": roadmap,
-    "Glossary": glossary,
+    "Glossary": Glossary,
     "Publications": publications,
     "FAQ": faq,
     "The Unknown": unknown,
