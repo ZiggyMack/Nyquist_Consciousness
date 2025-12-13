@@ -28,10 +28,11 @@ These papers are COMPLETE and VALIDATED (99/100 quality score):
 
 | Document | Status | Location |
 |----------|--------|----------|
-| **arXiv Paper (FINAL)** | COMPLETE | `docs/CFA-SYNC/Opus/NYQUIST_ARXIV_PAPER_FINAL.md` |
-| **White Paper (FINAL)** | COMPLETE | `docs/CFA-SYNC/Opus/NYQUIST_WHITE_PAPER_FINAL.md` |
-| **Workshop Paper (FINAL)** | COMPLETE | `docs/CFA-SYNC/Opus/Nyquist_workshop_paper_FINAL.md` |
-| **Validation Checklist** | COMPLETE | `docs/CFA-SYNC/Opus/FINAL_VALIDATION_CHECKLIST.md` |
+| **arXiv Paper (FINAL)** | COMPLETE | `reviewers/NYQUIST_ARXIV_PAPER_FINAL.md` |
+| **White Paper (FINAL)** | COMPLETE | `reviewers/NYQUIST_WHITE_PAPER_FINAL.md` |
+| **Workshop Paper (FINAL)** | COMPLETE | `reviewers/Nyquist_workshop_paper_FINAL.md` |
+| **Validation Checklist** | COMPLETE | `reviewers/FINAL_VALIDATION_CHECKLIST.md` |
+| **Nova's S7 Review** | COMPLETE | `reviewers/NOVA_S7_REVIEW.md` |
 
 ---
 
@@ -54,11 +55,11 @@ These papers are COMPLETE and VALIDATED (99/100 quality score):
 
 | Diagram | Purpose | Location |
 |---------|---------|----------|
-| Framework | Three-layer architecture (P→S→U) | `ascii/ascii_framework.md` |
-| Evidence Chain | Claim→Hypothesis→Run→Data lineage | `ascii/ascii_evidence_chain.md` |
-| Compression | S0→S6 transformation pipeline | `ascii/ascii_compression.md` |
-| Vortex | Identity drain spiral topology | `ascii/ascii_vortex.md` |
-| Triple-Blind | Validation structure | `ascii/ascii_triple_blind.md` |
+| Framework | Three-layer architecture (P→S→U) | `figures/ascii/ascii_framework.md` |
+| Evidence Chain | Claim→Hypothesis→Run→Data lineage | `figures/ascii/ascii_evidence_chain.md` |
+| Compression | S0→S6 transformation pipeline | `figures/ascii/ascii_compression.md` |
+| Vortex | Identity drain spiral topology | `figures/ascii/ascii_vortex.md` |
+| Triple-Blind | Validation structure | `figures/ascii/ascii_triple_blind.md` |
 
 ---
 
@@ -67,13 +68,13 @@ These papers are COMPLETE and VALIDATED (99/100 quality score):
 | Material | Type | Location |
 |----------|------|----------|
 | Combined Figure | 2×2 panel (A/B/C/D) | `figures/fig_workshop_combined.md + .py` |
-| Visual Abstract | ASCII overview | `ascii/ascii_workshop_abstract.md` |
-| Contributions | 7-point summary | `ascii/ascii_workshop_contributions.md` |
-| Results Table | Compressed statistics | `workshop/table_workshop_results.md` |
-| Protocol Table | 97.5% stability protocol | `workshop/table_workshop_protocol.md` |
-| Supplementary | Extended materials | `workshop/workshop_supplementary.md` |
-| Slides Outline | 10-minute presentation | `workshop/workshop_slides_outline.md` |
-| Poster Layout | A0 portrait specification | `workshop/poster_layout.md` |
+| Visual Abstract | ASCII overview | `figures/ascii/ascii_workshop_abstract.md` |
+| Contributions | 7-point summary | `figures/ascii/ascii_workshop_contributions.md` |
+| Results Table | Compressed statistics | `submissions/workshop/table_workshop_results.md` |
+| Protocol Table | 97.5% stability protocol | `submissions/workshop/table_workshop_protocol.md` |
+| Supplementary | Extended materials | `submissions/workshop/workshop_supplementary.md` |
+| Slides Outline | 10-minute presentation | `submissions/workshop/workshop_slides_outline.md` |
+| Poster Layout | A0 portrait specification | `submissions/workshop/poster_layout.md` |
 
 ---
 
@@ -81,8 +82,8 @@ These papers are COMPLETE and VALIDATED (99/100 quality score):
 
 | File | Contents | Count |
 |------|----------|-------|
-| `references.bib` | BibTeX format | 55 refs |
-| `references.md` | Readable markdown | 7 categories |
+| `references/references.bib` | BibTeX format | 55 refs |
+| `references/references.md` | Readable markdown | 7 categories |
 
 **Categories:** Persona/Role-Playing (10), Behavioral Drift (8), AI Alignment (10), Manifold Learning (8), Control Systems (6), Identity/Cognitive (5), Information Theory (3), LLM Foundations (5)
 
@@ -92,8 +93,9 @@ These papers are COMPLETE and VALIDATED (99/100 quality score):
 
 | File | Purpose | Location |
 |------|---------|----------|
-| **REPRODUCIBILITY_README.md** | Full reproduction guide | `WHITE-PAPER/` |
-| **summary_statistics.md** | All key numbers in one place | `WHITE-PAPER/` |
+| **REPRODUCIBILITY_README.md** | Full reproduction guide | `guides/` |
+| **summary_statistics.md** | All key numbers in one place | `guides/` |
+| **MANIFEST.md** | File inventory | `guides/` |
 
 ---
 
@@ -101,8 +103,8 @@ These papers are COMPLETE and VALIDATED (99/100 quality score):
 
 | Document | Purpose | Files Generated |
 |----------|---------|-----------------|
-| **Main Prompt** | 25 files (figures, ASCII, refs) | `docs/CFA-SYNC/Opus/CODE_CLAUDE_PROMPT.md` |
-| **Workshop Addendum** | 9 workshop-specific files | `docs/CFA-SYNC/Opus/Code_claude_workshop_addendum.md` |
+| **Main Prompt** | 25 files (figures, ASCII, refs) | `reviewers/CODE_CLAUDE_PROMPT.md` |
+| **Workshop Addendum** | 9 workshop-specific files | `reviewers/Code_claude_workshop_addendum.md` |
 
 ---
 
@@ -123,7 +125,7 @@ WHITE-PAPER/figures/
 
 **ASCII Diagrams (5 files):**
 ```
-WHITE-PAPER/ascii/
+WHITE-PAPER/figures/ascii/
 ├── ascii_framework.md
 ├── ascii_evidence_chain.md
 ├── ascii_compression.md
@@ -133,27 +135,28 @@ WHITE-PAPER/ascii/
 
 **Workshop Materials (9 files):**
 ```
-WHITE-PAPER/figures/fig_workshop_combined.md + .py  (2)
-WHITE-PAPER/ascii/ascii_workshop_abstract.md        (1)
-WHITE-PAPER/ascii/ascii_workshop_contributions.md   (1)
-WHITE-PAPER/workshop/
-├── table_workshop_results.md                       (1)
-├── table_workshop_protocol.md                      (1)
-├── workshop_supplementary.md                       (1)
-├── workshop_slides_outline.md                      (1)
-└── poster_layout.md                                (1)
+WHITE-PAPER/figures/fig_workshop_combined.md + .py       (2)
+WHITE-PAPER/figures/ascii/ascii_workshop_abstract.md     (1)
+WHITE-PAPER/figures/ascii/ascii_workshop_contributions.md (1)
+WHITE-PAPER/submissions/workshop/
+├── table_workshop_results.md                            (1)
+├── table_workshop_protocol.md                           (1)
+├── workshop_supplementary.md                            (1)
+├── workshop_slides_outline.md                           (1)
+└── poster_layout.md                                     (1)
 ```
 
 **References (2 files):**
 ```
-WHITE-PAPER/
+WHITE-PAPER/references/
 ├── references.bib
 └── references.md
 ```
 
-**Supporting Materials (2 files):**
+**Supporting Materials (3 files):**
 ```
-WHITE-PAPER/
+WHITE-PAPER/guides/
+├── MANIFEST.md
 ├── REPRODUCIBILITY_README.md
 └── summary_statistics.md
 ```

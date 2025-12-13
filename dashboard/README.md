@@ -103,7 +103,9 @@ The dashboard reads from:
   - `experiments/temporal_stability/S7_ARMADA/` - Armada runs and visualizations
   - `experiments/compression_tests/compression_v2_sstack/` - Compression experiments
 - `logs/` - Omega sessions, AVLAR logs
-- `WHITE-PAPER/` - Breadcrumb trails for publication (B-CRUMBS.md)
+- `WHITE-PAPER/` - Publication materials (now reorganized with 3 submission paths)
+  - `WHITE-PAPER/theory/` - Core theoretical docs (B-CRUMBS, THEORY, CLAIMS)
+  - `WHITE-PAPER/calibration/` - Dashboard integration pipeline (NEW)
 
 ## Customization
 
@@ -153,6 +155,29 @@ To wire real experiment data:
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3)** |
 | **020** | - | **Tribunal (A)** | **Direct probing paradigm: 1.351 peak drift, 643-word statement** |
 | **021** | - | **Induced vs Inherent (B)** | **Uses Run 020 as Treatment → 82% drift is INHERENT** |
+
+## Publication Stats Integration (NEW)
+
+The dashboard can now pull publication statistics from WHITE-PAPER/calibration/:
+
+```bash
+# Generate publication_stats.json
+cd WHITE-PAPER/calibration
+py extract_publication_stats.py
+```
+
+Then in dashboard code:
+```python
+import json
+with open("WHITE-PAPER/calibration/publication_stats.json") as f:
+    pub_stats = json.load(f)
+
+# Use in Publications page
+st.metric("Claims Validated", f"{sum(1 for c in pub_stats['claims'].values() if c['status']=='validated')}/5")
+st.metric("Total Runs", pub_stats['runs']['total'])
+```
+
+---
 
 ## Future Enhancements
 

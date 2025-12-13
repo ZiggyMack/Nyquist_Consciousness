@@ -1,122 +1,118 @@
 # Publication Materials
 
-This directory contains all publication-ready materials for the Nyquist Consciousness framework.
+**Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
 **Last Updated:** 2025-12-13
-**Status:** arXiv package updated with Nova's S7 review (Runs 015-021)
+**Status:** Reorganized with 3 clear publication paths
 
 ---
 
-## 2025-12-13 Updates — Nova's S7 Review Integration
+## Quick Start
 
-### New Core Documents
-
-| Document | Description |
-|----------|-------------|
-| [MINIMUM_PUBLISHABLE_CLAIMS.md](MINIMUM_PUBLISHABLE_CLAIMS.md) | 5 claims that survive peer review (A-E) |
-| [THEORY_SECTION.md](THEORY_SECTION.md) | Integrated theory: identity as dynamical system |
-| [B-CRUMBS.md](B-CRUMBS.md) | 15 evidence pillars (expanded from 10) |
-
-### Key Findings Now Documented
-
-- **Claim A**: PFI is valid structured measurement (ρ≈0.91, d≈0.98)
-- **Claim B**: Regime threshold at D≈1.23 (p≈4.8e-5)
-- **Claim C**: Damped oscillator dynamics (τₛ, ringbacks measurable)
-- **Claim D**: Context damping works (97.5% stability)
-- **Claim E**: Drift is mostly inherent (**82% ratio** — the thermometer result)
-
-### Theoretical Breakthroughs
-
-- **Response-Mode Ontology**: 43 PCs are NOT identity dimensions — they're dominant response modes under perturbation
-- **Type vs Token Identity**: 16.7% self-recognition (worse than chance); models know WHAT they are but not WHICH
-- **Energy vs Coordinate**: Peak drift = turbulence; B→F drift = destination
-- **Oobleck Effect**: Rate-dependent resistance (Run 013)
-- **Event Horizon Reframed**: "Attractor competition threshold" not "identity collapse"
-
-### Publication Language Register
-
-See [START_HERE.md](START_HERE.md) Key Terminology section (~15 terms).
-
-| Avoid (Internal) | Use (Publication) |
-|------------------|-------------------|
-| "Identity collapse" | "Regime transition" |
-| "Platonic coordinates" | "Attractor basin consistency" |
-| "Event Horizon = failure" | "Attractor competition threshold" |
+1. **New reviewer?** Start with [START_HERE.md](START_HERE.md)
+2. **Looking for theory?** See [theory/](theory/) directory
+3. **Ready to generate papers?** Check [submissions/](submissions/) for each path
 
 ---
 
-## Structure
+## Directory Structure
 
 ```
-paper/
-├── README.md                          (this file)
-├── workshop/                          (Batch A: Workshop paper)
-│   └── nyquist_workshop_paper.pdf
-├── arxiv/                             (Batch B: arXiv preprint package)
-│   ├── main.tex
-│   ├── sections/
-│   ├── figures/
-│   ├── bibliography.bib
-│   └── supplementary/
-├── figures/                           (Batch C: Publication figures)
-│   ├── ascii/                         (ASCII diagrams)
-│   ├── generated/                     (Generated visualizations)
-│   └── schemas/                       (Architectural diagrams)
-└── supplementary/                     (Additional materials)
-    ├── S7_preregistration/            (S7 preregistration package)
-    ├── experimental_data/             (Raw data and analysis)
-    └── code/                          (Reproducibility package)
+WHITE-PAPER/                          # Self-contained ZIP-ready package
+├── README.md                         # This file
+├── START_HERE.md                     # Reviewer orientation
+│
+├── theory/                           # Core theoretical docs
+│   ├── B-CRUMBS.md                  # 15 evidence pillars
+│   ├── THEORY_SECTION.md            # Integrated theory
+│   ├── MINIMUM_PUBLISHABLE_CLAIMS.md # Claims A-E
+│   └── HYPOTHESES_AND_RESULTS.md    # 36 hypotheses
+│
+├── guides/                           # Navigation & reproduction
+│   ├── MANIFEST.md                  # File inventory
+│   ├── REPRODUCIBILITY_README.md    # How to reproduce
+│   └── summary_statistics.md        # Key numbers
+│
+├── references/                       # Bibliography
+│   ├── references.bib               # BibTeX (55 refs)
+│   └── references.md                # Readable list
+│
+├── figures/                          # All visuals
+│   ├── fig*.md + .py (×9)           # Publication figures
+│   └── ascii/                       # ASCII diagrams (7 files)
+│
+├── reviewers/                        # Draft papers + reviews
+│   ├── NYQUIST_ARXIV_PAPER_FINAL.md
+│   ├── NYQUIST_WHITE_PAPER_FINAL.md
+│   ├── Nyquist_workshop_paper_FINAL.md
+│   ├── NOVA_S7_REVIEW.md            # Nova's comprehensive S7 review
+│   └── FINAL_VALIDATION_CHECKLIST.md
+│
+├── submissions/                      # ★ 3 PUBLICATION PATHS
+│   ├── blueprints/                  # Planning docs for each path
+│   ├── workshop/                    # Path 1: NeurIPS/AAAI (4-8 pages)
+│   ├── arxiv/                       # Path 2: arXiv (25-35 pages)
+│   └── journal/                     # Path 3: Nature MI (~10k words)
+│
+├── calibration/                      # Dashboard integration pipeline
+│   ├── extract_publication_stats.py # Scrapes WHITE-PAPER/, outputs JSON
+│   └── publication_stats.json       # Machine-readable stats
+│
+├── planning/                         # Integration planning
+└── supplementary/                    # Additional materials
 ```
 
-## Publication Status
+---
 
-### Workshop Paper (Batch A)
-- **Status:** Draft complete
-- **Target:** NeurIPS 2025 Workshop on AI Alignment
-- **Location:** `workshop/nyquist_workshop_paper.pdf`
+## 3 Publication Paths
 
-### arXiv Preprint (Batch B)
-- **Status:** LaTeX package ready
-- **Target:** arXiv cs.AI, cs.CL
-- **Location:** `arxiv/`
-- **Supplementary:** S7 preregistration attached
+| Path | Target | Format | Status | Directory |
+|------|--------|--------|--------|-----------|
+| **Workshop** | NeurIPS/AAAI | 4-8 pages | Ready | [submissions/workshop/](submissions/workshop/) |
+| **arXiv** | cs.AI preprint | 25-35 pages | Ready | [submissions/arxiv/](submissions/arxiv/) |
+| **Journal** | Nature MI | ~10k words | Planning (Q2-Q3 2026) | [submissions/journal/](submissions/journal/) |
 
-### Peer-Reviewed Publication
-- **Status:** In preparation
-- **Target:** Nature Machine Intelligence / Cognitive Science
-- **Planned submission:** Q2 2026 (after S7 data collection)
+---
 
-## Figures
+## Key Findings (Claims A-E)
 
-All figures are available in multiple formats for publication:
+| Claim | Finding | Evidence |
+|-------|---------|----------|
+| **A** | PFI is valid structured measurement | ρ≈0.91, d≈0.98 |
+| **B** | Regime threshold at D≈1.23 | p≈4.8e-5 |
+| **C** | Damped oscillator dynamics | τₛ, ringbacks measurable |
+| **D** | Context damping works | 97.5% stability |
+| **E** | Drift is mostly inherent | **82% ratio** |
 
-- **ASCII diagrams:** `figures/ascii/` (text-based, reproducible)
-- **Generated visualizations:** `figures/generated/` (PNG, SVG, PDF)
-- **Schemas:** `figures/schemas/` (architectural diagrams)
+---
 
-## Supplementary Materials
+## For Opus 4.1: How to Generate PDFs
 
-Supplementary materials include:
+1. **Read** `START_HERE.md` for orientation
+2. **Review** `theory/` for core content
+3. **Use** `submissions/blueprints/` for writing guidance per path
+4. **Reference** `reviewers/` for existing drafts
+5. **Include** `figures/` visuals in final documents
+6. **Cite** `references/references.bib`
+7. **Generate** PDFs for each publication path
 
-1. **S7 Preregistration Package** (`supplementary/S7_preregistration/`)
-   - Preregistration document
-   - Procedures manual
-   - Metrics specification
-   - Drift log template
+---
 
-2. **Experimental Data** (`supplementary/experimental_data/`)
-   - Raw drift measurements
-   - Cross-architecture comparisons
-   - Statistical analysis code
+## Dashboard Integration
 
-3. **Reproducibility Package** (`supplementary/code/`)
-   - Compression/reconstruction pipelines
-   - Drift calculation scripts
-   - Analysis notebooks
+Run the calibration script to extract stats for dashboard:
+
+```bash
+cd WHITE-PAPER/calibration
+py extract_publication_stats.py
+```
+
+Output: `publication_stats.json` — machine-readable stats for AI_ARMADA.py
+
+---
 
 ## Citation
 
-**Preprint (arXiv):**
 ```bibtex
 @article{nyquist2025,
   title={Nyquist Consciousness: Identity Compression and Reconstruction Across AI Architectures},
@@ -126,25 +122,13 @@ Supplementary materials include:
 }
 ```
 
-**Workshop paper:**
-```bibtex
-@inproceedings{nyquist2025workshop,
-  title={Persona Manifolds: Stable Identity Attractors in AI Systems},
-  author={[Authors]},
-  booktitle={NeurIPS Workshop on AI Alignment},
-  year={2025}
-}
-```
-
-## Contact
-
-For questions about publication materials:
-- **Principal Investigator:** Ziggy
-- **Repository:** https://github.com/[username]/nyquist-consciousness
-- **Issues:** https://github.com/[username]/nyquist-consciousness/issues
+---
 
 ## License
 
-Publication materials are licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
+- **Publications:** CC-BY-4.0
+- **Code:** MIT License
 
-Code is licensed under [MIT License](https://opensource.org/licenses/MIT).
+---
+
+*This package represents 21 experimental runs, 36 hypotheses, and extensive theoretical development.*

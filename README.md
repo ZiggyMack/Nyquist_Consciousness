@@ -82,7 +82,12 @@ Nyquist_Consciousness/
 │   └── maps/                # Roadmaps, predictions
 │
 ├── personas/                # CFA persona identity files
-└── WHITE-PAPER/             # Publication materials
+└── WHITE-PAPER/             # Publication materials (ZIP-ready package)
+    ├── theory/              # Core docs (B-CRUMBS, THEORY, CLAIMS)
+    ├── submissions/         # 3 paths: workshop/, arxiv/, journal/
+    ├── reviewers/           # Draft papers + Nova's S7 review
+    ├── figures/             # Publication figures + ascii/
+    └── calibration/         # Dashboard integration pipeline
 ```
 
 ---
