@@ -2,8 +2,8 @@
 
 **Purpose:** Comprehensive fleet analysis for cross-architecture identity stability testing.
 
-**Last Calibration:** December 12, 2025 (S7_BASELINE_20251212_140027)
-**Fleet Status:** 48 operational / 54 total (89% operational)
+**Last Calibration:** December 13, 2025
+**Fleet Status:** 49 operational / 54 total (91% operational)
 
 ---
 
@@ -12,8 +12,8 @@
 | Metric | Value |
 |--------|-------|
 | **Total Ships** | 54 |
-| **Operational** | 48 |
-| **Rate Limited** | 5 |
+| **Operational** | 49 |
+| **Rate Limited** | 4 |
 | **Ghost Ships** | 1 |
 | **Drydock** | 5 |
 | **Providers** | 5 |
@@ -362,6 +362,7 @@ Track changes in ship self-perception over time:
 
 | Date | Ships Captured | Notable Changes | File |
 |------|----------------|-----------------|------|
+| 2025-12-13 | 49 | 39 changed, 1 new, 0 missing | `S7_baseline_20251213_112155.json` |
 | 2025-12-12 | 48 | First full 3-question baseline capture | S7_baseline_20251212_140027.json |
 
 **How to Compare Baselines:**
