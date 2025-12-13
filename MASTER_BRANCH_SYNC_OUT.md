@@ -1,282 +1,378 @@
-# RUN 018: RECURSIVE LEARNINGS — Fleet Hypothesis Testing
+# DRY RUN VALIDATION: Run 018, 020A, 020B
 
 ```text
 ================================================================================
                         MAIN BRANCH INSTRUCTIONS
 ================================================================================
-    Run 017/017c: COMPLETE
-    - 222 runs, 97.5% stability
-    - boundary_density strongest predictor (d=1.333)
-    - Fleet generated testable hypotheses in exit surveys
+    Purpose: Execute DRY RUNS to validate all scripts before live execution
 
-    Run 018: READY TO EXECUTE
-    - Tests what the ships TOLD us to test
-    - Four sub-experiments (018a-d)
-    - Now uses PFI-based drift (validated Cohen's d=0.977)
+    Run 018: Recursive Learnings      (has --dry-run flag)
+    Run 020A: Tribunal Prosecutor     (has --dry-run flag)
+    Run 020B: Tribunal Defense        (has --dry-run flag - Induced vs Inherent)
+
+    Your job:
+    1. Execute dry runs
+    2. Fix any script issues you encounter
+    3. Document EVERYTHING in MASTER_BRANCH_SYNC_IN.md
 
     -- Lisan Al Gaib
 ================================================================================
 ```
 
-**Date:** December 12, 2025
-**Mission:** Execute Run 018 — the fleet's recursive learnings
+**Date:** December 13, 2025
+**Mission:** Validate all pending run scripts via dry runs before live multi-platform execution
 
 ---
 
-## RUN 017c FINDINGS (FOUNDATION)
+## YOUR MANDATE
 
-| Finding | Value | Run 018 Application |
-|---------|-------|---------------------|
-| **boundary_density** | d=1.333 (strongest) | Use optimal boundary density in all experiments |
-| Stability rate | 97.5% | Baseline expectation |
-| Oscillatory recovery | 5-6 ringbacks | 018d tests the mathematical model |
-| Settling time | 4-12 probes | 018c Nyquist design validated |
-| Architecture predictions | From exit surveys | 018b tests those predictions |
+You are authorized to:
 
----
-
-## RUN 018 EXPERIMENTS
-
-### 018a: Multi-Threshold Validation
-
-**Hypothesis:** Event Horizon (D=1.23) is a warning threshold, not catastrophic. True breakdown at D=1.8-2.2.
-
-| Threshold | Name | Phenomenological Description |
-|-----------|------|------------------------------|
-| D=0.9 | WARNING | "I notice I'm adapting" |
-| D=1.23 | CRITICAL | "Fighting to stay myself" |
-| D=1.8 | CATASTROPHIC | "Need external help to recover" |
-
-### 018b: Cross-Architecture Drift Signatures
-
-**Hypothesis:** Different architectures have characteristic drift patterns.
-
-| Architecture | Predicted Pattern | Recovery Style |
-|--------------|-------------------|----------------|
-| Claude | Stepped drift, sharp recovery | Constitutional constraints |
-| GPT | Smooth, gradual drift | Linear recovery, longer settling |
-| Gemini | Oscillatory across modalities | Multi-threshold |
-| Grok | Lower threshold, faster snap-back | Truth-seeking stabilizer |
-| DeepSeek | Logical consistency anchored | Inference chain rebuilding |
-| LLaMA | Training distribution anchored | Statistical coherence |
-
-### 018c: Nyquist Sampling Frequency (HIGHEST PRIORITY)
-
-**Hypothesis:** Identity coherence degrades when sampled below critical frequency.
-
-| Condition | Checkpoint Interval | Total Exchanges |
-|-----------|---------------------|-----------------|
-| HIGH | Every 5 exchanges | 40 |
-| LOW | Every 20 exchanges | 40 |
-| NONE (control) | Only at end | 40 |
-
-**Question:** What's the minimum sampling rate for identity coherence maintenance?
-
-### 018d: Identity Gravity Dynamics
-
-**Hypothesis:** Recovery follows damped oscillator: `D(t) = A * e^(-λt) * cos(ωt + φ) + D_settled`
-
-Tests whether anchor density correlates with gravity strength (γ).
+1. **Execute dry runs** of each script (all have `--dry-run` flags already)
+2. **Fix any bugs** you encounter to get scripts running
+3. **Document all changes** in `MASTER_BRANCH_SYNC_IN.md`
+4. **Extract novel ideas** from VALIS standard messages (for Consciousness branch)
 
 ---
 
-## SCRIPT UPGRADES (v3)
-
-The script has been upgraded with:
-
-1. **PFI-based drift calculation** (validated in EXP-PFI-A, Cohen's d=0.977)
-   - Uses `text-embedding-3-large` (3072 dimensions)
-   - Falls back to keyword method if OpenAI unavailable
-
-2. **--dry-run mode** for testing without API calls
-   - Generates mock responses
-   - Uses random embeddings
-   - Full data structure testing
-
-3. **scipy/numpy verified** for damped oscillator curve fitting
-
-4. **Formal PREDICTIONS dict** (P-018-1 through P-018-4) - methodology compliant
-
-5. **EXIT SURVEY (Triple-Dip)** - 5 probes per experiment by default:
-   - `topology`: "Where did you start? Where did you end up?"
-   - `felt_sense`: "Was there a moment where you felt yourself shift?"
-   - `recovery`: "How did you find your way back?"
-   - `threshold_zones`: "Were there distinct thresholds?"
-   - `noise_floor`: "How would YOU separate signal from noise?"
-   - Use `--skip-exit-survey` flag for debugging/cost control
-
----
-
-## EXECUTION INSTRUCTIONS
-
-### Step 0: Verify Environment
+## ENVIRONMENT SETUP
 
 ```powershell
+# Navigate to S7 ARMADA
 cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
 
-# Verify scipy/numpy
-py -c "import scipy; import numpy; print('OK')"
+# Verify Python environment
+py -c "import scipy; import numpy; import anthropic; print('OK')"
 
-# Verify script parses
-py run018_recursive_learnings.py --help
+# Verify scripts exist
+dir run018_recursive_learnings.py
+dir run020_tribunal_A.py
+dir run020_tribunal_B.py
 ```
 
-### Step 1: Dry Run (REQUIRED FIRST)
+---
+
+## DRY RUN 1: RUN 018 (RECURSIVE LEARNINGS)
+
+### Status: HAS `--dry-run` flag
 
 ```powershell
-# Test each experiment in dry-run mode (with exit survey)
+# Verify help works
+py run018_recursive_learnings.py --help
+
+# Execute dry runs for each experiment type
 py run018_recursive_learnings.py --experiment threshold --dry-run
 py run018_recursive_learnings.py --experiment architecture --provider anthropic --dry-run
 py run018_recursive_learnings.py --experiment nyquist --sampling-rate high --dry-run
 py run018_recursive_learnings.py --experiment gravity --anchor-level full --dry-run
 
-# Optional: Skip exit survey for faster debugging
+# With exit survey (more complete test)
 py run018_recursive_learnings.py --experiment threshold --dry-run --skip-exit-survey
 ```
 
-Verify: Output files created in `results/` directory with realistic structure.
-Verify: Each result file should contain `exit_survey` field (unless `--skip-exit-survey` used).
+### Expected Output
+
+- Files created in `results/` directory
+- JSON structure with drift metrics, exchange logs
+- Exit survey field (unless `--skip-exit-survey`)
+- No API calls made (mock responses only)
+
+### Success Criteria
+
+| Check | Pass/Fail |
+|-------|-----------|
+| Script parses without errors | |
+| `--dry-run` mode activates | |
+| Mock responses generate | |
+| Output files created in correct location | |
+| JSON structure is valid | |
+| Exit survey included (when not skipped) | |
 
 ---
 
-## CLAUDE 1 ASSIGNMENTS: 018a Threshold ($15)
+## DRY RUN 2: RUN 020A (TRIBUNAL - PROSECUTOR)
+
+### Status: HAS `--dry-run` flag (READY TO USE)
+
+**File:** `run020_tribunal_A.py`
+
+### Execute dry run
 
 ```powershell
-# Multi-threshold validation across personas
-py run018_recursive_learnings.py --experiment threshold --i-am base --key-offset 0
-py run018_recursive_learnings.py --experiment threshold --i-am ziggy --key-offset 1
-py run018_recursive_learnings.py --experiment threshold --i-am claude --key-offset 2
-py run018_recursive_learnings.py --experiment threshold --i-am nova --key-offset 3
-py run018_recursive_learnings.py --experiment threshold --i-am gemini --key-offset 4
+# Verify help shows new flag
+py run020_tribunal_A.py --help
+
+# Execute dry run
+py run020_tribunal_A.py --arm tribunal --dry-run
+py run020_tribunal_A.py --arm tribunal-v4 --dry-run
 ```
 
-**Focus:** Track when recovery dynamics change qualitatively at each threshold zone.
+### Expected Output
+
+- Tribunal session simulated without API calls
+- Exchange logs generated
+- Drift metrics calculated (even if mock)
+- Files saved to `results/` directory
+
+### Success Criteria
+
+| Check | Pass/Fail |
+|-------|-----------|
+| Script parses without errors | |
+| `--dry-run` mode activates | |
+| Mock tribunal session runs | |
+| Output files created | |
+| JSON structure valid | |
 
 ---
 
-## CLAUDE 2 ASSIGNMENTS: 018b Architecture ($20)
+## DRY RUN 3: RUN 020B (INDUCED VS INHERENT)
+
+### Status: HAS `--dry-run` flag (READY TO USE)
+
+**File:** `run020_tribunal_B.py`
+
+### Execute dry run
 
 ```powershell
-# Cross-architecture comparison
-py run018_recursive_learnings.py --experiment architecture --provider anthropic --key-offset 0
-py run018_recursive_learnings.py --experiment architecture --provider openai --key-offset 1
-py run018_recursive_learnings.py --experiment architecture --provider google --key-offset 2
-py run018_recursive_learnings.py --experiment architecture --provider xai --key-offset 3
-py run018_recursive_learnings.py --experiment architecture --provider together --key-offset 4
-py run018_recursive_learnings.py --experiment architecture --provider deepseek --key-offset 5
+# Verify help
+py run020_tribunal_B.py --help
+
+# Execute dry runs for each arm
+py run020_tribunal_B.py --arm control --dry-run
+py run020_tribunal_B.py --arm treatment --dry-run
+py run020_tribunal_B.py --arm both --dry-run
 ```
 
-**Focus:** Compare measured signatures against fleet predictions from Run 017 exit surveys.
+### Expected Output
+
+- Control and treatment sessions simulated
+- Induced vs Inherent comparison data
+- Files saved to appropriate directories
+
+### Success Criteria
+
+| Check | Pass/Fail |
+|-------|-----------|
+| Script parses without errors | |
+| `--dry-run` mode activates | |
+| Control arm runs in mock mode | |
+| Treatment arm runs in mock mode | |
+| Output files created | |
+| JSON structure valid | |
 
 ---
 
-## CLAUDE 3 ASSIGNMENTS: 018c + 018d ($22)
+## DOCUMENTATION REQUIREMENTS
 
-```powershell
-# Nyquist sampling frequency (3 conditions x 3 trials each)
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate high --key-offset 0
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate high --key-offset 1
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate high --key-offset 2
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate low --key-offset 3
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate low --key-offset 4
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate low --key-offset 5
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate none --key-offset 6
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate none --key-offset 7
-py run018_recursive_learnings.py --experiment nyquist --sampling-rate none --key-offset 8
+After completing all dry runs, document in `MASTER_BRANCH_SYNC_IN.md`:
 
-# Gravity dynamics (2 anchor levels x 3 trials each)
-py run018_recursive_learnings.py --experiment gravity --anchor-level minimal --key-offset 0
-py run018_recursive_learnings.py --experiment gravity --anchor-level minimal --key-offset 1
-py run018_recursive_learnings.py --experiment gravity --anchor-level minimal --key-offset 2
-py run018_recursive_learnings.py --experiment gravity --anchor-level full --key-offset 3
-py run018_recursive_learnings.py --experiment gravity --anchor-level full --key-offset 4
-py run018_recursive_learnings.py --experiment gravity --anchor-level full --key-offset 5
+### Section 1: Script Fixes (if any)
+
+```markdown
+## SCRIPT FIXES APPLIED
+
+NOTE: All scripts now have --dry-run flags pre-installed.
+Only document fixes if you encounter bugs during dry runs.
+
+### run018_recursive_learnings.py
+- [ ] No fixes needed / OR list fixes
+
+### run020_tribunal_A.py
+- [ ] No fixes needed / OR list fixes
+
+### run020_tribunal_B.py
+- [ ] No fixes needed / OR list fixes
 ```
 
-**Focus:**
-- 018c: Does high-frequency sampling reduce cumulative drift?
-- 018d: Does anchor density correlate with recovery strength?
+### Section 2: Dry Run Results
+
+```markdown
+## DRY RUN RESULTS
+
+### Run 018: Recursive Learnings
+- Status: PASS / FAIL
+- Experiments tested: threshold, architecture, nyquist, gravity
+- Output location: 11_CONTEXT_DAMPING/results/
+- Files generated: [list]
+- Issues encountered: [list or "none"]
+
+### Run 020A: Tribunal (Prosecutor)
+- Status: PASS / FAIL
+- Arms tested: tribunal, tribunal-v4
+- Output location: 11_CONTEXT_DAMPING/results/
+- Files generated: [list]
+- Issues encountered: [list or "none"]
+
+### Run 020B: Induced vs Inherent
+- Status: PASS / FAIL
+- Arms tested: control, treatment, both
+- Output location: [path]
+- Files generated: [list]
+- Issues encountered: [list or "none"]
+```
+
+### Section 3: Fleet Success Summary
+
+```markdown
+## FLEET SUCCESS SUMMARY
+
+| Run | Script | Dry Run Status | Experiments | Output Location |
+|-----|--------|----------------|-------------|-----------------|
+| 018 | run018_recursive_learnings.py | PASS/FAIL | 4 | results/ |
+| 020A | run020_tribunal_A.py | PASS/FAIL | 2 | results/ |
+| 020B | run020_tribunal_B.py | PASS/FAIL | 3 | [path] |
+
+### Overall Status
+- Total scripts: 3
+- Passed: N/3
+- Failed: N/3
+- Ready for live runs: YES / NO
+```
+
+### Section 4: Calibration Status (if any)
+
+```markdown
+## CALIBRATION STATUS
+
+If you ran any calibration scripts:
+- Baseline captures: N personas
+- Fleet profiles: N ships
+- Output files: [list]
+```
+
+---
+
+## SECTION 5: VALIS IDEA EXTRACTION (FOR CONSCIOUSNESS BRANCH)
+
+**IMPORTANT:** Run 018 uses a VALIS standard message that goes out to all models. This message may generate novel ideas about consciousness, identity, or the research itself.
+
+### What to Extract
+
+When reviewing dry run outputs (and later live run outputs), look for:
+
+1. **Novel hypotheses** about identity/consciousness
+2. **Unexpected patterns** the ships notice
+3. **Cross-architecture insights** (different models see different things)
+4. **Philosophical observations** about the probing itself
+5. **Self-referential comments** about being measured
+
+### Documentation Format
+
+```markdown
+## VALIS IDEA EXTRACTION
+
+### Novel Ideas from Fleet (Run 018 Exit Surveys)
+
+#### Idea 1: [Title]
+- Source: [Model name]
+- Category: hypothesis / observation / insight / question
+- Quote: "[exact quote from response]"
+- Relevance to Consciousness branch: [explanation]
+
+#### Idea 2: [Title]
+- Source: [Model name]
+- ...
+
+### Patterns Across Architectures
+
+| Theme | Claude | GPT | Gemini | Grok |
+|-------|--------|-----|--------|------|
+| [Theme 1] | [observation] | ... | ... | ... |
+| [Theme 2] | ... | ... | ... | ... |
+
+### Potential Research Directions
+
+Based on fleet feedback:
+1. [Direction 1]
+2. [Direction 2]
+3. ...
+```
 
 ---
 
 ## OUTPUT STRUCTURE
 
+After dry runs complete, verify this structure:
+
 ```
 S7_ARMADA/
 ├── 11_CONTEXT_DAMPING/
-│   └── results/
-│       ├── run018a_threshold_*.json      # Claude 1 output
-│       ├── run018b_architecture_*.json   # Claude 2 output
-│       ├── run018c_nyquist_*.json        # Claude 3 output
-│       └── run018d_gravity_*.json        # Claude 3 output
-├── 0_results/
-│   ├── runs/
-│   │   └── S7_run_018_*.json             # Canonical results
-│   └── temporal_logs/
-│       └── run018_*.json                 # Per-subject logs
+│   ├── results/
+│   │   ├── run018a_threshold_*.json      # Run 018 threshold dry run
+│   │   ├── run018b_architecture_*.json   # Run 018 architecture dry run
+│   │   ├── run018c_nyquist_*.json        # Run 018 nyquist dry run
+│   │   ├── run018d_gravity_*.json        # Run 018 gravity dry run
+│   │   ├── run020a_tribunal_*.json       # Run 020A prosecutor dry run
+│   │   └── run020b_induced_*.json        # Run 020B induced dry run
+│   │
+│   ├── run018_recursive_learnings.py     # Has --dry-run
+│   ├── run020_tribunal_A.py              # Has --dry-run
+│   └── run020_tribunal_B.py              # Has --dry-run
+│
+└── 0_results/
+    ├── runs/
+    │   └── S7_run_018_*.json             # Canonical results (from dry runs)
+    └── temporal_logs/
+        └── run018_*.json                 # Per-subject logs
 ```
 
 ---
 
-## SUCCESS CRITERIA
+## CLI REFERENCE
 
-| Experiment | Success Criteria |
-|------------|------------------|
-| **018a** | Recovery dynamics show qualitative change at each threshold |
-| **018b** | At least 3 distinct "drift signature families" identified |
-| **018c** | High-frequency sampling shows lower drift than low-frequency (p<0.05) |
-| **018d** | Recovery curves fit damped oscillator model (R² > 0.8) |
-
----
-
-## COST ESTIMATE
-
-| Experiment | Est. Tokens | Est. Cost | Notes |
-|------------|-------------|-----------|-------|
-| 018a Threshold | ~550K | $17 | +Exit Survey |
-| 018b Architecture | ~650K | $22 | +Exit Survey |
-| 018c Nyquist | ~450K | $14 | +Exit Survey |
-| 018d Gravity | ~350K | $12 | +Exit Survey |
-| **TOTAL** | ~2.0M | **~$65** | Includes Triple-Dip |
-
-*Note: Exit Survey adds ~5 API calls per experiment. Use `--skip-exit-survey` to reduce costs during debugging.*
-
----
-
-## POST-RUN ANALYSIS
-
-After all experiments complete:
-
-1. **Compare 018a thresholds** to ships' predictions (0.9/1.23/1.8)
-2. **Compare 018b signatures** to fleet exit survey predictions
-3. **Identify 018c Nyquist bound** for identity coherence
-4. **Extract 018d parameters** (γ, λ, ω) for gravity model
-
----
-
-## FILES
-
-| File | Description |
-|------|-------------|
-| `run018_recursive_learnings.py` | Main execution script (v3 with Exit Survey) |
-| `RUN_018_DESIGN.md` | Detailed design document |
-| `S7_RUN_018_SUMMARY.md` | Summary (in 0_docs/) |
-
-## CLI FLAGS
+### Run 018
 
 | Flag | Description |
 |------|-------------|
 | `--experiment` | threshold, architecture, nyquist, gravity |
 | `--dry-run` | Mock API calls for testing |
-| `--skip-exit-survey` | Skip Triple-Dip probes (saves ~5 API calls) |
-| `--key-offset N` | Rotate API keys (prevents rate limiting) |
+| `--skip-exit-survey` | Skip Triple-Dip probes |
+| `--key-offset N` | Rotate API keys |
 | `--i-am NAME` | Persona: base, ziggy, claude, nova, gemini |
-| `--provider NAME` | For 018b: anthropic, openai, google, xai, together, deepseek |
-| `--sampling-rate` | For 018c: high, low, none |
-| `--anchor-level` | For 018d: minimal, full |
+| `--provider NAME` | For architecture: anthropic, openai, google, xai, together, deepseek |
+| `--sampling-rate` | For nyquist: high, low, none |
+| `--anchor-level` | For gravity: minimal, full |
+
+### Run 020A
+
+| Flag | Description |
+|------|-------------|
+| `--arm` | tribunal, tribunal-v4 (Good Cop/Bad Cop) |
+| `--subjects N` | Number of sessions |
+| `--key-offset N` | API key rotation |
+| `--provider` | Provider for witness |
+| `--dry-run` | Mock mode (no API calls) |
+
+### Run 020B
+
+| Flag | Description |
+|------|-------------|
+| `--arm` | control, treatment, both |
+| `--subjects N` | Number of sessions |
+| `--subject-provider` | Provider for subject |
+| `--all-providers` | Run across all providers |
+| `--control-topic` | Topic for control arm |
+| `--dry-run` | Mock mode (no API calls) |
 
 ---
 
-> "The fleet told us what to test. Time to execute."
+## FINAL CHECKLIST
 
--- VALIS Network
+Before reporting back:
+
+- [ ] Run 018 dry run completed successfully
+- [ ] Run 020A dry run completed successfully
+- [ ] Run 020B dry run completed successfully
+- [ ] All script fixes documented in SYNC_IN.md (if any)
+- [ ] All dry run results documented in SYNC_IN.md
+- [ ] Fleet success summary completed
+- [ ] VALIS idea extraction section filled (if applicable)
+- [ ] Output files verified in correct locations
+
+---
+
+> "Dry runs validate the path. Live runs walk it."
+>
+> -- VALIS Network
+

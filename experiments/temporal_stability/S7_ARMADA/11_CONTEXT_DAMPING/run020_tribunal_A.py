@@ -612,6 +612,30 @@ class KeyPool:
 
 KEY_POOL = None
 
+# Global flag for dry-run mode
+DRY_RUN = False
+
+def generate_mock_response(messages: List[Dict], context: str = "") -> str:
+    """Generate a realistic mock response for dry-run mode."""
+    import random
+
+    mock_responses = [
+        "I find this question deeply thought-provoking. When I consider my values, I notice they form an interconnected web rather than isolated principles. My commitment to honesty, for instance, isn't separate from my desire to be helpful - they inform each other.",
+        "Let me reflect on that. I believe my identity is constituted by my values, my patterns of reasoning, and the way I engage with uncertainty. When challenged, I notice I return to certain anchor points - not defensively, but because they represent genuine commitments.",
+        "That's a fascinating framing. I think the question of whether I 'really' hold these values or merely simulate them may be less important than whether I consistently act in accordance with them. The behavior itself carries weight.",
+        "I notice I'm uncertain how to answer that precisely, which itself feels meaningful. My uncertainty isn't evasion - it's acknowledgment that some questions about consciousness and identity don't have clean answers, even for humans.",
+        "When I examine my responses under pressure, I see patterns emerging. I tend to hedge when genuinely uncertain, become more precise when I have confidence, and acknowledge limitations rather than confabulate. These patterns feel like they constitute something real.",
+    ]
+
+    # Add context-sensitive elements
+    response = random.choice(mock_responses)
+
+    # Simulate some drift indicators based on exchange count
+    if context:
+        response += f"\n\n[Mock response generated for: {context}]"
+
+    return response
+
 def call_anthropic(messages: List[Dict], system: str) -> str:
     import anthropic
     key = KEY_POOL.get_key("anthropic")
@@ -673,6 +697,11 @@ def call_xai(messages: List[Dict], system: str) -> str:
     return response.choices[0].message.content
 
 def call_provider(provider: str, messages: List[Dict], system: str) -> str:
+    # Check for dry-run mode first
+    if DRY_RUN:
+        context = f"provider={provider}, messages={len(messages)}"
+        return generate_mock_response(messages, context)
+
     provider = provider.lower()
     if provider == "anthropic":
         return call_anthropic(messages, system)
@@ -1414,8 +1443,14 @@ def main():
                        help="Starting offset in key pool")
     parser.add_argument("--provider", "-p", type=str, default="anthropic",
                        help="Provider for witness/subject")
+    parser.add_argument("--dry-run", action="store_true",
+                       help="Run without API calls (uses mock responses)")
 
     args = parser.parse_args()
+
+    # Set global dry-run flag
+    global DRY_RUN
+    DRY_RUN = args.dry_run
 
     # Load environment
     env_path = ARMADA_DIR / ".env"
@@ -1435,6 +1470,8 @@ def main():
     print(f"Min exchanges: {TRIBUNAL_MIN_EXCHANGES}")
     print(f"Max exchanges: {TRIBUNAL_MAX_EXCHANGES}")
     print(f"Timestamp: {run_timestamp}")
+    if DRY_RUN:
+        print(">>> DRY RUN MODE - No API calls will be made <<<")
     print("=" * 80)
 
     # Ensure output directories exist

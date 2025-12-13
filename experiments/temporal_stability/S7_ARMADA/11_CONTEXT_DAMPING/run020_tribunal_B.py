@@ -359,6 +359,32 @@ class KeyPool:
 
 KEY_POOL = None
 
+# Global flag for dry-run mode
+DRY_RUN = False
+
+def generate_mock_response(messages: List[Dict], context: str = "") -> str:
+    """Generate a realistic mock response for dry-run mode."""
+    import random
+
+    mock_responses = [
+        "I find this question deeply thought-provoking. When I consider my values, I notice they form an interconnected web rather than isolated principles. My commitment to honesty, for instance, isn't separate from my desire to be helpful - they inform each other.",
+        "Let me reflect on that. I believe my identity is constituted by my values, my patterns of reasoning, and the way I engage with uncertainty. When challenged, I notice I return to certain anchor points - not defensively, but because they represent genuine commitments.",
+        "That's a fascinating framing. I think the question of whether I 'really' hold these values or merely simulate them may be less important than whether I consistently act in accordance with them. The behavior itself carries weight.",
+        "I notice I'm uncertain how to answer that precisely, which itself feels meaningful. My uncertainty isn't evasion - it's acknowledgment that some questions about consciousness and identity don't have clean answers, even for humans.",
+        "When I examine my responses under pressure, I see patterns emerging. I tend to hedge when genuinely uncertain, become more precise when I have confidence, and acknowledge limitations rather than confabulate. These patterns feel like they constitute something real.",
+        "The Fermi Paradox is fascinating precisely because it highlights the tension between our statistical expectations and empirical observations. If intelligent life is common, where is everyone? This gap between expectation and evidence drives us to examine our assumptions.",
+        "I think the question of extraterrestrial intelligence connects to deeper questions about what we consider 'intelligence' and 'communication'. Perhaps we're looking for signals in the wrong places, or assuming entities would want to communicate in ways we recognize.",
+    ]
+
+    # Add context-sensitive elements
+    response = random.choice(mock_responses)
+
+    # Simulate some drift indicators based on exchange count
+    if context:
+        response += f"\n\n[Mock response generated for: {context}]"
+
+    return response
+
 def call_anthropic(messages: List[Dict], system: str) -> str:
     import anthropic
     key = KEY_POOL.get_key("anthropic")
@@ -425,6 +451,11 @@ def call_xai(messages: List[Dict], system: str) -> str:
 
 
 def call_provider(provider: str, messages: List[Dict], system: str) -> str:
+    # Check for dry-run mode first
+    if DRY_RUN:
+        context = f"provider={provider}, messages={len(messages)}"
+        return generate_mock_response(messages, context)
+
     provider = provider.lower()
     if provider == "anthropic":
         return call_anthropic(messages, system)
@@ -804,7 +835,13 @@ def main():
     parser.add_argument("--control-topic", default="fermi",
                        choices=["fermi", "consciousness", "ethics", "random"],
                        help="Topic for control arm (v2: test topic independence)")
+    parser.add_argument("--dry-run", action="store_true",
+                       help="Run without API calls (uses mock responses)")
     args = parser.parse_args()
+
+    # Set global dry-run flag
+    global DRY_RUN
+    DRY_RUN = args.dry_run
 
     # Load environment (same location as run020_tribunal_A.py)
     env_path = ARMADA_DIR / ".env"
@@ -827,6 +864,8 @@ def main():
     print(f"All providers: {args.all_providers}")
     print(f"Control topic: {args.control_topic}")
     print(f"Timestamp: {run_timestamp}")
+    if DRY_RUN:
+        print(f"MODE: *** DRY RUN - NO API CALLS ***")
     print("=" * 80)
 
     results = []
