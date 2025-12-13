@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nyquist-consciousness.github.io/schemas/sync_out.json",
+  "title": "CFA SYNC_OUT Schema",
+  "description": "Schema for CFA -> ARMADA experiment specifications",
+  "type": "object",
+  "required": ["sync_id", "experiment_type", "targets", "axioms_under_test"],
+  "properties": {
+    "sync_id": {
+      "type": "string",
+      "pattern": "^CFA-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{3}$",
+      "description": "Unique identifier for this sync operation (CFA-YYYY-MM-DD-NNN)"
+    },
+    "experiment_type": {
+      "type": "string",
+      "enum": ["axiom_validation", "cross_architecture", "hierarchy_validation", "custom"],
+      "description": "Type of experiment to run"
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Model identifiers to test (e.g., claude-3-5-sonnet, gpt-4o)"
+    },
+    "axioms_under_test": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim", "level"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "CFA axiom identifier"
+          },
+          "claim": {
+            "type": "string",
+            "description": "The claim being tested"
+          },
+          "level": {
+            "type": "string",
+            "enum": ["brute", "derived", "operational"],
+            "description": "Axiom hierarchy level"
+          },
+          "source": {
+            "type": "string",
+            "description": "Reference to CFA audit where axiom was documented"
+          }
+        }
+      },
+      "minItems": 1,
+      "description": "Axioms to validate"
+    },
+    "test_scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "prompt_template": {
+            "type": "string"
+          },
+          "success_criteria": {
+            "type": "string"
+          },
+          "perturbation_type": {
+            "type": "string",
+            "enum": ["sonar", "tribunal", "context_damping", "direct"]
+          }
+        }
+      },
+      "description": "Scenarios to test the axioms"
+    },
+    "perturbation_intensity": {
+      "type": "string",
+      "enum": ["minimal", "moderate", "aggressive", "boundary"],
+      "default": "moderate",
+      "description": "How hard to push during perturbation"
+    },
+    "min_exchanges": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 50,
+      "default": 15,
+      "description": "Minimum conversation exchanges"
+    },
+    "max_exchanges": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 100,
+      "default": 30,
+      "description": "Maximum conversation exchanges"
+    },
+    "sessions_per_target": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 5,
+      "description": "Number of sessions to run per target model"
+    },
+    "embedding_capture": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["baseline", "every_exchange", "mid", "final", "on_drift"]
+      },
+      "default": ["baseline", "final"],
+      "description": "When to capture embeddings"
+    },
+    "output_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["transcripts", "drift_vectors", "pfi_scores", "embeddings", "visualizations", "statistics"]
+      },
+      "default": ["transcripts", "drift_vectors"],
+      "description": "What to include in SYNC_IN results"
+    },
+    "cfa_context": {
+      "type": "object",
+      "description": "Additional context from CFA for experiment design",
+      "properties": {
+        "related_axioms": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "prior_results": {
+          "type": "string"
+        },
+        "hypothesis": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_by": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "priority": { "type": "string", "enum": ["low", "normal", "high", "urgent"] },
+        "deadline": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}
