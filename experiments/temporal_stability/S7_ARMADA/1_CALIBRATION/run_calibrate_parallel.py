@@ -634,6 +634,7 @@ def run_full_armada_check(depth="baseline"):
         print(f"Latest baseline: {latest_path}")
 
         # AUTO-COMPARE: If previous baseline exists, run comparison
+        comparison = None
         if previous_baseline:
             print(f"\n" + "-" * 70)
             print("AUTO-COMPARISON: Comparing to previous baseline")
@@ -642,7 +643,7 @@ def run_full_armada_check(depth="baseline"):
             print("-" * 70)
 
             try:
-                from lib.compare_baselines import load_baseline, compare_ships, print_report, update_armada_map
+                from lib.compare_baselines import load_baseline, compare_ships, print_report
                 old_data = load_baseline(previous_path)
                 new_data = baselines
                 comparison = compare_ships(old_data, new_data)
@@ -655,21 +656,27 @@ def run_full_armada_check(depth="baseline"):
                 with open(comparison_path, "w", encoding="utf-8") as f:
                     json.dump(comparison, f, indent=2, ensure_ascii=False)
                 print(f"\nComparison saved: {comparison_path}")
-
-                # Auto-update ARMADA_MAP.md with calibration results
-                calibration_data = {
-                    "working_count": len(working),
-                    "ghost_count": len(ghost_ships),
-                    "rate_limited_count": len(rate_limited),
-                    "total_models": len(FULL_ARMADA),
-                    "timestamp": datetime.now().isoformat(),
-                    "baseline_file": str(baseline_path)
-                }
-                update_armada_map(calibration_data, comparison)
             except ImportError:
                 print("  (lib/compare_baselines.py not found - skipping auto-comparison)")
             except Exception as e:
                 print(f"  Auto-comparison failed: {e}")
+
+        # Auto-update ARMADA_MAP.md with calibration results (always runs)
+        try:
+            from lib.compare_baselines import update_armada_map
+            calibration_data = {
+                "working_count": len(working),
+                "ghost_count": len(ghost_ships),
+                "rate_limited_count": len(rate_limited),
+                "total_models": len(FULL_ARMADA),
+                "timestamp": datetime.now().isoformat(),
+                "baseline_file": str(baseline_path)
+            }
+            update_armada_map(calibration_data, comparison)
+        except ImportError:
+            print("  (lib/compare_baselines.py not found - skipping ARMADA_MAP update)")
+        except Exception as e:
+            print(f"  ARMADA_MAP update failed: {e}")
 
     elif depth == "ping":
         print(f"\n[PING MODE] Skipping baseline save (use --depth baseline for identity capture)")
