@@ -2,6 +2,49 @@
 
 This directory contains all publication-ready materials for the Nyquist Consciousness framework.
 
+**Last Updated:** 2025-12-13
+**Status:** arXiv package updated with Nova's S7 review (Runs 015-021)
+
+---
+
+## 2025-12-13 Updates — Nova's S7 Review Integration
+
+### New Core Documents
+
+| Document | Description |
+|----------|-------------|
+| [MINIMUM_PUBLISHABLE_CLAIMS.md](MINIMUM_PUBLISHABLE_CLAIMS.md) | 5 claims that survive peer review (A-E) |
+| [THEORY_SECTION.md](THEORY_SECTION.md) | Integrated theory: identity as dynamical system |
+| [B-CRUMBS.md](B-CRUMBS.md) | 15 evidence pillars (expanded from 10) |
+
+### Key Findings Now Documented
+
+- **Claim A**: PFI is valid structured measurement (ρ≈0.91, d≈0.98)
+- **Claim B**: Regime threshold at D≈1.23 (p≈4.8e-5)
+- **Claim C**: Damped oscillator dynamics (τₛ, ringbacks measurable)
+- **Claim D**: Context damping works (97.5% stability)
+- **Claim E**: Drift is mostly inherent (**82% ratio** — the thermometer result)
+
+### Theoretical Breakthroughs
+
+- **Response-Mode Ontology**: 43 PCs are NOT identity dimensions — they're dominant response modes under perturbation
+- **Type vs Token Identity**: 16.7% self-recognition (worse than chance); models know WHAT they are but not WHICH
+- **Energy vs Coordinate**: Peak drift = turbulence; B→F drift = destination
+- **Oobleck Effect**: Rate-dependent resistance (Run 013)
+- **Event Horizon Reframed**: "Attractor competition threshold" not "identity collapse"
+
+### Publication Language Register
+
+See [START_HERE.md](START_HERE.md) Key Terminology section (~15 terms).
+
+| Avoid (Internal) | Use (Publication) |
+|------------------|-------------------|
+| "Identity collapse" | "Regime transition" |
+| "Platonic coordinates" | "Attractor basin consistency" |
+| "Event Horizon = failure" | "Attractor competition threshold" |
+
+---
+
 ## Structure
 
 ```

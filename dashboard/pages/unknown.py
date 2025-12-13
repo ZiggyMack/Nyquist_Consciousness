@@ -3075,8 +3075,8 @@ LEFT_BRAIN = {
     "primary": "#3b82f6",      # Blue
     "secondary": "#60a5fa",    # Light blue
     "accent": "#1e40af",       # Deep blue
-    "bg_start": "#2a2a2a",     # Dark gray
-    "bg_end": "#3a3a3a",       # Slightly lighter gray
+    "bg_start": "#e3f2fd",     # Pastel blue (light)
+    "bg_end": "#bbdefb",       # Slightly deeper pastel blue
     "symbol": "🧠",            # Brain emoji
     "hemisphere": "◧",         # Left half symbol
     "decorators": ["▣", "▤", "▥", "▦", "▧", "▨", "▩", "◫", "◧", "▭", "▯"],
@@ -3086,8 +3086,8 @@ RIGHT_BRAIN = {
     "primary": "#e94560",      # Red-pink
     "secondary": "#a855f7",    # Purple
     "accent": "#7c3aed",       # Deep purple
-    "bg_start": "#2a2a2a",     # Dark gray
-    "bg_end": "#3a3a3a",       # Slightly lighter gray
+    "bg_start": "#fce4ec",     # Pastel pink (light)
+    "bg_end": "#f3e5f5",       # Pastel purple (light)
     "symbol": "🌀",            # Spiral emoji
     "hemisphere": "◨",         # Right half symbol
     "decorators": ["◉", "◎", "●", "○", "◐", "◑", "◒", "◓", "⊕", "⊗", "⌬", "⍟", "✧", "✦", "❋", "✺", "❂"],
@@ -3158,7 +3158,7 @@ def render_concept_card(concept_id, concept, gallery_color, mode):
         margin: 0.5em 0;
     ">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: bold; color: #fff;">{concept['title']}</span>
+            <span style="font-weight: bold; color: #333;">{concept['title']}</span>
             <span style="
                 background: {status_color}33;
                 color: {status_color};
@@ -3249,18 +3249,18 @@ def render():
     # Custom CSS - dramatically enhanced for LEFT/RIGHT brain modes
     st.markdown("""
     <style>
-    /* PAGE-SPECIFIC OVERRIDES - Gray backgrounds instead of white */
+    /* PAGE-SPECIFIC OVERRIDES - Light pastel backgrounds */
     [data-testid="stMetric"] {
-        background: #1e1e1e !important;
-        border: 1px solid #333 !important;
+        background: #f8f9fa !important;
+        border: 1px solid #dee2e6 !important;
         border-radius: 8px !important;
         padding: 12px !important;
     }
     [data-testid="stMetricValue"] {
-        color: #ffffff !important;
+        color: #333333 !important;
     }
     [data-testid="stMetricLabel"] {
-        color: #aaaaaa !important;
+        color: #666666 !important;
     }
     [data-testid="stMetricDelta"] {
         color: #10b981 !important;
@@ -3268,14 +3268,14 @@ def render():
 
     /* Fix tab text colors for visibility */
     .stTabs [data-baseweb="tab"] {
-        color: #ffffff !important;
+        color: #333333 !important;
     }
     .stTabs [data-baseweb="tab-list"] {
-        background: #1a1a1a !important;
+        background: #f8f9fa !important;
         border-radius: 8px !important;
     }
     .stTabs [aria-selected="true"] {
-        background: #333333 !important;
+        background: #e9ecef !important;
     }
 
     /* Base styles */
@@ -3295,27 +3295,27 @@ def render():
 
     /* LEFT BRAIN mode styling - clean, precise borders */
     .left-brain-container {
-        border: 1px solid #3b82f633;
+        border: 1px solid #3b82f666;
         border-radius: 8px;
-        background: linear-gradient(180deg, #1e3a5f 0%, #2d4a6f 100%);
-        color: #ffffff;
+        background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+        color: #333333;
     }
 
     /* RIGHT BRAIN mode styling - glowing, fluid borders */
     .right-brain-container {
         border: 2px solid #e9456066;
         border-radius: 15px;
-        background: linear-gradient(135deg, #3d2a5c 0%, #2e4a6e 50%, #1f5a70 100%);
-        box-shadow: 0 0 20px #e9456033, inset 0 0 30px #a855f711;
-        color: #ffffff;
+        background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 50%, #e8f5e9 100%);
+        box-shadow: 0 0 20px #e9456022, inset 0 0 30px #a855f708;
+        color: #333333;
     }
 
     /* Gallery card enhancements */
     .gallery-card-left {
-        background: linear-gradient(180deg, #2a4a6f 0%, #1e3a5f 100%);
-        border: 1px solid #3b82f644;
+        background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+        border: 1px solid #3b82f666;
         transition: all 0.3s ease;
-        color: #ffffff;
+        color: #333333;
     }
     .gallery-card-left:hover {
         border-color: #3b82f6;
@@ -3323,11 +3323,11 @@ def render():
     }
 
     .gallery-card-right {
-        background: linear-gradient(135deg, #4d3a6c 0%, #3e5a7e 50%, #2f6a80 100%);
-        border: 2px solid #e9456044;
+        background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 50%, #e8eaf6 100%);
+        border: 2px solid #e9456066;
         transition: all 0.3s ease;
         animation: subtlePulse 4s ease-in-out infinite;
-        color: #ffffff;
+        color: #333333;
     }
     .gallery-card-right:hover {
         border-color: #e94560;
@@ -3366,19 +3366,19 @@ def render():
     /* Concept content styling */
     .concept-structured {
         padding: 1.5em;
-        background: linear-gradient(180deg, #1e3a5f 0%, #2d4a6f 100%);
+        background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
         border-left: 3px solid #3b82f6;
         border-radius: 0 10px 10px 0;
-        color: #ffffff;
+        color: #333333;
     }
 
     .concept-vortex {
         padding: 1.5em;
-        background: linear-gradient(135deg, #3d2a5c 0%, #2e4a6e 100%);
-        border: 2px solid #e9456033;
+        background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+        border: 2px solid #e9456044;
         border-radius: 15px;
-        box-shadow: inset 0 0 40px #e9456011;
-        color: #ffffff;
+        box-shadow: inset 0 0 40px #a855f708;
+        color: #333333;
     }
 
     /* Vortex-specific text effects */
@@ -3420,7 +3420,7 @@ def render():
         margin-bottom: 1em;
     ">
         <div style="
-            background: #0e1117;
+            background: #f8f9fa;
             border-radius: 13px;
             padding: 18px 15px;
             text-align: center;
@@ -3513,7 +3513,7 @@ def render():
         <div style="
             text-align: center;
             padding: 30px 20px;
-            background: linear-gradient(45deg, {RIGHT_BRAIN['bg_start']}, {RIGHT_BRAIN['bg_end']}, #0f3460, {RIGHT_BRAIN['bg_start']});
+            background: linear-gradient(45deg, {RIGHT_BRAIN['bg_start']}, {RIGHT_BRAIN['bg_end']}, #e8eaf6, {RIGHT_BRAIN['bg_start']});
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
             border-radius: 20px;
@@ -3541,10 +3541,10 @@ def render():
                 text-shadow: 0 0 10px {RIGHT_BRAIN['primary']};
             ">{RIGHT_BRAIN['hemisphere']} {RIGHT_BRAIN['symbol']} RIGHT HEMISPHERE ENGAGED {RIGHT_BRAIN['symbol']} {RIGHT_BRAIN['hemisphere']}</div>
             <h1 style="
-                color: #ffffff;
+                color: #333333;
                 font-size: 3em;
                 margin: 10px 0;
-                text-shadow: 0 0 40px {RIGHT_BRAIN['primary']}, 0 0 80px {RIGHT_BRAIN['secondary']};
+                text-shadow: 0 0 20px {RIGHT_BRAIN['primary']}66, 0 0 40px {RIGHT_BRAIN['secondary']}44;
                 letter-spacing: 12px;
             ">T H E &nbsp; U N K N O W N</h1>
             <div style="font-size: 2.5em; animation: pulse 2s ease-in-out infinite;">{vortex_decoration()}</div>
@@ -3657,23 +3657,23 @@ def render():
             border-radius: 15px;
             border: 1px solid #e9456033;
             margin-bottom: 20px;
-            color: #ffffff;
+            color: #333333;
         ">
             <div style="text-align: center;">
                 <div style="font-size: 2em; color: #10b981;">✅ 3</div>
-                <div style="color: #cccccc;">VALIDATED</div>
+                <div style="color: #555555;">VALIDATED</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 2em; color: #3b82f6;">🏛️ 3</div>
-                <div style="color: #cccccc;">FOUNDATIONS</div>
+                <div style="color: #555555;">FOUNDATIONS</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 2em; color: #a855f7;">🔮 3</div>
-                <div style="color: #cccccc;">SPECULATIVE</div>
+                <div style="color: #555555;">SPECULATIVE</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 2em; color: #f59e0b;">🗺️ 4</div>
-                <div style="color: #cccccc;">FRONTIERS</div>
+                <div style="color: #555555;">FRONTIERS</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -3708,12 +3708,12 @@ def render():
                     border: 2px solid {gallery['color']}66;
                     margin-bottom: 20px;
                     box-shadow: 0 0 20px {gallery['color']}22;
-                    color: #ffffff;
+                    color: #333333;
                 ">
                     <div style="font-size: 3em; margin-bottom: 10px;">{gallery['emoji']}</div>
-                    <div style="font-size: 1.5em; color: {gallery['color']}; text-shadow: 0 0 10px {gallery['color']};">{gallery['name'].upper()}</div>
-                    <div style="color: #cccccc; font-style: italic; margin-top: 10px;">{gallery['description']}</div>
-                    <div style="margin-top: 15px; color: #aaaaaa;">{vortex_decoration()}</div>
+                    <div style="font-size: 1.5em; color: {gallery['color']}; text-shadow: 0 0 5px {gallery['color']}44;">{gallery['name'].upper()}</div>
+                    <div style="color: #555555; font-style: italic; margin-top: 10px;">{gallery['description']}</div>
+                    <div style="margin-top: 15px; color: #888888;">{vortex_decoration()}</div>
                 </div>
                 """, unsafe_allow_html=True)
             else:
@@ -3725,13 +3725,13 @@ def render():
                     border-left: 4px solid {gallery['color']};
                     border-radius: 0 10px 10px 0;
                     margin-bottom: 20px;
-                    color: #ffffff;
+                    color: #333333;
                 ">
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <span style="font-size: 2em;">{gallery['emoji']}</span>
                         <div>
                             <div style="font-size: 1.3em; color: {gallery['color']}; font-weight: bold;">{gallery['name']}</div>
-                            <div style="color: #cccccc; font-size: 0.9em;">{gallery['description']}</div>
+                            <div style="color: #555555; font-size: 0.9em;">{gallery['description']}</div>
                         </div>
                     </div>
                 </div>
@@ -3768,19 +3768,19 @@ def render():
                             border-radius: 15px;
                             border: 2px solid {status_color}44;
                             box-shadow: 0 0 15px {status_color}22;
-                            color: #ffffff;
+                            color: #333333;
                         ">
                             <span style="
-                                background: {status_color}44;
+                                background: {status_color}33;
                                 color: {status_color};
                                 padding: 6px 16px;
                                 border-radius: 20px;
                                 font-size: 0.9em;
                                 font-weight: bold;
-                                text-shadow: 0 0 10px {status_color};
+                                text-shadow: 0 0 5px {status_color}44;
                                 border: 1px solid {status_color};
                             ">{status}</span>
-                            <div style="color: #cccccc; font-style: italic; margin-top: 12px; font-size: 1.1em;">
+                            <div style="color: #555555; font-style: italic; margin-top: 12px; font-size: 1.1em;">
                                 "{concept.get('one_liner', '')}"
                             </div>
                         </div>
@@ -3794,7 +3794,7 @@ def render():
                             background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%);
                             border-left: 3px solid {status_color};
                             border-radius: 0 8px 8px 0;
-                            color: #ffffff;
+                            color: #333333;
                         ">
                             <span style="
                                 background: {status_color}33;
@@ -3804,7 +3804,7 @@ def render():
                                 font-size: 0.8em;
                                 font-weight: bold;
                             ">{status}</span>
-                            <span style="color: #cccccc; font-style: italic; margin-left: 1em;">
+                            <span style="color: #555555; font-style: italic; margin-left: 1em;">
                                 {concept.get('one_liner', '')}
                             </span>
                         </div>
@@ -3825,13 +3825,13 @@ def render():
             border-radius: 15px;
             border: 2px solid #a855f744;
             margin-bottom: 20px;
-            color: #ffffff;
+            color: #333333;
         ">
-            <div style="font-size: 1.8em; color: #a855f7; text-shadow: 0 0 15px #a855f7;">❓ OPEN QUESTIONS ❓</div>
-            <div style="color: #cccccc; font-style: italic; margin-top: 10px;">
+            <div style="font-size: 1.8em; color: #a855f7; text-shadow: 0 0 10px #a855f744;">❓ OPEN QUESTIONS ❓</div>
+            <div style="color: #555555; font-style: italic; margin-top: 10px;">
                 "the edges of understanding where dragons still roam"
             </div>
-            <div style="margin-top: 10px; color: #aaaaaa;">{vortex_decoration()}</div>
+            <div style="margin-top: 10px; color: #888888;">{vortex_decoration()}</div>
         </div>
         """, unsafe_allow_html=True)
     else:
@@ -3842,10 +3842,10 @@ def render():
             border-left: 4px solid #a855f7;
             border-radius: 0 10px 10px 0;
             margin-bottom: 20px;
-            color: #ffffff;
+            color: #333333;
         ">
             <div style="font-size: 1.3em; color: #a855f7; font-weight: bold;">Open Questions</div>
-            <div style="color: #cccccc; font-size: 0.9em;">Active research directions and unresolved problems</div>
+            <div style="color: #555555; font-size: 0.9em;">Active research directions and unresolved problems</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -3939,7 +3939,7 @@ def render():
         <div style="
             text-align: center;
             padding: 30px 20px;
-            background: linear-gradient(135deg, {RIGHT_BRAIN['bg_start']} 0%, {RIGHT_BRAIN['bg_end']} 50%, #0f3460 100%);
+            background: linear-gradient(135deg, {RIGHT_BRAIN['bg_start']} 0%, {RIGHT_BRAIN['bg_end']} 50%, #e8eaf6 100%);
             border-radius: 20px;
             border: 2px solid {RIGHT_BRAIN['primary']}33;
             box-shadow: 0 0 30px {RIGHT_BRAIN['primary']}22;

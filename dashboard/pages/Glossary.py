@@ -197,6 +197,20 @@ CORE_TERMS = {
         {"term": "Ship", "definition": "Individual AI model instance in ARMADA experiments. Named by provider-model (e.g., claude-opus-4.5, gpt-gpt-4o).", "category": "Operational"},
         {"term": "Embedding Invariance", "definition": "Property where PFI rankings are preserved across different embedding models. Validated in EXP-PFI-A Phase 1 (rho > 0.80).", "category": "Scientific"},
     ],
+    "Control-Systems Era (Runs 015-021)": [
+        {"term": "Settling Time (τₛ)", "definition": "Number of conversational turns to reach ±5% of final drift value. Measures how long until identity stops oscillating and settles.", "category": "Scientific"},
+        {"term": "Ringback", "definition": "Sign change in drift delta during recovery phase. Identity overshoots and comes back — oscillation before settling.", "category": "Scientific"},
+        {"term": "Overshoot Ratio", "definition": "Ratio of peak drift to final settled drift (d_peak / d_inf). How much further identity swings compared to where it ends up.", "category": "Scientific"},
+        {"term": "Context Damping", "definition": "Stability improvement via I_AM anchor + research framing. Acts as 'termination resistor' reducing oscillation. Achieved 97.5% stability vs 75% bare metal.", "category": "Scientific"},
+        {"term": "B→F Drift", "definition": "Baseline-to-Final drift — PRIMARY metric measuring where identity ends up relative to start. Supersedes peak drift as stability measure.", "category": "Scientific"},
+        {"term": "Settled Drift (d∞)", "definition": "Final stable drift value after settling time has elapsed. The drift that sticks — not the peak, but where it lands.", "category": "Scientific"},
+        {"term": "Inherent Drift", "definition": "Drift that occurs naturally during extended interaction WITHOUT identity probing. Run 021 found 82% of drift is inherent.", "category": "Scientific"},
+        {"term": "Thermometer Result", "definition": "The discovery that measurement perturbs trajectory but not destination. Peak drift sensitive to probing (+84%), final drift only modestly affected (+23%).", "category": "Scientific"},
+        {"term": "Triple-Blind-Like Validation", "definition": "Methodological structure achieving three forms of blindness: (1) Subject belief, (2) Vehicle indirection, (3) Outcome independence. Validates measurement doesn't create phenomenon.", "category": "Scientific"},
+        {"term": "Attractor Competition Threshold", "definition": "Publication-ready term for Event Horizon (D ≈ 1.23). The point where persona attractor competes with provider-level attractor.", "category": "Scientific"},
+        {"term": "Regime Transition", "definition": "Publication-ready term for crossing the Event Horizon. Identity shifts from persona basin to provider-level basin.", "category": "Scientific"},
+        {"term": "Oobleck Effect", "definition": "Rate-dependent resistance in identity responses (Run 013). Slow pressure → high drift (flows); sudden challenge → low drift (hardens). Alignment architecture showing through.", "category": "Scientific"},
+    ],
 }
 
 

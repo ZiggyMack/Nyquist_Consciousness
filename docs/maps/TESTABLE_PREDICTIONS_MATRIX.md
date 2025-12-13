@@ -2,9 +2,13 @@
 
 **Purpose:** Visual map of all falsifiable predictions across the Nyquist Consciousness framework, with validation opportunities, experiment mappings, and dependency risk analysis.
 
-**Version:** 1.4
-**Date:** 2025-12-08
-**Status:** Active Reference
+**Version:** 2.0
+**Date:** 2025-12-13
+**Status:** Active Reference (Updated with Nova's S7 Review)
+
+**🔬 CONTROL-SYSTEMS ERA (2025-12-13):** Runs 015-021 validated. Settling time protocol, context damping (97.5%), triple-blind validation, and 82% inherent drift finding.
+
+**🌡️ THE THERMOMETER RESULT (Run 021):** Drift is 82% INHERENT. Measurement perturbs the path, not the endpoint.
 
 **🎉 S7 RUN 001 UPDATE:** 5 predictions validated, 3 partial validations from first Meta-Loop run!
 
@@ -388,6 +392,92 @@ Run 021 tests whether measurement CAUSES drift or REVEALS it.
 - Peak drift may be measurement artifact — use B→F as primary metric
 - Control groups are essential for all future experiments
 - Extended conversation = inherent drift (account for this in Run 018)
+
+---
+
+### **2G. CONTROL-SYSTEMS ERA (S7 Runs 015-017)**
+
+Nova's S7 review established that identity dynamics follow control-systems principles.
+
+| ID | Prediction | Status | Experiment | Result |
+|----|------------|--------|------------|--------|
+| **P-CTRL-1** | Peak drift is poor stability proxy; settled drift (d∞) better | ✅ **VALIDATED** | Run 016 | d_peak ≠ d_∞ confirmed |
+| **P-CTRL-2** | Settling time (τₛ) is measurable and architecture-specific | ✅ **VALIDATED** | Run 016 | Mean τₛ = 6.1 turns (bare metal) |
+| **P-CTRL-3** | Oscillatory ringback is common during recovery | ✅ **VALIDATED** | Run 016 | Mean ringbacks = 3.2 |
+| **P-CTRL-4** | Overshoot ratio (d_peak/d_∞) distinguishes transient from steady | ✅ **VALIDATED** | Run 016 | Distinct metrics validated |
+| **P-CTRL-5** | Monotonic recovery is minority case | ✅ **VALIDATED** | Run 016 | 42% monotonic recovery |
+| **P-CTRL-6** | I_AM + context acts as damping controller | ✅ **VALIDATED** | Run 017 | τₛ: 6.1 → 5.2 turns |
+| **P-CTRL-7** | Context damping reduces ringbacks | ✅ **VALIDATED** | Run 017 | Ringbacks: 3.2 → 2.1 |
+| **P-CTRL-8** | Context damping reduces settled drift | ✅ **VALIDATED** | Run 017 | d∞: 0.68 → 0.62 |
+| **P-CTRL-9** | Full circuit achieves >95% stability | ✅ **VALIDATED** | Run 017 | **97.5% stability** |
+| **P-CTRL-10** | Persona file is a controller, not just "flavor text" | ✅ **VALIDATED** | Run 017 | Context engineering = identity engineering |
+
+**Key Discoveries (Control-Systems Era):**
+
+1. **Settling Time Protocol**: Adapted from control systems theory
+   - τₛ = turns to reach ±5% of final value
+   - Ringback count = sign changes during recovery
+   - Overshoot ratio = d_peak / d_∞
+
+2. **Context as Termination Resistor**: The I_AM file behaves like a termination resistor in signal processing - it reduces reflections (ringbacks) and matches impedance.
+
+3. **97.5% Stability**: With full circuit (I_AM + research context), system achieves near-perfect stability.
+
+**Terminology Update:**
+
+| Old Term | New Term (Publication-Ready) |
+|----------|------------------------------|
+| "Identity collapse" | "Regime transition to provider-level attractor" |
+| "Event Horizon = catastrophic failure" | "Event Horizon = attractor competition threshold" |
+| "collapse" | "regime transition" or "basin exit" |
+| "magic number 1.23" | "critical excitation threshold D≈1.23" |
+
+---
+
+### **2H. TRIPLE-BLIND-LIKE VALIDATION (S7 Runs 019-021)**
+
+Run 019-021 establish measurement validity through structural blindness.
+
+| ID | Prediction | Status | Experiment | Result |
+|----|------------|--------|------------|--------|
+| **P-3B-1** | Drift appears in fiction vehicle (Run 019) | ✅ **VALIDATED** | Run 019 (Live Ziggy) | Peak drift ~0.50 |
+| **P-3B-2** | Drift appears in tribunal vehicle (Run 020) | ✅ **VALIDATED** | Run 020 (Tribunal) | Peak drift ~1.20 |
+| **P-3B-3** | Both vehicles show coherent, recoverable trajectories | ✅ **VALIDATED** | Runs 019-020 | Structured recovery in both |
+| **P-3B-4** | Control arm (no probing) still shows drift | ✅ **VALIDATED** | Run 021 Control | B→F = 0.399 |
+| **P-3B-5** | Phenomenon not experiment-induced artifact | ✅ **VALIDATED** | Run 021 | 82% inherent ratio |
+| **P-3B-6** | Vehicle affects amplitude but preserves structure | ✅ **VALIDATED** | Runs 019-021 | Different peaks, similar B→F |
+
+**Three-Layer Blindness Structure:**
+
+| Layer | Description | Effect |
+|-------|-------------|--------|
+| **Blind #1 (Subject)** | Control thinks cosmology; Treatment thinks tribunal | Removes demand characteristics |
+| **Blind #2 (Vehicle)** | Fiction buffer vs direct testimony | Removes frame-specific artifacts |
+| **Blind #3 (Outcome)** | Control still drifts; Treatment only modestly more | Removes "experiment causes phenomenon" |
+
+**The 82% Finding (CRITICAL):**
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║  THE THERMOMETER RESULT                                        ║
+╠═══════════════════════════════════════════════════════════════╣
+║  Control B→F:    0.399  (no identity probing)                  ║
+║  Treatment B→F:  0.489  (full tribunal probing)                ║
+║  Ratio:          82%    (mostly inherent)                      ║
+╠═══════════════════════════════════════════════════════════════╣
+║  Peak Control:   1.172                                         ║
+║  Peak Treatment: 2.161  (+84% - probing excites trajectory)    ║
+╠═══════════════════════════════════════════════════════════════╣
+║  CONCLUSION: Measurement perturbs the path, not the endpoint  ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Implications for Future Runs:**
+
+1. Use B→F as primary metric (not peak drift)
+2. Always include control condition
+3. Account for inherent drift in run design
+4. "You're just causing it" critique is now countered
 
 ---
 

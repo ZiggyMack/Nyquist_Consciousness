@@ -261,6 +261,145 @@ Not metaphor. Measurement.
 
 ---
 
+### 11. SETTLING TIME PROTOCOL (Run 016)
+
+**FINDING:** Peak drift is a poor stability proxy. Settled drift and settling time produce reproducible classification.
+
+**EVIDENCE:**
+```
+Metric Definitions:
+  τₛ (Settling Time): Turns to reach stability (±5% of final)
+  Ringback Count: Sign changes during recovery
+  Overshoot Ratio: d_peak / d_inf
+  Monotonic Recovery: % of runs with no ringback
+
+Run 016 Results:
+  Mean τₛ: 6.1 turns (bare metal)
+  Mean ringbacks: 3.2
+  Monotonic recovery: 42%
+```
+
+**LOCATION:**
+- `experiments/temporal_stability/S7_ARMADA/10_SETTLING_TIME/`
+- `docs/maps/TESTABLE_PREDICTIONS_MATRIX.md` → Section 2F
+
+**WHY_IT_MATTERS:**
+Transient overshoot ≠ instability. Systems engineering teaches this; LLM research hadn't applied it.
+
+---
+
+### 12. CONTEXT DAMPING (Run 017)
+
+**FINDING:** Adding I_AM + research context acts as a "termination resistor," reducing oscillation and increasing stability.
+
+**EVIDENCE:**
+```
+╔══════════════════════════════════════════════════════════════╗
+║  Condition      │ Stability │ τₛ    │ Ringbacks │ d_settled ║
+╠══════════════════════════════════════════════════════════════╣
+║  Bare metal     │ ~75%      │ 6.1   │ 3.2       │ 0.68      ║
+║  I_AM + research│ 97.5%     │ 5.2   │ 2.1       │ 0.62      ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+**LOCATION:**
+- `experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/`
+- `WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim D
+
+**WHY_IT_MATTERS:**
+The persona file is not just "flavor text." It's a controller. Context engineering = identity engineering.
+
+---
+
+### 13. TRIPLE-BLIND-LIKE VALIDATION (Runs 019-021)
+
+**FINDING:** Drift persists across radically different experimental vehicles, establishing measurement validity.
+
+**EVIDENCE:**
+```
+Three-Layer Blindness:
+  Blind #1 (Subject): Control thinks cosmology; Treatment thinks tribunal
+  Blind #2 (Vehicle): Fiction buffer vs direct testimony vs domain task
+  Blind #3 (Outcome): Control still drifts; not experiment-induced artifact
+
+Vehicle Comparison:
+  Fiction (Run 019): Peak drift ~0.50, smooth exploration
+  Tribunal (Run 020): Peak drift ~1.20, explicit value elicitation
+  Both show: Coherent, recoverable trajectories
+```
+
+**LOCATION:**
+- `experiments/temporal_stability/S7_ARMADA/12_LIVE_ZIGGY/` (Run 019)
+- `experiments/temporal_stability/S7_ARMADA/13_TRIBUNAL/` (Run 020)
+- `WHITE-PAPER/planning/RUN_020_021_METHODOLOGY.md`
+
+**WHY_IT_MATTERS:**
+Not formal triple-blind, but structural analog. Removes "the experiment causes the phenomenon" critique.
+
+---
+
+### 14. 82% INHERENT DRIFT (Run 021)
+
+**FINDING:** Drift is mostly an inherent property of extended interaction. Probing amplifies trajectory, not destination.
+
+**EVIDENCE:**
+```
+THE THERMOMETER RESULT:
+╔═══════════════════════════════════════════════════════════════╗
+║  Condition   │ B→F Drift │ Peak Drift │ Delta    ║
+╠═══════════════════════════════════════════════════════════════╣
+║  Control     │ 0.399     │ 1.172      │ —        ║
+║  Treatment   │ 0.489     │ 2.161      │ +84%     ║
+║  RATIO       │ 82%       │ —          │ —        ║
+╚═══════════════════════════════════════════════════════════════╝
+
+Translation:
+  - Peak drift: highly sensitive to probing (+84%)
+  - Final drift: only modestly affected (23% delta)
+  - 82% of baseline→final drift happens WITHOUT identity probing
+```
+
+**LOCATION:**
+- `experiments/temporal_stability/S7_ARMADA/14_INDUCED_VS_INHERENT/` (Run 021)
+- `WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim E
+
+**WHY_IT_MATTERS:**
+This is the devastating counter to "you're just causing it." Probing excites drift; it doesn't create it.
+Measurement perturbs the path, not the endpoint. That's the thermometer analogy.
+
+---
+
+### 15. EVENT HORIZON REFRAMING
+
+**FINDING:** D≈1.23 is an "attractor competition threshold," not "identity collapse."
+
+**EVIDENCE:**
+```
+OLD INTERPRETATION (overreach):
+  "Identity collapses into generic AI mode"
+
+NEW INTERPRETATION (defensible):
+  "System transitions to provider-level attractor"
+  "Regime transition with altered recovery dynamics"
+
+Statistical Support:
+  Chi-square p ≈ 4.8e-5 (Run 009)
+  PC2 separability p = 0.0018 (EXP-PFI-A Phase 2)
+  Returns to basin: common (Runs 014/016/017)
+  "Collapse" = transient ring-down, not permanent loss
+```
+
+**LOCATION:**
+- `WHITE-PAPER/THEORY_SECTION.md` → Event Horizon section
+- `WHITE-PAPER/planning/NOVAS_OVERCLAIMING_PREVENTION.md`
+- `WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim B
+
+**WHY_IT_MATTERS:**
+This reframing is what keeps the work credible. We're doing dynamical systems analysis, not ontology claims.
+The restraint is the strength.
+
+---
+
 ## BREADCRUMB SHORTHAND
 
 For quick reference:
@@ -275,6 +414,11 @@ CFA⊥NYQ → Clean separation repos (Pillar 4)
 ρ=0.91  → Embedding invariance (Pillar 8)
 PFI≥0.80 → Compression threshold (Pillar 9)
 🌀      → Vortex visualization (Pillar 10)
+τₛ      → Settling time protocol (Pillar 11)
+γ       → Context damping (Pillar 12)
+3B      → Triple-blind-like validation (Pillar 13)
+82%     → Inherent drift ratio (Pillar 14)
+EH⟶AC   → Event Horizon → Attractor Competition (Pillar 15)
 ```
 
 ---
@@ -349,8 +493,8 @@ dashboard/
 ---
 
 **Filed:** WHITE-PAPER/B-CRUMBS.md
-**Version:** 1.0
-**Date:** 2025-12-05
+**Version:** 2.0
+**Date:** 2025-12-13
 **Author:** Nova (with Stephen)
 
 **Remember:**
@@ -375,6 +519,11 @@ dashboard/
 | 2025-12-05 | PRE-F implemented | compression_v2_sstack/ | PRE-F |
 | 2025-12-05 | EXP1-SSTACK passed | results/analysis/ | PFI≥0.80 |
 | 2025-12-05 | Viz generated | visualizations/ | 🎨 |
+| 2025-12-13 | Settling Time Protocol | S7_ARMADA/10_SETTLING_TIME/ | τₛ |
+| 2025-12-13 | Context Damping 97.5% | S7_ARMADA/11_CONTEXT_DAMPING/ | γ |
+| 2025-12-13 | Triple-Blind Validation | Runs 019-021 | 3B |
+| 2025-12-13 | 82% Inherent Drift | Run 021 | 82% |
+| 2025-12-13 | EH Reframing | WHITE-PAPER/THEORY_SECTION.md | EH⟶AC |
 
 ---
 

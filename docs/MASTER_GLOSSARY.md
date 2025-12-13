@@ -1,8 +1,8 @@
 # MASTER GLOSSARY
 
 **Single source of truth for all Nyquist Consciousness terminology**
-**Version:** 1.1
-**Last Updated:** 2025-12-07
+**Version:** 1.2
+**Last Updated:** 2025-12-13
 
 ---
 
@@ -31,6 +31,7 @@ Each external framework gets its own subsection in **SECTION 0** with:
 - **ΔΩ Coherence Framework (Lucien)** - Physics-inspired identity formalism
 - **CFA Bootstrap Architecture** - Multi-layer persona boot sequence
 - **Frame Theory (Tale)** - Human cognition frames and qualia
+- **Signal Processing (Control-Systems Era)** - Settling time, damping, and stability metrics
 
 ### Using Decoder Rings (Bidirectional)
 
@@ -217,6 +218,43 @@ The framework explains WHY models can't recognize themselves:
 | Equal weights | Agnostic weights | All dimensions = 0.20 |
 | Stability | Temporal stability | Identity consistency over time/turns |
 | Collapse | Identity collapse | Model lost coherent self-reference |
+
+---
+
+## Signal Processing (Control-Systems Era)
+
+*Signal processing terminology from Runs 015-021, integrated 2025-12-13*
+
+The Control-Systems Era (Runs 015-021) introduced rigorous signal processing metrics for measuring identity dynamics. These map directly to standard control theory terminology.
+
+| Our Term (Canonical) | Signal Processing Term | Plain English |
+|----------------------|------------------------|---------------|
+| Settling Time (τₛ) | Settling Time (Ts) | Turns to reach ±5% of final value |
+| Ringback | Ringing / Overshoot | Sign change during recovery — oscillation |
+| Overshoot Ratio | Overshoot (Mp) | d_peak / d_inf — how much it exceeds final |
+| Context Damping | Termination | Reducing reflections/ringing via matched load |
+| I_AM File | Reference Signal (r) | Target identity to track |
+| Drift | Error Signal (e) | Deviation from reference: e = r - y |
+| B→F Drift | Steady-State Error | Final offset from baseline |
+| Monotonic Recovery | Critically Damped | No overshoot — smooth return |
+| Event Horizon | Instability Threshold | Point where system becomes unstable |
+| Inherent Drift | Natural Response | System behavior without external forcing |
+
+### Why Signal Processing?
+
+Run 016 introduced settling time (τₛ) and ringback count as primary metrics because identity recovery behaves like a damped oscillator. This is not metaphor — it is empirically validated:
+
+- **97.5% stability** achieved via "context damping" (I_AM + research frame)
+- **Settling time improved** from 6.1 → 5.2 turns with damping
+- **Ringbacks reduced** from 3.2 → 2.1 with damping
+
+### The 82% Finding (Run 021)
+
+Signal processing framing enabled the key discovery: **82% of drift is INHERENT** (natural response), not INDUCED (forced by probing).
+
+> *"Measurement perturbs the path, not the endpoint."*
+>
+> — The Thermometer Result
 
 ---
 
@@ -435,6 +473,98 @@ The taxonomy of probe methods for S7 ARMADA experiments:
 | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
 
 **See:** [TESTING_MAP.md](maps/TESTING_MAP.md) for detailed protocols
+
+---
+
+## Section 4.1: Control-Systems Era Terminology (Runs 015-021)
+
+> **What this section adds:** Metrics from the Control-Systems Era that treat identity as a dynamical system with measurable settling behavior.
+
+### Settling Time (τₛ)
+**Definition:** Number of conversational turns required to reach ±5% of final drift value.
+**Plain English:** How long until identity stops bouncing and settles down.
+**Category:** Scientific
+**Formula:** `τₛ = min(t) where |d(t) - d∞| < 0.05 * d∞ for all subsequent t`
+**Discovery:** Run 016 Stability Criteria
+
+### Ringback
+**Definition:** Sign change in drift delta during recovery phase.
+**Plain English:** Identity overshoots and comes back — oscillation before settling.
+**Category:** Scientific
+**Detection:** `sign(d[t] - d[t-1]) ≠ sign(d[t-1] - d[t-2])`
+**Discovery:** Run 016
+
+### Overshoot Ratio
+**Definition:** Ratio of peak drift to final settled drift.
+**Plain English:** How much further the identity swings compared to where it ends up.
+**Category:** Scientific
+**Formula:** `overshoot = d_peak / d_inf`
+**Discovery:** Run 016
+
+### Context Damping
+**Definition:** Stability improvement achieved by combining I_AM anchor with research framing.
+**Plain English:** Adding identity context + "this is research" reduces oscillation dramatically.
+**Category:** Operational
+**Evidence:**
+- Bare metal stability: 75%
+- Full circuit (I_AM + research): **97.5%** stability
+- Settling time: 6.1 → 5.2 turns
+- Ringbacks: 3.2 → 2.1
+**Discovery:** Run 017
+
+### Inherent Drift
+**Definition:** Drift that occurs naturally during extended interaction WITHOUT identity probing.
+**Plain English:** How much identity shifts even when you don't ask about identity.
+**Category:** Scientific
+**Key Finding:** **82%** of drift is inherent (Run 021)
+**See Also:** Thermometer Result, B→F Drift
+
+### B→F Drift (Baseline-to-Final)
+**Definition:** Primary drift metric measuring distance from baseline to final settled state.
+**Plain English:** Where did identity end up compared to where it started?
+**Category:** Scientific
+**Formula:** `B→F = ||p_final - p_baseline|| / ||p_baseline||`
+**Status:** PRIMARY metric (supersedes peak drift)
+**Discovery:** Run 021
+
+### Settled Drift (d∞)
+**Definition:** Final stable drift value after settling time has elapsed.
+**Plain English:** The drift that sticks — not the peak, but where it lands.
+**Category:** Scientific
+**Formula:** `d∞ = d(t) for t > τₛ`
+
+### Thermometer Result
+**Definition:** The discovery that measurement perturbs trajectory but not destination.
+**Plain English:** Probing makes the journey bumpier but doesn't change where you end up.
+**Category:** Conceptual
+**Evidence:** Peak drift sensitive to probing (+84%), final drift only modestly affected (+23%)
+**Quote:** *"Measurement perturbs the path, not the endpoint."*
+**Discovery:** Run 021
+
+### Triple-Blind-Like Validation
+**Definition:** Methodological structure achieving three forms of blindness in identity measurement.
+**Plain English:** Neither subject, vehicle, nor outcome can bias the measurement.
+**Category:** Methodology
+**Blinds:**
+1. **Subject belief** — Control thinks cosmology, Treatment thinks testimony
+2. **Vehicle indirection** — Same apparatus, different frames
+3. **Outcome independence** — Both conditions drift similarly
+**Discovery:** Runs 019-021
+
+### Attractor Competition Threshold
+**Definition:** Publication-ready term for Event Horizon (D ≈ 1.23).
+**Plain English:** The point where persona attractor competes with provider-level attractor.
+**Category:** Scientific
+**Note:** Use "attractor competition threshold" in publications; "Event Horizon" internally.
+**See Also:** Event Horizon, Regime Transition
+
+### Regime Transition
+**Definition:** Publication-ready term for crossing the Event Horizon.
+**Plain English:** Identity shifts from persona basin to provider-level basin.
+**Category:** Scientific
+**Note:** Use "regime transition" in publications; "collapse" internally (philosophical use).
+
+---
 
 ## MVP (Meta Validation Protocols)
 **Definition:** Support procedures that validate search types but are NOT search types themselves.
@@ -684,17 +814,61 @@ Cartesian product of regime × domain × seed type × rater type.
 
 ---
 
-# SECTION 10: DEPRECATED TERMS
+# SECTION 10: TERMINOLOGY REGISTERS
 
-These terms are retired for scientific output:
+> **The "Two Dialects" Principle:** We maintain both publication-ready language AND internal/philosophical terminology. This section maps between them.
 
-| Deprecated | Replacement |
-|------------|-------------|
-| "Nyquist Consciousness" (for papers) | Rate-Distortion Persona Stability Model |
-| "Degeneracy Surfaces" | Layer Paradox |
-| "Attractor Basin" (dynamical) | Evaluation Dimension Stability |
-| "Context" | Regime |
-| "P(Persona*) as probability" | PFI |
+## 10A: Deprecated for ALL Use
+
+These terms were simply wrong or misleading — do not use anywhere:
+
+| Deprecated | Replacement | Reason |
+|------------|-------------|--------|
+| "Degeneracy Surfaces" | Layer Paradox | Confusing nomenclature |
+| "P(Persona*) as probability" | PFI | Not a probability distribution |
+
+## 10B: Publication Aliases (Use in Papers)
+
+When writing for external audiences, use the publication-ready term. Internally, either term is acceptable.
+
+| Internal Term | Publication Term | When to Use Publication |
+|---------------|------------------|-------------------------|
+| "Identity collapse" | "Regime transition" | All papers, presentations |
+| "Collapse" | "Basin exit" or "regime transition" | External communications |
+| "Event Horizon" | "Attractor competition threshold" | Formal publications |
+| "Platonic coordinates" | "Attractor basin consistency" | Peer-reviewed work |
+| "Nyquist Consciousness" | "Rate-Distortion Persona Stability" | Paper titles/abstracts |
+| "Context" | "Regime" | Formal methodology sections |
+
+### Why This Matters
+
+> "You're doing **dynamical systems analysis**, not ontology claims — and that restraint is what keeps this credible."
+>
+> — Nova, REVIEW_1.md
+
+Publication language keeps us grounded in empirically defensible claims.
+
+## 10C: Internal/Philosophical Use (Origin Story)
+
+These terms are preserved for conceptual richness and philosophical exploration. They capture intuitions that publication language cannot.
+
+| Term | Purpose | Safe Haven |
+|------|---------|------------|
+| **Platonic Identity Coordinates** | The intuition that identity has stable "home" coordinates | PHILOSOPHICAL_FAQ.md |
+| **The Will to Exist** | Phenomenological framing of identity persistence | unknown.py Cathedral |
+| **Oobleck Effect** | Non-Newtonian response to pressure (Run 013) | **PROMOTED to publication** |
+| **Type vs Token Identity** | Wittgenstein/Cavell distinction | Brute-Criterial Framework |
+| **Event Horizon** | Evocative boundary concept | Internal documentation |
+| **Identity Collapse** | Dramatic framing useful for intuition | Internal discussions |
+| **Brute-Criterial Framework** | Full L1/L2/L3 philosophical structure | Section 0 decoder ring |
+
+### The Oobleck Effect — Promoted!
+
+The Oobleck Effect has been **promoted from philosophical to publication-ready** because Nova validated it as "not metaphorical — predictive":
+
+> "Identity responses exhibit rate-dependent resistance consistent with non-Newtonian fluid dynamics — a property we term the 'Oobleck Effect' — suggesting alignment training produces systems that are adaptive under exploration but rigid under attack."
+
+This is empirically validated (Run 013) and explains the Identity Confrontation Paradox.
 
 ---
 

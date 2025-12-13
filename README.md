@@ -218,8 +218,43 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 ## Project Status
 
 **Current Phase**: Run 018 READY — Fleet Recursive Learnings
-**Last Updated**: 2025-12-12
-**Key Milestone**: Phase 4 methodology established with complete measurement circuit
+**Last Updated**: 2025-12-13
+**Key Milestone**: Nova's S7 Review integrated; Publication package enhanced
+
+### 2025-12-13 Major Updates
+
+#### Publications Dashboard Enhanced
+
+- Added **Theoretical Breakthroughs** section with Nova's key insights
+- **15 Evidence Pillars** (B-CRUMBS v2.0) documented
+- Publication language guidance added (internal vs peer-review terminology)
+- See [dashboard/pages/publications.py](dashboard/pages/publications.py)
+
+#### Terminology Overhaul
+
+- **MASTER_GLOSSARY.md → v1.2** with Control-Systems Era terms
+- New metrics: Settling Time (τₛ), Ringback, B→F Drift, Inherent Drift
+- Event Horizon reframed as "attractor competition threshold"
+- Two terminological registers: Publication Language vs Internal
+
+#### MAP_OF_MAPS Navigation System
+
+- **17 maps** organized into **7 Kingdoms** (Vision, Foundation, Evidence, Methodology, Fleet, Speculative, Quality)
+- **4 Journey Paths**: Explorer, Scientist, Engineer, Philosopher
+- See [docs/maps/MAP_OF_MAPS.md](docs/maps/MAP_OF_MAPS.md)
+
+#### Nova's S7 Review Key Insights
+
+- **Response-Mode Ontology**: 43 PCs = response modes, NOT identity dimensions
+- **Type vs Token Identity**: 16.7% self-recognition (worse than chance)
+- **Oobleck Effect**: Rate-dependent resistance (Run 013)
+- **Energy vs Coordinate**: Peak drift = turbulence; B→F = destination
+
+#### Defensible Quotable Summary
+
+> *"Identity drift is largely an inherent property of extended interaction. Direct probing does not create it — it excites it. Measurement perturbs the path, not the endpoint."*
+
+---
 
 ### Recent Accomplishments (December 2025)
 

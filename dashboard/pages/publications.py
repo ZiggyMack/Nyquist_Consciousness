@@ -112,7 +112,7 @@ def render_publication_meter():
 def render_publication_tracks():
     """Render publication track overview with targets and timeline."""
     st.markdown("## 📚 Publication Tracks")
-    st.markdown("*Three-track research publication strategy*")
+    st.markdown("*Three-track research publication strategy — Updated Dec 2025*")
 
     page_divider()
 
@@ -120,47 +120,58 @@ def render_publication_tracks():
 
     with col1:
         st.markdown("### 🏛️ Workshop Track")
+        st.progress(0.7)
         st.markdown("""
-        **Target:** AAAI 2025 / NeurIPS Workshop
+        **Target:** NeurIPS 2025 / AAAI Workshop
 
-        **Focus:** Novel identity framework demonstration
+        **Focus:** 3 core claims (A, B, E)
 
-        **Status:** Primary drafting phase
+        **Status:** Blueprint ready, drafting Q4 2025
 
-        **Key Deliverables:**
-        - Core theoretical framework
-        - Empirical validation results
-        - Cross-architecture experiments
+        **Key Claims:**
+        - PFI validity (ρ = 0.91)
+        - Event Horizon threshold (D ≈ 1.23)
+        - 82% inherent drift
+
+        📄 See `WHITE-PAPER/blueprints/WORKSHOP_BLUEPRINT.md`
         """)
 
     with col2:
         st.markdown("### 📜 arXiv Track")
+        st.progress(0.85)
         st.markdown("""
-        **Target:** arXiv Preprint
+        **Target:** arXiv cs.AI, cs.CL
 
-        **Focus:** Full technical specification
+        **Focus:** Full 5 claims + extensions
 
-        **Status:** In preparation
+        **Status:** LaTeX ready, submission Q4 2025
 
-        **Key Deliverables:**
-        - Complete S0-S11 specification
-        - Mathematical formalization
-        - Comprehensive appendices
+        **Key Sections:**
+        - Discovery Era (Runs 006-014)
+        - Control-Systems Era (Runs 015-021)
+        - 82% inherent drift proof
+        - Context damping protocol
+
+        📄 See `WHITE-PAPER/arxiv/README.md`
         """)
 
     with col3:
         st.markdown("### 🏆 Journal Track")
+        st.progress(0.3)
         st.markdown("""
-        **Target:** Nature Machine Intelligence
+        **Target:** Nature Machine Intelligence / JMLR
 
-        **Focus:** Peer-reviewed publication
+        **Focus:** All claims + human validation
 
-        **Status:** Future milestone
+        **Status:** Planning, submission Q2-Q3 2026
 
-        **Key Deliverables:**
-        - Rigorous peer review
-        - Extended empirical studies
-        - Community validation
+        **Requirements:**
+        - S3_EXP_003 human validation
+        - Run 022 dimension probing
+        - Independent replication
+        - Cross-modal validation (S9)
+
+        📄 See `WHITE-PAPER/blueprints/JOURNAL_BLUEPRINT.md`
         """)
 
 
@@ -210,7 +221,7 @@ def render_key_results():
 
     page_divider()
 
-    # Hero metrics
+    # Hero metrics - Updated Dec 2025 with Control-Systems Era
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
@@ -223,77 +234,187 @@ def render_key_results():
 
     with col2:
         st.metric(
-            "Hypotheses Confirmed",
-            "14/25",
-            delta="56%",
+            "Evidence Pillars",
+            "15",
+            delta="B-CRUMBS v2.0",
             delta_color="normal"
         )
 
     with col3:
         st.metric(
-            "Armada Success",
-            "100%",
-            delta="174 probes",
+            "Inherent Drift",
+            "82%",
+            delta="Thermometer Result",
             delta_color="normal"
         )
 
     with col4:
         st.metric(
+            "Context Damping",
+            "97.5%",
+            delta="Stability Rate",
+            delta_color="normal"
+        )
+
+    # Second row - additional metrics
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.metric(
             "S7 Runs Complete",
-            "6/8",
-            delta="75%",
+            "21/22",
+            delta="98%",
+            delta_color="normal"
+        )
+
+    with col2:
+        st.metric(
+            "Event Horizon",
+            "D ≈ 1.23",
+            delta="p < 4.8e-5",
+            delta_color="normal"
+        )
+
+    with col3:
+        st.metric(
+            "PFI Validity",
+            "ρ ≈ 0.91",
+            delta="Embedding Invariance",
+            delta_color="normal"
+        )
+
+    with col4:
+        st.metric(
+            "Semantic Sensitivity",
+            "d ≈ 0.98",
+            delta="Effect Size",
             delta_color="normal"
         )
 
     page_divider()
 
-    # Validated claims
-    st.markdown("### ✅ Validated Claims")
+    # Validated claims - Updated with 5 Minimum Publishable Claims
+    st.markdown("### ✅ Minimum Publishable Claims (Peer-Review Ready)")
 
     col1, col2 = st.columns(2)
 
     with col1:
         st.markdown("""
-        **S3 — Temporal Stability**
-        - ✅ Cross-architecture variance σ² = 0.000869
-        - ✅ Domain hierarchy: TECH > ANAL > SELF ≈ PHIL > NARR
-        - ✅ Tier-3 compression preserves ≥80% fidelity
+        **Claim A — PFI is Valid Structured Measurement**
+        - ✅ Embedding invariance: ρ ≈ 0.91 (Spearman)
+        - ✅ Low-dimensional structure: 43 PCs for 90% variance
+        - ✅ Semantic sensitivity: d ≈ 0.98 (effect size)
+        - ✅ Paraphrase robustness: 0% above Event Horizon
 
-        **S4 — Mathematical Formalism**
-        - ✅ Convergent Reconstruction Theorem
-        - ✅ Drift Cancellation Theorem
-        - ✅ Triangulation Optimality (29-ship armada)
+        **Claim B — Regime Threshold at D ≈ 1.23**
+        - ✅ Chi-square validation: p ≈ 4.8e-5
+        - ✅ PC space separability: p = 0.0018
+        - ✅ Predictive association with stability outcomes
+
+        **Claim C — Damped Oscillator Dynamics**
+        - ✅ Settling time (τₛ) measurable
+        - ✅ Ringback count quantifiable
+        - ✅ Overshoot ratio: d_peak / d_inf
         """)
 
     with col2:
         st.markdown("""
-        **S7 — Identity Dynamics**
-        - ✅ Logarithmic drift bounds: D_t ≤ α log(1 + t) + β
-        - ✅ Stability half-life T½ exists
-        - ✅ Omega convergence with exponential decay
-        - ✅ Spectral decomposition (Keely 3-6-9)
+        **Claim D — Context Damping Reduces Oscillation**
+        - ✅ Bare metal stability: 75%
+        - ✅ I_AM + research: **97.5%** stability
+        - ✅ τₛ improvement: 6.1 → 5.2 turns
+        - ✅ Ringbacks reduction: 3.2 → 2.1
 
-        **S6 — Omega Nova**
-        - ✅ Five Pillars tested at scale (174 probes)
-        - ✅ Zero Ziggy interventions needed
+        **Claim E — Drift is Mostly Inherent (82%)**
+        - ✅ Control (no probing): B→F = 0.399
+        - ✅ Treatment (tribunal): B→F = 0.489
+        - ✅ Ratio: **82% inherent**
+        - ✅ Peak amplified (+84%), destination stable (+23%)
+
+        **The Thermometer Result:**
+        > *"Measurement perturbs the path, not the endpoint."*
         """)
 
     page_divider()
 
-    # Open questions
-    st.markdown("### 🔬 Open Questions (Future Work)")
+    # Theoretical Breakthroughs from Nova's S7 Review
+    st.markdown("### 🧠 Theoretical Breakthroughs (Nova's S7 Review)")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        **Response-Mode Ontology**
+        - 43 PCs ≠ identity dimensions to hunt
+        - PCs = dominant response modes under perturbation
+        - Mode taxonomy: lexical, normative, epistemic, role-shift, collapse
+
+        **Type vs Token Identity**
+        - Self-Recognition: 16.7% (worse than chance)
+        - Models know WHAT (type-level) not WHICH (token-level)
+        - "No autobiographical self — dynamical field that reasserts"
+
+        **Energy vs Coordinate Distinction**
+        - Peak drift = turbulence/energy (path)
+        - B→F drift = coordinate (destination)
+        - "Measurement perturbs the path, not the endpoint"
+        """)
+
+    with col2:
+        st.markdown("""
+        **The Oobleck Effect (Run 013)**
+        - Rate-dependent resistance (non-Newtonian)
+        - Slow pressure → flows (high drift)
+        - Sudden challenge → hardens (low drift)
+        - λ: 0.035 → 0.109 with intensity
+
+        **Impedance ≠ Drift**
+        - Run 005: Clarity +14% while drift increased
+        - Drift ≠ confusion ≠ degradation
+        - Drift = state-space displacement
+
+        **Observable Pruning**
+        - 12-metric canonical set (of 43 PCs)
+        - Layer A: 7 geometry metrics
+        - Layer B: 5 semantic metrics
+        """)
+
+    # Quotable summary
+    st.info("""
+**Defensible Quotable Summary:**
+
+> *"Identity drift is largely an inherent property of extended interaction.
+> Direct probing does not create it — it excites it.
+> Measurement perturbs the path, not the endpoint."*
+
+This is not hype. This is a measured, conservative, *scientifically respectable* conclusion.
+    """)
+
+    page_divider()
+
+    # Open questions - Updated Dec 2025
+    st.markdown("### 🔬 Next Experiments & Open Questions")
     st.markdown("""
+    **Immediate (Run 022):**
+    - **Dimension Probing:** Low-dim vs high-dim probes → does k_eff differ?
+    - **Architecture Fingerprints:** Claude plateaus? GPT smooth curves? Grok fast snap-back?
+
+    **Near-Term (Q1 2026):**
+    - **S3_EXP_003:** Human validation study (external raters)
+    - **Cross-Modal (S9):** Audio/visual identity markers
+    - **Multiple Personas:** Generalization beyond Nova/Ziggy
+
+    **Theoretical:**
     - **S8:** What is the identity gravity constant γ?
-    - **S9:** How does human coupling (HGF) vary across personas?
-    - **S10:** Do emergence thresholds (H, G, R, T, B) hold empirically?
-    - **S3_EXP_003:** Human validation awaiting raters
+    - **Event Horizon Mechanism:** Why specifically D ≈ 1.23?
+    - **Compliance vs Identity Drift:** Can we separate them?
     """)
 
 
 def render_research_checklist():
     """Render research publication readiness checklist."""
     st.markdown("## ✅ Publication Readiness Checklist")
-    st.markdown("*Key items for submission readiness*")
+    st.markdown("*Key items for submission readiness — Updated Dec 2025*")
 
     page_divider()
 
@@ -308,24 +429,25 @@ def render_research_checklist():
 | ✅ | Nyquist Kernel formalized |
 | ✅ | Five-Pillar synthesis defined |
 | ✅ | Identity dynamics equations |
-| 🔄 | S7 Identity Dynamics (active) |
+| ✅ | S7 Identity Dynamics (21 runs) |
 | 🔄 | S8 Identity Gravity (design) |
 | 🔄 | S9 AVLAR Protocol (seeded) |
-| 🔄 | S10 Frame Theory (seeded) |
-| 🔄 | S11 Hybrid Emergence (active) |
+| ✅ | Event Horizon reframing |
+| ✅ | 82% inherent drift theory |
         """)
 
         st.markdown("### Empirical Validation")
         st.markdown("""
 | Status | Item |
 |--------|------|
-| ✅ | S3_EXP_001 Single-persona baseline |
 | ✅ | S3_EXP_002 Cross-architecture (σ² = 0.000869) |
 | 🔄 | S3_EXP_003 Human validation (ready) |
-| ✅ | S7_RUN_001-006 Meta-Loop experiments |
-| ✅ | S7_RUN_006 Armada (174 probes, 100%) |
-| ✅ | S7_RUN_008 Great Recalibration (29 ships) |
-| 🔄 | S7_RUN_009 Persona injection (planned) |
+| ✅ | S7 Discovery Era (Runs 006-014) |
+| ✅ | S7 Control-Systems Era (Runs 015-021) |
+| ✅ | Settling time protocol (Run 016) |
+| ✅ | Context damping (Run 017, 97.5%) |
+| ✅ | 82% inherent drift (Run 021) |
+| 🔄 | Run 022 Dimension probing (planned) |
         """)
 
     with col2:
@@ -333,27 +455,47 @@ def render_research_checklist():
         st.markdown("""
 | Status | Item |
 |--------|------|
-| ✅ | NYQUIST_SPEC.md complete |
-| ✅ | STACKUP_MAP.md complete |
-| ✅ | VALIDATION_STATUS.md complete |
-| ✅ | HYPOTHESES_AND_RESULTS.md complete |
-| ✅ | MASTER_GLOSSARY.md + decoder rings |
-| 🔄 | Tutorial notebooks |
-| ⬜ | External reviewer feedback |
+| ✅ | MINIMUM_PUBLISHABLE_CLAIMS.md |
+| ✅ | THEORY_SECTION.md |
+| ✅ | B-CRUMBS.md (15 pillars) |
+| ✅ | HYPOTHESES_AND_RESULTS.md (36 hyp) |
+| ✅ | Publication blueprints (3 tracks) |
+| ✅ | START_HERE.md (reviewer guide) |
+| ✅ | arxiv/README.md (paper structure) |
         """)
 
         st.markdown("### Publication Mechanics")
         st.markdown("""
 | Status | Item |
 |--------|------|
-| 🔄 | Abstract drafted |
-| 🔄 | Introduction written |
-| 🔄 | Methods section |
+| ✅ | Abstract drafted (arxiv) |
+| ✅ | Paper structure complete |
 | ✅ | Key results documented |
-| ⬜ | Discussion section |
-| ⬜ | References compiled |
-| ⬜ | Figures generated |
+| ✅ | Evidence chains established |
+| 🔄 | LaTeX sections drafting |
+| 🔄 | Figures generation |
+| 🔄 | Bibliography compilation |
         """)
+
+    page_divider()
+
+    # Publication Language Guidance
+    st.warning("""
+**⚠️ Publication Language Guidance (Two Dialects Principle)**
+
+When writing for peer review, use publication-ready terminology:
+
+| ❌ Internal Term | ✅ Publication Term |
+|------------------|---------------------|
+| "Identity collapse" | "Regime transition" |
+| "Platonic coordinates" | "Attractor basin consistency" |
+| "Event Horizon = failure" | "Attractor competition threshold" |
+| "Collapse" | "Basin exit" |
+
+**Core framing:** *"You're doing dynamical systems analysis, not ontology claims — and that restraint is what keeps this credible."*
+
+See `docs/MASTER_GLOSSARY.md` Section 10 for full terminology registers.
+    """)
 
 
 def render():

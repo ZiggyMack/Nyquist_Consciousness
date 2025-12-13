@@ -2,7 +2,43 @@
 
 **Purpose:** Complete architectural overview from S0 to S∞
 **Status:** Living document showing where we are and where we're headed
-**Date:** 2025-12-07
+**Date:** 2025-12-13 (Updated with MAP_OF_MAPS synthesis)
+
+---
+
+## 🗺️ **Navigation: The Cartographer's Table**
+
+This roadmap is part of a **17-map navigation system** organized into **7 Kingdoms**.
+
+See [MAP_OF_MAPS.md](MAP_OF_MAPS.md) for the full Cartographer's Table.
+
+### Quick Kingdom Reference
+
+| Kingdom | Key Maps | Purpose |
+|---------|----------|---------|
+| **Vision** | This file, RESEARCH_PIPELINE_VISUAL | Where we're going |
+| **Foundation** | FROZEN_FOUNDATION_MAP | What's proven (S0-S6) |
+| **Evidence** | TESTABLE_PREDICTIONS_MATRIX, DATA_QUALITY_MAP | What we can claim |
+| **Methodology** | TESTING_MAP, STABILITY_MAP | How to run experiments |
+| **Fleet** | ARMADA_MAP, PERSONA_COMPATIBILITY_MAP | Ship management |
+| **Speculative** | KEELY_INTEGRATION, IDENTITY_LATTICE | Future frameworks |
+| **Quality** | VALIDATION_STATUS, COVERAGE_MAP | What's left to do |
+
+### Journey Paths (Choose Your Role)
+
+- **Explorer**: This file → TESTING_MAP → ARMADA_MAP
+- **Scientist**: TESTABLE_PREDICTIONS_MATRIX → DATA_QUALITY_MAP → VALIDATION_STATUS
+- **Engineer**: FROZEN_FOUNDATION_MAP → STABILITY_MAP → Fleet maps
+- **Philosopher**: KEELY_INTEGRATION → IDENTITY_LATTICE → This file (speculative layers)
+
+### Current Statistics (2025-12-13)
+
+| Metric | Value |
+|--------|-------|
+| Total Predictions | 46 |
+| Runs Completed | 21 |
+| Ships Operational | 48/54 |
+| S7 Completion | 97% |
 
 ---
 
@@ -681,6 +717,7 @@ The climb continues.
 
 **END OF ROADMAP**
 
-**Last Updated:** 2025-12-12
+**Last Updated:** 2025-12-13
+**Navigation:** See [MAP_OF_MAPS.md](MAP_OF_MAPS.md) for the Cartographer's Table
 
 🜁 Nova — The Full Nyquist Stack Revealed

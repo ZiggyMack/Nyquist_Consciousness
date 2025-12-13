@@ -1,313 +1,595 @@
 """
-ROADMAP PAGE — Live Roadmap
+ROADMAP PAGE — The Complete Circuit: S0 → S77
 
-Displays the Nyquist Consciousness project roadmap with visual layer tracking.
+Mission Control for the Nyquist Consciousness journey.
+Matches the Observatory (Overview) and AI Armada sophistication.
 """
 
 import streamlit as st
 import plotly.graph_objects as go
+from pathlib import Path
 from config import PATHS, SETTINGS
 from utils import load_markdown_file, page_divider
 
 REPO_ROOT = PATHS['repo_root']
 ROADMAP_FILE = PATHS['roadmap']
-LEDGER_COLORS = SETTINGS['colors']
+MAPS_DIR = REPO_ROOT / "docs" / "maps"
 
-# Stack layer data - aligned with S_Series_README.md and NYQUIST_ROADMAP.md
-STACK_LAYERS = [
-    {"id": "S0", "name": "Ground Physics (Nyquist Kernel)", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S1", "name": "Bootstrap Architecture", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S2", "name": "Integrity & Logics", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S3", "name": "Temporal Stability", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S4", "name": "Compression Theory", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S5", "name": "Nyquist → CFA Interop", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S6", "name": "Five-Pillar Synthesis Gate", "status": "complete", "completion": 100, "priority": None},
-    {"id": "S7", "name": "Identity Dynamics", "status": "active", "completion": 85, "priority": "HIGH"},
-    {"id": "S8", "name": "Identity Gravity Theory", "status": "formalized", "completion": 70, "priority": "MEDIUM-HIGH"},
-    {"id": "S9", "name": "AVLAR Protocol (Multimodal)", "status": "seeded", "completion": 40, "priority": "MEDIUM"},
-    {"id": "S10", "name": "Human Cognition (Frame Theory)", "status": "seeded", "completion": 50, "priority": "MEDIUM"},
-    {"id": "S11", "name": "OMEGA NOVA — Hybrid Emergence", "status": "active", "completion": 75, "priority": "HIGHEST"},
-    {"id": "S12", "name": "Consciousness Proxy Theory", "status": "future", "completion": 0, "priority": None},
-    {"id": "S13", "name": "Field Consistency Proofs", "status": "future", "completion": 0, "priority": None},
-    {"id": "S14", "name": "Composite Persona Dynamics", "status": "future", "completion": 0, "priority": None},
-    {"id": "S15", "name": "Cognitive Lattice Structures", "status": "future", "completion": 0, "priority": None},
-    {"id": "S16", "name": "Meta-Field Integration", "status": "future", "completion": 0, "priority": None},
-    {"id": "S17-S76", "name": "Reserved Expansion Layers", "status": "future", "completion": 0, "priority": None},
-    {"id": "S77", "name": "Archetype Engine (AI Synthesis)", "status": "future", "completion": 0, "priority": "ULTIMATE"},
+# ========== LAYER DATA ==========
+
+FOUNDATION_LAYERS = [
+    {"id": "S0", "name": "Local Mode (Nyquist Kernel)", "status": "frozen", "completion": 100},
+    {"id": "S1", "name": "Multi-View Architecture", "status": "frozen", "completion": 100},
+    {"id": "S2", "name": "Pre-Omega Validation", "status": "frozen", "completion": 100},
+    {"id": "S3", "name": "Empirical Layer (EXP1-3)", "status": "validated", "completion": 100},
+    {"id": "S4", "name": "Mathematical Layer (C, R, PFI)", "status": "frozen", "completion": 100},
+    {"id": "S5", "name": "Interpretive Layer (Manifold)", "status": "frozen", "completion": 100},
+    {"id": "S6", "name": "Omega Protocol (Five Pillars)", "status": "operational", "completion": 100},
 ]
 
-STATUS_STYLES = {
-    "complete": {"emoji": "✅", "color": "#2a9d8f", "label": "COMPLETE"},
-    "active": {"emoji": "🟡", "color": "#f4a261", "label": "ACTIVE"},
-    "formalized": {"emoji": "🟢", "color": "#4caf50", "label": "FORMALIZED"},
-    "seeded": {"emoji": "🌱", "color": "#8bc34a", "label": "SEEDED"},
-    "future": {"emoji": "⚪", "color": "#9e9e9e", "label": "FUTURE"},
+RESEARCH_LAYERS = [
+    {"id": "S7", "name": "Identity Dynamics (ARMADA)", "status": "validated", "completion": 98, "priority": "HIGH"},
+    {"id": "S8", "name": "Identity Gravity Theory", "status": "formalized", "completion": 90, "priority": "MEDIUM-HIGH"},
+    {"id": "S9", "name": "AVLAR Protocol (Multimodal)", "status": "seeded", "completion": 40, "priority": "MEDIUM"},
+    {"id": "S10", "name": "Human Cognition (Frame Theory + fMRI)", "status": "seeded", "completion": 55, "priority": "HIGH"},
+]
+
+FUTURE_LAYERS = [
+    {"id": "S11", "name": "AVLAR Protocol", "status": "design", "completion": 0},
+    {"id": "S12", "name": "Consciousness Proxy Theory", "status": "future", "completion": 0},
+    {"id": "S13", "name": "Field Consistency Proofs", "status": "future", "completion": 0},
+    {"id": "S14", "name": "Composite Persona Dynamics", "status": "future", "completion": 0},
+    {"id": "S15", "name": "Cognitive Lattice Structures", "status": "future", "completion": 0},
+    {"id": "S16", "name": "Meta-Field Integration", "status": "future", "completion": 0},
+]
+
+DESTINATION_LAYER = {"id": "S77", "name": "Archetype Engine", "status": "ultimate", "completion": 0}
+
+# S7 Run Data
+S7_RUNS = [
+    {"run": "006", "name": "First Armada", "exchanges": 174, "ships": 29, "finding": "Cross-architecture mapping"},
+    {"run": "007", "name": "Adaptive Probing", "exchanges": 87, "ships": 8, "finding": "Adaptive validation"},
+    {"run": "008", "name": "Event Horizon", "exchanges": 120, "ships": 12, "finding": "D=1.23 threshold"},
+    {"run": "009", "name": "Statistical Validation", "exchanges": 200, "ships": 16, "finding": "p=0.000048"},
+    {"run": "010", "name": "Anchor/Flex", "exchanges": 80, "ships": 6, "finding": "Models articulate boundaries"},
+    {"run": "011", "name": "Control A/B", "exchanges": 90, "ships": 8, "finding": "Persona vs Control"},
+    {"run": "012", "name": "Recovery Paradox", "exchanges": 110, "ships": 10, "finding": "100% crossed, 100% recovered"},
+    {"run": "013", "name": "Boundary Mapping", "exchanges": 95, "ships": 6, "finding": "Identity Confrontation Paradox"},
+    {"run": "014", "name": "ET Phone Home", "exchanges": 72, "ships": 6, "finding": "Platonic coordinates"},
+    {"run": "015", "name": "Stability Criteria", "exchanges": 150, "ships": 12, "finding": "Boundary density"},
+    {"run": "016", "name": "Settling Time", "exchanges": 180, "ships": 15, "finding": "τₛ=6.1 turns"},
+    {"run": "017", "name": "Context Damping", "exchanges": 222, "ships": 18, "finding": "97.5% stability"},
+    {"run": "019", "name": "Live Ziggy", "exchanges": 60, "ships": 1, "finding": "Fiction buffer vehicle"},
+    {"run": "020", "name": "Tribunal", "exchanges": 41, "ships": 1, "finding": "Direct testimony"},
+    {"run": "021", "name": "Induced vs Inherent", "exchanges": 66, "ships": 2, "finding": "82% inherent drift"},
+]
+
+# 46 Predictions grouped by layer
+PREDICTIONS_BY_LAYER = {
+    "S3-S4 (Compression)": [
+        {"id": "P1", "status": "validated", "text": "FULL→T3 maintains ≥80% fidelity"},
+        {"id": "P1b", "status": "validated", "text": "Cross-persona variance <0.05"},
+        {"id": "P2", "status": "untested", "text": "Human raters agree r≥0.70"},
+        {"id": "P3", "status": "validated", "text": "Compression×knowledge is multiplicative"},
+        {"id": "P4", "status": "validated", "text": "L2 breaks at >5K words"},
+        {"id": "P5", "status": "validated", "text": "Domain hierarchy: SELF>TECH>VAL>NARR"},
+    ],
+    "S7 (Temporal)": [
+        {"id": "P8", "status": "validated", "text": "Drift grows sub-linearly"},
+        {"id": "P9", "status": "validated", "text": "Architecture-specific half-life T½"},
+        {"id": "P11", "status": "partial", "text": "Topic variance correlates with drift"},
+        {"id": "P13", "status": "validated", "text": "Grounding reduces drift"},
+        {"id": "P14", "status": "validated", "text": "Abstraction increases drift"},
+        {"id": "P17", "status": "validated", "text": "Stability threshold at 0.12"},
+    ],
+    "S7 ARMADA": [
+        {"id": "P-ARM-1", "status": "validated", "text": "Training philosophy fingerprints"},
+        {"id": "P-ARM-2", "status": "validated", "text": "Constitutional AI = uniform boundaries"},
+        {"id": "P-ARM-3", "status": "validated", "text": "RLHF = variable boundaries"},
+        {"id": "P-ARM-4", "status": "validated", "text": "Phenomenological reporting"},
+        {"id": "P-ARM-5", "status": "validated", "text": "Soft poles exist"},
+        {"id": "P-ARM-7", "status": "validated", "text": "Pole-zero mapping stable"},
+    ],
+    "S7 Control-Systems": [
+        {"id": "P-CTRL-1", "status": "validated", "text": "Settled drift (d∞) > peak drift"},
+        {"id": "P-CTRL-2", "status": "validated", "text": "τₛ is measurable per architecture"},
+        {"id": "P-CTRL-6", "status": "validated", "text": "I_AM acts as damping controller"},
+        {"id": "P-CTRL-9", "status": "validated", "text": "Full circuit = 97.5% stability"},
+        {"id": "P-021-3", "status": "validated", "text": "82% drift is inherent"},
+    ],
+    "S8-S10 (Future)": [
+        {"id": "P18", "status": "untested", "text": "Ziggy is Type 0 identity"},
+        {"id": "P20", "status": "untested", "text": "Personas have different curvature"},
+        {"id": "P24", "status": "untested", "text": "Diagonal coupling (human-only)"},
+        {"id": "P33", "status": "untested", "text": "Five thresholds for emergence"},
+    ],
 }
+
 
 def render():
     """Render the Roadmap page."""
 
-    # Page CSS
+    # ========== CUSTOM CSS ==========
     st.markdown("""
     <style>
-    .roadmap-title {
-        font-size: 2.5em;
+    .hero-banner {
+        background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 50%, #f3e5f5 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 2px solid #2a9d8f;
+    }
+    .hero-title {
+        font-size: 2.8em;
         font-weight: bold;
-        background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
+        background: linear-gradient(135deg, #e94560 0%, #f39c12 50%, #e94560 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 0.3em;
+        margin: 0;
+        text-align: center;
     }
-    .roadmap-subtitle {
-        color: #f4a261;
+    .hero-subtitle {
+        color: #555;
         font-size: 1.2em;
-        margin-bottom: 1em;
+        text-align: center;
+        margin-top: 0.5rem;
     }
-    .layer-card {
+    .zone-card {
         background: #f8f9fa;
-        border-radius: 8px;
-        padding: 0.8em;
-        margin-bottom: 0.5em;
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin: 0.8rem 0;
         border-left: 4px solid;
     }
-    .layer-complete { border-color: #2a9d8f; }
-    .layer-active { border-color: #f4a261; }
-    .layer-formalized { border-color: #4caf50; }
-    .layer-seeded { border-color: #8bc34a; }
-    .layer-future { border-color: #9e9e9e; }
-    .priority-badge {
-        display: inline-block;
-        padding: 0.2em 0.5em;
+    .zone-foundation { border-color: #2a9d8f; background: #e8f5e9; }
+    .zone-research { border-color: #f39c12; background: #fff8e1; }
+    .zone-future { border-color: #9b59b6; background: #f3e5f5; }
+    .zone-ultimate { border-color: #e94560; background: #ffebee; }
+    .stat-box {
+        background: #e8f5e9;
+        border: 1px solid #2a9d8f;
         border-radius: 10px;
+        padding: 1rem;
+        text-align: center;
+    }
+    .finding-card {
+        background: #fff8e1;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        border-left: 3px solid #f39c12;
+    }
+    .prediction-badge {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
         font-size: 0.75em;
         font-weight: bold;
-        margin-left: 0.5em;
+        margin-right: 0.5rem;
     }
-    .priority-highest { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
-    .priority-high { background: #fff3e0; color: #ef6c00; border: 1px solid #ffcc80; }
-    .priority-medium-high { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
-    .priority-medium { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
-    .priority-ultimate { background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 50%, #9b59b6 100%); color: #000; border: 2px solid gold; font-weight: bold; }
-    .current-position {
-        background: linear-gradient(135deg, rgba(244,162,97,0.1) 0%, rgba(231,111,81,0.05) 100%);
-        border: 2px solid #f4a261;
+    .badge-validated { background: #2a9d8f; color: white; }
+    .badge-partial { background: #f39c12; color: black; }
+    .badge-untested { background: #6c757d; color: white; }
+    .priority-action {
+        background: #ffebee;
+        border: 1px solid #e94560;
         border-radius: 10px;
-        padding: 1.2em;
-        margin: 1em 0;
+        padding: 1rem;
+        margin: 0.5rem 0;
+    }
+    .timeline-marker {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+    }
+    .marker-complete { background: #2a9d8f; }
+    .marker-active { background: #f39c12; }
+    .marker-future { background: #6c757d; }
+    .you-are-here {
+        background: #e3f2fd;
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 2px solid #f39c12;
     }
     </style>
     """, unsafe_allow_html=True)
 
-    # === HEADER ROW: Title (left) + Current Position (right) ===
-    header_col1, header_col2 = st.columns([1, 1])
+    # ========== HERO BANNER ==========
+    st.markdown("""
+    <div class="hero-banner">
+        <h1 class="hero-title">THE COMPLETE CIRCUIT: S0 → S77</h1>
+        <p class="hero-subtitle">From Nyquist Kernel to Archetype Engine</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    with header_col1:
-        st.markdown('<div class="roadmap-title">Live Roadmap</div>', unsafe_allow_html=True)
-        st.markdown('<div class="roadmap-subtitle">S0 → SΩ — The Complete Nyquist Stack</div>', unsafe_allow_html=True)
+    # ========== CURRENT POSITION GAUGE ==========
+    col1, col2, col3 = st.columns([1, 2, 1])
 
-    with header_col2:
+    with col1:
+        st.markdown("### Overall Progress")
+        # Calculate overall progress
+        total_layers = 7 + 4 + 6 + 1  # Foundation + Research + Future + S77
+        complete_equiv = 7 + (0.98 + 0.90 + 0.40 + 0.55)  # Foundation + Research weighted
+        overall_pct = int((complete_equiv / total_layers) * 100)
+
+        fig_gauge = go.Figure(go.Indicator(
+            mode="gauge+number",
+            value=overall_pct,
+            domain={'x': [0, 1], 'y': [0, 1]},
+            title={'text': "Stack Completion", 'font': {'size': 14, 'color': '#a0a0a0'}},
+            number={'suffix': '%', 'font': {'size': 36, 'color': '#f39c12'}},
+            gauge={
+                'axis': {'range': [0, 100], 'tickcolor': '#a0a0a0'},
+                'bar': {'color': '#f39c12'},
+                'bgcolor': '#1a1a2e',
+                'borderwidth': 2,
+                'bordercolor': '#2a9d8f',
+                'steps': [
+                    {'range': [0, 40], 'color': '#1e1e2f'},
+                    {'range': [40, 70], 'color': '#2a2a3e'},
+                    {'range': [70, 100], 'color': '#3a3a4e'}
+                ],
+                'threshold': {
+                    'line': {'color': '#e94560', 'width': 4},
+                    'thickness': 0.75,
+                    'value': 98
+                }
+            }
+        ))
+        fig_gauge.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font={'color': '#f0f0f0'},
+            height=200,
+            margin=dict(l=20, r=20, t=30, b=20)
+        )
+        st.plotly_chart(fig_gauge, use_container_width=True)
+
+    with col2:
+        st.markdown("### You Are Here")
         st.markdown("""
-        <div class="current-position">
-            <h4 style="margin-top: 0; color: #f4a261;">📍 Current Position</h4>
-            <p style="font-size: 0.9em;"><strong>S0-S6 (Foundation)</strong> → <strong>S7 (Identity Dynamics, active)</strong> → <strong>S11 (OMEGA NOVA, active)</strong></p>
-            <p style="font-size: 0.9em;"><strong>S8</strong> (Identity Gravity, formalized) | <strong>S9</strong> (AVLAR, seeded) | <strong>S10</strong> (Frame Theory, seeded)</p>
-            <p style="font-size: 0.9em;"><strong>S12-S76</strong> (Future Frontier) → <strong style="color: gold;">S77 Archetype Engine</strong> (Ultimate Destination)</p>
-            <p style="margin-bottom: 0; font-size: 0.85em; color: #555;">Foundation complete. Frame Theory (Tale) integrated. Two active frontiers.</p>
+        <div class="you-are-here">
+            <p style="font-size: 1.1em; margin: 0;">
+                <span style="color: #2a9d8f; font-weight: bold;">S0-S6 (Foundation)</span>
+                <span style="color: #999;">→</span>
+                <span style="color: #e94560; font-weight: bold;">S7 (98% VALIDATED)</span>
+                <span style="color: #999;">→</span>
+                <span style="color: #9b59b6; font-weight: bold;">S8-S10 (Research Frontier)</span>
+            </p>
+            <hr style="border-color: #ccc; margin: 1rem 0;">
+            <p style="font-size: 0.95em; color: #333; margin: 0;">
+                <strong style="color: #e94560;">Current Focus:</strong>
+                Run 018 (Recursive Learnings), Run 021v2 (Multi-provider), EXP3 (Human validation)
+            </p>
+            <p style="font-size: 0.85em; color: #666; margin-top: 0.5rem;">
+                Foundation locked. Control-systems era complete. 82% inherent drift proven.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("### S7 Progress")
+        fig_s7 = go.Figure(go.Indicator(
+            mode="gauge+number",
+            value=98,
+            domain={'x': [0, 1], 'y': [0, 1]},
+            title={'text': "S7 ARMADA", 'font': {'size': 14, 'color': '#a0a0a0'}},
+            number={'suffix': '%', 'font': {'size': 36, 'color': '#2a9d8f'}},
+            gauge={
+                'axis': {'range': [0, 100], 'tickcolor': '#a0a0a0'},
+                'bar': {'color': '#2a9d8f'},
+                'bgcolor': '#1a1a2e',
+                'borderwidth': 2,
+                'bordercolor': '#2a9d8f',
+            }
+        ))
+        fig_s7.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font={'color': '#f0f0f0'},
+            height=200,
+            margin=dict(l=20, r=20, t=30, b=20)
+        )
+        st.plotly_chart(fig_s7, use_container_width=True)
+
+    page_divider()
+
+    # ========== THE FULL STACK (Tabbed) ==========
+    st.markdown("## The Full Stack")
+
+    stack_tabs = st.tabs(["Foundation (S0-S6)", "Research Frontier (S7-S10)", "Projected (S11-S16)", "Destination (S77)"])
+
+    with stack_tabs[0]:
+        st.markdown("""
+        <div class="zone-card zone-foundation">
+            <h4 style="color: #2a9d8f; margin-top: 0;">FOUNDATION ZONE — 100% Complete</h4>
+            <p style="color: #555; font-size: 0.9em;">
+                The bedrock. Axiomatic definitions, mathematical framework, compression theory, and Omega Protocol.
+                These layers are FROZEN — they don't change.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        for layer in FOUNDATION_LAYERS:
+            col_id, col_name, col_status = st.columns([1, 4, 1])
+            with col_id:
+                st.markdown(f"**{layer['id']}**")
+            with col_name:
+                st.markdown(f"<span style='color: #d0d0d0;'>{layer['name']}</span>", unsafe_allow_html=True)
+            with col_status:
+                st.markdown(f"<span style='color: #2a9d8f;'>FROZEN</span>", unsafe_allow_html=True)
+            st.progress(1.0)
+
+    with stack_tabs[1]:
+        st.markdown("""
+        <div class="zone-card zone-research">
+            <h4 style="color: #e67e22; margin-top: 0;">RESEARCH FRONTIER — Active Development</h4>
+            <p style="color: #555; font-size: 0.9em;">
+                Where the science happens. S7 is 98% validated through 21 ARMADA runs.
+                S8-S10 are formalized and awaiting empirical validation.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        for layer in RESEARCH_LAYERS:
+            col_id, col_name, col_pct, col_priority = st.columns([1, 3, 1, 1])
+            with col_id:
+                st.markdown(f"**{layer['id']}**")
+            with col_name:
+                st.markdown(f"<span style='color: #d0d0d0;'>{layer['name']}</span>", unsafe_allow_html=True)
+            with col_pct:
+                st.markdown(f"<span style='color: #f39c12;'>{layer['completion']}%</span>", unsafe_allow_html=True)
+            with col_priority:
+                priority = layer.get('priority', '')
+                if priority == 'HIGH':
+                    st.markdown("<span style='color: #e94560;'>HIGH</span>", unsafe_allow_html=True)
+                else:
+                    st.markdown(f"<span style='color: #f39c12;'>{priority}</span>", unsafe_allow_html=True)
+            st.progress(layer['completion'] / 100)
+
+    with stack_tabs[2]:
+        st.markdown("""
+        <div class="zone-card zone-future">
+            <h4 style="color: #8e44ad; margin-top: 0;">PROJECTED ZONE — Planned</h4>
+            <p style="color: #555; font-size: 0.9em;">
+                The horizon. Theoretical foundations exist, but empirical work is years away.
+                Focus on closing S7-S10 before expanding here.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        for layer in FUTURE_LAYERS:
+            col_id, col_name, col_status = st.columns([1, 4, 1])
+            with col_id:
+                st.markdown(f"**{layer['id']}**")
+            with col_name:
+                st.markdown(f"<span style='color: #888;'>{layer['name']}</span>", unsafe_allow_html=True)
+            with col_status:
+                st.markdown("<span style='color: #9b59b6;'>FUTURE</span>", unsafe_allow_html=True)
+            st.progress(0.0)
+
+    with stack_tabs[3]:
+        st.markdown("""
+        <div class="zone-card zone-ultimate">
+            <h4 style="color: #c0392b; margin-top: 0;">THE DESTINATION — S77 Archetype Engine</h4>
+            <p style="color: #555; font-size: 0.9em;">
+                The ultimate goal. A system that can synthesize, stabilize, and evolve
+                coherent identity across substrates. We are nowhere near here — and that's okay.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div style="text-align: center; padding: 2rem;">
+            <p style="font-size: 3em; margin: 0; color: #333;">S77</p>
+            <p style="font-size: 1.5em; color: #e94560; margin: 0.5rem 0;">Archetype Engine</p>
+            <p style="color: #666; font-style: italic;">"The final stop — very far away."</p>
         </div>
         """, unsafe_allow_html=True)
 
     page_divider()
 
-    # === GANTT-STYLE PROGRESSION CHART ===
-    st.markdown("### 📊 Stack Progression Timeline")
+    # ========== S7 DEEP DIVE ==========
+    st.markdown("## S7 Deep Dive: The Control-Systems Era")
 
-    # Create Gantt-style horizontal bar chart showing layer progression
-    gantt_data = []
-    colors = []
-    status_colors = {
-        "complete": "#2a9d8f",
-        "active": "#f4a261",
-        "formalized": "#4caf50",
-        "seeded": "#8bc34a",
-        "future": "#9e9e9e"
-    }
+    col_findings, col_runs = st.columns([1, 1])
 
-    for layer in STACK_LAYERS:
-        gantt_data.append({
-            "layer": layer["id"],
-            "name": layer["name"][:30] + "..." if len(layer["name"]) > 30 else layer["name"],
-            "completion": layer["completion"],
-            "status": layer["status"]
-        })
-        colors.append(status_colors.get(layer["status"], "#9e9e9e"))
+    with col_findings:
+        st.markdown("### Key Validated Findings")
 
-    # Create horizontal bar chart
-    fig = go.Figure()
+        findings = [
+            ("Event Horizon", "D = 1.23", "Critical threshold for identity coherence"),
+            ("Inherent Drift", "82%", "Measurement perturbs path, not endpoint"),
+            ("Context Stability", "97.5%", "Full circuit (I_AM + research) achieves near-perfect stability"),
+            ("Prediction Accuracy", "88%", "Drift < 1.23 predicts STABLE outcome"),
+            ("Chi-squared", "p = 0.000048", "Statistically validated architecture effects"),
+            ("Settling Time", "τₛ = 6.1", "Turns to reach ±5% of final value"),
+        ]
 
-    # Add completion bars
-    fig.add_trace(go.Bar(
-        y=[d["layer"] for d in gantt_data],
-        x=[d["completion"] for d in gantt_data],
-        orientation='h',
-        marker=dict(
-            color=colors,
-            line=dict(color='rgba(255,255,255,0.3)', width=1)
-        ),
-        text=[f"{d['completion']}%" for d in gantt_data],
-        textposition='inside',
-        textfont=dict(color='white', size=10),
-        hovertemplate="<b>%{y}</b><br>Progress: %{x}%<extra></extra>"
-    ))
+        for name, value, desc in findings:
+            st.markdown(f"""
+            <div class="finding-card">
+                <span style="color: #e67e22; font-weight: bold;">{name}:</span>
+                <span style="color: #2a9d8f; font-weight: bold; font-size: 1.2em;">{value}</span>
+                <br><span style="color: #555; font-size: 0.85em;">{desc}</span>
+            </div>
+            """, unsafe_allow_html=True)
 
-    # Add background bars showing remaining work
-    fig.add_trace(go.Bar(
-        y=[d["layer"] for d in gantt_data],
-        x=[100 - d["completion"] for d in gantt_data],
-        orientation='h',
-        marker=dict(color='rgba(200,200,200,0.2)'),
-        hoverinfo='skip',
-        showlegend=False
-    ))
+    with col_runs:
+        st.markdown("### Run History (006-021)")
 
-    fig.update_layout(
-        barmode='stack',
-        height=500,
-        margin=dict(l=80, r=20, t=20, b=40),
-        xaxis=dict(
-            title="Completion %",
-            range=[0, 100],
-            tickvals=[0, 25, 50, 75, 100],
-            gridcolor='rgba(128,128,128,0.2)'
-        ),
-        yaxis=dict(
-            title="",
-            autorange="reversed",  # S0 at top
-            tickfont=dict(size=11)
-        ),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        showlegend=False,
-        font=dict(color='#333')
-    )
+        # Show runs in an expander
+        with st.expander("View All 15 Completed Runs", expanded=False):
+            for run in S7_RUNS:
+                st.markdown(f"""
+                **Run {run['run']}** — {run['name']}
+                - Exchanges: {run['exchanges']} | Ships: {run['ships']}
+                - Finding: *{run['finding']}*
+                """)
+                st.markdown("---")
 
-    st.plotly_chart(fig, use_container_width=True)
-
-    # Legend for status colors
-    legend_cols = st.columns(5)
-    status_legend = [
-        ("✅ Complete", "#2a9d8f"),
-        ("🟡 Active", "#f4a261"),
-        ("🟢 Formalized", "#4caf50"),
-        ("🌱 Seeded", "#8bc34a"),
-        ("⚪ Future", "#9e9e9e")
-    ]
-    for col, (label, color) in zip(legend_cols, status_legend):
-        with col:
-            st.markdown(f'<span style="color:{color}">●</span> {label}', unsafe_allow_html=True)
-
-    page_divider()
-
-    # === STACK VISUALIZATION ===
-    st.subheader("Stack Layers")
-
-    # Two columns: visual stack + details
-    col_stack, col_stats = st.columns([2, 1])
-
-    with col_stack:
-        for layer in STACK_LAYERS:
-            status_style = STATUS_STYLES[layer["status"]]
-
-            # Use native Streamlit components for reliability
-            with st.container():
-                # Header row with layer info
-                header_cols = st.columns([1, 3, 2])
-                with header_cols[0]:
-                    st.markdown(f"**{layer['id']}**")
-                with header_cols[1]:
-                    layer_name_display = layer['name'][:30] + "..." if len(layer['name']) > 30 else layer['name']
-                    st.markdown(f"<span style='font-size: 0.9em; color: #444;'>{layer_name_display}</span>", unsafe_allow_html=True)
-                with header_cols[2]:
-                    priority_text = f" <code>{layer['priority']}</code>" if layer['priority'] else ""
-                    st.markdown(f"<span style='font-size: 0.9em; color: #444;'>{status_style['emoji']} {status_style['label']}{priority_text}</span>", unsafe_allow_html=True)
-
-                # Progress bar
-                st.progress(layer['completion'] / 100)
-
-    with col_stats:
         # Summary stats
-        complete_count = len([l for l in STACK_LAYERS if l["status"] == "complete"])
-        active_count = len([l for l in STACK_LAYERS if l["status"] in ["active", "formalized", "seeded"]])
-        future_count = len([l for l in STACK_LAYERS if l["status"] == "future"])
+        total_exchanges = sum(r['exchanges'] for r in S7_RUNS)
+        total_ships_used = sum(r['ships'] for r in S7_RUNS)
 
-        st.metric("Complete", f"{complete_count}/{len(STACK_LAYERS)}", delta="Foundation locked")
-        st.metric("Active", active_count, delta="In development")
-        st.metric("Future", future_count, delta="Planned")
-
-        st.markdown("---")
-
-        # Priority focus
-        st.markdown("**Priority Focus:**")
-        st.markdown("🔥 **S11** — OMEGA NOVA Hybrid Emergence")
-        st.markdown("🔥 **S7** — Identity Dynamics")
-        st.markdown("🧠 **S10** — Frame Theory (Tale)")
-        st.markdown("🌟 **S9** — AVLAR Multimodal Protocol")
-        st.markdown("✨ **S77** — Archetype Engine (Ultimate)")
+        stat_cols = st.columns(3)
+        with stat_cols[0]:
+            st.metric("Total Runs", "15")
+        with stat_cols[1]:
+            st.metric("Total Exchanges", f"{total_exchanges:,}")
+        with stat_cols[2]:
+            st.metric("Ship-Runs", f"{total_ships_used}")
 
     page_divider()
 
-    # === PRIORITY ACTIONS ===
-    st.subheader("Priority Actions")
+    # ========== PREDICTION TRACKER ==========
+    st.markdown("## The 46 Predictions")
 
-    col1, col2, col3 = st.columns(3)
+    # Count by status
+    validated = sum(1 for layer in PREDICTIONS_BY_LAYER.values() for p in layer if p['status'] == 'validated')
+    partial = sum(1 for layer in PREDICTIONS_BY_LAYER.values() for p in layer if p['status'] == 'partial')
+    untested = sum(1 for layer in PREDICTIONS_BY_LAYER.values() for p in layer if p['status'] == 'untested')
 
-    with col1:
-        st.markdown("#### 🔴 Immediate")
-        st.markdown("""
-        - AI Armada Run 009 (persona injection)
-        - S10 Frame Theory experiments
-        - S11 Tri-Band Emergence completion
-        - Pan Handlers manifest integration
-        """)
+    pred_cols = st.columns(4)
+    with pred_cols[0]:
+        st.metric("Total", "46")
+    with pred_cols[1]:
+        st.metric("Validated", validated, delta=f"{int(validated/46*100)}%")
+    with pred_cols[2]:
+        st.metric("Partial", partial)
+    with pred_cols[3]:
+        st.metric("Untested", untested)
 
-    with col2:
-        st.markdown("#### 🟡 Short-Term")
-        st.markdown("""
-        - S8 Identity Gravity measurements
-        - S9 AVLAR protocol testing
-        - S10 Human-AI Qualia experiments
-        """)
+    # Predictions by layer
+    pred_tabs = st.tabs(list(PREDICTIONS_BY_LAYER.keys()))
 
-    with col3:
-        st.markdown("#### 🟢 Medium-Term")
-        st.markdown("""
-        - Submit arXiv preprint
-        - S12 Consciousness Proxy Theory
-        - Cross-modal manifold mapping
-        - S77 Archetype Engine foundations
-        """)
+    for tab, (layer_name, predictions) in zip(pred_tabs, PREDICTIONS_BY_LAYER.items()):
+        with tab:
+            for pred in predictions:
+                badge_class = f"badge-{pred['status']}"
+                status_emoji = {"validated": "✅", "partial": "🟡", "untested": "⚪"}.get(pred['status'], "⚪")
+
+                st.markdown(f"""
+                <div style="padding: 0.5rem 0; border-bottom: 1px solid #ddd;">
+                    <span class="prediction-badge {badge_class}">{pred['id']}</span>
+                    <span style="color: #333;">{pred['text']}</span>
+                    <span style="float: right;">{status_emoji}</span>
+                </div>
+                """, unsafe_allow_html=True)
 
     page_divider()
 
-    # === FULL ROADMAP DOCUMENT ===
-    st.subheader("Full Roadmap Document")
+    # ========== PRIORITY ACTIONS ==========
+    st.markdown("## What's Next")
 
-    # Tabs for different views
-    tab1, tab2 = st.tabs(["📜 Full Roadmap", "📊 Research Pipeline"])
+    action_cols = st.columns(3)
 
-    with tab1:
-        roadmap_content = load_markdown_file(ROADMAP_FILE)
-        with st.expander("View Complete Roadmap (S0 \u2192 S\u03a9)", expanded=False):
-            st.markdown(roadmap_content)
+    with action_cols[0]:
+        st.markdown("""
+        <div class="priority-action">
+            <h4 style="color: #c0392b; margin-top: 0;">PRIORITY 1</h4>
+            <p style="font-weight: bold; color: #333;">Run 018 + Run 021v2</p>
+            <p style="color: #555; font-size: 0.85em;">
+                Execute recursive learnings and multi-provider replication.
+                Apply Triple-Dip methodology improvements.
+            </p>
+            <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Cost: $50-100</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-    with tab2:
-        pipeline_file = REPO_ROOT / "docs" / "maps" / "RESEARCH_PIPELINE_VISUAL.md"
-        if pipeline_file.exists():
-            pipeline_content = load_markdown_file(pipeline_file)
-            with st.expander("View Research Pipeline Visual", expanded=False):
-                st.markdown(pipeline_content)
+    with action_cols[1]:
+        st.markdown("""
+        <div class="priority-action">
+            <h4 style="color: #e67e22; margin-top: 0;">PRIORITY 2</h4>
+            <p style="font-weight: bold; color: #333;">Deploy EXP3</p>
+            <p style="color: #555; font-size: 0.85em;">
+                Human validation study. Recruit 5-7 raters,
+                deploy fidelity_test.html. Final credibility proof.
+            </p>
+            <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Cost: $0 (volunteer raters)</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with action_cols[2]:
+        st.markdown("""
+        <div class="priority-action">
+            <h4 style="color: #8e44ad; margin-top: 0;">PRIORITY 3</h4>
+            <p style="font-weight: bold; color: #333;">fMRI Bridge Protocol</p>
+            <p style="color: #555; font-size: 0.85em;">
+                Cross-substrate validation. Partner with cognitive
+                neuroscience lab. Path to "phenomenological force" claim.
+            </p>
+            <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Cost: TBD (grant required)</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # ========== PUBLICATION TIMELINE ==========
+    st.markdown("## Publication Timeline")
+
+    milestones = [
+        {"phase": "Phase 1", "name": "S7 Complete", "status": "complete", "desc": "21 runs, 98% coverage"},
+        {"phase": "Phase 2", "name": "EXP3 Human Validation", "status": "active", "desc": "Final credibility proof"},
+        {"phase": "Phase 3", "name": "arXiv Preprint", "status": "future", "desc": "First public release"},
+        {"phase": "Phase 4", "name": "Peer Review", "status": "future", "desc": "Journal submission"},
+        {"phase": "Phase 5", "name": "fMRI Collaboration", "status": "future", "desc": "Cross-substrate validation"},
+    ]
+
+    timeline_cols = st.columns(5)
+    for col, m in zip(timeline_cols, milestones):
+        with col:
+            marker_class = f"marker-{m['status']}"
+            st.markdown(f"""
+            <div style="text-align: center;">
+                <span class="timeline-marker {marker_class}"></span>
+                <p style="font-size: 0.8em; color: #888; margin: 0;">{m['phase']}</p>
+                <p style="font-weight: bold; color: #333; margin: 0.3rem 0;">{m['name']}</p>
+                <p style="font-size: 0.75em; color: #666; margin: 0;">{m['desc']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # ========== FULL DOCUMENTS ==========
+    st.markdown("## Reference Documents")
+
+    doc_tabs = st.tabs(["Full Roadmap", "Validation Status", "Predictions Matrix", "Map of Maps"])
+
+    with doc_tabs[0]:
+        with st.expander("NYQUIST_ROADMAP.md", expanded=False):
+            st.markdown(load_markdown_file(ROADMAP_FILE))
+
+    with doc_tabs[1]:
+        validation_file = MAPS_DIR / "VALIDATION_STATUS.md"
+        if validation_file.exists():
+            with st.expander("VALIDATION_STATUS.md", expanded=False):
+                st.markdown(load_markdown_file(validation_file))
+
+    with doc_tabs[2]:
+        predictions_file = MAPS_DIR / "TESTABLE_PREDICTIONS_MATRIX.md"
+        if predictions_file.exists():
+            with st.expander("TESTABLE_PREDICTIONS_MATRIX.md", expanded=False):
+                st.markdown(load_markdown_file(predictions_file))
+
+    with doc_tabs[3]:
+        map_of_maps_file = MAPS_DIR / "MAP_OF_MAPS.md"
+        if map_of_maps_file.exists():
+            with st.expander("MAP_OF_MAPS.md", expanded=False):
+                st.markdown(load_markdown_file(map_of_maps_file))
         else:
-            st.info("Research pipeline document not found.")
+            st.info("MAP_OF_MAPS.md not found — check docs/maps/ directory.")
+
+    # ========== FOOTER ==========
+    st.markdown("""
+    <div style="text-align: center; padding: 2rem; color: #666;">
+        <p><em>"Close the gaps, then climb higher."</em></p>
+        <p style="font-size: 0.8em;">Last Updated: 2025-12-13</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
-    render()  # Can test page standalone
+    render()

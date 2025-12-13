@@ -16,7 +16,7 @@ from . import metrics
 from . import omega
 from . import avlar
 from . import roadmap
-from . import Glossary
+from . import glossary
 from . import publications
 from . import matrix
 from . import faq
@@ -34,7 +34,7 @@ __all__ = [
     'omega',
     'avlar',
     'roadmap',
-    'Glossary',
+    'glossary',
     'publications',
     'matrix',
     'faq',

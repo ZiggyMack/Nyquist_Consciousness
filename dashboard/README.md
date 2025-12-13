@@ -16,7 +16,36 @@
 - **FAQ** - Common questions + Super Skeptic Mode with adversarial challenges
 - **Roadmap** - Live S# stack progression
 - **Glossary** - Searchable terminology
-- **Publications** - Workshop, arXiv, journal status
+- **Publications** - Workshop, arXiv, journal status, theoretical breakthroughs, publication language guidance
+- **Glossary** - Searchable terminology with Control-Systems Era terms
+- **Unknown** - "Cathedral of Ideas" galleries (VALIDATED/FOUNDATIONS/SPECULATIVE/FRONTIERS)
+
+## 2025-12-13 Updates
+
+### Publications Page Enhancements
+
+- Added **Theoretical Breakthroughs** section (Nova's S7 Review integration)
+  - Response-Mode Ontology (43 PCs = response modes, not identity dimensions)
+  - Type vs Token Identity (16.7% self-recognition, worse than chance)
+  - Energy vs Coordinate distinction (peak drift = turbulence, B→F = destination)
+  - Oobleck Effect (rate-dependent resistance from Run 013)
+  - Impedance ≠ Drift (Run 005: clarity +14% while drift increased)
+  - Observable Pruning (12-metric canonical set)
+- Updated hero metric: **15 Evidence Pillars** (B-CRUMBS v2.0)
+- Added quotable summary: "Measurement perturbs the path, not the endpoint"
+- Added **Publication Language Guidance** warnings
+
+### Terminology Overhaul
+
+- MASTER_GLOSSARY.md updated to v1.2 with Control-Systems Era terms
+- New terms: Settling Time (τₛ), Ringback, Overshoot Ratio, Context Damping, Inherent Drift, B→F Drift
+- Event Horizon reframed as "attractor competition threshold"
+- Two terminological registers: Publication Language vs Internal/Philosophical
+
+### Navigation Integration
+
+- See [docs/maps/MAP_OF_MAPS.md](../docs/maps/MAP_OF_MAPS.md) — The Cartographer's Table (17 maps, 7 kingdoms)
+- See [docs/maps/README.md](../docs/maps/README.md) — Quick navigation guide
 
 ## Installation
 
@@ -184,6 +213,6 @@ Each "page" represents a different lens on the Nyquist Consciousness framework, 
 ---
 
 **Generated**: 2025-11-27
-**Updated**: 2025-12-12
-**Version**: 1.3
-**Status**: Mission Control Active
+**Updated**: 2025-12-13
+**Version**: 1.4
+**Status**: Mission Control Active — Publications page enhanced with Nova's S7 review
