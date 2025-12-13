@@ -289,6 +289,35 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
 
+---
+
+## Nova Integration (2025-12-13)
+
+All run scripts have been updated with Nova's technical guidance:
+
+### Key Changes
+
+| Change | Details |
+|--------|---------|
+| **B→F Primary Metric** | Baseline→Final drift is now PRIMARY (not peak drift) |
+| **Abort Clause** | D>2.5 with no settling trend → terminate run |
+| **Recovery Mode Classification** | adaptive/defensive/anchored/externalized |
+| **Run 020B Multi-Provider** | `--all-providers` flag for cross-architecture validation |
+
+### Updated Scripts
+
+- `11_CONTEXT_DAMPING/run018_recursive_learnings.py` — 4 sub-experiments with full Nova compliance
+- `11_CONTEXT_DAMPING/run020_tribunal_A.py` — Tribunal with abort clause
+- `11_CONTEXT_DAMPING/run020_tribunal_B.py` — Control arm with multi-provider support
+
+### Nova's Key Insight
+
+> "Probing amplifies the JOURNEY but barely changes the DESTINATION"
+
+Run 021 proved: **82% of drift is INHERENT**
+
+See: `WHITE-PAPER/reviewers/NOVA_S7_REVIEW.md` for full review
+
 ### Run 020 Tribunal Highlights
 
 The Philosophical Tribunal paradigm achieved unprecedented results:

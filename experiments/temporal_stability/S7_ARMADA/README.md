@@ -605,9 +605,57 @@ The **Philosophical Tribunal** paradigm tested direct identity probing across 4 
 ## CURRENT DEVELOPMENT
 
 1. **Run 020 v8**: COMPLETE — 81% gap reduction, 786-word final statement
-2. **Run 021 (NEXT)**: Induced vs Inherent test — baseline control to validate Claim 2
-3. **Tribunal Protocol**: Validated paradigm for direct identity probing
-4. **Consciousness/ Pipeline**: Data flow established from S7 to Consciousness/
+2. **Run 021**: COMPLETE — 82% drift is INHERENT (Control: 0.399, Treatment: 0.489)
+3. **Nova Integration**: All scripts updated with B→F primary, abort clause, recovery modes
+4. **Run 018**: READY — Tests fleet hypotheses with Nova's improvements
+
+---
+
+## NOVA INTEGRATION (2025-12-13)
+
+Nova's S7 review led to significant methodology improvements:
+
+### Key Metric Change
+
+| Metric | Old Role | New Role | Rationale |
+|--------|----------|----------|-----------|
+| **Peak Drift** | PRIMARY | TERTIARY | Measures journey turbulence, not destination |
+| **Settled Drift** | n/a | SECONDARY | More stable than peak |
+| **B→F Drift** | n/a | **PRIMARY** | Reflects actual identity change (82% inherent) |
+
+### New Script Features
+
+All run scripts (018, 020A, 020B) now include:
+
+| Feature | Function | Purpose |
+|---------|----------|---------|
+| `should_abort_run()` | Terminate if D>2.5 with no settling | Safety rail |
+| `classify_recovery_mode()` | adaptive/defensive/anchored/externalized | Track mechanism changes |
+| B→F calculation | All experiments | Primary metric per Run 021 |
+
+### Run 018 Specific
+
+| Addition | Purpose |
+|----------|---------|
+| `identity_aliasing_index` | d_inf/d_peak distinguishes phase distortion from instability |
+| `full_recovery_curve` | Full trajectory with timestamps for fingerprinting |
+| Abort clause | D>2.5 safety rail |
+
+### Run 020B v2 Multi-Provider
+
+```powershell
+py run020_tribunal_B.py --arm both --all-providers  # Anthropic, OpenAI, Google, xAI
+```
+
+### Nova's Key Insight
+
+> "Probing amplifies the JOURNEY but barely changes the DESTINATION"
+
+- Peak drift: +84% with probing
+- B→F drift: +23% with probing
+- **82% of drift is INHERENT**
+
+See: `WHITE-PAPER/reviewers/NOVA_S7_REVIEW.md`
 
 ---
 

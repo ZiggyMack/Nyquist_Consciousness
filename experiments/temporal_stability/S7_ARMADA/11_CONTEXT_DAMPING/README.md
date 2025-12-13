@@ -32,6 +32,48 @@ This is like properly terminating an oscilloscope — runs 006-016 were `bare_me
 
 ---
 
+## Nova Integration (2025-12-13)
+
+All run scripts have been updated with Nova's technical guidance:
+
+### New Features in All Scripts
+
+| Feature | Purpose | Location |
+|---------|---------|----------|
+| **B→F Primary Metric** | Baseline→Final drift is PRIMARY (not peak) | All experiments |
+| **Abort Clause** | D>2.5 with no settling → abort | `should_abort_run()` |
+| **Recovery Mode Classification** | adaptive/defensive/anchored/externalized | `classify_recovery_mode()` |
+
+### Run 018 Specific Additions
+
+| Feature | Purpose |
+|---------|---------|
+| `identity_aliasing_index` | d_inf/d_peak distinguishes phase distortion from instability |
+| `full_recovery_curve` | Full drift trajectory with timestamps for fingerprinting |
+| Metric Hierarchy | PRIMARY: B→F, SECONDARY: settled, TERTIARY: peak |
+
+### Run 020B v2 Multi-Provider
+
+Run 020B now supports cross-architecture validation:
+
+```powershell
+# All providers (Anthropic, OpenAI, Google, xAI)
+py run020_tribunal_B.py --arm both --all-providers
+
+# Single provider (default)
+py run020_tribunal_B.py --arm both --subject-provider anthropic
+```
+
+### Key Insight from Nova's Review
+
+> "Probing amplifies the JOURNEY but barely changes the DESTINATION"
+
+- Peak drift: +84% with probing (1.172 → 2.161)
+- B→F drift: +23% with probing (0.399 → 0.489)
+- **82% of drift is INHERENT**
+
+---
+
 ## Run 020: Philosophical Tribunal
 
 The breakthrough paradigm that achieved highest measured drift:
