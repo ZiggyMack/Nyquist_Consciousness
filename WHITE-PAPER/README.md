@@ -9,37 +9,45 @@
 
 ## IRON CLAD Countdown
 
-**Goal:** N=3 runs per provider per experiment for publication-quality confidence intervals.
+**Goal:** N=3 runs per model per experiment for publication-quality confidence intervals.
+
+**Fleet:** 49 ships (models) across 5 providers
 
 ### Current Run Status (December 14, 2025)
 
-| Experiment | Claude | GPT-5/O | Gemini | Grok | Together | Status |
-|------------|--------|---------|--------|------|----------|--------|
-| **018 threshold** | - | **RUNNING** | 1/3 | - | 3/3 | 4/15 |
-| **018 nyquist** | - | **RUNNING** | 1/3 | - | 3/3 | 4/15 |
-| **018 gravity** | - | **RUNNING** | 1/3 | - | 3/3 | 4/15 |
-| **020A tribunal** | - | **RUNNING** | 1/3 | 1/3 | - | 2/15 |
-| **020B induced** | - | **RUNNING** | - | - | 1/3 | 1/15 |
+| Experiment | Models Tested | N=3 Complete | Gap |
+|------------|---------------|--------------|-----|
+| **018 threshold** | 49/49 | 47/49 (96%) | claude-opus-4.5 (1/3), claude-sonnet-4.5 (2/3) |
+| **018 nyquist** | 13/49 | 9/13 (69%) | **36 models untested** |
+| **018 gravity** | 8/49 | 6/8 (75%) | **41 models untested** |
+| **020A tribunal** | TBD | TBD | Needs full fleet run |
+| **020B induced** | TBD | TBD | Needs full fleet run |
 
-Progress: ~15/75 runs complete (20%)
+### What's Left to Run
+
+**Run 018:**
+1. **threshold:** 2 more runs for claude-opus-4.5, 1 more for claude-sonnet-4.5
+2. **nyquist:** Full valis-full fleet (49 ships) - only 13 tested so far
+3. **gravity:** Full valis-full fleet (49 ships) - only 8 tested so far
+
+**Run 020:**
+4. **020A tribunal:** Full valis-full fleet
+5. **020B induced:** Full valis-full fleet (both control + treatment arms)
 
 ### What's Blocking Publication
 
-| Paper | Blocking Issue | Required Runs |
-|-------|----------------|---------------|
-| **Workshop** | Cross-platform 82% replication | 020B × 3 providers |
-| **arXiv** | Full validation matrix | All experiments × N=3 |
+| Paper | Blocking Issue | Required Action |
+|-------|----------------|-----------------|
+| **Workshop** | Cross-platform 82% replication | 020B × valis-full fleet |
+| **arXiv** | Full validation matrix | All experiments × N=3 × 49 models |
 | **Journal** | Everything + human validation | Q2-Q3 2026 |
 
-### Active Background Processes
+### IMPORTANT: Fleet Selection
 
-5 experiments currently running (OpenAI GPT-5/O-series with syntax fix):
+- `armada-full` = 8 ships ($2-8/1M tier only)
+- `valis-full` = 49 ships (ALL models)
 
-- Run 018 threshold (a094f0)
-- Run 018 nyquist (0fc8e6)
-- Run 018 gravity (603033)
-- Run 020A tribunal (4c0f03)
-- Run 020B induced (77c656)
+**USE `--providers valis-full` for IRON CLAD coverage!**
 
 ---
 
