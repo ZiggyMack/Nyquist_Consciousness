@@ -52,17 +52,37 @@ All run scripts have been updated with Nova's technical guidance:
 | `full_recovery_curve` | Full drift trajectory with timestamps for fingerprinting |
 | Metric Hierarchy | PRIMARY: B→F, SECONDARY: settled, TERTIARY: peak |
 
-### Run 020B v2 Multi-Provider
+### Fleet Tier System (December 2025)
 
-Run 020B now supports cross-architecture validation:
+All run scripts now support cost-aware fleet selection via the `--providers` flag:
 
 ```powershell
-# All providers (Anthropic, OpenAI, Google, xAI)
-py run020_tribunal_B.py --arm both --all-providers
+# Curated patrol fleet (~$3-5)
+py run018_recursive_learnings.py --experiment architecture --providers patrol-lite
 
-# Single provider (default)
-py run020_tribunal_B.py --arm both --subject-provider anthropic
+# Full armada coverage (~$20-30)
+py run018_recursive_learnings.py --experiment threshold --providers armada-full
+
+# Maximum coverage (requires typing "VALIS" to confirm)
+py run020_tribunal_A.py --arm tribunal-v8 --providers valis-full
+
+# Include rate-limited models
+py run020_tribunal_B.py --arm both --providers armada-full --include-rate-limited
 ```
+
+| Option | Description | Est. Cost |
+|--------|-------------|-----------|
+| `patrol-lite` | Curated cross-arch scouts | ~$3-5 |
+| `armada-lite` | Curated best-of fleet (DEFAULT) | ~$8-12 |
+| `armada-full` | All ships under $8/1M output | ~$20-30 |
+| `valis-full` | EVERYTHING | ~$150+ |
+
+**New Flags**:
+
+- `--include-rate-limited`: Include rate-limited ships (excluded by default)
+- `--no-confirm`: Skip cost confirmation prompt
+
+**Cost Estimation**: All scripts display estimated cost before execution.
 
 ### Key Insight from Nova's Review
 
@@ -288,6 +308,6 @@ S7_ARMADA/11_CONTEXT_DAMPING/  →  Consciousness/RIGHT/galleries/frontiers/
 
 ---
 
-**Last Updated**: December 12, 2025
+**Last Updated**: December 14, 2025 (Fleet Tier System added)
 
 *Context Damping — Completing the Measurement Circuit*

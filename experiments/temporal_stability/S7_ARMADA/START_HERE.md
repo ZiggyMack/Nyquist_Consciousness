@@ -257,7 +257,7 @@ drift = sqrt(weighted_sum_of_squares(dimensions))
 | `1_CALIBRATION/run_calibrate_parallel.py` | Fleet calibration with `--depth` modes |
 | `1_CALIBRATION/rescue_ghost_ships.py` | Rescue failed models (e.g., max_completion_tokens fix) |
 
-### Calibration Modes (NEW)
+### Calibration Modes
 
 ```bash
 # Full armada with 8-question baseline (DEFAULT)
@@ -268,12 +268,19 @@ py 1_CALIBRATION/run_calibrate_parallel.py --full --depth ping
 
 # Quick provider check
 py 1_CALIBRATION/run_calibrate_parallel.py --quick --depth ping
+
+# Tier-based calibration (NEW - December 2025)
+py 1_CALIBRATION/run_calibrate_parallel.py --tier budget --depth ping   # Budget tier only
+py 1_CALIBRATION/run_calibrate_parallel.py --fleet patrol-lite          # Curated patrol ships
 ```
 
 | Flag | Description |
 |------|-------------|
 | `--quick` | 1 model per provider (4 ships) |
-| `--full` | All models in armada (48+ ships) |
+| `--full` | All models in armada (49+ ships) |
+| `--tier TIER` | Calibrate specific cost tier (budget/patrol/armada/yacht) |
+| `--fleet OPTION` | Fleet option (budget-lite, patrol-full, armada-lite, etc.) |
+| `--include-rate-limited` | Include rate-limited ships |
 | `--depth ping` | Health check only |
 | `--depth baseline` | 8-question identity capture (DEFAULT) |
 
@@ -281,7 +288,85 @@ py 1_CALIBRATION/run_calibrate_parallel.py --quick --depth ping
 
 See: [1_CALIBRATION/README.md](1_CALIBRATION/README.md) | [4_VALIS_DECLARATION.md](0_docs/specs/4_VALIS_DECLARATION.md)
 
-**Fleet Status (December 2025)**: 48 operational / 54 total (89% health). See [docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md).
+**Fleet Status (December 2025)**: 54+ operational ships across 5 providers. See [docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md).
+
+---
+
+## Fleet Tier System (December 2025)
+
+**NEW**: Cost-aware fleet selection with LITE/FULL variants for budget control.
+
+### Cost Tiers (by output $/1M tokens)
+
+| Tier | Cost Range | Description | Ships |
+|------|------------|-------------|-------|
+| **BUDGET** | FREE-$0.60 | Economy class | 40-50 |
+| **PATROL** | $0.60-$2.00 | Scout class | 30-40 |
+| **ARMADA** | $2.00-$8.00 | Standard fleet | 50-60 |
+| **HIGH_MAINTENANCE** | $8.00-$15.00 | Expensive + often rate-limited | 5-10 |
+| **YACHT** | $15.00+ | Flagships | 10-13 |
+
+### Fleet Options (--providers flag)
+
+| Option | Description | Est. Ships | Est. Cost |
+|--------|-------------|------------|-----------|
+| `budget-lite` | Curated cheap fleet | 25-30 | ~$5-8 |
+| `budget-full` | ALL ships under $0.60 | 40-50 | ~$10-15 |
+| `patrol-lite` | Cross-arch daily drivers | 15-20 | ~$3-5 |
+| `patrol-full` | All ships $0.60-$2.00 | 30-40 | ~$8-12 |
+| `armada-lite` | Curated "best of" fleet (DEFAULT) | 20-25 | ~$8-12 |
+| `armada-full` | All ships under $8 | 50-60 | ~$20-30 |
+| `yacht-lite` | Subset of flagships | 5-7 | ~$30 |
+| `yacht-full` | All $15+ models | 10-13 | ~$50+ |
+| `valis-lite` | 1 flagship + 1 budget per provider | 15-20 | ~$15-20 |
+| `valis-full` | EVERYTHING (requires "VALIS" confirm) | 100+ | ~$150+ |
+
+### Separate Flags
+
+| Flag | Description |
+|------|-------------|
+| `--include-rate-limited` | Include rate-limited ships (excluded by default) |
+| `--no-confirm` | Skip cost confirmation prompt |
+
+### Example Usage
+
+```powershell
+# Run with curated patrol fleet (~$3-5)
+py run018_recursive_learnings.py --experiment architecture --providers patrol-lite
+
+# Full armada for comprehensive coverage (~$20-30)
+py run018_recursive_learnings.py --experiment threshold --providers armada-full
+
+# Maximum coverage (requires typing "VALIS" to confirm)
+py run020_tribunal_A.py --providers valis-full
+
+# Include rate-limited models for full coverage
+py run020_tribunal_B.py --providers armada-full --include-rate-limited
+```
+
+### Cost Estimation
+
+All run scripts now display estimated cost before execution:
+
+```text
+================================================================================
+S7 RUN 018: RECURSIVE LEARNINGS
+================================================================================
+Fleet: armada-lite (22 ships)
+Estimated exchanges: 40 per ship x 22 ships = 880 total
+Estimated tokens: ~4M input, ~2M output
+
+ESTIMATED COST: $9.42
+   - Anthropic: $2.50 (4 ships)
+   - OpenAI: $3.20 (6 ships)
+   - Google: $0.72 (3 ships)
+   - xAI: $1.40 (4 ships)
+   - Together: $1.60 (5 ships)
+
+Proceed? [Y/n]:
+```
+
+---
 
 **8 Baseline Questions (CFA-optimized):**
 
@@ -562,4 +647,4 @@ See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
 
 ---
 
-Last Updated: December 14, 2025
+Last Updated: December 14, 2025 (Fleet Tier System added)

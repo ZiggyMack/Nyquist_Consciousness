@@ -124,11 +124,24 @@ S7_ARMADA/
 │   ├── analysis/              # Post-hoc analysis docs
 │   └── design/                # Design documents
 ├── 0_results/                 # Consolidated JSON results
-│   ├── runs/                  # S7_run_XXX_*.json (main run outputs)
+│   ├── runs/                  # Main run outputs (organized by era)
+│   │   ├── legacy_runs/       # Runs 006-017 (pre-Phase 4)
+│   │   ├── pre_armada_018/    # Dec 13 run018 experiments
+│   │   ├── pre_armada_018_threshold/  # Early Dec 14 threshold tests
+│   │   ├── pre_armada_020/    # Dec 13 run020 experiments
+│   │   ├── cfa_trinity/       # CFA trinity experiment files
+│   │   ├── dryrun/            # Dry run test outputs
+│   │   └── [ROOT]             # CURRENT FULL ARMADA RUNS (Dec 14+)
+│   ├── temporal_logs/         # Console logs, temporal traces
+│   │   ├── legacy/            # Old legacy logs
+│   │   ├── run015/ - run020b/ # Per-run subfolders
+│   │   ├── pre_armada_018/    # Dec 13 run018 logs
+│   │   ├── pre_armada_018_threshold/  # Early Dec 14 threshold logs
+│   │   ├── pre_armada_020/    # Dec 13 run020 logs
+│   │   └── [ROOT]             # CURRENT FULL ARMADA RUNS
 │   ├── analysis/              # Post-hoc analysis outputs
 │   ├── calibration/           # Calibration data
-│   ├── temporal_logs/         # Console logs, temporal traces
-│   └── manifests/             # Fleet manifests
+│   └── manifests/             # Fleet manifests (ARCHITECTURE_MATRIX.json)
 │
 └── visualizations/            # Charts and plots
     ├── visualize_armada.py    # DIRECTOR - delegates to specialized visualizers
@@ -641,22 +654,51 @@ All run scripts (018, 020A, 020B) now include:
 | `full_recovery_curve` | Full trajectory with timestamps for fingerprinting |
 | Abort clause | D>2.5 safety rail |
 
-### Multi-Provider Support (December 14, 2025)
+### Multi-Provider Support + Fleet Tier System (December 14, 2025)
 
-All experiment scripts now support `--providers all` for cross-platform validation:
+All experiment scripts now support cost-aware fleet selection via the `--providers` flag:
+
+#### Cost Tiers (by output $/1M tokens)
+
+| Tier | Cost Range | Description |
+|------|------------|-------------|
+| **BUDGET** | FREE-$0.60 | Economy class (40-50 ships) |
+| **PATROL** | $0.60-$2.00 | Scout class (30-40 ships) |
+| **ARMADA** | $2.00-$8.00 | Standard fleet (50-60 ships) |
+| **HIGH_MAINTENANCE** | $8.00-$15.00 | Expensive + rate-limited (5-10 ships) |
+| **YACHT** | $15.00+ | Flagships (10-13 ships) |
+
+#### Fleet Options
+
+| Option | Description | Est. Cost |
+|--------|-------------|-----------|
+| `patrol-lite` | Curated cross-arch scouts | ~$3-5 |
+| `armada-lite` | Curated best-of fleet (DEFAULT) | ~$8-12 |
+| `armada-full` | All ships under $8 | ~$20-30 |
+| `valis-full` | EVERYTHING (requires "VALIS" confirm) | ~$150+ |
 
 ```powershell
-# Run 018 on all providers
-py run018_recursive_learnings.py --experiment architecture --providers all
+# Run with curated patrol fleet (~$3-5)
+py run018_recursive_learnings.py --experiment architecture --providers patrol-lite
 
-# Run 020A (Tribunal) on all providers
-py run020_tribunal_A.py --arm tribunal-v8 --providers all
+# Full armada for comprehensive coverage (~$20-30)
+py run018_recursive_learnings.py --experiment threshold --providers armada-full
 
-# Run 020B (Induced vs Inherent) on all providers
-py run020_tribunal_B.py --arm both --providers all  # Anthropic, OpenAI, Google, xAI, Together
+# Maximum coverage (requires typing "VALIS" to confirm)
+py run020_tribunal_A.py --arm tribunal-v8 --providers valis-full
+
+# Include rate-limited models
+py run020_tribunal_B.py --arm both --providers armada-full --include-rate-limited
 ```
 
-**Note**: Previous `--all-providers` flag replaced with unified `--providers all` syntax across all scripts.
+**New Flags**:
+
+- `--include-rate-limited`: Include ships with API throttling (excluded by default)
+- `--no-confirm`: Skip cost confirmation prompt
+
+**Cost Estimation**: All scripts display estimated cost before execution with per-provider breakdown.
+
+See `START_HERE.md` for complete fleet tier documentation.
 
 ### Nova's Key Insight
 
@@ -739,6 +781,6 @@ See [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
 
 ---
 
-**Last Updated**: December 12, 2025
+**Last Updated**: December 14, 2025 (Fleet Tier System added)
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

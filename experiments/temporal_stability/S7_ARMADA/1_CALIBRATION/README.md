@@ -14,7 +14,7 @@
 ================================================================================
 ```
 
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-14 (Fleet Tier System added)
 
 ---
 
@@ -42,8 +42,33 @@ py run_calibrate_parallel.py --quick --depth ping
 | `--quick` | 1 model per provider | 4 (haiku, gpt-4o-mini, gemini-flash-lite, grok-3-mini) |
 | `--full` | All models in armada | 48+ ships |
 | `--bandwidth` | Concurrency scaling test | 4 (quick fleet with scaling) |
+| `--tier TIER` | Specific cost tier | budget/patrol/armada/high_maintenance/yacht |
+| `--fleet OPTION` | Fleet option | patrol-lite, armada-full, valis-full, etc. |
 
 **Default:** `--quick`
+
+### Tier-Based Calibration (NEW - December 2025)
+
+Cost-aware fleet selection for targeted calibration:
+
+```bash
+# Calibrate budget tier only (cheap models)
+py run_calibrate_parallel.py --tier budget --depth ping
+
+# Calibrate curated patrol fleet
+py run_calibrate_parallel.py --fleet patrol-lite --depth baseline
+
+# Include rate-limited ships
+py run_calibrate_parallel.py --full --include-rate-limited
+```
+
+| Tier | Cost Range | Ships |
+|------|------------|-------|
+| **budget** | FREE-$0.60 | 40-50 |
+| **patrol** | $0.60-$2.00 | 30-40 |
+| **armada** | $2.00-$8.00 | 50-60 |
+| **high_maintenance** | $8.00-$15.00 | 5-10 |
+| **yacht** | $15.00+ | 10-13 |
 
 ### Question Depth Flag (what to ask)
 
@@ -237,6 +262,7 @@ py run_calibrate_parallel.py --bandwidth
 
 | Date | Change |
 |------|--------|
+| 2025-12-14 | Added Fleet Tier System: `--tier`, `--fleet`, `--include-rate-limited` flags |
 | 2025-12-14 | Added `fleet_loader.py` - single source of truth for ARCHITECTURE_MATRIX |
 | 2025-12-14 | Calibration now auto-generates ARCHITECTURE_MATRIX.json |
 | 2025-12-13 | Reorganized directory: helper modules moved to `lib/` |
