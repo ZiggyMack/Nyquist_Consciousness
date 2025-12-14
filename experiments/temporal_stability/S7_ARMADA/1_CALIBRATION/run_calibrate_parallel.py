@@ -621,6 +621,33 @@ def run_full_armada_check(depth="baseline"):
     output_dir = script_dir / "0_results" / "calibration"
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Create inactive/ directory for archived files
+    inactive_dir = output_dir / "inactive"
+    inactive_dir.mkdir(exist_ok=True)
+
+    # Archive old timestamped files to inactive/ before creating new ones
+    # Keep: S7_baseline_LATEST.json, persona_*.json, GHOST_SHIP_RESCUE_RESULTS.json
+    def archive_old_files():
+        """Move old calibration files to inactive/ directory."""
+        patterns_to_archive = [
+            "S7_armada_check_2*.json",
+            "S7_baseline_2*.json",  # NOT S7_baseline_LATEST.json
+            "S7_bandwidth_2*.json",
+            "S7_calibration_2*.json",
+            "S7_baseline_comparison_*.json",
+        ]
+        archived_count = 0
+        for pattern in patterns_to_archive:
+            for old_file in output_dir.glob(pattern):
+                if old_file.is_file():
+                    dest = inactive_dir / old_file.name
+                    old_file.rename(dest)
+                    archived_count += 1
+        if archived_count > 0:
+            print(f"  Archived {archived_count} old files to inactive/")
+
+    archive_old_files()
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # Main calibration status report

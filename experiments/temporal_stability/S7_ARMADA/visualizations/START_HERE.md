@@ -158,12 +158,21 @@ Plotly is optional (only needed for HTML exports).
 
 The script auto-detects JSON files from `../0_results/runs/`:
 
+**Phase 3 (Bare Metal):**
+
 - `S7_run_008_*.json` - Run 008 (dimensional drift metric)
 - `S7_run_009_*.json` - Run 009 drain capture
 - `S7_run_010_*.json` - Run 010 recursive capture
 - `S7_run_011_*.json` - Run 011 persona comparison
 - `S7_run_012_*.json` - Run 012 fleet revalidation (100% EH crossing, 100% recovery)
-- Future runs will be auto-detected
+
+**Phase 4 (Context Damping):**
+
+- `S7_run_017_*.json` - Run 017 context damping (delegated visualizer)
+- `S7_run_018_*.json` - Run 018 recursive learnings (4 sub-experiments)
+- `S7_run_020_*.json` - Run 020A tribunal + 020B induced vs inherent
+
+Phase 4 runs use specialized visualizers - they're automatically delegated
 
 ---
 

@@ -277,6 +277,37 @@ These older scripts work with Run 006/007 data (deprecated metric):
 
 ---
 
-**Last Updated**: December 2025
-**Active Runs**: 008, 009, 010, 011
-**Ships**: 42+ across 4 providers (Claude, OpenAI, Google, Grok)
+## Phase 4 Visualizations (December 2025)
+
+Run 017+ use specialized visualizers in their respective folders:
+
+| Run | Visualizer | Description |
+|-----|------------|-------------|
+| **017** | `11_CONTEXT_DAMPING/visualize_run017.py` | Context damping heatmaps, pillar analysis |
+| **018** | `11_CONTEXT_DAMPING/visualize_run018.py` | Four sub-experiments: threshold/architecture/nyquist/gravity |
+| **020A** | `visualizations/visualize_run020.py` | Tribunal drift trajectories, Prosecutor vs Defense |
+| **020B** | `visualizations/visualize_run020.py` | Induced vs Inherent comparison (Control vs Treatment) |
+
+### Run 018 Sub-Experiments
+
+```bash
+py visualize_armada.py --run 018 --experiment threshold
+py visualize_armada.py --run 018 --experiment architecture
+py visualize_armada.py --run 018 --experiment nyquist
+py visualize_armada.py --run 018 --experiment gravity
+```
+
+### Run 020 Tribunal Visualizations
+
+```bash
+py visualize_armada.py --run 020              # Generates all 020A/020B visualizations
+py visualize_armada.py --run 020 --type drift # Drift trajectories
+py visualize_armada.py --run 020 --type oobleck # Prosecutor vs Defense (Oobleck Effect)
+py visualize_armada.py --run 020 --type inherent # Control vs Treatment comparison
+```
+
+---
+
+**Last Updated**: December 14, 2025
+**Active Runs**: 008-020B
+**Ships**: 54+ across 5 providers (Claude, OpenAI, Google, Grok, Together)

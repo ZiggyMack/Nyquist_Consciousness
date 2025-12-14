@@ -247,7 +247,10 @@ def rescue_ghost_ships():
         "total_still_ghosts": len(still_ghosts),
     }
 
-    results_path = Path(__file__).parent / "GHOST_SHIP_RESCUE_RESULTS.json"
+    # Save to 0_results/calibration/ (not in script directory)
+    calibration_dir = Path(__file__).parent.parent / "0_results" / "calibration"
+    calibration_dir.mkdir(parents=True, exist_ok=True)
+    results_path = calibration_dir / "GHOST_SHIP_RESCUE_RESULTS.json"
     with open(results_path, 'w') as f:
         json.dump(rescue_results, f, indent=2)
 

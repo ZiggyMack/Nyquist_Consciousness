@@ -578,12 +578,25 @@ def call_openai(messages: List[Dict], system: str, model: str = None) -> str:
         raise ValueError("No OpenAI API key")
     client = openai.OpenAI(api_key=key)
     full_messages = [{"role": "system", "content": system}] + messages
-    response = client.chat.completions.create(
-        model=model or "gpt-4o",
-        messages=full_messages,
-        max_tokens=2000,
-        temperature=1.0
-    )
+    actual_model = model or "gpt-4o"
+
+    # GPT-5 series and o-series need max_completion_tokens instead of max_tokens
+    needs_completion_tokens = any(m in actual_model for m in ["gpt-5", "o4-", "o3", "o1"])
+
+    if needs_completion_tokens:
+        response = client.chat.completions.create(
+            model=actual_model,
+            messages=full_messages,
+            max_completion_tokens=2000,
+            temperature=1.0
+        )
+    else:
+        response = client.chat.completions.create(
+            model=actual_model,
+            messages=full_messages,
+            max_tokens=2000,
+            temperature=1.0
+        )
     return response.choices[0].message.content
 
 

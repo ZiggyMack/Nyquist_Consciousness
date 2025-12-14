@@ -9,6 +9,7 @@ Usage:
     from fleet_loader import load_architecture_matrix, get_full_armada, get_together_fleet
     from fleet_loader import get_tier_fleet, get_patrol_lite, get_armada_lite
     from fleet_loader import estimate_run_cost, get_fleet_by_option
+    from fleet_loader import needs_completion_tokens, get_ship_syntax
 
     ARCHITECTURE_MATRIX = load_architecture_matrix()
     FULL_ARMADA = get_full_armada()
@@ -20,6 +21,11 @@ Usage:
 
     # Cost estimation
     cost = estimate_run_cost(ships, exchanges=40)
+
+    # API syntax checking (for OpenAI GPT-5/O-series)
+    if needs_completion_tokens("gpt-5"):
+        # Use max_completion_tokens instead of max_tokens
+        pass
 
 The manifest file (0_results/manifests/ARCHITECTURE_MATRIX.json) is updated by:
     1. Calibration script (1_CALIBRATION/run_calibrate_parallel.py)
@@ -36,6 +42,10 @@ Tier System (by output $/1M tokens):
     - armada: $2.00-$8.00 (First class)
     - patrol: $0.60-$2.00 (Business class)
     - budget: FREE-$0.60 (Poor Man's Navy)
+
+Syntax Variants:
+    - standard: Normal max_tokens parameter (most models)
+    - completion_tokens: Requires max_completion_tokens (GPT-5 series, O-series)
 """
 
 import json
@@ -391,6 +401,36 @@ def get_ship_cost(ship_name: str) -> Tuple[float, float]:
     manifest = _load_manifest()
     config = manifest.get("ships", {}).get(ship_name, {})
     return (config.get("cost_input", 0.0), config.get("cost_output", 0.0))
+
+
+def get_ship_syntax(ship_name: str) -> str:
+    """
+    Get API syntax variant for a ship.
+
+    Returns:
+        'standard' - Normal max_tokens parameter
+        'completion_tokens' - Requires max_completion_tokens instead of max_tokens
+    """
+    manifest = _load_manifest()
+    config = manifest.get("ships", {}).get(ship_name, {})
+    return config.get("syntax", "standard")
+
+
+def needs_completion_tokens(ship_name: str) -> bool:
+    """Check if ship requires max_completion_tokens instead of max_tokens."""
+    return get_ship_syntax(ship_name) == "completion_tokens"
+
+
+def get_ships_by_syntax(syntax: str = "completion_tokens") -> List[str]:
+    """Get all ships with a specific syntax variant."""
+    manifest = _load_manifest()
+    return [
+        ship_name
+        for ship_name, config in manifest.get("ships", {}).items()
+        if config.get("syntax") == syntax
+        and config.get("status") == "operational"
+        and ship_name not in LEGACY_ALIASES
+    ]
 
 
 def estimate_run_cost(

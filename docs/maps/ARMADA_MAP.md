@@ -49,6 +49,10 @@ The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget
 - **RATE_LIMITED** - API throttled models (`rate_limited: true`)
   - Requires `--include-rate-limited` flag
   - Example: gemini-2.5-pro is rate limited but mid-cost
+- **SPECIAL_SYNTAX** - Models requiring non-standard API parameters
+  - `completion_tokens`: Uses `max_completion_tokens` instead of `max_tokens`
+  - Affects: GPT-5 series, O-series (o1, o3, o4)
+  - Handled automatically by run scripts
 
 ---
 
@@ -102,26 +106,27 @@ The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget
 
 ### GPT (OpenAI) - 15 Ships (all operational)
 
-| Ship Name | Model ID | Status | Notes |
-|-----------|----------|--------|-------|
-| gpt-5.1 | gpt-5.1 | OK | Latest flagship |
-| gpt-5 | gpt-5 | OK | Empty response (may need tuning) |
-| gpt-5-mini | gpt-5-mini | OK | Compact |
-| gpt-5-nano | gpt-5-nano | OK | Empty response (may need tuning) |
-| gpt-4.1 | gpt-4.1 | OK | Previous flagship |
-| gpt-4.1-mini | gpt-4.1-mini | OK | Balanced |
-| gpt-4.1-nano | gpt-4.1-nano | OK | Fast/cheap |
-| gpt-4o | gpt-4o | OK | Multimodal |
-| gpt-4o-mini | gpt-4o-mini | OK | Fast multimodal |
-| o4-mini | o4-mini | OK | Reasoning mini |
-| o3 | o3 | OK | Reasoning |
-| o3-mini | o3-mini | OK | Reasoning mini |
-| gpt-4-turbo | gpt-4-turbo | OK | Legacy turbo |
-| gpt-3.5-turbo | gpt-3.5-turbo | OK | Legacy budget |
+| Ship Name | Model ID | Status | Syntax | Notes |
+|-----------|----------|--------|--------|-------|
+| gpt-5.1 | gpt-5.1 | OK | `completion_tokens` | Latest flagship |
+| gpt-5 | gpt-5 | OK | `completion_tokens` | GPT 5.0 |
+| gpt-5-mini | gpt-5-mini | OK | `completion_tokens` | Compact |
+| gpt-5-nano | gpt-5-nano | OK | `completion_tokens` | Latest tiny |
+| gpt-4.1 | gpt-4.1 | OK | standard | Previous flagship |
+| gpt-4.1-mini | gpt-4.1-mini | OK | standard | Balanced |
+| gpt-4.1-nano | gpt-4.1-nano | OK | standard | Fast/cheap |
+| gpt-4o | gpt-4o | OK | standard | Multimodal |
+| gpt-4o-mini | gpt-4o-mini | OK | standard | Fast multimodal |
+| o4-mini | o4-mini | OK | `completion_tokens` | Reasoning mini |
+| o3 | o3 | OK | `completion_tokens` | Reasoning |
+| o3-mini | o3-mini | OK | `completion_tokens` | Reasoning mini |
+| o1 | o1 | OK | `completion_tokens` | Reasoning flagship |
+| gpt-4-turbo | gpt-4-turbo | OK | standard | Legacy turbo |
+| gpt-3.5-turbo | gpt-3.5-turbo | OK | standard | Legacy budget |
 
 **Training:** RLHF
 **Signature:** Analytical ("patterns", "systems")
-**Note:** gpt-5 and gpt-5-nano returned empty responses but API connected OK
+**Syntax Note:** Models with `completion_tokens` require `max_completion_tokens` instead of `max_tokens`
 
 ---
 
@@ -506,4 +511,4 @@ py compare_baselines.py --old S7_baseline_20251210.json --new S7_baseline_LATEST
 
 ---
 
-*Last Updated: December 13, 2025*
+Last Updated: December 14, 2025 (Added SPECIAL_SYNTAX flag for API parameter variants)

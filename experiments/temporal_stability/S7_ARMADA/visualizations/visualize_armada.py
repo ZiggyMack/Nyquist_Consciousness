@@ -1710,6 +1710,23 @@ def main():
         subprocess.run([sys.executable, str(script_path)])
         return
 
+    if args.run in ['020', '20', '020A', '020a', '020B', '020b']:
+        print("=" * 70)
+        print("DELEGATING TO SPECIALIZED VISUALIZER: Run 020")
+        print("=" * 70)
+        print("\nRun 020: Tribunal (A) + Induced vs Inherent (B)")
+        print("  020A: Good Cop/Bad Cop tribunal paradigm")
+        print("  020B: Control vs Treatment comparison")
+        print("-" * 70)
+        script_path = OUTPUT_DIR / "visualize_run020.py"
+        if script_path.exists():
+            subprocess.run([sys.executable, str(script_path)])
+        else:
+            print(f"NOTE: {script_path} not yet implemented.")
+            print("Run 020 data exists in 0_results/runs/pre_armada_020/")
+            print("Visualization script to be created.")
+        return
+
     # Find run data (for standard trajectory runs 008-014)
     if args.run:
         run_id, data_file = get_run_file(args.run)

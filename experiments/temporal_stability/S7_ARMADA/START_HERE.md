@@ -328,6 +328,27 @@ See: [1_CALIBRATION/README.md](1_CALIBRATION/README.md) | [4_VALIS_DECLARATION.m
 | `--include-rate-limited` | Include rate-limited ships (excluded by default) |
 | `--no-confirm` | Skip cost confirmation prompt |
 
+### API Syntax Variants (December 2025)
+
+Some models require non-standard API parameters:
+
+| Syntax | Parameter | Affected Models |
+|--------|-----------|-----------------|
+| `standard` | `max_tokens=N` | Most models (default) |
+| `completion_tokens` | `max_completion_tokens=N` | GPT-5 series, O-series (o1, o3, o4) |
+
+This is tracked in ARCHITECTURE_MATRIX.json with the `"syntax"` field. Run scripts should use helpers from `fleet_loader.py`:
+
+```python
+from fleet_loader import needs_completion_tokens, get_ship_syntax
+
+if needs_completion_tokens(model_name):
+    # Use max_completion_tokens instead of max_tokens
+    pass
+```
+
+See [1_CALIBRATION/README.md](1_CALIBRATION/README.md) for full documentation.
+
 ### Example Usage
 
 ```powershell
@@ -440,6 +461,8 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 | **020B** | **Induced vs Inherent** | - | **82% drift is INHERENT; probing amplifies but doesn't create** |
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
+
+**Current Status (December 14, 2025):** Run 018-020B protocols complete. Multi-provider coverage runs in progress with `--providers armada-full --include-rate-limited`.
 
 ---
 

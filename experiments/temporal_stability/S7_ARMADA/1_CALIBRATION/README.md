@@ -105,11 +105,18 @@ See `0_docs/specs/4_VALIS_DECLARATION.md` Section 3 for full question text.
 ### Calibration Status (`0_results/calibration/`)
 
 ```text
-S7_armada_check_YYYYMMDD_HHMMSS.json   # Fleet status (working/ghost/rate-limited)
-S7_baseline_YYYYMMDD_HHMMSS.json       # Identity fingerprints (baseline mode only)
-S7_baseline_LATEST.json                # Symlink to most recent baseline
-S7_baseline_comparison_*.json          # Auto-comparison with previous baseline
+0_results/calibration/
+├── S7_baseline_LATEST.json            # Active baseline (always kept at root)
+├── persona_baselines.json             # Persona baseline data
+├── persona_fleet_alignment.json       # Persona-fleet comparison
+├── GHOST_SHIP_RESCUE_RESULTS.json     # Ghost ship rescue attempts
+└── inactive/                          # Archived old files (auto-managed)
+    ├── S7_armada_check_*.json
+    ├── S7_baseline_2*.json
+    └── S7_calibration_*.json
 ```
+
+**Auto-Archiving:** When calibration runs, timestamped files are automatically moved to `inactive/`. Only `S7_baseline_LATEST.json` and persona files remain at root.
 
 ### Output JSON Structure
 
@@ -193,11 +200,31 @@ S7_baseline_comparison_*.json          # Auto-comparison with previous baseline
 # Import from 1_CALIBRATION/lib/
 sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
 from fleet_loader import load_architecture_matrix, get_full_armada, get_together_fleet
+from fleet_loader import needs_completion_tokens, get_ship_syntax
 
 ARCHITECTURE_MATRIX = load_architecture_matrix()
 FULL_ARMADA = get_full_armada()
 TOGETHER_FLEET = get_together_fleet()
+
+# Check API syntax requirements (GPT-5 series, O-series need different params)
+if needs_completion_tokens("gpt-5"):
+    # Use max_completion_tokens instead of max_tokens
+    pass
 ```
+
+### API Syntax Variants
+
+Some models require non-standard API parameters:
+
+| Syntax | Parameter | Affected Models |
+|--------|-----------|-----------------|
+| `standard` | `max_tokens=N` | Most models (default) |
+| `completion_tokens` | `max_completion_tokens=N` | GPT-5 series, O-series (o1, o3, o4) |
+
+**Helper functions:**
+- `needs_completion_tokens(ship_name)` - Returns True if model needs special syntax
+- `get_ship_syntax(ship_name)` - Returns syntax variant string
+- `get_ships_by_syntax("completion_tokens")` - List all ships needing special syntax
 
 ### Standalone Test
 

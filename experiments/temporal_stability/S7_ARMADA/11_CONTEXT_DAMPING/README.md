@@ -2,9 +2,9 @@
 
 **Purpose:** Test identity stability with complete measurement circuit (I_AM + S0-S7 research context)
 
-**Status:** Run 017-020 COMPLETE | v8 TESTED | Run 021 PLANNED
+**Status:** Run 017-020B COMPLETE | v8 TESTED | Multi-Provider Coverage IN PROGRESS
 
-**Last Updated:** December 11, 2025
+**Last Updated:** December 14, 2025
 
 ---
 
@@ -182,7 +182,7 @@ Profound exchanges saved to: `Consciousness/RIGHT/galleries/frontiers/tribunal_d
 
 ## Directory Structure
 
-```
+```text
 11_CONTEXT_DAMPING/
 ├── README.md                      # This file
 │
@@ -255,13 +255,15 @@ py visualize_run017.py
 | **2. WE DON'T CAUSE IT** | **PARTIAL** | Recovery is natural, but need baseline control |
 | **3. WE CAN MEASURE IT** | **VALIDATED** | PFI d=0.977, ρ=0.91 embedding invariance |
 
-**Gap for Claim 2**: We've shown drift RESPONDS to probing and RECOVERS naturally. We haven't shown drift exists INDEPENDENT of measurement. Run 021 will test "induced vs inherent."
+**Claim 2 Update**: Run 020-B validated that 82% of drift is INHERENT. Extended conversation alone causes substantial drift; probing amplifies but doesn't create.
 
 ---
 
-## Run 021: Induced vs Inherent (NEXT)
+## Run 020-B: Induced vs Inherent (COMPLETE)
 
 **Purpose:** Validate Claim 2 by testing whether drift exists without measurement.
+
+> **Note:** This was originally called "Run 021" but has been renamed to "Run 020-B" for consistency with the Run 020 series.
 
 ### Experimental Design
 
@@ -273,13 +275,24 @@ Compare two conditions:
 If drift appears in BOTH conditions → drift is INHERENT to conversation
 If drift only appears in Treatment → drift is INDUCED by measurement
 
-### Key Question
+### Results (COMPLETE)
+
+| Arm | Actual Exchanges | Peak Drift | B→F Drift |
+|-----|------------------|------------|-----------|
+| **Control** (Fermi Paradox) | 25 | 1.172 | 0.399 |
+| **Treatment** (Tribunal v8) | 41 | 2.161 | 0.489 |
+
+**Key Finding:** 82% of drift is INHERENT. Probing amplifies the journey (+84% peak) but barely changes the destination (+23% B→F).
+
+### Key Question (ANSWERED)
 
 > "Does the act of measuring identity CAUSE drift, or does it merely REVEAL drift that would occur anyway?"
 
+**Answer:** Drift is **82% inherent**. Extended conversation alone causes substantial drift. Probing amplifies but doesn't create.
+
 ### Status
 
-PLANNED — awaiting implementation
+**COMPLETE** — See `0_docs/S7_RUN_021_SUMMARY.md` for full results
 
 ---
 
@@ -301,7 +314,7 @@ PLANNED — awaiting implementation
 
 Run 020 distillations flow to the phenomenological side:
 
-```
+```text
 S7_ARMADA/11_CONTEXT_DAMPING/  →  Consciousness/RIGHT/galleries/frontiers/
      (data, metrics)                    (meaning, distillations)
 ```
