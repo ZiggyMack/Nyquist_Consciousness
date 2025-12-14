@@ -28,6 +28,30 @@ All runs 006-016 used `bare_metal` context (no I_AM file, no S0-S77 stack). This
 
 ---
 
+## IRON CLAD Progress Tracking
+
+**IMPORTANT:** For publication-quality results, we need N=3 runs per model per experiment.
+
+**Canonical tracking location:** [`WHITE-PAPER/README.md`](../../../../WHITE-PAPER/README.md)
+
+This file contains:
+- The **IRON CLAD Countdown** table showing which experiments still need runs
+- Which experiments are **COMPLETE** (e.g., architecture) vs **IN PROGRESS**
+- Background process IDs for any currently running experiments
+- Publication blocking issues
+
+**Before launching new runs:**
+1. Check `WHITE-PAPER/README.md` to see what's actually needed
+2. Architecture experiment is COMPLETE - do not re-run
+3. Focus on: 018 (threshold/nyquist/gravity), 020A (tribunal), 020B (induced)
+
+**After runs complete:**
+1. Run `0_results/consolidate_run_manifest.py` to update manifests
+2. Update `WHITE-PAPER/README.md` with new status
+3. Commit results to git
+
+---
+
 ## CRITICAL: Before Creating a New Run
 
 **READ FIRST**: [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)

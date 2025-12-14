@@ -26,6 +26,11 @@ You are being asked to:
 
 ### What's PENDING (Runs 018, 020A, 020B)
 
+**IRON CLAD Status:** See [`README.md`](README.md) for the canonical tracking table showing:
+- Which experiments need more runs (N=3 per model per experiment)
+- Current progress percentage
+- Background process IDs for running experiments
+
 **IMPORTANT:** Current experimental data represents **dry runs only** (single platform: Claude).
 
 Full runs will test across multiple platforms/models:
