@@ -2,8 +2,44 @@
 
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
-**Last Updated:** 2025-12-13
-**Status:** Reorganized with 3 clear publication paths
+**Last Updated:** 2025-12-14
+**Status:** IRON CLAD validation in progress
+
+---
+
+## IRON CLAD Countdown
+
+**Goal:** N=3 runs per provider per experiment for publication-quality confidence intervals.
+
+### Current Run Status (December 14, 2025)
+
+| Experiment | Claude | GPT-5/O | Gemini | Grok | Together | Status |
+|------------|--------|---------|--------|------|----------|--------|
+| **018 threshold** | - | **RUNNING** | 1/3 | - | 3/3 | 4/15 |
+| **018 nyquist** | - | **RUNNING** | 1/3 | - | 3/3 | 4/15 |
+| **018 gravity** | - | **RUNNING** | 1/3 | - | 3/3 | 4/15 |
+| **020A tribunal** | - | **RUNNING** | 1/3 | 1/3 | - | 2/15 |
+| **020B induced** | - | **RUNNING** | - | - | 1/3 | 1/15 |
+
+Progress: ~15/75 runs complete (20%)
+
+### What's Blocking Publication
+
+| Paper | Blocking Issue | Required Runs |
+|-------|----------------|---------------|
+| **Workshop** | Cross-platform 82% replication | 020B × 3 providers |
+| **arXiv** | Full validation matrix | All experiments × N=3 |
+| **Journal** | Everything + human validation | Q2-Q3 2026 |
+
+### Active Background Processes
+
+5 experiments currently running (OpenAI GPT-5/O-series with syntax fix):
+
+- Run 018 threshold (a094f0)
+- Run 018 nyquist (0fc8e6)
+- Run 018 gravity (603033)
+- Run 020A tribunal (4c0f03)
+- Run 020B induced (77c656)
 
 ---
 

@@ -3,8 +3,14 @@
 ## Persona Manifolds: Stable Identity Attractors in AI Systems
 
 **Target:** NeurIPS 2025 Workshop on AI Alignment
-**Status:** Draft complete
+**Status:** Draft complete (Updated 2025-12-14)
 **Format:** 4-page extended abstract + references
+
+## Current Draft
+
+The latest draft PDF is available at: [`../../reviewers/phase3/Nyquist_Workshop_Paper_DRAFT.pdf`](../../reviewers/phase3/Nyquist_Workshop_Paper_DRAFT.pdf)
+
+See [`../../reviewers/phase3/PLACEHOLDER_SUMMARY.md`](../../reviewers/phase3/PLACEHOLDER_SUMMARY.md) for pending validation data.
 
 ---
 

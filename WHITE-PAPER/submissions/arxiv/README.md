@@ -3,8 +3,15 @@
 ## Nyquist Consciousness: Identity Compression and Reconstruction Across AI Architectures
 
 **Target:** arXiv cs.AI, cs.CL
-**Status:** LaTeX package ready for submission (Updated 2025-12-13 with Runs 015-021)
+**Status:** LaTeX package ready for submission (Updated 2025-12-14 with IRON CLAD validation in progress)
+
 **Format:** Full paper (~30 pages) + supplementary materials
+
+## Current Draft
+
+The latest draft PDF is available at: [`../../reviewers/phase3/Nyquist_arXiv_Paper_DRAFT.pdf`](../../reviewers/phase3/Nyquist_arXiv_Paper_DRAFT.pdf)
+
+See [`../../reviewers/phase3/PLACEHOLDER_SUMMARY.md`](../../reviewers/phase3/PLACEHOLDER_SUMMARY.md) for pending validation data.
 
 **🔬 2025-12-13 UPDATE:** Nova's S7 review integrated. Section 10 expanded with Control-Systems Era findings (Runs 015-021), 82% inherent drift result, Event Horizon reframing.
 

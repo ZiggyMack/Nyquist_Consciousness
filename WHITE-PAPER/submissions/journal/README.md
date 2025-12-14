@@ -3,7 +3,14 @@
 **Target:** Nature Machine Intelligence (primary) / JMLR / Cognitive Science
 **Format:** ~10,000 words + methods
 **Status:** Planning (Q2-Q3 2026)
+
 **Strictness:** HIGHEST
+
+## Current Draft
+
+The latest draft PDF is available at: [`../../reviewers/phase3/Nyquist_Journal_Paper_DRAFT.pdf`](../../reviewers/phase3/Nyquist_Journal_Paper_DRAFT.pdf)
+
+See [`../../reviewers/phase3/PLACEHOLDER_SUMMARY.md`](../../reviewers/phase3/PLACEHOLDER_SUMMARY.md) for pending validation data.
 
 ---
 
