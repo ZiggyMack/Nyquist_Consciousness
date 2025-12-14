@@ -28,11 +28,11 @@
 
 Every Claude runs this complete sequence:
 
-| Step | Experiment | Script | ALL Providers |
-|------|------------|--------|---------------|
-| 1 | **Run 018** | `run018_recursive_learnings.py` | Anthropic, OpenAI, Google, xAI, Together |
-| 2 | **Run 020A** | `run020_tribunal_A.py` | Anthropic, OpenAI, Google, xAI, Together |
-| 3 | **Run 020B** | `run020_tribunal_B.py` | Anthropic, OpenAI, Google, xAI, Together |
+| Step | Experiment | Script | ALL Providers | Flags |
+|------|------------|--------|---------------|-------|
+| 1 | **Run 018** | `run018_recursive_learnings.py` | Anthropic, OpenAI, Google, xAI, Together | `--providers all` |
+| 2 | **Run 020A** | `run020_tribunal_A.py` | Anthropic, OpenAI, Google, xAI, Together | `--providers all` |
+| 3 | **Run 020B** | `run020_tribunal_B.py` | Anthropic, OpenAI, Google, xAI, Together | `--providers all` |
 
 ### Why Full Armada Per Claude?
 
@@ -70,7 +70,7 @@ All 3 Claudes share all API keys. If you hit rate limits:
 ```powershell
 cd d:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\11_CONTEXT_DAMPING
 
-py run018_recursive_learnings.py --experiment all --providers all --session-prefix C[N]_
+py run018_recursive_learnings.py --experiment architecture --providers all --session-prefix C[N]_
 ```
 
 Replace `[N]` with your Claude number (1, 2, or 3).
@@ -124,7 +124,7 @@ py run020_tribunal_B.py --arm both --providers all --session-prefix C[N]_
 
 ### Expected Output
 
-- `0_results/runs/S7_run_021_C[N]_both_*.json` (one per provider)
+- `0_results/runs/S7_run_020b_C[N]_both_*.json` (one per provider)
 
 ### Success Criteria
 

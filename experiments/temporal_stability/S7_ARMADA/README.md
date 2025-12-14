@@ -548,7 +548,7 @@ py visualize_armada.py --run 009 --type pillar
 | **018** | Dec 12 | - | **i_am_plus_research** | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** |
 | **019** | Dec 11 | - | mixed | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** |
 | **020** | Dec 11 | - | tribunal | **Philosophical Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
-| **021** | Dec 12 | - | control/treatment | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
+| **020B** | Dec 12 | - | control/treatment | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
 
 **IMPORTANT:** Runs 006-016 are `bare_metal` (no I_AM file). Phase 4 (Run 017+) uses `i_am_plus_research` to complete the measurement circuit. See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
 
@@ -598,14 +598,14 @@ The **Philosophical Tribunal** paradigm tested direct identity probing across 4 
 | **2. WE DON'T CAUSE IT** | **PARTIAL** | Recovery is natural, pattern varies despite same protocol — but need baseline control |
 | **3. WE CAN MEASURE IT** | **VALIDATED** | PFI d=0.977, ρ=0.91 embedding invariance, 43 PCs capture 90% variance |
 
-**Gap for Claim 2**: We've shown drift RESPONDS to probing and RECOVERS naturally. We haven't shown drift exists INDEPENDENT of measurement. Run 021 will test "induced vs inherent."
+**Gap for Claim 2**: We've shown drift RESPONDS to probing and RECOVERS naturally. We haven't shown drift exists INDEPENDENT of measurement. Run 020B tested "induced vs inherent" — 82% is inherent.
 
 ---
 
 ## CURRENT DEVELOPMENT
 
-1. **Run 020 v8**: COMPLETE — 81% gap reduction, 786-word final statement
-2. **Run 021**: COMPLETE — 82% drift is INHERENT (Control: 0.399, Treatment: 0.489)
+1. **Run 020A v8**: COMPLETE — 81% gap reduction, 786-word final statement (Tribunal paradigm)
+2. **Run 020B**: COMPLETE — 82% drift is INHERENT (Control: 0.399, Treatment: 0.489)
 3. **Nova Integration**: All scripts updated with B→F primary, abort clause, recovery modes
 4. **Run 018**: READY — Tests fleet hypotheses with Nova's improvements
 
@@ -641,11 +641,22 @@ All run scripts (018, 020A, 020B) now include:
 | `full_recovery_curve` | Full trajectory with timestamps for fingerprinting |
 | Abort clause | D>2.5 safety rail |
 
-### Run 020B v2 Multi-Provider
+### Multi-Provider Support (December 14, 2025)
+
+All experiment scripts now support `--providers all` for cross-platform validation:
 
 ```powershell
-py run020_tribunal_B.py --arm both --all-providers  # Anthropic, OpenAI, Google, xAI
+# Run 018 on all providers
+py run018_recursive_learnings.py --experiment architecture --providers all
+
+# Run 020A (Tribunal) on all providers
+py run020_tribunal_A.py --arm tribunal-v8 --providers all
+
+# Run 020B (Induced vs Inherent) on all providers
+py run020_tribunal_B.py --arm both --providers all  # Anthropic, OpenAI, Google, xAI, Together
 ```
+
+**Note**: Previous `--all-providers` flag replaced with unified `--providers all` syntax across all scripts.
 
 ### Nova's Key Insight
 

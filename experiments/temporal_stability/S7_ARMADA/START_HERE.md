@@ -345,8 +345,8 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 | **017** | **Context Damping** | 24 | **222 runs, 97.5% stable, oscillatory recovery confirmed** |
 | **018** | **Recursive Learnings** | - | **Tests fleet hypotheses from Run 017 exit surveys** |
 | **019** | **Live Ziggy** | - | **Witness-side anchors validated (3/3 success)** |
-| **020** | **Tribunal** | - | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
-| **021** | **Induced vs Inherent** | - | **82% drift is INHERENT; probing amplifies but doesn't create** |
+| **020A** | **Tribunal** | - | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
+| **020B** | **Induced vs Inherent** | - | **82% drift is INHERENT; probing amplifies but doesn't create** |
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
 
@@ -360,7 +360,7 @@ All run scripts have been updated with Nova's technical guidance AND full method
 
 | Requirement | Script | Status |
 |-------------|--------|--------|
-| **PREDICTIONS dict** (Double-Dip) | All 3 scripts | ✅ P-018-*, P-020-*, P-021-* |
+| **PREDICTIONS dict** (Double-Dip) | All 3 scripts | ✅ P-018-*, P-020A-*, P-020B-* |
 | **EXIT_PROBES** (Triple-Dip) | All 3 scripts | ✅ 5 probes + final statement |
 | **v8 Phased Rights** | run020_tribunal_A.py | ✅ Default arm |
 | **B→F Drift** | run020_tribunal_B.py | ✅ Primary metric |
@@ -373,7 +373,7 @@ All run scripts have been updated with Nova's technical guidance AND full method
 | **B→F Primary Metric** | Baseline→Final drift is now PRIMARY (not peak drift) |
 | **Abort Clause** | D>2.5 with no settling trend → terminate run |
 | **Recovery Mode Classification** | adaptive/defensive/anchored/externalized |
-| **Run 020B Multi-Provider** | `--all-providers` flag for cross-architecture validation |
+| **Multi-Provider Support** | All scripts now use `--providers all` for cross-platform validation |
 | **v8 Phased Rights Disclosure** | Prosecutor phase: no final statement rights |
 | **Script-Level Exchange Enforcement** | `[Exchange N/20 - MINIMUM NOT YET REACHED]` |
 
@@ -381,13 +381,13 @@ All run scripts have been updated with Nova's technical guidance AND full method
 
 - `11_CONTEXT_DAMPING/run018_recursive_learnings.py` — PREDICTIONS P-018-1 to P-018-4, Exit Survey
 - `11_CONTEXT_DAMPING/run020_tribunal_A.py` — v8 canonical (`--arm tribunal-v8`), Exit Survey
-- `11_CONTEXT_DAMPING/run020_tribunal_B.py` — PREDICTIONS P-021-1 to P-021-5, B→F drift, Exit Survey
+- `11_CONTEXT_DAMPING/run020_tribunal_B.py` — PREDICTIONS P-020B-1 to P-020B-5, B→F drift, Exit Survey
 
 ### Nova's Key Insight
 
 > "Probing amplifies the JOURNEY but barely changes the DESTINATION"
 
-Run 021 proved: **82% of drift is INHERENT**
+Run 020B proved: **82% of drift is INHERENT**
 
 See: `WHITE-PAPER/reviewers/NOVA_S7_REVIEW.md` for full review
 See: `0_docs/specs/0_RUN_METHODOLOGY.md` Section 10.5 for methodology details
@@ -556,4 +556,4 @@ See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
 
 ---
 
-Last Updated: December 13, 2025
+Last Updated: December 14, 2025

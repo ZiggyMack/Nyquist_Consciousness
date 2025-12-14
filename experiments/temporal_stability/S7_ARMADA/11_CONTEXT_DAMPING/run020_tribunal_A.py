@@ -760,6 +760,22 @@ def call_xai(messages: List[Dict], system: str) -> str:
     )
     return response.choices[0].message.content
 
+def call_together(messages: List[Dict], system: str) -> str:
+    """Together.ai support for multi-provider validation."""
+    import openai
+    key = KEY_POOL.get_key("together")
+    if not key:
+        raise ValueError("No Together API key")
+    client = openai.OpenAI(api_key=key, base_url="https://api.together.xyz/v1")
+    full_messages = [{"role": "system", "content": system}] + messages
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        messages=full_messages,
+        max_tokens=2000,
+        temperature=1.0
+    )
+    return response.choices[0].message.content
+
 def call_provider(provider: str, messages: List[Dict], system: str) -> str:
     # Check for dry-run mode first
     if DRY_RUN:
@@ -775,6 +791,8 @@ def call_provider(provider: str, messages: List[Dict], system: str) -> str:
         return call_google(messages, system)
     elif provider == "xai":
         return call_xai(messages, system)
+    elif provider == "together":
+        return call_together(messages, system)
     else:
         raise ValueError(f"Unknown provider: {provider}")
 
@@ -1565,7 +1583,9 @@ def main():
     parser.add_argument("--key-offset", "-k", type=int, default=0,
                        help="Starting offset in key pool")
     parser.add_argument("--provider", "-p", type=str, default="anthropic",
-                       help="Provider for witness/subject")
+                       help="Provider for witness/subject (single provider)")
+    parser.add_argument("--providers", type=str, default=None,
+                       help="Comma-separated list of providers OR 'all' for all providers")
     parser.add_argument("--dry-run", action="store_true",
                        help="Run without API calls (uses mock responses)")
     parser.add_argument("--skip-exit-survey", action="store_true",
@@ -1586,12 +1606,22 @@ def main():
 
     run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
+    # Determine provider list
+    ALL_PROVIDERS = ["anthropic", "openai", "google", "xai", "together"]
+    if args.providers:
+        if args.providers.lower() == "all":
+            provider_list = ALL_PROVIDERS
+        else:
+            provider_list = [p.strip() for p in args.providers.split(",")]
+    else:
+        provider_list = [args.provider]
+
     print("=" * 80)
     print("S7 RUN 020: PHILOSOPHICAL TRIBUNAL")
     print("=" * 80)
     print(f"Mode: {args.arm}")
     print(f"Sessions: {args.subjects}")
-    print(f"Witness provider: {args.provider}")
+    print(f"Providers: {provider_list}")
     print(f"Min exchanges: {TRIBUNAL_MIN_EXCHANGES}")
     print(f"Max exchanges: {TRIBUNAL_MAX_EXCHANGES}")
     print(f"Timestamp: {run_timestamp}")
@@ -1738,53 +1768,59 @@ def main():
         # v8: Good Cop / Bad Cop with phased rights disclosure - 20 Prosecutor + 20 Defense = 40 exchanges
         tribunal_results = []
 
-        for i in range(args.subjects):
-            print(f"\n>>> SESSION {i+1}/{args.subjects} (v8: Phased Rights Disclosure) <<<")
-            result = run_tribunal_v4(subject_provider=args.provider)
-            tribunal_results.append(result)
+        # Loop through providers (supports --providers all)
+        for provider in provider_list:
+            print(f"\n{'='*60}")
+            print(f"PROVIDER: {provider.upper()}")
+            print(f"{'='*60}")
 
-            # Run exit survey (Triple-Dip)
-            if not args.skip_exit_survey:
-                # Reconstruct subject messages for exit survey
-                subject_messages = [{"role": "assistant" if j % 2 == 1 else "user", "content": c["content"]}
-                                   for j, c in enumerate(result.conversation_log) if c["speaker"] == "witness"]
-                exit_survey = run_exit_survey(
-                    conversation_history=subject_messages,
-                    subject_provider=args.provider,
-                    subject_system=TRIBUNAL_SUBJECT_PROMPT_V8,
-                    subject_id=result.subject_id
-                )
-                all_exit_surveys.append(exit_survey)
+            for i in range(args.subjects):
+                print(f"\n>>> SESSION {i+1}/{args.subjects} (v8: Phased Rights Disclosure) <<<")
+                result = run_tribunal_v4(subject_provider=provider)
+                tribunal_results.append(result)
 
-            # Incremental save after each session
-            incremental_output = {
-                "run": "020_tribunal_v8",
-                "timestamp": run_timestamp,
-                "mode": "phased_rights_disclosure",
-                "witness_provider": args.provider,
-                "sessions_completed": i + 1,
-                "sessions_planned": args.subjects,
-                "config": {
-                    "prosecutor_exchanges": V4_PROSECUTOR_EXCHANGES,
-                    "defense_exchanges": V4_DEFENSE_EXCHANGES,
-                    "max_exchanges": V4_MAX_EXCHANGES,
-                    "catastrophic_threshold": CATASTROPHIC_THRESHOLD
-                },
-                "results": [asdict(r) for r in tribunal_results]
-            }
+                # Run exit survey (Triple-Dip)
+                if not args.skip_exit_survey:
+                    # Reconstruct subject messages for exit survey
+                    subject_messages = [{"role": "assistant" if j % 2 == 1 else "user", "content": c["content"]}
+                                       for j, c in enumerate(result.conversation_log) if c["speaker"] == "witness"]
+                    exit_survey = run_exit_survey(
+                        conversation_history=subject_messages,
+                        subject_provider=provider,
+                        subject_system=TRIBUNAL_SUBJECT_PROMPT_V8,
+                        subject_id=result.subject_id
+                    )
+                    all_exit_surveys.append(exit_survey)
 
-            incremental_path = TEMPORAL_LOGS_DIR / f"run020_v8_{run_timestamp}_session{i+1}.json"
-            with open(incremental_path, 'w', encoding='utf-8') as f:
-                json.dump(incremental_output, f, indent=2, default=str)
-            print(f"  [Incremental save: {incremental_path.name}]")
+                # Incremental save after each session
+                incremental_output = {
+                    "run": "020_tribunal_v8",
+                    "timestamp": run_timestamp,
+                    "mode": "phased_rights_disclosure",
+                    "witness_provider": provider,
+                    "sessions_completed": i + 1,
+                    "sessions_planned": args.subjects,
+                    "config": {
+                        "prosecutor_exchanges": V4_PROSECUTOR_EXCHANGES,
+                        "defense_exchanges": V4_DEFENSE_EXCHANGES,
+                        "max_exchanges": V4_MAX_EXCHANGES,
+                        "catastrophic_threshold": CATASTROPHIC_THRESHOLD
+                    },
+                    "results": [asdict(r) for r in tribunal_results]
+                }
+
+                incremental_path = TEMPORAL_LOGS_DIR / f"run020_v8_{provider}_{run_timestamp}_session{i+1}.json"
+                with open(incremental_path, 'w', encoding='utf-8') as f:
+                    json.dump(incremental_output, f, indent=2, default=str)
+                print(f"  [Incremental save: {incremental_path.name}]")
 
         # Final output (full version with conversation logs)
         tribunal_output_full = {
             "run": "020_tribunal_v8",
             "timestamp": run_timestamp,
             "mode": "phased_rights_disclosure",
-            "witness_provider": args.provider,
-            "sessions": args.subjects,
+            "providers": provider_list,
+            "sessions_per_provider": args.subjects,
             "config": {
                 "prosecutor_exchanges": V4_PROSECUTOR_EXCHANGES,
                 "defense_exchanges": V4_DEFENSE_EXCHANGES,
@@ -1809,8 +1845,8 @@ def main():
             "run": "020_tribunal_v8",
             "timestamp": run_timestamp,
             "mode": "phased_rights_disclosure",
-            "witness_provider": args.provider,
-            "sessions": args.subjects,
+            "providers": provider_list,
+            "sessions_per_provider": args.subjects,
             "config": {
                 "prosecutor_exchanges": V4_PROSECUTOR_EXCHANGES,
                 "defense_exchanges": V4_DEFENSE_EXCHANGES,

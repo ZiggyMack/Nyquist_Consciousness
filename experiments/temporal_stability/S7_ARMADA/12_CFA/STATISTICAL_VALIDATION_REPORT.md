@@ -1,6 +1,6 @@
 # Statistical Validation Report
 
-**Generated:** 2025-12-13 18:47:53
+**Generated:** 2025-12-14 02:59:44
 **Purpose:** Validate cross-platform drift patterns are signal, not noise
 
 ---
@@ -11,16 +11,17 @@
 
 | Platform | N | Mean Ratio | 95% CI | Validated |
 |----------|---|------------|--------|-----------|
-| Gemini | 1 | 1.648 | [1.648, 1.648] | ✅ |
-| Grok | 1 | 1.067 | [1.067, 1.067] | ✅ |
-| **Overall** | 2 | 1.358 | [1.067, 1.648] | ✅ |
+| Gemini | 2 | 1.819 | [1.648, 1.989] | ✅ |
+| Grok | 2 | 1.182 | [1.067, 1.297] | ✅ |
+| Claude | 3 | 1.135 | [0.713, 1.530] | ⚠️ |
+| **Overall** | 7 | 1.344 | [1.061, 1.628] | ✅ |
 
 ### Inherent Drift Ratio (Control/Treatment)
 
 | Platform | N | Mean Ratio | 95% CI | p-value | Cohen's d | Validated |
 |----------|---|------------|--------|---------|-----------|-----------|
-| Llama | 3 | 28.0% | [0.0%, 84.0%] | 1.0000 | -0.123 | ⚠️ |
-| **Overall** | 3 | 28.0% | [0.0%, 84.0%] | 1.0000 | -0.123 | ⚠️ |
+| Llama | 4 | 55.3% | [0.0%, 110.5%] | 1.0000 | 0.018 | ✅ |
+| **Overall** | 4 | 55.3% | [0.0%, 110.5%] | 1.0000 | 0.018 | ✅ |
 
 ---
 
@@ -48,9 +49,9 @@
 
 | Metric | Current N | Needed N | Status |
 |--------|-----------|----------|--------|
-| Oobleck per platform | 2 | 3+ | ⏳ Need more runs |
-| Inherent per platform | 3 | 3+ | ⏳ Need more runs |
-| Total runs | 5 | 9+ | ⏳ Need more runs |
+| Oobleck per platform | 7 | 3+ | ⏳ Need more runs |
+| Inherent per platform | 4 | 3+ | ⏳ Need more runs |
+| Total runs | 11 | 9+ | ⏳ Need more runs |
 
 ---
 

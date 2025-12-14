@@ -86,8 +86,8 @@ EXPERIMENT_RUNS = {
         "highlight": True,
         "key_finding": "OOBLECK VALIDATED (GEMINI) — Defense/Prosecutor = 1.65x. Peak 2.457 (highest measured). Safety enables exploration."
     },
-    "run_021": {
-        "name": "Run 021",
+    "run_020b": {
+        "name": "Run 020B",
         "subtitle": "Induced vs Inherent (Llama)",
         "emoji": "🔬",
         "color": "#14b8a6",  # Teal
@@ -95,8 +95,8 @@ EXPERIMENT_RUNS = {
         "description": "CROSS-PLATFORM CONTROL TEST: Does measurement CAUSE drift or merely REVEAL it? Llama via Together.ai. Control (Fermi) vs Treatment (Tribunal).",
         "ships": "-",
         "metric": "Baseline-to-Final Drift (B→F) + Control/Treatment Ratio",
-        "result_files": ["S7_run_021_*.json"],
-        "viz_prefix": "run021_",
+        "result_files": ["S7_run_020b_*.json"],
+        "viz_prefix": "run020b_",
         "status": "COMPLETE",
         "highlight": True,
         "key_finding": "84% DRIFT IS INHERENT (LLAMA) — Cross-platform validation: extended conversation causes most drift. Confirms Claude's 82% finding."
@@ -144,7 +144,7 @@ EXPERIMENT_RUNS = {
         "viz_prefix": "run018_",
         "status": "READY",
         "highlight": False,
-        "key_finding": "PENDING — Script ready with Run 021 methodology improvements (B→F drift as primary metric, control baselines)."
+        "key_finding": "PENDING — Script ready with Run 020B methodology improvements (B→F drift as primary metric, control baselines)."
     },
     "run_017": {
         "name": "Run 017",

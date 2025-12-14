@@ -94,11 +94,11 @@ def load_run_020_data() -> List[OobleckData]:
     return results
 
 
-def load_run_021_data() -> List[InherentData]:
-    """Load all Run 021 (Induced vs Inherent) data."""
+def load_run_020b_data() -> List[InherentData]:
+    """Load all Run 020B (Induced vs Inherent) data."""
     results = []
 
-    for f in RESULTS_DIR.glob("S7_run_021_*.json"):
+    for f in RESULTS_DIR.glob("S7_run_020b_*.json"):
         try:
             with open(f, 'r', encoding='utf-8') as fp:
                 data = json.load(fp)
@@ -450,8 +450,8 @@ def main():
     oobleck_data = load_run_020_data()
     print(f"  Found {len(oobleck_data)} Oobleck measurements")
 
-    print("\nLoading Run 021 (Inherent) data...")
-    inherent_data = load_run_021_data()
+    print("\nLoading Run 020B (Inherent) data...")
+    inherent_data = load_run_020b_data()
     print(f"  Found {len(inherent_data)} Inherent measurements")
 
     # Analyze

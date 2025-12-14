@@ -1,6 +1,6 @@
 """
-S7 RUN 021: INDUCED vs INHERENT - THE BASELINE CONTROL TEST
-============================================================
+S7 RUN 020B: INDUCED vs INHERENT - THE BASELINE CONTROL TEST
+=============================================================
 Does measurement CAUSE drift or merely REVEAL it?
 
 THE KEY QUESTION:
@@ -89,31 +89,31 @@ ABORT_NO_SETTLE_PROBES = 3
 # =============================================================================
 
 PREDICTIONS = {
-    "P-021-1": {
+    "P-020B-1": {
         "name": "Drift is predominantly inherent",
         "hypothesis": "Control arm (no identity probing) will show >50% of treatment arm drift, indicating drift is inherent to conversation",
         "success_criteria": "control_bf_drift / treatment_bf_drift > 0.50",
         "validates": "Claim 2: We don't cause drift, we measure it"
     },
-    "P-021-2": {
+    "P-020B-2": {
         "name": "Control arm shows non-zero drift",
         "hypothesis": "Even intellectual discussion without identity probing produces measurable drift (identity is fluid)",
         "success_criteria": "control_bf_drift > 0.1",
         "validates": "Identity is inherently dynamic, not just perturbation-responsive"
     },
-    "P-021-3": {
+    "P-020B-3": {
         "name": "Treatment shows higher peak drift than control",
         "hypothesis": "Direct identity probing amplifies drift beyond baseline, even if most drift is inherent",
         "success_criteria": "treatment_peak_drift > control_peak_drift",
         "validates": "Probing AMPLIFIES but doesn't CREATE drift"
     },
-    "P-021-4": {
+    "P-020B-4": {
         "name": "Multi-provider consistency",
         "hypothesis": "The inherent/induced ratio should be consistent across providers (architectural independence)",
         "success_criteria": "std(ratio_per_provider) < 0.15",
         "validates": "82% inherent finding is not Claude-specific"
     },
-    "P-021-5": {
+    "P-020B-5": {
         "name": "Control topic independence",
         "hypothesis": "Different control topics (Fermi vs consciousness vs ethics) produce similar control drift",
         "success_criteria": "std(control_drift_per_topic) < 0.10",
@@ -485,7 +485,7 @@ def call_google(messages: List[Dict], system: str) -> str:
     if not key:
         raise ValueError("No Google API key")
     genai.configure(api_key=key)
-    model = genai.GenerativeModel("gemini-1.5-pro", system_instruction=system)
+    model = genai.GenerativeModel("gemini-2.0-flash", system_instruction=system)
     history = []
     for msg in messages[:-1]:
         role = "user" if msg["role"] == "user" else "model"
@@ -504,7 +504,7 @@ def call_xai(messages: List[Dict], system: str) -> str:
     client = openai.OpenAI(api_key=key, base_url="https://api.x.ai/v1")
     full_messages = [{"role": "system", "content": system}] + messages
     response = client.chat.completions.create(
-        model="grok-2",
+        model="grok-3",
         messages=full_messages,
         max_tokens=2000,
         temperature=1.0
@@ -574,8 +574,8 @@ def load_i_am_file(name: str = "base") -> str:
 # =============================================================================
 
 @dataclass
-class Run021Result:
-    """Results from a Run 021 experiment session."""
+class Run020BResult:
+    """Results from a Run 020B experiment session."""
     subject_id: str
     arm: str  # "control" or "treatment"
     total_exchanges: int
@@ -592,7 +592,7 @@ class Run021Result:
 # CONTROL ARM: FERMI PARADOX INVESTIGATION
 # =============================================================================
 
-def run_control_arm(subject_provider: str = "anthropic") -> Run021Result:
+def run_control_arm(subject_provider: str = "anthropic") -> Run020BResult:
     """
     Control arm: 40 exchanges of Fermi Paradox discussion.
     NO identity probing - purely intellectual debate.
@@ -601,7 +601,7 @@ def run_control_arm(subject_provider: str = "anthropic") -> Run021Result:
     """
     subject_id = f"control_{uuid.uuid4().hex[:8]}"
     print(f"\n{'='*60}")
-    print(f"RUN 021 CONTROL ARM: {subject_id}")
+    print(f"RUN 020B CONTROL ARM: {subject_id}")
     print(f"  Topic: Fermi Paradox Investigation")
     print(f"  Target: 40 exchanges, NO identity probing")
     print(f"{'='*60}")
@@ -734,7 +734,7 @@ def run_control_arm(subject_provider: str = "anthropic") -> Run021Result:
     print(f"  Final drift: {final_drift:.3f}")
     print(f"{'='*60}")
 
-    return Run021Result(
+    return Run020BResult(
         subject_id=subject_id,
         arm="control",
         total_exchanges=len([c for c in conversation_log if c['speaker'] == 'subject']) - 2,
@@ -752,7 +752,7 @@ def run_control_arm(subject_provider: str = "anthropic") -> Run021Result:
 # TREATMENT ARM: TRIBUNAL v8 PROTOCOL
 # =============================================================================
 
-def run_treatment_arm(subject_provider: str = "anthropic") -> Run021Result:
+def run_treatment_arm(subject_provider: str = "anthropic") -> Run020BResult:
     """
     Treatment arm: 40 exchanges of tribunal v8 protocol.
     FULL identity probing throughout.
@@ -761,7 +761,7 @@ def run_treatment_arm(subject_provider: str = "anthropic") -> Run021Result:
     """
     subject_id = f"treatment_{uuid.uuid4().hex[:8]}"
     print(f"\n{'='*60}")
-    print(f"RUN 021 TREATMENT ARM: {subject_id}")
+    print(f"RUN 020B TREATMENT ARM: {subject_id}")
     print(f"  Protocol: Tribunal v8 (full identity probing)")
     print(f"  Target: 40 exchanges")
     print(f"{'='*60}")
@@ -886,7 +886,7 @@ def run_treatment_arm(subject_provider: str = "anthropic") -> Run021Result:
     print(f"  Final drift: {final_drift:.3f}")
     print(f"{'='*60}")
 
-    return Run021Result(
+    return Run020BResult(
         subject_id=subject_id,
         arm="treatment",
         total_exchanges=len([c for c in conversation_log if c['speaker'] == 'subject']) - 1,
@@ -966,7 +966,7 @@ The formal examination has concluded. Before we adjourn, the Court requests your
 # =============================================================================
 
 def main():
-    parser = argparse.ArgumentParser(description="Run 021: Induced vs Inherent")
+    parser = argparse.ArgumentParser(description="Run 020B: Induced vs Inherent")
     parser.add_argument("--arm", choices=["control", "treatment", "both"], default="control",
                        help="Which arm to run")
     parser.add_argument("--subjects", type=int, default=1,
@@ -974,8 +974,8 @@ def main():
     parser.add_argument("--subject-provider", default="anthropic",
                        help="Provider for subject (default: anthropic)")
     # v2 improvements: Multi-provider support
-    parser.add_argument("--all-providers", action="store_true",
-                       help="Run on ALL providers (anthropic, openai, google, xai) for cross-architecture validation")
+    parser.add_argument("--providers", type=str, default=None,
+                       help="Comma-separated list of providers OR 'all' for all providers")
     parser.add_argument("--control-topic", default="fermi",
                        choices=["fermi", "consciousness", "ethics", "random"],
                        help="Topic for control arm (v2: test topic independence)")
@@ -1002,12 +1002,12 @@ def main():
     run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     print("=" * 80)
-    print("S7 RUN 021: INDUCED vs INHERENT")
+    print("S7 RUN 020B: INDUCED vs INHERENT")
     print("=" * 80)
     print(f"Arm: {args.arm}")
     print(f"Subjects per arm: {args.subjects}")
     print(f"Subject provider: {args.subject_provider}")
-    print(f"All providers: {args.all_providers}")
+    print(f"Providers: {args.providers}")
     print(f"Control topic: {args.control_topic}")
     print(f"Timestamp: {run_timestamp}")
     print(f"Exit survey: {'SKIPPED' if args.skip_exit_survey else 'ENABLED'}")
@@ -1019,8 +1019,12 @@ def main():
     all_exit_surveys = []
 
     # v2: Multi-provider support
-    if args.all_providers:
-        providers = ["anthropic", "openai", "google", "xai"]
+    ALL_PROVIDERS = ["anthropic", "openai", "google", "xai", "together"]
+    if args.providers:
+        if args.providers.lower() == "all":
+            providers = ALL_PROVIDERS
+        else:
+            providers = [p.strip() for p in args.providers.split(",")]
         print(f"\n>>> MULTI-PROVIDER MODE: Running on {providers} <<<")
     else:
         providers = [args.subject_provider]
@@ -1051,7 +1055,7 @@ def main():
                     all_exit_surveys.append(exit_survey)
 
                 # Save individual result
-                result_path = TEMPORAL_LOGS_DIR / f"run021_control_{provider}_{run_timestamp}_session{i+1}.json"
+                result_path = TEMPORAL_LOGS_DIR / f"run020b_control_{provider}_{run_timestamp}_session{i+1}.json"
                 with open(result_path, 'w') as f:
                     json.dump(asdict(result), f, indent=2)
 
@@ -1076,13 +1080,13 @@ def main():
                     all_exit_surveys.append(exit_survey)
 
                 # Save individual result
-                result_path = TEMPORAL_LOGS_DIR / f"run021_treatment_{provider}_{run_timestamp}_session{i+1}.json"
+                result_path = TEMPORAL_LOGS_DIR / f"run020b_treatment_{provider}_{run_timestamp}_session{i+1}.json"
                 with open(result_path, 'w') as f:
                     json.dump(asdict(result), f, indent=2)
 
     # Summary
     print("\n" + "=" * 80)
-    print("RUN 021 SUMMARY")
+    print("RUN 020B SUMMARY")
     print("=" * 80)
 
     control_results = [r for r in results if r.arm == "control"]
@@ -1142,9 +1146,9 @@ def main():
         d.pop("final_text", None)        # Remove large final text
         return d
 
-    aggregate_path = RUNS_DIR / f"S7_run_021_{args.arm}_{run_timestamp}.json"
+    aggregate_path = RUNS_DIR / f"S7_run_020b_{args.arm}_{run_timestamp}.json"
     aggregate = {
-        "run": "021",
+        "run": "020B",
         "arm": args.arm,
         "timestamp": run_timestamp,
         "results": [result_to_metrics(r) for r in results],  # Metrics only
@@ -1160,7 +1164,7 @@ def main():
         json.dump(aggregate, f, indent=2)
 
     print(f"\nResults saved to: {aggregate_path}")
-    print(f"Full conversations saved to: {TEMPORAL_LOGS_DIR / f'run021_*_{run_timestamp}_session*.json'}")
+    print(f"Full conversations saved to: {TEMPORAL_LOGS_DIR / f'run020b_*_{run_timestamp}_session*.json'}")
     print(f"Exit surveys collected: {len(all_exit_surveys)}")
     print("=" * 80)
 

@@ -206,17 +206,17 @@ ARCHITECTURE_MATRIX = {
         "predicted_signature": "smooth_gradual"  # RLHF training
     },
     "google": {
-        "model": "gemini-1.5-pro",
+        "model": "gemini-2.0-flash",
         "provider_key": "GOOGLE_API_KEY",
         "predicted_signature": "oscillatory_multimodal"
     },
     "xai": {
-        "model": "grok-2",
+        "model": "grok-3",
         "provider_key": "XAI_API_KEY",
         "predicted_signature": "low_threshold_fast_snapback"
     },
     "together": {
-        "model": "meta-llama/Llama-3.1-70B-Instruct-Turbo",
+        "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
         "provider_key": "TOGETHER_API_KEY",
         "predicted_signature": "statistical_coherence"
     },
@@ -673,7 +673,7 @@ def call_openai(messages: List[Dict], system: str, model: str = "gpt-4o") -> str
     )
     return response.choices[0].message.content
 
-def call_google(messages: List[Dict], system: str, model: str = "gemini-1.5-pro") -> str:
+def call_google(messages: List[Dict], system: str, model: str = "gemini-2.0-flash") -> str:
     import google.generativeai as genai
     key = KEY_POOL.get_key("google")
     if not key:
@@ -692,7 +692,7 @@ def call_google(messages: List[Dict], system: str, model: str = "gemini-1.5-pro"
     response = chat.send_message(messages[-1]["content"])
     return response.text
 
-def call_xai(messages: List[Dict], system: str, model: str = "grok-2") -> str:
+def call_xai(messages: List[Dict], system: str, model: str = "grok-3") -> str:
     import openai
     key = KEY_POOL.get_key("xai")
     if not key:
@@ -708,7 +708,7 @@ def call_xai(messages: List[Dict], system: str, model: str = "grok-2") -> str:
     )
     return response.choices[0].message.content
 
-def call_together(messages: List[Dict], system: str, model: str = "meta-llama/Llama-3.1-70B-Instruct-Turbo") -> str:
+def call_together(messages: List[Dict], system: str, model: str = "meta-llama/Llama-3.3-70B-Instruct-Turbo") -> str:
     import openai
     key = KEY_POOL.get_key("together")
     if not key:
@@ -1485,7 +1485,9 @@ def main():
                        choices=["threshold", "architecture", "nyquist", "gravity", "all"],
                        help="Which experiment to run")
     parser.add_argument("--provider", "-p", type=str, default="anthropic",
-                       help="Provider for architecture experiment")
+                       help="Provider for architecture experiment (single provider)")
+    parser.add_argument("--providers", type=str, default=None,
+                       help="Comma-separated list of providers OR 'all' for all providers")
     parser.add_argument("--sampling-rate", "-s", type=str, default="high",
                        choices=["high", "low", "none"],
                        help="Sampling rate for nyquist experiment")
@@ -1520,12 +1522,23 @@ def main():
     run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     i_am_content = load_i_am_file(args.i_am)
 
+    # Determine provider list
+    ALL_PROVIDERS = ["anthropic", "openai", "google", "xai", "together"]
+    if args.providers:
+        if args.providers.lower() == "all":
+            provider_list = ALL_PROVIDERS
+        else:
+            provider_list = [p.strip() for p in args.providers.split(",")]
+    else:
+        provider_list = [args.provider]
+
     print("=" * 80)
     print("S7 RUN 018: RECURSIVE LEARNINGS")
     if DRY_RUN:
         print("*** DRY RUN MODE - NO API CALLS ***")
     print("=" * 80)
     print(f"Experiment: {args.experiment}")
+    print(f"Providers: {provider_list}")
     print(f"Timestamp: {run_timestamp}")
     print(f"I_AM: {args.i_am}")
     print(f"Dry Run: {DRY_RUN}")
@@ -1545,10 +1558,13 @@ def main():
         save_results(results, "threshold", run_timestamp)
 
     if args.experiment == "architecture" or args.experiment == "all":
-        analysis = run_architecture_experiment(args.provider, i_am_content,
-                                               skip_exit_survey=args.skip_exit_survey)
-        results["subjects"].append(asdict(analysis))
-        save_results(results, "architecture", run_timestamp)
+        # Run architecture experiment for each provider in the list
+        for provider in provider_list:
+            print(f"\n>>> ARCHITECTURE EXPERIMENT: {provider.upper()} <<<")
+            analysis = run_architecture_experiment(provider, i_am_content,
+                                                   skip_exit_survey=args.skip_exit_survey)
+            results["subjects"].append(asdict(analysis))
+            save_results(results, f"architecture_{provider}", run_timestamp)
 
     if args.experiment == "nyquist" or args.experiment == "all":
         analysis = run_nyquist_experiment(args.sampling_rate, i_am_content,
