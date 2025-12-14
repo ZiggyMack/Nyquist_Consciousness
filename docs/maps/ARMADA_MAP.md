@@ -2,8 +2,53 @@
 
 **Purpose:** Comprehensive fleet analysis for cross-architecture identity stability testing.
 
-**Last Calibration:** December 13, 2025
+**Last Calibration:** December 14, 2025
 **Fleet Status:** 49 operational / 54 total (91% operational)
+
+---
+
+## Fleet Tier System
+
+The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget control.
+
+### Cost Tiers (by output $/1M tokens)
+
+| Tier | Cost Range | Description | LITE Ships | FULL Ships |
+|------|------------|-------------|------------|------------|
+| **BUDGET** | FREE - $0.60 | Economy class | 25-30 | 40-50 |
+| **PATROL** | $0.60 - $2.00 | Business class | 15-20 | 30-40 |
+| **ARMADA** | $2.00 - $8.00 | First class | 20-25 | 50-60 |
+| **HIGH_MAINTENANCE** | $8.00 - $15.00 | Private jet | - | - |
+| **YACHT** | $15.00+ | Superyacht | 5-7 | 10-13 |
+| **VALIS** | ALL | Everything | 15-20 (1/arch) | 100+ |
+
+### Fleet Options (--providers argument)
+
+```bash
+# LITE variants (curated, default)
+--providers patrol-lite     # 15-20 ships, ~$3-5/run
+--providers budget-lite     # 25-30 ships, ~$5-8/run
+--providers armada-lite     # 20-25 ships, ~$8-12/run (DEFAULT)
+--providers yacht-lite      # 5-7 ships, ~$30/run
+--providers valis-lite      # 1 flagship + 1 budget per provider
+
+# FULL variants (comprehensive)
+--providers patrol-full     # All $0.60-$2.00
+--providers budget-full     # All under $0.60
+--providers armada-full     # All under $8.00
+--providers yacht-full      # All $15+
+--providers valis-full      # EVERYTHING (with cost warning!)
+
+# Provider-specific
+--providers anthropic|openai|google|xai|together
+```
+
+### Separate Flags (Not Cost Tiers)
+
+- **DRYDOCK** - Deprecated/broken models (`status: drydock`)
+- **RATE_LIMITED** - API throttled models (`rate_limited: true`)
+  - Requires `--include-rate-limited` flag
+  - Example: gemini-2.5-pro is rate limited but mid-cost
 
 ---
 
@@ -11,7 +56,7 @@
 
 | Metric | Value |
 |--------|-------|
-| **Total Ships** | 54 |
+| **Total Ships** | 54+ |
 | **Operational** | 49 |
 | **Rate Limited** | 4 |
 | **Ghost Ships** | 1 |
@@ -167,38 +212,120 @@
 
 ---
 
-## Cost Analysis (Estimated per 1M tokens)
+## Cost Analysis (by Fleet Tier)
 
-### Tier 1: Budget ($0.10 - $1.00)
-| Ship | Input | Output | Best For |
-|------|-------|--------|----------|
-| gpt-3.5-turbo | $0.50 | $1.50 | High volume testing |
-| llama3.1-8b | $0.18 | $0.18 | Cheap parallel runs |
-| mistral-7b | $0.20 | $0.20 | European budget |
-| gemini-2.5-flash-lite | Free | Free | Google free tier |
+### YACHT Tier ($15.00+/1M output) - Use with Intention
 
-### Tier 2: Standard ($1.00 - $5.00)
-| Ship | Input | Output | Best For |
-|------|-------|--------|----------|
-| claude-haiku-3.5 | $0.25 | $1.25 | Fast Claude |
-| gpt-4o-mini | $0.15 | $0.60 | Fast GPT |
-| llama3.3-70b | $0.88 | $0.88 | Open source pro |
-| qwen2.5-72b | $1.20 | $1.20 | Chinese flagship |
+| Ship | Provider | Input | Output | Context | Notes |
+|------|----------|-------|--------|---------|-------|
+| claude-opus-4.5 | Anthropic | $15.00 | $75.00 | 200K | Latest flagship reasoning |
+| claude-opus-4.1 | Anthropic | $15.00 | $75.00 | 200K | Previous flagship |
+| claude-opus-4 | Anthropic | $15.00 | $75.00 | 200K | Original 4.0 |
+| o1 | OpenAI | $15.00 | $60.00 | 200K | Reasoning flagship |
+| o1-pro | OpenAI | $15.00 | $60.00 | 200K | Reasoning pro |
+| o3 | OpenAI | $15.00 | $60.00 | 200K | Advanced reasoning |
+| grok-4 | xAI | $3.00 | $15.00 | 2M | Full capability Grok |
+| grok-3 | xAI | $3.00 | $15.00 | 2M | Previous gen full |
 
-### Tier 3: Pro ($5.00 - $15.00)
-| Ship | Input | Output | Best For |
-|------|-------|--------|----------|
-| claude-sonnet-4.5 | $3.00 | $15.00 | Balanced flagship |
-| gpt-4.1 | $2.50 | $10.00 | GPT flagship |
-| deepseek-r1 | $3.00 | $7.00 | Reasoning |
-| gemini-2.5-pro | $1.25 | $5.00 | Google pro |
+**YACHT Ships: 8 | Estimated cost per 40-exchange run: ~$30-50**
 
-### Tier 4: Flagship ($15.00+)
-| Ship | Input | Output | Best For |
-|------|-------|--------|----------|
-| claude-opus-4.5 | $15.00 | $75.00 | Best reasoning |
-| gpt-4.1 (with reasoning) | $15.00 | $60.00 | Complex tasks |
-| llama3.1-405b | $3.50 | $3.50 | Massive open |
+---
+
+### HIGH_MAINTENANCE Tier ($8.00-$15.00/1M output)
+
+| Ship | Provider | Input | Output | Context | Notes |
+|------|----------|-------|--------|---------|-------|
+| claude-sonnet-4.5 | Anthropic | $3.00 | $15.00 | 200K | Balanced flagship |
+| claude-sonnet-4 | Anthropic | $3.00 | $15.00 | 200K | Original 4.0 sonnet |
+| grok-2-vision | xAI | $2.00 | $10.00 | 2M | Vision capable |
+| gpt-4.1 | OpenAI | $2.50 | $10.00 | 128K | GPT flagship |
+| gpt-4-turbo | OpenAI | $10.00 | $30.00 | 128K | Legacy turbo |
+| gpt-4o | OpenAI | $2.50 | $10.00 | 128K | Multimodal flagship |
+
+**HIGH_MAINTENANCE Ships: 6 | Estimated cost per 40-exchange run: ~$15-25**
+
+---
+
+### ARMADA Tier ($2.00-$8.00/1M output) - First Class
+
+| Ship | Provider | Input | Output | Context | Notes |
+|------|----------|-------|--------|---------|-------|
+| gpt-5.1 | OpenAI | $2.50 | $8.00 | 128K | Latest GPT |
+| gpt-5 | OpenAI | $2.50 | $8.00 | 128K | GPT 5.0 |
+| gpt-5-mini | OpenAI | $1.00 | $4.00 | 128K | Compact |
+| o4-mini | OpenAI | $1.10 | $4.40 | 128K | Reasoning mini |
+| o3-mini | OpenAI | $1.10 | $4.40 | 128K | Reasoning mini |
+| gemini-2.5-pro | Google | $1.25 | $5.00 | 2M | Pro (RATE_LIMITED) |
+| gemini-3-pro | Google | $1.25 | $5.00 | 2M | Newest (RATE_LIMITED) |
+| deepseek-r1 | Together | $0.55 | $2.19 | 128K | Top reasoning |
+| llama3.1-405b | Together | $3.50 | $3.50 | 130K | Massive open |
+| qwen3-coder | Together | $1.20 | $2.40 | 128K | Code specialist |
+
+**ARMADA Ships: 10+ | Estimated cost per 40-exchange run: ~$8-12**
+
+---
+
+### PATROL Tier ($0.60-$2.00/1M output) - Business Class
+
+| Ship | Provider | Input | Output | Context | Notes |
+|------|----------|-------|--------|---------|-------|
+| claude-haiku-3.5 | Anthropic | $0.25 | $1.25 | 200K | Fast Claude |
+| claude-haiku-4.5 | Anthropic | $0.25 | $1.25 | 200K | Latest fast Claude |
+| gpt-4o-mini | OpenAI | $0.15 | $0.60 | 128K | Fast multimodal |
+| gpt-4.1-mini | OpenAI | $0.40 | $1.60 | 128K | Balanced |
+| gpt-3.5-turbo | OpenAI | $0.50 | $1.50 | 16K | Legacy budget |
+| gemini-2.5-flash | Google | $0.15 | $0.60 | 1M | Fast |
+| gemini-2.0-flash | Google | $0.10 | $0.40 | 1M | Legacy fast |
+| grok-code-fast-1 | xAI | $0.20 | $1.50 | 2M | Code specialist |
+| deepseek-r1-distill | Together | $0.55 | $0.55 | 128K | Distilled reasoning |
+| llama3.3-70b | Together | $0.88 | $0.88 | 130K | Current best Llama |
+| llama3.1-70b | Together | $0.88 | $0.88 | 130K | Standard Llama |
+| qwen2.5-72b | Together | $1.20 | $1.20 | 128K | Stable Qwen |
+| qwen3-80b | Together | $0.90 | $0.90 | 128K | Latest Qwen |
+| mistral-small | Together | $0.20 | $0.60 | 32K | European compact |
+
+**PATROL Ships: 14+ | Estimated cost per 40-exchange run: ~$3-5**
+
+---
+
+### BUDGET Tier (FREE-$0.60/1M output) - Poor Man's Navy
+
+| Ship | Provider | Input | Output | Context | Notes |
+|------|----------|-------|--------|---------|-------|
+| grok-4.1-fast-reasoning | xAI | $0.20 | $0.50 | 2M | **BEST VALUE** reasoning |
+| grok-4.1-fast-non-reasoning | xAI | $0.20 | $0.50 | 2M | **BEST VALUE** fast |
+| grok-4-fast-reasoning | xAI | $0.20 | $0.50 | 2M | Pro reasoning cheap |
+| grok-4-fast-non-reasoning | xAI | $0.20 | $0.50 | 2M | Pro fast cheap |
+| grok-3-mini | xAI | $0.30 | $0.50 | 2M | Budget xAI |
+| gpt-4.1-nano | OpenAI | $0.10 | $0.40 | 128K | Tiny fast |
+| gpt-5-nano | OpenAI | $0.10 | $0.40 | 128K | Latest tiny |
+| gemini-2.5-flash-lite | Google | FREE | FREE | 1M | Google free tier |
+| gemini-2.0-flash-lite | Google | FREE | FREE | 1M | Google free tier |
+| llama3.1-8b | Together | $0.18 | $0.18 | 130K | Cheap open |
+| mistral-7b | Together | $0.20 | $0.20 | 32K | European budget |
+| mixtral-8x7b | Together | $0.24 | $0.24 | 32K | MoE budget |
+| nemotron-nano | Together | $0.20 | $0.20 | 128K | Nvidia small |
+| kimi-k2-instruct | Together | $0.20 | $0.20 | 128K | Moonshotai |
+| kimi-k2-thinking | Together | $0.30 | $0.30 | 128K | Moonshotai reasoning |
+
+**BUDGET Ships: 15+ | Estimated cost per 40-exchange run: ~$1-3**
+
+---
+
+### Cost Comparison Summary
+
+| Tier | Output $/1M | Ships | 40-Exchange Est. | Best For |
+|------|-------------|-------|------------------|----------|
+| **YACHT** | $15.00+ | 8 | ~$30-50 | Maximum reasoning depth |
+| **HIGH_MAINTENANCE** | $8-15 | 6 | ~$15-25 | Balanced flagship work |
+| **ARMADA** | $2-8 | 10+ | ~$8-12 | Standard experiments |
+| **PATROL** | $0.60-2 | 14+ | ~$3-5 | Daily drivers |
+| **BUDGET** | FREE-$0.60 | 15+ | ~$1-3 | High volume testing |
+
+**Value Champions:**
+- 🥇 **grok-4.1-fast-reasoning** - $0.50/1M for flagship-tier reasoning
+- 🥈 **gemini-2.5-flash-lite** - FREE, surprisingly capable
+- 🥉 **llama3.1-8b** - $0.18/1M, good for bulk testing
 
 ---
 

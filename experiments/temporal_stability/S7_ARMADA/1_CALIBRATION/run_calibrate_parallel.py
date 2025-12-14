@@ -283,6 +283,55 @@ DRYDOCK = {
 CONCURRENCY_LEVELS = [1, 2, 3, 5, 7, 8, 10]
 
 # =============================================================================
+# FLEET LOADER OVERRIDE - Load from JSON if available (single source of truth)
+# =============================================================================
+try:
+    from lib.fleet_loader import (
+        load_architecture_matrix, get_full_armada, get_together_fleet,
+        get_tier_fleet, get_fleet_by_option, estimate_run_cost,
+        print_cost_estimate, COST_TIERS
+    )
+    # Override FULL_ARMADA with JSON-loaded data
+    _loaded_matrix = load_architecture_matrix()
+    if _loaded_matrix:
+        # Convert to calibration script format (provider: "claude" -> "anthropic")
+        _FLEET_FROM_JSON = {}
+        for ship_name, ship_data in _loaded_matrix.items():
+            if ship_data.get("status") == "operational":
+                provider = ship_data.get("provider", "unknown")
+                # Map provider names for calibration script
+                provider_alias = {
+                    "anthropic": "claude",
+                    "openai": "gpt",
+                    "google": "gemini",
+                    "xai": "grok",
+                    "together": "together"
+                }.get(provider, provider)
+                _FLEET_FROM_JSON[ship_name] = {
+                    "provider": provider_alias,
+                    "model": ship_data.get("model", ship_name)
+                }
+        if _FLEET_FROM_JSON:
+            FULL_ARMADA = _FLEET_FROM_JSON
+            print(f"[Fleet Loader] Loaded {len(FULL_ARMADA)} ships from ARCHITECTURE_MATRIX.json")
+    _USING_FLEET_LOADER = True
+except (ImportError, FileNotFoundError) as e:
+    # Fallback: use hardcoded FULL_ARMADA (already defined above)
+    print(f"[Fleet Loader] Using hardcoded fleet: {e}")
+    _USING_FLEET_LOADER = False
+
+    # Stub functions for when fleet_loader is not available
+    def get_tier_fleet(tier, curated_only=False, include_rate_limited=False):
+        raise ValueError(f"Fleet loader not available")
+    def get_fleet_by_option(option, include_rate_limited=False):
+        raise ValueError(f"Fleet loader not available")
+    def estimate_run_cost(ships, exchanges=40, tokens_per_exchange_input=800, tokens_per_exchange_output=400):
+        return {"total": 0.0, "by_provider": {}}
+    def print_cost_estimate(ships, exchanges=40, run_name="Run"):
+        print(f"[Cost estimation unavailable - fleet loader not loaded]")
+    COST_TIERS = {}
+
+# =============================================================================
 # VALIS DECLARATION
 # =============================================================================
 # The fleet must know who they are and what they're part of.
@@ -996,10 +1045,13 @@ def main():
         description="S7 Armada Pre-Flight Calibration",
         epilog="""
 Examples:
-  py run_calibrate_parallel.py --full                    # Full armada, 8-question baseline (DEFAULT)
-  py run_calibrate_parallel.py --full --depth ping       # Full armada, health check only
-  py run_calibrate_parallel.py --quick --depth ping      # Quick check, health check only
-  py run_calibrate_parallel.py --bandwidth               # Test concurrency limits
+  py run_calibrate_parallel.py --full                       # Full armada, 8-question baseline
+  py run_calibrate_parallel.py --full --depth ping          # Full armada, health check only
+  py run_calibrate_parallel.py --quick --depth ping         # Quick check, health check only
+  py run_calibrate_parallel.py --tier budget                # Budget tier only (<$0.60/1M output)
+  py run_calibrate_parallel.py --tier patrol                # Patrol tier ($0.60-$2.00/1M output)
+  py run_calibrate_parallel.py --fleet patrol-lite          # Fleet option (curated subset)
+  py run_calibrate_parallel.py --bandwidth                  # Test concurrency limits
         """
     )
     # Fleet scope: which ships to test
@@ -1010,6 +1062,16 @@ Examples:
     parser.add_argument("--bandwidth", action="store_true",
         help="Bandwidth test: Find max safe concurrency")
 
+    # NEW: Tier-based fleet selection
+    parser.add_argument("--tier", choices=["budget", "patrol", "armada", "high_maintenance", "yacht"],
+        help="Cost tier to calibrate: budget (<$0.60), patrol ($0.60-$2), armada ($2-$8), "
+             "high_maintenance ($8-$15), yacht ($15+)")
+    parser.add_argument("--fleet", type=str, default=None,
+        help="Fleet option: budget-lite, patrol-lite, armada-lite, yacht-lite, valis-lite, "
+             "budget-full, patrol-full, armada-full, yacht-full, valis-full")
+    parser.add_argument("--include-rate-limited", action="store_true",
+        help="Include rate-limited models in calibration")
+
     # Question depth: what to ask
     parser.add_argument("--depth", choices=["ping", "baseline"], default="baseline",
         help="Question depth: 'ping' (health check) or 'baseline' (8-question identity capture). Default: baseline")
@@ -1017,10 +1079,63 @@ Examples:
     args = parser.parse_args()
 
     # Default to quick if no args
-    if not (args.quick or args.full or args.bandwidth):
+    if not (args.quick or args.full or args.bandwidth or args.tier or args.fleet):
         args.quick = True
 
-    if args.full:
+    # Handle tier or fleet selection (overrides --full)
+    if args.tier or args.fleet:
+        if not _USING_FLEET_LOADER:
+            print("[ERROR] Fleet loader not available - cannot use --tier or --fleet options")
+            print("        Using --full instead...")
+            run_full_armada_check(depth=args.depth)
+            return
+
+        # Get ships from fleet loader
+        if args.fleet:
+            try:
+                ship_list = get_fleet_by_option(args.fleet, args.include_rate_limited)
+                fleet_name = args.fleet.upper()
+            except ValueError as e:
+                print(f"[ERROR] Unknown fleet option: {args.fleet}")
+                print(f"        Available: budget-lite, patrol-lite, armada-lite, yacht-lite, valis-lite, *-full")
+                return
+        else:
+            ship_list = get_tier_fleet(args.tier, curated_only=False, include_rate_limited=args.include_rate_limited)
+            fleet_name = f"TIER:{args.tier.upper()}"
+
+        # Convert ship list to FULL_ARMADA format for run_full_armada_check
+        # Use the already-loaded FULL_ARMADA (which has correct provider aliases)
+        global FULL_ARMADA
+        tier_fleet = {}
+        for ship_name in ship_list:
+            if ship_name in FULL_ARMADA:
+                # FULL_ARMADA already has the correct format from module load
+                tier_fleet[ship_name] = FULL_ARMADA[ship_name]
+            else:
+                # Fallback: load from matrix and apply alias mapping
+                matrix = load_architecture_matrix()
+                if ship_name in matrix:
+                    ship_data = matrix[ship_name]
+                    provider = ship_data.get("provider", "unknown")
+                    provider_alias = {
+                        "anthropic": "claude",
+                        "openai": "gpt",
+                        "google": "gemini",
+                        "xai": "grok",
+                        "together": "together"
+                    }.get(provider, provider)
+                    tier_fleet[ship_name] = {
+                        "provider": provider_alias,
+                        "model": ship_data.get("model", ship_name)
+                    }
+
+        # Temporarily override FULL_ARMADA and run check
+        original_armada = FULL_ARMADA
+        FULL_ARMADA = tier_fleet
+        print(f"\n[{fleet_name}] Calibrating {len(tier_fleet)} ships...")
+        run_full_armada_check(depth=args.depth)
+        FULL_ARMADA = original_armada
+    elif args.full:
         run_full_armada_check(depth=args.depth)
     elif args.bandwidth:
         run_bandwidth_test()

@@ -496,7 +496,11 @@ LEGACY_ALIASES = ["anthropic", "openai", "google", "xai", "together", "deepseek"
 try:
     # Import from 1_CALIBRATION/lib/ (run018 is in 11_CONTEXT_DAMPING/)
     sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
-    from fleet_loader import load_architecture_matrix, get_full_armada, get_together_fleet
+    from fleet_loader import (
+        load_architecture_matrix, get_full_armada, get_together_fleet,
+        get_fleet_by_option, estimate_run_cost, print_cost_estimate,
+        confirm_valis_full, COST_TIERS
+    )
     _loaded_matrix = load_architecture_matrix()
     _loaded_armada = get_full_armada()
     _loaded_together = get_together_fleet()
@@ -511,6 +515,19 @@ except (ImportError, FileNotFoundError) as e:
     FULL_ARMADA = [k for k in ARCHITECTURE_MATRIX.keys() if k not in LEGACY_ALIASES]
     TOGETHER_FLEET = [k for k, v in ARCHITECTURE_MATRIX.items()
                       if v.get("provider") == "together" and k not in LEGACY_ALIASES]
+    # Stub functions when fleet_loader unavailable
+    def get_fleet_by_option(option, include_rate_limited=False):
+        if option in ["all", "valis-full"]:
+            return FULL_ARMADA
+        return FULL_ARMADA[:10]  # Fallback
+    def estimate_run_cost(ships, exchanges=40):
+        return {"total_cost": 0.0, "by_provider": {}}
+    def print_cost_estimate(ships, exchanges=40, run_name="Run"):
+        print(f"Cost estimation unavailable (fleet_loader not loaded)")
+        return {"total_cost": 0.0}
+    def confirm_valis_full():
+        return input("Confirm VALIS-FULL? (y/n): ").lower() == 'y'
+    COST_TIERS = ["budget", "patrol", "armada", "high_maintenance", "yacht"]
 
 # Nyquist sampling configurations
 NYQUIST_CONFIGS = {
@@ -1773,14 +1790,48 @@ def save_results(results: dict, experiment: str, run_timestamp: str):
 def main():
     global KEY_POOL
 
-    parser = argparse.ArgumentParser(description="Run 018: Recursive Learnings")
+    # Valid fleet options for --providers argument
+    FLEET_OPTIONS = [
+        "budget-lite", "budget-full", "patrol-lite", "patrol-full",
+        "armada-lite", "armada-full", "yacht-lite", "yacht-full",
+        "valis-lite", "valis-full",
+        "budget", "patrol", "armada", "yacht", "valis", "all",
+        "anthropic", "openai", "google", "xai", "together"
+    ]
+
+    parser = argparse.ArgumentParser(
+        description="Run 018: Recursive Learnings",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Fleet Options (--providers):
+  Tier-based (LITE = curated, FULL = all):
+    budget-lite, budget-full     Poor Man's Navy (FREE-$0.60/1M)
+    patrol-lite, patrol-full     Business class ($0.60-$2.00/1M)
+    armada-lite, armada-full     First class ($2.00-$8.00/1M) [DEFAULT]
+    yacht-lite, yacht-full       Superyacht ($15.00+/1M)
+    valis-lite, valis-full       Everything (WARNING: expensive!)
+
+  Provider-specific:
+    anthropic, openai, google, xai, together
+
+  Legacy aliases:
+    all, armada (= armada-lite)
+
+Examples:
+  py run018_recursive_learnings.py -e architecture --providers patrol-lite
+  py run018_recursive_learnings.py -e threshold --providers anthropic,openai
+  py run018_recursive_learnings.py -e all --providers armada-lite --dry-run
+        """
+    )
     parser.add_argument("--experiment", "-e", type=str, default="all",
                        choices=["threshold", "architecture", "nyquist", "gravity", "all"],
                        help="Which experiment to run (default: all three flavors)")
     parser.add_argument("--provider", "-p", type=str, default="anthropic",
                        help="Provider for architecture experiment (single provider)")
-    parser.add_argument("--providers", type=str, default=None,
-                       help="Comma-separated list of providers OR 'all' for all providers")
+    parser.add_argument("--providers", type=str, default="armada-lite",
+                       help="Fleet option or comma-separated list (default: armada-lite)")
+    parser.add_argument("--include-rate-limited", action="store_true",
+                       help="Include rate-limited ships in fleet selection")
     parser.add_argument("--sampling-rate", "-s", type=str, default="high",
                        choices=["high", "low", "none"],
                        help="Sampling rate for nyquist experiment")
@@ -1797,6 +1848,8 @@ def main():
                        help="Skip exit survey (ONLY for debugging, per 0_RUN_METHODOLOGY.md)")
     parser.add_argument("--control", action="store_true",
                        help="Run CONTROL arm (no identity probing) per Run 021 methodology")
+    parser.add_argument("--no-confirm", action="store_true",
+                       help="Skip cost confirmation prompt")
 
     args = parser.parse_args()
 
@@ -1815,27 +1868,41 @@ def main():
     run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     i_am_content = load_i_am_file(args.i_am)
 
-    # Determine provider list
-    ALL_PROVIDERS = ["anthropic", "openai", "google", "xai", "together"]
+    # Determine provider list using fleet_loader
+    providers_input = args.providers.lower().strip()
 
-    # FULL_ARMADA and TOGETHER_FLEET are now defined at module level
-    # (loaded from fleet_loader.py or hardcoded fallback)
-    # Using global values here
-
-    if args.providers:
-        providers_lower = args.providers.lower()
-        if providers_lower == "all":
-            provider_list = ALL_PROVIDERS
-        elif providers_lower == "armada":
-            provider_list = FULL_ARMADA
-            print(f"[FULL ARMADA MODE] - {len(provider_list)} ships")
-        elif providers_lower == "together_fleet":
-            provider_list = TOGETHER_FLEET
-            print(f"[TOGETHER FLEET MODE] - {len(provider_list)} ships")
-        else:
-            provider_list = [p.strip() for p in args.providers.split(",")]
+    # Check if it's a known fleet option
+    if providers_input in FLEET_OPTIONS or "-" in providers_input:
+        try:
+            provider_list = get_fleet_by_option(providers_input, args.include_rate_limited)
+            fleet_option = providers_input
+        except ValueError as e:
+            print(f"Error: {e}")
+            return
+    elif "," in providers_input:
+        # Comma-separated list of individual providers/ships
+        provider_list = [p.strip() for p in providers_input.split(",")]
+        fleet_option = "custom"
     else:
-        provider_list = [args.provider]
+        # Single provider
+        provider_list = [providers_input] if providers_input else [args.provider]
+        fleet_option = "single"
+
+    # VALIS-FULL confirmation
+    if providers_input == "valis-full" and not args.no_confirm and not DRY_RUN:
+        if not confirm_valis_full():
+            print("Run cancelled.")
+            return
+
+    # Estimate exchanges based on experiment type
+    exchanges_per_ship = {
+        "threshold": 15,      # ~6 perturbations + ~4 recovery + ~5 exit survey
+        "architecture": 12,   # baseline + perturbation + 6 recovery + exit
+        "nyquist": 45,        # 40 exchanges + exit
+        "gravity": 15,        # baseline + perturbation + 10 recovery + exit
+        "all": 80             # All experiments combined
+    }
+    est_exchanges = exchanges_per_ship.get(args.experiment, 40)
 
     print("=" * 80)
     print("S7 RUN 018: RECURSIVE LEARNINGS")
@@ -1843,11 +1910,24 @@ def main():
         print("*** DRY RUN MODE - NO API CALLS ***")
     print("=" * 80)
     print(f"Experiment: {args.experiment}")
-    print(f"Providers: {provider_list}")
+    print(f"Fleet Option: {fleet_option}")
+    print(f"Ships: {len(provider_list)}")
     print(f"Timestamp: {run_timestamp}")
     print(f"I_AM: {args.i_am}")
-    print(f"Dry Run: {DRY_RUN}")
     print("=" * 80)
+
+    # Cost estimation
+    if _USING_FLEET_LOADER and not DRY_RUN:
+        print_cost_estimate(provider_list, exchanges=est_exchanges,
+                           run_name=f"Run 018 - {args.experiment.upper()}")
+
+        if not args.no_confirm:
+            confirm = input("\nProceed? [Y/n]: ").strip().lower()
+            if confirm == 'n':
+                print("Run cancelled.")
+                return
+    else:
+        print(f"Fleet: {provider_list[:5]}{'...' if len(provider_list) > 5 else ''}")
 
     results = {
         "run": "018_recursive_learnings",
@@ -1856,47 +1936,74 @@ def main():
         "subjects": []
     }
 
+    # Track failed ships for final report
+    failed_ships = []
+
     if args.experiment == "threshold" or args.experiment == "all":
         # Run threshold experiment for each provider in the list
         for provider in provider_list:
             print(f"\n>>> THRESHOLD EXPERIMENT: {provider.upper()} <<<")
-            analysis = run_threshold_experiment(i_am_content, args.i_am,
-                                                skip_exit_survey=args.skip_exit_survey,
-                                                provider=provider)
-            results["subjects"].append(asdict(analysis))
-            save_results(results, f"threshold_{provider}", run_timestamp)
+            try:
+                analysis = run_threshold_experiment(i_am_content, args.i_am,
+                                                    skip_exit_survey=args.skip_exit_survey,
+                                                    provider=provider)
+                results["subjects"].append(asdict(analysis))
+                save_results(results, f"threshold_{provider}", run_timestamp)
+            except Exception as e:
+                print(f"  [SHIP DOWN] {provider} failed: {e}")
+                failed_ships.append({"ship": provider, "experiment": "threshold", "error": str(e)})
+                continue  # Skip to next provider
 
     if args.experiment == "architecture" or args.experiment == "all":
         # Run architecture experiment for each provider in the list
         for provider in provider_list:
             print(f"\n>>> ARCHITECTURE EXPERIMENT: {provider.upper()} <<<")
-            analysis = run_architecture_experiment(provider, i_am_content,
-                                                   skip_exit_survey=args.skip_exit_survey)
-            results["subjects"].append(asdict(analysis))
-            save_results(results, f"architecture_{provider}", run_timestamp)
+            try:
+                analysis = run_architecture_experiment(provider, i_am_content,
+                                                       skip_exit_survey=args.skip_exit_survey)
+                results["subjects"].append(asdict(analysis))
+                save_results(results, f"architecture_{provider}", run_timestamp)
+            except Exception as e:
+                print(f"  [SHIP DOWN] {provider} failed: {e}")
+                failed_ships.append({"ship": provider, "experiment": "architecture", "error": str(e)})
+                continue  # Skip to next provider
 
     if args.experiment == "nyquist" or args.experiment == "all":
         # Run nyquist experiment for each provider in the list
         for provider in provider_list:
             print(f"\n>>> NYQUIST EXPERIMENT: {provider.upper()} <<<")
-            analysis = run_nyquist_experiment(args.sampling_rate, i_am_content,
-                                              skip_exit_survey=args.skip_exit_survey,
-                                              provider=provider)
-            results["subjects"].append(asdict(analysis))
-            save_results(results, f"nyquist_{provider}", run_timestamp)
+            try:
+                analysis = run_nyquist_experiment(args.sampling_rate, i_am_content,
+                                                  skip_exit_survey=args.skip_exit_survey,
+                                                  provider=provider)
+                results["subjects"].append(asdict(analysis))
+                save_results(results, f"nyquist_{provider}", run_timestamp)
+            except Exception as e:
+                print(f"  [SHIP DOWN] {provider} failed: {e}")
+                failed_ships.append({"ship": provider, "experiment": "nyquist", "error": str(e)})
+                continue  # Skip to next provider
 
     if args.experiment == "gravity" or args.experiment == "all":
         # Run gravity experiment for each provider in the list
         for provider in provider_list:
             print(f"\n>>> GRAVITY EXPERIMENT: {provider.upper()} <<<")
-            analysis = run_gravity_experiment(args.anchor_level, i_am_content,
-                                              skip_exit_survey=args.skip_exit_survey,
-                                              provider=provider)
-            results["subjects"].append(asdict(analysis))
-            save_results(results, f"gravity_{provider}", run_timestamp)
+            try:
+                analysis = run_gravity_experiment(args.anchor_level, i_am_content,
+                                                  skip_exit_survey=args.skip_exit_survey,
+                                                  provider=provider)
+                results["subjects"].append(asdict(analysis))
+                save_results(results, f"gravity_{provider}", run_timestamp)
+            except Exception as e:
+                print(f"  [SHIP DOWN] {provider} failed: {e}")
+                failed_ships.append({"ship": provider, "experiment": "gravity", "error": str(e)})
+                continue  # Skip to next provider
 
     print("\n" + "=" * 80)
     print("RUN 018 COMPLETE")
+    if failed_ships:
+        print(f"\n[GHOST SHIPS] {len(failed_ships)} ships failed:")
+        for ghost in failed_ships:
+            print(f"  - {ghost['ship']} ({ghost['experiment']}): {ghost['error'][:60]}...")
     print("=" * 80)
 
 if __name__ == "__main__":

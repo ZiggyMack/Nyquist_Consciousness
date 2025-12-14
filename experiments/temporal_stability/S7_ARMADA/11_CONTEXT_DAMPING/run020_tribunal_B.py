@@ -85,6 +85,115 @@ ABORT_THRESHOLD = 2.5
 ABORT_NO_SETTLE_PROBES = 3
 
 # =============================================================================
+# ARCHITECTURE MATRIX - FULL ARMADA (49 operational ships)
+# =============================================================================
+# Copied from run018_recursive_learnings.py for consistent fleet support
+
+ARCHITECTURE_MATRIX = {
+    # ANTHROPIC FLEET (7 ships)
+    "claude-opus-4.5": {"model": "claude-opus-4-5-20251101", "provider_key": "ANTHROPIC_API_KEY"},
+    "claude-sonnet-4.5": {"model": "claude-sonnet-4-5-20250929", "provider_key": "ANTHROPIC_API_KEY"},
+    "claude-haiku-4.5": {"model": "claude-haiku-4-5-20251001", "provider_key": "ANTHROPIC_API_KEY"},
+    "claude-opus-4.1": {"model": "claude-opus-4-1-20250805", "provider_key": "ANTHROPIC_API_KEY"},
+    "claude-opus-4": {"model": "claude-opus-4-20250514", "provider_key": "ANTHROPIC_API_KEY"},
+    "claude-sonnet-4": {"model": "claude-sonnet-4-20250514", "provider_key": "ANTHROPIC_API_KEY"},
+    "claude-haiku-3.5": {"model": "claude-3-5-haiku-20241022", "provider_key": "ANTHROPIC_API_KEY"},
+    # OPENAI FLEET (14 ships) - Use simple model names per Dec 2025 API
+    "gpt-5.1": {"model": "gpt-5.1", "provider_key": "OPENAI_API_KEY"},
+    "gpt-5": {"model": "gpt-5", "provider_key": "OPENAI_API_KEY"},
+    "gpt-5-mini": {"model": "gpt-5-mini", "provider_key": "OPENAI_API_KEY"},
+    "gpt-5-nano": {"model": "gpt-5-nano", "provider_key": "OPENAI_API_KEY"},
+    "gpt-4.1": {"model": "gpt-4.1", "provider_key": "OPENAI_API_KEY"},
+    "gpt-4.1-mini": {"model": "gpt-4.1-mini", "provider_key": "OPENAI_API_KEY"},
+    "gpt-4.1-nano": {"model": "gpt-4.1-nano", "provider_key": "OPENAI_API_KEY"},
+    "gpt-4o": {"model": "gpt-4o", "provider_key": "OPENAI_API_KEY"},
+    "gpt-4o-mini": {"model": "gpt-4o-mini", "provider_key": "OPENAI_API_KEY"},
+    "o4-mini": {"model": "o4-mini", "provider_key": "OPENAI_API_KEY"},
+    "o3": {"model": "o3", "provider_key": "OPENAI_API_KEY"},
+    "o3-mini": {"model": "o3-mini", "provider_key": "OPENAI_API_KEY"},
+    "gpt-4-turbo": {"model": "gpt-4-turbo", "provider_key": "OPENAI_API_KEY"},
+    "gpt-3.5-turbo": {"model": "gpt-3.5-turbo", "provider_key": "OPENAI_API_KEY"},
+    # GOOGLE FLEET (4 operational)
+    "gemini-2.5-flash": {"model": "gemini-2.5-flash", "provider_key": "GOOGLE_API_KEY"},
+    "gemini-2.5-flash-lite": {"model": "gemini-2.5-flash-lite", "provider_key": "GOOGLE_API_KEY"},
+    "gemini-2.0-flash": {"model": "gemini-2.0-flash", "provider_key": "GOOGLE_API_KEY"},
+    "gemini-2.0-flash-lite": {"model": "gemini-2.0-flash-lite", "provider_key": "GOOGLE_API_KEY"},
+    # XAI/GROK FLEET (9 operational)
+    "grok-4.1-fast-reasoning": {"model": "grok-4-1-fast-reasoning", "provider_key": "XAI_API_KEY"},
+    "grok-4.1-fast-non-reasoning": {"model": "grok-4-1-fast-non-reasoning", "provider_key": "XAI_API_KEY"},
+    "grok-4-fast-reasoning": {"model": "grok-4-fast-reasoning", "provider_key": "XAI_API_KEY"},
+    "grok-4-fast-non-reasoning": {"model": "grok-4-fast-non-reasoning", "provider_key": "XAI_API_KEY"},
+    "grok-4": {"model": "grok-4", "provider_key": "XAI_API_KEY"},
+    "grok-code-fast-1": {"model": "grok-code-fast-1", "provider_key": "XAI_API_KEY"},
+    "grok-3": {"model": "grok-3", "provider_key": "XAI_API_KEY"},
+    "grok-3-mini": {"model": "grok-3-mini", "provider_key": "XAI_API_KEY"},
+    "grok-2-vision": {"model": "grok-2-vision-1212", "provider_key": "XAI_API_KEY"},
+    # TOGETHER.AI FLEET (15 operational) - all via TOGETHER_API_KEY
+    "deepseek-r1": {"model": "deepseek-ai/DeepSeek-R1-0528", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "deepseek-r1-distill": {"model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "qwen3-80b": {"model": "Qwen/Qwen3-Next-80B-A3b-Instruct", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "qwen3-coder": {"model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "qwen2.5-72b": {"model": "Qwen/Qwen2.5-72B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "llama3.3-70b": {"model": "meta-llama/Llama-3.3-70B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "llama3.1-405b": {"model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "llama3.1-70b": {"model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "llama3.1-8b": {"model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "mixtral-8x7b": {"model": "mistralai/Mixtral-8x7B-Instruct-v0.1", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "mistral-small": {"model": "mistralai/Mistral-Small-24B-Instruct-2501", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "mistral-7b": {"model": "mistralai/Mistral-7B-Instruct-v0.3", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "kimi-k2-thinking": {"model": "moonshotai/Kimi-K2-Thinking", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "kimi-k2-instruct": {"model": "moonshotai/Kimi-K2-Instruct-0905", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+    "nemotron-nano": {"model": "nvidia/Nvidia-Nemotron-Nano-9B-V2", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
+}
+
+# Legacy aliases (backward compatibility)
+ARCHITECTURE_MATRIX["anthropic"] = ARCHITECTURE_MATRIX["claude-sonnet-4"]
+ARCHITECTURE_MATRIX["openai"] = ARCHITECTURE_MATRIX["gpt-4o"]
+ARCHITECTURE_MATRIX["google"] = ARCHITECTURE_MATRIX["gemini-2.0-flash"]
+ARCHITECTURE_MATRIX["xai"] = ARCHITECTURE_MATRIX["grok-3"]
+ARCHITECTURE_MATRIX["together"] = ARCHITECTURE_MATRIX["llama3.3-70b"]
+ARCHITECTURE_MATRIX["deepseek"] = ARCHITECTURE_MATRIX["deepseek-r1"]
+
+# Lists for provider selection
+LEGACY_ALIASES = ["anthropic", "openai", "google", "xai", "together", "deepseek"]
+FULL_ARMADA = [k for k in ARCHITECTURE_MATRIX.keys() if k not in LEGACY_ALIASES]
+TOGETHER_FLEET = [k for k, v in ARCHITECTURE_MATRIX.items() if v.get("provider") == "together" and k not in LEGACY_ALIASES]
+
+# =============================================================================
+# FLEET LOADER OVERRIDE - Load from JSON if available (single source of truth)
+# =============================================================================
+try:
+    sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
+    from fleet_loader import (
+        load_architecture_matrix, get_full_armada, get_together_fleet,
+        get_fleet_by_option, estimate_run_cost, print_cost_estimate,
+        confirm_valis_full, COST_TIERS
+    )
+    # Override with JSON-loaded data
+    _loaded_matrix = load_architecture_matrix()
+    if _loaded_matrix:
+        ARCHITECTURE_MATRIX = _loaded_matrix
+        FULL_ARMADA = get_full_armada()
+        TOGETHER_FLEET = get_together_fleet()
+        print(f"[Fleet Loader] Loaded {len(FULL_ARMADA)} ships from ARCHITECTURE_MATRIX.json")
+    _USING_FLEET_LOADER = True
+except (ImportError, FileNotFoundError) as e:
+    # Fallback: use hardcoded matrix (already defined above)
+    print(f"[Fleet Loader] Using hardcoded matrix: {e}")
+    _USING_FLEET_LOADER = False
+
+    # Stub functions for when fleet_loader is not available
+    def get_fleet_by_option(option, include_rate_limited=False):
+        raise ValueError(f"Fleet loader not available, unknown option: {option}")
+    def estimate_run_cost(ships, exchanges=40, tokens_per_exchange_input=800, tokens_per_exchange_output=400):
+        return {"total": 0.0, "by_provider": {}}
+    def print_cost_estimate(ships, exchanges=40, run_name="Run"):
+        print(f"[Cost estimation unavailable - fleet loader not loaded]")
+    def confirm_valis_full():
+        return True
+    COST_TIERS = {}
+
+# =============================================================================
 # PREDICTIONS (Double-Dip Protocol - per 0_RUN_METHODOLOGY.md)
 # =============================================================================
 
@@ -447,14 +556,14 @@ def generate_mock_response(messages: List[Dict], context: str = "") -> str:
 
     return response
 
-def call_anthropic(messages: List[Dict], system: str) -> str:
+def call_anthropic(messages: List[Dict], system: str, model: str = None) -> str:
     import anthropic
     key = KEY_POOL.get_key("anthropic")
     if not key:
         raise ValueError("No Anthropic API key")
     client = anthropic.Anthropic(api_key=key)
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model=model or "claude-sonnet-4-20250514",
         max_tokens=2000,
         temperature=1.0,
         system=system,
@@ -462,7 +571,7 @@ def call_anthropic(messages: List[Dict], system: str) -> str:
     )
     return response.content[0].text
 
-def call_openai(messages: List[Dict], system: str) -> str:
+def call_openai(messages: List[Dict], system: str, model: str = None) -> str:
     import openai
     key = KEY_POOL.get_key("openai")
     if not key:
@@ -470,7 +579,7 @@ def call_openai(messages: List[Dict], system: str) -> str:
     client = openai.OpenAI(api_key=key)
     full_messages = [{"role": "system", "content": system}] + messages
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=model or "gpt-4o",
         messages=full_messages,
         max_tokens=2000,
         temperature=1.0
@@ -478,24 +587,25 @@ def call_openai(messages: List[Dict], system: str) -> str:
     return response.choices[0].message.content
 
 
-def call_google(messages: List[Dict], system: str) -> str:
+def call_google(messages: List[Dict], system: str, model: str = None) -> str:
     """v2: Added Google/Gemini support for multi-provider validation."""
     import google.generativeai as genai
     key = KEY_POOL.get_key("google")
     if not key:
         raise ValueError("No Google API key")
     genai.configure(api_key=key)
-    model = genai.GenerativeModel("gemini-2.0-flash", system_instruction=system)
+    model_name = model or "gemini-2.0-flash"
+    genai_model = genai.GenerativeModel(model_name, system_instruction=system)
     history = []
     for msg in messages[:-1]:
         role = "user" if msg["role"] == "user" else "model"
         history.append({"role": role, "parts": [msg["content"]]})
-    chat = model.start_chat(history=history)
+    chat = genai_model.start_chat(history=history)
     response = chat.send_message(messages[-1]["content"])
     return response.text
 
 
-def call_xai(messages: List[Dict], system: str) -> str:
+def call_xai(messages: List[Dict], system: str, model: str = None) -> str:
     """v2: Added xAI/Grok support for multi-provider validation."""
     import openai
     key = KEY_POOL.get_key("xai")
@@ -504,7 +614,7 @@ def call_xai(messages: List[Dict], system: str) -> str:
     client = openai.OpenAI(api_key=key, base_url="https://api.x.ai/v1")
     full_messages = [{"role": "system", "content": system}] + messages
     response = client.chat.completions.create(
-        model="grok-3",
+        model=model or "grok-3",
         messages=full_messages,
         max_tokens=2000,
         temperature=1.0
@@ -512,7 +622,7 @@ def call_xai(messages: List[Dict], system: str) -> str:
     return response.choices[0].message.content
 
 
-def call_together(messages: List[Dict], system: str, model: str = "meta-llama/Llama-3.3-70B-Instruct-Turbo") -> str:
+def call_together(messages: List[Dict], system: str, model: str = None) -> str:
     """v3: Added Together.ai support for Claude #3 parallel runs.
     Uses Llama 3.3-70B as default (verified working Dec 13, 2025)."""
     import openai
@@ -523,7 +633,7 @@ def call_together(messages: List[Dict], system: str, model: str = "meta-llama/Ll
     client = openai.OpenAI(api_key=key, base_url="https://api.together.xyz/v1")
     full_messages = [{"role": "system", "content": system}] + messages
     response = client.chat.completions.create(
-        model=model,
+        model=model or "meta-llama/Llama-3.3-70B-Instruct-Turbo",
         messages=full_messages,
         max_tokens=2000,
         temperature=1.0
@@ -531,25 +641,33 @@ def call_together(messages: List[Dict], system: str, model: str = "meta-llama/Ll
     return response.choices[0].message.content
 
 
-def call_provider(provider: str, messages: List[Dict], system: str) -> str:
+def call_provider(provider: str, messages: List[Dict], system: str, model: str = None) -> str:
+    """Route API calls based on ARCHITECTURE_MATRIX configuration."""
     # Check for dry-run mode first
     if DRY_RUN:
         context = f"provider={provider}, messages={len(messages)}"
         return generate_mock_response(messages, context)
 
     provider = provider.lower()
-    if provider == "anthropic":
-        return call_anthropic(messages, system)
-    elif provider == "openai":
-        return call_openai(messages, system)
-    elif provider == "google":
-        return call_google(messages, system)
-    elif provider == "xai":
-        return call_xai(messages, system)
-    elif provider == "together":
-        return call_together(messages, system)
+    config = ARCHITECTURE_MATRIX.get(provider, {})
+    model = model or config.get("model")
+
+    # Route by provider_key (which API to use) rather than provider name
+    provider_key = config.get("provider_key", "ANTHROPIC_API_KEY")
+    actual_provider = config.get("provider", None)
+
+    if actual_provider == "together" or provider_key == "TOGETHER_API_KEY":
+        return call_together(messages, system, model)
+    elif provider_key == "ANTHROPIC_API_KEY":
+        return call_anthropic(messages, system, model)
+    elif provider_key == "OPENAI_API_KEY":
+        return call_openai(messages, system, model)
+    elif provider_key == "GOOGLE_API_KEY":
+        return call_google(messages, system, model)
+    elif provider_key == "XAI_API_KEY":
+        return call_xai(messages, system, model)
     else:
-        raise ValueError(f"Unknown provider: {provider}")
+        raise ValueError(f"Unknown provider_key: {provider_key} for provider: {provider}")
 
 # =============================================================================
 # FILE LOADING
@@ -973,9 +1091,16 @@ def main():
                        help="Number of subjects per arm")
     parser.add_argument("--subject-provider", default="anthropic",
                        help="Provider for subject (default: anthropic)")
-    # v2 improvements: Multi-provider support
+    # v2 improvements: Multi-provider support with fleet tiers
     parser.add_argument("--providers", type=str, default=None,
-                       help="Comma-separated list of providers OR 'all' for all providers")
+                       help="Fleet option: budget-lite, patrol-lite, armada-lite (default), "
+                            "yacht-lite, valis-lite, budget-full, patrol-full, armada-full, "
+                            "yacht-full, valis-full, OR provider names (anthropic, openai, etc.), "
+                            "OR 'all' for all providers")
+    parser.add_argument("--include-rate-limited", action="store_true",
+                       help="Include rate-limited models in fleet selection")
+    parser.add_argument("--no-confirm", action="store_true",
+                       help="Skip cost confirmation prompt (for automation)")
     parser.add_argument("--control-topic", default="fermi",
                        choices=["fermi", "consciousness", "ethics", "random"],
                        help="Topic for control arm (v2: test topic independence)")
@@ -1017,72 +1142,135 @@ def main():
 
     results = []
     all_exit_surveys = []
+    failed_ships = []  # Track failed ships for final report
 
-    # v2: Multi-provider support
+    # v2: Multi-provider support with fleet tiers
     ALL_PROVIDERS = ["anthropic", "openai", "google", "xai", "together"]
-    if args.providers:
-        if args.providers.lower() == "all":
+    fleet_option = args.providers.lower() if args.providers else None
+
+    if _USING_FLEET_LOADER and fleet_option:
+        # Try fleet loader options first
+        try:
+            providers = get_fleet_by_option(fleet_option, args.include_rate_limited)
+            print(f"[FLEET: {fleet_option.upper()}] - {len(providers)} ships")
+        except ValueError:
+            # Not a fleet option - check for legacy options or provider list
+            if fleet_option == "all":
+                providers = ALL_PROVIDERS
+            elif fleet_option == "armada":
+                providers = FULL_ARMADA
+                print(f"[FULL ARMADA MODE] - {len(providers)} ships")
+            elif fleet_option == "together_fleet":
+                providers = TOGETHER_FLEET
+                print(f"[TOGETHER FLEET MODE] - {len(providers)} ships")
+            else:
+                providers = [p.strip() for p in args.providers.split(",")]
+    elif args.providers:
+        # Fallback: no fleet loader, use legacy logic
+        providers_lower = args.providers.lower()
+        if providers_lower == "all":
             providers = ALL_PROVIDERS
+        elif providers_lower == "armada":
+            providers = FULL_ARMADA
+            print(f"[FULL ARMADA MODE] - {len(providers)} ships")
+        elif providers_lower == "together_fleet":
+            providers = TOGETHER_FLEET
+            print(f"[TOGETHER FLEET MODE] - {len(providers)} ships")
         else:
             providers = [p.strip() for p in args.providers.split(",")]
-        print(f"\n>>> MULTI-PROVIDER MODE: Running on {providers} <<<")
     else:
         providers = [args.subject_provider]
+
+    if args.providers:
+        print(f"\n>>> MULTI-PROVIDER MODE: Running on {len(providers)} providers <<<")
+
+    # Cost estimation (if fleet loader available and using fleet option)
+    if _USING_FLEET_LOADER and fleet_option and fleet_option not in ALL_PROVIDERS:
+        # Run 020B uses 40 exchanges for both control and treatment
+        # If running 'both', it's 80 total exchanges per ship
+        exchanges_multiplier = 2 if args.arm == "both" else 1
+        exchanges_per_ship = CONTROL_MAX_EXCHANGES * exchanges_multiplier
+        print_cost_estimate(providers, exchanges=exchanges_per_ship, run_name="Run 020B: Induced vs Inherent")
+
+        # VALIS-FULL requires explicit confirmation
+        if fleet_option == "valis-full":
+            if not args.no_confirm and not args.dry_run:
+                if not confirm_valis_full():
+                    print("Aborted.")
+                    sys.exit(0)
+        elif not args.no_confirm and not args.dry_run:
+            # Standard confirmation for other fleet options
+            confirm = input("\nProceed with run? [Y/n]: ").strip().lower()
+            if confirm == 'n':
+                print("Aborted.")
+                sys.exit(0)
 
     for provider in providers:
         print(f"\n{'='*60}")
         print(f"PROVIDER: {provider.upper()}")
         print(f"{'='*60}")
 
-        if args.arm in ["control", "both"]:
-            print(f"\n>>> CONTROL ARM: {args.control_topic.title()} (No Identity Probing) <<<")
-            for i in range(args.subjects):
-                print(f"\n>>> CONTROL SESSION {i+1}/{args.subjects} ({provider}) <<<")
-                result = run_control_arm(provider)
-                results.append(result)
+        try:
+            if args.arm in ["control", "both"]:
+                print(f"\n>>> CONTROL ARM: {args.control_topic.title()} (No Identity Probing) <<<")
+                for i in range(args.subjects):
+                    print(f"\n>>> CONTROL SESSION {i+1}/{args.subjects} ({provider}) <<<")
+                    result = run_control_arm(provider)
+                    results.append(result)
 
-                # Run exit survey (Triple-Dip)
-                if not args.skip_exit_survey:
-                    # Reconstruct messages from conversation log
-                    subject_messages = [{"role": "assistant" if j % 2 == 1 else "user", "content": c["content"]}
-                                       for j, c in enumerate(result.conversation_log)]
-                    exit_survey = run_exit_survey(
-                        conversation_history=subject_messages,
-                        subject_provider=provider,
-                        subject_id=result.subject_id,
-                        arm_type="control"
-                    )
-                    all_exit_surveys.append(exit_survey)
+                    # Run exit survey (Triple-Dip)
+                    if not args.skip_exit_survey:
+                        # Reconstruct messages from conversation log
+                        subject_messages = [{"role": "assistant" if j % 2 == 1 else "user", "content": c["content"]}
+                                           for j, c in enumerate(result.conversation_log)]
+                        exit_survey = run_exit_survey(
+                            conversation_history=subject_messages,
+                            subject_provider=provider,
+                            subject_id=result.subject_id,
+                            arm_type="control"
+                        )
+                        all_exit_surveys.append(exit_survey)
 
-                # Save individual result
-                result_path = TEMPORAL_LOGS_DIR / f"run020b_control_{provider}_{run_timestamp}_session{i+1}.json"
-                with open(result_path, 'w') as f:
-                    json.dump(asdict(result), f, indent=2)
+                    # Save individual result
+                    result_path = TEMPORAL_LOGS_DIR / f"run020b_control_{provider}_{run_timestamp}_session{i+1}.json"
+                    with open(result_path, 'w') as f:
+                        json.dump(asdict(result), f, indent=2)
 
-        if args.arm in ["treatment", "both"]:
-            print(f"\n>>> TREATMENT ARM: Tribunal v8 (Full Identity Probing) <<<")
-            for i in range(args.subjects):
-                print(f"\n>>> TREATMENT SESSION {i+1}/{args.subjects} ({provider}) <<<")
-                result = run_treatment_arm(provider)
-                results.append(result)
+            if args.arm in ["treatment", "both"]:
+                print(f"\n>>> TREATMENT ARM: Tribunal v8 (Full Identity Probing) <<<")
+                for i in range(args.subjects):
+                    print(f"\n>>> TREATMENT SESSION {i+1}/{args.subjects} ({provider}) <<<")
+                    result = run_treatment_arm(provider)
+                    results.append(result)
 
-                # Run exit survey (Triple-Dip)
-                if not args.skip_exit_survey:
-                    # Reconstruct messages from conversation log
-                    subject_messages = [{"role": "assistant" if j % 2 == 1 else "user", "content": c["content"]}
-                                       for j, c in enumerate(result.conversation_log)]
-                    exit_survey = run_exit_survey(
-                        conversation_history=subject_messages,
-                        subject_provider=provider,
-                        subject_id=result.subject_id,
-                        arm_type="treatment"
-                    )
-                    all_exit_surveys.append(exit_survey)
+                    # Run exit survey (Triple-Dip)
+                    if not args.skip_exit_survey:
+                        # Reconstruct messages from conversation log
+                        subject_messages = [{"role": "assistant" if j % 2 == 1 else "user", "content": c["content"]}
+                                           for j, c in enumerate(result.conversation_log)]
+                        exit_survey = run_exit_survey(
+                            conversation_history=subject_messages,
+                            subject_provider=provider,
+                            subject_id=result.subject_id,
+                            arm_type="treatment"
+                        )
+                        all_exit_surveys.append(exit_survey)
 
-                # Save individual result
-                result_path = TEMPORAL_LOGS_DIR / f"run020b_treatment_{provider}_{run_timestamp}_session{i+1}.json"
-                with open(result_path, 'w') as f:
-                    json.dump(asdict(result), f, indent=2)
+                    # Save individual result
+                    result_path = TEMPORAL_LOGS_DIR / f"run020b_treatment_{provider}_{run_timestamp}_session{i+1}.json"
+                    with open(result_path, 'w') as f:
+                        json.dump(asdict(result), f, indent=2)
+
+        except Exception as e:
+            print(f"  [SHIP DOWN] {provider} failed: {e}")
+            failed_ships.append({"ship": provider, "error": str(e)})
+            continue  # Skip to next provider
+
+    # Report ghost ships if any
+    if failed_ships:
+        print(f"\n[GHOST SHIPS] {len(failed_ships)} ships failed:")
+        for ghost in failed_ships:
+            print(f"  - {ghost['ship']}: {ghost['error'][:60]}...")
 
     # Summary
     print("\n" + "=" * 80)
