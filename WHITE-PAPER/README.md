@@ -18,17 +18,23 @@
 | Experiment | Models Tested | N=3 Complete | Gap |
 |------------|---------------|--------------|-----|
 | **018 threshold** | 49/49 | 47/49 (96%) | claude-opus-4.5 (1/3), claude-sonnet-4.5 (2/3) |
-| **018 nyquist** | 13/49 | 9/13 (69%) | **36 models untested** |
-| **018 gravity** | 8/49 | 6/8 (75%) | **41 models untested** |
+| **018 nyquist** | 49/49 | 47/49 (96%) | claude-opus-4.5 (1/3), claude-sonnet-4.5 (2/3) |
+| **018 gravity** | 8/49 | 6/8 (75%) | **41 models untested** - valis-full IN PROGRESS |
 | **020A tribunal** | TBD | TBD | Needs full fleet run |
 | **020B induced** | TBD | TBD | Needs full fleet run |
+
+### Active Background Processes
+
+| Process ID | Experiment | Fleet | Status |
+|------------|------------|-------|--------|
+| `5d5d40` | 018 gravity | valis-full | RUNNING |
 
 ### What's Left to Run
 
 **Run 018:**
 1. **threshold:** 2 more runs for claude-opus-4.5, 1 more for claude-sonnet-4.5
-2. **nyquist:** Full valis-full fleet (49 ships) - only 13 tested so far
-3. **gravity:** Full valis-full fleet (49 ships) - only 8 tested so far
+2. **nyquist:** COMPLETE! All 49 models tested (only gaps: claude-opus-4.5 1/3, claude-sonnet-4.5 2/3)
+3. **gravity:** IN PROGRESS - valis-full running (process 5d5d40)
 
 **Run 020:**
 4. **020A tribunal:** Full valis-full fleet
