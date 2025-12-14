@@ -112,6 +112,15 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
             model_parts = parts[exp_idx + 1:-2]
             model = "_".join(model_parts) if model_parts else "unknown"
 
+            # If model is "unknown" from filename, try to get from JSON metadata
+            if model == "unknown":
+                # Try data["model"], data["provider"], or first subject's model
+                model = data.get("model", data.get("provider", "unknown"))
+                if model == "unknown" and data.get("subjects"):
+                    # Try to get from first subject's provider field
+                    first_subject = data["subjects"][0]
+                    model = first_subject.get("provider", first_subject.get("model", "unknown"))
+
             manifest["summary"]["experiments"].add(experiment)
             manifest["summary"]["models_tested"].add(model)
 

@@ -67,7 +67,9 @@
       "Bash(if not exist \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\manifests\" mkdir \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\manifests\")",
       "Bash(timeout:*)",
       "Bash(if not exist \"d:\\Documents\\Nyquist_Consciousness\\.archive\\Legacy_Docs\" mkdir \"d:\\Documents\\Nyquist_Consciousness\\.archive\\Legacy_Docs\")",
-      "Bash(del \"d:\\Documents\\Nyquist_Consciousness\\nul\")"
+      "Bash(del \"d:\\Documents\\Nyquist_Consciousness\\nul\")",
+      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" status --short)",
+      "Bash(git ls-tree:*)"
     ],
     "deny": [],
     "ask": []
