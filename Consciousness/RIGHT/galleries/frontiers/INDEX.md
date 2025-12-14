@@ -13,6 +13,7 @@ We're working on these right now.
 |---------|-----------|--------|
 | [Cross-Platform Validation](cross_platform_validation.md) | Drift dynamics universal across Claude/Gemini/Llama | **VALIDATED** |
 | [Triple-Dip Methodology](triple_dip_methodology.md) | 82-84% inherent — probing amplifies journey, not destination | **VALIDATED** |
+| [Run 018 Exit Surveys](run018_exit_survey_distillations.md) | Sharp phase transitions, void as productive, BASELINE+ recovery | **NEW** |
 | [Universal Threshold](universal_threshold.md) | Is 1.23 universal or architecture-dependent? | Under investigation |
 | [Human Manifold](human_manifold.md) | Does human identity have the same structure? | Planned |
 | [Dimensional Hierarchy](dimensional_hierarchy.md) | 43 PCs → 5 pillars → 1 blob — what's the true structure? | Active analysis |
@@ -118,6 +119,6 @@ Every validated concept started as a frontier.
 
 ---
 
-**Gallery Status**: 8 investigations (2 VALIDATED, 6 active)
+**Gallery Status**: 9 investigations (3 VALIDATED/NEW, 6 active)
 
 *"Here be dragons. (Or maybe just more data.)"*

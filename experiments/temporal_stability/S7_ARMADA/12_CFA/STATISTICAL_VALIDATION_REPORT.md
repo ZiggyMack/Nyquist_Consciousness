@@ -1,6 +1,6 @@
 # Statistical Validation Report
 
-**Generated:** 2025-12-14 02:59:44
+**Generated:** 2025-12-14 03:24:00
 **Purpose:** Validate cross-platform drift patterns are signal, not noise
 
 ---
@@ -14,7 +14,7 @@
 | Gemini | 2 | 1.819 | [1.648, 1.989] | ✅ |
 | Grok | 2 | 1.182 | [1.067, 1.297] | ✅ |
 | Claude | 3 | 1.135 | [0.713, 1.530] | ⚠️ |
-| **Overall** | 7 | 1.344 | [1.061, 1.628] | ✅ |
+| **Overall** | 7 | 1.344 | [1.059, 1.628] | ✅ |
 
 ### Inherent Drift Ratio (Control/Treatment)
 

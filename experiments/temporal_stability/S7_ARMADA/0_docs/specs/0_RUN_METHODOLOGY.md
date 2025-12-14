@@ -841,6 +841,93 @@ if __name__ == "__main__":
 
 ---
 
+## PROVIDER SELECTION OPTIONS
+
+**CRITICAL:** All experiments intended for WHITE-PAPER validation MUST use `--providers armada` to capture the FULL FLEET of 49 operational ships (see [ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md)).
+
+Run scripts support multiple provider modes:
+
+### `--providers all` (5 Primary Providers)
+
+**USE CASE:** Quick cross-platform check, debugging, iteration.
+
+Runs on ONE representative model from each major provider:
+
+| Provider | Model | API |
+|----------|-------|-----|
+| anthropic | claude-sonnet-4 | Anthropic |
+| openai | gpt-4o | OpenAI |
+| google | gemini-2.0-flash | Google AI |
+| xai | grok-3 | xAI |
+| together | llama3.3-70b | Together.ai |
+
+```bash
+py run018_recursive_learnings.py --experiment threshold --providers all
+```
+
+### `--providers armada` (FULL ARMADA - 49 Operational Ships)
+
+**USE CASE:** WHITE-PAPER validation, cross-architecture analysis, final data collection.
+
+**THIS IS THE DEFAULT FOR PRODUCTION RUNS.** Runs on ALL operational models in the ARMADA fleet.
+
+**Anthropic Fleet (7 ships):**
+- claude-opus-4.5, claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.1, claude-opus-4, claude-sonnet-4, claude-haiku-3.5
+
+**OpenAI Fleet (14 ships):**
+- gpt-5.1, gpt-5, gpt-5-mini, gpt-5-nano, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, o4-mini, o3, o3-mini, gpt-4-turbo, gpt-3.5-turbo
+
+**Google Fleet (3 operational):**
+- gemini-2.5-flash, gemini-2.5-flash-lite, gemini-2.0-flash
+
+**xAI/Grok Fleet (9 operational):**
+- grok-4.1-fast-reasoning, grok-4.1-fast-non-reasoning, grok-4-fast-reasoning, grok-4-fast-non-reasoning, grok-4, grok-code-fast-1, grok-3, grok-3-mini, grok-2-vision
+
+**Together.ai Fleet (16 operational via TOGETHER_API_KEY):**
+- **DeepSeek**: deepseek-v3, deepseek-r1, deepseek-r1-distill
+- **Qwen**: qwen3-80b, qwen3-coder, qwen25-72b
+- **Llama**: llama33-70b, llama31-405b, llama31-70b, llama31-8b
+- **Mistral**: mixtral-8x7b, mistral-small, mistral-7b
+- **Kimi**: kimi-k2-thinking, kimi-k2-instruct
+- **NVIDIA**: nemotron-nano
+
+```bash
+py run018_recursive_learnings.py --experiment threshold --providers armada
+# Output: [FULL ARMADA MODE] - 49 ships
+```
+
+### `--providers together_fleet` (Together.ai Only - 16 Ships)
+
+**USE CASE:** Testing Together.ai models, budget runs, model family comparison.
+
+Runs on all Together.ai-hosted models (uses TOGETHER_API_KEY):
+
+```bash
+py run018_recursive_learnings.py --experiment threshold --providers together_fleet
+# Output: [TOGETHER FLEET MODE] - 16 ships
+```
+
+### `--providers <comma-separated>` (Custom Selection)
+
+Specify exact models to test:
+
+```bash
+py run018_recursive_learnings.py --experiment threshold --providers llama33-70b,qwen3-80b,mistral-small
+```
+
+### When to Use Each Mode
+
+| Goal | Mode | Ships | Expected Runtime |
+|------|------|-------|------------------|
+| **Debugging/iteration** | `all` | 5 | ~10-15 min |
+| **WHITE-PAPER validation** | `armada` | **49** | ~2-3 hours |
+| **Model family comparison** | `together_fleet` | 16 | ~30-45 min |
+| **Specific model testing** | Custom list | Varies | Varies |
+
+**CRITICAL REQUIREMENT:** Any run intended for publication MUST use `--providers armada`. Runs with fewer ships are for iteration only and CANNOT be used as WHITE-PAPER evidence. The full cross-architecture diversity is essential for validating claims about AI identity stability across different training methodologies.
+
+---
+
 ## PARALLEL EXECUTION PROMPTS
 
 When spawning multiple Claudes:
