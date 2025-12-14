@@ -1,0 +1,369 @@
+{
+  "_meta": {
+    "description": "Single source of truth for ARMADA fleet configuration",
+    "last_updated": "2025-12-14",
+    "source": "ARMADA_MAP.md",
+    "total_ships": 49,
+    "note": "All run scripts should import from this file, not hardcode the matrix"
+  },
+  "ships": {
+    "claude-opus-4.5": {
+      "model": "claude-opus-4-5-20251101",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "provider": "anthropic",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "claude-sonnet-4.5": {
+      "model": "claude-sonnet-4-5-20250929",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "provider": "anthropic",
+      "tier": "pro",
+      "status": "operational"
+    },
+    "claude-haiku-4.5": {
+      "model": "claude-haiku-4-5-20251001",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "provider": "anthropic",
+      "tier": "fast",
+      "status": "operational"
+    },
+    "claude-opus-4.1": {
+      "model": "claude-opus-4-1-20250805",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "provider": "anthropic",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "claude-opus-4": {
+      "model": "claude-opus-4-20250514",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "provider": "anthropic",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "claude-sonnet-4": {
+      "model": "claude-sonnet-4-20250514",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "provider": "anthropic",
+      "tier": "pro",
+      "status": "operational"
+    },
+    "claude-haiku-3.5": {
+      "model": "claude-3-5-haiku-20241022",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "provider": "anthropic",
+      "tier": "fast",
+      "status": "operational"
+    },
+    "gpt-5.1": {
+      "model": "gpt-5.1-2025-04-14",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "gpt-5": {
+      "model": "gpt-5-0125-preview",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "gpt-5-mini": {
+      "model": "gpt-5-mini-2025-02-01",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "compact",
+      "status": "operational"
+    },
+    "gpt-5-nano": {
+      "model": "gpt-5-nano-2025-03-15",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "fast",
+      "status": "operational"
+    },
+    "gpt-4.1": {
+      "model": "gpt-4.1-2025-04-14",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "pro",
+      "status": "operational"
+    },
+    "gpt-4.1-mini": {
+      "model": "gpt-4.1-mini-2025-04-14",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "balanced",
+      "status": "operational"
+    },
+    "gpt-4.1-nano": {
+      "model": "gpt-4.1-nano-2025-04-14",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "fast",
+      "status": "operational"
+    },
+    "gpt-4o": {
+      "model": "gpt-4o-2024-11-20",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "multimodal",
+      "status": "operational"
+    },
+    "gpt-4o-mini": {
+      "model": "gpt-4o-mini-2024-07-18",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "fast",
+      "status": "operational"
+    },
+    "o4-mini": {
+      "model": "o4-mini-2025-04-16",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "reasoning",
+      "status": "operational"
+    },
+    "o3": {
+      "model": "o3-2025-04-16",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "reasoning",
+      "status": "operational"
+    },
+    "o3-mini": {
+      "model": "o3-mini-2025-01-31",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "reasoning",
+      "status": "operational"
+    },
+    "gpt-4-turbo": {
+      "model": "gpt-4-turbo-2024-04-09",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "legacy",
+      "status": "operational"
+    },
+    "gpt-3.5-turbo": {
+      "model": "gpt-3.5-turbo-0125",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "legacy",
+      "status": "operational"
+    },
+    "gemini-2.5-flash": {
+      "model": "gemini-2.5-flash-preview-05-20",
+      "provider_key": "GOOGLE_API_KEY",
+      "provider": "google",
+      "tier": "fast",
+      "status": "operational"
+    },
+    "gemini-2.5-flash-lite": {
+      "model": "gemini-2.5-flash-lite-preview-06-17",
+      "provider_key": "GOOGLE_API_KEY",
+      "provider": "google",
+      "tier": "budget",
+      "status": "operational"
+    },
+    "gemini-2.0-flash": {
+      "model": "gemini-2.0-flash",
+      "provider_key": "GOOGLE_API_KEY",
+      "provider": "google",
+      "tier": "legacy",
+      "status": "operational"
+    },
+    "grok-4.1-fast-reasoning": {
+      "model": "grok-4.1-fast-reasoning-1106",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "grok-4.1-fast-non-reasoning": {
+      "model": "grok-4.1-fast-non-reasoning-1106",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "fast",
+      "status": "operational"
+    },
+    "grok-4-fast-reasoning": {
+      "model": "grok-4-fast-reasoning-0806",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "pro",
+      "status": "operational"
+    },
+    "grok-4-fast-non-reasoning": {
+      "model": "grok-4-fast-non-reasoning-0806",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "fast",
+      "status": "operational"
+    },
+    "grok-4": {
+      "model": "grok-4-0806",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "full",
+      "status": "operational"
+    },
+    "grok-code-fast-1": {
+      "model": "grok-code-fast-1",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "code",
+      "status": "operational"
+    },
+    "grok-3": {
+      "model": "grok-3-beta",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "legacy",
+      "status": "operational"
+    },
+    "grok-3-mini": {
+      "model": "grok-3-mini-beta",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "budget",
+      "status": "operational"
+    },
+    "grok-2-vision": {
+      "model": "grok-2-vision-1212",
+      "provider_key": "XAI_API_KEY",
+      "provider": "xai",
+      "tier": "vision",
+      "status": "operational"
+    },
+    "deepseek-v3": {
+      "model": "deepseek-ai/DeepSeek-V3",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "deepseek-r1": {
+      "model": "deepseek-ai/DeepSeek-R1",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "reasoning",
+      "status": "operational"
+    },
+    "deepseek-r1-distill": {
+      "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "distilled",
+      "status": "operational"
+    },
+    "qwen3-80b": {
+      "model": "Qwen/QwQ-32B",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "qwen3-coder": {
+      "model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "code",
+      "status": "operational"
+    },
+    "qwen25-72b": {
+      "model": "Qwen/Qwen2.5-72B-Instruct-Turbo",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "stable",
+      "status": "operational"
+    },
+    "llama33-70b": {
+      "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "flagship",
+      "status": "operational"
+    },
+    "llama31-405b": {
+      "model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "massive",
+      "status": "operational"
+    },
+    "llama31-70b": {
+      "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "standard",
+      "status": "operational"
+    },
+    "llama31-8b": {
+      "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "small",
+      "status": "operational"
+    },
+    "mixtral-8x7b": {
+      "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "moe",
+      "status": "operational"
+    },
+    "mistral-small": {
+      "model": "mistralai/Mistral-Small-24B-Instruct-2501",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "compact",
+      "status": "operational"
+    },
+    "mistral-7b": {
+      "model": "mistralai/Mistral-7B-Instruct-v0.3",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "small",
+      "status": "operational"
+    },
+    "kimi-k2-thinking": {
+      "model": "moonshotai/Kimi-K2-Instruct",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "reasoning",
+      "status": "operational"
+    },
+    "kimi-k2-instruct": {
+      "model": "moonshotai/Kimi-K2-Instruct",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "standard",
+      "status": "operational"
+    },
+    "nemotron-nano": {
+      "model": "nvidia/Llama-3.3-Nemotron-Super-49B-v1",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "specialized",
+      "status": "operational"
+    }
+  },
+  "legacy_aliases": {
+    "anthropic": "claude-sonnet-4",
+    "openai": "gpt-4o",
+    "google": "gemini-2.0-flash",
+    "xai": "grok-3",
+    "together": "llama33-70b",
+    "deepseek": "deepseek-v3"
+  },
+  "provider_defaults": {
+    "anthropic": "claude-sonnet-4-20250514",
+    "openai": "gpt-4o-2024-11-20",
+    "google": "gemini-2.0-flash",
+    "xai": "grok-3-beta",
+    "together": "meta-llama/Llama-3.3-70B-Instruct-Turbo"
+  }
+}

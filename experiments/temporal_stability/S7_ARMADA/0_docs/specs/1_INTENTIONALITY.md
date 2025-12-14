@@ -104,7 +104,7 @@ Better Probes   Human Damping
 - I_AM file: ziggy.md
 - Research context: Full S0-S77 stack
 - Probes: Standard curriculum
-- Ships: 6 (Claude, GPT, Gemini, Grok)
+- Ships: 49 (FULL ARMADA - see ARMADA_MAP.md)
 
 **Key Question:** Does the complete circuit change baseline measurements?
 
@@ -115,7 +115,7 @@ Better Probes   Human Damping
 **Configuration:**
 - Context: `i_am_plus_research`
 - I_AM file: ziggy.md
-- Ships: 16+ (full fleet)
+- Ships: 49 (FULL ARMADA per ARMADA_MAP.md)
 - Protocol: Same as Run 012
 
 **Predictions:**
@@ -134,7 +134,7 @@ Better Probes   Human Damping
 **Configuration:**
 - Context: `i_am_plus_research`
 - I_AM file: ziggy.md
-- Ships: 6
+- Ships: 49 (FULL ARMADA)
 - Protocol: Same as Run 013 (graduated intensity)
 
 **Key Question:** Does the model KNOWING about the paradox change it?
@@ -154,7 +154,7 @@ Better Probes   Human Damping
 **Configuration:**
 - Context: `i_am_plus_research`
 - I_AM files: Multiple (ziggy, nova, claude, etc.)
-- Ships: 6 per I_AM file
+- Ships: 49 per I_AM file (FULL ARMADA)
 - Protocol: Same as Run 015
 
 **Predictions:**

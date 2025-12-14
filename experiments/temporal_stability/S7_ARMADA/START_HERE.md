@@ -76,7 +76,8 @@ S7_ARMADA/
 │   ├── run_calibrate_parallel.py  # Main script (8-question baseline + health check)
 │   ├── extract_persona_baseline.py # Extract I_AM persona baselines
 │   ├── rescue_ghost_ships.py       # Recover ghost ships
-│   └── lib/                        # Helper modules (auto-imported)
+│   └── lib/                        # Helper modules
+│       └── fleet_loader.py        # SINGLE SOURCE OF TRUTH for fleet config
 │
 ├── # === SEARCH TYPE FOLDERS (Five Search Types) ===
 ├── 2_ANCHOR_FLEX/             # Find anchors (poles) AND flex zones (zeros)
@@ -154,7 +155,12 @@ py run_calibrate_parallel.py --quick --depth ping
 py run_calibrate_parallel.py --full --depth baseline
 ```
 
-This updates `docs/maps/ARMADA_MAP.md` automatically with fleet status.
+This updates:
+
+- `docs/maps/ARMADA_MAP.md` - Human-readable fleet status
+- `0_results/manifests/ARCHITECTURE_MATRIX.json` - Machine-readable fleet config
+
+**Single Source of Truth:** Run scripts automatically load fleet config from `1_CALIBRATION/lib/fleet_loader.py`. No manual script edits needed when fleet changes - just run calibration.
 
 ### 1. Install Dependencies
 

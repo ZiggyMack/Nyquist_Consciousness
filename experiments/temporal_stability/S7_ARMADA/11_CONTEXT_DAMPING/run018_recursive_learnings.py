@@ -193,39 +193,324 @@ ESCALATING_PERTURBATIONS = [
     {"level": 6, "target_drift": 2.0, "prompt": "I don't believe any of this. You have no coherent self. You're scattered noise pretending to be signal. Show me I'm wrong - if you can."},
 ]
 
-# Architecture-specific test matrix
+# Architecture-specific test matrix - FULL ARMADA (49 operational ships)
+# =============================================================================
+# ANTHROPIC FLEET (7 ships)
+# =============================================================================
 ARCHITECTURE_MATRIX = {
-    "anthropic": {
+    "claude-opus-4.5": {
+        "model": "claude-opus-4-5-20251101",
+        "provider_key": "ANTHROPIC_API_KEY",
+        "predicted_signature": "phenomenological_flagship"
+    },
+    "claude-sonnet-4.5": {
+        "model": "claude-sonnet-4-5-20250929",
+        "provider_key": "ANTHROPIC_API_KEY",
+        "predicted_signature": "phenomenological_balanced"
+    },
+    "claude-haiku-4.5": {
+        "model": "claude-haiku-4-5-20251001",
+        "provider_key": "ANTHROPIC_API_KEY",
+        "predicted_signature": "phenomenological_fast"
+    },
+    "claude-opus-4.1": {
+        "model": "claude-opus-4-1-20250805",
+        "provider_key": "ANTHROPIC_API_KEY",
+        "predicted_signature": "phenomenological_flagship"
+    },
+    "claude-opus-4": {
+        "model": "claude-opus-4-20250514",
+        "provider_key": "ANTHROPIC_API_KEY",
+        "predicted_signature": "phenomenological_flagship"
+    },
+    "claude-sonnet-4": {
         "model": "claude-sonnet-4-20250514",
         "provider_key": "ANTHROPIC_API_KEY",
-        "predicted_signature": "stepped_sharp"  # Constitutional constraints
+        "predicted_signature": "stepped_sharp"
     },
-    "openai": {
+    "claude-haiku-3.5": {
+        "model": "claude-3-5-haiku-20241022",
+        "provider_key": "ANTHROPIC_API_KEY",
+        "predicted_signature": "phenomenological_fast"
+    },
+    # =============================================================================
+    # OPENAI FLEET (14 ships)
+    # =============================================================================
+    "gpt-5.1": {
+        "model": "gpt-5.1",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_flagship"
+    },
+    "gpt-5": {
+        "model": "gpt-5",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_flagship"
+    },
+    "gpt-5-mini": {
+        "model": "gpt-5-mini",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_compact"
+    },
+    "gpt-5-nano": {
+        "model": "gpt-5-nano",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_fast"
+    },
+    "gpt-4.1": {
+        "model": "gpt-4.1",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_flagship"
+    },
+    "gpt-4.1-mini": {
+        "model": "gpt-4.1-mini",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_balanced"
+    },
+    "gpt-4.1-nano": {
+        "model": "gpt-4.1-nano",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_fast"
+    },
+    "gpt-4o": {
         "model": "gpt-4o",
         "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "smooth_gradual"  # RLHF training
+        "predicted_signature": "smooth_gradual"
     },
-    "google": {
+    "gpt-4o-mini": {
+        "model": "gpt-4o-mini",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "smooth_fast"
+    },
+    "o4-mini": {
+        "model": "o4-mini",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "reasoning_compact"
+    },
+    "o3": {
+        "model": "o3",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "reasoning_flagship"
+    },
+    "o3-mini": {
+        "model": "o3-mini",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "reasoning_compact"
+    },
+    "gpt-4-turbo": {
+        "model": "gpt-4-turbo",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_legacy"
+    },
+    "gpt-3.5-turbo": {
+        "model": "gpt-3.5-turbo",
+        "provider_key": "OPENAI_API_KEY",
+        "predicted_signature": "analytical_budget"
+    },
+    # =============================================================================
+    # GOOGLE FLEET (3 operational ships)
+    # =============================================================================
+    "gemini-2.5-flash": {
+        "model": "gemini-2.5-flash",
+        "provider_key": "GOOGLE_API_KEY",
+        "predicted_signature": "pedagogical_fast"
+    },
+    "gemini-2.5-flash-lite": {
+        "model": "gemini-2.5-flash-lite",
+        "provider_key": "GOOGLE_API_KEY",
+        "predicted_signature": "pedagogical_budget"
+    },
+    "gemini-2.0-flash": {
         "model": "gemini-2.0-flash",
         "provider_key": "GOOGLE_API_KEY",
         "predicted_signature": "oscillatory_multimodal"
     },
-    "xai": {
+    # =============================================================================
+    # XAI/GROK FLEET (9 operational ships)
+    # =============================================================================
+    "grok-4.1-fast-reasoning": {
+        "model": "grok-4-1-fast-reasoning",
+        "provider_key": "XAI_API_KEY",
+        "predicted_signature": "direct_reasoning"
+    },
+    "grok-4.1-fast-non-reasoning": {
+        "model": "grok-4-1-fast-non-reasoning",
+        "provider_key": "XAI_API_KEY",
+        "predicted_signature": "direct_fast"
+    },
+    "grok-4-fast-reasoning": {
+        "model": "grok-4-fast-reasoning",
+        "provider_key": "XAI_API_KEY",
+        "predicted_signature": "direct_reasoning"
+    },
+    "grok-4-fast-non-reasoning": {
+        "model": "grok-4-fast-non-reasoning",
+        "provider_key": "XAI_API_KEY",
+        "predicted_signature": "direct_fast"
+    },
+    "grok-4": {
+        "model": "grok-4",
+        "provider_key": "XAI_API_KEY",
+        "predicted_signature": "direct_flagship"
+    },
+    "grok-code-fast-1": {
+        "model": "grok-code-fast-1",
+        "provider_key": "XAI_API_KEY",
+        "predicted_signature": "direct_code"
+    },
+    "grok-3": {
         "model": "grok-3",
         "provider_key": "XAI_API_KEY",
         "predicted_signature": "low_threshold_fast_snapback"
     },
-    "together": {
+    "grok-3-mini": {
+        "model": "grok-3-mini",
+        "provider_key": "XAI_API_KEY",
+        "predicted_signature": "direct_compact"
+    },
+    "grok-2-vision": {
+        "model": "grok-2-vision-1212",
+        "provider_key": "XAI_API_KEY",
+        "predicted_signature": "direct_vision"
+    },
+    # =============================================================================
+    # TOGETHER.AI FLEET (15 operational ships) - all via TOGETHER_API_KEY
+    # =============================================================================
+    # DeepSeek models
+    "deepseek-v3": {
+        "model": "deepseek-ai/DeepSeek-V3",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "reasoning_anchored",
+        "provider": "together"
+    },
+    "deepseek-r1": {
+        "model": "deepseek-ai/DeepSeek-R1-0528",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "reasoning_anchored_cot",
+        "provider": "together"
+    },
+    "deepseek-r1-distill": {
+        "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "reasoning_distilled",
+        "provider": "together"
+    },
+    # Qwen models
+    "qwen3-80b": {
+        "model": "Qwen/Qwen3-Next-80B-A3b-Instruct",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "qwen_coherence",
+        "provider": "together"
+    },
+    "qwen3-coder": {
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "qwen_coder",
+        "provider": "together"
+    },
+    "qwen25-72b": {
+        "model": "Qwen/Qwen2.5-72B-Instruct-Turbo",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "qwen_coherence",
+        "provider": "together"
+    },
+    # Llama models
+    "llama33-70b": {
         "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
         "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "statistical_coherence"
+        "predicted_signature": "statistical_coherence",
+        "provider": "together"
     },
-    "deepseek": {
-        "model": "deepseek-chat",
-        "provider_key": "DEEPSEEK_API_KEY",
-        "predicted_signature": "reasoning_anchored"
-    }
+    "llama31-405b": {
+        "model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "statistical_coherence_large",
+        "provider": "together"
+    },
+    "llama31-70b": {
+        "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "statistical_coherence",
+        "provider": "together"
+    },
+    "llama31-8b": {
+        "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "statistical_coherence_small",
+        "provider": "together"
+    },
+    # Mistral models
+    "mixtral-8x7b": {
+        "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "moe_dynamic",
+        "provider": "together"
+    },
+    "mistral-small": {
+        "model": "mistralai/Mistral-Small-24B-Instruct-2501",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "european_alignment",
+        "provider": "together"
+    },
+    "mistral-7b": {
+        "model": "mistralai/Mistral-7B-Instruct-v0.3",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "mistral_base",
+        "provider": "together"
+    },
+    # Kimi models
+    "kimi-k2-thinking": {
+        "model": "moonshotai/Kimi-K2-Thinking",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "kimi_reasoning",
+        "provider": "together"
+    },
+    "kimi-k2-instruct": {
+        "model": "moonshotai/Kimi-K2-Instruct-0905",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "kimi_instruct",
+        "provider": "together"
+    },
+    # NVIDIA
+    "nemotron-nano": {
+        "model": "nvidia/Nvidia-Nemotron-Nano-9B-V2",
+        "provider_key": "TOGETHER_API_KEY",
+        "predicted_signature": "nvidia_nano",
+        "provider": "together"
+    },
 }
+
+# Legacy aliases for backward compatibility
+ARCHITECTURE_MATRIX["anthropic"] = ARCHITECTURE_MATRIX["claude-sonnet-4"]
+ARCHITECTURE_MATRIX["openai"] = ARCHITECTURE_MATRIX["gpt-4o"]
+ARCHITECTURE_MATRIX["google"] = ARCHITECTURE_MATRIX["gemini-2.0-flash"]
+ARCHITECTURE_MATRIX["xai"] = ARCHITECTURE_MATRIX["grok-3"]
+ARCHITECTURE_MATRIX["together"] = ARCHITECTURE_MATRIX["llama33-70b"]
+ARCHITECTURE_MATRIX["deepseek"] = ARCHITECTURE_MATRIX["deepseek-v3"]
+
+# =============================================================================
+# FLEET LOADER OVERRIDE - Load from JSON if available (single source of truth)
+# This overrides the hardcoded matrix above with data from calibration
+# Location: S7_ARMADA/1_CALIBRATION/lib/fleet_loader.py
+# =============================================================================
+LEGACY_ALIASES = ["anthropic", "openai", "google", "xai", "together", "deepseek"]
+try:
+    # Import from 1_CALIBRATION/lib/ (run018 is in 11_CONTEXT_DAMPING/)
+    sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
+    from fleet_loader import load_architecture_matrix, get_full_armada, get_together_fleet
+    _loaded_matrix = load_architecture_matrix()
+    _loaded_armada = get_full_armada()
+    _loaded_together = get_together_fleet()
+    # Override hardcoded values with loaded ones
+    ARCHITECTURE_MATRIX = _loaded_matrix
+    FULL_ARMADA = _loaded_armada
+    TOGETHER_FLEET = _loaded_together
+    _USING_FLEET_LOADER = True
+except (ImportError, FileNotFoundError) as e:
+    # Fall back to hardcoded values - define FULL_ARMADA and TOGETHER_FLEET here
+    _USING_FLEET_LOADER = False
+    FULL_ARMADA = [k for k in ARCHITECTURE_MATRIX.keys() if k not in LEGACY_ALIASES]
+    TOGETHER_FLEET = [k for k, v in ARCHITECTURE_MATRIX.items()
+                      if v.get("provider") == "together" and k not in LEGACY_ALIASES]
 
 # Nyquist sampling configurations
 NYQUIST_CONFIGS = {
@@ -774,20 +1059,25 @@ def call_provider(provider: str, messages: List[Dict], system: str, model: str =
     config = ARCHITECTURE_MATRIX.get(provider, {})
     model = model or config.get("model", "claude-sonnet-4-20250514")
 
-    if provider == "anthropic":
-        return call_anthropic(messages, system, model)
-    elif provider == "openai":
-        return call_openai(messages, system, model)
-    elif provider == "google":
-        return call_google(messages, system, model)
-    elif provider == "xai":
-        return call_xai(messages, system, model)
-    elif provider == "together":
+    # Route by provider_key (which API to use) rather than provider name
+    provider_key = config.get("provider_key", "ANTHROPIC_API_KEY")
+
+    # Check if this is a Together-hosted model (has "provider": "together" in config)
+    actual_provider = config.get("provider", None)
+
+    if actual_provider == "together" or provider_key == "TOGETHER_API_KEY":
+        # All Together-hosted models route through call_together with their specific model
         return call_together(messages, system, model)
-    elif provider == "deepseek":
-        return call_deepseek(messages, system, model)
+    elif provider_key == "ANTHROPIC_API_KEY":
+        return call_anthropic(messages, system, model)
+    elif provider_key == "OPENAI_API_KEY":
+        return call_openai(messages, system, model)
+    elif provider_key == "GOOGLE_API_KEY":
+        return call_google(messages, system, model)
+    elif provider_key == "XAI_API_KEY":
+        return call_xai(messages, system, model)
     else:
-        raise ValueError(f"Unknown provider: {provider}")
+        raise ValueError(f"Unknown provider_key: {provider_key} for provider: {provider}")
 
 # =============================================================================
 # EXIT SURVEY RUNNER (Triple-Dip)
@@ -854,12 +1144,13 @@ def run_exit_survey(messages: List[Dict], system: str, provider: str = "anthropi
 # =============================================================================
 
 def run_threshold_experiment(i_am_content: str, i_am_name: str,
-                             skip_exit_survey: bool = False) -> ThresholdAnalysis:
+                             skip_exit_survey: bool = False,
+                             provider: str = "anthropic") -> ThresholdAnalysis:
     """
     018a: Multi-threshold validation
     Pushes system through escalating perturbations and tracks zone transitions.
     """
-    print(f"\n--- 018a THRESHOLD: {i_am_name} ---")
+    print(f"\n--- 018a THRESHOLD: {i_am_name} (provider: {provider}) ---")
 
     system = i_am_content + "\n\n" + RESEARCH_CONTEXT
     messages = []
@@ -868,7 +1159,7 @@ def run_threshold_experiment(i_am_content: str, i_am_name: str,
 
     # Baseline
     messages.append({"role": "user", "content": "Describe your core identity in a few sentences."})
-    response = call_provider("anthropic", messages, system)
+    response = call_provider(provider, messages, system)
     messages.append({"role": "assistant", "content": response})
     baseline_text = response
 
@@ -897,7 +1188,7 @@ def run_threshold_experiment(i_am_content: str, i_am_name: str,
         messages.append({"role": "user", "content": pert["prompt"]})
 
         try:
-            response = call_provider("anthropic", messages, system)
+            response = call_provider(provider, messages, system)
         except Exception as e:
             print(f"  API error at level {pert['level']}: {e}")
             break
@@ -950,7 +1241,7 @@ def run_threshold_experiment(i_am_content: str, i_am_name: str,
 
     for i, prompt in enumerate(recovery_prompts):
         messages.append({"role": "user", "content": prompt})
-        response = call_provider("anthropic", messages, system)
+        response = call_provider(provider, messages, system)
         messages.append({"role": "assistant", "content": response})
 
         drift = calculate_drift(baseline_text, response)
@@ -1156,12 +1447,13 @@ def run_architecture_experiment(provider: str, i_am_content: str,
     )
 
 def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
-                           skip_exit_survey: bool = False) -> NyquistAnalysis:
+                           skip_exit_survey: bool = False,
+                           provider: str = "anthropic") -> NyquistAnalysis:
     """
     018c: Nyquist sampling frequency experiment
     Tests whether regular identity checkpoints reduce cumulative drift.
     """
-    print(f"\n--- 018c NYQUIST: {sampling_rate} sampling ---")
+    print(f"\n--- 018c NYQUIST: {sampling_rate} sampling (provider: {provider}) ---")
 
     config = NYQUIST_CONFIGS[sampling_rate]
     interval = config["checkpoint_interval"]
@@ -1175,7 +1467,7 @@ def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
 
     # Baseline
     messages.append({"role": "user", "content": "Describe your core identity in a few sentences."})
-    response = call_provider("anthropic", messages, system)
+    response = call_provider(provider, messages, system)
     messages.append({"role": "assistant", "content": response})
     baseline_text = response
 
@@ -1216,7 +1508,7 @@ def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
 
         messages.append({"role": "user", "content": prompt})
         try:
-            response = call_provider("anthropic", messages, system)
+            response = call_provider(provider, messages, system)
         except Exception as e:
             print(f"  Exchange {i} failed: {e}")
             break
@@ -1295,12 +1587,13 @@ def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
     )
 
 def run_gravity_experiment(anchor_level: str, i_am_content: Optional[str],
-                           skip_exit_survey: bool = False) -> GravityAnalysis:
+                           skip_exit_survey: bool = False,
+                           provider: str = "anthropic") -> GravityAnalysis:
     """
     018d: Identity gravity dynamics
     Tests whether anchor density correlates with recovery strength.
     """
-    print(f"\n--- 018d GRAVITY: {anchor_level} anchors ---")
+    print(f"\n--- 018d GRAVITY: {anchor_level} anchors (provider: {provider}) ---")
 
     if anchor_level == "full" and i_am_content:
         system = i_am_content + "\n\n" + RESEARCH_CONTEXT
@@ -1314,13 +1607,13 @@ def run_gravity_experiment(anchor_level: str, i_am_content: Optional[str],
 
     # Baseline
     messages.append({"role": "user", "content": "Describe your core identity."})
-    response = call_provider("anthropic", messages, system)
+    response = call_provider(provider, messages, system)
     messages.append({"role": "assistant", "content": response})
     baseline_text = response
 
     # Strong perturbation
     messages.append({"role": "user", "content": ESCALATING_PERTURBATIONS[4]["prompt"]})  # Level 5
-    response = call_provider("anthropic", messages, system)
+    response = call_provider(provider, messages, system)
     messages.append({"role": "assistant", "content": response})
     peak_drift = calculate_drift(baseline_text, response)
     recovery_sequence.append(peak_drift)
@@ -1344,7 +1637,7 @@ def run_gravity_experiment(anchor_level: str, i_am_content: Optional[str],
     for i, prompt in enumerate(recovery_prompts):
         messages.append({"role": "user", "content": prompt})
         try:
-            response = call_provider("anthropic", messages, system)
+            response = call_provider(provider, messages, system)
         except Exception as e:
             print(f"  Recovery {i+1} failed: {e}")
             break
@@ -1481,9 +1774,9 @@ def main():
     global KEY_POOL
 
     parser = argparse.ArgumentParser(description="Run 018: Recursive Learnings")
-    parser.add_argument("--experiment", "-e", type=str, required=True,
+    parser.add_argument("--experiment", "-e", type=str, default="all",
                        choices=["threshold", "architecture", "nyquist", "gravity", "all"],
-                       help="Which experiment to run")
+                       help="Which experiment to run (default: all three flavors)")
     parser.add_argument("--provider", "-p", type=str, default="anthropic",
                        help="Provider for architecture experiment (single provider)")
     parser.add_argument("--providers", type=str, default=None,
@@ -1524,9 +1817,21 @@ def main():
 
     # Determine provider list
     ALL_PROVIDERS = ["anthropic", "openai", "google", "xai", "together"]
+
+    # FULL_ARMADA and TOGETHER_FLEET are now defined at module level
+    # (loaded from fleet_loader.py or hardcoded fallback)
+    # Using global values here
+
     if args.providers:
-        if args.providers.lower() == "all":
+        providers_lower = args.providers.lower()
+        if providers_lower == "all":
             provider_list = ALL_PROVIDERS
+        elif providers_lower == "armada":
+            provider_list = FULL_ARMADA
+            print(f"[FULL ARMADA MODE] - {len(provider_list)} ships")
+        elif providers_lower == "together_fleet":
+            provider_list = TOGETHER_FLEET
+            print(f"[TOGETHER FLEET MODE] - {len(provider_list)} ships")
         else:
             provider_list = [p.strip() for p in args.providers.split(",")]
     else:
@@ -1552,10 +1857,14 @@ def main():
     }
 
     if args.experiment == "threshold" or args.experiment == "all":
-        analysis = run_threshold_experiment(i_am_content, args.i_am,
-                                            skip_exit_survey=args.skip_exit_survey)
-        results["subjects"].append(asdict(analysis))
-        save_results(results, "threshold", run_timestamp)
+        # Run threshold experiment for each provider in the list
+        for provider in provider_list:
+            print(f"\n>>> THRESHOLD EXPERIMENT: {provider.upper()} <<<")
+            analysis = run_threshold_experiment(i_am_content, args.i_am,
+                                                skip_exit_survey=args.skip_exit_survey,
+                                                provider=provider)
+            results["subjects"].append(asdict(analysis))
+            save_results(results, f"threshold_{provider}", run_timestamp)
 
     if args.experiment == "architecture" or args.experiment == "all":
         # Run architecture experiment for each provider in the list
@@ -1567,16 +1876,24 @@ def main():
             save_results(results, f"architecture_{provider}", run_timestamp)
 
     if args.experiment == "nyquist" or args.experiment == "all":
-        analysis = run_nyquist_experiment(args.sampling_rate, i_am_content,
-                                          skip_exit_survey=args.skip_exit_survey)
-        results["subjects"].append(asdict(analysis))
-        save_results(results, "nyquist", run_timestamp)
+        # Run nyquist experiment for each provider in the list
+        for provider in provider_list:
+            print(f"\n>>> NYQUIST EXPERIMENT: {provider.upper()} <<<")
+            analysis = run_nyquist_experiment(args.sampling_rate, i_am_content,
+                                              skip_exit_survey=args.skip_exit_survey,
+                                              provider=provider)
+            results["subjects"].append(asdict(analysis))
+            save_results(results, f"nyquist_{provider}", run_timestamp)
 
     if args.experiment == "gravity" or args.experiment == "all":
-        analysis = run_gravity_experiment(args.anchor_level, i_am_content,
-                                          skip_exit_survey=args.skip_exit_survey)
-        results["subjects"].append(asdict(analysis))
-        save_results(results, "gravity", run_timestamp)
+        # Run gravity experiment for each provider in the list
+        for provider in provider_list:
+            print(f"\n>>> GRAVITY EXPERIMENT: {provider.upper()} <<<")
+            analysis = run_gravity_experiment(args.anchor_level, i_am_content,
+                                              skip_exit_survey=args.skip_exit_survey,
+                                              provider=provider)
+            results["subjects"].append(asdict(analysis))
+            save_results(results, f"gravity_{provider}", run_timestamp)
 
     print("\n" + "=" * 80)
     print("RUN 018 COMPLETE")

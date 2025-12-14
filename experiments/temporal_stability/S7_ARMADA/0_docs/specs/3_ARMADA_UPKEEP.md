@@ -6,18 +6,18 @@
 
 ---
 
-## Current Fleet Status (2025-12-10)
+## Current Fleet Status (2025-12-14)
 
-| Provider | Verified | Ghost | Rate Limited | Total |
-|----------|----------|-------|--------------|-------|
+| Provider | Operational | Ghost | Rate Limited | Total |
+|----------|-------------|-------|--------------|-------|
 | Claude (Anthropic) | 7 | 0 | 0 | 7 |
-| GPT (OpenAI) | 7 | 7 | 0 | 14 |
+| GPT (OpenAI) | 14 | 0 | 0 | 14 |
 | Gemini (Google) | 3 | 0 | 5 | 8 |
-| Grok (xAI) | 10 | 0 | 0 | 10 |
-| Together.ai | 15 | 5 | 0 | 20 |
-| **TOTAL** | **42** | **12** | **5** | **59** |
+| Grok (xAI) | 9 | 0 | 0 | 9 |
+| Together.ai | 16 | 0 | 0 | 16 |
+| **TOTAL** | **49** | **0** | **5** | **54** |
 
-**Operational Ships**: 47 (42 verified + 5 rate-limited that may work)
+**FULL ARMADA**: 49 operational ships (91% of fleet)
 
 For complete fleet roster with model IDs, see [ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md).
 
@@ -62,8 +62,8 @@ py run_calibrate_parallel.py --bandwidth
 **Features:**
 
 - **KeyPool**: Rotates through multiple API keys per provider (up to 10 each)
-- **QUICK_FLEET**: Fast test with 1 ship per provider
-- **FULL_ARMADA**: All 59 ships across 5 providers
+- **QUICK_FLEET**: Fast test with 1 ship per provider (5 total)
+- **FULL_ARMADA**: All 49 operational ships across 5 providers
 - **Parallel execution**: ThreadPoolExecutor with configurable workers
 - **Ghost ship detection**: Identifies models that fail with specific errors
 
