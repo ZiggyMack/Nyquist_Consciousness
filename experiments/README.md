@@ -1,7 +1,7 @@
 # Experiments Directory
 
 **Organized structure for all Nyquist Consciousness experimental work**
-**Last Updated:** 2025-12-12 (Run 018-020 development complete)
+**Last Updated:** 2025-12-15 (Run 022 ready, 12_CFA coming)
 
 ---
 
@@ -27,11 +27,17 @@ experiments/
 │       │   ├── runs/         # S7_run_XXX_*.json
 │       │   └── temporal_logs/
 │       │
-│       ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-021 experiments
+│       ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-020 experiments
 │       │   ├── run017_context_damping.py
 │       │   ├── run018_recursive_learnings.py
 │       │   ├── run020_tribunal_A.py    # Philosophical Tribunal (A)
 │       │   └── run020_tribunal_B.py    # Induced vs Inherent (B)
+│       │
+│       ├── 12_CFA/              # CFA-ARMADA Integration Pipeline
+│       │   └── run_cfa_trinity_v2.py
+│       │
+│       ├── 13_LOGOS/            # LOGOS Commutation Cartography (Run 022)
+│       │   └── run022_commutation_cartography.py
 │       │
 │       ├── 7_META_VALIDATION/   # Measurement validity experiments
 │       │   └── EXP_PFI_A_DIMENSIONAL/
@@ -51,8 +57,14 @@ experiments/
 ### ⭐ S7 ARMADA - Multi-Model Fleet (CURRENT PRIORITY)
 
 **Location:** `temporal_stability/S7_ARMADA/`
-**Status:** Run 018-021 DEVELOPMENT — Phase 4 Complete Circuit
+**Status:** Phase 4 Complete Circuit — Runs 018/020A/020B wrapping up, Run 022 READY
 **Purpose:** Cross-architecture AI identity stability testing
+
+**Current Status (December 15, 2025):**
+
+- **Wrapping up:** Run 018 (gravity/threshold/nyquist), Run 020A (Tribunal), Run 020B (Induced)
+- **Ready for execution:** Run 022 (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
+- **Coming soon:** 12_CFA Trinity Audit (worldview profile testing)
 
 **Key Discovery: Event Horizon at 1.23**
 
@@ -75,8 +87,9 @@ experiments/
 | **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** |
 | **018** | - | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** |
-| **020** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
-| **021** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
+| **020A** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
+| **020B** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
+| **022** | - | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS) - DESIGN COMPLETE** |
 
 **Testing Taxonomy (IMPORTANT):**
 
@@ -232,5 +245,5 @@ py visualize_armada.py --run 017
 
 ---
 
-**Last Updated:** 2025-12-12
-**Status:** Run 018-021 development complete — Phase 4 methodology established
+**Last Updated:** 2025-12-15
+**Status:** Runs 018/020A/020B wrapping up — Run 022 READY, 12_CFA COMING

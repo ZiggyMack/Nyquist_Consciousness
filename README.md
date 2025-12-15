@@ -85,7 +85,9 @@ Nyquist_Consciousness/
 ├── experiments/temporal_stability/S7_ARMADA/   # ⭐ ACTIVE EXPERIMENTS
 │   ├── 0_docs/              # Run summaries and specs
 │   ├── 0_results/           # 184+ JSON results, temporal logs, manifests
-│   ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-021 experiments
+│   ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-020 experiments
+│   ├── 12_CFA/              # CFA-ARMADA Integration Pipeline
+│   ├── 13_LOGOS/            # LOGOS Commutation Cartography (Run 022)
 │   └── visualizations/      # Charts + visualize_armada.py
 │
 ├── docs/                    # Core documentation
@@ -114,10 +116,11 @@ Nyquist_Consciousness/
 | 012 | 20 | Revalidation | 100% EH crossing, 100% recovery | COMPLETE |
 | 013-016 | - | Various | Boundary Mapping, Rescue Protocol, Stability Criteria | COMPLETE |
 | **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** | **COMPLETE** |
-| **018** | 51 | **Recursive Learnings** | **IRON CLAD: 184 files, P-018-1/2/3 CONFIRMED** | **COMPLETE** |
+| **018** | 51 | **Recursive Learnings** | **IRON CLAD: 184 files, P-018-1/2/3 CONFIRMED** | **WRAPPING UP** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** | **COMPLETE** |
-| **020** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **COMPLETE** |
-| **021** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **COMPLETE** |
+| **020A** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **WRAPPING UP** |
+| **020B** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **WRAPPING UP** |
+| **022** | - | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS)** | **READY** |
 
 > **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/DATA_QUALITY_MAP.md).
 >
@@ -229,26 +232,33 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: RUN 018 COMPLETE → PUBLICATION READINESS
+**Current Phase**: Runs 018/020A/020B WRAPPING UP → Run 022 READY → 12_CFA COMING
 **Last Updated**: 2025-12-15
-**Key Milestone**: Run 018 IRON CLAD complete (184 files, 51 models, P-018-1/2/3 CONFIRMED)
+**Key Milestone**: LOGOS Commutation Cartography (Run 022) methodology FULLY VALIDATED
+
+### Current Status (December 15, 2025)
+
+- **Wrapping up:** Run 018 (gravity/threshold/nyquist), Run 020A (Tribunal), Run 020B (Induced)
+- **Ready for execution:** Run 022 (LOGOS Commutation Cartography) - methodology FULLY VALIDATED by LOGOS Claude
+- **Coming soon:** 12_CFA Trinity Audit (worldview profile testing)
 
 ### Active Work Streams
 
 | Stream | Status | Next Action |
 |--------|--------|-------------|
-| **Dry Runs v2** | PASSED | All 4 scripts validated (87.67% inherent drift confirmed) |
-| **8-Question Calibration** | PENDING | Capture full identity fingerprints for 48 ships |
-| **Publication** | DRAFT READY | Phase 3 papers ready (3 PDFs with placeholders) |
-| **Layer Stack** | CORRECTED | S9=Human Gravity, S10=Hybrid, S11=AVLAR |
+| **Run 018/020A/020B** | WRAPPING UP | Multi-provider coverage in progress |
+| **Run 022 (13_LOGOS)** | READY | LOGOS algebra vs S² topology testing |
+| **12_CFA Trinity** | COMING | CFA-ARMADA worldview profile testing |
+| **Publication** | DRAFT READY | Phase 3 papers ready (awaiting wrap-up) |
 
 ### Methodology Compliance Status (per 0_RUN_METHODOLOGY.md)
 
 | Script | PREDICTIONS | Exit Survey | v8 Protocol | Status |
 |--------|-------------|-------------|-------------|--------|
 | run018_recursive_learnings.py | P-018-1 to P-018-4 | ✅ 6 probes | N/A | COMPLIANT |
-| run020_tribunal_A.py | P-020-1 to P-020-5 | ✅ 6 probes | ✅ Default | COMPLIANT |
-| run020_tribunal_B.py (Run 021) | P-021-1 to P-021-5 | ✅ 6 probes | N/A | COMPLIANT |
+| run020_tribunal_A.py | P-020A-1 to P-020A-5 | ✅ 6 probes | ✅ Default | COMPLIANT |
+| run020_tribunal_B.py | P-020B-1 to P-020B-5 | ✅ 6 probes | N/A | COMPLIANT |
+| run022_commutation_cartography.py | P-022-1 to P-022-5 | ✅ 6 probes | N/A | READY |
 
 ### Priority Queue (Next Actions)
 

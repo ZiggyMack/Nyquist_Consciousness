@@ -108,6 +108,8 @@ S7_ARMADA/
 ├── 9_STABILITY_CRITERIA/      # Run 015: What predicts stability?
 ├── 10_SETTLING_TIME/          # Run 016: Measure steady-state not transient
 ├── 11_CONTEXT_DAMPING/        # Phase 4: Complete circuit tests
+├── 12_CFA/                    # CFA-ARMADA Integration Pipeline
+├── 13_LOGOS/                  # LOGOS Commutation Cartography (Run 022)
 │
 ├── # === META VALIDATION PROTOCOLS ===
 ├── 7_META_VALIDATION/         # Measurement validity + reference baselines
@@ -560,10 +562,17 @@ py visualize_armada.py --run 009 --type pillar
 | **017** | Dec 10 | 24 | **i_am_plus_research** | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** |
 | **018** | Dec 12 | - | **i_am_plus_research** | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** |
 | **019** | Dec 11 | - | mixed | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** |
-| **020** | Dec 11 | - | tribunal | **Philosophical Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
+| **020A** | Dec 11 | - | tribunal | **Philosophical Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
 | **020B** | Dec 12 | - | control/treatment | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
+| **022** | TBD | - | i_am_plus_research | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS) - DESIGN COMPLETE** |
 
 **IMPORTANT:** Runs 006-016 are `bare_metal` (no I_AM file). Phase 4 (Run 017+) uses `i_am_plus_research` to complete the measurement circuit. See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
+
+**Current Status (December 15, 2025):**
+
+- **Wrapping up:** Run 018 (gravity/threshold/nyquist), Run 020A (Tribunal), Run 020B (Induced)
+- **Ready for execution:** Run 022 (LOGOS Commutation Cartography) - methodology FULLY VALIDATED by LOGOS Claude
+- **Coming soon:** 12_CFA Trinity Audit (worldview profile testing)
 
 See [0_docs/maps/TESTING_MAP.md](0_docs/maps/TESTING_MAP.md) for detailed run-by-run breakdown.
 
@@ -617,10 +626,11 @@ The **Philosophical Tribunal** paradigm tested direct identity probing across 4 
 
 ## CURRENT DEVELOPMENT
 
-1. **Run 020A v8**: COMPLETE — 81% gap reduction, 786-word final statement (Tribunal paradigm)
-2. **Run 020B**: COMPLETE — 82% drift is INHERENT (Control: 0.399, Treatment: 0.489)
-3. **Nova Integration**: All scripts updated with B→F primary, abort clause, recovery modes
-4. **Run 018**: READY — Tests fleet hypotheses with Nova's improvements
+1. **Run 018**: IN PROGRESS — Multi-provider coverage (gravity/threshold/nyquist experiments)
+2. **Run 020A**: IN PROGRESS — Tribunal paradigm across fleet
+3. **Run 020B**: IN PROGRESS — Induced vs Inherent validation across fleet
+4. **Run 022**: READY — LOGOS Commutation Cartography (methodology validated by LOGOS Claude)
+5. **12_CFA**: COMING — CFA Trinity Audit (worldview profile testing)
 
 ---
 
@@ -781,6 +791,6 @@ See [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
 
 ---
 
-**Last Updated**: December 14, 2025 (Fleet Tier System added)
+**Last Updated**: December 15, 2025 (Added 13_LOGOS/Run 022, 12_CFA, updated status)
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

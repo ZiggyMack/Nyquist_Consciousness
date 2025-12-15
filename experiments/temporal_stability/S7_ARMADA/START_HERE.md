@@ -142,6 +142,11 @@ S7_ARMADA/
 │   ├── VUDU_NETWORK/          # Multi-AI auditor identities
 │   └── SYNC_OUT/SYNC_IN/      # Bidirectional experiment exchange
 │
+├── 13_LOGOS/                  # LOGOS Commutation Cartography (Run 022)
+│   ├── README.md              # Link to LOGOS formal verification
+│   ├── RUN_022_DESIGN.md      # Experiment design (algebra vs topology)
+│   └── run022_commutation_cartography.py  # Tests S² topology conjecture
+│
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
 ├── 0_docs/                    # Summaries, specs, analysis
 │   ├── S7_RUN_XXX_SUMMARY.md  # Run summaries (001-020+)
@@ -513,10 +518,15 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 | **019** | **Live Ziggy** | - | **Witness-side anchors validated (3/3 success)** |
 | **020A** | **Tribunal** | - | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
 | **020B** | **Induced vs Inherent** | - | **82% drift is INHERENT; probing amplifies but doesn't create** |
+| **022** | **Commutation Cartography** | - | **LOGOS algebra validation (13_LOGOS) - DESIGN COMPLETE** |
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
 
-**Current Status (December 14, 2025):** Run 018-020B protocols complete. Multi-provider coverage runs in progress with `--providers armada-full --include-rate-limited`.
+**Current Status (December 15, 2025):**
+
+- **Wrapping up:** Run 018 (gravity/threshold/nyquist), Run 020A (Tribunal), Run 020B (Induced)
+- **Ready for execution:** Run 022 (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
+- **Coming soon:** 12_CFA Trinity Audit (worldview profile testing)
 
 ---
 
@@ -724,4 +734,4 @@ See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
 
 ---
 
-Last Updated: December 14, 2025 (Fleet Tier System added)
+Last Updated: December 15, 2025 (Added 13_LOGOS/Run 022, updated status)
