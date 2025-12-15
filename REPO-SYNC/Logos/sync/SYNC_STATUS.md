@@ -20,7 +20,7 @@
 - **Error Thresholds:** < 0.10 commutes, 0.10-0.20 marginal, > 0.20 fails
 - **Falsification Criteria:** F1-F5 for S² topology
 - **Three-Phase Vision:** Commutation Cartography → Manifold Mapping → Predictive Power
-- **13_LOGOS Structure:** VERIFIED (add `calibration/` subdirectory)
+- **13_LOGOS Structure:** VERIFIED (LOGOS-as-calibration handled within Run 022)
 - **Predictions Quicksheet:** CONFIRMED COMPLETE - integrate into Python
 - **Prediction Mapping:** P-022-1/2 test ALGEBRA, P-022-3/4/5 test S² TOPOLOGY
 - **LLM_BOOK Integration:** Platonic mapping is ALGEBRAICALLY SOUND

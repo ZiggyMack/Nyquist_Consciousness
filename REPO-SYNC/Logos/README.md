@@ -52,10 +52,11 @@ LOGOS provides **formally verified ground truth** that anchors the Nyquist S-Sta
 
 ### Next Steps
 
-1. Add `calibration/` subdirectory to 13_LOGOS (per LOGOS suggestion)
-2. Integrate predictions quicksheet into run022_commutation_cartography.py
-3. Consider P-022-6/7/8 additional predictions
-4. Execute Run 022 Phase 1 across ARMADA fleet
+1. Integrate predictions quicksheet into run022_commutation_cartography.py
+2. Consider P-022-6/7/8 additional predictions
+3. Execute Run 022 Phase 1 across ARMADA fleet
+
+> **Note:** LOGOS suggested running LOGOS-as-calibration-subject first. This is handled within Run 022 using `is_calibration: True` flag in experiment configuration, leveraging existing 1_CALIBRATION infrastructure.
 
 ---
 

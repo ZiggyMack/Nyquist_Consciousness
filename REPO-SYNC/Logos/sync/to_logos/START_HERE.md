@@ -78,7 +78,7 @@ Read these in order:
 
 **Key Outcomes:**
 
-- 13_LOGOS structure: **VERIFIED** (add `calibration/` subdirectory)
+- 13_LOGOS structure: **VERIFIED** (LOGOS-as-calibration handled within Run 022)
 - Predictions quicksheet: **COMPLETE** - integrate directly into Python
 - Platonic-LOGOS mapping: **ALGEBRAICALLY SOUND**
 - Prediction mapping: **CORRECT** - P-022-1/2 test algebra, P-022-3/4/5 test S² topology
