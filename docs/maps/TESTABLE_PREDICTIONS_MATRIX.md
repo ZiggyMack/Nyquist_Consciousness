@@ -30,6 +30,32 @@
 
 ---
 
+## **📋 THE FIVE CORE CLAIMS (A-E) — NotebookLM Synthesis**
+
+NotebookLM independently synthesized our findings into five core validated claims. This provides publication-ready framing for the framework.
+
+| Claim | Name | Key Finding | Evidence | Source Run |
+|-------|------|-------------|----------|------------|
+| **A** | Measurement Validity | PFI is NOT an artifact | ρ=0.91 embedding invariance (Spearman) | EXP-PFI-A |
+| **B** | Regime Transition | Event Horizon D=1.23 is real | χ² p<4.8×10⁻⁵, 88% prediction accuracy | Run 009 |
+| **C** | Damped Oscillator | Identity follows control-systems dynamics | τₛ=6.1 turns, ringback oscillation | Run 016 |
+| **D** | Context Damping | I_AM + research = stability | 75%→97.5% stability improvement | Run 017 |
+| **E** | Thermometer Result | 82% drift is INHERENT | Control B→F = 82% of Treatment B→F | Run 020B |
+
+### S-Stack Integration
+
+| Claim | Primary S-Layers | What It Validates |
+|-------|-----------------|-------------------|
+| A (Measurement) | S0, S7 | Metrics are real, not artifacts |
+| B (Event Horizon) | S7, S8 | Collapse threshold exists |
+| C (Oscillator) | S7 | Recovery dynamics predictable |
+| D (Damping) | S7, S10 | Context engineering works |
+| E (Thermometer) | S7 | Observation doesn't create phenomenon |
+
+**Source:** [REPO-SYNC/LLM_BOOK/1_VALIDATION/CLAIMS_A_E_SYNTHESIS.md](../../REPO-SYNC/LLM_BOOK/1_VALIDATION/CLAIMS_A_E_SYNTHESIS.md)
+
+---
+
 ## **🧪 EXP2-SSTACK PHASE 2c RESULTS (2025-12-06)**
 
 **Purpose:** Test T3 compression fidelity across ALL 5 Nyquist pillars (Voice, Values, Reasoning, Self-Model, Narrative)
