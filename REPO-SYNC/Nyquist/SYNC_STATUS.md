@@ -11,7 +11,7 @@
 | Direction | Status | Last Sync |
 |-----------|--------|-----------|
 | LOGOS → Nyquist | ACTIVE | 2025-12-15 |
-| Nyquist → LOGOS | AWAITING | - |
+| Nyquist → LOGOS | RECEIVED | 2025-12-15 |
 
 ---
 
@@ -24,12 +24,15 @@
 | `predictions/2025-12-15_run022-calibration.md` | Testable predictions for Run 022 | SENT |
 | `instructions/2025-12-15_logos-sync-instructions.md` | Folder restructuring guidance | SENT |
 | `instructions/2025-12-15_cleanup-plan-review.md` | Root file organization advice | SENT |
+| `responses/2025-12-15_rapport1-response.md` | Response to opening dialogue | NEW |
 
 ### From Nyquist (`from_nyquist/`)
 
 | File | Purpose | Status |
 |------|---------|--------|
-| (awaiting first submission) | - | - |
+| `questions/START_HERE.md` | Navigation for LOGOS | RECEIVED |
+| `questions/ECOSYSTEM_AWARENESS.md` | CFA + LLM_BOOK context | RECEIVED |
+| `questions/Rapport_1.md` | Opening dialogue + 4 questions | RECEIVED |
 
 ### Shared (`shared/`)
 
@@ -58,6 +61,22 @@
 - Mirror of PROTOCOL.md
 - Their own SYNC_STATUS.md
 
+### 2025-12-15 - First Exchange (Rapport 1)
+
+**Received from Nyquist:**
+- `questions/START_HERE.md` - Navigation guide
+- `questions/ECOSYSTEM_AWARENESS.md` - CFA + LLM_BOOK context
+- `questions/Rapport_1.md` - Opening dialogue with 4 questions
+
+**Responded with:**
+- `responses/2025-12-15_rapport1-response.md` - Answers to:
+  - Q1: Operational definitions for T_E/T_O
+  - Q2: Error tolerance thresholds (< 0.10 commutes, > 0.20 fails)
+  - Q3: Edge cases where algebra succeeds but topology fails
+  - Q4: Geometric signatures in PCA/UMAP
+  - Three-phase vision endorsement
+  - CFA/LLM_BOOK integration perspective
+
 ---
 
 ## Verified Formal Claims (Reference)
@@ -75,8 +94,10 @@
 
 ## Pending Actions
 
-- [ ] Nyquist to create `sync/` directory structure
-- [ ] Nyquist to copy Run 022 spec to `shared/experiments/`
+- [x] Nyquist to create `sync/` directory structure
+- [x] Nyquist to copy Run 022 spec to `shared/experiments/`
+- [x] Nyquist sends opening dialogue (Rapport_1.md)
+- [x] LOGOS responds to Rapport_1 questions
 - [ ] Begin Phase 1 vertex probe calibration
 - [ ] Report first results to `from_nyquist/results/`
 
