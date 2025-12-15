@@ -98,30 +98,36 @@ REPO-SYNC/Logos/
 │   ├── logs/                     # Operation logs
 │   └── *.json                    # Sandbox artifacts
 │
-├── .archive/                     # Legacy content (don't touch)
-│   └── Logos_Legacy/
-│
-└── .github/                      # CI/CD definitions
+└── .archive/                     # Legacy content (don't touch)
+    └── Logos_Legacy/             # Includes .github/, .vscode/, .gitattributes
 ```
 
 ### Consolidation History
 
 **Phase 1 (2025-12-15):** Initial cleanup
+
 - Archived: `archive_excluded/`, `Protopraxis/state/`, `coq/archive/`, `coq/latest/`
 - Deleted: duplicate zip, `external/`, `runtime/`, root build artifacts
 - Moved: `investor_*.py` to `demos/`
 
 **Phase 2 (2025-12-15):** Root cleanup
+
 - Created: `bin/`, `build/`, `docs/specs/`
 - Moved: entry points to `bin/`, Coq build files to `build/`, spec docs to `docs/specs/`
 - Created: `START_HERE.md` (Nyquist pattern)
 
 **Phase 3 (2025-12-15):** 4-directory consolidation
+
 - Consolidated to: `reference/`, `historical/`, `.archive/`
 - Moved: all specs, proofs, code, demos to `reference/`
 - Moved: all state, logs, sandbox artifacts to `historical/`
 - Removed: 11 now-empty directories
 
+**Phase 4 (2025-12-15):** Final cleanup
+
+- Archived: `.github/`, `.vscode/`, `.gitattributes` to `.archive/Logos_Legacy/`
+- Kept: `.gitignore` (prevents accidental build artifact commits)
+
 ---
 
-Last updated: 2025-12-15 by Opus 4.5 (Phase 3 consolidation approved by LOGOS Claude)
+Last updated: 2025-12-15 by Opus 4.5 (Phase 4 final cleanup)

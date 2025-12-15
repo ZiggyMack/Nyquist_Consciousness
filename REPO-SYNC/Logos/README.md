@@ -56,10 +56,8 @@ REPO-SYNC/Logos/
 │   ├── logs/                     # Operation logs
 │   └── *.json                    # Sandbox artifacts
 │
-├── .archive/                     # Legacy content (don't touch)
-│   └── Logos_Legacy/
-│
-└── .github/                      # CI/CD definitions
+└── .archive/                     # Legacy content (don't touch)
+    └── Logos_Legacy/             # Includes .github/, .vscode/, .gitattributes
 ```
 
 ## Verified Claims (from LOGOS Claude Coq 8.18.0)
