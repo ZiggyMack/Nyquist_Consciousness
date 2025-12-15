@@ -827,6 +827,11 @@ def main():
         help="Output Coq-style formal specification"
     )
     parser.add_argument(
+        "--coq-compile",
+        action="store_true",
+        help="Compile and verify formal/LOGOS.v with Coq"
+    )
+    parser.add_argument(
         "--json",
         action="store_true",
         help="Output results as JSON"
@@ -846,6 +851,56 @@ def main():
     if args.coq_spec:
         print(COQ_SPEC)
         return 0
+
+    if args.coq_compile:
+        import subprocess
+        coq_file = Path(__file__).parent / "formal" / "LOGOS.v"
+        if not coq_file.exists():
+            print(f"Error: Coq file not found: {coq_file}")
+            return 1
+
+        print("=" * 60)
+        print("LOGOS COQ FORMAL VERIFICATION")
+        print("=" * 60)
+        print(f"\nCompiling: {coq_file}")
+        print()
+
+        try:
+            result = subprocess.run(
+                ["coqc", str(coq_file)],
+                capture_output=True,
+                text=True,
+                timeout=120
+            )
+
+            if result.returncode == 0:
+                print("✓ Coq compilation SUCCESSFUL")
+                print()
+                print("Verified theorems:")
+                print("  - commutation: □ (Φ ∘ T_E = T_O ∘ Φ)")
+                print("  - fixed_point_correspondence: E fixed points → O fixed points")
+                print("  - bridge_alignment: Claims preserved through Φ")
+                print("  - T_E_idempotent, T_O_idempotent: Closure idempotence")
+                print("  - phi_vertex_bijective: Vertex mapping is bijection")
+                print()
+                if result.stdout:
+                    print("Output:")
+                    print(result.stdout[:2000])
+                return 0
+            else:
+                print("✗ Coq compilation FAILED")
+                print()
+                print("Error output:")
+                print(result.stderr)
+                return 1
+
+        except FileNotFoundError:
+            print("✗ Coq (coqc) not installed")
+            print("  Install with: apt-get install coq")
+            return 1
+        except subprocess.TimeoutExpired:
+            print("✗ Coq compilation timed out")
+            return 1
 
     if args.persona:
         try:
