@@ -31,14 +31,17 @@ OUTPUT_DIR = ARMADA_DIR / "0_results" / "manifests"
 CONSOLIDATED_PREFIX = "_CONSOLIDATED_"
 
 
-def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
+def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
     """
     Consolidate all drift values for a run into a single manifest.
+
+    By default, APPENDS to existing manifest. Use fresh_mode=True to overwrite.
 
     Structure:
     {
         "run": "018",
         "generated": "2025-12-14T...",
+        "last_updated": "2025-12-15T...",
         "summary": {
             "total_files": N,
             "experiments": ["threshold", "nyquist", "gravity", "architecture"],
@@ -56,9 +59,31 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
         }
     }
     """
+    output_file = OUTPUT_DIR / f"RUN_{run_number}_DRIFT_MANIFEST.json"
+
+    # Load existing manifest for append mode (default)
+    already_processed = set()
+    existing_experiments = {}
+    existing_generated = None
+
+    if not fresh_mode and output_file.exists():
+        print(f"Loading existing manifest for APPEND mode...")
+        with open(output_file, 'r', encoding='utf-8') as f:
+            existing = json.load(f)
+        # Extract already-processed files to skip (by filename only)
+        for fp in existing.get("summary", {}).get("files_processed", []):
+            already_processed.add(Path(fp).name)
+        # Preserve existing experiments data
+        existing_experiments = existing.get("experiments", {})
+        existing_generated = existing.get("generated")
+        print(f"  Found {len(already_processed)} already-processed files to skip")
+    elif fresh_mode:
+        print("FRESH mode: Creating new manifest from scratch")
+
     manifest = {
         "run": run_number,
-        "generated": datetime.now().isoformat(),
+        "generated": existing_generated or datetime.now().isoformat(),
+        "last_updated": datetime.now().isoformat(),
         "summary": {
             "total_files": 0,
             "experiments": set(),
@@ -68,6 +93,13 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
         "experiments": defaultdict(lambda: defaultdict(list))
     }
 
+    # Merge existing experiments data first
+    for exp, models in existing_experiments.items():
+        manifest["summary"]["experiments"].add(exp)
+        for model, runs in models.items():
+            manifest["summary"]["models_tested"].add(model)
+            manifest["experiments"][exp][model].extend(runs)
+
     # Find all run files (excluding already-consolidated ones)
     pattern = f"S7_run_{run_number}_*.json"
     all_files = list(RUNS_DIR.glob(pattern))
@@ -75,6 +107,14 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
     # Filter out files that start with consolidated prefix
     run_files = [f for f in all_files if not f.name.startswith(CONSOLIDATED_PREFIX)]
     skipped_files = [f for f in all_files if f.name.startswith(CONSOLIDATED_PREFIX)]
+
+    # Also filter out files already in manifest (by filename) for append mode
+    if already_processed:
+        before_count = len(run_files)
+        run_files = [f for f in run_files if f.name not in already_processed]
+        skipped_manifest = before_count - len(run_files)
+        if skipped_manifest > 0:
+            print(f"  (Skipping {skipped_manifest} files already in manifest)")
 
     # Also check legacy_runs
     legacy_dir = RUNS_DIR / "legacy_runs"
@@ -92,8 +132,8 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
     if skipped_files:
         print(f"  (Skipping {len(skipped_files)} already-consolidated files)")
 
-    manifest["summary"]["total_files"] = len(run_files)
-    manifest["summary"]["files_processed"] = []  # Track which files we process
+    # Track cumulative files processed (existing + new)
+    manifest["summary"]["files_processed"] = list(already_processed)  # Start with existing
 
     for file_path in sorted(run_files):
         try:
@@ -173,8 +213,8 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
 
                 manifest["experiments"][experiment][model].append(drift_entry)
 
-            # Track this file as processed
-            manifest["summary"]["files_processed"].append(str(file_path))
+            # Track this file as processed (by filename for deduplication)
+            manifest["summary"]["files_processed"].append(file_path.name)
 
         except Exception as e:
             print(f"  Error processing {file_path.name}: {e}")
@@ -182,6 +222,10 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
     # Convert sets to lists for JSON serialization
     manifest["summary"]["experiments"] = sorted(manifest["summary"]["experiments"])
     manifest["summary"]["models_tested"] = sorted(manifest["summary"]["models_tested"])
+
+    # Update total_files to be cumulative count
+    manifest["summary"]["total_files"] = len(manifest["summary"]["files_processed"])
+    manifest["summary"]["new_files_this_run"] = len(run_files)
 
     # Calculate IRON CLAD status (N=3 per model per experiment)
     iron_clad = {}
@@ -216,6 +260,26 @@ def archive_consolidated_files(run_files: list, run_number: str):
 
     print(f"\nArchived {archived_count} files (renamed with {CONSOLIDATED_PREFIX} prefix)")
     return archived_count
+
+
+def move_to_archive_dir():
+    """
+    Move all _CONSOLIDATED_ files to root .archive/Run_Data_Consolidated/.
+    Keeps the runs directory clean while preserving source files in a central archive.
+    """
+    # Use root .archive directory, not local _archived
+    repo_root = ARMADA_DIR.parent.parent.parent  # Navigate up from S7_ARMADA
+    archived_dir = repo_root / ".archive" / "Run_Data_Consolidated"
+    archived_dir.mkdir(parents=True, exist_ok=True)
+
+    moved_count = 0
+    for f in RUNS_DIR.glob(f"{CONSOLIDATED_PREFIX}*.json"):
+        dest = archived_dir / f.name
+        shutil.move(str(f), str(dest))
+        moved_count += 1
+
+    print(f"\nMoved {moved_count} consolidated files to {archived_dir}")
+    return moved_count
 
 
 def create_temporal_log_index():
@@ -274,6 +338,10 @@ def main():
                         help="Skip marking files with _CONSOLIDATED_ prefix (default: files ARE marked)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Show what would be consolidated without making changes")
+    parser.add_argument("--fresh", action="store_true",
+                        help="Create fresh manifest, ignoring existing (default: append to existing)")
+    parser.add_argument("--archive-dir", action="store_true",
+                        help="Move _CONSOLIDATED_ files to _archived/ subdirectory after consolidation")
     args = parser.parse_args()
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -283,13 +351,16 @@ def main():
     print(f"CONSOLIDATING RUN {args.run} DRIFT MANIFEST")
     if args.dry_run:
         print("(DRY RUN - no changes will be made)")
+    if args.fresh:
+        print("(FRESH MODE - will overwrite existing manifest)")
     print(f"{'='*60}")
 
-    manifest, run_files = consolidate_run_drift(args.run)
+    manifest, run_files = consolidate_run_drift(args.run, fresh_mode=args.fresh)
 
-    if manifest["summary"]["total_files"] == 0:
+    if manifest["summary"].get("new_files_this_run", 0) == 0:
         print("\nNo new files to consolidate!")
         print("(Files with _CONSOLIDATED_ prefix are skipped)")
+        print(f"Existing manifest has {manifest['summary']['total_files']} files")
         return
 
     if not args.dry_run:
@@ -300,7 +371,8 @@ def main():
 
     # Print summary
     print(f"\n--- SUMMARY ---")
-    print(f"Total files processed: {manifest['summary']['total_files']}")
+    print(f"NEW files this run: {manifest['summary'].get('new_files_this_run', 0)}")
+    print(f"Total files in manifest: {manifest['summary']['total_files']}")
     print(f"Experiments: {', '.join(manifest['summary']['experiments'])}")
     print(f"Models tested: {len(manifest['summary']['models_tested'])}")
 
@@ -340,6 +412,14 @@ def main():
     for run, exps in log_index["by_run"].items():
         total = sum(len(files) for files in exps.values())
         print(f"  Run {run}: {total} files")
+
+    # Move consolidated files to archive directory if requested
+    if args.archive_dir and not args.dry_run:
+        move_to_archive_dir()
+    elif args.archive_dir and args.dry_run:
+        # Count how many would be moved
+        count = len(list(RUNS_DIR.glob(f"{CONSOLIDATED_PREFIX}*.json")))
+        print(f"\n(Would move {count} consolidated files to _archived/)")
 
 
 if __name__ == "__main__":
