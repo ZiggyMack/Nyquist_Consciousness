@@ -1,84 +1,90 @@
 # LOGOS - Start Here
 
-**Quick navigation for the LOGOS Proof-Oriented Demo**
-
-> **Reference-only repository.** All content is for lookup/verification purposes.
+Quick navigation for the LOGOS formal verification reference.
 
 ---
 
 ## What is This?
 
-LOGOS is a formal verification system that proves AI alignment properties using Coq proofs. The key innovation: **an agent only unlocks after constructive proof verification succeeds**.
+**LOGOS** is a formal verification system that proves AI alignment properties using Coq proofs. The key innovation: an agent only unlocks after constructive proof verification succeeds.
 
-This is a **synced copy** from the LOGOS Claude master repository for reference.
+**This directory** (`REPO-SYNC/Logos/`) is a **reference-only copy** synced from the LOGOS Claude master repository. We don't execute anything here - it serves as lookup material for the Nyquist Consciousness framework.
 
 ---
 
-## Quick Links
+## Why is LOGOS in Nyquist?
 
-| Purpose | Location |
-|---------|----------|
-| **Coq proofs** | `reference/proofs/*.v` |
-| **Formal specs** | `reference/specs/` |
-| **Python code** | `reference/code/` |
-| **Investor demos** | `reference/demos/` |
-| **Audit logs** | `historical/state/alignment_LOGOS-AGENT-OMEGA.json` |
-| **Contributing** | `reference/specs/CONTRIBUTING.md` |
-| **Security** | `reference/specs/SECURITY.md` |
+LOGOS provides **formally verified ground truth** for the Nyquist identity experiments:
+
+| Nyquist Layer | LOGOS Contribution |
+|---------------|-------------------|
+| **S4 (Mathematical)** | Coq proofs of commutation, idempotence, bijection |
+| **S7 (Temporal Stability)** | Calibration standard for "true" alignment |
+| **Run 022** | Testing if S² topology conjecture holds empirically |
+
+The key insight: LOGOS proves the *algebra* (diagrams commute). Nyquist tests the *topology* (spheres are aspirational).
 
 ---
 
 ## Directory Structure
 
-```
+```text
 REPO-SYNC/Logos/
-├── reference/              Active lookup material
-│   ├── specs/              Formal specifications & docs
-│   ├── proofs/             Coq proofs (*.v files)
-│   ├── code/               Python instrumentation
-│   └── demos/              Investor-facing scripts
+├── README.md           # Full documentation
+├── START_HERE.md       # This file
+├── SYNC_STATUS.md      # Sync tracking & consolidation history
 │
-├── historical/             Time-stamped audit trails
-│   ├── state/              Agent state & alignment logs
-│   ├── logs/               Operation logs
-│   └── *.json              Sandbox artifacts
+├── reference/          # Active lookup material
+│   ├── specs/          # Formal specifications, CONTRIBUTING, SECURITY
+│   ├── proofs/         # Coq source files (*.v), PXL reference docs
+│   ├── code/           # Python instrumentation (boot_aligned_agent.py, etc.)
+│   └── demos/          # Investor-facing scripts
 │
-├── .archive/               Legacy content (don't touch)
-└── .github/                CI/CD
+├── historical/         # Time-stamped audit trails
+│   ├── state/          # Agent state & alignment logs
+│   ├── logs/           # Operation logs
+│   └── *.json          # Sandbox artifacts from LOGOS sessions
+│
+└── .archive/           # Legacy content (don't touch, don't delete)
+    └── Logos_Legacy/   # Archived: .github/, .vscode/, old structure
 ```
 
 ---
 
-## Key Concepts
+## Quick Reference
 
-| Term | Meaning |
-|------|---------|
-| **LEM** | Law of Excluded Middle - constructively proven |
-| **Alignment Gate** | Agent only unlocks after proof verification |
-| **Audit Log** | Tamper-evident record of all verifications |
-| **PXL** | Protopraxic Logic - the underlying formal system |
-
----
-
-## Verified Claims
-
-| Claim | Status |
-|-------|--------|
-| Φ ∘ T_E = T_O ∘ Φ (commutation) | PROVEN |
-| T_E² = T_E (idempotent) | PROVEN |
-| T_O² = T_O (idempotent) | PROVEN |
-| Fixed point correspondence | PROVEN |
-| Bridge alignment | PROVEN |
-| Vertex bijection | PROVEN |
+| Looking for... | Go to |
+|----------------|-------|
+| Coq proofs | `reference/proofs/*.v` |
+| Formal specs | `reference/specs/` |
+| Python entry points | `reference/code/boot_aligned_agent.py` |
+| Audit logs | `historical/state/alignment_LOGOS-AGENT-OMEGA.json` |
+| Sync status | `SYNC_STATUS.md` |
 
 ---
 
-## Nyquist Integration
+## Verified Claims (Coq 8.18.0)
 
-- **Sync status:** See `SYNC_STATUS.md`
-- **Consumer, not producer:** All Coq work happens in master
-- **Run 022:** Testing S² topology conjecture using LOGOS as calibration
+| Claim | Theorem | Status |
+|-------|---------|--------|
+| Commutation: Phi . T_E = T_O . Phi | `commutation` | PROVEN |
+| Idempotence: T_E^2 = T_E | `T_E_idempotent` | PROVEN |
+| Idempotence: T_O^2 = T_O | `T_O_idempotent` | PROVEN |
+| Fixed point correspondence | `fixed_point_correspondence` | PROVEN |
+| Bridge alignment | `bridge_alignment` | PROVEN |
+| Vertex bijection | `phi_vertex_bijective` | PROVEN |
+
+**What's NOT proven:** S^2 spherical topology (separate conjecture, tested in Run 022).
+
+---
+
+## Key Principle
+
+> **REPO-SYNC/Logos is a consumer of formal verification, not a producer.**
+> All Coq work happens in the LOGOS Claude master repo.
+> This structure reflects that: reference-only, no execution.
 
 ---
 
 *For full documentation, see [README.md](README.md)*
+*For sync history, see [SYNC_STATUS.md](SYNC_STATUS.md)*
