@@ -16,7 +16,7 @@ See [MAP_OF_MAPS.md](MAP_OF_MAPS.md) for the full Cartographer's Table.
 
 | Kingdom | Key Maps | Purpose |
 |---------|----------|---------|
-| **Vision** | This file, RESEARCH_PIPELINE_VISUAL | Where we're going |
+| **Vision** | This file, PUBLICATION_MAP | Where we're going |
 | **Foundation** | STACKUP_MAP, REPO_MAP | What's proven (S0-S6) |
 | **Evidence** | TESTABLE_PREDICTIONS_MATRIX, DATA_QUALITY_MAP | What we can claim |
 | **Methodology** | TESTING_MAP, TEMPORAL_STABILITY_MAP | How to run experiments |

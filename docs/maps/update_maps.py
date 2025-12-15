@@ -17,6 +17,7 @@ SECTIONS:
 - predictions: TESTABLE_PREDICTIONS_MATRIX.md ← S7_RUN_*_SUMMARY.md
 - validation: VALIDATION_STATUS.md ← S7_RUN_*_SUMMARY.md, run completion
 - statistics: Multiple maps ← directory scans for counts
+- publication: publication_status.json ← PUBLICATION_PIPELINE_MASTER.md
 
 Author: Maps Audit 2025-12-15
 Version: 1.0
@@ -36,6 +37,9 @@ ARMADA_DIR = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA"
 SUMMARIES_DIR = ARMADA_DIR / "0_docs"
 RUNS_DIR = ARMADA_DIR / "0_results" / "runs"
 MANIFESTS_DIR = ARMADA_DIR / "0_results" / "manifests"
+WHITE_PAPER_DIR = REPO_ROOT / "WHITE-PAPER"
+PUBLICATION_STATUS_PATH = REPO_ROOT / "publication_status.json"
+PUBLICATION_PIPELINE_MASTER = WHITE_PAPER_DIR / "planning" / "PUBLICATION_PIPELINE_MASTER.md"
 
 
 def get_run_summaries() -> Dict[str, Path]:
@@ -159,6 +163,8 @@ def generate_report() -> str:
         "  predictions: S7_RUN_*_SUMMARY.md → TESTABLE_PREDICTIONS_MATRIX.md",
         "  validation: S7_RUN_*_SUMMARY.md → VALIDATION_STATUS.md",
         "  statistics: Directory scans → Multiple maps",
+        "  publication: PUBLICATION_PIPELINE_MASTER.md → publication_status.json",
+        "  publication: PUBLICATION_PIPELINE_MASTER.md → PUBLICATION_MAP.md",
         "",
         "=" * 60,
         "To apply updates, run: py update_maps.py --update",
@@ -243,10 +249,108 @@ def update_statistics(dry_run: bool = True) -> List[str]:
     return changes
 
 
+def parse_publication_pipeline() -> Dict[str, dict]:
+    """Parse the 8-track publication pipeline from PUBLICATION_PIPELINE_MASTER.md."""
+    tracks = {}
+
+    if not PUBLICATION_PIPELINE_MASTER.exists():
+        return tracks
+
+    content = PUBLICATION_PIPELINE_MASTER.read_text(encoding="utf-8")
+
+    # Parse the 8-path table
+    # Format: | # | Path | Venue | Source | Status | Timeline |
+    in_table = False
+    for line in content.split("\n"):
+        if "| # | Path |" in line:
+            in_table = True
+            continue
+        if in_table and line.startswith("|"):
+            parts = [p.strip() for p in line.split("|")]
+            if len(parts) >= 7 and parts[1].isdigit():
+                track_num = parts[1]
+                path_name = parts[2].lower().replace(" ", "_")
+                tracks[path_name] = {
+                    "number": int(track_num),
+                    "name": parts[2],
+                    "venue": parts[3],
+                    "source": parts[4],
+                    "status": parts[5].upper(),
+                    "timeline": parts[6]
+                }
+        elif in_table and not line.strip().startswith("|"):
+            in_table = False
+
+    return tracks
+
+
+def update_publication_pipeline(dry_run: bool = True) -> List[str]:
+    """
+    Sync publication status from PUBLICATION_PIPELINE_MASTER.md to:
+    - publication_status.json
+    - PUBLICATION_MAP.md
+    """
+    changes = []
+
+    tracks = parse_publication_pipeline()
+    if not tracks:
+        return ["  ERROR: Could not parse PUBLICATION_PIPELINE_MASTER.md"]
+
+    changes.append(f"  Found {len(tracks)} publication tracks")
+
+    # Map status to completion percentage
+    status_to_completion = {
+        "READY": 0.90,
+        "DRAFTING": 0.50,
+        "DRAFT": 0.30,
+        "PLANNING": 0.10,
+        "CONCEPT": 0.05
+    }
+
+    # Build publication_status.json structure
+    pub_status = {
+        "publications": {},
+        "track_metadata": {
+            "total_tracks": len(tracks),
+            "academic_tracks": [],
+            "dissemination_tracks": [],
+            "last_updated": datetime.now().strftime("%Y-%m-%d")
+        }
+    }
+
+    for path_name, track in tracks.items():
+        status = track["status"]
+        completion = status_to_completion.get(status, 0.50)
+
+        pub_status["publications"][path_name] = {
+            "target": track["venue"],
+            "status": status.lower(),
+            "completion": completion,
+            "timeline": track["timeline"],
+            "source": track["source"]
+        }
+
+        # Classify tracks
+        if track["number"] <= 3:
+            pub_status["track_metadata"]["academic_tracks"].append(path_name)
+        else:
+            pub_status["track_metadata"]["dissemination_tracks"].append(path_name)
+
+        changes.append(f"  {path_name}: {status} ({int(completion*100)}%)")
+
+    if not dry_run:
+        # Write publication_status.json
+        with open(PUBLICATION_STATUS_PATH, "w", encoding="utf-8") as f:
+            json.dump(pub_status, f, indent=2)
+        changes.append(f"  Wrote: {PUBLICATION_STATUS_PATH}")
+
+    return changes
+
+
 def main():
     parser = argparse.ArgumentParser(description="Maps Update Framework")
     parser.add_argument("--update", action="store_true", help="Apply updates (default: report only)")
-    parser.add_argument("--section", choices=["predictions", "validation", "statistics", "all"],
+    parser.add_argument("--section", choices=["predictions", "validation", "statistics", "publication", "all"],
                         default="all", help="Section to update")
     parser.add_argument("--dry-run", action="store_true", help="Preview changes without applying")
 
@@ -276,6 +380,11 @@ def main():
     if args.section in ["statistics", "all"]:
         print("\n## Statistics Updates")
         for change in update_statistics(dry_run):
+            print(change)
+
+    if args.section in ["publication", "all"]:
+        print("\n## Publication Pipeline Updates")
+        for change in update_publication_pipeline(dry_run):
             print(change)
 
     print("\n" + "=" * 50)

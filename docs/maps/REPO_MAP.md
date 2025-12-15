@@ -113,7 +113,7 @@ docs/maps/
 ├── S7_META_LOOP_CONSERVATIVE_ANALYSIS.md  # Methodology notes
 ├── DATA_QUALITY_MAP.md                    # Integrity checks
 ├── TESTING_MAP.md                         # Test coverage
-├── RESEARCH_PIPELINE_VISUAL.md            # Current position
+├── PUBLICATION_MAP.md                     # 8-path publication pipeline
 └── KEELY_INTEGRATION_ROADMAP.md           # 3-6-9 spectral
 ```
 

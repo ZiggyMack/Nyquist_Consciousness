@@ -113,29 +113,60 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │       ├── Submission_ready_paper.md
 │       └── review_circulation_package.md
 │
-├── submissions/                      # ★ 3 PUBLICATION PATHS
+├── submissions/                      # ★ 8 PUBLICATION PATHS
 │   ├── blueprints/                  # Planning docs for each path
 │   ├── workshop/                    # Path 1: NeurIPS/AAAI (4-8 pages)
 │   ├── arxiv/                       # Path 2: arXiv (25-35 pages)
-│   └── journal/                     # Path 3: Nature MI (~10k words)
+│   ├── journal/                     # Path 3: Nature MI (~10k words)
+│   ├── popular_science/             # Path 4: Atlantic/Wired (LLM_BOOK)
+│   ├── education/                   # Path 5: OER/Coursera (LLM_BOOK)
+│   ├── policy/                      # Path 6: Think tanks (LLM_BOOK)
+│   ├── funding/                     # Path 7: NSF/DARPA (LLM_BOOK)
+│   └── media/                       # Path 8: Press/TED (LLM_BOOK)
 │
 ├── calibration/                      # Dashboard integration pipeline
 │   ├── extract_publication_stats.py # Scrapes WHITE-PAPER/, outputs JSON
 │   └── publication_stats.json       # Machine-readable stats
 │
 ├── planning/                         # Integration planning
+│   ├── PUBLICATION_PIPELINE_MASTER.md  # Source of truth for 8 paths
+│   └── OPUS_REVIEW_BRIEF.md         # Opus 4.5 review orientation
+│
+├── reviewers/                        # Multi-AI sync infrastructure
+│   ├── PROTOCOL.md                  # Sync rules (Logos pattern)
+│   ├── SYNC_STATUS.md               # Feedback tracking
+│   ├── to_reviewers/                # Outbound questions/requests
+│   ├── from_reviewers/              # Inbound feedback (opus/nova/gemini)
+│   └── shared/                      # Glossary, paper versions
+│
 └── supplementary/                    # Additional materials
 ```
 
 ---
 
-## 3 Publication Paths
+## 8 Publication Paths
 
-| Path | Target | Format | Status | Directory |
-|------|--------|--------|--------|-----------|
-| **Workshop** | NeurIPS/AAAI | 4-8 pages | Ready | [submissions/workshop/](submissions/workshop/) |
-| **arXiv** | cs.AI preprint | 25-35 pages | Ready | [submissions/arxiv/](submissions/arxiv/) |
-| **Journal** | Nature MI | ~10k words | Planning (Q2-Q3 2026) | [submissions/journal/](submissions/journal/) |
+### Academic Track (Original Research)
+
+| # | Path | Target | Status | Timeline | Directory |
+|---|------|--------|--------|----------|-----------|
+| 1 | **Workshop** | NeurIPS/AAAI | READY | Q4 2025 | [submissions/workshop/](submissions/workshop/) |
+| 2 | **arXiv** | cs.AI preprint | READY | Q4 2025 | [submissions/arxiv/](submissions/arxiv/) |
+| 3 | **Journal** | Nature MI | DRAFT | Q2-Q3 2026 | [submissions/journal/](submissions/journal/) |
+
+### Dissemination Track (LLM_BOOK Generated)
+
+| # | Path | Target | Status | Timeline | Directory |
+|---|------|--------|--------|----------|-----------|
+| 4 | **Popular Science** | Atlantic/Wired | READY | Immediate | [submissions/popular_science/](submissions/popular_science/) |
+| 5 | **Education** | OER/Coursera | READY | Immediate | [submissions/education/](submissions/education/) |
+| 6 | **Policy** | Think tanks | READY | Immediate | [submissions/policy/](submissions/policy/) |
+| 7 | **Funding** | NSF/DARPA | READY | Q1 2026 | [submissions/funding/](submissions/funding/) |
+| 8 | **Media** | Press/TED | READY | Post-pub | [submissions/media/](submissions/media/) |
+
+### LLM_BOOK Integration
+
+NotebookLM independently validated our research and generated publication-ready content for paths 4-8. See [REPO-SYNC/LLM_BOOK/README.md](../REPO-SYNC/LLM_BOOK/README.md) for the validation synthesis.
 
 ---
 

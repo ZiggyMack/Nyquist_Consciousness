@@ -65,11 +65,11 @@
 | **[TESTABLE_PREDICTIONS_MATRIX.md](TESTABLE_PREDICTIONS_MATRIX.md)** | 46 predictions (P1-P46), validation status, triple-dip zones | ~800 |
 | **[KEELY_INTEGRATION_ROADMAP.md](KEELY_INTEGRATION_ROADMAP.md)** | 3-6-9 spectral integration predictions | ~250 |
 
-### Development Roadmaps (1)
+### Publication & Development (1)
 
 | File | Purpose | Lines |
 |------|---------|-------|
-| **[RESEARCH_PIPELINE_VISUAL.md](RESEARCH_PIPELINE_VISUAL.md)** | Visual pipeline: current position, next steps | ~300 |
+| **[PUBLICATION_MAP.md](PUBLICATION_MAP.md)** | 8-path publication pipeline, current position, milestones | ~300 |
 
 ### External Integration Maps (1)
 

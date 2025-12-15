@@ -3,6 +3,8 @@ PUBLICATIONS PAGE — Publications & White Papers
 
 Full publication tracking dashboard with Publication Perfection Meter,
 paper drafts, venue targets, and research milestone tracking.
+
+Updated: 2025-12-15 — 8-track publication pipeline (Academic + Dissemination)
 """
 
 import streamlit as st
@@ -18,74 +20,93 @@ def render_publication_meter():
     """Render the Publication Perfection Meter showing research maturity."""
     pub_status = load_publication_status()
     pubs = pub_status.get("publications", {})
+    track_metadata = pub_status.get("track_metadata", {})
 
     if not pubs:
         st.info("📊 Publication tracking not yet configured. Add `publication_status.json` to enable the Perfection Meter.")
         return
 
     st.markdown("## 🎯 Publication Perfection Meter")
-    st.markdown("*Track progress toward world-stage research publication*")
+    st.markdown("*Track progress across 8 publication paths — Academic + Dissemination*")
 
     page_divider()
 
-    # Overview table
-    rows = []
-    for key in ["workshop", "arxiv", "journal"]:
+    # Track summary cards
+    academic_tracks = track_metadata.get("academic_tracks", ["workshop", "arxiv", "journal"])
+    dissemination_tracks = track_metadata.get("dissemination_tracks", [])
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Tracks", track_metadata.get("total_tracks", len(pubs)))
+    with col2:
+        st.metric("Academic", len(academic_tracks))
+    with col3:
+        st.metric("Dissemination", len(dissemination_tracks))
+
+    page_divider()
+
+    # Academic Track Table
+    st.markdown("### 🏛️ Academic Track")
+
+    academic_rows = []
+    for key in academic_tracks:
         if key in pubs:
             info = pubs[key]
-            status_emoji = {
-                "ready": "✅",
-                "drafting": "🟡",
-                "concept": "⚪",
-                "submitted": "🚀",
-                "published": "🏆"
-            }.get(info.get("status", ""), "❓")
-
-            rows.append({
-                "Track": key.capitalize(),
+            status_emoji = get_status_emoji(info.get("status", ""))
+            academic_rows.append({
+                "Path": key.replace("_", " ").title(),
                 "Target": info.get("target", ""),
                 "Status": f"{status_emoji} {info.get('status', '').upper()}",
-                "Progress": f"{int(info.get('completion', 0.0) * 100)}%"
+                "Progress": f"{int(info.get('completion', 0.0) * 100)}%",
+                "Timeline": info.get("timeline", "")
             })
 
-    if rows:
-        df = pd.DataFrame(rows)
+    if academic_rows:
+        df = pd.DataFrame(academic_rows)
         st.dataframe(df, use_container_width=True, hide_index=True)
+
+    # Dissemination Track Table
+    if dissemination_tracks:
+        st.markdown("### 📰 Dissemination Track (LLM_BOOK)")
+
+        dissemination_rows = []
+        for key in dissemination_tracks:
+            if key in pubs:
+                info = pubs[key]
+                status_emoji = get_status_emoji(info.get("status", ""))
+                dissemination_rows.append({
+                    "Path": key.replace("_", " ").title(),
+                    "Target": info.get("target", ""),
+                    "Status": f"{status_emoji} {info.get('status', '').upper()}",
+                    "Progress": f"{int(info.get('completion', 0.0) * 100)}%",
+                    "Timeline": info.get("timeline", "")
+                })
+
+        if dissemination_rows:
+            df = pd.DataFrame(dissemination_rows)
+            st.dataframe(df, use_container_width=True, hide_index=True)
 
     page_divider()
 
     # Detailed breakdown per publication
-    for key in ["workshop", "arxiv", "journal"]:
-        if key not in pubs:
-            continue
+    st.markdown("### 📄 Detailed Breakdown")
 
-        info = pubs[key]
+    # Create two columns for academic and dissemination
+    col1, col2 = st.columns(2)
 
-        with st.expander(f"📄 {key.capitalize()} — {info.get('target', 'TBD')}", expanded=(key == "workshop")):
-            col1, col2 = st.columns([2, 1])
+    with col1:
+        st.markdown("#### Academic")
+        for key in academic_tracks:
+            if key not in pubs:
+                continue
+            render_publication_expander(key, pubs[key], expanded=(key == "workshop"))
 
-            with col1:
-                st.markdown(f"**Target Venue:** {info.get('target', 'TBD')}")
-                st.markdown(f"**Status:** `{info.get('status', 'unknown').upper()}`")
-
-                completion = info.get('completion', 0.0)
-                st.progress(completion)
-                st.caption(f"{int(completion * 100)}% Complete")
-
-                if "notes" in info:
-                    st.markdown(f"**Notes:** {info['notes']}")
-
-            with col2:
-                st.markdown("### Requirements")
-                reqs = info.get("requirements", {})
-                if reqs:
-                    for req_key, done in reqs.items():
-                        check = "✅" if done else "❌"
-                        # Format requirement key nicely
-                        req_label = req_key.replace("_", " ").title()
-                        st.markdown(f"{check} {req_label}")
-                else:
-                    st.caption("_No requirements defined_")
+    with col2:
+        st.markdown("#### Dissemination")
+        for key in dissemination_tracks:
+            if key not in pubs:
+                continue
+            render_publication_expander(key, pubs[key], expanded=False)
 
     # Milestones section
     milestones = pub_status.get("milestones", {})
@@ -109,70 +130,192 @@ def render_publication_meter():
             st.info(f"**Note:** {milestones['notes']}")
 
 
+def get_status_emoji(status: str) -> str:
+    """Map status to emoji."""
+    return {
+        "ready": "✅",
+        "drafting": "🟡",
+        "concept": "⚪",
+        "submitted": "🚀",
+        "published": "🏆"
+    }.get(status.lower(), "❓")
+
+
+def render_publication_expander(key: str, info: dict, expanded: bool = False):
+    """Render a single publication as an expander."""
+    status_emoji = get_status_emoji(info.get("status", ""))
+    title = key.replace("_", " ").title()
+
+    with st.expander(f"{status_emoji} {title}", expanded=expanded):
+        st.markdown(f"**Target:** {info.get('target', 'TBD')}")
+        st.markdown(f"**Status:** `{info.get('status', 'unknown').upper()}`")
+        st.markdown(f"**Timeline:** {info.get('timeline', 'TBD')}")
+
+        if info.get("source"):
+            source_emoji = "📚" if info.get("source") == "LLM_BOOK" else "📝"
+            st.markdown(f"**Source:** {source_emoji} {info.get('source')}")
+
+        completion = info.get('completion', 0.0)
+        st.progress(completion)
+        st.caption(f"{int(completion * 100)}% Complete")
+
+        if "notes" in info:
+            st.markdown(f"**Notes:** {info['notes']}")
+
+
 def render_publication_tracks():
     """Render publication track overview with targets and timeline."""
     st.markdown("## 📚 Publication Tracks")
-    st.markdown("*Three-track research publication strategy — Updated Dec 2025*")
+    st.markdown("*8-track publication strategy — Academic + Dissemination (Dec 2025)*")
 
     page_divider()
+
+    # Academic Track - 3 columns
+    st.markdown("### 🏛️ Academic Track (Peer-Reviewed)")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("#### Workshop")
+        st.progress(0.7)
+        st.markdown("""
+        **Target:** NeurIPS/AAAI Workshop
+
+        **Focus:** 3 core claims (A, B, E)
+
+        **Status:** Blueprint ready
+
+        **Timeline:** Q4 2025
+
+        📄 `WHITE-PAPER/submissions/workshop/`
+        """)
+
+    with col2:
+        st.markdown("#### arXiv")
+        st.progress(0.85)
+        st.markdown("""
+        **Target:** arXiv cs.AI
+
+        **Focus:** Full 5 claims + extensions
+
+        **Status:** LaTeX ready
+
+        **Timeline:** Q4 2025
+
+        📄 `WHITE-PAPER/submissions/arxiv/`
+        """)
+
+    with col3:
+        st.markdown("#### Journal")
+        st.progress(0.3)
+        st.markdown("""
+        **Target:** Nature Machine Intelligence
+
+        **Focus:** All claims + human validation
+
+        **Status:** Planning
+
+        **Timeline:** Q2-Q3 2026
+
+        📄 `WHITE-PAPER/submissions/journal/`
+        """)
+
+    page_divider()
+
+    # Dissemination Track - 5 paths in 2 rows
+    st.markdown("### 📰 Dissemination Track (LLM_BOOK Generated)")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown("### 🏛️ Workshop Track")
-        st.progress(0.7)
+        st.markdown("#### Popular Science")
+        st.progress(0.9)
         st.markdown("""
-        **Target:** NeurIPS 2025 / AAAI Workshop
+        **Target:** Atlantic/Wired
 
-        **Focus:** 3 core claims (A, B, E)
+        **Audience:** General public
 
-        **Status:** Blueprint ready, drafting Q4 2025
+        **Source:** `Ancient_Philosophy_Meets_Modern_AI.md`
 
-        **Key Claims:**
-        - PFI validity (ρ = 0.91)
-        - Event Horizon threshold (D ≈ 1.23)
-        - 82% inherent drift
+        **Timeline:** Immediate
 
-        📄 See `WHITE-PAPER/blueprints/WORKSHOP_BLUEPRINT.md`
+        📄 `WHITE-PAPER/submissions/popular_science/`
         """)
 
     with col2:
-        st.markdown("### 📜 arXiv Track")
-        st.progress(0.85)
+        st.markdown("#### Education")
+        st.progress(0.9)
         st.markdown("""
-        **Target:** arXiv cs.AI, cs.CL
+        **Target:** OER/Coursera
 
-        **Focus:** Full 5 claims + extensions
+        **Audience:** Students/educators
 
-        **Status:** LaTeX ready, submission Q4 2025
+        **Source:** `Quiz.md` (10 questions, glossary)
 
-        **Key Sections:**
-        - Discovery Era (Runs 006-014)
-        - Control-Systems Era (Runs 015-021)
-        - 82% inherent drift proof
-        - Context damping protocol
+        **Timeline:** Immediate
 
-        📄 See `WHITE-PAPER/arxiv/README.md`
+        📄 `WHITE-PAPER/submissions/education/`
         """)
 
     with col3:
-        st.markdown("### 🏆 Journal Track")
-        st.progress(0.3)
+        st.markdown("#### Policy")
+        st.progress(0.9)
         st.markdown("""
-        **Target:** Nature Machine Intelligence / JMLR
+        **Target:** Think Tanks
 
-        **Focus:** All claims + human validation
+        **Audience:** Decision-makers
 
-        **Status:** Planning, submission Q2-Q3 2026
+        **Source:** `Briefing.md`
 
-        **Requirements:**
-        - S3_EXP_003 human validation
-        - Run 022 dimension probing
-        - Independent replication
-        - Cross-modal validation (S9)
+        **Timeline:** Immediate
 
-        📄 See `WHITE-PAPER/blueprints/JOURNAL_BLUEPRINT.md`
+        📄 `WHITE-PAPER/submissions/policy/`
         """)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("#### Funding")
+        st.progress(0.85)
+        st.markdown("""
+        **Target:** NSF/DARPA
+
+        **Audience:** Funders/grant agencies
+
+        **Source:** `Project_Nyquist_Consciousness.md`
+
+        **Timeline:** Q1 2026
+
+        📄 `WHITE-PAPER/submissions/funding/`
+        """)
+
+    with col2:
+        st.markdown("#### Media")
+        st.progress(0.8)
+        st.markdown("""
+        **Target:** Press/TED
+
+        **Audience:** Journalists/speakers
+
+        **Source:** `Unlocking_AI_Identity.md`
+
+        **Timeline:** Post-publication
+
+        📄 `WHITE-PAPER/submissions/media/`
+        """)
+
+    page_divider()
+
+    # LLM_BOOK Discovery callout
+    st.success("""
+**🎯 LLM_BOOK Discovery**
+
+NotebookLM independently validated our research against Michael Levin's "Is Your Brain a Platonic Solid?" hypothesis.
+This provides **external AI validation** of our theoretical framework.
+
+*"Plato guessed at the geometry of mind. Nyquist measures it."*
+
+See `REPO-SYNC/LLM_BOOK/README.md` for the full validation synthesis.
+    """)
 
 
 def render_paper_drafts():
@@ -459,9 +602,10 @@ def render_research_checklist():
 | ✅ | THEORY_SECTION.md |
 | ✅ | B-CRUMBS.md (15 pillars) |
 | ✅ | HYPOTHESES_AND_RESULTS.md (36 hyp) |
-| ✅ | Publication blueprints (3 tracks) |
+| ✅ | Publication blueprints (8 tracks) |
 | ✅ | START_HERE.md (reviewer guide) |
-| ✅ | arxiv/README.md (paper structure) |
+| ✅ | OPUS_REVIEW_BRIEF.md (new) |
+| ✅ | PUBLICATION_PIPELINE_MASTER.md |
         """)
 
         st.markdown("### Publication Mechanics")
@@ -475,6 +619,7 @@ def render_research_checklist():
 | 🔄 | LaTeX sections drafting |
 | 🔄 | Figures generation |
 | 🔄 | Bibliography compilation |
+| ✅ | LLM_BOOK dissemination ready |
         """)
 
     page_divider()
@@ -501,7 +646,7 @@ See `docs/MASTER_GLOSSARY.md` Section 10 for full terminology registers.
 def render():
     """Render the Publications page."""
     st.title("📄 Publications & White Papers")
-    st.markdown("*Research publication tracking and manuscript management*")
+    st.markdown("*8-track publication pipeline — Academic + Dissemination*")
 
     page_divider()
 

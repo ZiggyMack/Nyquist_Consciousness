@@ -38,8 +38,8 @@
     │  └─────────────────────────┘  │   │  └─────────────────────┘  │   │  │ "Who Flies What"    │  │
     │  ┌─────────────────────────┐  │   │  ┌─────────────────────┐  │   │  └─────────────────────┘  │
     │  │ IDENTITY_LATTICE_MAPS   │  │   │  │ PROBING_STRATEGIES  │  │   │  ┌─────────────────────┐  │
-    │  │ "The 5D Geometry"       │  │   │  │ "How to Test"       │  │   │  │ RESEARCH_PIPELINE   │  │
-    │  └─────────────────────────┘  │   │  └─────────────────────┘  │   │  │ "What's Next"       │  │
+    │  │ "The 5D Geometry"       │  │   │  │ "How to Test"       │  │   │  │ PUBLICATION_MAP     │  │
+    │  └─────────────────────────┘  │   │  └─────────────────────┘  │   │  │ "8 Pub Paths"       │  │
     │                               │   │                           │   │  └─────────────────────┘  │
     └───────────────────────────────┘   └───────────────────────────┘   └───────────────────────────┘
                     │                                 │                                 │
@@ -132,7 +132,7 @@
 |-----|------|--------------|
 | **ARMADA_MAP.md** | Ship Registry | 48 ships, 5 providers, capabilities, run history |
 | **PERSONA_FLEET_MATRIX.md** | Assignment Logic | 23 personas, compatibility scores, friction vs synergy |
-| **RESEARCH_PIPELINE_VISUAL.md** | Current Position | "You Are Here" marker, next priorities |
+| **PUBLICATION_MAP.md** | Publication Pipeline | 8 paths, current position, LLM_BOOK integration |
 
 **The Armada** - The ships that sail the identity ocean. Fleet management central.
 

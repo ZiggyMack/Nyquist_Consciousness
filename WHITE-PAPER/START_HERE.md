@@ -15,6 +15,10 @@ You are being asked to:
 2. **Generate PDFs** where possible (Workshop, arXiv)
 3. **Create drafts with placeholders** where data is still pending (Journal)
 4. **Review for gaps** and flag anything missing
+5. **Decide on LLM_BOOK integration** — Should Levin/Platonic validation go in now or v2?
+6. **Advise on 8-path pipeline** — Coordinate all publication paths
+
+See [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) for full orientation.
 
 ### What Can Be Finalized NOW
 
