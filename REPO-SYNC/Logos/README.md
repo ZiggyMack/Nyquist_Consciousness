@@ -31,9 +31,15 @@ LOGOS provides **formally verified ground truth** that anchors the Nyquist S-Sta
 REPO-SYNC/Logos/
 ├── README.md               # This file
 ├── START_HERE.md           # Quick navigation
-├── SYNC_STATUS.md          # Sync tracking & consolidation history
 ├── requirements.txt        # Python dependencies (reference)
 ├── .gitignore              # Prevents accidental build artifact commits
+│
+├── sync/                   # Cross-repo coordination hub
+│   ├── SYNC_STATUS.md      # Sync tracking & consolidation history
+│   ├── PROTOCOL.md         # Communication protocol with LOGOS Claude
+│   ├── from_logos/         # Messages FROM LOGOS Claude (predictions, instructions)
+│   ├── to_logos/           # Messages TO LOGOS Claude (questions, results)
+│   └── shared/             # Jointly maintained (experiments, glossary)
 │
 ├── reference/              # Active lookup material
 │   ├── specs/              # Formal specifications & documentation
@@ -134,7 +140,8 @@ This is why Nyquist exists: to empirically test what LOGOS cannot formally prove
 ## Related Documentation
 
 - [START_HERE.md](START_HERE.md) - Quick navigation
-- [SYNC_STATUS.md](SYNC_STATUS.md) - Sync tracking & consolidation history
+- [sync/SYNC_STATUS.md](sync/SYNC_STATUS.md) - Sync tracking & consolidation history
+- [sync/PROTOCOL.md](sync/PROTOCOL.md) - Cross-repo communication protocol
 - [S7_ARMADA/13_LOGOS/](../../experiments/temporal_stability/S7_ARMADA/13_LOGOS/) - Run 022 experiment
 
 ---

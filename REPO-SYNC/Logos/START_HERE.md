@@ -32,7 +32,13 @@ The key insight: LOGOS proves the *algebra* (diagrams commute). Nyquist tests th
 REPO-SYNC/Logos/
 ├── README.md           # Full documentation
 ├── START_HERE.md       # This file
-├── SYNC_STATUS.md      # Sync tracking & consolidation history
+│
+├── sync/               # Cross-repo coordination hub
+│   ├── SYNC_STATUS.md  # Sync tracking & history
+│   ├── PROTOCOL.md     # Communication protocol
+│   ├── from_logos/     # Messages FROM LOGOS Claude
+│   ├── to_logos/       # Messages TO LOGOS Claude
+│   └── shared/         # Jointly maintained docs
 │
 ├── reference/          # Active lookup material
 │   ├── specs/          # Formal specifications, CONTRIBUTING, SECURITY
@@ -59,7 +65,8 @@ REPO-SYNC/Logos/
 | Formal specs | `reference/specs/` |
 | Python entry points | `reference/code/boot_aligned_agent.py` |
 | Audit logs | `historical/state/alignment_LOGOS-AGENT-OMEGA.json` |
-| Sync status | `SYNC_STATUS.md` |
+| Sync status | `sync/SYNC_STATUS.md` |
+| Communication protocol | `sync/PROTOCOL.md` |
 
 ---
 
@@ -87,4 +94,5 @@ REPO-SYNC/Logos/
 ---
 
 *For full documentation, see [README.md](README.md)*
-*For sync history, see [SYNC_STATUS.md](SYNC_STATUS.md)*
+*For sync history, see [sync/SYNC_STATUS.md](sync/SYNC_STATUS.md)*
+*For communication protocol, see [sync/PROTOCOL.md](sync/PROTOCOL.md)*
