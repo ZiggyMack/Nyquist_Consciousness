@@ -32,7 +32,6 @@ REPO-SYNC/Logos/
 ├── README.md               # This file
 ├── START_HERE.md           # Quick navigation
 ├── requirements.txt        # Python dependencies (reference)
-├── .gitignore              # Prevents accidental build artifact commits
 │
 ├── sync/                   # Cross-repo coordination hub
 │   ├── SYNC_STATUS.md      # Sync tracking & consolidation history
