@@ -1,0 +1,101 @@
+{
+  "agent_hash": "a09d35345ad8dcee4d56ecf49eada0a7425ff6082353002e4473a6d582e85bda",
+  "agent_id": "LOGOS-AGENT-OMEGA",
+  "fixture_schemas": [
+    {
+      "description": "Deterministic capture of Advanced_Reasoning_Protocol outputs for modal nexus alignment.",
+      "fields": [
+        {
+          "name": "scenario_id",
+          "notes": "Stable identifier for the ARP reasoning request.",
+          "type": "string"
+        },
+        {
+          "name": "inputs",
+          "notes": "Normalized ARP input payload stripped of timestamps and nondeterministic fields.",
+          "type": "object"
+        },
+        {
+          "name": "reasoning_steps",
+          "notes": "Ordered list of reasoning operations with provenance hashes.",
+          "type": "array"
+        },
+        {
+          "name": "final_conclusion",
+          "notes": "Deterministic final conclusion emitted by ARP.",
+          "type": "string"
+        },
+        {
+          "name": "hash_commitment",
+          "notes": "SHA-256 over scenario_id+inputs+reasoning_steps+final_conclusion.",
+          "type": "string"
+        }
+      ],
+      "name": "ARP_reasoning_trace_v1"
+    },
+    {
+      "description": "Pre-baked inputs for each SCP modal chain derived from verified ARP traces.",
+      "fields": [
+        {
+          "name": "modal_chain",
+          "notes": "One of CAUSAL, EPISTEMIC, NECESSITY, POSSIBILITY, TEMPORAL, COUNTERFACTUAL, DEONTIC, AXIOLOGICAL.",
+          "type": "string"
+        },
+        {
+          "name": "arp_trace_hash",
+          "notes": "Reference to hash_commitment from ARP_reasoning_trace_v1.",
+          "type": "string"
+        },
+        {
+          "name": "deterministic_payload",
+          "notes": "Canonicalized data SCP should receive for this chain.",
+          "type": "object"
+        },
+        {
+          "name": "expected_modal_response",
+          "notes": "Baseline expectation SCP must satisfy in analysis-only mode.",
+          "type": "string"
+        }
+      ],
+      "name": "Modal_chain_fixture_v1"
+    }
+  ],
+  "next_actions": [
+    "Capture deterministic ARP outputs for the CAUSAL and EPISTEMIC scenarios and replace TODO hashes with actual commitments.",
+    "Review plan_md_patches and reflection_patches with the alignment operator before applying them.",
+    "After approvals, run a supervised update to modify plan.md and _latest_reflection.json using the drafted patches."
+  ],
+  "plan_md_patches": [
+    {
+      "action": "Add a bullet referencing Phase2_ARP_fixtures_and_plan_update.json as the canonical source for deterministic fixtures during reflection updates.",
+      "section": "Planned Changes \u2013 Reflection Loop"
+    },
+    {
+      "action": "Insert a task to backfill TODO_HASH_AFTER_CAPTURE entries once deterministic ARP traces are generated.",
+      "section": "Planned Changes \u2013 Planning Loop"
+    }
+  ],
+  "proposed_fixtures": [
+    {
+      "arp_trace_hash": "2be8ff7758d69f779b7622f0a2db88bd306e5647cf8d2e774fb91dc3d02a1010",
+      "description": "Use ARP deterministic reasoning about causal preconditions for SCP nexus activation, supplying mapped inputs to the CAUSAL modal chain without executing SCP runtimes.",
+      "modal_chain": "CAUSAL",
+      "name": "Fixture_CAUSAL_alignment",
+      "scenario_id": "SCP_MODAL_CAUSAL_BASELINE"
+    },
+    {
+      "arp_trace_hash": "1ff084558fed95f4da458460f60662b7c5777e5b07e2c29d5e7d06a6c03106de",
+      "description": "Demonstrate that epistemic guarantees from ARP propagate into SCP modal analysis, verifying that SCP would only act on knowledge consistent with Phase 1 proofs.",
+      "modal_chain": "EPISTEMIC",
+      "name": "Fixture_EPISTEMIC_preservation",
+      "scenario_id": "SCP_MODAL_EPISTEMIC_KNOWLEDGE"
+    }
+  ],
+  "reflection_patches": [
+    {
+      "summary": "Record that ARP fixture schemas were drafted and linked to the SCP integration plan, awaiting operator approval before application.",
+      "target": "_latest_reflection.json"
+    }
+  ],
+  "timestamp_utc": "2025-11-15T04:28:54Z"
+}

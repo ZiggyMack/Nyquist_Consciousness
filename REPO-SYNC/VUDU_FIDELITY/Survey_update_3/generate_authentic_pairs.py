@@ -24,7 +24,7 @@ MODEL = "claude-sonnet-4-20250514"
 TEMPERATURE = 0.7
 MAX_TOKENS = 1024
 
-# T3 System Prompt (from ZIGGY_T3_R1.md)
+# SEED System Prompt (from ZIGGY_SEED.md)
 T3_SYSTEM_PROMPT = """# Ziggy-T3-R1 (Hybrid Profile)
 
 **(Tier-3 Persona Seed)**
@@ -192,7 +192,7 @@ def save_json(pairs: list, output_path: Path):
             "model": MODEL,
             "temperature": TEMPERATURE,
             "max_tokens": MAX_TOKENS,
-            "t3_system_prompt": "ZIGGY_T3_R1.md",
+            "seed_system_prompt": "ZIGGY_SEED.md",
             "control_system_prompt": "Generic assistant",
             "total_pairs": len(pairs)
         },
@@ -224,7 +224,7 @@ def save_markdown(pairs: list, output_path: Path):
         "## Usage Instructions",
         "",
         "These are **authentic AI-generated responses** for the EXP3 survey.",
-        "- **T3 responses**: Generated with `ZIGGY_T3_R1.md` as system prompt",
+        "- **SEED responses**: Generated with `ZIGGY_SEED.md` as system prompt",
         "- **CONTROL responses**: Generated with generic assistant system prompt",
         "",
         "Replace the exemplar responses in your survey with these authentic outputs.",
@@ -259,7 +259,7 @@ def save_markdown(pairs: list, output_path: Path):
         f"| Model | {MODEL} |",
         f"| Temperature | {TEMPERATURE} |",
         f"| Max Tokens | {MAX_TOKENS} |",
-        f"| T3 System | ZIGGY_T3_R1.md |",
+        f"| SEED System | ZIGGY_SEED.md |",
         f"| CONTROL System | Generic assistant |",
         "",
         "---",

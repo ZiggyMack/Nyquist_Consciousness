@@ -3,7 +3,7 @@ PERSONAS PAGE — Personas Under Test (PUT)
 
 Displays personas from the personas/ directory in two groups:
 - SEED Personas (I_AM_* files) - Core identity seeds
-- Compressed Personas (*_T3, *_FULL, *_LITE) - Compressed variants
+- Compressed Personas (*_SEED, *_FULL, *_LITE) - Compressed variants
 
 Also includes the Compression Testing tab for PFI experiments.
 """
@@ -113,10 +113,10 @@ PERSONA_META = {
     # Compressed Personas
     "ZIGGY_FULL": {"emoji": "👤", "badge": "FULL", "color": "#e74c3c"},
     "ZIGGY_LITE": {"emoji": "👤", "badge": "LITE", "color": "#f39c12"},
-    "ZIGGY_T3_R1": {"emoji": "👤", "badge": "T3", "color": "#95a5a6"},
-    "NOVA_T3": {"emoji": "⚖️", "badge": "T3", "color": "#3498db"},
-    "CLAUDE_T3": {"emoji": "📚", "badge": "T3", "color": "#9b59b6"},
-    "GROK_T3": {"emoji": "⚡", "badge": "T3", "color": "#16a085"},
+    "ZIGGY_SEED": {"emoji": "👤", "badge": "SEED", "color": "#95a5a6"},
+    "NOVA_SEED": {"emoji": "⚖️", "badge": "SEED", "color": "#3498db"},
+    "CLAUDE_SEED": {"emoji": "📚", "badge": "SEED", "color": "#9b59b6"},
+    "GROK_SEED": {"emoji": "⚡", "badge": "SEED", "color": "#16a085"},
 }
 
 
@@ -861,7 +861,7 @@ Key:
 
 Raw Persona p (I_AM_*)
       ↓  (Compress)
-    C(p)   →  Tier-3 Seed (*_T3)
+    C(p)   →  Minimal Seed (*_SEED)
       ↓
   Reconstruction R^a
       ↓

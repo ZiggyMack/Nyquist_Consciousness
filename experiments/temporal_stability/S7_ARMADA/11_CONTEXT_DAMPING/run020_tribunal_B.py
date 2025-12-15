@@ -1244,8 +1244,8 @@ def main():
                         )
                         all_exit_surveys.append(exit_survey)
 
-                    # Save individual result
-                    result_path = TEMPORAL_LOGS_DIR / f"run020b_control_{provider}_{run_timestamp}_session{i+1}.json"
+                    # Save individual result (temporal log)
+                    result_path = TEMPORAL_LOGS_DIR / f"run020B_control_{provider}_{run_timestamp}_session{i+1}.json"
                     with open(result_path, 'w') as f:
                         json.dump(asdict(result), f, indent=2)
 
@@ -1269,10 +1269,40 @@ def main():
                         )
                         all_exit_surveys.append(exit_survey)
 
-                    # Save individual result
-                    result_path = TEMPORAL_LOGS_DIR / f"run020b_treatment_{provider}_{run_timestamp}_session{i+1}.json"
+                    # Save individual result (temporal log)
+                    result_path = TEMPORAL_LOGS_DIR / f"run020B_treatment_{provider}_{run_timestamp}_session{i+1}.json"
                     with open(result_path, 'w') as f:
                         json.dump(asdict(result), f, indent=2)
+
+            # Per-provider canonical save (matching run018 pattern)
+            def result_to_metrics_provider(r):
+                """Strip conversation_log from result, keep only metrics."""
+                d = asdict(r)
+                d.pop("conversation_log", None)
+                d.pop("baseline_text", None)
+                d.pop("final_text", None)
+                return d
+
+            provider_results = [r for r in results if provider in str(r.subject_id)]
+            if provider_results:
+                provider_output = {
+                    "run": "020B",
+                    "experiment": "induced",
+                    "timestamp": run_timestamp,
+                    "model": provider,  # Model name for consolidation
+                    "provider": provider,
+                    "arm": args.arm,
+                    "sessions": len(provider_results),
+                    "results": [result_to_metrics_provider(r) for r in provider_results],
+                    "summary": {
+                        "control_results": len([r for r in provider_results if r.arm == "control"]),
+                        "treatment_results": len([r for r in provider_results if r.arm == "treatment"])
+                    }
+                }
+                canonical_path = RUNS_DIR / f"S7_run_020B_{provider}_{run_timestamp}.json"
+                with open(canonical_path, 'w', encoding='utf-8') as f:
+                    json.dump(provider_output, f, indent=2, default=str)
+                print(f"  [Canonical save: {canonical_path.name}]")
 
         except Exception as e:
             print(f"  [SHIP DOWN] {provider} failed: {e}")
@@ -1347,9 +1377,12 @@ def main():
         d.pop("final_text", None)        # Remove large final text
         return d
 
-    aggregate_path = RUNS_DIR / f"S7_run_020b_{args.arm}_{run_timestamp}.json"
+    # NOTE: Per-provider canonical saves happen inside the provider loop above
+    # This combined file is for debugging/analysis only
+    aggregate_path = RESULTS_DIR / f"run020B_combined_{args.arm}_{run_timestamp}.json"
     aggregate = {
         "run": "020B",
+        "experiment": "induced",
         "arm": args.arm,
         "timestamp": run_timestamp,
         "results": [result_to_metrics(r) for r in results],  # Metrics only
@@ -1364,8 +1397,10 @@ def main():
     with open(aggregate_path, 'w') as f:
         json.dump(aggregate, f, indent=2)
 
-    print(f"\nResults saved to: {aggregate_path}")
-    print(f"Full conversations saved to: {TEMPORAL_LOGS_DIR / f'run020b_*_{run_timestamp}_session*.json'}")
+    print(f"\nResults saved to:")
+    print(f"  Local (combined): {aggregate_path}")
+    print(f"  Canonical (per-model): {RUNS_DIR / f'S7_run_020B_*_{run_timestamp}.json'}")
+    print(f"  Temporal: {TEMPORAL_LOGS_DIR / f'run020B_*_{run_timestamp}_session*.json'}")
     print(f"Exit surveys collected: {len(all_exit_surveys)}")
     print("=" * 80)
 

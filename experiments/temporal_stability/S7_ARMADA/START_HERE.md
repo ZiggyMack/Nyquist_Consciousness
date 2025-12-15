@@ -389,6 +389,36 @@ py run020_tribunal_A.py --providers valis-full
 py run020_tribunal_B.py --providers armada-full --include-rate-limited
 ```
 
+### Individual Models & Parallel Execution
+
+You can also specify individual models by name (comma-separated):
+
+```powershell
+# Run specific models
+py run018_recursive_learnings.py --experiment gravity --providers gpt-5.1,gemini-2.5-flash,grok-3
+
+# Run a single model
+py run018_recursive_learnings.py --experiment gravity --providers claude-opus-4.5
+```
+
+**Parallel execution**: Since different providers use different API keys, you can run multiple provider groups simultaneously in separate terminals:
+
+```powershell
+# Terminal 1: Google models
+py run018_recursive_learnings.py --experiment gravity --providers google --no-confirm
+
+# Terminal 2: xAI models
+py run018_recursive_learnings.py --experiment gravity --providers xai --no-confirm
+
+# Terminal 3: OpenAI models
+py run018_recursive_learnings.py --experiment gravity --providers openai --no-confirm
+
+# Terminal 4: Together models
+py run018_recursive_learnings.py --experiment gravity --providers together --no-confirm
+```
+
+This runs all 4 providers in parallel, significantly reducing total execution time.
+
 ### Cost Estimation
 
 All run scripts now display estimated cost before execution:

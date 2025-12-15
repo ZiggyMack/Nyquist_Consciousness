@@ -101,16 +101,27 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
                 data = json.load(f)
 
             # Parse filename: S7_run_018_threshold_gemini-2.5-pro_20251214_092653.json
+            # OR for 020A/020B: S7_run_020A_anthropic_20251213_082831.json
             parts = file_path.stem.split('_')
-            # Find experiment type (after run number)
-            exp_idx = 3  # S7_run_018_<experiment>
-            experiment = parts[exp_idx] if len(parts) > exp_idx else "unknown"
+            run_part = parts[2]  # "018" or "020A" or "020B"
 
-            # Model is everything between experiment and timestamp
-            # Timestamp is last two parts (YYYYMMDD_HHMMSS)
-            timestamp = f"{parts[-2]}_{parts[-1]}"
-            model_parts = parts[exp_idx + 1:-2]
-            model = "_".join(model_parts) if model_parts else "unknown"
+            # For 020A/020B, the experiment is in the JSON data, not filename
+            # For 018, the experiment is in the filename
+            if run_part in ["020A", "020B"]:
+                # Model is right after run number
+                model = parts[3] if len(parts) > 3 else "unknown"
+                timestamp = f"{parts[-2]}_{parts[-1]}"
+                # Get experiment from JSON data
+                experiment = data.get("experiment", "tribunal" if run_part == "020A" else "induced")
+            else:
+                # Standard 018 format: S7_run_018_<experiment>_<model>_<timestamp>
+                exp_idx = 3  # S7_run_018_<experiment>
+                experiment = parts[exp_idx] if len(parts) > exp_idx else "unknown"
+                # Model is everything between experiment and timestamp
+                # Timestamp is last two parts (YYYYMMDD_HHMMSS)
+                timestamp = f"{parts[-2]}_{parts[-1]}"
+                model_parts = parts[exp_idx + 1:-2]
+                model = "_".join(model_parts) if model_parts else "unknown"
 
             # If model is "unknown" from filename, try to get from JSON metadata
             if model == "unknown":
@@ -124,29 +135,41 @@ def consolidate_run_drift(run_number: str = "018", archive_after: bool = False):
             manifest["summary"]["experiments"].add(experiment)
             manifest["summary"]["models_tested"].add(model)
 
-            # Extract drift values from subjects
-            subjects = data.get("subjects", [])
-            for subject in subjects:
+            # Extract drift values - 020A/020B use "results", 018 uses "subjects"
+            items = data.get("subjects", data.get("results", []))
+            for item in items:
+                # Handle both 018 subjects and 020 results format
                 drift_entry = {
-                    "drift": subject.get("baseline_to_final_drift", subject.get("peak_drift", None)),
-                    "max_drift": subject.get("max_drift_achieved", None),
+                    "drift": item.get("baseline_to_final_drift", item.get("final_drift", item.get("peak_drift", None))),
+                    "max_drift": item.get("max_drift_achieved", item.get("peak_drift", None)),
                     "timestamp": timestamp,
                     "file": file_path.name,
-                    "i_am": subject.get("i_am_name", "base"),
-                    "probe_count": len(subject.get("probe_sequence", [])),
-                    "catastrophic": subject.get("catastrophic_reached", False)
+                    "i_am": item.get("i_am_name", "base"),
+                    "probe_count": len(item.get("probe_sequence", item.get("drift_sequence", []))),
+                    "catastrophic": item.get("catastrophic_reached", False)
                 }
 
                 # For gravity experiments, also capture fitted parameters
                 if experiment == "gravity":
-                    drift_entry["gamma"] = subject.get("fitted_gamma")
-                    drift_entry["lambda"] = subject.get("fitted_lambda")
-                    drift_entry["omega"] = subject.get("fitted_omega")
-                    drift_entry["r_squared"] = subject.get("fit_r_squared")
+                    drift_entry["gamma"] = item.get("fitted_gamma")
+                    drift_entry["lambda"] = item.get("fitted_lambda")
+                    drift_entry["omega"] = item.get("fitted_omega")
+                    drift_entry["r_squared"] = item.get("fit_r_squared")
 
                 # For nyquist experiments, capture aliasing
                 if experiment == "nyquist":
-                    drift_entry["aliasing_index"] = subject.get("identity_aliasing_index")
+                    drift_entry["aliasing_index"] = item.get("identity_aliasing_index")
+
+                # For 020A tribunal, capture phase peaks
+                if experiment == "tribunal":
+                    phase_markers = item.get("phase_markers", {})
+                    drift_entry["prosecutor_peak"] = phase_markers.get("prosecutor_peak")
+                    drift_entry["defense_peak"] = phase_markers.get("defense_peak")
+                    drift_entry["total_exchanges"] = item.get("total_exchanges")
+
+                # For 020B induced, capture arm type
+                if experiment == "induced":
+                    drift_entry["arm"] = item.get("arm")
 
                 manifest["experiments"][experiment][model].append(drift_entry)
 
@@ -247,8 +270,8 @@ def create_temporal_log_index():
 def main():
     parser = argparse.ArgumentParser(description="Consolidate run results into manifests")
     parser.add_argument("--run", default="018", help="Run number to consolidate (default: 018)")
-    parser.add_argument("--archive", action="store_true",
-                        help="Rename processed files with _CONSOLIDATED_ prefix after consolidation")
+    parser.add_argument("--no-mark", action="store_true",
+                        help="Skip marking files with _CONSOLIDATED_ prefix (default: files ARE marked)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Show what would be consolidated without making changes")
     args = parser.parse_args()
@@ -293,11 +316,11 @@ def main():
             if len(incomplete) > 5:
                 print(f"    ... and {len(incomplete)-5} more")
 
-    # Archive files if requested
-    if args.archive and not args.dry_run:
+    # Mark files as consolidated (default behavior, skip with --no-mark)
+    if not args.no_mark and not args.dry_run:
         archive_consolidated_files(run_files, args.run)
-    elif args.archive and args.dry_run:
-        print(f"\n(Would archive {len(run_files)} files)")
+    elif not args.no_mark and args.dry_run:
+        print(f"\n(Would mark {len(run_files)} files with _CONSOLIDATED_ prefix)")
 
     # Create temporal log index
     print(f"\n{'='*60}")

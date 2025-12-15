@@ -16,6 +16,19 @@ REPO-SYNC/
 │   ├── Lucian/            # Lucian collaboration materials
 │   ├── Opus/              # Opus 4 review materials
 │   └── *.md               # Phase 1 specs and handoffs
+├── FRAME_THEORY/          # Frame Theory integration (moved from docs/)
+│   ├── diagrams/          # Visual diagrams and ASCII representations
+│   │   └── 01_eliciting_emotions/
+│   ├── *.jpeg, *.png      # Frame Theory visual assets
+│   ├── INDEX.md           # Frame Theory index
+│   ├── README.md          # Frame Theory overview
+│   └── preperation.md     # Preparation notes
+├── Logos/                 # PXL/Logos formal verification & AGI safety
+│   ├── Protopraxis/       # Core PXL implementation
+│   │   └── formal_verification/coq/  # Coq proofs
+│   ├── PXL_Global_Bijection.v  # Main theorem file
+│   ├── *.md               # Documentation and specs
+│   └── *.py               # Agent and demo scripts
 ├── VUDU_FIDELITY/         # VuDu Fidelity Sync synchronization
 │   ├── Old/               # Legacy survey materials
 │   ├── Survey_update_2/   # Survey update v2
@@ -31,6 +44,8 @@ REPO-SYNC/
 | Repo | Purpose | Sync Frequency |
 |------|---------|----------------|
 | **CFA (Claude Field Array)** | Omega/Nova persona integration | As needed |
+| **FRAME_THEORY** | Emotional elicitation framework & S-layer mapping | As needed |
+| **Logos (PXL)** | Formal verification, AGI safety proofs, Coq theorems | As needed |
 | **VuDu Fidelity** | Survey and response pair generation | Per experiment cycle |
 | **Pan Handlers** | Cross-repo orchestration manifest | On major releases |
 
@@ -51,6 +66,25 @@ The CFA directory contains:
    - PHASE_1_CONSISTENCY_REPORT.md
    - PHASE_1_FREEZE_HANDOFF.md
    - S0_S6_FROZEN_SPEC.md
+
+### FRAME_THEORY Sync
+
+Frame Theory integration for emotional elicitation research:
+
+1. **diagrams/** - Visual and ASCII diagram representations
+   - 01_eliciting_emotions/ - Emotional frame diagrams with S-layer mappings
+2. **Frame Theory *.jpeg/png** - Visual assets
+3. **INDEX.md** - Navigation index for Frame Theory materials
+
+### Logos (PXL) Sync
+
+Formal verification and AGI safety proofs:
+
+1. **Protopraxis/** - Core PXL implementation
+   - formal_verification/coq/ - Coq proof files (.v, .vo)
+   - agent_boot.py - Agent bootstrapping
+2. **PXL_Global_Bijection.v** - Main Global Bijection theorem
+3. **LOGOS_Axiom_And_Theorem_Summary.md** - Axiom/theorem reference
 
 ### VuDu Fidelity Sync
 

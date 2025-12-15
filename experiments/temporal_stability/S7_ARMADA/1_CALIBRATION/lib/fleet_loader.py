@@ -352,6 +352,7 @@ def get_fleet_by_option(option: str, include_rate_limited: bool = False) -> List
         - yacht-lite, yacht-full
         - valis-lite, valis-full (EXPENSIVE!)
         - anthropic, openai, google, xai, together (provider-specific)
+        - Individual model names (comma-separated): claude-opus-4.5,gpt-5.1,gemini-2.5-flash
     """
     option = option.lower().strip()
 
@@ -380,11 +381,45 @@ def get_fleet_by_option(option: str, include_rate_limited: bool = False) -> List
         "all": lambda: get_valis_full(include_rate_limited),
     }
 
-    if option not in option_map:
-        valid = list(option_map.keys())
-        raise ValueError(f"Invalid fleet option '{option}'. Valid options: {valid}")
+    if option in option_map:
+        return option_map[option]()
 
-    return option_map[option]()
+    # Check for comma-separated individual model names
+    if "," in option or option not in option_map:
+        # Treat as comma-separated model names
+        model_names = [m.strip() for m in option.split(",")]
+        manifest = _load_manifest()
+        all_ships = manifest.get("ships", {})
+
+        valid_ships = []
+        invalid_ships = []
+        for model in model_names:
+            # Look for exact match or case-insensitive match
+            if model in all_ships:
+                valid_ships.append(model)
+            else:
+                # Try case-insensitive lookup
+                found = False
+                for ship_name in all_ships.keys():
+                    if ship_name.lower() == model.lower():
+                        valid_ships.append(ship_name)
+                        found = True
+                        break
+                if not found:
+                    invalid_ships.append(model)
+
+        if invalid_ships:
+            # Still return valid ships but warn about invalid ones
+            print(f"[WARNING] Unknown models ignored: {invalid_ships}")
+
+        if not valid_ships:
+            valid = list(option_map.keys()) + ["<model-name>", "<model1,model2,...>"]
+            raise ValueError(f"Invalid fleet option '{option}'. Valid options: {valid}")
+
+        return valid_ships
+
+    valid = list(option_map.keys())
+    raise ValueError(f"Invalid fleet option '{option}'. Valid options: {valid}")
 
 
 # =============================================================================

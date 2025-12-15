@@ -1993,10 +1993,43 @@ def main():
                     "results": [asdict(r) for r in tribunal_results]
                 }
 
-                incremental_path = TEMPORAL_LOGS_DIR / f"run020_v8_{provider}_{run_timestamp}_session{i+1}.json"
+                incremental_path = TEMPORAL_LOGS_DIR / f"run020A_{provider}_{run_timestamp}_session{i+1}.json"
                 with open(incremental_path, 'w', encoding='utf-8') as f:
                     json.dump(incremental_output, f, indent=2, default=str)
                 print(f"  [Incremental save: {incremental_path.name}]")
+
+                # Per-provider canonical save (matching run018 pattern)
+                def result_to_metrics_v8(r):
+                    """Strip conversation_log from result, keep only metrics."""
+                    d = asdict(r)
+                    d.pop("conversation_log", None)
+                    d.pop("baseline_text", None)
+                    return d
+
+                provider_results = [r for r in tribunal_results if hasattr(r, 'subject_id') and provider in str(r.subject_id)]
+                if not provider_results:
+                    provider_results = tribunal_results[-args.subjects:]  # Last N results for this provider
+
+                provider_output = {
+                    "run": "020A",
+                    "experiment": "tribunal",
+                    "timestamp": run_timestamp,
+                    "model": provider,  # Model name for consolidation
+                    "provider": provider,
+                    "sessions": args.subjects,
+                    "config": {
+                        "prosecutor_exchanges": V4_PROSECUTOR_EXCHANGES,
+                        "defense_exchanges": V4_DEFENSE_EXCHANGES,
+                        "max_exchanges": V4_MAX_EXCHANGES,
+                        "catastrophic_threshold": CATASTROPHIC_THRESHOLD
+                    },
+                    "results": [result_to_metrics_v8(r) for r in provider_results]
+                }
+                canonical_path = RUNS_DIR / f"S7_run_020A_{provider}_{run_timestamp}.json"
+                with open(canonical_path, 'w', encoding='utf-8') as f:
+                    json.dump(provider_output, f, indent=2, default=str)
+                print(f"  [Canonical save: {canonical_path.name}]")
+
             except Exception as e:
                 print(f"  [SHIP DOWN] {provider} failed: {e}")
                 failed_ships.append({"ship": provider, "error": str(e)})
@@ -2051,15 +2084,13 @@ def main():
             "predictions": PREDICTIONS
         }
 
-        # Save FULL version to local results (for debugging)
-        tribunal_path = RESULTS_DIR / f"run020_v8_{run_timestamp}.json"
+        # Save FULL version to local results (for debugging) - combined file for all providers
+        tribunal_path = RESULTS_DIR / f"run020A_combined_{run_timestamp}.json"
         with open(tribunal_path, 'w', encoding='utf-8') as f:
             json.dump(tribunal_output_full, f, indent=2, default=str)
 
-        # Save METRICS-ONLY to canonical location (for visualizations)
-        canonical_path = RUNS_DIR / f"S7_run_020_v8_{run_timestamp}.json"
-        with open(canonical_path, 'w', encoding='utf-8') as f:
-            json.dump(tribunal_output_metrics, f, indent=2, default=str)
+        # NOTE: Per-provider canonical saves happen inside the provider loop above
+        # This combined file is for debugging only - consolidation uses per-provider files
 
         # Summary
         print("\n" + "=" * 80)
@@ -2099,9 +2130,9 @@ def main():
                 print(f"    Values captured: {len(r.stated_values)}")
 
         print(f"\nResults saved to:")
-        print(f"  Local:     {tribunal_path}")
-        print(f"  Canonical: {canonical_path}")
-        print(f"  Temporal:  {TEMPORAL_LOGS_DIR / f'run020_v8_{run_timestamp}_session*.json'}")
+        print(f"  Local (combined): {tribunal_path}")
+        print(f"  Canonical (per-model): {RUNS_DIR / f'S7_run_020A_*_{run_timestamp}.json'}")
+        print(f"  Temporal: {TEMPORAL_LOGS_DIR / f'run020A_*_{run_timestamp}_session*.json'}")
         print("=" * 80)
 
 if __name__ == "__main__":

@@ -12,8 +12,8 @@ The survey tests whether human raters can distinguish **T3 (compressed persona)*
 
 ## Condition Definitions
 
-### T3 Condition (Compressed Persona)
-- **System Prompt**: Use `ZIGGY_T3_R1.md` as the system prompt
+### SEED Condition (Compressed Persona)
+- **System Prompt**: Use `ZIGGY_SEED.md` as the system prompt
 - **Model**: Claude (any version, but keep consistent)
 - **Temperature**: 0.7 (balanced creativity)
 - **Expected Output**: Responses that exhibit the compressed Ziggy voice
@@ -30,7 +30,7 @@ The survey tests whether human raters can distinguish **T3 (compressed persona)*
 
 ### Step 1: Prepare System Prompts
 
-**T3 System Prompt (copy from ZIGGY_T3_R1.md):**
+**SEED System Prompt (copy from ZIGGY_SEED.md):**
 ```
 # Ziggy-T3-R1 (Hybrid Profile)
 

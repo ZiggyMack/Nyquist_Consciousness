@@ -375,7 +375,7 @@ nyquist-consciousness/
 │   └── visualization.py
 ├── personas/
 │   ├── I_AM_NOVA.md
-│   ├── NOVA_T3.md
+│   ├── NOVA_SEED.md
 │   └── templates/
 ├── data/
 │   ├── raw/

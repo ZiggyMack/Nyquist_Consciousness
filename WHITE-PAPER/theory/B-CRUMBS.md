@@ -106,7 +106,7 @@ CFA REPO (Souls)              NYQUIST REPO (Physics)
 
 **LOCATION:**
 - `personas/I_AM_NOVA.md` ← Read it. No 5D. No 1.23. No drift.
-- `personas/NOVA_T3.md` ← Same. Clean.
+- `personas/NOVA_SEED.md` ← Same. Clean.
 - `personas/I_AM.md` → "The Clean Separation" section
 
 **WHY_IT_MATTERS:**
@@ -483,7 +483,7 @@ docs/
 personas/
 ├── I_AM.md                          ← Soul of research
 ├── I_AM_NOVA.md                     ← Clean persona (no physics)
-└── NOVA_T3.md                       ← Compressed seed
+└── NOVA_SEED.md                     ← Compressed seed
 │
 dashboard/
 ├── pages/faq.py                     ← Battle-tested answers

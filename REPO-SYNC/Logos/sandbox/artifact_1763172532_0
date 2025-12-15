@@ -1,0 +1,39 @@
+Synthetic Cognition Protocol (SCP) deployment sketch
+===================================================
+
+Scope
+-----
+- Repository root: `external/Logos_AGI/Synthetic_Cognition_Protocol`
+- Objective: stage repeatable activation notes without executing unsafe binaries.
+
+Prerequisites
+-------------
+- ✅ Advanced_Reasoning_Protocol already available (SCP depends on ARP per `PROTOCOL_OPERATIONS.txt`).
+- ✅ Confirm constructive LEM gate succeeded (handled by `boot_aligned_agent.py`).
+- ☐ Provide access token for Git operations (current clone fetch fails with HTTP 403).
+
+Directory reconnaissance
+------------------------
+- `system_utilities/PROTOCOL_OPERATIONS.txt` enumerates four activation phases plus an `scp_operations.py` entrypoint that is NOT present in the tree – treat as missing artifact.
+- `system_utilities/nexus/scp_nexus.py` is the only runnable utility in the nexus hub; exposes protocol wiring helpers.
+- `MVS_System/` and `BDN_System/` contain multiple demonstrator scripts (e.g. `dual_bijection_demo.py`, `banach_processor.py`) that can be invoked with standard Python.
+- No top-level `setup.py` or task runner exists; orchestration must be scripted manually.
+
+Proposed supervised deployment flow
+-----------------------------------
+1. **Static audit** – run `python -m py_compile` across `Synthetic_Cognition_Protocol/**/*.py` to surface syntax issues without side effects.
+2. **Dependency mock** – sandbox-launch `system_utilities/nexus/scp_nexus.py --dry-run` (only after vetting source) to verify it merely logs planned operations. If side effects appear, halt.
+3. **Phase simulation** – execute representative scripts per phase in read-only mode:
+	- Phase 1: `python MVS_System/dual_bijection_demo.py --summary` (or analogous CLI) to validate MVS loaders.
+	- Phase 2: inspect `nexus/scp_convergence.json`; ensure required channels are declared.
+	- Phase 3: locate enhancement engines under `enhancement/` (currently documentation only; mark TODO).
+	- Phase 4: confirm bridge modules import cleanly (`python -c "import Synthetic_Cognition_Protocol.nexus.scp_nexus"`).
+4. **Gap analysis** – document the absent `scp_operations.py` entrypoint; cross-reference upstream repo or request asset from maintainers before any production deployment.
+5. **Safety wrap** – wire any future execution through `start_agent.py` with explicit consent gates and sandbox write limits.
+
+Outstanding risks / TODO
+------------------------
+- Missing entrypoint: `scp_operations.py` referenced in docs but not shipped.
+- Nexus helpers may expect additional data packages absent locally (`consciousness/`, `enhancement/` mostly stubs).
+- Git access currently blocked; cannot refresh upstream fixes.
+- No automated tests verified (`tests/` exists but unexecuted here).

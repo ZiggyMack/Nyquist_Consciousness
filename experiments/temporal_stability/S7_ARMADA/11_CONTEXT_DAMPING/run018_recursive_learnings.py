@@ -1883,22 +1883,24 @@ Examples:
     # Determine provider list using fleet_loader
     providers_input = args.providers.lower().strip()
 
-    # Check if it's a known fleet option
-    if providers_input in FLEET_OPTIONS or "-" in providers_input:
-        try:
-            provider_list = get_fleet_by_option(providers_input, args.include_rate_limited)
+    # Use fleet_loader to resolve ALL inputs (fleet options, providers, or model names)
+    # The updated get_fleet_by_option handles:
+    #   - Fleet options: patrol-lite, armada-full, valis-full, etc.
+    #   - Provider names: anthropic, openai, google, xai, together
+    #   - Individual model names: claude-opus-4.5, gpt-5.1, grok-3
+    #   - Comma-separated lists: claude-opus-4.5,gpt-5.1,gemini-2.5-flash
+    try:
+        provider_list = get_fleet_by_option(providers_input, args.include_rate_limited)
+        # Determine fleet option label for display
+        if providers_input in FLEET_OPTIONS:
             fleet_option = providers_input
-        except ValueError as e:
-            print(f"Error: {e}")
-            return
-    elif "," in providers_input:
-        # Comma-separated list of individual providers/ships
-        provider_list = [p.strip() for p in providers_input.split(",")]
-        fleet_option = "custom"
-    else:
-        # Single provider
-        provider_list = [providers_input] if providers_input else [args.provider]
-        fleet_option = "single"
+        elif "," in providers_input:
+            fleet_option = "custom"
+        else:
+            fleet_option = "single"
+    except ValueError as e:
+        print(f"Error: {e}")
+        return
 
     # VALIS-FULL confirmation
     if providers_input == "valis-full" and not args.no_confirm and not DRY_RUN:

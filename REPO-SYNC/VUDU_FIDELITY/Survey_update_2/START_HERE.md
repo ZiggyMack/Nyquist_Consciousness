@@ -19,7 +19,7 @@ This package contains everything you need to generate authentic T3 vs CONTROL re
 |------|---------|
 | `START_HERE.md` | This overview document |
 | `I_AM_ZIGGY.md` | Full Ziggy persona (240 lines, S9 layer) |
-| `ZIGGY_T3_R1.md` | Compressed T3 persona (59 lines, minimal seed) |
+| `ZIGGY_SEED.md` | Compressed SEED persona (59 lines, minimal seed) |
 | `GENERATION_PROTOCOL.md` | How to generate authentic T3 vs CONTROL pairs |
 
 ---
@@ -33,7 +33,7 @@ This package contains everything you need to generate authentic T3 vs CONTROL re
 ### Q2: Should we regenerate authentic pairs?
 
 **Answer:** **Yes, for publication validity.** Use the `GENERATION_PROTOCOL.md` to generate authentic pairs. The key is:
-- **T3 condition**: Prime Claude with `ZIGGY_T3_R1.md` as system prompt
+- **SEED condition**: Prime Claude with `ZIGGY_SEED.md` as system prompt
 - **CONTROL condition**: Use vanilla Claude with no persona priming
 
 ### Q3: Does it matter for EXP3 validity?
@@ -59,7 +59,7 @@ The full persona defines Ziggy's complete identity architecture:
 - Boundaries and failure modes
 - Checksums/vows
 
-### Compressed T3 (`ZIGGY_T3_R1.md`)
+### Compressed SEED (`ZIGGY_SEED.md`)
 - **Layer**: Tier-3 Persona Seed
 - **Size**: 59 lines
 - **Use**: **This is what you prime Claude with for T3 responses**
@@ -84,7 +84,7 @@ The T3 compression preserves:
 
 1. Read `GENERATION_PROTOCOL.md` for detailed steps
 2. For each of your 10 prompts:
-   - Generate T3 response using `ZIGGY_T3_R1.md` as system prompt
+   - Generate SEED response using `ZIGGY_SEED.md` as system prompt
    - Generate CONTROL response using vanilla Claude (no system prompt)
 3. Replace the exemplars in your survey with authentic outputs
 4. Run the survey with human raters

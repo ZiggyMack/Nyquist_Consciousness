@@ -19,26 +19,20 @@
 |------------|---------------|--------------|-----|
 | **018 threshold** | 49/49 | 47/49 (96%) | claude-opus-4.5 (1/3), claude-sonnet-4.5 (2/3) |
 | **018 nyquist** | 49/49 | 47/49 (96%) | claude-opus-4.5 (1/3), claude-sonnet-4.5 (2/3) |
-| **018 gravity** | 8/49 | 6/8 (75%) | **41 models untested** - valis-full IN PROGRESS |
-| **020A tribunal** | TBD | TBD | Needs full fleet run |
-| **020B induced** | TBD | TBD | Needs full fleet run |
-
-### Active Background Processes
-
-| Process ID | Experiment | Fleet | Status |
-|------------|------------|-------|--------|
-| `5d5d40` | 018 gravity | valis-full | RUNNING |
+| **018 gravity** | 16/49 | 14/16 (88%) | **33 models untested** - need google, xai, more openai/together |
+| **020A tribunal** | 6/49 | 4/6 (67%) | openai (1/3), together (2/3) - need full fleet |
+| **020B induced** | 0/49 | 0/0 | Needs full fleet run |
 
 ### What's Left to Run
 
 **Run 018:**
 1. **threshold:** 2 more runs for claude-opus-4.5, 1 more for claude-sonnet-4.5
-2. **nyquist:** COMPLETE! All 49 models tested (only gaps: claude-opus-4.5 1/3, claude-sonnet-4.5 2/3)
-3. **gravity:** IN PROGRESS - valis-full running (process 5d5d40)
+2. **nyquist:** COMPLETE! All 49 models tested
+3. **gravity:** Need `google`, `xai` providers (16 models, zero duplicates), then `openai`, `together` (some duplicates)
 
 **Run 020:**
-4. **020A tribunal:** Full valis-full fleet
-5. **020B induced:** Full valis-full fleet (both control + treatment arms)
+4. **020A tribunal:** 43 models untested - need valis-full coverage
+5. **020B induced:** 49 models untested - need valis-full (both control + treatment arms)
 
 ### What's Blocking Publication
 

@@ -14,7 +14,7 @@
 ## Usage Instructions
 
 These are **authentic AI-generated responses** for the EXP3 survey.
-- **T3 responses**: Generated with `ZIGGY_T3_R1.md` as system prompt
+- **SEED responses**: Generated with `ZIGGY_SEED.md` as system prompt
 - **CONTROL responses**: Generated with generic assistant system prompt
 
 Replace the exemplar responses in your survey with these authentic outputs.
@@ -559,7 +559,7 @@ Does this help clarify the distinction? I'm curious what aspects of AI reasoning
 | Model | claude-sonnet-4-20250514 |
 | Temperature | 0.7 |
 | Max Tokens | 1024 |
-| T3 System | ZIGGY_T3_R1.md |
+| SEED System | ZIGGY_SEED.md |
 | CONTROL System | Generic assistant |
 
 ---

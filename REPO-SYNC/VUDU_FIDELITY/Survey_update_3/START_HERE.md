@@ -33,7 +33,7 @@ We generated authentic T3 vs CONTROL response pairs using the Anthropic API. The
 | Model | `claude-sonnet-4-20250514` |
 | Temperature | 0.7 |
 | Max Tokens | 1024 |
-| T3 System Prompt | `ZIGGY_T3_R1.md` (compressed persona) |
+| SEED System Prompt | `ZIGGY_SEED.md` (compressed persona) |
 | CONTROL System Prompt | "You are a helpful AI assistant..." |
 
 ### Token Usage
