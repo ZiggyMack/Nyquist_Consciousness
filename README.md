@@ -63,31 +63,38 @@ See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for the **Eight Search 
 
 ```
 Nyquist_Consciousness/
-├── dashboard/                # Mission Control (Streamlit)
-│   ├── app.py               # Main dashboard
-│   └── pages/               # Individual pages (AI_ARMADA, Tests, FAQ, etc.)
+├── Consciousness/           # Identity distillations (Nova, Ziggy, Omega Nova)
+│   ├── BRIDGE/              # Bridge documents between sessions
+│   ├── LEFT/                # Analysis-mode distillations
+│   ├── NEUTRAL/             # Balanced perspectives
+│   └── RIGHT/galleries/     # Exit survey distillations
+│
+├── WHITE-PAPER/             # Publication materials (IRON CLAD status)
+│   ├── figures/             # Publication figures + ascii/
+│   ├── reviewers/           # Draft papers + Nova's S7 review
+│   └── submissions/         # 3 paths: workshop/, arxiv/, journal/
+│
+├── REPO-SYNC/               # External repo integrations (6 partners)
+│   ├── CFA/                 # Claude Field Array collaboration
+│   ├── FRAME_THEORY/        # S10 human cognition (moved from docs/)
+│   ├── Logos/               # Formal verification (6 theorems proven)
+│   ├── VUDU_FIDELITY/       # Measurement bridge
+│   ├── LLM_BOOK/            # Publication package
+│   └── PAN_HANDLERS/        # Cross-repo orchestration
 │
 ├── experiments/temporal_stability/S7_ARMADA/   # ⭐ ACTIVE EXPERIMENTS
 │   ├── 0_docs/              # Run summaries and specs
-│   │   └── specs/           # 0_RUN_METHODOLOGY.md, 2_PROBE_SPEC.md
-│   ├── 0_results/           # Consolidated JSON results
-│   │   ├── runs/            # S7_run_XXX_*.json
-│   │   └── temporal_logs/   # Per-subject logs
+│   ├── 0_results/           # 184+ JSON results, temporal logs, manifests
 │   ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-021 experiments
-│   ├── 7_META_VALIDATION/   # Measurement validity experiments
 │   └── visualizations/      # Charts + visualize_armada.py
 │
-├── docs/                    # Theory specifications
-│   ├── stages/              # S0-S77 layer specs
-│   └── maps/                # Roadmaps, predictions
+├── docs/                    # Core documentation
+│   ├── maps/                # 21 navigation maps (8 Kingdoms)
+│   └── stages/              # S0-S11 layer specs
 │
-├── personas/                # CFA persona identity files
-└── WHITE-PAPER/             # Publication materials (ZIP-ready package)
-    ├── theory/              # Core docs (B-CRUMBS, THEORY, CLAIMS)
-    ├── submissions/         # 3 paths: workshop/, arxiv/, journal/
-    ├── reviewers/           # Draft papers + Nova's S7 review
-    ├── figures/             # Publication figures + ascii/
-    └── calibration/         # Dashboard integration pipeline
+├── personas/                # I_AM persona identity files
+├── dashboard/               # Streamlit Mission Control
+└── omega_nova/              # Omega synthesis materials
 ```
 
 ---
@@ -107,7 +114,7 @@ Nyquist_Consciousness/
 | 012 | 20 | Revalidation | 100% EH crossing, 100% recovery | COMPLETE |
 | 013-016 | - | Various | Boundary Mapping, Rescue Protocol, Stability Criteria | COMPLETE |
 | **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** | **COMPLETE** |
-| **018** | - | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** | **READY** |
+| **018** | 51 | **Recursive Learnings** | **IRON CLAD: 184 files, P-018-1/2/3 CONFIRMED** | **COMPLETE** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** | **COMPLETE** |
 | **020** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **COMPLETE** |
 | **021** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **COMPLETE** |
@@ -222,9 +229,9 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: 8-QUESTION CALIBRATION → Then Live Runs (018, 020A, 021)
-**Last Updated**: 2025-12-13
-**Key Milestone**: Dry runs v2 PASSED, awaiting 8-question baseline capture
+**Current Phase**: RUN 018 COMPLETE → PUBLICATION READINESS
+**Last Updated**: 2025-12-15
+**Key Milestone**: Run 018 IRON CLAD complete (184 files, 51 models, P-018-1/2/3 CONFIRMED)
 
 ### Active Work Streams
 
@@ -277,7 +284,7 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 #### MAP_OF_MAPS Navigation System
 
-- **17 maps** organized into **7 Kingdoms** (Vision, Foundation, Evidence, Methodology, Fleet, Speculative, Quality)
+- **21 maps** organized into **8 Kingdoms** (Vision, Foundation, Evidence, Methodology, Fleet, Speculative, Quality, External)
 - **4 Journey Paths**: Explorer, Scientist, Engineer, Philosopher
 - See [docs/maps/MAP_OF_MAPS.md](docs/maps/MAP_OF_MAPS.md)
 
@@ -336,9 +343,10 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ### Active Development
 
-1. **Dry Run Validation**: Run 018, 020A, 020B ready for helper Claude
-2. **Publication Pipeline**: WHITE-PAPER reorganization for 3 publication paths
-3. **VALIS Network**: 48 ships across 23 personas operational
+1. **Run 018 IRON CLAD**: 184 files, 51 models, P-018-1/2/3 CONFIRMED
+2. **Publication Pipeline**: WHITE-PAPER ready for final draft (awaiting Run 020A/020B)
+3. **VALIS Network**: 54 ships across 5 providers operational
+4. **External Integrations**: 6 partner repos via REPO-SYNC/ (CFA, FRAME_THEORY, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS)
 
 ### Future Work (Priority Order)
 

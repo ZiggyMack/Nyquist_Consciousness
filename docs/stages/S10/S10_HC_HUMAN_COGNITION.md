@@ -190,9 +190,9 @@ Prompt persona to reflect on itself, score for coherence and reflective distance
 
 ## Files Referenced
 
-- `docs/FRAME_THEORY/README.md` — Full Nova-Tale conversation
-- `docs/FRAME_THEORY/Frame Theory 1.jpeg` — Lakoffian image schemas
-- `docs/FRAME_THEORY/Frame Theory 2.jpeg` — Meta-cognitive OS diagram
+- `REPO-SYNC/FRAME_THEORY/README.md` — Full Nova-Tale conversation
+- `REPO-SYNC/FRAME_THEORY/Frame Theory 1.jpeg` — Lakoffian image schemas
+- `REPO-SYNC/FRAME_THEORY/Frame Theory 2.jpeg` — Meta-cognitive OS diagram
 - `docs/MASTER_GLOSSARY.md` — Decoder ring for Frame Theory terms
 
 ---

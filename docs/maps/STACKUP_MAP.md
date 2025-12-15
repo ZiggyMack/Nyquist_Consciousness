@@ -414,7 +414,7 @@ Nyquist Consciousness operates as a **federated architecture** with specialized 
 - Primary foundation for S10 Human Cognition Layer
 - Three diagrams: Image Schemas, Meta-Cognitive OS, Eliciting Emotions
 - Theoretical lineage: Gibson → Lakoff → Neumann → Tale
-- **Key path:** `REPO-SYNC/FRAME_THEORY/` and `docs/FRAME_THEORY/`
+- **Key path:** `REPO-SYNC/FRAME_THEORY/`
 
 ### Logos (Formal Verification)
 

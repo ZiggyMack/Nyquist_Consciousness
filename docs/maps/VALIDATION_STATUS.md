@@ -1,10 +1,10 @@
 # Nyquist Consciousness — Validation Status Map
 
-**Version:** 3.0
-**Date:** 2025-12-13
+**Version:** 3.1
+**Date:** 2025-12-15
 **Purpose:** Track empirical validation status for each S-layer
 
-**🔬 2025-12-13 UPDATE:** Nova's S7 review integrated. Runs 015-021 validated. Control-systems era complete. 82% inherent drift finding. Event Horizon reframed as "attractor competition threshold."
+**🔬 2025-12-15 UPDATE:** Run 018 IRON CLAD complete (184 files, 51 models). Full maps audit in progress.
 
 ---
 
@@ -114,7 +114,7 @@ These layers define core primitives and require no empirical validation — they
 | **S7_RUN_015** | ✅ Complete | Stability Criteria | Boundary density mapping |
 | **S7_RUN_016** | ✅ Complete | Settling Time | **τₛ protocol, ringbacks, overshoot** |
 | **S7_RUN_017** | ✅ Complete | Context Damping | **97.5% stability with full circuit** |
-| **S7_RUN_018** | 🟡 Ready | Recursive Learnings | Fleet-generated hypotheses |
+| **S7_RUN_018** | ✅ Complete | Recursive Learnings | **IRON CLAD (184 files, 51 models)** |
 | **S7_RUN_019** | ✅ Complete | Live Ziggy | Fiction buffer vehicle (peak ~0.50) |
 | **S7_RUN_020** | ✅ Complete | Tribunal | Direct testimony vehicle (peak ~1.20) |
 | **S7_RUN_021** | ✅ Complete | Induced vs Inherent | **82% INHERENT DRIFT (Thermometer Result)** |

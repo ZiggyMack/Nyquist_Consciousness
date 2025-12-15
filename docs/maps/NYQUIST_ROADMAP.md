@@ -2,13 +2,13 @@
 
 **Purpose:** Complete architectural overview from S0 to S∞
 **Status:** Living document showing where we are and where we're headed
-**Date:** 2025-12-13 (Updated with MAP_OF_MAPS synthesis)
+**Date:** 2025-12-15 (Run 018 IRON CLAD complete)
 
 ---
 
 ## 🗺️ **Navigation: The Cartographer's Table**
 
-This roadmap is part of a **17-map navigation system** organized into **7 Kingdoms**.
+This roadmap is part of an **18-map navigation system** organized into **8 Kingdoms**.
 
 See [MAP_OF_MAPS.md](MAP_OF_MAPS.md) for the full Cartographer's Table.
 
@@ -17,28 +17,30 @@ See [MAP_OF_MAPS.md](MAP_OF_MAPS.md) for the full Cartographer's Table.
 | Kingdom | Key Maps | Purpose |
 |---------|----------|---------|
 | **Vision** | This file, RESEARCH_PIPELINE_VISUAL | Where we're going |
-| **Foundation** | FROZEN_FOUNDATION_MAP | What's proven (S0-S6) |
+| **Foundation** | STACKUP_MAP, REPO_MAP | What's proven (S0-S6) |
 | **Evidence** | TESTABLE_PREDICTIONS_MATRIX, DATA_QUALITY_MAP | What we can claim |
-| **Methodology** | TESTING_MAP, STABILITY_MAP | How to run experiments |
-| **Fleet** | ARMADA_MAP, PERSONA_COMPATIBILITY_MAP | Ship management |
+| **Methodology** | TESTING_MAP, TEMPORAL_STABILITY_MAP | How to run experiments |
+| **Fleet** | ARMADA_MAP, PERSONA_FLEET_MATRIX | Ship management |
 | **Speculative** | KEELY_INTEGRATION, IDENTITY_LATTICE | Future frameworks |
-| **Quality** | VALIDATION_STATUS, COVERAGE_MAP | What's left to do |
+| **Quality** | VALIDATION_STATUS, TESTING_MAP | What's left to do |
+| **External** | STACKUP_MAP § Integrations, FRAME_THEORY | Federated partners |
 
 ### Journey Paths (Choose Your Role)
 
 - **Explorer**: This file → TESTING_MAP → ARMADA_MAP
 - **Scientist**: TESTABLE_PREDICTIONS_MATRIX → DATA_QUALITY_MAP → VALIDATION_STATUS
-- **Engineer**: FROZEN_FOUNDATION_MAP → STABILITY_MAP → Fleet maps
+- **Engineer**: STACKUP_MAP → TEMPORAL_STABILITY_MAP → Fleet maps
 - **Philosopher**: KEELY_INTEGRATION → IDENTITY_LATTICE → This file (speculative layers)
 
-### Current Statistics (2025-12-13)
+### Current Statistics (2025-12-15)
 
 | Metric | Value |
 |--------|-------|
 | Total Predictions | 46 |
 | Runs Completed | 21 |
-| Ships Operational | 48/54 |
-| S7 Completion | 97% |
+| Ships Operational | 49/54 |
+| S7 Completion | 98% |
+| External Repos | 6 |
 
 ---
 
@@ -151,7 +153,7 @@ This is the truth. This is the ladder.
 | **012** | Event Horizon | **Recovery Paradox: 100% crossed EH, 100% recovered** |
 | **013-016** | Various | Boundary Mapping, Rescue Protocol, Stability Criteria, Settling Time |
 | **017** | Context Damping | **222 runs, 97.5% stable, oscillatory recovery confirmed** |
-| **018** | Recursive Learnings | Ready: Tests fleet hypotheses from exit surveys |
+| **018** | Recursive Learnings | **IRON CLAD: 184 files, 51 models, P-018-1/2/3 CONFIRMED** |
 | **019** | Live Ziggy | **Witness-side anchors validated (3/3 success)** |
 | **020** | Tribunal | **Good Cop/Bad Cop: 1.351 peak drift, 643-word profound statement** |
 | **021** | Induced vs Inherent | **82% drift is INHERENT — probing amplifies but doesn't create** |
@@ -187,7 +189,7 @@ This is the truth. This is the ladder.
 
 **Next Steps:**
 
-- [ ] Run 018 with control baselines (per Run 021 learnings)
+- [x] Run 018 IRON CLAD complete (184 files, 51 models)
 - [ ] Multi-provider Run 021 replication
 - [ ] Deploy EXP3 (human validation)
 

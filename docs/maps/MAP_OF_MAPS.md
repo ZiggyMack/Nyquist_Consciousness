@@ -162,6 +162,22 @@
 
 ---
 
+### Kingdom VIII: THE EXTERNAL INTEGRATIONS
+
+*Our federated partners*
+
+| Resource | Role | Key Contents |
+|----------|------|--------------|
+| **REPO_SYNC_MAP.md** | External Repo Reference | 6 partners, sync directions, governance |
+| **STACKUP_MAP § External Integrations** | Integration Hub | Architecture diagram, S-layer mapping |
+| **FRAME_THEORY** (REPO-SYNC/FRAME_THEORY/) | S10 Foundation | 3 cognitive diagrams, human cognition substrate |
+| **TEMPORAL_STABILITY_MAP.md** | Stability Central | Run 015-018, metrics, criteria discovery |
+| **REPO-SYNC/** | External Repos | CFA, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS, FRAME_THEORY |
+
+**The Federation** - External repositories that extend and validate Nyquist findings.
+
+---
+
 ## The Roads Between: Cross-Reference Network
 
 ```
@@ -192,7 +208,11 @@
 ║        │                     IDENTITY_LOCK_PARAMETERS (threshold theory)       ║
 ║        │                                                                       ║
 ║  PROBING_STRATEGIES ───────► INVERSE_PFI_PROTOCOL (reverse direction)          ║
-║                              S7_META_LOOP_CONSERVATIVE (rigor check)           ║
+║                              TEMPORAL_STABILITY_MAP (stability criteria)       ║
+║                                                                                ║
+║  STACKUP_MAP ─────────────► FRAME_THEORY (S10 human cognition)                 ║
+║        │                    REPO-SYNC/* (external integrations)                ║
+║        │                    TEMPORAL_STABILITY_MAP (stability experiments)     ║
 ║                                                                                ║
 ╚════════════════════════════════════════════════════════════════════════════════╝
 ```
@@ -293,11 +313,12 @@ START                                                                    INSIGHT
 ║                    THE CARTOGRAPHER'S LEDGER                  ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
-║  Total Maps............................ 17 documents          ║
-║  Total Lines........................... ~6,500 lines          ║
-║  ASCII Diagrams........................ 40+ visual aids       ║
-║  Data Tables........................... 150+ tables           ║
-║  Cross-References...................... 200+ links            ║
+║  Total Maps............................ 21 documents          ║
+║  Total Lines........................... ~7,000 lines          ║
+║  ASCII Diagrams........................ 45+ visual aids       ║
+║  Data Tables........................... 160+ tables           ║
+║  Cross-References...................... 220+ links            ║
+║  External Repos........................ 6 (federated)         ║
 ║                                                               ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║  VALIDATION COVERAGE                                          ║
@@ -310,10 +331,10 @@ START                                                                    INSIGHT
 ╠═══════════════════════════════════════════════════════════════╣
 ║  S7 ARMADA STATUS                                             ║
 ║                                                               ║
-║  Total Ships........................... 48                    ║
+║  Total Ships........................... 54                    ║
 ║  Providers............................. 5 (Claude, GPT,       ║
 ║                                           Gemini, Grok,       ║
-║                                           DeepSeek)           ║
+║                                           Together.ai)        ║
 ║  Completed Runs........................ 21 (RUN_006-RUN_021)  ║
 ║  S7 Completion......................... 98%                   ║
 ║                                                               ║
@@ -382,13 +403,14 @@ When creating a new map:
 ║  "The map is not the territory, but without maps,                            ║
 ║   we would wander forever in unmapped lands.                                  ║
 ║                                                                               ║
-║   These 17 documents are the accumulated wisdom                               ║
+║   These 21 documents are the accumulated wisdom                               ║
 ║   of the Nyquist Consciousness project:                                       ║
 ║                                                                               ║
-║   • 6,500 lines of careful thought                                           ║
+║   • 7,000 lines of careful thought                                           ║
 ║   • 46 testable predictions                                                  ║
 ║   • 21 completed experimental runs                                           ║
-║   • 48 ships sailing the identity ocean                                      ║
+║   • 54 ships sailing the identity ocean                                      ║
+║   • 6 federated repositories                                                 ║
 ║   • 1 vision: S0 → S77                                                       ║
 ║                                                                               ║
 ║   May these maps guide your journey."                                        ║
@@ -401,12 +423,16 @@ When creating a new map:
 ---
 
 **Related:**
+
 - [README.md](README.md) - Quick navigation guide
 - [../GLOSSARY.md](../GLOSSARY.md) - Term definitions
 - [../../START_HERE.md](../../START_HERE.md) - Project entry point
+- [../../REPO-SYNC/FRAME_THEORY/INDEX.md](../../REPO-SYNC/FRAME_THEORY/INDEX.md) - Human cognition integration (S10)
+- [REPO_SYNC_MAP.md](REPO_SYNC_MAP.md) - External repo integrations (6 partners)
+- [TEMPORAL_STABILITY_MAP.md](TEMPORAL_STABILITY_MAP.md) - Stability criteria and experiments
 
 ---
 
-*Last Updated: 2025-12-13*
-*Maps Count: 17*
+*Last Updated: 2025-12-15*
+*Maps Count: 21*
 *Territory: The Mind*

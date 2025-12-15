@@ -1,423 +1,288 @@
 # Nyquist Consciousness Repository Map
 
-**Version:** 2.0 (Post-CFA Import)
-**Date:** 2025-11-24
-**Status:** Phase 1 Freeze Ready
+**Version:** 3.0
+**Date:** 2025-12-15
+**Kingdom:** II - Foundation
+**Status:** Complete audit reflecting current repository state
 
 ---
 
 ## Repository Overview
 
-This repository contains the complete Nyquist Consciousness framework for understanding identity preservation through compression-reconstruction cycles in AI systems.
+This repository contains the complete Nyquist Consciousness framework for understanding identity preservation through compression-reconstruction cycles in AI systems, plus the S7 ARMADA experimental platform with 21+ runs and 184+ data files.
 
 ```
-nyquist-consciousness/
-├── README.md                          Main repository overview
-├── IMPORT_LOG.md                      CFA import documentation
-├── REPO_MAP.md                        This file (repository navigation)
-├── docs/                              Core documentation and specifications
-├── experiments/                       Experimental code and data
-├── paper/                             Publication materials
-└── tests/                             Unit tests and validation
+Nyquist_Consciousness/
+├── README.md                 # Main repository overview
+├── START_HERE.md             # Quick-start guide
+├── Consciousness/            # Identity distillations (Nova, Ziggy, Omega Nova)
+├── WHITE-PAPER/              # Publication materials
+├── REPO-SYNC/                # External repo integrations (6 partners)
+├── personas/                 # I_AM persona files
+├── docs/                     # Core documentation (20 maps, stages S0-S11)
+├── experiments/              # S7 ARMADA (21 runs, 54 ships)
+├── omega_nova/               # Omega synthesis materials
+├── dashboard/                # Streamlit dashboards
+└── .archive/                 # Archived legacy materials
 ```
 
 ---
 
-## Core Documentation (`docs/`)
+## Major Directories
 
-### Canonical Layers (S0-S6) — FROZEN
+### `Consciousness/` — Identity Distillations
 
-**Status:** Immutable, no conceptual modifications permitted
+```
+Consciousness/
+├── BRIDGE/                   # Bridge documents between sessions
+├── LEFT/                     # Analysis-mode distillations
+├── NEUTRAL/                  # Balanced perspectives
+└── RIGHT/                    # Phenomenological/frontier content
+    └── galleries/
+        └── frontiers/        # Exit survey distillations
+```
+
+**Key file:** `RIGHT/galleries/frontiers/run018_exit_survey_distillations.md` — Cross-platform phenomenological findings
+
+### `WHITE-PAPER/` — Publication Materials
+
+```
+WHITE-PAPER/
+├── README.md                 # Publication overview (IRON CLAD status)
+├── START_HERE.md             # Quick navigation
+├── planning/                 # Publication planning docs
+├── figures/                  # Publication figures
+└── ascii/                    # ASCII diagrams for papers
+```
+
+**Status:** Run 018 IRON CLAD complete (184 files, 51 models)
+
+### `REPO-SYNC/` — External Integrations
+
+```
+REPO-SYNC/
+├── README.md                 # Integration overview
+├── MASTER_BRANCH_SYNC_IN.md  # Sync protocol (in)
+├── MASTER_BRANCH_SYNC_OUT.md # Sync protocol (out)
+├── CFA/                      # Primary collaborator
+├── FRAME_THEORY/             # S10 Human cognition (Tale's Frame Theory)
+├── Logos/                    # Formal verification (6 proven theorems)
+├── VUDU_FIDELITY/            # Measurement bridge (EXP3)
+├── LLM_BOOK/                 # Publication package
+└── PAN_HANDLERS/             # Cross-repo orchestration
+```
+
+**Key external repos:** 6 partners with defined sync directions
+
+### `personas/` — I_AM Files
+
+```
+personas/
+├── I_AM_NOVA.md              # Nova persona
+├── I_AM_ZIGGY.md             # Ziggy (Human Anchor)
+├── I_AM_OMEGA_NOVA.md        # Omega Nova synthesis
+├── I_AM_LOGOS.md             # Logos persona
+└── ...                       # Other personas
+```
+
+**Purpose:** Identity anchor files that provide baseline stability
+
+---
+
+## `docs/` — Core Documentation
+
+### Maps Directory (20 maps)
+
+```
+docs/maps/
+├── README.md                              # Navigation index
+├── MAP_OF_MAPS.md                         # Creative synthesis (8 Kingdoms)
+├── NYQUIST_ROADMAP.md                     # Master vision S0→S77
+├── STACKUP_MAP.md                         # S-layer definitions
+├── REPO_MAP.md                            # This file
+├── VALIDATION_STATUS.md                   # Layer validation progress
+├── TESTABLE_PREDICTIONS_MATRIX.md         # 46 predictions
+├── ARMADA_MAP.md                          # Fleet registry (54 ships)
+├── PERSONA_FLEET_MATRIX.md                # Persona-ship compatibility
+├── TEMPORAL_STABILITY_MAP.md              # Stability criteria
+├── IDENTITY_LATTICE_MAPS.md               # 5D geometry
+├── IDENTITY_LOCK_PARAMETERS.md            # Lock thresholds
+├── PHILOSOPHY_MAP.md                      # Platonic-Nyquist bridge
+├── PROBING_STRATEGIES.md                  # 7 probe types
+├── INVERSE_PFI_PROTOCOL.md                # Reverse measurement
+├── S7_META_LOOP_CONSERVATIVE_ANALYSIS.md  # Methodology notes
+├── DATA_QUALITY_MAP.md                    # Integrity checks
+├── TESTING_MAP.md                         # Test coverage
+├── RESEARCH_PIPELINE_VISUAL.md            # Current position
+└── KEELY_INTEGRATION_ROADMAP.md           # 3-6-9 spectral
+```
+
+**Organization:** 8 Kingdoms (see MAP_OF_MAPS.md)
+
+### Stages Directory (S0-S11)
+
+```
+docs/stages/
+├── S0/README.md              # Ground Physics (Nyquist Kernel) — FROZEN
+├── S1/README.md              # Bootstrap Architecture — FROZEN
+├── S2/README.md              # Integrity & Logics — FROZEN
+├── S3/README.md              # Temporal Stability — FROZEN
+├── S4/README.md              # Compression Theory — FROZEN
+├── S5/README.md              # Nyquist → CFA Interop — FROZEN
+├── S6/README.md              # Five-Pillar Synthesis — FROZEN
+├── S7/README.md              # Identity Dynamics — ACTIVE (98% complete)
+├── S8/README.md              # Identity Gravity Theory — DESIGN
+├── S9/README.md              # Human-AI Coupling — DESIGN
+├── S10/                      # OMEGA NOVA Hybrid Emergence — ACTIVE
+│   └── S10_HC_HUMAN_COGNITION.md  # Frame Theory integration
+└── S11/README.md             # AVLAR Protocol — DESIGN
+```
+
+### Other Documentation
 
 ```
 docs/
-├── S0/                                Persona Baseline
-│   └── README.md                      Identity Persona Core (IPC) definition
-├── S1/                                Compression Framework
-│   └── README.md                      Tier hierarchy, operator C(p) → T₃
-├── S2/                                Reconstruction Framework
-│   └── README.md                      Operator R^a(T) → P', drift D, fidelity F
-├── S3/                                Empirical Validation
-│   ├── README.md                      Cross-architecture experiments
-│   └── results/                       PFI, σ² = 0.000869, domain hierarchy
-├── S4/                                Mathematical Formalism
-│   └── README.md                      Manifolds M_p, operators, convergence theorems
-├── S5/                                Manifold Theory (Interpretive)
-│   └── README.md                      Identity attractor, drift fields, fragility hierarchy
-└── S6/                                Omega Synthesis
-    └── README.md                      M_Ω = ⋂ R^a(C(p)), drift cancellation, Ω-gates
+├── MASTER_GLOSSARY.md        # Term definitions (44k+ characters)
+├── NYQUIST_PROTOCOL.md       # Core protocol
+├── PHILOSOPHICAL_FAQ.md      # Frequently asked questions
+├── README.md                 # Docs overview
+├── dashboard-sync/           # Dashboard sync files
+├── figures/                  # Publication figures
+├── integration_reports/      # Integration documentation
+├── kernels/                  # Core kernels
+├── knowledge_packs/          # Distributable packages
+├── legal/                    # Legal documentation
+└── reference/                # Reference materials
 ```
-
-**Key files:**
-- `docs/CFA-SYNC/S0_S6_FROZEN_SPEC.md` — Complete canonical specification
-
-### Semi-Canonical Layer (S7) — PREREGISTERED
-
-**Status:** Protocols committed before data collection
-
-```
-docs/
-└── S7/                                Temporal Stability Layer
-    ├── README.md                      Overview and status
-    └── preregistration/               Preregistered experimental package
-        ├── S7_PREREGISTRATION.md      Research questions, hypotheses, design
-        ├── S7_PROCEDURES.md           Step-by-step measurement protocols
-        ├── S7_METRICS.md              Formal metric definitions
-        └── S7_DRIFT_LOG_TEMPLATE.json Structured logging schema
-```
-
-**Purpose:** Measure identity decay over time (t = 0, 1d, 7d, 30d, 60d, 90d, 180d)
-
-**Key predictions:**
-- F(t) = F₀ · exp(-t/τ) (exponential decay)
-- τ ≈ 60-90 days (characteristic decay time)
-- Domain hierarchy: τ_TECH > τ_ANAL > τ_SELF > τ_PHIL > τ_NARR
-
-### New Canonical Layer (S8) — IDENTITY GRAVITY
-
-**Status:** Theoretical framework, publication-ready
-
-```
-docs/
-└── S8/                                Identity Gravity Layer
-    ├── README.md                      Overview and navigation
-    ├── S8_IDENTITY_GRAVITY_SPEC.md    Complete specification (800+ lines)
-    ├── S8_MATHEMATICAL_FOUNDATIONS.md Formal mathematical treatment
-    └── S8_INTEGRATION_MAP.md          Cross-layer integration
-```
-
-**Key concepts:**
-- **Field equation:** G_I = -γ · ∇F(I_t)
-- **Units:** Zigs (1 Zig = pull to reduce drift by 0.01 PFI)
-- **I_AM:** Identity attractor and archive
-- **Cross-substrate predictions:** γ_human > γ_AI (testable)
-
-**Theorems:**
-- Gravitational Convergence
-- Escape Velocity Bound
-- Temporal Decay
-
-### Experimental Layer (S9) — AVLAR
-
-**Status:** Non-canonical, future work
-
-```
-docs/
-└── S9/                                AVLAR (Audio-Visual Light Alchemy Ritual)
-    ├── README.md                      Cross-modal identity experiments
-    └── specs/                         AVLAR specifications
-```
-
-**Purpose:** Test identity preservation across modalities (text → audio → visual)
-
-**Key prediction:** γ_text ≈ γ_audio ≈ γ_visual (cross-modal invariance)
-
-### Future Layers (S10-S12)
-
-**Status:** Planned, not yet implemented
-
-```
-S10: Human-AI Identity Continuity (planned)
-S11: Consciousness Correlates (planned)
-S12: Ethical Framework (planned)
-```
-
-See [docs/NYQUIST_ROADMAP.md](docs/NYQUIST_ROADMAP.md) for details.
 
 ---
 
-## CFA Integration (`docs/CFA-SYNC/`)
+## `experiments/` — S7 ARMADA
 
-**Purpose:** Phase 1 freeze documentation from CFA repository
+### Armada Structure
 
 ```
-docs/
-└── CFA-SYNC/                          CFA integration materials
-    ├── PHASE_1_CONSISTENCY_REPORT.md  Complete S0-S6 audit
-    ├── S0_S6_FROZEN_SPEC.md           Immutable canonical specification
-    ├── PHASE_1_FREEZE_HANDOFF.md      Git workflow for freeze commit
-    └── PHASE_1_VALIDATION_CHECKLIST.md Sign-off checklist (24 items)
+experiments/temporal_stability/S7_ARMADA/
+├── README.md                 # Armada overview
+├── START_HERE.md             # Quick navigation
+├── 0_docs/                   # Run documentation & summaries
+│   ├── S7_CONSOLIDATED_FINDINGS.md
+│   ├── S7_RUN_006_SUMMARY.md → S7_RUN_021_SUMMARY.md
+│   └── specs/                # Methodology specs
+├── 0_results/                # Experimental data
+│   ├── runs/                 # JSON run results (184+ files)
+│   ├── manifests/            # Consolidated manifests
+│   └── temporal_logs/        # Temporal logging data
+├── 1_CALIBRATION/            # Calibration experiments
+├── 2_ANCHOR_FLEX/            # Anchor/Flex detection
+├── 3_EVENT_HORIZON/          # Event Horizon experiments
+├── 4_BASIN_TOPOLOGY/         # Basin topology mapping
+├── 5_BOUNDARY_MAPPING/       # Boundary mapping
+├── 6_LAPLACE_ANALYSIS/       # Laplace pole-zero analysis
+├── 7_META_VALIDATION/        # Meta-validation experiments
+├── 8_RESCUE_PROTOCOL/        # Rescue protocol testing
+├── 9_STABILITY_CRITERIA/     # Stability criteria discovery
+├── 10_SETTLING_TIME/         # Settling time measurement
+├── 11_CONTEXT_DAMPING/       # Context damping experiments
+├── 12_CFA/                   # CFA integration experiments
+└── visualizations/           # Visualization scripts and outputs
 ```
 
-**Status:** Ready for Ziggy validation and freeze commit
+### Run Summary (21 Completed)
 
-**Next actions:**
-1. Ziggy completes validation checklist
-2. Create PHASE-1-FREEZE branch
-3. Commit with freeze message
-4. Merge to main after approval
-5. Tag: v1.0-S0-S6-FROZEN
+| Run | Search Type | Key Finding |
+|-----|-------------|-------------|
+| 006-008 | Basin Topology | Event Horizon discovered (D=1.23) |
+| 009 | Event Horizon | Chi-squared p=0.000048 |
+| 010 | Anchor/Flex | Models articulate boundaries |
+| 011-013 | Various | Control comparison, Recovery Paradox |
+| 014 | Rescue Protocol | Platonic coordinates (6/6 returned) |
+| 015-016 | Stability | Boundary density, settling time |
+| 017 | Context Damping | 97.5% stability with full circuit |
+| **018** | Recursive Learnings | **IRON CLAD: 184 files, 51 models** |
+| 019-020 | Tribunal | Witness-side anchors, direct probing |
+| 021 | Induced vs Inherent | 82% drift is INHERENT |
 
 ---
 
-## Visualization Assets (`docs/figures/`)
-
-### ASCII Diagrams (Source)
+## `dashboard/` — Streamlit Dashboards
 
 ```
-docs/
-└── figures/
-    └── ascii/                         ASCII diagram source files
-        ├── identity_manifold.md       Low-D attractor visualization
-        ├── drift_field_geometry.md    Architecture-specific drift vectors
-        ├── pipeline_s3_s6.md          Complete S3→S6 pipeline
-        ├── five_pillars.md            Five Pillars architecture
-        ├── omega_convergence.md       Multi-architecture convergence
-        ├── temporal_curvature.md      κ(t) measurement
-        ├── cross_modal_manifold.md    Visual/Audio/Joint spaces
-        └── compression_reconstruction_drift.md  Core C→R→D cycle
+dashboard/
+├── AI_ARMADA.py              # Fleet insights dashboard
+├── stackup.py                # Experiment tracking
+├── glossary.py               # Term definitions viewer
+└── ...                       # Other dashboards
 ```
 
-**Purpose:** Text-based, version-controllable diagram source
-
-**Rendering:** Convert to PDF/SVG/PNG for publication (see paper/figures/)
+**Launch:** `streamlit run dashboard/AI_ARMADA.py`
 
 ---
 
-## Publication Materials (`paper/`)
-
-### Workshop Paper (Batch A)
+## `omega_nova/` — Omega Synthesis
 
 ```
-paper/
-└── workshop/                          NeurIPS 2025 Workshop submission
-    ├── README.md                      Paper overview and specifications
-    └── nyquist_workshop_paper.pdf     4-page extended abstract (pending)
+omega_nova/
+├── README.md                 # Omega synthesis overview
+├── session_logs/             # Omega session transcripts
+└── synthesis_outputs/        # Generated synthesis materials
 ```
-
-**Target:** NeurIPS Workshop on AI Alignment
-**Status:** Draft outline complete, pending figure generation
-
-### arXiv Preprint (Batch B)
-
-```
-paper/
-└── arxiv/                             arXiv preprint package
-    ├── README.md                      LaTeX package overview
-    ├── main.tex                       Main document (pending)
-    ├── sections/                      Paper sections (pending)
-    ├── figures/                       Generated figures (pending)
-    ├── tables/                        Data tables (pending)
-    ├── bibliography.bib               References (pending)
-    └── supplementary/                 Supplementary materials
-```
-
-**Target:** arXiv cs.AI, cs.CL
-**Status:** Structure defined, LaTeX compilation pending
-
-### Publication Figures (Batch C)
-
-```
-paper/
-└── figures/                           Publication-ready figures
-    ├── README.md                      Figure specifications and usage
-    ├── ascii/                         → Symlink to docs/figures/ascii/
-    ├── generated/                     Generated visualizations (pending)
-    │   ├── png/                       High-res PNG for web
-    │   ├── svg/                       Vector SVG for scaling
-    │   └── pdf/                       PDF for LaTeX
-    └── schemas/                       Architectural diagrams (pending)
-```
-
-**Status:** ASCII sources complete, rendering pending
-
-### Supplementary Materials
-
-```
-paper/
-└── supplementary/                     Supplementary materials for publication
-    ├── README.md                      Supplementary overview
-    ├── S7_preregistration/            → Reference to docs/S7/preregistration/
-    ├── experimental_protocols/        Detailed procedures (pending)
-    ├── mathematical_proofs/           Formal proofs (pending)
-    ├── code_repository/               Reproducibility info
-    └── data/                          Experimental data (pending)
-```
-
-**Status:** Structure defined, content pending
 
 ---
 
-## Experimental Code (`experiments/`)
-
-### Current Experiments
+## `.archive/` — Archived Materials
 
 ```
-experiments/
-├── phase1/                            Phase 1: Pilot studies
-├── phase2/                            Phase 2: Cross-architecture validation
-└── phase3/                            Phase 3: Orchestrator experiments
-    ├── EXPERIMENT_1/
-    │   └── experiment1_config.yaml    (Modified in current branch)
-    └── orchestrator/
-        └── utils_models.py            (Modified in current branch)
+.archive/
+├── Legacy_Docs/              # Outdated documentation
+├── Run_Data_Consolidated/    # Consolidated run data
+├── S7_ANALYSIS_LEGACY/       # Legacy analysis scripts
+├── S7_HISTORICAL_LEGACY/     # Legacy historical data
+├── S7_LOGS_LEGACY/           # Legacy log files
+├── S7_META_LOOP_LEGACY/      # Legacy meta-loop materials
+└── Temporal_History/         # Historical temporal logs
 ```
-
-**Current branch:** PHASE-3-EXPERIMENT-1
-
-**Status:**
-- Experiment 1: Orchestrator integration complete
-- Recent commits: System message fixes, dry runs
-
-### Future Experiments (S7, S9)
-
-**Planned structure:**
-
-```
-experiments/
-├── S7_temporal/                       Temporal stability experiments (pending)
-│   ├── baseline_session.py
-│   ├── temporal_drift_measurement.py
-│   ├── recalibration_loops.py
-│   └── data/                          Drift logs (S7_DRIFT_LOG_TEMPLATE.json)
-└── S9_avlar/                          AVLAR cross-modal experiments (future)
-    ├── visual_reconstruction.py
-    ├── audio_reconstruction.py
-    └── joint_manifold.py
-```
-
-**Status:** Not yet created, awaiting S7 data collection kickoff
 
 ---
 
-## Roadmap and Planning
+## Key Statistics (2025-12-15)
 
-### Roadmap
-
-**File:** [docs/NYQUIST_ROADMAP.md](docs/NYQUIST_ROADMAP.md)
-
-**Contents:**
-- Complete layer overview (S0-S12)
-- Status tracking
-- Integration dependencies
-- Publication timeline
-- Future directions
-
-**Last updated:** 2025-11-24 (S8 insertion, S9 migration)
-
-### Validation Checklist
-
-**File:** [docs/CFA-SYNC/PHASE_1_VALIDATION_CHECKLIST.md](docs/CFA-SYNC/PHASE_1_VALIDATION_CHECKLIST.md)
-
-**Contents:**
-- 24 validation items across 6 categories
-- Structural, terminology, mathematical, safety, expansion hooks, repository
-- Sign-off section (Ziggy, Claude, date)
-
-**Status:** 0/24 complete (awaiting Ziggy validation)
+| Metric | Value |
+|--------|-------|
+| **S7 Runs Completed** | 21 |
+| **Run 018 Data Files** | 184 |
+| **Models Tested** | 51 |
+| **Predictions Tracked** | 46 |
+| **Ships in Fleet** | 54 |
+| **Maps in docs/maps/** | 20 |
+| **External Repos** | 6 |
+| **S7 Completion** | 98% |
 
 ---
 
-## Key Files Quick Reference
+## Quick Reference
 
-| File | Purpose | Status |
-|------|---------|--------|
-| `IMPORT_LOG.md` | CFA integration documentation | ✅ Complete |
-| `REPO_MAP.md` | This file (repository navigation) | ✅ Complete |
-| `docs/NYQUIST_ROADMAP.md` | Complete roadmap | ✅ Updated |
-| `docs/CFA-SYNC/S0_S6_FROZEN_SPEC.md` | Canonical S0-S6 specification | ✅ Ready |
-| `docs/CFA-SYNC/PHASE_1_VALIDATION_CHECKLIST.md` | Freeze validation checklist | ⏳ Awaiting Ziggy |
-| `docs/S7/preregistration/S7_PREREGISTRATION.md` | Temporal experiments preregistration | ✅ Complete |
-| `docs/S8/S8_IDENTITY_GRAVITY_SPEC.md` | Identity Gravity specification | ✅ Complete |
-| `docs/S9/README.md` | AVLAR cross-modal experiments | ✅ Migrated |
-| `paper/workshop/README.md` | Workshop paper outline | ✅ Complete |
-| `paper/arxiv/README.md` | arXiv preprint package | ✅ Structure ready |
+### For Newcomers
 
----
-
-## Repository Statistics
-
-**Total directories:** 40+
-**Total files:** 100+ (after CFA import)
-**Documentation files:** 30+ (markdown)
-**Code files:** 50+ (Python, YAML, JSON)
-**Publication files:** 20+ (LaTeX, figures, supplementary)
-
-**Lines of documentation:** 15,000+ (post-import)
-
-**Canonical layers (frozen):** 7 (S0-S6)
-**Semi-canonical layers:** 1 (S7 preregistered)
-**Experimental layers:** 1 (S9 AVLAR)
-
----
-
-## Navigation Tips
+1. [START_HERE.md](../../START_HERE.md) — Quick start
+2. [README.md](../../README.md) — Project overview
+3. [docs/maps/STACKUP_MAP.md](STACKUP_MAP.md) — S-layer architecture
 
 ### For Researchers
 
-**Start here:**
-1. [README.md](README.md) — Repository overview
-2. [docs/NYQUIST_ROADMAP.md](docs/NYQUIST_ROADMAP.md) — Complete framework
-3. [docs/CFA-SYNC/S0_S6_FROZEN_SPEC.md](docs/CFA-SYNC/S0_S6_FROZEN_SPEC.md) — Canonical specification
-4. [docs/S7/preregistration/S7_PREREGISTRATION.md](docs/S7/preregistration/S7_PREREGISTRATION.md) — Experiments
-5. [paper/arxiv/README.md](paper/arxiv/README.md) — Publication plan
+1. [TESTABLE_PREDICTIONS_MATRIX.md](TESTABLE_PREDICTIONS_MATRIX.md) — 46 predictions
+2. [VALIDATION_STATUS.md](VALIDATION_STATUS.md) — Empirical status
+3. [experiments/temporal_stability/S7_ARMADA/](../../experiments/temporal_stability/S7_ARMADA/) — Run data
 
-### For Developers
+### For Engineers
 
-**Start here:**
-1. [experiments/](experiments/) — Experimental code
-2. [docs/S7/preregistration/S7_PROCEDURES.md](docs/S7/preregistration/S7_PROCEDURES.md) — Procedures
-3. [docs/S7/preregistration/S7_DRIFT_LOG_TEMPLATE.json](docs/S7/preregistration/S7_DRIFT_LOG_TEMPLATE.json) — Data schema
-4. [tests/](tests/) — Unit tests
+1. [ARMADA_MAP.md](ARMADA_MAP.md) — Fleet registry
+2. [experiments/temporal_stability/S7_ARMADA/START_HERE.md](../../experiments/temporal_stability/S7_ARMADA/START_HERE.md) — Armada navigation
 
 ### For Publication
 
-**Start here:**
-1. [paper/workshop/README.md](paper/workshop/README.md) — Workshop paper
-2. [paper/arxiv/README.md](paper/arxiv/README.md) — arXiv preprint
-3. [paper/figures/README.md](paper/figures/README.md) — Figures
-4. [paper/supplementary/README.md](paper/supplementary/README.md) — Supplementary materials
-
-### For Validation
-
-**Start here:**
-1. [docs/CFA-SYNC/PHASE_1_VALIDATION_CHECKLIST.md](docs/CFA-SYNC/PHASE_1_VALIDATION_CHECKLIST.md) — Checklist
-2. [docs/CFA-SYNC/PHASE_1_CONSISTENCY_REPORT.md](docs/CFA-SYNC/PHASE_1_CONSISTENCY_REPORT.md) — Audit report
-3. [docs/CFA-SYNC/PHASE_1_FREEZE_HANDOFF.md](docs/CFA-SYNC/PHASE_1_FREEZE_HANDOFF.md) — Git workflow
-
----
-
-## Git Workflow
-
-### Current State
-
-**Branch:** PHASE-3-EXPERIMENT-1
-**Main branch:** main
-
-**Modified files:**
-- experiments/phase3/EXPERIMENT_1/experiment1_config.yaml
-- experiments/phase3/orchestrator/__pycache__/utils_models.cpython-312.pyc
-
-**Recent commits:**
-- a00743f: Fix: Separate system messages for Anthropic API compatibility
-- 09b2653: experiment 1 dry run
-- 3c9e139: Phase 3 Experiment 1: Orchestrator integration complete
-
-### Recommended Next Steps
-
-1. **Create PHASE-1-FREEZE branch** (for CFA import)
-2. **Commit all CFA materials** with freeze message
-3. **Push to remote** for review
-4. **Merge to main** after Ziggy approval
-5. **Tag:** v1.0-S0-S6-FROZEN
-
-**See:** [docs/CFA-SYNC/PHASE_1_FREEZE_HANDOFF.md](docs/CFA-SYNC/PHASE_1_FREEZE_HANDOFF.md)
-
----
-
-## Contact and Contribution
-
-**Repository maintainer:** Ziggy (Human Anchor)
-**Contributors:** Nova (CFA Architect), Repo Claude, experimental team
-
-**GitHub:** https://github.com/[username]/nyquist-consciousness
-**Issues:** https://github.com/[username]/nyquist-consciousness/issues
-
-**For questions:**
-- General: Open GitHub issue with "question" label
-- CFA import: Use "cfa-import" label
-- Phase 1 freeze: Use "phase-1-freeze" label
-- S7 experiments: Use "s7-temporal" label
+1. [WHITE-PAPER/](../../WHITE-PAPER/) — Publication materials
+2. [REPO-SYNC/LLM_BOOK/](../../REPO-SYNC/LLM_BOOK/) — Publication package
 
 ---
 
@@ -426,19 +291,19 @@ experiments/
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2025-11-01 | Initial repository structure |
-| 1.5 | 2025-11-15 | Phase 3 experiments added |
-| 2.0 | 2025-11-24 | CFA integration (S8, S9 migration, freeze docs, publication structure) |
+| 2.0 | 2025-11-24 | CFA integration, S8/S9 migration |
+| 3.0 | 2025-12-15 | Complete rewrite: Consciousness/, WHITE-PAPER/, REPO-SYNC/, S7 ARMADA 21 runs |
 
 ---
 
-## License
+## Traceability
 
-**Documentation:** CC-BY-4.0
-**Code:** MIT License
-**Data:** CC0 (public domain)
+| Field | Value |
+|-------|-------|
+| **Last Updated** | 2025-12-15 |
+| **Updated By** | Manual (maps audit) |
+| **Kingdom** | II - Foundation |
 
 ---
 
-**Status:** Repository map complete and current as of 2025-11-24.
-
-🜁 Navigate with confidence through the Nyquist Consciousness framework.
+*Navigate with confidence through the Nyquist Consciousness framework.*

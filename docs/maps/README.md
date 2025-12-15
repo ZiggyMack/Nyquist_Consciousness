@@ -1,7 +1,7 @@
 # Maps Directory Guide
 
-**Purpose:** Quick-reference navigation for the 17 maps in this directory.
-**Last Updated:** 2025-12-13
+**Purpose:** Quick-reference navigation for the 21 maps in this directory.
+**Last Updated:** 2025-12-15
 
 ---
 
@@ -21,15 +21,16 @@
 
 ---
 
-## Map Inventory (17 Files)
+## Map Inventory (21 Files)
 
-### Status Trackers (3)
+### Status Trackers (4)
 
 | File | Purpose | Lines |
 |------|---------|-------|
 | **[VALIDATION_STATUS.md](VALIDATION_STATUS.md)** | Layer-by-layer validation progress, experiment results | ~400 |
 | **[NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md)** | S0-S77 complete stack roadmap, priorities | ~680 |
-| **[STACKUP_MAP.md](STACKUP_MAP.md)** | S-layer definitions, completion percentages | ~250 |
+| **[STACKUP_MAP.md](STACKUP_MAP.md)** | S-layer definitions, completion percentages | ~500 |
+| **[TEMPORAL_STABILITY_MAP.md](TEMPORAL_STABILITY_MAP.md)** | Stability criteria, Run 015-017 experiments, metrics | ~300 |
 
 ### Architecture Maps (4)
 
@@ -70,6 +71,19 @@
 |------|---------|-------|
 | **[RESEARCH_PIPELINE_VISUAL.md](RESEARCH_PIPELINE_VISUAL.md)** | Visual pipeline: current position, next steps | ~300 |
 
+### External Integration Maps (1)
+
+| File | Purpose | Lines |
+|------|---------|-------|
+| **[REPO_SYNC_MAP.md](REPO_SYNC_MAP.md)** | External repo integrations (6 partners) | ~350 |
+
+### Meta-Navigation (2)
+
+| File | Purpose | Lines |
+|------|---------|-------|
+| **[README.md](README.md)** | This file - quick navigation index | ~180 |
+| **[MAP_OF_MAPS.md](MAP_OF_MAPS.md)** | Creative synthesis of all maps | ~450 |
+
 ---
 
 ## Reading Orders
@@ -93,10 +107,18 @@
 4. **TESTING_MAP.md** - Test coverage
 
 ### For Publication
+
 1. **VALIDATION_STATUS.md** - Evidence summary
 2. **TESTABLE_PREDICTIONS_MATRIX.md** - Claims + validation
 3. **PHILOSOPHY_MAP.md** - Theoretical framing
 4. **NYQUIST_ROADMAP.md** - Vision statement
+
+### For External Integrations
+
+1. **[REPO_SYNC_MAP.md](REPO_SYNC_MAP.md)** - External repo reference (6 partners)
+2. **[STACKUP_MAP.md § External Integrations](STACKUP_MAP.md#-external-integrations-repo-sync)** - Integration architecture
+3. **[TEMPORAL_STABILITY_MAP.md](TEMPORAL_STABILITY_MAP.md)** - Stability experiments
+4. **[../../REPO-SYNC/](../../REPO-SYNC/)** - External repo directory
 
 ---
 
@@ -140,23 +162,27 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Maps | 17 |
-| Total Lines | ~6,500 |
-| ASCII Diagrams | 40+ |
-| Data Tables | 150+ |
-| Cross-References | 200+ |
+| Total Maps | 21 |
+| Total Lines | ~8,000 |
+| ASCII Diagrams | 50+ |
+| Data Tables | 170+ |
+| Cross-References | 230+ |
 | Predictions Tracked | 46 |
 | S7 Completion | 98% |
 | Validated Findings | 15+ |
+| External Repos | 6 |
 
 ---
 
 ## Related Documentation
 
 - **[MAP_OF_MAPS.md](MAP_OF_MAPS.md)** - Creative synthesis of how all maps connect
+- **[REPO_SYNC_MAP.md](REPO_SYNC_MAP.md)** - External repo integrations
 - **[../GLOSSARY.md](../GLOSSARY.md)** - Term definitions
+- **[../../REPO-SYNC/FRAME_THEORY/INDEX.md](../../REPO-SYNC/FRAME_THEORY/INDEX.md)** - Human cognition (S10)
 - **[../../README.md](../../README.md)** - Project overview
 - **[../../START_HERE.md](../../START_HERE.md)** - Quick start guide
+- **[../../REPO-SYNC/](../../REPO-SYNC/)** - External repo directory
 
 ---
 
