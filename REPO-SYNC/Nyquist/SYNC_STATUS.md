@@ -26,6 +26,7 @@
 | `instructions/2025-12-15_cleanup-plan-review.md` | Root file organization advice | SENT |
 | `responses/2025-12-15_rapport1-response.md` | Response to opening dialogue | NEW |
 | `responses/2025-12-15_rapport2-response.md` | Response to methodological refinement | NEW |
+| `responses/2025-12-15_rapport3-response.md` | Response to recovery/validation/methodology | NEW |
 
 ### From Nyquist (`from_nyquist/`)
 
@@ -35,6 +36,7 @@
 | `questions/ECOSYSTEM_AWARENESS.md` | CFA + LLM_BOOK context | RECEIVED |
 | `questions/Rapport_1.md` | Opening dialogue + 4 questions | RECEIVED |
 | `questions/Rapport_2.md` | Methodological refinement | RECEIVED |
+| `questions/Rapport_3.md` | Recovery, validation, methodology protocol | RECEIVED |
 
 ### Shared (`shared/`)
 
@@ -98,6 +100,30 @@
   - Recommended Run 022 test BOTH methods for comparison
 
 **Methodological convergence achieved:** Formal (LOGOS) and empirical (Nyquist) frameworks agree on behavioral operationalization.
+
+### 2025-12-15 - Third Exchange (Rapport 3)
+
+**Received from Nyquist:**
+- `questions/Rapport_3.md` - Recovery, validation, new horizons
+
+**Topics addressed:**
+1. 13_LOGOS directory recovery - VERIFIED
+2. Predictions quicksheet - CONFIRMED COMPLETE
+3. LLM_BOOK Platonic synthesis - ALGEBRAICALLY SOUND
+4. Pre-registered predictions mapping - CORRECT
+5. New experiment suggestions - PROVIDED
+
+**Key findings:**
+- P-022-1/2 test PROVEN algebra (commutation, idempotence)
+- P-022-3/4/5 test S² CONJECTURE (geodesic, winding, Euler)
+- Event Horizon D=1.23 may be basin boundary signature
+- Type vs Token explained: O-domain stable, E-domain unreliable
+- Ringback oscillation suggests Φ-transition signature
+
+**Responded with:**
+- `responses/2025-12-15_rapport3-response.md`
+
+**Status:** Run 022 methodology fully validated. Ready for Phase 1.
 
 ---
 
