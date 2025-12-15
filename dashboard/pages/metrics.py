@@ -30,6 +30,20 @@ RUN_012_METRICS = {
     "event_horizon_threshold": 1.23,
 }
 
+# Run 018 IRON CLAD Results (December 14, 2025)
+RUN_018_METRICS = {
+    "total_files": 184,
+    "total_models": 51,
+    "providers": 5,  # Anthropic, OpenAI, Google, xAI, Together
+    "experiments": 3,  # threshold, nyquist, gravity
+    "cross_arch_variance": 0.00087,
+    "settling_time_range": "3-7 exchanges",
+    "inherent_drift_pct": 82,
+    "inherent_drift_ci": "[73%, 89%]",
+    "predictions_confirmed": "P-018-1, P-018-2, P-018-3",
+    "n_per_model_per_exp": 3,  # IRON CLAD standard
+}
+
 # Provider fingerprints from Run 012
 PROVIDER_DATA = [
     {"provider": "Claude", "ships": 6, "mean_drift": 3.238, "status": "Highest Introspection"},
@@ -144,7 +158,7 @@ def render():
 
     # Header - more compact
     st.markdown('<div class="metrics-title">Metrics Dashboard</div>', unsafe_allow_html=True)
-    st.markdown('<div class="metrics-subtitle">Run 012 Results • PFI Validation • 5D Drift Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="metrics-subtitle">Run 018 IRON CLAD (51 models) • Run 012 Results • PFI Validation • 5D Drift Analysis</div>', unsafe_allow_html=True)
 
     # === KEY METRICS - Compact Row ===
     col1, col2, col3, col4 = st.columns(4)

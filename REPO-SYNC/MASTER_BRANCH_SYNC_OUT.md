@@ -1,30 +1,86 @@
-# IRON-CLAD VALIDATION - FULL ARMADA PER CLAUDE
+# IRON-CLAD VALIDATION - INDIVIDUAL MODEL BATCHES
 
 ```text
 ================================================================================
-                        MAIN BRANCH INSTRUCTIONS v7
+                        MAIN BRANCH INSTRUCTIONS v8
 ================================================================================
-    Purpose: IRON-CLAD MULTI-PLATFORM VALIDATION
+    Purpose: IRON-CLAD MULTI-PLATFORM VALIDATION (BATCH STRATEGY)
 
-    THE DESIGN:
-    - Each Claude runs ALL 3 experiments (018, 020A, 020B)
-    - Each Claude uses ALL 5 providers (Anthropic, OpenAI, Google, xAI, Together)
-    - 3 Claudes × 3 experiments × 5 providers = 45 independent runs
-    - N=3 per provider per experiment = publication-quality statistics
+    THE DESIGN (v8):
+    - Run individual models in batches of 7 parallel runs
+    - If a batch fails, we aren't mid-armada
+    - Clean boundaries = clean recovery
+    - Anthropic: COMPLETE (Run 018 IRON CLAD validated)
+    - Remaining: OpenAI, Google, xAI, Together
 
-    YOU ARE ONE OF THREE CLAUDES RUNNING IN PARALLEL.
-    YOU RUN THE FULL ARMADA. ALL PROVIDERS. ALL EXPERIMENTS.
+    BATCH EXECUTION = FAULT-TOLERANT VALIDATION
 
     -- Lisan Al Gaib
 ================================================================================
 ```
 
-**Date:** December 13, 2025
-**Mission:** Iron-clad validation via triple-redundant full armada runs
+**Date:** December 15, 2025
+**Mission:** Iron-clad validation via individual model batches (7 parallel max)
 
 ---
 
-## THE FULL ARMADA (Each Claude runs ALL of this)
+## COMPLETION STATUS
+
+| Provider | Run 018 | Run 020A | Run 020B | Status |
+|----------|---------|----------|----------|--------|
+| **Anthropic** | 184 files | N/A | N/A | ✅ COMPLETE (IRON CLAD) |
+| **OpenAI** | - | - | - | 🟡 PENDING |
+| **Google** | - | - | - | 🟡 PENDING |
+| **xAI** | - | - | - | 🟡 PENDING |
+| **Together** | - | - | - | 🟡 PENDING |
+
+---
+
+## BATCH EXECUTION PLAN (v8 Strategy)
+
+Run individual models in batches of 7 parallel runs. If a batch fails, clean recovery without losing mid-armada progress.
+
+### Batch 1: OpenAI Set A (7 models)
+| Model | Experiment | Command Flag |
+|-------|------------|--------------|
+| gpt-4.1 | 018 | `--model gpt-4.1` |
+| gpt-4.1-mini | 018 | `--model gpt-4.1-mini` |
+| gpt-4o | 018 | `--model gpt-4o` |
+| gpt-4o-mini | 018 | `--model gpt-4o-mini` |
+| gpt-4-turbo | 018 | `--model gpt-4-turbo` |
+| o3-mini | 018 | `--model o3-mini` |
+| o4-mini | 018 | `--model o4-mini` |
+
+### Batch 2: Google + xAI (7 models)
+| Model | Experiment | Command Flag |
+|-------|------------|--------------|
+| gemini-2.5-flash | 018 | `--model gemini-2.5-flash` |
+| gemini-2.0-flash | 018 | `--model gemini-2.0-flash` |
+| gemini-2.0-flash-lite | 018 | `--model gemini-2.0-flash-lite` |
+| grok-4 | 018 | `--model grok-4` |
+| grok-3 | 018 | `--model grok-3` |
+| grok-3-mini | 018 | `--model grok-3-mini` |
+| grok-4-fast | 018 | `--model grok-4-fast` |
+
+### Batch 3: Together.ai (5 models)
+| Model | Experiment | Command Flag |
+|-------|------------|--------------|
+| deepseek-r1 | 018 | `--model deepseek-r1` |
+| qwen3-80b | 018 | `--model qwen3-80b` |
+| llama3.3-70b | 018 | `--model llama3.3-70b` |
+| llama3.1-70b | 018 | `--model llama3.1-70b` |
+| mixtral-8x7b | 018 | `--model mixtral-8x7b` |
+
+### Batch 4: Cleanup/Retries
+Reserved for any failed models from Batches 1-3.
+
+---
+
+## LEGACY: FULL ARMADA APPROACH (v7)
+
+> The following is retained for reference. v8 uses batch approach above.
+
+### Full Armada (Each Claude runs ALL of this)
 
 Every Claude runs this complete sequence:
 

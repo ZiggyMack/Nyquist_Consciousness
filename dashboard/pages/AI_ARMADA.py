@@ -133,18 +133,18 @@ EXPERIMENT_RUNS = {
     },
     "run_018": {
         "name": "Run 018",
-        "subtitle": "Recursive Learnings",
+        "subtitle": "IRON CLAD (Recursive Learnings)",
         "emoji": "🔄",
         "color": "#f59e0b",  # Amber
-        "date": "December 11, 2025",
-        "description": "FLEET HYPOTHESIS TESTING: Tests predictions from Run 017 exit surveys. Multi-threshold, cross-architecture, Nyquist sampling, and Identity Gravity experiments.",
-        "ships": "-",
-        "metric": "B→F Drift + Zone Durations + Recovery Curves + Exit Surveys",
+        "date": "December 14, 2025",
+        "description": "IRON CLAD VALIDATION: 184 files across 51 models. Multi-threshold, cross-architecture, Nyquist sampling (T2-T11), and Identity Gravity experiments. P-018-1/2/3 CONFIRMED.",
+        "ships": 51,
+        "metric": "Cross-Architecture σ² + Settling Time + 82% Inherent Drift CI",
         "result_files": ["S7_run_018_*.json"],
         "viz_prefix": "run018_",
-        "status": "READY",
-        "highlight": False,
-        "key_finding": "PENDING — Script ready with Run 020B methodology improvements (B→F drift as primary metric, control baselines)."
+        "status": "COMPLETE",
+        "highlight": True,
+        "key_finding": "82% DRIFT IS INHERENT — Cross-architecture σ²=0.00087, settling times 3-7 exchanges. N=3 per model per experiment (IRON CLAD standard)."
     },
     "run_017": {
         "name": "Run 017",

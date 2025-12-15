@@ -12,8 +12,8 @@
 
 Single source of truth for all Nyquist Consciousness terminology, consolidating:
 - Pan_Handlers/data/glossary.md (high-level)
-- docs/stages/S3/S3_ENHANCED_GLOSSARY_v2.md (detailed)
-- docs/stages/S4/S4_FUTURE_GLOSSARY_PROTO_v1.md (formal math)
+- docs/stackup/S3/S3_ENHANCED_GLOSSARY_v2.md (detailed)
+- docs/stackup/S4/S4_FUTURE_GLOSSARY_PROTO_v1.md (formal math)
 
 ### 2. Established Terminology Philosophy
 

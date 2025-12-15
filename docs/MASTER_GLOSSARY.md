@@ -876,8 +876,8 @@ This is empirically validated (Run 013) and explains the Identity Confrontation 
 
 For domain-specific details, see:
 - [Pan_Handlers/data/glossary.md](../Pan_Handlers/data/glossary.md) - High-level project overview
-- [docs/stages/S3/S3_ENHANCED_GLOSSARY_v2.md](stages/S3/S3_ENHANCED_GLOSSARY_v2.md) - S3 detailed terms
-- [docs/stages/S4/S4_FUTURE_GLOSSARY_PROTO_v1.md](stages/S4/S4_FUTURE_GLOSSARY_PROTO_v1.md) - S4 formal math terms
+- [docs/stackup/S3/S3_ENHANCED_GLOSSARY_v2.md](stackup/S3/S3_ENHANCED_GLOSSARY_v2.md) - S3 detailed terms
+- [docs/stackup/S4/S4_FUTURE_GLOSSARY_PROTO_v1.md](stackup/S4/S4_FUTURE_GLOSSARY_PROTO_v1.md) - S4 formal math terms
 
 ---
 

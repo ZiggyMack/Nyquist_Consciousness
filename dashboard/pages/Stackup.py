@@ -17,7 +17,7 @@ LEDGER_COLORS = SETTINGS['colors']
 
 # Fallback layer info (used if status.json doesn't have the layer)
 # Extended notes provide layer-specific details even for frozen layers
-# Updated 2025-11-30 to align with docs/stages/ READMEs
+# Updated 2025-11-30 to align with docs/stackup/ READMEs
 LAYER_FALLBACK = {
     "S0": {
         "name": "Ground Physics (Nyquist Kernel)",
@@ -135,16 +135,16 @@ def get_layer_data(selected, layers):
             spec = ""
         elif selected == "S77":
             status = "conceptual"
-            spec = "docs/stages/S77/README.md"
+            spec = "docs/stackup/S77/README.md"
         elif selected in ["S12", "S13", "S14", "S15", "S16"]:
             status = "projected"
-            spec = f"docs/stages/{selected}/README.md"
+            spec = f"docs/stackup/{selected}/README.md"
         elif selected.startswith("S10"):
             status = "active"
-            spec = f"docs/stages/S10/{selected.replace('.', '_')}.md"
+            spec = f"docs/stackup/S10/{selected.replace('.', '_')}.md"
         elif selected in FUTURE_LAYERS:
             status = "future"
-            spec = f"docs/stages/{selected}/README.md"
+            spec = f"docs/stackup/{selected}/README.md"
         else:
             status = "design"
             spec = ""
@@ -456,7 +456,7 @@ def render_layer_spec(selected, layers):
         st.info("No spec file defined for this layer.")
 
         # Suggest where spec should go
-        suggested_path = f"docs/stages/{selected}/README.md"
+        suggested_path = f"docs/stackup/{selected}/README.md"
         st.caption(f"*Suggested location: `{suggested_path}`*")
 
 

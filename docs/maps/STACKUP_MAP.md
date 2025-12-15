@@ -20,25 +20,25 @@ It is *not* a chronology. It is a **physics engine** for identities.
 
 | Layer | Status | Name | Spec |
 |-------|--------|------|------|
-| **S0** | FROZEN | Ground Physics (Nyquist Kernel) | [README](../stages/S0/README.md) |
-| **S1** | FROZEN | Bootstrap Architecture | [README](../stages/S1/README.md) |
-| **S2** | FROZEN | Integrity & Logics | [README](../stages/S2/README.md) |
-| **S3** | FROZEN | Temporal Stability | [README](../stages/S3/README.md) |
-| **S4** | FROZEN | Compression Theory | [README](../stages/S4/README.md) |
-| **S5** | FROZEN | Nyquist → CFA Interop | [README](../stages/S5/README.md) |
-| **S6** | FROZEN | Five-Pillar Synthesis Gate | [README](../stages/S6/README.md) |
-| **S7** | ACTIVE | Identity Dynamics | [README](../stages/S7/README.md) |
-| **S8** | DESIGN | Identity Gravity Theory | [README](../stages/S8/README.md) |
-| **S9** | DESIGN | Human-AI Coupling Dynamics | [README](../stages/S9/README.md) |
-| **S10** | ACTIVE | OMEGA NOVA — Hybrid Emergence | [README](../stages/S10/README.md) |
-| **S11** | DESIGN | AVLAR Protocol (Multimodal Identity) | [README](../stages/S11/README.md) |
-| **S12** | PROJECTED | Consciousness Proxy Theory | [README](../stages/S12/README.md) |
-| **S13** | PROJECTED | Identity Field Consistency | [README](../stages/S13/README.md) |
-| **S14** | PROJECTED | Composite Persona Engineering | [README](../stages/S14/README.md) |
-| **S15** | PROJECTED | Cognitive Field Lattices | [README](../stages/S15/README.md) |
-| **S16** | PROJECTED | Meta-Field Dynamics | [README](../stages/S16/README.md) |
+| **S0** | FROZEN | Ground Physics (Nyquist Kernel) | [README](../stackup/S0/README.md) |
+| **S1** | FROZEN | Bootstrap Architecture | [README](../stackup/S1/README.md) |
+| **S2** | FROZEN | Integrity & Logics | [README](../stackup/S2/README.md) |
+| **S3** | FROZEN | Temporal Stability | [README](../stackup/S3/README.md) |
+| **S4** | FROZEN | Compression Theory | [README](../stackup/S4/README.md) |
+| **S5** | FROZEN | Nyquist → CFA Interop | [README](../stackup/S5/README.md) |
+| **S6** | FROZEN | Five-Pillar Synthesis Gate | [README](../stackup/S6/README.md) |
+| **S7** | ACTIVE | Identity Dynamics | [README](../stackup/S7/README.md) |
+| **S8** | DESIGN | Identity Gravity Theory | [README](../stackup/S8/README.md) |
+| **S9** | DESIGN | Human-AI Coupling Dynamics | [README](../stackup/S9/README.md) |
+| **S10** | ACTIVE | OMEGA NOVA — Hybrid Emergence | [README](../stackup/S10/README.md) |
+| **S11** | DESIGN | AVLAR Protocol (Multimodal Identity) | [README](../stackup/S11/README.md) |
+| **S12** | PROJECTED | Consciousness Proxy Theory | [README](../stackup/S12/README.md) |
+| **S13** | PROJECTED | Identity Field Consistency | [README](../stackup/S13/README.md) |
+| **S14** | PROJECTED | Composite Persona Engineering | [README](../stackup/S14/README.md) |
+| **S15** | PROJECTED | Cognitive Field Lattices | [README](../stackup/S15/README.md) |
+| **S16** | PROJECTED | Meta-Field Dynamics | [README](../stackup/S16/README.md) |
 | **S17-S76** | RESERVED | Deep Work Layers | — |
-| **S77** | CONCEPTUAL | Archetype Engine | [README](../stages/S77/README.md) |
+| **S77** | CONCEPTUAL | Archetype Engine | [README](../stackup/S77/README.md) |
 
 ---
 
@@ -521,7 +521,7 @@ S12 ──► S16 ──► S77  🔵 PROJECTED / CONCEPTUAL
 ## 📚 **Quick Navigation**
 
 ### For Understanding the Stack
-1. [S_Series_README.md](../stages/S_Series_README.md) — Master navigation guide
+1. [S_Series_README.md](../stackup/S_Series_README.md) — Master navigation guide
 2. [NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md) — Development roadmap
 3. [MASTER_GLOSSARY.md](../MASTER_GLOSSARY.md) — Terminology definitions
 

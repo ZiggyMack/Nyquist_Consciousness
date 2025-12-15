@@ -346,9 +346,9 @@ Examples:
 
 ### Stages
 
-- [S4/README.md](../stages/S4/README.md) — Logos integration layer
-- [S5/README.md](../stages/S5/README.md) — CFA integration layer
-- [S10/S10_HC_HUMAN_COGNITION.md](../stages/S10/S10_HC_HUMAN_COGNITION.md) — Frame Theory consumer
+- [S4/README.md](../stackup/S4/README.md) — Logos integration layer
+- [S5/README.md](../stackup/S5/README.md) — CFA integration layer
+- [S10/S10_HC_HUMAN_COGNITION.md](../stackup/S10/S10_HC_HUMAN_COGNITION.md) — Frame Theory consumer
 
 ### REPO-SYNC Files
 

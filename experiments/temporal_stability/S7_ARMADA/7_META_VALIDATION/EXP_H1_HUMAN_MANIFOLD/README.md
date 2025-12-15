@@ -189,7 +189,7 @@ EXP_H1_HUMAN_MANIFOLD/
 
 - [NOVA_ZIGGY_1.md](../../../../docs/CFA-SYNC/NOVA_ZIGGY_1.md) — Source conversation
 - [THE_BRIDGE](../../../../personas/I_AM.md#the-bridge) — Philosophical synthesis
-- [S7_TEMPORAL_STABILITY_SPEC.md](../../../../docs/stages/S7/S7_TEMPORAL_STABILITY_SPEC.md) — AI temporal stability spec
+- [S7_TEMPORAL_STABILITY_SPEC.md](../../../../docs/stackup/S7/S7_TEMPORAL_STABILITY_SPEC.md) — AI temporal stability spec
 
 ---
 

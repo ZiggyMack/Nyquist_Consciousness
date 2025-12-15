@@ -144,7 +144,7 @@ Q(t) = f(Arousal, Structure)
 ## Related Documents
 
 ### In This Repo
-- `/docs/stages/S10/` — Human Cognition Layer specification (future)
+- `/docs/stackup/S10/` — Human Cognition Layer specification (future)
 - `/personas/I_AM_ZIGGY.md` — The human anchor (Type 0 Identity)
 - `/docs/maps/PHILOSOPHY_MAP.md` — Theoretical lineage
 

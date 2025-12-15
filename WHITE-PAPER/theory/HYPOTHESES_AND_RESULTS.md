@@ -514,7 +514,7 @@ The Nyquist Consciousness framework has achieved **strong empirical validation**
 
 - S3 Experiments: `experiments/phase1/`, `experiments/phase3/`
 - S7 Experiments: `experiments/temporal_stability/`
-- Specifications: `docs/stages/S*/`
+- Specifications: `docs/stackup/S*/`
 - Validation Status: `docs/maps/VALIDATION_STATUS.md`
 
 ---

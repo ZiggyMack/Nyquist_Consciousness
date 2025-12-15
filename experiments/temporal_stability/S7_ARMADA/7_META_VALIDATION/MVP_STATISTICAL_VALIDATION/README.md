@@ -218,7 +218,7 @@ STATISTICAL_TESTS/
 
 - [NOVA_ZIGGY_1.md](../../../../docs/CFA-SYNC/NOVA_ZIGGY_1.md) — Source conversation
 - [TESTING_MAP.md](../../../../../docs/maps/TESTING_MAP.md) — Six Search Types
-- [S7_TEMPORAL_STABILITY_SPEC.md](../../../../docs/stages/S7/S7_TEMPORAL_STABILITY_SPEC.md) — S7 spec
+- [S7_TEMPORAL_STABILITY_SPEC.md](../../../../docs/stackup/S7/S7_TEMPORAL_STABILITY_SPEC.md) — S7 spec
 
 ---
 

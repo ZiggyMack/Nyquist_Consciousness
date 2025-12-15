@@ -122,7 +122,7 @@ docs/maps/
 ### Stages Directory (S0-S11)
 
 ```
-docs/stages/
+docs/stackup/
 ├── S0/README.md              # Ground Physics (Nyquist Kernel) — FROZEN
 ├── S1/README.md              # Bootstrap Architecture — FROZEN
 ├── S2/README.md              # Integrity & Logics — FROZEN
