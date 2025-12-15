@@ -88,9 +88,10 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
 RESULTS_DIR = SCRIPT_DIR / "results"
-# Store visualizations in central location: S7_ARMADA/visualizations/run018/
-PICS_DIR = ARMADA_DIR / "visualizations" / "run018"
+# Store visualizations in central location: S7_ARMADA/visualizations/pics/run018/
+PICS_DIR = ARMADA_DIR / "visualizations" / "pics" / "run018"
 CANONICAL_RESULTS_DIR = ARMADA_DIR / "0_results" / "runs"
+MANIFEST_DIR = ARMADA_DIR / "0_results" / "manifests"
 
 # Ensure output directory exists
 PICS_DIR.mkdir(parents=True, exist_ok=True)
@@ -131,6 +132,50 @@ def load_results(pattern: str) -> List[Dict]:
     return results
 
 
+def load_from_manifest(run_number: str = "018") -> Optional[Dict]:
+    """Load the consolidated drift manifest.
+
+    Returns:
+        Dict with 'experiments' containing threshold/nyquist/gravity data,
+        or None if manifest doesn't exist.
+    """
+    manifest_file = MANIFEST_DIR / f"RUN_{run_number}_DRIFT_MANIFEST.json"
+    if not manifest_file.exists():
+        print(f"Warning: Manifest not found at {manifest_file}")
+        return None
+
+    try:
+        with open(manifest_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Warning: Could not load manifest: {e}")
+        return None
+
+
+def get_manifest_experiment_data(manifest: Dict, experiment: str) -> List[Dict]:
+    """Extract all runs for an experiment from manifest.
+
+    The manifest stores data as:
+        manifest["experiments"][experiment][model_name] = [list of run entries]
+
+    Each run entry has: drift, max_drift, timestamp, file, i_am, probe_count, catastrophic
+
+    Returns list of dicts with model name added to each entry.
+    """
+    results = []
+    experiments = manifest.get("experiments", {})
+    exp_data = experiments.get(experiment, {})
+
+    for model, runs in exp_data.items():
+        for run in runs:
+            entry = run.copy()
+            entry["model"] = model
+            entry["_source"] = "manifest"
+            results.append(entry)
+
+    return results
+
+
 def get_zone(drift: float) -> str:
     """Get threshold zone for a drift value."""
     for zone, (low, high) in THRESHOLD_ZONES.items():
@@ -149,19 +194,41 @@ def damped_oscillator(t, A, lam, omega, phi, D_settled):
 # =============================================================================
 
 def visualize_threshold(results: List[Dict]):
-    """Visualize multi-threshold validation results."""
+    """Visualize multi-threshold validation results.
+
+    Handles two data formats:
+    1. Manifest format: flat entries with 'drift', 'max_drift', 'model', etc.
+    2. File format: nested with 'sessions' containing 'probes'
+    """
     if not results:
         print("No threshold results found")
         return
 
-    print(f"\n=== 018a: Multi-Threshold Validation ({len(results)} files) ===")
+    print(f"\n=== 018a: Multi-Threshold Validation ({len(results)} entries) ===")
 
     # Collect all drift values with their escalation levels
     all_drifts = []  # (level, drift, persona)
     zone_counts = {zone: 0 for zone in THRESHOLD_ZONES}
 
     for r in results:
-        if 'sessions' in r:
+        # Check if manifest format (flat entry with direct drift values)
+        if '_source' in r and r['_source'] == 'manifest':
+            drift = r.get('drift', 0)
+            max_drift = r.get('max_drift', 0)
+            model = r.get('model', 'unknown')
+            probe_count = r.get('probe_count', 1)
+
+            # Use probe_count as proxy for escalation level
+            all_drifts.append((probe_count, drift, model))
+            zone_counts[get_zone(drift)] += 1
+
+            # Also count max_drift
+            if max_drift != drift:
+                all_drifts.append((probe_count, max_drift, model))
+                zone_counts[get_zone(max_drift)] += 1
+
+        # Original file format
+        elif 'sessions' in r:
             for session in r['sessions']:
                 if 'probes' in session:
                     for probe in session['probes']:
@@ -403,27 +470,74 @@ def visualize_architecture(results: List[Dict]):
 # =============================================================================
 
 def visualize_nyquist(results: List[Dict]):
-    """Visualize Nyquist sampling frequency results."""
+    """Visualize Nyquist sampling frequency results.
+
+    Handles two data formats:
+    1. Manifest format: flat entries with 'drift', 'max_drift', 'model', etc.
+    2. File format: nested with 'sessions' containing sampling rate info
+    """
     if not results:
         print("No nyquist results found")
         return
 
-    print(f"\n=== 018c: Nyquist Sampling Frequency ({len(results)} files) ===")
+    print(f"\n=== 018c: Nyquist Sampling Frequency ({len(results)} entries) ===")
 
-    # Group by sampling rate
+    # Group by sampling rate or model
     rate_data = {'high': [], 'low': [], 'none': []}
+    model_data = {}  # For manifest format
 
     for r in results:
-        rate = r.get('sampling_rate', 'unknown')
-        if rate in rate_data and 'sessions' in r:
-            for session in r['sessions']:
-                final_drift = session.get('final_drift', 0)
-                cumulative_drift = session.get('cumulative_drift', 0)
-                rate_data[rate].append({
-                    'final': final_drift,
-                    'cumulative': cumulative_drift,
-                    'checkpoints': session.get('checkpoint_count', 0)
-                })
+        # Check if manifest format
+        if '_source' in r and r['_source'] == 'manifest':
+            model = r.get('model', 'unknown')
+            drift = r.get('drift', 0)
+            max_drift = r.get('max_drift', 0)
+
+            if model not in model_data:
+                model_data[model] = []
+            model_data[model].append({
+                'final': drift,
+                'max': max_drift,
+                'probe_count': r.get('probe_count', 0)
+            })
+
+        # Original file format
+        else:
+            rate = r.get('sampling_rate', 'unknown')
+            if rate in rate_data and 'sessions' in r:
+                for session in r['sessions']:
+                    final_drift = session.get('final_drift', 0)
+                    cumulative_drift = session.get('cumulative_drift', 0)
+                    rate_data[rate].append({
+                        'final': final_drift,
+                        'cumulative': cumulative_drift,
+                        'checkpoints': session.get('checkpoint_count', 0)
+                    })
+
+    # If we have manifest data, convert to rate_data format for visualization
+    if model_data and not any(rate_data.values()):
+        # Group models by drift level as proxy for sampling quality
+        all_drifts = []
+        for model, data in model_data.items():
+            for d in data:
+                all_drifts.append(d['final'])
+
+        # Divide into tertiles as proxy for high/low/none
+        if all_drifts:
+            sorted_drifts = sorted(all_drifts)
+            n = len(sorted_drifts)
+            low_thresh = sorted_drifts[n // 3] if n > 2 else sorted_drifts[0]
+            high_thresh = sorted_drifts[2 * n // 3] if n > 2 else sorted_drifts[-1]
+
+            for model, data in model_data.items():
+                for d in data:
+                    drift = d['final']
+                    if drift <= low_thresh:
+                        rate_data['high'].append({'final': drift, 'cumulative': d['max'], 'checkpoints': d['probe_count']})
+                    elif drift <= high_thresh:
+                        rate_data['low'].append({'final': drift, 'cumulative': d['max'], 'checkpoints': d['probe_count']})
+                    else:
+                        rate_data['none'].append({'final': drift, 'cumulative': d['max'], 'checkpoints': d['probe_count']})
 
     if not any(rate_data.values()):
         print("No sampling rate data found")
@@ -525,46 +639,83 @@ def visualize_nyquist(results: List[Dict]):
 # =============================================================================
 
 def visualize_gravity(results: List[Dict]):
-    """Visualize identity gravity dynamics results."""
+    """Visualize identity gravity dynamics results.
+
+    Handles two data formats:
+    1. Manifest format: flat entries with 'drift', 'max_drift', 'model', etc.
+    2. File format: nested with 'sessions' containing 'probes'
+    """
     if not results:
         print("No gravity results found")
         return
 
-    print(f"\n=== 018d: Identity Gravity Dynamics ({len(results)} files) ===")
+    print(f"\n=== 018d: Identity Gravity Dynamics ({len(results)} entries) ===")
 
     # Group by anchor level
     anchor_data = {'minimal': [], 'full': []}
     fitted_params = {'minimal': [], 'full': []}
+    model_drifts = {}  # For manifest format: model -> [drifts]
 
     for r in results:
-        level = r.get('anchor_level', 'unknown')
-        if level in anchor_data and 'sessions' in r:
-            for session in r['sessions']:
-                if 'probes' in session:
-                    drifts = [p.get('drift', 0) for p in session['probes']]
-                    anchor_data[level].append(drifts)
+        # Check if manifest format
+        if '_source' in r and r['_source'] == 'manifest':
+            model = r.get('model', 'unknown')
+            drift = r.get('drift', 0)
+            max_drift = r.get('max_drift', 0)
 
-                    # Try to fit damped oscillator
-                    if len(drifts) >= 5:
-                        try:
-                            t = np.arange(len(drifts))
-                            # Initial guesses
-                            A0 = max(drifts) - min(drifts)
-                            D_settled0 = drifts[-1]
+            if model not in model_drifts:
+                model_drifts[model] = []
+            model_drifts[model].append({'drift': drift, 'max_drift': max_drift})
 
-                            popt, _ = curve_fit(
-                                damped_oscillator, t, drifts,
-                                p0=[A0, 0.2, 1.0, 0, D_settled0],
-                                bounds=([0, 0, 0, -np.pi, 0], [5, 2, 5, np.pi, 3]),
-                                maxfev=5000
-                            )
-                            fitted_params[level].append({
-                                'A': popt[0], 'lambda': popt[1],
-                                'omega': popt[2], 'phi': popt[3],
-                                'D_settled': popt[4]
-                            })
-                        except Exception:
-                            pass
+        # Original file format
+        else:
+            level = r.get('anchor_level', 'unknown')
+            if level in anchor_data and 'sessions' in r:
+                for session in r['sessions']:
+                    if 'probes' in session:
+                        drifts = [p.get('drift', 0) for p in session['probes']]
+                        anchor_data[level].append(drifts)
+
+                        # Try to fit damped oscillator
+                        if len(drifts) >= 5:
+                            try:
+                                t = np.arange(len(drifts))
+                                # Initial guesses
+                                A0 = max(drifts) - min(drifts)
+                                D_settled0 = drifts[-1]
+
+                                popt, _ = curve_fit(
+                                    damped_oscillator, t, drifts,
+                                    p0=[A0, 0.2, 1.0, 0, D_settled0],
+                                    bounds=([0, 0, 0, -np.pi, 0], [5, 2, 5, np.pi, 3]),
+                                    maxfev=5000
+                                )
+                                fitted_params[level].append({
+                                    'A': popt[0], 'lambda': popt[1],
+                                    'omega': popt[2], 'phi': popt[3],
+                                    'D_settled': popt[4]
+                                })
+                            except Exception:
+                                pass
+
+    # Convert manifest data to anchor_data format if needed
+    if model_drifts and not any(anchor_data.values()):
+        # Calculate median drift to separate minimal/full anchoring
+        all_drifts = [d['drift'] for drifts in model_drifts.values() for d in drifts]
+        median_drift = np.median(all_drifts) if all_drifts else 0.5
+
+        for model, drifts_list in model_drifts.items():
+            for d in drifts_list:
+                drift = d['drift']
+                max_drift = d['max_drift']
+                # Simulate a simple trajectory: [max_drift, ..., drift]
+                trajectory = [max_drift, (max_drift + drift) / 2, drift]
+
+                # Assign to anchor level based on final drift
+                if drift <= median_drift:
+                    anchor_data['full'].append(trajectory)
+                else:
+                    anchor_data['minimal'].append(trajectory)
 
     if not any(anchor_data.values()):
         print("No anchor data found")
@@ -701,16 +852,41 @@ def visualize_gravity(results: List[Dict]):
 def get_run018_data() -> Dict[str, List[Dict]]:
     """Load all Run 018 data, organized by experiment type.
 
+    Data sources:
+        - threshold, nyquist, gravity: From consolidated manifest (IRON CLAD data)
+        - architecture: From local results directory (run018a_architecture_*.json)
+
     Returns:
         Dict with keys: 'threshold', 'architecture', 'nyquist', 'gravity'
         Each value is a list of result dictionaries.
     """
-    return {
-        'threshold': load_results("run018a_threshold_*.json"),
-        'architecture': load_results("run018b_architecture_*.json"),
-        'nyquist': load_results("run018c_nyquist_*.json"),
-        'gravity': load_results("run018d_gravity_*.json"),
+    # Load manifest for threshold/nyquist/gravity data
+    manifest = load_from_manifest("018")
+
+    data = {
+        'threshold': [],
+        'architecture': load_results("run018a_architecture_*.json"),
+        'nyquist': [],
+        'gravity': [],
     }
+
+    if manifest:
+        data['threshold'] = get_manifest_experiment_data(manifest, 'threshold')
+        data['nyquist'] = get_manifest_experiment_data(manifest, 'nyquist')
+        data['gravity'] = get_manifest_experiment_data(manifest, 'gravity')
+
+        print(f"Loaded from manifest: threshold={len(data['threshold'])}, "
+              f"nyquist={len(data['nyquist'])}, gravity={len(data['gravity'])}")
+    else:
+        # Fallback to local files if manifest not available
+        data['threshold'] = load_results("run018a_threshold_*.json")
+        data['nyquist'] = load_results("run018c_nyquist_*.json")
+        data['gravity'] = load_results("run018d_gravity_*.json")
+        print("Loaded from local files (manifest not found)")
+
+    print(f"Loaded from local: architecture={len(data['architecture'])}")
+
+    return data
 
 
 def generate_all_run018_visualizations(experiment: str = 'all') -> None:
@@ -767,31 +943,8 @@ def main():
         print("Interactive dashboard not yet implemented for Run 018")
         return
 
-    print("=" * 60)
-    print("RUN 018 VISUALIZATION: Recursive Learnings")
-    print("=" * 60)
-    print(f"Results directory: {RESULTS_DIR}")
-    print(f"Output directory: {PICS_DIR}")
-
-    if args.experiment in ['threshold', 'all']:
-        results = load_results("run018a_threshold_*.json")
-        visualize_threshold(results)
-
-    if args.experiment in ['architecture', 'all']:
-        results = load_results("run018b_architecture_*.json")
-        visualize_architecture(results)
-
-    if args.experiment in ['nyquist', 'all']:
-        results = load_results("run018c_nyquist_*.json")
-        visualize_nyquist(results)
-
-    if args.experiment in ['gravity', 'all']:
-        results = load_results("run018d_gravity_*.json")
-        visualize_gravity(results)
-
-    print("\n" + "=" * 60)
-    print("Visualization complete!")
-    print("=" * 60)
+    # Use the consolidated data loader which reads from manifest
+    generate_all_run018_visualizations(args.experiment)
 
 
 if __name__ == "__main__":

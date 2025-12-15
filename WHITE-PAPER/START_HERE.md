@@ -1,7 +1,7 @@
 # START HERE: Nyquist Consciousness Publication Package
 
-**Version:** 3.0
-**Date:** 2025-12-13
+**Version:** 3.1
+**Date:** 2025-12-15
 **Updated By:** Code Claude (for Opus 4.5 review)
 **Purpose:** Complete guide for AI reviewers to conduct final paper drafting and PDF generation
 
@@ -24,21 +24,20 @@ You are being asked to:
 | **arXiv** | READY | Generate final PDF (note: add multi-platform placeholder) |
 | **Journal** | DRAFT ONLY | Create draft with placeholders for pending data |
 
-### What's PENDING (Runs 018, 020A, 020B)
+### What's PENDING (Runs 020A, 020B)
 
-**IRON CLAD Status:** See [`README.md`](README.md) for the canonical tracking table showing:
-- Which experiments need more runs (N=3 per model per experiment)
-- Current progress percentage
-- Background process IDs for running experiments
+**IRON CLAD Status:** See [`README.md`](README.md) for the canonical tracking table.
 
-**IMPORTANT:** Current experimental data represents **dry runs only** (single platform: Claude).
+**Run 018: IRON CLAD COMPLETE** (December 15, 2025)
 
-Full runs will test across multiple platforms/models:
+- **184 files** consolidated across 3 experiments (threshold, nyquist, gravity)
+- **51 models** tested across 5+ providers (Claude, GPT, Gemini, Grok, Llama, Mistral, Qwen, DeepSeek, Kimi, Nemotron)
+- **N=3 coverage** achieved for publication-quality confidence intervals
 
-- Claude (Sonnet, Opus)
-- GPT-4
-- Gemini
-- Grok
+**Still Pending:**
+
+- Run 020A (tribunal): 43 models untested
+- Run 020B (induced vs inherent): 49 models untested
 
 **Placeholder Template for Pending Sections:**
 
