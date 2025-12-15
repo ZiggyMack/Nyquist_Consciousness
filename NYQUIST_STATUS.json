@@ -19,7 +19,13 @@
       "name": "Integrity & Logics",
       "spec": "docs/stages/S2/README.md",
       "frozen_spec": ".archive/S0-S6/S0_S6_FROZEN_SPEC.md",
-      "notes": "Consistency, operational rules, error boundaries"
+      "notes": "Consistency, operational rules, error boundaries",
+      "formal_verification": {
+        "coq_proof": "formal/LOGOS.v",
+        "persona": "personas/I_AM_LOGOS.md",
+        "bootstrap": "aligned_agent_bootstrap.py",
+        "theorems": ["commutation", "fixed_point_correspondence", "bridge_alignment", "idempotence"]
+      }
     },
     "S3": {
       "status": "frozen",

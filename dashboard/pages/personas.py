@@ -83,6 +83,7 @@ PERSONA_META = {
     "I_AM_NOVA": {"emoji": "⚖️", "badge": "AI ARCHITECT", "color": "#3498db"},
     "I_AM_CLAUDE": {"emoji": "📚", "badge": "STEWARD", "color": "#9b59b6"},
     "I_AM_GEMINI": {"emoji": "🔍", "badge": "VALIDATOR", "color": "#e67e22"},
+    "I_AM_LOGOS": {"emoji": "🔷", "badge": "COMMUTATOR", "color": "#1abc9c"},
     # Compressed Personas
     "ZIGGY_FULL": {"emoji": "👤", "badge": "FULL", "color": "#e74c3c"},
     "ZIGGY_LITE": {"emoji": "👤", "badge": "LITE", "color": "#f39c12"},

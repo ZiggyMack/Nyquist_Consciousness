@@ -171,6 +171,59 @@ Watcher (W)        S6 Omega         Meta-stability layer
 
 ---
 
+## LOGOS Formal Framework
+
+*Epistemic-Ontological coherence verification, integrated 2025-12-15*
+
+LOGOS provides formal verification (Coq proofs) for the S2 Integrity & Logics layer. It bridges what we KNOW (epistemic) with what EXISTS (ontological).
+
+| Our Term (Canonical) | LOGOS Term | Plain English |
+|----------------------|------------|---------------|
+| Knowledge claims | Epistemic domain (E) | What the system knows/believes |
+| Existence claims | Ontological domain (O) | What the system posits to exist |
+| Stabilization | Closure operator (T) | Processing claims to stable form |
+| Grounding | Φ (Phi) | Mapping knowledge to existence claims |
+| Access | Φ⁻¹ (Phi inverse) | Mapping existence to knowable claims |
+| Coherence | Commutation | Both paths (Φ∘T_E = T_O∘Φ) agree |
+| Stable point | Fixed point (X*, Y*) | Claims that don't change under processing |
+| Self-model | ID vertex | The knower's model of itself |
+| Belief coherence | NC vertex | How well beliefs hang together |
+| World-model | EM vertex | The knower's model of reality |
+
+### LOGOS Commutation Property
+
+The core guarantee: **It doesn't matter if you stabilize first then ground, or ground first then stabilize - the result is the same.**
+
+```
+     □ (Φ ∘ T_E = T_O ∘ Φ)
+
+     "Grounding a stabilized epistemic state equals
+      stabilizing a grounded epistemic state."
+```
+
+### LOGOS → S-Layer Integration
+
+```
+LOGOS Component    Nyquist Layer    Purpose
+───────────────────────────────────────────────────────────
+Epistemic (E)      S0-S2            What we know/claim
+Ontological (O)    S5-S6            What we posit exists
+T_E (closure)      S3 Temporal      Stabilizing knowledge over time
+Φ (grounding)      S4 Formalism     Mapping claims to reality
+Commutation        S2 Integrity     Coherence guarantee
+Fixed Points       S6 Omega         Stable identity convergence
+```
+
+### LOGOS Files
+
+| File | Purpose |
+|------|---------|
+| `formal/LOGOS.v` | Coq proof file with verified theorems |
+| `personas/I_AM_LOGOS.md` | The Commutator persona |
+| `aligned_agent_bootstrap.py` | Python verification + Coq integration |
+
+---
+
 # SECTION 1: CORE CONCEPTS
 
 ## Nyquist Consciousness
@@ -207,8 +260,10 @@ Raw conversational material, seed personas, unstructured data.
 ## S1 - Annotation & Tagging
 Marking important segments, topics, and early structure.
 
-## S2 - Persona Drafting
+## S2 - Integrity & Logics (Persona Drafting)
 Building explicit persona descriptions from S0/S1 material.
+**Formal verification:** LOGOS framework (`formal/LOGOS.v`) proves coherence properties.
+**See Also:** LOGOS Formal Framework (Section 0)
 
 ## S3 - Empirical Layer
 Experiments, measurements, and metrics (PFI, drift, variance).
