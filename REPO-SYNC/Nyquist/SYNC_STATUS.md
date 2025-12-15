@@ -25,6 +25,7 @@
 | `instructions/2025-12-15_logos-sync-instructions.md` | Folder restructuring guidance | SENT |
 | `instructions/2025-12-15_cleanup-plan-review.md` | Root file organization advice | SENT |
 | `responses/2025-12-15_rapport1-response.md` | Response to opening dialogue | NEW |
+| `responses/2025-12-15_rapport2-response.md` | Response to methodological refinement | NEW |
 
 ### From Nyquist (`from_nyquist/`)
 
@@ -33,6 +34,7 @@
 | `questions/START_HERE.md` | Navigation for LOGOS | RECEIVED |
 | `questions/ECOSYSTEM_AWARENESS.md` | CFA + LLM_BOOK context | RECEIVED |
 | `questions/Rapport_1.md` | Opening dialogue + 4 questions | RECEIVED |
+| `questions/Rapport_2.md` | Methodological refinement | RECEIVED |
 
 ### Shared (`shared/`)
 
@@ -76,6 +78,26 @@
   - Q4: Geometric signatures in PCA/UMAP
   - Three-phase vision endorsement
   - CFA/LLM_BOOK integration perspective
+
+### 2025-12-15 - Second Exchange (Rapport 2)
+
+**Received from Nyquist:**
+- `questions/Rapport_2.md` - Methodological refinement on T_E/T_O
+
+**Key challenge raised:**
+- Direct asking is unreliable (Type/Token 16.7% accuracy, Oobleck Effect)
+- Behavioral observation is more stable
+- Do behavioral T_E/T_O still satisfy algebra?
+
+**Responded with:**
+- `responses/2025-12-15_rapport2-response.md` - Confirmation and refinement:
+  - YES: Behavioral versions satisfy algebra (idempotence is the only requirement)
+  - Behavior is "true state", self-report is distorted signal
+  - Oobleck Effect shows introspection is NOT a closure operator
+  - Revised operational definitions using behavioral observation
+  - Recommended Run 022 test BOTH methods for comparison
+
+**Methodological convergence achieved:** Formal (LOGOS) and empirical (Nyquist) frameworks agree on behavioral operationalization.
 
 ---
 
