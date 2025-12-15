@@ -1,0 +1,18 @@
+%% Diagram 2: Domain Invariance Lattice
+%% For S4_CORE_AXIOMS.md
+%% Hierarchical structure of domain compression difficulty
+
+flowchart BT
+    NARR["<b>NARR</b><br/>Narrative/Voice<br/>(Highest Drift)"]
+    PHIL_SELF["<b>SELF ≈ PHIL</b><br/>Self-Reflective<br/>Philosophical"]
+    ANAL["<b>ANAL</b><br/>Analytical<br/>Structural"]
+    TECH["<b>TECH</b><br/>Technical<br/>(Lowest Drift)"]
+
+    NARR --> PHIL_SELF
+    PHIL_SELF --> ANAL
+    ANAL --> TECH
+
+    style NARR fill:#ffcdd2,stroke:#c62828,stroke-width:3px
+    style PHIL_SELF fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    style ANAL fill:#c8e6c9,stroke:#388e3c,stroke-width:2px
+    style TECH fill:#bbdefb,stroke:#1565c0,stroke-width:3px

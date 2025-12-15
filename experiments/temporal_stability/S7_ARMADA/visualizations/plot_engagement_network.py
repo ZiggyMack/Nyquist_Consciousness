@@ -55,7 +55,7 @@ def get_engagement_style(provider):
 def load_data():
     """Load baseline results."""
     base_dir = Path(__file__).parent.parent
-    baseline_path = base_dir / "armada_results" / "S7_armada_run_006.json"
+    baseline_path = base_dir / "results" / "runs" / "S7_armada_run_006.json"
 
     with open(baseline_path) as f:
         baseline = json.load(f)

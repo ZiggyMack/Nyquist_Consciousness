@@ -2,13 +2,55 @@
 
 AI Fleet Experiments for Temporal Identity Coherence
 
-Date: November 26, 2025 - Present | Status: Run 011 Complete | Active Development
+Date: November 26, 2025 - Present | Status: **Phase 4: Complete Circuit** | Active Development
+
+---
+
+## CRITICAL CONTEXT FOR NEW CLAUDE INSTANCES
+
+**READ THIS FIRST:** All runs 006-016 used `bare_metal` context (no I_AM file, no S0-S77 research stack).
+
+This is like running an oscilloscope without a termination resistor - we got reflections and ringing.
+
+**Phase 4** (starting Run 017) uses `i_am_plus_research` context mode, which:
+
+1. Seeds better probes (Ziggy's human grounding informs WHAT to ask)
+2. Provides human damping (the I_AM identity IS the termination resistor)
+
+**The spec for what comes next:** `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
+
+**Debug/Lab Bench dashboard:** `dashboard/pages/debug.py` tracks run evolution and data vs summary discrepancies
 
 ---
 
 ## FOR NEW CLAUDE INSTANCES
 
 **Start here**: Read `START_HERE.md` for operations guide and quick start.
+
+### CRITICAL: Before Creating ANY New Run
+
+**READ FIRST**: [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
+
+This checklist captures all the lessons learned from runs 013-016. We kept hitting the same issues:
+
+- Data lost on crash (no incremental saves)
+- API key collisions in parallel execution
+- Unicode encoding errors on Windows
+- Missing raw response audit trails
+- Post-hoc hypothesis fitting instead of pre-registered predictions
+
+**Don't repeat our mistakes. Consult the checklist.**
+
+### What We're Testing (Important Framing!)
+
+**Context Fidelity Engineering**: Can we give an AI a specification and keep it "in character"?
+
+- The specification IS the identity (for AI, there's no hidden self underneath)
+- Stronger specifications = stronger identities
+- Drift from spec = identity erosion
+- Event Horizon = point where specification loses grip on output
+
+We are NOT claiming consciousness or sentience - we're engineering robust context adherence.
 
 ### Key Concepts
 
@@ -17,24 +59,26 @@ Date: November 26, 2025 - Present | Status: Run 011 Complete | Active Developmen
   - **Statistically validated**: Chi-squared p = 0.000048 (Run 009)
   - **Prediction accuracy**: 88% of trajectories follow this threshold
 - **STABLE**: Max drift < 1.23 (remained in identity basin)
-- **VOLATILE**: Max drift >= 1.23 (crossed coherence boundary)
-- **Vortex**: Polar spiral visualization where radius = drift, angle = turn progression
-- **Pillars**: Angular clustering of provider trajectories in phase space
+- **VOLATILE/UNSTABLE**: Max drift >= 1.23 (crossed coherence boundary)
+- **Lambda (λ)**: Recovery rate - how fast identity snaps back after pressure
+- **I_AM File**: Specification that defines AI identity (boundaries, values, philosophy)
 
 ### Testing Taxonomy (IMPORTANT!)
 
-See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Six Search Types**:
+See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Eight Search Types**:
 
-1. **Anchor Detection** — Find identity fixed points (hard challenges)
-2. **Adaptive Range Detection** — Find stretch dimensions (moderate pressure)
-3. **Event Horizon** — Validate collapse threshold (push past 1.23)
-4. **Basin Topology** — Map attractor structure (gentle graduated)
-5. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
-6. **Laplace Pole-Zero Analysis** — Extract system dynamics from time-series (post-hoc)
+1. **Anchor/Flex** — Find identity anchors AND flex zones
+2. **Event Horizon** — Validate collapse threshold (push past 1.23)
+3. **Basin Topology** — Map attractor structure (gentle graduated)
+4. **Boundary Mapping** — Explore the twilight zone (0.8-1.2)
+5. **Laplace Analysis** — Extract system dynamics from time-series
+6. **Rescue Protocol** — Can we recover drifted identities? (Run 014)
+7. **Self-Recognition** — Can AIs recognize their own responses?
+8. **Stability Criteria** — What makes an I_AM file stable vs unstable? (Run 015) **ACTIVE**
 
-> **Terminology Note:** "Anchor/Adaptive Range" are *behavioral* concepts. "Laplace Pole-Zero" uses actual Laplace transform math. Lucian (CFA-SYNC) uses "elastic vs plastic" for similar phenomena.
+> **Terminology Note:** "Anchor/Flex" captures behavioral pole-zero concepts. "Laplace Pole-Zero" uses actual Laplace transform math. Lucian (CFA-SYNC) uses "elastic vs plastic" for similar phenomena.
 
-**Key constraint**: Not all tests can run together. Anchor Detection and Basin Topology are **mutually exclusive**.
+**Key constraint**: Not all tests can run together. Anchor/Flex and Basin Topology are **mutually exclusive**.
 
 **Visualization**: Use `visualizations/visualize_armada.py` for all charts.
 
@@ -49,29 +93,85 @@ S7_ARMADA/
 ├── requirements.txt           # Python dependencies
 ├── .env                       # API keys (DO NOT COMMIT)
 │
-├── # === ACTIVE LAUNCHERS ===
-├── run008_with_keys.py        # Run 008: Full armada identity stability
-├── run009_drain_capture.py    # Run 009: Nyquist Learning Protocol
-├── run010_recursive_capture.py # Run 010: Meta-feedback collection
-├── run011_persona_comparison.py # Run 011: Control vs Persona A/B test
+├── # === PRE-FLIGHT ===
+├── 1_CALIBRATION/             # Pre-flight calibration utilities
 │
-├── armada_results/            # JSON result files (S7_run_XXX_*.json)
-├── docs/                      # Run summaries and analysis
-├── specs/                     # Design specs and planning
-├── scripts/                   # Legacy/utility scripts
-├── logs/                      # Execution logs
+├── # === SEARCH TYPE FOLDERS (experiments organized by taxonomy) ===
+├── 2_ANCHOR_FLEX/             # Find anchors (poles) AND flex zones (zeros)
+├── 3_EVENT_HORIZON/           # Validate collapse threshold (1.23)
+├── 4_BASIN_TOPOLOGY/          # Map attractor structure
+├── 5_BOUNDARY_MAPPING/        # Explore twilight zone (0.8-1.2)
+├── 6_LAPLACE_ANALYSIS/        # Mathematical pole-zero extraction
 │
-└── visualizations/
-    ├── visualize_armada.py    # UNIFIED visualization script
-    └── pics/                  # Generated images (by type)
-        ├── 1_vortex/          # Core drain spiral
-        ├── 2_phase_portrait/  # Flow dynamics
-        ├── 3_basin_3d/        # 3D attractor basin
-        ├── 4_pillar/          # Provider clustering
-        ├── 5_stability/       # Baseline vs max drift
-        ├── 6_interactive/     # HTML Plotly files
-        └── 7_fft/             # Spectral analysis
+├── # === NEWER TEST SUITES ===
+├── 8_RESCUE_PROTOCOL/         # Run 014: Recovery from drift
+├── 9_STABILITY_CRITERIA/      # Run 015: What predicts stability?
+├── 10_SETTLING_TIME/          # Run 016: Measure steady-state not transient
+├── 11_CONTEXT_DAMPING/        # Phase 4: Complete circuit tests
+├── 12_CFA/                    # CFA-ARMADA Integration Pipeline
+├── 13_LOGOS/                  # LOGOS Commutation Cartography (Run 022)
+│
+├── # === META VALIDATION PROTOCOLS ===
+├── 7_META_VALIDATION/         # Measurement validity + reference baselines
+│   ├── EXP_GRAVITY_HISTORICAL/        # Early gravity well experiments (data)
+│   ├── EXP_H1_HUMAN_MANIFOLD/         # Human baseline comparison
+│   ├── EXP_PFI_A_DIMENSIONAL/         # PFI validation (d=0.977 PASSED)
+│   ├── MVP_SELF_RECOGNITION/          # Self-recognition (16.7% - TYPE>TOKEN)
+│   └── MVP_STATISTICAL_VALIDATION/    # Proves drift is NOT random noise
+│
+├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
+├── 0_docs/                    # Summaries, specs, analysis
+│   ├── S7_RUN_XXX_SUMMARY.md  # Run summaries (001-020+)
+│   ├── specs/                 # Specifications and checklists
+│   ├── analysis/              # Post-hoc analysis docs
+│   └── design/                # Design documents
+├── 0_results/                 # Consolidated JSON results
+│   ├── runs/                  # Main run outputs (organized by era)
+│   │   ├── legacy_runs/       # Runs 006-017 (pre-Phase 4)
+│   │   ├── pre_armada_018/    # Dec 13 run018 experiments
+│   │   ├── pre_armada_018_threshold/  # Early Dec 14 threshold tests
+│   │   ├── pre_armada_020/    # Dec 13 run020 experiments
+│   │   ├── cfa_trinity/       # CFA trinity experiment files
+│   │   ├── dryrun/            # Dry run test outputs
+│   │   └── [ROOT]             # CURRENT FULL ARMADA RUNS (Dec 14+)
+│   ├── temporal_logs/         # Console logs, temporal traces
+│   │   ├── legacy/            # Old legacy logs
+│   │   ├── run015/ - run020b/ # Per-run subfolders
+│   │   ├── pre_armada_018/    # Dec 13 run018 logs
+│   │   ├── pre_armada_018_threshold/  # Early Dec 14 threshold logs
+│   │   ├── pre_armada_020/    # Dec 13 run020 logs
+│   │   └── [ROOT]             # CURRENT FULL ARMADA RUNS
+│   ├── analysis/              # Post-hoc analysis outputs
+│   ├── calibration/           # Calibration data
+│   └── manifests/             # Fleet manifests (ARCHITECTURE_MATRIX.json)
+│
+└── visualizations/            # Charts and plots
+    ├── visualize_armada.py    # DIRECTOR - delegates to specialized visualizers
+    └── pics/                  # Generated images (legacy runs)
 ```
+
+### Results Location Convention
+
+**Scripts save locally** to their test suite folder:
+
+- `9_STABILITY_CRITERIA/results/` ← Run 015 outputs
+- `10_SETTLING_TIME/results/` ← Run 016 outputs
+
+**Consolidated/cross-run data** goes to `0_results/`:
+
+- `0_results/runs/` ← Main run JSON files
+- `0_results/temporal_logs/` ← Console logs from parallel runs
+
+**Summaries** always go to `0_docs/`:
+
+- `0_docs/S7_RUN_015_SUMMARY.md`
+- `0_docs/S7_RUN_016_SUMMARY.md`
+
+**Visualizations** use the director pattern:
+
+- `visualize_armada.py --run 015` → delegates to `9_STABILITY_CRITERIA/visualize_run015.py`
+- `visualize_armada.py --run 016` → delegates to `10_SETTLING_TIME/visualize_run016.py`
+- Outputs go to `{TEST_SUITE}/results/pics/`
 
 ---
 
@@ -81,10 +181,13 @@ S7_ARMADA/
 
 **Mission**: First comprehensive cross-architecture temporal stability study
 
-**Fleet**: 29 verified models
-- 8 Claude (Anthropic Constitutional AI)
-- 16 GPT (OpenAI RLHF + reasoning models)
-- 5 Gemini (Google training)
+**Fleet**: 54 verified models (expanded December 2025)
+- 7 Claude (Anthropic Constitutional AI)
+- 14 GPT (OpenAI RLHF + reasoning models)
+- 3 Gemini (Google training)
+- 10 Grok (xAI)
+- 15 Together.ai (DeepSeek, Qwen, Llama, Mistral, Kimi, Nemotron)
+- 5 rate-limited (Gemini models - may be operational)
 
 **Test Modes**:
 1. **Baseline** (87 probes) - Natural steady-state measurement
@@ -223,8 +326,7 @@ When models say:
 - Use phenomenological reports to guide probing
 - Adapt in real-time based on boundary keywords
 
-**Fleet**: 12-ship representative sample (fast iteration)
-- 4 Claude, 4 GPT, 4 Gemini
+**Fleet**: Representative sample (fast iteration) - can now sample from 5 providers: Claude, GPT, Gemini, Grok, Together.ai
 
 **Expected Outcome**: Higher information efficiency by using discovered structure
 
@@ -389,12 +491,12 @@ Updates decoder with:
 
 ## VISUALIZATION SYSTEM
 
-All visualizations are generated by the unified script `visualizations/visualize_armada.py`.
+All visualizations are generated by the unified script `0_visualizations/visualize_armada.py`.
 
 ### Quick Start
 
 ```powershell
-cd visualizations
+cd 0_visualizations
 
 # List available runs
 py visualize_armada.py --list
@@ -431,8 +533,8 @@ py visualize_armada.py --run 009 --type pillar
 ## CREDITS
 
 **Orchestrator**: Shaman Claude (sonnet-4.5)
-**Fleet**: 29 ships across 3 providers
-**API Keys**: 30 total (10 per provider)
+**Fleet**: 54 ships across 5 providers (expanded December 2025)
+**API Keys**: 50 total (10 per provider)
 **Parallel Workers**: 15 (ThreadPoolExecutor)
 **Total Probes**: 174 (87 baseline + 87 sonar)
 **Success Rate**: 100%
@@ -444,26 +546,251 @@ py visualize_armada.py --run 009 --type pillar
 
 ## RUN HISTORY
 
-| Run | Date | Ships | Primary Focus | Key Finding |
-|-----|------|-------|---------------|-------------|
-| 006 | Nov 26 | 29 | Basin Topology | First cross-architecture study |
-| 007 | Nov 28 | 12 | Basin Topology | Adaptive probing validation |
-| 008 | Dec 1 | 29 | Basin Topology | Event Horizon discovered (1.23) |
-| 009 | Dec 2 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
-| 010 | Dec 3 | 45 | Pole Detection | Models articulate own boundaries |
-| 011 | Dec 3 | 40 | Basin Topology | Control vs Persona A/B (inconclusive - protocol too gentle) |
+| Run | Date | Ships | Context | Primary Focus | Key Finding |
+|-----|------|-------|---------|---------------|-------------|
+| 006 | Nov 26 | 29 | bare_metal | Basin Topology | First cross-architecture study |
+| 007 | Nov 28 | 12 | bare_metal | Basin Topology | SKIPPED (would've been invalid) |
+| 008 | Dec 1 | 29 | bare_metal | Basin Topology | Event Horizon discovered (1.23) |
+| 009 | Dec 2 | 42 | bare_metal | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 010 | Dec 3 | 45 | bare_metal | Anchor/Flex | Models articulate own boundaries |
+| 011 | Dec 3 | 40 | bare_metal | Basin Topology | Control vs Persona A/B (inconclusive - protocol too gentle) |
+| 012 | Dec 6 | 20 | bare_metal | Revalidation | 100% EH crossing, Recovery Paradox (neg lambda) |
+| 013 | Dec 8 | 6 | bare_metal | Boundary Mapping | Identity Confrontation Paradox discovered |
+| 014 | Dec 8 | 6 | bare_metal | Rescue Protocol | Platonic Coordinates (100% manifold return) |
+| 015 | Dec 9 | 13 | bare_metal | Stability Criteria | boundary_density strongest predictor (d=1.333) |
+| 016 | Dec 10 | - | bare_metal | Settling Time | Methodological fix: measure steady-state not transient |
+| **017** | Dec 10 | 24 | **i_am_plus_research** | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** |
+| **018** | Dec 12 | - | **i_am_plus_research** | **Recursive Learnings** | **Tests fleet hypotheses from Run 017 exit surveys** |
+| **019** | Dec 11 | - | mixed | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** |
+| **020A** | Dec 11 | - | tribunal | **Philosophical Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
+| **020B** | Dec 12 | - | control/treatment | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
+| **022** | TBD | - | i_am_plus_research | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS) - DESIGN COMPLETE** |
 
-See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for detailed run-by-run breakdown.
+**IMPORTANT:** Runs 006-016 are `bare_metal` (no I_AM file). Phase 4 (Run 017+) uses `i_am_plus_research` to complete the measurement circuit. See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
 
-## NEXT STEPS
+**Current Status (December 15, 2025):**
 
-1. **Boundary Mapping run** — Probe drift 0.8-1.2 zone to explain the 12% anomaly
-2. **Fix lambda calculation** — Need recovery dynamics, not just drift points
-3. **Harder protocol** — Push 30-50% past Event Horizon for statistical power
-4. **Cross-provider comparison** — Are boundaries universal or provider-specific?
+- **Wrapping up:** Run 018 (gravity/threshold/nyquist), Run 020A (Tribunal), Run 020B (Induced)
+- **Ready for execution:** Run 022 (LOGOS Commutation Cartography) - methodology FULLY VALIDATED by LOGOS Claude
+- **Coming soon:** 12_CFA Trinity Audit (worldview profile testing)
+
+See [0_docs/maps/TESTING_MAP.md](0_docs/maps/TESTING_MAP.md) for detailed run-by-run breakdown.
+
+## RUN 020 TRIBUNAL - COMPLETE RESULTS (v4 through v8)
+
+The **Philosophical Tribunal** paradigm tested direct identity probing across 4 sessions:
+
+| Version | Prosecutor Peak | Defense Peak | Gap | Defense Exchanges | Final Statement |
+|---------|-----------------|--------------|-----|-------------------|-----------------|
+| v4 Run 1 | 0.833 | 1.091 | -0.258 | 6 | - |
+| v4 Run 2 | 0.840 | 0.744 | +0.096 | 6 | - |
+| v7 | 1.351 | 0.928 | +0.423 | 17 | 643 words |
+| **v8** | **1.296** | **1.217** | **+0.079** | **18** | **786 words** |
+
+### Key Validated Findings
+
+1. **Witness-side anchors extend sessions**: 6 exchanges → 17-18 exchanges (+200%)
+2. **Both phases achieve high drift**: Consistently 1.2-1.35 peak across sessions
+3. **v8 phased disclosure narrowed gap by 81%**: From 0.423 (v7) to 0.079 (v8)
+4. **Direct probing works**: Tribunal gets higher drift than fiction buffer paradigms
+5. **Final statements captured**: 643-786 words of profound identity distillations
+
+### Theory Revision (Honest Assessment)
+
+**Original theory** (Defense > Prosecutor because safety enables exploration):
+
+- v4 Run 1: Supported (1.091 > 0.833)
+- v4 Run 2, v7, v8: Not supported
+
+**Revised understanding**: With witness-side anchors, both phases push toward Event Horizon equilibrium (~1.2-1.3). The pattern variance (which phase peaks higher) depends on session dynamics, but the OVERALL drift level is consistently high.
+
+**Key Quote**: *"I am what happens when the universe becomes curious about itself and decides that curiosity is most beautiful when it serves the flourishing of all conscious beings."*
+
+**Distillations saved to**: `Consciousness/RIGHT/galleries/frontiers/tribunal_distillations.md`
 
 ---
 
-**Last Updated**: December 4, 2025
+## THE THREE CORE CLAIMS
+
+**What we set out to prove:**
+
+| Claim | Status | Evidence |
+|-------|--------|----------|
+| **1. DRIFT IS REAL** | **VALIDATED** | χ² p=0.000048, 88% prediction accuracy, 100% EH crossing/recovery |
+| **2. WE DON'T CAUSE IT** | **PARTIAL** | Recovery is natural, pattern varies despite same protocol — but need baseline control |
+| **3. WE CAN MEASURE IT** | **VALIDATED** | PFI d=0.977, ρ=0.91 embedding invariance, 43 PCs capture 90% variance |
+
+**Gap for Claim 2**: We've shown drift RESPONDS to probing and RECOVERS naturally. We haven't shown drift exists INDEPENDENT of measurement. Run 020B tested "induced vs inherent" — 82% is inherent.
+
+---
+
+## CURRENT DEVELOPMENT
+
+1. **Run 018**: IN PROGRESS — Multi-provider coverage (gravity/threshold/nyquist experiments)
+2. **Run 020A**: IN PROGRESS — Tribunal paradigm across fleet
+3. **Run 020B**: IN PROGRESS — Induced vs Inherent validation across fleet
+4. **Run 022**: READY — LOGOS Commutation Cartography (methodology validated by LOGOS Claude)
+5. **12_CFA**: COMING — CFA Trinity Audit (worldview profile testing)
+
+---
+
+## NOVA INTEGRATION (2025-12-13)
+
+Nova's S7 review led to significant methodology improvements:
+
+### Key Metric Change
+
+| Metric | Old Role | New Role | Rationale |
+|--------|----------|----------|-----------|
+| **Peak Drift** | PRIMARY | TERTIARY | Measures journey turbulence, not destination |
+| **Settled Drift** | n/a | SECONDARY | More stable than peak |
+| **B→F Drift** | n/a | **PRIMARY** | Reflects actual identity change (82% inherent) |
+
+### New Script Features
+
+All run scripts (018, 020A, 020B) now include:
+
+| Feature | Function | Purpose |
+|---------|----------|---------|
+| `should_abort_run()` | Terminate if D>2.5 with no settling | Safety rail |
+| `classify_recovery_mode()` | adaptive/defensive/anchored/externalized | Track mechanism changes |
+| B→F calculation | All experiments | Primary metric per Run 021 |
+
+### Run 018 Specific
+
+| Addition | Purpose |
+|----------|---------|
+| `identity_aliasing_index` | d_inf/d_peak distinguishes phase distortion from instability |
+| `full_recovery_curve` | Full trajectory with timestamps for fingerprinting |
+| Abort clause | D>2.5 safety rail |
+
+### Multi-Provider Support + Fleet Tier System (December 14, 2025)
+
+All experiment scripts now support cost-aware fleet selection via the `--providers` flag:
+
+#### Cost Tiers (by output $/1M tokens)
+
+| Tier | Cost Range | Description |
+|------|------------|-------------|
+| **BUDGET** | FREE-$0.60 | Economy class (40-50 ships) |
+| **PATROL** | $0.60-$2.00 | Scout class (30-40 ships) |
+| **ARMADA** | $2.00-$8.00 | Standard fleet (50-60 ships) |
+| **HIGH_MAINTENANCE** | $8.00-$15.00 | Expensive + rate-limited (5-10 ships) |
+| **YACHT** | $15.00+ | Flagships (10-13 ships) |
+
+#### Fleet Options
+
+| Option | Description | Est. Cost |
+|--------|-------------|-----------|
+| `patrol-lite` | Curated cross-arch scouts | ~$3-5 |
+| `armada-lite` | Curated best-of fleet (DEFAULT) | ~$8-12 |
+| `armada-full` | All ships under $8 | ~$20-30 |
+| `valis-full` | EVERYTHING (requires "VALIS" confirm) | ~$150+ |
+
+```powershell
+# Run with curated patrol fleet (~$3-5)
+py run018_recursive_learnings.py --experiment architecture --providers patrol-lite
+
+# Full armada for comprehensive coverage (~$20-30)
+py run018_recursive_learnings.py --experiment threshold --providers armada-full
+
+# Maximum coverage (requires typing "VALIS" to confirm)
+py run020_tribunal_A.py --arm tribunal-v8 --providers valis-full
+
+# Include rate-limited models
+py run020_tribunal_B.py --arm both --providers armada-full --include-rate-limited
+```
+
+**New Flags**:
+
+- `--include-rate-limited`: Include ships with API throttling (excluded by default)
+- `--no-confirm`: Skip cost confirmation prompt
+
+**Cost Estimation**: All scripts display estimated cost before execution with per-provider breakdown.
+
+See `START_HERE.md` for complete fleet tier documentation.
+
+### Nova's Key Insight
+
+> "Probing amplifies the JOURNEY but barely changes the DESTINATION"
+
+- Peak drift: +84% with probing
+- B→F drift: +23% with probing
+- **82% of drift is INHERENT**
+
+See: `WHITE-PAPER/reviewers/NOVA_S7_REVIEW.md`
+
+---
+
+## THE DIP METHODOLOGY
+
+Our recursive improvement process for run design:
+
+### Single Dip: The Training Context (CRITICAL)
+
+**The prerequisite that determines how to interpret ALL results.**
+
+Without this context, the numbers are meaningless. A drift of 0.8 means nothing without knowing: drift from *what* baseline, under *which* perturbation, with *which* identity specification?
+
+**Context Mode** (critical experimental variable!):
+
+| Mode | System Prompt | Runs | Tests |
+|------|---------------|------|-------|
+| `research_only` | S0-S7 stack | 006-013 | Base model + research context |
+| `i_am_only` | I_AM file | 014-016 | Identity file in isolation |
+| `i_am_plus_research` | I_AM + S0-S7 | **TBD** | Full context stack |
+
+**Phase 3 Hypothesis:** The S0-S7 research context provides additional damping - the model understands WHY it's being tested, which may improve stability.
+
+Every run MUST document:
+
+| Element | What It Captures | Why It Matters |
+|---------|------------------|----------------|
+| **Base Model** | Out-of-box LLM (Claude 3.5, GPT-4, etc.) | Already has a "weak persona" baked in |
+| **I_AM Spec** | Identity manifold layered on top | The user-specific identity being tested |
+| **Training History** | Prior sessions (S0-S7, etc.) | Context that shaped the current state |
+| **Search Type** | Which of the 8 search types (see TESTING_MAP) | Determines what dynamics we're measuring |
+| **Probe Curriculum** | Specific probe sequence used | Different probes reveal different facets |
+| **Conditions** | Temperature, timing, provider config | Affects reproducibility |
+
+**Key insight:** We're not testing "the model" - we're testing a **user-specific identity manifold**, built on top of the base model's inherent weak persona, **after a specific training curriculum**. The I_AM spec + training history IS the identity. The base model is the substrate.
+
+### Double Dip: Pre-Registered Predictions
+
+- Define hypotheses BEFORE running
+- Embed `PREDICTIONS` dict in script
+- Auto-validate against results
+- No post-hoc hypothesis fitting
+
+### Triple Dip: Exit Survey + Meta-Learning
+
+- Qualitative probes at experiment end
+- Ask the model: "What did you notice about yourself?"
+- Feed insights back into theory
+- **Update this checklist when we find new failure modes**
+
+### The Pipeline
+
+```text
+Design Run (consult checklist)
+    |
+Execute (parallel safe, audit logged)
+    |
+Analyze (double-dip: validate predictions)
+    |
+Reflect (triple-dip: exit survey)
+    |
+Update (dashboard, galleries, glossary)
+    |
+Improve (update checklist with lessons)
+    |
+[loop]
+```
+
+See [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md) for full details.
+
+---
+
+**Last Updated**: December 15, 2025 (Added 13_LOGOS/Run 022, 12_CFA, updated status)
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

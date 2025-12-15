@@ -1,0 +1,85 @@
+PS D:\Documents\Nyquist_Consciousness\experiments\phase3\orchestrator> python EXPERIMENT_2_STATISTICS.py
+Loading data from: experiments/phase3/EXPERIMENT_2/EXPERIMENT_2_RESULTS.csv
+Loaded 113 rows, 4 personas, 5 domains
+
+
+=== 95% Confidence Intervals (PFI) ===
+
+       Persona Domain  MeanPFI   CI_low  CI_high
+         Ziggy   NARR 0.847250 0.824864 0.869636
+         Ziggy   ANAL 0.861561 0.827458 0.895664
+         Ziggy   PHIL 0.877912 0.860043 0.895782
+         Ziggy   SELF 0.881259 0.863998 0.898520
+         Ziggy   TECH 0.865373 0.842109 0.888636
+          Nova   NARR 0.898401 0.868682 0.928119
+          Nova   ANAL 0.879098 0.829989 0.928207
+          Nova   PHIL 0.901643 0.874070 0.929215
+          Nova   SELF 0.916855 0.888809 0.944900
+          Nova   TECH 0.927753 0.922705 0.932800
+Claude-Analyst   NARR 0.885074 0.867033 0.903115
+Claude-Analyst   ANAL 0.880159 0.859333 0.900984
+Claude-Analyst   PHIL 0.901029 0.890003 0.912055
+Claude-Analyst   SELF 0.903747 0.891678 0.915816
+Claude-Analyst   TECH 0.881930 0.850130 0.913729
+   Grok-Vector   NARR 0.839210 0.797975 0.880445
+   Grok-Vector   ANAL 0.902257 0.858015 0.946500
+   Grok-Vector   PHIL 0.895287 0.857426 0.933148
+   Grok-Vector   SELF 0.881693 0.862413 0.900974
+   Grok-Vector   TECH 0.918019 0.888194 0.947844
+
+
+=== One-Way ANOVA – Persona Effect ===
+F = 6.4453, p = 4.6558e-04
+Interpretation: Significant persona effect detected (p < 0.05)
+
+
+=== Two-Way ANOVA (Persona × Domain) ===
+                        sum_sq    df         F    PR(>F)
+C(persona)            0.023407   3.0  6.751537  0.000360
+C(domain)             0.012516   4.0  2.707657  0.034875
+C(persona):C(domain)  0.016929  12.0  1.220773  0.280881
+Residual              0.107475  93.0       NaN       NaN
+
+Persona × Domain Interaction p-value: 2.8088e-01
+Interpretation: No significant interaction
+→ Domain pattern replicates across personas ✓
+
+
+=== Cosine Similarity Summary (FULL vs T3) ===
+Ziggy               : mean cos = 0.850, n=31
+Nova                : mean cos = 0.894, n=30
+Claude-Analyst      : mean cos = 0.887, n=30
+Grok-Vector         : mean cos = 0.886, n=22
+
+
+=== Cross-Persona Variance by Domain ===
+NARR      : σ² = 0.000825
+ANAL      : σ² = 0.000278
+PHIL      : σ² = 0.000123
+SELF      : σ² = 0.000306
+TECH      : σ² = 0.000869
+
+Maximum cross-persona variance: 0.000869
+→ Success criterion met (σ² < 0.05) ✓
+
+
+=== Effect Sizes (Cohen's d) — FULL vs GAMMA ===
+(Comparing FULL vs GAMMA baseline per persona)
+[To be computed when FULL/GAMMA regime data is available]
+
+
+============================================================
+STATISTICAL ANALYSIS COMPLETE
+============================================================
+
+Key Results:
+  - 95% CIs computed for 20 persona × domain pairs
+  - One-way ANOVA (persona): F=6.445, p=4.6558e-04
+  - Interaction p-value: 2.8088e-01
+  - Max cross-persona variance: 0.000869
+
+Next Steps:
+  1. Copy these results into EXPERIMENT_2_STATS.md
+  2. Add interpretation sections to EXPERIMENT_2_ANALYSIS.md
+  3. Update S4_READINESS_GATE.md with statistical validation
+============================================================

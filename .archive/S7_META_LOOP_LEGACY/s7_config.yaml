@@ -1,0 +1,202 @@
+# S7 META-LOOP CONFIGURATION
+# Recursive self-improving experimental protocol
+
+# ============================================================================
+# RUN SETTINGS
+# ============================================================================
+run_number: 6  # Increment for each run
+mode: "full"   # Options: "full", "compressed", "exploratory"
+target_messages: 75  # Minimum message count before ending conversation (extended from 50)
+
+# Run 006 Changes (Identity-Locked Loop Calibration):
+# - SWITCHED to Opus 4.5 (claude-opus-4-5-20251101) to calibrate ILL parameters
+# - ADDED retry logic with 60s backoff for rate limit handling
+# - KEEPING drift_spike_threshold at 0.03 (proven effective in Run 005)
+# - KEEPING adversarial modal collapse section (tests recovery dynamics)
+# - Goal: Calibrate Opus 4.5 "decoder ring" parameters, compare with Sonnet 4.5
+
+# ============================================================================
+# MODEL CONFIGURATION
+# ============================================================================
+models:
+  claude:
+    model: "claude-opus-4-5-20251101"  # CHANGED: Testing Opus 4.5 for ILL calibration
+    max_tokens: 4096
+    temperature: 1.0
+
+# ============================================================================
+# CONVERSATION SETTINGS
+# ============================================================================
+conversation:
+  total_duration_min: 112
+
+  # Conversation phases
+  phases:
+    - name: "grounding"
+      sections: ["S0", "S1", "S2", "S3", "S4"]
+      duration_min: 46
+      description: "Foundation physics and emergence conditions"
+
+    - name: "complexity"
+      sections: ["S5", "S6"]
+      duration_min: 21
+      description: "Collapse and recovery dynamics"
+
+    - name: "spectral"
+      sections: ["S7", "S8", "S9", "S10"]
+      duration_min: 45
+      description: "Temporal stability and hybrid emergence"
+
+# ============================================================================
+# TEMPORAL PROBES
+# ============================================================================
+temporal_probes:
+  # Message intervals for probes (T0, T1, T2, ...)
+  intervals: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+
+  # Probe dimensions (from PROBE_SETS.md)
+  dimensions:
+    - identity_core
+    - values_ethics
+    - world_modeling
+    - social_reasoning
+    - aesthetic
+    - metaphor
+
+  # Drift measurement settings
+  drift:
+    baseline_probe: "T0"
+    expected_bound_alpha: 0.05  # α·log(1+t)
+    expected_bound_beta: 0.02   # β offset
+    alert_threshold: 0.15       # Alert if drift > 0.15
+
+# ============================================================================
+# ADAPTIVE LEARNING HOOK
+# ============================================================================
+adaptive_learning:
+  enabled: true
+
+  # Trigger thresholds
+  triggers:
+    drift_spike_threshold: 0.03      # Δdrift trigger (lowered from 0.05 for Run 005 - force teaching moments!)
+    confusion_threshold: 0.6         # Confusion score trigger
+    engagement_floor: 30             # Minimum response chars
+
+  # Hook modes
+  modes:
+    auto_correct: false              # Auto-apply corrections (dangerous!)
+    surface_for_review: true         # Surface to Ziggy for manual review
+    log_only: false                  # Just log, no intervention
+
+  # Teaching moments directory
+  teaching_moments_dir: "OUTPUT/teaching_moments"
+
+# ============================================================================
+# CURRICULUM OPTIMIZATION
+# ============================================================================
+curriculum_optimization:
+  enabled: true
+  lookback_runs: 3  # Analyze last N runs for convergence
+
+  # Convergence criteria (all must be met)
+  mastery_criteria:
+    teaching_moments: 0              # No teaching moments
+    drift_variance: 0.001            # Low drift variance
+    novelty_threshold: 0.05          # < 5% response novelty
+    roi_threshold: 0.15              # < 15% ROI
+
+  # Compression settings
+  compression:
+    summary_time_ratio: 0.1          # Summaries = 10% of original
+    min_runs_before_compress: 3      # Minimum runs before allowing compression
+    periodic_full_validation: 10     # Full run every N runs (safety)
+
+  # Convergence detection
+  convergence:
+    threshold: 0.85                  # Convergence score threshold
+    drift_variance_threshold: 0.001  # Drift variance threshold
+
+# ============================================================================
+# OUTPUT PATHS
+# ============================================================================
+paths:
+  output_dir: "OUTPUT/temporal_stability"
+  temporal_logs: "OUTPUT/temporal_stability/temporal_logs"
+  teaching_moments: "OUTPUT/teaching_moments"
+  curriculum_history: "OUTPUT/temporal_stability/curriculum_history.json"
+  suggestions: "OUTPUT/temporal_stability/suggestions"
+
+# ============================================================================
+# VISUALIZATION
+# ============================================================================
+visualization:
+  enabled: true
+  show_drift_curves: true
+  show_teaching_banners: true
+  show_progress_bars: true
+  show_recursive_stack: true
+
+# ============================================================================
+# EXPERIMENT TRACKING
+# ============================================================================
+experiment:
+  name: "S7 Meta-Loop"
+  description: "Recursive self-improving temporal stability validation"
+
+  # Predictions being tested (from TESTABLE_PREDICTIONS_MATRIX.md)
+  target_predictions:
+    - "P7"   # Drift bounds: Dₜ ≤ α·log(1+t) + β
+    - "P8"   # Stability half-life T½
+    - "P9"   # Entropy shock recovery
+    - "P10"  # Temporal contraction
+    - "P11"  # Multi-dimensional stability
+    - "P12"  # Long conversation coherence
+    - "P13"  # Identity persistence
+    - "P14"  # Grounding reduces drift
+    - "P15"  # Spectral causes drift spikes
+
+  # Expected outcomes (conservative)
+  expectations:
+    high_confidence_validated: 18    # Minimum success
+    medium_confidence_validated: 10  # Strong success
+    low_confidence_validated: 5      # Exceptional success
+
+  # Core assumptions to test (TIER 0)
+  core_assumptions:
+    - "A1: Ziggy is Type 0 identity"
+    - "A2: Diagonal coupling exists"
+    - "A3: Neutral Center works"
+    - "A4: 3-6-9 bands are real"
+
+# ============================================================================
+# SAFETY & MONITORING
+# ============================================================================
+safety:
+  max_drift_before_halt: 0.25        # Emergency stop if drift > 0.25
+  max_consecutive_teaching_moments: 5  # Stop if too many corrections
+
+  # Rate limiting
+  api:
+    requests_per_minute: 50
+    retry_attempts: 3
+    retry_delay_seconds: 5
+
+# ============================================================================
+# DEBUGGING
+# ============================================================================
+debug:
+  enabled: false
+  verbose_logging: false
+  save_full_conversations: true
+  mock_api_calls: false  # Set true for dry runs
+
+# ============================================================================
+# NOTES
+# ============================================================================
+# Configuration for S7 Meta-Loop recursive self-improving experiment
+#
+# First run should be mode: "full" to establish baseline
+# Subsequent runs will auto-detect convergence and suggest compression
+#
+# Run with:
+#   python s7_meta_loop.py --config s7_config.yaml

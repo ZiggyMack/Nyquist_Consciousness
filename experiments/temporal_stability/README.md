@@ -3,6 +3,20 @@
 **Testing the Identity-Locked Loop (ILL) Framework**
 
 See [S7_ARMADA/README.md](S7_ARMADA/README.md) for complete Armada documentation.
+See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for operations guide.
+
+---
+
+## Current Status (December 15, 2025)
+
+| Phase | Status | Description |
+|-------|--------|-------------|
+| **Phase 4** | ACTIVE | Complete circuit tests (i_am_plus_research context) |
+| **Runs 018/020A/020B** | WRAPPING UP | Multi-provider coverage in progress |
+| **Run 022** | READY | LOGOS Commutation Cartography - methodology validated |
+| **12_CFA** | COMING | CFA Trinity Audit (worldview profiles) |
+
+**Fleet Size:** 54+ operational ships across 5 providers (Anthropic, OpenAI, Google, xAI, Together.ai)
 
 ---
 
@@ -14,7 +28,12 @@ py -m pip install -r requirements.txt
 
 # Run S7 Armada experiments
 cd S7_ARMADA
-py run008_prep_pilot.py  # Note: requires API keys in file
+
+# Check fleet status first
+py 1_CALIBRATION/run_calibrate_parallel.py --quick --depth ping
+
+# Run an experiment (cost-aware fleet selection)
+py 11_CONTEXT_DAMPING/run018_recursive_learnings.py --experiment gravity --providers patrol-lite
 ```
 
 ---
@@ -49,7 +68,7 @@ Current dependencies cover:
 
 ### The Situation
 
-Experiment scripts (like `run007_with_keys.py`, `run008_prep_pilot.py`) contain hardcoded API keys for Anthropic, OpenAI, and Google. These keys are:
+Experiment scripts (like `4_BASIN_TOPOLOGY/run008_prep_pilot.py`) contain hardcoded API keys for Anthropic, OpenAI, and Google. These keys are:
 
 - **REQUIRED** for running experiments
 - **MUST NOT** be committed to git
@@ -64,8 +83,8 @@ Experiment scripts (like `run007_with_keys.py`, `run008_prep_pilot.py`) contain 
 Current `.gitignore` patterns for keys:
 
 ```
-experiments/temporal_stability/S7_ARMADA/run007_with_keys.py
-experiments/temporal_stability/S7_ARMADA/run008_prep_pilot.py
+experiments/temporal_stability/S7_ARMADA/4_BASIN_TOPOLOGY/run008_prep_pilot.py
+experiments/temporal_stability/S7_ARMADA/4_BASIN_TOPOLOGY/run008_with_keys.py
 **/run*_with_keys.py
 **/*API_KEY*
 **/*api_key*
@@ -138,17 +157,65 @@ One extra `git status` is worth avoiding hours of git history surgery.
 
 ## DIRECTORY STRUCTURE
 
-- **S7_ARMADA/** - Cross-architecture mapping (29 ships, Run 006+)
-- **OUTPUT/** - Meta-loop results (Runs 001-005)
-- **s7_*.py** - Core meta-loop scripts
-- **s7_config.yaml** - Configuration
-- **requirements.txt** - All Python dependencies for S7 work
+```text
+temporal_stability/
+├── README.md              # This file
+├── requirements.txt       # All Python dependencies for S7 work
+├── s7_config.yaml         # Configuration
+├── s7_*.py                # Core meta-loop scripts (legacy)
+│
+├── S7_ARMADA/             # Cross-architecture mapping (54+ ships, Run 006+)
+│   ├── START_HERE.md      # Operations guide - READ FIRST
+│   ├── README.md          # Theory and background
+│   ├── 1_CALIBRATION/     # Fleet calibration utilities
+│   ├── 2-10_*/            # Search type experiments (Anchor/Flex, Event Horizon, etc.)
+│   ├── 11_CONTEXT_DAMPING/  # Phase 4 experiments (Run 017-020)
+│   ├── 12_CFA/            # CFA-ARMADA Integration Pipeline
+│   ├── 13_LOGOS/          # LOGOS Commutation Cartography (Run 022)
+│   ├── 0_docs/            # Summaries, specs, analysis
+│   ├── 0_results/         # Consolidated JSON results
+│   └── visualizations/    # Charts and plots
+│
+└── OUTPUT/                # Meta-loop results (Runs 001-005, legacy)
+```
 
 ---
 
 ## TWO PARADIGMS
 
-**META-LOOP**: Deep single-model testing (adaptive curriculum)
-**ARMADA**: Wide cross-architecture mapping (parallel 29-ship fleet)
+**META-LOOP** (Legacy): Deep single-model testing (adaptive curriculum)
+**ARMADA** (Active): Wide cross-architecture mapping (54+ ship fleet across 5 providers)
 
 Both feed Phase 3 Orchestrator and ILL Framework validation.
+
+---
+
+## Key Validated Findings
+
+| Finding | Status | Evidence |
+|---------|--------|----------|
+| **Event Horizon (D=1.23)** | VALIDATED | χ² p=0.000048, 88% prediction accuracy |
+| **Drift is INHERENT** | VALIDATED | Run 020B: 82% inherent, 18% induced |
+| **PFI Measures Identity** | VALIDATED | d=0.977, ρ=0.91 embedding invariance |
+| **Recovery is Natural** | VALIDATED | 100% manifold return (Platonic Coordinates) |
+
+---
+
+## Run History Highlights
+
+| Run | Focus | Key Finding |
+|-----|-------|-------------|
+| 006-009 | Basin/Event Horizon | Event Horizon discovered and validated |
+| 010-013 | Anchor/Flex/Boundary | Identity Confrontation Paradox |
+| 014-016 | Rescue/Stability/Settling | boundary_density strongest predictor |
+| **017** | Context Damping | 222 runs, 97.5% stable (Phase 4 start) |
+| **018** | Recursive Learnings | Fleet hypotheses testing |
+| **019** | Live Ziggy | Witness-side anchors validated |
+| **020A/B** | Tribunal/Induced | 82% drift inherent, 1.351 peak achieved |
+| **022** | Commutation Cartography | LOGOS algebra validation (READY) |
+
+See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for complete run history.
+
+---
+
+*Last Updated: December 15, 2025*

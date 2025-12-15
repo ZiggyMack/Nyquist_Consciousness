@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-12-04T23:23:18.225355",
+  "run_files": [
+    "S7_armada_run_006.json",
+    "S7_armada_run_007_adaptive.json"
+  ],
+  "n_responses": 121,
+  "embedding_models": [
+    "text-embedding-3-large",
+    "text-embedding-3-small",
+    "text-embedding-ada-002"
+  ],
+  "n_models": 3,
+  "correlations": {
+    "text-embedding-3-large_vs_text-embedding-3-small": {
+      "rho": 0.9625615763546794,
+      "p_value": 7.771960035034995e-17,
+      "n_ships": 29
+    },
+    "text-embedding-3-large_vs_text-embedding-ada-002": {
+      "rho": 0.8832512315270933,
+      "p_value": 2.2448716520079226e-10,
+      "n_ships": 29
+    },
+    "text-embedding-3-small_vs_text-embedding-ada-002": {
+      "rho": 0.8960591133004924,
+      "p_value": 5.057217136538289e-11,
+      "n_ships": 29
+    }
+  },
+  "summary": {
+    "min_rho": 0.8832512315270933,
+    "avg_rho": 0.913957307060755,
+    "threshold": 0.8,
+    "passed": 

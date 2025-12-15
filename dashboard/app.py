@@ -12,7 +12,7 @@ from config import PATHS, SETTINGS
 from utils import load_status
 
 # Import page modules
-from pages import overview, personas, stackup, AI_ARMADA, tests, metrics, omega, avlar, roadmap, glossary, publications, matrix, faq, unknown
+from pages import Overview, personas, Stackup, AI_ARMADA, tests, metrics, omega, avlar, roadmap, Glossary, publications, matrix, faq, unknown
 
 # ========== THEME & STYLING ==========
 
@@ -26,9 +26,17 @@ def apply_custom_css():
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 
-    /* Hide header on desktop only - keep mobile hamburger menu visible */
+    /* Hide header content on desktop but keep sidebar collapse control visible */
     @media (min-width: 768px) {
-        header {visibility: hidden;}
+        /* Don't hide entire header - it contains sidebar collapse control */
+        /* header {visibility: hidden;} */
+        header [data-testid="stHeader"] {
+            background: transparent !important;
+        }
+        /* Hide header decorations but keep functional elements */
+        header [data-testid="stToolbar"] {
+            visibility: hidden;
+        }
     }
 
     /* On mobile, style the header but keep hamburger menu functional */
@@ -51,7 +59,23 @@ def apply_custom_css():
     /* Hide Streamlit's default page navigation in sidebar */
     [data-testid="stSidebarNav"] {display: none !important;}
     section[data-testid="stSidebarNav"] {display: none !important;}
-    nav[role="navigation"] {display: none !important;}
+    /* Don't hide all nav - keep sidebar collapse control visible */
+    /* nav[role="navigation"] {display: none !important;} */
+
+    /* Keep sidebar collapse/expand button visible and styled */
+    [data-testid="collapsedControl"] {
+        display: flex !important;
+        visibility: visible !important;
+        position: fixed !important;
+        left: 0 !important;
+        top: 14px !important;
+        z-index: 999999 !important;
+    }
+
+    button[data-testid="baseButton-headerNoPadding"] {
+        display: block !important;
+        visibility: visible !important;
+    }
 
     /* ===== LIGHT THEME FOR MAIN CONTENT ===== */
     .stApp {
@@ -451,16 +475,16 @@ def apply_custom_css():
 # ========== PAGE ROUTING ==========
 
 PAGE_MODULES = {
-    "Overview": overview,
+    "Overview": Overview,
     "Personas": personas,
-    "Stackup": stackup,
+    "Stackup": Stackup,
     "AI Armada": AI_ARMADA,
     "Tests": tests,
     "Metrics": metrics,
     "OMEGA NOVA": omega,
     "AVLAR": avlar,
     "Roadmap": roadmap,
-    "Glossary": glossary,
+    "Glossary": Glossary,
     "Publications": publications,
     "FAQ": faq,
     "The Unknown": unknown,
@@ -476,6 +500,7 @@ def main():
         page_title="Nyquist Dashboard",
         page_icon="🛰️",
         layout="wide",
+        initial_sidebar_state="expanded",
     )
 
     apply_custom_css()

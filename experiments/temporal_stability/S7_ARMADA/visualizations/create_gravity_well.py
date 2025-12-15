@@ -13,7 +13,7 @@ import numpy as np
 from pathlib import Path
 
 # Load results
-results_path = Path(__file__).resolve().parent.parent / "armada_results" / "S7_run_008_20251201_020501.json"
+results_path = Path(__file__).resolve().parent.parent / "results" / "runs" / "S7_run_008_20251201_020501.json"
 
 with open(results_path, 'r') as f:
     data = json.load(f)

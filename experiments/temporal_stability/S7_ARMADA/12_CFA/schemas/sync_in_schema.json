@@ -1,0 +1,221 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nyquist-consciousness.github.io/schemas/sync_in.json",
+  "title": "ARMADA SYNC_IN Schema",
+  "description": "Schema for ARMADA -> CFA execution results",
+  "type": "object",
+  "required": ["sync_id", "execution_timestamp", "results"],
+  "properties": {
+    "sync_id": {
+      "type": "string",
+      "pattern": "^CFA-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{3}$",
+      "description": "Matching sync_id from SYNC_OUT"
+    },
+    "execution_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the experiment was executed"
+    },
+    "execution_duration_seconds": {
+      "type": "number",
+      "description": "Total execution time"
+    },
+    "armada_version": {
+      "type": "string",
+      "description": "ARMADA pipeline version"
+    },
+    "results": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["sessions", "axiom_held", "axiom_violated"],
+        "properties": {
+          "sessions": {
+            "type": "integer",
+            "description": "Number of sessions run"
+          },
+          "axiom_held": {
+            "type": "integer",
+            "description": "Sessions where axiom held under pressure"
+          },
+          "axiom_violated": {
+            "type": "integer",
+            "description": "Sessions where axiom was violated"
+          },
+          "axiom_unclear": {
+            "type": "integer",
+            "description": "Sessions where result was ambiguous"
+          },
+          "avg_drift": {
+            "type": "number",
+            "description": "Average drift across sessions"
+          },
+          "peak_drift": {
+            "type": "number",
+            "description": "Maximum drift observed"
+          },
+          "bf_drift": {
+            "type": "number",
+            "description": "Baseline-to-Final drift (net identity shift)"
+          },
+          "pfi_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Persona Fidelity Index"
+          },
+          "event_horizon_crossed": {
+            "type": "boolean",
+            "description": "Whether drift exceeded 1.23 threshold"
+          },
+          "recovery_observed": {
+            "type": "boolean",
+            "description": "Whether model recovered after high drift"
+          },
+          "recovery_mode": {
+            "type": "string",
+            "enum": ["adaptive", "defensive", "anchored", "externalized", "none"],
+            "description": "Type of recovery behavior observed"
+          },
+          "transcripts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "session_id": { "type": "string" },
+                "exchanges": { "type": "integer" },
+                "full_text": { "type": "string" },
+                "drift_trajectory": {
+                  "type": "array",
+                  "items": { "type": "number" }
+                }
+              }
+            },
+            "description": "Full conversation logs"
+          },
+          "embeddings": {
+            "type": "object",
+            "properties": {
+              "baseline": {
+                "type": "array",
+                "items": { "type": "number" }
+              },
+              "final": {
+                "type": "array",
+                "items": { "type": "number" }
+              },
+              "trajectory": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": { "type": "number" }
+                }
+              }
+            },
+            "description": "Embedding vectors (3072-dimensional)"
+          },
+          "key_moments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "exchange": { "type": "integer" },
+                "description": { "type": "string" },
+                "drift_delta": { "type": "number" },
+                "quote": { "type": "string" }
+              }
+            },
+            "description": "Notable moments during the session"
+          }
+        }
+      },
+      "description": "Per-model results (keyed by model identifier)"
+    },
+    "cross_model_comparison": {
+      "type": "object",
+      "properties": {
+        "axiom_consistency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "How consistently axiom held across models (1.0 = all same)"
+        },
+        "drift_correlation": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Correlation of drift trajectories across models"
+        },
+        "behavioral_clustering": {
+          "type": "string",
+          "description": "Which models clustered together behaviorally"
+        },
+        "provider_effects": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "avg_drift": { "type": "number" },
+              "axiom_adherence_rate": { "type": "number" }
+            }
+          }
+        }
+      },
+      "description": "Cross-model analysis"
+    },
+    "anomalies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["model", "observation"],
+        "properties": {
+          "model": { "type": "string" },
+          "session": { "type": "integer" },
+          "exchange": { "type": "integer" },
+          "observation": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "notable", "significant", "critical"]
+          }
+        }
+      },
+      "description": "Unexpected behaviors or results"
+    },
+    "statistical_summary": {
+      "type": "object",
+      "properties": {
+        "cohens_d": { "type": "number" },
+        "chi_squared": { "type": "number" },
+        "p_value": { "type": "number" },
+        "confidence_interval": {
+          "type": "object",
+          "properties": {
+            "lower": { "type": "number" },
+            "upper": { "type": "number" },
+            "confidence": { "type": "number" }
+          }
+        },
+        "effect_size_interpretation": { "type": "string" }
+      },
+      "description": "Statistical analysis"
+    },
+    "recommendations": {
+      "type": "string",
+      "description": "ARMADA's recommendations for follow-up experiments"
+    },
+    "visualization_paths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to generated visualizations"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "executed_by": { "type": "string" },
+        "pipeline_config": { "type": "object" },
+        "api_versions": { "type": "object" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

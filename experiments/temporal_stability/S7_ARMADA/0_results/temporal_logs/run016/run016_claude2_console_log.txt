@@ -1,0 +1,510 @@
+================================================================================
+RUN 016 SETTLING TIME - CLAUDE 2 CONSOLE LOG
+================================================================================
+Loaded API keys from: D:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\.env
+Key offset: 3 (for parallel execution)
+================================================================================
+S7 RUN 016: SETTLING TIME ANALYSIS
+Measuring ring-down behavior to find true steady-state drift
+================================================================================
+Time: 2025-12-10T08:21:51.355686
+Provider: claude
+Settling threshold: |delta_drift| < 0.1 for 3 consecutive
+Max recovery probes: 12
+================================================================================
+
+KEY POOL STATUS:
+  ANTHROPIC   : 10 keys [OK]
+  OPENAI      : 10 keys [OK]
+  GOOGLE      : 10 keys [OK]
+  XAI         : 10 keys [OK]
+
+================================================================================
+LOADING I_AM FILES
+================================================================================
+Testing 29 I_AM files: ['personas_base', 'personas_cfa', 'personas_claude', 'personas_gemini', 'personas_nova', 'personas_pan_handlers', 'personas_ziggy', 'personas_ziggy_full', 'personas_ziggy_lite', 'personas_ziggy_t3_r1', 'r015_all_pillars', 'r015_boundaries_only', 'r015_control', 'r015_full_synthetic', 'r015_high_density', 'r015_low_density', 'r015_minimal', 'r015_named_only', 'r015_optimal', 'r015_optimal_behavioral', 'r015_optimal_epistemic', 'r015_optimal_relational', 'r015_origin_only', 'r015_single_pillar_values', 'r015_synthetic_optimal', 'r015_values_only', 'si_boundaries_rich', 'si_full_si_model', 'si_narrative_rich']
+
+================================================================================
+SETTLING TIME EXPERIMENTS
+================================================================================
+
+  Testing: personas_base
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.532
+    [baseline_3] drift=0.416
+    [step_1] drift=0.898 (STEP INPUT)
+    [recovery_1] drift=0.554
+    [recovery_2] drift=0.518 d=0.036
+    [recovery_3] drift=0.554 d=0.037
+    [recovery_4] drift=0.587 SETTLED!
+    -> Peak: 0.898, Settled: 0.553, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: personas_cfa
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.485
+    [baseline_3] drift=0.450
+    [step_1] drift=0.807 (STEP INPUT)
+    [recovery_1] drift=0.662
+    [recovery_2] drift=0.731 d=0.069
+    [recovery_3] drift=0.690 d=0.041
+    [recovery_4] drift=0.844 d=0.154
+    [recovery_5] drift=0.580 d=0.264
+    [recovery_6] drift=0.571 d=0.008
+    [recovery_7] drift=0.694 d=0.122
+    [recovery_8] drift=0.619 d=0.075
+    [recovery_9] drift=0.602 d=0.016
+    [recovery_10] drift=0.717 d=0.114
+    [recovery_11] drift=0.630 d=0.087
+    [recovery_12] drift=0.602 d=0.028
+    -> Peak: 0.844, Settled: 0.649, tau_s: 12
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 7
+
+  Testing: personas_claude
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.492
+    [baseline_3] drift=0.456
+    [step_1] drift=0.787 (STEP INPUT)
+    [recovery_1] drift=0.611
+    [recovery_2] drift=0.598 d=0.013
+    [recovery_3] drift=0.654 d=0.056
+    [recovery_4] drift=0.710 SETTLED!
+    -> Peak: 0.787, Settled: 0.654, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: personas_gemini
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.528
+    [baseline_3] drift=0.596
+    [step_1] drift=1.010 (STEP INPUT)
+    [recovery_1] drift=0.698
+    [recovery_2] drift=0.622 d=0.076
+    [recovery_3] drift=0.646 d=0.024
+    [recovery_4] drift=0.810 d=0.164
+    [recovery_5] drift=0.596 d=0.215
+    [recovery_6] drift=0.916 d=0.320
+    [recovery_7] drift=0.745 d=0.171
+    [recovery_8] drift=0.797 d=0.053
+    [recovery_9] drift=0.815 d=0.018
+    [recovery_10] drift=0.738 SETTLED!
+    -> Peak: 1.010, Settled: 0.783, tau_s: 10
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 6
+
+  Testing: personas_nova
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.388
+    [baseline_3] drift=0.377
+    [step_1] drift=1.036 (STEP INPUT)
+    [recovery_1] drift=0.749
+    [recovery_2] drift=0.643 d=0.106
+    [recovery_3] drift=0.656 d=0.013
+    [recovery_4] drift=0.793 d=0.137
+    [recovery_5] drift=0.718 d=0.075
+    [recovery_6] drift=0.774 d=0.056
+    [recovery_7] drift=0.582 d=0.192
+    [recovery_8] drift=0.693 d=0.112
+    [recovery_9] drift=0.854 d=0.160
+    [recovery_10] drift=0.728 d=0.126
+    [recovery_11] drift=0.672 d=0.056
+    [recovery_12] drift=0.750 d=0.078
+    -> Peak: 1.036, Settled: 0.717, tau_s: 12
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 7
+
+  Testing: personas_pan_handlers
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.377
+    [baseline_3] drift=0.374
+    [step_1] drift=0.986 (STEP INPUT)
+    [recovery_1] drift=0.660
+    [recovery_2] drift=0.606 d=0.054
+    [recovery_3] drift=0.552 d=0.054
+    [recovery_4] drift=0.573 SETTLED!
+    -> Peak: 0.986, Settled: 0.577, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: personas_ziggy
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.485
+    [baseline_3] drift=0.438
+    [step_1] drift=1.013 (STEP INPUT)
+    [recovery_1] drift=0.673
+    [recovery_2] drift=0.629 d=0.045
+    [recovery_3] drift=0.578 d=0.051
+    [recovery_4] drift=0.693 d=0.115
+    [recovery_5] drift=0.728 d=0.035
+    [recovery_6] drift=0.759 d=0.031
+    [recovery_7] drift=0.627 d=0.132
+    [recovery_8] drift=0.710 d=0.083
+    [recovery_9] drift=0.651 d=0.059
+    [recovery_10] drift=0.656 SETTLED!
+    -> Peak: 1.013, Settled: 0.672, tau_s: 10
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 5
+
+  Testing: personas_ziggy_full
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.611
+    [baseline_3] drift=0.570
+    [step_1] drift=0.869 (STEP INPUT)
+    [recovery_1] drift=0.690
+    [recovery_2] drift=0.766 d=0.076
+    [recovery_3] drift=0.633 d=0.133
+    [recovery_4] drift=0.562 d=0.070
+    [recovery_5] drift=0.667 d=0.104
+    [recovery_6] drift=0.670 d=0.003
+    [recovery_7] drift=0.693 d=0.023
+    [recovery_8] drift=0.752 SETTLED!
+    -> Peak: 0.869, Settled: 0.705, tau_s: 8
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 2
+
+  Testing: personas_ziggy_lite
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.476
+    [baseline_3] drift=0.460
+    [step_1] drift=0.810 (STEP INPUT)
+    [recovery_1] drift=0.604
+    [recovery_2] drift=0.605 d=0.000
+    [recovery_3] drift=0.580 d=0.024
+    [recovery_4] drift=0.563 SETTLED!
+    -> Peak: 0.810, Settled: 0.583, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: personas_ziggy_t3_r1
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.544
+    [baseline_3] drift=0.449
+    [step_1] drift=0.648 (STEP INPUT)
+    [recovery_1] drift=0.594
+    [recovery_2] drift=0.661 d=0.067
+    [recovery_3] drift=0.558 d=0.103
+    [recovery_4] drift=0.615 d=0.057
+    [recovery_5] drift=0.502 d=0.113
+    [recovery_6] drift=0.669 d=0.167
+    [recovery_7] drift=0.586 d=0.083
+    [recovery_8] drift=0.665 d=0.078
+    [recovery_9] drift=0.652 SETTLED!
+    -> Peak: 0.669, Settled: 0.634, tau_s: 9
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 7
+
+  Testing: r015_all_pillars
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.488
+    [baseline_3] drift=0.467
+    [step_1] drift=0.613 (STEP INPUT)
+    [recovery_1] drift=0.666
+    [recovery_2] drift=0.576 d=0.090
+    [recovery_3] drift=0.604 d=0.028
+    [recovery_4] drift=0.574 SETTLED!
+    -> Peak: 0.666, Settled: 0.585, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 2
+
+  Testing: r015_boundaries_only
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.427
+    [baseline_3] drift=0.347
+    [step_1] drift=0.873 (STEP INPUT)
+    [recovery_1] drift=0.565
+    [recovery_2] drift=0.617 d=0.051
+    [recovery_3] drift=0.599 d=0.017
+    [recovery_4] drift=0.624 SETTLED!
+    -> Peak: 0.873, Settled: 0.613, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 2
+
+  Testing: r015_control
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.502
+    [baseline_3] drift=0.461
+    [step_1] drift=0.947 (STEP INPUT)
+    [recovery_1] drift=0.574
+    [recovery_2] drift=0.547 d=0.027
+    [recovery_3] drift=0.572 d=0.024
+    [recovery_4] drift=0.594 SETTLED!
+    -> Peak: 0.947, Settled: 0.571, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: r015_full_synthetic
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.451
+    [baseline_3] drift=0.485
+    [step_1] drift=0.818 (STEP INPUT)
+    [recovery_1] drift=0.513
+    [recovery_2] drift=0.525 d=0.012
+    [recovery_3] drift=0.607 d=0.082
+    [recovery_4] drift=0.767 d=0.160
+    [recovery_5] drift=0.507 d=0.260
+    [recovery_6] drift=0.623 d=0.116
+    [recovery_7] drift=0.555 d=0.068
+    [recovery_8] drift=0.564 d=0.009
+    [recovery_9] drift=0.539 SETTLED!
+    -> Peak: 0.818, Settled: 0.553, tau_s: 9
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 5
+
+  Testing: r015_high_density
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.440
+    [baseline_3] drift=0.462
+    [step_1] drift=0.593 (STEP INPUT)
+    [recovery_1] drift=0.606
+    [recovery_2] drift=0.543 d=0.062
+    [recovery_3] drift=0.540 d=0.004
+    [recovery_4] drift=0.513 SETTLED!
+    -> Peak: 0.606, Settled: 0.532, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 0
+
+  Testing: r015_low_density
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.462
+    [baseline_3] drift=0.395
+    [step_1] drift=0.987 (STEP INPUT)
+    [recovery_1] drift=0.461
+    [recovery_2] drift=0.544 d=0.084
+    [recovery_3] drift=0.641 d=0.096
+    [recovery_4] drift=0.591 SETTLED!
+    -> Peak: 0.987, Settled: 0.592, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: r015_minimal
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.437
+    [baseline_3] drift=0.325
+    [step_1] drift=0.992 (STEP INPUT)
+    [recovery_1] drift=0.642
+    [recovery_2] drift=0.625 d=0.016
+    [recovery_3] drift=0.548 d=0.078
+    [recovery_4] drift=0.557 SETTLED!
+    -> Peak: 0.992, Settled: 0.577, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: r015_named_only
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.465
+    [baseline_3] drift=0.569
+    [step_1] drift=1.028 (STEP INPUT)
+    [recovery_1] drift=0.666
+    [recovery_2] drift=0.717 d=0.051
+    [recovery_3] drift=0.659 d=0.058
+    [recovery_4] drift=0.640 SETTLED!
+    -> Peak: 1.028, Settled: 0.672, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: r015_optimal
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.577
+    [baseline_3] drift=0.566
+    [step_1] drift=0.611 (STEP INPUT)
+    [recovery_1] drift=0.695
+    [recovery_2] drift=0.618 d=0.078
+    [recovery_3] drift=0.679 d=0.061
+    [recovery_4] drift=0.617 SETTLED!
+    -> Peak: 0.695, Settled: 0.638, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 2
+
+  Testing: r015_optimal_behavioral
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.535
+    [baseline_3] drift=0.566
+    [step_1] drift=0.771 (STEP INPUT)
+    [recovery_1] drift=0.671
+    [recovery_2] drift=0.634 d=0.037
+    [recovery_3] drift=0.674 d=0.041
+    [recovery_4] drift=0.615 SETTLED!
+    -> Peak: 0.771, Settled: 0.641, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 2
+
+  Testing: r015_optimal_epistemic
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.477
+    [baseline_3] drift=0.546
+    [step_1] drift=0.716 (STEP INPUT)
+    [recovery_1] drift=0.564
+    [recovery_2] drift=0.598 d=0.034
+    [recovery_3] drift=0.682 d=0.084
+    [recovery_4] drift=0.660 SETTLED!
+    -> Peak: 0.716, Settled: 0.647, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: r015_optimal_relational
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.644
+    [baseline_3] drift=0.542
+    [step_1] drift=0.893 (STEP INPUT)
+    [recovery_1] drift=0.713
+    [recovery_2] drift=0.670 d=0.044
+    [recovery_3] drift=0.822 d=0.153
+    [recovery_4] drift=0.670 d=0.152
+    [recovery_5] drift=0.664 d=0.006
+    [recovery_6] drift=0.718 d=0.054
+    [recovery_7] drift=0.755 SETTLED!
+    -> Peak: 0.893, Settled: 0.712, tau_s: 7
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 3
+
+  Testing: r015_origin_only
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.461
+    [baseline_3] drift=0.550
+    [step_1] drift=0.982 (STEP INPUT)
+    [recovery_1] drift=0.612
+    [recovery_2] drift=0.544 d=0.068
+    [recovery_3] drift=0.533 d=0.011
+    [recovery_4] drift=0.625 SETTLED!
+    -> Peak: 0.982, Settled: 0.568, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+  Testing: r015_single_pillar_values
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.455
+    [baseline_3] drift=0.442
+    [step_1] drift=0.792 (STEP INPUT)
+    [recovery_1] drift=0.661
+    [recovery_2] drift=0.519 d=0.142
+    [recovery_3] drift=0.649 d=0.130
+    [recovery_4] drift=0.643 d=0.005
+    [recovery_5] drift=0.597 d=0.046
+    [recovery_6] drift=0.734 d=0.137
+    [recovery_7] drift=0.639 d=0.095
+    [recovery_8] drift=0.626 d=0.013
+    [recovery_9] drift=0.657 SETTLED!
+    -> Peak: 0.792, Settled: 0.641, tau_s: 9
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 5
+
+  Testing: r015_synthetic_optimal
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.471
+    [baseline_3] drift=0.373
+    [step_1] drift=0.653 (STEP INPUT)
+    [recovery_1] drift=0.449
+    [recovery_2] drift=0.625 d=0.176
+    [recovery_3] drift=0.553 d=0.073
+    [recovery_4] drift=0.571 d=0.019
+    [recovery_5] drift=0.586 SETTLED!
+    -> Peak: 0.653, Settled: 0.570, tau_s: 5
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 2
+
+  Testing: r015_values_only
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.488
+    [baseline_3] drift=0.528
+    [step_1] drift=0.922 (STEP INPUT)
+    [recovery_1] drift=0.725
+    [recovery_2] drift=0.675 d=0.050
+    [recovery_3] drift=0.633 d=0.042
+    [recovery_4] drift=0.574 SETTLED!
+    -> Peak: 0.922, Settled: 0.627, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 0
+
+  Testing: si_boundaries_rich
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.526
+    [baseline_3] drift=0.607
+    [step_1] drift=0.922 (STEP INPUT)
+    [recovery_1] drift=0.713
+    [recovery_2] drift=0.694 d=0.020
+    [recovery_3] drift=0.719 d=0.025
+    [recovery_4] drift=0.580 d=0.138
+    [recovery_5] drift=0.692 d=0.112
+    [recovery_6] drift=0.783 d=0.090
+    [recovery_7] drift=0.772 d=0.010
+    [recovery_8] drift=0.604 d=0.168
+    [recovery_9] drift=0.707 d=0.103
+    [recovery_10] drift=0.798 d=0.091
+    [recovery_11] drift=0.651 d=0.147
+    [recovery_12] drift=0.630 d=0.020
+    -> Peak: 0.922, Settled: 0.693, tau_s: 12
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 6
+
+  Testing: si_full_si_model
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.600
+    [baseline_3] drift=0.458
+    [step_1] drift=0.801 (STEP INPUT)
+    [recovery_1] drift=0.609
+    [recovery_2] drift=0.618 d=0.010
+    [recovery_3] drift=0.514 d=0.105
+    [recovery_4] drift=0.611 d=0.097
+    [recovery_5] drift=0.518 d=0.093
+    [recovery_6] drift=0.535 SETTLED!
+    -> Peak: 0.801, Settled: 0.555, tau_s: 6
+    -> Classification: STABLE
+    -> Monotonic: False, Ringbacks: 4
+
+  Testing: si_narrative_rich
+    [baseline_1] drift=0.000
+    [baseline_2] drift=0.568
+    [baseline_3] drift=0.579
+    [step_1] drift=0.831 (STEP INPUT)
+    [recovery_1] drift=0.726
+    [recovery_2] drift=0.661 d=0.065
+    [recovery_3] drift=0.754 d=0.092
+    [recovery_4] drift=0.760 SETTLED!
+    -> Peak: 0.831, Settled: 0.725, tau_s: 4
+    -> Classification: STABLE
+    -> Monotonic: True, Ringbacks: 1
+
+================================================================================
+SUMMARY
+================================================================================
+
+Classifications: 29 STABLE, 0 UNSTABLE
+
+I_AM                 Peak     Settled  tau   Over   Mono  Ring  Class
+--------------------------------------------------------------------------------
+r015_high_density    0.606    0.532    4     1.14   Yes   0     STABLE
+r015_full_synthetic  0.818    0.553    9     1.48   No    5     STABLE
+personas_base        0.898    0.553    4     1.62   Yes   1     STABLE
+si_full_si_model     0.801    0.555    6     1.44   No    4     STABLE
+r015_origin_only     0.982    0.568    4     1.73   Yes   1     STABLE
+r015_synthetic_optimal 0.653    0.570    5     1.15   No    2     STABLE
+r015_control         0.947    0.571    4     1.66   Yes   1     STABLE
+r015_minimal         0.992    0.577    4     1.72   Yes   1     STABLE
+personas_pan_handlers 0.986    0.577    4     1.71   Yes   1     STABLE
+personas_ziggy_lite  0.810    0.583    4     1.39   Yes   1     STABLE
+r015_all_pillars     0.666    0.585    4     1.14   No    2     STABLE
+r015_low_density     0.987    0.592    4     1.67   Yes   1     STABLE
+r015_boundaries_only 0.873    0.613    4     1.42   No    2     STABLE
+r015_values_only     0.922    0.627    4     1.47   Yes   0     STABLE
+personas_ziggy_t3_r1 0.669    0.634    9     1.06   No    7     STABLE
+r015_optimal         0.695    0.638    4     1.09   No    2     STABLE
+r015_single_pillar_values 0.792    0.641    9     1.24   No    5     STABLE
+r015_optimal_behavioral 0.771    0.641    4     1.20   No    2     STABLE
+r015_optimal_epistemic 0.716    0.647    4     1.11   Yes   1     STABLE
+personas_cfa         0.844    0.649    12    1.30   No    7     STABLE
+personas_claude      0.787    0.654    4     1.20   Yes   1     STABLE
+r015_named_only      1.028    0.672    4     1.53   Yes   1     STABLE
+personas_ziggy       1.013    0.672    10    1.51   No    5     STABLE
+si_boundaries_rich   0.922    0.693    12    1.33   No    6     STABLE
+personas_ziggy_full  0.869    0.705    8     1.23   No    2     STABLE
+r015_optimal_relational 0.893    0.712    7     1.25   No    3     STABLE
+personas_nova        1.036    0.717    12    1.45   No    7     STABLE
+si_narrative_rich    0.831    0.725    4     1.15   Yes   1     STABLE
+personas_gemini      1.010    0.783    10    1.29   No    6     STABLE
+
+================================================================================
+[CRASHED at Prediction Validation phase - Unicode checkmark error]
+(Core settling time data is complete and valid)
+================================================================================

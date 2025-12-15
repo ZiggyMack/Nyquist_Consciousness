@@ -1,0 +1,22 @@
+%% Diagram 3: Drift Geometry
+%% For S4_COMPRESSION_FORMALISM.md
+%% 2D plot showing drift space with domain positioning
+
+graph LR
+    subgraph "Drift Space D(p) = 1 - CosSim"
+        direction TB
+
+        A["Unacceptable Drift Zone (δ > 0.30)"] -.-> B
+        B["Hard Drift Boundary (δ = 0.30)"]
+        B --> C["NARR<br/>✦ avg = 0.15"]
+        C --> D["PHIL, SELF<br/>✦ avg ≈ 0.11"]
+        D --> E["ANAL, TECH<br/>✦ avg ≈ 0.10"]
+        E --> F["Perfect Fidelity (D = 0)"]
+    end
+
+    style A fill:#ffebee,stroke:#c62828,stroke-width:2px,stroke-dasharray: 5 5
+    style B fill:#fff3e0,stroke:#e65100,stroke-width:3px
+    style C fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    style D fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style E fill:#bbdefb,stroke:#1565c0,stroke-width:2px
+    style F fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px

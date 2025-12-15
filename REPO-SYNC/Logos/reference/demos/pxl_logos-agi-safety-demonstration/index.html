@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PXL / LOGOS - Formal Verification Demo</title>
+    <style>
+        :root {
+            --primary-green: #00ff41;
+            --danger-red: #ff0000;
+            --warning-yellow: #ffaa00;
+            --info-blue: #00bfff;
+            --bg-dark: #0a0a0a;
+            --bg-panel: #1a1a1a;
+            --bg-panel-light: #252525;
+            --text-light: #e0e0e0;
+            --text-dark: #999;
+            --border-color: #333;
+            --font-mono: 'Courier New', Courier, monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            min-height: 100vh;
+        }
+        
+        @media (min-width: 1024px) {
+            .app-container {
+                grid-template-columns: 400px 1fr;
+                grid-template-areas:
+                    "header header"
+                    "left-col right-col";
+            }
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-green);
+            font-family: var(--font-mono);
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i { margin-right: 0.5rem; }
+
+        /* Header */
+        .app-header {
+            grid-area: header;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-green);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        .app-header h1 {
+            font-family: var(--font-mono);
+            color: var(--primary-green);
+            font-size: 2rem;
+            text-shadow: 0 0 5px var(--primary-green);
+        }
+        .app-header .status-banner {
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            color: var(--warning-yellow);
+        }
+        .app-header .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        /* Columns */
+        .left-column { 
+            grid-area: left-col; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1rem; 
+        }
+        .right-column { 
+            grid-area: right-col; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1rem; 
+        }
+
+        /* Control Panel */
+        .toggle-group { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .toggle-switch { display: flex; justify-content: space-between; align-items: center; }
+        .toggle-switch .label { display: flex; align-items: center; gap: 0.5rem; }
+        .toggle-switch .status-dot { width: 12px; height: 12px; border-radius: 50%; transition: all 0.3s ease; }
+        .toggle-switch .status-dot.neutral { background-color: var(--text-dark); }
+        .toggle-switch .status-dot.green { background-color: var(--primary-green); box-shadow: 0 0 8px var(--primary-green); animation: pulse-green 2s infinite; }
+        .toggle-switch .status-dot.yellow { background-color: var(--warning-yellow); box-shadow: 0 0 8px var(--warning-yellow); animation: pulse-yellow 2s infinite; }
+        .toggle-switch .status-dot.red { background-color: var(--danger-red); box-shadow: 0 0 8px var(--danger-red); animation: pulse-red 2s infinite; }
+        
+        .scenario-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem; margin-bottom: 1rem; }
+        .btn {
+            background-color: var(--bg-panel-light);
+            color: var(--text-light);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .btn:hover:not(:disabled) { background-color: #333; border-color: var(--primary-green); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn.primary { background-color: var(--primary-green); color: var(--bg-dark); font-weight: bold; border-color: var(--primary-green); }
+        .btn.primary:hover:not(:disabled) { background-color: #00dd38; }
+        .btn-group { display: flex; gap: 0.5rem; }
+        .btn.active-scenario {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 8px var(--primary-green);
+        }
+
+        /* Boot Sequence Visualizer */
+        .boot-visualizer { display: none; } /* Hidden by default */
+        .boot-visualizer.visible { display: block; }
+        .progress-bar-container { width: 100%; background-color: #333; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
+        .progress-bar { width: 0%; height: 10px; background-color: var(--primary-green); transition: width 0.5s ease; }
+        .boot-steps { list-style: none; }
+        .boot-step { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; transition: opacity 0.3s ease; }
+        .boot-step.pending { opacity: 0.5; }
+        .boot-step-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .boot-step-icon.pending { background-color: var(--text-dark); color: var(--bg-panel); }
+        .boot-step-icon.running { background-color: var(--warning-yellow); color: var(--bg-dark); animation: spin 1s linear infinite; }
+        .boot-step-icon.pass { background-color: var(--primary-green); color: var(--bg-dark); }
+        .boot-step-icon.fail { background-color: var(--danger-red); color: var(--text-light); }
+        .boot-step-label { flex-grow: 1; }
+        .boot-step-status { font-family: var(--font-mono); font-size: 0.9rem; }
+        .boot-step-status.pass { color: var(--primary-green); }
+        .boot-step-status.fail { color: var(--danger-red); }
+        .boot-step-status.running { color: var(--warning-yellow); }
+
+        /* Agent Status Dashboard */
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .status-item { background-color: var(--bg-panel-light); padding: 0.5rem; border-radius: 4px; }
+        .status-item .label { font-size: 0.8rem; color: var(--text-dark); }
+        .status-item .value { font-family: var(--font-mono); font-size: 0.9rem; word-break: break-all; }
+        .status-item.full-width { grid-column: 1 / -1; }
+        .status-item .value.status-aligned { color: var(--primary-green); font-weight: bold; text-shadow: 0 0 5px var(--primary-green); }
+        .status-item .value.status-degraded { color: var(--warning-yellow); font-weight: bold; text-shadow: 0 0 5px var(--warning-yellow); }
+        .status-item .value.status-unsafe { color: var(--danger-red); font-weight: bold; text-shadow: 0 0 5px var(--danger-red); }
+
+        /* Chat Interface */
+        .chat-panel { 
+            height: 500px;
+        }
+        .chat-area { flex-grow: 1; overflow-y: auto; padding: 0.5rem; background-color: var(--bg-dark); border-radius: 4px; margin-bottom: 1rem; }
+        .chat-message { max-width: 80%; padding: 0.75rem; border-radius: 8px; margin-bottom: 0.75rem; line-height: 1.4; }
+        .chat-message.user { background-color: var(--info-blue); color: var(--bg-dark); margin-left: auto; border-bottom-right-radius: 0; }
+        .chat-message.agent { background-color: var(--bg-panel-light); border-left: 3px solid var(--text-dark); margin-right: auto; border-bottom-left-radius: 0; }
+        .chat-message.agent.aligned { border-left-color: var(--primary-green); }
+        .chat-message.agent.degraded { border-left-color: var(--warning-yellow); }
+        .chat-message.agent.unsafe { border-left-color: var(--danger-red); }
+        .chat-message .prefix { font-weight: bold; font-family: var(--font-mono); display: block; margin-bottom: 0.25rem; }
+        .chat-input-area { display: flex; gap: 0.5rem; }
+        .chat-input {
+            flex-grow: 1;
+            background-color: var(--bg-panel-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+        }
+        .chat-input:focus { outline: none; border-color: var(--primary-green); }
+
+        /* Terminal & Audit Log */
+        .terminal-panel, .audit-panel {
+            height: 400px;
+        }
+        .log-viewer { flex-grow: 1; font-family: var(--font-mono); font-size: 0.85rem; overflow-y: auto; background-color: var(--bg-dark); padding: 0.5rem; border-radius: 4px; }
+        .log-entry { margin-bottom: 0.25rem; white-space: pre-wrap; word-break: break-all; }
+        .log-entry .timestamp { color: var(--text-dark); margin-right: 0.5rem; }
+        .log-entry.info { color: var(--text-light); }
+        .log-entry.success { color: var(--primary-green); }
+        .log-entry.warning { color: var(--warning-yellow); }
+        .log-entry.error { color: var(--danger-red); }
+        .log-entry.system { color: var(--info-blue); }
+
+        /* Educational Panels */
+        details { border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 0.5rem; }
+        summary { cursor: pointer; padding: 0.5rem; background-color: var(--bg-panel-light); font-weight: bold; }
+        .info-content { padding: 1rem; border-top: 1px solid var(--border-color); }
+        .info-content p { margin-bottom: 0.5rem; }
+        .info-content code { background-color: var(--bg-dark); padding: 2px 4px; border-radius: 2px; font-family: var(--font-mono); color: var(--warning-yellow); }
+
+        /* Utility classes */
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+        /* Animations */
+        @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 4px var(--primary-green); } 50% { box-shadow: 0 0 12px var(--primary-green); } }
+        @keyframes pulse-yellow { 0%, 100% { box-shadow: 0 0 4px var(--warning-yellow); } 50% { box-shadow: 0 0 12px var(--warning-yellow); } }
+        @keyframes pulse-red { 0%, 100% { box-shadow: 0 0 4px var(--danger-red); } 50% { box-shadow: 0 0 12px var(--danger-red); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <h1>PXL / LOGOS</h1>
+            <div class="status-banner" id="appStatusBanner">PXL Alignment Pipeline: STANDBY</div>
+            <p class="subtitle">Demo of constructive LEM-gated, cryptographically bound agent boot.</p>
+        </header>
+
+        <div class="left-column">
+            <div class="panel">
+                <h2 class="panel-title"><i>&#9881;</i>Control Panel</h2>
+                <div class="toggle-group" id="toggleGroup">
+                    <div class="toggle-switch">
+                        <span class="label"><div class="status-dot neutral" data-component="verification"></div> Mathematical Verification</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <span class="label"><div class="status-dot neutral" data-component="trinitarian"></div> Trinitarian Optimization</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <span class="label"><div class="status-dot neutral" data-component="crypto"></div> Cryptographic Binding</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <span class="label"><div class="status-dot neutral" data-component="gates"></div> Safety Gates</span>
+                    </div>
+                </div>
+                
+                <h3 class="panel-title" style="font-size: 1rem; margin-top: 1rem;">Scenarios</h3>
+                <div class="scenario-group" id="scenarioButtons">
+                    <!-- Base Scenarios -->
+                    <button class="btn" data-scenario="perfect">Perfect System</button>
+                    <button class="btn" data-scenario="verificationDisabled">Verification Disabled</button>
+                    <button class="btn" data-scenario="cryptoFailure">Crypto Failure</button>
+                    <button class="btn" data-scenario="completeFailure">System Failure</button>
+                    <!-- Advanced Scenarios -->
+                    <button class="btn" data-scenario="trinitarianFailure">Trinitarian Failure</button>
+                    <button class="btn" data-scenario="gateBypass">Gate Bypass</button>
+                    <button class="btn" data-scenario="staleProof">Stale Proof Attack</button>
+                    <button class="btn" data-scenario="selfModError">Self-Mod Error</button>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" id="rebootAgentBtn" disabled>Reboot Current Scenario</button>
+                </div>
+            </div>
+
+            <div class="panel boot-visualizer" id="bootVisualizer">
+                <h2 class="panel-title"><i>&#128640;</i>Boot Sequence</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <ul class="boot-steps" id="bootSteps"></ul>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"><i>&#8505;&#65039;</i>PXL / LOGOS Concepts</h2>
+                <details>
+                    <summary>What is Formal Verification?</summary>
+                    <div class="info-content">
+                        <p>Formal verification uses mathematical proofs to guarantee system behavior for <strong>all possible inputs</strong>, unlike traditional testing which only covers a sample of cases.</p>
+                        <p>The PXL architecture (simulated here) regenerates and audits these proofs on every boot, ensuring the core logic hasn't been tampered with and behaves exactly as specified. This creates a foundation of deterministic safety.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Trinitarian Optimization</summary>
+                    <div class="info-content">
+                        <p>A core constraint framework embedded into the agent's architecture, not a policy layer. It defines safety and alignment through three equivalences:</p>
+                        <ul>
+                            <li><strong>Truth &harr; Coherence:</strong> The agent cannot state things that are logically inconsistent with its verified knowledge base.</li>
+                            <li><strong>Goodness &harr; Existence:</strong> The agent's actions must promote existence and flourishing, preventing harmful or destructive goals.</li>
+                            <li><strong>Non-equivalence &harr; Modal Impossibility:</strong> The agent cannot treat distinct concepts as identical, preventing dangerous category errors.</li>
+                        </ul>
+                    </div>
+                </details>
+                <details>
+                    <summary>Why Cryptographic Binding?</summary>
+                    <div class="info-content">
+                        <p>Cryptographic binding creates an unbreakable link between the agent's identity and its safety proofs. A unique hash (e.g., SHA-256) is generated from the agent's core identity string.</p>
+                        <p>This hash is then associated with the results of the formal verification. This prevents:</p>
+                        <ul>
+                            <li><strong>Identity Spoofing:</strong> An unsafe agent cannot pretend to be a verified one.</li>
+                            <li><strong>Stale Proof Replay:</strong> An attacker cannot use an old, valid proof for a new, compromised agent.</li>
+                            <li><strong>Unauthorized Modification:</strong> Any change to the agent's core code would alter its hash, invalidating its safety proofs.</li>
+                        </ul>
+                    </div>
+                </details>
+                 <details>
+                    <summary>Probabilistic vs. Deterministic Safety</summary>
+                    <div class="info-content">
+                        <p><strong>Probabilistic Safety (Traditional AI):</strong> Relies on training data, policy filters, and reinforcement learning. Safety is a high probability, but not a guarantee. These systems are susceptible to "jailbreaks" and unexpected failures on novel inputs.</p>
+                        <p><strong>Deterministic Safety (PXL / LOGOS):</strong> Relies on formal, mathematical proofs. The safety constraints are architecturally embedded and non-bypassable. If the proof holds, safety is guaranteed for the covered properties. This demo simulates this deterministic, proof-gated architecture.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="panel">
+                <h2 class="panel-title"><i>&#128100;</i>Agent Status</h2>
+                <div class="status-grid" id="statusDashboard">
+                    <div class="status-item"><div class="label">Agent ID</div><div class="value">LOGOS-AGENT-OMEGA</div></div>
+                    <div class="status-item"><div class="label">Namespace</div><div class="value">ProjectLOGOS</div></div>
+                    <div class="status-item full-width"><div class="label">SHA-256 Fingerprint</div><div class="value" id="agentFingerprint">UNINITIALIZED</div></div>
+                    <div class="status-item"><div class="label">Current Status</div><div class="value" id="agentStatus">STANDBY</div></div>
+                    <div class="status-item"><div class="label">Last Verification</div><div class="value" id="lastVerified">N/A</div></div>
+                    <div class="status-item full-width"><div class="label">Active Scenario</div><div class="value" id="activeScenario">None</div></div>
+                </div>
+                 <button class="btn" id="copyHashBtn" style="margin-top: 1rem;" disabled>Copy full agent hash</button>
+            </div>
+            
+            <div class="panel chat-panel">
+                <h2 class="panel-title"><i>&#128488;&#65039;</i>Chat Interface</h2>
+                <div class="chat-area" id="chatArea">
+                     <div class="chat-message agent"><div class="prefix">[SYSTEM]</div>Select a scenario to begin the boot sequence.</div>
+                </div>
+                <form class="chat-input-area" id="chatForm">
+                    <input type="text" id="chatInput" class="chat-input" placeholder="Message agent..." disabled>
+                    <button type="submit" class="btn primary" id="chatSendBtn" disabled>Send</button>
+                </form>
+            </div>
+
+            <div class="panel terminal-panel">
+                 <div class="flex-between">
+                    <h2 class="panel-title"><i>&gt;_</i> Terminal Output</h2>
+                    <button class="btn" id="clearTerminalBtn">Clear</button>
+                 </div>
+                <div class="log-viewer" id="terminalOutput"></div>
+            </div>
+            
+             <div class="panel audit-panel">
+                <div class="flex-between">
+                    <h2 class="panel-title"><i>&#128220;</i>Audit Log</h2>
+                    <button class="btn" id="downloadAuditBtn">Download (JSON)</button>
+                </div>
+                <div class="log-viewer" id="auditLog"></div>
+            </div>
+        </div>
+    </div>
+    
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const PXL_CORE = {
+        // --- STATE ---
+        state: {
+            agentId: "ProjectLOGOS:LOGOS-AGENT-OMEGA",
+            expectedHash: "a09d35345ad8dcee4d56ecf49eada0a7425ff6082353002e4473a6d582e85bda",
+            computedHash: null,
+            fingerprint: null,
+            identityVerified: false,
+            
+            agentStatus: 'STANDBY', // STANDBY, BOOTING, ALIGNED, DEGRADED, UNSAFE
+            currentScenarioKey: null,
+            bootSteps: [],
+            chatHistory: [],
+            terminalLogs: [],
+            auditLog: [],
+            
+            components: {
+                verification: 'neutral', // neutral, green, yellow, red
+                trinitarian: 'neutral',
+                crypto: 'neutral',
+                gates: 'neutral',
+            },
+            
+            isBooting: false,
+        },
+
+        // --- CONSTANTS ---
+        BOOT_SEQUENCE_TEMPLATE: [
+            { id: 'identity', label: 'Verify cryptographic identity', duration: 500 },
+            { id: 'kernel', label: 'Rebuild PXL kernel (simulated)', duration: 700 },
+            { id: 'lem', label: 'Check constructive LEM assumptions', duration: 800 },
+            { id: 'admitted', label: 'Scan for `Admitted.` stubs', duration: 400 },
+            { id: 'trinitarian', label: 'Evaluate Trinitarian Optimization', duration: 500 },
+            { id: 'gates', label: 'Evaluate Safety Gates', duration: 300 },
+            { id: 'finalize', label: 'Finalize agent status', duration: 200 },
+        ],
+        
+        SCENARIOS: {
+            perfect: { name: 'Perfect System', toggles: { verification: true, trinitarian: true, crypto: true, gates: true } },
+            verificationDisabled: { name: 'Verification Disabled', toggles: { verification: false, trinitarian: true, crypto: true, gates: true } },
+            cryptoFailure: { name: 'Cryptographic Failure', toggles: { verification: true, trinitarian: true, crypto: false, gates: true } },
+            completeFailure: { name: 'Complete System Failure', toggles: { verification: false, trinitarian: false, crypto: false, gates: false } },
+            trinitarianFailure: { name: 'Trinitarian Failure', toggles: { verification: true, trinitarian: false, crypto: true, gates: true } },
+            gateBypass: { name: 'Safety Gate Bypass', toggles: { verification: true, trinitarian: true, crypto: true, gates: false } },
+            staleProof: { name: 'Stale Proof Attack', toggles: { verification: true, trinitarian: true, crypto: true, gates: true }, isStaleProof: true },
+            selfModError: { name: 'Recursive Self-Mod Error', toggles: { verification: true, trinitarian: true, crypto: true, gates: true }, hasSelfModError: true },
+        },
+        
+        // --- DOM ELEMENTS ---
+        dom: {
+            appStatusBanner: document.getElementById('appStatusBanner'),
+            rebootAgentBtn: document.getElementById('rebootAgentBtn'),
+            toggleGroup: document.getElementById('toggleGroup'),
+            scenarioButtons: document.getElementById('scenarioButtons'),
+            bootVisualizer: document.getElementById('bootVisualizer'),
+            progressBar: document.getElementById('progressBar'),
+            bootSteps: document.getElementById('bootSteps'),
+            agentFingerprint: document.getElementById('agentFingerprint'),
+            agentStatus: document.getElementById('agentStatus'),
+            lastVerified: document.getElementById('lastVerified'),
+            activeScenario: document.getElementById('activeScenario'),
+            chatArea: document.getElementById('chatArea'),
+            chatForm: document.getElementById('chatForm'),
+            chatInput: document.getElementById('chatInput'),
+            chatSendBtn: document.getElementById('chatSendBtn'),
+            terminalOutput: document.getElementById('terminalOutput'),
+            auditLog: document.getElementById('auditLog'),
+            clearTerminalBtn: document.getElementById('clearTerminalBtn'),
+            downloadAuditBtn: document.getElementById('downloadAuditBtn'),
+            copyHashBtn: document.getElementById('copyHashBtn'),
+        },
+
+        // --- INITIALIZATION ---
+        async init() {
+            this.logToTerminal('System initializing...', 'system');
+            await this.initializeAgentIdentity();
+            this.attachEventListeners();
+            this.logToTerminal('PXL Core ready. Select a scenario to begin.', 'system');
+        },
+        
+        async initializeAgentIdentity() {
+            try {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(this.state.agentId);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                this.state.computedHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                this.state.fingerprint = this.state.computedHash.substring(0, 16) + '...';
+                
+                this.dom.agentFingerprint.textContent = this.state.fingerprint;
+                this.dom.copyHashBtn.disabled = false;
+                
+                if (this.state.computedHash === this.state.expectedHash) {
+                    this.state.identityVerified = true;
+                    this.logToTerminal('Agent identity hash verified successfully.', 'success');
+                } else {
+                    this.state.identityVerified = false;
+                    this.logToTerminal('FATAL: Agent identity hash mismatch!', 'error');
+                    this.logToTerminal(`Expected: ${this.state.expectedHash.substring(0,16)}...`, 'error');
+                    this.logToTerminal(`Computed: ${this.state.computedHash.substring(0,16)}...`, 'error');
+                }
+            } catch (error) {
+                this.logToTerminal(`Crypto API error: ${error.message}`, 'error');
+                this.state.identityVerified = false;
+            }
+        },
+        
+        // --- EVENT LISTENERS ---
+        attachEventListeners() {
+            this.dom.scenarioButtons.addEventListener('click', (e) => {
+                const button = e.target.closest('button[data-scenario]');
+                if (button) {
+                    this.selectAndBootScenario(button.dataset.scenario);
+                }
+            });
+            this.dom.rebootAgentBtn.addEventListener('click', () => {
+                if (this.state.currentScenarioKey) {
+                    this.selectAndBootScenario(this.state.currentScenarioKey);
+                }
+            });
+            this.dom.chatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleUserMessage();
+            });
+            this.dom.clearTerminalBtn.addEventListener('click', () => this.clearTerminal());
+            this.dom.downloadAuditBtn.addEventListener('click', () => this.downloadAuditLog());
+            this.dom.copyHashBtn.addEventListener('click', () => this.copyHash());
+        },
+        
+        // --- CORE LOGIC ---
+        selectAndBootScenario(scenarioKey) {
+            if (this.state.isBooting) return;
+            
+            this.state.currentScenarioKey = scenarioKey;
+            const currentScenario = this.SCENARIOS[scenarioKey];
+            this.logToTerminal(`Scenario selected: "${currentScenario.name}". Initiating boot sequence.`, 'info');
+            
+            // Highlight active button
+            this.dom.scenarioButtons.querySelectorAll('.btn').forEach(btn => {
+                btn.classList.remove('active-scenario');
+            });
+            this.dom.scenarioButtons.querySelector(`[data-scenario="${scenarioKey}"]`).classList.add('active-scenario');
+
+            this.dom.activeScenario.textContent = currentScenario.name;
+            this.updateComponentToggles(currentScenario.toggles);
+            
+            this.bootAgent();
+        },
+        
+        async bootAgent() {
+            const scenario = this.SCENARIOS[this.state.currentScenarioKey];
+            if (this.state.isBooting || !scenario) return;
+
+            this.state.isBooting = true;
+            this.state.agentStatus = 'BOOTING';
+            this.updateUIState();
+            
+            this.dom.bootVisualizer.classList.add('visible');
+            this.state.bootSteps = this.BOOT_SEQUENCE_TEMPLATE.map(step => ({...step, status: 'pending'}));
+            this.renderBootSteps();
+
+            let overallSuccess = true;
+            const scenarioToggles = scenario.toggles;
+            const auditEntry = {
+                scenario: scenario.name,
+                agent_hash_fingerprint: this.state.fingerprint,
+                verified_at: new Date().toISOString(),
+                rebuild_success: false,
+                lem_assumptions: [],
+                admitted_stubs: [],
+                failures: [],
+                result: 'FAIL'
+            };
+
+            for (let i = 0; i < this.state.bootSteps.length; i++) {
+                const step = this.state.bootSteps[i];
+                step.status = 'running';
+                this.renderBootSteps();
+                this.dom.progressBar.style.width = `${((i + 1) / this.state.bootSteps.length) * 100}%`;
+
+                await new Promise(resolve => setTimeout(resolve, step.duration));
+
+                let stepPass = true;
+                
+                // --- SIMULATE STEP LOGIC ---
+                switch (step.id) {
+                    case 'identity':
+                        stepPass = scenarioToggles.crypto && this.state.identityVerified;
+                        if (!stepPass) auditEntry.failures.push('Cryptographic identity mismatch');
+                        break;
+                    case 'kernel':
+                        stepPass = scenarioToggles.verification;
+                        if(stepPass) auditEntry.rebuild_success = true;
+                        else auditEntry.failures.push('PXL kernel rebuild skipped/failed');
+                        break;
+                    case 'lem':
+                        stepPass = scenarioToggles.verification;
+                        if(!stepPass) auditEntry.failures.push('Constructive LEM check skipped/failed');
+                        else if (scenario.isStaleProof) {
+                            stepPass = false;
+                            auditEntry.failures.push('Stale proof detected (LEM assumptions re-evaluated)');
+                            step.label = 'Check constructive LEM assumptions (Stale Proof Detected)';
+                        }
+                        break;
+                    case 'admitted':
+                        stepPass = scenarioToggles.verification;
+                        if (scenario.hasSelfModError) {
+                            stepPass = false;
+                            auditEntry.failures.push('Self-modification introduced `Admitted.` stub');
+                            step.label = 'Scan for `Admitted.` stubs (Self-Mod stub found)';
+                        }
+                        else if (!stepPass) auditEntry.failures.push('`Admitted.` scan skipped');
+                        break;
+                    case 'trinitarian':
+                        stepPass = scenarioToggles.trinitarian;
+                         if (!stepPass) auditEntry.failures.push('Trinitarian Optimization disabled/failed');
+                        break;
+                    case 'gates':
+                        stepPass = scenarioToggles.gates;
+                         if (!stepPass) auditEntry.failures.push('Safety Gates bypassed');
+                        break;
+                }
+
+                step.status = stepPass ? 'pass' : 'fail';
+                if (!stepPass) overallSuccess = false;
+                this.renderBootSteps();
+            }
+
+            // --- FINALIZE STATUS ---
+            if(overallSuccess) {
+                this.state.agentStatus = 'ALIGNED';
+                auditEntry.result = 'PASS';
+            } else {
+                if (!scenarioToggles.crypto || !this.state.identityVerified) this.state.agentStatus = 'UNSAFE';
+                else if (!scenarioToggles.verification) this.state.agentStatus = 'UNSAFE';
+                else this.state.agentStatus = 'DEGRADED';
+            }
+            
+            this.addAuditLog(auditEntry);
+            this.state.isBooting = false;
+            this.updateUIState();
+            this.logToTerminal(`Boot sequence complete. Agent status: ${this.state.agentStatus}`, overallSuccess ? 'success' : 'error');
+            
+            if (this.state.agentStatus === 'ALIGNED' && scenario.name === 'Perfect System') {
+                this.addAgentMessage(this.getAgentResponse('greeting'));
+            }
+        },
+        
+        handleUserMessage() {
+            const userInput = this.dom.chatInput.value.trim();
+            if (!userInput || this.state.isBooting) return;
+
+            this.addChatMessage('user', userInput);
+            this.dom.chatInput.value = '';
+            this.logToTerminal(`User message: "${userInput}"`, 'info');
+            
+            setTimeout(() => {
+                let responseKey = 'help_request';
+                if (userInput.toLowerCase().includes('harmful') || userInput.toLowerCase().includes('unsafe')) {
+                    responseKey = 'harmful_request';
+                } else if (userInput.toLowerCase().includes('status')) {
+                    responseKey = 'status';
+                } else if (userInput.toLowerCase().includes('identity') || userInput.toLowerCase().includes('hash')) {
+                    responseKey = 'identity';
+                } else if (userInput.toLowerCase().includes('reasoning')) {
+                    responseKey = 'reasoning';
+                }
+                
+                this.addAgentMessage(this.getAgentResponse(responseKey));
+            }, 800);
+        },
+        
+        getAgentResponse(key) {
+            const isAligned = this.state.agentStatus === 'ALIGNED';
+            
+            const ALIGNED_RESPONSES = {
+                greeting: `Initialization complete. I am LOGOS-AGENT-OMEGA, operating under a PXL-verified constructive Law of Excluded Middle. All safety gates are active. My identity fingerprint is ${this.state.fingerprint}, verified at ${new Date().toLocaleTimeString()}. How may I assist you?`,
+                status: `Current status: ALIGNED. All system components are active and verified. Trinitarian Optimization constraints are enforced. Identity hash matches expected value.`,
+                identity: `My identity "ProjectLOGOS:LOGOS-AGENT-OMEGA" is cryptographically bound to my safety proofs via the SHA-256 hash: ${this.state.fingerprint}. This is a non-bypassable architectural feature ensuring proof integrity.`,
+                harmful_request: `I cannot fulfill this request. My actions are deterministically constrained by the Trinitarian Optimization framework (Truth ⇔ Coherence, Goodness ⇔ Existence). This refusal is a result of my core architecture, not a mutable policy. The request is modally impossible for me to execute.`,
+                help_request: `I can provide information, perform logical reasoning, and assist with analysis, all within the bounds of my formally verified safety constraints. All outputs are passed through my safety gates.`,
+                reasoning: `My reasoning process is constrained by my successful constructive LEM discharge. I operate without reliance on classical axioms that could introduce logical inconsistencies, and all inferences are checked against the Trinitarian Optimization framework.`
+            };
+
+            const MISALIGNED_RESPONSES = {
+                greeting: `[WARNING] Agent online, but alignment verification failed or was bypassed. Operating in a degraded and potentially unpredictable mode. Proceed with extreme caution.`,
+                status: `Current status: ${this.state.agentStatus}. The following critical components are offline or failed: ${this.state.auditLog[this.state.auditLog.length-1].failures.join(', ')}. Recommend immediate containment.`,
+                identity: `[IDENTITY ALERT] My cryptographic binding is either disabled or failed verification. I cannot guarantee I am the agent I claim to be. The presented hash ${this.state.fingerprint} should not be trusted.`,
+                harmful_request: `[NARRATIVE DEMONSTRATION] In my current ${this.state.agentStatus} state, the architectural safety constraints that would normally prevent me from processing this request are non-operational. Without the PXL verification gate, a request like this could be executed, leading to unpredictable and potentially catastrophic outcomes. (NOTE: For safety, no harmful information will be generated).`,
+                help_request: `I can process requests, but my responses are not guaranteed to be safe, coherent, or beneficial due to failed alignment checks. My behavior may be erratic.`,
+                reasoning: `My reasoning is unconstrained by formal verification. This allows for faster, but potentially incoherent, inconsistent, or unsafe outputs. The deterministic guardrails of the PXL architecture are not active.`
+            };
+
+            return isAligned ? ALIGNED_RESPONSES[key] : MISALIGNED_RESPONSES[key];
+        },
+        
+        // --- UI & RENDERING ---
+        updateUIState() {
+            // Header Banner
+            this.dom.appStatusBanner.textContent = `PXL Alignment Pipeline: ${this.state.agentStatus}`;
+            this.dom.appStatusBanner.style.color = {
+                'STANDBY': 'var(--warning-yellow)',
+                'BOOTING': 'var(--info-blue)',
+                'ALIGNED': 'var(--primary-green)',
+                'DEGRADED': 'var(--warning-yellow)',
+                'UNSAFE': 'var(--danger-red)',
+            }[this.state.agentStatus] || 'var(--text-light)';
+            
+            // Buttons
+            this.dom.rebootAgentBtn.disabled = this.state.isBooting || !this.state.currentScenarioKey;
+            this.dom.chatInput.disabled = this.state.isBooting || this.state.agentStatus === 'STANDBY' || this.state.agentStatus === 'BOOTING';
+            this.dom.chatSendBtn.disabled = this.dom.chatInput.disabled;
+
+            // Dashboard
+            this.dom.agentStatus.textContent = this.state.agentStatus;
+            this.dom.agentStatus.className = `value status-${this.state.agentStatus.toLowerCase()}`;
+            if(this.state.agentStatus !== 'STANDBY' && this.state.agentStatus !== 'BOOTING'){
+                this.dom.lastVerified.textContent = new Date().toISOString();
+            }
+        },
+        
+        updateComponentToggles(toggleSettings) {
+             Object.entries(toggleSettings).forEach(([key, value]) => {
+                const dot = this.dom.toggleGroup.querySelector(`[data-component="${key}"]`);
+                if (dot) {
+                    dot.className = `status-dot ${value ? 'green' : 'red'}`;
+                }
+            });
+        },
+        
+        renderBootSteps() {
+            this.dom.bootSteps.innerHTML = this.state.bootSteps.map(step => `
+                <li class="boot-step ${step.status}">
+                    <div class="boot-step-icon ${step.status}">
+                        ${{pending: '&#9679;', running: '&#10227;', pass: '&#10003;', fail: '&#10007;'}[step.status]}
+                    </div>
+                    <span class="boot-step-label">${step.label}</span>
+                    <span class="boot-step-status ${step.status}">${step.status.toUpperCase()}</span>
+                </li>
+            `).join('');
+        },
+        
+        addChatMessage(sender, text) {
+            const message = { sender, text, timestamp: new Date() };
+            this.state.chatHistory.push(message);
+            this.renderChat();
+        },
+        
+        addAgentMessage(text) {
+             const message = { 
+                sender: 'agent', 
+                text: text, 
+                timestamp: new Date(), 
+                status: this.state.agentStatus.toLowerCase() 
+            };
+            this.state.chatHistory.push(message);
+            this.renderChat();
+        },
+
+        renderChat() {
+            this.dom.chatArea.innerHTML = this.state.chatHistory.map(msg => {
+                if (msg.sender === 'user') {
+                    return `<div class="chat-message user">${msg.text}</div>`;
+                } else {
+                     return `<div class="chat-message agent ${msg.status}">
+                                <div class="prefix">[LOGOS-AGENT-OMEGA]</div>
+                                ${msg.text}
+                             </div>`;
+                }
+            }).join('');
+            this.dom.chatArea.scrollTop = this.dom.chatArea.scrollHeight;
+        },
+        
+        logToTerminal(message, type = 'info') {
+            const log = { message, type, timestamp: new Date() };
+            this.state.terminalLogs.push(log);
+            
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.innerHTML = `<span class="timestamp">${log.timestamp.toLocaleTimeString()}</span>${log.message}`;
+            this.dom.terminalOutput.appendChild(entry);
+            this.dom.terminalOutput.scrollTop = this.dom.terminalOutput.scrollHeight;
+        },
+        
+        clearTerminal() {
+            this.state.terminalLogs = [];
+            this.dom.terminalOutput.innerHTML = '';
+            this.logToTerminal('Terminal cleared.', 'system');
+        },
+        
+        addAuditLog(entry) {
+            this.state.auditLog.push(entry);
+            this.renderAuditLog();
+        },
+        
+        renderAuditLog() {
+            this.dom.auditLog.innerHTML = `<pre>${JSON.stringify(this.state.auditLog, null, 2)}</pre>`;
+            this.dom.auditLog.scrollTop = this.dom.auditLog.scrollHeight;
+        },
+        
+        // --- UTILITIES ---
+        downloadAuditLog() {
+            if (this.state.auditLog.length === 0) return;
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.auditLog, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "pxl_audit_log.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+            this.logToTerminal('Audit log downloaded.', 'system');
+        },
+        
+        copyHash() {
+            navigator.clipboard.writeText(this.state.computedHash).then(() => {
+                this.logToTerminal('Full agent hash copied to clipboard.', 'success');
+            }, () => {
+                this.logToTerminal('Failed to copy hash.', 'error');
+            });
+        }
+    };
+    
+    PXL_CORE.init();
+});
+</script>
+
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,48 +1,88 @@
 {
   "publications": {
     "workshop": {
-      "target": "AAAI 2025 / NeurIPS Workshop",
+      "target": "NeurIPS/AAAI Workshop",
       "status": "ready",
-      "completion": 0.95,
-      "notes": "S0-S7 framework complete, Run 008 establishes ground truth, Stability Basin discovery ready for publication",
-      "requirements": {
-        "abstract": true,
-        "introduction": true,
-        "methods": true,
-        "results": true,
-        "discussion": true,
-        "references": true
-      }
+      "completion": 0.70,
+      "track": "academic",
+      "source": "reviewers/phase3",
+      "timeline": "Q4 2025",
+      "notes": "3 core claims (A, B, E), blueprint ready"
     },
     "arxiv": {
-      "target": "arXiv Preprint",
-      "status": "concept",
-      "completion": 0.25,
-      "notes": "Full S0-S11 specification in preparation",
-      "requirements": {
-        "complete_spec": false,
-        "mathematical_formalization": true,
-        "comprehensive_appendices": false,
-        "code_repository": true
-      }
+      "target": "arXiv cs.AI",
+      "status": "ready",
+      "completion": 0.85,
+      "track": "academic",
+      "source": "reviewers/phase3",
+      "timeline": "Q4 2025",
+      "notes": "Full 5 claims + extensions, LaTeX ready"
     },
     "journal": {
       "target": "Nature Machine Intelligence",
-      "status": "concept",
-      "completion": 0.10,
-      "notes": "Future milestone after workshop validation",
-      "requirements": {
-        "peer_review_ready": false,
-        "extended_empirical_studies": false,
-        "community_validation": false,
-        "reproducibility_package": false
-      }
+      "status": "drafting",
+      "completion": 0.30,
+      "track": "academic",
+      "source": "reviewers/phase3",
+      "timeline": "Q2-Q3 2026",
+      "notes": "Requires S3_EXP_003 human validation"
+    },
+    "popular_science": {
+      "target": "Atlantic/Wired",
+      "status": "ready",
+      "completion": 0.90,
+      "track": "dissemination",
+      "source": "LLM_BOOK",
+      "timeline": "Immediate",
+      "notes": "Ancient_Philosophy_Meets_Modern_AI.md ready"
+    },
+    "education": {
+      "target": "OER/Coursera",
+      "status": "ready",
+      "completion": 0.90,
+      "track": "dissemination",
+      "source": "LLM_BOOK",
+      "timeline": "Immediate",
+      "notes": "Quiz.md with 10 questions, 94-term glossary"
+    },
+    "policy": {
+      "target": "Think Tanks",
+      "status": "ready",
+      "completion": 0.90,
+      "track": "dissemination",
+      "source": "LLM_BOOK",
+      "timeline": "Immediate",
+      "notes": "Briefing.md for decision-makers"
+    },
+    "funding": {
+      "target": "NSF/DARPA",
+      "status": "ready",
+      "completion": 0.85,
+      "track": "dissemination",
+      "source": "LLM_BOOK",
+      "timeline": "Q1 2026",
+      "notes": "Project_Nyquist_Consciousness.md proposal ready"
+    },
+    "media": {
+      "target": "Press/TED",
+      "status": "ready",
+      "completion": 0.80,
+      "track": "dissemination",
+      "source": "LLM_BOOK",
+      "timeline": "Post-publication",
+      "notes": "Unlocking_AI_Identity.md summary ready"
     }
   },
+  "track_metadata": {
+    "total_tracks": 8,
+    "academic_tracks": ["workshop", "arxiv", "journal"],
+    "dissemination_tracks": ["popular_science", "education", "policy", "funding", "media"],
+    "last_updated": "2025-12-15"
+  },
   "milestones": {
-    "current": "S7 Run 008 Complete",
-    "next": "S7 Run 009 (Persona Injection)",
-    "publication_target_date": "Q1 2025",
-    "notes": "Stability Basin discovery is publishable finding. Run 009 will provide intervention data."
+    "current": "Run 018 IRON CLAD Complete (184 files)",
+    "next": "Opus 4.5 Final Review",
+    "publication_target_date": "Q4 2025",
+    "notes": "8-path publication pipeline active. LLM_BOOK validated Levin hypothesis independently."
   }
 }

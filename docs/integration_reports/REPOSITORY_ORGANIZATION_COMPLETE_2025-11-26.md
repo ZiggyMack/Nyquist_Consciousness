@@ -106,10 +106,10 @@ OUTPUT/
 
 ```bash
 cd docs
-mkdir stages reference archive/compression_drafts
+mkdir stackup reference archive/compression_drafts
 
 # Organize by category
-mv S3 S4 S5 S6 S7 S8 S9 S10 stages/
+mv S3 S4 S5 S6 S7 S8 S9 S10 stackup/
 mv PERSONA_COMPRESSED_*.md PERSONA_FULL_CONTEXT.md archive/compression_drafts/
 mv ARCHITECTURE_MAP_*.md EXPERIMENT_LOG.md PROBE_*.md reference/
 mv pre_omega_snapshots/ ../.archive/  # To root archive
@@ -119,7 +119,7 @@ mv pre_omega_snapshots/ ../.archive/  # To root archive
 
 ```
 docs/
-├── stages/                    # Theory layer specifications
+├── stackup/                   # Theory layer specifications
 │   ├── S3/                   # Oscillator synchronization
 │   ├── S4/                   # Emergence conditions
 │   ├── S5/                   # Modal collapse
@@ -164,7 +164,7 @@ docs/
 
 **Benefits:**
 
-- Theory specs grouped in `stages/`
+- Theory specs grouped in `stackup/`
 - Implementation guides in `reference/`
 - Historical materials properly archived
 - Root-level docs remain accessible
@@ -314,7 +314,7 @@ cd experiments/compression_tests/        # All compression tests
 
 ### For Documentation
 ```bash
-cd docs/stages/S7/                      # Theory specs
+cd docs/stackup/S7/                     # Theory specs
 cd docs/reference/                      # Implementation guides
 cd docs/archive/                        # Historical materials
 ```
@@ -345,7 +345,7 @@ cd docs/archive/compression_drafts/     # Pre-CFA personas
 
 ### Subdirectories
 
-- **Semantic names:** `stages/`, `reference/`, `compression_tests/`
+- **Semantic names:** `stackup/`, `reference/`, `compression_tests/`
 - **Purpose-based:** `s7_meta_loop/`, `phase3_integration/`, `repo_prep/`
 - **No generic names:** Avoided `misc/`, `old/`, `backup/`
 
@@ -362,7 +362,7 @@ cd docs/archive/compression_drafts/     # Pre-CFA personas
 ### When Adding New Files
 
 1. **Experiments** → `experiments/` (create new dir if new experiment type)
-2. **Theory specs** → `docs/stages/S#/`
+2. **Theory specs** → `docs/stackup/S#/`
 3. **Summaries** → `OUTPUT/` (categorized by work stream)
 4. **References** → `docs/reference/`
 5. **Visualizations** → `docs/figures/`

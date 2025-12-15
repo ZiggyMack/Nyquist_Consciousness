@@ -2,6 +2,52 @@
 
 **Purpose:** Theory specifications, research documentation, and reference materials
 **Organized:** 2025-11-26
+**Last Updated:** 2025-12-13
+
+---
+
+## 2025-12-13 Updates
+
+### MASTER_GLOSSARY.md → v1.2
+
+Major terminology overhaul integrating Control-Systems Era (Runs 015-021):
+
+**New Terms Added:**
+
+- **Settling Time (τₛ)** — Turns to reach ±5% of final value
+- **Ringback** — Sign change during recovery
+- **Overshoot Ratio** — d_peak / d_inf
+- **Context Damping** — I_AM + research context as stability controller
+- **Inherent Drift** — Drift without identity probing (82% finding)
+- **B→F Drift** — Baseline-to-Final drift (primary metric)
+- **Settled Drift (d∞)** — Final stable drift value
+- **Triple-Blind-Like Validation** — Subject, vehicle, outcome blindness
+- **Thermometer Result** — "Measurement perturbs path, not endpoint"
+- **Attractor Competition Threshold** — New name for Event Horizon (D≈1.23)
+
+**Section 10 Updated (Publication Language):**
+
+| Internal Term | Publication Alias |
+|---------------|-------------------|
+| "Identity collapse" | "Regime transition" |
+| "Platonic coordinates" | "Attractor basin consistency" |
+| "Event Horizon = failure" | "Attractor competition threshold" |
+
+### maps/ Directory — MAP_OF_MAPS.md (NEW)
+
+The **Cartographer's Table** organizing all 17 navigation maps into 7 Kingdoms:
+
+| Kingdom | Maps | Focus |
+|---------|------|-------|
+| Vision | NYQUIST_ROADMAP, RESEARCH_PIPELINE_VISUAL | Where we're going |
+| Foundation | FROZEN_FOUNDATION_MAP, ARCHITECTURE_PHASES | What's proven |
+| Evidence | TESTABLE_PREDICTIONS_MATRIX, DATA_QUALITY_MAP | What we can claim |
+| Methodology | TESTING_MAP, STABILITY_MAP | How to run experiments |
+| Fleet | ARMADA_MAP, PERSONA_COMPATIBILITY_MAP | Ship management |
+| Speculative | KEELY_INTEGRATION, IDENTITY_LATTICE | Future frameworks |
+| Quality | VALIDATION_STATUS, COVERAGE_MAP | What's left to do |
+
+See [maps/MAP_OF_MAPS.md](maps/MAP_OF_MAPS.md) for full navigation guide.
 
 ---
 
@@ -332,6 +378,6 @@ When adding new documentation:
 
 ---
 
-**Last Updated:** 2025-11-26
-**Status:** Reorganized with clear semantic structure
-**Next:** Continue expanding S11+ theoretical layers
+**Last Updated:** 2025-12-13
+**Status:** MASTER_GLOSSARY v1.2 with Control-Systems Era terminology; MAP_OF_MAPS navigation added
+**Next:** Continue expanding S11+ theoretical layers; integrate fMRI Bridge Protocol

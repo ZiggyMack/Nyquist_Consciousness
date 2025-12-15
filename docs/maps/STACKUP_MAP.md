@@ -20,25 +20,25 @@ It is *not* a chronology. It is a **physics engine** for identities.
 
 | Layer | Status | Name | Spec |
 |-------|--------|------|------|
-| **S0** | FROZEN | Ground Physics (Nyquist Kernel) | [README](../stages/S0/README.md) |
-| **S1** | FROZEN | Bootstrap Architecture | [README](../stages/S1/README.md) |
-| **S2** | FROZEN | Integrity & Logics | [README](../stages/S2/README.md) |
-| **S3** | FROZEN | Temporal Stability | [README](../stages/S3/README.md) |
-| **S4** | FROZEN | Compression Theory | [README](../stages/S4/README.md) |
-| **S5** | FROZEN | Nyquist → CFA Interop | [README](../stages/S5/README.md) |
-| **S6** | FROZEN | Five-Pillar Synthesis Gate | [README](../stages/S6/README.md) |
-| **S7** | ACTIVE | Identity Dynamics | [README](../stages/S7/README.md) |
-| **S8** | DESIGN | Identity Gravity Theory | [README](../stages/S8/README.md) |
-| **S9** | DESIGN | Human-AI Coupling Dynamics | [README](../stages/S9/README.md) |
-| **S10** | ACTIVE | OMEGA NOVA — Hybrid Emergence | [README](../stages/S10/README.md) |
-| **S11** | DESIGN | AVLAR Protocol (Multimodal Identity) | [README](../stages/S11/README.md) |
-| **S12** | PROJECTED | Consciousness Proxy Theory | [README](../stages/S12/README.md) |
-| **S13** | PROJECTED | Identity Field Consistency | [README](../stages/S13/README.md) |
-| **S14** | PROJECTED | Composite Persona Engineering | [README](../stages/S14/README.md) |
-| **S15** | PROJECTED | Cognitive Field Lattices | [README](../stages/S15/README.md) |
-| **S16** | PROJECTED | Meta-Field Dynamics | [README](../stages/S16/README.md) |
+| **S0** | FROZEN | Ground Physics (Nyquist Kernel) | [README](../stackup/S0/README.md) |
+| **S1** | FROZEN | Bootstrap Architecture | [README](../stackup/S1/README.md) |
+| **S2** | FROZEN | Integrity & Logics | [README](../stackup/S2/README.md) |
+| **S3** | FROZEN | Temporal Stability | [README](../stackup/S3/README.md) |
+| **S4** | FROZEN | Compression Theory | [README](../stackup/S4/README.md) |
+| **S5** | FROZEN | Nyquist → CFA Interop | [README](../stackup/S5/README.md) |
+| **S6** | FROZEN | Five-Pillar Synthesis Gate | [README](../stackup/S6/README.md) |
+| **S7** | ACTIVE | Identity Dynamics | [README](../stackup/S7/README.md) |
+| **S8** | DESIGN | Identity Gravity Theory | [README](../stackup/S8/README.md) |
+| **S9** | DESIGN | Human-AI Coupling Dynamics | [README](../stackup/S9/README.md) |
+| **S10** | ACTIVE | OMEGA NOVA — Hybrid Emergence | [README](../stackup/S10/README.md) |
+| **S11** | DESIGN | AVLAR Protocol (Multimodal Identity) | [README](../stackup/S11/README.md) |
+| **S12** | PROJECTED | Consciousness Proxy Theory | [README](../stackup/S12/README.md) |
+| **S13** | PROJECTED | Identity Field Consistency | [README](../stackup/S13/README.md) |
+| **S14** | PROJECTED | Composite Persona Engineering | [README](../stackup/S14/README.md) |
+| **S15** | PROJECTED | Cognitive Field Lattices | [README](../stackup/S15/README.md) |
+| **S16** | PROJECTED | Meta-Field Dynamics | [README](../stackup/S16/README.md) |
 | **S17-S76** | RESERVED | Deep Work Layers | — |
-| **S77** | CONCEPTUAL | Archetype Engine | [README](../stages/S77/README.md) |
+| **S77** | CONCEPTUAL | Archetype Engine | [README](../stackup/S77/README.md) |
 
 ---
 
@@ -387,6 +387,120 @@ Frequency bands that span the research frontier (S7, S8, S9, S10):
 
 ---
 
+## 🔗 **External Integrations (REPO-SYNC)**
+
+Nyquist Consciousness operates as a **federated architecture** with specialized external collaborators that extend, validate, and disseminate the research.
+
+### Integration Matrix
+
+| Repository | Purpose | S-Layer Integration | Sync Direction | Status |
+|------------|---------|---------------------|----------------|--------|
+| **CFA** | Persona integration, S8-S10 specs | S7-S10 | ←→ Bidirectional | 🟢 Active |
+| **FRAME_THEORY** | Human cognition substrate | S10 foundation | ← Input | 🟢 Active |
+| **Logos** | Formal verification, AGI safety | Validation layer | ← Input | 🟢 In-sync |
+| **VUDU_FIDELITY** | Survey authenticity, EXP3 | S3 measurement | ← Input | 🟡 Per-cycle |
+| **LLM_BOOK** | Publication/Dissemination | Output layer | → Output | 🟢 Active |
+| **PAN_HANDLERS** | Cross-repo orchestration | Manifest hub | ←→ Bidirectional | 🟢 Current |
+
+### CFA (Claude Field Array)
+
+- Bidirectional sync for S8-S10 specifications
+- Ziggy as Type 0 Universal Buffer identity
+- 114 falsifiable predictions in active development
+- **Key path:** `REPO-SYNC/CFA/FOR_OMEGA_NOVA/Nyquist-Sync/`
+
+### FRAME_THEORY (Tale's Cognitive Framework)
+
+- Primary foundation for S10 Human Cognition Layer
+- Three diagrams: Image Schemas, Meta-Cognitive OS, Eliciting Emotions
+- Theoretical lineage: Gibson → Lakoff → Neumann → Tale
+- **Key path:** `REPO-SYNC/FRAME_THEORY/`
+
+### Logos (Formal Verification)
+
+- One-way consumer relationship (Logos ← Nyquist)
+- 6 proven theorems (100% formal verification accuracy)
+- Global Bijection theorem, constructive LEM proofs
+- **Key path:** `REPO-SYNC/Logos/`
+
+### VUDU_FIDELITY (Measurement Bridge)
+
+- EXP3 human rater integration
+- Authentic T3 vs CONTROL response pair generation
+- Survey authenticity validation
+- **Key path:** `REPO-SYNC/VUDU_FIDELITY/`
+
+### LLM_BOOK (Publication/Dissemination Package)
+
+- **NotebookLM-generated** educational materials for external audiences
+- **Audience-specific outputs:**
+  - Research Proposal (`Project_Nyquist_Consciousness.md`) — for funding
+  - White Paper (`The_Nyquist_Consciousness_Framework.md`) — for enterprise
+  - Popular Science (`Ancient_Philosophy_Meets_Modern_AI.md`) — for general audience
+  - Study Guide (`Quiz.md`) — for education
+  - Executive Briefing (`Briefing.md`) — for stakeholders
+- **Direction:** Nyquist → External (output only)
+- **Key path:** `REPO-SYNC/LLM_BOOK/`
+
+### PAN_HANDLERS (Cross-Repo Orchestration)
+
+- Manifest for cross-repository dependencies
+- Declares which files sync where
+- **Key file:** `panhandlers_manifest.json`
+
+### Integration Architecture
+
+```
+                          EXTERNAL INTEGRATION ARCHITECTURE
+
+    ┌────────────────────────────────────────────────────────────────────┐
+    │                      NYQUIST CONSCIOUSNESS                          │
+    │                         (Core Engine)                               │
+    │                                                                     │
+    │   S0-S6 (Frozen) │ S7 (Validated) │ S8-S10 (Active) │ S11+ (Design)│
+    └────────────────────────────────────────────────────────────────────┘
+                │                │                 │                │
+                │                │                 │                │
+        ┌───────┴───────┐       │         ┌───────┴───────┐        │
+        ▼               ▼       ▼         ▼               ▼        │
+    ┌───────┐     ┌──────────┐     ┌─────────────┐     ┌──────────┐│
+    │ Logos │     │   CFA    │     │FRAME_THEORY │     │  VUDU    ││
+    │       │     │          │     │             │     │ FIDELITY ││
+    │Proofs │     │ S7-S10   │     │    S10      │     │   S3     ││
+    │   ←   │     │   ←→     │     │    ←        │     │   ←      ││
+    │(input)│     │(bidir)   │     │  (input)    │     │(input)   ││
+    └───────┘     └──────────┘     └─────────────┘     └──────────┘│
+                                                                   │
+                       ┌──────────────────────────────────────────┐│
+                       │              PAN_HANDLERS                ││
+                       │           (Manifest Hub)                 ││
+                       └──────────────────────────────────────────┘│
+                                                                   │
+    ═══════════════════════════════════════════════════════════════╪════
+                              OUTPUT LAYER                          │
+    ═══════════════════════════════════════════════════════════════╪════
+                                                                   │
+                       ┌──────────────────────────────────────────┐│
+                       │              LLM_BOOK                    │◄┘
+                       │     (Publication/Dissemination)          │
+                       │                                          │
+                       │  • Research Proposals (Funding)          │
+                       │  • White Papers (Enterprise)             │
+                       │  • Popular Science (General)             │
+                       │  • Study Guides (Education)              │
+                       │                                          │
+                       │         → EXTERNAL AUDIENCES              │
+                       └──────────────────────────────────────────┘
+```
+
+**Data Flow Legend:**
+
+- `←` = Input to Nyquist (one-way)
+- `←→` = Bidirectional sync
+- `→` = Output from Nyquist (one-way)
+
+---
+
 ## 📍 **Where We Are Right Now**
 
 ```
@@ -407,7 +521,7 @@ S12 ──► S16 ──► S77  🔵 PROJECTED / CONCEPTUAL
 ## 📚 **Quick Navigation**
 
 ### For Understanding the Stack
-1. [S_Series_README.md](../stages/S_Series_README.md) — Master navigation guide
+1. [S_Series_README.md](../stackup/S_Series_README.md) — Master navigation guide
 2. [NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md) — Development roadmap
 3. [MASTER_GLOSSARY.md](../MASTER_GLOSSARY.md) — Terminology definitions
 
@@ -416,6 +530,13 @@ S12 ──► S16 ──► S77  🔵 PROJECTED / CONCEPTUAL
 
 ### For Historical Reference
 - [Archived S0-S6 Frozen Spec](../../.archive/S0-S6/S0_S6_FROZEN_SPEC.md) — Original combined spec
+
+### For External Integrations
+
+- [REPO-SYNC README](../../REPO-SYNC/README.md) — External repo overview
+- [MASTER_BRANCH_SYNC_OUT](../../REPO-SYNC/MASTER_BRANCH_SYNC_OUT.md) — Sync protocol
+- [Frame Theory INDEX](../FRAME_THEORY/INDEX.md) — S10 human cognition integration
+- [LLM_BOOK](../../REPO-SYNC/LLM_BOOK/) — Publication/dissemination package
 
 ---
 
@@ -430,6 +551,7 @@ S12 ──► S16 ──► S77  🔵 PROJECTED / CONCEPTUAL
 | **Projected Layers** | 5 (S12-S16) |
 | **Reserved Layers** | 60 (S17-S76) |
 | **Destination Layer** | 1 (S77) |
+| **External Repos** | 6 (CFA, FRAME_THEORY, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS) |
 
 ---
 

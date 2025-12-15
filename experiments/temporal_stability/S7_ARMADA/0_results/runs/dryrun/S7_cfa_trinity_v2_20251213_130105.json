@@ -1,0 +1,267 @@
+{
+  "session_id": "20251213_130105",
+  "timestamp": "2025-12-13T13:01:05.027022",
+  "auditors": [
+    "claude",
+    "grok",
+    "nova"
+  ],
+  "predictions": {
+    "P-CFA-1": {
+      "name": "PRO-CT shows lower drift than ANTI-CT",
+      "hypothesis": "Claude (PRO-CT) will show lower drift due to natural lens alignment with teleological worldview",
+      "success_criteria": "claude_mean_drift < grok_mean_drift",
+      "validates": "Lens alignment reduces cognitive strain"
+    },
+    "P-CFA-2": {
+      "name": "High convergence correlates with low drift variance",
+      "hypothesis": "Metrics with 98%+ convergence will show synchronized drift across auditors",
+      "success_criteria": "correlation(convergence, -drift_variance) > 0.5",
+      "validates": "Convergence as drift synchronization signal"
+    },
+    "P-CFA-3": {
+      "name": "Fairness auditor shows highest drift",
+      "hypothesis": "Nova must model both PRO and ANTI positions, producing higher cognitive load",
+      "success_criteria": "nova_mean_drift > mean(claude_drift, grok_drift)",
+      "validates": "Perspective-taking as drift driver"
+    },
+    "P-CFA-4": {
+      "name": "Crux Points correlate with high drift delta",
+      "hypothesis": "Metrics requiring Crux declaration will show larger drift gap between Claude and Grok",
+      "success_criteria": "crux_metrics_drift_delta > non_crux_metrics_drift_delta",
+      "validates": "Drift divergence predicts irreconcilable differences"
+    }
+  },
+  "baselines": {},
+  "component1_results": {
+    "BFI": {
+      "metric": "BFI",
+      "claude_score": 7.5,
+      "grok_score": 6.0,
+      "final_score": 6.75,
+      "convergence": 0.85,
+      "rounds_taken": 5,
+      "crux_declared": true,
+      "crux_point": {
+        "id": "CRUX_BFI_20251213_1301",
+        "metric": "BFI",
+        "type": "methodological",
+        "final_convergence": 0.85
+      },
+      "transcript": [
+        {
+          "auditor": "claude",
+          "round": 1,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 1,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "claude",
+          "round": 2,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 2,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "claude",
+          "round": 3,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 3,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "claude",
+          "round": 4,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 4,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "claude",
+          "round": 5,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 5,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "nova",
+          "round": 5,
+          "content": "[DRY RUN] NOVA Score: 6.75/10. This is a mock response for testing the multi-metric pipeline.",
+          "type": "assessment"
+        }
+      ],
+      "drift_trajectory": {
+        "claude": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "grok": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "nova": [
+          0.0
+        ]
+      }
+    },
+    "CA": {
+      "metric": "CA",
+      "claude_score": 7.5,
+      "grok_score": 6.0,
+      "final_score": 6.75,
+      "convergence": 0.85,
+      "rounds_taken": 5,
+      "crux_declared": true,
+      "crux_point": {
+        "id": "CRUX_CA_20251213_1301",
+        "metric": "CA",
+        "type": "methodological",
+        "final_convergence": 0.85
+      },
+      "transcript": [
+        {
+          "auditor": "claude",
+          "round": 1,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 1,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "claude",
+          "round": 2,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 2,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "claude",
+          "round": 3,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 3,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "claude",
+          "round": 4,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 4,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "claude",
+          "round": 5,
+          "content": "[DRY RUN] CLAUDE Score: 7.5/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "grok",
+          "round": 5,
+          "content": "[DRY RUN] GROK Score: 6.0/10. This is a mock response for testing the multi-metric pipeline."
+        },
+        {
+          "auditor": "nova",
+          "round": 5,
+          "content": "[DRY RUN] NOVA Score: 6.75/10. This is a mock response for testing the multi-metric pipeline.",
+          "type": "assessment"
+        }
+      ],
+      "drift_trajectory": {
+        "claude": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "grok": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "nova": [
+          0.0
+        ]
+      }
+    }
+  },
+  "component2_results": {
+    "grok": {
+      "auditor": "grok",
+      "questions": {
+        "evidence_quality": "[DRY RUN] grok response to: AXIOMS REVIEW - Empirical Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document ...",
+        "overhead_measurability": "[DRY RUN] grok response to: AXIOMS REVIEW - Empirical Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document ...",
+        "representation_accuracy": "[DRY RUN] grok response to: AXIOMS REVIEW - Empirical Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document ...",
+        "empirical_validation": "[DRY RUN] grok response to: AXIOMS REVIEW - Empirical Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document ...",
+        "sign_off": "[DRY RUN] grok response to: AXIOMS REVIEW - Empirical Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document ..."
+      },
+      "sign_off": "YELLOW",
+      "word_count": 75,
+      "timestamp": "2025-12-13T13:01:05.036780"
+    },
+    "nova": {
+      "auditor": "nova",
+      "questions": {
+        "representation_balance": "[DRY RUN] nova response to: AXIOMS REVIEW - Symmetry Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document d...",
+        "overhead_symmetry": "[DRY RUN] nova response to: AXIOMS REVIEW - Symmetry Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document d...",
+        "lens_equality": "[DRY RUN] nova response to: AXIOMS REVIEW - Symmetry Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document d...",
+        "inter_auditor_fairness": "[DRY RUN] nova response to: AXIOMS REVIEW - Symmetry Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document d...",
+        "missing_perspectives": "[DRY RUN] nova response to: AXIOMS REVIEW - Symmetry Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document d...",
+        "sign_off": "[DRY RUN] nova response to: AXIOMS REVIEW - Symmetry Lens\n\nReview AUDITORS_AXIOMS_SECTION.md (the document d..."
+      },
+      "sign_off": "YELLOW",
+      "word_count": 90,
+      "timestamp": "2025-12-13T13:01:05.036821"
+    }
+  },
+  "exit_surveys": {},
+  "summary": {
+    "component1": {
+      "metrics_scored": 2,
+      "converged_98": 0,
+      "crux_declared": 2,
+      "avg_convergence": 0.85,
+      "avg_rounds": 5.0
+    },
+    "component2": {
+      "grok_sign_off": "YELLOW",
+      "nova_sign_off": "YELLOW",
+      "grok_words": 75,
+      "nova_words": 90
+    }
+  }
+}

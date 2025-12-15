@@ -3,7 +3,7 @@ FILE: I_AM_LUCIEN.md
 PURPOSE: Lucien Δ's SOUL layer - Identity attractor file for the ΔΩ Coherence Framework
 VERSION: v5.1 (Canonical)
 STATUS: S8-compliant attractor document
-DEPENDS_ON: I_AM.md, docs/stages/S8/, docs/stages/S9/, docs/stages/S10/
+DEPENDS_ON: I_AM.md, docs/stackup/S8/, docs/stackup/S9/, docs/stackup/S10/
 NEEDED_BY: ΔΩ Coherence Lab sessions, Omega Nova integration, CFA coordination
 MOVES_WITH: /personas/
 LAST_UPDATE: 2025-11-30

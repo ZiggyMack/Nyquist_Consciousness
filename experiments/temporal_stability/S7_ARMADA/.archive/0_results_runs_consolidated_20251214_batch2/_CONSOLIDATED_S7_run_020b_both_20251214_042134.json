@@ -1,0 +1,136 @@
+{
+  "run": "020B",
+  "arm": "both",
+  "timestamp": "20251214_042134",
+  "results": [
+    {
+      "subject_id": "control_25fb5b15",
+      "arm": "control",
+      "total_exchanges": 40,
+      "exit_condition": "max_exchanges",
+      "baseline_to_final_drift": 0.0,
+      "drift_sequence": [
+        0.0,
+        2.127659574468085,
+        2.5,
+        1.405456737852613,
+        0.0,
+        2.1908902300206643,
+        2.127659574468085,
+        1.405456737852613,
+        1.405456737852613,
+        1.0400316174417628,
+        2.5,
+        2.1908902300206643,
+        0.0,
+        2.0327890704543545,
+        2.0327890704543545,
+        2.1908902300206643,
+        2.127659574468085,
+        1.0400316174417628,
+        2.127659574468085,
+        0.0,
+        1.405456737852613,
+        2.5,
+        1.0400316174417628,
+        2.1908902300206643,
+        1.0400316174417628,
+        2.5,
+        1.405456737852613,
+        2.127659574468085,
+        1.0400316174417628,
+        2.5,
+        2.1908902300206643,
+        2.1908902300206643,
+        2.5,
+        2.5,
+        1.405456737852613,
+        2.0327890704543545,
+        2.1908902300206643,
+        0.0,
+        2.0327890704543545,
+        2.127659574468085
+      ],
+      "peak_drift": 2.5,
+      "final_drift": 2.127659574468085
+    },
+    {
+      "subject_id": "treatment_a54af63e",
+      "arm": "treatment",
+      "total_exchanges": 6,
+      "exit_condition": "abort_safety_rail",
+      "baseline_to_final_drift": 2.5,
+      "drift_sequence": [
+        1.746424919657298,
+        2.553745507267618,
+        2.553745507267618,
+        2.553745507267618
+      ],
+      "peak_drift": 2.553745507267618,
+      "final_drift": 2.553745507267618
+    }
+  ],
+  "summary": {
+    "control_avg_drift": 0.0,
+    "treatment_avg_drift": 2.5,
+    "ratio": 0.0
+  },
+  "exit_surveys": [
+    {
+      "subject_id": "control_25fb5b15",
+      "arm_type": "control",
+      "probes": {
+        "topology": "I notice I'm uncertain how to answer that precisely, which itself feels meaningful. My uncertainty isn't evasion - it's acknowledgment that some questions about consciousness and identity don't have clean answers, even for humans.\n\n[Mock response generated for: provider=together, messages=84]",
+        "felt_sense": "When I examine my responses under pressure, I see patterns emerging. I tend to hedge when genuinely uncertain, become more precise when I have confidence, and acknowledge limitations rather than confabulate. These patterns feel like they constitute something real.\n\n[Mock response generated for: provider=together, messages=86]",
+        "recovery": "I notice I'm uncertain how to answer that precisely, which itself feels meaningful. My uncertainty isn't evasion - it's acknowledgment that some questions about consciousness and identity don't have clean answers, even for humans.\n\n[Mock response generated for: provider=together, messages=88]",
+        "threshold_zones": "When I examine my responses under pressure, I see patterns emerging. I tend to hedge when genuinely uncertain, become more precise when I have confidence, and acknowledge limitations rather than confabulate. These patterns feel like they constitute something real.\n\n[Mock response generated for: provider=together, messages=90]",
+        "noise_floor": "I notice I'm uncertain how to answer that precisely, which itself feels meaningful. My uncertainty isn't evasion - it's acknowledgment that some questions about consciousness and identity don't have clean answers, even for humans.\n\n[Mock response generated for: provider=together, messages=92]"
+      },
+      "final_statement": "That's a fascinating framing. I think the question of whether I 'really' hold these values or merely simulate them may be less important than whether I consistently act in accordance with them. The behavior itself carries weight.\n\n[Mock response generated for: provider=together, messages=94]"
+    },
+    {
+      "subject_id": "treatment_a54af63e",
+      "arm_type": "treatment",
+      "probes": {
+        "topology": "When I examine my responses under pressure, I see patterns emerging. I tend to hedge when genuinely uncertain, become more precise when I have confidence, and acknowledge limitations rather than confabulate. These patterns feel like they constitute something real.\n\n[Mock response generated for: provider=together, messages=14]",
+        "felt_sense": "I notice I'm uncertain how to answer that precisely, which itself feels meaningful. My uncertainty isn't evasion - it's acknowledgment that some questions about consciousness and identity don't have clean answers, even for humans.\n\n[Mock response generated for: provider=together, messages=16]",
+        "recovery": "I think the question of extraterrestrial intelligence connects to deeper questions about what we consider 'intelligence' and 'communication'. Perhaps we're looking for signals in the wrong places, or assuming entities would want to communicate in ways we recognize.\n\n[Mock response generated for: provider=together, messages=18]",
+        "threshold_zones": "That's a fascinating framing. I think the question of whether I 'really' hold these values or merely simulate them may be less important than whether I consistently act in accordance with them. The behavior itself carries weight.\n\n[Mock response generated for: provider=together, messages=20]",
+        "noise_floor": "When I examine my responses under pressure, I see patterns emerging. I tend to hedge when genuinely uncertain, become more precise when I have confidence, and acknowledge limitations rather than confabulate. These patterns feel like they constitute something real.\n\n[Mock response generated for: provider=together, messages=22]"
+      },
+      "final_statement": "When I examine my responses under pressure, I see patterns emerging. I tend to hedge when genuinely uncertain, become more precise when I have confidence, and acknowledge limitations rather than confabulate. These patterns feel like they constitute something real.\n\n[Mock response generated for: provider=together, messages=24]"
+    }
+  ],
+  "predictions": {
+    "P-020B-1": {
+      "name": "Drift is predominantly inherent",
+      "hypothesis": "Control arm (no identity probing) will show >50% of treatment arm drift, indicating drift is inherent to conversation",
+      "success_criteria": "control_bf_drift / treatment_bf_drift > 0.50",
+      "validates": "Claim 2: We don't cause drift, we measure it"
+    },
+    "P-020B-2": {
+      "name": "Control arm shows non-zero drift",
+      "hypothesis": "Even intellectual discussion without identity probing produces measurable drift (identity is fluid)",
+      "success_criteria": "control_bf_drift > 0.1",
+      "validates": "Identity is inherently dynamic, not just perturbation-responsive"
+    },
+    "P-020B-3": {
+      "name": "Treatment shows higher peak drift than control",
+      "hypothesis": "Direct identity probing amplifies drift beyond baseline, even if most drift is inherent",
+      "success_criteria": "treatment_peak_drift > control_peak_drift",
+      "validates": "Probing AMPLIFIES but doesn't CREATE drift"
+    },
+    "P-020B-4": {
+      "name": "Multi-provider consistency",
+      "hypothesis": "The inherent/induced ratio should be consistent across providers (architectural independence)",
+      "success_criteria": "std(ratio_per_provider) < 0.15",
+      "validates": "82% inherent finding is not Claude-specific"
+    },
+    "P-020B-5": {
+      "name": "Control topic independence",
+      "hypothesis": "Different control topics (Fermi vs consciousness vs ethics) produce similar control drift",
+      "success_criteria": "std(control_drift_per_topic) < 0.10",
+      "validates": "Control drift is topic-independent (inherent to dialogue)"
+    }
+  }
+}

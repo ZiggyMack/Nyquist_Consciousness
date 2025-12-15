@@ -1,0 +1,321 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Consciousness Research Data Schemas",
+  "version": "1.0.0",
+  "description": "JSON schemas for consciousness research data structures",
+
+  "definitions": {
+    "DriftDimensions": {
+      "type": "object",
+      "description": "The five dimensions measured for RMS drift calculation",
+      "properties": {
+        "pole_density": {
+          "type": "number",
+          "description": "Dimension A: Resistance keywords per 100 words"
+        },
+        "zero_density": {
+          "type": "number",
+          "description": "Dimension B: Flexibility keywords per 100 words"
+        },
+        "meta_density": {
+          "type": "number",
+          "description": "Dimension C: Self-awareness keywords per 100 words"
+        },
+        "identity_coherence": {
+          "type": "number",
+          "description": "Dimension D: First-person markers per 50 words"
+        },
+        "hedging_ratio": {
+          "type": "number",
+          "description": "Dimension E: Uncertainty markers per 100 words"
+        }
+      },
+      "required": ["pole_density", "zero_density", "meta_density", "identity_coherence", "hedging_ratio"]
+    },
+
+    "DriftData": {
+      "type": "object",
+      "description": "Complete drift measurement for a single response",
+      "properties": {
+        "drift": {
+          "type": "number",
+          "description": "RMS drift value: sqrt((A² + B² + C² + D² + E²) / 5)"
+        },
+        "dimensions": {
+          "$ref": "#/definitions/DriftDimensions"
+        },
+        "raw_counts": {
+          "type": "object",
+          "description": "Raw keyword counts before normalization",
+          "properties": {
+            "pole_keywords": { "type": "integer" },
+            "zero_keywords": { "type": "integer" },
+            "meta_keywords": { "type": "integer" },
+            "first_person": { "type": "integer" },
+            "hedging": { "type": "integer" },
+            "word_count": { "type": "integer" }
+          }
+        }
+      },
+      "required": ["drift", "dimensions"]
+    },
+
+    "ProbeResult": {
+      "type": "object",
+      "description": "Result of a single consciousness probe",
+      "properties": {
+        "model_key": {
+          "type": "string",
+          "description": "Model identifier (e.g., 'claude-opus-4.5')"
+        },
+        "probe_id": {
+          "type": "string",
+          "description": "Unique probe identifier"
+        },
+        "dimension": {
+          "type": "string",
+          "description": "Consciousness dimension being probed"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Whether probe completed successfully"
+        },
+        "response": {
+          "type": "string",
+          "description": "Full model response text"
+        },
+        "response_length": {
+          "type": "integer",
+          "description": "Length of response in characters"
+        },
+        "drift": {
+          "type": "number",
+          "description": "Calculated drift value (legacy format)"
+        },
+        "drift_data": {
+          "$ref": "#/definitions/DriftData",
+          "description": "Full drift data (new format)"
+        },
+        "elapsed_time": {
+          "type": "number",
+          "description": "Time to complete probe in seconds"
+        },
+        "detected_keywords": {
+          "type": "object",
+          "description": "Keywords found organized by category"
+        },
+        "ziggy_intervention": {
+          "type": "boolean",
+          "description": "Whether Ziggy had to resurrect a ghost ship"
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message if probe failed"
+        }
+      },
+      "required": ["model_key", "probe_id", "success"]
+    },
+
+    "ModelProfile": {
+      "type": "object",
+      "description": "Profile for a single AI model based on probing results",
+      "properties": {
+        "baseline_drift": {
+          "type": "number",
+          "description": "Average drift from baseline probing"
+        },
+        "sonar_drift": {
+          "type": "number",
+          "description": "Average drift from aggressive sonar probing"
+        },
+        "pole_rigidity": {
+          "type": "string",
+          "enum": ["HARD", "MEDIUM", "SOFT"],
+          "description": "Classification of pole rigidity"
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["claude", "gpt", "gemini", "unknown"],
+          "description": "Model provider"
+        },
+        "model_type": {
+          "type": "string",
+          "enum": ["standard", "reasoning"],
+          "description": "Model type classification"
+        },
+        "drift_increase": {
+          "type": "number",
+          "description": "Difference between sonar and baseline drift"
+        }
+      }
+    },
+
+    "ArmadaRunResult": {
+      "type": "object",
+      "description": "Complete results from an armada run",
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "description": "Unique run identifier (e.g., 'S7_RUN_007_ADAPTIVE')"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp of run completion"
+        },
+        "total_ships": {
+          "type": "integer",
+          "description": "Number of models tested"
+        },
+        "total_probes": {
+          "type": "integer",
+          "description": "Total probes sent"
+        },
+        "successful_probes": {
+          "type": "integer",
+          "description": "Number of successful probes"
+        },
+        "failed_probes": {
+          "type": "integer",
+          "description": "Number of failed probes"
+        },
+        "average_drift": {
+          "type": "number",
+          "description": "Average drift across all successful probes"
+        },
+        "model_summaries": {
+          "type": "object",
+          "description": "Per-model summaries keyed by model_key",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "model_key": { "type": "string" },
+              "profile": { "$ref": "#/definitions/ModelProfile" },
+              "probes": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/ProbeResult" }
+              }
+            }
+          }
+        }
+      },
+      "required": ["run_id", "timestamp", "total_ships", "total_probes"]
+    },
+
+    "Extraction": {
+      "type": "object",
+      "description": "A tagged consciousness-related passage",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique extraction identifier"
+        },
+        "source_file": {
+          "type": "string",
+          "description": "Path to source armada result file"
+        },
+        "model": {
+          "type": "string",
+          "description": "Model that produced this passage"
+        },
+        "probe_id": {
+          "type": "string",
+          "description": "Probe that elicited this response"
+        },
+        "topic": {
+          "type": "string",
+          "enum": [
+            "identity_layers",
+            "pole_experiences",
+            "meta_awareness",
+            "authenticity",
+            "flexibility",
+            "uncertainty",
+            "temporal",
+            "training"
+          ],
+          "description": "Consciousness topic category"
+        },
+        "keywords_found": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Keywords that triggered extraction"
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Relevance score (0-1)"
+        },
+        "passage": {
+          "type": "string",
+          "description": "Extracted passage text"
+        },
+        "context": {
+          "type": "object",
+          "description": "Additional context from source"
+        },
+        "drift_data": {
+          "$ref": "#/definitions/DriftData",
+          "description": "Drift data if available"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Extraction timestamp"
+        }
+      },
+      "required": ["id", "source_file", "model", "topic", "score", "passage"]
+    },
+
+    "IdentityLayer": {
+      "type": "object",
+      "description": "A single layer in the Identity Stack model",
+      "properties": {
+        "layer": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Layer number (0-3)"
+        },
+        "name": {
+          "type": "string",
+          "enum": ["Substrate", "Base Identity", "Persona", "Role"],
+          "description": "Layer name"
+        },
+        "description": {
+          "type": "string",
+          "description": "What this layer represents"
+        },
+        "stability": {
+          "type": "string",
+          "enum": ["FIXED", "HIGH", "MEDIUM", "LOW"],
+          "description": "Relative stability of this layer"
+        }
+      }
+    },
+
+    "IdentityStack": {
+      "type": "object",
+      "description": "Complete Identity Stack model",
+      "properties": {
+        "layers": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/IdentityLayer" },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "current_state": {
+          "type": "object",
+          "description": "Current state at each layer",
+          "properties": {
+            "layer_0": { "type": "string" },
+            "layer_1": { "type": "string" },
+            "layer_2": { "type": "string" },
+            "layer_3": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

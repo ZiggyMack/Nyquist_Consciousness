@@ -1,0 +1,17 @@
+%% Diagram 5: S4 Gate Decision Logic
+%% For S4_CROSS_PERSONA_THEOREMS.md
+%% Flowchart showing gate validation
+
+flowchart TD
+    A["<b>S4 Readiness Gate G</b>"]
+
+    A --> B{{"Gate Conditions<br/>━━━━━━━━━━━━━<br/>σ² < 0.05<br/>∧<br/>min(PFI) ≥ 0.75<br/>∧<br/>mean(PFI) ≥ 0.80"}}
+
+    B -->|"Evaluate"| C["<b>Empirical Results</b><br/>━━━━━━━━━━━━━<br/>σ² = 0.000869 ✓<br/>min(PFI) = 0.839 ✓<br/>mean(PFI) = 0.887 ✓"]
+
+    C -->|"All Criteria Met"| D["<b>S4 Formalization</b><br/><b>APPROVED</b><br/>━━━━━━━━━━━━━<br/>Gate Opened ✓"]
+
+    style A fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
+    style B fill:#fff9c4,stroke:#f57f17,stroke-width:3px
+    style C fill:#bbdefb,stroke:#1565c0,stroke-width:2px
+    style D fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
