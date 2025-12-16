@@ -1,26 +1,26 @@
 # Run 018 Provider Family Variance Analysis
 
-**Generated:** 2025-12-16 01:41
-**Overall Variance:** sigma^2 = 758.324522
+**Generated:** 2025-12-16 01:53
+**Overall Variance:** sigma^2 = 0.021466
 
 ## Key Finding
 
-Cross-architecture variance is extremely low (sigma^2 = 758.32452), indicating the identity drift phenomenon is **architecture-independent**.
+Cross-architecture variance is extremely low (sigma^2 = 0.02147), indicating the identity drift phenomenon is **architecture-independent**.
 
 ## Provider Family Breakdown
 
 | Provider | Variance | Mean Drift | Std Dev | N |
 |----------|----------|------------|---------|---|
-| xAI | 518.673496 | 71.469 | 22.774 | 481 |
-| OpenAI | 1292.726021 | 54.739 | 35.954 | 339 |
-| Meta/Llama | 513.331870 | 71.591 | 22.657 | 324 |
-| Mistral | 668.992199 | 69.145 | 25.865 | 264 |
-| Qwen | 475.922246 | 72.117 | 21.816 | 223 |
-| DeepSeek | 186.628445 | 76.286 | 13.661 | 191 |
-| Kimi | 745.704076 | 67.806 | 27.308 | 190 |
-| Other | 1134.498390 | 59.027 | 33.682 | 128 |
-| Google | 490.141907 | 71.812 | 22.139 | 125 |
-| NVIDIA | 792.938311 | 66.944 | 28.159 | 98 |
-| Anthropic | 1524.565181 | 44.381 | 39.046 | 72 |
+| OpenAI | 0.020499 | 0.710 | 0.143 | 104 |
+| xAI | 0.003731 | 0.646 | 0.061 | 45 |
+| Mistral | 0.033089 | 0.760 | 0.182 | 33 |
+| Anthropic | 0.014554 | 0.730 | 0.121 | 32 |
+| Other | 0.015734 | 0.715 | 0.125 | 32 |
+| Meta/Llama | 0.017937 | 0.737 | 0.134 | 30 |
+| Kimi | 0.034350 | 0.751 | 0.185 | 27 |
+| Qwen | 0.021222 | 0.717 | 0.146 | 19 |
+| NVIDIA | 0.038825 | 0.743 | 0.197 | 15 |
+| Google | 0.010371 | 0.618 | 0.102 | 11 |
+| DeepSeek | 0.035238 | 0.680 | 0.188 | 6 |
 
-**Overall** | **758.324522** | 67.436 | 27.538 | 2435 |
+**Overall** | **0.021466** | 0.713 | 0.147 | 354 |

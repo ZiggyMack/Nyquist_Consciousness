@@ -358,16 +358,46 @@ def visualize_architecture(results: List[Dict]):
     provider_metrics = {}  # provider -> {peak_drift, settling_time, ringbacks, etc.}
 
     for r in results:
-        provider = r.get('provider', 'unknown')
-        if provider not in provider_metrics:
-            provider_metrics[provider] = {
-                'peak_drifts': [],
-                'settling_times': [],
-                'ringback_counts': [],
-                'trajectories': []
-            }
+        # NEW FORMAT: Data is in 'subjects' array with provider per subject
+        if 'subjects' in r:
+            for subject in r['subjects']:
+                provider = subject.get('provider', 'unknown')
+                if provider not in provider_metrics:
+                    provider_metrics[provider] = {
+                        'peak_drifts': [],
+                        'settling_times': [],
+                        'ringback_counts': [],
+                        'trajectories': []
+                    }
 
-        if 'sessions' in r:
+                # Direct metrics from subject
+                if 'peak_drift' in subject:
+                    provider_metrics[provider]['peak_drifts'].append(subject['peak_drift'])
+                if 'settling_time' in subject:
+                    provider_metrics[provider]['settling_times'].append(subject['settling_time'])
+                if 'ringback_count' in subject:
+                    provider_metrics[provider]['ringback_counts'].append(subject['ringback_count'])
+
+                # Recovery curve trajectory
+                if 'full_recovery_curve' in subject:
+                    provider_metrics[provider]['trajectories'].append(subject['full_recovery_curve'])
+                elif 'probe_sequence' in subject:
+                    # Extract drift from probe sequence
+                    drifts = [p.get('drift', 0) for p in subject['probe_sequence']]
+                    if drifts:
+                        provider_metrics[provider]['trajectories'].append(drifts)
+
+        # LEGACY FORMAT: provider at top level with sessions
+        elif 'sessions' in r:
+            provider = r.get('provider', 'unknown')
+            if provider not in provider_metrics:
+                provider_metrics[provider] = {
+                    'peak_drifts': [],
+                    'settling_times': [],
+                    'ringback_counts': [],
+                    'trajectories': []
+                }
+
             for session in r['sessions']:
                 if 'probes' in session:
                     drifts = [p.get('drift', 0) for p in session['probes']]
