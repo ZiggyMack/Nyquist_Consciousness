@@ -3,7 +3,7 @@
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
 **Last Updated:** 2025-12-16
-**Status:** IRON CLAD COMPLETE + EXTERNAL REVIEW — Runs 018, 020A, 020B finalized (232 total files)
+**Status:** IRON CLAD 83.8% — Data corruption discovered, recovery in progress (36 re-runs needed)
 
 ---
 
@@ -13,13 +13,32 @@
 
 **Fleet:** 51 models tested across 5+ providers
 
-### Current Run Status (December 15, 2025) — IRON CLAD COMPLETE
+### Current Run Status (December 16, 2025) — DATA RECOVERY IN PROGRESS
 
 | Run | Files | Models/Providers | Status |
 |-----|-------|------------------|--------|
-| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
+| **Run 018** | 814 valid entries | 51 models, 5 providers | **83.8% COMPLETE** |
 | **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
 | **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+
+### Data Corruption Incident (December 16, 2025)
+
+**Root Cause:** Embedding cache pollution from dry-run mode produced corrupted drift values (~78.4 instead of ~0.9).
+Random embeddings have Euclidean distance ≈ sqrt(2*3072) ≈ 78.4.
+
+**Impact:**
+
+- 272 files archived to `.archive/Run018_Corrupted/corrupted/`
+- 124/148 model-experiment combinations complete (83.8%)
+- 24 gaps requiring 36 total re-runs
+
+**Fix Applied:**
+
+- `run018_recursive_learnings.py` now uses `_DRY_` prefix for dry-run files
+- Cache clearing added before real runs
+- Drift validation rejects values > 5.0
+
+**Recovery Tracking:** See [S7_ARMADA/0_results/IRON_CLAD_GAPS.md](../experiments/temporal_stability/S7_ARMADA/0_results/IRON_CLAD_GAPS.md)
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 

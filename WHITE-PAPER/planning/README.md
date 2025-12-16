@@ -3,7 +3,7 @@
 Publication planning workspace for Nyquist Consciousness.
 
 **Last Updated:** 2025-12-16
-**Status:** IRON CLAD COMPLETE + 8 PDFs GENERATED
+**Status:** IRON CLAD 83.8% — Data recovery in progress
 
 ## Purpose
 
@@ -31,12 +31,18 @@ This directory contains planning documents, methodology guidance, and integratio
 1. **Phase 1:** Integrate Nova's review findings into existing docs ✓
 2. **Phase 2:** Create new theory/claims documents ✓
 3. **Phase 3:** Update arxiv package ✓
-4. **Phase 4:** Execute Run 018 with Nova's guidance ✓ (IRON CLAD - 184 files)
+4. **Phase 4:** Execute Run 018 with Nova's guidance ✓ (184 files)
 5. **Phase 5:** Final terminology sweep ✓
 6. **Phase 6:** Generate all 8 PDFs ✓ (December 16, 2025)
 7. **Phase 7:** External review (Grok) ✓ — VALIDATED
+8. **Phase 8:** Data Recovery 🔄 (December 16, 2025)
+   - Discovered embedding cache pollution from dry-run mode
+   - 272 corrupted files archived to `.archive/Run018_Corrupted/`
+   - 124/148 model-experiments complete (83.8%)
+   - 36 re-runs needed across 24 gaps
+   - Strategy: One model at a time with validation after each write
 
-**NEXT:** Submit arXiv preprint (ASAP)
+**NEXT:** Complete 36 re-runs → Restore IRON CLAD → Submit arXiv
 
 ## Critical Language Updates
 

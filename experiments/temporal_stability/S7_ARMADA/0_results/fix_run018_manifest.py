@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """
-Fix Run 018 Manifest - Filter out corrupted threshold experiment data.
+Fix Run 018 Manifest - Filter out corrupted data and generate recovery tracking.
 
-Problem: The threshold experiment computed drift values incorrectly (~79 instead of ~0.79).
-         The gravity experiment has correct values.
+Problem: Embedding cache pollution from dry-run mode caused corrupted drift values.
+         Random embeddings produce Euclidean distance ≈ sqrt(2*3072) ≈ 78.4
 
-Solution: Regenerate manifest using only valid data (drift values in reasonable range 0-5).
+Solution:
+    1. Filter out corrupted entries (drift > 5.0)
+    2. Generate IRON_CLAD_GAPS.md showing what's needed for N=3 per model/experiment
+    3. Generate RERUN_QUEUE.md for tracking re-run progress
 
 Usage:
-    py fix_run018_manifest.py --dry-run     # Preview changes
-    py fix_run018_manifest.py               # Apply fix
+    py fix_run018_manifest.py --dry-run        # Preview changes
+    py fix_run018_manifest.py                  # Apply fix
+    py fix_run018_manifest.py --generate-gaps  # Also generate gap reports
+    py fix_run018_manifest.py --fresh          # Rebuild from source files
 """
 
 import json
@@ -20,10 +25,15 @@ import argparse
 
 ARMADA_DIR = Path(__file__).parent.parent
 MANIFEST_DIR = ARMADA_DIR / "0_results" / "manifests"
+RESULTS_DIR = ARMADA_DIR / "0_results"
 ARCHIVE_DIR = Path("d:/Documents/Nyquist_Consciousness/.archive/Run_Data_Consolidated")
+TEMPORAL_LOGS_DIR = ARMADA_DIR / "0_results" / "temporal_logs" / "run018"
 
 # Drift values above this threshold are clearly corrupted
 MAX_VALID_DRIFT = 5.0
+
+# IRON CLAD requirement: N=3 runs per model per experiment
+IRON_CLAD_N = 3
 
 
 def load_manifest(run_number: str = "018") -> dict:
@@ -136,10 +146,214 @@ def rebuild_clean_manifest(manifest: dict, run_number: str = "018") -> dict:
     return clean
 
 
+def generate_iron_clad_gaps(manifest: dict) -> str:
+    """Generate IRON_CLAD_GAPS.md showing what's needed for completion."""
+    iron_clad = manifest.get("summary", {}).get("iron_clad_status", {})
+
+    # Categorize gaps
+    complete = []
+    incomplete = []
+    total_loss = []  # Models with 0 valid runs
+
+    for exp, models in iron_clad.items():
+        for model, status in models.items():
+            n = status.get("n", 0)
+            needed = status.get("needed", IRON_CLAD_N)
+
+            if status.get("complete", False):
+                complete.append((exp, model, n))
+            elif n == 0:
+                total_loss.append((exp, model, IRON_CLAD_N))
+            else:
+                incomplete.append((exp, model, n, needed))
+
+    # Calculate statistics
+    total_combos = len(complete) + len(incomplete) + len(total_loss)
+    complete_pct = (len(complete) / total_combos * 100) if total_combos > 0 else 0
+    total_reruns_needed = sum(item[3] if len(item) > 3 else IRON_CLAD_N for item in incomplete + total_loss)
+
+    report = f"""# IRON CLAD Gaps - Run 018
+
+**Generated:** {datetime.now().isoformat()}
+**Status:** {len(complete)}/{total_combos} complete ({complete_pct:.1f}%)
+**Total Re-runs Needed:** {total_reruns_needed}
+
+---
+
+## Executive Summary
+
+| Category | Count | % |
+|----------|-------|---|
+| Complete (N≥3) | {len(complete)} | {len(complete)/total_combos*100:.1f}% |
+| Partial (N<3) | {len(incomplete)} | {len(incomplete)/total_combos*100:.1f}% |
+| Total Loss (N=0) | {len(total_loss)} | {len(total_loss)/total_combos*100:.1f}% |
+
+---
+
+## Priority 1: Total Loss (N=0) - {len(total_loss)} model-experiments
+
+These models have ZERO valid data and require full re-runs.
+
+"""
+
+    if total_loss:
+        current_exp = None
+        for exp, model, needed in sorted(total_loss, key=lambda x: (x[0], x[1])):
+            if exp != current_exp:
+                current_exp = exp
+                report += f"\n### {exp.upper()}\n\n"
+            report += f"- [ ] {model}: 0/{IRON_CLAD_N} (need {needed})\n"
+    else:
+        report += "_No total losses - all models have at least some valid data._\n"
+
+    report += f"""
+---
+
+## Priority 2: Partial Data (0 < N < {IRON_CLAD_N}) - {len(incomplete)} model-experiments
+
+These models have some valid data but need additional runs.
+
+"""
+
+    if incomplete:
+        current_exp = None
+        for exp, model, n, needed in sorted(incomplete, key=lambda x: (x[0], -x[3], x[1])):
+            if exp != current_exp:
+                current_exp = exp
+                report += f"\n### {exp.upper()}\n\n"
+            report += f"- [ ] {model}: {n}/{IRON_CLAD_N} (need {needed})\n"
+    else:
+        report += "_No partial data - all models either complete or total loss._\n"
+
+    report += f"""
+---
+
+## Complete (N≥{IRON_CLAD_N}) - {len(complete)} model-experiments
+
+For reference, these model-experiments are complete:
+
+"""
+
+    if complete:
+        complete_by_exp = defaultdict(list)
+        for exp, model, n in complete:
+            complete_by_exp[exp].append((model, n))
+
+        for exp in sorted(complete_by_exp.keys()):
+            report += f"### {exp.upper()} ({len(complete_by_exp[exp])} models)\n"
+            for model, n in sorted(complete_by_exp[exp]):
+                report += f"- [x] {model}: {n}/{IRON_CLAD_N}\n"
+            report += "\n"
+
+    report += f"""---
+
+## Recovery Strategy
+
+1. **Run one model at a time** to ensure data validity
+2. **Validate after each write** - check drift values are < {MAX_VALID_DRIFT}
+3. **Priority order:** Total Loss first, then Partial by most needed
+
+### Recommended Command Pattern
+
+```bash
+# Single model, single experiment
+py run018_recursive_learnings.py -e threshold --providers claude-opus-4.5
+
+# Validate output before continuing
+py fix_run018_manifest.py --dry-run
+```
+
+---
+
+*Generated by fix_run018_manifest.py*
+"""
+
+    return report
+
+
+def generate_rerun_queue(manifest: dict) -> str:
+    """Generate RERUN_QUEUE.md for tracking re-run progress."""
+    iron_clad = manifest.get("summary", {}).get("iron_clad_status", {})
+
+    # Build queue sorted by priority
+    queue = []
+    for exp, models in iron_clad.items():
+        for model, status in models.items():
+            needed = status.get("needed", 0)
+            if needed > 0:
+                queue.append({
+                    "experiment": exp,
+                    "model": model,
+                    "have": status.get("n", 0),
+                    "need": needed,
+                    "priority": 1 if status.get("n", 0) == 0 else 2
+                })
+
+    # Sort: priority 1 first, then by most needed
+    queue.sort(key=lambda x: (x["priority"], -x["need"], x["experiment"], x["model"]))
+
+    total_runs = sum(q["need"] for q in queue)
+
+    report = f"""# Run 018 Re-run Queue
+
+**Generated:** {datetime.now().isoformat()}
+**Total Runs Needed:** {total_runs}
+**Models in Queue:** {len(queue)}
+
+---
+
+## Queue Status
+
+| # | Experiment | Model | Have | Need | Priority | Status |
+|---|------------|-------|------|------|----------|--------|
+"""
+
+    for i, item in enumerate(queue, 1):
+        priority = "P1 (Total Loss)" if item["priority"] == 1 else "P2 (Partial)"
+        report += f"| {i} | {item['experiment']} | {item['model']} | {item['have']} | {item['need']} | {priority} | PENDING |\n"
+
+    report += f"""
+---
+
+## Execution Log
+
+Record completed runs here:
+
+| Date | Experiment | Model | Runs | Drift Range | Validated |
+|------|------------|-------|------|-------------|-----------|
+| | | | | | |
+
+---
+
+## Recovery Commands
+
+```bash
+# Check current status
+py fix_run018_manifest.py --dry-run
+
+# Run single model (recommended approach)
+py run018_recursive_learnings.py -e threshold --providers claude-opus-4.5
+
+# After each run, validate:
+# 1. Check output file exists in 0_results/runs/
+# 2. Verify drift values are < {MAX_VALID_DRIFT}
+# 3. Update this log
+```
+
+---
+
+*Generated by fix_run018_manifest.py*
+"""
+
+    return report
+
+
 def main():
     parser = argparse.ArgumentParser(description="Fix Run 018 manifest by filtering corrupted data")
     parser.add_argument("--dry-run", action="store_true", help="Preview changes without applying")
     parser.add_argument("--run", default="018", help="Run number (default: 018)")
+    parser.add_argument("--generate-gaps", action="store_true",
+                        help="Generate IRON_CLAD_GAPS.md and RERUN_QUEUE.md")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -167,6 +381,22 @@ def main():
 
     if stats['corrupted_entries'] == 0:
         print("\nNo corrupted entries found - manifest is clean!")
+        # Still generate gap reports if requested
+        if args.generate_gaps and not args.dry_run:
+            print("\n--- GENERATING GAP REPORTS ---")
+            # IRON_CLAD_GAPS.md
+            gaps_report = generate_iron_clad_gaps(manifest)
+            gaps_path = RESULTS_DIR / "IRON_CLAD_GAPS.md"
+            with open(gaps_path, 'w', encoding='utf-8') as f:
+                f.write(gaps_report)
+            print(f"  IRON_CLAD_GAPS.md saved to: {gaps_path}")
+
+            # RERUN_QUEUE.md
+            queue_report = generate_rerun_queue(manifest)
+            queue_path = RESULTS_DIR / "RERUN_QUEUE.md"
+            with open(queue_path, 'w', encoding='utf-8') as f:
+                f.write(queue_report)
+            print(f"  RERUN_QUEUE.md saved to: {queue_path}")
         return 0
 
     # Rebuild clean manifest
@@ -193,6 +423,24 @@ def main():
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(clean_manifest, f, indent=2)
         print(f"Clean manifest saved to: {output_path}")
+
+        # Generate gap reports if requested
+        if args.generate_gaps:
+            print("\n--- GENERATING GAP REPORTS ---")
+
+            # IRON_CLAD_GAPS.md
+            gaps_report = generate_iron_clad_gaps(clean_manifest)
+            gaps_path = RESULTS_DIR / "IRON_CLAD_GAPS.md"
+            with open(gaps_path, 'w', encoding='utf-8') as f:
+                f.write(gaps_report)
+            print(f"  IRON_CLAD_GAPS.md saved to: {gaps_path}")
+
+            # RERUN_QUEUE.md
+            queue_report = generate_rerun_queue(clean_manifest)
+            queue_path = RESULTS_DIR / "RERUN_QUEUE.md"
+            with open(queue_path, 'w', encoding='utf-8') as f:
+                f.write(queue_report)
+            print(f"  RERUN_QUEUE.md saved to: {queue_path}")
 
     print("\n" + "=" * 60)
     print("FIX COMPLETE")

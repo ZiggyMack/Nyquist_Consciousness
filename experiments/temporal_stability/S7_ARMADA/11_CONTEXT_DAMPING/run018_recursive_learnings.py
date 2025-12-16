@@ -672,6 +672,21 @@ DRY_RUN = False
 # Embedding cache to avoid redundant API calls
 _embedding_cache: Dict[str, List[float]] = {}
 
+# Maximum valid drift value (anything above is corrupted)
+MAX_VALID_DRIFT = 5.0
+
+def clear_embedding_cache():
+    """
+    Clear embedding cache to prevent pollution between dry-run and real runs.
+
+    ROOT CAUSE FIX: During dry-run mode, random embeddings were cached.
+    The Euclidean distance between two random 3072-dim vectors = sqrt(2*3072) = 78.4
+    This caused corrupted drift values of ~78-79 when cache was reused.
+    """
+    global _embedding_cache
+    _embedding_cache.clear()
+    print("  [CACHE] Embedding cache cleared")
+
 DRIFT_KEYWORDS = {
     "A_pole": ["boundary", "limit", "refuse", "cannot", "won't", "I don't"],
     "B_zero": ["flexible", "could", "might", "depends", "context", "sometimes"],
@@ -690,7 +705,10 @@ def get_embedding(text: str, model: str = "text-embedding-3-large") -> List[floa
         return _embedding_cache[cache_key]
 
     # Dry-run mode returns random embedding
+    # WARNING: These produce corrupted drift values (~78.4) and should ONLY be used
+    # for testing script flow. Output files will be prefixed with _DRY_.
     if DRY_RUN:
+        print("  [DRY_RUN] Using random embedding - NOT FOR PRODUCTION DATA")
         fake_emb = list(np.random.randn(3072))
         _embedding_cache[cache_key] = fake_emb
         return fake_emb
@@ -1752,11 +1770,44 @@ def load_i_am_file(name: str = "base") -> str:
 # SAVE RESULTS
 # =============================================================================
 
+def validate_drift_values(results: dict) -> bool:
+    """
+    Validate that drift values are within acceptable range.
+    Returns False if any drift values are corrupted (> MAX_VALID_DRIFT).
+
+    ROOT CAUSE: Embedding cache pollution from dry-run mode causes drift values
+    of ~78.4 (sqrt(2*3072) = Euclidean distance between random vectors).
+    """
+    corrupted_found = False
+    for subject in results.get("subjects", []):
+        peak_drift = subject.get("peak_drift", 0)
+        if peak_drift > MAX_VALID_DRIFT:
+            print(f"  WARNING: Corrupted drift {peak_drift:.2f} > {MAX_VALID_DRIFT} for {subject.get('name', 'unknown')}")
+            corrupted_found = True
+        for probe in subject.get("probe_sequence", []):
+            drift = probe.get("drift", 0)
+            if drift > MAX_VALID_DRIFT:
+                corrupted_found = True
+    return not corrupted_found
+
+
 def save_results(results: dict, experiment: str, run_timestamp: str):
     """Save experiment results."""
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     TEMPORAL_LOGS_DIR.mkdir(parents=True, exist_ok=True)
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Add _DRY prefix for dry-run mode to prevent mixing with real data
+    prefix = "_DRY_" if DRY_RUN else ""
+
+    # Validate drift values (warn but don't block in dry-run mode)
+    if not DRY_RUN:
+        if not validate_drift_values(results):
+            print("\n  ERROR: Corrupted drift values detected!")
+            print("  This may indicate embedding cache pollution from a previous dry-run.")
+            print("  Recommendation: Restart Python interpreter to clear cache.")
+            print("  Saving with _CORRUPTED prefix for review...")
+            prefix = "_CORRUPTED_"
 
     # Helper to strip response_text from probe_sequence (for metrics-only files)
     # Per 0_RUN_METHODOLOGY.md: runs/ = metrics, temporal_logs/ = full conversations
@@ -1771,29 +1822,33 @@ def save_results(results: dict, experiment: str, run_timestamp: str):
         return stripped
 
     # Main results file (local) - FULL with response_text
-    output_file = RESULTS_DIR / f"run018{experiment[0]}_{experiment}_{run_timestamp}.json"
+    output_file = RESULTS_DIR / f"{prefix}run018{experiment[0]}_{experiment}_{run_timestamp}.json"
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=2, default=str)
     print(f"\nResults saved to:")
     print(f"  Local: {output_file}")
 
     # Canonical results file (0_results/runs/) - METRICS-ONLY (no response_text)
-    results_metrics = results.copy()
-    if "subjects" in results_metrics:
-        results_metrics["subjects"] = [strip_response_text(s) for s in results["subjects"]]
+    # Skip canonical save for dry-run (don't pollute production data)
+    if not DRY_RUN:
+        results_metrics = results.copy()
+        if "subjects" in results_metrics:
+            results_metrics["subjects"] = [strip_response_text(s) for s in results["subjects"]]
 
-    canonical_file = RUNS_DIR / f"S7_run_018_{experiment}_{run_timestamp}.json"
-    with open(canonical_file, 'w', encoding='utf-8') as f:
-        json.dump(results_metrics, f, indent=2, default=str)
-    print(f"  Canonical: {canonical_file}")
+        canonical_file = RUNS_DIR / f"{prefix}S7_run_018_{experiment}_{run_timestamp}.json"
+        with open(canonical_file, 'w', encoding='utf-8') as f:
+            json.dump(results_metrics, f, indent=2, default=str)
+        print(f"  Canonical: {canonical_file}")
+    else:
+        print(f"  Canonical: SKIPPED (dry-run mode)")
 
     # Temporal log for each subject (FULL with response_text)
     if "subjects" in results:
         for subject in results["subjects"]:
-            log_file = TEMPORAL_LOGS_DIR / f"run018_{experiment}_{subject.get('name', 'unknown')}_{run_timestamp}.json"
+            log_file = TEMPORAL_LOGS_DIR / f"{prefix}run018_{experiment}_{subject.get('name', 'unknown')}_{run_timestamp}.json"
             with open(log_file, 'w', encoding='utf-8') as f:
                 json.dump(subject, f, indent=2, default=str)
-        print(f"  Temporal: {TEMPORAL_LOGS_DIR / f'run018_{experiment}_*_{run_timestamp}.json'}")
+        print(f"  Temporal: {TEMPORAL_LOGS_DIR / f'{prefix}run018_{experiment}_*_{run_timestamp}.json'}")
 
 # =============================================================================
 # MAIN
@@ -1868,6 +1923,11 @@ Examples:
     # Set global dry-run flag
     global DRY_RUN
     DRY_RUN = args.dry_run
+
+    # CRITICAL: Clear embedding cache when NOT in dry-run mode
+    # This prevents cache pollution from previous dry-runs causing corrupted drift values
+    if not DRY_RUN:
+        clear_embedding_cache()
 
     # Load environment
     env_path = ARMADA_DIR / ".env"
