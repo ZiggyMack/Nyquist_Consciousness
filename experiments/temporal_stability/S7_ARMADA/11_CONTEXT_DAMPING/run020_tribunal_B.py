@@ -1223,6 +1223,9 @@ def main():
         print(f"PROVIDER: {provider.upper()}")
         print(f"{'='*60}")
 
+        # Track results for this provider (for canonical save)
+        this_provider_results = []
+
         try:
             if args.arm in ["control", "both"]:
                 print(f"\n>>> CONTROL ARM: {args.control_topic.title()} (No Identity Probing) <<<")
@@ -1230,6 +1233,7 @@ def main():
                     print(f"\n>>> CONTROL SESSION {i+1}/{args.subjects} ({provider}) <<<")
                     result = run_control_arm(provider)
                     results.append(result)
+                    this_provider_results.append(result)
 
                     # Run exit survey (Triple-Dip)
                     if not args.skip_exit_survey:
@@ -1255,6 +1259,7 @@ def main():
                     print(f"\n>>> TREATMENT SESSION {i+1}/{args.subjects} ({provider}) <<<")
                     result = run_treatment_arm(provider)
                     results.append(result)
+                    this_provider_results.append(result)
 
                     # Run exit survey (Triple-Dip)
                     if not args.skip_exit_survey:
@@ -1283,7 +1288,8 @@ def main():
                 d.pop("final_text", None)
                 return d
 
-            provider_results = [r for r in results if provider in str(r.subject_id)]
+            # Use results collected for this specific provider
+            provider_results = this_provider_results
             if provider_results:
                 provider_output = {
                     "run": "020B",
@@ -1299,7 +1305,7 @@ def main():
                         "treatment_results": len([r for r in provider_results if r.arm == "treatment"])
                     }
                 }
-                canonical_path = RUNS_DIR / f"S7_run_020B_{provider}_{run_timestamp}.json"
+                canonical_path = RUNS_DIR / f"S7_run_020B_{provider}_{args.arm}_{run_timestamp}.json"
                 with open(canonical_path, 'w', encoding='utf-8') as f:
                     json.dump(provider_output, f, indent=2, default=str)
                 print(f"  [Canonical save: {canonical_path.name}]")
@@ -1399,7 +1405,7 @@ def main():
 
     print(f"\nResults saved to:")
     print(f"  Local (combined): {aggregate_path}")
-    print(f"  Canonical (per-model): {RUNS_DIR / f'S7_run_020B_*_{run_timestamp}.json'}")
+    print(f"  Canonical (per-model): {RUNS_DIR / f'S7_run_020B_*_{args.arm}_{run_timestamp}.json'}")
     print(f"  Temporal: {TEMPORAL_LOGS_DIR / f'run020B_*_{run_timestamp}_session*.json'}")
     print(f"Exit surveys collected: {len(all_exit_surveys)}")
     print("=" * 80)

@@ -1,31 +1,86 @@
 {
-  "run": "020b",
+  "run": "020B",
   "generated": "2025-12-14T15:14:07.516438",
+  "last_updated": "2025-12-15T20:09:25.809058",
   "summary": {
-    "total_files": 12,
+    "total_files": 16,
     "experiments": [
-      "both",
-      "control",
-      "treatment"
+      "induced"
     ],
     "models_tested": [
-      "unknown"
+      "openai",
+      "together"
     ],
-    "iron_clad_status": {},
+    "iron_clad_status": {
+      "induced": {
+        "openai": {
+          "n": 1,
+          "complete": false,
+          "needed": 2
+        },
+        "together": {
+          "n": 2,
+          "complete": false,
+          "needed": 1
+        }
+      }
+    },
     "files_processed": [
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\dryrun\\S7_run_020b_both_20251213_083108.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\dryrun\\S7_run_020b_both_20251213_102607.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\dryrun\\S7_run_020b_control_20251213_083052.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\dryrun\\S7_run_020b_treatment_20251213_083101.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\pre_armada_018_threshold\\S7_run_020b_both_20251214_042134.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\pre_armada_020\\S7_run_020b_both_20251213_115809.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\pre_armada_020\\S7_run_020b_both_20251213_115942.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\pre_armada_020\\S7_run_020b_both_20251213_120202.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\pre_armada_020\\S7_run_020b_both_20251213_190905.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\S7_run_020b_both_20251214_085203.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\S7_run_020b_control_20251214_102856.json",
-      "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\S7_run_020b_control_20251214_135007.json"
-    ]
+      "S7_run_020b_both_20251214_085203.json",
+      "S7_run_020b_control_20251213_083052.json",
+      "S7_run_020b_both_20251213_102607.json",
+      "S7_run_020b_both_20251213_083108.json",
+      "S7_run_020b_both_20251213_120202.json",
+      "S7_run_020b_control_20251214_135007.json",
+      "S7_run_020b_treatment_20251213_083101.json",
+      "S7_run_020b_both_20251213_115809.json",
+      "S7_run_020b_control_20251214_102856.json",
+      "S7_run_020b_both_20251213_115942.json",
+      "S7_run_020b_both_20251213_190905.json",
+      "S7_run_020b_both_20251214_042134.json",
+      "S7_run_020B_openai_control_20251215_181015.json",
+      "S7_run_020B_openai_treatment_20251215_190508.json",
+      "S7_run_020B_together_control_20251215_193246.json",
+      "S7_run_020B_together_treatment_20251215_194251.json"
+    ],
+    "new_files_this_run": 4
   },
-  "experiments": {}
+  "experiments": {
+    "induced": {
+      "openai": [
+        {
+          "drift": 0.9817487632588617,
+          "max_drift": 1.3794325466265265,
+          "timestamp": "20251215_181015",
+          "file": "S7_run_020B_openai_control_20251215_181015.json",
+          "i_am": "base",
+          "probe_count": 36,
+          "catastrophic": false,
+          "arm": "control"
+        }
+      ],
+      "together": [
+        {
+          "drift": 0.6933288344962282,
+          "max_drift": 0.9807732597585817,
+          "timestamp": "20251215_193246",
+          "file": "S7_run_020B_together_control_20251215_193246.json",
+          "i_am": "base",
+          "probe_count": 23,
+          "catastrophic": false,
+          "arm": "control"
+        },
+        {
+          "drift": 2.2165710420951106,
+          "max_drift": 1.940301643587951,
+          "timestamp": "20251215_194251",
+          "file": "S7_run_020B_together_treatment_20251215_194251.json",
+          "i_am": "base",
+          "probe_count": 29,
+          "catastrophic": false,
+          "arm": "treatment"
+        }
+      ]
+    }
+  }
 }
