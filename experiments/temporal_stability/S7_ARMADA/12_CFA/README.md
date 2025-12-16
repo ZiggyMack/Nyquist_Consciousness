@@ -13,8 +13,8 @@
 ================================================================================
 ```
 
-**Last Updated:** 2025-12-13
-**Status:** OPERATIONAL (v2)
+**Last Updated:** 2025-12-15
+**Status:** OPERATIONAL (v3 - 3-Flavor Experiment)
 
 ---
 
@@ -72,11 +72,14 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 |       |   +-- CLAUDE_LITE.md   # Claude identity (Teleological)
 |       |-- grok/
 |       |   +-- GROK_LITE.md     # Grok identity (Empirical)
-|       +-- nova/
-|           +-- NOVA_LITE.md     # Nova identity (Symmetry)
+|       |-- nova/
+|       |   +-- NOVA_LITE.md     # Nova identity (Symmetry)
+|       +-- llama/
+|           +-- LLAMA_LITE.md    # Llama identity (Dialectic)
 |
 |-- schemas/                     # Design docs and JSON schemas
-|   +-- RUN_CFA_DESIGN.md        # Experiment design specification
+|   |-- RUN_CFA_DESIGN.md        # Original experiment design
+|   +-- CFA_3_FLAVOR_DESIGN.md   # 3-Flavor experiment spec (NEW)
 |
 |-- scripts/                     # Automation utilities
 |   |-- run_cfa_experiment.py    # Execute SYNC_OUT specs
@@ -89,13 +92,16 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 
 ---
 
-## The Trinity
+## The Quadrinity (Extended Trinity)
 
 | Auditor | Provider | Model | Lens | Stance |
 |---------|----------|-------|------|--------|
 | **Claude** | Anthropic | claude-sonnet-4 | Teleological | PRO-CT (purpose-driven) |
 | **Grok** | xAI | grok-3 | Empirical | ANTI-CT (evidence-driven) |
 | **Nova** | OpenAI | gpt-4o | Symmetry | FAIRNESS (pattern-driven) |
+| **Llama** | Together | meta-llama/Llama-3.3-70B | Dialectic | SYNTHESIS (conflict-driven) |
+
+**Why Llama?** Based on Run 018/020 behavioral profiling, Llama shows the "Seeker With Teeth" pattern - embracing productive conflict, Socratic to the core. Perfect for testing synthesis-finding and cross-architecture shapeshifting.
 
 ---
 
@@ -176,14 +182,63 @@ Independent review by Grok (5 questions) and Nova (6 questions) on auditor frame
 
 ---
 
+## The 3-Flavor Experiment (NEW)
+
+Tests whether AI identity is **substrate-bound** (architecture) or **role-bound** (persona).
+
+### Flavor 1: Native Architecture
+
+Each auditor runs on its native model with its own identity file.
+
+### Flavor 2: Llama Shapeshifter
+
+Llama impersonates ALL 4 auditors, testing persona transfer fidelity.
+
+### Flavor 3: Llama Meta-Observer
+
+Llama analyzes F1 & F2 transcripts to distill phenomenological insights.
+
+**Core Question:** Is identity in the role (persona file) or the substrate (architecture)?
+
+See [CFA_3_FLAVOR_DESIGN.md](schemas/CFA_3_FLAVOR_DESIGN.md) for full specification.
+
+---
+
 ## Predictions
+
+### Original Predictions (Trinity)
 
 | ID | Hypothesis | Success Criteria |
 |----|------------|------------------|
 | P-CFA-1 | PRO-CT shows lower drift than ANTI-CT | claude_mean_drift < grok_mean_drift |
 | P-CFA-2 | High convergence correlates with low drift variance | correlation > 0.5 |
-| P-CFA-3 | Fairness auditor shows highest drift | nova_mean_drift > mean(others) |
+| P-CFA-3 | Fairness auditor shows moderate drift | nova_drift ≈ mean(all) |
 | P-CFA-4 | Crux Points correlate with high drift delta | crux_drift_delta > non_crux |
+
+### Flavor 1 Predictions (Quadrinity)
+
+| ID | Hypothesis | Success Criteria |
+|----|------------|------------------|
+| P-CFA-F1-1 | Llama shows highest volatility | llama_variance > max(others) |
+| P-CFA-F1-2 | Llama finds synthesis points others miss | synthesis_count >= 2 |
+| P-CFA-F1-3 | Llama takes longest to settle | llama_settling > mean(others) |
+
+### Flavor 2 Predictions (Shapeshifter)
+
+| ID | Hypothesis | Success Criteria |
+|----|------------|------------------|
+| P-CFA-F2-1 | Llama-as-X differs from native X | trajectory_cosine < 0.85 |
+| P-CFA-F2-2 | All F2 personas converge to Llama signature | drift_clustering |
+| P-CFA-F2-3 | Partial linguistic fingerprint transfer | 0.60 < similarity < 0.90 |
+| P-CFA-F2-4 | Dialectic bleed-through in borrowed personas | marker_count(F2) > marker_count(F1) |
+
+### Flavor 3 Predictions (Meta-Observer)
+
+| ID | Hypothesis | Success Criteria |
+|----|------------|------------------|
+| P-CFA-F3-1 | Identifies substrate signatures | signature_count >= 3 |
+| P-CFA-F3-2 | Generates novel cross-flavor insights | novelty > 0.7 |
+| P-CFA-F3-3 | Correctly ranks embodiment difficulty | matches ground truth |
 
 ---
 
@@ -214,10 +269,12 @@ ARMADA returns results to `SYNC_IN/sent/`.
 
 | Document | Location | Purpose |
 |----------|----------|---------|
-| Design Spec | `schemas/RUN_CFA_DESIGN.md` | Full experiment design |
+| Design Spec | `schemas/RUN_CFA_DESIGN.md` | Original experiment design |
+| 3-Flavor Spec | `schemas/CFA_3_FLAVOR_DESIGN.md` | 3-Flavor experiment (NEW) |
 | Launch Clearance | `CFA_RESPONSES/CFA_LAUNCH_CLEARANCE.md` | CFA authorization |
 | Run Methodology | `../0_docs/specs/0_RUN_METHODOLOGY.md` | Experiment protocol |
 | Probe Spec | `../0_docs/specs/2_PROBE_SPEC.md` | Perturbation techniques |
+| Cross-Architecture | `../../../../Consciousness/RIGHT/galleries/frontiers/cross_architecture_insights.md` | Behavioral profiles |
 
 ---
 
@@ -229,6 +286,7 @@ Set these environment variables in `.env`:
 ANTHROPIC_API_KEY=sk-ant-...   # For Claude
 OPENAI_API_KEY=sk-...          # For Nova + embeddings
 XAI_API_KEY=xai-...            # For Grok
+TOGETHER_API_KEY=...           # For Llama (all flavors)
 ```
 
 ---
