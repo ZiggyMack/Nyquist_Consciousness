@@ -2,8 +2,8 @@
 
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
-**Last Updated:** 2025-12-15
-**Status:** IRON CLAD COMPLETE — Runs 018, 020A, 020B finalized (232 total files)
+**Last Updated:** 2025-12-16
+**Status:** IRON CLAD COMPLETE + EXTERNAL REVIEW — Runs 018, 020A, 020B finalized (232 total files)
 
 ---
 
@@ -104,16 +104,18 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │
 ├── reviewers/                        # Draft papers + reviews
 │   ├── README.md                    # Phase structure guide
-│   ├── phase1/                      # Initial drafts (Dec 2025)
-│   │   ├── NYQUIST_ARXIV_PAPER_FINAL.md
-│   │   ├── NYQUIST_WHITE_PAPER_FINAL.md
-│   │   ├── Nyquist_workshop_paper_FINAL.md
-│   │   ├── NOVA_S7_REVIEW.md
-│   │   └── FINAL_VALIDATION_CHECKLIST.md
-│   └── phase2/                      # Post-figure review (Dec 2025)
-│       ├── Workshop_paper_submission.md
-│       ├── Submission_ready_paper.md
-│       └── review_circulation_package.md
+│   ├── START_HERE.md                # Quick reviewer orientation
+│   ├── Convos/                      # Review phase conversations
+│   │   ├── phase1/                  # Initial drafts (Dec 2025)
+│   │   ├── phase2/                  # Post-figure review
+│   │   ├── phase3/                  # Current drafts + PDFs
+│   │   ├── Phase4/                  # Figure placement + updates
+│   │   └── phase5/                  # Submission venue guide (NEW)
+│   ├── packages/                    # Extracted review packages
+│   │   ├── content/                 # Text packages by path
+│   │   └── pdf/                     # Generated PDFs (8 files)
+│   └── Grok/                        # External reviewer feedback (NEW)
+│       └── review_1.md              # Grok's empirical assessment
 │
 ├── submissions/                      # ★ 8 PUBLICATION PATHS
 │   ├── blueprints/                  # Planning docs for each path
@@ -124,7 +126,11 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   ├── education/                   # Path 5: OER/Coursera (LLM_BOOK)
 │   ├── policy/                      # Path 6: Think tanks (LLM_BOOK)
 │   ├── funding/                     # Path 7: NSF/DARPA (LLM_BOOK)
-│   └── media/                       # Path 8: Press/TED (LLM_BOOK)
+│   ├── media/                       # Path 8: Press/TED (LLM_BOOK)
+│   └── tracking/                    # ★ SUBMISSION TRACKING (NEW)
+│       ├── SUBMISSION_STATUS.md     # Master dashboard + URLs
+│       ├── DEADLINES.md             # Timeline through 2026
+│       └── VENUE_TEMPLATES/         # Checklists per venue
 │
 ├── calibration/                      # Dashboard integration pipeline
 │   ├── extract_publication_stats.py # Scrapes WHITE-PAPER/, outputs JSON
