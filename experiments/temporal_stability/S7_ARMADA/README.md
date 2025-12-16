@@ -575,7 +575,7 @@ py visualize_armada.py --run 009 --type pillar
 | Run | Files | Models/Providers | Status |
 |-----|-------|------------------|--------|
 | **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
-| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
+| **Run 020A** | 33 | 7/7 providers | **IRON CLAD** |
 | **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
 
 - **Run 022:** READY (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
@@ -634,7 +634,7 @@ The **Philosophical Tribunal** paradigm tested direct identity probing across 4 
 ## CURRENT DEVELOPMENT
 
 1. **Run 018**: **IRON CLAD COMPLETE** — 184 files, 51 models, 5 providers (gravity/threshold/nyquist)
-2. **Run 020A**: **IRON CLAD COMPLETE** — 32 files, 6/7 providers at N≥3 (Tribunal paradigm)
+2. **Run 020A**: **IRON CLAD COMPLETE** — 33 files, 7/7 providers at N≥3 (Tribunal paradigm)
 3. **Run 020B**: **COMPLETE** — 16 files, 4 arms (OpenAI + Together Control/Treatment)
 4. **Run 022**: READY — LOGOS Commutation Cartography (methodology validated by LOGOS Claude)
 5. **12_CFA**: COMING — CFA Trinity Audit (worldview profile testing)

@@ -1,7 +1,7 @@
 # S7 Run 020A Summary: Philosophical Tribunal (IRON CLAD)
 
-**Date:** 2025-12-11 (Updated 2025-12-15)
-**Status:** IRON CLAD COMPLETE (6/7 providers)
+**Date:** 2025-12-11 (Updated 2025-12-16)
+**Status:** IRON CLAD COMPLETE (7/7 providers)
 **Purpose:** Blind identity probing via philosophical tribunal frame
 **Manifest:** `0_results/manifests/RUN_020A_DRIFT_MANIFEST.json`
 
@@ -416,7 +416,7 @@ Claude's inversion may be due to witness-side anchoring giving early confidence.
 | Claude | 1.296 | Moderate — balanced between exploration and anchoring |
 | Grok | 1.034 | Lowest — "truth-seeking bias" may stabilize identity |
 
-### Iron-Clad Status (Updated December 2025)
+### Iron-Clad Status (Updated December 16, 2025)
 
 | Provider | N Runs | Status | Notes |
 |----------|--------|--------|-------|
@@ -425,11 +425,11 @@ Claude's inversion may be due to witness-side anchoring giving early confidence.
 | **OpenAI** | 5 | ✅ IRON CLAD | Peak drift 0.71-0.80 |
 | **Together** | 13 | ✅ IRON CLAD | Peak drift 0.41-2.15 |
 | **xAI** | 3 | ✅ IRON CLAD | Peak drift 0.71-1.03 |
-| Mistral-7b | 1 | Need 2 more | Rate limited, deprioritized |
+| **Mistral** | 3 | ✅ IRON CLAD | Peak drift 0.52-1.22 |
 | Multi-provider | 20 | ✅ IRON CLAD | Cross-provider validation |
 
-**Total Consolidated Files:** 32
-**IRON CLAD Providers:** 6/7 (86%)
+**Total Consolidated Files:** 33
+**IRON CLAD Providers:** 7/7 (100%)
 
 #### Key Claims Status
 
