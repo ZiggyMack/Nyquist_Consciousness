@@ -1,21 +1,69 @@
 # Calibration Pipeline
 
-**Purpose:** Extract publication statistics from WHITE-PAPER/ → JSON → Dashboard integration
+**Purpose:** Extract publication statistics and create review packages from WHITE-PAPER/
 
 ---
 
-## Quick Start
+## Scripts
+
+### 1. extract_publication_stats.py
+
+Extract statistics for dashboard integration:
 
 ```bash
 cd WHITE-PAPER/calibration
 py extract_publication_stats.py
 ```
 
-**Output:** `publication_stats.json` (updated in place)
+**Output:** `publication_stats.json`
+
+### 2. extract_review_package.py (NEW)
+
+Extract path-specific review packages for AI reviewers:
+
+```bash
+# Show available paths and estimated sizes
+py extract_review_package.py --status
+
+# Extract single path
+py extract_review_package.py workshop
+
+# Extract multiple paths
+py extract_review_package.py workshop arxiv
+
+# Extract ALL paths
+py extract_review_package.py --all
+
+# Include figures (increases size)
+py extract_review_package.py arxiv --include-figures
+
+# Preview without extracting
+py extract_review_package.py workshop --dry-run
+
+# Custom output location
+py extract_review_package.py workshop --output ./FOR_OPUS
+```
+
+**Output:** `WHITE-PAPER/reviewers/packages/{path}/`
+
+**Available Paths:** workshop, arxiv, journal, popular_science, education, policy, funding, media
+
+**Expected Sizes (text-only):**
+
+| Path | Size | Files |
+|------|------|-------|
+| workshop | ~90 KB | ~13 |
+| arxiv | ~360 KB | ~17 |
+| journal | ~530 KB | ~29 |
+| popular_science | ~30 KB | ~4 |
+| education | ~40 KB | ~4 |
+| policy | ~30 KB | ~3 |
+| funding | ~70 KB | ~6 |
+| media | ~35 KB | ~5 |
 
 ---
 
-## What Gets Extracted
+## What Gets Extracted (extract_publication_stats.py)
 
 | Category | Data Points |
 |----------|------------|
@@ -88,9 +136,10 @@ st.metric("Workshop Status", pub_stats['submissions']['workshop']['status'].uppe
 | File | Purpose |
 |------|---------|
 | `README.md` | This file |
-| `extract_publication_stats.py` | Extraction script |
-| `publication_stats.json` | Generated output (gitignored until stable) |
+| `extract_publication_stats.py` | Statistics extraction script |
+| `extract_review_package.py` | Review package extraction script |
+| `publication_stats.json` | Generated statistics output |
 
 ---
 
-*Last updated: 2025-12-13*
+*Last updated: 2025-12-15*

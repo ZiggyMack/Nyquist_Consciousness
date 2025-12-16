@@ -1,27 +1,93 @@
 # Reviewers Directory
 
-This directory contains draft papers and reviews organized by review phase.
+This directory contains draft papers, reviews, and review packages organized by phase.
 
 ## Directory Structure
 
 ```text
 reviewers/
 ├── README.md           # This file
-├── phase1/             # Initial drafts (Dec 2025 - Code Claude + Opus 4.5)
-│   ├── NYQUIST_ARXIV_PAPER_FINAL.md      # Full arXiv paper draft
-│   ├── NYQUIST_WHITE_PAPER_FINAL.md      # Journal-style white paper
-│   ├── Nyquist_workshop_paper_FINAL.md   # Workshop paper (4-8 pages)
-│   ├── Nyquist_workshop_paper.md         # Workshop draft (earlier version)
-│   ├── FINAL_VALIDATION_CHECKLIST.md     # Quality validation (99/100)
-│   ├── NOVA_S7_REVIEW.md                 # Nova's comprehensive S7 review
-│   ├── CODE_CLAUDE_PROMPT.md             # Generation prompts used
-│   └── Code_claude_workshop_addendum.md  # Workshop-specific prompts
+├── START_HERE.md       # Quick orientation for reviewers
+├── PROTOCOL.md         # Review sync protocol
+├── SYNC_STATUS.md      # Feedback tracking
 │
-└── phase2/             # Post-figure review (Dec 2025 - Opus 4.5)
-    ├── Workshop_paper_submission.md      # Submission-ready workshop paper
-    ├── Submission_ready_paper.md         # Full paper ready for submission
-    └── review_circulation_package.md     # Package review notes
+├── packages/           # EXTRACTED REVIEW PACKAGES (NEW)
+│   ├── workshop/       # Workshop paper package (~90 KB)
+│   ├── arxiv/          # arXiv preprint package (~360 KB)
+│   └── {path}/         # Other publication paths as needed
+│
+├── phase1/             # Initial drafts (Dec 2025 - Code Claude + Opus 4.5)
+│   ├── NYQUIST_ARXIV_PAPER_FINAL.md
+│   ├── NYQUIST_WHITE_PAPER_FINAL.md
+│   ├── Nyquist_workshop_paper_FINAL.md
+│   ├── FINAL_VALIDATION_CHECKLIST.md
+│   ├── NOVA_S7_REVIEW.md
+│   └── [prompts used]
+│
+├── phase2/             # Post-figure review (Dec 2025 - Opus 4.5)
+│   ├── Workshop_paper_submission.md
+│   ├── Submission_ready_paper.md
+│   └── review_circulation_package.md
+│
+├── phase3/             # Current drafts
+│
+├── to_reviewers/       # Outgoing requests/questions
+├── from_reviewers/     # Incoming feedback
+└── shared/             # Common materials (glossary, versions)
 ```
+
+## Review Packages (NEW)
+
+**Problem:** WHITE-PAPER is ~41MB total (figures + PDF dominate). Too large for AI reviewers.
+
+**Solution:** Extract path-specific review packages with manageable sizes (~50-500 KB).
+
+### Generate Packages
+
+```bash
+cd WHITE-PAPER/calibration
+
+# Show available paths
+py extract_review_package.py --status
+
+# Extract single path
+py extract_review_package.py workshop
+
+# Extract multiple paths
+py extract_review_package.py workshop arxiv
+
+# Extract ALL paths
+py extract_review_package.py --all
+
+# Include figures (increases size significantly)
+py extract_review_package.py arxiv --include-figures
+```
+
+### Available Paths
+
+| Path | Target Venue | Est. Size |
+|------|--------------|-----------|
+| workshop | NeurIPS/AAAI Workshop | ~90 KB |
+| arxiv | cs.AI Preprint | ~360 KB |
+| journal | Nature MI | ~530 KB |
+| popular_science | Atlantic/Wired | ~30 KB |
+| education | OER/Coursera | ~40 KB |
+| policy | Think tanks | ~30 KB |
+| funding | NSF/DARPA | ~70 KB |
+| media | Press/TED | ~35 KB |
+
+### Package Contents
+
+Each extracted package includes:
+
+- `PACKAGE_MANIFEST.md` — What's included + reading order
+- `submissions/{path}/` — Core submission materials
+- `blueprints/` — Blueprint for this publication path
+- `theory/` — Theory docs (varies by path)
+- `guides/` — Supporting guides
+- `reviewers/` — Previous reviews (if relevant)
+
+---
 
 ## Phase History
 

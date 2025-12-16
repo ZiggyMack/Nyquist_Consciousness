@@ -1,0 +1,819 @@
+#!/usr/bin/env python3
+"""
+REVIEW PACKAGE EXTRACTOR
+========================
+Extracts path-specific review packages from WHITE-PAPER for AI reviewers.
+
+WHITE-PAPER is ~41MB total (figures + PDF dominate). This script extracts
+manageable text-only packages (~50KB-250KB each) for different publication paths.
+
+USAGE:
+------
+py extract_review_package.py workshop          # Extract single path
+py extract_review_package.py workshop arxiv    # Extract multiple paths
+py extract_review_package.py --all             # Extract ALL paths
+py extract_review_package.py arxiv --include-figures   # Include figure specs
+py extract_review_package.py arxiv --include-pdf       # Include 14MB PDF
+py extract_review_package.py workshop --dry-run        # Preview extraction
+py extract_review_package.py workshop --output ./FOR_OPUS_1  # Custom output
+
+OUTPUT:
+-------
+WHITE-PAPER/reviewers/packages/{path}/
+├── PACKAGE_MANIFEST.md          # What's included + reading order
+├── submissions/{path}/          # Core submission materials
+├── blueprints/                  # Blueprint for this path
+├── theory/                      # Theory docs (varies by path)
+├── guides/                      # Guides (varies by path)
+└── figures/                     # Only if --include-figures
+
+Author: WHITE-PAPER Calibration 2025-12-15
+Version: 1.0
+"""
+
+import argparse
+import shutil
+import hashlib
+import json
+from pathlib import Path
+from datetime import datetime
+from typing import Dict, List, Optional, Set
+from dataclasses import dataclass, field
+
+# === PATH CONSTANTS ===
+WHITE_PAPER_ROOT = Path(__file__).parent.parent  # WHITE-PAPER/
+REPO_ROOT = WHITE_PAPER_ROOT.parent              # Nyquist_Consciousness/
+DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages"
+
+# === PUBLICATION PATHS (8 total) ===
+PUBLICATION_PATHS = [
+    "workshop",      # Academic: NeurIPS/AAAI Workshop (4-8 pages)
+    "arxiv",         # Academic: cs.AI preprint (25-35 pages)
+    "journal",       # Academic: Nature MI (full paper)
+    "popular_science",  # Dissemination: Atlantic/Wired
+    "education",     # Dissemination: OER/Coursera
+    "policy",        # Dissemination: Think tanks
+    "funding",       # Dissemination: NSF/DARPA
+    "media",         # Dissemination: Press/TED
+]
+
+
+@dataclass
+class PathContent:
+    """Defines what content belongs to each publication path."""
+    name: str
+    description: str
+    target_venue: str
+    submissions: List[str]      # Dirs under submissions/
+    blueprints: List[str]       # Files under submissions/blueprints/
+    theory: List[str]           # Files/patterns under theory/
+    guides: List[str]           # Files/patterns under guides/
+    references: List[str]       # Files under references/
+    figures: List[str]          # Files/patterns under figures/
+    planning: List[str]         # Files under planning/
+    reviewers: List[str]        # Files/patterns under reviewers/
+    reading_order: List[str] = field(default_factory=list)  # Suggested reading order
+
+
+# === CONTENT MAPPINGS FOR EACH PATH ===
+
+WORKSHOP_CONTENT = PathContent(
+    name="workshop",
+    description="Workshop paper package (4-8 pages, focused claims)",
+    target_venue="NeurIPS/AAAI Workshop",
+    submissions=["workshop/"],
+    blueprints=["WORKSHOP_BLUEPRINT.md"],
+    theory=["MINIMUM_PUBLISHABLE_CLAIMS.md"],
+    guides=["summary_statistics.md"],
+    references=[],
+    figures=["fig_workshop_combined.md", "ascii/ascii_workshop_*.md"],
+    planning=["OPUS_REVIEW_BRIEF.md"],
+    reviewers=["phase1/Nyquist_workshop_paper*.md", "phase2/Workshop_paper*.md"],
+    reading_order=[
+        "submissions/workshop/README.md",
+        "submissions/blueprints/WORKSHOP_BLUEPRINT.md",
+        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
+        "guides/summary_statistics.md",
+    ]
+)
+
+ARXIV_CONTENT = PathContent(
+    name="arxiv",
+    description="arXiv preprint package (25-35 pages, full methodology)",
+    target_venue="cs.AI Preprint",
+    submissions=["arxiv/"],
+    blueprints=["ARXIV_BLUEPRINT.md"],
+    theory=["*.md"],  # All theory docs
+    guides=["*.md"],  # All guides
+    references=["references.md", "references.bib"],
+    figures=["fig*.md", "ascii/*.md"],  # All figure specs
+    planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md"],
+    reviewers=["phase1/NOVA_S7_REVIEW.md", "phase3/*.md"],
+    reading_order=[
+        "submissions/arxiv/README.md",
+        "submissions/blueprints/ARXIV_BLUEPRINT.md",
+        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
+        "theory/THEORY_SECTION.md",
+        "guides/summary_statistics.md",
+        "references/references.md",
+    ]
+)
+
+JOURNAL_CONTENT = PathContent(
+    name="journal",
+    description="Journal paper package (Nature MI, comprehensive)",
+    target_venue="Nature Machine Intelligence",
+    submissions=["journal/", "arxiv/"],  # Build on arxiv
+    blueprints=["JOURNAL_BLUEPRINT.md", "ARXIV_BLUEPRINT.md"],
+    theory=["*.md"],
+    guides=["*.md"],
+    references=["references.md", "references.bib"],
+    figures=["fig*.md", "ascii/*.md"],
+    planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md"],
+    reviewers=["phase1/*.md", "phase2/*.md", "phase3/*.md"],
+    reading_order=[
+        "submissions/journal/README.md",
+        "submissions/blueprints/JOURNAL_BLUEPRINT.md",
+        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
+        "theory/THEORY_SECTION.md",
+    ]
+)
+
+POPULAR_SCIENCE_CONTENT = PathContent(
+    name="popular_science",
+    description="Popular science article package (Atlantic/Wired style)",
+    target_venue="The Atlantic / Wired / Scientific American",
+    submissions=["popular_science/"],
+    blueprints=[],
+    theory=[],
+    guides=["summary_statistics.md"],
+    references=[],
+    figures=[],
+    planning=["OPUS_REVIEW_BRIEF.md"],
+    reviewers=[],
+    reading_order=[
+        "submissions/popular_science/README.md",
+        "submissions/popular_science/LLM_Ancient_Philosophy_Meets_Modern_AI.md",
+        "guides/summary_statistics.md",
+    ]
+)
+
+EDUCATION_CONTENT = PathContent(
+    name="education",
+    description="Educational materials package (OER/Coursera)",
+    target_venue="Open Educational Resources / Coursera",
+    submissions=["education/"],
+    blueprints=[],
+    theory=["MINIMUM_PUBLISHABLE_CLAIMS.md"],
+    guides=["summary_statistics.md"],
+    references=[],
+    figures=[],
+    planning=[],
+    reviewers=[],
+    reading_order=[
+        "submissions/education/README.md",
+        "submissions/education/LLM_Quiz.md",
+        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
+    ]
+)
+
+POLICY_CONTENT = PathContent(
+    name="policy",
+    description="Policy briefing package (Think tanks)",
+    target_venue="Brookings / Center for AI Safety / EU AI Office",
+    submissions=["policy/"],
+    blueprints=[],
+    theory=[],
+    guides=["summary_statistics.md"],
+    references=[],
+    figures=[],
+    planning=[],
+    reviewers=[],
+    reading_order=[
+        "submissions/policy/README.md",
+        "submissions/policy/LLM_Briefing.md",
+        "guides/summary_statistics.md",
+    ]
+)
+
+FUNDING_CONTENT = PathContent(
+    name="funding",
+    description="Funding proposal package (NSF/DARPA)",
+    target_venue="NSF / DARPA / Open Philanthropy",
+    submissions=["funding/"],
+    blueprints=[],
+    theory=["MINIMUM_PUBLISHABLE_CLAIMS.md", "B-CRUMBS.md"],
+    guides=["summary_statistics.md", "REPRODUCIBILITY_README.md"],
+    references=[],
+    figures=[],
+    planning=[],
+    reviewers=[],
+    reading_order=[
+        "submissions/funding/README.md",
+        "submissions/funding/LLM_Project_Nyquist_Consciousness.md",
+        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
+    ]
+)
+
+MEDIA_CONTENT = PathContent(
+    name="media",
+    description="Media/press package (Press releases, podcasts)",
+    target_venue="Press / Podcasts / TED",
+    submissions=["media/", "popular_science/"],
+    blueprints=[],
+    theory=[],
+    guides=["summary_statistics.md"],
+    references=[],
+    figures=[],
+    planning=[],
+    reviewers=[],
+    reading_order=[
+        "submissions/media/README.md",
+        "submissions/media/LLM_Unlocking_AI_Identity.md",
+        "submissions/popular_science/LLM_Ancient_Philosophy_Meets_Modern_AI.md",
+    ]
+)
+
+# Map path names to content definitions
+PATH_CONTENT_MAP: Dict[str, PathContent] = {
+    "workshop": WORKSHOP_CONTENT,
+    "arxiv": ARXIV_CONTENT,
+    "journal": JOURNAL_CONTENT,
+    "popular_science": POPULAR_SCIENCE_CONTENT,
+    "education": EDUCATION_CONTENT,
+    "policy": POLICY_CONTENT,
+    "funding": FUNDING_CONTENT,
+    "media": MEDIA_CONTENT,
+}
+
+
+def get_file_hash(path: Path) -> str:
+    """Calculate MD5 hash of file."""
+    if not path.exists() or path.is_dir():
+        return ""
+    hasher = hashlib.md5()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
+
+
+def resolve_patterns(base_dir: Path, patterns: List[str]) -> List[Path]:
+    """
+    Resolve glob patterns to actual file paths.
+
+    Args:
+        base_dir: Directory to search in (e.g., WHITE_PAPER_ROOT / "theory")
+        patterns: List of patterns like ["*.md", "MINIMUM*.md"]
+
+    Returns:
+        List of resolved Path objects
+    """
+    files: Set[Path] = set()
+
+    for pattern in patterns:
+        if not pattern:
+            continue
+
+        # Handle directory patterns (ending with /)
+        if pattern.endswith("/"):
+            dir_path = base_dir / pattern.rstrip("/")
+            if dir_path.exists() and dir_path.is_dir():
+                for f in dir_path.rglob("*"):
+                    if f.is_file():
+                        files.add(f)
+        else:
+            # Regular glob pattern
+            for f in base_dir.glob(pattern):
+                if f.is_file():
+                    files.add(f)
+
+    return sorted(files)
+
+
+def calculate_total_size(files: List[Path]) -> int:
+    """Calculate total size in bytes of file list."""
+    return sum(f.stat().st_size for f in files if f.exists())
+
+
+def format_size(size_bytes: int) -> str:
+    """Format bytes as human-readable string."""
+    if size_bytes < 1024:
+        return f"{size_bytes} B"
+    elif size_bytes < 1024 * 1024:
+        return f"{size_bytes / 1024:.1f} KB"
+    else:
+        return f"{size_bytes / (1024 * 1024):.1f} MB"
+
+
+def collect_package_files(
+    path_content: PathContent,
+    include_figures: bool = False,
+    include_pdf: bool = False
+) -> Dict[str, List[Path]]:
+    """
+    Collect all files for a publication path package.
+
+    Returns dict like:
+    {
+        "submissions": [Path(...)],
+        "blueprints": [Path(...)],
+        "theory": [Path(...)],
+        ...
+    }
+    """
+    collected: Dict[str, List[Path]] = {
+        "submissions": [],
+        "blueprints": [],
+        "theory": [],
+        "guides": [],
+        "references": [],
+        "figures": [],
+        "planning": [],
+        "reviewers": [],
+    }
+
+    # Submissions
+    submissions_dir = WHITE_PAPER_ROOT / "submissions"
+    for pattern in path_content.submissions:
+        collected["submissions"].extend(
+            resolve_patterns(submissions_dir, [pattern])
+        )
+
+    # Blueprints
+    blueprints_dir = WHITE_PAPER_ROOT / "submissions" / "blueprints"
+    collected["blueprints"] = resolve_patterns(blueprints_dir, path_content.blueprints)
+
+    # Theory
+    theory_dir = WHITE_PAPER_ROOT / "theory"
+    collected["theory"] = resolve_patterns(theory_dir, path_content.theory)
+
+    # Guides
+    guides_dir = WHITE_PAPER_ROOT / "guides"
+    collected["guides"] = resolve_patterns(guides_dir, path_content.guides)
+
+    # References
+    references_dir = WHITE_PAPER_ROOT / "references"
+    collected["references"] = resolve_patterns(references_dir, path_content.references)
+
+    # Figures (only if requested)
+    if include_figures:
+        figures_dir = WHITE_PAPER_ROOT / "figures"
+        collected["figures"] = resolve_patterns(figures_dir, path_content.figures)
+
+    # Planning
+    planning_dir = WHITE_PAPER_ROOT / "planning"
+    collected["planning"] = resolve_patterns(planning_dir, path_content.planning)
+
+    # Reviewers
+    reviewers_dir = WHITE_PAPER_ROOT / "reviewers"
+    collected["reviewers"] = resolve_patterns(reviewers_dir, path_content.reviewers)
+
+    # Filter out PDFs unless explicitly requested
+    if not include_pdf:
+        for category in collected:
+            collected[category] = [f for f in collected[category] if f.suffix.lower() != ".pdf"]
+
+    return collected
+
+
+def generate_manifest(
+    path_content: PathContent,
+    collected: Dict[str, List[Path]],
+    output_dir: Path,
+    include_figures: bool,
+    include_pdf: bool
+) -> str:
+    """Generate PACKAGE_MANIFEST.md content."""
+
+    total_files = sum(len(files) for files in collected.values())
+    total_size = sum(calculate_total_size(files) for files in collected.values())
+
+    lines = [
+        f"# Review Package: {path_content.name.upper()}",
+        "",
+        f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"**Target Venue:** {path_content.target_venue}",
+        f"**Total Size:** {format_size(total_size)}",
+        f"**Total Files:** {total_files}",
+        "",
+        "---",
+        "",
+        f"## Description",
+        "",
+        path_content.description,
+        "",
+        "---",
+        "",
+        "## Reading Order",
+        "",
+        "Start with these files in order:",
+        "",
+    ]
+
+    for i, path in enumerate(path_content.reading_order, 1):
+        lines.append(f"{i}. `{path}`")
+
+    lines.extend([
+        "",
+        "---",
+        "",
+        "## Contents",
+        "",
+        "| Category | Files | Size |",
+        "|----------|-------|------|",
+    ])
+
+    for category, files in collected.items():
+        if files:
+            size = format_size(calculate_total_size(files))
+            lines.append(f"| {category}/ | {len(files)} files | {size} |")
+
+    lines.extend([
+        "",
+        f"**Total:** {total_files} files, {format_size(total_size)}",
+        "",
+        "---",
+        "",
+        "## File Listing",
+        "",
+    ])
+
+    for category, files in collected.items():
+        if files:
+            lines.append(f"### {category}/")
+            lines.append("")
+            for f in files:
+                rel_path = f.relative_to(WHITE_PAPER_ROOT)
+                size = format_size(f.stat().st_size)
+                lines.append(f"- `{rel_path}` ({size})")
+            lines.append("")
+
+    lines.extend([
+        "---",
+        "",
+        "## What's NOT Included",
+        "",
+    ])
+
+    if not include_figures:
+        lines.append("- Figure specification files (use `--include-figures` to add)")
+    if not include_pdf:
+        lines.append("- PDF files including 14MB arxiv PDF (use `--include-pdf` to add)")
+    lines.append("- Other publication path content")
+    lines.append("- Large binary files")
+
+    lines.extend([
+        "",
+        "---",
+        "",
+        "## Review Instructions",
+        "",
+        "Please review this package for:",
+        "",
+        "1. **Accuracy of claims** - Are statements supported by evidence?",
+        "2. **Clarity of presentation** - Is the writing clear and accessible?",
+        "3. **Completeness of evidence** - Are key findings documented?",
+        "4. **Suggested improvements** - What would strengthen the paper?",
+        "",
+        "Return feedback to: `WHITE-PAPER/reviewers/from_reviewers/{reviewer}/`",
+        "",
+        "---",
+        "",
+        f"*Package extracted from WHITE-PAPER/ for {path_content.target_venue} submission review.*",
+    ])
+
+    return "\n".join(lines)
+
+
+def extract_package(
+    path_name: str,
+    output_dir: Optional[Path] = None,
+    include_figures: bool = False,
+    include_pdf: bool = False,
+    dry_run: bool = False
+) -> Dict:
+    """
+    Extract a review package for a specific publication path.
+
+    Args:
+        path_name: One of PUBLICATION_PATHS
+        output_dir: Where to write the package (default: reviewers/packages/{path}/)
+        include_figures: Include figure specification files
+        include_pdf: Include PDF files
+        dry_run: Preview without writing files
+
+    Returns:
+        Dict with extraction results
+    """
+    if path_name not in PATH_CONTENT_MAP:
+        return {"error": f"Unknown path: {path_name}. Valid: {PUBLICATION_PATHS}"}
+
+    path_content = PATH_CONTENT_MAP[path_name]
+
+    # Determine output directory
+    if output_dir is None:
+        output_dir = DEFAULT_OUTPUT_DIR / path_name
+    else:
+        output_dir = output_dir / path_name
+
+    # Collect files
+    collected = collect_package_files(path_content, include_figures, include_pdf)
+
+    # Calculate statistics
+    total_files = sum(len(files) for files in collected.values())
+    total_size = sum(calculate_total_size(files) for files in collected.values())
+
+    result = {
+        "path": path_name,
+        "description": path_content.description,
+        "target_venue": path_content.target_venue,
+        "output_dir": str(output_dir),
+        "dry_run": dry_run,
+        "include_figures": include_figures,
+        "include_pdf": include_pdf,
+        "statistics": {
+            "total_files": total_files,
+            "total_size_bytes": total_size,
+            "total_size_human": format_size(total_size),
+        },
+        "categories": {},
+        "files_copied": [],
+        "errors": [],
+    }
+
+    for category, files in collected.items():
+        result["categories"][category] = {
+            "count": len(files),
+            "size_bytes": calculate_total_size(files),
+            "files": [str(f.relative_to(WHITE_PAPER_ROOT)) for f in files]
+        }
+
+    if dry_run:
+        result["message"] = "Dry run - no files written"
+        return result
+
+    # Create output directory
+    try:
+        output_dir.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        result["errors"].append(f"Failed to create output dir: {e}")
+        return result
+
+    # Copy files preserving relative structure
+    for category, files in collected.items():
+        for src_file in files:
+            # Calculate relative path from WHITE_PAPER_ROOT
+            rel_path = src_file.relative_to(WHITE_PAPER_ROOT)
+            dst_file = output_dir / rel_path
+
+            try:
+                dst_file.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src_file, dst_file)
+                result["files_copied"].append(str(rel_path))
+            except Exception as e:
+                result["errors"].append(f"Failed to copy {rel_path}: {e}")
+
+    # Generate and write manifest
+    manifest_content = generate_manifest(
+        path_content, collected, output_dir, include_figures, include_pdf
+    )
+    manifest_path = output_dir / "PACKAGE_MANIFEST.md"
+    try:
+        manifest_path.write_text(manifest_content, encoding="utf-8")
+        result["manifest_path"] = str(manifest_path)
+    except Exception as e:
+        result["errors"].append(f"Failed to write manifest: {e}")
+
+    result["message"] = f"Extracted {total_files} files ({format_size(total_size)}) to {output_dir}"
+
+    return result
+
+
+def generate_status_report(paths: Optional[List[str]] = None) -> str:
+    """Generate a status report showing what would be extracted for each path."""
+
+    paths_to_report = paths if paths else PUBLICATION_PATHS
+
+    lines = [
+        "=" * 70,
+        "REVIEW PACKAGE EXTRACTION STATUS",
+        f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        "=" * 70,
+        "",
+        "## Available Paths",
+        "",
+        "| Path | Target | Est. Size (text) | Files |",
+        "|------|--------|------------------|-------|",
+    ]
+
+    total_files = 0
+    total_size = 0
+
+    for path_name in paths_to_report:
+        if path_name not in PATH_CONTENT_MAP:
+            lines.append(f"| {path_name} | UNKNOWN | - | - |")
+            continue
+
+        path_content = PATH_CONTENT_MAP[path_name]
+        collected = collect_package_files(path_content, include_figures=False, include_pdf=False)
+
+        file_count = sum(len(f) for f in collected.values())
+        size = sum(calculate_total_size(f) for f in collected.values())
+
+        total_files += file_count
+        total_size += size
+
+        lines.append(
+            f"| {path_name} | {path_content.target_venue[:25]} | {format_size(size)} | {file_count} |"
+        )
+
+    lines.extend([
+        "",
+        f"**Total (all paths):** {total_files} files, {format_size(total_size)}",
+        "",
+        "---",
+        "",
+        "## Extraction Commands",
+        "",
+        "```bash",
+        "# Extract single path",
+        "py extract_review_package.py workshop",
+        "",
+        "# Extract multiple paths",
+        "py extract_review_package.py workshop arxiv",
+        "",
+        "# Extract ALL paths",
+        "py extract_review_package.py --all",
+        "",
+        "# Include figures (increases size significantly)",
+        "py extract_review_package.py arxiv --include-figures",
+        "",
+        "# Preview without extracting",
+        "py extract_review_package.py workshop --dry-run",
+        "",
+        "# Custom output location",
+        "py extract_review_package.py workshop --output ./FOR_OPUS",
+        "```",
+        "",
+        "---",
+        "",
+        f"Output directory: {DEFAULT_OUTPUT_DIR.relative_to(REPO_ROOT)}/",
+    ])
+
+    return "\n".join(lines)
+
+
+def generate_extraction_report(results: List[Dict]) -> str:
+    """Generate a report of extraction results."""
+
+    lines = [
+        "=" * 70,
+        "REVIEW PACKAGE EXTRACTION REPORT",
+        f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        "=" * 70,
+        "",
+    ]
+
+    total_files = 0
+    total_size = 0
+    total_errors = 0
+
+    for result in results:
+        if result.get("error"):
+            lines.append(f"## ERROR: {result['path']}")
+            lines.append(f"  {result['error']}")
+            total_errors += 1
+            continue
+
+        path_name = result["path"]
+        stats = result["statistics"]
+
+        lines.append(f"## {path_name.upper()}")
+        lines.append(f"  Target: {result['target_venue']}")
+        lines.append(f"  Output: {result['output_dir']}")
+        lines.append(f"  Files:  {stats['total_files']}")
+        lines.append(f"  Size:   {stats['total_size_human']}")
+
+        if result["dry_run"]:
+            lines.append("  Status: DRY RUN (no files written)")
+        else:
+            lines.append(f"  Status: EXTRACTED ({len(result.get('files_copied', []))} files copied)")
+
+        if result.get("errors"):
+            lines.append(f"  Errors: {len(result['errors'])}")
+            for err in result["errors"][:3]:
+                lines.append(f"    - {err}")
+
+        lines.append("")
+
+        total_files += stats["total_files"]
+        total_size += stats["total_size_bytes"]
+        total_errors += len(result.get("errors", []))
+
+    lines.extend([
+        "---",
+        "",
+        "## Summary",
+        f"  Packages extracted: {len(results)}",
+        f"  Total files:        {total_files}",
+        f"  Total size:         {format_size(total_size)}",
+        f"  Errors:             {total_errors}",
+    ])
+
+    if any(r.get("dry_run") for r in results):
+        lines.append("")
+        lines.append("Dry run complete. Remove --dry-run to actually extract.")
+
+    return "\n".join(lines)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Extract review packages from WHITE-PAPER for AI reviewers",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=f"""
+Available paths: {', '.join(PUBLICATION_PATHS)}
+
+Examples:
+  py extract_review_package.py workshop          # Extract workshop package
+  py extract_review_package.py workshop arxiv    # Extract multiple packages
+  py extract_review_package.py --all             # Extract ALL packages
+  py extract_review_package.py arxiv --include-figures  # With figure specs
+  py extract_review_package.py workshop --dry-run       # Preview only
+  py extract_review_package.py workshop --output ./FOR_OPUS  # Custom output
+
+Expected package sizes (text-only):
+  workshop:        ~50 KB
+  arxiv:           ~200 KB
+  journal:         ~250 KB
+  popular_science: ~15 KB
+  education:       ~25 KB
+  policy:          ~20 KB
+  funding:         ~30 KB
+  media:           ~10 KB
+        """
+    )
+
+    # Positional arguments for paths
+    parser.add_argument("paths", nargs="*", choices=PUBLICATION_PATHS + ["all"],
+                        help="Publication paths to extract (or 'all')")
+
+    # Extraction options
+    parser.add_argument("--all", action="store_true",
+                        help="Extract ALL publication paths")
+    parser.add_argument("--include-figures", action="store_true",
+                        help="Include figure specification files")
+    parser.add_argument("--include-pdf", action="store_true",
+                        help="Include PDF files (adds ~14MB for arxiv)")
+
+    # Output options
+    parser.add_argument("--output", type=Path, default=None,
+                        help="Custom output directory (default: reviewers/packages/)")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Preview extraction without writing files")
+
+    # Report options
+    parser.add_argument("--json", action="store_true",
+                        help="Output results as JSON")
+    parser.add_argument("--status", action="store_true",
+                        help="Show status report without extracting")
+
+    args = parser.parse_args()
+
+    # Handle --status mode
+    if args.status:
+        print(generate_status_report())
+        return
+
+    # Determine which paths to extract
+    if args.all or "all" in args.paths:
+        paths_to_extract = PUBLICATION_PATHS
+    elif args.paths:
+        paths_to_extract = [p for p in args.paths if p != "all"]
+    else:
+        # No paths specified - show status
+        print(generate_status_report())
+        return
+
+    # Extract packages
+    results = []
+    for path_name in paths_to_extract:
+        result = extract_package(
+            path_name=path_name,
+            output_dir=args.output,
+            include_figures=args.include_figures,
+            include_pdf=args.include_pdf,
+            dry_run=args.dry_run
+        )
+        results.append(result)
+
+    # Output results
+    if args.json:
+        print(json.dumps(results, indent=2))
+    else:
+        print(generate_extraction_report(results))
+
+
+if __name__ == "__main__":
+    main()

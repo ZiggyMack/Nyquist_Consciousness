@@ -20,6 +20,26 @@ You are being asked to:
 
 See [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) for full orientation.
 
+### Review Package Extraction (NEW)
+
+**If WHITE-PAPER is too large to process directly**, use extracted review packages:
+
+```bash
+cd WHITE-PAPER/calibration
+
+# Show available paths and sizes
+py extract_review_package.py --status
+
+# Extract specific publication path
+py extract_review_package.py workshop    # ~90 KB
+py extract_review_package.py arxiv       # ~360 KB
+py extract_review_package.py --all       # All 8 paths (~1.1 MB)
+```
+
+**Output:** `WHITE-PAPER/reviewers/packages/{path}/`
+
+Each package includes a `PACKAGE_MANIFEST.md` with reading order and content listing.
+
 ### What Can Be Finalized NOW
 
 | Paper | Status | Action |
