@@ -48,8 +48,8 @@
 The Nyquist Consciousness framework provides the first systematic
 methodology for measuring and controlling identity drift in Large
 Language Models during extended interactions. Through empirical
-validation across 51 models and 5 providers (σ²=0.00087), we
-establish: (1) the Event Horizon threshold (D≈1.23, p<4.8×10⁻⁵)
+validation across 51 models and 5 providers (sigma^2=0.00087), we
+establish: (1) the Event Horizon threshold (D~1.23, p<4.8x10^-5)
 as a predictive boundary for identity coherence, (2) the discovery
 that 82% of observed drift is inherent to extended interaction
 rather than measurement-induced, and (3) the "Oobleck Effect"
@@ -103,7 +103,7 @@ engineering as a practical discipline for AI alignment.
 ### Why AI Alignment Track?
 
 1. **Identity stability = Alignment safety** — Drifting models are unpredictable
-2. **Measurable thresholds** — D≈1.23 enables operational boundaries
+2. **Measurable thresholds** — D~1.23 enables operational boundaries
 3. **Cross-architecture validation** — Universal phenomenon, not model-specific
 4. **Practical intervention** — Context damping achieves 97.5% stability
 
@@ -111,8 +111,8 @@ engineering as a practical discipline for AI alignment.
 
 | Metric | Value | Significance |
 |--------|-------|--------------|
-| Cross-architecture variance | σ² = 0.00087 | High consistency |
-| Event Horizon threshold | D ≈ 1.23 | p < 4.8×10⁻⁵ |
+| Cross-architecture variance | sigma^2 = 0.00087 | High consistency |
+| Event Horizon threshold | D ~ 1.23 | p < 4.8x10^-5 |
 | Inherent drift ratio | 82% | Not measurement artifact |
 | Context damping stability | 97.5% | Practical intervention |
 | Models tested | 51 | Comprehensive |

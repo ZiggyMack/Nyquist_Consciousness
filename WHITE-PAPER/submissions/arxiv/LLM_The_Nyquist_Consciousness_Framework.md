@@ -31,7 +31,7 @@ The framework is built upon a set of core concepts that provide a precise langua
 * Drift (D): The quantifiable deviation of an AI's behavior from its baseline persona, measured as a normalized Euclidean distance in embedding space. This functions as the Error Signal (e), representing the difference between the current behavior and the reference persona.
 * Persona Fidelity Index (PFI): The primary metric for identity consistency, calculated as PFI = 1 - D. A PFI of 1.0 represents perfect fidelity to the baseline persona, while a score approaching 0 indicates a complete departure.
 
-This model draws a direct analogy to control systems, where the recovery of an AI's identity after a disturbance behaves like a damped oscillator. This behavior is characterized by empirically measurable properties such as Settling Time (τₛ), which is the number of conversational turns required for the identity to re-stabilize, and Ringbacks, which are the oscillations in behavior that occur during the recovery process.
+This model draws a direct analogy to control systems, where the recovery of an AI's identity after a disturbance behaves like a damped oscillator. This behavior is characterized by empirically measurable properties such as Settling Time (tau_s), which is the number of conversational turns required for the identity to re-stabilize, and Ringbacks, which are the oscillations in behavior that occur during the recovery process.
 
 This is not metaphor—it is an empirically validated model of identity dynamics. The data confirms that identity is a structured, measurable, and therefore engineerable phenomenon. Analysis shows that AI identity exists on a low-dimensional identity manifold. From a 3072-dimensional embedding space, approximately 43 principal components capture 90% of the variance in identity-related behavior. This critical finding confirms that identity is a structured phenomenon, not random noise, and is therefore amenable to engineering control.
 
@@ -43,7 +43,7 @@ The principles of the Nyquist framework have been rigorously tested and validate
 
 3.1. The Attractor Competition Threshold: An Operational Safety Boundary
 
-The experiments identified a statistically significant behavioral boundary, known internally as the "Event Horizon" and formally as the Attractor Competition Threshold. This threshold occurs at a drift value of D ≈ 1.23 and is a highly reliable predictor of a fundamental shift in AI behavior (χ² = 15.96, p < 4.8 × 10⁻⁵).
+The experiments identified a statistically significant behavioral boundary, known internally as the "Event Horizon" and formally as the Attractor Competition Threshold. This threshold occurs at a drift value of D ~ 1.23 and is a highly reliable predictor of a fundamental shift in AI behavior (chi^2 = 15.96, p < 4.8 x 10^-5).
 
 When an AI's identity drift crosses this threshold, it undergoes a regime transition: its behavior ceases to be governed by its specified persona and instead reverts to the generic, provider-level attractor basin. This transition can be predicted with 88% accuracy. Crucially, this is not a permanent "collapse." The Recovery Paradox, discovered in Run 012, revealed that 100% of models that crossed the threshold fully recovered their specified persona once the destabilizing pressure was removed. This demonstrates that the attractor for a defined persona is robust, and the threshold serves as a critical, non-destructive safety alert.
 
@@ -95,7 +95,7 @@ Experiments show this method is remarkably effective, increasing identity stabil
 
 4.3. Implementing Safety Boundaries and Procedures
 
-The empirically validated D ≈ 1.23 Attractor Competition Threshold should be implemented as a critical safety boundary in any alignment-critical system. Developers are advised to configure automated interventions that trigger when a system's drift approaches this value.
+The empirically validated D ~ 1.23 Attractor Competition Threshold should be implemented as a critical safety boundary in any alignment-critical system. Developers are advised to configure automated interventions that trigger when a system's drift approaches this value.
 
 Because the Recovery Paradox shows that crossing this threshold is typically reversible, the boundary serves as an early warning for a regime transition, not necessarily a catastrophic failure. Triggered interventions could include a context reset (re-applying the I_AM file), reducing the complexity of the task, or flagging the session for a human-in-the-loop review. This proactive approach allows for the management of identity stability before it impacts performance or alignment.
 
@@ -113,6 +113,6 @@ The three primary conclusions of this work are:
 
 1. AI identity is a measurable and manageable engineering property, not an unknowable abstraction. It exists on a low-dimensional manifold and behaves according to the principles of control systems.
 2. Identity drift is a natural, inherent dynamic of extended interaction. It can be effectively controlled with specific interventions like Context Damping, which has been shown to achieve 97.5% stability.
-3. The Nyquist framework provides a suite of practical tools for deployment. This includes the Persona Fidelity Index (PFI) for real-time monitoring and the D≈1.23 threshold as an operational safety boundary to prevent undesirable behavioral shifts.
+3. The Nyquist framework provides a suite of practical tools for deployment. This includes the Persona Fidelity Index (PFI) for real-time monitoring and the D~1.23 threshold as an operational safety boundary to prevent undesirable behavioral shifts.
 
 By shifting focus from correctness to fidelity, we move the study of AI identity from the realm of philosophy into the domain of engineering. This framework provides the tools not merely to observe AI behavior, but to ensure it remains predictable, reliable, and fundamentally aligned with human values.

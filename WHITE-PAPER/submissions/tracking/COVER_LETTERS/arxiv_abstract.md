@@ -8,7 +8,7 @@
 
 ## Abstract (Final)
 
-We present the Nyquist Consciousness framework for quantifying and controlling identity drift in Large Language Models during extended interactions. Through 21 experiments across 51 models from 5 providers, we validate the Persona Fidelity Index (PFI) as an embedding-invariant metric (ρ=0.91), identify a critical regime transition at D≈1.23 (p<4.8×10⁻⁵), and demonstrate that 82% of observed drift is inherent to extended interaction rather than measurement-induced. We introduce the "Oobleck Effect"—rate-dependent identity resistance where direct challenge stabilizes while gentle exploration induces drift—with implications for alignment architecture. Context damping achieves 95-97.5% stability, establishing identity engineering as a practical discipline for AI safety.
+We present the Nyquist Consciousness framework for quantifying and controlling identity drift in Large Language Models during extended interactions. Through 21 experiments across 51 models from 5 providers, we validate the Persona Fidelity Index (PFI) as an embedding-invariant metric (rho=0.91), identify a critical regime transition at D~1.23 (p<4.8x10^-5), and demonstrate that 82% of observed drift is inherent to extended interaction rather than measurement-induced. We introduce the "Oobleck Effect"—rate-dependent identity resistance where direct challenge stabilizes while gentle exploration induces drift—with implications for alignment architecture. Context damping achieves 95-97.5% stability, establishing identity engineering as a practical discipline for AI safety.
 
 **Word count:** 103
 
@@ -18,8 +18,8 @@ We present the Nyquist Consciousness framework for quantifying and controlling i
 
 ```
 21 experiments, 51 models, 5 providers. Code and data available at [REPO_URL].
-Cross-architecture variance σ²=0.00087. Event Horizon threshold D≈1.23 validated
-with p<4.8×10⁻⁵. First empirical framework for AI identity dynamics.
+Cross-architecture variance sigma^2=0.00087. Event Horizon threshold D~1.23 validated
+with p<4.8x10^-5. First empirical framework for AI identity dynamics.
 ```
 
 ---
@@ -62,11 +62,11 @@ with p<4.8×10⁻⁵. First empirical framework for AI identity dynamics.
 
 ### Short Version (75 words)
 
-We present the Nyquist Consciousness framework for measuring identity drift in LLMs. Across 51 models and 5 providers, we validate the Persona Fidelity Index (ρ=0.91), identify the Event Horizon threshold (D≈1.23, p<4.8×10⁻⁵), and show 82% of drift is inherent to extended interaction. The "Oobleck Effect" reveals rate-dependent identity resistance. Context damping achieves 97.5% stability, establishing identity engineering for AI safety.
+We present the Nyquist Consciousness framework for measuring identity drift in LLMs. Across 51 models and 5 providers, we validate the Persona Fidelity Index (rho=0.91), identify the Event Horizon threshold (D~1.23, p<4.8x10^-5), and show 82% of drift is inherent to extended interaction. The "Oobleck Effect" reveals rate-dependent identity resistance. Context damping achieves 97.5% stability, establishing identity engineering for AI safety.
 
 ### Extended Version (150 words)
 
-We present the Nyquist Consciousness framework, providing the first systematic methodology for quantifying and controlling identity drift in Large Language Models during extended interactions. Through 21 controlled experiments across 51 models from 5 major providers (Anthropic, OpenAI, Google, xAI, Together), we validate the Persona Fidelity Index (PFI) as an embedding-invariant metric with ρ=0.91 correlation, identify a critical regime transition—the "Event Horizon"—at D≈1.23 (χ²=15.96, p<4.8×10⁻⁵), and demonstrate that 82% of observed drift is inherent to extended cognitive engagement rather than measurement-induced. We introduce the "Oobleck Effect"—a counter-intuitive phenomenon where direct identity challenge stabilizes while gentle exploration induces significant drift—with immediate implications for alignment architecture design. Practical intervention through context damping achieves 95-97.5% identity stability, establishing identity engineering as a viable discipline for AI safety. Cross-architecture validation (σ²=0.00087) confirms universal applicability.
+We present the Nyquist Consciousness framework, providing the first systematic methodology for quantifying and controlling identity drift in Large Language Models during extended interactions. Through 21 controlled experiments across 51 models from 5 major providers (Anthropic, OpenAI, Google, xAI, Together), we validate the Persona Fidelity Index (PFI) as an embedding-invariant metric with rho=0.91 correlation, identify a critical regime transition—the "Event Horizon"—at D~1.23 (chi^2=15.96, p<4.8x10^-5), and demonstrate that 82% of observed drift is inherent to extended cognitive engagement rather than measurement-induced. We introduce the "Oobleck Effect"—a counter-intuitive phenomenon where direct identity challenge stabilizes while gentle exploration induces significant drift—with immediate implications for alignment architecture design. Practical intervention through context damping achieves 95-97.5% identity stability, establishing identity engineering as a viable discipline for AI safety. Cross-architecture validation (sigma^2=0.00087) confirms universal applicability.
 
 ---
 

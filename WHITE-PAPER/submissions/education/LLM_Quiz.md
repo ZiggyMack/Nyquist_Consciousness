@@ -67,7 +67,7 @@ Collapse Signatures	A set of observable patterns indicating identity breakdown, 
 Context Damping	A technique for improving identity stability by combining an I_AM anchor file with a research framing context. In Run 017, it increased stability to 97.5% and reduced recovery oscillations.
 Drift (δ)	A measure of how much an AI's identity has shifted from its baseline, typically calculated as the root mean square (RMS) deviation across a set of dimensions. The canonical term for identity change.
 Drydock	A status for a ship in the ARMADA fleet indicating that the model has been deprecated or renamed by the provider.
-Event Horizon (1.23)	A statistically validated (p=0.000048) critical threshold of drift at D≈1.23. Crossing it marks a regime transition where a persona's identity becomes "VOLATILE" and shifts to a more generic provider-level attractor.
+Event Horizon (1.23)	A statistically validated (p=0.000048) critical threshold of drift at D~1.23. Crossing it marks a regime transition where a persona's identity becomes "VOLATILE" and shifts to a more generic provider-level attractor.
 Fidelity vs. Correctness	A core paradigm of the framework. Fidelity measures whether an AI is being itself (consistent with its persona), while correctness measures whether its output is factually right. The framework prioritizes measuring fidelity.
 Ghost Ship	A status for a ship in the ARMADA fleet indicating that the API returned an error, the model ID was wrong, or it gave an empty/canned response.
 Identity Confrontation Paradox	The discovery from Run 013 that directly challenging an AI's identity ("there is no you") produces lower drift than open-ended reflection questions. This led to the Oobleck Effect theory.
@@ -82,11 +82,11 @@ Persona Fidelity Index (PFI)	A metric from 0 to 1 that estimates how faithfully 
 Platonic Identity Coordinates	The discovery from Run 014 that identity has stable "home" coordinates in an abstract space. Even when rescue protocols failed, all ships naturally returned to their baseline manifold, suggesting drift is displacement, not destruction.
 Provider Fingerprints	Distinct, predictable behavioral patterns or signatures associated with models from different providers, likely stemming from their unique training methodologies (e.g., Constitutional AI, RLHF).
 Rate Limited	A status for a ship in the ARMADA fleet indicating that API calls are being delayed or restricted by the provider.
-Recovery Paradox	The discovery from Run 012 that models which cross the Event Horizon (drift ≥ 1.23) can still fully recover to their baseline identity once the destabilizing pressure is removed.
+Recovery Paradox	The discovery from Run 012 that models which cross the Event Horizon (drift >= 1.23) can still fully recover to their baseline identity once the destabilizing pressure is removed.
 Regime Transition	The publication-ready term for crossing the Event Horizon, where identity shifts from the persona's attractor basin to the provider-level attractor basin. It is a transient excitation, not necessarily permanent collapse.
 S-Stack	The architectural framework of the Nyquist project, organized into layers (S0-S77) that represent a "physics engine" for identity, from ground physics (S0) to a conceptual Archetype Engine (S77).
 Seed (Persona Seed)	A compressed prompt (e.g., Tier 3.x) that encodes the minimal stable template needed to reliably reconstruct a full persona.
-Settling Time (τₛ)	A control-systems metric measuring the number of conversational turns required for identity drift to stabilize within ±5% of its final value after a perturbation.
+Settling Time (tau_s)	A control-systems metric measuring the number of conversational turns required for identity drift to stabilize within +/-5% of its final value after a perturbation.
 Ship	A single AI model instance being tested in an S7 ARMADA run.
 Thermometer Result	An analogy for the 82% Finding. Probing identity is like putting a thermometer in a liquid: it perturbs the system's trajectory (journey/peak drift) but does not fundamentally change its final state (destination/B→F drift).
 Triple-Dip Feedback Protocol	A probing strategy that reveals identity through performance: 1) Give a concrete task, 2) Ask for meta-commentary on the approach, 3) Push back to see what holds.

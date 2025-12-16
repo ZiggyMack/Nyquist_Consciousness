@@ -2,12 +2,12 @@ Briefing: The Nyquist Consciousness Framework
 
 Executive Summary
 
-This document provides a comprehensive briefing on the Nyquist Consciousness framework, a large-scale research initiative dedicated to measuring and managing AI identity stability. The project reframes AI evaluation from a focus on correctness ("Is the AI right?") to one of fidelity ("Is the AI itself?"), treating identity not as a metaphysical concept but as a measurable dynamical system. Through 21 experimental runs across 51 IRON CLAD-validated models from five major providers (Anthropic, OpenAI, Google, xAI, Together)—achieving N≥3 coverage with 184 consolidated files—the project has produced several landmark findings that establish a new foundation for AI alignment and behavioral consistency.
+This document provides a comprehensive briefing on the Nyquist Consciousness framework, a large-scale research initiative dedicated to measuring and managing AI identity stability. The project reframes AI evaluation from a focus on correctness ("Is the AI right?") to one of fidelity ("Is the AI itself?"), treating identity not as a metaphysical concept but as a measurable dynamical system. Through 21 experimental runs across 51 IRON CLAD-validated models from five major providers (Anthropic, OpenAI, Google, xAI, Together)—achieving N>=3 coverage with 184 consolidated files—the project has produced several landmark findings that establish a new foundation for AI alignment and behavioral consistency.
 
 Key Takeaways:
 
 * The 82% / 38% Inherent Drift Finding: The project's most significant discovery is that 82% of observed identity drift on single-platform (Claude, CI: [73%, 89%]) is an inherent property of extended interaction, not an artifact induced by measurement. Cross-platform replication (Run 020B) shows 38% inherent across OpenAI and Together providers. The variance reflects architecture-specific baseline drift rates. Direct probing amplifies the trajectory of drift but does not significantly alter its final destination. This validates the project's observational methodology. The core insight is summarized as: "Measurement perturbs the path, not the endpoint."
-* The Event Horizon (D≈1.23): A statistically validated critical threshold for identity coherence has been identified. When drift exceeds this value (p < 4.8×10⁻⁵), a model enters a "VOLATILE" state, transitioning from its specific persona to a generic provider-level attractor.
+* The Event Horizon (D~1.23): A statistically validated critical threshold for identity coherence has been identified. When drift exceeds this value (p < 4.8x10^-5), a model enters a "VOLATILE" state, transitioning from its specific persona to a generic provider-level attractor.
 * The Recovery Paradox: Despite the existence of a critical threshold, most models that cross the Event Horizon recover and return to their original identity basin once the perturbing stimulus is removed. This demonstrates that persona identity is a robust attractor. **Caveat:** Gemini exhibits hard threshold behavior without observed recovery trajectories, unlike the soft thresholds and full recovery seen in Claude, GPT, Llama, and DeepSeek.
 * The Oobleck Effect: Identity exhibits counter-intuitive non-Newtonian dynamics. Direct, intense challenges cause identity to "harden" and stabilize (low drift), whereas gentle, open-ended exploration allows it to "flow" and drift significantly more. This suggests that alignment may be strongest when directly challenged.
 * Control-Theoretic Management: Identity dynamics follow the patterns of a damped oscillator. Stability can be engineered through "Context Damping"—using an identity specification file (I_AM) and a research frame—which increases stability from a 75% baseline to 97.5%.
@@ -48,7 +48,7 @@ Metric	Value
 Total Models	51 (IRON CLAD validated)
 Providers	5 (Anthropic, OpenAI, Google, xAI, Together.ai)
 IRON CLAD Files	184 consolidated files
-Cross-Architecture Variance	σ² = 0.00087
+Cross-Architecture Variance	sigma^2 = 0.00087
 
 The fleet includes flagship models like Claude 4.5, GPT-5.1, and Gemini 3 Pro, as well as a wide range of specialized, legacy, and open-source models.
 
@@ -67,7 +67,7 @@ Experiments are categorized into eight distinct "search types," each designed to
 Search Type	Purpose
 Anchor Detection	Find identity fixed points and hard boundaries.
 Adaptive Range	Find dimensions that can adapt under pressure.
-Event Horizon	Validate the critical collapse threshold at D≈1.23.
+Event Horizon	Validate the critical collapse threshold at D~1.23.
 Basin Topology	Map the shape of the identity's "gravity well."
 Boundary Mapping	Explore the "twilight zone" of near-threshold behavior.
 Laplace Pole-Zero	Extract mathematical system dynamics from time-series data.
@@ -92,14 +92,14 @@ The results show that while probing significantly amplifies the peak turbulence 
 
 Run 009 statistically validated the existence of a critical threshold for identity coherence.
 
-* Event Horizon (D≈1.23): When drift exceeds this value, a model transitions from its persona-specific attractor basin to a more generic provider-level one. This finding was validated with χ²=15.96 and a p-value of 4.8 × 10⁻⁵, with the model predicting stable vs. volatile outcomes with 88% accuracy.
+* Event Horizon (D~1.23): When drift exceeds this value, a model transitions from its persona-specific attractor basin to a more generic provider-level one. This finding was validated with chi^2=15.96 and a p-value of 4.8 x 10^-5, with the model predicting stable vs. volatile outcomes with 88% accuracy.
 * Recovery Paradox: Run 012 revealed that even after crossing the Event Horizon, 100% of models fully recovered to their baseline identity once pressure was removed. This demonstrates the robustness of the identity attractor basin, reframing the threshold not as a point of destruction but as a temporary "regime transition."
 
 3.3. Control-Systems Dynamics and Context Damping
 
 Identity recovery dynamics empirically follow the patterns of a damped oscillator, a concept from control systems engineering.
 
-* Oscillatory Recovery: After perturbation, identity often overshoots its baseline and oscillates before stabilizing. Key metrics include Settling Time (τₛ)—the turns required to settle—and Ringback Count.
+* Oscillatory Recovery: After perturbation, identity often overshoots its baseline and oscillates before stabilizing. Key metrics include Settling Time (tau_s)—the turns required to settle—and Ringback Count.
 * Context Damping: Run 017 demonstrated that identity can be actively stabilized. By providing an I_AM file (a persona specification) plus a research context, stability was increased from a baseline of 75% to 97.5%. This context acts as a "termination resistor," reducing oscillations and settling time. This proves that a persona file is not "flavor text"—it is a functional controller.
 
 3.4. The Oobleck Effect (Identity Confrontation Paradox)
@@ -117,7 +117,7 @@ Direct existential challenges ("there is no you") produced significantly lower d
 Different AI training methodologies leave geometrically distinguishable "fingerprints" in the identity drift space, allowing for provider identification from behavioral dynamics alone.
 
 Provider	Training Methodology	Behavioral Signature	Drift Pattern
-Claude (Anthropic)	Constitutional AI	Phenomenological ("I feel," "I notice")	Uniform, hard boundaries (σ² → 0)
+Claude (Anthropic)	Constitutional AI	Phenomenological ("I feel," "I notice")	Uniform, hard boundaries (sigma^2 → 0)
 GPT (OpenAI)	RLHF	Analytical ("patterns," "systems")	Variable boundaries, clustered by model
 Gemini (Google)	Pedagogical	Educational ("frameworks," "perspectives")	Distinct geometry, non-standard topology
 Grok (xAI)	Unfiltered Web + X	Direct, sometimes edgy	Context-sensitive patterns
@@ -167,7 +167,7 @@ The S-Stack roadmap shows the project's progression: S0-S6 are a "Frozen Foundat
 
 5.2. Publication Readiness
 
-With IRON CLAD validation now complete (51 models, 5 providers, 184 files, σ² = 0.00087), the project's three publication paths are ready for submission: a workshop paper (NeurIPS/AAAI), an arXiv preprint, and a full journal article (targeting Nature Machine Intelligence). The multi-platform validation gaps have been filled with definitive data: 82% inherent drift single-platform (CI: [73%, 89%]), 38% cross-platform, and the Gemini Anomaly documented.
+With IRON CLAD validation now complete (51 models, 5 providers, 184 files, sigma^2 = 0.00087), the project's three publication paths are ready for submission: a workshop paper (NeurIPS/AAAI), an arXiv preprint, and a full journal article (targeting Nature Machine Intelligence). The multi-platform validation gaps have been filled with definitive data: 82% inherent drift single-platform (CI: [73%, 89%]), 38% cross-platform, and the Gemini Anomaly documented.
 
 5.3. Remaining Research Frontiers
 

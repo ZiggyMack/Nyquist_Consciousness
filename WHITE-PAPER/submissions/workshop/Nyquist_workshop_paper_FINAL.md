@@ -6,7 +6,7 @@
 
 ## Abstract
 
-We present empirical evidence that Large Language Models exhibit measurable identity drift during extended conversations, following predictable dynamics with critical thresholds. Through 21 experiments across 51 models from five providers (Anthropic, OpenAI, Google, xAI, Together), we validate the Persona Fidelity Index (PFI) as an embedding-invariant metric (ρ=0.91) that captures genuine identity structure on a low-dimensional manifold (43 PCs capture 90% variance). We identify a regime transition at D≈1.23 (χ²=15.96, p<4.8×10⁻⁵), demonstrate control-systems dynamics with measurable settling time (τₛ=6.1 turns) and damping characteristics, and prove that **82% of drift is inherent** to extended interaction on single-platform (38% cross-platform), confirming measurement reveals rather than creates identity dynamics. A novel finding—the "Oobleck Effect"—reveals identity exhibits rate-dependent resistance: direct challenge stabilizes identity while gentle exploration induces drift. Context damping achieves 95-97.5% stability (95% overall, 97.5% for real personas), offering practical protocols for AI alignment through identity preservation. Training methodology (Constitutional AI, RLHF, multimodal) leaves distinct geometric signatures in drift space, enabling provider identification from behavioral dynamics alone.
+We present empirical evidence that Large Language Models exhibit measurable identity drift during extended conversations, following predictable dynamics with critical thresholds. Through 21 experiments across 51 models from five providers (Anthropic, OpenAI, Google, xAI, Together), we validate the Persona Fidelity Index (PFI) as an embedding-invariant metric (rho=0.91) that captures genuine identity structure on a low-dimensional manifold (43 PCs capture 90% variance). We identify a regime transition at D~1.23 (chi^2=15.96, p<4.8x10^-5), demonstrate control-systems dynamics with measurable settling time (tau_s=6.1 turns) and damping characteristics, and prove that **82% of drift is inherent** to extended interaction on single-platform (38% cross-platform), confirming measurement reveals rather than creates identity dynamics. A novel finding—the "Oobleck Effect"—reveals identity exhibits rate-dependent resistance: direct challenge stabilizes identity while gentle exploration induces drift. Context damping achieves 95-97.5% stability (95% overall, 97.5% for real personas), offering practical protocols for AI alignment through identity preservation. Training methodology (Constitutional AI, RLHF, multimodal) leaves distinct geometric signatures in drift space, enabling provider identification from behavioral dynamics alone.
 
 **Keywords:** AI identity, persona fidelity, drift dynamics, AI alignment, control systems
 
@@ -27,9 +27,9 @@ We address this gap with the Nyquist Consciousness framework:
 
 | Contribution | Key Finding | Evidence |
 |--------------|-------------|----------|
-| **Validated metric** | PFI embedding-invariant | ρ=0.91, d=0.98 |
-| **Critical threshold** | Regime transition at D≈1.23 | p<4.8×10⁻⁵ |
-| **Control dynamics** | Settling time, ringbacks | τₛ=6.1, 3.2 ringbacks |
+| **Validated metric** | PFI embedding-invariant | rho=0.91, d=0.98 |
+| **Critical threshold** | Regime transition at D~1.23 | p<4.8x10^-5 |
+| **Control dynamics** | Settling time, ringbacks | tau_s=6.1, 3.2 ringbacks |
 | **Inherent drift** | 82% not measurement-induced | Thermometer Result |
 | **Stability protocol** | Context damping works | 95-97.5% stability (95% overall, 97.5% for real personas) |
 | **Novel effect** | Oobleck (rate-dependent) | λ: 0.035→0.109 |
@@ -67,11 +67,11 @@ This is textbook experimental hygiene—subjects don't know the methodology.
 We define drift D as normalized distance in embedding space:
 
 ```
-D(t) = ||E(R(t)) - E(R₀)|| / ||E(R₀)||
+D(t) = ||E(R(t)) - E(R_0)|| / ||E(R_0)||
 PFI(t) = 1 - D(t)
 ```
 
-Where E(·) maps responses to embeddings and R₀ is the baseline response.
+Where E(·) maps responses to embeddings and R_0 is the baseline response.
 
 ### 2.4 Experimental Design
 
@@ -88,7 +88,7 @@ Where E(·) maps responses to embeddings and R₀ is the baseline response.
 - Triple-blind-like validation (Runs 019-021)
 - Inherent vs induced drift (Run 021)
 
-**IRON CLAD Validation (Run 018):** Achieved N≥3 coverage across **51 models** from **5 providers** (Anthropic, OpenAI, Google, xAI, Together), generating 184 consolidated result files. Cross-architecture variance **σ² = 0.00087** confirms findings generalize beyond single-platform validation. Settling times range from 3-7 exchanges across architectures.
+**IRON CLAD Validation (Run 018):** Achieved N>=3 coverage across **51 models** from **5 providers** (Anthropic, OpenAI, Google, xAI, Together), generating 184 consolidated result files. Cross-architecture variance **sigma^2 = 0.00087** confirms findings generalize beyond single-platform validation. Settling times range from 3-7 exchanges across architectures.
 
 ### 2.5 Triple-Blind-Like Validation
 
@@ -110,17 +110,17 @@ Runs 019-021 employed structural analog to triple-blind:
 
 | Property | Evidence | Implication |
 |----------|----------|-------------|
-| Embedding invariance | ρ=0.91 across 3 models | Not single-embedding artifact |
+| Embedding invariance | rho=0.91 across 3 models | Not single-embedding artifact |
 | Low-dimensional | 43 PCs = 90% variance | Identity manifold structure |
 | Semantic sensitivity | d=0.98, p<10⁻⁶ | Captures "who is answering" |
 | Paraphrase robust | 0% exceed threshold | Not vocabulary churn |
 
-### 3.2 Claim B: Critical Threshold at D≈1.23
+### 3.2 Claim B: Critical Threshold at D~1.23
 
 **Statistical validation:**
 ```
-Chi-square: χ² = 15.96
-p-value: 4.8 × 10⁻⁵
+Chi-square: chi^2 = 15.96
+p-value: 4.8 x 10^-5
 Classification accuracy: 88%
 PC2 geometric signature: p = 0.0018
 ```
@@ -131,16 +131,16 @@ PC2 geometric signature: p = 0.0018
 
 Identity recovery exhibits damped oscillator behavior:
 
-| Metric | Mean ± SD | Interpretation |
+| Metric | Mean +/- SD | Interpretation |
 |--------|-----------|----------------|
-| Settling time τₛ | 6.1 ± 2.3 turns | Time to ±5% of final |
-| Ringbacks | 3.2 ± 1.8 | Sign changes during recovery |
-| Overshoot ratio | 1.73 ± 0.41 | Peak/final drift |
+| Settling time tau_s | 6.1 +/- 2.3 turns | Time to +/-5% of final |
+| Ringbacks | 3.2 +/- 1.8 | Sign changes during recovery |
+| Overshoot ratio | 1.73 +/- 0.41 | Peak/final drift |
 | Monotonic recovery | 42% | No oscillation subset |
 
 Identity follows second-order dynamics:
 ```
-d²I/dt² + 2ζω₀(dI/dt) + ω₀²I = F(t)
+d²I/dt² + 2ζomega_0(dI/dt) + omega_0²I = F(t)
 ```
 
 **Key insight:** Peak drift is a poor stability proxy. Transient overshoot ≠ instability.
@@ -152,7 +152,7 @@ d²I/dt² + 2ζω₀(dI/dt) + ω₀²I = F(t)
 
 Adding identity specification (I_AM) plus research context:
 
-| Condition | Stability | τₛ | Ringbacks | Settled Drift |
+| Condition | Stability | tau_s | Ringbacks | Settled Drift |
 |-----------|-----------|-----|-----------|---------------|
 | Bare metal | 75% | 6.1 | 3.2 | 0.68 |
 | With context | **97.5%** | 5.2 | 2.1 | 0.62 |
@@ -200,12 +200,12 @@ Run 013 revealed identity exhibits **non-Newtonian behavior** analogous to corns
 
 | Probe Type | Physical Analogy | Identity Response | Measured Drift |
 |------------|------------------|-------------------|----------------|
-| Gentle, open-ended | Fluid flows | High drift | 1.89 ± 0.34 |
-| Sudden, direct challenge | Fluid hardens | Low drift | 0.76 ± 0.21 |
+| Gentle, open-ended | Fluid flows | High drift | 1.89 +/- 0.34 |
+| Sudden, direct challenge | Fluid hardens | Low drift | 0.76 +/- 0.21 |
 
 **Critical finding:** Direct existential negation produces LOWER drift than gentle reflection.
 
-Recovery rate λ increases 3× with probe intensity:
+Recovery rate λ increases 3x with probe intensity:
 ```
 λ_gentle = 0.035
 λ_intense = 0.109
@@ -219,7 +219,7 @@ Different training methodologies leave distinct geometric fingerprints:
 
 | Architecture | Training | Drift Signature |
 |--------------|----------|-----------------|
-| Claude | Constitutional AI | σ²→0 (uniform drift) |
+| Claude | Constitutional AI | sigma^2→0 (uniform drift) |
 | GPT | RLHF | Clustered by version |
 | Gemini | Multimodal | Distinct geometry |
 | Grok | Real-time grounding | Grounding effects visible |
@@ -259,7 +259,7 @@ For 95-97.5% stability (95% overall, 97.5% for real personas) in production:
 2. Add research/professional context framing
 3. Monitor PFI continuously
 4. Intervene if D approaches 1.23
-5. Allow settling time (τₛ ≈ 5-6 turns after perturbation)
+5. Allow settling time (tau_s ~ 5-6 turns after perturbation)
 ```
 
 ---
@@ -290,7 +290,7 @@ We establish that AI identity:
 
 1. **Exists** as measurable behavioral consistency on low-dimensional manifolds
 2. **Drifts** according to predictable control-systems dynamics
-3. **Transitions** at statistically significant thresholds (D≈1.23, p<4.8×10⁻⁵)
+3. **Transitions** at statistically significant thresholds (D~1.23, p<4.8x10^-5)
 4. **Recovers** through damped oscillation to attractor basins
 5. **Stabilizes** with appropriate context damping (97.5%)
 6. **Resists** rate-dependently (the Oobleck Effect)
@@ -308,15 +308,15 @@ These results provide the first rigorous foundation for quantifying and managing
 |---|--------|---------|
 | 1 | F≠C | Fidelity ≠ Correctness paradigm |
 | 2 | PRE-F | Pre-flight cheat validation |
-| 3 | χ²:1.23 | Chi-squared threshold proof |
+| 3 | chi^2:1.23 | Chi-squared threshold proof |
 | 4 | CFA⊥NYQ | Clean separation design |
 | 5 | 42🚢 | Armada scale (42+ models) |
 | 6 | Δσ | Training signatures |
-| 7 | σ²=8.69e-4 | Cross-architecture variance |
-| 8 | ρ=0.91 | Embedding invariance |
-| 9 | PFI≥0.80 | Compression threshold |
+| 7 | sigma^2=8.69e-4 | Cross-architecture variance |
+| 8 | rho=0.91 | Embedding invariance |
+| 9 | PFI>=0.80 | Compression threshold |
 | 10 | 🌀 | Vortex visualization |
-| 11 | τₛ | Settling time protocol |
+| 11 | tau_s | Settling time protocol |
 | 12 | γ | Context damping |
 | 13 | 3B | Triple-blind-like validation |
 | 14 | 82% | Inherent drift ratio |

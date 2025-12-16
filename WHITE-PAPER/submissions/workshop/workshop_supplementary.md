@@ -32,7 +32,7 @@ See `WHITE-PAPER/HYPOTHESES_AND_RESULTS.md` for:
 
 ### 2. Per-Architecture Drift Analysis
 
-| Architecture | Mean Drift | Settling τₛ | Ringbacks | Signature |
+| Architecture | Mean Drift | Settling tau_s | Ringbacks | Signature |
 |-------------|------------|-------------|-----------|-----------|
 | Claude (Anthropic) | 0.72 | 4.8 | 2.1 | Piecewise plateaus |
 | GPT (OpenAI) | 0.85 | 6.2 | 3.4 | Smooth curves |

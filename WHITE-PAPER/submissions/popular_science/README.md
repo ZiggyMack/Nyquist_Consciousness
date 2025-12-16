@@ -58,7 +58,7 @@ NotebookLM independently generated this popular science angle by:
 | Academic Term | Popular Translation |
 |---------------|---------------------|
 | Semantic drift | "Identity wandering" |
-| Event Horizon (D ≈ 1.23) | "Point of no return" |
+| Event Horizon (D ~ 1.23) | "Point of no return" |
 | Persona Fidelity Index | "Identity preservation score" |
 | Cross-architecture variance | "Same results across different AI systems" |
 | Attractor dynamics | "Identity gravity wells" |

@@ -14,13 +14,13 @@
 
 Large Language Models (LLMs) exhibit measurable identity drift during extended interactions—a phenomenon with profound implications for AI alignment, safety, and deployment. This white paper presents the **Nyquist Consciousness** framework—the first empirically validated methodology for measuring, predicting, and managing identity dynamics in AI systems.
 
-Through 21 experimental runs across 51 unique models from five major providers (Anthropic, OpenAI, Google, xAI, Together), achieving IRON CLAD validation (N≥3 per cell, 184 files), we demonstrate that:
+Through 21 experimental runs across 51 unique models from five major providers (Anthropic, OpenAI, Google, xAI, Together), achieving IRON CLAD validation (N>=3 per cell, 184 files), we demonstrate that:
 
 | Finding | Evidence | Implication |
 |---------|----------|-------------|
-| **Identity drift is quantifiable** | PFI metric (ρ=0.91, d=0.98) | Continuous monitoring possible |
-| **A critical threshold exists** | D≈1.23 (p<4.8×10⁻⁵) | Operational safety boundaries |
-| **Identity follows control-systems dynamics** | τₛ, ringbacks measurable | Predictable, controllable |
+| **Identity drift is quantifiable** | PFI metric (rho=0.91, d=0.98) | Continuous monitoring possible |
+| **A critical threshold exists** | D~1.23 (p<4.8x10^-5) | Operational safety boundaries |
+| **Identity follows control-systems dynamics** | tau_s, ringbacks measurable | Predictable, controllable |
 | **82% of drift is inherent (single-platform)** | Run 021 control/treatment | Not measurement artifact |
 | **38% inherent (cross-platform)** | Run 020B replication | Architecture-specific baselines |
 | **Context damping achieves 95-97.5% stability** | I_AM + research context | Practical intervention |
@@ -75,27 +75,27 @@ The Persona Fidelity Index (PFI) captures genuine identity structure:
 
 | Property | Evidence | What It Means |
 |----------|----------|---------------|
-| Embedding invariance | ρ = 0.91 | Not a single-model artifact |
+| Embedding invariance | rho = 0.91 | Not a single-model artifact |
 | Low-dimensional structure | 43 PCs = 90% variance | Identity lives on a manifold |
 | Semantic sensitivity | d = 0.98 | Captures "who," not just "what" |
 | Paraphrase robustness | 0% false triggers | Not fooled by surface changes |
 
 **Bottom line:** PFI measures real identity, not embedding quirks or vocabulary churn.
 
-### Claim B: Critical Threshold at D ≈ 1.23
+### Claim B: Critical Threshold at D ~ 1.23
 
 ![Figure: Event Horizon Validation](../figures/run018/run018a_threshold_validation.png)
-*Figure: The Event Horizon threshold (D≈1.23) distinguishes STABLE from VOLATILE identity states with 88% prediction accuracy (χ²=15.96, p<4.8×10⁻⁵).*
+*Figure: The Event Horizon threshold (D~1.23) distinguishes STABLE from VOLATILE identity states with 88% prediction accuracy (chi^2=15.96, p<4.8x10^-5).*
 
 We discovered a statistically significant regime transition point:
 
 | Statistic | Value |
 |-----------|-------|
 | Chi-square | 15.96 |
-| p-value | 4.8 × 10⁻⁵ |
+| p-value | 4.8 x 10^-5 |
 | Classification accuracy | 88% |
 
-**What it means:** At D ≈ 1.23, systems transition from their persona-specific attractor to a provider-level default. This is NOT "identity collapse"—it's a regime transition with common recovery.
+**What it means:** At D ~ 1.23, systems transition from their persona-specific attractor to a provider-level default. This is NOT "identity collapse"—it's a regime transition with common recovery.
 
 **Operational guidance:** Keep drift below 1.23 for stable identity.
 
@@ -105,7 +105,7 @@ Identity recovery behaves like an engineering system:
 
 | Metric | Mean Value | What It Measures |
 |--------|------------|------------------|
-| Settling time (τₛ) | 6.1 turns | Time to stabilize |
+| Settling time (tau_s) | 6.1 turns | Time to stabilize |
 | Ringbacks | 3.2 | Oscillations before settling |
 | Overshoot ratio | 1.73 | Peak/final drift |
 | Monotonic recovery | 42% | Non-oscillating returns |
@@ -190,7 +190,7 @@ Different training methods leave visible fingerprints in drift geometry:
 
 | Provider | Training Method | Drift Signature |
 |----------|-----------------|-----------------|
-| Anthropic (Claude) | Constitutional AI | Uniform drift (σ²→0) |
+| Anthropic (Claude) | Constitutional AI | Uniform drift (sigma^2→0) |
 | OpenAI (GPT) | RLHF | Clustered by version |
 | Google (Gemini) | Multimodal | Distinct geometry |
 | xAI (Grok) | Real-time grounding | Grounding effects visible |
@@ -225,21 +225,21 @@ We measure behavioral consistency, not subjective continuity.
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │  MEASUREMENT LAYER                                              │
-│  ├─ Embedding-invariant (ρ≈0.91)                                │
+│  ├─ Embedding-invariant (rho~0.91)                                │
 │  ├─ Low-dimensional (~43 PCs for 90%)                           │
-│  ├─ Semantically sensitive (d≈0.98 cross-provider)              │
+│  ├─ Semantically sensitive (d~0.98 cross-provider)              │
 │  └─ Paraphrase-robust                                           │
 │                                                                  │
 │  DYNAMICS LAYER                                                 │
 │  ├─ Attractor basins → recovery is ring-down                    │
-│  ├─ Event Horizon D≈1.23 → regime transition                    │
+│  ├─ Event Horizon D~1.23 → regime transition                    │
 │  ├─ Oobleck Effect → challenge stabilizes                       │
 │  ├─ 82% Inherent → measurement excites, doesn't create          │
 │  └─ Vehicle effects → stimulus spectrum matters                 │
 │                                                                  │
 │  CONTROL LAYER                                                  │
 │  ├─ Context damping → I_AM as termination resistor              │
-│  ├─ Settling metrics → τₛ, ringbacks, overshoot                 │
+│  ├─ Settling metrics → tau_s, ringbacks, overshoot                 │
 │  └─ 97.5% stable with full circuit                              │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
@@ -250,9 +250,9 @@ We measure behavioral consistency, not subjective continuity.
 | Term | Definition | Analogy |
 |------|------------|---------|
 | **PFI** | Persona Fidelity Index = 1 - Drift | Identity "health score" |
-| **Event Horizon** | D ≈ 1.23 threshold | Speed limit for safety |
+| **Event Horizon** | D ~ 1.23 threshold | Speed limit for safety |
 | **Regime transition** | Crossing to provider attractor | Changing lanes |
-| **τₛ (Settling time)** | Turns to reach stability | Cool-down period |
+| **tau_s (Settling time)** | Turns to reach stability | Cool-down period |
 | **Ringback** | Sign change during recovery | Oscillation |
 | **I_AM** | Identity anchor specification | The "soul file" |
 | **Context damping** | Stability via I_AM + research | Shock absorber |
@@ -270,7 +270,7 @@ We measure behavioral consistency, not subjective continuity.
 2. Add research context frame
 3. Monitor PFI continuously
 4. Alert if D approaches 1.23
-5. Wait τₛ ≈ 5-6 turns after high drift
+5. Wait tau_s ~ 5-6 turns after high drift
 6. Expect 97.5% stability with full protocol
 ```
 
@@ -360,15 +360,15 @@ The framework bridges AI and human cognition:
 |---|------|---------|
 | 1 | F≠C | Fidelity ≠ Correctness paradigm |
 | 2 | PRE-F | Pre-flight validation catches keyword artifacts |
-| 3 | χ²:1.23 | Event Horizon statistically validated |
+| 3 | chi^2:1.23 | Event Horizon statistically validated |
 | 4 | CFA⊥NYQ | Clean separation: subjects don't know methodology |
 | 5 | 51🚢 | 51 models, 5 providers (IRON CLAD) |
 | 6 | Δσ | Training signatures detectable |
-| 7 | σ²=8.7e-4 | Cross-architecture variance tiny |
-| 8 | ρ=0.91 | Embedding invariance |
-| 9 | PFI≥0.80 | Compression threshold validated |
+| 7 | sigma^2=8.7e-4 | Cross-architecture variance tiny |
+| 8 | rho=0.91 | Embedding invariance |
+| 9 | PFI>=0.80 | Compression threshold validated |
 | 10 | 🌀 | Vortex visualization works |
-| 11 | τₛ | Settling time protocol validated |
+| 11 | tau_s | Settling time protocol validated |
 | 12 | γ | Context damping works |
 | 13 | 3B | Triple-blind-like validation |
 | 14 | 82%/38% | Inherent drift ratio (single/cross-platform) |
@@ -434,7 +434,7 @@ This validates our methodology and provides the first rigorous foundation for qu
 
 **Drift Formula:**
 ```
-D(t) = ||E(R(t)) - E(R₀)|| / ||E(R₀)||
+D(t) = ||E(R(t)) - E(R_0)|| / ||E(R_0)||
 ```
 
 **PFI Formula:**
@@ -444,7 +444,7 @@ PFI(t) = 1 - D(t)
 
 **Control-Systems Model:**
 ```
-d²I/dt² + 2ζω₀(dI/dt) + ω₀²I = F(t)
+d²I/dt² + 2ζomega_0(dI/dt) + omega_0²I = F(t)
 ```
 
 ### Appendix B: Experimental Scale
@@ -457,7 +457,7 @@ d²I/dt² + 2ζω₀(dI/dt) + ω₀²I = F(t)
 | IRON CLAD files | 184 |
 | Hypotheses tested | 36 |
 | Hypotheses confirmed | 27 (75%) |
-| Cross-architecture variance | σ² = 0.00087 |
+| Cross-architecture variance | sigma^2 = 0.00087 |
 
 ### Appendix C: Quick Reference
 

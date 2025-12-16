@@ -18,15 +18,15 @@ This work presents the first empirical framework for measuring and controlling i
 
 ### Key Contributions
 
-1. **Novel Measurement Framework:** The Persona Fidelity Index (PFI) provides an embedding-invariant metric for identity drift (ρ=0.91 correlation across embedding models).
+1. **Novel Measurement Framework:** The Persona Fidelity Index (PFI) provides an embedding-invariant metric for identity drift (rho=0.91 correlation across embedding models).
 
-2. **Critical Threshold Discovery:** We identify the "Event Horizon" at D≈1.23 (p<4.8×10⁻⁵) as a predictive boundary for identity coherence, enabling operational safety margins.
+2. **Critical Threshold Discovery:** We identify the "Event Horizon" at D~1.23 (p<4.8x10^-5) as a predictive boundary for identity coherence, enabling operational safety margins.
 
 3. **Fundamental Finding:** 82% of observed identity drift is inherent to extended interaction, not induced by measurement—resolving a key methodological concern in AI behavioral research.
 
 4. **Practical Intervention:** Context damping techniques achieve 95-97.5% identity stability, demonstrating that identity engineering is a viable discipline for AI safety.
 
-5. **Cross-Architecture Validation:** Our findings replicate across all tested architectures (σ²=0.00087), establishing universality rather than model-specific artifacts.
+5. **Cross-Architecture Validation:** Our findings replicate across all tested architectures (sigma^2=0.00087), establishing universality rather than model-specific artifacts.
 
 ### Significance
 

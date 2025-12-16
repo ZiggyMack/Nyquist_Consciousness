@@ -46,7 +46,7 @@ NotebookLM generated a research proposal including:
 
 ### Abstract (250 words)
 
-The Nyquist Consciousness Framework provides the first empirical methodology for measuring and predicting AI identity stability. Phase 1 (complete) validated core claims across 5 AI providers with σ² = 0.000869 cross-architecture variance. Phase 2 seeks funding to expand validation to 20+ platforms and develop standardized testing protocols.
+The Nyquist Consciousness Framework provides the first empirical methodology for measuring and predicting AI identity stability. Phase 1 (complete) validated core claims across 5 AI providers with sigma^2 = 0.000869 cross-architecture variance. Phase 2 seeks funding to expand validation to 20+ platforms and develop standardized testing protocols.
 
 ### Specific Aims
 

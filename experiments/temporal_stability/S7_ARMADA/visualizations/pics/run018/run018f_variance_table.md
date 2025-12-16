@@ -1,6 +1,6 @@
 # Run 018 Provider Family Variance Analysis
 
-**Generated:** 2025-12-15 17:32
+**Generated:** 2025-12-16 01:41
 **Overall Variance:** sigma^2 = 758.324522
 
 ## Key Finding

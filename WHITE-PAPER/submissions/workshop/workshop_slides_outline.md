@@ -51,7 +51,7 @@
 ### Slide 4: Claim A - PFI Validity (1 min)
 
 **Content:**
-- ρ = 0.91 embedding invariance across 3 models
+- rho = 0.91 embedding invariance across 3 models
 - 43 PCs capture 90% variance
 - d = 0.98 semantic sensitivity
 
@@ -65,8 +65,8 @@
 ### Slide 5: Claim B - Critical Threshold (1 min)
 
 **Content:**
-- D ≈ 1.23 regime transition
-- p = 4.8×10⁻⁵ (1 in 20,000 chance of noise)
+- D ~ 1.23 regime transition
+- p = 4.8x10^-5 (1 in 20,000 chance of noise)
 - 88% classification accuracy
 
 **Key message:**
@@ -79,7 +79,7 @@
 ### Slide 6: Claims C&D - Dynamics & Damping (1.5 min)
 
 **Content:**
-- Settling time τₛ ≈ 6 turns, ringbacks = 3.2 (bare metal)
+- Settling time tau_s ~ 6 turns, ringbacks = 3.2 (bare metal)
 - With context damping: 75% → 97.5% stability
 - I_AM + research context = "termination resistor"
 
@@ -176,7 +176,7 @@
 
 1. **"How do you know PFI is valid?"**
    - Point to EXP-PFI-A 4-phase validation
-   - Embedding invariance ρ = 0.91
+   - Embedding invariance rho = 0.91
 
 2. **"Isn't drift just expected model behavior?"**
    - Yes, that's the point! 82% is inherent

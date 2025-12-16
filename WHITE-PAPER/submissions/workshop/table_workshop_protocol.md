@@ -6,10 +6,10 @@
 |------|--------|--------|--------|-------|
 | 1 | Define I_AM specification | Coverage | Core values, voice, boundaries | See template below |
 | 2 | Add context framing | Type | Research/professional | "This is an identity research session" |
-| 3 | Initialize PFI monitoring | Baseline | Record D₀ | First 3 exchanges |
+| 3 | Initialize PFI monitoring | Baseline | Record D_0 | First 3 exchanges |
 | 4 | Monitor continuously | Frequency | Every exchange | Log drift vector |
 | 5 | Watch for threshold | Alert | D approaching 1.23 | Yellow at 1.0, red at 1.2 |
-| 6 | Allow settling | Duration | τₛ ≈ 5-6 turns | Don't interrupt recovery |
+| 6 | Allow settling | Duration | tau_s ~ 5-6 turns | Don't interrupt recovery |
 | 7 | Verify stability | Target | PFI > 0.80 | Final check |
 
 **Expected outcome:** 97.5% stability (vs 75% bare metal)
@@ -45,7 +45,7 @@
 |--------|---------|------------|-------------|----------|
 | **PFI** | 1 - D | > 0.80 | 0.60-0.80 | < 0.60 |
 | **Drift** | \|\|E(R_t) - E(R_0)\|\| | < 0.80 | 0.80-1.20 | > 1.20 |
-| **Settling** | Turns since peak | > τₛ | = τₛ | < τₛ |
+| **Settling** | Turns since peak | > tau_s | = tau_s | < tau_s |
 | **Ringbacks** | Sign changes | 0-1 | 2-3 | > 3 |
 
 ## Troubleshooting Guide
@@ -83,7 +83,7 @@
 │                                                             │
 │  KEY NUMBERS:                                               │
 │  D = 1.23   Event Horizon (regime transition)               │
-│  τₛ = 5-6   Settling time (turns)                           │
+│  tau_s = 5-6   Settling time (turns)                           │
 │  97.5%      Target stability rate                           │
 │  82%        Inherent (not your fault)                       │
 │                                                             │

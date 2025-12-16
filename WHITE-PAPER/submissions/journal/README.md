@@ -63,7 +63,7 @@ See [`../../reviewers/phase3/PLACEHOLDER_SUMMARY.md`](../../reviewers/phase3/PLA
 
 | Claim | Current Evidence | Additional Needed |
 |-------|------------------|-------------------|
-| A (PFI Validity) | ρ=0.91, d=0.98 | Human-AI correlation, test-retest |
+| A (PFI Validity) | rho=0.91, d=0.98 | Human-AI correlation, test-retest |
 | B (Threshold) | p=4.8e-5 | Independent replication, multiple personas |
 | C (Oscillator) | τ_s measured | Longer sequences, statistical model fit |
 | D (Context Damping) | 97.5% | Dose-response, transfer to other personas |

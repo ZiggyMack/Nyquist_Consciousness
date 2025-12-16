@@ -161,7 +161,11 @@
       "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" add NYQUIST_STATUS.json)",
       "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" commit -m \"Restore NYQUIST_STATUS.json (required by dashboard)\n\nFile was removed in 44f3298 but dashboard Overview page depends on it.\nRestored from 520f5e6.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\")",
       "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" diff --stat NYQUIST_STATUS.json)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" add publication_status.json)",
+      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" commit -m \"$(cat <<''EOF''\nAdd publication_status.json for dashboard Perfection Meter\n\nNew file enables Publications page Perfection Meter with:\n- 8-track publication pipeline (3 academic + 5 dissemination)\n- Track metadata and completion percentages\n- Five validated claims (A-E) with evidence sources\n- Current milestone: Run 020B Complete (Thermometer Result)\n- Next milestone: arXiv Submission (Q4 2025)\n\nAcademic tracks: workshop (70%), arxiv (85%), journal (30%)\nDissemination tracks: popular_science, education, policy (90% each)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" status --short publication_status.json dashboard/pages/publications.py NYQUIST_STATUS.json)",
+      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" status)"
     ],
     "deny": [],
     "ask": []

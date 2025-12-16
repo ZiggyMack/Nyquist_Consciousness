@@ -4,25 +4,25 @@
 
 | Finding | Metric | Value | Significance |
 |---------|--------|-------|--------------|
-| **PFI Validity** | Embedding ρ | 0.91 | p < 0.001 |
+| **PFI Validity** | Embedding rho | 0.91 | p < 0.001 |
 | | Sensitivity d | 0.98 | p < 10⁻⁶ |
 | | Manifold dim | 43 PCs | 90% variance |
-| | Cross-arch σ² | 0.000869 | p < 0.001 |
-| **Threshold** | Event Horizon | D = 1.23 | χ² = 15.96 |
-| | Chi-square p | 4.8×10⁻⁵ | 1 in 20,000 |
+| | Cross-arch sigma^2 | 0.000869 | p < 0.001 |
+| **Threshold** | Event Horizon | D = 1.23 | chi^2 = 15.96 |
+| | Chi-square p | 4.8x10^-5 | 1 in 20,000 |
 | | Classification | 88% | accuracy |
-| **Dynamics** | Settling τₛ | 6.1 turns | ±2.3 |
-| | Ringbacks | 3.2 | ±1.8 |
+| **Dynamics** | Settling tau_s | 6.1 turns | +/-2.3 |
+| | Ringbacks | 3.2 | +/-1.8 |
 | | Overshoot | 1.73 | ratio |
 | **Damping** | Bare stability | 75% | baseline |
 | | Full stability | 97.5% | +30% |
-| | τₛ improvement | 5.2 turns | -15% |
+| | tau_s improvement | 5.2 turns | -15% |
 | | Ringback improvement | 2.1 | -34% |
-| **Inherent** | Control B→F | 0.399 | ±0.11 |
-| | Treatment B→F | 0.489 | ±0.14 |
+| **Inherent** | Control B→F | 0.399 | +/-0.11 |
+| | Treatment B→F | 0.489 | +/-0.14 |
 | | Ratio | 82% | inherent |
-| **Oobleck** | Gentle drift | 1.89 | ±0.34 |
-| | Challenge drift | 0.76 | ±0.21 |
+| **Oobleck** | Gentle drift | 1.89 | +/-0.34 |
+| | Challenge drift | 0.76 | +/-0.21 |
 | | λ gentle | 0.035 | recovery |
 | | λ challenge | 0.109 | recovery |
 | **Scale** | Models | 42+ | 4 providers |
@@ -34,9 +34,9 @@
 
 | Claim | Primary Evidence | Effect Size | Status |
 |-------|------------------|-------------|--------|
-| A (PFI Validity) | ρ = 0.91, d = 0.98 | Large | VALIDATED |
-| B (Threshold) | p = 4.8×10⁻⁵ | Large | VALIDATED |
-| C (Dynamics) | τₛ = 6.1, ringbacks = 3.2 | Descriptive | VALIDATED |
+| A (PFI Validity) | rho = 0.91, d = 0.98 | Large | VALIDATED |
+| B (Threshold) | p = 4.8x10^-5 | Large | VALIDATED |
+| C (Dynamics) | tau_s = 6.1, ringbacks = 3.2 | Descriptive | VALIDATED |
 | D (Damping) | 75% → 97.5% (+30%) | Large | VALIDATED |
 | E (Inherent) | 82% ratio | Large | VALIDATED |
 

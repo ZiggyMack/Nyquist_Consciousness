@@ -2,7 +2,7 @@
 
 ## Overall Dimensions
 
-- **Size**: A0 Portrait (841mm × 1189mm)
+- **Size**: A0 Portrait (841mm x 1189mm)
 - **Columns**: 3 equal columns (~260mm each)
 - **Margins**: 25mm all sides
 
@@ -30,7 +30,7 @@
 - Title: 72pt bold
 - Authors: 36pt
 - Affiliations: 24pt
-- QR codes: 50mm × 50mm each
+- QR codes: 50mm x 50mm each
 
 ---
 
@@ -103,15 +103,15 @@
 ├─────────────────────────────┤
 │                             │
 │   A  PFI VALIDITY           │
-│   ρ = 0.91, d = 0.98       │
+│   rho = 0.91, d = 0.98       │
 │   43 PCs, 90% variance      │
 │                             │
 │   B  REGIME THRESHOLD       │
-│   D ≈ 1.23                  │
-│   p = 4.8×10⁻⁵              │
+│   D ~ 1.23                  │
+│   p = 4.8x10^-5              │
 │                             │
 │   C  OSCILLATOR DYNAMICS    │
-│   τₛ = 6.1, ringbacks = 3.2│
+│   tau_s = 6.1, ringbacks = 3.2│
 │                             │
 │   D  CONTEXT DAMPING        │
 │   75% → 97.5% stability     │
@@ -141,11 +141,11 @@
 │   └─────────┴─────────┘     │
 │                             │
 │   [Fig W1: Combined Panel]  │
-│   (200mm × 200mm)           │
+│   (200mm x 200mm)           │
 │                             │
 │   KEY NUMBERS:              │
-│   • σ² = 0.000869           │
-│   • ρ = 0.91                │
+│   • sigma^2 = 0.000869           │
+│   • rho = 0.91                │
 │   • 97.5% stability         │
 │   • 82% inherent            │
 │                             │
@@ -260,9 +260,9 @@
 - Text: Black
 
 ### Figures
-- Combined panel: 200mm × 200mm minimum
-- QR codes: 50mm × 50mm
-- Icons: 20mm × 20mm
+- Combined panel: 200mm x 200mm minimum
+- QR codes: 50mm x 50mm
+- Icons: 20mm x 20mm
 
 ### Print Considerations
 - Export at 300 DPI minimum

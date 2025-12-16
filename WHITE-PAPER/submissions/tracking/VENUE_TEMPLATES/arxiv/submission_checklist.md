@@ -81,8 +81,8 @@ We present the Nyquist Consciousness framework for quantifying and
 controlling identity drift in Large Language Models during extended
 interactions. Through 21 experiments across 51 models from 5 providers,
 we validate the Persona Fidelity Index (PFI) as an embedding-invariant
-metric (ρ=0.91), identify a critical regime transition at D≈1.23
-(p<4.8×10⁻⁵), and demonstrate that 82% of observed drift is inherent
+metric (rho=0.91), identify a critical regime transition at D~1.23
+(p<4.8x10^-5), and demonstrate that 82% of observed drift is inherent
 to extended interaction rather than measurement-induced. We introduce
 the "Oobleck Effect"—rate-dependent identity resistance where direct
 challenge stabilizes while gentle exploration induces drift—with
