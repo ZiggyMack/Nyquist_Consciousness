@@ -13,9 +13,10 @@ py extract_review_package.py workshop          # Extract single path (with figur
 py extract_review_package.py workshop arxiv    # Extract multiple paths
 py extract_review_package.py --all             # Extract ALL 8 paths
 py extract_review_package.py arxiv --no-figures        # Exclude figure specs
-py extract_review_package.py arxiv --include-pdf       # Include 14MB PDF
+py extract_review_package.py arxiv --include-pdf       # Include 14MB PDF in package
 py extract_review_package.py workshop --dry-run        # Preview extraction
 py extract_review_package.py workshop --output ./FOR_OPUS_1  # Custom output
+py extract_review_package.py --extract-pdfs            # Extract PDFs to packages/pdf/
 
 OUTPUT:
 -------
@@ -28,8 +29,15 @@ WHITE-PAPER/reviewers/packages/{path}/
 ├── guides/                      # Guides (varies by path)
 └── figures/                     # Figure specs (included by default)
 
+PDF LAYER (separate):
+WHITE-PAPER/reviewers/packages/pdf/
+├── README.md                    # PDF layer overview
+├── arxiv/                       # arxiv PDFs (~14 MB)
+├── journal/                     # journal PDFs (same as arxiv for now)
+└── {path}/                      # Other paths as PDFs are generated
+
 Author: WHITE-PAPER Calibration 2025-12-15
-Version: 1.0
+Version: 1.1
 """
 
 import argparse
@@ -865,6 +873,270 @@ def generate_extraction_report(results: List[Dict]) -> str:
     return "\n".join(lines)
 
 
+# === PDF LAYER EXTRACTION ===
+
+# Map publication paths to their PDF source directories
+PDF_SOURCE_MAP = {
+    "arxiv": ["submissions/arxiv/"],
+    "journal": ["submissions/journal/", "submissions/arxiv/"],
+    "workshop": ["submissions/workshop/"],
+    # Other paths don't have PDFs yet - add as they're generated
+}
+
+
+def collect_pdf_files() -> Dict[str, List[Path]]:
+    """
+    Collect all PDF files from WHITE-PAPER, organized by publication path.
+
+    Returns:
+        Dict mapping path names to lists of PDF files
+    """
+    collected: Dict[str, List[Path]] = {}
+
+    for path_name, source_dirs in PDF_SOURCE_MAP.items():
+        pdfs = []
+        for source_dir in source_dirs:
+            dir_path = WHITE_PAPER_ROOT / source_dir
+            if dir_path.exists():
+                pdfs.extend(dir_path.glob("**/*.pdf"))
+                pdfs.extend(dir_path.glob("**/*.PDF"))
+        collected[path_name] = sorted(set(pdfs))  # Remove duplicates
+
+    # Also collect any PDFs from other locations
+    other_pdfs = []
+    for pdf in WHITE_PAPER_ROOT.glob("**/*.pdf"):
+        # Skip if already categorized
+        already_collected = any(pdf in files for files in collected.values())
+        # Skip packages directory (we're creating that)
+        if "packages" in str(pdf):
+            continue
+        if not already_collected:
+            other_pdfs.append(pdf)
+
+    if other_pdfs:
+        collected["other"] = sorted(other_pdfs)
+
+    return collected
+
+
+def generate_pdf_readme(collected: Dict[str, List[Path]]) -> str:
+    """Generate README.md for the PDF layer."""
+
+    total_files = sum(len(files) for files in collected.values())
+    total_size = sum(calculate_total_size(files) for files in collected.values())
+
+    lines = [
+        "# PDF Layer",
+        "",
+        f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"**Total PDFs:** {total_files}",
+        f"**Total Size:** {format_size(total_size)}",
+        "",
+        "---",
+        "",
+        "## Purpose",
+        "",
+        "This directory contains PDF files separated from the main review packages.",
+        "The text-based packages in `../` are lightweight (~100-700 KB each) and can",
+        "be processed by AI reviewers. PDFs are kept separate to manage file sizes.",
+        "",
+        "---",
+        "",
+        "## Contents",
+        "",
+        "| Path | Files | Size | Description |",
+        "|------|-------|------|-------------|",
+    ]
+
+    path_descriptions = {
+        "arxiv": "arXiv preprint PDFs",
+        "journal": "Journal submission PDFs",
+        "workshop": "Workshop paper PDFs",
+        "other": "Other PDFs (figures, etc.)",
+    }
+
+    for path_name, files in collected.items():
+        if files:
+            size = format_size(calculate_total_size(files))
+            desc = path_descriptions.get(path_name, "")
+            lines.append(f"| {path_name}/ | {len(files)} | {size} | {desc} |")
+
+    lines.extend([
+        "",
+        f"**Total:** {total_files} files, {format_size(total_size)}",
+        "",
+        "---",
+        "",
+        "## File Listing",
+        "",
+    ])
+
+    for path_name, files in collected.items():
+        if files:
+            lines.append(f"### {path_name}/")
+            lines.append("")
+            for f in files:
+                rel_path = f.relative_to(WHITE_PAPER_ROOT)
+                size = format_size(f.stat().st_size)
+                lines.append(f"- `{f.name}` ({size})")
+                lines.append(f"  - Source: `{rel_path}`")
+            lines.append("")
+
+    lines.extend([
+        "---",
+        "",
+        "## Usage",
+        "",
+        "To include PDFs in a review package, use:",
+        "",
+        "```bash",
+        "py extract_review_package.py arxiv --include-pdf",
+        "```",
+        "",
+        "Or send this PDF layer separately alongside the text packages.",
+        "",
+        "---",
+        "",
+        "*PDF layer extracted from WHITE-PAPER/ for reviewer distribution.*",
+    ])
+
+    return "\n".join(lines)
+
+
+def extract_pdf_layer(output_dir: Optional[Path] = None, dry_run: bool = False) -> Dict:
+    """
+    Extract all PDFs to a separate layer: packages/pdf/{path}/
+
+    Args:
+        output_dir: Where to write (default: reviewers/packages/pdf/)
+        dry_run: Preview without writing files
+
+    Returns:
+        Dict with extraction results
+    """
+    if output_dir is None:
+        output_dir = DEFAULT_OUTPUT_DIR / "pdf"
+
+    collected = collect_pdf_files()
+
+    total_files = sum(len(files) for files in collected.values())
+    total_size = sum(calculate_total_size(files) for files in collected.values())
+
+    result = {
+        "mode": "pdf_layer",
+        "output_dir": str(output_dir),
+        "dry_run": dry_run,
+        "statistics": {
+            "total_files": total_files,
+            "total_size_bytes": total_size,
+            "total_size_human": format_size(total_size),
+        },
+        "categories": {},
+        "files_copied": [],
+        "errors": [],
+    }
+
+    for path_name, files in collected.items():
+        result["categories"][path_name] = {
+            "count": len(files),
+            "size_bytes": calculate_total_size(files),
+            "files": [str(f.relative_to(WHITE_PAPER_ROOT)) for f in files]
+        }
+
+    if dry_run:
+        result["message"] = "Dry run - no files written"
+        return result
+
+    # Create output directory
+    try:
+        output_dir.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        result["errors"].append(f"Failed to create output dir: {e}")
+        return result
+
+    # Copy PDFs organized by path
+    for path_name, files in collected.items():
+        path_dir = output_dir / path_name
+        path_dir.mkdir(parents=True, exist_ok=True)
+
+        for src_file in files:
+            dst_file = path_dir / src_file.name
+            try:
+                shutil.copy2(src_file, dst_file)
+                result["files_copied"].append(f"{path_name}/{src_file.name}")
+            except Exception as e:
+                result["errors"].append(f"Failed to copy {src_file.name}: {e}")
+
+    # Generate and write README
+    readme_content = generate_pdf_readme(collected)
+    readme_path = output_dir / "README.md"
+    try:
+        readme_path.write_text(readme_content, encoding="utf-8")
+        result["readme_path"] = str(readme_path)
+    except Exception as e:
+        result["errors"].append(f"Failed to write README: {e}")
+
+    result["message"] = f"Extracted {total_files} PDFs ({format_size(total_size)}) to {output_dir}"
+
+    return result
+
+
+def generate_pdf_extraction_report(result: Dict) -> str:
+    """Generate a report of PDF extraction results."""
+
+    lines = [
+        "=" * 70,
+        "PDF LAYER EXTRACTION REPORT",
+        f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        "=" * 70,
+        "",
+    ]
+
+    if result.get("error"):
+        lines.append(f"ERROR: {result['error']}")
+        return "\n".join(lines)
+
+    stats = result["statistics"]
+
+    lines.append(f"Output:  {result['output_dir']}")
+    lines.append(f"Files:   {stats['total_files']}")
+    lines.append(f"Size:    {stats['total_size_human']}")
+    lines.append("")
+
+    lines.append("## By Publication Path")
+    lines.append("")
+    lines.append("| Path | Files | Size |")
+    lines.append("|------|-------|------|")
+
+    for path_name, info in result["categories"].items():
+        if info["count"] > 0:
+            size = format_size(info["size_bytes"])
+            lines.append(f"| {path_name} | {info['count']} | {size} |")
+
+    lines.append("")
+
+    if result["dry_run"]:
+        lines.append("Status: DRY RUN (no files written)")
+    else:
+        lines.append(f"Status: EXTRACTED ({len(result.get('files_copied', []))} files copied)")
+
+    if result.get("errors"):
+        lines.append("")
+        lines.append(f"Errors: {len(result['errors'])}")
+        for err in result["errors"][:5]:
+            lines.append(f"  - {err}")
+
+    lines.extend([
+        "",
+        "---",
+        "",
+        "The PDF layer is separate from text packages to keep them lightweight.",
+        "Send PDFs separately or use --include-pdf to embed in specific packages.",
+    ])
+
+    return "\n".join(lines)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Extract review packages from WHITE-PAPER for AI reviewers",
@@ -889,6 +1161,12 @@ Expected package sizes (with figures):
   policy:          ~30 KB
   funding:         ~70 KB
   media:           ~35 KB
+
+PDF Layer (separate from text packages):
+  py extract_review_package.py --extract-pdfs    # Extract to packages/pdf/
+  py extract_review_package.py --extract-pdfs --dry-run  # Preview
+
+Output: packages/pdf/arxiv/, packages/pdf/journal/, etc. (~14 MB total)
         """
     )
 
@@ -902,7 +1180,9 @@ Expected package sizes (with figures):
     parser.add_argument("--no-figures", action="store_true",
                         help="Exclude figure specification files (figures included by default)")
     parser.add_argument("--include-pdf", action="store_true",
-                        help="Include PDF files (adds ~14MB for arxiv)")
+                        help="Include PDF files in text packages (adds ~14MB for arxiv)")
+    parser.add_argument("--extract-pdfs", action="store_true",
+                        help="Extract PDFs to separate layer: packages/pdf/")
 
     # Output options
     parser.add_argument("--output", type=Path, default=None,
@@ -921,6 +1201,15 @@ Expected package sizes (with figures):
     # Handle --status mode
     if args.status:
         print(generate_status_report())
+        return
+
+    # Handle --extract-pdfs mode
+    if args.extract_pdfs:
+        result = extract_pdf_layer(output_dir=args.output, dry_run=args.dry_run)
+        if args.json:
+            print(json.dumps(result, indent=2))
+        else:
+            print(generate_pdf_extraction_report(result))
         return
 
     # Determine which paths to extract
