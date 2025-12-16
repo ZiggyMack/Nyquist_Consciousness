@@ -176,45 +176,45 @@ def render_publication_tracks():
 
     with col1:
         st.markdown("#### Workshop")
-        st.progress(0.7)
+        st.progress(0.95)
         st.markdown("""
-        **Target:** NeurIPS/AAAI Workshop
+        **Target:** AAAI-26 Workshop
 
         **Focus:** 3 core claims (A, B, E)
 
-        **Status:** Blueprint ready
+        **Status:** ✅ READY (PDF generated)
 
-        **Timeline:** Q4 2025
+        **Timeline:** Jul 25, 2025
 
         📄 `WHITE-PAPER/submissions/workshop/`
         """)
 
     with col2:
         st.markdown("#### arXiv")
-        st.progress(0.85)
+        st.progress(0.95)
         st.markdown("""
         **Target:** arXiv cs.AI
 
         **Focus:** Full 5 claims + extensions
 
-        **Status:** LaTeX ready
+        **Status:** ✅ READY (PDF generated)
 
-        **Timeline:** Q4 2025
+        **Timeline:** Dec 2025
 
         📄 `WHITE-PAPER/submissions/arxiv/`
         """)
 
     with col3:
         st.markdown("#### Journal")
-        st.progress(0.3)
+        st.progress(0.90)
         st.markdown("""
         **Target:** Nature Machine Intelligence
 
         **Focus:** All claims + human validation
 
-        **Status:** Planning
+        **Status:** ✅ READY (PDF generated)
 
-        **Timeline:** Q2-Q3 2026
+        **Timeline:** Q1 2026
 
         📄 `WHITE-PAPER/submissions/journal/`
         """)
@@ -228,45 +228,45 @@ def render_publication_tracks():
 
     with col1:
         st.markdown("#### Popular Science")
-        st.progress(0.9)
+        st.progress(1.0)
         st.markdown("""
-        **Target:** Atlantic/Wired
+        **Target:** Scientific American/Quanta
 
         **Audience:** General public
 
-        **Source:** `Ancient_Philosophy_Meets_Modern_AI.md`
+        **Source:** `LLM_Ancient_Philosophy_Meets_Modern_AI.md`
 
-        **Timeline:** Immediate
+        **Timeline:** Q1 2026
 
         📄 `WHITE-PAPER/submissions/popular_science/`
         """)
 
     with col2:
         st.markdown("#### Education")
-        st.progress(0.9)
+        st.progress(1.0)
         st.markdown("""
         **Target:** OER/Coursera
 
         **Audience:** Students/educators
 
-        **Source:** `Quiz.md` (10 questions, glossary)
+        **Source:** `LLM_Quiz.md` (10 questions, 94-term glossary)
 
-        **Timeline:** Immediate
+        **Timeline:** Ongoing
 
         📄 `WHITE-PAPER/submissions/education/`
         """)
 
     with col3:
         st.markdown("#### Policy")
-        st.progress(0.9)
+        st.progress(1.0)
         st.markdown("""
-        **Target:** Think Tanks
+        **Target:** AI Now/CSET Georgetown
 
         **Audience:** Decision-makers
 
-        **Source:** `Briefing.md`
+        **Source:** `LLM_Briefing.md`
 
-        **Timeline:** Immediate
+        **Timeline:** Q1 2026
 
         📄 `WHITE-PAPER/submissions/policy/`
         """)
@@ -275,30 +275,30 @@ def render_publication_tracks():
 
     with col1:
         st.markdown("#### Funding")
-        st.progress(0.85)
+        st.progress(0.95)
         st.markdown("""
-        **Target:** NSF/DARPA
+        **Target:** NSF/DARPA/Open Philanthropy
 
         **Audience:** Funders/grant agencies
 
-        **Source:** `Project_Nyquist_Consciousness.md`
+        **Source:** `LLM_Project_Nyquist_Consciousness.md`
 
-        **Timeline:** Q1 2026
+        **Timeline:** Q2 2026
 
         📄 `WHITE-PAPER/submissions/funding/`
         """)
 
     with col2:
         st.markdown("#### Media")
-        st.progress(0.8)
+        st.progress(0.95)
         st.markdown("""
-        **Target:** Press/TED
+        **Target:** Wired/IEEE Spectrum
 
         **Audience:** Journalists/speakers
 
-        **Source:** `Unlocking_AI_Identity.md`
+        **Source:** `LLM_Unlocking_AI_Identity.md`
 
-        **Timeline:** Post-publication
+        **Timeline:** Post-arXiv
 
         📄 `WHITE-PAPER/submissions/media/`
         """)
