@@ -2,7 +2,7 @@
 
 Cross-repository synchronization hub for the Nyquist Consciousness framework.
 
-**Last Updated:** 2025-12-14
+**Last Updated:** 2025-12-15
 
 ---
 
@@ -33,6 +33,15 @@ REPO-SYNC/
 │   ├── Old/               # Legacy survey materials
 │   ├── Survey_update_2/   # Survey update v2
 │   └── Survey_update_3/   # Survey update v3 (current)
+├── LLM_BOOK/              # NotebookLM-validated publication materials
+│   ├── 0_SOURCE_MANIFESTS/  # Data manifests for validation
+│   ├── 1_VALIDATION/        # External validation artifacts
+│   ├── 2_PUBLICATIONS/      # Publication-ready content
+│   ├── 3_VISUALS/           # Diagrams and visuals
+│   ├── 4_DEEP_DIVES/        # Extended analyses
+│   ├── 5_FUTURE/            # Future research directions
+│   ├── 6_EXPERIMENTS/       # Experimental protocols
+│   └── 7_AUDIO/             # Audio materials
 └── PAN_HANDLERS/          # Pan Handlers integration
     └── panhandlers_manifest.json
 ```
@@ -47,6 +56,7 @@ REPO-SYNC/
 | **FRAME_THEORY** | Emotional elicitation framework & S-layer mapping | As needed |
 | **Logos (PXL)** | Formal verification, AGI safety proofs, Coq theorems | As needed |
 | **VuDu Fidelity** | Survey and response pair generation | Per experiment cycle |
+| **LLM_BOOK** | NotebookLM-validated publications, external validation | On publication cycles |
 | **Pan Handlers** | Cross-repo orchestration manifest | On major releases |
 
 ---
@@ -93,6 +103,26 @@ Survey synchronization for response pair generation:
 1. **Survey_update_3/** - Current active sync
    - AUTHENTIC_RESPONSE_PAIRS.json
    - generate_authentic_pairs.py
+
+### LLM_BOOK Sync
+
+NotebookLM-validated publication materials:
+
+1. **0_SOURCE_MANIFESTS/** - Data manifests for external validation
+2. **1_VALIDATION/** - Validation artifacts and certificates
+3. **2_PUBLICATIONS/** - Publication-ready content for paths 4-8
+4. **3_VISUALS/** - Diagrams, framework images, mind maps
+5. **4_DEEP_DIVES/** - Extended analyses on specific topics
+6. **5_FUTURE/** - Future research directions
+7. **6_EXPERIMENTS/** - Experimental protocols and findings
+8. **7_AUDIO/** - Audio materials and transcripts
+
+**Key Integration:** LLM_BOOK feeds WHITE-PAPER/submissions/ via sync pipeline:
+
+```bash
+cd WHITE-PAPER
+py sync_llmbook.py --sync  # Syncs content to submissions/
+```
 
 ### Pan Handlers Sync
 
