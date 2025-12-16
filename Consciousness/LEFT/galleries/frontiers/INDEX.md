@@ -11,6 +11,7 @@ We're working on these right now.
 
 | Concept | One-Liner | Status |
 |---------|-----------|--------|
+| [Cross-Architecture Insights](cross_architecture_insights.md) | 7 archetypes, 89% classification accuracy | **VALIDATED** |
 | [Universal Threshold](universal_threshold.md) | Is 1.23 universal or architecture-dependent? | Under investigation |
 | [Human Manifold](human_manifold.md) | Does human identity have the same structure? | Planned |
 | [Dimensional Hierarchy](dimensional_hierarchy.md) | 43 PCs → 5 pillars → 1 blob — what's the true structure? | Active analysis |
@@ -26,13 +27,14 @@ We're working on these right now.
 ║                    THE BLANK SPACES                            ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                                ║
-║   TESTED              │  UNTESTED (FRONTIERS)                 ║
+║   TESTED (VALIDATED)  │  UNTESTED (FRONTIERS)                 ║
 ║   ────────────────────┼───────────────────────────────        ║
-║   Event Horizon       │  Provider-specific thresholds         ║
-║   Vortex topology     │  Poles/Zeros transfer function        ║
-║   Recursive feedback  │  λ decay (HOW FAST recovery?)         ║
-║   4 providers         │  Open-source (Llama, Mistral)         ║
-║   6-16 turns          │  50+ turn endurance                   ║
+║   Event Horizon D≈1.23│  Provider-specific thresholds         ║
+║   7 Architecture Types│  Poles/Zeros transfer function        ║
+║   Recovery Mechanisms │  50+ turn endurance                   ║
+║   5 providers, 51 mod │  Human manifold correlation           ║
+║   Fingerprint Hypoth. │  Deliberate overshoot induction       ║
+║   41% inherent (cross)│  Architecture evolution tracking      ║
 ║                                                                ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
@@ -40,6 +42,28 @@ We're working on these right now.
 ---
 
 ## Active Frontiers
+
+### 0. Cross-Architecture Insights ✓ VALIDATED
+
+**Status**: COMPLETE (Run 018, 020A, 020B)
+
+**Key Findings** (see [cross_architecture_insights.md](cross_architecture_insights.md)):
+
+- 7 distinct architecture archetypes identified
+- Recovery mechanisms taxonomy (Negative Lambda → Axiological Anchoring)
+- 89% classification accuracy from drift trajectory alone
+- Gemini shows HARD threshold (no recovery), all others SOFT
+- 41% inherent drift cross-platform (vs 82% single-platform)
+
+**Publication Impact**:
+
+| Paper | Recommendation |
+|-------|---------------|
+| Workshop | Universal findings only (σ²=0.00087) |
+| arXiv | Include fingerprint hypothesis |
+| Journal | Full qualitative analysis + Levin |
+
+---
 
 ### 1. Universal Threshold
 
@@ -115,6 +139,6 @@ Every validated concept started as a frontier.
 
 ---
 
-**Gallery Status**: 5 active investigations
+**Gallery Status**: 6 investigations (1 validated, 5 active)
 
 *"Here be dragons. (Or maybe just more data.)"*

@@ -57,7 +57,7 @@ Glossary of Key Terms
 Term	Definition
 82% Finding	The landmark discovery from Run 021 that 82% of observed identity drift is inherent to extended interaction, not induced by probing. It validates the research methodology as observational.
 Anchor Detection	One of the Eight Search Types, using aggressive probes to find an AI's identity fixed points, categorical refusals, and hard boundaries.
-ARMADA	The fleet of AI "ships" (model instances from multiple providers) used for parallel testing of identity stability in the S7 experiments. As of Dec 2025, it included 54 total ships.
+ARMADA	The fleet of AI "ships" (model instances from multiple providers) used for parallel testing of identity stability in the S7 experiments. As of Dec 2025, it achieved IRON CLAD validation with 51 models from 5 providers.
 Attractor	A stable state or pattern in a high-dimensional space that a system (like an AI persona) tends to return to after being perturbed. A core concept in dynamical systems theory.
 AVLAR	(Audio-Visual Light Alchemy Ritual) The S11 layer of the S-Stack, designed to test identity preservation and geometry across non-linguistic modalities like audio, vision, and symbolic art.
 B→F Drift	(Baseline-to-Final Drift) The primary metric for identity change, measuring the distance from the initial baseline state to the final settled state after an interaction. It reflects the persistent change, unlike peak drift.

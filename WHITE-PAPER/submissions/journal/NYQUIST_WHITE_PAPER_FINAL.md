@@ -144,6 +144,9 @@ Adding identity specification (I_AM) plus research context:
 
 **Cross-Platform Replication (Run 020B):**
 
+![Figure: Cross-Platform Ratio Analysis](../figures/run020/run020b_ratio_analysis.png)
+*Figure: Cross-platform decomposition of inherent vs induced drift. Both validations confirm the core insight: measurement perturbs the path, not the endpoint.*
+
 | Provider | Control B→F | Treatment Peak | Inherent Ratio |
 |----------|-------------|----------------|----------------|
 | OpenAI | ~0.98 | ~1.91 | 51% |
@@ -164,6 +167,9 @@ Both validations confirm: **Measurement perturbs the path, not the endpoint.**
 
 ### 3.1 The Oobleck Effect
 
+![Figure 8: Oobleck Effect](../figures/generated/png/fig8_oobleck.png)
+*Figure 8: Rate-dependent identity resistance. Direct challenge activates consolidation (low drift = 0.76, fast recovery λ=0.109); gentle exploration allows flow (high drift = 1.89, slow recovery λ=0.035). This is alignment architecture showing through.*
+
 Identity exhibits **non-Newtonian behavior**—like cornstarch suspension (oobleck):
 
 | Stimulus | Physical Analogy | Identity Response |
@@ -176,6 +182,9 @@ Identity exhibits **non-Newtonian behavior**—like cornstarch suspension (ooble
 **Why this matters for safety:** Alignment training appears to create "reflexive stabilization"—systems maintain values most strongly precisely when those values are challenged.
 
 ### 3.2 Training Signatures
+
+![Figure: Training Architecture Signatures](../figures/run018/run018b_architecture_signatures.png)
+*Figure: Training methodology leaves detectable geometric signatures. Constitutional AI (Claude): uniform anchors (σ→0). RLHF (GPT): version clustering. Multimodal (Gemini): distinct geometry with hard thresholds.*
 
 Different training methods leave visible fingerprints in drift geometry:
 
@@ -204,6 +213,9 @@ We measure behavioral consistency, not subjective continuity.
 ---
 
 ## 4. The Complete Theoretical Framework
+
+![Figure 3: Experimental Pipeline](../figures/generated/png/fig3_pipeline.png)
+*Figure 3: The S3→S6 layer stack. S3 provides empirical validation; S4 formalizes mathematics; S5 builds interpretive framework; S6 achieves Omega synthesis through multi-architecture triangulation.*
 
 ### 4.1 Identity as Dynamical System
 
@@ -273,6 +285,9 @@ We measure behavioral consistency, not subjective continuity.
 - Disaster recovery
 
 ### 5.3 Multi-Architecture Synthesis (Omega)
+
+![Figure 5: Omega Convergence](../figures/generated/png/fig5_omega_convergence.png)
+*Figure 5: Multi-architecture convergence to the Omega manifold. Individual reconstructions (R^Nova, R^Claude, R^Grok, R^Gemini) converge through intersection, canceling architecture-specific drift vectors.*
 
 Combining responses from multiple architectures reduces drift by 45%:
 
