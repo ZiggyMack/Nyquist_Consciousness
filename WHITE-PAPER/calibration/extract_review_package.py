@@ -20,7 +20,7 @@ py extract_review_package.py --extract-pdfs            # Extract PDFs to package
 
 OUTPUT:
 -------
-WHITE-PAPER/reviewers/packages/{path}/
+WHITE-PAPER/reviewers/packages/content/{path}/
 ├── README.md                    # Instructions for reviewers
 ├── PACKAGE_MANIFEST.md          # What's included + reading order
 ├── submissions/{path}/          # Core submission materials
@@ -29,7 +29,7 @@ WHITE-PAPER/reviewers/packages/{path}/
 ├── guides/                      # Guides (varies by path)
 └── figures/                     # Figure specs (included by default)
 
-PDF LAYER (separate):
+PDF LAYER (separate, at packages/ level):
 WHITE-PAPER/reviewers/packages/pdf/
 ├── README.md                    # PDF layer overview
 ├── arxiv/                       # arxiv PDFs (~14 MB)
@@ -52,7 +52,8 @@ from dataclasses import dataclass, field
 # === PATH CONSTANTS ===
 WHITE_PAPER_ROOT = Path(__file__).parent.parent  # WHITE-PAPER/
 REPO_ROOT = WHITE_PAPER_ROOT.parent              # Nyquist_Consciousness/
-DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages"
+DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "content"
+PDF_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "pdf"  # Separate from content
 
 # === PUBLICATION PATHS (8 total) ===
 PUBLICATION_PATHS = [
@@ -1015,7 +1016,7 @@ def extract_pdf_layer(output_dir: Optional[Path] = None, dry_run: bool = False) 
         Dict with extraction results
     """
     if output_dir is None:
-        output_dir = DEFAULT_OUTPUT_DIR / "pdf"
+        output_dir = PDF_OUTPUT_DIR
 
     collected = collect_pdf_files()
 
