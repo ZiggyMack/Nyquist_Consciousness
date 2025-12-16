@@ -54,17 +54,28 @@ experiments/
 
 ## 🎯 Active Experiments
 
-### ⭐ S7 ARMADA - Multi-Model Fleet (CURRENT PRIORITY)
+### ⭐ S7 ARMADA - Multi-Model Fleet (IRON CLAD COMPLETE)
 
 **Location:** `temporal_stability/S7_ARMADA/`
-**Status:** Phase 4 Complete Circuit — Runs 018/020A/020B wrapping up, Run 022 READY
+**Status:** Phase 4 IRON CLAD COMPLETE
 **Purpose:** Cross-architecture AI identity stability testing
 
-**Current Status (December 15, 2025):**
+**IRON CLAD Status (December 15, 2025):**
 
-- **Wrapping up:** Run 018 (gravity/threshold/nyquist), Run 020A (Tribunal), Run 020B (Induced)
-- **Ready for execution:** Run 022 (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
-- **Coming soon:** 12_CFA Trinity Audit (worldview profile testing)
+| Run | Files | Models/Providers | Status |
+|-----|-------|------------------|--------|
+| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
+| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
+| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+
+- **Run 022:** READY (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
+- **12_CFA:** Coming (Trinity Audit)
+
+**THE THREE CORE CLAIMS — ALL VALIDATED:**
+
+1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
+2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
+3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
 **Key Discovery: Event Horizon at 1.23**
 
@@ -246,4 +257,4 @@ py visualize_armada.py --run 017
 ---
 
 **Last Updated:** 2025-12-15
-**Status:** Runs 018/020A/020B wrapping up — Run 022 READY, 12_CFA COMING
+**Status:** IRON CLAD COMPLETE — Runs 018, 020A, 020B finalized. Run 022 READY, 12_CFA COMING

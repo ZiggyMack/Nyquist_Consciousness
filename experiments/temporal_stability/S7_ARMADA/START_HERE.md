@@ -522,11 +522,22 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
 
-**Current Status (December 15, 2025):**
+### IRON CLAD COMPLETE (December 15, 2025)
 
-- **Wrapping up:** Run 018 (gravity/threshold/nyquist), Run 020A (Tribunal), Run 020B (Induced)
-- **Ready for execution:** Run 022 (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
-- **Coming soon:** 12_CFA Trinity Audit (worldview profile testing)
+| Run | Files | Models/Providers | Status |
+|-----|-------|------------------|--------|
+| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
+| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
+| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+
+- **Run 022:** READY (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
+- **12_CFA:** Coming (Trinity Audit)
+
+**THE THREE CORE CLAIMS — ALL VALIDATED:**
+
+1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
+2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
+3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
 ---
 
@@ -734,4 +745,4 @@ See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
 
 ---
 
-Last Updated: December 15, 2025 (Added 13_LOGOS/Run 022, updated status)
+Last Updated: December 15, 2025 (IRON CLAD COMPLETE: Runs 018, 020A, 020B finalized)

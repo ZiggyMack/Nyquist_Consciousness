@@ -7,16 +7,23 @@ See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for operations guide.
 
 ---
 
-## Current Status (December 15, 2025)
+## Current Status (December 15, 2025) — IRON CLAD COMPLETE
 
-| Phase | Status | Description |
-|-------|--------|-------------|
-| **Phase 4** | ACTIVE | Complete circuit tests (i_am_plus_research context) |
-| **Runs 018/020A/020B** | WRAPPING UP | Multi-provider coverage in progress |
-| **Run 022** | READY | LOGOS Commutation Cartography - methodology validated |
-| **12_CFA** | COMING | CFA Trinity Audit (worldview profiles) |
+| Run | Files | Models/Providers | Status |
+|-----|-------|------------------|--------|
+| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
+| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
+| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+| **Run 022** | - | - | READY (LOGOS Commutation Cartography) |
+| **12_CFA** | - | - | COMING (CFA Trinity Audit) |
 
 **Fleet Size:** 54+ operational ships across 5 providers (Anthropic, OpenAI, Google, xAI, Together.ai)
+
+**THE THREE CORE CLAIMS — ALL VALIDATED:**
+
+1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
+2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
+3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
 ---
 

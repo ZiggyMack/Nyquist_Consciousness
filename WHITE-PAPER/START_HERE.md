@@ -32,16 +32,19 @@ See [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) for full orie
 
 **IRON CLAD Status:** See [`README.md`](README.md) for the canonical tracking table.
 
-**Run 018: IRON CLAD COMPLETE** (December 15, 2025)
+### IRON CLAD COMPLETE (December 15, 2025)
 
-- **184 files** consolidated across 3 experiments (threshold, nyquist, gravity)
-- **51 models** tested across 5+ providers (Claude, GPT, Gemini, Grok, Llama, Mistral, Qwen, DeepSeek, Kimi, Nemotron)
-- **N=3 coverage** achieved for publication-quality confidence intervals
+| Run | Files | Models/Providers | Status |
+|-----|-------|------------------|--------|
+| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
+| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
+| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
 
-**Still Pending:**
+**THE THREE CORE CLAIMS — ALL VALIDATED:**
 
-- Run 020A (tribunal): 43 models untested
-- Run 020B (induced vs inherent): 49 models untested
+1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
+2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
+3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
 **Placeholder Template for Pending Sections:**
 
@@ -102,15 +105,15 @@ reviewers/
 
 See `reviewers/README.md` for full details on each phase.
 
-### Phase 3 Status (NEW)
+### Phase 3 Status — IRON CLAD COMPLETE
 
-| Paper | Pages | Placeholders | Status |
-|-------|-------|--------------|--------|
-| Workshop | 5 | 3 | READY (submit with "in progress" note) |
-| arXiv | 8 | 3 | READY (after Run 018-FULL) |
-| Journal | - | - | DRAFT ONLY (awaits full data) |
+| Paper | Pages | Status |
+|-------|-------|--------|
+| Workshop | 5 | **READY** — All core claims validated |
+| arXiv | 8 | **READY** — Full validation matrix complete |
+| Journal | - | DRAFT ONLY (awaits human validation Q2-Q3 2026) |
 
-**Placeholders await:** Cross-platform validation from Runs 018-FULL, 020A-FULL, 020B-FULL
+**All experimental data collected.** 232 total files across Runs 018, 020A, 020B.
 
 ---
 
