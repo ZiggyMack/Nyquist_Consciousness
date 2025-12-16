@@ -1,9 +1,9 @@
 # Review Package: WORKSHOP
 
-**Generated:** 2025-12-15 22:42:27
+**Generated:** 2025-12-15 22:52:56
 **Target Venue:** NeurIPS/AAAI Workshop
-**Total Size:** 92.6 KB
-**Total Files:** 13
+**Total Size:** 120.6 KB
+**Total Files:** 16
 
 ---
 
@@ -32,10 +32,11 @@ Start with these files in order:
 | blueprints/ | 1 files | 6.0 KB |
 | theory/ | 1 files | 7.8 KB |
 | guides/ | 1 files | 9.4 KB |
+| figures/ | 3 files | 28.0 KB |
 | planning/ | 1 files | 7.4 KB |
 | reviewers/ | 3 files | 28.4 KB |
 
-**Total:** 13 files, 92.6 KB
+**Total:** 16 files, 120.6 KB
 
 ---
 
@@ -62,6 +63,12 @@ Start with these files in order:
 
 - `guides\summary_statistics.md` (9.4 KB)
 
+### figures/
+
+- `figures\ascii\ascii_workshop_abstract.md` (10.0 KB)
+- `figures\ascii\ascii_workshop_contributions.md` (10.0 KB)
+- `figures\fig_workshop_combined.md` (8.0 KB)
+
 ### planning/
 
 - `planning\OPUS_REVIEW_BRIEF.md` (7.4 KB)
@@ -76,7 +83,6 @@ Start with these files in order:
 
 ## What's NOT Included
 
-- Figure specification files (use `--include-figures` to add)
 - PDF files including 14MB arxiv PDF (use `--include-pdf` to add)
 - Other publication path content
 - Large binary files

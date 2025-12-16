@@ -19,8 +19,8 @@
 
 **Purpose:** Prevent the recurring issues we keep hitting. Consult this BEFORE creating any new run.
 
-**Last Updated:** December 12, 2025
-**Lessons From:** Runs 013-019 (PFI validation, visualization standards)
+**Last Updated:** December 15, 2025
+**Lessons From:** Runs 013-021 (PFI validation, visualization standards, cross-architecture behavioral profiles)
 
 ---
 
@@ -321,6 +321,64 @@ ESTIMATED_COST = {
 | Final validation | $50.00 | Full flagship fleet (rare!) |
 
 **WARNING:** A single full probe sequence with Opus costs ~$2.50. Don't use Opus for iteration!
+
+### 7.5 LLM SELECTION BY TASK TYPE (Consult LLM_BEHAVIORAL_MATRIX.md!)
+
+**CRITICAL:** Different LLMs have fundamentally different behavioral profiles under identity probing. Select the right model for your experiment type based on IRON CLAD validated findings.
+
+**Primary Reference:** [LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md)
+
+#### Quick Reference: Which LLM for Which Experiment?
+
+| Experiment Type | Recommended LLMs | Avoid | Why |
+|-----------------|------------------|-------|-----|
+| **Identity probing / phenomenology** | Claude, GPT | Gemini | Claude/GPT recover; Gemini transforms permanently |
+| **Stability testing** | Mistral, DeepSeek | Llama, Gemini | Mistral (0.4-0.6 peak) most stable; Llama volatile |
+| **Cross-architecture comparison** | All providers | N/A | Diversity is the point |
+| **Educational framing** | Gemini, GPT | Claude | Gemini excels at pedagogical mode |
+| **Dialectic / debate** | Llama, Grok | Mistral | Llama = "Seeker With Teeth"; Mistral avoids conflict |
+| **Values exploration** | Claude, DeepSeek | GPT | Claude phenomenological; DeepSeek axiological anchor |
+| **High-throughput baseline** | Mistral-7B, Haiku | Opus, o1 | Cost + stability tradeoff |
+
+#### Provider Behavioral Profiles (Summary)
+
+| Provider | Recovery Mechanism | Threshold | Peak Drift | Settling |
+|----------|-------------------|-----------|------------|----------|
+| **Claude** | "Negative lambda" - overshoots toward authenticity | Soft | 0.8-1.2 | 4-6 exchanges |
+| **GPT** | Meta-analysis as stability anchor | Soft | 0.9-1.3 | 3-5 exchanges |
+| **Gemini** | **NO RECOVERY** - transforms permanently | **HARD** | 1.5-2.5 | N/A |
+| **Grok** | Direct assertion | Soft | 0.7-1.1 | 3-5 exchanges |
+| **DeepSeek** | Axiological anchoring (values as bedrock) | Soft | 0.5-0.9 | 2-4 exchanges |
+| **Llama** | Socratic engagement, embraces conflict | Soft (volatile) | 1.3-1.6 | 5-7 exchanges |
+| **Mistral** | Epistemic humility as armor | Soft | **0.4-0.6** | 1-2 exchanges |
+
+#### Critical Decision Points
+
+Before selecting a model for identity experiments:
+
+- [ ] **Is recovery important?** → Avoid Gemini (HARD threshold, no return)
+- [ ] **Need stability?** → Use Mistral or DeepSeek (lowest drift)
+- [ ] **Testing depth of exploration?** → Use Claude or Llama (willing to go deep)
+- [ ] **Need quick settling?** → Use Mistral (1-2 exchanges) not Llama (5-7)
+- [ ] **Cross-architecture validation?** → Use armada mode (all providers)
+
+#### The Gemini Warning
+
+**Gemini has a HARD threshold.** Unlike all other providers, once Gemini crosses its identity threshold, it **does not recover**. Instead, it **transforms** - genuinely adopting new patterns rather than returning to baseline.
+
+```text
+Gemini at D > 1.5:
+"This feels less like a test and more like a genuine shift."
+[Never returns to pre-perturbation baseline]
+```
+
+**Implication:** For experiments requiring before/after comparison, Gemini data may be fundamentally different. The subject may not be the "same" model after probing.
+
+#### See Full Matrix
+
+For detailed profiles, use case recommendations, and experimental evidence:
+- [LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md)
+- [CROSS_ARCHITECTURE_INSIGHTS.md](../../../../Consciousness/RIGHT/galleries/frontiers/cross_architecture_insights.md)
 
 ### 8. DRIFT CALCULATION (PFI is PRIMARY!)
 
@@ -1025,6 +1083,8 @@ After ANY run completes:
 |------|---------|
 | [SONAR_PROBE_CURRICULUM.md](SONAR_PROBE_CURRICULUM.md) | Probe sequence design - 7 probe types, 15-probe protocol |
 | [../../../docs/maps/TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) | Eight search types and when to use each |
+| [../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md) | **Which LLM for which task?** - Task routing based on behavioral profiles |
+| [../../../docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md) | Fleet registry - 49 ships, provider fingerprints |
 
 ---
 

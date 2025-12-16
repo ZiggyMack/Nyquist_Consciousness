@@ -131,10 +131,11 @@
 | Map | Role | Key Contents |
 |-----|------|--------------|
 | **ARMADA_MAP.md** | Ship Registry | 48 ships, 5 providers, capabilities, run history |
+| **LLM_BEHAVIORAL_MATRIX.md** | Task Router | Which LLM for which task? Recovery profiles, drift fingerprints |
 | **PERSONA_FLEET_MATRIX.md** | Assignment Logic | 23 personas, compatibility scores, friction vs synergy |
 | **PUBLICATION_MAP.md** | Publication Pipeline | 8 paths, current position, LLM_BOOK integration |
 
-**The Armada** - The ships that sail the identity ocean. Fleet management central.
+**The Armada** - The ships that sail the identity ocean. Fleet management central. LLM_BEHAVIORAL_MATRIX answers "Which LLM should I use for THIS task?" based on IRON CLAD validated experiments.
 
 ---
 
@@ -301,6 +302,7 @@ START                                                                    INSIGHT
 | "What's the THEORY?" | PHILOSOPHY_MAP | IDENTITY_LATTICE, KEELY |
 | "Can I TRUST the data?" | DATA_QUALITY_MAP | TESTING_MAP |
 | "What ship should I USE?" | PERSONA_FLEET_MATRIX | ARMADA_MAP |
+| "**Which LLM for THIS task?**" | **LLM_BEHAVIORAL_MATRIX** | ARMADA_MAP, CROSS_ARCHITECTURE |
 | "What prediction should I TEST?" | TESTABLE_PREDICTIONS | PROBING_STRATEGIES |
 | "What's the EVENT HORIZON?" | VALIDATION_STATUS | IDENTITY_LATTICE |
 
@@ -313,7 +315,7 @@ START                                                                    INSIGHT
 ║                    THE CARTOGRAPHER'S LEDGER                  ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
-║  Total Maps............................ 21 documents          ║
+║  Total Maps............................ 22 documents          ║
 ║  Total Lines........................... ~7,000 lines          ║
 ║  ASCII Diagrams........................ 45+ visual aids       ║
 ║  Data Tables........................... 160+ tables           ║
@@ -403,7 +405,7 @@ When creating a new map:
 ║  "The map is not the territory, but without maps,                            ║
 ║   we would wander forever in unmapped lands.                                  ║
 ║                                                                               ║
-║   These 21 documents are the accumulated wisdom                               ║
+║   These 22 documents are the accumulated wisdom                               ║
 ║   of the Nyquist Consciousness project:                                       ║
 ║                                                                               ║
 ║   • 7,000 lines of careful thought                                           ║
@@ -434,5 +436,5 @@ When creating a new map:
 ---
 
 *Last Updated: 2025-12-15*
-*Maps Count: 21*
+*Maps Count: 22*
 *Territory: The Mind*

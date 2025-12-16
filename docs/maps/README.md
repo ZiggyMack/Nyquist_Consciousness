@@ -13,7 +13,8 @@
 | See where we are in research | [VALIDATION_STATUS.md](VALIDATION_STATUS.md) | Layer-by-layer progress |
 | Know what's validated vs planned | [NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md) | S0-S77 complete stack |
 | Find all testable predictions | [TESTABLE_PREDICTIONS_MATRIX.md](TESTABLE_PREDICTIONS_MATRIX.md) | 46 predictions with status |
-| Understand the S7 ARMADA fleet | [ARMADA_MAP.md](ARMADA_MAP.md) | 48 ships, 29+ runs |
+| Understand the S7 ARMADA fleet | [ARMADA_MAP.md](ARMADA_MAP.md) | 49 ships, 29+ runs |
+| **Choose the right LLM for a task** | [LLM_BEHAVIORAL_MATRIX.md](LLM_BEHAVIORAL_MATRIX.md) | **Task routing, recovery profiles** |
 | Check S-layer completion | [STACKUP_MAP.md](STACKUP_MAP.md) | Layer definitions + status |
 | Design an experiment | [PROBING_STRATEGIES.md](PROBING_STRATEGIES.md) | 7 probe types + when to use |
 | Assign personas to ships | [PERSONA_FLEET_MATRIX.md](PERSONA_FLEET_MATRIX.md) | Compatibility scores |

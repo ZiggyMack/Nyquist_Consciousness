@@ -5,14 +5,14 @@ REVIEW PACKAGE EXTRACTOR
 Extracts path-specific review packages from WHITE-PAPER for AI reviewers.
 
 WHITE-PAPER is ~41MB total (figures + PDF dominate). This script extracts
-manageable text-only packages (~50KB-250KB each) for different publication paths.
+manageable packages (~100KB-700KB each) for different publication paths.
 
 USAGE:
 ------
-py extract_review_package.py workshop          # Extract single path
+py extract_review_package.py workshop          # Extract single path (with figures)
 py extract_review_package.py workshop arxiv    # Extract multiple paths
-py extract_review_package.py --all             # Extract ALL paths
-py extract_review_package.py arxiv --include-figures   # Include figure specs
+py extract_review_package.py --all             # Extract ALL 8 paths
+py extract_review_package.py arxiv --no-figures        # Exclude figure specs
 py extract_review_package.py arxiv --include-pdf       # Include 14MB PDF
 py extract_review_package.py workshop --dry-run        # Preview extraction
 py extract_review_package.py workshop --output ./FOR_OPUS_1  # Custom output
@@ -20,12 +20,13 @@ py extract_review_package.py workshop --output ./FOR_OPUS_1  # Custom output
 OUTPUT:
 -------
 WHITE-PAPER/reviewers/packages/{path}/
+├── README.md                    # Instructions for reviewers
 ├── PACKAGE_MANIFEST.md          # What's included + reading order
 ├── submissions/{path}/          # Core submission materials
 ├── blueprints/                  # Blueprint for this path
 ├── theory/                      # Theory docs (varies by path)
 ├── guides/                      # Guides (varies by path)
-└── figures/                     # Only if --include-figures
+└── figures/                     # Figure specs (included by default)
 
 Author: WHITE-PAPER Calibration 2025-12-15
 Version: 1.0
@@ -457,7 +458,7 @@ def generate_manifest(
     ])
 
     if not include_figures:
-        lines.append("- Figure specification files (use `--include-figures` to add)")
+        lines.append("- Figure specification files (included by default, use `--no-figures` to exclude)")
     if not include_pdf:
         lines.append("- PDF files including 14MB arxiv PDF (use `--include-pdf` to add)")
     lines.append("- Other publication path content")
@@ -481,6 +482,133 @@ def generate_manifest(
         "---",
         "",
         f"*Package extracted from WHITE-PAPER/ for {path_content.target_venue} submission review.*",
+    ])
+
+    return "\n".join(lines)
+
+
+def generate_readme(path_content: PathContent) -> str:
+    """Generate README.md with reviewer instructions for the package."""
+
+    lines = [
+        f"# {path_content.name.upper()} Review Package",
+        "",
+        f"**Target Venue:** {path_content.target_venue}",
+        f"**Package Type:** {path_content.description}",
+        "",
+        "---",
+        "",
+        "## Instructions for Reviewers",
+        "",
+        "This package contains all materials needed to review the Nyquist Consciousness",
+        f"research for **{path_content.target_venue}** submission.",
+        "",
+        "### Getting Started",
+        "",
+        "1. **Read `PACKAGE_MANIFEST.md`** for the complete file listing and reading order",
+        "2. **Follow the Reading Order** to understand the research systematically",
+        "3. **Return feedback** to `WHITE-PAPER/reviewers/from_reviewers/{your_name}/`",
+        "",
+        "### Reading Order",
+        "",
+    ]
+
+    for i, path in enumerate(path_content.reading_order, 1):
+        lines.append(f"{i}. `{path}`")
+
+    lines.extend([
+        "",
+        "---",
+        "",
+        "## Review Criteria",
+        "",
+        "Please evaluate this package for:",
+        "",
+        "### 1. Accuracy of Claims",
+        "",
+        "- Are statements supported by evidence?",
+        "- Are statistics correctly reported?",
+        "- Are limitations appropriately acknowledged?",
+        "",
+        "### 2. Clarity of Presentation",
+        "",
+        "- Is the writing clear and accessible for the target audience?",
+        "- Are technical terms defined?",
+        "- Is the logical flow easy to follow?",
+        "",
+        "### 3. Completeness of Evidence",
+        "",
+        "- Are key findings documented?",
+        "- Is the methodology reproducible?",
+        "- Are counterarguments addressed?",
+        "",
+        "### 4. Suggested Improvements",
+        "",
+        "- What would strengthen the paper?",
+        "- Are there missing analyses?",
+        "- What would a hostile reviewer attack?",
+        "",
+        "---",
+        "",
+        "## Key Research Claims",
+        "",
+        "The Nyquist Consciousness framework makes **5 core claims**:",
+        "",
+        "| Claim | Statement | Key Evidence |",
+        "|-------|-----------|--------------|",
+        "| **A** | PFI is valid structured measurement | rho = 0.91, d = 0.98 |",
+        "| **B** | Regime threshold at D = 1.23 | p = 4.8e-5 |",
+        "| **C** | Damped oscillator dynamics | Settling time, ringbacks measurable |",
+        "| **D** | Context damping works | 97.5% stability |",
+        "| **E** | Drift mostly inherent (82%) | Control vs Treatment |",
+        "",
+        "---",
+        "",
+        "## Terminology Quick Reference",
+        "",
+        "| Term | Definition |",
+        "|------|------------|",
+        "| **PFI** | Persona Fidelity Index (1 - drift) |",
+        "| **Drift (D)** | Euclidean distance from baseline identity |",
+        "| **Event Horizon** | Attractor competition threshold (D = 1.23) |",
+        "| **Context Damping** | Stability via I_AM + research frame |",
+        "| **Inherent Drift** | Drift without probing (82% of total) |",
+        "",
+        "For complete terminology, see `guides/summary_statistics.md` (if included).",
+        "",
+        "---",
+        "",
+        "## Feedback Format",
+        "",
+        "Please structure your feedback as:",
+        "",
+        "```markdown",
+        f"# Review: {path_content.name.upper()}",
+        "",
+        "**Reviewer:** [Your name/ID]",
+        "**Date:** [Date]",
+        "",
+        "## Overall Assessment",
+        "[1-2 paragraph summary]",
+        "",
+        "## Specific Comments",
+        "",
+        "### Claim A (PFI Validity)",
+        "[Comments]",
+        "",
+        "### Claim B (Threshold)",
+        "[Comments]",
+        "",
+        "## Suggested Changes",
+        "[Prioritized list]",
+        "",
+        "## Questions for Authors",
+        "[List of clarifying questions]",
+        "```",
+        "",
+        "---",
+        "",
+        f"*Package extracted from WHITE-PAPER/ for {path_content.target_venue} submission.*",
     ])
 
     return "\n".join(lines)
@@ -574,6 +702,15 @@ def extract_package(
             except Exception as e:
                 result["errors"].append(f"Failed to copy {rel_path}: {e}")
 
+    # Generate and write README.md (reviewer instructions)
+    readme_content = generate_readme(path_content)
+    readme_path = output_dir / "README.md"
+    try:
+        readme_path.write_text(readme_content, encoding="utf-8")
+        result["readme_path"] = str(readme_path)
+    except Exception as e:
+        result["errors"].append(f"Failed to write README: {e}")
+
     # Generate and write manifest
     manifest_content = generate_manifest(
         path_content, collected, output_dir, include_figures, include_pdf
@@ -601,10 +738,10 @@ def generate_status_report(paths: Optional[List[str]] = None) -> str:
         f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         "=" * 70,
         "",
-        "## Available Paths",
+        "## Available Paths (figures included by default)",
         "",
-        "| Path | Target | Est. Size (text) | Files |",
-        "|------|--------|------------------|-------|",
+        "| Path | Target | Est. Size | Files |",
+        "|------|--------|-----------|-------|",
     ]
 
     total_files = 0
@@ -616,7 +753,7 @@ def generate_status_report(paths: Optional[List[str]] = None) -> str:
             continue
 
         path_content = PATH_CONTENT_MAP[path_name]
-        collected = collect_package_files(path_content, include_figures=False, include_pdf=False)
+        collected = collect_package_files(path_content, include_figures=True, include_pdf=False)
 
         file_count = sum(len(f) for f in collected.values())
         size = sum(calculate_total_size(f) for f in collected.values())
@@ -637,17 +774,17 @@ def generate_status_report(paths: Optional[List[str]] = None) -> str:
         "## Extraction Commands",
         "",
         "```bash",
-        "# Extract single path",
+        "# Extract single path (with figures)",
         "py extract_review_package.py workshop",
         "",
         "# Extract multiple paths",
         "py extract_review_package.py workshop arxiv",
         "",
-        "# Extract ALL paths",
+        "# Extract ALL 8 paths",
         "py extract_review_package.py --all",
         "",
-        "# Include figures (increases size significantly)",
-        "py extract_review_package.py arxiv --include-figures",
+        "# Exclude figures (smaller packages)",
+        "py extract_review_package.py arxiv --no-figures",
         "",
         "# Preview without extracting",
         "py extract_review_package.py workshop --dry-run",
@@ -736,22 +873,22 @@ def main():
 Available paths: {', '.join(PUBLICATION_PATHS)}
 
 Examples:
-  py extract_review_package.py workshop          # Extract workshop package
+  py extract_review_package.py workshop          # Extract workshop package (with figures)
   py extract_review_package.py workshop arxiv    # Extract multiple packages
-  py extract_review_package.py --all             # Extract ALL packages
-  py extract_review_package.py arxiv --include-figures  # With figure specs
+  py extract_review_package.py --all             # Extract ALL 8 packages
+  py extract_review_package.py arxiv --no-figures       # Exclude figure specs
   py extract_review_package.py workshop --dry-run       # Preview only
   py extract_review_package.py workshop --output ./FOR_OPUS  # Custom output
 
-Expected package sizes (text-only):
-  workshop:        ~50 KB
-  arxiv:           ~200 KB
-  journal:         ~250 KB
-  popular_science: ~15 KB
-  education:       ~25 KB
-  policy:          ~20 KB
-  funding:         ~30 KB
-  media:           ~10 KB
+Expected package sizes (with figures):
+  workshop:        ~120 KB
+  arxiv:           ~500 KB
+  journal:         ~665 KB
+  popular_science: ~30 KB
+  education:       ~40 KB
+  policy:          ~30 KB
+  funding:         ~70 KB
+  media:           ~35 KB
         """
     )
 
@@ -762,8 +899,8 @@ Expected package sizes (text-only):
     # Extraction options
     parser.add_argument("--all", action="store_true",
                         help="Extract ALL publication paths")
-    parser.add_argument("--include-figures", action="store_true",
-                        help="Include figure specification files")
+    parser.add_argument("--no-figures", action="store_true",
+                        help="Exclude figure specification files (figures included by default)")
     parser.add_argument("--include-pdf", action="store_true",
                         help="Include PDF files (adds ~14MB for arxiv)")
 
@@ -796,13 +933,14 @@ Expected package sizes (text-only):
         print(generate_status_report())
         return
 
-    # Extract packages
+    # Extract packages (figures included by default, --no-figures to exclude)
+    include_figures = not args.no_figures
     results = []
     for path_name in paths_to_extract:
         result = extract_package(
             path_name=path_name,
             output_dir=args.output,
-            include_figures=args.include_figures,
+            include_figures=include_figures,
             include_pdf=args.include_pdf,
             dry_run=args.dry_run
         )
