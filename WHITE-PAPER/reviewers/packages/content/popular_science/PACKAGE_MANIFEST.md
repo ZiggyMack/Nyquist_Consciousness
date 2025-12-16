@@ -1,6 +1,6 @@
 # Review Package: POPULAR_SCIENCE
 
-**Generated:** 2025-12-15 22:52:56
+**Generated:** 2025-12-16 00:21:52
 **Target Venue:** The Atlantic / Wired / Scientific American
 **Total Size:** 29.2 KB
 **Total Files:** 4

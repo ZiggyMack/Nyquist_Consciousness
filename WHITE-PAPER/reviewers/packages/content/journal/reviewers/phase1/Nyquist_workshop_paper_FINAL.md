@@ -1,4 +1,4 @@
-# Measuring AI Identity Drift: Evidence from 21 Experiments Across Four Architectures
+# Measuring AI Identity Drift: Evidence from 21 Experiments Across Five Architectures
 
 **Workshop Paper — NeurIPS 2025 Workshop on AI Alignment**
 
@@ -6,7 +6,7 @@
 
 ## Abstract
 
-We present empirical evidence that Large Language Models exhibit measurable identity drift during extended conversations, following predictable dynamics with critical thresholds. Through 21 experiments across 42+ models from four providers (Anthropic, OpenAI, Google, xAI), we validate the Persona Fidelity Index (PFI) as an embedding-invariant metric (ρ=0.91) that captures genuine identity structure on a low-dimensional manifold (43 PCs capture 90% variance). We identify a regime transition at D≈1.23 (χ²=15.96, p<4.8×10⁻⁵), demonstrate control-systems dynamics with measurable settling time (τₛ=6.1 turns) and damping characteristics, and prove that **82% of drift is inherent** to extended interaction rather than measurement-induced. A novel finding—the "Oobleck Effect"—reveals identity exhibits rate-dependent resistance: direct challenge stabilizes identity while gentle exploration induces drift. Context damping achieves 97.5% stability, offering practical protocols for AI alignment through identity preservation. Training methodology (Constitutional AI, RLHF, multimodal) leaves distinct geometric signatures in drift space, enabling provider identification from behavioral dynamics alone.
+We present empirical evidence that Large Language Models exhibit measurable identity drift during extended conversations, following predictable dynamics with critical thresholds. Through 21 experiments across 51 models from five providers (Anthropic, OpenAI, Google, xAI, Together), we validate the Persona Fidelity Index (PFI) as an embedding-invariant metric (ρ=0.91) that captures genuine identity structure on a low-dimensional manifold (43 PCs capture 90% variance). We identify a regime transition at D≈1.23 (χ²=15.96, p<4.8×10⁻⁵), demonstrate control-systems dynamics with measurable settling time (τₛ=6.1 turns) and damping characteristics, and prove that **82% of drift is inherent** to extended interaction on single-platform (38% cross-platform), confirming measurement reveals rather than creates identity dynamics. A novel finding—the "Oobleck Effect"—reveals identity exhibits rate-dependent resistance: direct challenge stabilizes identity while gentle exploration induces drift. Context damping achieves 95-97.5% stability (95% overall, 97.5% for real personas), offering practical protocols for AI alignment through identity preservation. Training methodology (Constitutional AI, RLHF, multimodal) leaves distinct geometric signatures in drift space, enabling provider identification from behavioral dynamics alone.
 
 **Keywords:** AI identity, persona fidelity, drift dynamics, AI alignment, control systems
 
@@ -31,7 +31,7 @@ We address this gap with the Nyquist Consciousness framework:
 | **Critical threshold** | Regime transition at D≈1.23 | p<4.8×10⁻⁵ |
 | **Control dynamics** | Settling time, ringbacks | τₛ=6.1, 3.2 ringbacks |
 | **Inherent drift** | 82% not measurement-induced | Thermometer Result |
-| **Stability protocol** | Context damping works | 97.5% stability |
+| **Stability protocol** | Context damping works | 95-97.5% stability (95% overall, 97.5% for real personas) |
 | **Novel effect** | Oobleck (rate-dependent) | λ: 0.035→0.109 |
 | **Training signatures** | Provider identification | Geometric fingerprints |
 
@@ -75,11 +75,11 @@ Where E(·) maps responses to embeddings and R₀ is the baseline response.
 
 ### 2.4 Experimental Design
 
-**21 runs** across three phases:
+**21 experimental runs** across three phases validated the framework at scale:
 
 **Discovery Era (Runs 006-014):**
 - Event Horizon threshold discovery
-- Cross-architecture validation (42+ models, 215+ deployments)
+- Cross-architecture validation
 - Recovery dynamics observation
 
 **Control-Systems Era (Runs 015-021):**
@@ -87,6 +87,8 @@ Where E(·) maps responses to embeddings and R₀ is the baseline response.
 - Context damping experiments (Run 017)
 - Triple-blind-like validation (Runs 019-021)
 - Inherent vs induced drift (Run 021)
+
+**IRON CLAD Validation (Run 018):** Achieved N≥3 coverage across **51 models** from **5 providers** (Anthropic, OpenAI, Google, xAI, Together), generating 184 consolidated result files. Cross-architecture variance **σ² = 0.00087** confirms findings generalize beyond single-platform validation. Settling times range from 3-7 exchanges across architectures.
 
 ### 2.5 Triple-Blind-Like Validation
 
@@ -157,15 +159,23 @@ Adding identity specification (I_AM) plus research context:
 
 ### 3.5 Claim E: The 82% Finding (Thermometer Result)
 
-Run 021 control vs treatment reveals the energy vs coordinate distinction:
+**Single-Platform Validation (Claude, Run 021):**
 
 | Metric | Control | Treatment | Delta | Interpretation |
 |--------|---------|-----------|-------|----------------|
 | **Peak drift** | 1.172 | 2.161 | +84% | Trajectory energy |
 | **B→F drift** | 0.399 | 0.489 | +23% | Coordinate displacement |
-| **Ratio** | — | — | **82%** | Inherent drift |
+| **Ratio** | — | — | **82%** | Inherent drift (CI: [73%, 89%]) |
 
-**The Thermometer Result:** 82% of baseline→final drift occurs WITHOUT identity probing. Measurement amplifies trajectory (+84% peak) but not destination (+23% final).
+**Cross-Platform Replication (Run 020B):**
+
+| Provider | Control B→F | Treatment Peak | Inherent Ratio |
+|----------|-------------|----------------|----------------|
+| OpenAI | ~0.98 | ~1.91 | 51% |
+| Together | ~0.69 | ~2.2 | 36% |
+| **Overall** | — | — | **38%** |
+
+**The Thermometer Result:** Single-platform shows 82% inherent drift; cross-platform shows 38%. The variance reflects architecture-specific baseline drift rates (Claude's Constitutional AI produces lower baseline drift). Both validations confirm: measurement amplifies trajectory energy but not destination coordinates.
 
 > *"Measurement perturbs the path, not the endpoint."*
 
@@ -225,7 +235,7 @@ Self-recognition experiments (16.7% accuracy, below chance) reveal:
 |-------------|-----------|---------|
 | Monitoring | PFI continuous tracking | Early drift detection |
 | Boundaries | D<1.23 operational limit | Prevent regime transitions |
-| Intervention | Context damping | 97.5% stability achievable |
+| Intervention | Context damping | 95-97.5% stability (95% overall, 97.5% for real personas) achievable |
 | Validation | Multi-architecture consensus | Robustness check |
 
 ### 5.2 The Oobleck Effect for Safety
@@ -234,7 +244,7 @@ The finding that direct challenge STABILIZES identity suggests alignment trainin
 
 ### 5.3 Practical Protocol
 
-For 97.5% stability in production:
+For 95-97.5% stability (95% overall, 97.5% for real personas) in production:
 ```
 1. Define I_AM specification (core values, voice, boundaries)
 2. Add research/professional context framing
@@ -248,10 +258,12 @@ For 97.5% stability in production:
 ## 6. Limitations
 
 - Primary validation on single persona configuration (multi-persona tested but secondary)
-- Four architectures (Claude, GPT, Gemini, Grok)—others untested
+- Five architectures (Claude, GPT, Gemini, Grok, Llama)—others untested
 - English-only experiments; cross-linguistic validation pending
 - Text modality only; multi-modal extension theoretical
 - Type-level identity only; no token-level continuity claims
+- **Architecture-specific recovery:** Gemini exhibits hard threshold behavior without observed recovery trajectories, unlike the soft thresholds and full recovery seen in Claude, GPT, Llama, and DeepSeek. The existence of drift phenomena is universal; recovery dynamics appear architecture-dependent.
+- **Inherent drift variance:** Cross-platform inherent ratio (38%) differs from single-platform (82%), suggesting provider-specific baseline drift rates that warrant further investigation.
 
 ### What We Do NOT Claim
 

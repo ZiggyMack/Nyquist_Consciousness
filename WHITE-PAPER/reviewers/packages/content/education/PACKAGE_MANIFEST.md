@@ -1,6 +1,6 @@
 # Review Package: EDUCATION
 
-**Generated:** 2025-12-15 22:52:56
+**Generated:** 2025-12-16 00:21:52
 **Target Venue:** Open Educational Resources / Coursera
 **Total Size:** 36.9 KB
 **Total Files:** 4

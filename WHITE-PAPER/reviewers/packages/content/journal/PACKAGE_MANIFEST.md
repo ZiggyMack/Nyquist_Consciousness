@@ -1,9 +1,9 @@
 # Review Package: JOURNAL
 
-**Generated:** 2025-12-15 23:16:48
+**Generated:** 2025-12-16 00:21:52
 **Target Venue:** Nature Machine Intelligence
-**Total Size:** 670.2 KB
-**Total Files:** 46
+**Total Size:** 5.7 MB
+**Total Files:** 76
 
 ---
 
@@ -31,13 +31,13 @@ Start with these files in order:
 | submissions/ | 3 files | 36.3 KB |
 | blueprints/ | 2 files | 18.4 KB |
 | theory/ | 4 files | 56.4 KB |
-| guides/ | 3 files | 25.9 KB |
+| guides/ | 4 files | 36.0 KB |
 | references/ | 2 files | 21.3 KB |
-| figures/ | 16 files | 134.3 KB |
+| figures/ | 45 files | 5.2 MB |
 | planning/ | 2 files | 13.5 KB |
-| reviewers/ | 14 files | 364.1 KB |
+| reviewers/ | 14 files | 368.5 KB |
 
-**Total:** 46 files, 670.2 KB
+**Total:** 76 files, 5.7 MB
 
 ---
 
@@ -66,6 +66,7 @@ Start with these files in order:
 - `guides\MANIFEST.md` (6.8 KB)
 - `guides\REPRODUCIBILITY_README.md` (9.7 KB)
 - `guides\summary_statistics.md` (9.4 KB)
+- `guides\UNIFIED_STATISTICS_REFERENCE.md` (10.0 KB)
 
 ### references/
 
@@ -90,6 +91,35 @@ Start with these files in order:
 - `figures\fig7_context_damping.md` (8.3 KB)
 - `figures\fig8_oobleck.md` (10.5 KB)
 - `figures\fig_workshop_combined.md` (8.0 KB)
+- `figures\run018\run018a_threshold_validation.png` (125.5 KB)
+- `figures\run018\run018b_architecture_signatures.png` (102.7 KB)
+- `figures\run018\run018c_nyquist_sampling.png` (77.7 KB)
+- `figures\run018\run018d_gravity_dynamics.png` (115.7 KB)
+- `figures\run018\run018e_model_breakdown.png` (325.1 KB)
+- `figures\run018\run018e_model_table.md` (2.9 KB)
+- `figures\run018\run018f_provider_variance.png` (203.3 KB)
+- `figures\run018\run018f_variance_table.md` (1.0 KB)
+- `figures\run020\cross_platform_summary.png` (253.0 KB)
+- `figures\run020\run020_summary.md` (1.4 KB)
+- `figures\run020\run020a_exchange_depth.png` (121.6 KB)
+- `figures\run020\run020a_phase_breakdown.png` (173.9 KB)
+- `figures\run020\run020a_provider_comparison.png` (139.3 KB)
+- `figures\run020\run020a_trajectory_overlay.png` (244.1 KB)
+- `figures\run020\run020b_control_treatment.png` (141.5 KB)
+- `figures\run020\run020b_peak_final_scatter.png` (70.6 KB)
+- `figures\run020\run020b_ratio_analysis.png` (103.0 KB)
+- `figures\run020\run020b_trajectory_compare.png` (84.3 KB)
+- `figures\run020\run_020a_gemini.png` (235.5 KB)
+- `figures\run020\run_020b_grok.png` (238.0 KB)
+- `figures\suggested\png\S7_context_damping_effect.png` (234.4 KB)
+- `figures\suggested\png\S7_discriminant_analysis.png` (170.5 KB)
+- `figures\suggested\png\S7_pillar_effectiveness.png` (177.1 KB)
+- `figures\suggested\png\S7_recovery_trajectories.png` (876.0 KB)
+- `figures\suggested\png\S7_ringback_vs_settling.png` (274.2 KB)
+- `figures\suggested\png\S7_settling_time_distribution.png` (106.7 KB)
+- `figures\suggested\png\S7_stability_scatter.png` (216.4 KB)
+- `figures\suggested\png\S7_summary_dashboard.png` (349.2 KB)
+- `figures\suggested\README.md` (2.6 KB)
 
 ### planning/
 
@@ -102,10 +132,10 @@ Start with these files in order:
 - `reviewers\phase1\Code_claude_workshop_addendum.md` (15.2 KB)
 - `reviewers\phase1\FINAL_VALIDATION_CHECKLIST.md` (9.4 KB)
 - `reviewers\phase1\NOVA_S7_REVIEW.md` (180.5 KB)
-- `reviewers\phase1\NYQUIST_ARXIV_PAPER_FINAL.md` (26.9 KB)
-- `reviewers\phase1\NYQUIST_WHITE_PAPER_FINAL.md` (16.7 KB)
+- `reviewers\phase1\NYQUIST_ARXIV_PAPER_FINAL.md` (29.1 KB)
+- `reviewers\phase1\NYQUIST_WHITE_PAPER_FINAL.md` (17.6 KB)
 - `reviewers\phase1\Nyquist_workshop_paper.md` (5.2 KB)
-- `reviewers\phase1\Nyquist_workshop_paper_FINAL.md` (13.6 KB)
+- `reviewers\phase1\Nyquist_workshop_paper_FINAL.md` (14.8 KB)
 - `reviewers\phase2\review_circulation_package.md` (7.7 KB)
 - `reviewers\phase2\Submission_ready_paper.md` (36.3 KB)
 - `reviewers\phase2\Workshop_paper_submission.md` (9.5 KB)

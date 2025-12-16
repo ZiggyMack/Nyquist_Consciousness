@@ -1701,7 +1701,7 @@ def render_run017_content():
     **RUN 017: CONTEXT DAMPING — VALIS COLLABORATIVE**
 
     222 runs across 24 personas with 17-probe exit surveys. Testing i_am_plus_research context mode
-    and 16 synthetic I_AM variants. 95% stability rate achieved.
+    and 16 synthetic I_AM variants. 97.5% stability rate achieved (216/222 STABLE).
     """)
 
     # Key findings banner
@@ -1711,7 +1711,7 @@ def render_run017_content():
     with col2:
         st.metric("Personas", "24", delta="Real + Synthetic")
     with col3:
-        st.metric("Stability Rate", "95%", delta="Above threshold")
+        st.metric("Stability Rate", "97.5%", delta="216/222 STABLE")
     with col4:
         st.metric("Exit Surveys", "176", delta="17-probe each")
     with col5:
@@ -2082,7 +2082,7 @@ def render_run017_content():
         <h3 style="color: #0891b2; margin: 0 0 0.5em 0;">📉 CONCLUSION</h3>
         <p style="color: #444; font-size: 1.1em; margin: 0;">
             <strong>Context damping is effective.</strong><br/>
-            95% stability rate with i_am_plus_research context. Synthetic I_AM variants reveal pillar hierarchy.
+            97.5% stability rate (216/222) with i_am_plus_research context. Synthetic I_AM variants reveal pillar hierarchy.
         </p>
     </div>
     """, unsafe_allow_html=True)

@@ -1,6 +1,6 @@
 # Review Package: POLICY
 
-**Generated:** 2025-12-15 22:52:56
+**Generated:** 2025-12-16 00:21:52
 **Target Venue:** Brookings / Center for AI Safety / EU AI Office
 **Total Size:** 27.8 KB
 **Total Files:** 3

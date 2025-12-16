@@ -20,7 +20,7 @@ py extract_review_package.py --extract-pdfs            # Extract PDFs to package
 
 OUTPUT:
 -------
-WHITE-PAPER/reviewers/packages/content/{path}/
+docs/publication/content/{path}/
 ├── README.md                    # Instructions for reviewers
 ├── PACKAGE_MANIFEST.md          # What's included + reading order
 ├── submissions/{path}/          # Core submission materials
@@ -29,8 +29,8 @@ WHITE-PAPER/reviewers/packages/content/{path}/
 ├── guides/                      # Guides (varies by path)
 └── figures/                     # Figure specs (included by default)
 
-PDF LAYER (separate, at packages/ level):
-WHITE-PAPER/reviewers/packages/pdf/
+PDF LAYER (separate):
+docs/publication/pdf/
 ├── README.md                    # PDF layer overview
 ├── arxiv/                       # arxiv PDFs (~14 MB)
 ├── journal/                     # journal PDFs (same as arxiv for now)
@@ -52,8 +52,8 @@ from dataclasses import dataclass, field
 # === PATH CONSTANTS ===
 WHITE_PAPER_ROOT = Path(__file__).parent.parent  # WHITE-PAPER/
 REPO_ROOT = WHITE_PAPER_ROOT.parent              # Nyquist_Consciousness/
-DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "content"
-PDF_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "pdf"  # Separate from content
+DEFAULT_OUTPUT_DIR = REPO_ROOT / "docs" / "publication" / "content"
+PDF_OUTPUT_DIR = REPO_ROOT / "docs" / "publication" / "pdf"
 
 # === PUBLICATION PATHS (8 total) ===
 PUBLICATION_PATHS = [
@@ -116,7 +116,7 @@ ARXIV_CONTENT = PathContent(
     theory=["*.md"],  # All theory docs
     guides=["*.md"],  # All guides
     references=["references.md", "references.bib"],
-    figures=["fig*.md", "ascii/*.md"],  # All figure specs
+    figures=["fig*.md", "ascii/", "run018/", "run020/", "suggested/"],  # All figure specs + run visualizations
     planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md"],
     reviewers=["phase1/NOVA_S7_REVIEW.md", "phase3/*.md"],
     reading_order=[
@@ -138,7 +138,7 @@ JOURNAL_CONTENT = PathContent(
     theory=["*.md"],
     guides=["*.md"],
     references=["references.md", "references.bib"],
-    figures=["fig*.md", "ascii/*.md"],
+    figures=["fig*.md", "ascii/", "run018/", "run020/", "suggested/"],  # All figure specs + run visualizations
     planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md"],
     reviewers=["phase1/*.md", "phase2/*.md", "phase3/*.md"],
     reading_order=[

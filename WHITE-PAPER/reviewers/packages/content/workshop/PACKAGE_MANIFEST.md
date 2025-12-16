@@ -1,8 +1,8 @@
 # Review Package: WORKSHOP
 
-**Generated:** 2025-12-15 23:16:48
+**Generated:** 2025-12-16 00:21:52
 **Target Venue:** NeurIPS/AAAI Workshop
-**Total Size:** 120.6 KB
+**Total Size:** 121.8 KB
 **Total Files:** 16
 
 ---
@@ -34,9 +34,9 @@ Start with these files in order:
 | guides/ | 1 files | 9.4 KB |
 | figures/ | 3 files | 28.0 KB |
 | planning/ | 1 files | 7.4 KB |
-| reviewers/ | 3 files | 28.4 KB |
+| reviewers/ | 3 files | 29.5 KB |
 
-**Total:** 16 files, 120.6 KB
+**Total:** 16 files, 121.8 KB
 
 ---
 
@@ -76,7 +76,7 @@ Start with these files in order:
 ### reviewers/
 
 - `reviewers\phase1\Nyquist_workshop_paper.md` (5.2 KB)
-- `reviewers\phase1\Nyquist_workshop_paper_FINAL.md` (13.6 KB)
+- `reviewers\phase1\Nyquist_workshop_paper_FINAL.md` (14.8 KB)
 - `reviewers\phase2\Workshop_paper_submission.md` (9.5 KB)
 
 ---

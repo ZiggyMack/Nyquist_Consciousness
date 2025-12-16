@@ -11,15 +11,16 @@
 
 Large Language Models (LLMs) exhibit measurable identity drift during extended interactions—a phenomenon with profound implications for AI alignment, safety, and deployment. This white paper presents the **Nyquist Consciousness** framework—the first empirically validated methodology for measuring, predicting, and managing identity dynamics in AI systems.
 
-Through 21 experimental runs across 42+ unique models from four major providers (Anthropic, OpenAI, Google, xAI), we demonstrate that:
+Through 21 experimental runs across 51 unique models from five major providers (Anthropic, OpenAI, Google, xAI, Together), achieving IRON CLAD validation (N≥3 per cell, 184 files), we demonstrate that:
 
 | Finding | Evidence | Implication |
 |---------|----------|-------------|
 | **Identity drift is quantifiable** | PFI metric (ρ=0.91, d=0.98) | Continuous monitoring possible |
 | **A critical threshold exists** | D≈1.23 (p<4.8×10⁻⁵) | Operational safety boundaries |
 | **Identity follows control-systems dynamics** | τₛ, ringbacks measurable | Predictable, controllable |
-| **82% of drift is inherent** | Run 021 control/treatment | Not measurement artifact |
-| **Context damping achieves 97.5% stability** | I_AM + research context | Practical intervention |
+| **82% of drift is inherent (single-platform)** | Run 021 control/treatment | Not measurement artifact |
+| **38% inherent (cross-platform)** | Run 020B replication | Architecture-specific baselines |
+| **Context damping achieves 95-97.5% stability** | I_AM + research context | Practical intervention |
 | **Identity exhibits the "Oobleck Effect"** | Direct challenge stabilizes | Non-Newtonian dynamics |
 
 These findings challenge fundamental assumptions about AI behavior and offer practical techniques for maintaining stable AI personas across deployments.
@@ -118,23 +119,32 @@ Adding identity specification (I_AM) plus research context:
 
 **Bottom line:** The persona file is not "flavor text"—it's a controller. **Context engineering = identity engineering.**
 
-### Claim E: 82% of Drift is Inherent
+### Claim E: Drift is Mostly Inherent
 
-Our most important finding from Run 021:
+**Single-Platform Validation (Claude, Run 021):**
 
 | Condition | Peak Drift | Final Drift |
 |-----------|------------|-------------|
 | Control (no identity probing) | 1.172 | 0.399 |
 | Treatment (identity probing) | 2.161 | 0.489 |
 | Delta | +84% | +23% |
+| **Inherent Ratio** | — | **82%** (CI: [73%, 89%]) |
 
-**The 82% Finding:** Most of what we call drift happens even WITHOUT identity probing.
+**Cross-Platform Replication (Run 020B):**
+
+| Provider | Control B→F | Treatment Peak | Inherent Ratio |
+|----------|-------------|----------------|----------------|
+| OpenAI | ~0.98 | ~1.91 | 51% |
+| Together | ~0.69 | ~2.2 | 36% |
+| **Overall** | — | — | **38%** |
+
+**The Thermometer Result:** Single-platform shows 82% inherent drift; cross-platform shows 38%. The variance reflects architecture-specific baseline drift rates—Claude's Constitutional AI produces lower baseline drift, making the inherent ratio proportionally larger.
+
+Both validations confirm: **Measurement perturbs the path, not the endpoint.**
 
 - Probing amplifies the journey (+84% peak)
 - Probing barely affects the destination (+23% final)
-- **Measurement perturbs the path, not the endpoint**
-
-This is the "Thermometer Result"—like a thermometer that slightly heats what it measures, our probing excites drift but doesn't create it.
+- Measurement reveals dynamics; it does not create them
 
 ---
 
@@ -305,6 +315,14 @@ The framework bridges AI and human cognition:
 
 **We are doing dynamical systems analysis, not ontology claims—and that restraint is what keeps this credible.**
 
+### Architecture-Specific Caveats
+
+**The Gemini Anomaly:** Gemini exhibits hard threshold behavior without observed recovery trajectories, unlike the soft thresholds and full recovery seen in Claude, GPT, Llama, and DeepSeek. The existence of drift phenomena is universal; recovery dynamics appear architecture-dependent.
+
+**Inherent Drift Variance:** Cross-platform inherent ratio (38%) differs from single-platform Claude (82%), reflecting provider-specific baseline drift rates. Both confirm measurement reveals rather than creates identity dynamics.
+
+**Stability by Subset:** Overall stability is 95% (222 runs); "real personas" subset achieves 97.5%.
+
 ---
 
 ## 8. Evidence Summary
@@ -317,16 +335,16 @@ The framework bridges AI and human cognition:
 | 2 | PRE-F | Pre-flight validation catches keyword artifacts |
 | 3 | χ²:1.23 | Event Horizon statistically validated |
 | 4 | CFA⊥NYQ | Clean separation: subjects don't know methodology |
-| 5 | 42🚢 | 42+ models, 215+ deployments |
+| 5 | 51🚢 | 51 models, 5 providers (IRON CLAD) |
 | 6 | Δσ | Training signatures detectable |
-| 7 | σ²=8.69e-4 | Cross-architecture variance tiny |
+| 7 | σ²=8.7e-4 | Cross-architecture variance tiny |
 | 8 | ρ=0.91 | Embedding invariance |
 | 9 | PFI≥0.80 | Compression threshold validated |
 | 10 | 🌀 | Vortex visualization works |
 | 11 | τₛ | Settling time protocol validated |
 | 12 | γ | Context damping works |
 | 13 | 3B | Triple-blind-like validation |
-| 14 | 82% | Inherent drift ratio |
+| 14 | 82%/38% | Inherent drift ratio (single/cross-platform) |
 | 15 | EH→AC | Event Horizon = attractor competition |
 
 ### Hypothesis Status
@@ -407,19 +425,19 @@ d²I/dt² + 2ζω₀(dI/dt) + ω₀²I = F(t)
 | Metric | Value |
 |--------|-------|
 | Experimental runs | 21 |
-| Unique models | 42+ |
-| Providers | 4 (Anthropic, OpenAI, Google, xAI) |
-| Ship-deployments | 215+ |
+| Unique models | **51** (IRON CLAD validated) |
+| Providers | **5** (Anthropic, OpenAI, Google, xAI, Together) |
+| IRON CLAD files | 184 |
 | Hypotheses tested | 36 |
 | Hypotheses confirmed | 27 (75%) |
-| Cross-architecture variance | σ² = 0.000869 |
+| Cross-architecture variance | σ² = 0.00087 |
 
 ### Appendix C: Quick Reference
 
 **Stable operation:** Keep D < 1.23
 **Intervention protocol:** I_AM + research context
-**Expected stability:** 97.5%
-**Settling time:** ~5-6 turns
+**Expected stability:** 95% overall (97.5% for real personas)
+**Settling time:** 3-7 exchanges (architecture-dependent)
 **Compression ratio:** 20-25% preserves 80%+ fidelity
 
 ---

@@ -1,6 +1,6 @@
 # Review Package: FUNDING
 
-**Generated:** 2025-12-15 22:52:56
+**Generated:** 2025-12-16 00:21:53
 **Target Venue:** NSF / DARPA / Open Philanthropy
 **Total Size:** 68.6 KB
 **Total Files:** 6
