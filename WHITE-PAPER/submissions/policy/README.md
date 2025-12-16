@@ -20,17 +20,21 @@
 
 ## Source Material
 
-**Primary:** `REPO-SYNC/LLM_BOOK/Briefing.md`
+**Primary:** `LLM_Briefing.md` (synced from LLM_BOOK)
 
 NotebookLM generated an executive briefing covering:
+
 - Key findings summary (5-minute read)
 - Policy implications
 - Recommended actions
 - Risk considerations
 
+**Local Synced Copy:** This directory contains `LLM_Briefing.md` - synced via `sync_llmbook.py` from the original in `REPO-SYNC/LLM_BOOK/`.
+
 **Supporting Materials:**
-- `REPO-SYNC/LLM_BOOK/Project_Nyquist_Consciousness.md` - Research proposal
-- `WHITE-PAPER/reviewers/phase3/` - Technical documentation
+
+- `../funding/LLM_Project_Nyquist_Consciousness.md` - Research proposal (synced)
+- `../../reviewers/phase3/` - Technical documentation
 
 ---
 

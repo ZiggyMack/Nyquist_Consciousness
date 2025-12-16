@@ -20,18 +20,23 @@
 
 ## Source Material
 
-**Primary:** `REPO-SYNC/LLM_BOOK/Unlocking_AI_Identity.md`
+**Primary:** `LLM_Unlocking_AI_Identity.md` (synced from LLM_BOOK)
 
 NotebookLM generated an accessible summary covering:
+
 - Core concepts in plain language
 - Key findings with impact
 - Future implications
 - Compelling narrative hooks
 
+**Local Synced Copy:** This directory contains `LLM_Unlocking_AI_Identity.md` - synced via `sync_llmbook.py` from the original in `REPO-SYNC/LLM_BOOK/`.
+
 **Supporting Materials:**
-- `REPO-SYNC/LLM_BOOK/Ancient_Philosophy_Meets_Modern_AI.md` - Story angle
-- `WHITE-PAPER/figures/` - Visual assets
-- `experiments/temporal_stability/S7_ARMADA/` - Demo data
+
+- `../popular_science/LLM_Ancient_Philosophy_Meets_Modern_AI.md` - Story angle (synced)
+- `../../figures/` - Visual assets
+- `../../figures/generated/llmbook/` - NotebookLM visuals (synced)
+- `../../../../experiments/temporal_stability/S7_ARMADA/` - Demo data
 
 ---
 

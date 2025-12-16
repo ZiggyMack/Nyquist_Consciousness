@@ -168,6 +168,31 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 
 NotebookLM independently validated our research and generated publication-ready content for paths 4-8. See [REPO-SYNC/LLM_BOOK/README.md](../REPO-SYNC/LLM_BOOK/README.md) for the validation synthesis.
 
+### Sync Pipeline from LLM_BOOK
+
+Content syncs from `REPO-SYNC/LLM_BOOK/` to `submissions/` via automated pipeline:
+
+```bash
+# Check sync status (report mode)
+py sync_llmbook.py
+
+# Sync all LLM_BOOK content to submissions/
+py sync_llmbook.py --sync
+
+# Preview without applying changes
+py sync_llmbook.py --sync --dry-run
+
+# Sync specific category
+py sync_llmbook.py --sync --category popular_science
+
+# Include visuals (to figures/generated/llmbook/)
+py sync_llmbook.py --sync --include-visuals
+```
+
+**Last Sync:** December 15, 2025 (9 files, 25 MB)
+**Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json`
+**Convention:** Synced files get `LLM_` prefix (e.g., `LLM_Quiz.md`)
+
 ---
 
 ## Key Findings (Claims A-E)

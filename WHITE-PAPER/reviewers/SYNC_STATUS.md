@@ -69,10 +69,11 @@ Reviewers should attempt to falsify these claims:
 
 | Provider | COMPLETE | Notes |
 |----------|----------|-------|
-| OpenAI (gpt-4o) | 2/3 | Peak drift 0.708-0.764, consistent with Run 018 |
-| Together (llama3.3-70b) | 0/3 | API rate limit issues (not data quality) |
+| OpenAI (gpt-4o) | **4/3** ✓ IRON CLAD | Peak drift 0.708-0.800, consistent with Run 018 |
+| Together (mistral-7b) | 1/3 | Peak drift 0.524, switched to cheaper models |
+| Together (llama3.1-8b) | 0/3 | Running... |
 
-**Run 020A OpenAI data aligns with Run 018:** Mean peak drift 0.736 (±0.040 stdev) confirms the phenomenon is replicable.
+**Run 020A OpenAI data aligns with Run 018:** Mean peak drift across 4 sessions confirms the phenomenon is replicable. Exceeds IRON CLAD threshold (N≥3).
 
 ---
 
@@ -133,10 +134,25 @@ Reviewers should attempt to falsify these claims:
 
 ---
 
+## LLM_BOOK Sync Pipeline
+
+**When LLM_BOOK content is updated, run sync to propagate changes:**
+
+```bash
+cd WHITE-PAPER
+py sync_llmbook.py --sync
+```
+
+**Last Sync:** 2025-12-15 (9 files, 25 MB)
+**Manifest:** `LLMBOOK_SYNC_MANIFEST.json` (this directory)
+
+---
+
 ## Communication Log
 
 | Date | Direction | Parties | Topic | File |
 |------|-----------|---------|-------|------|
+| 2025-12-15 | SYNC | LLM_BOOK | Initial sync (9 files, 25 MB) | LLMBOOK_SYNC_MANIFEST.json |
 | 2025-12-15 | TO | Opus 4.5 | Full review request | to_reviewers/requests/2025-12-15_opus_full_review.md |
 | 2025-12-13 | FROM | Nova | Methodology approval | from_reviewers/nova/2025-12-13_methodology.md |
 | 2025-12-10 | FROM | Gemini | Validation complete | from_reviewers/gemini/2025-12-10_validation.md |

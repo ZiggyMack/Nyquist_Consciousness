@@ -20,16 +20,20 @@
 
 ## Source Material
 
-**Primary:** `REPO-SYNC/LLM_BOOK/Ancient_Philosophy_Meets_Modern_AI.md`
+**Primary:** `LLM_Ancient_Philosophy_Meets_Modern_AI.md` (synced from LLM_BOOK)
 
 NotebookLM independently generated this popular science angle by:
 1. Reading our entire research repository
 2. Connecting our findings to Plato's original ideas about mind
 3. Bridging ancient philosophy with modern AI measurement
 
+**Local Synced Copy:** This directory contains `LLM_Ancient_Philosophy_Meets_Modern_AI.md` - synced via `sync_llmbook.py` from the original in `REPO-SYNC/LLM_BOOK/`.
+
 **Supporting Materials:**
-- `REPO-SYNC/LLM_BOOK/Unlocking_AI_Identity.md` - Magazine summary
-- `WHITE-PAPER/figures/` - Visualizations for adaptation
+
+- `../media/LLM_Unlocking_AI_Identity.md` - Magazine summary (synced)
+- `../../figures/generated/llmbook/` - NotebookLM visuals (synced)
+- `../../figures/` - Publication visualizations
 
 ---
 

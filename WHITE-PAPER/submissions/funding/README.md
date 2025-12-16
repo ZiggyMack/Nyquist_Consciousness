@@ -21,9 +21,10 @@
 
 ## Source Material
 
-**Primary:** `REPO-SYNC/LLM_BOOK/Project_Nyquist_Consciousness.md`
+**Primary:** `LLM_Project_Nyquist_Consciousness.md` (synced from LLM_BOOK)
 
 NotebookLM generated a research proposal including:
+
 - Project summary
 - Background and significance
 - Research objectives
@@ -31,10 +32,13 @@ NotebookLM generated a research proposal including:
 - Expected outcomes
 - Budget justification
 
+**Local Synced Copy:** This directory contains `LLM_Project_Nyquist_Consciousness.md` - synced via `sync_llmbook.py` from the original in `REPO-SYNC/LLM_BOOK/`.
+
 **Supporting Materials:**
-- `WHITE-PAPER/reviewers/phase3/` - Peer-reviewed drafts
-- `experiments/temporal_stability/S7_ARMADA/` - Existing data
-- `docs/maps/VALIDATION_STATUS.md` - Current progress
+
+- `../../reviewers/phase3/` - Peer-reviewed drafts
+- `../../../../experiments/temporal_stability/S7_ARMADA/` - Existing data
+- `../../../../docs/maps/VALIDATION_STATUS.md` - Current progress
 
 ---
 

@@ -20,18 +20,23 @@
 
 ## Source Material
 
-**Primary:** `REPO-SYNC/LLM_BOOK/Quiz.md`
+**Primary:** `LLM_Quiz.md` (synced from LLM_BOOK)
 
 NotebookLM generated comprehensive educational components:
+
 - 10 short-answer questions with answer key
 - 5 essay prompts for deeper engagement
 - 94-term glossary with definitions
 - Study progression structure (beginner → advanced)
 
+**Local Synced Copy:** This directory contains `LLM_Quiz.md` - synced via `sync_llmbook.py` from the original in `REPO-SYNC/LLM_BOOK/`.
+
 **Supporting Materials:**
-- `REPO-SYNC/LLM_BOOK/The_Nyquist_Consciousness_Framework.md` - Academic depth
-- `docs/GLOSSARY.md` - Master glossary
-- `WHITE-PAPER/figures/` - Diagrams for lectures
+
+- `../arxiv/LLM_The_Nyquist_Consciousness_Framework.md` - Academic depth (synced)
+- `../../../docs/GLOSSARY.md` - Master glossary
+- `../../figures/` - Diagrams for lectures
+- `../../figures/generated/llmbook/` - NotebookLM visuals (synced)
 
 ---
 

@@ -97,6 +97,22 @@ Expected additions:
 | **arXiv** | READY | Can generate now, add note about pending multi-platform |
 | **Journal** | DRAFT ONLY | Needs full run data before submission |
 
+## LLM_BOOK Sync Pipeline
+
+LLM_BOOK content (NotebookLM-generated publications) syncs to `../submissions/` directories.
+
+**When LLM_BOOK is updated, run sync to propagate changes:**
+
+```bash
+cd WHITE-PAPER
+py sync_llmbook.py --sync
+```
+
+**Manifest:** `LLMBOOK_SYNC_MANIFEST.json` (this directory)
+**Convention:** Synced files have `LLM_` prefix (e.g., `LLM_Quiz.md`)
+
+---
+
 ## For General Reviewers
 
 If you're reviewing the research (not generating papers):

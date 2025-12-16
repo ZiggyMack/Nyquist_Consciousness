@@ -106,6 +106,8 @@ As the final reconciliation reviewer, your tasks are:
 | Consolidated data files | 184 | Run 018 IRON CLAD |
 | Inherent drift | 82% | Thermometer Result |
 | Cross-arch variance | 0.000869 | Near-universal stability |
+| **Run 020A OpenAI** | **4/3** ✓ | IRON CLAD exceeded |
+| **Run 018 Visualizations** | **6** | a-f complete + PDFs |
 
 ---
 
@@ -126,6 +128,32 @@ NotebookLM was given our entire repository and independently produced:
 ### The Validation
 
 NotebookLM connected our empirical findings to Michael Levin's hypothesis that consciousness may have Platonic geometric structure. This is independent external validation we did not prompt for.
+
+### LLM_BOOK -> WHITE-PAPER Sync Pipeline
+
+All LLM_BOOK content is synced to WHITE-PAPER/submissions/ via automated pipeline:
+
+```bash
+# Check sync status
+py sync_llmbook.py
+
+# Sync all content
+py sync_llmbook.py --sync
+```
+
+**Synced Files (9 total, 25 MB):**
+
+| WHITE-PAPER Location | Content |
+|---------------------|---------|
+| `submissions/arxiv/LLM_*.md` | Academic white paper + 14MB PDF |
+| `submissions/popular_science/LLM_*.md` | Plato article |
+| `submissions/education/LLM_*.md` | Quiz + glossary |
+| `submissions/policy/LLM_*.md` | Executive briefing |
+| `submissions/funding/LLM_*.md` | NSF/DARPA proposal |
+| `submissions/media/LLM_*.md` | Press summary |
+| `figures/generated/llmbook/LLM_*.png` | FRAMEWORK + Mind Map (11.5 MB) |
+
+**Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json` tracks all synced files with hashes.
 
 ---
 
