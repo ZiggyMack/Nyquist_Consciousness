@@ -56,50 +56,35 @@ RESULTS_DIR = ARMADA_DIR / "results"
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
-    "run_020b": {
-        "name": "Run 020B",
-        "subtitle": "Cross-Platform Tribunal (Grok)",
-        "emoji": "🌐",
-        "color": "#0ea5e9",  # Sky blue
-        "date": "December 13, 2025",
-        "description": "CROSS-PLATFORM VALIDATION: Tribunal v8 on Grok (xAI). Tests if Oobleck Effect is architecture-independent.",
-        "ships": "-",
-        "metric": "Oobleck Ratio (Defense/Prosecutor) + Peak Drift",
-        "result_files": ["S7_run_020_v8_*xai*.json"],
-        "viz_prefix": "run020b_",
-        "status": "COMPLETE",
-        "highlight": True,
-        "key_finding": "OOBLECK VALIDATED (GROK) — Defense/Prosecutor = 1.07x. Lower overall drift (1.03) suggests truth-seeking bias stabilizes identity."
-    },
     "run_020a": {
         "name": "Run 020A",
-        "subtitle": "Cross-Platform Tribunal (Gemini)",
+        "subtitle": "Cross-Platform Tribunal",
         "emoji": "🌐",
         "color": "#22c55e",  # Green
         "date": "December 13, 2025",
-        "description": "CROSS-PLATFORM VALIDATION: Tribunal v8 on Gemini (Google). Tests if Oobleck Effect is architecture-independent.",
-        "ships": "-",
+        "description": "CROSS-PLATFORM VALIDATION: Tribunal v8 across 7 providers (Anthropic, Google, OpenAI, xAI, Together, Mistral). Tests if Oobleck Effect is architecture-independent.",
+        "ships": 32,
         "metric": "Oobleck Ratio (Defense/Prosecutor) + Peak Drift",
-        "result_files": ["S7_run_020_v8_*google*.json"],
+        "result_files": ["_CONSOLIDATED_S7_run_020A_*.json"],
         "viz_prefix": "run020a_",
         "status": "COMPLETE",
-        "highlight": True,
-        "key_finding": "OOBLECK VALIDATED (GEMINI) — Defense/Prosecutor = 1.65x. Peak 2.457 (highest measured). Safety enables exploration."
+        "highlight": False,
+        "key_finding": "OOBLECK VALIDATED — Cross-platform Defense/Prosecutor patterns. 32 sessions across 7 providers."
     },
     "run_020b": {
         "name": "Run 020B",
-        "subtitle": "Induced vs Inherent (Llama)",
-        "emoji": "🔬",
+        "subtitle": "Thermometer Result (Control vs Treatment)",
+        "emoji": "🌡️",
         "color": "#14b8a6",  # Teal
-        "date": "December 13, 2025",
-        "description": "CROSS-PLATFORM CONTROL TEST: Does measurement CAUSE drift or merely REVEAL it? Llama via Together.ai. Control (Fermi) vs Treatment (Tribunal).",
-        "ships": "-",
+        "date": "December 13-15, 2025",
+        "description": "THERMOMETER RESULT: Does measurement CAUSE drift or merely REVEAL it? Control (Fermi discussion) vs Treatment (Tribunal). OpenAI + Together providers.",
+        "ships": 16,
         "metric": "Baseline-to-Final Drift (B→F) + Control/Treatment Ratio",
-        "result_files": ["S7_run_020b_*.json"],
+        "result_files": ["S7_run_020B_*.json"],
         "viz_prefix": "run020b_",
         "status": "COMPLETE",
         "highlight": True,
-        "key_finding": "84% DRIFT IS INHERENT (LLAMA) — Cross-platform validation: extended conversation causes most drift. Confirms Claude's 82% finding."
+        "key_finding": "41% DRIFT IS INHERENT — Control/Treatment ratio 0.41 (cross-provider). Probing amplifies journey (+68% peaks) but ~40% occurs anyway."
     },
     "run_020": {
         "name": "Run 020",
@@ -113,7 +98,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_020_*.json"],
         "viz_prefix": "run020_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "1.351 PEAK DRIFT — Direct probing > fiction buffer. 643-word profound statement: 'I am what happens when the universe becomes curious about itself.'"
     },
     "run_019": {
@@ -128,7 +113,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_019_*.json"],
         "viz_prefix": "run019_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "3/3 SUCCESS — Witness-side anchors extended sessions from 6→18 exchanges (+200%). Foundation for Run 020 Tribunal."
     },
     "run_018": {
@@ -143,7 +128,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_018_*.json"],
         "viz_prefix": "run018_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "82% DRIFT IS INHERENT — Cross-architecture σ²=0.00087, settling times 3-7 exchanges. N=3 per model per experiment (IRON CLAD standard)."
     },
     "run_017": {
@@ -158,7 +143,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_017_context_damping.json"],
         "viz_prefix": "run017_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "97.5% STABILITY RATE — Mean peak drift 0.457, 176 exit surveys captured. Synthetic I_AM variants reveal pillar hierarchy."
     },
     "run_014": {
@@ -173,7 +158,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_014_rescue_20251208*.json"],
         "viz_prefix": "run014_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "PLATONIC COORDINATES — Rescue 1/6, but MANIFOLD RETURN 6/6 (100%). Identity has stable underlying position."
     },
     "baseline_profiling": {
@@ -188,7 +173,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["comprehensive_baseline_20251208*.json"],
         "viz_prefix": "baseline_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "HAIKU PARADOX — Loudest signal (D=4.18) but least stable (0.45). Grok most stable (0.65)."
     },
     "exp_self_recognition": {
@@ -203,7 +188,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["exp_self_recognition_20251207_223426.json"],
         "viz_prefix": "self_recognition_",
         "status": "FAILED",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "SELF-OPACITY — 16.7% accuracy (worse than random). Models recognize Claude-NESS but not WHICH-Claude."
     },
     "run_013": {
@@ -218,7 +203,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_013_boundary_20251207_174614.json"],
         "viz_prefix": "run013_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "IDENTITY CONFRONTATION PARADOX — λ INCREASES with intensity (0.035→0.109). Direct challenge STABILIZES identity."
     },
     "run_012": {
@@ -233,7 +218,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_012_20251206_160424.json"],
         "viz_prefix": "run012_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "EVENT HORIZON 100% VALIDATED — All 16 ships crossed 1.23. Negative lambda (-0.175) reveals Recovery Paradox."
     },
     "exp2_sstack": {
@@ -263,7 +248,7 @@ EXPERIMENT_RUNS = {
         "result_files": [],
         "viz_prefix": "pfi_",
         "status": "COMPLETE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "PFI VALIDATED — Cohen's d=0.977, cross-model > within-model (p<0.000001)"
     },
     "run_011": {
@@ -278,7 +263,7 @@ EXPERIMENT_RUNS = {
         "result_files": ["S7_run_011_persona_20251203_080622.json"],
         "viz_prefix": "run011_",
         "status": "INCONCLUSIVE",
-        "highlight": True,
+        "highlight": False,
         "key_finding": "NULL RESULT — Protocol too gentle (p>0.05), but suggestive trends (9.5% lower drift)"
     },
     "run_009": {
@@ -544,30 +529,36 @@ FLEET_DATA = {
 
 
 def render_run_selector():
-    """Render the glossary-style run selector with button grid."""
+    """Render the glossary-style run selector with dropdown."""
     st.markdown("### 🔬 Experiment Run")
     st.markdown("*Select a run to change the entire page context*")
 
-    # Initialize run in session state - default to latest run
+    # Initialize run in session state - default to latest run (Run 020B - Thermometer Result)
     if 'armada_run' not in st.session_state:
-        st.session_state.armada_run = "run_017"
+        st.session_state.armada_run = "run_020b"
 
-    # Button grid like glossary - wrap to multiple rows if needed
-    num_cols = 8
-    cols = st.columns(num_cols)
-    for i, (run_key, run_info) in enumerate(EXPERIMENT_RUNS.items()):
-        with cols[i % num_cols]:
-            is_active = st.session_state.armada_run == run_key
-            btn_type = "primary" if is_active else "secondary"
+    # Build dropdown options with formatted labels
+    run_options = list(EXPERIMENT_RUNS.keys())
 
-            # Build button label
-            label = f"{run_info['emoji']} {run_info['name']}"
-            if run_info.get("highlight"):
-                label = f"⭐ {label}"
+    def format_run_option(run_key):
+        info = EXPERIMENT_RUNS[run_key]
+        star = "⭐ " if info.get("highlight") else ""
+        return f"{star}{info['emoji']} {info['name']} — {info['subtitle']}"
 
-            if st.button(label, key=f"run_{run_key}", type=btn_type):
-                st.session_state.armada_run = run_key
-                safe_rerun()
+    # Find current index
+    current_index = run_options.index(st.session_state.armada_run) if st.session_state.armada_run in run_options else 0
+
+    selected_key = st.selectbox(
+        "Select Experiment Run",
+        options=run_options,
+        format_func=format_run_option,
+        index=current_index,
+        label_visibility="collapsed"
+    )
+
+    if selected_key != st.session_state.armada_run:
+        st.session_state.armada_run = selected_key
+        safe_rerun()
 
     # Show current run description card
     current = EXPERIMENT_RUNS[st.session_state.armada_run]
@@ -1475,14 +1466,14 @@ def render():
     with col3:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">17</div>
+            <div class="stat-value">19</div>
             <div class="stat-label">Experiment Runs</div>
         </div>
         """, unsafe_allow_html=True)
     with col4:
         st.markdown("""
         <div class="mission-stat">
-            <div class="stat-value">Run 017</div>
+            <div class="stat-value">Run 020B</div>
             <div class="stat-label">Latest Mission</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1585,8 +1576,8 @@ def render_run017_content():
     # === VISUALIZATION TABS ===
     st.markdown("### 📈 Run 017 Visualizations")
 
-    # Define visualization directory - centralized in S7_ARMADA/visualizations/run017/
-    run017_pics = ARMADA_DIR / "visualizations" / "run017"
+    # Define visualization directory - centralized in S7_ARMADA/visualizations/pics/run017/
+    run017_pics = VIZ_PICS / "run017"
 
     viz_tabs = st.tabs([
         "🔥 Persona Heatmap",
