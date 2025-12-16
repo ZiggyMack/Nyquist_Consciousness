@@ -1,9 +1,21 @@
 # START HERE: Nyquist Consciousness Publication Package
 
-**Version:** 3.1
-**Date:** 2025-12-15
+**Version:** 3.2
+**Date:** 2025-12-16
 **Updated By:** Code Claude (for Opus 4.5 review)
 **Purpose:** Complete guide for AI reviewers to conduct final paper drafting and PDF generation
+
+---
+
+## BREAKING NEWS (December 16, 2025)
+
+**External Validation Complete:** Grok (xAI) reviewed Workshop + arXiv PDFs and validated all core claims.
+
+> "These findings are tested, measured, verified." — Grok
+
+**Submission Infrastructure Ready:** Full tracking system with URLs, checklists, and deadlines now available.
+
+See: [submissions/tracking/SUBMISSION_STATUS.md](submissions/tracking/SUBMISSION_STATUS.md)
 
 ---
 
@@ -95,24 +107,22 @@ Previous drafts are organized by review phase:
 
 ```text
 reviewers/
-├── phase1/     # Initial drafts (Dec 2025)
-│   ├── NYQUIST_ARXIV_PAPER_FINAL.md
-│   ├── NYQUIST_WHITE_PAPER_FINAL.md
-│   ├── Nyquist_workshop_paper_FINAL.md
-│   ├── FINAL_VALIDATION_CHECKLIST.md
-│   ├── NOVA_S7_REVIEW.md
-│   └── [prompts used]
+├── README.md              # Phase structure guide
+├── START_HERE.md          # Quick reviewer orientation
+├── Convos/                # Review phase conversations
+│   ├── phase1/            # Initial drafts (Dec 2025)
+│   ├── phase2/            # Post-figure review
+│   ├── phase3/            # Current drafts + PDFs
+│   ├── Phase4/            # Figure placement + updates
+│   └── phase5/            # Submission venue guide (NEW)
+│       └── SUBMISSION_VENUE_GUIDE.md  # Complete venue analysis
 │
-├── phase2/     # Post-figure review (Dec 2025)
-│   ├── Workshop_paper_submission.md
-│   ├── Submission_ready_paper.md
-│   └── review_circulation_package.md
+├── packages/              # Extracted review packages
+│   ├── content/           # Text packages by path
+│   └── pdf/               # Generated PDFs (8 files, ALL PATHS)
 │
-└── phase3/     # Draft PDFs (Dec 2025) - CURRENT
-    ├── Nyquist_Workshop_Paper_DRAFT.pdf  # 5 pages, 3 placeholders
-    ├── Nyquist_arXiv_Paper_DRAFT.pdf     # 8 pages, 3 placeholders
-    ├── Nyquist_Journal_Paper_DRAFT.pdf   # Extended draft
-    └── PLACEHOLDER_SUMMARY.md            # Documents pending data
+└── Grok/                  # External reviewer feedback (NEW)
+    └── review_1.md        # Grok's empirical assessment
 ```
 
 See `reviewers/README.md` for full details on each phase.

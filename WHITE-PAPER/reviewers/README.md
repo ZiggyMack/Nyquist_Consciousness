@@ -1,5 +1,7 @@
 # Reviewers Directory
 
+**Last Updated:** 2025-12-16
+
 This directory contains draft papers, reviews, and review packages organized by phase.
 
 ## Directory Structure
@@ -11,25 +13,31 @@ reviewers/
 ├── PROTOCOL.md         # Review sync protocol
 ├── SYNC_STATUS.md      # Feedback tracking
 │
-├── packages/           # EXTRACTED REVIEW PACKAGES (NEW)
-│   ├── workshop/       # Workshop paper package (~90 KB)
-│   ├── arxiv/          # arXiv preprint package (~360 KB)
-│   └── {path}/         # Other publication paths as needed
+├── Convos/             # REVIEW PHASE CONVERSATIONS
+│   ├── phase1/         # Initial drafts (Dec 2025 - Code Claude + Opus 4.5)
+│   ├── phase2/         # Post-figure review (Dec 2025 - Opus 4.5)
+│   ├── phase3/         # Current drafts + PDFs
+│   ├── Phase4/         # Figure placement + updates
+│   └── phase5/         # Submission venue guide (NEW)
+│       └── SUBMISSION_VENUE_GUIDE.md   # Complete venue analysis
 │
-├── phase1/             # Initial drafts (Dec 2025 - Code Claude + Opus 4.5)
-│   ├── NYQUIST_ARXIV_PAPER_FINAL.md
-│   ├── NYQUIST_WHITE_PAPER_FINAL.md
-│   ├── Nyquist_workshop_paper_FINAL.md
-│   ├── FINAL_VALIDATION_CHECKLIST.md
-│   ├── NOVA_S7_REVIEW.md
-│   └── [prompts used]
+├── packages/           # EXTRACTED REVIEW PACKAGES
+│   ├── content/        # Text packages by path (~50-500 KB each)
+│   │   ├── workshop/   # Workshop paper package
+│   │   ├── arxiv/      # arXiv preprint package
+│   │   └── {path}/     # Other publication paths
+│   └── pdf/            # GENERATED PDFs (8 files, ALL PATHS)
+│       ├── Nyquist_Workshop_Paper.pdf
+│       ├── Nyquist_arXiv_Paper.pdf
+│       ├── Nyquist_Journal_Paper.pdf
+│       ├── Nyquist_Popular_Science.pdf
+│       ├── Nyquist_Education_Quiz.pdf
+│       ├── Nyquist_Policy_Briefing.pdf
+│       ├── Nyquist_Funding_Proposal.pdf
+│       └── Nyquist_Media_Press.pdf
 │
-├── phase2/             # Post-figure review (Dec 2025 - Opus 4.5)
-│   ├── Workshop_paper_submission.md
-│   ├── Submission_ready_paper.md
-│   └── review_circulation_package.md
-│
-├── phase3/             # Current drafts
+├── Grok/               # EXTERNAL REVIEWER FEEDBACK (NEW)
+│   └── review_1.md     # Grok's empirical assessment of Workshop + arXiv
 │
 ├── to_reviewers/       # Outgoing requests/questions
 ├── from_reviewers/     # Incoming feedback

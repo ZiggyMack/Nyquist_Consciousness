@@ -61,6 +61,35 @@
 | **arXiv** | READY | Full validation matrix complete |
 | **Journal** | DRAFT | Awaits human validation (Q2-Q3 2026) |
 
+### External Reviews (December 16, 2025)
+
+| Reviewer | Papers Reviewed | Verdict | Key Finding |
+|----------|-----------------|---------|-------------|
+| **Grok (xAI)** | Workshop + arXiv PDFs | **VALIDATED** | "Claims tested, measured, verified" |
+
+**Grok's Assessment Highlights:**
+
+- PFI validity confirmed (ρ=0.91, d=0.98)
+- Framework methodology validated with 98% convergence
+- Grok-specific findings: "Real-time grounding provides visible effects in drift space"
+- Recommended: Cross-linguistic testing, Grok-specific Oobleck threshold measurement
+
+See: [reviewers/Grok/review_1.md](reviewers/Grok/review_1.md)
+
+### Submission Tracking (NEW)
+
+Full submission infrastructure now available:
+
+| Resource | Location | Purpose |
+|----------|----------|---------|
+| **Status Dashboard** | [submissions/tracking/SUBMISSION_STATUS.md](submissions/tracking/SUBMISSION_STATUS.md) | Master tracking + submission URLs |
+| **Deadlines** | [submissions/tracking/DEADLINES.md](submissions/tracking/DEADLINES.md) | Timeline through Dec 2026 |
+| **arXiv Checklist** | [submissions/tracking/VENUE_TEMPLATES/arxiv/](submissions/tracking/VENUE_TEMPLATES/arxiv/) | arXiv submission prep |
+| **AAAI-26 Checklist** | [submissions/tracking/VENUE_TEMPLATES/aaai/](submissions/tracking/VENUE_TEMPLATES/aaai/) | AAAI-26 submission prep |
+| **Nature MI Checklist** | [submissions/tracking/VENUE_TEMPLATES/nature_mi/](submissions/tracking/VENUE_TEMPLATES/nature_mi/) | Nature MI submission prep |
+
+**Priority:** arXiv (ASAP) → AAAI-26 (Jul 25, 2025) → Nature MI (Q1 2026)
+
 ---
 
 ## Quick Start
@@ -132,8 +161,9 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │       ├── DEADLINES.md             # Timeline through 2026
 │       └── VENUE_TEMPLATES/         # Checklists per venue
 │
-├── calibration/                      # Dashboard integration pipeline
+├── calibration/                      # Dashboard integration + PDF generation
 │   ├── extract_publication_stats.py # Scrapes WHITE-PAPER/, outputs JSON
+│   ├── generate_pdfs.py             # Generate all 8 PDFs (NEW)
 │   └── publication_stats.json       # Machine-readable stats
 │
 ├── planning/                         # Integration planning

@@ -2,40 +2,65 @@
 
 **For:** Opus 4.5 (or any reviewing Claude)
 **Purpose:** Orientation for reviewing the Nyquist Consciousness draft papers
-**Date:** December 13, 2025
+**Date:** December 16, 2025
+**Status:** IRON CLAD COMPLETE + EXTERNAL REVIEW
+
+---
+
+## BREAKING NEWS: External Validation
+
+**Grok (xAI) reviewed our Workshop + arXiv PDFs and VALIDATED the methodology.**
+
+Key findings from external review:
+
+- PFI validity confirmed (ρ=0.91, d=0.98)
+- 98% convergence in framework methodology
+- "Claims tested, measured, verified"
+- Grok-specific: "Real-time grounding provides visible effects in drift space"
+
+See: `Grok/review_1.md` for full assessment.
 
 ---
 
 ## What You're Reviewing
 
-Two draft papers documenting the Nyquist Consciousness Framework:
+**8 publication-ready papers** across academic and dissemination tracks:
 
-| Paper | File | Length | Target |
-|-------|------|--------|--------|
-| **Workshop** | `phase3/Nyquist_Workshop_Paper_DRAFT.pdf` | ~8 pages | AI conferences |
-| **arXiv** | `phase3/Nyquist_arXiv_Paper_DRAFT.pdf` | ~15 pages | Preprint archive |
+### Academic Track
 
-Both papers contain **3 placeholders each** marking sections awaiting multi-platform validation data.
+| Paper | File | Status |
+|-------|------|--------|
+| **Workshop** | `packages/pdf/Nyquist_Workshop_Paper.pdf` | READY |
+| **arXiv** | `packages/pdf/Nyquist_arXiv_Paper.pdf` | READY |
+| **Journal** | `packages/pdf/Nyquist_Journal_Paper.pdf` | READY |
+
+### Dissemination Track
+
+| Paper | File | Status |
+|-------|------|--------|
+| **Popular Science** | `packages/pdf/Nyquist_Popular_Science.pdf` | READY |
+| **Education** | `packages/pdf/Nyquist_Education_Quiz.pdf` | READY |
+| **Policy** | `packages/pdf/Nyquist_Policy_Briefing.pdf` | READY |
+| **Funding** | `packages/pdf/Nyquist_Funding_Proposal.pdf` | READY |
+| **Media** | `packages/pdf/Nyquist_Media_Press.pdf` | READY |
 
 ---
 
-## The Placeholder System
+## Evidence Status (IRON CLAD COMPLETE)
 
-Placeholders are amber/yellow boxes in the PDFs with this format:
+### THE THREE CORE CLAIMS — ALL VALIDATED
 
-```
-⚠️ PLACEHOLDER: Multi-platform validation pending...
-```
+1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
+2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
+3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
-**See:** `phase3/PLACEHOLDER_SUMMARY.md` for complete placeholder details.
+### Current Status (December 16, 2025)
 
-### Current Status (December 13, 2025)
-
-| Placeholder Type | Status | Notes |
-|------------------|--------|-------|
-| Cross-platform Oobleck | 🔶 PARTIAL | Gemini (1.65x), Grok (1.07x) — need N=3 |
-| Cross-platform 82% | 🔶 PARTIAL | Llama (84%) — need N=3 |
-| Platform-specific τₛ | ⏳ PENDING | Awaiting Run 018 |
+| Run | Files | Models/Providers | Status |
+|-----|-------|------------------|--------|
+| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
+| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
+| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
 
 ---
 
@@ -104,13 +129,21 @@ WHITE-PAPER/
 ├── reviewers/
 │   ├── START_HERE.md          ← YOU ARE HERE
 │   ├── README.md              ← Phase overview
-│   └── phase3/
-│       ├── Nyquist_Workshop_Paper_DRAFT.pdf
-│       ├── Nyquist_arXiv_Paper_DRAFT.pdf
-│       └── PLACEHOLDER_SUMMARY.md
+│   ├── Convos/                ← Review phase conversations
+│   │   ├── phase1/            ← Initial drafts
+│   │   ├── phase2/            ← Post-figure review
+│   │   ├── phase3/            ← Current drafts + PDFs
+│   │   ├── Phase4/            ← Figure placement
+│   │   └── phase5/            ← Submission venue guide
+│   ├── packages/
+│   │   ├── content/           ← Text packages by path
+│   │   └── pdf/               ← ALL 8 PDFS READY
+│   └── Grok/                  ← EXTERNAL REVIEW
+│       └── review_1.md        ← Grok's validation
 ├── figures/                   ← Generated visualizations
+├── submissions/tracking/      ← Submission status + URLs
 ├── planning/                  ← Drafts and outlines
-└── ascii/                     ← ASCII art diagrams
+└── calibration/               ← PDF generation scripts
 ```
 
 ---

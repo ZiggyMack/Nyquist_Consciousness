@@ -1,12 +1,37 @@
 # Calibration Pipeline
 
-**Purpose:** Extract publication statistics and create review packages from WHITE-PAPER/
+**Purpose:** Extract publication statistics, create review packages, and generate PDFs from WHITE-PAPER/
+**Last Updated:** 2025-12-16
 
 ---
 
 ## Scripts
 
-### 1. extract_publication_stats.py
+### 1. generate_pdfs.py (NEW)
+
+Generate publication-ready PDFs for all 8 paths:
+
+```bash
+cd WHITE-PAPER/calibration
+py generate_pdfs.py
+```
+
+**Output:** `WHITE-PAPER/reviewers/packages/pdf/`
+
+Generated PDFs:
+
+| PDF | Size | Target |
+|-----|------|--------|
+| Nyquist_Workshop_Paper.pdf | ~150 KB | NeurIPS/AAAI |
+| Nyquist_arXiv_Paper.pdf | ~300 KB | cs.AI |
+| Nyquist_Journal_Paper.pdf | ~200 KB | Nature MI |
+| Nyquist_Popular_Science.pdf | ~100 KB | Atlantic/Wired |
+| Nyquist_Education_Quiz.pdf | ~150 KB | OER/Coursera |
+| Nyquist_Policy_Briefing.pdf | ~100 KB | Think tanks |
+| Nyquist_Funding_Proposal.pdf | ~150 KB | NSF/DARPA |
+| Nyquist_Media_Press.pdf | ~80 KB | Press/TED |
+
+### 2. extract_publication_stats.py
 
 Extract statistics for dashboard integration:
 
@@ -17,7 +42,7 @@ py extract_publication_stats.py
 
 **Output:** `publication_stats.json`
 
-### 2. extract_review_package.py (NEW)
+### 3. extract_review_package.py
 
 Extract path-specific review packages for AI reviewers:
 
@@ -136,10 +161,11 @@ st.metric("Workshop Status", pub_stats['submissions']['workshop']['status'].uppe
 | File | Purpose |
 |------|---------|
 | `README.md` | This file |
+| `generate_pdfs.py` | PDF generation for all 8 paths |
 | `extract_publication_stats.py` | Statistics extraction script |
 | `extract_review_package.py` | Review package extraction script |
 | `publication_stats.json` | Generated statistics output |
 
 ---
 
-*Last updated: 2025-12-15*
+*Last updated: 2025-12-16*
