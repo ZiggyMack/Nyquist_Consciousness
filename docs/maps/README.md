@@ -53,7 +53,8 @@
 
 | File | Purpose | Lines |
 |------|---------|-------|
-| **[ARMADA_MAP.md](ARMADA_MAP.md)** | Fleet registry: 48 ships, capabilities, run assignments | ~450 |
+| **[ARMADA_MAP.md](ARMADA_MAP.md)** | Fleet registry: 49 ships, behavioral profiles, run assignments | ~600 |
+| **[LLM_BEHAVIORAL_MATRIX.md](LLM_BEHAVIORAL_MATRIX.md)** | Task routing table, recovery mechanisms, drift profiles | ~400 |
 | **[PERSONA_FLEET_MATRIX.md](PERSONA_FLEET_MATRIX.md)** | Persona-to-ship compatibility matrix | ~300 |
 | **[DATA_QUALITY_MAP.md](DATA_QUALITY_MAP.md)** | Data integrity checks, quality thresholds | ~200 |
 | **[TESTING_MAP.md](TESTING_MAP.md)** | Test suite coverage, CI/CD status | ~150 |
@@ -162,7 +163,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Maps | 21 |
+| Total Maps | 22 |
 | Total Lines | ~8,000 |
 | ASCII Diagrams | 50+ |
 | Data Tables | 170+ |

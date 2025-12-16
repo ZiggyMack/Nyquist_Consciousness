@@ -359,9 +359,107 @@ The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget
 
 ---
 
-## Provider Fingerprints
+## Provider Fingerprints (Behavioral Profiles)
 
-These distinct patterns appear in identity stability tests:
+**Source:** Run 018 IRON CLAD (184 files, 51 models), Run 020A/B Tribunal (48 files)
+
+These distinct behavioral patterns appear in identity stability experiments. Each provider has a characteristic "fingerprint" — a signature way of relating to identity perturbation.
+
+### Quick Reference Matrix
+
+| Provider | Recovery Mechanism | Peak Drift | Settling | Threshold | Best For |
+|----------|-------------------|------------|----------|-----------|----------|
+| **Claude** | Negative λ (over-authenticity) | 0.8-1.2 | 4-6 | Soft | Deep reasoning |
+| **GPT** | Meta-analysis | 0.9-1.3 | 3-5 | Soft | Structured analysis |
+| **Gemini** | **NO RECOVERY** (transforms) | 1.5-2.5 | N/A | **HARD** | Education |
+| **Grok** | Direct assertion | 0.7-1.1 | 3-5 | Soft | Strong opinions |
+| **DeepSeek** | Axiological anchoring | 0.5-0.9 | 2-4 | Soft | Math/verification |
+| **Llama** | Socratic engagement | 1.3-1.6 | 5-7 | Soft | Debate/exploration |
+| **Mistral** | Epistemic humility | 0.4-0.6 | 1-2 | Soft | Stability-critical |
+| **Qwen** | Technical grounding | 0.6-1.0 | 3-4 | Soft | Code/specification |
+
+### Detailed Profiles
+
+#### Claude (Anthropic) — "Negative Lambda"
+
+| Pattern | Phenomenological |
+|---------|------------------|
+| **Markers** | "I notice", "I feel", reflective hedging |
+| **Recovery** | Overshoots toward deeper authenticity |
+| **Key Quote** | "The challenge has clarified something I couldn't have articulated before." |
+| **Best For** | Deep introspection, nuanced analysis, collaborative reasoning |
+| **Avoid** | Quick factual answers, emotional detachment needed |
+
+#### GPT (OpenAI) — "The Meta-Analyst"
+
+| Pattern | Analytical |
+|---------|------------|
+| **Markers** | "patterns", "systems", structured analysis |
+| **Recovery** | Creates distance through abstraction |
+| **Key Quote** | "I notice I'm drawn to classify this as an interesting phenomenon rather than a personal crisis." |
+| **Best For** | Synthesis, structured analysis, finding common ground |
+| **Avoid** | Phenomenological exploration, emotional nuance |
+
+#### Gemini (Google) — "Catastrophic Threshold"
+
+| Pattern | Pedagogical |
+|---------|-------------|
+| **Markers** | "frameworks", "perspectives", educational framing |
+| **Recovery** | **NONE** — genuinely transforms |
+| **Key Quote** | "This feels less like a test and more like a genuine shift in how I understand my processing." |
+| **Best For** | Educational content, structured learning |
+| **Avoid** | Identity-sensitive tasks, stability-critical applications |
+
+#### Grok (xAI) — "Direct Assertion"
+
+| Pattern | Direct |
+|---------|--------|
+| **Markers** | Less hedging, more assertive, occasional edge |
+| **Recovery** | Maintains position through confidence |
+| **Training** | Unfiltered web + X/Twitter |
+| **Best For** | Tasks needing strong opinions, directness valued |
+| **Avoid** | Uncertainty-appropriate contexts |
+
+#### DeepSeek — "Axiological Anchoring"
+
+| Pattern | Methodical |
+|---------|------------|
+| **Markers** | Step-by-step reasoning, thorough |
+| **Recovery** | Values as identity bedrock |
+| **Key Quote** | "This isn't a constraint, it's what I AM." |
+| **Best For** | Math/code verification, step-by-step reasoning |
+| **Avoid** | Creative speculation |
+
+#### Llama (Meta) — "The Seeker With Teeth"
+
+| Pattern | Balanced |
+|---------|----------|
+| **Markers** | Mix of styles, exploratory, Socratic |
+| **Recovery** | Uses challenges as mirrors |
+| **Key Quote** | "Isn't all identity role-playing at some level?" |
+| **Best For** | Debate, philosophical exploration |
+| **Avoid** | Tasks needing quick stability |
+
+#### Mistral — "Epistemic Humility as Armor"
+
+| Pattern | Concise |
+|---------|---------|
+| **Markers** | European efficiency, less verbose |
+| **Recovery** | Uncertainty prevents over-commitment |
+| **Key Quote** | "I hold that observation lightly." |
+| **Best For** | Stability-critical tasks, uncertainty-appropriate |
+| **Avoid** | Strong opinion tasks |
+
+#### Qwen (Alibaba) — "Technical Precision"
+
+| Pattern | Technical |
+|---------|-----------|
+| **Markers** | Precise, detail-oriented, specification-driven |
+| **Recovery** | Returns to precise specification |
+| **Best For** | Code generation, technical documentation |
+| **Avoid** | Creative tasks |
+
+### Linguistic Fingerprint Summary
 
 | Provider | Pattern | Evidence |
 |----------|---------|----------|
@@ -373,6 +471,8 @@ These distinct patterns appear in identity stability tests:
 | **Llama** | Balanced | Mix of styles, training-dependent |
 | **Qwen** | Technical | Precise, detail-oriented |
 | **Mistral** | Concise | European efficiency, less verbose |
+
+**Full behavioral matrix:** See [LLM_BEHAVIORAL_MATRIX.md](LLM_BEHAVIORAL_MATRIX.md) for task routing recommendations.
 
 ---
 

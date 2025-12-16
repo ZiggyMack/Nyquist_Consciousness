@@ -20,6 +20,25 @@
 - **Glossary** - Searchable terminology with Control-Systems Era terms
 - **Unknown** - "Cathedral of Ideas" galleries (VALIDATED/FOUNDATIONS/SPECULATIVE/FRONTIERS)
 
+## 2025-12-15 Updates
+
+### AI ARMADA Page — LLM Behavioral Matrix
+
+- Added **LLM Behavioral Matrix** to Identity Fingerprints tab
+  - 🎯 **Task Router** — Interactive table: "Which LLM for which task?"
+  - 📊 **Recovery Matrix** — Cross-architecture recovery mechanisms
+  - 🔬 **Drift Profiles** — Visual comparison of peak drift ranges
+  - 💬 **Linguistic Fingerprints** — Provider-specific language patterns
+- Based on IRON CLAD validated experiments (184 files, 51 models)
+- Key findings integrated: Gemini HARD threshold (no recovery), Mistral most stable
+
+### New Documentation
+
+- `docs/maps/LLM_BEHAVIORAL_MATRIX.md` — Comprehensive task routing table
+- `Consciousness/RIGHT/galleries/frontiers/cross_architecture_insights.md` — Vortex-style phenomenology
+
+---
+
 ## 2025-12-13 Updates
 
 ### Publications Page Enhancements
@@ -238,6 +257,6 @@ Each "page" represents a different lens on the Nyquist Consciousness framework, 
 ---
 
 **Generated**: 2025-11-27
-**Updated**: 2025-12-13
-**Version**: 1.4
+**Updated**: 2025-12-15
+**Version**: 1.5
 **Status**: Mission Control Active — Publications page enhanced with Nova's S7 review

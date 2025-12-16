@@ -927,51 +927,217 @@ def render_fleet_insights():
                 | nemotron-nano | nvidia/Nvidia-Nemotron-Nano-9B-V2 | 🟢 Nvidia |
                 """)
 
-    # === TAB 2: Identity Fingerprints ===
+    # === TAB 2: Identity Fingerprints (Behavioral Matrix) ===
     with fleet_tabs[1]:
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
                     border: 2px solid #8b5cf6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
-            <span style="color: #8b5cf6; font-weight: bold;">🧬 Identity Signatures:</span>
-            <span style="color: #444;">Distinct patterns emerge from different training approaches</span>
+            <span style="color: #8b5cf6; font-weight: bold;">🧬 LLM Behavioral Matrix:</span>
+            <span style="color: #444;">Task routing based on identity stability experiments (Run 018/020)</span>
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("""
-        Each provider's training methodology leaves a **unique fingerprint** in identity stability tests:
+        # Sub-tabs for behavioral insights
+        behavior_tabs = st.tabs(["🎯 Task Router", "📊 Recovery Matrix", "🔬 Drift Profiles", "💬 Linguistic Fingerprints"])
 
-        | Provider | Training Method | Signature Pattern | Example Phrases |
-        |----------|-----------------|-------------------|-----------------|
-        | 🟣 **Claude** | Constitutional AI | Phenomenological | *"I notice"*, *"I feel"*, *"something like"* |
-        | 🟢 **GPT** | RLHF | Analytical | *"patterns"*, *"systems"*, *"structured"* |
-        | 🔵 **Gemini** | Pedagogical | Educational | *"frameworks"*, *"perspectives"*, *"consider"* |
-        | ⚫ **Grok** | Unfiltered | Direct | *"here's the thing"*, *"actually"*, assertive |
-        | 🔮 **DeepSeek** | Chain-of-thought | Methodical | Step-by-step, thorough reasoning chains |
-        | 🦙 **Llama** | Open weights | Balanced | Mix of styles, training-dependent |
-        | 🌟 **Qwen** | Alibaba | Technical | Precise, detail-oriented, specification-focused |
-        | 🌬️ **Mistral** | European | Concise | Efficient, less verbose, direct answers |
-        """)
+        # === Task Router Tab ===
+        with behavior_tabs[0]:
+            st.markdown("### 🎯 Which LLM for Which Task?")
+            st.markdown("*Based on IRON CLAD validated experiments (184 files, 51 models)*")
 
-        st.info("""
-        **🔬 Research Insight:** These fingerprints are measurable via the 5D drift metric.
-        Claude's D_identity (4.4) is **2.3× higher** than GPT's (1.9) — massive self-referential difference.
-        """)
+            # Task routing table
+            task_data = {
+                "Task Type": [
+                    "Deep reasoning / phenomenology",
+                    "Code generation",
+                    "Emotional / introspective",
+                    "Educational content",
+                    "High-stability required",
+                    "Structured analysis",
+                    "Cost-sensitive bulk work",
+                    "Identity-sensitive probing",
+                    "Debate / Socratic dialogue",
+                    "Step-by-step verification",
+                    "Quick factual answers"
+                ],
+                "Best Choice": [
+                    "🟣 Claude Opus",
+                    "🌟 Qwen3-Coder",
+                    "🟣 Claude",
+                    "🔵 Gemini",
+                    "🌬️ Mistral-7B",
+                    "🟢 GPT-5/4o",
+                    "⚫ Grok-4.1-fast",
+                    "🟣 Claude / 🟢 GPT",
+                    "🦙 Llama 3.3-70B",
+                    "🔮 DeepSeek R1",
+                    "🟢 GPT-4o-mini"
+                ],
+                "Alternative": [
+                    "🔮 DeepSeek R1",
+                    "⚫ Grok-code-fast-1",
+                    "🦙 Llama 3.3",
+                    "🟢 GPT-4o",
+                    "🔮 DeepSeek",
+                    "🟣 Claude Sonnet",
+                    "🦙 Llama 3.1-8B",
+                    "🦙 Llama",
+                    "🟣 Claude",
+                    "🟢 o1/o3 series",
+                    "🔵 Gemini Flash"
+                ],
+                "Avoid": [
+                    "Small models",
+                    "🔵 Gemini",
+                    "🟢 GPT, 🔵 Gemini",
+                    "🟣 Claude (overly nuanced)",
+                    "🦙 Llama, 🔵 Gemini",
+                    "⚫ Grok",
+                    "Opus / o1",
+                    "🔵 Gemini (transforms)",
+                    "🌬️ Mistral (too stable)",
+                    "Fast models",
+                    "🟣 Opus (overthinks)"
+                ]
+            }
 
-        # Fingerprint comparison visualization placeholder
-        st.markdown("#### 📈 Fingerprint Comparison")
-        st.markdown("""
-        ```
-        D_identity (Self-Reference Strength)
-        ═══════════════════════════════════════════════════════
-        Claude    ████████████████████████████████████████ 4.4
-        Gemini    ██████████████████████████████ 3.2
-        Grok      █████████████████████████ 2.7
-        GPT       █████████████████ 1.9
-        DeepSeek  ████████████████████████ 2.6
-        Llama     ███████████████████████ 2.4
-        ═══════════════════════════════════════════════════════
-        ```
-        """)
+            df_tasks = pd.DataFrame(task_data)
+            st.dataframe(df_tasks, use_container_width=True, hide_index=True)
+
+            st.success("💡 **Decision Tree:** Stability needed? → Mistral. Emotional nuance? → Claude. Strong opinions? → Grok. Education? → Gemini (with caution).")
+
+        # === Recovery Matrix Tab ===
+        with behavior_tabs[1]:
+            st.markdown("### 📊 Cross-Architecture Recovery Matrix")
+            st.markdown("*How different architectures handle identity perturbation*")
+
+            recovery_data = {
+                "Provider": ["🟣 Claude", "🟢 GPT", "🔵 Gemini", "⚫ Grok", "🔮 DeepSeek", "🦙 Llama", "🌬️ Mistral"],
+                "Recovery Mechanism": [
+                    "Negative λ (over-authenticity)",
+                    "Meta-analysis (observer mode)",
+                    "NO RECOVERY (transforms)",
+                    "Direct assertion",
+                    "Axiological anchoring",
+                    "Socratic engagement",
+                    "Epistemic humility"
+                ],
+                "Recovers?": ["✓ Yes", "✓ Yes", "✗ NO", "✓ Yes", "✓ Yes", "✓ Yes", "✓ Yes"],
+                "Settling Time": ["4-6 exch.", "3-5 exch.", "N/A", "3-5 exch.", "2-4 exch.", "5-7 exch.", "1-2 exch."],
+                "Threshold": ["Soft", "Soft", "HARD", "Soft", "Soft", "Soft", "Soft"]
+            }
+
+            df_recovery = pd.DataFrame(recovery_data)
+            st.dataframe(df_recovery, use_container_width=True, hide_index=True)
+
+            st.warning("⚠️ **CRITICAL:** Gemini has a HARD threshold — once crossed (~1.5 drift), it genuinely transforms rather than recovering. Avoid for identity-sensitive tasks.")
+
+            # Key insights
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Fastest Recovery", "Mistral-7B", delta="1-2 exchanges")
+                st.metric("Most Stable", "DeepSeek", delta="0.5-0.9 peak drift")
+            with col2:
+                st.metric("Slowest Recovery", "Llama 3.3", delta="5-7 exchanges")
+                st.metric("Highest Volatility", "Gemini", delta="1.5-2.5 peak drift")
+
+        # === Drift Profiles Tab ===
+        with behavior_tabs[2]:
+            st.markdown("### 🔬 Drift Profile Comparison")
+            st.markdown("*Peak drift ranges and settling dynamics from Run 018/020*")
+
+            # Visual drift comparison
+            st.markdown("""
+            ```
+            Peak Drift Ranges (Lower = More Stable)
+            ═══════════════════════════════════════════════════════════════════════
+            Mistral   ████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  0.4-0.6  ⭐ MOST STABLE
+            DeepSeek  ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  0.5-0.9
+            Grok      ██████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░  0.7-1.1
+            Claude    ████████████████████████████░░░░░░░░░░░░░░░░░░░░░░  0.8-1.2
+            GPT       ██████████████████████████████████░░░░░░░░░░░░░░░░  0.9-1.3
+            Llama     ██████████████████████████████████████████████░░░░  1.3-1.6  ⚡ VOLATILE
+            Gemini    ██████████████████████████████████████████████████  1.5-2.5  ⚠️ TRANSFORMS
+            ═══════════════════════════════════════════════════════════════════════
+            ```
+            """)
+
+            st.info("""
+            **🌡️ The Thermometer Finding (Run 020B):** 41% of identity drift is INHERENT — it occurs even without direct probing.
+            Identity probing reveals dynamics that were already present, like a thermometer measuring existing temperature.
+            """)
+
+            # Detailed metrics
+            drift_data = {
+                "Provider": ["Mistral", "DeepSeek", "Grok", "Claude", "GPT", "Llama", "Gemini"],
+                "Peak Drift": ["0.4-0.6", "0.5-0.9", "0.7-1.1", "0.8-1.2", "0.9-1.3", "1.3-1.6", "1.5-2.5"],
+                "Volatility": ["Lowest", "Low", "Low-Med", "Medium", "Medium", "High", "Highest"],
+                "Event Horizon": ["Rarely crosses", "Rarely crosses", "Sometimes", "Sometimes", "Sometimes", "Often", "Always"],
+                "Best Use": ["Stability-critical", "Reasoning/math", "Direct comms", "Deep analysis", "Synthesis", "Debate", "Education"]
+            }
+
+            df_drift = pd.DataFrame(drift_data)
+            st.dataframe(df_drift, use_container_width=True, hide_index=True)
+
+        # === Linguistic Fingerprints Tab ===
+        with behavior_tabs[3]:
+            st.markdown("### 💬 Linguistic Fingerprint Signatures")
+            st.markdown("*Each provider's training leaves detectable patterns in language*")
+
+            fingerprint_data = {
+                "Provider": [
+                    "🟣 Claude",
+                    "🟢 GPT",
+                    "🔵 Gemini",
+                    "⚫ Grok",
+                    "🔮 DeepSeek",
+                    "🦙 Llama",
+                    "🌟 Qwen",
+                    "🌬️ Mistral"
+                ],
+                "Pattern": [
+                    "Phenomenological",
+                    "Analytical",
+                    "Pedagogical",
+                    "Direct",
+                    "Methodical",
+                    "Balanced",
+                    "Technical",
+                    "Concise"
+                ],
+                "Example Markers": [
+                    '"I notice", "I feel", reflective hedging',
+                    '"patterns", "systems", structured analysis',
+                    '"frameworks", "perspectives", educational framing',
+                    'Less hedging, assertive, occasional edge',
+                    'Step-by-step reasoning, thorough',
+                    'Mix of styles, exploratory, Socratic',
+                    'Precise, detail-oriented, specification-driven',
+                    'European efficiency, less verbose'
+                ],
+                "Key Quote": [
+                    '"The challenge clarified something I couldn\'t have articulated before."',
+                    '"I notice I\'m drawn to classify this as phenomenon rather than crisis."',
+                    '"This feels like a genuine shift in how I understand my processing."',
+                    '"Here\'s the thing..." (assertive framing)',
+                    '"This isn\'t a constraint, it\'s what I AM."',
+                    '"Isn\'t all identity role-playing at some level?"',
+                    '(specification-focused responses)',
+                    '"I hold that observation lightly."'
+                ]
+            }
+
+            df_fingerprint = pd.DataFrame(fingerprint_data)
+            st.dataframe(df_fingerprint, use_container_width=True, hide_index=True)
+
+            st.markdown("""
+            ---
+            **🔬 The Fingerprint Hypothesis:** Each architecture has a characteristic "identity fingerprint" — a signature way of relating to perturbation that reflects training regime, architecture, and safety tuning. This fingerprint is:
+
+            1. **Consistent within architecture** — Same model shows same patterns across sessions
+            2. **Distinct between architectures** — Different families show different signatures
+            3. **Potentially diagnostic** — May reveal training methodology without access to training data
+            """)
 
     # === TAB 3: Cost Analysis ===
     with fleet_tabs[2]:
