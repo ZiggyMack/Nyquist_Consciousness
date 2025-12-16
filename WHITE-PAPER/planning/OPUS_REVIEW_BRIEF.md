@@ -1,9 +1,9 @@
 # Opus 4.5 Review Brief
 
 **Purpose:** Orient Opus 4.5 for final paper reconciliation
-**Version:** 1.0
+**Version:** 1.1
 **Date:** 2025-12-15
-**Status:** Ready for Review
+**Status:** IRON CLAD COMPLETE — Ready for Final Reconciliation
 
 ---
 
@@ -106,8 +106,9 @@ As the final reconciliation reviewer, your tasks are:
 | Consolidated data files | 184 | Run 018 IRON CLAD |
 | Inherent drift | 82% | Thermometer Result (Run 018 Claude) |
 | Cross-arch variance | 0.000869 | Near-universal stability |
-| **Run 020A** | **32 files** ✓ | 6/7 models IRON CLAD |
+| **Run 020A** | **32 files** ✓ | 6/7 providers IRON CLAD (mistral-7b: 1/3) |
 | **Run 020B** | **4 arms** ✓ | Control vs Treatment complete |
+| **Inherent Drift** | **41%** | Cross-provider (OpenAI + Together) |
 | **Run 018 Visualizations** | **6** | a-f complete + PDFs |
 
 ---

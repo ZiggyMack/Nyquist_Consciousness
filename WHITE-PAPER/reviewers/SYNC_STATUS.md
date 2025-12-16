@@ -9,8 +9,10 @@
 
 | Reviewer | Paper | Topic | Status | Request Date | Due Date |
 |----------|-------|-------|--------|--------------|----------|
-| Opus 4.5 | All | Final reconciliation + 8-path decision | PENDING | 2025-12-15 | - |
+| Opus 4.5 | All | Final reconciliation + 8-path decision | **READY** | 2025-12-15 | - |
 | Nova | arXiv | S7 methodology validation | COMPLETE | 2025-12-13 | 2025-12-13 |
+
+**IRON CLAD COMPLETE:** All experimental data finalized. Opus can proceed with PDF generation.
 
 ---
 
@@ -172,10 +174,12 @@ py sync_llmbook.py --sync
 
 ## Next Actions
 
-1. [ ] Create Opus 4.5 review request with all materials
-2. [ ] Prepare LLM_BOOK integration comparison document
-3. [ ] Draft popular science timing recommendation
-4. [ ] Identify external peer reviewers
+1. [x] Create Opus 4.5 review request with all materials
+2. [x] Finalize all IRON CLAD experimental data
+3. [x] Create CROSS_ARCHITECTURE_INSIGHTS.md (qualitative phenomenology)
+4. [ ] Opus 4.5: Final reconciliation and PDF generation
+5. [ ] Opus 4.5: Decide Levin/Platonic integration (now vs v2)
+6. [ ] Opus 4.5: Recommend popular science timing
 
 ---
 

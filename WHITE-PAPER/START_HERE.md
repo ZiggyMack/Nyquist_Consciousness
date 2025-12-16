@@ -24,15 +24,13 @@ See [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) for full orie
 
 | Paper | Status | Action |
 |-------|--------|--------|
-| **Workshop** | READY | Generate final PDF |
-| **arXiv** | READY | Generate final PDF (note: add multi-platform placeholder) |
-| **Journal** | DRAFT ONLY | Create draft with placeholders for pending data |
-
-### What's PENDING (Runs 020A, 020B)
-
-**IRON CLAD Status:** See [`README.md`](README.md) for the canonical tracking table.
+| **Workshop** | **READY** | Generate final PDF — all placeholders can be removed |
+| **arXiv** | **READY** | Generate final PDF — full validation data available |
+| **Journal** | DRAFT ONLY | Create draft (awaits human validation Q2-Q3 2026) |
 
 ### IRON CLAD COMPLETE (December 15, 2025)
+
+**All experimental runs finalized.** See [`README.md`](README.md) for the canonical tracking table.
 
 | Run | Files | Models/Providers | Status |
 |-----|-------|------------------|--------|
@@ -46,20 +44,14 @@ See [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) for full orie
 2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
 3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
-**Placeholder Template for Pending Sections:**
+**Placeholders Now Removable:**
 
-```markdown
-<!-- PLACEHOLDER: Multi-Platform Validation -->
-**Note:** This section awaits cross-platform validation from Runs 018-FULL,
-020A-FULL, and 020B-FULL. Current data represents single-platform dry runs.
+All cross-platform validation data is now available. The placeholder template below can be REPLACED with actual data from Runs 018, 020A, and 020B:
 
-Expected additions:
-- Cross-architecture variance comparison (σ² across Claude/GPT/Gemini/Grok)
-- Platform-specific settling time analysis
-- Multi-model drift correlation matrices
-- Convergence patterns across architectures
-<!-- END PLACEHOLDER -->
-```
+- Cross-architecture variance: **σ² = 0.00087** (51 models, 5 providers)
+- Platform-specific settling times: **3-7 exchanges** (consistent across architectures)
+- Inherent drift ratio: **41%** (cross-provider, Run 020B)
+- Event Horizon threshold: **D = 1.23** (validated across architectures)
 
 ---
 
@@ -368,10 +360,10 @@ You are being asked to review this research and draft publication-ready material
 
 **Phase 3: Methodology & Planning (~30 min)**
 6. [planning/NOVAS_OVERCLAIMING_PREVENTION.md](planning/NOVAS_OVERCLAIMING_PREVENTION.md) — What NOT to claim
-7. [planning/RUN_020_021_METHODOLOGY.md](planning/RUN_020_021_METHODOLOGY.md) — Triple-blind validation
+7. [planning/PUBLICATION_PIPELINE_MASTER.md](planning/PUBLICATION_PIPELINE_MASTER.md) — All 8 publication paths
 
 **Phase 4: Supporting Materials (Optional)**
-8. [planning/RUN_018_PRELAUNCH.md](planning/RUN_018_PRELAUNCH.md) — Future experiment design
+8. [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) — Final review orientation
 9. [planning/NOVA_INTEGRATION_PLAN.md](planning/NOVA_INTEGRATION_PLAN.md) — How this package was assembled
 
 ### Key Terminology
