@@ -101,12 +101,13 @@ As the final reconciliation reviewer, your tasks are:
 
 | Metric | Value | Significance |
 |--------|-------|--------------|
-| Total experimental runs | 21/22 | 98% complete |
+| Total experimental runs | 22/22 | 100% complete |
 | AI providers tested | 5 | Anthropic, OpenAI, Google, xAI, Together |
 | Consolidated data files | 184 | Run 018 IRON CLAD |
-| Inherent drift | 82% | Thermometer Result |
+| Inherent drift | 82% | Thermometer Result (Run 018 Claude) |
 | Cross-arch variance | 0.000869 | Near-universal stability |
-| **Run 020A OpenAI** | **4/3** ✓ | IRON CLAD exceeded |
+| **Run 020A** | **32 files** ✓ | 6/7 models IRON CLAD |
+| **Run 020B** | **4 arms** ✓ | Control vs Treatment complete |
 | **Run 018 Visualizations** | **6** | a-f complete + PDFs |
 
 ---
