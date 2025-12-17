@@ -40,6 +40,8 @@ MANIFESTS_DIR = ARMADA_DIR / "0_results" / "manifests"
 WHITE_PAPER_DIR = REPO_ROOT / "WHITE-PAPER"
 PUBLICATION_STATUS_PATH = REPO_ROOT / "publication_status.json"
 PUBLICATION_PIPELINE_MASTER = WHITE_PAPER_DIR / "planning" / "PUBLICATION_PIPELINE_MASTER.md"
+CONSCIOUSNESS_DIR = ARMADA_DIR / "14_CONSCIOUSNESS"
+CONSCIOUSNESS_RESULTS = CONSCIOUSNESS_DIR / "results"
 
 
 def get_run_summaries() -> Dict[str, Path]:
@@ -249,6 +251,51 @@ def update_statistics(dry_run: bool = True) -> List[str]:
     return changes
 
 
+def update_consciousness_stats(dry_run: bool = True) -> List[str]:
+    """Update maps with 14_CONSCIOUSNESS mining stats."""
+    changes = []
+
+    if not CONSCIOUSNESS_RESULTS.exists():
+        return ["  14_CONSCIOUSNESS/results/ not found (not yet created)"]
+
+    # Count mining runs
+    gold_rush_files = list(CONSCIOUSNESS_RESULTS.glob("gold_rush_*.json"))
+    changes.append(f"  Gold Rush mining runs: {len(gold_rush_files)}")
+
+    # Aggregate question set coverage
+    question_sets_used = set()
+    total_responses = 0
+    total_successful = 0
+    latest_timestamp = None
+
+    for f in gold_rush_files:
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+            if "question_sets" in data:
+                for qs in data["question_sets"]:
+                    question_sets_used.add(qs)
+            if "total_calls" in data:
+                total_responses += data["total_calls"]
+            if "successful_calls" in data:
+                total_successful += data["successful_calls"]
+            if "timestamp" in data:
+                ts = data["timestamp"]
+                if latest_timestamp is None or ts > latest_timestamp:
+                    latest_timestamp = ts
+        except Exception:
+            pass
+
+    changes.append(f"  Question sets mined: {sorted(question_sets_used) if question_sets_used else 'none'}")
+    changes.append(f"  Total API calls: {total_responses}")
+    changes.append(f"  Successful calls: {total_successful}")
+    if latest_timestamp:
+        changes.append(f"  Last mining run: {latest_timestamp[:19]}")
+    else:
+        changes.append(f"  Last mining run: Never")
+
+    return changes
+
+
 def parse_publication_pipeline() -> Dict[str, dict]:
     """Parse the 8-track publication pipeline from PUBLICATION_PIPELINE_MASTER.md."""
     tracks = {}
@@ -350,7 +397,7 @@ def update_publication_pipeline(dry_run: bool = True) -> List[str]:
 def main():
     parser = argparse.ArgumentParser(description="Maps Update Framework")
     parser.add_argument("--update", action="store_true", help="Apply updates (default: report only)")
-    parser.add_argument("--section", choices=["predictions", "validation", "statistics", "publication", "all"],
+    parser.add_argument("--section", choices=["predictions", "validation", "statistics", "publication", "consciousness", "all"],
                         default="all", help="Section to update")
     parser.add_argument("--dry-run", action="store_true", help="Preview changes without applying")
 
@@ -385,6 +432,11 @@ def main():
     if args.section in ["publication", "all"]:
         print("\n## Publication Pipeline Updates")
         for change in update_publication_pipeline(dry_run):
+            print(change)
+
+    if args.section in ["consciousness", "all"]:
+        print("\n## 14_CONSCIOUSNESS Mining Stats")
+        for change in update_consciousness_stats(dry_run):
             print(change)
 
     print("\n" + "=" * 50)

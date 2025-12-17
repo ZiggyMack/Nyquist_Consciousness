@@ -297,7 +297,7 @@ def visualize_threshold(results: List[Dict]):
     stats_text += f"Mean: {np.mean(all_drifts):.3f}\n"
     stats_text += f"Median: {np.median(all_drifts):.3f}\n"
     stats_text += f"Std: {np.std(all_drifts):.3f}"
-    ax1.text(0.98, 0.72, stats_text, transform=ax1.transAxes, fontsize=10,
+    ax1.text(0.98, 0.45, stats_text, transform=ax1.transAxes, fontsize=10,
              verticalalignment='top', horizontalalignment='right',
              bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
@@ -1440,6 +1440,8 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
     provider_stats.sort(key=lambda x: x['n'], reverse=True)
 
     print(f"Found {len(provider_stats)} provider families with sufficient data")
+    for ps in provider_stats:
+        print(f"  - {ps['provider']}: n={ps['n']}, mean={ps['mean']:.3f}")
 
     # Calculate overall variance for comparison
     all_drifts = []
@@ -1469,7 +1471,7 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
     ax1.set_ylabel('Drift (PFI)')
     ax1.set_xlabel('Provider Family')
     ax1.set_title('Drift Distribution by Provider Family')
-    ax1.tick_params(axis='x', rotation=45)
+    ax1.set_xticklabels(providers, rotation=45, ha='right')
     ax1.legend()
 
     # Variance bar chart
@@ -1481,10 +1483,11 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
     ax2.set_ylabel('Variance (σ²)')
     ax2.set_xlabel('Provider Family')
     ax2.set_title('Within-Provider Variance')
-    ax2.tick_params(axis='x', rotation=45)
+    ax2.set_xticklabels(providers, rotation=45, ha='right')
     ax2.legend()
 
     plt.tight_layout()
+    plt.subplots_adjust(bottom=0.15)  # Extra space for rotated labels
     output_path = PICS_DIR / "run018f_provider_variance.png"
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
@@ -1501,7 +1504,7 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
     ax1.set_ylabel('Drift (PFI)')
     ax1.set_xlabel('Provider Family')
     ax1.set_title('Drift Distribution by Provider Family')
-    ax1.tick_params(axis='x', rotation=45)
+    ax1.set_xticklabels(providers, rotation=45, ha='right')
     ax1.legend()
     ax2.bar(providers, variances, color=colors_bar, alpha=0.7)
     ax2.axhline(y=overall_variance, color='red', linestyle='--',
@@ -1509,9 +1512,10 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
     ax2.set_ylabel('Variance (σ²)')
     ax2.set_xlabel('Provider Family')
     ax2.set_title('Within-Provider Variance')
-    ax2.tick_params(axis='x', rotation=45)
+    ax2.set_xticklabels(providers, rotation=45, ha='right')
     ax2.legend()
     plt.tight_layout()
+    plt.subplots_adjust(bottom=0.15)
     plt.savefig(pdf_path, bbox_inches='tight')
     plt.close()
     print(f"Saved: {pdf_path}")

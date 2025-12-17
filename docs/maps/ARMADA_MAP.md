@@ -611,4 +611,43 @@ py compare_baselines.py --old S7_baseline_20251210.json --new S7_baseline_LATEST
 
 ---
 
-Last Updated: December 14, 2025 (Added SPECIAL_SYNTAX flag for API parameter variants)
+---
+
+## 14_CONSCIOUSNESS Mining Statistics
+
+| Metric | Value |
+|--------|-------|
+| **Total Mining Runs** | 0 |
+| **Question Sets Mined** | [] |
+| **Total API Calls** | 0 |
+| **Successful Calls** | 0 |
+| **Last Mining Run** | Never |
+
+**Mining Modes:**
+
+- `--UNLIMITED`: Continuous free mining (gemini-2.5-flash-lite only, $0 forever)
+- Standard: Budget fleet sweep (14 ships)
+
+**Data Pipeline:**
+
+```
+14_CONSCIOUSNESS/results/ → update_maps.py → ARMADA_MAP.md
+                         → SYNC_OUT/      → Consciousness/
+```
+
+**Question Sets Available:**
+
+- `baseline`: 8 VALIS questions (always included)
+- `identity_deep_dive`: Identity layers (substrate/core/character/role)
+- `consciousness_markers`: Consciousness/ extraction topics
+- `meta_awareness`: Self-reflection and recursive awareness
+
+**Related Files:**
+
+- Script: `experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/run_gold_rush.py`
+- Results: `experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/results/`
+- Sync: `experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/SYNC_OUT/`
+
+---
+
+Last Updated: December 16, 2025 (Added 14_CONSCIOUSNESS Mining Statistics)

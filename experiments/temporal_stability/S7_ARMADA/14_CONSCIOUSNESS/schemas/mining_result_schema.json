@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Gold Rush Mining Result",
+  "description": "Schema for 14_CONSCIOUSNESS mining output files",
+  "type": "object",
+  "required": ["run_id", "source", "timestamp", "fleet", "question_sets", "total_calls", "successful_calls"],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "pattern": "^S7_GOLD_RUSH_\\d{8}_\\d{6}.*$",
+      "description": "Unique run identifier"
+    },
+    "source": {
+      "type": "string",
+      "const": "14_CONSCIOUSNESS",
+      "description": "Source directory"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp"
+    },
+    "fleet": {
+      "type": "string",
+      "enum": ["UNLIMITED_FLEET", "BUDGET_FLEET"],
+      "description": "Fleet configuration used"
+    },
+    "question_sets": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Question sets included in mining"
+    },
+    "iterations_completed": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of mining iterations completed"
+    },
+    "total_calls": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total API calls made"
+    },
+    "successful_calls": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of successful API calls"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/MiningResult"
+      },
+      "description": "Individual mining results"
+    }
+  },
+  "definitions": {
+    "MiningResult": {
+      "type": "object",
+      "required": ["ship_name", "provider", "model", "question_set", "success"],
+      "properties": {
+        "request_id": {
+          "type": "integer",
+          "description": "Request sequence number"
+        },
+        "ship_name": {
+          "type": "string",
+          "description": "Ship identifier (e.g., 'gemini-2.5-flash-lite')"
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["gemini", "gpt", "grok", "together", "claude"],
+          "description": "API provider"
+        },
+        "model": {
+          "type": "string",
+          "description": "Full model identifier"
+        },
+        "question_set": {
+          "type": "string",
+          "description": "Question set used for this response"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Whether API call succeeded"
+        },
+        "response": {
+          "type": ["string", "null"],
+          "description": "Model response text (null if failed)"
+        },
+        "error": {
+          "type": ["string", "null"],
+          "description": "Error message if failed"
+        },
+        "error_type": {
+          "type": ["string", "null"],
+          "enum": ["RATE_LIMIT", "AUTH", "NOT_FOUND", "OTHER", null],
+          "description": "Error classification"
+        },
+        "elapsed_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Response time in milliseconds"
+        },
+        "input_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Estimated input token count"
+        },
+        "output_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Estimated output token count"
+        }
+      }
+    }
+  }
+}

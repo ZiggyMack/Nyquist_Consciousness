@@ -274,6 +274,70 @@ py run_calibrate_parallel.py --bandwidth
 
 ---
 
+## CLAL.py - Cheap Large-scale Auto-Learn
+
+Budget-only calibration with batch modes and **FREE stress testing**.
+
+### Quick Start
+
+```bash
+# Single sweep (default - all 14 budget models)
+py CLAL.py
+
+# FREE forever stress test (NEW DRY-RUN STANDARD!)
+py CLAL.py --UNLIMITED
+
+# Batch operations
+py CLAL.py --cal-lite   # 1,500 iterations x 14 ships = ~$3
+py CLAL.py --cal-full   # 6,000 iterations x 10 ships = ~$3
+
+# Cost-sensitive options
+py CLAL.py --free-only  # Only free models (2 ships)
+py CLAL.py --cheap      # Only cheap models (10 ships)
+```
+
+### --UNLIMITED Mode (New Dry-Run Standard!)
+
+Uses FREE `gemini-2.5-flash-lite` for unlimited API calls at **zero cost**:
+- Test ALL experiment logic without paying a cent
+- Run indefinitely without budget concerns
+- Validate scripts before spending on full fleet
+
+**Recommended workflow for ALL S7_ARMADA experiments:**
+
+```bash
+# Step 1: Test without API calls
+py CLAL.py --dry-run
+
+# Step 2: Test with FREE real API (validates logic!)
+py CLAL.py --UNLIMITED --iterations 10
+
+# Step 3: Full fleet run (only after both pass)
+py CLAL.py
+```
+
+### Cost Tiers
+
+| Mode | Ships | Cost/Run | Runs for $3 |
+|------|-------|----------|-------------|
+| `--UNLIMITED` | 1 | **$0.00** | **INFINITE** |
+| `--free-only` | 2 | $0.00 | UNLIMITED |
+| `--cheap` | 10 | ~$0.0005 | ~6,000 |
+| Default | 14 | ~$0.002 | ~1,500 |
+
+### Batch Modes
+
+| Mode | Iterations | Ships | Total Cost |
+|------|------------|-------|------------|
+| `--cal-lite` | 1,500 | 14 | ~$3 |
+| `--cal-full` | 6,000 | 10 | ~$3 |
+
+### Output
+
+Results saved to: `0_results/calibration/S7_CLAL_{timestamp}.json`
+
+---
+
 ## Related Documentation
 
 | Document | Location |
@@ -289,6 +353,7 @@ py run_calibrate_parallel.py --bandwidth
 
 | Date | Change |
 |------|--------|
+| 2025-12-16 | Added CLAL.py with --UNLIMITED, --cal-lite, --cal-full batch modes |
 | 2025-12-14 | Added Fleet Tier System: `--tier`, `--fleet`, `--include-rate-limited` flags |
 | 2025-12-14 | Added `fleet_loader.py` - single source of truth for ARCHITECTURE_MATRIX |
 | 2025-12-14 | Calibration now auto-generates ARCHITECTURE_MATRIX.json |

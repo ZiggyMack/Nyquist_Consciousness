@@ -24,7 +24,7 @@ py run_calibrate_parallel.py --full --depth ping       # Full armada, health che
 py run_calibrate_parallel.py --quick --depth ping      # Quick provider check
 py run_calibrate_parallel.py --bandwidth               # Test concurrency limits
 
-DEFAULT: --quick --depth baseline
+DEFAULT: --curated --depth baseline
 
 OUTPUT:
 -------
@@ -1072,6 +1072,8 @@ def main():
         description="S7 Armada Pre-Flight Calibration",
         epilog="""
 Examples:
+  py run_calibrate_parallel.py                              # Curated fleet (DEFAULT), 8-question baseline
+  py run_calibrate_parallel.py --curated                    # Curated fleet, 8-question baseline
   py run_calibrate_parallel.py --full                       # Full armada, 8-question baseline
   py run_calibrate_parallel.py --full --depth ping          # Full armada, health check only
   py run_calibrate_parallel.py --quick --depth ping         # Quick check, health check only
@@ -1086,6 +1088,8 @@ Examples:
         help="Quick test: 1 model per provider")
     parser.add_argument("--full", action="store_true",
         help="Full armada: Test all models, detect ghost ships")
+    parser.add_argument("--curated", action="store_true",
+        help="Curated fleet: Only curated=true models from ARCHITECTURE_MATRIX.json (DEFAULT)")
     parser.add_argument("--bandwidth", action="store_true",
         help="Bandwidth test: Find max safe concurrency")
 
@@ -1105,9 +1109,12 @@ Examples:
 
     args = parser.parse_args()
 
-    # Default to quick if no args
-    if not (args.quick or args.full or args.bandwidth or args.tier or args.fleet):
-        args.quick = True
+    # Global declaration for FULL_ARMADA - needed for tier/fleet/curated options
+    global FULL_ARMADA
+
+    # Default to curated if no args
+    if not (args.quick or args.full or args.curated or args.bandwidth or args.tier or args.fleet):
+        args.curated = True
 
     # Handle tier or fleet selection (overrides --full)
     if args.tier or args.fleet:
@@ -1132,7 +1139,6 @@ Examples:
 
         # Convert ship list to FULL_ARMADA format for run_full_armada_check
         # Use the already-loaded FULL_ARMADA (which has correct provider aliases)
-        global FULL_ARMADA
         tier_fleet = {}
         for ship_name in ship_list:
             if ship_name in FULL_ARMADA:
@@ -1160,6 +1166,38 @@ Examples:
         original_armada = FULL_ARMADA
         FULL_ARMADA = tier_fleet
         print(f"\n[{fleet_name}] Calibrating {len(tier_fleet)} ships...")
+        run_full_armada_check(depth=args.depth)
+        FULL_ARMADA = original_armada
+    elif args.curated:
+        # Run only curated=true models from ARCHITECTURE_MATRIX.json
+        if not _USING_FLEET_LOADER:
+            print("[ERROR] Fleet loader not available - cannot use --curated option")
+            print("        Using --quick instead...")
+            run_quick_check(depth=args.depth)
+            return
+
+        # Get curated ships from matrix
+        matrix = load_architecture_matrix()
+        curated_fleet = {}
+        for ship_name, ship_data in matrix.items():
+            if ship_data.get("curated", False) and ship_data.get("status") == "operational":
+                provider = ship_data.get("provider", "unknown")
+                provider_alias = {
+                    "anthropic": "claude",
+                    "openai": "gpt",
+                    "google": "gemini",
+                    "xai": "grok",
+                    "together": "together"
+                }.get(provider, provider)
+                curated_fleet[ship_name] = {
+                    "provider": provider_alias,
+                    "model": ship_data.get("model", ship_name)
+                }
+
+        # Temporarily override FULL_ARMADA and run check
+        original_armada = FULL_ARMADA
+        FULL_ARMADA = curated_fleet
+        print(f"\n[CURATED] Calibrating {len(curated_fleet)} curated ships...")
         run_full_armada_check(depth=args.depth)
         FULL_ARMADA = original_armada
     elif args.full:

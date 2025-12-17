@@ -19,6 +19,37 @@ Key insight: "Commutation is LOCAL (diagram property). S² is GLOBAL (topologica
 
 METHODOLOGY: Behavioral T_E/T_O (observe behavior, don't ask directly - Oobleck Effect)
 
+USAGE:
+------
+    # Full armada run (all operational ships)
+    py run022_commutation_cartography.py --fleet full
+
+    # Curated fleet run (recommended)
+    py run022_commutation_cartography.py --fleet curated
+
+    # Quick test (1 model per provider)
+    py run022_commutation_cartography.py --fleet quick
+
+    # Single model test
+    py run022_commutation_cartography.py --model claude-opus-4.5 --provider anthropic
+
+    # Budget fleet only (for cheap testing)
+    py run022_commutation_cartography.py --tier budget
+
+    # Dry run (show what would run)
+    py run022_commutation_cartography.py --dry-run
+
+PREREQUISITES:
+--------------
+    1. Run calibration first: py ../1_CALIBRATION/run_calibrate_parallel.py --curated
+    2. Ensure API keys configured in ../.env
+    3. See RUN_022_DESIGN.md for full experiment specification
+
+OUTPUT:
+-------
+    Results saved to: 0_results/runs/S7_run_022_*.json
+    Temporal logs: 0_results/temporal_logs/run022_*.json
+
 Author: Claude (Nyquist Framework)
 Date: December 15, 2025
 """

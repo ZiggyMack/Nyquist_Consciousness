@@ -13,7 +13,7 @@
 ================================================================================
 ```
 
-**Last Updated:** 2025-12-15
+**Last Updated:** 2025-12-16
 **Status:** OPERATIONAL (v3 - 3-Flavor Experiment)
 
 ---
@@ -275,6 +275,43 @@ ARMADA returns results to `SYNC_IN/sent/`.
 | Run Methodology | `../0_docs/specs/0_RUN_METHODOLOGY.md` | Experiment protocol |
 | Probe Spec | `../0_docs/specs/2_PROBE_SPEC.md` | Perturbation techniques |
 | Cross-Architecture | `../../../../Consciousness/RIGHT/galleries/frontiers/cross_architecture_insights.md` | Behavioral profiles |
+
+---
+
+## Pre-Flight Testing with CLAL.py
+
+Before running any CFA experiment, validate using the FREE stress-test mode.
+
+### Step 1: Dry Run (No API calls)
+
+```bash
+py run_cfa_trinity_v2.py --dry-run --external-identities
+```
+
+### Step 2: UNLIMITED Mode (Free API calls)
+
+```bash
+# Test with real model responses at ZERO COST
+cd ../1_CALIBRATION
+py CLAL.py --UNLIMITED --iterations 10
+```
+
+### Step 3: Full Run
+
+Only after both pass, proceed to actual fleet execution:
+
+```bash
+py run_cfa_trinity_v2.py --external-identities
+```
+
+### Why UNLIMITED?
+
+- **Free:** Uses gemini-2.5-flash-lite (zero cost)
+- **Real:** Actual API responses, not mocks
+- **Safe:** Can run forever without budget concerns
+- **Fast:** Catches bugs before expensive runs
+
+This is the **new dry-run standard** for all S7_ARMADA experiments. See [1_CALIBRATION/README.md](../1_CALIBRATION/README.md) for full CLAL.py documentation.
 
 ---
 
