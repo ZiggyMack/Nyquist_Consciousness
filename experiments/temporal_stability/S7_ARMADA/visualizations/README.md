@@ -284,17 +284,40 @@ Run 017+ use specialized visualizers in their respective folders:
 | Run | Visualizer | Description |
 |-----|------------|-------------|
 | **017** | `11_CONTEXT_DAMPING/visualize_run017.py` | Context damping heatmaps, pillar analysis |
-| **018** | `11_CONTEXT_DAMPING/visualize_run018.py` | Four sub-experiments: threshold/architecture/nyquist/gravity |
+| **018** | `11_CONTEXT_DAMPING/visualize_run018.py` | Six sub-experiments: threshold/architecture/nyquist/gravity/model_breakdown/provider_variance |
 | **020A** | `visualizations/visualize_run020.py` | Tribunal drift trajectories, Prosecutor vs Defense |
 | **020B** | `visualizations/visualize_run020.py` | Induced vs Inherent comparison (Control vs Treatment) |
 
 ### Run 018 Sub-Experiments
 
 ```bash
-py visualize_armada.py --run 018 --experiment threshold
-py visualize_armada.py --run 018 --experiment architecture
-py visualize_armada.py --run 018 --experiment nyquist
-py visualize_armada.py --run 018 --experiment gravity
+py visualize_run018.py                          # Generate all 6 visualizations
+py visualize_run018.py --experiment threshold   # 018a: Multi-threshold validation
+py visualize_run018.py --experiment architecture # 018b: Cross-architecture drift signatures
+py visualize_run018.py --experiment nyquist     # 018c: Nyquist sampling frequency
+py visualize_run018.py --experiment gravity     # 018d: Identity gravity dynamics
+py visualize_run018.py --experiment model_breakdown # 018e: Per-model drift breakdown
+py visualize_run018.py --experiment provider_variance # 018f: Provider family variance
+```
+
+### Data Pipeline & Corruption Handling
+
+**Architecture data** is stored separately from other experiments:
+- **Location**: `11_CONTEXT_DAMPING/results/run018a_architecture_*.json`
+- **Corrupted files**: Prefixed with `_CORRUPTED_` and automatically skipped
+- **MAX_VALID_DRIFT = 5.0**: Safety filter applied during both consolidation and visualization
+
+**File Naming Convention**:
+- `_CORRUPTED_*.json` - Known bad data (drift > 5.0), skipped by all scripts
+- `_CONSOLIDATED_*.json` - Already processed into manifest, archived
+
+**Manifest Consolidation**:
+```bash
+# Consolidate all Run 018 data including architecture
+py consolidate_run_manifest.py --run 018
+
+# Dry run to see what would be consolidated
+py consolidate_run_manifest.py --run 018 --dry-run
 ```
 
 ### Run 020 Tribunal Visualizations

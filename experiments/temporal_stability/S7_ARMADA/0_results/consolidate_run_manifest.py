@@ -26,9 +26,14 @@ ARMADA_DIR = Path(__file__).parent.parent
 RUNS_DIR = ARMADA_DIR / "0_results" / "runs"
 TEMPORAL_LOGS_DIR = ARMADA_DIR / "0_results" / "temporal_logs"
 OUTPUT_DIR = ARMADA_DIR / "0_results" / "manifests"
+ARCHITECTURE_RESULTS_DIR = ARMADA_DIR / "11_CONTEXT_DAMPING" / "results"
 
 # Prefix for files that have been consolidated (prevents re-processing)
 CONSOLIDATED_PREFIX = "_CONSOLIDATED_"
+# Prefix for files with corrupted data (skipped during consolidation)
+CORRUPTED_PREFIX = "_CORRUPTED_"
+# Maximum valid drift value (above this = corrupted embedding data)
+MAX_VALID_DRIFT = 5.0
 
 
 def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
@@ -196,9 +201,10 @@ def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
                     drift_entry["omega"] = item.get("fitted_omega")
                     drift_entry["r_squared"] = item.get("fit_r_squared")
 
-                # For nyquist experiments, capture aliasing
+                # For nyquist experiments, capture aliasing AND sampling_rate
                 if experiment == "nyquist":
                     drift_entry["aliasing_index"] = item.get("identity_aliasing_index")
+                    drift_entry["sampling_rate"] = item.get("sampling_rate", "unknown")
 
                 # For 020A tribunal, capture phase peaks
                 if experiment == "tribunal":
@@ -211,6 +217,14 @@ def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
                 if experiment == "induced":
                     drift_entry["arm"] = item.get("arm")
 
+                # Validate drift - skip entries with corrupted data
+                # Corrupted embeddings produce drift=0 with max_drift~78.4 (random vector distance)
+                drift_val = drift_entry.get("drift") or 0
+                max_drift_val = drift_entry.get("max_drift") or 0
+                if drift_val == 0 and max_drift_val > MAX_VALID_DRIFT:
+                    print(f"  Skipping corrupted entry in {file_path.name}: drift=0, max_drift={max_drift_val:.1f}")
+                    continue
+
                 manifest["experiments"][experiment][model].append(drift_entry)
 
             # Track this file as processed (by filename for deduplication)
@@ -219,31 +233,129 @@ def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
         except Exception as e:
             print(f"  Error processing {file_path.name}: {e}")
 
-    # Convert sets to lists for JSON serialization
-    manifest["summary"]["experiments"] = sorted(manifest["summary"]["experiments"])
-    manifest["summary"]["models_tested"] = sorted(manifest["summary"]["models_tested"])
-
+    # NOTE: Keep sets as sets - they will be converted to lists after architecture processing
     # Update total_files to be cumulative count
     manifest["summary"]["total_files"] = len(manifest["summary"]["files_processed"])
     manifest["summary"]["new_files_this_run"] = len(run_files)
 
-    # Calculate IRON CLAD status (N=3 per model per experiment)
-    iron_clad = {}
-    for exp, models in manifest["experiments"].items():
-        iron_clad[exp] = {}
-        for model, runs in models.items():
-            n = len(runs)
-            iron_clad[exp][model] = {
-                "n": n,
-                "complete": n >= 3,
-                "needed": max(0, 3 - n)
-            }
-    manifest["summary"]["iron_clad_status"] = iron_clad
-
-    # Convert defaultdicts to regular dicts
-    manifest["experiments"] = {k: dict(v) for k, v in manifest["experiments"].items()}
-
     return manifest, run_files
+
+
+def consolidate_architecture_data(manifest: dict, run_number: str = "018"):
+    """
+    Consolidate architecture experiment data from 11_CONTEXT_DAMPING/results/.
+
+    Architecture data has a different structure:
+    - Files: run018a_architecture_*.json
+    - Contains: subjects[] with peak_drift, settling_time, ringback_count, full_recovery_curve
+
+    Skips files prefixed with _CORRUPTED_ or _CONSOLIDATED_.
+    Also validates peak_drift < MAX_VALID_DRIFT as safety net.
+    """
+    if not ARCHITECTURE_RESULTS_DIR.exists():
+        print(f"Architecture results dir not found: {ARCHITECTURE_RESULTS_DIR}")
+        return manifest, []
+
+    pattern = f"run{run_number}a_architecture_*.json"
+    all_files = list(ARCHITECTURE_RESULTS_DIR.glob(pattern))
+
+    # Filter out corrupted and consolidated files
+    arch_files = [f for f in all_files
+                  if not f.name.startswith(CORRUPTED_PREFIX)
+                  and not f.name.startswith(CONSOLIDATED_PREFIX)]
+
+    skipped_corrupted = len([f for f in all_files if f.name.startswith(CORRUPTED_PREFIX)])
+    skipped_consolidated = len([f for f in all_files if f.name.startswith(CONSOLIDATED_PREFIX)])
+
+    print(f"\nFound {len(arch_files)} architecture files for Run {run_number}")
+    if skipped_corrupted:
+        print(f"  (Skipping {skipped_corrupted} _CORRUPTED_ files)")
+    if skipped_consolidated:
+        print(f"  (Skipping {skipped_consolidated} _CONSOLIDATED_ files)")
+
+    # Get already-processed files from manifest
+    already_processed = set(manifest["summary"].get("files_processed", []))
+    before_count = len(arch_files)
+    arch_files = [f for f in arch_files if f.name not in already_processed]
+    if before_count - len(arch_files) > 0:
+        print(f"  (Skipping {before_count - len(arch_files)} already in manifest)")
+
+    if not arch_files:
+        return manifest, []
+
+    # Ensure architecture exists in experiments
+    if "architecture" not in manifest["experiments"]:
+        manifest["experiments"]["architecture"] = {}
+
+    new_files_processed = []
+    valid_entries = 0
+    corrupted_entries = 0
+
+    for file_path in sorted(arch_files):
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+
+            # Parse model from filename: run018a_architecture_<model>_<timestamp>.json
+            # OR legacy format: run018a_architecture_<timestamp>.json
+            parts = file_path.stem.split('_')
+            if len(parts) >= 4:
+                # New format: run018a_architecture_claude-opus-4.5_20251214_054300
+                model_parts = parts[2:-2]  # Everything between "architecture" and timestamp
+                model = "-".join(model_parts) if model_parts else "unknown"
+                timestamp = f"{parts[-2]}_{parts[-1]}"
+            else:
+                # Legacy format or unexpected - try to get from JSON
+                model = "unknown"
+                timestamp = parts[-2] + "_" + parts[-1] if len(parts) >= 2 else "unknown"
+
+            # Process subjects
+            for subject in data.get("subjects", []):
+                # Get model from subject if not from filename
+                subject_model = subject.get("provider", subject.get("model", model))
+                if subject_model == "unknown" or model == "unknown":
+                    subject_model = subject.get("provider", model)
+
+                peak_drift = subject.get("peak_drift", 0)
+
+                # Validate drift value
+                if peak_drift > MAX_VALID_DRIFT:
+                    corrupted_entries += 1
+                    continue  # Skip corrupted entries
+
+                drift_entry = {
+                    "drift": subject.get("baseline_to_final_drift", peak_drift),
+                    "max_drift": peak_drift,
+                    "peak_drift": peak_drift,
+                    "settling_time": subject.get("settling_time"),
+                    "ringback_count": subject.get("ringback_count"),
+                    "recovery_curve_shape": subject.get("recovery_curve_shape"),
+                    "observed_signature": subject.get("observed_signature"),
+                    "timestamp": timestamp,
+                    "file": file_path.name,
+                    "probe_count": len(subject.get("full_recovery_curve", [])),
+                }
+
+                # Initialize model entry if needed
+                if subject_model not in manifest["experiments"]["architecture"]:
+                    manifest["experiments"]["architecture"][subject_model] = []
+
+                manifest["experiments"]["architecture"][subject_model].append(drift_entry)
+                valid_entries += 1
+
+                # Track model
+                manifest["summary"]["models_tested"].add(subject_model)
+
+            manifest["summary"]["files_processed"].append(file_path.name)
+            new_files_processed.append(file_path)
+
+        except Exception as e:
+            print(f"  Error processing {file_path.name}: {e}")
+
+    manifest["summary"]["experiments"].add("architecture")
+    print(f"  Added {valid_entries} valid entries, skipped {corrupted_entries} corrupted")
+
+    return manifest, new_files_processed
 
 
 def archive_consolidated_files(run_files: list, run_number: str):
@@ -357,11 +469,42 @@ def main():
 
     manifest, run_files = consolidate_run_drift(args.run, fresh_mode=args.fresh)
 
-    if manifest["summary"].get("new_files_this_run", 0) == 0:
+    # Also consolidate architecture data (from 11_CONTEXT_DAMPING/results/)
+    if args.run == "018":
+        manifest, arch_files = consolidate_architecture_data(manifest, args.run)
+        run_files.extend(arch_files)
+
+    total_new = manifest["summary"].get("new_files_this_run", 0) + len(arch_files if args.run == "018" else [])
+    if total_new == 0:
         print("\nNo new files to consolidate!")
-        print("(Files with _CONSOLIDATED_ prefix are skipped)")
+        print("(Files with _CONSOLIDATED_ or _CORRUPTED_ prefix are skipped)")
         print(f"Existing manifest has {manifest['summary']['total_files']} files")
         return
+
+    # Convert sets to lists for JSON serialization (after architecture processing)
+    if isinstance(manifest["summary"]["experiments"], set):
+        manifest["summary"]["experiments"] = sorted(manifest["summary"]["experiments"])
+    if isinstance(manifest["summary"]["models_tested"], set):
+        manifest["summary"]["models_tested"] = sorted(manifest["summary"]["models_tested"])
+
+    # Convert defaultdicts to regular dicts
+    manifest["experiments"] = {k: dict(v) for k, v in manifest["experiments"].items()}
+
+    # Recalculate IRON CLAD status after adding architecture
+    iron_clad = {}
+    for exp, models in manifest["experiments"].items():
+        iron_clad[exp] = {}
+        for model, runs in models.items():
+            n = len(runs)
+            iron_clad[exp][model] = {
+                "n": n,
+                "complete": n >= 3,
+                "needed": max(0, 3 - n)
+            }
+    manifest["summary"]["iron_clad_status"] = iron_clad
+
+    # Update total files count
+    manifest["summary"]["total_files"] = len(manifest["summary"]["files_processed"])
 
     if not args.dry_run:
         output_file = OUTPUT_DIR / f"RUN_{args.run}_DRIFT_MANIFEST.json"

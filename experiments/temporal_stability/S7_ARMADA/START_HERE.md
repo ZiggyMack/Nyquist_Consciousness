@@ -664,6 +664,47 @@ py --version  # Should show 3.12+
 
 ---
 
+## Data Pipeline & Corruption Handling (December 2025)
+
+### Architecture Data Location
+
+Architecture experiment data is stored separately from other experiments:
+
+- **Location**: `11_CONTEXT_DAMPING/results/run018a_architecture_*.json`
+- **Manifest**: `0_results/manifests/RUN_018_DRIFT_MANIFEST.json`
+
+### Corrupted Data Handling
+
+Some architecture experiment files contain corrupted embedding data (drift values > 5.0, caused by random vector comparisons). These are handled as follows:
+
+**File Naming Convention:**
+
+- `_CORRUPTED_*.json` - Known bad data (drift > 5.0), skipped by all scripts
+- `_CONSOLIDATED_*.json` - Already processed into manifest, archived
+
+**Safety Threshold:**
+
+```python
+MAX_VALID_DRIFT = 5.0  # Above this = corrupted embedding data
+```
+
+**Scripts Updated:**
+
+- `visualize_run018.py` - Skips `_CORRUPTED_` files, filters drift > MAX_VALID_DRIFT
+- `consolidate_run_manifest.py` - New `consolidate_architecture_data()` function
+
+**Consolidation Commands:**
+
+```bash
+# Consolidate all Run 018 data including architecture
+py consolidate_run_manifest.py --run 018
+
+# Dry run to see what would be consolidated
+py consolidate_run_manifest.py --run 018 --dry-run
+```
+
+---
+
 ## Post-Run Pipeline
 
 After ANY run completes, follow this checklist:

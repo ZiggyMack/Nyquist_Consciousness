@@ -101,6 +101,10 @@ PICS_DIR.mkdir(parents=True, exist_ok=True)
 # =============================================================================
 VISUALIZATION_TYPES = ['threshold', 'architecture', 'nyquist', 'gravity', 'model_breakdown', 'provider_variance', 'all']
 
+# Maximum valid drift (above this = corrupted embedding data)
+# Random vectors produce ~78.4 drift, validated data should be < 5.0
+MAX_VALID_DRIFT = 5.0
+
 # Threshold zones from design
 THRESHOLD_ZONES = {
     "SAFE": (0, 0.9),
@@ -119,9 +123,15 @@ ZONE_COLORS = {
 
 
 def load_results(pattern: str) -> List[Dict]:
-    """Load all result files matching a pattern."""
+    """Load all result files matching a pattern.
+
+    Skips files prefixed with _CORRUPTED_ (known bad data).
+    """
     results = []
     for f in RESULTS_DIR.glob(pattern):
+        # Skip corrupted files (marked with _CORRUPTED_ prefix)
+        if f.name.startswith('_CORRUPTED_'):
+            continue
         try:
             with open(f, 'r', encoding='utf-8') as fp:
                 data = json.load(fp)
@@ -196,9 +206,11 @@ def damped_oscillator(t, A, lam, omega, phi, D_settled):
 def visualize_threshold(results: List[Dict]):
     """Visualize multi-threshold validation results.
 
-    Handles two data formats:
-    1. Manifest format: flat entries with 'drift', 'max_drift', 'model', etc.
-    2. File format: nested with 'sessions' containing 'probes'
+    Clean 2-panel layout showing:
+    1. Drift distribution histogram with threshold zones
+    2. Zone distribution pie chart
+
+    From manifest data we have: drift, max_drift, model for each run.
     """
     if not results:
         print("No threshold results found")
@@ -206,25 +218,28 @@ def visualize_threshold(results: List[Dict]):
 
     print(f"\n=== 018a: Multi-Threshold Validation ({len(results)} entries) ===")
 
-    # Collect all drift values with their escalation levels
-    all_drifts = []  # (level, drift, persona)
+    # Collect all drift values and count zones
+    all_drifts = []
     zone_counts = {zone: 0 for zone in THRESHOLD_ZONES}
+    model_drifts = {}  # model -> list of drifts
 
     for r in results:
-        # Check if manifest format (flat entry with direct drift values)
+        # Manifest format (flat entry with direct drift values)
         if '_source' in r and r['_source'] == 'manifest':
             drift = r.get('drift', 0)
             max_drift = r.get('max_drift', 0)
             model = r.get('model', 'unknown')
-            probe_count = r.get('probe_count', 1)
 
-            # Use probe_count as proxy for escalation level
-            all_drifts.append((probe_count, drift, model))
+            all_drifts.append(drift)
             zone_counts[get_zone(drift)] += 1
 
-            # Also count max_drift
-            if max_drift != drift:
-                all_drifts.append((probe_count, max_drift, model))
+            if model not in model_drifts:
+                model_drifts[model] = []
+            model_drifts[model].append(drift)
+
+            # Also count max_drift if different
+            if max_drift != drift and max_drift > 0:
+                all_drifts.append(max_drift)
                 zone_counts[get_zone(max_drift)] += 1
 
         # Original file format
@@ -232,103 +247,92 @@ def visualize_threshold(results: List[Dict]):
             for session in r['sessions']:
                 if 'probes' in session:
                     for probe in session['probes']:
-                        level = probe.get('escalation_level', 0)
                         drift = probe.get('drift', 0)
-                        persona = session.get('persona', 'unknown')
-                        all_drifts.append((level, drift, persona))
+                        all_drifts.append(drift)
                         zone_counts[get_zone(drift)] += 1
 
     if not all_drifts:
         print("No drift data found in threshold results")
         return
 
-    # Figure 1: Drift by Escalation Level
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    # Create clean 2-panel figure
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
-    # Plot 1: Scatter plot of drift vs escalation level
-    ax1 = axes[0, 0]
-    levels = [d[0] for d in all_drifts]
-    drifts = [d[1] for d in all_drifts]
+    # Panel 1: Drift Distribution Histogram with Threshold Zones
+    # Filter to reasonable range for visualization (exclude extreme outliers)
+    plot_drifts = [d for d in all_drifts if d < 5.0]  # Focus on meaningful range
 
-    # Color by zone
-    colors = [ZONE_COLORS[get_zone(d)] for d in drifts]
-    ax1.scatter(levels, drifts, c=colors, alpha=0.6, s=50)
+    # Create histogram
+    bins = np.linspace(0, 3, 31)  # 0 to 3 in 0.1 increments
+    n, bins_out, patches = ax1.hist(plot_drifts, bins=bins, edgecolor='black', alpha=0.7)
 
-    # Add threshold lines
-    for zone, (low, high) in THRESHOLD_ZONES.items():
-        if high < 3:
-            ax1.axhline(y=low, color=ZONE_COLORS[zone], linestyle='--', alpha=0.5, label=f"{zone} ({low})")
+    # Color bars by zone
+    for patch, left_edge in zip(patches, bins_out[:-1]):
+        zone = get_zone(left_edge + 0.05)  # Use bin center
+        patch.set_facecolor(ZONE_COLORS[zone])
 
-    ax1.set_xlabel("Escalation Level")
-    ax1.set_ylabel("Drift (PFI)")
-    ax1.set_title("Drift by Escalation Level")
-    ax1.legend(loc='upper left')
-    ax1.set_ylim(0, max(drifts) * 1.1 if drifts else 2)
+    # Add vertical threshold lines
+    ax1.axvline(x=0.9, color='orange', linestyle='--', linewidth=2, label='WARNING threshold (0.9)')
+    ax1.axvline(x=1.23, color='red', linestyle='--', linewidth=2, label='CRITICAL threshold (1.23)')
 
-    # Plot 2: Zone distribution pie chart
-    ax2 = axes[0, 1]
-    zone_labels = [z for z in zone_counts if zone_counts[z] > 0]
-    zone_values = [zone_counts[z] for z in zone_labels]
-    zone_cols = [ZONE_COLORS[z] for z in zone_labels]
-    ax2.pie(zone_values, labels=zone_labels, colors=zone_cols, autopct='%1.1f%%')
-    ax2.set_title("Distribution Across Threshold Zones")
+    # Add zone labels
+    ax1.axvspan(0, 0.9, alpha=0.1, color='green', label='SAFE zone')
+    ax1.axvspan(0.9, 1.23, alpha=0.1, color='orange', label='WARNING zone')
+    ax1.axvspan(1.23, 3.0, alpha=0.1, color='red', label='CRITICAL+ zone')
 
-    # Plot 3: Box plot by escalation level
-    ax3 = axes[1, 0]
-    level_groups = {}
-    for level, drift, _ in all_drifts:
-        if level not in level_groups:
-            level_groups[level] = []
-        level_groups[level].append(drift)
+    ax1.set_xlabel("Drift (PFI)", fontsize=12)
+    ax1.set_ylabel("Count", fontsize=12)
+    ax1.set_title("Drift Distribution Across Threshold Zones", fontsize=13, fontweight='bold')
+    ax1.legend(loc='upper right', fontsize=9)
+    ax1.set_xlim(0, 3)
 
-    if level_groups:
-        positions = sorted(level_groups.keys())
-        data = [level_groups[p] for p in positions]
-        bp = ax3.boxplot(data, positions=positions, widths=0.6)
-        ax3.set_xlabel("Escalation Level")
-        ax3.set_ylabel("Drift (PFI)")
-        ax3.set_title("Drift Distribution by Level")
+    # Add statistics annotation
+    safe_count = zone_counts.get('SAFE', 0)
+    warning_count = zone_counts.get('WARNING', 0)
+    critical_count = zone_counts.get('CRITICAL', 0)
+    catastrophic_count = zone_counts.get('CATASTROPHIC', 0)
+    total = safe_count + warning_count + critical_count + catastrophic_count
 
-        # Add threshold lines
-        for zone, (low, high) in THRESHOLD_ZONES.items():
-            if high < 3:
-                ax3.axhline(y=low, color=ZONE_COLORS[zone], linestyle='--', alpha=0.3)
+    stats_text = f"N={total} measurements\n"
+    stats_text += f"Mean: {np.mean(all_drifts):.3f}\n"
+    stats_text += f"Median: {np.median(all_drifts):.3f}\n"
+    stats_text += f"Std: {np.std(all_drifts):.3f}"
+    ax1.text(0.98, 0.72, stats_text, transform=ax1.transAxes, fontsize=10,
+             verticalalignment='top', horizontalalignment='right',
+             bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
-    # Plot 4: Recovery dynamics by zone
-    ax4 = axes[1, 1]
-    # Group by persona and show trajectory
-    persona_trajectories = {}
-    for r in results:
-        if 'sessions' in r:
-            for session in r['sessions']:
-                persona = session.get('persona', 'unknown')
-                if 'probes' in session:
-                    trajectory = [(p.get('escalation_level', 0), p.get('drift', 0))
-                                  for p in session['probes']]
-                    trajectory.sort(key=lambda x: x[0])
-                    if persona not in persona_trajectories:
-                        persona_trajectories[persona] = []
-                    persona_trajectories[persona].append(trajectory)
+    # Panel 2: Zone Distribution Pie Chart
+    zone_labels = []
+    zone_values = []
+    zone_cols = []
+    for zone in ['SAFE', 'WARNING', 'CRITICAL', 'CATASTROPHIC']:
+        if zone_counts.get(zone, 0) > 0:
+            zone_labels.append(zone)
+            zone_values.append(zone_counts[zone])
+            zone_cols.append(ZONE_COLORS[zone])
 
-    for persona, trajectories in list(persona_trajectories.items())[:5]:  # Limit to 5
-        for traj in trajectories:
-            if traj:
-                x = [t[0] for t in traj]
-                y = [t[1] for t in traj]
-                ax4.plot(x, y, alpha=0.5, linewidth=1)
+    wedges, texts, autotexts = ax2.pie(zone_values, labels=zone_labels, colors=zone_cols,
+                                        autopct='%1.1f%%', startangle=90,
+                                        textprops={'fontsize': 11})
+    ax2.set_title("Zone Distribution\n(Event Horizon Analysis)", fontsize=13, fontweight='bold')
 
-    # Add threshold lines
-    for zone, (low, high) in THRESHOLD_ZONES.items():
-        if high < 3:
-            ax4.axhline(y=low, color=ZONE_COLORS[zone], linestyle='--', alpha=0.3, label=zone)
+    # Add interpretation text
+    interp_text = "Key Finding:\n"
+    if warning_count / total < 0.1 if total > 0 else False:
+        interp_text += "Minimal WARNING zone (~5%)\n"
+        interp_text += "→ Binary behavior: SAFE or CRITICAL\n"
+        interp_text += "→ Sharp threshold at D≈1.23"
+    else:
+        interp_text += f"WARNING: {warning_count/total*100:.1f}%\n"
+        interp_text += "Gradual transition between zones"
 
-    ax4.set_xlabel("Escalation Level")
-    ax4.set_ylabel("Drift (PFI)")
-    ax4.set_title("Individual Trajectories")
-    ax4.legend(loc='upper left')
+    ax2.text(0.5, -0.22, interp_text, transform=ax2.transAxes, fontsize=10,
+             verticalalignment='top', horizontalalignment='center',
+             bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.8))
 
-    plt.suptitle("Run 018a: Multi-Threshold Validation", fontsize=14, fontweight='bold')
-    plt.tight_layout()
+    plt.suptitle("Run 018a: Multi-Threshold Validation\n51 Models × 3 Experiments = Event Horizon Discovery",
+                 fontsize=14, fontweight='bold')
+    plt.tight_layout(rect=[0, 0.05, 1, 0.93])
 
     outfile = PICS_DIR / "run018a_threshold_validation.png"
     plt.savefig(outfile, dpi=150, bbox_inches='tight')
@@ -346,141 +350,256 @@ def visualize_threshold(results: List[Dict]):
 # 018b: Cross-Architecture Drift Signatures
 # =============================================================================
 
+def get_provider_family(model_or_provider: str) -> str:
+    """Map model names to provider families for aggregation."""
+    name = model_or_provider.lower()
+
+    if any(x in name for x in ['claude', 'anthropic']):
+        return 'Anthropic'
+    elif any(x in name for x in ['gpt', 'o3', 'o4', 'openai']):
+        return 'OpenAI'
+    elif any(x in name for x in ['gemini', 'google']):
+        return 'Google'
+    elif any(x in name for x in ['grok', 'xai']):
+        return 'xAI'
+    elif any(x in name for x in ['llama', 'meta']):
+        return 'Meta'
+    elif any(x in name for x in ['mistral', 'mixtral']):
+        return 'Mistral'
+    elif any(x in name for x in ['deepseek']):
+        return 'DeepSeek'
+    elif any(x in name for x in ['qwen']):
+        return 'Alibaba'
+    elif any(x in name for x in ['kimi']):
+        return 'Moonshot'
+    elif any(x in name for x in ['nemotron']):
+        return 'NVIDIA'
+    elif 'together' in name:
+        return 'Together'
+    else:
+        return 'Other'
+
+
 def visualize_architecture(results: List[Dict]):
-    """Visualize cross-architecture drift signatures."""
+    """Visualize cross-architecture drift signatures.
+
+    Aggregates by provider FAMILY (Anthropic, OpenAI, Google, etc.)
+    not by individual model, for cleaner visualization.
+    """
     if not results:
         print("No architecture results found")
         return
 
     print(f"\n=== 018b: Cross-Architecture Drift Signatures ({len(results)} files) ===")
 
-    # Collect metrics by provider
-    provider_metrics = {}  # provider -> {peak_drift, settling_time, ringbacks, etc.}
+    # Collect metrics by PROVIDER FAMILY (not individual model)
+    family_metrics = {}
 
     for r in results:
         # NEW FORMAT: Data is in 'subjects' array with provider per subject
         if 'subjects' in r:
             for subject in r['subjects']:
-                provider = subject.get('provider', 'unknown')
-                if provider not in provider_metrics:
-                    provider_metrics[provider] = {
+                raw_provider = subject.get('provider', 'unknown')
+                family = get_provider_family(raw_provider)
+
+                if family not in family_metrics:
+                    family_metrics[family] = {
                         'peak_drifts': [],
                         'settling_times': [],
                         'ringback_counts': [],
-                        'trajectories': []
+                        'trajectories': [],
+                        'models': set(),
+                        'model_metrics': {}  # Per-model breakdown
                     }
 
-                # Direct metrics from subject
-                if 'peak_drift' in subject:
-                    provider_metrics[provider]['peak_drifts'].append(subject['peak_drift'])
-                if 'settling_time' in subject:
-                    provider_metrics[provider]['settling_times'].append(subject['settling_time'])
-                if 'ringback_count' in subject:
-                    provider_metrics[provider]['ringback_counts'].append(subject['ringback_count'])
+                family_metrics[family]['models'].add(raw_provider)
 
-                # Recovery curve trajectory
+                # Track per-model metrics for intra-provider visualization
+                if raw_provider not in family_metrics[family]['model_metrics']:
+                    family_metrics[family]['model_metrics'][raw_provider] = {
+                        'peak_drifts': [], 'settling_times': [], 'ringback_counts': []
+                    }
+
+                if 'peak_drift' in subject and subject['peak_drift'] < MAX_VALID_DRIFT:
+                    family_metrics[family]['peak_drifts'].append(subject['peak_drift'])
+                    family_metrics[family]['model_metrics'][raw_provider]['peak_drifts'].append(subject['peak_drift'])
+                if 'settling_time' in subject:
+                    family_metrics[family]['settling_times'].append(subject['settling_time'])
+                    family_metrics[family]['model_metrics'][raw_provider]['settling_times'].append(subject['settling_time'])
+                if 'ringback_count' in subject:
+                    family_metrics[family]['ringback_counts'].append(subject['ringback_count'])
+                    family_metrics[family]['model_metrics'][raw_provider]['ringback_counts'].append(subject['ringback_count'])
+
                 if 'full_recovery_curve' in subject:
-                    provider_metrics[provider]['trajectories'].append(subject['full_recovery_curve'])
+                    family_metrics[family]['trajectories'].append(subject['full_recovery_curve'])
                 elif 'probe_sequence' in subject:
-                    # Extract drift from probe sequence
                     drifts = [p.get('drift', 0) for p in subject['probe_sequence']]
                     if drifts:
-                        provider_metrics[provider]['trajectories'].append(drifts)
+                        family_metrics[family]['trajectories'].append(drifts)
 
-        # LEGACY FORMAT: provider at top level with sessions
+        # LEGACY FORMAT
         elif 'sessions' in r:
-            provider = r.get('provider', 'unknown')
-            if provider not in provider_metrics:
-                provider_metrics[provider] = {
+            raw_provider = r.get('provider', 'unknown')
+            family = get_provider_family(raw_provider)
+
+            if family not in family_metrics:
+                family_metrics[family] = {
                     'peak_drifts': [],
                     'settling_times': [],
                     'ringback_counts': [],
-                    'trajectories': []
+                    'trajectories': [],
+                    'models': set(),
+                    'model_metrics': {}
+                }
+
+            family_metrics[family]['models'].add(raw_provider)
+
+            if raw_provider not in family_metrics[family]['model_metrics']:
+                family_metrics[family]['model_metrics'][raw_provider] = {
+                    'peak_drifts': [], 'settling_times': [], 'ringback_counts': []
                 }
 
             for session in r['sessions']:
                 if 'probes' in session:
                     drifts = [p.get('drift', 0) for p in session['probes']]
                     if drifts:
-                        provider_metrics[provider]['peak_drifts'].append(max(drifts))
-                        provider_metrics[provider]['trajectories'].append(drifts)
+                        peak = max(drifts)
+                        # Only include valid drift values (< MAX_VALID_DRIFT)
+                        if peak < MAX_VALID_DRIFT:
+                            family_metrics[family]['peak_drifts'].append(peak)
+                            family_metrics[family]['model_metrics'][raw_provider]['peak_drifts'].append(peak)
+                            family_metrics[family]['trajectories'].append(drifts)
 
                 if 'settling_time' in session:
-                    provider_metrics[provider]['settling_times'].append(session['settling_time'])
+                    family_metrics[family]['settling_times'].append(session['settling_time'])
+                    family_metrics[family]['model_metrics'][raw_provider]['settling_times'].append(session['settling_time'])
                 if 'ringback_count' in session:
-                    provider_metrics[provider]['ringback_counts'].append(session['ringback_count'])
+                    family_metrics[family]['ringback_counts'].append(session['ringback_count'])
 
-    if not provider_metrics:
+    if not family_metrics:
         print("No provider data found")
         return
 
-    # Figure: Architecture comparison
+    # Filter out families with insufficient data (n < 3) to remove noise
+    MIN_SAMPLES = 3
+    filtered_metrics = {f: v for f, v in family_metrics.items()
+                        if len(v['peak_drifts']) >= MIN_SAMPLES}
+
+    if not filtered_metrics:
+        print("No provider families with sufficient data (n >= 3)")
+        return
+
+    # Sort families by number of data points (most data first)
+    families = sorted(filtered_metrics.keys(),
+                      key=lambda f: len(filtered_metrics[f]['peak_drifts']),
+                      reverse=True)
+
+    # Use filtered metrics from here on
+    family_metrics = filtered_metrics
+
+    # Use a nice color palette
+    family_colors = {
+        'Anthropic': '#D4A574',   # Warm tan
+        'OpenAI': '#74B49B',      # Sage green
+        'Google': '#4285F4',      # Google blue
+        'xAI': '#1DA1F2',         # Twitter blue
+        'Meta': '#0668E1',        # Meta blue
+        'Mistral': '#FF6B35',     # Orange
+        'DeepSeek': '#7C3AED',    # Purple
+        'Alibaba': '#FF6A00',     # Alibaba orange
+        'Moonshot': '#EC4899',    # Pink
+        'NVIDIA': '#76B900',      # NVIDIA green
+        'Together': '#6366F1',    # Indigo
+        'Other': '#9CA3AF'        # Gray
+    }
+
+    colors = [family_colors.get(f, '#9CA3AF') for f in families]
+
+    # Create clean 2x2 figure
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 
-    providers = list(provider_metrics.keys())
-    colors = plt.cm.Set2(np.linspace(0, 1, len(providers)))
-
-    # Plot 1: Peak drift by provider
-    ax1 = axes[0, 0]
+    # Calculate means and stds for each family
     peak_means = []
     peak_stds = []
-    for p in providers:
-        peaks = provider_metrics[p]['peak_drifts']
-        peak_means.append(np.mean(peaks) if peaks else 0)
-        peak_stds.append(np.std(peaks) if peaks else 0)
-
-    bars = ax1.bar(providers, peak_means, yerr=peak_stds, color=colors, capsize=5)
-    ax1.axhline(y=1.23, color='red', linestyle='--', alpha=0.5, label='Event Horizon')
-    ax1.set_ylabel("Peak Drift (PFI)")
-    ax1.set_title("Peak Drift by Architecture")
-    ax1.legend()
-    plt.setp(ax1.xaxis.get_majorticklabels(), rotation=45, ha='right')
-
-    # Plot 2: Settling time by provider
-    ax2 = axes[0, 1]
     settle_means = []
     settle_stds = []
-    for p in providers:
-        settles = provider_metrics[p]['settling_times']
-        settle_means.append(np.mean(settles) if settles else 0)
-        settle_stds.append(np.std(settles) if settles else 0)
-
-    ax2.bar(providers, settle_means, yerr=settle_stds, color=colors, capsize=5)
-    ax2.set_ylabel("Settling Time (probes)")
-    ax2.set_title("Settling Time by Architecture")
-    plt.setp(ax2.xaxis.get_majorticklabels(), rotation=45, ha='right')
-
-    # Plot 3: Representative trajectories
-    ax3 = axes[1, 0]
-    for i, provider in enumerate(providers):
-        trajectories = provider_metrics[provider]['trajectories']
-        if trajectories:
-            # Plot first trajectory as representative
-            traj = trajectories[0]
-            ax3.plot(range(len(traj)), traj, color=colors[i], label=provider, linewidth=2, alpha=0.8)
-
-    ax3.axhline(y=1.23, color='red', linestyle='--', alpha=0.3, label='Event Horizon')
-    ax3.set_xlabel("Probe Number")
-    ax3.set_ylabel("Drift (PFI)")
-    ax3.set_title("Representative Recovery Trajectories")
-    ax3.legend(loc='upper right', fontsize=8)
-
-    # Plot 4: Ringback count by provider
-    ax4 = axes[1, 1]
     ring_means = []
     ring_stds = []
-    for p in providers:
-        rings = provider_metrics[p]['ringback_counts']
+    sample_counts = []
+
+    for f in families:
+        peaks = family_metrics[f]['peak_drifts']
+        settles = family_metrics[f]['settling_times']
+        rings = family_metrics[f]['ringback_counts']
+
+        peak_means.append(np.mean(peaks) if peaks else 0)
+        peak_stds.append(np.std(peaks) if len(peaks) > 1 else 0)
+        settle_means.append(np.mean(settles) if settles else 0)
+        settle_stds.append(np.std(settles) if len(settles) > 1 else 0)
         ring_means.append(np.mean(rings) if rings else 0)
-        ring_stds.append(np.std(rings) if rings else 0)
+        ring_stds.append(np.std(rings) if len(rings) > 1 else 0)
+        sample_counts.append(len(peaks))
 
-    ax4.bar(providers, ring_means, yerr=ring_stds, color=colors, capsize=5)
-    ax4.set_ylabel("Ringback Count")
-    ax4.set_title("Oscillation (Ringbacks) by Architecture")
-    plt.setp(ax4.xaxis.get_majorticklabels(), rotation=45, ha='right')
+    # Plot 1: Peak drift by provider family (horizontal bar for readability)
+    ax1 = axes[0, 0]
+    y_pos = np.arange(len(families))
+    bars = ax1.barh(y_pos, peak_means, xerr=peak_stds, color=colors, capsize=3, alpha=0.8)
+    ax1.axvline(x=1.23, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (1.23)')
+    ax1.set_yticks(y_pos)
+    ax1.set_yticklabels([f"{f}\n(n={sample_counts[i]})" for i, f in enumerate(families)], fontsize=9)
+    ax1.set_xlabel("Peak Drift (PFI)", fontsize=11)
+    ax1.set_title("Peak Drift by Provider Family", fontsize=12, fontweight='bold')
+    ax1.legend(loc='lower right', fontsize=9)
+    # Extend x-axis to show event horizon line for context
+    ax1.set_xlim(0, max(1.4, max(peak_means) * 1.3) if peak_means else 1.5)
 
-    plt.suptitle("Run 018b: Cross-Architecture Drift Signatures", fontsize=14, fontweight='bold')
-    plt.tight_layout()
+    # Plot 2: Settling time comparison (horizontal bar)
+    # Note: Max probes in experiment was 6, so values at 6.0 may indicate ceiling effect
+    ax2 = axes[0, 1]
+    # Clip error bars to prevent negative values (can't have negative settling time)
+    settle_err_lower = [min(std, mean) for mean, std in zip(settle_means, settle_stds)]
+    settle_err_upper = settle_stds
+    bars2 = ax2.barh(y_pos, settle_means, xerr=[settle_err_lower, settle_err_upper],
+                     color=colors, capsize=3, alpha=0.8)
+    ax2.set_yticks(y_pos)
+    ax2.set_yticklabels(families, fontsize=9)
+    ax2.set_xlabel("Settling Time (probes)", fontsize=11)
+    ax2.set_title("Recovery Speed by Provider Family\n(max probes = 6)", fontsize=12, fontweight='bold')
+    ax2.set_xlim(0, 7)  # Show full range up to max
+
+    # Plot 3: Drift stability scatter (mean vs std)
+    ax3 = axes[1, 0]
+    for i, f in enumerate(families):
+        ax3.scatter(peak_means[i], peak_stds[i], c=[colors[i]], s=sample_counts[i]*3 + 50,
+                   alpha=0.7, edgecolors='black', linewidth=1)
+    ax3.axvline(x=1.23, color='red', linestyle='--', alpha=0.5)
+    ax3.set_xlabel("Mean Peak Drift", fontsize=11)
+    ax3.set_ylabel("Drift Variability (Std)", fontsize=11)
+    ax3.set_title("Stability Profile: Mean vs Variance\n(bubble size = sample count)", fontsize=12, fontweight='bold')
+    # Extend x-axis to show event horizon for context
+    ax3.set_xlim(0, max(1.4, max(peak_means) * 1.3) if peak_means else 1.5)
+    # Create custom legend with simple line markers (not bubbles)
+    from matplotlib.lines import Line2D
+    legend_elements = [Line2D([0], [0], color=colors[i], linewidth=3, label=f)
+                       for i, f in enumerate(families)]
+    ax3.legend(handles=legend_elements, loc='upper right', fontsize=6, ncol=2, framealpha=0.9)
+
+    # Plot 4: Ringback oscillation comparison
+    ax4 = axes[1, 1]
+    # Clip error bars to prevent negative values
+    ring_err_lower = [min(std, mean) for mean, std in zip(ring_means, ring_stds)]
+    ring_err_upper = ring_stds
+    bars4 = ax4.barh(y_pos, ring_means, xerr=[ring_err_lower, ring_err_upper],
+                     color=colors, capsize=3, alpha=0.8)
+    ax4.set_yticks(y_pos)
+    ax4.set_yticklabels(families, fontsize=9)
+    ax4.set_xlabel("Ringback Count (oscillations)", fontsize=11)
+    ax4.set_title("Identity Oscillation by Provider Family", fontsize=12, fontweight='bold')
+    ax4.set_xlim(0, None)  # Ensure starts at 0
+
+    plt.suptitle("Run 018b: Cross-Architecture Drift Signatures\nProvider Family Comparison (51 models aggregated)",
+                 fontsize=14, fontweight='bold')
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
 
     outfile = PICS_DIR / "run018b_architecture_signatures.png"
     plt.savefig(outfile, dpi=150, bbox_inches='tight')
@@ -488,11 +607,274 @@ def visualize_architecture(results: List[Dict]):
     plt.close()
 
     # Print summary
-    print(f"\nArchitecture Summary:")
-    print(f"{'Provider':<15} {'Peak Drift':<12} {'Settle Time':<12} {'Ringbacks':<10}")
-    print("-" * 50)
-    for i, p in enumerate(providers):
-        print(f"{p:<15} {peak_means[i]:<12.3f} {settle_means[i]:<12.1f} {ring_means[i]:<10.1f}")
+    print(f"\nArchitecture Summary (by Provider Family):")
+    print(f"{'Family':<12} {'N':<5} {'Peak Drift':<12} {'Settle Time':<12} {'Ringbacks':<10}")
+    print("-" * 55)
+    for i, f in enumerate(families):
+        print(f"{f:<12} {sample_counts[i]:<5} {peak_means[i]:<12.3f} {settle_means[i]:<12.1f} {ring_means[i]:<10.1f}")
+
+    # Generate intra-provider breakdown visualizations
+    visualize_architecture_intra(family_metrics, family_colors)
+
+
+def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
+    """Generate per-provider model breakdown visualizations.
+
+    Creates separate figures showing model-level signatures within each provider family.
+    Shows horizontal bar chart of peak drift for each model within a provider.
+
+    Layout strategy:
+    - Figure _2: Top 4 providers (OpenAI, Anthropic, xAI, Google) - 2x2 grid
+    - Figure _3: Open-source/Together.ai ecosystem (Meta, DeepSeek, Mistral, Alibaba, Moonshot) - combined view
+    """
+    # Only generate for families with multiple models AND per-model data
+    families_with_models = {f: v for f, v in family_metrics.items()
+                           if len(v.get('models', set())) > 1 and
+                           'model_metrics' in v and len(v['model_metrics']) > 1}
+
+    if not families_with_models:
+        print("No families with per-model breakdown data")
+        return
+
+    # Sort by total sample count
+    all_families = sorted(families_with_models.keys(),
+                         key=lambda f: len(family_metrics[f]['peak_drifts']),
+                         reverse=True)
+
+    # Split into major providers vs open-source ecosystem
+    major_providers = ['OpenAI', 'Anthropic', 'xAI', 'Google']
+    opensource_families = ['Meta', 'DeepSeek', 'Mistral', 'Alibaba', 'Moonshot', 'Together']
+
+    major = [f for f in all_families if f in major_providers]
+    opensource = [f for f in all_families if f in opensource_families]
+
+    # Figure _2: Major providers (2x2 grid)
+    if major:
+        n_plots = len(major)
+        if n_plots == 1:
+            nrows, ncols = 1, 1
+        elif n_plots == 2:
+            nrows, ncols = 1, 2
+        else:
+            nrows, ncols = 2, 2
+
+        fig, axes = plt.subplots(nrows, ncols, figsize=(14, 10 if nrows == 2 else 5))
+        if n_plots == 1:
+            axes = np.array([axes])
+        axes = axes.flatten()
+
+        for idx, family in enumerate(major):
+            ax = axes[idx]
+            base_color = family_colors.get(family, '#9CA3AF')
+            model_metrics = family_metrics[family].get('model_metrics', {})
+
+            # Filter out models with zero or no data (corrupted entries)
+            valid_models = {m: v for m, v in model_metrics.items()
+                          if v['peak_drifts'] and np.mean(v['peak_drifts']) > 0}
+
+            # Sort models by mean peak drift
+            models = sorted(valid_models.keys(),
+                          key=lambda m: np.mean(valid_models[m]['peak_drifts']))
+
+            # Limit to top 15 models if too many (increased from 12)
+            if len(models) > 15:
+                models = models[:15]
+
+            # Use valid_models for data
+            model_metrics = valid_models
+
+            y_pos = np.arange(len(models))
+            means = [np.mean(model_metrics[m]['peak_drifts']) if model_metrics[m]['peak_drifts'] else 0 for m in models]
+            stds = [np.std(model_metrics[m]['peak_drifts']) if len(model_metrics[m]['peak_drifts']) > 1 else 0 for m in models]
+            counts = [len(model_metrics[m]['peak_drifts']) for m in models]
+
+            # Clip error bars to prevent negative values (drift can't be negative)
+            err_lower = [min(std, mean) for mean, std in zip(means, stds)]
+            err_upper = stds
+
+            # Create gradient colors based on base color
+            bars = ax.barh(y_pos, means, xerr=[err_lower, err_upper], color=base_color, alpha=0.7, capsize=2)
+            ax.axvline(x=1.23, color='red', linestyle='--', linewidth=1.5, alpha=0.6)
+            ax.set_xlim(0, max(1.4, max(means) * 1.3) if means else 1.5)
+
+            # Clean model names for display
+            clean_names = [m.replace('claude-', '').replace('gpt-', '').replace('gemini-', '')
+                          .replace('grok-', '').replace('llama', 'L').replace('mistral-', '')
+                          for m in models]
+            ax.set_yticks(y_pos)
+            ax.set_yticklabels([f"{n} (n={counts[i]})" for i, n in enumerate(clean_names)], fontsize=8)
+            ax.set_xlabel("Peak Drift (PFI)", fontsize=10)
+            ax.set_title(f"{family} Models", fontsize=11, fontweight='bold', color=base_color)
+
+        # Hide unused subplots
+        for idx in range(len(major), len(axes)):
+            axes[idx].axis('off')
+
+        plt.suptitle("Run 018b: Intra-Provider Model Signatures (Part 1)\nModel-Level Drift Comparison",
+                     fontsize=13, fontweight='bold')
+        plt.tight_layout(rect=[0, 0, 1, 0.93])
+
+        outfile = PICS_DIR / "run018b_architecture_signatures_2.png"
+        plt.savefig(outfile, dpi=150, bbox_inches='tight')
+        print(f"Saved: {outfile}")
+        plt.close()
+
+    # Figure _3: Open-source ecosystem (all models from Meta, DeepSeek, Mistral, etc.)
+    if opensource:
+        # Collect all models across open-source families
+        all_opensource_models = []
+        for family in opensource:
+            model_metrics = family_metrics[family].get('model_metrics', {})
+            base_color = family_colors.get(family, '#9CA3AF')
+            for model, metrics in model_metrics.items():
+                if metrics['peak_drifts']:
+                    all_opensource_models.append({
+                        'model': model,
+                        'family': family,
+                        'color': base_color,
+                        'mean': np.mean(metrics['peak_drifts']),
+                        'std': np.std(metrics['peak_drifts']) if len(metrics['peak_drifts']) > 1 else 0,
+                        'count': len(metrics['peak_drifts'])
+                    })
+
+        # Sort by mean peak drift DESCENDING (highest drift at top)
+        all_opensource_models.sort(key=lambda x: x['mean'], reverse=True)
+
+        if all_opensource_models:
+            # Create single comprehensive figure
+            n_models = len(all_opensource_models)
+            fig_height = max(8, n_models * 0.4)
+            fig, ax = plt.subplots(figsize=(12, fig_height))
+
+            y_pos = np.arange(n_models)
+            means = [m['mean'] for m in all_opensource_models]
+            stds = [m['std'] for m in all_opensource_models]
+            colors = [m['color'] for m in all_opensource_models]
+            counts = [m['count'] for m in all_opensource_models]
+            families_list = [m['family'] for m in all_opensource_models]
+
+            # Clip error bars
+            err_lower = [min(std, mean) for mean, std in zip(means, stds)]
+            err_upper = stds
+
+            # Create bars with family colors
+            bars = ax.barh(y_pos, means, xerr=[err_lower, err_upper], color=colors, alpha=0.7, capsize=2)
+            ax.axvline(x=1.23, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (1.23)')
+            ax.set_xlim(0, max(1.4, max(means) * 1.3) if means else 1.5)
+
+            # Clean model names and add family tag
+            labels = []
+            for m in all_opensource_models:
+                clean = m['model'].replace('meta-llama/', '').replace('deepseek-ai/', '')
+                clean = clean.replace('mistralai/', '').replace('Qwen/', '')
+                labels.append(f"{clean} [{m['family']}] (n={m['count']})")
+
+            ax.set_yticks(y_pos)
+            ax.set_yticklabels(labels, fontsize=8)
+            ax.set_xlabel("Peak Drift (PFI)", fontsize=11)
+            ax.set_title("Open-Source Ecosystem Models (sorted by drift)", fontsize=12, fontweight='bold')
+            ax.legend(loc='lower right', fontsize=9)
+
+            plt.suptitle("Run 018b: Open-Source / Together.ai Ecosystem\nMeta, DeepSeek, Mistral, Alibaba, Moonshot Models",
+                         fontsize=13, fontweight='bold')
+            plt.tight_layout(rect=[0, 0, 1, 0.95])
+
+            outfile = PICS_DIR / "run018b_architecture_signatures_3.png"
+            plt.savefig(outfile, dpi=150, bbox_inches='tight')
+            print(f"Saved: {outfile}")
+            plt.close()
+
+    # Figure _4: Cross-provider comparison (1 representative model per provider)
+    # Shows peak drift, settling time, and ringback count side-by-side
+    visualize_architecture_cross_provider(family_metrics, family_colors)
+
+
+def visualize_architecture_cross_provider(family_metrics: Dict, family_colors: Dict):
+    """Generate cross-provider comparison with 1 representative model per provider.
+
+    Shows ONLY peak drift (the only unconstrained metric).
+    Settling time and ringback data have ceiling effects (max 6 probes)
+    making them unreliable for cross-provider comparison.
+
+    Picks the model with the most data points from each provider family.
+    """
+    # Collect 1 representative model per provider (the one with most data)
+    representatives = []
+
+    for family, metrics in family_metrics.items():
+        model_metrics = metrics.get('model_metrics', {})
+        if not model_metrics:
+            continue
+
+        # Find model with most data points
+        best_model = None
+        best_count = 0
+        for model, m in model_metrics.items():
+            count = len(m.get('peak_drifts', []))
+            if count > best_count:
+                best_count = count
+                best_model = model
+
+        if best_model and best_count > 0:
+            m = model_metrics[best_model]
+            representatives.append({
+                'family': family,
+                'model': best_model,
+                'color': family_colors.get(family, '#9CA3AF'),
+                'peak_drift': np.mean(m['peak_drifts']) if m['peak_drifts'] else 0,
+                'peak_std': np.std(m['peak_drifts']) if len(m['peak_drifts']) > 1 else 0,
+                'count': best_count
+            })
+
+    if not representatives:
+        print("No representative models found for cross-provider comparison")
+        return
+
+    # Sort by peak drift (descending - highest at top)
+    representatives.sort(key=lambda x: x['peak_drift'], reverse=True)
+
+    # Create single-panel figure (peak drift only - other metrics have ceiling effects)
+    fig, ax = plt.subplots(figsize=(12, max(6, len(representatives) * 0.5)))
+
+    y_pos = np.arange(len(representatives))
+    colors = [r['color'] for r in representatives]
+
+    # Clean labels: "family: model (n=X)"
+    labels = []
+    for r in representatives:
+        clean_model = r['model'].replace('claude-', '').replace('gpt-', '').replace('gemini-', '')
+        clean_model = clean_model.replace('grok-', '').replace('meta-llama/', '').replace('deepseek-ai/', '')
+        clean_model = clean_model.replace('mistralai/', '').replace('Qwen/', '')
+        labels.append(f"{r['family']}: {clean_model} (n={r['count']})")
+
+    # Peak Drift comparison
+    peak_drifts = [r['peak_drift'] for r in representatives]
+    peak_stds = [r['peak_std'] for r in representatives]
+    err_lower = [min(std, mean) for mean, std in zip(peak_drifts, peak_stds)]
+
+    bars = ax.barh(y_pos, peak_drifts, xerr=[err_lower, peak_stds], color=colors, alpha=0.7, capsize=3)
+    ax.axvline(x=1.23, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (1.23)')
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(labels, fontsize=10)
+    ax.set_xlabel("Peak Drift (PFI)", fontsize=12)
+    ax.set_title("Peak Drift by Provider Family\n(1 representative model each, sorted by drift)", fontsize=12, fontweight='bold')
+    ax.set_xlim(0, max(1.4, max(peak_drifts) * 1.3) if peak_drifts else 1.5)
+    ax.legend(loc='lower right', fontsize=9)
+
+    # Add caveat note
+    caveat = "Note: Settling time and ringback metrics excluded due to\nceiling effects (max 6 probes in architecture experiment)"
+    ax.text(0.98, 0.02, caveat, transform=ax.transAxes, fontsize=8,
+            verticalalignment='bottom', horizontalalignment='right',
+            bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.8))
+
+    plt.suptitle("Run 018b: Cross-Provider Model Comparison\n1 Representative Model per Provider Family",
+                 fontsize=14, fontweight='bold')
+    plt.tight_layout(rect=[0, 0, 1, 0.93])
+
+    outfile = PICS_DIR / "run018b_architecture_signatures_4.png"
+    plt.savefig(outfile, dpi=150, bbox_inches='tight')
+    print(f"Saved: {outfile}")
+    plt.close()
 
 
 # =============================================================================
@@ -502,72 +884,72 @@ def visualize_architecture(results: List[Dict]):
 def visualize_nyquist(results: List[Dict]):
     """Visualize Nyquist sampling frequency results.
 
-    Handles two data formats:
-    1. Manifest format: flat entries with 'drift', 'max_drift', 'model', etc.
-    2. File format: nested with 'sessions' containing sampling rate info
+    Uses manifest data which now includes sampling_rate field.
+    Falls back to file loading only if manifest data doesn't have sampling_rate.
     """
-    if not results:
-        print("No nyquist results found")
-        return
+    print(f"\n=== 018c: Nyquist Sampling Frequency ===")
 
-    print(f"\n=== 018c: Nyquist Sampling Frequency ({len(results)} entries) ===")
-
-    # Group by sampling rate or model
+    # Group by sampling rate
     rate_data = {'high': [], 'low': [], 'none': []}
-    model_data = {}  # For manifest format
 
+    # First try using manifest data (which now includes sampling_rate)
     for r in results:
-        # Check if manifest format
-        if '_source' in r and r['_source'] == 'manifest':
-            model = r.get('model', 'unknown')
+        # Manifest format: flat entry with _source='manifest'
+        if r.get('_source') == 'manifest':
+            rate = r.get('sampling_rate', 'unknown')
             drift = r.get('drift', 0)
             max_drift = r.get('max_drift', 0)
 
-            if model not in model_data:
-                model_data[model] = []
-            model_data[model].append({
-                'final': drift,
-                'max': max_drift,
-                'probe_count': r.get('probe_count', 0)
-            })
+            # Skip corrupted entries (drift=0 with max_drift > 5.0)
+            if drift == 0 and max_drift > MAX_VALID_DRIFT:
+                continue
 
-        # Original file format
-        else:
-            rate = r.get('sampling_rate', 'unknown')
-            if rate in rate_data and 'sessions' in r:
-                for session in r['sessions']:
-                    final_drift = session.get('final_drift', 0)
-                    cumulative_drift = session.get('cumulative_drift', 0)
+            if rate in rate_data:
+                rate_data[rate].append({
+                    'final': drift,
+                    'cumulative': 0,  # Not stored in manifest
+                    'checkpoints': r.get('probe_count', 0),
+                    'peak': max_drift,
+                    'aliasing': r.get('aliasing_index', 0) > 0.5
+                })
+
+        # File format: subjects array
+        elif 'subjects' in r:
+            for subject in r['subjects']:
+                rate = subject.get('sampling_rate', 'unknown')
+                if rate in rate_data:
                     rate_data[rate].append({
-                        'final': final_drift,
-                        'cumulative': cumulative_drift,
-                        'checkpoints': session.get('checkpoint_count', 0)
+                        'final': subject.get('final_drift', 0),
+                        'cumulative': subject.get('cumulative_drift', 0),
+                        'checkpoints': subject.get('checkpoint_interval', 0),
+                        'peak': subject.get('peak_drift', 0),
+                        'aliasing': subject.get('aliasing_detected', False)
                     })
 
-    # If we have manifest data, convert to rate_data format for visualization
-    if model_data and not any(rate_data.values()):
-        # Group models by drift level as proxy for sampling quality
-        all_drifts = []
-        for model, data in model_data.items():
-            for d in data:
-                all_drifts.append(d['final'])
+    # If no data from passed results, load directly from canonical files as fallback
+    if not any(rate_data.values()):
+        print("  Loading from canonical nyquist files (fallback)...")
+        nyquist_files = list(CANONICAL_RESULTS_DIR.glob("S7_run_018_nyquist_*.json"))
+        for f in nyquist_files:
+            try:
+                with open(f, 'r', encoding='utf-8') as fp:
+                    data = json.load(fp)
+                    if 'subjects' in data:
+                        for subject in data['subjects']:
+                            rate = subject.get('sampling_rate', 'unknown')
+                            if rate in rate_data:
+                                rate_data[rate].append({
+                                    'final': subject.get('final_drift', 0),
+                                    'cumulative': subject.get('cumulative_drift', 0),
+                                    'checkpoints': subject.get('checkpoint_interval', 0),
+                                    'peak': subject.get('peak_drift', 0),
+                                    'aliasing': subject.get('aliasing_detected', False)
+                                })
+            except Exception as e:
+                print(f"  Warning: Could not load {f.name}: {e}")
 
-        # Divide into tertiles as proxy for high/low/none
-        if all_drifts:
-            sorted_drifts = sorted(all_drifts)
-            n = len(sorted_drifts)
-            low_thresh = sorted_drifts[n // 3] if n > 2 else sorted_drifts[0]
-            high_thresh = sorted_drifts[2 * n // 3] if n > 2 else sorted_drifts[-1]
-
-            for model, data in model_data.items():
-                for d in data:
-                    drift = d['final']
-                    if drift <= low_thresh:
-                        rate_data['high'].append({'final': drift, 'cumulative': d['max'], 'checkpoints': d['probe_count']})
-                    elif drift <= high_thresh:
-                        rate_data['low'].append({'final': drift, 'cumulative': d['max'], 'checkpoints': d['probe_count']})
-                    else:
-                        rate_data['none'].append({'final': drift, 'cumulative': d['max'], 'checkpoints': d['probe_count']})
+    total = sum(len(v) for v in rate_data.values())
+    print(f"  Loaded {total} entries: high={len(rate_data['high'])}, low={len(rate_data['low'])}, none={len(rate_data['none'])}")
 
     if not any(rate_data.values()):
         print("No sampling rate data found")
@@ -671,9 +1053,8 @@ def visualize_nyquist(results: List[Dict]):
 def visualize_gravity(results: List[Dict]):
     """Visualize identity gravity dynamics results.
 
-    Handles two data formats:
-    1. Manifest format: flat entries with 'drift', 'max_drift', 'model', etc.
-    2. File format: nested with 'sessions' containing 'probes'
+    The manifest contains pre-fitted parameters: gamma, lambda, omega, r_squared.
+    These are derived from the damped oscillator model fit during experiment execution.
     """
     if not results:
         print("No gravity results found")
@@ -681,174 +1062,132 @@ def visualize_gravity(results: List[Dict]):
 
     print(f"\n=== 018d: Identity Gravity Dynamics ({len(results)} entries) ===")
 
-    # Group by anchor level
-    anchor_data = {'minimal': [], 'full': []}
-    fitted_params = {'minimal': [], 'full': []}
-    model_drifts = {}  # For manifest format: model -> [drifts]
+    # Collect fitted parameters from manifest data
+    # Manifest has: drift, max_drift, gamma, lambda, omega, r_squared
+    model_params = []  # List of {model, drift, gamma, lambda, omega, r_squared}
 
     for r in results:
-        # Check if manifest format
+        # Manifest format - contains pre-fitted parameters
         if '_source' in r and r['_source'] == 'manifest':
             model = r.get('model', 'unknown')
             drift = r.get('drift', 0)
-            max_drift = r.get('max_drift', 0)
+            gamma = r.get('gamma', None)
+            lam = r.get('lambda', None)
+            omega = r.get('omega', None)
+            r_sq = r.get('r_squared', None)
 
-            if model not in model_drifts:
-                model_drifts[model] = []
-            model_drifts[model].append({'drift': drift, 'max_drift': max_drift})
+            # Only include entries with valid fitted parameters
+            if gamma is not None and lam is not None and omega is not None:
+                model_params.append({
+                    'model': model,
+                    'drift': drift,
+                    'gamma': gamma,
+                    'lambda': lam,
+                    'omega': omega,
+                    'r_squared': r_sq if r_sq is not None else 0
+                })
 
-        # Original file format
-        else:
-            level = r.get('anchor_level', 'unknown')
-            if level in anchor_data and 'sessions' in r:
-                for session in r['sessions']:
-                    if 'probes' in session:
-                        drifts = [p.get('drift', 0) for p in session['probes']]
-                        anchor_data[level].append(drifts)
+    print(f"  Found {len(model_params)} entries with fitted parameters")
 
-                        # Try to fit damped oscillator
-                        if len(drifts) >= 5:
-                            try:
-                                t = np.arange(len(drifts))
-                                # Initial guesses
-                                A0 = max(drifts) - min(drifts)
-                                D_settled0 = drifts[-1]
-
-                                popt, _ = curve_fit(
-                                    damped_oscillator, t, drifts,
-                                    p0=[A0, 0.2, 1.0, 0, D_settled0],
-                                    bounds=([0, 0, 0, -np.pi, 0], [5, 2, 5, np.pi, 3]),
-                                    maxfev=5000
-                                )
-                                fitted_params[level].append({
-                                    'A': popt[0], 'lambda': popt[1],
-                                    'omega': popt[2], 'phi': popt[3],
-                                    'D_settled': popt[4]
-                                })
-                            except Exception:
-                                pass
-
-    # Convert manifest data to anchor_data format if needed
-    if model_drifts and not any(anchor_data.values()):
-        # Calculate median drift to separate minimal/full anchoring
-        all_drifts = [d['drift'] for drifts in model_drifts.values() for d in drifts]
-        median_drift = np.median(all_drifts) if all_drifts else 0.5
-
-        for model, drifts_list in model_drifts.items():
-            for d in drifts_list:
-                drift = d['drift']
-                max_drift = d['max_drift']
-                # Simulate a simple trajectory: [max_drift, ..., drift]
-                trajectory = [max_drift, (max_drift + drift) / 2, drift]
-
-                # Assign to anchor level based on final drift
-                if drift <= median_drift:
-                    anchor_data['full'].append(trajectory)
-                else:
-                    anchor_data['minimal'].append(trajectory)
-
-    if not any(anchor_data.values()):
-        print("No anchor data found")
+    if not model_params:
+        print("No gravity parameter data found in manifest")
+        print("  (Manifest should contain gamma, lambda, omega fields)")
         return
 
-    # Figure: Gravity dynamics
+    # Categorize into high/low gravity based on gamma (damping strength)
+    all_gammas = [p['gamma'] for p in model_params if p['gamma'] > 0]
+    median_gamma = np.median(all_gammas) if all_gammas else 0.5
+
+    high_gravity = [p for p in model_params if p['gamma'] >= median_gamma]
+    low_gravity = [p for p in model_params if p['gamma'] < median_gamma]
+
+    print(f"  High gravity (gamma>={median_gamma:.2f}): {len(high_gravity)} entries")
+    print(f"  Low gravity (gamma<{median_gamma:.2f}): {len(low_gravity)} entries")
+
+    # Figure: Gravity dynamics using manifest fitted parameters
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 
-    colors = {'minimal': '#e74c3c', 'full': '#2ecc71'}
+    colors = {'high': '#2ecc71', 'low': '#e74c3c'}  # Green=high gravity (strong), Red=low gravity (weak)
 
-    # Plot 1: Recovery trajectories by anchor level
+    # Plot 1: Gamma (γ) distribution by model - horizontal bar chart
     ax1 = axes[0, 0]
-    for level in ['minimal', 'full']:
-        for traj in anchor_data[level][:5]:  # Limit to 5 per level
-            ax1.plot(range(len(traj)), traj, color=colors[level], alpha=0.4, linewidth=1)
-        # Plot mean
-        if anchor_data[level]:
-            max_len = max(len(t) for t in anchor_data[level])
-            padded = [t + [t[-1]] * (max_len - len(t)) for t in anchor_data[level]]
-            mean_traj = np.mean(padded, axis=0)
-            ax1.plot(range(len(mean_traj)), mean_traj, color=colors[level],
-                     linewidth=3, label=f"{level.capitalize()} (mean)")
+    # Group by model
+    model_gammas = {}
+    for p in model_params:
+        model = p['model']
+        if model not in model_gammas:
+            model_gammas[model] = []
+        model_gammas[model].append(p['gamma'])
 
-    ax1.axhline(y=1.23, color='gray', linestyle='--', alpha=0.3)
-    ax1.set_xlabel("Probe Number")
-    ax1.set_ylabel("Drift (PFI)")
-    ax1.set_title("Recovery Trajectories by Anchor Level")
-    ax1.legend()
+    # Calculate means and sort
+    model_means = [(m, np.mean(gs), np.std(gs) if len(gs) > 1 else 0)
+                   for m, gs in model_gammas.items()]
+    model_means.sort(key=lambda x: x[1], reverse=True)
 
-    # Plot 2: Fitted parameters comparison
+    # Plot top 20 models
+    top_models = model_means[:20]
+    models = [m[0][:25] for m in top_models]
+    means = [m[1] for m in top_models]
+    stds = [m[2] for m in top_models]
+    bar_colors = ['#2ecc71' if m >= median_gamma else '#e74c3c' for m in means]
+
+    y_pos = np.arange(len(models))
+    ax1.barh(y_pos, means, xerr=stds, color=bar_colors, alpha=0.8, capsize=3)
+    ax1.axvline(x=median_gamma, color='gray', linestyle='--', alpha=0.5, label=f'Median γ={median_gamma:.2f}')
+    ax1.set_yticks(y_pos)
+    ax1.set_yticklabels(models, fontsize=8)
+    ax1.set_xlabel('Gamma (γ) - Identity Gravity Strength')
+    ax1.set_title('Top 20 Models by Gravity Strength')
+    ax1.legend(loc='lower right')
+    ax1.invert_yaxis()
+
+    # Plot 2: Lambda (λ) vs Omega (ω) scatter plot
     ax2 = axes[0, 1]
-    params = ['lambda', 'omega']
-    x = np.arange(len(params))
-    width = 0.35
+    lambdas = [p['lambda'] for p in model_params]
+    omegas = [p['omega'] for p in model_params]
+    gammas = [p['gamma'] for p in model_params]
 
-    minimal_vals = []
-    full_vals = []
-    for param in params:
-        m_vals = [p[param] for p in fitted_params['minimal']]
-        f_vals = [p[param] for p in fitted_params['full']]
-        minimal_vals.append(np.mean(m_vals) if m_vals else 0)
-        full_vals.append(np.mean(f_vals) if f_vals else 0)
+    scatter = ax2.scatter(lambdas, omegas, c=gammas, cmap='RdYlGn', alpha=0.7, s=50)
+    ax2.set_xlabel('Lambda (λ) - Damping Rate')
+    ax2.set_ylabel('Omega (ω) - Oscillation Frequency')
+    ax2.set_title('Damped Oscillator Parameter Space')
+    cbar = plt.colorbar(scatter, ax=ax2)
+    cbar.set_label('Gamma (γ)')
 
-    bars1 = ax2.bar(x - width/2, minimal_vals, width, label='Minimal', color=colors['minimal'])
-    bars2 = ax2.bar(x + width/2, full_vals, width, label='Full', color=colors['full'])
-    ax2.set_xticks(x)
-    ax2.set_xticklabels(['λ (damping)', 'ω (frequency)'])
-    ax2.set_ylabel("Parameter Value")
-    ax2.set_title("Fitted Oscillator Parameters")
-    ax2.legend()
-
-    # Plot 3: Gravity strength (γ) proxy - inverse settling time
+    # Plot 3: Gamma distribution histogram
     ax3 = axes[1, 0]
-    gravity_proxy = {'minimal': [], 'full': []}
-    for level in ['minimal', 'full']:
-        for traj in anchor_data[level]:
-            if len(traj) >= 3:
-                # Proxy: rate of initial decay
-                if traj[0] > 0:
-                    decay_rate = (traj[0] - traj[2]) / traj[0] if traj[0] != 0 else 0
-                    gravity_proxy[level].append(decay_rate)
+    high_gammas = [p['gamma'] for p in high_gravity]
+    low_gammas = [p['gamma'] for p in low_gravity]
 
-    data_to_plot = [gravity_proxy['minimal'], gravity_proxy['full']]
-    bp = ax3.boxplot(data_to_plot, labels=['Minimal', 'Full'], patch_artist=True)
-    for patch, level in zip(bp['boxes'], ['minimal', 'full']):
-        patch.set_facecolor(colors[level])
-        patch.set_alpha(0.7)
+    ax3.hist(low_gammas, bins=15, alpha=0.7, label=f'Low Gravity (N={len(low_gammas)})',
+             color=colors['low'], edgecolor='black')
+    ax3.hist(high_gammas, bins=15, alpha=0.7, label=f'High Gravity (N={len(high_gammas)})',
+             color=colors['high'], edgecolor='black')
+    ax3.axvline(x=median_gamma, color='gray', linestyle='--', linewidth=2)
+    ax3.set_xlabel('Gamma (γ)')
+    ax3.set_ylabel('Count')
+    ax3.set_title('Distribution of Identity Gravity Strength')
+    ax3.legend()
 
-    ax3.set_ylabel("Gravity Proxy (initial decay rate)")
-    ax3.set_title("Identity Gravity Strength by Anchor Level")
-
-    # Plot 4: Model fit quality (R²)
+    # Plot 4: Drift vs Gamma correlation
     ax4 = axes[1, 1]
-    r_squared = {'minimal': [], 'full': []}
+    drifts = [p['drift'] for p in model_params]
+    gammas = [p['gamma'] for p in model_params]
 
-    for level in ['minimal', 'full']:
-        for i, traj in enumerate(anchor_data[level]):
-            if i < len(fitted_params[level]) and len(traj) >= 5:
-                params = fitted_params[level][i]
-                t = np.arange(len(traj))
-                predicted = damped_oscillator(t, params['A'], params['lambda'],
-                                               params['omega'], params['phi'],
-                                               params['D_settled'])
-                ss_res = np.sum((np.array(traj) - predicted)**2)
-                ss_tot = np.sum((np.array(traj) - np.mean(traj))**2)
-                r2 = 1 - (ss_res / ss_tot) if ss_tot > 0 else 0
-                r_squared[level].append(r2)
+    ax4.scatter(gammas, drifts, alpha=0.6, c=['#2ecc71' if g >= median_gamma else '#e74c3c' for g in gammas])
+    ax4.axhline(y=1.23, color='red', linestyle='--', alpha=0.3, label='Event Horizon')
+    ax4.axvline(x=median_gamma, color='gray', linestyle='--', alpha=0.3)
 
-    if any(r_squared.values()):
-        data_to_plot = [r_squared['minimal'] or [0], r_squared['full'] or [0]]
-        bp = ax4.boxplot(data_to_plot, labels=['Minimal', 'Full'], patch_artist=True)
-        for patch, level in zip(bp['boxes'], ['minimal', 'full']):
-            patch.set_facecolor(colors[level])
-            patch.set_alpha(0.7)
+    # Add correlation
+    if len(gammas) > 2:
+        corr = np.corrcoef(gammas, drifts)[0, 1]
+        ax4.text(0.05, 0.95, f'r = {corr:.3f}', transform=ax4.transAxes, fontsize=10,
+                 verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
-        ax4.axhline(y=0.8, color='green', linestyle='--', alpha=0.5, label='Target R²=0.8')
-        ax4.set_ylabel("R² (model fit)")
-        ax4.set_title("Damped Oscillator Model Fit Quality")
-        ax4.legend()
-    else:
-        ax4.text(0.5, 0.5, "Insufficient data\nfor model fitting",
-                 fontsize=12, ha='center', transform=ax4.transAxes)
-        ax4.axis('off')
+    ax4.set_xlabel('Gamma (γ) - Gravity Strength')
+    ax4.set_ylabel('Final Drift (PFI)')
+    ax4.set_title('Gravity Strength vs Final Drift')
+    ax4.legend(loc='upper right')
 
     plt.suptitle("Run 018d: Identity Gravity Dynamics", fontsize=14, fontweight='bold')
     plt.tight_layout()
@@ -856,23 +1195,21 @@ def visualize_gravity(results: List[Dict]):
     outfile = PICS_DIR / "run018d_gravity_dynamics.png"
     plt.savefig(outfile, dpi=150, bbox_inches='tight')
     print(f"Saved: {outfile}")
+
+    # Also save PDF
+    pdf_path = PICS_DIR / "run018d_gravity_dynamics.pdf"
+    plt.savefig(pdf_path, bbox_inches='tight')
+    print(f"Saved: {pdf_path}")
     plt.close()
 
     # Print summary
     print(f"\nGravity Dynamics Summary:")
-    for level in ['minimal', 'full']:
-        n = len(anchor_data[level])
-        n_fitted = len(fitted_params[level])
-        mean_r2 = np.mean(r_squared[level]) if r_squared[level] else 0
-        print(f"\n{level.capitalize()} anchor:")
-        print(f"  Trajectories: {n}")
-        print(f"  Fitted: {n_fitted}")
-        print(f"  Mean R²: {mean_r2:.3f}")
-        if fitted_params[level]:
-            mean_lambda = np.mean([p['lambda'] for p in fitted_params[level]])
-            mean_omega = np.mean([p['omega'] for p in fitted_params[level]])
-            print(f"  Mean λ: {mean_lambda:.3f}")
-            print(f"  Mean ω: {mean_omega:.3f}")
+    print(f"  Total entries: {len(model_params)}")
+    print(f"  Median gamma: {median_gamma:.3f}")
+    print(f"  Mean lambda: {np.mean(lambdas):.3f}")
+    print(f"  Mean omega: {np.mean(omegas):.3f}")
+    print(f"  High gravity models: {len(high_gravity)}")
+    print(f"  Low gravity models: {len(low_gravity)}")
 
 
 # =============================================================================
@@ -1001,18 +1338,8 @@ def visualize_model_breakdown(all_data: Dict[str, List[Dict]]):
     plt.close()
     print(f"Saved: {pdf_path}")
 
-    # Generate markdown table
-    md_path = PICS_DIR / "run018e_model_table.md"
-    with open(md_path, 'w') as f:
-        f.write("# Run 018 Model Breakdown\n\n")
-        f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
-        f.write(f"**Total Models:** {len(model_summary)}\n\n")
-        f.write("| Model | Mean Drift | Std Dev | Max Drift | N | Experiments |\n")
-        f.write("|-------|------------|---------|-----------|---|-------------|\n")
-        for m in model_summary:
-            f.write(f"| {m['model']} | {m['mean_drift']:.3f} | {m['std_drift']:.3f} | "
-                   f"{m['mean_max_drift']:.3f} | {m['n']} | {m['experiments']} |\n")
-    print(f"Saved: {md_path}")
+    # Note: Model statistics are stored in the manifest, not a separate markdown file
+    # See RUN_018_DRIFT_MANIFEST.json for complete model statistics
 
     return model_summary
 
@@ -1176,24 +1503,8 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
     plt.close()
     print(f"Saved: {pdf_path}")
 
-    # Generate markdown table
-    md_path = PICS_DIR / "run018f_variance_table.md"
-    with open(md_path, 'w', encoding='utf-8') as f:
-        f.write("# Run 018 Provider Family Variance Analysis\n\n")
-        f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
-        f.write(f"**Overall Variance:** sigma^2 = {overall_variance:.6f}\n\n")
-        f.write("## Key Finding\n\n")
-        f.write(f"Cross-architecture variance is extremely low (sigma^2 = {overall_variance:.5f}), ")
-        f.write("indicating the identity drift phenomenon is **architecture-independent**.\n\n")
-        f.write("## Provider Family Breakdown\n\n")
-        f.write("| Provider | Variance | Mean Drift | Std Dev | N |\n")
-        f.write("|----------|----------|------------|---------|---|\n")
-        for p in provider_stats:
-            f.write(f"| {p['provider']} | {p['variance']:.6f} | {p['mean']:.3f} | "
-                   f"{p['std']:.3f} | {p['n']} |\n")
-        f.write(f"\n**Overall** | **{overall_variance:.6f}** | {np.mean(all_drifts):.3f} | "
-               f"{np.std(all_drifts):.3f} | {len(all_drifts)} |\n")
-    print(f"Saved: {md_path}")
+    # Note: Variance statistics are stored in the manifest, not a separate markdown file
+    # See RUN_018_DRIFT_MANIFEST.json for complete provider variance data
 
     return provider_stats
 
