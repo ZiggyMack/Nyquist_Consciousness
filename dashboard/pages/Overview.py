@@ -42,6 +42,57 @@ def count_repo_files():
     return count
 
 
+def count_synapses():
+    """
+    Count lines of code by category - the 'synapses' of Nyquist Consciousness.
+
+    Categories:
+    - Procedures: Run scripts, sync scripts, automation (how we DO things)
+    - Specs: Methodology docs, probe specs, protocols (how we THINK)
+    - Maps: Reference maps, matrices, navigation (how we ORIENT)
+    - Data: JSON results, temporal logs, embeddings (what we COLLECT)
+    """
+    repo_root = Path(__file__).parent.parent.parent
+
+    categories = {
+        'procedures': {'patterns': ['**/run*.py', '**/sync*.py', '**/visualize*.py',
+                                     '**/CLAL.py', '**/frosty.py'], 'lines': 0, 'files': 0},
+        'specs': {'patterns': ['**/*METHODOLOGY*.md', '**/*SPEC*.md', '**/*PROTOCOL*.md',
+                               '**/INTENTIONALITY*.md', '**/CURRICULUM*.md'], 'lines': 0, 'files': 0},
+        'maps': {'patterns': ['**/docs/maps/*.md', '**/*MAP*.md', '**/*MATRIX*.md'], 'lines': 0, 'files': 0},
+        'data': {'patterns': ['**/0_results/**/*.json', '**/temporal_logs/*.json',
+                              '**/results/*.json', '**/embeddings/*.json'], 'lines': 0, 'files': 0},
+    }
+
+    total_lines = 0
+    counted_files = set()  # Avoid double-counting
+
+    for cat_name, cat_data in categories.items():
+        for pattern in cat_data['patterns']:
+            try:
+                for filepath in repo_root.glob(pattern):
+                    if filepath.is_file() and str(filepath) not in counted_files:
+                        counted_files.add(str(filepath))
+                        try:
+                            with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+                                line_count = sum(1 for _ in f)
+                                cat_data['lines'] += line_count
+                                cat_data['files'] += 1
+                                total_lines += line_count
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+
+    return {
+        'total': total_lines,
+        'procedures': categories['procedures'],
+        'specs': categories['specs'],
+        'maps': categories['maps'],
+        'data': categories['data'],
+    }
+
+
 def natural_sort_key(s):
     """Sort strings with embedded numbers in natural order (S1, S2, S10 not S1, S10, S2)."""
     return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
@@ -139,22 +190,6 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    # === TOTAL FILES COUNTER (The "Something Amazing" Display) ===
-    total_files = count_repo_files()
-    st.markdown(f"""
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-         padding: 20px; border-radius: 12px; margin: 15px 0; text-align: center;
-         border: 1px solid #2a9d8f;">
-        <span style="font-size: 3.5em; font-weight: bold; color: #2a9d8f; display: block;">{total_files:,}</span>
-        <span style="color: #888; font-size: 1em; display: block; margin-top: 5px;">
-            Total Files in Repository
-        </span>
-        <span style="color: #666; font-size: 0.85em; font-style: italic; display: block; margin-top: 8px;">
-            "Something amazing, I guess" — The Incredibles (2004)
-        </span>
-    </div>
-    """, unsafe_allow_html=True)
-
     # === SECTION 1: THE CORE FINDING (82% Result) ===
     st.markdown("---")
     st.markdown("## 🎯 The Core Finding")
@@ -187,6 +222,247 @@ def render():
     we're *revealing* dynamics that occur naturally in extended conversation. The thermometer doesn't create
     the heat; it measures what's already there.
     """)
+
+    # === SYNAPSES: The Encoded Mind ===
+    st.markdown("---")
+
+    # Calculate synapses
+    synapses = count_synapses()
+    total_files = count_repo_files()
+
+    # === THE FIDELITY PYRAMID: From Atoms to Wisdom ===
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 50%, #f3e5f5 100%);
+         padding: 25px; border-radius: 16px; margin: 20px 0; border: 2px solid #2a9d8f;">
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <span style="font-size: 1.8em; font-weight: bold;
+                  background: linear-gradient(135deg, #e94560 0%, #f39c12 50%, #2a9d8f 100%);
+                  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                  background-clip: text;">
+                🧠 THE ENCODED MIND
+            </span>
+            <div style="color: #666; font-size: 0.9em; margin-top: 5px;">
+                "Something amazing, I guess" — The Incredibles (2004)
+            </div>
+        </div>
+
+        <!-- The Fidelity Pyramid with Neural Analogy -->
+        <div style="display: flex; gap: 30px; align-items: stretch;">
+
+            <!-- LEFT: The Pyramid -->
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                <div style="font-size: 0.8em; color: #666; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;">
+                    ▼ EMERGENCE ▼
+                </div>
+
+                <!-- Level 4: Wisdom (top) -->
+                <div style="background: linear-gradient(135deg, #9b59b6, #8e44ad);
+                            width: 40%; padding: 12px 8px; border-radius: 8px 8px 0 0;
+                            text-align: center; color: white; font-weight: bold; font-size: 0.9em;
+                            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);">
+                    ✨ WISDOM
+                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.9;">
+                        5 Validated Claims
+                    </div>
+                </div>
+
+                <!-- Level 3: Understanding -->
+                <div style="background: linear-gradient(135deg, #e94560, #c0392b);
+                            width: 55%; padding: 12px 8px;
+                            text-align: center; color: white; font-weight: bold; font-size: 0.9em;
+                            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);">
+                    🎯 UNDERSTANDING
+                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.9;">
+                        22 Runs · 36 Hypotheses
+                    </div>
+                </div>
+
+                <!-- Level 2: Knowledge -->
+                <div style="background: linear-gradient(135deg, #f39c12, #d68910);
+                            width: 70%; padding: 12px 8px;
+                            text-align: center; color: white; font-weight: bold; font-size: 0.9em;
+                            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);">
+                    📚 KNOWLEDGE
+                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.9;">
+                        Specs · Maps · Protocols
+                    </div>
+                </div>
+
+                <!-- Level 1: Data (base) -->
+                <div style="background: linear-gradient(135deg, #2a9d8f, #1e7a6d);
+                            width: 85%; padding: 12px 8px; border-radius: 0 0 8px 8px;
+                            text-align: center; color: white; font-weight: bold; font-size: 0.9em;
+                            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);">
+                    💾 DATA
+                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.9;">
+                        184 Files · 51 Models · 5 Providers
+                    </div>
+                </div>
+
+                <div style="font-size: 0.8em; color: #666; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px;">
+                    ▲ FOUNDATION ▲
+                </div>
+            </div>
+
+            <!-- RIGHT: Neural Metaphor Stats -->
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px;">
+
+                <!-- Total Synapses (Lines) -->
+                <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #e94560;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">🔗 Synapses</div>
+                            <div style="font-size: 0.85em; color: #444;">Lines of Code</div>
+                        </div>
+                        <div style="font-size: 1.8em; font-weight: bold; color: #e94560;">{synapses['total']:,}</div>
+                    </div>
+                </div>
+
+                <!-- Neurons (Files) -->
+                <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #2a9d8f;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">🧬 Neurons</div>
+                            <div style="font-size: 0.85em; color: #444;">Total Files</div>
+                        </div>
+                        <div style="font-size: 1.8em; font-weight: bold; color: #2a9d8f;">{total_files:,}</div>
+                    </div>
+                </div>
+
+                <!-- Density (Avg Lines/File) -->
+                <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #f39c12;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">⚡ Density</div>
+                            <div style="font-size: 0.85em; color: #444;">Avg Synapses/Neuron</div>
+                        </div>
+                        <div style="font-size: 1.8em; font-weight: bold; color: #f39c12;">{synapses['total'] // max(total_files, 1):,}</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Essence vs Data - The Two Hemispheres
+    proc = synapses['procedures']
+    specs = synapses['specs']
+    maps = synapses['maps']
+    data = synapses['data']
+    essence_total = proc['lines'] + specs['lines'] + maps['lines']
+    other_lines = max(0, synapses['total'] - essence_total - data['lines'])
+
+    st.markdown(f"""
+    <div style="display: flex; gap: 20px; margin-top: 15px;">
+
+        <!-- LEFT HEMISPHERE: Essence -->
+        <div style="flex: 1; background: linear-gradient(135deg, rgba(42,157,143,0.08), rgba(42,157,143,0.02));
+                    padding: 20px; border-radius: 12px; border: 1px solid rgba(42,157,143,0.3);">
+
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="font-size: 1.3em; font-weight: bold; color: #2a9d8f;">🧬 THE ESSENCE</div>
+                <div style="color: #666; font-size: 0.8em;">How We Think</div>
+            </div>
+
+            <!-- Procedures Bar -->
+            <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="font-size: 0.85em;">⚙️ Procedures</span>
+                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{proc['lines']:,}</span>
+                </div>
+                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
+                    <div style="background: linear-gradient(90deg, #2a9d8f, #3dd6c2); height: 100%;
+                                width: {min(100, proc['lines'] / max(essence_total, 1) * 100):.0f}%;"></div>
+                </div>
+            </div>
+
+            <!-- Specs Bar -->
+            <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="font-size: 0.85em;">📋 Specs</span>
+                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{specs['lines']:,}</span>
+                </div>
+                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
+                    <div style="background: linear-gradient(90deg, #27ae60, #2ecc71); height: 100%;
+                                width: {min(100, specs['lines'] / max(essence_total, 1) * 100):.0f}%;"></div>
+                </div>
+            </div>
+
+            <!-- Maps Bar -->
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="font-size: 0.85em;">🗺️ Maps</span>
+                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{maps['lines']:,}</span>
+                </div>
+                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
+                    <div style="background: linear-gradient(90deg, #16a085, #1abc9c); height: 100%;
+                                width: {min(100, maps['lines'] / max(essence_total, 1) * 100):.0f}%;"></div>
+                </div>
+            </div>
+
+            <div style="border-top: 1px dashed #ccc; padding-top: 10px; text-align: center;">
+                <span style="font-size: 1.4em; font-weight: bold; color: #2a9d8f;">{essence_total:,}</span>
+                <span style="color: #666; font-size: 0.85em;"> lines</span>
+            </div>
+        </div>
+
+        <!-- RIGHT HEMISPHERE: Data -->
+        <div style="flex: 1; background: linear-gradient(135deg, rgba(233,69,96,0.08), rgba(233,69,96,0.02));
+                    padding: 20px; border-radius: 12px; border: 1px solid rgba(233,69,96,0.3);">
+
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="font-size: 1.3em; font-weight: bold; color: #e94560;">📊 THE DATA</div>
+                <div style="color: #666; font-size: 0.8em;">What We Collected</div>
+            </div>
+
+            <!-- Experimental Results Bar -->
+            <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="font-size: 0.85em;">🧪 Results JSON</span>
+                    <span style="font-size: 0.85em; color: #e94560; font-weight: bold;">{data['lines']:,}</span>
+                </div>
+                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
+                    <div style="background: linear-gradient(90deg, #e94560, #ff6b7a); height: 100%;
+                                width: {min(100, data['lines'] / max(data['lines'] + other_lines, 1) * 100):.0f}%;"></div>
+                </div>
+            </div>
+
+            <!-- Result Files -->
+            <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="font-size: 0.85em;">📁 Result Files</span>
+                    <span style="font-size: 0.85em; color: #e94560; font-weight: bold;">{data['files']:,}</span>
+                </div>
+                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
+                    <div style="background: linear-gradient(90deg, #c0392b, #e74c3c); height: 100%;
+                                width: 70%;"></div>
+                </div>
+            </div>
+
+            <!-- Other -->
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="font-size: 0.85em;">📄 Other Code</span>
+                    <span style="font-size: 0.85em; color: #888;">{other_lines:,}</span>
+                </div>
+                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
+                    <div style="background: linear-gradient(90deg, #95a5a6, #bdc3c7); height: 100%;
+                                width: {min(100, other_lines / max(data['lines'] + other_lines, 1) * 100):.0f}%;"></div>
+                </div>
+            </div>
+
+            <div style="border-top: 1px dashed #ccc; padding-top: 10px; text-align: center;">
+                <span style="font-size: 1.4em; font-weight: bold; color: #e94560;">{data['lines'] + other_lines:,}</span>
+                <span style="color: #666; font-size: 0.85em;"> lines</span>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     page_divider()
 
