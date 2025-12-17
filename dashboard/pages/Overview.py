@@ -14,9 +14,32 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import re
+import subprocess
 from pathlib import Path
 from config import PATHS, SETTINGS
 from utils import load_status, load_publication_status, load_markdown_file, page_divider
+
+
+def count_repo_files():
+    """Count total files in Nyquist_Consciousness repo using git ls-files."""
+    repo_root = Path(__file__).parent.parent.parent
+    try:
+        result = subprocess.run(
+            ['git', 'ls-files'],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        if result.returncode == 0:
+            return len([f for f in result.stdout.strip().split('\n') if f])
+    except Exception:
+        pass
+    # Fallback: count common file types
+    count = 0
+    for pattern in ['**/*.py', '**/*.json', '**/*.md', '**/*.yaml', '**/*.yml']:
+        count += len(list(repo_root.glob(pattern)))
+    return count
 
 
 def natural_sort_key(s):
@@ -112,6 +135,22 @@ def render():
         </span>
         <span style="color: white !important; font-size: 0.8em; display: block; margin-top: 0.8em; padding-top: 0.8em; border-top: 1px solid #e94560; font-family: 'Courier New', monospace;">
             10 AI lineages | 5 providers | arXiv Ready | NeurIPS 2025 Workshop
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # === TOTAL FILES COUNTER (The "Something Amazing" Display) ===
+    total_files = count_repo_files()
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+         padding: 20px; border-radius: 12px; margin: 15px 0; text-align: center;
+         border: 1px solid #2a9d8f;">
+        <span style="font-size: 3.5em; font-weight: bold; color: #2a9d8f; display: block;">{total_files:,}</span>
+        <span style="color: #888; font-size: 1em; display: block; margin-top: 5px;">
+            Total Files in Repository
+        </span>
+        <span style="color: #666; font-size: 0.85em; font-style: italic; display: block; margin-top: 8px;">
+            "Something amazing, I guess" — The Incredibles (2004)
         </span>
     </div>
     """, unsafe_allow_html=True)

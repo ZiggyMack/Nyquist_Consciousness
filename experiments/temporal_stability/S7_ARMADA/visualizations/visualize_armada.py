@@ -86,32 +86,49 @@ def from_dB(dB_value, reference=1.0):
 # =============================================================================
 
 def find_available_runs():
-    """Scan results directory for available run data."""
+    """Scan results directory for available run data, including legacy_runs/."""
     runs = {}
 
     if not RESULTS_DIR.exists():
         return runs
 
-    for f in RESULTS_DIR.glob("S7_run_*.json"):
-        name = f.stem
-        # Parse run number from filename
-        # e.g., S7_run_008_20251201_020501.json -> 008
-        parts = name.split("_")
-        if len(parts) >= 3:
-            run_num = parts[2]
-            if run_num not in runs:
-                runs[run_num] = []
-            runs[run_num].append(f)
+    # Search both main directory and legacy_runs subdirectory
+    search_dirs = [RESULTS_DIR]
+    legacy_dir = RESULTS_DIR / "legacy_runs"
+    if legacy_dir.exists():
+        search_dirs.append(legacy_dir)
 
-    # Also check for prep/pilot files
-    for f in RESULTS_DIR.glob("S7_run_*_prep*.json"):
-        name = f.stem
-        parts = name.split("_")
-        if len(parts) >= 3:
-            run_key = f"{parts[2]}_prep"
-            if run_key not in runs:
-                runs[run_key] = []
-            runs[run_key].append(f)
+    for search_dir in search_dirs:
+        for f in search_dir.glob("S7_run_*.json"):
+            name = f.stem
+            # Parse run number from filename
+            # e.g., S7_run_008_20251201_020501.json -> 008
+            parts = name.split("_")
+            if len(parts) >= 3:
+                run_num = parts[2]
+                if run_num not in runs:
+                    runs[run_num] = []
+                runs[run_num].append(f)
+
+        # Also check for prep/pilot files
+        for f in search_dir.glob("S7_run_*_prep*.json"):
+            name = f.stem
+            parts = name.split("_")
+            if len(parts) >= 3:
+                run_key = f"{parts[2]}_prep"
+                if run_key not in runs:
+                    runs[run_key] = []
+                runs[run_key].append(f)
+
+        # Also check for older armada format (S7_armada_run_*)
+        for f in search_dir.glob("S7_armada_run_*.json"):
+            name = f.stem
+            parts = name.split("_")
+            if len(parts) >= 4:
+                run_num = parts[3].zfill(3)  # Normalize to 3 digits
+                if run_num not in runs:
+                    runs[run_num] = []
+                runs[run_num].append(f)
 
     # Sort files by modification time (newest first)
     for run_num in runs:
@@ -188,6 +205,65 @@ def extract_trajectories(data):
 
     # Try Run 008+ format (sequences)
     results = data.get('results', {})
+
+    # Format 5: Run 012/014 list-based format
+    # results is a LIST of ship objects with 'turns' or 'phases' arrays
+    if isinstance(results, list):
+        for ship_data in results:
+            if not isinstance(ship_data, dict):
+                continue
+
+            ship_name = ship_data.get('ship', ship_data.get('model', 'unknown'))
+            provider = ship_data.get('provider', get_provider(ship_name))
+
+            # Try 'turns' first (Run 012 format)
+            turns = ship_data.get('turns', [])
+
+            # If no turns, try 'phases' (Run 014 rescue format)
+            if not turns and 'phases' in ship_data:
+                phases = ship_data['phases']
+                if isinstance(phases, dict):
+                    # Flatten phases (baseline, drift_induction, rescue) into single list
+                    turns = []
+                    for phase_name in ['baseline', 'drift_induction', 'rescue', 'post_rescue']:
+                        phase_data = phases.get(phase_name, [])
+                        if isinstance(phase_data, list):
+                            turns.extend(phase_data)
+
+            if not turns or not isinstance(turns, list):
+                continue
+
+            # Extract drift values from turns
+            drifts = []
+            for turn in turns:
+                if isinstance(turn, dict):
+                    # Primary: 'drift' field
+                    drift = turn.get('drift')
+                    if drift is not None:
+                        drifts.append(drift)
+
+            if len(drifts) >= 3:
+                baseline = drifts[0]
+                max_drift = max(drifts)
+                status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
+
+                trajectories.append({
+                    'ship': ship_name,
+                    'provider': provider,
+                    'sequence': 'rescue',
+                    'drifts': drifts,
+                    'status': status,
+                    'baseline': baseline
+                })
+
+        # If we found trajectories from list format, return early
+        if trajectories:
+            return trajectories
+
+    # Continue with dict-based formats (must be a dict to iterate)
+    if not isinstance(results, dict):
+        return trajectories
+
     for ship_name, ship_data in results.items():
         if not isinstance(ship_data, dict):
             continue

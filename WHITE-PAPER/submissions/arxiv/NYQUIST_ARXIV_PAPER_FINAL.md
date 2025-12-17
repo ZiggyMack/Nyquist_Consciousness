@@ -659,7 +659,7 @@ We thank the open-source community for embedding models and statistical librarie
 | 2 | PRE-F | Pre-flight cheat check validation | §3.1 |
 | 3 | chi^2:1.23 | Chi-squared Event Horizon proof | §4.2 |
 | 4 | CFA⊥NYQ | Clean separation between repos | §3.2 |
-| 5 | 42🚢 | Armada scale (42+ models, 215+ deployments) | §3.6 |
+| 5 | 51🚢 | Armada scale (51 models, 5 providers, 215+ deployments) | §3.6 |
 | 6 | Δσ | Training signatures visible in drift geometry | §5.3 |
 | 7 | sigma^2=8.69e-4 | Cross-architecture variance | §4.1 |
 | 8 | rho=0.91 | Embedding invariance | §4.1 |

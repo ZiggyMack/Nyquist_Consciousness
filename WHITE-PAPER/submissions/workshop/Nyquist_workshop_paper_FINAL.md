@@ -310,7 +310,7 @@ These results provide the first rigorous foundation for quantifying and managing
 | 2 | PRE-F | Pre-flight cheat validation |
 | 3 | chi^2:1.23 | Chi-squared threshold proof |
 | 4 | CFA⊥NYQ | Clean separation design |
-| 5 | 42🚢 | Armada scale (42+ models) |
+| 5 | 51🚢 | Armada scale (51 models, 5 providers) |
 | 6 | Δσ | Training signatures |
 | 7 | sigma^2=8.69e-4 | Cross-architecture variance |
 | 8 | rho=0.91 | Embedding invariance |

@@ -177,7 +177,14 @@
       "Bash(dir /b d:DocumentsNyquist_Consciousnessexperimentstemporal_stabilityS7_ARMADA0_resultsrunsS7_run_018_nyquist*)",
       "Bash(del \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\visualizations\\pics\\run018\\run018e_model_table.md\")",
       "Bash(dir /b \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\0_results\\runs\\S7_run_018_nyquist_*.json\")",
-      "Bash(dir /b \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\visualizations\\pics\\run018\")"
+      "Bash(dir /b \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\visualizations\\pics\\run018\")",
+      "Bash(git commit -m \"$(cat <<''EOF''\nExit Survey Bug Fix + Diamond Rush Methodology + Attribution Errata\n\n## Bug Fix\n- Fixed hardcoded \"anthropic\" in run018_recursive_learnings.py exit surveys\n- Lines 1319, 1618, 1725: now use `provider` instead of \"anthropic\"\n- Exit surveys will now use the tested model (not Claude) for self-reflection\n\n## New Methodology: Diamond Rush\n- Created run_diamond_rush.py - cross-model interpretive analysis\n- Shows ALL models the SAME conversation logs for \"theory of mind\" capture\n- Born from exit survey bug - turned mistake into intentional methodology\n- Created diamond_analysis.yaml question set\n\n## Documentation Updates\n- Added ATTRIBUTION_ERRATA.md for transparency\n- Updated cross_architecture_insights.md (LEFT/RIGHT) with provenance notes\n- Updated run018_exit_survey_distillations.md with attribution correction\n- Updated LLM_BEHAVIORAL_MATRIX.md with data provenance note\n- Updated 0_RUN_METHODOLOGY.md with exit survey warning and cross-refs\n- Updated 1_INTENTIONALITY.md with Triple Mining Strategy, run history\n- Updated S7_ARMADA/README.md with bug warning and key specs table\n- Updated 14_CONSCIOUSNESS/README.md with Diamond Rush documentation\n\n## Impact\n- Historical phenomenological quotes from non-Claude models are Claude''s analysis\n- Drift scores and trajectories remain VALID (embedding-based)\n- Bug fix ensures future exit surveys use correct provider\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(ls -la \"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\"\" | grep -E \"^d \")",
+      "Bash(done)",
+      "Bash(for dir in 2_ANCHOR_FLEX 3_EVENT_HORIZON 4_BASIN_TOPOLOGY 5_BOUNDARY_MAPPING 6_LAPLACE_ANALYSIS 7_META_VALIDATION 8_RESCUE_PROTOCOL 9_STABILITY_CRITERIA 10_SETTLING_TIME)",
+      "Bash(do echo \"=== $dir ===\")",
+      "Bash(for dir in 3_EVENT_HORIZON 4_BASIN_TOPOLOGY 5_BOUNDARY_MAPPING 6_LAPLACE_ANALYSIS 8_RESCUE_PROTOCOL 12_CFA 13_LOGOS 14_CONSCIOUSNESS)",
+      "Bash(do echo '=== $dir ===' ls -la d:/Documents/Nyquist_Consciousness/experiments/temporal_stability/S7_ARMADA/$dir)"
     ],
     "deny": [],
     "ask": []

@@ -12,7 +12,7 @@
 |----------|-------|-------|
 | Total Experiments | 21 | S7 ARMADA Suite |
 | Total Model Deployments | 215+ | Across all runs |
-| Architectures Tested | 4 | Claude, GPT, Gemini, Grok |
+| Architectures Tested | 5 | Claude, GPT, Gemini, Grok, Together (Llama/DeepSeek/Mistral) |
 | Hypotheses Tested | 36 | 27 confirmed (75%) |
 | Evidence Pillars | 15 | B-CRUMBS documented |
 | Publication Claims | 5 | A-E, peer-review ready |

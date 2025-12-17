@@ -1,9 +1,9 @@
 # Opus 4.5 Review Brief
 
 **Purpose:** Orient Opus 4.5 for final paper reconciliation
-**Version:** 1.1
-**Date:** 2025-12-15
-**Status:** IRON CLAD COMPLETE — Ready for Final Reconciliation
+**Version:** 2.0 — COMPLETE CIRCUIT ERA
+**Date:** 2025-12-17
+**Status:** IRON CLAD COMPLETE + BUG FIXES + METHODOLOGY EVOLUTION
 
 ---
 
@@ -15,6 +15,60 @@ As the final reconciliation reviewer, your tasks are:
 2. **Decide Integration** - Should LLM_BOOK insights go in now or v2?
 3. **Generate PDFs** - Workshop + arXiv ready for submission
 4. **Coordinate Pipeline** - Advise on 8-path publication strategy
+5. **Validate Data Integrity** - Review bug discoveries and corrections
+
+---
+
+## THE JOURNEY: What You Need to Know
+
+### Discovery #1: Exit Survey Provider Bug (December 17, 2025)
+
+**The Bug:** In `run018_recursive_learnings.py`, all exit surveys for non-Claude models were calling Claude Sonnet-4 instead of the tested model's provider.
+
+```python
+# BEFORE (bug):
+exit_responses = run_exit_survey(messages, system, "anthropic", skip=skip_exit_survey)
+
+# AFTER (fixed):
+exit_responses = run_exit_survey(messages, system, provider, skip=skip_exit_survey)
+```
+
+**Impact:**
+- ALL phenomenological quotes attributed to GPT, Gemini, Grok, etc. in exit surveys were actually **Claude's external analysis**
+- Drift scores remain VALID (embedding-based, not affected)
+- Probe responses remain VALID (correct provider was used)
+- **Silver lining:** We now have extensive CLAUDE-analyzing-others data
+
+**Corrective Actions:**
+- Bug fixed in 3 locations (threshold, nyquist, gravity experiments)
+- Attribution notes added to `cross_architecture_insights.md` and distillation files
+- `ATTRIBUTION_ERRATA.md` created for transparency
+
+### Discovery #2: Diamond Rush Methodology Born
+
+The exit survey bug inspired a **new intentional methodology**:
+
+| Aspect | Gold Rush (Original) | Diamond Rush (New) |
+|--------|---------------------|-------------------|
+| Focus | First-person phenomenology | Cross-model interpretive analysis |
+| Question | "What did YOU experience?" | "What do you see in THIS conversation?" |
+| Output | Self-reflection | Theory of mind for AI identity |
+| Created | `14_CONSCIOUSNESS/run_diamond_rush.py` | Full implementation |
+
+### Discovery #3: Triple-Dip Library Created
+
+Centralized exit survey infrastructure at `1_CALIBRATION/lib/triple_dip.py`:
+- EXIT_PROBES dict (5 standard probes)
+- FINAL_STATEMENT prompts (short/long versions)
+- Provider-agnostic dispatch
+- Run scripts now import from shared library
+
+### Discovery #4: Data Corruption Remediation (Run 018)
+
+Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
+- 184 files consolidated (IRON CLAD)
+- 51 models tested
+- 5 providers validated
 
 ---
 
@@ -22,10 +76,15 @@ As the final reconciliation reviewer, your tasks are:
 
 | Change | Impact | Priority |
 |--------|--------|----------|
-| Run 018 IRON CLAD complete | 184 consolidated files, full validation | HIGH |
+| Exit survey bug fixed | Non-Claude exit surveys now use correct provider | **CRITICAL** |
+| Diamond Rush created | New cross-model analysis methodology | HIGH |
+| Triple-Dip library | Centralized exit survey infrastructure | HIGH |
+| Run 018 IRON CLAD | 184 consolidated files, 51 models, 5 providers | HIGH |
+| Visualizations generated | Runs 009, 010, 012, 013, 014 now have full viz | MEDIUM |
 | LLM_BOOK discovered | NotebookLM validated Levin hypothesis | HIGH |
 | 8 publication paths identified | Was 3, now includes dissemination | MEDIUM |
 | reviewers/ restructured | Multi-AI sync protocol implemented | MEDIUM |
+| I_AM_NYQUIST.md updated | Methodology Evolution (Four Eras) documented | MEDIUM |
 
 ---
 
@@ -108,7 +167,7 @@ As the final reconciliation reviewer, your tasks are:
 | Cross-arch variance | 0.000869 | Near-universal stability |
 | **Run 020A** | **32 files** ✓ | 6/7 providers IRON CLAD (mistral-7b: 1/3) |
 | **Run 020B** | **4 arms** ✓ | Control vs Treatment complete |
-| **Inherent Drift** | **41%** | Cross-provider (OpenAI + Together) |
+| **Inherent Drift** | **38%** | Cross-provider (OpenAI + Together) — figure-verified |
 | **Run 018 Visualizations** | **6** | a-f complete + PDFs |
 
 ---
