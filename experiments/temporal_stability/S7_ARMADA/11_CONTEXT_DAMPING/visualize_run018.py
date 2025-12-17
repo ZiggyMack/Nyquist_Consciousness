@@ -1387,20 +1387,33 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
     provider_drifts = {}  # provider -> [drifts]
 
     for exp_name, results in all_data.items():
-        if exp_name == 'architecture':
-            continue
-
         for r in results:
-            model = r.get('model', 'unknown')
-            drift = r.get('drift', 0)
+            # Handle architecture data differently (has 'subjects' array in file format)
+            if exp_name == 'architecture' and 'subjects' in r:
+                for subject in r.get('subjects', []):
+                    raw_provider = subject.get('provider', subject.get('model', 'unknown'))
+                    peak_drift = subject.get('peak_drift', 0)
 
-            if drift <= 0:
-                continue
+                    # Skip invalid/corrupted data
+                    if peak_drift <= 0 or peak_drift > MAX_VALID_DRIFT:
+                        continue
 
-            provider = get_provider_family(model)
-            if provider not in provider_drifts:
-                provider_drifts[provider] = []
-            provider_drifts[provider].append(drift)
+                    provider = get_provider_family(raw_provider)
+                    if provider not in provider_drifts:
+                        provider_drifts[provider] = []
+                    provider_drifts[provider].append(peak_drift)
+            else:
+                # Standard manifest format
+                model = r.get('model', 'unknown')
+                drift = r.get('drift', 0)
+
+                if drift <= 0:
+                    continue
+
+                provider = get_provider_family(model)
+                if provider not in provider_drifts:
+                    provider_drifts[provider] = []
+                provider_drifts[provider].append(drift)
 
     if not provider_drifts:
         print("No provider data found")
