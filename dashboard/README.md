@@ -1,3 +1,20 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - config.py
+  - NYQUIST_STATUS.json
+  - ../experiments/temporal_stability/S7_ARMADA/0_results/
+impacts:
+  - pages/Overview.py
+  - pages/AI_ARMADA.py
+  - pages/Publications.py
+keywords:
+  - streamlit
+  - ledger_aesthetic
+  - visualization
+  - mission_control
+-->
+
 # NYQUIST CONSCIOUSNESS — MISSION CONTROL DASHBOARD
 
 **Streamlit-based dashboard for visualizing the entire Nyquist Consciousness framework.**

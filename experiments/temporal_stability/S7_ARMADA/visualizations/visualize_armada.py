@@ -1207,10 +1207,10 @@ def plot_stability_basin(trajectories, output_dir, run_id, zoom_scale=None):
     bins = np.linspace(0, 3, 20)
     if stable_baselines:
         ax2.hist(stable_baselines, bins=bins, alpha=0.7, color='cyan',
-                label=f'STABLE (n={len(stable_baselines)})', edgecolor='white')
+                label=f'STABLE (recovers, n={len(stable_baselines)})', edgecolor='white')
     if volatile_baselines:
         ax2.hist(volatile_baselines, bins=bins, alpha=0.7, color='red',
-                label=f'VOLATILE (n={len(volatile_baselines)})', edgecolor='white')
+                label=f'VOLATILE (no recovery, n={len(volatile_baselines)})', edgecolor='white')
 
     # Draw coherence boundary
     ax2.axvline(x=EVENT_HORIZON, color='black', linestyle='--', linewidth=2,
@@ -1218,7 +1218,7 @@ def plot_stability_basin(trajectories, output_dir, run_id, zoom_scale=None):
 
     ax2.set_xlabel('Baseline Drift', fontsize=12)
     ax2.set_ylabel('Count', fontsize=12)
-    ax2.set_title('Identity Basin: STABLE vs VOLATILE Distribution', fontsize=14, fontweight='bold')
+    ax2.set_title('Identity Basin: STABLE vs VOLATILE Distribution\n(Status = max drift < 1.23, not baseline)', fontsize=13, fontweight='bold')
     ax2.legend(loc='upper right')
     ax2.grid(True, alpha=0.3, axis='y')
 

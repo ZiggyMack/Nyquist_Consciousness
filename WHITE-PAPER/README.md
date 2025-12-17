@@ -1,3 +1,21 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ../experiments/temporal_stability/S7_ARMADA/0_results/manifests/
+  - figures/generated/
+  - calibration/extract_publication_stats.py
+impacts:
+  - submissions/
+  - reviewers/
+  - planning/OPUS_REVIEW_BRIEF.md
+keywords:
+  - iron_clad
+  - publication_status
+  - manifests
+  - arxiv
+  - workshop
+-->
+
 # Publication Materials
 
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**

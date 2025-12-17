@@ -1,3 +1,18 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ../BRIDGE/README.md
+  - ../BRIDGE/scripts/left/
+impacts:
+  - galleries/
+  - extractions/
+keywords:
+  - extraction
+  - proof
+  - analytical
+  - statistical
+-->
+
 # LEFT HEMISPHERE
 
 **Structured • Analytical • Rigorous • Sequential**

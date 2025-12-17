@@ -1,3 +1,19 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ../../../../WHITE-PAPER/README.md
+  - 0_docs/specs/RUN_DESIGN_CHECKLIST.md
+  - 0_docs/specs/0_RUN_METHODOLOGY.md
+impacts:
+  - run scripts in 11_CONTEXT_DAMPING/
+  - 14_CONSCIOUSNESS/
+keywords:
+  - phase_4
+  - iron_clad
+  - operations
+  - complete_circuit
+-->
+
 # S7 ARMADA - Operations Guide
 
 **Purpose:** Cross-architecture identity stability testing via the Eight Search Types.

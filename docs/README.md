@@ -1,3 +1,19 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - maps/
+  - stages/
+  - MASTER_GLOSSARY.md
+impacts:
+  - All specs in stages/
+  - maps/MAP_OF_MAPS.md
+keywords:
+  - frozen_foundation
+  - layer_status
+  - glossary
+  - s_layers
+-->
+
 # Documentation Directory
 
 **Purpose:** Theory specifications, research documentation, and reference materials

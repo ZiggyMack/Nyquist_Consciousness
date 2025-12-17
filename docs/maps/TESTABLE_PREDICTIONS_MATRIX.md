@@ -1,3 +1,19 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/
+  - VALIDATION_STATUS.md
+impacts:
+  - ../../WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md
+  - MAP_OF_MAPS.md
+keywords:
+  - hypothesis
+  - validation
+  - predictions
+  - claims_a_e
+  - run_018
+-->
+
 # TESTABLE PREDICTIONS MATRIX — S0 through S10
 
 **Purpose:** Visual map of all falsifiable predictions across the Nyquist Consciousness framework, with validation opportunities, experiment mappings, and dependency risk analysis.

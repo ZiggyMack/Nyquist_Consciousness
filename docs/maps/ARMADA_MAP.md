@@ -1,3 +1,18 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/ARCHITECTURE_MATRIX.json
+  - LLM_BEHAVIORAL_MATRIX.md
+impacts:
+  - ../../experiments/temporal_stability/S7_ARMADA/1_CALIBRATION/lib/fleet_loader.py
+  - PERSONA_FLEET_MATRIX.md
+keywords:
+  - fleet_status
+  - cost_tier
+  - providers
+  - calibration
+-->
+
 # S7 ARMADA Fleet Map
 
 **Purpose:** Comprehensive fleet analysis for cross-architecture identity stability testing.

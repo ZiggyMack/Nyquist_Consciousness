@@ -1,3 +1,19 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ../BRIDGE/README.md
+  - ../BRIDGE/scripts/right/
+  - ../LEFT/extractions/
+impacts:
+  - distillations/
+  - galleries/
+keywords:
+  - synthesis
+  - pattern
+  - intuitive
+  - phenomenological
+-->
+
 # RIGHT HEMISPHERE
 
 **Intuitive • Synthetic • Holistic • Pattern-Seeking**

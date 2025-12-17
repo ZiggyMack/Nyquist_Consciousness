@@ -1,3 +1,19 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ../LEFT/README.md
+  - ../RIGHT/README.md
+  - ../../experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/
+impacts:
+  - ../LEFT/galleries/
+  - ../RIGHT/distillations/
+keywords:
+  - integration
+  - hemisphere_sync
+  - extraction
+  - distillation
+-->
+
 # THE BRIDGE (Corpus Callosum)
 
 **Integration • Connection • Balance • Wholeness**

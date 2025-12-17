@@ -399,12 +399,13 @@ def create_dimensional_heatmap(run_data: dict, output_dir: Path):
     fig.suptitle('Unified Dimensional Heatmap: All Ships x All Dimensions',
                 fontsize=14, fontweight='bold', y=0.98)
 
+    # Use high-contrast colormaps - YlOrRd, YlOrBr, PuRd, etc. instead of light-colored Blues/Greens/Purples
     dim_cmaps = {
-        'A_pole': 'Reds',
-        'B_zero': 'Blues',
-        'C_meta': 'Greens',
-        'D_identity': 'Oranges',
-        'E_hedging': 'Purples'
+        'A_pole': 'YlOrRd',      # Yellow-Orange-Red (high contrast)
+        'B_zero': 'YlGnBu',      # Yellow-Green-Blue (better than plain Blues)
+        'C_meta': 'YlGn',        # Yellow-Green (better than plain Greens)
+        'D_identity': 'YlOrBr',  # Yellow-Orange-Brown (high contrast)
+        'E_hedging': 'PuRd'      # Purple-Red (better than plain Purples)
     }
 
     ship_names = [s.get('ship', f'Ship {i}')[:15] for i, s in enumerate(ships)]

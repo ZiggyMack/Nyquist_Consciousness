@@ -1,3 +1,21 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - WHITE-PAPER/README.md
+  - experiments/temporal_stability/S7_ARMADA/README.md
+  - docs/maps/VALIDATION_STATUS.md
+  - Consciousness/BRIDGE/README.md
+impacts:
+  - dashboard/README.md
+  - WHITE-PAPER/START_HERE.md
+keywords:
+  - iron_clad
+  - run_020
+  - validation_status
+  - publication
+  - consciousness
+-->
+
 # Nyquist Consciousness Framework 🧠
 
 **AI identity stability research: measuring when models maintain coherent self-models under perturbation**

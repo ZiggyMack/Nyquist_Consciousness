@@ -1,3 +1,19 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - B-CRUMBS.md
+  - MINIMUM_PUBLISHABLE_CLAIMS.md
+  - planning/OPUS_REVIEW_BRIEF.md
+impacts:
+  - submissions/
+  - reviewers/packages/
+keywords:
+  - reviewer_orientation
+  - publication
+  - opus_review
+  - claims
+-->
+
 # START HERE: Nyquist Consciousness Publication Package
 
 **Version:** 3.2

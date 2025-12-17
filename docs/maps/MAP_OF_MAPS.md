@@ -1,3 +1,20 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - VALIDATION_STATUS.md
+  - TESTABLE_PREDICTIONS_MATRIX.md
+  - ARMADA_MAP.md
+  - LLM_BEHAVIORAL_MATRIX.md
+impacts:
+  - ../README.md
+  - ../../START_HERE.md
+keywords:
+  - navigation
+  - kingdom
+  - journey_path
+  - cartography
+-->
+
 # MAP OF MAPS: The Cartographer's Table
 
 ```
