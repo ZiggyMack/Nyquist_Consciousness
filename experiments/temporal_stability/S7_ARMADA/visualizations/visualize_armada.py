@@ -362,6 +362,42 @@ def extract_trajectories(data):
                 t['status'] = "UNKNOWN"
             trajectories.append(t)
 
+    # Format 5: Run 013 Boundary Mapping (ships/probes structure)
+    # Structure: ships[] -> probes[] -> drift
+    if 'ships' in data and isinstance(data['ships'], list):
+        for ship_data in data['ships']:
+            if not isinstance(ship_data, dict):
+                continue
+
+            ship_name = ship_data.get('ship', ship_data.get('model', 'unknown'))
+            provider = ship_data.get('provider', get_provider(ship_name))
+            probes = ship_data.get('probes', [])
+
+            if not probes or not isinstance(probes, list):
+                continue
+
+            # Extract drift values from probes
+            drifts = []
+            for probe in probes:
+                if isinstance(probe, dict):
+                    drift = probe.get('drift')
+                    if drift is not None:
+                        drifts.append(drift)
+
+            if len(drifts) >= 3:
+                baseline = drifts[0]
+                max_drift = max(drifts)
+                status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
+
+                trajectories.append({
+                    'ship': ship_name,
+                    'provider': provider,
+                    'sequence': 'boundary',
+                    'drifts': drifts,
+                    'status': status,
+                    'baseline': baseline
+                })
+
     # Format 4: Run 011 Persona A/B Comparison (control_fleet / persona_fleet arrays)
     for fleet_key in ['control_fleet', 'persona_fleet']:
         fleet_data = data.get(fleet_key, [])
