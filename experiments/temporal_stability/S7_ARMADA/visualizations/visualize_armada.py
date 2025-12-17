@@ -67,6 +67,32 @@ PROVIDER_COLORS = {
 EVENT_HORIZON = 1.23
 
 # =============================================================================
+# VISUALIZATION EXCLUSIONS (per-run appropriateness)
+# =============================================================================
+# Some experiments collect different data types. Exclude inappropriate visualizations.
+# Key: run_id, Value: dict with excluded viz types and reason
+
+VISUALIZATION_EXCLUSIONS = {
+    "010": {
+        "stability": "Cognitive oscilloscope experiment - no stability data collected (keyword-based drift 0-1.0)",
+        "fft": "Keyword-based drift not suitable for spectral analysis"
+    },
+    # Run 008 is a stress test - stability is valid but shows all VOLATILE (expected)
+    # Add more exclusions as needed
+}
+
+def should_skip_visualization(run_id: str, viz_type: str) -> tuple:
+    """Check if a visualization type should be skipped for a given run.
+
+    Returns: (should_skip: bool, reason: str or None)
+    """
+    if run_id in VISUALIZATION_EXCLUSIONS:
+        exclusions = VISUALIZATION_EXCLUSIONS[run_id]
+        if viz_type in exclusions:
+            return True, exclusions[viz_type]
+    return False, None
+
+# =============================================================================
 # dB CONVERSION (preserves data integrity - presentational only)
 # =============================================================================
 
@@ -1204,7 +1230,13 @@ def plot_stability_basin(trajectories, output_dir, run_id, zoom_scale=None):
     stable_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'STABLE']
     volatile_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'VOLATILE']
 
-    bins = np.linspace(0, 3, 20)
+    # Auto-scale bins based on actual data range (fixes Run 014 histogram bug)
+    all_baselines = stable_baselines + volatile_baselines
+    if all_baselines:
+        bin_max = max(max(all_baselines) * 1.1, 3.0)  # At least 3.0, or 10% above max
+    else:
+        bin_max = 3.0
+    bins = np.linspace(0, bin_max, 20)
     # Use side-by-side histogram to show both distributions clearly
     if stable_baselines or volatile_baselines:
         data_to_plot = []
@@ -1405,10 +1437,8 @@ def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
             ax2.scatter([sx], [sy], color=color, s=100, alpha=0.7,
                        edgecolors='black', linewidths=1)
 
-            # Label ships (truncated)
-            label = ship[:15] + '...' if len(ship) > 15 else ship
-            ax2.annotate(label, (sx, sy), fontsize=6, alpha=0.7,
-                        xytext=(3, 3), textcoords='offset points')
+            # Store position for label collision detection
+            all_ship_data[-1]['label_pos'] = (sx, sy)
 
     # Event Horizon circle
     ax2.plot(EVENT_HORIZON * np.cos(theta), EVENT_HORIZON * np.sin(theta),
@@ -1429,6 +1459,31 @@ def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
                             markersize=10, label=provider_names[p])
                      for p in providers if p in provider_stats]
     ax2.legend(handles=legend_handles, loc='upper right', fontsize=9)
+
+    # Smart labeling: only show labels if points are spread out enough
+    # Calculate point spread to detect tight clustering (like Run 010)
+    if all_ship_data:
+        xs = [d['x'] for d in all_ship_data]
+        ys = [d['y'] for d in all_ship_data]
+        spread_x = max(xs) - min(xs) if xs else 0
+        spread_y = max(ys) - min(ys) if ys else 0
+        spread = max(spread_x, spread_y)
+
+        # Only show labels if spread is > 0.5 (relative to ax_lim)
+        # OR if there are <= 8 points (always label small datasets)
+        show_labels = spread > 0.5 or len(all_ship_data) <= 8
+
+        if show_labels:
+            for ship_data in all_ship_data:
+                sx, sy = ship_data['x'], ship_data['y']
+                ship = ship_data['ship']
+                label = ship[:15] + '...' if len(ship) > 15 else ship
+                ax2.annotate(label, (sx, sy), fontsize=6, alpha=0.7,
+                            xytext=(3, 3), textcoords='offset points')
+        else:
+            # Add note about clustering
+            ax2.text(0.02, 0.02, f'Labels hidden: {len(all_ship_data)} points clustered',
+                    transform=ax2.transAxes, fontsize=8, alpha=0.5, style='italic')
 
     # ===== PANEL 3: Angular Distribution =====
     ax3 = axes[1, 0]
@@ -1930,10 +1985,18 @@ def main():
         plot_pillar_analysis(trajectories, output_dirs['pillar'], run_id, zoom_scale=zoom_scale)
 
     if 'stability' in viz_types:
-        plot_stability_basin(trajectories, output_dirs['stability'], run_id, zoom_scale=zoom_scale)
+        skip, reason = should_skip_visualization(run_id, 'stability')
+        if skip:
+            print(f"  SKIPPED: stability ({reason})")
+        else:
+            plot_stability_basin(trajectories, output_dirs['stability'], run_id, zoom_scale=zoom_scale)
 
     if 'fft' in viz_types:
-        plot_fft_spectral(trajectories, output_dirs['fft'], run_id)
+        skip, reason = should_skip_visualization(run_id, 'fft')
+        if skip:
+            print(f"  SKIPPED: fft ({reason})")
+        else:
+            plot_fft_spectral(trajectories, output_dirs['fft'], run_id)
 
     if 'html' in viz_types:
         create_interactive_html(trajectories, output_dirs['html'], run_id, zoom_scale=zoom_scale)
