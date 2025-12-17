@@ -38,12 +38,26 @@ py -3.12 -m pip install -r requirements.txt
 ### 2. Setup API Keys
 
 Create a `.env` file in the S7_ARMADA directory:
+
 ```
 ANTHROPIC_API_KEY=sk-ant-...
 OPENAI_API_KEY=sk-proj-...
 GOOGLE_API_KEY=AIza...
 XAI_API_KEY=xai-...
+TOGETHER_API_KEY=...
+MISTRAL_API_KEY=...
 ```
+
+**Where to get API keys:**
+
+| Provider | URL | Notes |
+|----------|-----|-------|
+| Anthropic | <https://console.anthropic.com/settings/keys> | Claude models |
+| OpenAI | <https://platform.openai.com/api-keys> | GPT models |
+| Google | <https://aistudio.google.com/app/apikey> | Gemini models (free tier available) |
+| xAI | <https://console.x.ai/> | Grok models |
+| Together | <https://api.together.xyz/settings/api-keys> | Llama, Mistral, Qwen (generous free tier) |
+| Mistral | <https://console.mistral.ai/api-keys/> | Mistral models |
 
 The `.env` file is gitignored for security.
 

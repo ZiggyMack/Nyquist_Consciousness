@@ -188,7 +188,14 @@
       "Bash(streamlit run:*)",
       "Bash(netstat:*)",
       "Bash(cmd /c \"taskkill /F /PID 22352\")",
-      "Bash(powershell -Command \"Stop-Process -Id 22352 -Force\")"
+      "Bash(powershell -Command \"Stop-Process -Id 22352 -Force\")",
+      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" add dashboard/README.md)",
+      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" commit -m \"$(cat <<''EOF''\nDashboard README: Add 8 new Lessons Learned (#16-23)\n\nNew issues documented from Claude Code session experiences:\n\n#16: Status Files Getting Deleted/Misplaced\n    - NYQUIST_STATUS.json recovery from git history\n    - Real example: commit 44f3298 deletion, restored from 520f5e6\n\n#17: Hardcoded Values Drift from Source of Truth\n    - publications.py progress bars vs WHITE-PAPER status\n    - Checklist of files to update when status changes\n\n#18: Duplicate Dictionary Keys in Python\n    - Silent overwrites with no error raised\n    - Real example: AI_ARMADA.py had two \"run_020b\" entries\n\n#19: Run Number Confusion (020 vs 020A vs 020B)\n    - Canonical naming convention documented\n    - Files to update when adding new runs\n\n#20: Session State Not Updating on Rerun\n    - safe_rerun() pattern with delay\n    - Initialization before widget rendering\n\n#21: Image Paths Break After Directory Reorganization\n    - Use path variables not hardcoded strings\n    - Real example: Run 017 VIZ_PICS path fix\n\n#22: Git Push \"Everything up-to-date\" Confusion\n    - Diagnosis commands for branch/remote issues\n\n#23: Thermometer Result Percentage Confusion (41% vs 82%)\n    - Clarifies the two different metrics\n    - When to use each framing\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(cmd /c \"dir /tc \"\"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\visualizations\\pics\\5_stability\\run009_stability_basin.png\"\"\")",
+      "Bash(for run in 008 009 010 011 012 013 014)",
+      "Bash(do echo \"=== Regenerating pillar for run $run ===\")",
+      "Bash(for run in 009 010 011 012 013 014)",
+      "Bash(do echo \"=== Run $run ===\")"
     ],
     "deny": [],
     "ask": []
