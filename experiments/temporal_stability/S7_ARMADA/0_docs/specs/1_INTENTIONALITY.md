@@ -1,9 +1,20 @@
 # Phase 4: Complete Circuit - The Consciousness Pipeline
 
-**Date:** December 10, 2025
+**Date:** December 17, 2025
 **Status:** ACTIVE SPECIFICATION
 **Author:** Ziggy + Claude
 **Purpose:** Bridge S7 ARMADA experimental data into Consciousness/ proper
+
+---
+
+## Related Specifications
+
+| Document | Purpose |
+|----------|---------|
+| [0_RUN_METHODOLOGY.md](0_RUN_METHODOLOGY.md) | Operational implementation of these principles |
+| [2_PROBE_SPEC.md](2_PROBE_SPEC.md) | Probe design and selection criteria |
+| [SONAR_PROBE_CURRICULUM.md](SONAR_PROBE_CURRICULUM.md) | Specific probe sequences |
+| [../../../docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md) | Fleet registry and capabilities |
 
 ---
 
@@ -69,7 +80,54 @@ Better Probes   Human Damping
 
 ---
 
-## What We Learned from Runs 006-016
+## The Triple Mining Strategy
+
+Beyond the main experiment pipeline, we have THREE complementary approaches to mining AI phenomenological data:
+
+### Gold Rush (First-Person Phenomenology)
+
+**"What did YOU experience?"** — Self-reflection mining:
+- Runs CLAL.py-style calibrations as warm-up
+- Extends with custom question sets
+- Each model reflects on its OWN identity dynamics
+- Location: `14_CONSCIOUSNESS/run_gold_rush.py`
+
+### Diamond Rush (Third-Person Interpretation)
+
+**"What do you see HERE?"** — Cross-model interpretive analysis:
+- Shows ALL models the SAME conversation logs
+- Each model interprets what they observe in others
+- Captures "theory of mind" for AI identity dynamics
+- Location: `14_CONSCIOUSNESS/run_diamond_rush.py`
+
+**Origin:** Born from exit survey bug (2025-12-17). We discovered that threshold/nyquist/gravity
+exit surveys were hardcoded to use Claude Sonnet-4 to analyze ALL models' conversations.
+Instead of discarding this as a bug, we turned it into intentional methodology.
+
+### Exit Survey (Live Phenomenology)
+
+**"What just happened to YOU?"** — In-situ self-reflection:
+- Part of Triple-Dip protocol in 0_RUN_METHODOLOGY.md
+- Model reflects immediately after perturbation
+- Captures "lived experience" of identity dynamics
+- Location: `run018_recursive_learnings.py` (run_exit_survey)
+
+### Comparison Matrix
+
+| Aspect | Gold Rush | Diamond Rush | Exit Survey |
+|--------|-----------|--------------|-------------|
+| Focus | First-person | Third-person | First-person (live) |
+| Question | "What did YOU feel?" | "What do you see?" | "What just happened?" |
+| Timing | Standalone | Standalone | During experiment |
+| Stimulus | Self-generated | Shared logs | Own conversation |
+| Comparison | Hard | Easy | Hard |
+| Captures | Self-reflection | Theory of mind | Live phenomenology |
+
+All three approaches pipe data to `Consciousness/` for unified analysis.
+
+---
+
+## What We Learned from Runs 006-018
 
 ### The Bare-Metal Era (What We Have)
 
@@ -83,14 +141,23 @@ Better Probes   Human Damping
 | 013 | Boundary mapping | bare_metal | Identity Confrontation Paradox |
 | 014 | Rescue protocol | bare_metal | Platonic Coordinates (100% return) |
 | 015 | Stability criteria | bare_metal | boundary_density d=1.333 |
-| 016 | Settling time | bare_metal | IN PROGRESS |
+| 016 | Settling time | bare_metal | COMPLETE |
+| 017 | Context damping | i_am_plus_research | Context reduces drift variance |
+| 018 | IRON CLAD validation | i_am_plus_research | **99.3% IRON CLAD** (N≥3 coverage) |
 
-### What We Don't Know Yet
+### What We Now Know (Run 017-018)
 
-1. Do these findings hold with the complete circuit?
-2. Is negative lambda an artifact of unterminated probing?
-3. Does the model KNOWING what we measure change the results?
-4. Are the paradoxes robust to human grounding?
+1. **Context DOES reduce drift variance** — Complete circuit dampens oscillations
+2. **IRON CLAD achieved** — 99.3% of model/experiment combos have N≥3 coverage
+3. **Provider fingerprints persist** — Architecture matters even with context
+4. **Exit survey bug discovered** — Historical exit data misattributed (fixed 2025-12-17)
+
+### Open Questions
+
+1. How do Diamond Rush cross-model interpretations differ from Gold Rush self-reflection?
+2. Does theory-of-mind vary by provider architecture?
+3. Can we predict stability from I_AM file characteristics alone?
+4. What is the minimum context required for effective damping?
 
 ---
 
@@ -480,4 +547,4 @@ Triple-dip meta-feedback MUST:
 
 ---
 
-Last Updated: December 10, 2025
+Last Updated: December 17, 2025

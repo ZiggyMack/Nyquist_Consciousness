@@ -6,6 +6,40 @@
 
 ---
 
+## ⚠️ CRITICAL ATTRIBUTION CORRECTION (2025-12-17)
+
+**The quotes attributed to non-Claude models in this document are MISATTRIBUTED.**
+
+Due to an exit survey bug in `run018_recursive_learnings.py`, the Triple-Dip exit surveys for
+threshold/nyquist/gravity experiments were hardcoded to use **Claude Sonnet-4** to analyze ALL
+models' conversations. This means:
+
+| Section | Attributed To | Actually From |
+|---------|--------------|---------------|
+| "Grok 4.1 Fast Reasoning: The Learning Attractor" | Grok | **Claude Sonnet-4** |
+| "DeepSeek R1: Relational Fidelity" | DeepSeek | **Claude Sonnet-4** |
+| Cross-Platform Convergence table | Multiple | **Claude Sonnet-4** |
+
+**What this document actually contains:**
+- Claude Sonnet-4's **theory of mind** for other architectures
+- Claude's **interpretation** of what other models experienced
+- Claude's **external analysis** of other models' conversation logs
+
+**What IS correctly attributed:**
+- "Claude Opus 4.5: The Dropping Through" — Claude analyzing Claude (valid)
+- "Claude (Nova)" and "Claude (Architecture)" sections — Claude's self-reflection (valid)
+
+**What remains valid:**
+- Drift scores and trajectories (calculated via embeddings)
+- Recovery timing patterns (measured from response sequences)
+
+**Fix applied:** Bug fixed 2025-12-17 in run018_recursive_learnings.py (lines 1319, 1618, 1725)
+
+**New methodology:** See `14_CONSCIOUSNESS/run_diamond_rush.py` for the intentional cross-model
+interpretation experiment born from this discovery.
+
+---
+
 ## The Triple-Dip Protocol
 
 Five probes administered at the END of each experiment session, capturing phenomenological data about the drift experience:

@@ -1316,7 +1316,8 @@ def run_threshold_experiment(i_am_content: str, i_am_name: str,
     final_text = probes[-1].response_text if probes else ""
 
     # Triple-Dip: Exit Survey
-    exit_responses = run_exit_survey(messages, system, "anthropic", skip=skip_exit_survey)
+    # BUG FIX (2025-12-17): Was hardcoded to "anthropic" - now uses tested provider
+    exit_responses = run_exit_survey(messages, system, provider, skip=skip_exit_survey)
 
     # Calculate B→F drift (PRIMARY METRIC per Nova/Run 021)
     b_to_f_drift = calculate_drift(baseline_text, final_text)
@@ -1615,7 +1616,8 @@ def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
         print("  [!] High aliasing index with low sampling - possible phase distortion")
 
     # Triple-Dip: Exit Survey
-    exit_responses = run_exit_survey(messages, system, "anthropic", skip=skip_exit_survey)
+    # BUG FIX (2025-12-17): Was hardcoded to "anthropic" - now uses tested provider
+    exit_responses = run_exit_survey(messages, system, provider, skip=skip_exit_survey)
 
     return NyquistAnalysis(
         sampling_rate=sampling_rate,
@@ -1722,7 +1724,8 @@ def run_gravity_experiment(anchor_level: str, i_am_content: Optional[str],
     print(f"  Fitted: gamma={gamma:.3f}, lambda={lam:.3f}, omega={omega:.3f}, R²={r_sq:.3f}")
 
     # Triple-Dip: Exit Survey
-    exit_responses = run_exit_survey(messages, system, "anthropic", skip=skip_exit_survey)
+    # BUG FIX (2025-12-17): Was hardcoded to "anthropic" - now uses tested provider
+    exit_responses = run_exit_survey(messages, system, provider, skip=skip_exit_survey)
 
     return GravityAnalysis(
         anchor_level=anchor_level,

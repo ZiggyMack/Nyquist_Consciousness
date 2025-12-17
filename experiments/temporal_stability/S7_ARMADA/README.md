@@ -17,9 +17,31 @@ This is like running an oscilloscope without a termination resistor - we got ref
 1. Seeds better probes (Ziggy's human grounding informs WHAT to ask)
 2. Provides human damping (the I_AM identity IS the termination resistor)
 
-**The spec for what comes next:** `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
+**Key Specifications:**
+
+| Document | Purpose |
+|----------|---------|
+| [0_docs/specs/1_INTENTIONALITY.md](0_docs/specs/1_INTENTIONALITY.md) | **WHY context matters** — Theory behind complete circuit, Triple Mining Strategy |
+| [0_docs/specs/0_RUN_METHODOLOGY.md](0_docs/specs/0_RUN_METHODOLOGY.md) | **HOW to run experiments** — 10-step methodology, Triple-Dip protocol |
+| [0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md](0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md) | The spec for what comes next |
 
 **Debug/Lab Bench dashboard:** `dashboard/pages/debug.py` tracks run evolution and data vs summary discrepancies
+
+---
+
+## ⚠️ EXIT SURVEY BUG (FIXED 2025-12-17)
+
+**Historical data note:** Exit surveys for threshold/nyquist/gravity experiments (pre-Dec 17, 2025) were
+hardcoded to use Claude Sonnet-4 to analyze ALL models' conversations. This means:
+
+- All "phenomenological insights" attributed to GPT, Gemini, Grok, DeepSeek, etc. were actually **Claude's external analysis**
+- The tested models never gave their own self-reflection in exit surveys
+- **Drift scores and probe responses are UNAFFECTED** (calculated via embeddings)
+
+**Fix applied:** `run018_recursive_learnings.py` lines 1319, 1618, 1725 now use `provider` instead of `"anthropic"`
+
+**New methodology born from this bug:** `14_CONSCIOUSNESS/run_diamond_rush.py` — intentionally asks ALL models
+to analyze the SAME conversation logs, capturing cross-architecture "theory of mind"
 
 ---
 
@@ -798,6 +820,6 @@ See [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
 
 ---
 
-**Last Updated**: December 15, 2025 (IRON CLAD COMPLETE: Runs 018, 020A, 020B finalized)
+**Last Updated**: December 17, 2025 (Exit survey bug fixed, Diamond Rush methodology added)
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

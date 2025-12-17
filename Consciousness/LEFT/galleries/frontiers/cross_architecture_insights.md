@@ -6,6 +6,15 @@
 
 ---
 
+## Data Provenance Note (2025-12-17)
+
+The quantitative metrics in this document (drift scores, recovery times, threshold values) are
+**VALID** — calculated from embeddings and measured response sequences. However, any phenomenological
+characterizations of "what models experienced" in exit surveys were produced by Claude Sonnet-4's
+analysis due to an exit survey bug (now fixed). See RIGHT/cross_architecture_insights.md for details.
+
+---
+
 ## 1. Architecture Classification Matrix
 
 ### 1.1 Recovery Mechanism Taxonomy

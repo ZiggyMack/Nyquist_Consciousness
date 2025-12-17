@@ -19,8 +19,8 @@
 
 **Purpose:** Prevent the recurring issues we keep hitting. Consult this BEFORE creating any new run.
 
-**Last Updated:** December 15, 2025
-**Lessons From:** Runs 013-021 (PFI validation, visualization standards, cross-architecture behavioral profiles)
+**Last Updated:** December 17, 2025
+**Lessons From:** Runs 013-021 (PFI validation, visualization standards, cross-architecture behavioral profiles, exit survey provider bug)
 
 ---
 
@@ -197,6 +197,21 @@ PREDICTIONS = {
 - [ ] **Store with results** - Include in the JSON output
 - [ ] **Feed back to theory** - Use responses to refine future runs
 - [ ] **RUN ON ALL SHIPS** - No `--skip-exit-survey` in production runs!
+
+#### CRITICAL: Exit Survey Provider Bug (Fixed 2025-12-17)
+
+**The exit survey MUST use the same provider/model as the experiment.** The subject reflects on their OWN conversation, not an external model's analysis.
+
+A bug existed in `run018_recursive_learnings.py` where threshold/nyquist/gravity exit surveys were hardcoded to use Anthropic (Claude Sonnet-4) to analyze ALL models' conversations. This meant GPT, Gemini, Grok, etc. never gave their own phenomenological feedback - Claude was analyzing their conversations instead.
+
+**What was affected:**
+- All non-Anthropic exit surveys from threshold, nyquist, gravity experiments prior to 2025-12-17
+- These responses are still valuable as "Claude's interpretation" but NOT as self-reflection
+- Architecture experiment exit surveys were correct (used tested provider)
+
+**Going forward:** Verify that `run_exit_survey()` calls pass `provider` not `"anthropic"`.
+
+See also: [1_INTENTIONALITY.md](1_INTENTIONALITY.md) for WHY intent matters in data collection.
 
 #### The 6-Probe Exit Survey Protocol
 
@@ -1081,6 +1096,8 @@ After ANY run completes:
 
 | Spec | Purpose |
 |------|---------|
+| [1_INTENTIONALITY.md](1_INTENTIONALITY.md) | **WHY context matters** - Theory behind complete circuit, human damping |
+| [2_PROBE_SPEC.md](2_PROBE_SPEC.md) | Probe design and selection - SONAR vs Brute-Criterial |
 | [SONAR_PROBE_CURRICULUM.md](SONAR_PROBE_CURRICULUM.md) | Probe sequence design - 7 probe types, 15-probe protocol |
 | [../../../docs/maps/TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) | Eight search types and when to use each |
 | [../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md) | **Which LLM for which task?** - Task routing based on behavioral profiles |

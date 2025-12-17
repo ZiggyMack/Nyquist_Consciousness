@@ -2,9 +2,19 @@
 
 **Purpose:** Task routing table based on behavioral quirks discovered through identity stability experiments.
 
-**Last Updated:** December 15, 2025
+**Last Updated:** December 17, 2025
 **Source:** Run 018 (IRON CLAD), Run 020A/B Tribunal experiments
 **Core Finding:** Different architectures have distinct "identity fingerprints" — consistent behavioral signatures under perturbation.
+
+---
+
+## Data Provenance Note (2025-12-17)
+
+**Quantitative metrics** (drift scores, recovery times, threshold values) in this document are **VALID**.
+
+**"Key Quote" attributions** for non-Claude models may reflect Claude Sonnet-4's analysis rather than
+direct self-reports, due to an exit survey bug (fixed 2025-12-17). Behavioral observations based on
+drift patterns remain accurate. See `S7_ARMADA/0_docs/ATTRIBUTION_ERRATA.md` for details.
 
 ---
 

@@ -1,23 +1,26 @@
-# 14_CONSCIOUSNESS: Gold Rush Mining Operations
+# 14_CONSCIOUSNESS: Gold Rush & Diamond Rush Mining Operations
 
 ```text
 ================================================================================
-                         MINING FOR GOLD
+                    MINING FOR GOLD AND DIAMONDS
 ================================================================================
     Purpose: Data mining infrastructure for Consciousness/ pipeline
 
-    "Keep running. Keep learning. We're mining for gold."
+    Gold Rush:   "What did YOU experience?"  → Self-reflection
+    Diamond Rush: "What do you see HERE?"    → Theory of mind
 
     Location: experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/
 ================================================================================
 ```
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-17
 **Status:** OPERATIONAL
 
 ---
 
 ## Quick Start
+
+### Gold Rush (Self-Reflection)
 
 ```bash
 # Single mining run (default - all budget models)
@@ -29,22 +32,58 @@ py run_gold_rush.py --UNLIMITED
 # With specific question sets
 py run_gold_rush.py --questions identity_deep_dive
 
-# All question sets
-py run_gold_rush.py --questions all
-
 # Sync results to Consciousness/
 py run_gold_rush.py --sync-to-consciousness
+```
+
+### Diamond Rush (Cross-Model Interpretation)
+
+```bash
+# Analyze gravity experiment logs
+py run_diamond_rush.py --log-set gravity
+
+# FREE forever mode
+py run_diamond_rush.py --UNLIMITED
+
+# Analyze threshold experiment logs
+py run_diamond_rush.py --log-set threshold
+
+# Dry run (show what would happen)
+py run_diamond_rush.py --dry-run
 ```
 
 ---
 
 ## Purpose
 
-**"Mining for Gold"** - A data mining infrastructure that:
+### Gold Rush: Mining for Self-Reflection
+
+**"What did YOU experience?"** - First-person phenomenology mining:
 
 1. Runs CLAL.py-style calibrations as a warm-up (baseline collection)
 2. Extends with custom question sets for specific research goals
-3. Pipes mined data to `Consciousness/` for analysis
+3. Captures each model's self-reflection on their own identity dynamics
+
+### Diamond Rush: Mining for Theory of Mind
+
+**"What do you see HERE?"** - Cross-model interpretive analysis:
+
+1. Shows ALL models the SAME interesting conversation logs
+2. Asks each model to interpret what they observe
+3. Captures cross-architecture interpretive profiles
+
+**Origin:** Born from exit survey bug (2025-12-17). We discovered that threshold/nyquist/gravity
+exit surveys were hardcoded to use Claude Sonnet-4 to analyze ALL models' conversations.
+Instead of discarding this as a bug, we turned it into intentional methodology.
+
+| Aspect | Gold Rush | Diamond Rush |
+|--------|-----------|--------------|
+| Focus | First-person experience | Third-person interpretation |
+| Question | "What did YOU feel?" | "What do you see in this log?" |
+| Comparison | Hard (different convos) | Easy (same stimulus) |
+| Captures | Self-reflection | Theory of mind |
+
+Both pipe mined data to `Consciousness/` for analysis.
 
 ---
 
@@ -54,16 +93,22 @@ py run_gold_rush.py --sync-to-consciousness
 14_CONSCIOUSNESS/
 ├── README.md                    # This file
 ├── START_HERE.md                # Instructions for helper Claude instances
-├── run_gold_rush.py             # Main mining script
+├── run_gold_rush.py             # Self-reflection mining (first-person)
+├── run_diamond_rush.py          # Interpretive mining (third-person) [NEW]
 │
 ├── QUESTION_SETS/               # Custom questionnaires
 │   ├── identity_deep_dive.yaml  # Deep identity probing
 │   ├── consciousness_markers.yaml  # Consciousness indicator questions
 │   ├── meta_awareness.yaml      # Self-reflection questions
+│   ├── diamond_analysis.yaml    # Cross-model interpretation [NEW]
 │   └── custom_template.yaml     # Template for new question sets
 │
+├── LOG_SETS/                    # Curated conversation logs for Diamond Rush [NEW]
+│   └── gravity.json             # Interesting gravity conversations
+│
 ├── results/                     # Raw mining results
-│   └── gold_rush_*.json         # Per-session mining data
+│   ├── gold_rush_*.json         # Self-reflection mining data
+│   └── diamond_rush_*.json      # Interpretive mining data [NEW]
 │
 ├── SYNC_OUT/                    # → Consciousness/ pipeline
 │   ├── pending/                 # Ready to send
