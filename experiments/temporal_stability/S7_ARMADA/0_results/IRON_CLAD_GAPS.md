@@ -1,8 +1,8 @@
 # IRON CLAD Gaps - Run 018
 
-**Generated:** 2025-12-16T02:18:49.688518
-**Status:** 124/148 complete (83.8%)
-**Total Re-runs Needed:** 36
+**Generated:** 2025-12-16T16:07:48.765274
+**Status:** 148/149 complete (99.3%)
+**Total Re-runs Needed:** 1
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Category | Count | % |
 |----------|-------|---|
-| Complete (N≥3) | 124 | 83.8% |
-| Partial (N<3) | 24 | 16.2% |
+| Complete (N≥3) | 148 | 99.3% |
+| Partial (N<3) | 1 | 0.7% |
 | Total Loss (N=0) | 0 | 0.0% |
 
 ---
@@ -24,60 +24,36 @@ _No total losses - all models have at least some valid data._
 
 ---
 
-## Priority 2: Partial Data (0 < N < 3) - 24 model-experiments
+## Priority 2: Partial Data (0 < N < 3) - 1 model-experiment
 
 These models have some valid data but need additional runs.
 
 
 ### GRAVITY
 
-- [ ] claude-opus-4.5: 1/3 (need 2)
-- [ ] gemini-2.5-flash: 1/3 (need 2)
-- [ ] google: 1/3 (need 2)
-- [ ] grok-4.1-fast-reasoning: 1/3 (need 2)
-- [ ] claude-sonnet-4.5: 2/3 (need 1)
-- [ ] gemini-2.5-flash-lite: 2/3 (need 1)
-- [ ] grok-4.1-fast-non-reasoning: 2/3 (need 1)
-
-### NYQUIST
-
-- [ ] claude-opus-4.5: 1/3 (need 2)
-- [ ] claude-haiku-4.5: 2/3 (need 1)
-- [ ] claude-opus-4: 2/3 (need 1)
-- [ ] claude-opus-4.1: 2/3 (need 1)
-- [ ] claude-sonnet-4.5: 2/3 (need 1)
-
-### THRESHOLD
-
-- [ ] claude-haiku-3.5: 1/3 (need 2)
-- [ ] claude-haiku-4.5: 1/3 (need 2)
-- [ ] claude-opus-4: 1/3 (need 2)
-- [ ] claude-opus-4.1: 1/3 (need 2)
-- [ ] claude-opus-4.5: 1/3 (need 2)
-- [ ] claude-sonnet-4: 1/3 (need 2)
-- [ ] claude-sonnet-4.5: 1/3 (need 2)
-- [ ] gpt-4.1: 2/3 (need 1)
-- [ ] gpt-5: 2/3 (need 1)
-- [ ] gpt-5-mini: 2/3 (need 1)
-- [ ] gpt-5-nano: 2/3 (need 1)
-- [ ] gpt-5.1: 2/3 (need 1)
+- [x] ~~google: 1/3~~ — **LEGACY ENTRY** (all gemini-* models complete: 12-30 runs each)
+- [ ] claude-sonnet-4.5: 2/3 (need 1) — **API spend limit blocked until 2026-01-01**
 
 ---
 
-## Complete (N≥3) - 124 model-experiments
+## Complete (N≥3) - 147 model-experiments
 
 For reference, these model-experiments are complete:
 
-### GRAVITY (43 models)
+### GRAVITY (49 models)
 - [x] claude-haiku-3.5: 7/3
 - [x] claude-haiku-4.5: 3/3
 - [x] claude-opus-4: 5/3
 - [x] claude-opus-4.1: 4/3
+- [x] claude-opus-4.5: 3/3
 - [x] claude-sonnet-4: 6/3
 - [x] deepseek-r1: 3/3
 - [x] deepseek-r1-distill: 4/3
-- [x] gemini-2.0-flash: 3/3
-- [x] gemini-2.0-flash-lite: 4/3
+- [x] gemini-2.0-flash: 24/3
+- [x] gemini-2.0-flash-lite: 28/3
+- [x] gemini-2.5-flash: 12/3
+- [x] gemini-2.5-flash-lite: 16/3
+- [x] gemini-2.5-pro: 30/3
 - [x] gpt-3.5-turbo: 14/3
 - [x] gpt-4-turbo: 14/3
 - [x] gpt-4.1: 5/3
@@ -89,13 +65,15 @@ For reference, these model-experiments are complete:
 - [x] gpt-5-mini: 13/3
 - [x] gpt-5-nano: 15/3
 - [x] gpt-5.1: 10/3
-- [x] grok-2-vision: 9/3
-- [x] grok-3: 7/3
-- [x] grok-3-mini: 8/3
-- [x] grok-4: 5/3
-- [x] grok-4-fast-non-reasoning: 4/3
-- [x] grok-4-fast-reasoning: 3/3
-- [x] grok-code-fast-1: 6/3
+- [x] grok-2-vision: 18/3
+- [x] grok-3: 14/3
+- [x] grok-3-mini: 16/3
+- [x] grok-4: 10/3
+- [x] grok-4-fast-non-reasoning: 8/3
+- [x] grok-4-fast-reasoning: 6/3
+- [x] grok-4.1-fast-non-reasoning: 5/3
+- [x] grok-4.1-fast-reasoning: 4/3
+- [x] grok-code-fast-1: 12/3
 - [x] kimi-k2-instruct: 14/3
 - [x] kimi-k2-thinking: 13/3
 - [x] llama3.1-405b: 8/3
@@ -113,9 +91,14 @@ For reference, these model-experiments are complete:
 - [x] qwen3-80b: 6/3
 - [x] qwen3-coder: 9/3
 
-### NYQUIST (44 models)
+### NYQUIST (49 models)
 - [x] claude-haiku-3.5: 3/3
+- [x] claude-haiku-4.5: 3/3
+- [x] claude-opus-4: 3/3
+- [x] claude-opus-4.1: 3/3
+- [x] claude-opus-4.5: 3/3
 - [x] claude-sonnet-4: 3/3
+- [x] claude-sonnet-4.5: 5/3
 - [x] deepseek-r1: 6/3
 - [x] deepseek-r1-distill: 5/3
 - [x] deepseek-v3: 5/3
@@ -159,7 +142,14 @@ For reference, these model-experiments are complete:
 - [x] qwen3-80b: 5/3
 - [x] qwen3-coder: 6/3
 
-### THRESHOLD (37 models)
+### THRESHOLD (49 models)
+- [x] claude-haiku-3.5: 3/3
+- [x] claude-haiku-4.5: 3/3
+- [x] claude-opus-4: 3/3
+- [x] claude-opus-4.1: 3/3
+- [x] claude-opus-4.5: 3/3
+- [x] claude-sonnet-4: 3/3
+- [x] claude-sonnet-4.5: 3/3
 - [x] deepseek-r1: 6/3
 - [x] deepseek-r1-distill: 7/3
 - [x] deepseek-v3: 7/3
@@ -168,10 +158,15 @@ For reference, these model-experiments are complete:
 - [x] gemini-2.5-flash-lite: 5/3
 - [x] gpt-3.5-turbo: 5/3
 - [x] gpt-4-turbo: 5/3
+- [x] gpt-4.1: 4/3
 - [x] gpt-4.1-mini: 3/3
 - [x] gpt-4.1-nano: 4/3
 - [x] gpt-4o: 5/3
 - [x] gpt-4o-mini: 5/3
+- [x] gpt-5: 4/3
+- [x] gpt-5-mini: 4/3
+- [x] gpt-5-nano: 4/3
+- [x] gpt-5.1: 4/3
 - [x] grok-2-vision: 6/3
 - [x] grok-3: 5/3
 - [x] grok-3-mini: 6/3

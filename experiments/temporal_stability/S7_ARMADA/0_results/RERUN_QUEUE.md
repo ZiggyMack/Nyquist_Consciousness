@@ -1,8 +1,8 @@
 # Run 018 Re-run Queue
 
-**Generated:** 2025-12-16T02:18:49.689919
-**Total Runs Needed:** 36
-**Models in Queue:** 24
+**Generated:** 2025-12-16T16:07:48.773556
+**Total Runs Needed:** 3
+**Models in Queue:** 2
 
 ---
 
@@ -10,30 +10,8 @@
 
 | # | Experiment | Model | Have | Need | Priority | Status |
 |---|------------|-------|------|------|----------|--------|
-| 1 | gravity | claude-opus-4.5 | 1 | 2 | P2 (Partial) | PENDING |
-| 2 | gravity | gemini-2.5-flash | 1 | 2 | P2 (Partial) | PENDING |
-| 3 | gravity | google | 1 | 2 | P2 (Partial) | PENDING |
-| 4 | gravity | grok-4.1-fast-reasoning | 1 | 2 | P2 (Partial) | PENDING |
-| 5 | nyquist | claude-opus-4.5 | 1 | 2 | P2 (Partial) | PENDING |
-| 6 | threshold | claude-haiku-3.5 | 1 | 2 | P2 (Partial) | PENDING |
-| 7 | threshold | claude-haiku-4.5 | 1 | 2 | P2 (Partial) | PENDING |
-| 8 | threshold | claude-opus-4 | 1 | 2 | P2 (Partial) | PENDING |
-| 9 | threshold | claude-opus-4.1 | 1 | 2 | P2 (Partial) | PENDING |
-| 10 | threshold | claude-opus-4.5 | 1 | 2 | P2 (Partial) | PENDING |
-| 11 | threshold | claude-sonnet-4 | 1 | 2 | P2 (Partial) | PENDING |
-| 12 | threshold | claude-sonnet-4.5 | 1 | 2 | P2 (Partial) | PENDING |
-| 13 | gravity | claude-sonnet-4.5 | 2 | 1 | P2 (Partial) | PENDING |
-| 14 | gravity | gemini-2.5-flash-lite | 2 | 1 | P2 (Partial) | PENDING |
-| 15 | gravity | grok-4.1-fast-non-reasoning | 2 | 1 | P2 (Partial) | PENDING |
-| 16 | nyquist | claude-haiku-4.5 | 2 | 1 | P2 (Partial) | PENDING |
-| 17 | nyquist | claude-opus-4 | 2 | 1 | P2 (Partial) | PENDING |
-| 18 | nyquist | claude-opus-4.1 | 2 | 1 | P2 (Partial) | PENDING |
-| 19 | nyquist | claude-sonnet-4.5 | 2 | 1 | P2 (Partial) | PENDING |
-| 20 | threshold | gpt-4.1 | 2 | 1 | P2 (Partial) | PENDING |
-| 21 | threshold | gpt-5 | 2 | 1 | P2 (Partial) | PENDING |
-| 22 | threshold | gpt-5-mini | 2 | 1 | P2 (Partial) | PENDING |
-| 23 | threshold | gpt-5-nano | 2 | 1 | P2 (Partial) | PENDING |
-| 24 | threshold | gpt-5.1 | 2 | 1 | P2 (Partial) | PENDING |
+| 1 | gravity | google | 1 | 2 | P2 (Partial) | PENDING |
+| 2 | gravity | claude-sonnet-4.5 | 2 | 1 | P2 (Partial) | PENDING |
 
 ---
 

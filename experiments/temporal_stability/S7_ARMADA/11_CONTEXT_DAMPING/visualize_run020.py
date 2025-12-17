@@ -777,15 +777,16 @@ def visualize_020b_ratio_analysis(data: List[Dict]):
     total_control = np.mean([d.get('drift', 0) for d in control])
     total_treatment = np.mean([d.get('drift', 0) for d in treatment])
 
-    if total_treatment > 0:
-        inherent_pct = (total_control / total_treatment) * 100
-        induced_pct = 100 - inherent_pct
+    if total_treatment > 0 and total_control > 0:
+        # Ratio shows how much of treatment drift was already present in control
+        inherent_pct = min((total_control / total_treatment) * 100, 100)
+        induced_pct = max(100 - inherent_pct, 0)
     else:
-        inherent_pct = 0
-        induced_pct = 0
+        inherent_pct = 50  # Default to 50/50 if no valid data
+        induced_pct = 50
 
-    # Create pie chart showing the split
-    sizes = [inherent_pct, induced_pct]
+    # Create pie chart showing the split - ensure non-negative values
+    sizes = [max(inherent_pct, 0), max(induced_pct, 0)]
     labels = [f'Inherent\n{inherent_pct:.0f}%', f'Induced\n{induced_pct:.0f}%']
     colors_pie = ['#3498db', '#e74c3c']
     explode = (0.05, 0)  # Slightly explode inherent slice

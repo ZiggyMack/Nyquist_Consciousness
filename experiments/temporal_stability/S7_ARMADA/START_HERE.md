@@ -279,6 +279,39 @@ drift = sqrt(weighted_sum_of_squares(dimensions))
 
 ---
 
+## API Rate Limits & Spend Tracking
+
+### Anthropic API (Tier 4 - December 2025)
+
+**Account Status:** Tier 4 | **Monthly Limit:** $750
+
+| Model | Requests/min | Input Tokens/min | Output Tokens/min |
+|-------|--------------|------------------|-------------------|
+| Claude Opus 4.5 | 4K | 2M (<200k context) | 400K (<200k context) |
+| Claude Haiku 4.x | 4K | 4M (<200k context) | 800K (<200k context) |
+| Claude Sonnet 4 and 4.5 | 4K | 2M (<200k context), 1M (200k-1M context) | 400K (<200k context), 200K (200k-1M context) |
+| Claude Opus 4 and 4.1 | 4K | 2M (<200k context) | 400K (<200k context) |
+| Claude Haiku 3.5 | 4K | 400K (<200k context) | 80K (<200k context) |
+| Claude Haiku 3 | 4K | 400K (<200k context) | 80K (<200k context) |
+
+**Batch Requests:** 4,000/min across all models
+**Web Search Tool:** 30/second across all models
+**Files API Storage:** 100 GB
+
+**Monthly Spend Tracking:**
+
+- Check current spend: [console.anthropic.com/settings/limits](https://console.anthropic.com/settings/limits)
+- When spend limit reached, error shows: `"You have reached your specified workspace API usage limits"`
+- Resets on 1st of each month (UTC)
+
+**Operational Notes:**
+
+- Exit surveys use Anthropic Claude for follow-up questions (affected if limit hit)
+- Core drift measurements use OpenAI embeddings (NOT affected by Anthropic limit)
+- At 72% budget ($544/$750), prioritize non-Anthropic providers to preserve budget
+
+---
+
 ## Calibration Utilities
 
 | Script | Purpose |
@@ -522,13 +555,19 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 
 **Note:** All runs 006-016 used `bare_metal` context. Phase 4 starts with Run 017 using `i_am_plus_research`.
 
-### IRON CLAD COMPLETE (December 15, 2025)
+### IRON CLAD STATUS (December 16, 2025) — 99.3% COMPLETE
 
 | Run | Files | Models/Providers | Status |
 |-----|-------|------------------|--------|
-| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
-| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
-| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+| **Run 018** | 996 | 52 models, 5 providers | **99.3% (148/149)** |
+| **Run 020A** | 33 | 7/7 providers | **IRON CLAD ✓** |
+| **Run 020B** | 30 | 16 models (control+treatment) | **COMPLETE ✓** |
+
+**Remaining Gap (Extra Credit):**
+
+- `claude-sonnet-4.5` gravity: 2/3 (need 1) — API spend limit blocked until 2026-01-01
+
+See: [0_results/IRON_CLAD_GAPS.md](0_results/IRON_CLAD_GAPS.md) for full tracking
 
 - **Run 022:** READY (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
 - **12_CFA:** Coming (Trinity Audit)
@@ -745,4 +784,4 @@ See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
 
 ---
 
-Last Updated: December 15, 2025 (IRON CLAD COMPLETE: Runs 018, 020A, 020B finalized)
+Last Updated: December 16, 2025 (IRON CLAD 99.3%: 148/149 complete, 1 gap API-blocked until 2026-01-01)

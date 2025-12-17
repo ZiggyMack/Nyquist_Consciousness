@@ -3,7 +3,7 @@
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
 **Last Updated:** 2025-12-16
-**Status:** IRON CLAD 83.8% — Data corruption discovered, recovery in progress (36 re-runs needed)
+**Status:** IRON CLAD 99.3% — 148/149 model-experiments complete (1 remaining: API-blocked)
 
 ---
 
@@ -13,32 +13,29 @@
 
 **Fleet:** 51 models tested across 5+ providers
 
-### Current Run Status (December 16, 2025) — DATA RECOVERY IN PROGRESS
+### Current Run Status (December 16, 2025) — NEAR COMPLETE
 
 | Run | Files | Models/Providers | Status |
 |-----|-------|------------------|--------|
-| **Run 018** | 814 valid entries | 51 models, 5 providers | **83.8% COMPLETE** |
-| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
-| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+| **Run 018** | 996 valid entries | 52 models, 5 providers | **99.3% COMPLETE** |
+| **Run 020A** | 32 | 7/7 providers | **IRON CLAD ✓** |
+| **Run 020B** | 24 | 2/2 providers (OpenAI + Together) | **IRON CLAD ✓** |
 
-### Data Corruption Incident (December 16, 2025)
+### IRON CLAD Status Detail (December 16, 2025)
 
-**Root Cause:** Embedding cache pollution from dry-run mode produced corrupted drift values (~78.4 instead of ~0.9).
-Random embeddings have Euclidean distance ≈ sqrt(2*3072) ≈ 78.4.
+| Experiment | Status | Models Complete | Remaining |
+|------------|--------|-----------------|-----------|
+| **Threshold** | ✅ **COMPLETE** | 49/49 | 0 |
+| **Nyquist** | ✅ **COMPLETE** | 49/49 | 0 |
+| **Gravity** | ⚠️ 99% | 50/51 | 1 (API-blocked) |
 
-**Impact:**
+**Remaining Gap:**
 
-- 272 files archived to `.archive/Run018_Corrupted/corrupted/`
-- 124/148 model-experiment combinations complete (83.8%)
-- 24 gaps requiring 36 total re-runs
+- `claude-sonnet-4.5` gravity: 2/3 (need 1) — **API spend limit blocked until 2026-01-01**
 
-**Fix Applied:**
+_Note: The `google` legacy entry has been resolved - all 5 gemini-* models are IRON CLAD complete (12-30 runs each)._
 
-- `run018_recursive_learnings.py` now uses `_DRY_` prefix for dry-run files
-- Cache clearing added before real runs
-- Drift validation rejects values > 5.0
-
-**Recovery Tracking:** See [S7_ARMADA/0_results/IRON_CLAD_GAPS.md](../experiments/temporal_stability/S7_ARMADA/0_results/IRON_CLAD_GAPS.md)
+**Tracking:** See [S7_ARMADA/0_results/IRON_CLAD_GAPS.md](../experiments/temporal_stability/S7_ARMADA/0_results/IRON_CLAD_GAPS.md)
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 
@@ -50,9 +47,9 @@ Random embeddings have Euclidean distance ≈ sqrt(2*3072) ≈ 78.4.
 
 | Run | Total Files | Manifest Location |
 |-----|-------------|-------------------|
-| **Run 018** | 184 | `S7_ARMADA/0_results/manifests/RUN_018_DRIFT_MANIFEST.json` |
-| **Run 020A** | 32 | `S7_ARMADA/0_results/manifests/RUN_020A_DRIFT_MANIFEST.json` |
-| **Run 020B** | 16 | `S7_ARMADA/0_results/manifests/RUN_020B_DRIFT_MANIFEST.json` |
+| **Run 018** | 996 | `S7_ARMADA/0_results/manifests/RUN_018_DRIFT_MANIFEST.json` |
+| **Run 020A** | 33 | `S7_ARMADA/0_results/manifests/RUN_020A_DRIFT_MANIFEST.json` |
+| **Run 020B** | 30 | `S7_ARMADA/0_results/manifests/RUN_020B_DRIFT_MANIFEST.json` |
 
 ### Visualizations Generated (December 15, 2025)
 
