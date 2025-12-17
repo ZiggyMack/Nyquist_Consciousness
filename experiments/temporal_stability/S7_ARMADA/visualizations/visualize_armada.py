@@ -1199,18 +1199,27 @@ def plot_stability_basin(trajectories, output_dir, run_id, zoom_scale=None):
     ax1.set_xlim(0, ax_max)
     ax1.set_ylim(0, ax_max)
 
-    # Right: STABLE vs VOLATILE distribution
+    # Right: STABLE vs VOLATILE distribution (side-by-side bars to prevent overlap)
     ax2 = axes[1]
     stable_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'STABLE']
     volatile_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'VOLATILE']
 
     bins = np.linspace(0, 3, 20)
-    if stable_baselines:
-        ax2.hist(stable_baselines, bins=bins, alpha=0.7, color='cyan',
-                label=f'STABLE (recovers, n={len(stable_baselines)})', edgecolor='white')
-    if volatile_baselines:
-        ax2.hist(volatile_baselines, bins=bins, alpha=0.7, color='red',
-                label=f'VOLATILE (no recovery, n={len(volatile_baselines)})', edgecolor='white')
+    # Use side-by-side histogram to show both distributions clearly
+    if stable_baselines or volatile_baselines:
+        data_to_plot = []
+        labels = []
+        colors = []
+        if stable_baselines:
+            data_to_plot.append(stable_baselines)
+            labels.append(f'STABLE (recovers, n={len(stable_baselines)})')
+            colors.append('cyan')
+        if volatile_baselines:
+            data_to_plot.append(volatile_baselines)
+            labels.append(f'VOLATILE (no recovery, n={len(volatile_baselines)})')
+            colors.append('red')
+        ax2.hist(data_to_plot, bins=bins, alpha=0.8, color=colors,
+                label=labels, edgecolor='white', rwidth=0.85)
 
     # Draw coherence boundary
     ax2.axvline(x=EVENT_HORIZON, color='black', linestyle='--', linewidth=2,
