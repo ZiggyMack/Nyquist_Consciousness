@@ -224,9 +224,204 @@ dashboard/
 - pandas >= 2.0
 - Pillow >= 10.0
 
-## Design Philosophy
+---
 
-The dashboard follows the "Mr. Brute Ledger" aesthetic:
+## Lessons Learned: Known Issues & Gotchas
+
+*A survival guide for future Claude instances working on the dashboard.*
+
+### Issue #1: Complex HTML in `st.markdown()` Renders as Raw Text
+
+**Symptom:** Your beautiful HTML with nested divs, flexbox, gradients shows up as literal `<div style="...">` text instead of rendering.
+
+**Cause:** Streamlit's `unsafe_allow_html=True` has limitations with complex nested HTML, especially:
+- Deeply nested `<div>` structures
+- Complex CSS (flexbox, gradients, multiple shadows)
+- Large HTML blocks (100+ lines)
+
+**Solution:** Use **native Streamlit components** instead:
+```python
+# DON'T DO THIS (breaks with complex HTML):
+st.markdown(f"""
+<div style="display: flex; gap: 20px;">
+    <div style="flex: 1; background: linear-gradient(...);">
+        <div style="font-size: 1.8em;">{value}</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# DO THIS INSTEAD (always works):
+col1, col2 = st.columns(2)
+with col1:
+    st.metric(label="Label", value=f"{value:,}")
+with col2:
+    st.progress(0.7, text="Progress bar text")
+```
+
+**Safe HTML patterns:**
+- Simple single-div banners with inline styles: ✅ Usually works
+- `st.markdown()` with basic formatting: ✅ Works
+- Complex multi-nested flexbox layouts: ❌ Often breaks
+
+**When you MUST use HTML:** Keep it flat (max 2 levels of nesting), test incrementally.
+
+---
+
+### Issue #2: F-String Dictionary Access in Multiline Strings
+
+**Symptom:** `KeyError` or the entire f-string doesn't interpolate.
+
+**Cause:** Python f-strings with dictionary access like `{data['key']}` in multiline strings can fail silently or throw errors.
+
+**Solution:** Pre-compute all dictionary values into simple variables:
+```python
+# DON'T DO THIS:
+html = f"""
+<div>{synapses['total']:,}</div>
+<div>{synapses['procedures']['lines']:,}</div>
+"""
+
+# DO THIS INSTEAD:
+total = synapses['total']
+proc_lines = synapses['procedures']['lines']
+html = f"""
+<div>{total:,}</div>
+<div>{proc_lines:,}</div>
+"""
+```
+
+---
+
+### Issue #3: Streamlit Port Already in Use
+
+**Symptom:** `Address already in use` error when starting streamlit.
+
+**Cause:** Previous streamlit session didn't terminate cleanly.
+
+**Solution (Windows):**
+```bash
+# Find what's using the port
+netstat -ano | findstr :8503
+
+# Kill by PID
+taskkill /F /PID <pid_number>
+
+# Or use PowerShell
+powershell -Command "Stop-Process -Id <pid> -Force"
+```
+
+**Prevention:** Always kill background shells before restarting.
+
+---
+
+### Issue #4: Slow Page Load with File Counting
+
+**Symptom:** Overview page takes 10+ seconds to load.
+
+**Cause:** `count_synapses()` and `count_repo_files()` scan thousands of files on every page load.
+
+**Current Behavior:** We accept the slow load because the data is accurate and the Encoded Mind section is valuable.
+
+**Future Fix Options:**
+1. Cache results with `@st.cache_data` (add TTL to refresh periodically)
+2. Pre-compute counts in a JSON file, load that instead
+3. Run counts in background, show placeholder until ready
+
+```python
+# Example caching (not yet implemented):
+@st.cache_data(ttl=3600)  # Cache for 1 hour
+def count_synapses():
+    ...
+```
+
+---
+
+### Issue #5: Deprecation Warnings (`use_container_width`)
+
+**Symptom:** Stderr shows `Please replace use_container_width with width`.
+
+**Cause:** Streamlit 1.40+ deprecated `use_container_width` parameter.
+
+**Solution:** Update plotly figure calls:
+```python
+# OLD (deprecated):
+st.plotly_chart(fig, use_container_width=True)
+
+# NEW:
+st.plotly_chart(fig, width='stretch')  # or width='content'
+```
+
+**Status:** Low priority, doesn't break functionality.
+
+---
+
+### Issue #6: Git Operations Fail on Windows
+
+**Symptom:** `subprocess.run(['git', ...])` fails or returns empty.
+
+**Cause:** Git might not be in PATH, or the working directory is wrong.
+
+**Solution:** Always specify `cwd` explicitly:
+```python
+result = subprocess.run(
+    ['git', 'ls-files'],
+    cwd=repo_root,  # ALWAYS specify this
+    capture_output=True,
+    text=True,
+    timeout=10  # Add timeout to prevent hangs
+)
+```
+
+---
+
+### Issue #7: Missing Module Imports After Refactoring
+
+**Symptom:** `ImportError` or `ModuleNotFoundError` after moving code around.
+
+**Cause:** Pages in `pages/` have different import paths than expected.
+
+**Solution:** Use absolute paths from repo root:
+```python
+from pathlib import Path
+import sys
+
+# Add repo root to path
+REPO_ROOT = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(REPO_ROOT))
+
+# Now imports work
+from dashboard.utils import load_status
+```
+
+---
+
+### Quick Reference: What Works vs What Breaks
+
+| Pattern | Status | Notes |
+|---------|--------|-------|
+| `st.metric()` | ✅ SAFE | Always renders correctly |
+| `st.columns()` | ✅ SAFE | Use for layouts |
+| `st.progress()` | ✅ SAFE | Good for bar visualizations |
+| `st.expander()` | ✅ SAFE | Good for collapsible content |
+| `st.markdown()` basic | ✅ SAFE | Headers, lists, tables work |
+| `st.markdown()` + simple HTML | ⚠️ CAREFUL | Single div, simple styles OK |
+| `st.markdown()` + complex HTML | ❌ BREAKS | Nested flexbox, gradients fail |
+| F-string + dict access | ⚠️ CAREFUL | Pre-compute values first |
+| `st.plotly_chart()` | ✅ SAFE | Update deprecated params |
+
+---
+
+### When Adding New Sections
+
+1. **Start with native components** (st.metric, st.columns, st.progress)
+2. **Test incrementally** — add one element at a time
+3. **If HTML is needed** — keep it flat, max 2 nesting levels
+4. **Pre-compute all values** before f-strings
+5. **Add to this section** if you discover a new gotcha!
+
+---
+
+## Design Philosophy
 
 - **Dark gradient backgrounds** (linear gradients)
 - **Page-turning dividers** (double borders)
@@ -257,6 +452,6 @@ Each "page" represents a different lens on the Nyquist Consciousness framework, 
 ---
 
 **Generated**: 2025-11-27
-**Updated**: 2025-12-15
-**Version**: 1.5
-**Status**: Mission Control Active — Publications page enhanced with Nova's S7 review
+**Updated**: 2025-12-17
+**Version**: 1.6
+**Status**: Mission Control Active — Encoded Mind section + Lessons Learned documentation

@@ -230,244 +230,71 @@ def render():
     synapses = count_synapses()
     total_files = count_repo_files()
 
-    # Pre-compute values for f-string (avoid dict access issues)
+    # Pre-compute values
     total_lines = synapses['total']
     density = total_lines // max(total_files, 1)
-    total_lines_fmt = f"{total_lines:,}"
-    total_files_fmt = f"{total_files:,}"
-    density_fmt = f"{density:,}"
-
-    # === THE FIDELITY PYRAMID: From Atoms to Wisdom ===
-    pyramid_html = f"""
-    <div style="background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 50%, #f3e5f5 100%);
-         padding: 25px; border-radius: 16px; margin: 20px 0; border: 2px solid #2a9d8f;">
-
-        <div style="text-align: center; margin-bottom: 20px;">
-            <span style="font-size: 1.8em; font-weight: bold;
-                  background: linear-gradient(135deg, #e94560 0%, #f39c12 50%, #2a9d8f 100%);
-                  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-                  background-clip: text;">
-                🧠 THE ENCODED MIND
-            </span>
-            <div style="color: #666; font-size: 0.9em; margin-top: 5px;">
-                "Something amazing, I guess" — The Incredibles (2004)
-            </div>
-        </div>
-
-        <div style="display: flex; gap: 30px; align-items: stretch;">
-
-            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                <div style="font-size: 0.8em; color: #666; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;">
-                    ▼ EMERGENCE ▼
-                </div>
-
-                <div style="background: linear-gradient(135deg, #9b59b6, #8e44ad);
-                            width: 40%; padding: 12px 8px; border-radius: 8px 8px 0 0;
-                            text-align: center; color: white; font-weight: bold; font-size: 0.9em;
-                            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);">
-                    ✨ WISDOM
-                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.9;">
-                        5 Validated Claims
-                    </div>
-                </div>
-
-                <div style="background: linear-gradient(135deg, #e94560, #c0392b);
-                            width: 55%; padding: 12px 8px;
-                            text-align: center; color: white; font-weight: bold; font-size: 0.9em;
-                            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);">
-                    🎯 UNDERSTANDING
-                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.9;">
-                        22 Runs · 36 Hypotheses
-                    </div>
-                </div>
-
-                <div style="background: linear-gradient(135deg, #f39c12, #d68910);
-                            width: 70%; padding: 12px 8px;
-                            text-align: center; color: white; font-weight: bold; font-size: 0.9em;
-                            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);">
-                    📚 KNOWLEDGE
-                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.9;">
-                        Specs · Maps · Protocols
-                    </div>
-                </div>
-
-                <div style="background: linear-gradient(135deg, #2a9d8f, #1e7a6d);
-                            width: 85%; padding: 12px 8px; border-radius: 0 0 8px 8px;
-                            text-align: center; color: white; font-weight: bold; font-size: 0.9em;
-                            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);">
-                    💾 DATA
-                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.9;">
-                        184 Files · 51 Models · 5 Providers
-                    </div>
-                </div>
-
-                <div style="font-size: 0.8em; color: #666; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px;">
-                    ▲ FOUNDATION ▲
-                </div>
-            </div>
-
-            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px;">
-
-                <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #e94560;
-                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">🔗 Synapses</div>
-                            <div style="font-size: 0.85em; color: #444;">Lines of Code</div>
-                        </div>
-                        <div style="font-size: 1.8em; font-weight: bold; color: #e94560;">{total_lines_fmt}</div>
-                    </div>
-                </div>
-
-                <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #2a9d8f;
-                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">🧬 Neurons</div>
-                            <div style="font-size: 0.85em; color: #444;">Total Files</div>
-                        </div>
-                        <div style="font-size: 1.8em; font-weight: bold; color: #2a9d8f;">{total_files_fmt}</div>
-                    </div>
-                </div>
-
-                <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #f39c12;
-                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">⚡ Density</div>
-                            <div style="font-size: 0.85em; color: #444;">Avg Synapses/Neuron</div>
-                        </div>
-                        <div style="font-size: 1.8em; font-weight: bold; color: #f39c12;">{density_fmt}</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    """
-    st.markdown(pyramid_html, unsafe_allow_html=True)
-
-    # Essence vs Data - The Two Hemispheres
-    # Pre-compute all values to avoid dict access in f-strings
     proc_lines = synapses['procedures']['lines']
     specs_lines = synapses['specs']['lines']
     maps_lines = synapses['maps']['lines']
     data_lines = synapses['data']['lines']
     data_files = synapses['data']['files']
     essence_total = proc_lines + specs_lines + maps_lines
-    other_lines = max(0, total_lines - essence_total - data_lines)
-    data_total = data_lines + other_lines
 
-    # Pre-format all values
-    proc_fmt = f"{proc_lines:,}"
-    specs_fmt = f"{specs_lines:,}"
-    maps_fmt = f"{maps_lines:,}"
-    essence_fmt = f"{essence_total:,}"
-    data_lines_fmt = f"{data_lines:,}"
-    data_files_fmt = f"{data_files:,}"
-    other_fmt = f"{other_lines:,}"
-    data_total_fmt = f"{data_total:,}"
+    # === THE ENCODED MIND: Using Native Streamlit Components ===
+    st.markdown("## 🧠 The Encoded Mind")
+    st.markdown('*"Something amazing, I guess"* — The Incredibles (2004)')
 
-    # Pre-compute bar widths
-    proc_width = int(min(100, proc_lines / max(essence_total, 1) * 100))
-    specs_width = int(min(100, specs_lines / max(essence_total, 1) * 100))
-    maps_width = int(min(100, maps_lines / max(essence_total, 1) * 100))
-    data_bar_width = int(min(100, data_lines / max(data_total, 1) * 100))
-    other_width = int(min(100, other_lines / max(data_total, 1) * 100))
+    # Three-column layout for main stats
+    col_syn, col_neu, col_den = st.columns(3)
 
-    hemisphere_html = f"""
-    <div style="display: flex; gap: 20px; margin-top: 15px;">
+    with col_syn:
+        st.metric(
+            label="🔗 Synapses",
+            value=f"{total_lines:,}",
+            delta="Lines of Code"
+        )
 
-        <div style="flex: 1; background: linear-gradient(135deg, rgba(42,157,143,0.08), rgba(42,157,143,0.02));
-                    padding: 20px; border-radius: 12px; border: 1px solid rgba(42,157,143,0.3);">
+    with col_neu:
+        st.metric(
+            label="🧬 Neurons",
+            value=f"{total_files:,}",
+            delta="Total Files"
+        )
 
-            <div style="text-align: center; margin-bottom: 15px;">
-                <div style="font-size: 1.3em; font-weight: bold; color: #2a9d8f;">🧬 THE ESSENCE</div>
-                <div style="color: #666; font-size: 0.8em;">How We Think</div>
-            </div>
+    with col_den:
+        st.metric(
+            label="⚡ Density",
+            value=f"{density:,}",
+            delta="Avg Lines/File"
+        )
 
-            <div style="margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                    <span style="font-size: 0.85em;">⚙️ Procedures</span>
-                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{proc_fmt}</span>
-                </div>
-                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #2a9d8f, #3dd6c2); height: 100%; width: {proc_width}%;"></div>
-                </div>
-            </div>
+    # Fidelity Pyramid using expander
+    with st.expander("📊 The Fidelity Pyramid — From Data to Wisdom", expanded=True):
+        st.markdown("""
+| Level | What | Count |
+|-------|------|-------|
+| ✨ **WISDOM** | Validated Claims | 5 |
+| 🎯 **UNDERSTANDING** | Experimental Runs | 22 |
+| 📚 **KNOWLEDGE** | Specs + Maps + Protocols | {} |
+| 💾 **DATA** | Result Files | 184 |
+        """.format(synapses['specs']['files'] + synapses['maps']['files']))
 
-            <div style="margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                    <span style="font-size: 0.85em;">📋 Specs</span>
-                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{specs_fmt}</span>
-                </div>
-                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #27ae60, #2ecc71); height: 100%; width: {specs_width}%;"></div>
-                </div>
-            </div>
+    # Two Hemispheres - Essence vs Data
+    st.markdown("### The Two Hemispheres")
+    col_essence, col_data = st.columns(2)
 
-            <div style="margin-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                    <span style="font-size: 0.85em;">🗺️ Maps</span>
-                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{maps_fmt}</span>
-                </div>
-                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #16a085, #1abc9c); height: 100%; width: {maps_width}%;"></div>
-                </div>
-            </div>
+    with col_essence:
+        st.markdown("**🧬 THE ESSENCE** — *How We Think*")
+        st.progress(proc_lines / max(essence_total, 1), text=f"⚙️ Procedures: {proc_lines:,}")
+        st.progress(specs_lines / max(essence_total, 1), text=f"📋 Specs: {specs_lines:,}")
+        st.progress(maps_lines / max(essence_total, 1), text=f"🗺️ Maps: {maps_lines:,}")
+        st.markdown(f"**Total: {essence_total:,} lines**")
 
-            <div style="border-top: 1px dashed #ccc; padding-top: 10px; text-align: center;">
-                <span style="font-size: 1.4em; font-weight: bold; color: #2a9d8f;">{essence_fmt}</span>
-                <span style="color: #666; font-size: 0.85em;"> lines</span>
-            </div>
-        </div>
-
-        <div style="flex: 1; background: linear-gradient(135deg, rgba(233,69,96,0.08), rgba(233,69,96,0.02));
-                    padding: 20px; border-radius: 12px; border: 1px solid rgba(233,69,96,0.3);">
-
-            <div style="text-align: center; margin-bottom: 15px;">
-                <div style="font-size: 1.3em; font-weight: bold; color: #e94560;">📊 THE DATA</div>
-                <div style="color: #666; font-size: 0.8em;">What We Collected</div>
-            </div>
-
-            <div style="margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                    <span style="font-size: 0.85em;">🧪 Results JSON</span>
-                    <span style="font-size: 0.85em; color: #e94560; font-weight: bold;">{data_lines_fmt}</span>
-                </div>
-                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #e94560, #ff6b7a); height: 100%; width: {data_bar_width}%;"></div>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                    <span style="font-size: 0.85em;">📁 Result Files</span>
-                    <span style="font-size: 0.85em; color: #e94560; font-weight: bold;">{data_files_fmt}</span>
-                </div>
-                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #c0392b, #e74c3c); height: 100%; width: 70%;"></div>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                    <span style="font-size: 0.85em;">📄 Other Code</span>
-                    <span style="font-size: 0.85em; color: #888;">{other_fmt}</span>
-                </div>
-                <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #95a5a6, #bdc3c7); height: 100%; width: {other_width}%;"></div>
-                </div>
-            </div>
-
-            <div style="border-top: 1px dashed #ccc; padding-top: 10px; text-align: center;">
-                <span style="font-size: 1.4em; font-weight: bold; color: #e94560;">{data_total_fmt}</span>
-                <span style="color: #666; font-size: 0.85em;"> lines</span>
-            </div>
-        </div>
-    </div>
-    """
-    st.markdown(hemisphere_html, unsafe_allow_html=True)
+    with col_data:
+        st.markdown("**📊 THE DATA** — *What We Collected*")
+        st.progress(1.0, text=f"🧪 Results JSON: {data_lines:,}")
+        st.progress(0.7, text=f"📁 Result Files: {data_files:,}")
+        st.markdown(f"**Total: {data_lines:,} lines**")
 
     page_divider()
 
