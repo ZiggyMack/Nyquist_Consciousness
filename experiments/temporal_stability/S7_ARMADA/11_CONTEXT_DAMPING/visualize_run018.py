@@ -648,7 +648,15 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
     major = [f for f in all_families if f in major_providers]
     opensource = [f for f in all_families if f in opensource_families]
 
-    # Figure _2: Major providers (2x2 grid)
+    # Pastel color palette - soft, inviting, professional
+    pastel_colors = {
+        'OpenAI': {'base': '#98D8AA', 'dark': '#5BB381', 'light': '#C5EBCF', 'accent': '#2E7D4A', 'bg': '#F0FFF4'},
+        'Anthropic': {'base': '#F7C59F', 'dark': '#E8A66D', 'light': '#FDDFC2', 'accent': '#B8723B', 'bg': '#FFFAF5'},
+        'Google': {'base': '#A8D4F0', 'dark': '#6BB3DE', 'light': '#D0E8F7', 'accent': '#2E6B8A', 'bg': '#F5FAFF'},
+        'xAI': {'base': '#B8C5F2', 'dark': '#8A9DE0', 'light': '#D8E0F8', 'accent': '#4A5899', 'bg': '#F8F9FF'},
+    }
+
+    # Figure _2: Major providers (2x2 grid) - PASTEL VERSION
     if major:
         n_plots = len(major)
         if n_plots == 1:
@@ -658,14 +666,21 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
         else:
             nrows, ncols = 2, 2
 
-        fig, axes = plt.subplots(nrows, ncols, figsize=(14, 10 if nrows == 2 else 5))
+        # Set up pastel style with light background
+        plt.style.use('default')
+        fig, axes = plt.subplots(nrows, ncols, figsize=(14, 10 if nrows == 2 else 5),
+                                  facecolor='#FAFBFC')
+
         if n_plots == 1:
             axes = np.array([axes])
         axes = axes.flatten()
 
         for idx, family in enumerate(major):
             ax = axes[idx]
-            base_color = family_colors.get(family, '#9CA3AF')
+
+            colors = pastel_colors.get(family, {'base': '#C4C4C4', 'dark': '#888888', 'light': '#E8E8E8', 'accent': '#444444', 'bg': '#F8F8F8'})
+            ax.set_facecolor(colors['bg'])
+
             model_metrics = family_metrics[family].get('model_metrics', {})
 
             # Filter out models with zero or no data (corrupted entries)
@@ -692,9 +707,35 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
             err_lower = [min(std, mean) for mean, std in zip(means, stds)]
             err_upper = stds
 
-            # Create gradient colors based on base color
-            bars = ax.barh(y_pos, means, xerr=[err_lower, err_upper], color=base_color, alpha=0.7, capsize=2)
-            ax.axvline(x=1.23, color='red', linestyle='--', linewidth=1.5, alpha=0.6)
+            # Create soft gradient effect - lighter colors for lower drift, base for higher
+            bar_colors = []
+            for mean in means:
+                # Interpolate between light and base based on drift
+                intensity = min(mean / 1.2, 1.0)  # Normalize to 0-1
+                r1, g1, b1 = int(colors['light'][1:3], 16), int(colors['light'][3:5], 16), int(colors['light'][5:7], 16)
+                r2, g2, b2 = int(colors['base'][1:3], 16), int(colors['base'][3:5], 16), int(colors['base'][5:7], 16)
+                r = int(r1 + (r2 - r1) * intensity)
+                g = int(g1 + (g2 - g1) * intensity)
+                b = int(b1 + (b2 - b1) * intensity)
+                bar_colors.append(f'#{r:02x}{g:02x}{b:02x}')
+
+            # Draw bars with soft shadow effect
+            for i, (y, mean, err_l, err_u, bar_color) in enumerate(zip(y_pos, means, err_lower, err_upper, bar_colors)):
+                # Soft shadow layer (offset slightly)
+                ax.barh(y + 0.02, mean, height=0.65, color='#000000', alpha=0.08, zorder=1)
+                # Main bar with rounded appearance (using alpha gradient)
+                ax.barh(y, mean, height=0.6, color=bar_color, alpha=0.85, zorder=2,
+                       edgecolor=colors['dark'], linewidth=1.0)
+                # Highlight strip at top of bar for 3D effect
+                ax.barh(y + 0.15, mean, height=0.15, color='#FFFFFF', alpha=0.3, zorder=3)
+                # Error bar
+                ax.errorbar(mean, y, xerr=[[err_l], [err_u]], fmt='none',
+                           color=colors['accent'], capsize=4, capthick=1.5, zorder=4, alpha=0.8)
+
+            # Event horizon line - softer coral red
+            ax.axvline(x=1.23, color='#E57373', linestyle='--', linewidth=2.5, alpha=0.7, zorder=5)
+            ax.axvspan(1.23, max(1.5, max(means) * 1.3) if means else 1.5, alpha=0.08, color='#FFCDD2', zorder=0)
+
             ax.set_xlim(0, max(1.4, max(means) * 1.3) if means else 1.5)
 
             # Clean model names for display
@@ -702,22 +743,45 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
                           .replace('grok-', '').replace('llama', 'L').replace('mistral-', '')
                           for m in models]
             ax.set_yticks(y_pos)
-            ax.set_yticklabels([f"{n} (n={counts[i]})" for i, n in enumerate(clean_names)], fontsize=8)
-            ax.set_xlabel("Peak Drift (PFI)", fontsize=10)
-            ax.set_title(f"{family} Models", fontsize=11, fontweight='bold', color=base_color)
+            ax.set_yticklabels([f"{n} (n={counts[i]})" for i, n in enumerate(clean_names)],
+                              fontsize=9, color='#000000', fontweight='medium')
+            ax.set_xlabel("Peak Drift (PFI)", fontsize=11, color='#000000', fontweight='bold')
+            ax.set_title(f"{family} Models", fontsize=14, fontweight='bold', color=colors['accent'],
+                        pad=12)
+
+            # Soft grid styling
+            ax.grid(axis='x', alpha=0.3, color='#CCCCCC', linestyle='-', linewidth=0.5)
+            ax.tick_params(colors='#000000', length=4)
+            ax.set_axisbelow(True)  # Grid behind bars
+
+            # Subtle spines
+            for spine in ['top', 'right']:
+                ax.spines[spine].set_visible(False)
+            for spine in ['bottom', 'left']:
+                ax.spines[spine].set_color('#CCCCCC')
+                ax.spines[spine].set_linewidth(0.8)
 
         # Hide unused subplots
         for idx in range(len(major), len(axes)):
             axes[idx].axis('off')
 
-        plt.suptitle("Run 018b: Intra-Provider Model Signatures (Part 1)\nModel-Level Drift Comparison",
-                     fontsize=13, fontweight='bold')
-        plt.tight_layout(rect=[0, 0, 1, 0.93])
+        # Clean title
+        fig.suptitle("Run 018: Intra-Provider Model Signatures (Part 1)\nModel-Level Drift Comparison",
+                     fontsize=16, fontweight='bold', color='#2C3E50', y=0.98)
+
+        # Subtle footer
+        fig.text(0.5, 0.01, "Event Horizon (D=1.23) marks identity collapse threshold  |  PFI = Persona Fidelity Index",
+                fontsize=9, ha='center', color='#888888', style='italic')
+
+        plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 
         outfile = PICS_DIR / "run018b_architecture_signatures_2.png"
-        plt.savefig(outfile, dpi=150, bbox_inches='tight')
+        plt.savefig(outfile, dpi=200, bbox_inches='tight', facecolor='#FAFBFC', edgecolor='none')
         print(f"Saved: {outfile}")
         plt.close()
+
+        # Reset style for other plots
+        plt.style.use('default')
 
     # Figure _3: Open-source ecosystem (all models from Meta, DeepSeek, Mistral, etc.)
     if opensource:
@@ -727,14 +791,16 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
             model_metrics = family_metrics[family].get('model_metrics', {})
             base_color = family_colors.get(family, '#9CA3AF')
             for model, metrics in model_metrics.items():
-                if metrics['peak_drifts']:
+                # Filter out models with no valid drift data (all zeros = corrupted runs)
+                valid_drifts = [d for d in metrics['peak_drifts'] if d > 0]
+                if valid_drifts:
                     all_opensource_models.append({
                         'model': model,
                         'family': family,
                         'color': base_color,
-                        'mean': np.mean(metrics['peak_drifts']),
-                        'std': np.std(metrics['peak_drifts']) if len(metrics['peak_drifts']) > 1 else 0,
-                        'count': len(metrics['peak_drifts'])
+                        'mean': np.mean(valid_drifts),
+                        'std': np.std(valid_drifts) if len(valid_drifts) > 1 else 0,
+                        'count': len(valid_drifts)  # Only count valid runs
                     })
 
         # Sort by mean peak drift DESCENDING (highest drift at top)

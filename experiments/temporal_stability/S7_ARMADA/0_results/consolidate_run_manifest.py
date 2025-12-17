@@ -34,6 +34,8 @@ CONSOLIDATED_PREFIX = "_CONSOLIDATED_"
 CORRUPTED_PREFIX = "_CORRUPTED_"
 # Maximum valid drift value (above this = corrupted embedding data)
 MAX_VALID_DRIFT = 5.0
+# Minimum valid drift value (below this = API failure / no real data)
+MIN_VALID_DRIFT = 0.001
 
 
 def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
@@ -217,12 +219,20 @@ def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
                 if experiment == "induced":
                     drift_entry["arm"] = item.get("arm")
 
-                # Validate drift - skip entries with corrupted data
+                # Validate drift - skip entries with corrupted or failed data
                 # Corrupted embeddings produce drift=0 with max_drift~78.4 (random vector distance)
+                # Failed API calls produce drift=0 (no actual embedding computed)
                 drift_val = drift_entry.get("drift") or 0
                 max_drift_val = drift_entry.get("max_drift") or 0
+
+                # Skip corrupted entries (high max_drift = random vector distance)
                 if drift_val == 0 and max_drift_val > MAX_VALID_DRIFT:
                     print(f"  Skipping corrupted entry in {file_path.name}: drift=0, max_drift={max_drift_val:.1f}")
+                    continue
+
+                # Skip failed API calls (drift=0 with no valid max_drift either)
+                if drift_val < MIN_VALID_DRIFT and max_drift_val < MIN_VALID_DRIFT:
+                    # Both values are essentially zero - this was a failed run
                     continue
 
                 manifest["experiments"][experiment][model].append(drift_entry)
@@ -318,10 +328,13 @@ def consolidate_architecture_data(manifest: dict, run_number: str = "018"):
 
                 peak_drift = subject.get("peak_drift", 0)
 
-                # Validate drift value
+                # Validate drift value - skip both corrupted (>5) AND failed API calls (=0)
                 if peak_drift > MAX_VALID_DRIFT:
                     corrupted_entries += 1
-                    continue  # Skip corrupted entries
+                    continue  # Skip corrupted entries (bad embeddings)
+                if peak_drift < MIN_VALID_DRIFT:
+                    corrupted_entries += 1
+                    continue  # Skip failed API calls (returned 0)
 
                 drift_entry = {
                     "drift": subject.get("baseline_to_final_drift", peak_drift),
