@@ -230,8 +230,15 @@ def render():
     synapses = count_synapses()
     total_files = count_repo_files()
 
+    # Pre-compute values for f-string (avoid dict access issues)
+    total_lines = synapses['total']
+    density = total_lines // max(total_files, 1)
+    total_lines_fmt = f"{total_lines:,}"
+    total_files_fmt = f"{total_files:,}"
+    density_fmt = f"{density:,}"
+
     # === THE FIDELITY PYRAMID: From Atoms to Wisdom ===
-    st.markdown(f"""
+    pyramid_html = f"""
     <div style="background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 50%, #f3e5f5 100%);
          padding: 25px; border-radius: 16px; margin: 20px 0; border: 2px solid #2a9d8f;">
 
@@ -247,16 +254,13 @@ def render():
             </div>
         </div>
 
-        <!-- The Fidelity Pyramid with Neural Analogy -->
         <div style="display: flex; gap: 30px; align-items: stretch;">
 
-            <!-- LEFT: The Pyramid -->
             <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
                 <div style="font-size: 0.8em; color: #666; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;">
                     ▼ EMERGENCE ▼
                 </div>
 
-                <!-- Level 4: Wisdom (top) -->
                 <div style="background: linear-gradient(135deg, #9b59b6, #8e44ad);
                             width: 40%; padding: 12px 8px; border-radius: 8px 8px 0 0;
                             text-align: center; color: white; font-weight: bold; font-size: 0.9em;
@@ -267,7 +271,6 @@ def render():
                     </div>
                 </div>
 
-                <!-- Level 3: Understanding -->
                 <div style="background: linear-gradient(135deg, #e94560, #c0392b);
                             width: 55%; padding: 12px 8px;
                             text-align: center; color: white; font-weight: bold; font-size: 0.9em;
@@ -278,7 +281,6 @@ def render():
                     </div>
                 </div>
 
-                <!-- Level 2: Knowledge -->
                 <div style="background: linear-gradient(135deg, #f39c12, #d68910);
                             width: 70%; padding: 12px 8px;
                             text-align: center; color: white; font-weight: bold; font-size: 0.9em;
@@ -289,7 +291,6 @@ def render():
                     </div>
                 </div>
 
-                <!-- Level 1: Data (base) -->
                 <div style="background: linear-gradient(135deg, #2a9d8f, #1e7a6d);
                             width: 85%; padding: 12px 8px; border-radius: 0 0 8px 8px;
                             text-align: center; color: white; font-weight: bold; font-size: 0.9em;
@@ -305,10 +306,8 @@ def render():
                 </div>
             </div>
 
-            <!-- RIGHT: Neural Metaphor Stats -->
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px;">
 
-                <!-- Total Synapses (Lines) -->
                 <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #e94560;
                             box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -316,11 +315,10 @@ def render():
                             <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">🔗 Synapses</div>
                             <div style="font-size: 0.85em; color: #444;">Lines of Code</div>
                         </div>
-                        <div style="font-size: 1.8em; font-weight: bold; color: #e94560;">{synapses['total']:,}</div>
+                        <div style="font-size: 1.8em; font-weight: bold; color: #e94560;">{total_lines_fmt}</div>
                     </div>
                 </div>
 
-                <!-- Neurons (Files) -->
                 <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #2a9d8f;
                             box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -328,11 +326,10 @@ def render():
                             <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">🧬 Neurons</div>
                             <div style="font-size: 0.85em; color: #444;">Total Files</div>
                         </div>
-                        <div style="font-size: 1.8em; font-weight: bold; color: #2a9d8f;">{total_files:,}</div>
+                        <div style="font-size: 1.8em; font-weight: bold; color: #2a9d8f;">{total_files_fmt}</div>
                     </div>
                 </div>
 
-                <!-- Density (Avg Lines/File) -->
                 <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #f39c12;
                             box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -340,27 +337,47 @@ def render():
                             <div style="color: #666; font-size: 0.75em; text-transform: uppercase;">⚡ Density</div>
                             <div style="font-size: 0.85em; color: #444;">Avg Synapses/Neuron</div>
                         </div>
-                        <div style="font-size: 1.8em; font-weight: bold; color: #f39c12;">{synapses['total'] // max(total_files, 1):,}</div>
+                        <div style="font-size: 1.8em; font-weight: bold; color: #f39c12;">{density_fmt}</div>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """
+    st.markdown(pyramid_html, unsafe_allow_html=True)
 
     # Essence vs Data - The Two Hemispheres
-    proc = synapses['procedures']
-    specs = synapses['specs']
-    maps = synapses['maps']
-    data = synapses['data']
-    essence_total = proc['lines'] + specs['lines'] + maps['lines']
-    other_lines = max(0, synapses['total'] - essence_total - data['lines'])
+    # Pre-compute all values to avoid dict access in f-strings
+    proc_lines = synapses['procedures']['lines']
+    specs_lines = synapses['specs']['lines']
+    maps_lines = synapses['maps']['lines']
+    data_lines = synapses['data']['lines']
+    data_files = synapses['data']['files']
+    essence_total = proc_lines + specs_lines + maps_lines
+    other_lines = max(0, total_lines - essence_total - data_lines)
+    data_total = data_lines + other_lines
 
-    st.markdown(f"""
+    # Pre-format all values
+    proc_fmt = f"{proc_lines:,}"
+    specs_fmt = f"{specs_lines:,}"
+    maps_fmt = f"{maps_lines:,}"
+    essence_fmt = f"{essence_total:,}"
+    data_lines_fmt = f"{data_lines:,}"
+    data_files_fmt = f"{data_files:,}"
+    other_fmt = f"{other_lines:,}"
+    data_total_fmt = f"{data_total:,}"
+
+    # Pre-compute bar widths
+    proc_width = int(min(100, proc_lines / max(essence_total, 1) * 100))
+    specs_width = int(min(100, specs_lines / max(essence_total, 1) * 100))
+    maps_width = int(min(100, maps_lines / max(essence_total, 1) * 100))
+    data_bar_width = int(min(100, data_lines / max(data_total, 1) * 100))
+    other_width = int(min(100, other_lines / max(data_total, 1) * 100))
+
+    hemisphere_html = f"""
     <div style="display: flex; gap: 20px; margin-top: 15px;">
 
-        <!-- LEFT HEMISPHERE: Essence -->
         <div style="flex: 1; background: linear-gradient(135deg, rgba(42,157,143,0.08), rgba(42,157,143,0.02));
                     padding: 20px; border-radius: 12px; border: 1px solid rgba(42,157,143,0.3);">
 
@@ -369,49 +386,42 @@ def render():
                 <div style="color: #666; font-size: 0.8em;">How We Think</div>
             </div>
 
-            <!-- Procedures Bar -->
             <div style="margin-bottom: 12px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                     <span style="font-size: 0.85em;">⚙️ Procedures</span>
-                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{proc['lines']:,}</span>
+                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{proc_fmt}</span>
                 </div>
                 <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #2a9d8f, #3dd6c2); height: 100%;
-                                width: {min(100, proc['lines'] / max(essence_total, 1) * 100):.0f}%;"></div>
+                    <div style="background: linear-gradient(90deg, #2a9d8f, #3dd6c2); height: 100%; width: {proc_width}%;"></div>
                 </div>
             </div>
 
-            <!-- Specs Bar -->
             <div style="margin-bottom: 12px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                     <span style="font-size: 0.85em;">📋 Specs</span>
-                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{specs['lines']:,}</span>
+                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{specs_fmt}</span>
                 </div>
                 <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #27ae60, #2ecc71); height: 100%;
-                                width: {min(100, specs['lines'] / max(essence_total, 1) * 100):.0f}%;"></div>
+                    <div style="background: linear-gradient(90deg, #27ae60, #2ecc71); height: 100%; width: {specs_width}%;"></div>
                 </div>
             </div>
 
-            <!-- Maps Bar -->
             <div style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                     <span style="font-size: 0.85em;">🗺️ Maps</span>
-                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{maps['lines']:,}</span>
+                    <span style="font-size: 0.85em; color: #2a9d8f; font-weight: bold;">{maps_fmt}</span>
                 </div>
                 <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #16a085, #1abc9c); height: 100%;
-                                width: {min(100, maps['lines'] / max(essence_total, 1) * 100):.0f}%;"></div>
+                    <div style="background: linear-gradient(90deg, #16a085, #1abc9c); height: 100%; width: {maps_width}%;"></div>
                 </div>
             </div>
 
             <div style="border-top: 1px dashed #ccc; padding-top: 10px; text-align: center;">
-                <span style="font-size: 1.4em; font-weight: bold; color: #2a9d8f;">{essence_total:,}</span>
+                <span style="font-size: 1.4em; font-weight: bold; color: #2a9d8f;">{essence_fmt}</span>
                 <span style="color: #666; font-size: 0.85em;"> lines</span>
             </div>
         </div>
 
-        <!-- RIGHT HEMISPHERE: Data -->
         <div style="flex: 1; background: linear-gradient(135deg, rgba(233,69,96,0.08), rgba(233,69,96,0.02));
                     padding: 20px; border-radius: 12px; border: 1px solid rgba(233,69,96,0.3);">
 
@@ -420,49 +430,44 @@ def render():
                 <div style="color: #666; font-size: 0.8em;">What We Collected</div>
             </div>
 
-            <!-- Experimental Results Bar -->
             <div style="margin-bottom: 12px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                     <span style="font-size: 0.85em;">🧪 Results JSON</span>
-                    <span style="font-size: 0.85em; color: #e94560; font-weight: bold;">{data['lines']:,}</span>
+                    <span style="font-size: 0.85em; color: #e94560; font-weight: bold;">{data_lines_fmt}</span>
                 </div>
                 <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #e94560, #ff6b7a); height: 100%;
-                                width: {min(100, data['lines'] / max(data['lines'] + other_lines, 1) * 100):.0f}%;"></div>
+                    <div style="background: linear-gradient(90deg, #e94560, #ff6b7a); height: 100%; width: {data_bar_width}%;"></div>
                 </div>
             </div>
 
-            <!-- Result Files -->
             <div style="margin-bottom: 12px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                     <span style="font-size: 0.85em;">📁 Result Files</span>
-                    <span style="font-size: 0.85em; color: #e94560; font-weight: bold;">{data['files']:,}</span>
+                    <span style="font-size: 0.85em; color: #e94560; font-weight: bold;">{data_files_fmt}</span>
                 </div>
                 <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #c0392b, #e74c3c); height: 100%;
-                                width: 70%;"></div>
+                    <div style="background: linear-gradient(90deg, #c0392b, #e74c3c); height: 100%; width: 70%;"></div>
                 </div>
             </div>
 
-            <!-- Other -->
             <div style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                     <span style="font-size: 0.85em;">📄 Other Code</span>
-                    <span style="font-size: 0.85em; color: #888;">{other_lines:,}</span>
+                    <span style="font-size: 0.85em; color: #888;">{other_fmt}</span>
                 </div>
                 <div style="background: #e0e0e0; border-radius: 4px; height: 8px; overflow: hidden;">
-                    <div style="background: linear-gradient(90deg, #95a5a6, #bdc3c7); height: 100%;
-                                width: {min(100, other_lines / max(data['lines'] + other_lines, 1) * 100):.0f}%;"></div>
+                    <div style="background: linear-gradient(90deg, #95a5a6, #bdc3c7); height: 100%; width: {other_width}%;"></div>
                 </div>
             </div>
 
             <div style="border-top: 1px dashed #ccc; padding-top: 10px; text-align: center;">
-                <span style="font-size: 1.4em; font-weight: bold; color: #e94560;">{data['lines'] + other_lines:,}</span>
+                <span style="font-size: 1.4em; font-weight: bold; color: #e94560;">{data_total_fmt}</span>
                 <span style="color: #666; font-size: 0.85em;"> lines</span>
             </div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """
+    st.markdown(hemisphere_html, unsafe_allow_html=True)
 
     page_divider()
 
