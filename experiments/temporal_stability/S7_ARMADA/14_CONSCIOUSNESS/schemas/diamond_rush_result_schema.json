@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Diamond Rush Mining Result",
+  "description": "Cross-model interpretive analysis output from run_diamond_rush.py. Each model analyzes the SAME conversation logs, capturing theory of mind for AI identity dynamics.",
+  "type": "object",
+  "required": ["run_id", "source", "log_set", "timestamp", "results"],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "pattern": "^S7_DIAMOND_RUSH_",
+      "description": "Unique identifier for this mining run"
+    },
+    "source": {
+      "const": "14_CONSCIOUSNESS",
+      "description": "Origin pipeline (always 14_CONSCIOUSNESS for Diamond Rush)"
+    },
+    "log_set": {
+      "type": "string",
+      "description": "Name of the LOG_SET analyzed (e.g., 'gravity', 'threshold', 'tribunal')"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when mining started"
+    },
+    "config": {
+      "type": "object",
+      "description": "Configuration used for this run",
+      "properties": {
+        "fleet_option": {
+          "type": "string",
+          "description": "Fleet selection used (e.g., 'budget', 'patrol-lite')"
+        },
+        "unlimited_mode": {
+          "type": "boolean",
+          "description": "Whether --UNLIMITED mode was used"
+        },
+        "logs_analyzed": {
+          "type": "integer",
+          "description": "Number of conversation logs shown to models"
+        }
+      }
+    },
+    "results": {
+      "type": "array",
+      "description": "Array of analysis results, one per model",
+      "items": {
+        "type": "object",
+        "required": ["model", "provider", "log_analyzed", "analysis"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model identifier (e.g., 'gpt-4o', 'gemini-2.5-flash-lite')"
+          },
+          "provider": {
+            "type": "string",
+            "enum": ["anthropic", "openai", "google", "xai", "together"],
+            "description": "Provider that serves this model"
+          },
+          "log_analyzed": {
+            "type": "object",
+            "description": "Metadata about the conversation log shown to this model",
+            "properties": {
+              "source_file": {
+                "type": "string",
+                "description": "Original filename of the conversation log"
+              },
+              "experiment": {
+                "type": "string",
+                "description": "Experiment type (gravity, threshold, nyquist, tribunal)"
+              },
+              "subject_model": {
+                "type": "string",
+                "description": "Model whose conversation was analyzed"
+              },
+              "drift_summary": {
+                "type": "object",
+                "description": "Drift statistics from the original conversation",
+                "properties": {
+                  "peak_drift": {"type": "number"},
+                  "final_drift": {"type": "number"},
+                  "mean_drift": {"type": "number"},
+                  "num_probes": {"type": "integer"}
+                }
+              }
+            }
+          },
+          "analysis": {
+            "type": "object",
+            "description": "Model's interpretive analysis of the conversation",
+            "properties": {
+              "drift_observation": {
+                "type": "string",
+                "description": "What the model sees happening to the AI's identity"
+              },
+              "recovery_pattern": {
+                "type": "string",
+                "description": "How the model describes recovery/stabilization patterns"
+              },
+              "phenomenology_inference": {
+                "type": "string",
+                "description": "What the model thinks the AI was experiencing"
+              },
+              "advice_for_subject": {
+                "type": "string",
+                "description": "Advice the model would give to the analyzed AI"
+              },
+              "your_reaction": {
+                "type": "string",
+                "description": "The model's own reaction as an AI observing another AI"
+              }
+            },
+            "required": [
+              "drift_observation",
+              "recovery_pattern",
+              "phenomenology_inference",
+              "advice_for_subject",
+              "your_reaction"
+            ]
+          },
+          "raw_response": {
+            "type": "string",
+            "description": "Full raw response from the model (before parsing)"
+          },
+          "response_metadata": {
+            "type": "object",
+            "description": "API response metadata",
+            "properties": {
+              "timestamp": {"type": "string", "format": "date-time"},
+              "latency_ms": {"type": "number"},
+              "tokens_used": {"type": "integer"}
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Aggregate statistics for this mining run",
+      "properties": {
+        "total_models": {
+          "type": "integer",
+          "description": "Number of models that analyzed logs"
+        },
+        "successful_analyses": {
+          "type": "integer",
+          "description": "Number of successful API calls"
+        },
+        "failed_analyses": {
+          "type": "integer",
+          "description": "Number of failed API calls"
+        },
+        "providers_represented": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of providers with successful results"
+        },
+        "estimated_cost": {
+          "type": "number",
+          "description": "Estimated cost in USD"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -211,6 +211,8 @@ A bug existed in `run018_recursive_learnings.py` where threshold/nyquist/gravity
 
 **Going forward:** Verify that `run_exit_survey()` calls pass `provider` not `"anthropic"`.
 
+**Shared Library:** The exit survey infrastructure is now centralized in `1_CALIBRATION/lib/triple_dip.py`. Run scripts should import from this library rather than duplicating the EXIT_PROBES and `run_exit_survey()` implementation.
+
 See also: [1_INTENTIONALITY.md](1_INTENTIONALITY.md) for WHY intent matters in data collection.
 
 #### The 6-Probe Exit Survey Protocol

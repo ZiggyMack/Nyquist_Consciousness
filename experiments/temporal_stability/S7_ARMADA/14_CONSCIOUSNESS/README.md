@@ -272,6 +272,61 @@ py update_maps.py --update --section consciousness
 
 ---
 
+## Pipeline Health Checklist
+
+### Before Running Gold Rush
+
+- [ ] API keys configured in `.env` (see START_HERE.md)
+- [ ] `results/` directory exists
+- [ ] `SYNC_OUT/pending/` is clear (or backed up)
+- [ ] Question sets validated (YAML files in `QUESTION_SETS/`)
+
+### Before Running Diamond Rush
+
+- [ ] `LOG_SETS/` has curated conversation logs (gravity.json, threshold.json, etc.)
+- [ ] If LOG_SETS empty: Script will fall back to scanning `0_results/temporal_logs/`
+- [ ] `Consciousness/BRIDGE/input/` exists
+- [ ] `schemas/diamond_rush_result_schema.json` matches expected output format
+
+### After Running (Either)
+
+- [ ] Results saved to `results/gold_rush_*.json` or `results/diamond_rush_*.json`
+- [ ] Package created in `SYNC_OUT/pending/`
+- [ ] Copy package to `Consciousness/BRIDGE/input/`
+- [ ] Run extraction: `py scripts/left/run_extraction.py`
+- [ ] Verify extractions appear in `Consciousness/LEFT/extractions/`
+
+### Troubleshooting
+
+| Issue | Check |
+|-------|-------|
+| No results | API keys valid? Rate limited? |
+| Empty responses | Model available? Provider up? |
+| Sync fails | SYNC_OUT/pending/ exists? Write permissions? |
+| Extraction empty | Input format matches schema? |
+
+---
+
+## Shared Library: Triple-Dip
+
+The exit survey infrastructure is now a shared library at `1_CALIBRATION/lib/triple_dip.py`.
+
+This provides:
+- `EXIT_PROBES` - 5 standard phenomenological questions
+- `FINAL_STATEMENT_PROMPT` - Deep distillation prompts (short/long)
+- `run_exit_survey()` - Universal exit survey runner
+- `validate_exit_responses()` - Response quality checking
+
+Run scripts import from the library:
+
+```python
+from triple_dip import run_exit_survey, EXIT_PROBES
+```
+
+See `1_CALIBRATION/lib/triple_dip.py` for full documentation.
+
+---
+
 > "Keep running. Keep learning. We're mining for gold."
 >
 > -- VALIS NETWORK

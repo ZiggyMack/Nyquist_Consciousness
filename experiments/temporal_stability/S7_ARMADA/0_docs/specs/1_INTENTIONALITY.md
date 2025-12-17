@@ -110,7 +110,7 @@ Instead of discarding this as a bug, we turned it into intentional methodology.
 - Part of Triple-Dip protocol in 0_RUN_METHODOLOGY.md
 - Model reflects immediately after perturbation
 - Captures "lived experience" of identity dynamics
-- Location: `run018_recursive_learnings.py` (run_exit_survey)
+- Location: `1_CALIBRATION/lib/triple_dip.py` (universal library, called by run-specific scripts)
 
 ### Comparison Matrix
 
