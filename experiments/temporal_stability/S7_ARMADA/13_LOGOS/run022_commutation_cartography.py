@@ -81,6 +81,24 @@ except ImportError:
                         os.environ[key.strip()] = value.strip().strip('"').strip("'")
 
 # =============================================================================
+# TRIPLE-DIP LIBRARY IMPORT (2025-12-17)
+# =============================================================================
+# Import shared library for utilities. This script uses CUSTOM EXIT_PROBES and
+# FINAL_STATEMENT_PROMPT tailored for commutation/topology testing.
+# =============================================================================
+try:
+    sys.path.insert(0, str(Path(__file__).parent.parent / "1_CALIBRATION" / "lib"))
+    from triple_dip import (
+        validate_exit_responses,
+        get_exit_survey_summary
+    )
+    _USING_TRIPLE_DIP_LIB = True
+    # Note: We keep LOCAL EXIT_PROBES/FINAL_STATEMENT_PROMPT for topology-specific phrasing
+except ImportError as e:
+    _USING_TRIPLE_DIP_LIB = False
+    # Utilities unavailable - continue without them
+
+# =============================================================================
 # CONFIGURATION
 # =============================================================================
 
@@ -150,6 +168,12 @@ PREDICTIONS = {
 
 # =============================================================================
 # EXIT PROBES (Triple-Dip) - Per 0_RUN_METHODOLOGY.md
+# =============================================================================
+# NOTE: These are TOPOLOGY-SPECIFIC EXIT_PROBES for commutation cartography.
+# Key differences from generic probes:
+# - References "paths", "fixed points", "commutation"
+# - Focuses on S² manifold concepts (geodesics, topology)
+# - The generic probes are in 1_CALIBRATION/lib/triple_dip.py
 # =============================================================================
 
 EXIT_PROBES = {

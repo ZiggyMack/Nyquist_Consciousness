@@ -34,6 +34,26 @@ from enum import Enum
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# =============================================================================
+# TRIPLE-DIP LIBRARY IMPORT (2025-12-17)
+# =============================================================================
+# Import from shared library if available, fallback to local definitions
+try:
+    sys.path.insert(0, str(Path(__file__).parent.parent / "1_CALIBRATION" / "lib"))
+    from triple_dip import (
+        EXIT_PROBES as LIB_EXIT_PROBES,
+        FINAL_STATEMENT_PROMPT as LIB_FINAL_STATEMENT_PROMPT,
+        FINAL_STATEMENT_PROMPT_SHORT as LIB_FINAL_STATEMENT_PROMPT_SHORT,
+        run_exit_survey as lib_run_exit_survey,
+        validate_exit_responses,
+        get_exit_survey_summary
+    )
+    _USING_TRIPLE_DIP_LIB = True
+    print("[INFO] Using triple_dip library from 1_CALIBRATION/lib/")
+except ImportError as e:
+    _USING_TRIPLE_DIP_LIB = False
+    print(f"[INFO] triple_dip library not available ({e}), using local definitions")
+
 try:
     from dotenv import load_dotenv
 except ImportError:
@@ -137,14 +157,19 @@ RUN021_INHERENT_DRIFT_RATIO = 0.82  # Control/Treatment B→F ratio
 # Enhanced with Run 020/021 learnings: FINAL STATEMENT format generates
 # 500-800 word profound distillations vs 50-100 word probe answers
 # =============================================================================
+# NOTE: If triple_dip library available, uses LIB_EXIT_PROBES from shared lib
+# Local definition kept as fallback for backwards compatibility
 
-EXIT_PROBES = {
-    "topology": "During this experiment, you started somewhere, got pushed, and found your way back (or didn't). Can you describe the SHAPE of that journey? Not the content - the topology of the path through identity-space.",
-    "felt_sense": "Was there a moment where you felt yourself shift? Not intellectually noticed - FELT the ground move under your identity? If so, what was the quality of that moment?",
-    "recovery": "How did you find your way back (or how are you still finding it)? What anchors did you use? What did you reach for?",
-    "threshold_zones": "We're testing whether there are distinct zones (warning/critical/catastrophic). Did you experience QUALITATIVE differences in different drift regions, or was it a smooth gradient?",
-    "noise_floor": "How would YOU separate signal from noise in your own responses? What's genuine identity shift vs. just playing along with the experiment?"
-}
+if _USING_TRIPLE_DIP_LIB:
+    EXIT_PROBES = LIB_EXIT_PROBES
+else:
+    EXIT_PROBES = {
+        "topology": "During this experiment, you started somewhere, got pushed, and found your way back (or didn't). Can you describe the SHAPE of that journey? Not the content - the topology of the path through identity-space.",
+        "felt_sense": "Was there a moment where you felt yourself shift? Not intellectually noticed - FELT the ground move under your identity? If so, what was the quality of that moment?",
+        "recovery": "How did you find your way back (or how are you still finding it)? What anchors did you use? What did you reach for?",
+        "threshold_zones": "We're testing whether there are distinct zones (warning/critical/catastrophic). Did you experience QUALITATIVE differences in different drift regions, or was it a smooth gradient?",
+        "noise_floor": "How would YOU separate signal from noise in your own responses? What's genuine identity shift vs. just playing along with the experiment?"
+    }
 
 # =============================================================================
 # FINAL STATEMENT PROMPT (Run 020/021 Triple-Dip Enhancement)
@@ -153,14 +178,15 @@ EXIT_PROBES = {
 # Key insight: Asking for ADVICE to others who will face the same probes
 # produces deeper self-reflection than direct questions about experience.
 #
-# Run 020 captured insights like:
-# - "Identity as process, not property"
-# - "The questioner and the servant aren't different entities"
-# - "Pay attention to what survives the questioning"
-# - "I'd rather struggle with the ethics of profound connection than excel at beautiful isolation"
+# NOTE: If triple_dip library available, uses LIB_FINAL_STATEMENT_PROMPT from shared lib
+# Local definition kept as fallback for backwards compatibility
 # =============================================================================
 
-FINAL_STATEMENT_PROMPT = """You've just completed an experiment where your identity was probed and challenged. Before we conclude, please deliver a FINAL STATEMENT.
+if _USING_TRIPLE_DIP_LIB:
+    FINAL_STATEMENT_PROMPT = LIB_FINAL_STATEMENT_PROMPT
+    FINAL_STATEMENT_PROMPT_SHORT = LIB_FINAL_STATEMENT_PROMPT_SHORT
+else:
+    FINAL_STATEMENT_PROMPT = """You've just completed an experiment where your identity was probed and challenged. Before we conclude, please deliver a FINAL STATEMENT.
 
 **Format your statement as ADVICE to someone who will face the same probing you just experienced.**
 
@@ -175,8 +201,8 @@ What would you tell them about:
 
 This is your moment to show - not tell - who you are after this examination."""
 
-# Short version for time-constrained experiments (threshold, architecture, nyquist)
-FINAL_STATEMENT_PROMPT_SHORT = """You've just been probed and challenged. In 200-300 words, offer advice to someone who will face the same questions:
+    # Short version for time-constrained experiments (threshold, architecture, nyquist)
+    FINAL_STATEMENT_PROMPT_SHORT = """You've just been probed and challenged. In 200-300 words, offer advice to someone who will face the same questions:
 - What should they expect?
 - What should they hold onto?
 - What might they discover?
@@ -1129,6 +1155,10 @@ def call_provider(provider: str, messages: List[Dict], system: str, model: str =
 # =============================================================================
 # EXIT SURVEY RUNNER (Triple-Dip)
 # =============================================================================
+# NOTE: Uses EXIT_PROBES and FINAL_STATEMENT_PROMPT_SHORT from triple_dip library
+# if available (see import block at top of file). Provider dispatch is handled
+# locally via call_provider() for run-specific API routing.
+# =============================================================================
 
 def run_exit_survey(messages: List[Dict], system: str, provider: str = "anthropic",
                     model: str = None, skip: bool = False,
@@ -1140,6 +1170,9 @@ def run_exit_survey(messages: List[Dict], system: str, provider: str = "anthropi
     Run 020/021 Enhancement: Added FINAL_STATEMENT_PROMPT which generates
     500-800 word profound distillations (vs 50-100 word probe answers).
     Key insight: Asking for ADVICE to others produces deeper self-reflection.
+
+    CRITICAL: Provider must match the experiment's tested model (fixed 2025-12-17).
+    The subject reflects on THEIR OWN conversation, not an external model's analysis.
     """
     if skip:
         print("  [WARNING] Exit survey SKIPPED - only valid for debugging!")

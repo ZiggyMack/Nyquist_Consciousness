@@ -4,7 +4,27 @@
 
 **Status:** IRON CLAD COMPLETE | Run 017-020B VALIDATED | Multi-Provider Coverage ACHIEVED
 
-**Last Updated:** December 15, 2025
+**Last Updated:** December 17, 2025
+
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - run018_recursive_learnings.py
+  - run020_tribunal_A.py
+  - run020_tribunal_B.py
+  - ../1_CALIBRATION/lib/triple_dip.py
+  - ../0_docs/specs/0_RUN_METHODOLOGY.md
+impacts:
+  - ../README.md
+  - ../14_CONSCIOUSNESS/README.md
+keywords:
+  - exit_survey
+  - triple_dip
+  - threshold
+  - provider
+  - run018
+  - tribunal
+-->
 
 ---
 

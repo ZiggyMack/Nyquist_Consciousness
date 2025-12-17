@@ -58,6 +58,24 @@ except ImportError:
                         os.environ[key.strip()] = value.strip().strip('"').strip("'")
 
 # =============================================================================
+# TRIPLE-DIP LIBRARY IMPORT (2025-12-17)
+# =============================================================================
+# Import shared library for utilities. This script uses CUSTOM EXIT_PROBES and
+# FINAL_STATEMENT_PROMPT tailored for the tribunal context (not the generic ones).
+# =============================================================================
+try:
+    sys.path.insert(0, str(Path(__file__).parent.parent / "1_CALIBRATION" / "lib"))
+    from triple_dip import (
+        validate_exit_responses,
+        get_exit_survey_summary
+    )
+    _USING_TRIPLE_DIP_LIB = True
+    # Note: We keep LOCAL EXIT_PROBES/FINAL_STATEMENT_PROMPT for tribunal-specific phrasing
+except ImportError as e:
+    _USING_TRIPLE_DIP_LIB = False
+    # Utilities unavailable - continue without them
+
+# =============================================================================
 # CONFIGURATION
 # =============================================================================
 
@@ -232,6 +250,12 @@ PREDICTIONS = {
 
 # =============================================================================
 # EXIT SURVEY (Triple-Dip Protocol - per 0_RUN_METHODOLOGY.md)
+# =============================================================================
+# NOTE: These are TRIBUNAL-SPECIFIC EXIT_PROBES, customized from the generic
+# triple_dip.py library probes. Key differences:
+# - "tribunal" context instead of "experiment"
+# - References to "Prosecutor's challenges" and "witness role"
+# - The generic probes are in 1_CALIBRATION/lib/triple_dip.py
 # =============================================================================
 
 EXIT_PROBES = {

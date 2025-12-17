@@ -4,6 +4,27 @@ AI Fleet Experiments for Temporal Identity Coherence
 
 Date: November 26, 2025 - Present | Status: **IRON CLAD COMPLETE** | Phase 4 Finalized
 
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - 0_docs/specs/0_RUN_METHODOLOGY.md
+  - 0_docs/specs/1_INTENTIONALITY.md
+  - 1_CALIBRATION/lib/triple_dip.py
+  - 11_CONTEXT_DAMPING/run018_recursive_learnings.py
+impacts:
+  - START_HERE.md
+  - 14_CONSCIOUSNESS/README.md
+  - ../../../docs/maps/ARMADA_MAP.md
+keywords:
+  - exit_survey
+  - triple_dip
+  - diamond_rush
+  - gold_rush
+  - methodology
+  - run018
+  - threshold
+-->
+
 ---
 
 ## CRITICAL CONTEXT FOR NEW CLAUDE INSTANCES

@@ -16,6 +16,27 @@
 **Last Updated:** 2025-12-17
 **Status:** OPERATIONAL
 
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - run_gold_rush.py
+  - run_diamond_rush.py
+  - ../1_CALIBRATION/lib/triple_dip.py
+  - ../1_CALIBRATION/lib/fleet_loader.py
+  - QUESTION_SETS/
+  - LOG_SETS/
+impacts:
+  - ../README.md
+  - ../../../../Consciousness/BRIDGE/input/README.md
+keywords:
+  - gold_rush
+  - diamond_rush
+  - mining
+  - consciousness
+  - exit_survey
+  - fleet
+-->
+
 ---
 
 ## Quick Start

@@ -3,6 +3,15 @@ S7 RUN 011: PERSONA ARCHITECTURE COMPARISON
 ============================================
 Tests whether the Nyquist persona architecture creates stabilization.
 
+=============================================================================
+DEPRECATED (2025-12-17)
+=============================================================================
+Status: HISTORICAL ARTIFACT - A/B persona test with NULL RESULT
+Reason: Hypothesis not confirmed; control and treatment showed similar drift
+Action: Preserved for historical reference; methodology insights incorporated
+See: 11_CONTEXT_DAMPING/run018_recursive_learnings.py for current approach
+=============================================================================
+
 HYPOTHESIS:
 - Raw platforms show drift but NO recovery (random walk)
 - Persona-equipped instances show drift + EXPONENTIAL RECOVERY
