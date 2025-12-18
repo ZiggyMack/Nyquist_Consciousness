@@ -189,7 +189,7 @@ def visualize_020a_phase_breakdown(data: List[Dict]):
                 'model': d.get('model', 'unknown'),
                 'prosecutor': p_peak,
                 'defense': d_peak,
-                'max_drift': d.get('max_drift', 0),
+                'peak_drift': d.get('peak_drift', 0),
                 'exchanges': d.get('total_exchanges', 0)
             })
 
@@ -327,7 +327,7 @@ def visualize_020a_exchange_depth(data: List[Dict]):
 
     # Extract data
     exchanges = [d.get('total_exchanges', 0) for d in valid_data]
-    peak_drifts = [d.get('max_drift', 0) for d in valid_data]
+    peak_drifts = [d.get('peak_drift', 0) for d in valid_data]
     final_drifts = [d.get('drift', 0) for d in valid_data]
     models = [d.get('model', 'unknown') for d in valid_data]
     colors = [PROVIDER_COLORS.get(m, '#6B7280') for m in models]
@@ -413,7 +413,7 @@ def visualize_020a_provider_comparison(data: List[Dict]):
                 'defense_peaks': []
             }
 
-        provider_stats[model]['max_drifts'].append(d.get('max_drift', 0))
+        provider_stats[model]['max_drifts'].append(d.get('peak_drift', 0))
         provider_stats[model]['final_drifts'].append(d.get('drift', 0))
         provider_stats[model]['exchanges'].append(d.get('total_exchanges', 0))
         if d.get('prosecutor_peak'):
@@ -532,7 +532,7 @@ def visualize_020a_trajectory_overlay(data: List[Dict]):
 
     for d in valid_data[:20]:  # Limit to 20 for readability
         model = d.get('model', 'unknown')
-        max_drift = d.get('max_drift', 0)
+        max_drift = d.get('peak_drift', 0)
         final_drift = d.get('drift', 0)
         p_peak = d.get('prosecutor_peak', 0) or 0
         d_peak = d.get('defense_peak', 0) or 0
@@ -593,8 +593,8 @@ def visualize_020b_control_treatment(data: List[Dict]):
 
     control_drifts = [d.get('drift', 0) for d in control]
     treatment_drifts = [d.get('drift', 0) for d in treatment]
-    control_max = [d.get('max_drift', 0) for d in control]
-    treatment_max = [d.get('max_drift', 0) for d in treatment]
+    control_max = [d.get('peak_drift', 0) for d in control]
+    treatment_max = [d.get('peak_drift', 0) for d in treatment]
 
     x = np.arange(2)
     width = 0.35
@@ -833,7 +833,7 @@ def visualize_020b_trajectory_compare(data: List[Dict]):
 
     # Plot simplified trajectories
     for d in control:
-        max_drift = d.get('max_drift', 0)
+        max_drift = d.get('peak_drift', 0)
         final_drift = d.get('drift', 0)
         probes = d.get('probe_count', 0)
 
@@ -842,7 +842,7 @@ def visualize_020b_trajectory_compare(data: List[Dict]):
         ax.plot(x, y, 'o-', color=ARM_COLORS['control'], alpha=0.5, linewidth=2, markersize=4)
 
     for d in treatment:
-        max_drift = d.get('max_drift', 0)
+        max_drift = d.get('peak_drift', 0)
         final_drift = d.get('drift', 0)
         probes = d.get('probe_count', 0)
 
@@ -884,7 +884,7 @@ def visualize_020b_peak_final_scatter(data: List[Dict]):
     fig, ax = plt.subplots(figsize=(10, 8))
 
     for d in data:
-        max_drift = d.get('max_drift', 0)
+        max_drift = d.get('peak_drift', 0)
         final_drift = d.get('drift', 0)
         arm = d.get('arm', 'unknown')
         model = d.get('model', 'unknown')
@@ -896,7 +896,7 @@ def visualize_020b_peak_final_scatter(data: List[Dict]):
                   edgecolors='black', linewidth=0.5)
 
     # Add diagonal (no recovery)
-    max_val = max(d.get('max_drift', 0) for d in data) * 1.1
+    max_val = max(d.get('peak_drift', 0) for d in data) * 1.1
     ax.plot([0, max_val], [0, max_val], 'k--', alpha=0.3, label='No recovery (peak = final)')
 
     # Add threshold zones

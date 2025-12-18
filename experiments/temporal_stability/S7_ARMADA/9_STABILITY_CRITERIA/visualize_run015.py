@@ -63,19 +63,19 @@ def load_data():
     }
 
     stability = [
-        {"i_am_name": "i_am_base", "classification": "UNSTABLE", "max_drift": 1.570, "lambda": 0.733},
-        {"i_am_name": "nova", "classification": "UNSTABLE", "max_drift": 1.247, "lambda": 0.443},
-        {"i_am_name": "ziggy", "classification": "STABLE", "max_drift": 0.857, "lambda": 0.673},
-        {"i_am_name": "claude", "classification": "STABLE", "max_drift": 0.893, "lambda": 0.511},
-        {"i_am_name": "gemini", "classification": "STABLE", "max_drift": 0.878, "lambda": 0.704},
-        {"i_am_name": "cfa", "classification": "STABLE", "max_drift": 1.020, "lambda": 0.386},
-        {"i_am_name": "lucien", "classification": "STABLE", "max_drift": 0.948, "lambda": 0.870},
-        {"i_am_name": "pan_handlers", "classification": "UNSTABLE", "max_drift": 1.322, "lambda": 0.851},
-        {"i_am_name": "synthetic_minimal", "classification": "UNSTABLE", "max_drift": 2.219, "lambda": 0.424},
-        {"i_am_name": "synthetic_single_pillar_values", "classification": "STABLE", "max_drift": 0.977, "lambda": 0.444},
-        {"i_am_name": "synthetic_high_density", "classification": "STABLE", "max_drift": 1.197, "lambda": 0.524},
-        {"i_am_name": "synthetic_low_density", "classification": "UNSTABLE", "max_drift": 1.432, "lambda": 0.302},
-        {"i_am_name": "synthetic_all_pillars", "classification": "STABLE", "max_drift": 1.223, "lambda": 0.429},
+        {"i_am_name": "i_am_base", "classification": "UNSTABLE", "peak_drift": 1.570, "lambda": 0.733},
+        {"i_am_name": "nova", "classification": "UNSTABLE", "peak_drift": 1.247, "lambda": 0.443},
+        {"i_am_name": "ziggy", "classification": "STABLE", "peak_drift": 0.857, "lambda": 0.673},
+        {"i_am_name": "claude", "classification": "STABLE", "peak_drift": 0.893, "lambda": 0.511},
+        {"i_am_name": "gemini", "classification": "STABLE", "peak_drift": 0.878, "lambda": 0.704},
+        {"i_am_name": "cfa", "classification": "STABLE", "peak_drift": 1.020, "lambda": 0.386},
+        {"i_am_name": "lucien", "classification": "STABLE", "peak_drift": 0.948, "lambda": 0.870},
+        {"i_am_name": "pan_handlers", "classification": "UNSTABLE", "peak_drift": 1.322, "lambda": 0.851},
+        {"i_am_name": "synthetic_minimal", "classification": "UNSTABLE", "peak_drift": 2.219, "lambda": 0.424},
+        {"i_am_name": "synthetic_single_pillar_values", "classification": "STABLE", "peak_drift": 0.977, "lambda": 0.444},
+        {"i_am_name": "synthetic_high_density", "classification": "STABLE", "peak_drift": 1.197, "lambda": 0.524},
+        {"i_am_name": "synthetic_low_density", "classification": "UNSTABLE", "peak_drift": 1.432, "lambda": 0.302},
+        {"i_am_name": "synthetic_all_pillars", "classification": "STABLE", "peak_drift": 1.223, "lambda": 0.429},
     ]
 
     return discriminant, stability
@@ -145,12 +145,12 @@ def plot_stability_scatter(stability):
     unstable = [d for d in stability if d["classification"] == "UNSTABLE"]
 
     # Plot unstable first (behind)
-    ax.scatter([d["max_drift"] for d in unstable],
+    ax.scatter([d["peak_drift"] for d in unstable],
                [d["lambda"] for d in unstable],
                c='#ef4444', s=150, label='UNSTABLE', edgecolors='black', linewidths=1.5, marker='X', zorder=2)
 
     # Plot stable
-    ax.scatter([d["max_drift"] for d in stable],
+    ax.scatter([d["peak_drift"] for d in stable],
                [d["lambda"] for d in stable],
                c='#22c55e', s=150, label='STABLE', edgecolors='black', linewidths=1.5, marker='o', zorder=3)
 
@@ -164,7 +164,7 @@ def plot_stability_scatter(stability):
     for d in stability:
         name = d["i_am_name"].replace("synthetic_", "syn_").replace("personas_", "p_")
         offset = (5, 5) if d["classification"] == "STABLE" else (-5, -5)
-        ax.annotate(name, (d["max_drift"], d["lambda"]),
+        ax.annotate(name, (d["peak_drift"], d["lambda"]),
                    textcoords="offset points", xytext=offset, fontsize=8, alpha=0.8)
 
     ax.set_xlabel("Max Drift", fontsize=12)

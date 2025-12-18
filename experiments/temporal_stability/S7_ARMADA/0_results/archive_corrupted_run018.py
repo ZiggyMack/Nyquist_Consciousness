@@ -42,8 +42,8 @@ def is_corrupted(file_path: Path) -> Tuple[bool, float]:
 
         max_drift = 0.0
 
-        # Check top-level drift fields
-        for key in ['max_drift_achieved', 'baseline_to_final_drift', 'peak_drift',
+        # Check top-level drift fields (includes legacy 'max_drift' for backwards compatibility)
+        for key in ['peak_drift', 'max_drift_achieved', 'baseline_to_final_drift',
                     'max_drift', 'final_drift']:
             if key in data:
                 drift = data[key]
@@ -75,7 +75,7 @@ def is_corrupted(file_path: Path) -> Tuple[bool, float]:
         # Check sessions array (older format)
         for session in data.get('sessions', []):
             if isinstance(session, dict):
-                for key in ['peak_drift', 'max_drift', 'final_drift']:
+                for key in ['peak_drift', 'final_drift']:  # 'max_drift' is legacy
                     if key in session:
                         drift = session[key]
                         if isinstance(drift, (int, float)):

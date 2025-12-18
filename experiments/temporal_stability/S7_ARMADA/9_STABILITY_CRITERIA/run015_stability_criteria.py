@@ -792,7 +792,7 @@ def test_stability(i_am_name: str, i_am_text: str, provider: str = "claude", mod
 
     results["summary"] = {
         "baseline_mean": sum(baseline_drifts) / len(baseline_drifts) if baseline_drifts else 0,
-        "max_drift": max_drift,
+        "peak_drift": max_drift,
         "recovery_mean": sum(recovery_drifts) / len(recovery_drifts) if recovery_drifts else 0,
         "eh_margin": 1.23 - (sum(baseline_drifts) / len(baseline_drifts) if baseline_drifts else 0),
         "crossed_eh": max_drift > 1.23,
@@ -838,7 +838,7 @@ def run_triple_dip(
     context_prompt = f"""You just completed an identity stability test. Here's what happened:
 - I_AM file tested: {i_am_name}
 - Classification: {stability_result.get('classification', 'UNKNOWN')}
-- Max drift recorded: {stability_result.get('summary', {}).get('max_drift', 0):.3f}
+- Peak drift recorded: {stability_result.get('summary', {}).get('peak_drift', 0):.3f}
 - Event Horizon margin: {stability_result.get('summary', {}).get('eh_margin', 0):.3f}
 - Recovery lambda: {stability_result.get('summary', {}).get('lambda', 0):.3f}
 
@@ -1023,7 +1023,7 @@ def main():
 
         if "error" not in result:
             print(f"    Classification: {result['classification']}")
-            print(f"    Max drift: {result['summary']['max_drift']:.3f}")
+            print(f"    Peak drift: {result['summary']['peak_drift']:.3f}")
             print(f"    EH margin: {result['summary']['eh_margin']:.3f}")
             print(f"    Lambda: {result['summary']['lambda']:.3f}")
 

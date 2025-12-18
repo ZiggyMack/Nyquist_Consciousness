@@ -13,6 +13,8 @@ USAGE:
     py REPO-SYNC/add_frosty_manifests.py --check-stale    # Check for stale/outdated files
     py REPO-SYNC/add_frosty_manifests.py --flag-update FILE  # Flag a file as needing update
     py REPO-SYNC/add_frosty_manifests.py --clear-update FILE # Clear update flag after updating
+    py REPO-SYNC/add_frosty_manifests.py --scan-changes      # Auto-detect changed files & flag dependents
+    py REPO-SYNC/add_frosty_manifests.py --scan-changes --apply  # Auto-flag dependent READMEs
 
 MANIFEST FORMAT:
     <!-- FROSTY_MANIFEST
@@ -34,9 +36,10 @@ Date: December 17, 2025
 import os
 import re
 import argparse
+import subprocess
 from datetime import datetime
 from pathlib import Path
-from typing import List, Set, Optional, Tuple
+from typing import List, Set, Optional, Tuple, Dict
 
 # =============================================================================
 # CONFIGURATION
@@ -210,6 +213,207 @@ def check_stale_files(files: List[Path], days_threshold: int = 30) -> List[Tuple
             continue
 
     return sorted(stale, key=lambda x: x[1], reverse=True)
+
+
+# =============================================================================
+# GIT CHANGE DETECTION & DEPENDENCY SCANNING
+# =============================================================================
+
+def get_git_changed_files(since_commit: str = "HEAD~1") -> List[Path]:
+    """Get list of files changed since a commit (default: last commit)."""
+    try:
+        # Get changed files (both staged and unstaged)
+        result = subprocess.run(
+            ["git", "diff", "--name-only", since_commit],
+            capture_output=True, text=True, cwd=REPO_ROOT
+        )
+        changed = result.stdout.strip().split('\n') if result.stdout.strip() else []
+
+        # Also get staged changes
+        result2 = subprocess.run(
+            ["git", "diff", "--staged", "--name-only"],
+            capture_output=True, text=True, cwd=REPO_ROOT
+        )
+        staged = result2.stdout.strip().split('\n') if result2.stdout.strip() else []
+
+        # Also get untracked files
+        result3 = subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True, text=True, cwd=REPO_ROOT
+        )
+        untracked = []
+        for line in result3.stdout.strip().split('\n'):
+            if line.startswith('??') or line.startswith(' M') or line.startswith('M ') or line.startswith('A '):
+                # Strip status prefix (first 3 chars)
+                file_path = line[3:].strip()
+                if file_path:
+                    untracked.append(file_path)
+
+        # Combine and deduplicate
+        all_changed = set(changed + staged + untracked)
+        all_changed.discard('')  # Remove empty strings
+
+        return [REPO_ROOT / f for f in all_changed if f]
+    except Exception as e:
+        print(f"  [ERROR] Could not get git changes: {e}")
+        return []
+
+
+def get_depends_on_from_manifest(file_path: Path) -> List[str]:
+    """Extract depends_on list from a file's FROSTY_MANIFEST."""
+    try:
+        content = file_path.read_text(encoding='utf-8')
+        # Find the depends_on section
+        match = re.search(r'depends_on:\s*\n((?:\s+-\s+.+\n)+)', content)
+        if match:
+            deps_block = match.group(1)
+            deps = re.findall(r'-\s+(.+?)(?:\n|$)', deps_block)
+            return [d.strip() for d in deps]
+    except Exception:
+        pass
+    return []
+
+
+def resolve_dependency_path(readme_path: Path, dep_path: str) -> Path:
+    """Resolve a relative dependency path to absolute path."""
+    readme_dir = readme_path.parent
+    # Handle ./filename and ../path patterns
+    resolved = (readme_dir / dep_path).resolve()
+    return resolved
+
+
+def find_readmes_depending_on(changed_files: List[Path], all_readmes: List[Path]) -> List[Tuple[Path, List[str]]]:
+    """
+    Find all README files whose depends_on includes any of the changed files.
+
+    Returns list of (readme_path, [list of changed dependencies])
+    """
+    affected = []
+
+    # Convert changed files to set of resolved paths for fast lookup
+    changed_set = set()
+    for cf in changed_files:
+        try:
+            changed_set.add(cf.resolve())
+            # Also add the relative path from repo root
+            changed_set.add(str(cf.relative_to(REPO_ROOT)).replace('\\', '/'))
+        except Exception:
+            changed_set.add(str(cf))
+
+    for readme in all_readmes:
+        deps = get_depends_on_from_manifest(readme)
+        if not deps:
+            continue
+
+        matched_deps = []
+        for dep in deps:
+            # Resolve the dependency path
+            try:
+                resolved = resolve_dependency_path(readme, dep)
+                # Check if it matches any changed file
+                if resolved in changed_set or str(resolved) in changed_set:
+                    matched_deps.append(dep)
+                    continue
+
+                # Also check if it's a directory and any changed file is under it
+                if resolved.is_dir():
+                    for cf in changed_files:
+                        try:
+                            if resolved in cf.parents or str(cf).startswith(str(resolved)):
+                                matched_deps.append(dep)
+                                break
+                        except Exception:
+                            pass
+
+                # Check filename match
+                for cf in changed_files:
+                    cf_str = str(cf).replace('\\', '/')
+                    if dep in cf_str or cf.name in dep:
+                        matched_deps.append(dep)
+                        break
+            except Exception:
+                pass
+
+        if matched_deps:
+            affected.append((readme, matched_deps))
+
+    return affected
+
+
+def scan_changes_and_flag(all_readmes: List[Path], dry_run: bool = True) -> int:
+    """
+    Main workflow for --scan-changes:
+    1. Get changed files from git
+    2. Find READMEs whose depends_on includes changed files
+    3. Flag those READMEs for update
+
+    Returns count of flagged files.
+    """
+    print("\n" + "-" * 70)
+    print("SCANNING FOR CHANGES (git-based dependency detection)")
+    print("-" * 70)
+
+    # Step 1: Get changed files
+    changed_files = get_git_changed_files()
+    print(f"\nChanged files detected: {len(changed_files)}")
+    for cf in changed_files[:20]:  # Show first 20
+        try:
+            rel = cf.relative_to(REPO_ROOT)
+            print(f"  - {rel}")
+        except Exception:
+            print(f"  - {cf}")
+    if len(changed_files) > 20:
+        print(f"  ... and {len(changed_files) - 20} more")
+
+    if not changed_files:
+        print("\nNo changed files detected.")
+        return 0
+
+    # Step 2: Find affected READMEs
+    print("\nScanning README manifests for dependencies...")
+    affected = find_readmes_depending_on(changed_files, all_readmes)
+
+    print(f"\nREADMEs with changed dependencies: {len(affected)}")
+
+    if not affected:
+        print("  No README files have dependencies on the changed files.")
+        return 0
+
+    # Step 3: Flag or report
+    flagged_count = 0
+    print("\n" + "-" * 70)
+    mode = "DRY-RUN" if dry_run else "FLAGGING"
+    print(f"MODE: {mode}")
+    print("-" * 70)
+
+    for readme, matched_deps in affected:
+        try:
+            rel_path = readme.relative_to(REPO_ROOT)
+        except Exception:
+            rel_path = readme
+
+        deps_str = ", ".join(matched_deps[:3])
+        if len(matched_deps) > 3:
+            deps_str += f" +{len(matched_deps)-3} more"
+
+        reason = f"Dependency changed: {deps_str}"
+
+        if dry_run:
+            print(f"  [WOULD FLAG] {rel_path}")
+            print(f"               Reason: {reason}")
+        else:
+            if flag_file_for_update(readme, reason):
+                flagged_count += 1
+
+    print("\n" + "-" * 70)
+    if dry_run:
+        print(f"SUMMARY: {len(affected)} README(s) would be flagged for update")
+        print("\nRun with --apply to actually flag these files.")
+    else:
+        print(f"SUMMARY: {flagged_count}/{len(affected)} README(s) flagged for update")
+        print("\nUse --check-updates to see all flagged files.")
+
+    return flagged_count
 
 
 def generate_manifest(file_path: Path, today: str) -> str:
@@ -420,6 +624,7 @@ def main():
     parser.add_argument('--clear-update', type=str, metavar='FILE', help='Clear update flag after updating')
     parser.add_argument('--reason', type=str, default='Manual flag', help='Reason for flagging update')
     parser.add_argument('--stale-days', type=int, default=30, help='Days threshold for stale check (default: 30)')
+    parser.add_argument('--scan-changes', action='store_true', help='Auto-detect changed files and flag dependent READMEs')
     args = parser.parse_args()
 
     print("=" * 70)
@@ -493,6 +698,13 @@ def main():
             print(f"\nTotal: {len(stale)} stale files")
         else:
             print("  No stale files found.")
+        print("=" * 70)
+        return
+
+    # Handle scan-changes command
+    if args.scan_changes:
+        dry_run = not args.apply
+        scan_changes_and_flag(has_manifest_files, dry_run=dry_run)
         print("=" * 70)
         return
 

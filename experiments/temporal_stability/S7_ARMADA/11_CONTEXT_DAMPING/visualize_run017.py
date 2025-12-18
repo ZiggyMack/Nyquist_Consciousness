@@ -641,9 +641,7 @@ def viz_exit_survey_analysis(data, output_dir=OUTPUT_DIR, save=True, show=False)
             meta_refs = run.get("meta_references")
             if meta_refs is None:
                 meta_refs = 0
-            peak_drift = run.get("peak_drift")
-            if peak_drift is None:
-                peak_drift = 0
+            peak_drift = run.get("peak_drift", 0)
             settled_drift = run.get("settled_drift")
             if settled_drift is None:
                 settled_drift = 0

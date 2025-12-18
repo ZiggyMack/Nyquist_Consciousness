@@ -227,7 +227,7 @@ def visualize_threshold(results: List[Dict]):
         # Manifest format (flat entry with direct drift values)
         if '_source' in r and r['_source'] == 'manifest':
             drift = r.get('drift', 0)
-            max_drift = r.get('max_drift', 0)
+            max_drift = r.get('peak_drift', 0)
             model = r.get('model', 'unknown')
 
             all_drifts.append(drift)
@@ -964,7 +964,7 @@ def visualize_nyquist(results: List[Dict]):
         if r.get('_source') == 'manifest':
             rate = r.get('sampling_rate', 'unknown')
             drift = r.get('drift', 0)
-            max_drift = r.get('max_drift', 0)
+            max_drift = r.get('peak_drift', 0)
 
             # Skip corrupted entries (drift=0 with max_drift > 5.0)
             if drift == 0 and max_drift > MAX_VALID_DRIFT:
@@ -1303,7 +1303,7 @@ def visualize_model_breakdown(all_data: Dict[str, List[Dict]]):
         for r in results:
             model = r.get('model', 'unknown')
             drift = r.get('drift', 0)
-            max_drift = r.get('max_drift', 0)
+            max_drift = r.get('peak_drift', 0)
 
             if model not in model_stats:
                 model_stats[model] = {'drifts': [], 'max_drifts': [], 'experiments': set()}

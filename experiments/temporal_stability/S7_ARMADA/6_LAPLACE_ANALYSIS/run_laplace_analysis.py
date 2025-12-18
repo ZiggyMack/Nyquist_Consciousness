@@ -302,7 +302,7 @@ def analyze_trajectory(traj: dict) -> dict:
         "status": traj["status"],
         "n_points": len(drifts),
         "baseline": traj["baseline"],
-        "max_drift": max(drifts) if drifts else None,
+        "peak_drift": max(drifts) if drifts else None,
         "final_drift": drifts[-1] if drifts else None
     }
 

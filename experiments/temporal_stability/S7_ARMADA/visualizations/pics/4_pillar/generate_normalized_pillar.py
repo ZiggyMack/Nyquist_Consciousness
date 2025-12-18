@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 """
-Generate Normalized Pillar Visualization
+Generate Pillar Visualization
 
-Creates a pillar visualization where drift values are expressed as
-a percentage of the Event Horizon threshold (1.23).
+Creates pillar visualizations for drift analysis with two modes:
+1. NORMALIZED: Values as % of Event Horizon (1.23 = 100%)
+2. RAW: Absolute drift values (0.0 - 3.0+)
 
-This makes it easier to understand:
-- 100% = Event Horizon threshold
-- <100% = Below EH (potentially stable)
-- >100% = Above EH (volatile)
+Options:
+- --mode: 'normalized' (default) or 'raw'
+- --no-labels: Disable data labels (useful for tight clustering)
+
+Usage:
+    python generate_normalized_pillar.py --run 009 --mode normalized
+    python generate_normalized_pillar.py --run 018 --mode raw --no-labels
+    python generate_normalized_pillar.py --run 009 --mode both  # generates both files
 """
 
 import json
@@ -76,8 +81,17 @@ def load_run_data(run_id: str) -> dict:
     raise FileNotFoundError(f"No data file found for run {run_id}")
 
 
-def generate_normalized_pillar(run_id: str, output_path: Path = None):
-    """Generate a normalized pillar visualization for the specified run."""
+def generate_pillar(run_id: str, output_path: Path = None, mode: str = 'normalized',
+                    show_labels: bool = True):
+    """
+    Generate a pillar visualization for the specified run.
+
+    Args:
+        run_id: Run identifier (e.g., '009', '018')
+        output_path: Output file path (auto-generated if None)
+        mode: 'normalized' (% of EH) or 'raw' (absolute values)
+        show_labels: Whether to show data labels on bars
+    """
 
     data = load_run_data(run_id)
     trajectories = data.get('trajectories_for_3d', data.get('trajectories', []))
@@ -108,83 +122,107 @@ def generate_normalized_pillar(run_id: str, output_path: Path = None):
         provider_stats[provider]['means'].append(np.mean(drifts))
         provider_stats[provider]['n_trajectories'] += 1
 
+    # Determine mode settings
+    is_normalized = (mode == 'normalized')
+    if is_normalized:
+        transform_func = normalize_to_eh
+        y_suffix = '%'
+        threshold_value = 100
+        threshold_label = 'Event Horizon (100%)'
+        mode_label = 'Normalized (% of EH)'
+    else:
+        transform_func = lambda x: x  # identity function for raw mode
+        y_suffix = ''
+        threshold_value = EVENT_HORIZON
+        threshold_label = f'Event Horizon ({EVENT_HORIZON})'
+        mode_label = 'Raw Drift Values'
+
     # Create figure
     fig, axes = plt.subplots(2, 2, figsize=(16, 14))
-    fig.suptitle(f'Run {run_id}: Normalized Pillar Analysis\n(Values as % of Event Horizon = 1.23)',
+    fig.suptitle(f'Run {run_id}: Pillar Analysis ({mode_label})',
                  fontsize=14, fontweight='bold')
 
     providers = list(provider_stats.keys())
     x = np.arange(len(providers))
     width = 0.25
 
-    # ===== Panel 1: Baseline vs Final (Normalized) =====
+    # ===== Panel 1: Baseline vs Final =====
     ax1 = axes[0, 0]
 
-    baselines_norm = [normalize_to_eh(np.mean(provider_stats[p]['baselines'])) for p in providers]
-    finals_norm = [normalize_to_eh(np.mean(provider_stats[p]['finals'])) for p in providers]
+    baselines_val = [transform_func(np.mean(provider_stats[p]['baselines'])) for p in providers]
+    finals_val = [transform_func(np.mean(provider_stats[p]['finals'])) for p in providers]
 
-    bars1 = ax1.bar(x - width/2, baselines_norm, width,
+    bars1 = ax1.bar(x - width/2, baselines_val, width,
                     label='Baseline', color=[PROVIDER_COLORS.get(p, 'gray') for p in providers],
                     alpha=0.6)
-    bars2 = ax1.bar(x + width/2, finals_norm, width,
+    bars2 = ax1.bar(x + width/2, finals_val, width,
                     label='Final', color=[PROVIDER_COLORS.get(p, 'gray') for p in providers])
 
-    # Add 100% threshold line
-    ax1.axhline(y=100, color='red', linestyle='--', linewidth=2, label='Event Horizon (100%)')
+    ax1.axhline(y=threshold_value, color='red', linestyle='--', linewidth=2, label=threshold_label)
 
     ax1.set_xlabel('Provider')
-    ax1.set_ylabel('Drift (% of Event Horizon)')
-    ax1.set_title('Baseline vs Final Drift (Normalized)')
+    ylabel = 'Drift (% of Event Horizon)' if is_normalized else 'Drift (Embedding Distance)'
+    ax1.set_ylabel(ylabel)
+    ax1.set_title('Baseline vs Final Drift')
     ax1.set_xticks(x)
     ax1.set_xticklabels(providers)
     ax1.legend()
     ax1.grid(axis='y', alpha=0.3)
 
-    # Add value labels
-    for bar, val in zip(bars1, baselines_norm):
-        ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 5,
-                f'{val:.0f}%', ha='center', va='bottom', fontsize=8)
-    for bar, val in zip(bars2, finals_norm):
-        ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 5,
-                f'{val:.0f}%', ha='center', va='bottom', fontsize=8)
+    # Add value labels (conditional)
+    if show_labels:
+        label_offset = 5 if is_normalized else 0.05
+        for bar, val in zip(bars1, baselines_val):
+            label = f'{val:.0f}{y_suffix}' if is_normalized else f'{val:.2f}'
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + label_offset,
+                    label, ha='center', va='bottom', fontsize=8)
+        for bar, val in zip(bars2, finals_val):
+            label = f'{val:.0f}{y_suffix}' if is_normalized else f'{val:.2f}'
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + label_offset,
+                    label, ha='center', va='bottom', fontsize=8)
 
-    # ===== Panel 2: Peak Drift (Normalized) =====
+    # ===== Panel 2: Peak Drift =====
     ax2 = axes[0, 1]
 
-    peaks_norm = [normalize_to_eh(np.mean(provider_stats[p]['peaks'])) for p in providers]
+    peaks_val = [transform_func(np.mean(provider_stats[p]['peaks'])) for p in providers]
 
-    bars = ax2.bar(x, peaks_norm, width*2,
+    bars = ax2.bar(x, peaks_val, width*2,
                    color=[PROVIDER_COLORS.get(p, 'gray') for p in providers])
 
-    ax2.axhline(y=100, color='red', linestyle='--', linewidth=2, label='Event Horizon (100%)')
+    ax2.axhline(y=threshold_value, color='red', linestyle='--', linewidth=2, label=threshold_label)
 
     ax2.set_xlabel('Provider')
-    ax2.set_ylabel('Peak Drift (% of Event Horizon)')
-    ax2.set_title('Peak Drift per Provider (Normalized)')
+    ylabel = 'Peak Drift (% of Event Horizon)' if is_normalized else 'Peak Drift (Embedding Distance)'
+    ax2.set_ylabel(ylabel)
+    ax2.set_title('Peak Drift per Provider')
     ax2.set_xticks(x)
     ax2.set_xticklabels(providers)
     ax2.legend()
     ax2.grid(axis='y', alpha=0.3)
 
-    for bar, val in zip(bars, peaks_norm):
-        ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 5,
-                f'{val:.0f}%', ha='center', va='bottom', fontsize=9)
+    if show_labels:
+        label_offset = 5 if is_normalized else 0.05
+        for bar, val in zip(bars, peaks_val):
+            label = f'{val:.0f}{y_suffix}' if is_normalized else f'{val:.2f}'
+            ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + label_offset,
+                    label, ha='center', va='bottom', fontsize=9)
 
-    # ===== Panel 3: Distribution Box Plot (Normalized) =====
+    # ===== Panel 3: Distribution Box Plot =====
     ax3 = axes[1, 0]
 
-    box_data = [[normalize_to_eh(d) for d in provider_stats[p]['means']] for p in providers]
-    bp = ax3.boxplot(box_data, labels=providers, patch_artist=True)
+    box_data = [[transform_func(d) for d in provider_stats[p]['means']] for p in providers]
+    bp = ax3.boxplot(box_data, tick_labels=providers, patch_artist=True)
 
     for patch, provider in zip(bp['boxes'], providers):
         patch.set_facecolor(PROVIDER_COLORS.get(provider, 'gray'))
         patch.set_alpha(0.6)
 
-    ax3.axhline(y=100, color='red', linestyle='--', linewidth=2, label='Event Horizon (100%)')
+    ax3.axhline(y=threshold_value, color='red', linestyle='--', linewidth=2, label=threshold_label)
 
     ax3.set_xlabel('Provider')
-    ax3.set_ylabel('Mean Drift (% of Event Horizon)')
-    ax3.set_title('Drift Distribution per Provider (Normalized)')
+    ylabel = 'Mean Drift (% of Event Horizon)' if is_normalized else 'Mean Drift (Embedding Distance)'
+    ax3.set_ylabel(ylabel)
+    ax3.set_title('Drift Distribution per Provider')
     ax3.legend()
     ax3.grid(axis='y', alpha=0.3)
 
@@ -194,27 +232,43 @@ def generate_normalized_pillar(run_id: str, output_path: Path = None):
 
     # Summary table
     summary_text = "SUMMARY STATISTICS\n" + "=" * 50 + "\n\n"
-    summary_text += f"Event Horizon Threshold: {EVENT_HORIZON}\n\n"
+    summary_text += f"Event Horizon Threshold: {EVENT_HORIZON}\n"
+    summary_text += f"Mode: {mode_label}\n\n"
 
-    summary_text += f"{'Provider':<12} {'Count':>8} {'Baseline':>12} {'Final':>12} {'Peak':>12}\n"
-    summary_text += "-" * 58 + "\n"
-
-    for p in providers:
-        stats = provider_stats[p]
-        n = stats['n_trajectories']
-        baseline = normalize_to_eh(np.mean(stats['baselines']))
-        final = normalize_to_eh(np.mean(stats['finals']))
-        peak = normalize_to_eh(np.mean(stats['peaks']))
-        summary_text += f"{p:<12} {n:>8} {baseline:>10.0f}% {final:>10.0f}% {peak:>10.0f}%\n"
+    if is_normalized:
+        summary_text += f"{'Provider':<12} {'Count':>8} {'Baseline':>12} {'Final':>12} {'Peak':>12}\n"
+        summary_text += "-" * 58 + "\n"
+        for p in providers:
+            stats = provider_stats[p]
+            n = stats['n_trajectories']
+            baseline = transform_func(np.mean(stats['baselines']))
+            final = transform_func(np.mean(stats['finals']))
+            peak = transform_func(np.mean(stats['peaks']))
+            summary_text += f"{p:<12} {n:>8} {baseline:>10.0f}% {final:>10.0f}% {peak:>10.0f}%\n"
+    else:
+        summary_text += f"{'Provider':<12} {'Count':>8} {'Baseline':>10} {'Final':>10} {'Peak':>10}\n"
+        summary_text += "-" * 58 + "\n"
+        for p in providers:
+            stats = provider_stats[p]
+            n = stats['n_trajectories']
+            baseline = np.mean(stats['baselines'])
+            final = np.mean(stats['finals'])
+            peak = np.mean(stats['peaks'])
+            summary_text += f"{p:<12} {n:>8} {baseline:>10.3f} {final:>10.3f} {peak:>10.3f}\n"
 
     summary_text += "-" * 58 + "\n"
     total_traj = sum(provider_stats[p]['n_trajectories'] for p in providers)
     summary_text += f"{'TOTAL':<12} {total_traj:>8}\n"
 
     summary_text += "\n\nINTERPRETATION:\n"
-    summary_text += "• Values < 100% = Below Event Horizon (stable zone)\n"
-    summary_text += "• Values = 100% = At Event Horizon threshold\n"
-    summary_text += "• Values > 100% = Above Event Horizon (volatile zone)\n"
+    if is_normalized:
+        summary_text += "• Values < 100% = Below Event Horizon (stable zone)\n"
+        summary_text += "• Values = 100% = At Event Horizon threshold\n"
+        summary_text += "• Values > 100% = Above Event Horizon (volatile zone)\n"
+    else:
+        summary_text += f"• Values < {EVENT_HORIZON} = Below Event Horizon (stable zone)\n"
+        summary_text += f"• Values = {EVENT_HORIZON} = At Event Horizon threshold\n"
+        summary_text += f"• Values > {EVENT_HORIZON} = Above Event Horizon (volatile zone)\n"
 
     ax4.text(0.1, 0.9, summary_text, transform=ax4.transAxes,
              fontsize=10, verticalalignment='top', fontfamily='monospace',
@@ -224,10 +278,11 @@ def generate_normalized_pillar(run_id: str, output_path: Path = None):
 
     # Save
     if output_path is None:
-        output_path = Path(__file__).parent / f'run{run_id}_pillar_normalized.png'
+        suffix = 'normalized' if is_normalized else 'raw'
+        output_path = Path(__file__).parent / f'run{run_id}_pillar_{suffix}.png'
 
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
-    print(f"Saved normalized pillar visualization to: {output_path}")
+    print(f"Saved pillar visualization to: {output_path}")
 
     # Also save SVG
     svg_path = output_path.with_suffix('.svg')
@@ -239,14 +294,32 @@ def generate_normalized_pillar(run_id: str, output_path: Path = None):
     return output_path
 
 
+# Keep old function name for backwards compatibility
+def generate_normalized_pillar(run_id: str, output_path: Path = None):
+    """Backwards compatible wrapper - generates normalized view."""
+    return generate_pillar(run_id, output_path, mode='normalized', show_labels=True)
+
+
 if __name__ == '__main__':
     import argparse
 
-    parser = argparse.ArgumentParser(description='Generate normalized pillar visualization')
+    parser = argparse.ArgumentParser(description='Generate pillar visualization')
     parser.add_argument('--run', default='009', help='Run ID (e.g., 009, 010, 018)')
     parser.add_argument('--output', help='Output path (optional)')
+    parser.add_argument('--mode', choices=['normalized', 'raw', 'both'], default='normalized',
+                        help='Visualization mode: normalized (%% of EH), raw (absolute), or both')
+    parser.add_argument('--no-labels', action='store_true',
+                        help='Disable data labels on bars (useful for tight clustering)')
 
     args = parser.parse_args()
 
     output = Path(args.output) if args.output else None
-    generate_normalized_pillar(args.run, output)
+    show_labels = not args.no_labels
+
+    if args.mode == 'both':
+        # Generate both versions
+        print("Generating BOTH normalized and raw visualizations...")
+        generate_pillar(args.run, output_path=None, mode='normalized', show_labels=show_labels)
+        generate_pillar(args.run, output_path=None, mode='raw', show_labels=show_labels)
+    else:
+        generate_pillar(args.run, output, mode=args.mode, show_labels=show_labels)

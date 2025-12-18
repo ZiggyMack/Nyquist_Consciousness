@@ -82,10 +82,11 @@ def load_run_data(run_id: str) -> list:
                 # Get recovery_sequence as drift trajectory
                 recovery_sequence = data.get('recovery_sequence', [])
                 if recovery_sequence:
+                    peak = data.get('peak_drift', max(recovery_sequence) if recovery_sequence else 0)
                     results.append({
                         'model': model_name,
                         'drifts': recovery_sequence,
-                        'peak_drift': data.get('peak_drift', max(recovery_sequence) if recovery_sequence else 0),
+                        'peak_drift': peak,
                         'baseline_to_final': data.get('baseline_to_final_drift', 0),
                         'fitted_gamma': data.get('fitted_gamma', 0),
                         'fitted_lambda': data.get('fitted_lambda', 0),

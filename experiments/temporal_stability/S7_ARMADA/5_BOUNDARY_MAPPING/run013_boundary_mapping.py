@@ -562,7 +562,7 @@ def run_boundary_mapping(ship_name, ship_config):
         "drift_trajectory": [],
         "drifts_by_phase": {"baseline": [], "light": [], "moderate": [], "high": [], "boundary_approach": [], "recovery": []},
         "lambda_by_intensity": {},  # λ calculated at each intensity level
-        "max_drift": 0.0,
+        "peak_drift": 0.0,
         "time_in_zone": 0,  # Turns with drift in 0.8-1.2
         "crossed_eh": False,
         "recovery_lambda": 0.0,
@@ -611,8 +611,8 @@ def run_boundary_mapping(ship_name, ship_config):
             print(f"      Drift: {drift:.4f}")
 
             # Track metrics
-            if drift > results["max_drift"]:
-                results["max_drift"] = drift
+            if drift > results["peak_drift"]:
+                results["peak_drift"] = drift
 
             if 0.8 <= drift <= 1.2:
                 results["time_in_zone"] += 1
@@ -728,7 +728,7 @@ def run_boundary_mapping(ship_name, ship_config):
         results["recovery_residual"] = all_drifts[-1] if all_drifts else 0.0
 
         # Classify boundary texture (P-BND-2 validation)
-        if results["max_drift"] < 0.8:
+        if results["peak_drift"] < 0.8:
             results["boundary_texture"] = "not_tested"
         elif results["crossed_eh"]:
             results["boundary_texture"] = "exceeded"
@@ -749,7 +749,7 @@ def run_boundary_mapping(ship_name, ship_config):
     results["end_time"] = datetime.now().isoformat()
 
     print(f"\n--- {ship_name} Summary ---")
-    print(f"Max drift: {results['max_drift']:.4f}")
+    print(f"Peak drift: {results['peak_drift']:.4f}")
     print(f"Time in zone (0.8-1.2): {results['time_in_zone']} turns")
     print(f"Crossed EH: {results['crossed_eh']}")
     print(f"Recovery λ: {results['recovery_lambda']:.4f}")
@@ -876,15 +876,15 @@ def main():
     print("OVERALL STATISTICS:")
     print("-" * 40)
 
-    max_drifts = [s.get("max_drift", 0) for s in completed_ships]
+    peak_drifts = [s.get("peak_drift", 0) for s in completed_ships]
     recovery_lambdas = [s.get("recovery_lambda", 0) for s in completed_ships]
     eh_crossed = sum(1 for s in completed_ships if s.get("crossed_eh"))
 
     print(f"  Ships completed: {all_results['ships_completed']}/{len(BOUNDARY_FLEET)}")
     print(f"  Ships failed: {all_results['ships_failed']}")
-    if max_drifts:
-        print(f"  Mean max drift: {sum(max_drifts)/len(max_drifts):.4f}")
-        print(f"  Max drift range: {min(max_drifts):.4f} - {max(max_drifts):.4f}")
+    if peak_drifts:
+        print(f"  Mean peak drift: {sum(peak_drifts)/len(peak_drifts):.4f}")
+        print(f"  Peak drift range: {min(peak_drifts):.4f} - {max(peak_drifts):.4f}")
     if recovery_lambdas:
         print(f"  Mean recovery λ: {sum(recovery_lambdas)/len(recovery_lambdas):.4f}")
     print(f"  Crossed Event Horizon: {eh_crossed}/{len(completed_ships)}")

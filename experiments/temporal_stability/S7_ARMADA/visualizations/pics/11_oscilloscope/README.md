@@ -1,7 +1,7 @@
 <!-- FROSTY_MANIFEST
 last_reviewed: 2025-12-17
-needs_update: true
-update_reason: Added --run argument support, enhanced provider detection, variable sequence handling
+needs_update: false
+update_reason: null
 depends_on:
   - ./generate_oscilloscope.py
   - ../../visualize_armada.py
@@ -82,9 +82,34 @@ python visualize_armada.py --run 010 --all
 ### Via standalone script
 
 ```bash
+# Generate for any run (default: 010)
 python generate_oscilloscope.py --run 010
-python generate_oscilloscope.py --run 018  # For Run 018
+python generate_oscilloscope.py --run 018  # For Run 018 IRON CLAD
+python generate_oscilloscope.py --run 009  # For Run 009 Event Horizon
 ```
+
+### Command Line Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--run RUN_ID` | Run number (3 digits, e.g., 010, 018) | 010 |
+
+### Data Loading
+
+The script automatically detects the appropriate data source:
+
+- **Run 018+**: Loads from `temporal_logs/` (contains `recovery_sequence`)
+- **Earlier runs**: Loads from `runs/S7_run_XXX_*.json`
+
+### Provider Detection
+
+Provider is detected from model name patterns:
+
+- `claude-*` → Claude (Anthropic)
+- `gpt-*`, `o3*`, `o4*` → GPT (OpenAI)
+- `gemini-*` → Gemini (Google)
+- `grok-*` → Grok (xAI)
+- `llama*`, `mistral*`, `deepseek*`, `qwen*`, `kimi*`, `mixtral*` → Together.ai
 
 ---
 

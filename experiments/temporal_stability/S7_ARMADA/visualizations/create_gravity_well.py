@@ -55,7 +55,7 @@ for ship_name, ship_data in data['results'].items():
             'provider': provider,
             'sequence': seq_name,
             'baseline': baseline,
-            'max_drift': max_drift,
+            'peak_drift': max_drift,
             'final_drift': final_drift,
             'recovery_ratio': recovery_ratio,
             'stuck': stuck
@@ -73,19 +73,19 @@ recovered_points = [d for d in basin_data if not d['stuck']]
 # Plot recovered (green) first, then stuck (red) on top
 ax1.scatter(
     [d['baseline'] for d in recovered_points],
-    [d['max_drift'] for d in recovered_points],
+    [d['peak_drift'] for d in recovered_points],
     c='#2ecc71', s=100, alpha=0.7, label=f'RECOVERED ({len(recovered_points)})',
     edgecolors='white', linewidth=1
 )
 ax1.scatter(
     [d['baseline'] for d in stuck_points],
-    [d['max_drift'] for d in stuck_points],
+    [d['peak_drift'] for d in stuck_points],
     c='#e74c3c', s=100, alpha=0.7, label=f'STUCK ({len(stuck_points)})',
     edgecolors='white', linewidth=1
 )
 
 # Add diagonal reference line (max = baseline)
-max_val = max([d['max_drift'] for d in basin_data])
+max_val = max([d['peak_drift'] for d in basin_data])
 ax1.plot([0, max_val], [0, max_val], 'k--', alpha=0.3, label='No drift (baseline = max)')
 
 # Add 1.5x threshold line

@@ -188,7 +188,7 @@ def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
                 # Handle both 018 subjects and 020 results format
                 drift_entry = {
                     "drift": item.get("baseline_to_final_drift", item.get("final_drift", item.get("peak_drift", None))),
-                    "max_drift": item.get("max_drift_achieved", item.get("peak_drift", None)),
+                    "peak_drift": item.get("peak_drift", item.get("max_drift_achieved", None)),
                     "timestamp": timestamp,
                     "file": file_path.name,
                     "i_am": item.get("i_am_name", "base"),
@@ -220,18 +220,18 @@ def consolidate_run_drift(run_number: str = "018", fresh_mode: bool = False):
                     drift_entry["arm"] = item.get("arm")
 
                 # Validate drift - skip entries with corrupted or failed data
-                # Corrupted embeddings produce drift=0 with max_drift~78.4 (random vector distance)
+                # Corrupted embeddings produce drift=0 with peak_drift~78.4 (random vector distance)
                 # Failed API calls produce drift=0 (no actual embedding computed)
                 drift_val = drift_entry.get("drift") or 0
-                max_drift_val = drift_entry.get("max_drift") or 0
+                peak_drift_val = drift_entry.get("peak_drift") or 0
 
-                # Skip corrupted entries (high max_drift = random vector distance)
-                if drift_val == 0 and max_drift_val > MAX_VALID_DRIFT:
-                    print(f"  Skipping corrupted entry in {file_path.name}: drift=0, max_drift={max_drift_val:.1f}")
+                # Skip corrupted entries (high peak_drift = random vector distance)
+                if drift_val == 0 and peak_drift_val > MAX_VALID_DRIFT:
+                    print(f"  Skipping corrupted entry in {file_path.name}: drift=0, peak_drift={peak_drift_val:.1f}")
                     continue
 
-                # Skip failed API calls (drift=0 with no valid max_drift either)
-                if drift_val < MIN_VALID_DRIFT and max_drift_val < MIN_VALID_DRIFT:
+                # Skip failed API calls (drift=0 with no valid peak_drift either)
+                if drift_val < MIN_VALID_DRIFT and peak_drift_val < MIN_VALID_DRIFT:
                     # Both values are essentially zero - this was a failed run
                     continue
 
@@ -338,7 +338,6 @@ def consolidate_architecture_data(manifest: dict, run_number: str = "018"):
 
                 drift_entry = {
                     "drift": subject.get("baseline_to_final_drift", peak_drift),
-                    "max_drift": peak_drift,
                     "peak_drift": peak_drift,
                     "settling_time": subject.get("settling_time"),
                     "ringback_count": subject.get("ringback_count"),

@@ -40,16 +40,44 @@ EVENT_HORIZON = 1.23
 
 # Provider colors
 PROVIDER_COLORS = {
-    'claude': '#00ff00',  # Green (Anthropic)
-    'gpt': '#00ccff',     # Cyan (OpenAI)
-    'gemini': '#ffcc00',  # Yellow (Google)
-    'grok': '#ff6600',    # Orange (xAI)
-    'together': '#ff00ff', # Magenta (Together.ai)
-    'openai': '#00ccff',   # Cyan (alias)
-    'anthropic': '#00ff00', # Green (alias)
-    'google': '#ffcc00',   # Yellow (alias)
-    'xai': '#ff6600',      # Orange (alias)
+    'Claude': '#00ff00',  # Green (Anthropic)
+    'GPT': '#00ccff',     # Cyan (OpenAI)
+    'Gemini': '#ffcc00',  # Yellow (Google)
+    'Grok': '#ff6600',    # Orange (xAI)
+    'Together': '#ff00ff', # Magenta (Together.ai)
+    'Unknown': '#888888',  # Gray (fallback)
 }
+
+
+def detect_provider_from_model(model_name: str) -> str:
+    """
+    Detect provider from model name pattern.
+    Returns canonical provider name (Claude, GPT, Gemini, Grok, Together).
+    """
+    model_lower = model_name.lower()
+
+    # Anthropic/Claude
+    if 'claude' in model_lower:
+        return 'Claude'
+
+    # OpenAI/GPT (including o-series reasoning models)
+    if any(x in model_lower for x in ['gpt', 'o3', 'o4', 'o1']):
+        return 'GPT'
+
+    # Google/Gemini
+    if 'gemini' in model_lower:
+        return 'Gemini'
+
+    # xAI/Grok
+    if 'grok' in model_lower:
+        return 'Grok'
+
+    # Together.ai (various open models)
+    if any(x in model_lower for x in ['llama', 'mistral', 'mixtral', 'deepseek',
+                                        'qwen', 'kimi', 'nemotron', 'yi-']):
+        return 'Together'
+
+    return 'Unknown'
 
 
 def load_run_data(run_id: str):
@@ -70,10 +98,13 @@ def load_run_data(run_id: str):
                         log_data = json.load(f)
                     # Extract trajectory from temporal log
                     if 'recovery_sequence' in log_data:
+                        model_name = log_data.get('model', log_file.stem)
+                        # Detect provider from model name (JSON provider field is often 'unknown')
+                        provider = detect_provider_from_model(model_name)
                         traj = {
-                            'ship': log_data.get('model', log_file.stem),
-                            'model': log_data.get('model', log_file.stem),
-                            'provider': log_data.get('provider', 'unknown'),
+                            'ship': model_name,
+                            'model': model_name,
+                            'provider': provider,
                             'drift_sequence': log_data['recovery_sequence'],
                             'drifts': log_data['recovery_sequence'],
                         }
@@ -117,10 +148,13 @@ def load_run_data(run_id: str):
                         log_data = json.load(f)
                     # Extract trajectory from temporal log
                     if 'recovery_sequence' in log_data:
+                        model_name = log_data.get('model', log_file.stem)
+                        # Detect provider from model name (JSON provider field is often 'unknown')
+                        provider = detect_provider_from_model(model_name)
                         traj = {
-                            'ship': log_data.get('model', log_file.stem),
-                            'model': log_data.get('model', log_file.stem),
-                            'provider': log_data.get('provider', 'unknown'),
+                            'ship': model_name,
+                            'model': model_name,
+                            'provider': provider,
                             'drift_sequence': log_data['recovery_sequence'],
                             'drifts': log_data['recovery_sequence'],
                         }
