@@ -818,6 +818,23 @@ Examples:
     all_results = []
     total_iterations = len(ships) * len(experiments) * args.iterations
     current = 0
+    ships_completed = 0
+
+    # Checkpoint file for incremental saves (survives interruptions)
+    checkpoint_file = RESULTS_DIR / f"_CHECKPOINT_run023_{run_timestamp}.json"
+
+    def save_checkpoint(results, ship_count):
+        """Save checkpoint after each ship to survive interruptions."""
+        checkpoint_data = {
+            "run_timestamp": run_timestamp,
+            "ships_completed": ship_count,
+            "total_ships": len(ships),
+            "results": [asdict(r) for r in results],
+            "checkpoint_time": datetime.now().isoformat(),
+        }
+        with open(checkpoint_file, 'w', encoding='utf-8') as f:
+            json.dump(checkpoint_data, f, indent=2, default=str)
+        print(f"  [CHECKPOINT] Saved {ship_count}/{len(ships)} ships to {checkpoint_file.name}")
 
     for ship_name in ships:
         if ship_name not in architecture_matrix:
@@ -827,6 +844,7 @@ Examples:
         model_config = architecture_matrix[ship_name].copy()
         model_config["ship_name"] = ship_name
 
+        ship_results = []  # Track this ship's results for checkpoint
         for exp_type in experiments:
             for iteration in range(args.iterations):
                 current += 1
@@ -843,12 +861,23 @@ Examples:
                     result_dict = result.__dict__.copy() if hasattr(result, '__dict__') else {}
                     result_dict['iteration'] = iteration + 1
                     all_results.append(result)
+                    ship_results.append(result)
                 except Exception as e:
                     print(f"    [ERROR] {ship_name}/{exp_type.value}{iter_label}: {e}")
+
+        # Save checkpoint after each ship completes all experiments
+        ships_completed += 1
+        if ship_results:  # Only checkpoint if we got results
+            save_checkpoint(all_results, ships_completed)
 
     # Save results
     if all_results:
         save_results(all_results, run_timestamp)
+
+        # Remove checkpoint file after successful save
+        if checkpoint_file.exists():
+            checkpoint_file.unlink()
+            print(f"  [CHECKPOINT] Removed {checkpoint_file.name} (run completed successfully)")
 
         # Summary
         print(f"\n{'=' * 70}")
@@ -860,6 +889,7 @@ Examples:
         print(f"VOLATILE: {len(all_results) - stable} ({100*(len(all_results)-stable)/len(all_results):.1f}%)")
     else:
         print("\n[WARNING] No results to save")
+        print(f"  [INFO] Checkpoint file (if any): {checkpoint_file}")
 
 if __name__ == "__main__":
     main()
