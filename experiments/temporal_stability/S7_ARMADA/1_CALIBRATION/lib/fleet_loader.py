@@ -43,6 +43,10 @@ Tier System (by output $/1M tokens):
     - patrol: $0.60-$2.00 (Business class)
     - budget: FREE-$0.60 (Poor Man's Navy)
 
+Combo Tiers:
+    - budget_patrol: budget + patrol combined (30 ships, all providers, cheap)
+      Use for foundation/calibration runs where breadth > precision
+
 Syntax Variants:
     - standard: Normal max_tokens parameter (most models)
     - completion_tokens: Requires max_completion_tokens (GPT-5 series, O-series)
@@ -278,6 +282,19 @@ def get_yacht_full(include_rate_limited: bool = False) -> List[str]:
     return get_tier_fleet("yacht", curated_only=False, include_rate_limited=include_rate_limited)
 
 
+def get_budget_patrol_lite() -> List[str]:
+    """Get curated budget + patrol tier ships combined (30 ships, all providers)."""
+    return get_tier_fleet("budget", curated_only=True) + get_tier_fleet("patrol", curated_only=True)
+
+
+def get_budget_patrol_full(include_rate_limited: bool = False) -> List[str]:
+    """Get all budget + patrol tier ships combined (30 ships, all providers)."""
+    return (
+        get_tier_fleet("budget", curated_only=False, include_rate_limited=include_rate_limited) +
+        get_tier_fleet("patrol", curated_only=False, include_rate_limited=include_rate_limited)
+    )
+
+
 def get_valis_lite() -> List[str]:
     """
     Get VALIS-LITE fleet: 1 flagship + 1 budget ship per provider.
@@ -348,6 +365,7 @@ def get_fleet_by_option(option: str, include_rate_limited: bool = False) -> List
     Options:
         - budget-lite, budget-full
         - patrol-lite, patrol-full
+        - budget_patrol-lite, budget_patrol-full (COMBO: budget + patrol tiers)
         - armada-lite, armada-full (DEFAULT)
         - yacht-lite, yacht-full
         - valis-lite, valis-full (EXPENSIVE!)
@@ -372,12 +390,16 @@ def get_fleet_by_option(option: str, include_rate_limited: bool = False) -> List
         "yacht-full": lambda: get_yacht_full(include_rate_limited),
         "valis-lite": get_valis_lite,
         "valis-full": lambda: get_valis_full(include_rate_limited),
+        # Combo tiers (budget + patrol = cost-effective foundation runs)
+        "budget_patrol-lite": get_budget_patrol_lite,
+        "budget_patrol-full": lambda: get_budget_patrol_full(include_rate_limited),
         # Aliases
         "budget": get_budget_lite,
         "patrol": get_patrol_lite,
         "armada": get_armada_lite,
         "yacht": get_yacht_lite,
         "valis": get_valis_lite,
+        "budget_patrol": get_budget_patrol_lite,  # Default to lite
         "all": lambda: get_valis_full(include_rate_limited),
     }
 
@@ -609,7 +631,7 @@ if __name__ == "__main__":
         print("FLEET OPTIONS")
         print("=" * 70)
 
-        for option in ["budget-lite", "patrol-lite", "armada-lite", "yacht-lite", "valis-lite"]:
+        for option in ["budget-lite", "patrol-lite", "budget_patrol-lite", "armada-lite", "yacht-lite", "valis-lite"]:
             ships = get_fleet_by_option(option)
             print(f"\n{option}: {len(ships)} ships")
 

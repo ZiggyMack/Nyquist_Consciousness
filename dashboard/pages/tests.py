@@ -1480,6 +1480,40 @@ def render_technical_tab():
         - Need ablation: remove each dimension, measure prediction loss
         """)
 
+        # Cosine vs Euclidean explanation
+        with st.expander("Why Cosine Distance (Not Euclidean)?", expanded=False):
+            st.markdown("""
+            **Cosine Distance is the CORRECT choice** for measuring semantic drift in embedding space.
+
+            | Method | Formula | Range | Use Case |
+            |--------|---------|-------|----------|
+            | **Cosine Distance** | 1 - cos(theta) | [0, 2] | **Semantic similarity** |
+            | Euclidean Distance | ||A - B|| | [0, inf] | Spatial distance |
+
+            **Why Cosine Wins:**
+
+            1. **Scale Invariance** - Measures *angle* between vectors, not magnitude
+               - A short "I am Claude" and long "I am Claude, an AI..." have similar drift if semantically equivalent
+               - Euclidean would penalize length differences
+
+            2. **Bounded Range** - Values in [0, 2] make thresholds meaningful
+               - 0 = identical (same semantic meaning)
+               - 1 = orthogonal (no similarity)
+               - 2 = opposite (semantic inverse)
+               - **Event Horizon (1.23)** is calibrated for this range
+
+            3. **NLP Standard** - Industry standard for embedding comparison
+
+            **The Formula:**
+            ```python
+            # PFI = 1 - cosine_similarity(response, baseline)
+            drift = 1 - dot(normalize(response), normalize(baseline))
+            ```
+
+            **Critical:** All drift calculations in the codebase use this method.
+            """)
+            st.success("**Bottom Line:** Cosine distance measures *what direction* the response is pointing, regardless of response length.")
+
     # --- VISUALIZATION GUIDE ---
     with tech_tabs[1]:
         st.markdown("### Which Visualization Shows What")

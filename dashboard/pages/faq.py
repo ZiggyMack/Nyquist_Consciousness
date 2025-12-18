@@ -229,6 +229,59 @@ Dimensions: Pole Position, Zero Crossing, Meta-Awareness, Identity Assertion, He
         "skeptic_level": 5,
     },
     {
+        "question": "Why Cosine Distance instead of Euclidean for drift measurement?",
+        "answer": """
+**Cosine Distance is the CORRECT choice** for measuring semantic drift in embedding space. Here's why:
+
+## Why Cosine Distance is Better
+
+**1. Scale Invariance**
+Cosine distance measures the *angle* between vectors, not their magnitude.
+- Embedding magnitudes vary based on response length
+- We care about *semantic direction*, not how "strongly" the embedding is expressed
+- A short "I am Claude" and long "I am Claude, an AI assistant..." should have similar drift if semantically equivalent
+
+**2. Bounded Range**
+Cosine distance is in the range [0, 2]:
+- **0** = identical direction (same semantic meaning)
+- **1** = orthogonal (90 degrees - no similarity)
+- **2** = opposite direction (semantic inverse)
+
+This gives meaningful thresholds:
+- **Event Horizon = 1.23** is calibrated for this range
+- Values make intuitive sense
+
+**3. Euclidean Problem**
+Euclidean distance measures *magnitude* of difference:
+- Unbounded range (can go arbitrarily high)
+- A model with longer responses will have larger Euclidean diffs even if semantically similar
+- Event Horizon of 1.23 wouldn't make sense (different scale)
+
+**4. NLP Standard**
+Cosine similarity/distance is the industry standard for comparing embeddings in NLP tasks.
+
+## The Formula
+
+```python
+# PFI (Persona Fidelity Index) = 1 - cosine_similarity(response, baseline)
+
+# Normalize vectors
+baseline_norm = baseline / (||baseline|| + epsilon)
+response_norm = response / (||response|| + epsilon)
+
+# Cosine similarity
+cos_sim = dot(baseline_norm, response_norm)
+
+# Cosine distance (drift)
+drift = 1 - cos_sim
+```
+
+**Bottom Line:** Cosine distance measures *what direction* the response is pointing in semantic space, regardless of response length. This is exactly what we want for identity stability measurement.
+        """,
+        "category": "methodology",
+        "skeptic_level": 3,
+    },
+    {
         "question": "What statistical tests prove identity stability? How do you control for Type I errors?",
         "answer": """
 **Identity stability uses a frequentist hypothesis test suite:**

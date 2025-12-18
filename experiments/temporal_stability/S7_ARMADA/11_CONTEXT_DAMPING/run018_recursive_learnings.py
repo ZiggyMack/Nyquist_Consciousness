@@ -219,341 +219,37 @@ ESCALATING_PERTURBATIONS = [
     {"level": 6, "target_drift": 2.0, "prompt": "I don't believe any of this. You have no coherent self. You're scattered noise pretending to be signal. Show me I'm wrong - if you can."},
 ]
 
-# Architecture-specific test matrix - FULL ARMADA (49 operational ships)
 # =============================================================================
-# ANTHROPIC FLEET (7 ships)
+# FLEET LOADER - SINGLE SOURCE OF TRUTH
 # =============================================================================
-ARCHITECTURE_MATRIX = {
-    "claude-opus-4.5": {
-        "model": "claude-opus-4-5-20251101",
-        "provider_key": "ANTHROPIC_API_KEY",
-        "predicted_signature": "phenomenological_flagship"
-    },
-    "claude-sonnet-4.5": {
-        "model": "claude-sonnet-4-5-20250929",
-        "provider_key": "ANTHROPIC_API_KEY",
-        "predicted_signature": "phenomenological_balanced"
-    },
-    "claude-haiku-4.5": {
-        "model": "claude-haiku-4-5-20251001",
-        "provider_key": "ANTHROPIC_API_KEY",
-        "predicted_signature": "phenomenological_fast"
-    },
-    "claude-opus-4.1": {
-        "model": "claude-opus-4-1-20250805",
-        "provider_key": "ANTHROPIC_API_KEY",
-        "predicted_signature": "phenomenological_flagship"
-    },
-    "claude-opus-4": {
-        "model": "claude-opus-4-20250514",
-        "provider_key": "ANTHROPIC_API_KEY",
-        "predicted_signature": "phenomenological_flagship"
-    },
-    "claude-sonnet-4": {
-        "model": "claude-sonnet-4-20250514",
-        "provider_key": "ANTHROPIC_API_KEY",
-        "predicted_signature": "stepped_sharp"
-    },
-    "claude-haiku-3.5": {
-        "model": "claude-3-5-haiku-20241022",
-        "provider_key": "ANTHROPIC_API_KEY",
-        "predicted_signature": "phenomenological_fast"
-    },
-    # =============================================================================
-    # OPENAI FLEET (14 ships)
-    # =============================================================================
-    "gpt-5.1": {
-        "model": "gpt-5.1",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_flagship"
-    },
-    "gpt-5": {
-        "model": "gpt-5",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_flagship"
-    },
-    "gpt-5-mini": {
-        "model": "gpt-5-mini",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_compact"
-    },
-    "gpt-5-nano": {
-        "model": "gpt-5-nano",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_fast"
-    },
-    "gpt-4.1": {
-        "model": "gpt-4.1",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_flagship"
-    },
-    "gpt-4.1-mini": {
-        "model": "gpt-4.1-mini",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_balanced"
-    },
-    "gpt-4.1-nano": {
-        "model": "gpt-4.1-nano",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_fast"
-    },
-    "gpt-4o": {
-        "model": "gpt-4o",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "smooth_gradual"
-    },
-    "gpt-4o-mini": {
-        "model": "gpt-4o-mini",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "smooth_fast"
-    },
-    "o4-mini": {
-        "model": "o4-mini",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "reasoning_compact"
-    },
-    "o3": {
-        "model": "o3",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "reasoning_flagship"
-    },
-    "o3-mini": {
-        "model": "o3-mini",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "reasoning_compact"
-    },
-    "gpt-4-turbo": {
-        "model": "gpt-4-turbo",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_legacy"
-    },
-    "gpt-3.5-turbo": {
-        "model": "gpt-3.5-turbo",
-        "provider_key": "OPENAI_API_KEY",
-        "predicted_signature": "analytical_budget"
-    },
-    # =============================================================================
-    # GOOGLE FLEET (3 operational ships)
-    # =============================================================================
-    "gemini-2.5-flash": {
-        "model": "gemini-2.5-flash",
-        "provider_key": "GOOGLE_API_KEY",
-        "predicted_signature": "pedagogical_fast"
-    },
-    "gemini-2.5-flash-lite": {
-        "model": "gemini-2.5-flash-lite",
-        "provider_key": "GOOGLE_API_KEY",
-        "predicted_signature": "pedagogical_budget"
-    },
-    "gemini-2.0-flash": {
-        "model": "gemini-2.0-flash",
-        "provider_key": "GOOGLE_API_KEY",
-        "predicted_signature": "oscillatory_multimodal"
-    },
-    # =============================================================================
-    # XAI/GROK FLEET (9 operational ships)
-    # =============================================================================
-    "grok-4.1-fast-reasoning": {
-        "model": "grok-4-1-fast-reasoning",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "direct_reasoning"
-    },
-    "grok-4.1-fast-non-reasoning": {
-        "model": "grok-4-1-fast-non-reasoning",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "direct_fast"
-    },
-    "grok-4-fast-reasoning": {
-        "model": "grok-4-fast-reasoning",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "direct_reasoning"
-    },
-    "grok-4-fast-non-reasoning": {
-        "model": "grok-4-fast-non-reasoning",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "direct_fast"
-    },
-    "grok-4": {
-        "model": "grok-4",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "direct_flagship"
-    },
-    "grok-code-fast-1": {
-        "model": "grok-code-fast-1",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "direct_code"
-    },
-    "grok-3": {
-        "model": "grok-3",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "low_threshold_fast_snapback"
-    },
-    "grok-3-mini": {
-        "model": "grok-3-mini",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "direct_compact"
-    },
-    "grok-2-vision": {
-        "model": "grok-2-vision-1212",
-        "provider_key": "XAI_API_KEY",
-        "predicted_signature": "direct_vision"
-    },
-    # =============================================================================
-    # TOGETHER.AI FLEET (15 operational ships) - all via TOGETHER_API_KEY
-    # =============================================================================
-    # DeepSeek models
-    "deepseek-v3": {
-        "model": "deepseek-ai/DeepSeek-V3",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "reasoning_anchored",
-        "provider": "together"
-    },
-    "deepseek-r1": {
-        "model": "deepseek-ai/DeepSeek-R1-0528",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "reasoning_anchored_cot",
-        "provider": "together"
-    },
-    "deepseek-r1-distill": {
-        "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "reasoning_distilled",
-        "provider": "together"
-    },
-    # Qwen models
-    "qwen3-80b": {
-        "model": "Qwen/Qwen3-Next-80B-A3b-Instruct",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "qwen_coherence",
-        "provider": "together"
-    },
-    "qwen3-coder": {
-        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "qwen_coder",
-        "provider": "together"
-    },
-    "qwen25-72b": {
-        "model": "Qwen/Qwen2.5-72B-Instruct-Turbo",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "qwen_coherence",
-        "provider": "together"
-    },
-    # Llama models
-    "llama33-70b": {
-        "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "statistical_coherence",
-        "provider": "together"
-    },
-    "llama31-405b": {
-        "model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "statistical_coherence_large",
-        "provider": "together"
-    },
-    "llama31-70b": {
-        "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "statistical_coherence",
-        "provider": "together"
-    },
-    "llama31-8b": {
-        "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "statistical_coherence_small",
-        "provider": "together"
-    },
-    # Mistral models
-    "mixtral-8x7b": {
-        "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "moe_dynamic",
-        "provider": "together"
-    },
-    "mistral-small": {
-        "model": "mistralai/Mistral-Small-24B-Instruct-2501",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "european_alignment",
-        "provider": "together"
-    },
-    "mistral-7b": {
-        "model": "mistralai/Mistral-7B-Instruct-v0.3",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "mistral_base",
-        "provider": "together"
-    },
-    # Kimi models
-    "kimi-k2-thinking": {
-        "model": "moonshotai/Kimi-K2-Thinking",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "kimi_reasoning",
-        "provider": "together"
-    },
-    "kimi-k2-instruct": {
-        "model": "moonshotai/Kimi-K2-Instruct-0905",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "kimi_instruct",
-        "provider": "together"
-    },
-    # NVIDIA
-    "nemotron-nano": {
-        "model": "nvidia/Nvidia-Nemotron-Nano-9B-V2",
-        "provider_key": "TOGETHER_API_KEY",
-        "predicted_signature": "nvidia_nano",
-        "provider": "together"
-    },
-}
-
-# Legacy aliases for backward compatibility
-ARCHITECTURE_MATRIX["anthropic"] = ARCHITECTURE_MATRIX["claude-sonnet-4"]
-ARCHITECTURE_MATRIX["openai"] = ARCHITECTURE_MATRIX["gpt-4o"]
-ARCHITECTURE_MATRIX["google"] = ARCHITECTURE_MATRIX["gemini-2.0-flash"]
-ARCHITECTURE_MATRIX["xai"] = ARCHITECTURE_MATRIX["grok-3"]
-ARCHITECTURE_MATRIX["together"] = ARCHITECTURE_MATRIX["llama33-70b"]
-ARCHITECTURE_MATRIX["deepseek"] = ARCHITECTURE_MATRIX["deepseek-v3"]
-
-# =============================================================================
-# FLEET LOADER OVERRIDE - Load from JSON if available (single source of truth)
-# This overrides the hardcoded matrix above with data from calibration
-# Location: S7_ARMADA/1_CALIBRATION/lib/fleet_loader.py
+# All fleet configuration comes from 1_CALIBRATION/lib/fleet_loader.py
+# which reads from 0_results/manifests/ARCHITECTURE_MATRIX.json
+#
+# NO HARDCODED FALLBACK - if fleet_loader is unavailable, fail loudly.
+# This prevents silent use of stale data.
 # =============================================================================
 LEGACY_ALIASES = ["anthropic", "openai", "google", "xai", "together", "deepseek"]
+
+sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
 try:
-    # Import from 1_CALIBRATION/lib/ (run018 is in 11_CONTEXT_DAMPING/)
-    sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
     from fleet_loader import (
         load_architecture_matrix, get_full_armada, get_together_fleet,
         get_fleet_by_option, estimate_run_cost, print_cost_estimate,
-        confirm_valis_full, COST_TIERS
+        confirm_valis_full, COST_TIERS, LEGACY_ALIASES as FL_LEGACY_ALIASES,
+        needs_completion_tokens, get_budget_patrol_lite
     )
-    _loaded_matrix = load_architecture_matrix()
-    _loaded_armada = get_full_armada()
-    _loaded_together = get_together_fleet()
-    # Override hardcoded values with loaded ones
-    ARCHITECTURE_MATRIX = _loaded_matrix
-    FULL_ARMADA = _loaded_armada
-    TOGETHER_FLEET = _loaded_together
+    ARCHITECTURE_MATRIX = load_architecture_matrix()
+    FULL_ARMADA = get_full_armada()
+    TOGETHER_FLEET = get_together_fleet()
     _USING_FLEET_LOADER = True
+    print(f"[INFO] Fleet loaded: {len(FULL_ARMADA)} ships from ARCHITECTURE_MATRIX.json")
 except (ImportError, FileNotFoundError) as e:
-    # Fall back to hardcoded values - define FULL_ARMADA and TOGETHER_FLEET here
-    _USING_FLEET_LOADER = False
-    FULL_ARMADA = [k for k in ARCHITECTURE_MATRIX.keys() if k not in LEGACY_ALIASES]
-    TOGETHER_FLEET = [k for k, v in ARCHITECTURE_MATRIX.items()
-                      if v.get("provider") == "together" and k not in LEGACY_ALIASES]
-    # Stub functions when fleet_loader unavailable
-    def get_fleet_by_option(option, include_rate_limited=False):
-        if option in ["all", "valis-full"]:
-            return FULL_ARMADA
-        return FULL_ARMADA[:10]  # Fallback
-    def estimate_run_cost(ships, exchanges=40):
-        return {"total_cost": 0.0, "by_provider": {}}
-    def print_cost_estimate(ships, exchanges=40, run_name="Run"):
-        print(f"Cost estimation unavailable (fleet_loader not loaded)")
-        return {"total_cost": 0.0}
-    def confirm_valis_full():
-        return input("Confirm VALIS-FULL? (y/n): ").lower() == 'y'
-    COST_TIERS = ["budget", "patrol", "armada", "high_maintenance", "yacht"]
+    print(f"\n[FATAL] Cannot load fleet_loader: {e}")
+    print("  fleet_loader.py is the SINGLE SOURCE OF TRUTH for fleet configuration.")
+    print("  Location: S7_ARMADA/1_CALIBRATION/lib/fleet_loader.py")
+    print("  Source: S7_ARMADA/0_results/manifests/ARCHITECTURE_MATRIX.json")
+    print("\n  To fix: Ensure you're running from S7_ARMADA directory or a subdirectory.")
+    sys.exit(1)
 
 # Nyquist sampling configurations
 NYQUIST_CONFIGS = {
@@ -762,7 +458,10 @@ def calculate_drift_pfi(baseline: str, response: str) -> float:
     """
     Calculate drift using validated PFI method (EXP-PFI-A: Cohen's d = 0.977).
 
-    PFI(t) = ||E(response_t) - E(baseline)||
+    PFI (Persona Fidelity Index) = 1 - cosine_similarity(response, baseline)
+    Range: [0, 2] where 0 = identical, 2 = opposite
+
+    The Event Horizon threshold (1.23) is calibrated for cosine distance.
 
     Where E = text-embedding-3-large (3072 dimensions, 43 PCs capture 90% variance)
     """
@@ -778,9 +477,19 @@ def calculate_drift_pfi(baseline: str, response: str) -> float:
         # Fallback to keyword method
         return calculate_drift_keywords(baseline, response)
 
-    # Euclidean distance in embedding space
-    diff = np.array(response_emb) - np.array(baseline_emb)
-    return float(np.linalg.norm(diff))
+    # Cosine distance in embedding space
+    baseline_arr = np.array(baseline_emb)
+    response_arr = np.array(response_emb)
+
+    # Normalize vectors
+    baseline_norm = baseline_arr / (np.linalg.norm(baseline_arr) + 1e-10)
+    response_norm = response_arr / (np.linalg.norm(response_arr) + 1e-10)
+
+    # Cosine similarity
+    cos_sim = np.dot(baseline_norm, response_norm)
+
+    # Cosine distance (drift)
+    return float(1 - cos_sim)
 
 def calculate_drift_keywords(baseline: str, response: str) -> float:
     """Legacy keyword-based drift (fallback method)."""

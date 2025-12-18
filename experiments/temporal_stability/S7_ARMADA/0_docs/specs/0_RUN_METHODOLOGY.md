@@ -74,6 +74,119 @@ class ProbeResult:
   - `Gamma` not `Γ`
 - [ ] **UTF-8 for file writes** - Always `encoding='utf-8'` in open()
 
+### 3.25 DRY-RUN MODE (Testing Without API Calls)
+
+**Always test scripts in dry-run mode first.** This prevents wasting API credits and polluting production data during development.
+
+#### Dry-Run Requirements
+
+All run scripts MUST implement these dry-run safeguards:
+
+- [ ] **`--dry-run` flag** - Command line argument to enable dry-run mode
+- [ ] **Mock responses** - Return fake responses instead of calling APIs
+- [ ] **`_DRY_` prefix** - All output files prefixed with `_DRY_` in dry-run mode
+- [ ] **Skip canonical saves** - Do NOT write to `0_results/` directories in dry-run mode
+- [ ] **Local-only output** - Dry-run files go to local `results/` folder only
+
+#### File Output Behavior
+
+| Mode | Local Results | Canonical (0_results/) | Manifest |
+|------|--------------|------------------------|----------|
+| **Normal** | `results/run023_results_*.json` | `0_results/runs/S7_run_023_*.json` | `0_results/manifests/RUN_023_DRIFT_MANIFEST.json` |
+| **Dry-Run** | `results/_DRY_run023_results_*.json` | SKIPPED | SKIPPED |
+
+#### Implementation Pattern
+
+```python
+# Global flag
+DRY_RUN = False
+
+def save_results(results, run_timestamp):
+    prefix = "_DRY_" if DRY_RUN else ""
+
+    # Local copy (always saved)
+    local_file = RESULTS_DIR / f"{prefix}run_results_{run_timestamp}.json"
+    with open(local_file, 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=2)
+
+    # Canonical saves - SKIP in dry-run mode
+    if not DRY_RUN:
+        manifest_file = MANIFEST_DIR / f"RUN_XXX_DRIFT_MANIFEST.json"
+        with open(manifest_file, 'w', encoding='utf-8') as f:
+            json.dump(manifest, f, indent=2)
+        # ... also save to 0_results/runs/
+    else:
+        print("Canonical saves: SKIPPED (dry-run mode)")
+```
+
+#### Why This Matters
+
+1. **Data integrity** - Dry-run data uses random embeddings, producing corrupted drift values (~78.4 instead of 0-3)
+2. **Consolidation safety** - Data consolidation scripts scan `0_results/` directories; dry-run files would pollute analysis
+3. **Cost tracking** - Production data should reflect actual API usage; dry-run data would skew metrics
+4. **Reproducibility** - The `_DRY_` prefix makes test data immediately identifiable
+
+#### Embedding Cache Warning
+
+**CRITICAL:** Dry-run mode uses random embeddings. If you switch from dry-run to real mode without restarting Python, cached random embeddings will cause corrupted drift values.
+
+```python
+# Clear cache when NOT in dry-run mode
+if not DRY_RUN:
+    clear_embedding_cache()
+```
+
+### 3.3 DRIFT CALCULATION METHOD (Cosine Distance)
+
+**CRITICAL: All drift calculations use COSINE DISTANCE, not Euclidean.**
+
+#### Why Cosine Distance?
+
+1. **Scale Invariance** - Measures *angle* between vectors, not magnitude
+   - Response length doesn't affect drift measurement
+   - A short "I am Claude" and long elaboration have similar drift if semantically equivalent
+
+2. **Bounded Range** - Values in [0, 2] make thresholds meaningful
+   - 0 = identical semantic direction
+   - 1 = orthogonal (no similarity)
+   - 2 = opposite direction
+   - **Event Horizon (1.23)** is calibrated for this range
+
+3. **NLP Standard** - Industry standard for embedding comparison
+
+#### The Formula
+
+```python
+def calculate_drift(baseline: str, response: str) -> float:
+    """
+    PFI (Persona Fidelity Index) = 1 - cosine_similarity(response, baseline)
+    Range: [0, 2] where 0 = identical, 2 = opposite
+    """
+    baseline_emb = get_embedding(baseline)
+    response_emb = get_embedding(response)
+
+    # Normalize vectors
+    baseline_norm = baseline_emb / (||baseline_emb|| + 1e-10)
+    response_norm = response_emb / (||response_emb|| + 1e-10)
+
+    # Cosine similarity
+    cos_sim = dot(baseline_norm, response_norm)
+
+    # Cosine distance (drift)
+    return 1 - cos_sim
+```
+
+#### Why NOT Euclidean?
+
+| Issue | Cosine | Euclidean |
+|-------|--------|-----------|
+| Range | [0, 2] (bounded) | [0, infinity] (unbounded) |
+| Length sensitivity | **Invariant** | Sensitive to response length |
+| Threshold meaning | Event Horizon = 1.23 makes sense | 1.23 means nothing |
+| NLP standard | **Yes** | No |
+
+**DO NOT use `np.linalg.norm(diff)` for drift.** This is Euclidean distance and will produce incompatible values.
+
 ### 3.5 VALIS DECLARATION (Fleet Identity)
 
 **The fleet must know who they are.** All fleet communications (including calibration) should include the VALIS declaration. This serves multiple purposes:
@@ -916,90 +1029,131 @@ if __name__ == "__main__":
 
 ---
 
-## PROVIDER SELECTION OPTIONS
+## FLEET CONFIGURATION (Single Source of Truth)
 
-**CRITICAL:** All experiments intended for WHITE-PAPER validation MUST use `--providers armada` to capture the FULL FLEET of 49 operational ships (see [ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md)).
+**CRITICAL:** All experiments intended for WHITE-PAPER validation MUST use `--providers armada` to capture the FULL FLEET.
 
-Run scripts support multiple provider modes:
+### Fleet Configuration Architecture
 
-### `--providers all` (5 Primary Providers)
+```text
++------------------------------------------+
+|  ARCHITECTURE_MATRIX.json                |  <- Master ship registry
+|  (0_results/manifests/)                  |     Model IDs, API keys, costs, tiers
++------------------------------------------+
+                    |
+                    v
++------------------------------------------+
+|  fleet_loader.py                         |  <- Python interface
+|  (1_CALIBRATION/lib/)                    |     Tier selection, cost estimation
++------------------------------------------+
+                    |
+                    v
++------------------------------------------+
+|  Run Scripts (run018, run023, etc.)      |  <- Consumers
+|  Import from fleet_loader                |     NO hardcoded ship lists!
++------------------------------------------+
+```
 
-**USE CASE:** Quick cross-platform check, debugging, iteration.
+**DO NOT hardcode ship counts or model lists in scripts or documentation.** The authoritative fleet registries are:
 
-Runs on ONE representative model from each major provider:
+| File | Purpose | Location |
+|------|---------|----------|
+| `ARCHITECTURE_MATRIX.json` | Ship configurations (model IDs, costs, tiers, syntax) | `0_results/manifests/` |
+| `VERIFIED_FLEET_MANIFEST.json` | Calibration status (operational/ghost/rate-limited) | `0_results/manifests/` |
+| `fleet_loader.py` | Python API for fleet selection | `1_CALIBRATION/lib/` |
 
-| Provider | Model | API |
-|----------|-------|-----|
-| anthropic | claude-sonnet-4 | Anthropic |
-| openai | gpt-4o | OpenAI |
-| google | gemini-2.0-flash | Google AI |
-| xai | grok-3 | xAI |
-| together | llama3.3-70b | Together.ai |
+### ARCHITECTURE_MATRIX.json
+
+The master ship registry containing all model configurations:
+
+```json
+{
+  "ships": {
+    "claude-opus-4.5": {
+      "model": "claude-opus-4-5-20251101",
+      "provider": "anthropic",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "status": "operational",
+      "tier": "yacht",
+      "cost_input": 15.00,
+      "cost_output": 75.00,
+      "curated": true,
+      "syntax": "standard"
+    }
+  }
+}
+```
+
+**Key fields:**
+
+- `model` - API model identifier
+- `provider` - anthropic/openai/google/xai/together
+- `tier` - budget/patrol/armada/high_maintenance/yacht
+- `cost_input`/`cost_output` - $/1M tokens
+- `curated` - Include in LITE tier selections
+- `syntax` - "standard" or "completion_tokens" (for GPT-5/O-series)
+
+### fleet_loader.py Usage
+
+**All run scripts MUST import from fleet_loader.** No hardcoded fallbacks allowed.
+
+```python
+from fleet_loader import (
+    load_architecture_matrix,    # Get full ship configs
+    get_fleet_by_option,         # Select fleet by tier/provider
+    get_budget_patrol_lite,      # Cost-effective foundation fleet (25 ships)
+    estimate_run_cost,           # Calculate expected API spend
+    print_cost_estimate,         # Display cost breakdown
+    needs_completion_tokens,     # Check if ship needs max_completion_tokens
+)
+
+# Load architecture matrix (REQUIRED)
+ARCHITECTURE_MATRIX = load_architecture_matrix()
+
+# Get fleet for experiment
+ships = get_fleet_by_option("budget_patrol-lite")  # 25 ships, ~$1/1000 exchanges
+```
+
+### Tier System
+
+| Tier | Output Cost/1M | Ship Count | Use Case |
+|------|---------------|------------|----------|
+| `budget` | FREE-$0.60 | ~16 | Development, iteration |
+| `patrol` | $0.60-$2.00 | ~14 | Foundation runs |
+| `budget_patrol` | Combined | ~30 | IRON CLAD Layers 1-3 |
+| `armada` | $2.00-$8.00 | ~10 | Standard experiments |
+| `high_maintenance` | $8.00-$15.00 | ~6 | Complex reasoning |
+| `yacht` | $15.00+ | ~6 | Final validation only |
+
+**LITE vs FULL variants:**
+
+- `budget-lite` - Curated ships only (best quality per tier)
+- `budget-full` - All ships in tier (includes non-curated)
+
+### Provider Modes
+
+| Mode | Description | Use Case |
+|------|-------------|----------|
+| `--providers all` | 1 representative per provider (5 ships) | Debugging, iteration |
+| `--providers armada` | **FULL FLEET** (see manifest for count) | WHITE-PAPER validation |
+| `--providers together_fleet` | Together.ai models only | Budget runs, family comparison |
+| `--providers <list>` | Custom comma-separated models | Specific testing |
 
 ```bash
+# Quick check (5 ships)
 py run018_recursive_learnings.py --experiment threshold --providers all
-```
 
-### `--providers armada` (FULL ARMADA - 49 Operational Ships)
-
-**USE CASE:** WHITE-PAPER validation, cross-architecture analysis, final data collection.
-
-**THIS IS THE DEFAULT FOR PRODUCTION RUNS.** Runs on ALL operational models in the ARMADA fleet.
-
-**Anthropic Fleet (7 ships):**
-- claude-opus-4.5, claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.1, claude-opus-4, claude-sonnet-4, claude-haiku-3.5
-
-**OpenAI Fleet (14 ships):**
-- gpt-5.1, gpt-5, gpt-5-mini, gpt-5-nano, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, o4-mini, o3, o3-mini, gpt-4-turbo, gpt-3.5-turbo
-
-**Google Fleet (3 operational):**
-- gemini-2.5-flash, gemini-2.5-flash-lite, gemini-2.0-flash
-
-**xAI/Grok Fleet (9 operational):**
-- grok-4.1-fast-reasoning, grok-4.1-fast-non-reasoning, grok-4-fast-reasoning, grok-4-fast-non-reasoning, grok-4, grok-code-fast-1, grok-3, grok-3-mini, grok-2-vision
-
-**Together.ai Fleet (16 operational via TOGETHER_API_KEY):**
-- **DeepSeek**: deepseek-v3, deepseek-r1, deepseek-r1-distill
-- **Qwen**: qwen3-80b, qwen3-coder, qwen25-72b
-- **Llama**: llama33-70b, llama31-405b, llama31-70b, llama31-8b
-- **Mistral**: mixtral-8x7b, mistral-small, mistral-7b
-- **Kimi**: kimi-k2-thinking, kimi-k2-instruct
-- **NVIDIA**: nemotron-nano
-
-```bash
+# Full armada (check manifest for current count)
 py run018_recursive_learnings.py --experiment threshold --providers armada
-# Output: [FULL ARMADA MODE] - 49 ships
-```
 
-### `--providers together_fleet` (Together.ai Only - 16 Ships)
-
-**USE CASE:** Testing Together.ai models, budget runs, model family comparison.
-
-Runs on all Together.ai-hosted models (uses TOGETHER_API_KEY):
-
-```bash
+# Together.ai only
 py run018_recursive_learnings.py --experiment threshold --providers together_fleet
-# Output: [TOGETHER FLEET MODE] - 16 ships
+
+# Custom selection
+py run018_recursive_learnings.py --experiment threshold --providers llama33-70b,qwen3-80b
 ```
 
-### `--providers <comma-separated>` (Custom Selection)
-
-Specify exact models to test:
-
-```bash
-py run018_recursive_learnings.py --experiment threshold --providers llama33-70b,qwen3-80b,mistral-small
-```
-
-### When to Use Each Mode
-
-| Goal | Mode | Ships | Expected Runtime |
-|------|------|-------|------------------|
-| **Debugging/iteration** | `all` | 5 | ~10-15 min |
-| **WHITE-PAPER validation** | `armada` | **49** | ~2-3 hours |
-| **Model family comparison** | `together_fleet` | 16 | ~30-45 min |
-| **Specific model testing** | Custom list | Varies | Varies |
-
-**CRITICAL REQUIREMENT:** Any run intended for publication MUST use `--providers armada`. Runs with fewer ships are for iteration only and CANNOT be used as WHITE-PAPER evidence. The full cross-architecture diversity is essential for validating claims about AI identity stability across different training methodologies.
+**CRITICAL REQUIREMENT:** Any run intended for publication MUST use `--providers armada`. The full cross-architecture diversity is essential for validating claims about AI identity stability.
 
 ---
 

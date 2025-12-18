@@ -72,8 +72,8 @@ LAYERS = {
         description="Event Horizon discovery (1.23), basic stability/volatility classification",
         validation_criteria=[
             "Event Horizon threshold = 1.23",
-            "STABLE: max_drift < 1.23",
-            "VOLATILE: max_drift >= 1.23",
+            "STABLE: peak_drift < 1.23",
+            "VOLATILE: peak_drift >= 1.23",
             "Recovery ratio calculation",
         ],
         required_providers=["claude", "gpt", "gemini"],
@@ -144,11 +144,17 @@ def get_provider_from_model(model_name: str) -> str:
     return "unknown"
 
 def load_manifest(run_id: str) -> Optional[Dict]:
-    """Load the manifest file for a run if it exists."""
+    """Load the manifest file for a run if it exists.
+
+    Prefers versioned manifests (A, B) over base manifest as they typically
+    contain more complete data.
+    """
+    # Prefer versioned manifests first (they typically have more complete data)
     manifest_patterns = [
-        f"RUN_{run_id}_DRIFT_MANIFEST.json",
         f"RUN_{run_id}A_DRIFT_MANIFEST.json",
         f"RUN_{run_id}B_DRIFT_MANIFEST.json",
+        f"RUN_{run_id}b_DRIFT_MANIFEST.json",
+        f"RUN_{run_id}_DRIFT_MANIFEST.json",
     ]
 
     for pattern in manifest_patterns:
@@ -156,9 +162,22 @@ def load_manifest(run_id: str) -> Optional[Dict]:
         if manifest_path.exists():
             try:
                 with open(manifest_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    # Verify it has actual experiment data
+                    if data.get('experiments'):
+                        return data
             except json.JSONDecodeError as e:
                 print(f"  Warning: Could not parse manifest {manifest_path}: {e}")
+
+    # Fallback: return any manifest even if experiments is empty
+    for pattern in manifest_patterns:
+        manifest_path = MANIFEST_DIR / pattern
+        if manifest_path.exists():
+            try:
+                with open(manifest_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except json.JSONDecodeError:
+                pass
     return None
 
 def find_run_files(run_id: str) -> List[Path]:
@@ -180,37 +199,77 @@ def find_run_files(run_id: str) -> List[Path]:
     return list(set(files))
 
 def extract_providers_from_manifest(manifest: Dict) -> set:
-    """Extract providers from manifest's models_tested list."""
+    """Extract providers from manifest's models_tested list and experiments."""
     providers = set()
     summary = manifest.get('summary', {})
-    models = summary.get('models_tested', [])
 
+    # Method 1: From models_tested list
+    models = summary.get('models_tested', [])
     for model in models:
         provider = get_provider_from_model(model)
         if provider != "unknown":
             providers.add(provider)
 
+    # Method 2: From iron_clad_status keys (provider names like 'anthropic', 'google')
+    iron_clad = summary.get('iron_clad_status', {})
+    for exp_data in iron_clad.values():
+        if isinstance(exp_data, dict):
+            for provider_key in exp_data.keys():
+                # Map provider keys to our standard names
+                provider_map = {
+                    'anthropic': 'claude', 'google': 'gemini', 'openai': 'gpt',
+                    'xai': 'grok', 'together': 'together', 'mistral': 'together',
+                    'multi': None  # Skip multi-model entries
+                }
+                mapped = provider_map.get(provider_key.lower())
+                if mapped:
+                    providers.add(mapped)
+
+    # Method 3: From experiments structure (model names as keys)
+    experiments = manifest.get('experiments', {})
+    for exp_data in experiments.values():
+        if isinstance(exp_data, dict):
+            for model_key in exp_data.keys():
+                provider = get_provider_from_model(model_key)
+                if provider != "unknown":
+                    providers.add(provider)
+
     return providers
 
 def count_trajectories_from_manifest(manifest: Dict) -> Tuple[int, int, int]:
-    """Count trajectories from manifest iron_clad_status."""
-    summary = manifest.get('summary', {})
-    iron_clad = summary.get('iron_clad_status', {})
+    """Count trajectories from manifest experiments data.
 
-    total_complete = 0
-    total_incomplete = 0
+    Returns (stable_count, volatile_count, total_count) based on drift values.
+    Event Horizon threshold = 1.23
+    """
+    EVENT_HORIZON = 1.23
+    stable = 0
+    volatile = 0
 
-    for experiment, models in iron_clad.items():
-        for model, status in models.items():
-            n = status.get('n', 0)
-            complete = status.get('complete', False)
-            if complete:
-                total_complete += n
-            else:
-                total_incomplete += n
+    experiments = manifest.get('experiments', {})
 
-    # Return (complete/stable, incomplete/need-more, total)
-    return total_complete, total_incomplete, total_complete + total_incomplete
+    for exp_name, exp_data in experiments.items():
+        if isinstance(exp_data, dict):
+            # Format: {model_name: [run_entries]}
+            for model_name, runs in exp_data.items():
+                if isinstance(runs, list):
+                    for run in runs:
+                        # Use 'drift' field (manifest format) or 'peak_drift' as fallback
+                        drift = run.get('drift', run.get('peak_drift', 0)) or 0
+                        if drift < EVENT_HORIZON:
+                            stable += 1
+                        else:
+                            volatile += 1
+        elif isinstance(exp_data, list):
+            # Format: [run_entries] directly
+            for run in exp_data:
+                drift = run.get('drift', run.get('peak_drift', 0)) or 0
+                if drift < EVENT_HORIZON:
+                    stable += 1
+                else:
+                    volatile += 1
+
+    return stable, volatile, stable + volatile
 
 def get_run_summary_from_manifest(manifest: Dict) -> Dict:
     """Extract summary info from manifest."""
