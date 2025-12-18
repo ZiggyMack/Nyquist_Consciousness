@@ -45,19 +45,19 @@ OPENAI_API_KEY=sk-proj-...
 GOOGLE_API_KEY=AIza...
 XAI_API_KEY=xai-...
 TOGETHER_API_KEY=...
-MISTRAL_API_KEY=...
 ```
 
 **Where to get API keys:**
 
-| Provider | URL | Notes |
-|----------|-----|-------|
-| Anthropic | <https://console.anthropic.com/settings/keys> | Claude models |
-| OpenAI | <https://platform.openai.com/api-keys> | GPT models |
-| Google | <https://aistudio.google.com/app/apikey> | Gemini models (free tier available) |
-| xAI | <https://console.x.ai/> | Grok models |
-| Together | <https://api.together.xyz/settings/api-keys> | Llama, Mistral, Qwen (generous free tier) |
-| Mistral | <https://console.mistral.ai/api-keys/> | Mistral models |
+| Provider | URL | Models Available |
+|----------|-----|------------------|
+| Anthropic | <https://console.anthropic.com/settings/keys> | Claude (Opus, Sonnet, Haiku) |
+| OpenAI | <https://platform.openai.com/api-keys> | GPT-4, GPT-4o, o1 |
+| Google | <https://aistudio.google.com/app/apikey> | Gemini (free tier available) |
+| xAI | <https://console.x.ai/> | Grok |
+| Together | <https://api.together.xyz/settings/api-keys> | Llama, Mistral, Qwen, DeepSeek (generous free tier) |
+
+**Note:** Together.ai is a hosting platform that provides access to many open-source models through a single API key. This includes Mistral, Llama, Qwen, DeepSeek, and others.
 
 The `.env` file is gitignored for security.
 

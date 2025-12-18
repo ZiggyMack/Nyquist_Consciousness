@@ -220,7 +220,45 @@ Phase 2 and 3 generate survey questions to be asked **TO AI probes** after prese
 
 ---
 
-**Last Updated:** 2025-12-05
+---
+
+## Publication Assets
+
+### PDF Report
+
+**Location:** `visualizations/pics/8_pfi_dimensional/8_pfi_explained.pdf`
+
+A comprehensive PDF document with all 10 key visualizations embedded, suitable for:
+
+- Reviewer packages
+- White paper appendices
+- Standalone distribution
+
+**Also available in WHITE-PAPER:** `WHITE-PAPER/figures/8_pfi_dimensional/`
+
+### Radar Visualizations (NEW)
+
+**Location:** `visualizations/pics/10_radar/`
+
+| File | Description |
+|------|-------------|
+| `pfi_component_distribution.png` | 5D identity weight radar (Voice, Values, Reasoning, Self-Model, Narrative) |
+| `run018_provider_fingerprint.png` | Cross-provider comparison radar (Mean Drift, Peak Drift, Volatility, Stability, Consistency) |
+| `nyquist_pillar_placeholder.png` | Placeholder for Nyquist Set pillars (awaiting Run 010 v2 data) |
+
+### Key Phase 3B Visualizations
+
+**Location:** `WHITE-PAPER/figures/8_pfi_dimensional/phase3b_crossmodel/`
+
+| File | Key Finding |
+|------|-------------|
+| `cross_model_comparison.png` | **THE CORE RESULT**: Cohen's d = 0.977 |
+| `cross_model_histogram.png` | Distribution shift: Cross-provider PFI higher |
+| `provider_matrix.png` | Provider signatures: Diagonal darker (same family = closer) |
+
+---
+
+**Last Updated:** 2025-12-17
 **Maintainer:** Nyquist Research Team
 
 *"Echo's Critique is addressed. PFI is real."*

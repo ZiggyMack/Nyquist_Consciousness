@@ -2,7 +2,11 @@
 last_reviewed: 2025-12-17
 depends_on:
   - ../experiments/temporal_stability/S7_ARMADA/0_results/manifests/
+  - ../experiments/temporal_stability/S7_ARMADA/visualizations/pics/8_pfi_dimensional/
+  - ../experiments/temporal_stability/S7_ARMADA/visualizations/pics/10_radar/
   - figures/generated/
+  - figures/8_pfi_dimensional/
+  - figures/10_radar/
   - calibration/extract_publication_stats.py
 impacts:
   - submissions/
@@ -14,6 +18,8 @@ keywords:
   - manifests
   - arxiv
   - workshop
+  - pfi_validation
+  - radar_plots
 -->
 
 # Publication Materials
@@ -163,7 +169,18 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   │   ├── png/ (9 files @ 300 DPI)
 │   │   └── pdf/ (9 files)
 │   ├── suggested/                   # S7 ARMADA supplementary visuals (8 files)
-│   └── ascii/                       # ASCII diagrams (7 files)
+│   ├── ascii/                       # ASCII diagrams (7 files)
+│   ├── 8_pfi_dimensional/           # ★ PFI validation visuals (NEW)
+│   │   ├── phase2_*/ (PCA, variance, clusters)
+│   │   ├── phase3a_synthetic/ (perturbation tests)
+│   │   ├── phase3b_crossmodel/ (d=0.977 cross-provider)
+│   │   ├── 8_pfi_explained.pdf      # Combined PDF with 10 figures
+│   │   └── README.md
+│   └── 10_radar/                    # ★ Radar visualizations (NEW)
+│       ├── pfi_component_distribution.png
+│       ├── run018_provider_fingerprint.png
+│       ├── nyquist_pillar_placeholder.png
+│       └── README.md
 │
 ├── reviewers/                        # Draft papers + reviews
 │   ├── README.md                    # Phase structure guide
