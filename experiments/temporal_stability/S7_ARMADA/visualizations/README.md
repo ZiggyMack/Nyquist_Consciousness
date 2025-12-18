@@ -1,3 +1,20 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./create_gravity_well.py
+  - ./plot_drift_heatmap.py
+  - ./plot_engagement_network.py
+  - ./plot_pole_zero_landscape.py
+  - ./plot_training_uniformity.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # S7 ARMADA VISUALIZATIONS
 
 **Unified visualization toolkit for all Armada experiment runs.**

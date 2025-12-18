@@ -1,3 +1,13 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run_exp1_sstack.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+-->
 # EXP1-SSTACK: Single-Persona Compression Baseline
 
 **Version:** 2.0

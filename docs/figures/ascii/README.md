@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # ASCII Visualizations for S7 Meta-Loop
 
 **Purpose:** Beautiful terminal visualizations for all S7 Meta-Loop patterns

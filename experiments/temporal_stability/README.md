@@ -1,3 +1,11 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+-->
 # TEMPORAL STABILITY EXPERIMENTS (S7)
 
 **Testing the Identity-Locked Loop (ILL) Framework**

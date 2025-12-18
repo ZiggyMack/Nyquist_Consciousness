@@ -1,3 +1,18 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run_cfa_trinity_v2.py
+  - ./statistical_validation.py
+  - ../0_docs/specs/
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # 12_CFA: CFA-ARMADA Pipeline
 
 ```text

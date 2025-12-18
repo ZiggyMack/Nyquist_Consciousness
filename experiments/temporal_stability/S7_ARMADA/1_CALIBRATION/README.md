@@ -1,3 +1,20 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./CLAL.py
+  - ./extract_persona_baseline.py
+  - ./iron_clad_stackup.py
+  - ./rescue_ghost_ships.py
+  - ./run_calibrate_parallel.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # 1_CALIBRATION: Fleet Calibration & Baseline Capture
 
 ```text

@@ -1,3 +1,18 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./create_gravity_well.py
+  - ./plot_drift_heatmap.py
+  - ./plot_engagement_network.py
+  - ./plot_pole_zero_landscape.py
+  - ./plot_training_uniformity.py
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # S7 ARMADA - Quick Start Guide
 
 ## IMPORTANT: Python Version Requirement

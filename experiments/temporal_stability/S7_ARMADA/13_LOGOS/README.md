@@ -1,3 +1,17 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run022_commutation_cartography.py
+  - ../0_docs/specs/
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # 13_LOGOS: Formal Verification Bridge
 
 **Run 022: Commutation Cartography**

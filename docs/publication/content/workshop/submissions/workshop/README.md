@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # Workshop Paper (Batch A)
 
 ## Persona Manifolds: Stable Identity Attractors in AI Systems

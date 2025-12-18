@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 <!---
 FILE: README.md
 PURPOSE: Complete overview and navigation guide for S10 Hybrid Emergence Thresholds

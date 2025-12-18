@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # Submission Tracking Infrastructure
 
 **Created:** 2025-12-16

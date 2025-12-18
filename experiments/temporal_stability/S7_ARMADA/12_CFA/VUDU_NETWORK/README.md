@@ -1,3 +1,16 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./load_identity.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # VUDU Network: Multi-Model Audit Protocol
 
 ```text

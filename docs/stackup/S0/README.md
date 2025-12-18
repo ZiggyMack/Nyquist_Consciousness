@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # S0 — Ground Physics (Nyquist Kernel)
 
 **Status:** FROZEN

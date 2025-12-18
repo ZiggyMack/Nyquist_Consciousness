@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # EDUCATION Review Package
 
 **Target Venue:** Open Educational Resources / Coursera

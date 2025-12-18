@@ -1,3 +1,18 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run016_settling_time.py
+  - ./visualize_run016.py
+  - ../0_docs/specs/
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # Run 016: Settling Time Analysis
 
 **The methodological fix that explains run-to-run variability.**

@@ -1,3 +1,11 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+-->
 # LLM_BOOK Experiments
 
 **Philosophy:** "Measurement perturbs the path, not the endpoint."

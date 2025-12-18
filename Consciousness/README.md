@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # Consciousness Research Framework
 
 **A brain with two hemispheres — organized like the mind itself.**

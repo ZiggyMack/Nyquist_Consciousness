@@ -1,3 +1,12 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./app.py
+keywords:
+  - consciousness
+  - dashboard
+  - visualization
+-->
 # START HERE - Consciousness Dashboard Development
 
 **Everything a fresh Claude needs to make dashboard updates.**

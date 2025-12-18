@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # START HERE - Consciousness Research Guide
 
 **Everything a fresh Claude needs to navigate the Consciousness Framework.**

@@ -1,3 +1,15 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run_trial1.py
+  - ./verify_setup.py
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # Identity Gravity Trial 1 — Nova Adversarial Response
 
 **Trial ID:** `identity_gravity_trial_1`

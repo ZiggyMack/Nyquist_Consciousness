@@ -1,3 +1,14 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # EXP-PFI-A: PFI Dimensional Validation
 
 **Purpose:** Test whether PFI/drift measures capture genuine identity structure vs. surface artifacts

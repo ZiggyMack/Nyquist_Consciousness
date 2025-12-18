@@ -1,3 +1,17 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./generate_visualizations.py
+  - ./personas.py
+  - ./run_exp2_phase2.py
+  - ./run_exp2_phase25.py
+  - ./run_exp2_phase2b.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+-->
 # EXP2-SSTACK: Cross-Persona Compression & Pillar Validation
 
 **Version:** 3.0

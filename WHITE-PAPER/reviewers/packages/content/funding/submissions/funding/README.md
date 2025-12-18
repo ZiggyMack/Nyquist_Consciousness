@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # Funding Proposal Submission Path
 
 **Purpose:** Secure funding for Phase 2 multi-platform validation

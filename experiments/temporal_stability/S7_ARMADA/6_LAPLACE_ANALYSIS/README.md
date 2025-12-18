@@ -1,3 +1,17 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run_laplace_analysis.py
+  - ../0_docs/specs/
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # Laplace Pole-Zero Analysis
 
 **Purpose:** Extract mathematical system dynamics from drift time-series.

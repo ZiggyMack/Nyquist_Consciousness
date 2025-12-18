@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # Suggested Supplementary Visualizations
 
 These visualizations from the S7 ARMADA experimental runs provide empirical evidence supporting the main publication figures. They are **not required** for the core paper but offer valuable supplementary material.

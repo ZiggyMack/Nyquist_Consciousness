@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./generate_authentic_pairs.py
+keywords:
+  - consciousness
+-->
 # Survey Update 3 - Authentic Response Pairs (Ready to Use)
 
 ```text

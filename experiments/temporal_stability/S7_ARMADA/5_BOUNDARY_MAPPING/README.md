@@ -1,3 +1,17 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run013_boundary_mapping.py
+  - ../0_docs/specs/
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # Boundary Mapping: The Twilight Zone
 
 **Purpose:** Explain the 12% anomaly — why some trajectories violate the 1.23 Event Horizon prediction.

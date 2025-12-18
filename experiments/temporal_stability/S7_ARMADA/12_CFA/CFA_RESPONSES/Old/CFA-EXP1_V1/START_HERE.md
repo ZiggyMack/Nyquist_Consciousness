@@ -1,3 +1,12 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # START HERE - CFA VUDU Experiment Package for ARMADA
 
 ```text

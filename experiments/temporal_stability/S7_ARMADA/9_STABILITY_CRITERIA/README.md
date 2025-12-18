@@ -1,3 +1,18 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run015_stability_criteria.py
+  - ./visualize_run015.py
+  - ../0_docs/specs/
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # EXP-SC: Stability Criteria Discovery
 
 **Purpose:** Find the criteria that predict identity stability — what makes an I_AM file stable vs unstable?

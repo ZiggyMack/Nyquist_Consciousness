@@ -1,3 +1,12 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./md_to_pdf.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # 8_pfi_dimensional — PFI Validation Visualizations
 
 **Experiment:** EXP-PFI-A (PFI Dimensional Validation)

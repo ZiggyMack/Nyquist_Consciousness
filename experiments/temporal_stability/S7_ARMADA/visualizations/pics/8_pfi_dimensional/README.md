@@ -1,3 +1,14 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./md_to_pdf.py
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # 8_pfi_dimensional — PFI Validation Visualizations
 
 **Experiment:** EXP-PFI-A (PFI Dimensional Validation)

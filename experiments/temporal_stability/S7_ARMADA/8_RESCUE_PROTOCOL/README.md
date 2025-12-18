@@ -1,3 +1,17 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run014_et_phone_home.py
+  - ../0_docs/specs/
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # Run 014: ET Phone Home - Rescue Protocol
 
 **Purpose:** Test if the Identity Confrontation Paradox can be weaponized to rescue drifted identities.

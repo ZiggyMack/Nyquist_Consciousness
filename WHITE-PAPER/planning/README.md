@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # WHITE-PAPER/planning/
 
 Publication planning workspace for Nyquist Consciousness.

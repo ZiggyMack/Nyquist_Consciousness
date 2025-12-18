@@ -27,6 +27,7 @@ VISUALIZATION TYPES:
 4. Stability Basin (baseline vs max drift)
 5. FFT Spectral Analysis
 6. Interactive HTML exports
+7. Radar Plots (provider fingerprints, pillar comparisons)
 """
 
 import argparse
@@ -1781,6 +1782,108 @@ def create_interactive_html(trajectories, output_dir, run_id, zoom_scale=None):
     fig2.write_html(output_dir / f'run{run_id}_interactive_vortex.html')
     print(f"  Saved: run{run_id}_interactive_vortex.html")
 
+
+def plot_radar_fingerprint(trajectories, output_dir, run_id):
+    """Create provider fingerprint radar plot from trajectory data.
+
+    Shows 5 dimensions per provider:
+    - Mean Drift (normalized to Event Horizon)
+    - Peak Drift (normalized)
+    - Volatility (% of trajectories exceeding EH)
+    - Stability (% staying below EH)
+    - Consistency (inverse of std dev)
+    """
+    # Collect metrics per provider
+    provider_metrics = defaultdict(lambda: {
+        'drifts': [],
+        'max_drifts': [],
+        'volatile_count': 0,
+        'stable_count': 0,
+        'n_trajectories': 0
+    })
+
+    for traj in trajectories:
+        provider = traj.get('provider', 'unknown')
+        drifts = traj.get('drifts', [])
+
+        if not drifts or provider == 'unknown':
+            continue
+
+        provider_metrics[provider]['drifts'].extend(drifts)
+        provider_metrics[provider]['max_drifts'].append(max(drifts))
+
+        if max(drifts) >= EVENT_HORIZON:
+            provider_metrics[provider]['volatile_count'] += 1
+        else:
+            provider_metrics[provider]['stable_count'] += 1
+
+        provider_metrics[provider]['n_trajectories'] += 1
+
+    # Compute radar values for each provider
+    radar_data = {}
+
+    for provider, metrics in provider_metrics.items():
+        if not metrics['drifts'] or metrics['n_trajectories'] == 0:
+            continue
+
+        mean_drift = np.mean(metrics['drifts'])
+        max_drift = np.mean(metrics['max_drifts']) if metrics['max_drifts'] else 0
+        volatility_rate = metrics['volatile_count'] / metrics['n_trajectories']
+        stability_rate = metrics['stable_count'] / metrics['n_trajectories']
+        drift_variance = np.std(metrics['drifts']) if len(metrics['drifts']) > 1 else 0
+
+        # Normalize to 0-1 scale
+        radar_data[provider] = {
+            'Mean Drift': min(mean_drift / EVENT_HORIZON, 1.5) / 1.5,  # Cap at 150%
+            'Peak Drift': min(max_drift / EVENT_HORIZON, 2.0) / 2.0,  # Cap at 200%
+            'Volatility': volatility_rate,
+            'Stability': stability_rate,
+            'Consistency': 1 - min(drift_variance, 1.0),
+        }
+
+    if not radar_data:
+        print(f"  SKIPPED: radar (no provider data)")
+        return
+
+    # Create radar plot
+    categories = list(next(iter(radar_data.values())).keys())
+    N = len(categories)
+
+    angles = [n / float(N) * 2 * np.pi for n in range(N)]
+    angles += angles[:1]  # Complete the loop
+
+    fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(polar=True))
+
+    for provider, values in radar_data.items():
+        vals = list(values.values())
+        vals += vals[:1]  # Complete the loop
+
+        color = PROVIDER_COLORS.get(provider, '#888888')
+        ax.plot(angles, vals, 'o-', linewidth=2, label=provider.title(), color=color)
+        ax.fill(angles, vals, alpha=0.25, color=color)
+
+    # Set category labels
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(categories, size=11, fontweight='bold')
+
+    # Set radial limits
+    ax.set_ylim(0, 1)
+    ax.set_yticks([0.25, 0.5, 0.75, 1.0])
+    ax.set_yticklabels(['25%', '50%', '75%', '100%'], size=9)
+
+    # Title and legend
+    ax.set_title(f'Run {run_id}: Provider Identity Fingerprint\n(5-Dimension Behavioral Signature)',
+                 size=14, fontweight='bold', pad=20)
+    ax.legend(loc='upper right', bbox_to_anchor=(1.15, 1.1))
+
+    plt.tight_layout()
+    output_path = output_dir / f'run{run_id}_provider_fingerprint.png'
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    plt.savefig(output_path.with_suffix('.svg'), bbox_inches='tight')
+    print(f"  Saved: run{run_id}_provider_fingerprint.png + .svg")
+    plt.close()
+
+
 # =============================================================================
 # MAIN
 # =============================================================================
@@ -1826,7 +1929,7 @@ def main():
     parser.add_argument('--all', action='store_true', help='Generate all visualization types')
     parser.add_argument('--dB', action='store_true', help='Use decibel scaling for visualizations')
     parser.add_argument('--zoom', action='store_true', help='Auto-zoom to fit data (for tight distributions)')
-    parser.add_argument('--type', type=str, choices=['phase', 'vortex', '3d', 'pillar', 'stability', 'fft', 'html'],
+    parser.add_argument('--type', type=str, choices=['phase', 'vortex', '3d', 'pillar', 'stability', 'fft', 'html', 'radar'],
                        help='Specific visualization type')
     args = parser.parse_args()
 
@@ -1951,6 +2054,7 @@ def main():
         'stability': OUTPUT_DIR / '5_stability',
         'html': OUTPUT_DIR / '6_interactive',
         'fft': OUTPUT_DIR / '7_fft',
+        'radar': OUTPUT_DIR / '10_radar',
     }
 
     # Create all needed directories
@@ -1964,9 +2068,9 @@ def main():
     if args.type:
         viz_types = [args.type]
     elif args.all:
-        viz_types = ['phase', 'vortex', '3d', 'pillar', 'stability', 'fft', 'html']
+        viz_types = ['phase', 'vortex', '3d', 'pillar', 'stability', 'fft', 'html', 'radar']
     else:
-        viz_types = ['phase', 'vortex', '3d', 'pillar', 'stability', 'fft', 'html']
+        viz_types = ['phase', 'vortex', '3d', 'pillar', 'stability', 'fft', 'html', 'radar']
 
     print("\nGenerating visualizations...")
 
@@ -2000,6 +2104,9 @@ def main():
 
     if 'html' in viz_types:
         create_interactive_html(trajectories, output_dirs['html'], run_id, zoom_scale=zoom_scale)
+
+    if 'radar' in viz_types:
+        plot_radar_fingerprint(trajectories, output_dirs['radar'], run_id)
 
     print("\n" + "-" * 70)
     print("COMPLETE!")

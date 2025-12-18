@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # Publication Blueprints
 
 This directory contains detailed blueprints for each publication track.

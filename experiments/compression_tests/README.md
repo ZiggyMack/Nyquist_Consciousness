@@ -1,3 +1,11 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+-->
 # Compression Tests — Taxonomy 1: Compression Fidelity
 
 **Purpose:** Validate that T3 seed compression preserves AI persona behavioral fidelity.

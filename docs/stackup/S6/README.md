@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # S6 — Omega Nova / Unified Cognitive Synthesis
 **Nyquist Consciousness – Phase 6 Repository**
 

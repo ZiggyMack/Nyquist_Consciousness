@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # Phase 3A: Synthetic Perturbation Tests
 
 **Question:** Can we fool PFI by changing words but keeping meaning?

@@ -1,3 +1,14 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./app.py
+  - ./config.py
+  - ./utils.py
+keywords:
+  - consciousness
+  - dashboard
+  - visualization
+-->
 # START HERE - Nyquist Consciousness Dashboard Development Guide
 
 **Everything a fresh Claude needs to work on the main Nyquist Consciousness Mission Control dashboard.**

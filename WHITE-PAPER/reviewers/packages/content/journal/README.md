@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # JOURNAL Review Package
 
 **Target Venue:** Nature Machine Intelligence

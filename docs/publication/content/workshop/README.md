@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # WORKSHOP Review Package
 
 **Target Venue:** NeurIPS/AAAI Workshop

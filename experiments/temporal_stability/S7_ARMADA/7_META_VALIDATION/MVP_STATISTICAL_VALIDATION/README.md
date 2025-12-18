@@ -1,3 +1,16 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run_statistical_tests.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # MVP_STATISTICAL_VALIDATION: Random-Walk Null Model Tests
 
 **Purpose:** Meta Validation Protocol — Rigorous statistical validation that identity drift is NOT random noise

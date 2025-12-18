@@ -1,3 +1,12 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./LLMBOOK_SYNC_MANIFEST.json
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # Reviewers Directory
 
 **Last Updated:** 2025-12-16

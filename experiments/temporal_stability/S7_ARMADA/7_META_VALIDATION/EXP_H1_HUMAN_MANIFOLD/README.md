@@ -1,3 +1,14 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # EXP-H1: Human Identity Manifold Pilot
 
 **Purpose:** Test whether human neural data shows the same identity attractor dynamics as AI systems

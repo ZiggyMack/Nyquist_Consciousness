@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # Media/Press Submission Path
 
 **Purpose:** Amplify research reach through press, podcasts, and public speaking

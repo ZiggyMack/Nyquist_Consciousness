@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # FUNDING Review Package
 
 **Target Venue:** NSF / DARPA / Open Philanthropy

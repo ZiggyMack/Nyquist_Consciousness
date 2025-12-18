@@ -1,3 +1,14 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./app.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - dashboard
+  - visualization
+-->
 # Consciousness Dashboard
 
 **The unified view sitting in the BRIDGE, seeing BOTH hemispheres.**

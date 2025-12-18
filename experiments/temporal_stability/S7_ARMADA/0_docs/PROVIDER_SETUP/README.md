@@ -1,3 +1,12 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # Provider Console Pre-Configuration Guide
 
 ## Overview

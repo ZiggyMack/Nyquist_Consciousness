@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # S8 — Identity Gravity Layer
 
 **Status:** 🟡 Theoretically Formalized, Empirically Unvalidated

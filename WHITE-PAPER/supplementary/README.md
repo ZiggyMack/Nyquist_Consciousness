@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # Supplementary Materials
 
 This directory contains all supplementary materials for publication, including preregistration documents, experimental protocols, mathematical proofs, and reproducibility packages.

@@ -1,3 +1,14 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # Phase 3B: Cross-Model Comparison (KEY RESULTS)
 
 **Question:** Do different AI models have genuinely different identities?

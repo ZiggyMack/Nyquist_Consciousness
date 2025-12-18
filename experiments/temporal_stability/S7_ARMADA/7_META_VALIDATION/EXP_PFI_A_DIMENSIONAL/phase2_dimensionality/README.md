@@ -1,3 +1,16 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run_phase2.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # Phase 2: Dimensionality Analysis
 
 **Purpose:** Determine how many embedding dimensions carry identity signal vs noise

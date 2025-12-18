@@ -1,3 +1,17 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./cross_model_analysis.py
+  - ./run_phase3.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # EXP-PFI-A Phase 3: Semantic Coherence Test
 
 **Purpose:** Does PFI measure DEEP meaning or just surface vocabulary?

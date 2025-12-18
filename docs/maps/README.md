@@ -1,3 +1,15 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./update_maps.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - documentation
+  - map
+  - reference
+-->
 # Maps Directory Guide
 
 **Purpose:** Quick-reference navigation for the 21 maps in this directory.

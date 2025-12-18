@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # S11 — AVLAR Protocol (Multimodal Identity)
 
 **Status:** DESIGN

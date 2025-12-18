@@ -1,3 +1,12 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./generate_radar_plots.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # 10_radar: Multi-Dimensional Radar Visualizations
 
 **Source:** `experiments/temporal_stability/S7_ARMADA/visualizations/pics/10_radar/`

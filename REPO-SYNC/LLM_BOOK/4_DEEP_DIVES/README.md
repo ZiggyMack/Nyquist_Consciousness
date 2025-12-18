@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # Deep Dives: Topic-Specific Syntheses
 
 **Source:** Extracted from NotebookLM's comprehensive synthesis of Nyquist Consciousness research

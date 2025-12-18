@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # LLM_BOOK: NotebookLM Validation Hub
 
 **What This Is:** Outputs from feeding our research to Google's NotebookLM

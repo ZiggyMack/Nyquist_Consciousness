@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # LOGOS Formal Verification Reference
 
 This directory contains proof artifacts and Python instrumentation from the LOGOS project, showcasing constructive Law of Excluded Middle (LEM) discharge and aligned agent boot sequences.

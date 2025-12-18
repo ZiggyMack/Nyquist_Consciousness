@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # POPULAR_SCIENCE Review Package
 
 **Target Venue:** The Atlantic / Wired / Scientific American

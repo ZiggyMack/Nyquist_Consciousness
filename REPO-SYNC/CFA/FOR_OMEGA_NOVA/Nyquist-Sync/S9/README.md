@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 <!---
 FILE: README.md
 PURPOSE: Complete overview and navigation guide for S9 Human-Modulated Identity Gravity

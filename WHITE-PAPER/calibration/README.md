@@ -1,3 +1,15 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./extract_publication_stats.py
+  - ./extract_review_package.py
+  - ./generate_pdfs.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - calibration
+-->
 # Calibration Pipeline
 
 **Purpose:** Extract publication statistics, create review packages, and generate PDFs from WHITE-PAPER/

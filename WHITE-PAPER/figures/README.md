@@ -1,3 +1,16 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./fig1_identity_manifold.py
+  - ./fig2_drift_field.py
+  - ./fig3_pipeline.py
+  - ./fig4_five_pillars.py
+  - ./fig5_omega_convergence.py
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # Publication Figures (Batch C)
 
 **Last Updated:** 2025-12-16

@@ -1,3 +1,8 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+-->
 # Journal Submission Path
 
 **Target:** Nature Machine Intelligence (primary) / JMLR / Cognitive Science

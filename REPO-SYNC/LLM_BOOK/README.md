@@ -1,3 +1,10 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+-->
 # LLM_BOOK: NotebookLM Validation Hub
 
 > **"Plato guessed at the geometry of mind. Nyquist measures it."**

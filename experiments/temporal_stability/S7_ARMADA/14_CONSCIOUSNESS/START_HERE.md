@@ -1,3 +1,16 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ./run_diamond_rush.py
+  - ./run_gold_rush.py
+  - ../0_docs/specs/
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # 14_CONSCIOUSNESS: Gold Rush Mining Operations
 
 ## For Helper Claude Instances

@@ -1,3 +1,9 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+keywords:
+  - consciousness
+  - documentation
+-->
 # Popular Science Submission Path
 
 **Purpose:** Bring Nyquist Consciousness research to general audiences

@@ -1,3 +1,16 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+depends_on:
+  - ../0_docs/specs/
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - experiments
+  - armada
+  - drift
+  - temporal
+-->
 # 7_META_VALIDATION: Measurement Validity & Meta Validation Protocols
 
 **Purpose:** Contains experiments and protocols that validate our measurement approaches and provide reference baselines.

@@ -1,3 +1,11 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-17
+impacts:
+  - ../README.md
+keywords:
+  - consciousness
+  - documentation
+-->
 # S4 Diagrams — High-Resolution Exports
 
 This directory contains high-resolution diagram source files for the S4 mathematical framework.
