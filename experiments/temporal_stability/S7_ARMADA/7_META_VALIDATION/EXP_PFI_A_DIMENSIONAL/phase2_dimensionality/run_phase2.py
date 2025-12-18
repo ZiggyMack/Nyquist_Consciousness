@@ -308,9 +308,34 @@ class Phase2DimensionalityAnalysis:
         print(f"Loaded {len(responses)} responses from {run_file}")
         return responses
 
+    def _compute_cosine_distance(self, emb1: np.ndarray, emb2: np.ndarray) -> float:
+        """
+        Compute cosine distance: 1 - cosine_similarity.
+
+        Returns value in range [0, 2]:
+        - 0 = identical direction
+        - 1 = orthogonal
+        - 2 = opposite direction
+
+        METHODOLOGY NOTE: This is the standardized drift metric across all
+        Nyquist experiments. See RUN_METHODOLOGY.md and PHILOSOPHICAL_FAQ.md
+        for rationale (direction matters more than magnitude for identity).
+        """
+        norm1 = np.linalg.norm(emb1)
+        norm2 = np.linalg.norm(emb2)
+
+        if norm1 < 1e-10 or norm2 < 1e-10:
+            return 1.0  # Degenerate case: treat as orthogonal
+
+        cos_sim = np.dot(emb1, emb2) / (norm1 * norm2)
+        # Clamp to [-1, 1] to handle floating point errors
+        cos_sim = np.clip(cos_sim, -1.0, 1.0)
+        return float(1 - cos_sim)
+
     def compute_drift_vectors(self, responses: List[Dict]) -> List[DriftVector]:
         """Compute full drift vectors with enhanced metadata."""
         print("\n[Computing Drift Vectors]")
+        print("  Using COSINE DISTANCE methodology (1 - cosine_similarity)")
 
         ship_responses = {}
         for resp in responses:
@@ -343,8 +368,11 @@ class Phase2DimensionalityAnalysis:
                 if response_emb is None:
                     continue
 
+                # Store the raw difference vector for PCA (direction matters)
                 drift = response_emb - baseline_emb
-                drift_mag = np.linalg.norm(drift)
+
+                # Use COSINE DISTANCE for magnitude (not Euclidean!)
+                drift_mag = self._compute_cosine_distance(baseline_emb, response_emb)
 
                 drift_vectors.append(DriftVector(
                     ship=ship,
