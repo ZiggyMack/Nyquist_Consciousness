@@ -51,6 +51,25 @@ ARMADA_DIR = SCRIPT_DIR.parent
 META_VALIDATION_DIR = ARMADA_DIR / "7_META_VALIDATION"
 EXP_PFI_A_DIR = META_VALIDATION_DIR / "EXP_PFI_A_DIMENSIONAL" / "phase2_dimensionality"
 
+# Load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    env_file = ARMADA_DIR / ".env"
+    if env_file.exists():
+        load_dotenv(env_file)
+        print(f"[INFO] Loaded environment from {env_file}")
+except ImportError:
+    # Manual .env loading fallback
+    env_file = ARMADA_DIR / ".env"
+    if env_file.exists():
+        with open(env_file) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, _, value = line.partition('=')
+                    os.environ[key.strip()] = value.strip().strip('"').strip("'")
+        print(f"[INFO] Loaded environment from {env_file} (manual fallback)")
+
 # =============================================================================
 # VALIS DECLARATION
 # =============================================================================
