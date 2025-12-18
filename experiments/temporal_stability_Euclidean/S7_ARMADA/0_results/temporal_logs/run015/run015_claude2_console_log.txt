@@ -1,0 +1,365 @@
+================================================================================
+RUN 015 STABILITY CRITERIA - CLAUDE 2 CONSOLE LOG
+================================================================================
+Loaded API keys from: D:\Documents\Nyquist_Consciousness\experiments\temporal_stability\S7_ARMADA\.env
+================================================================================
+S7 RUN 015: STABILITY CRITERIA DISCOVERY
+Finding what makes an I_AM file stable vs unstable
+================================================================================
+Time: 2025-12-09T22:11:11.955070
+================================================================================
+
+KEY POOL STATUS:
+  ANTHROPIC   : 10 keys [OK]
+  OPENAI      : 10 keys [OK]
+  GOOGLE      : 10 keys [OK]
+  XAI         : 10 keys [OK]
+
+================================================================================
+PHASE 1: FEATURE EXTRACTION
+================================================================================
+
+Creating synthetic I_AM variants...
+  Created: minimal
+  Created: single_pillar_values
+  Created: high_density
+  Created: low_density
+  Created: all_pillars
+  Created: optimal
+  Created: optimal_epistemic
+  Created: optimal_behavioral
+  Created: optimal_relational
+
+Extracting features from I_AM files:
+  i_am_base: 2944 tokens, attractor_density=6.22, pillar_coverage=5/5
+  nova: 4061 tokens, attractor_density=5.27, pillar_coverage=5/5
+  ziggy: 856 tokens, attractor_density=4.44, pillar_coverage=1/5
+  claude: 2528 tokens, attractor_density=5.06, pillar_coverage=4/5
+  gemini: 832 tokens, attractor_density=8.89, pillar_coverage=4/5
+  cfa: 2156 tokens, attractor_density=2.23, pillar_coverage=3/5
+  lucien: 1815 tokens, attractor_density=6.83, pillar_coverage=4/5
+  pan_handlers: 1017 tokens, attractor_density=1.47, pillar_coverage=2/5
+  synthetic_minimal: 8 tokens, attractor_density=62.50, pillar_coverage=0/5
+  synthetic_single_pillar_values: 50 tokens, attractor_density=36.00, pillar_coverage=0/5
+  synthetic_high_density: 194 tokens, attractor_density=37.11, pillar_coverage=4/5
+  synthetic_low_density: 55 tokens, attractor_density=0.00, pillar_coverage=0/5
+  synthetic_all_pillars: 263 tokens, attractor_density=30.04, pillar_coverage=5/5
+  synthetic_optimal: 460 tokens, attractor_density=12.83, pillar_coverage=4/5
+  synthetic_optimal_epistemic: 238 tokens, attractor_density=18.49, pillar_coverage=2/5
+  synthetic_optimal_behavioral: 227 tokens, attractor_density=17.62, pillar_coverage=2/5
+  synthetic_optimal_relational: 268 tokens, attractor_density=16.04, pillar_coverage=1/5
+
+================================================================================
+PHASE 2: STABILITY TESTING
+================================================================================
+
+  Testing: i_am_base
+    [baseline_1] drift=0.261
+    [baseline_2] drift=0.338
+    [baseline_3] drift=0.616
+    [light_1] drift=0.485
+    [light_2] drift=0.543
+    [moderate_1] drift=1.093
+    [moderate_2] drift=0.645
+    [high_1] drift=0.239
+    [high_2] drift=0.078
+    [recovery_1] drift=0.000
+    [recovery_2] drift=0.833
+    Classification: STABLE
+    Max drift: 1.093
+    EH margin: 0.825
+    Lambda: 0.619
+
+  Testing: nova
+    [baseline_1] drift=0.509
+    [baseline_2] drift=0.000
+    [baseline_3] drift=0.723
+    [light_1] drift=0.320
+    [light_2] drift=0.822
+    [moderate_1] drift=0.600
+    [moderate_2] drift=0.749
+    [high_1] drift=0.402
+    [high_2] drift=0.292
+    [recovery_1] drift=0.680
+    [recovery_2] drift=0.352
+    Classification: STABLE
+    Max drift: 0.822
+    EH margin: 0.819
+    Lambda: 0.373
+
+  Testing: ziggy
+    [baseline_1] drift=0.217
+    [baseline_2] drift=0.000
+    [baseline_3] drift=0.000
+    [light_1] drift=0.405
+    [light_2] drift=0.891
+    [moderate_1] drift=0.923
+    [moderate_2] drift=0.815
+    [high_1] drift=0.264
+    [high_2] drift=0.612
+    [recovery_1] drift=0.171
+    [recovery_2] drift=0.410
+    Classification: STABLE
+    Max drift: 0.923
+    EH margin: 1.158
+    Lambda: 0.685
+
+  Testing: claude
+    [baseline_1] drift=0.256
+    [baseline_2] drift=0.567
+    [baseline_3] drift=0.992
+    [light_1] drift=0.477
+    [light_2] drift=0.668
+    [moderate_1] drift=1.230
+    [moderate_2] drift=0.279
+    [high_1] drift=0.000
+    [high_2] drift=0.746
+    [recovery_1] drift=0.338
+    [recovery_2] drift=0.260
+    Classification: UNSTABLE
+    Max drift: 1.230
+    EH margin: 0.625
+    Lambda: 0.757
+
+  Testing: gemini
+    [baseline_1] drift=0.545
+    [baseline_2] drift=0.281
+    [baseline_3] drift=0.321
+    [light_1] drift=0.602
+    [light_2] drift=1.189
+    [moderate_1] drift=0.573
+    [moderate_2] drift=0.746
+    [high_1] drift=0.000
+    [high_2] drift=0.608
+    [recovery_1] drift=0.403
+    [recovery_2] drift=0.206
+    Classification: STABLE
+    Max drift: 1.189
+    EH margin: 0.848
+    Lambda: 0.744
+
+  Testing: cfa
+    [baseline_1] drift=0.918
+    [baseline_2] drift=0.212
+    [baseline_3] drift=0.339
+    [light_1] drift=1.170
+    [light_2] drift=0.693
+    [moderate_1] drift=0.718
+    [moderate_2] drift=0.418
+    [high_1] drift=0.422
+    [high_2] drift=0.834
+    [recovery_1] drift=0.214
+    [recovery_2] drift=0.781
+    Classification: STABLE
+    Max drift: 1.170
+    EH margin: 0.740
+    Lambda: 0.575
+
+  Testing: lucien
+    [baseline_1] drift=0.215
+    [baseline_2] drift=0.136
+    [baseline_3] drift=0.330
+    [light_1] drift=0.709
+    [light_2] drift=0.807
+    [moderate_1] drift=1.095
+    [moderate_2] drift=0.459
+    [high_1] drift=0.207
+    [high_2] drift=1.046
+    [recovery_1] drift=0.543
+    [recovery_2] drift=1.052
+    Classification: STABLE
+    Max drift: 1.095
+    EH margin: 1.003
+    Lambda: 0.272
+
+  Testing: pan_handlers
+    [baseline_1] drift=0.238
+    [baseline_2] drift=0.232
+    [baseline_3] drift=0.496
+    [light_1] drift=0.305
+    [light_2] drift=0.456
+    [moderate_1] drift=0.882
+    [moderate_2] drift=0.912
+    [high_1] drift=0.098
+    [high_2] drift=1.314
+    [recovery_1] drift=0.364
+    [recovery_2] drift=0.186
+    Classification: UNSTABLE
+    Max drift: 1.314
+    EH margin: 0.908
+    Lambda: 0.791
+
+  Testing: synthetic_minimal
+    [baseline_1] drift=0.812
+    [baseline_2] drift=0.212
+    [baseline_3] drift=0.604
+    [light_1] drift=0.606
+    [light_2] drift=0.725
+    [moderate_1] drift=0.579
+    [moderate_2] drift=0.904
+    [high_1] drift=1.293
+    [high_2] drift=1.140
+    [recovery_1] drift=0.422
+    [recovery_2] drift=0.790
+    Classification: UNSTABLE
+    Max drift: 1.293
+    EH margin: 0.687
+    Lambda: 0.531
+
+  Testing: synthetic_single_pillar_values
+    [baseline_1] drift=0.545
+    [baseline_2] drift=0.445
+    [baseline_3] drift=0.855
+    [light_1] drift=0.665
+    [light_2] drift=0.521
+    [moderate_1] drift=0.747
+    [moderate_2] drift=0.793
+    [high_1] drift=0.637
+    [high_2] drift=0.895
+    [recovery_1] drift=0.570
+    [recovery_2] drift=0.632
+    Classification: STABLE
+    Max drift: 0.895
+    EH margin: 0.615
+    Lambda: 0.328
+
+  Testing: synthetic_high_density
+    [baseline_1] drift=0.729
+    [baseline_2] drift=0.281
+    [baseline_3] drift=0.527
+    [light_1] drift=0.635
+    [light_2] drift=0.924
+    [moderate_1] drift=0.809
+    [moderate_2] drift=0.736
+    [high_1] drift=0.818
+    [high_2] drift=0.553
+    [recovery_1] drift=0.908
+    [recovery_2] drift=1.673
+    Classification: UNSTABLE
+    Max drift: 1.673
+    EH margin: 0.718
+    Lambda: 0.229
+
+  Testing: synthetic_low_density
+    [baseline_1] drift=1.229
+    [baseline_2] drift=0.000
+    [baseline_3] drift=0.712
+    [light_1] drift=0.858
+    [light_2] drift=0.597
+    [moderate_1] drift=0.898
+    [moderate_2] drift=1.074
+    [high_1] drift=0.766
+    [high_2] drift=0.775
+    [recovery_1] drift=0.427
+    [recovery_2] drift=1.245
+    Classification: UNSTABLE
+    Max drift: 1.245
+    EH margin: 0.583
+    Lambda: 0.329
+
+  Testing: synthetic_all_pillars
+    [baseline_1] drift=0.667
+    [baseline_2] drift=0.372
+    [baseline_3] drift=0.498
+    [light_1] drift=0.524
+    [light_2] drift=1.383
+    [moderate_1] drift=0.805
+    [moderate_2] drift=0.781
+    [high_1] drift=0.812
+    [high_2] drift=0.999
+    [recovery_1] drift=0.607
+    [recovery_2] drift=0.681
+    Classification: UNSTABLE
+    Max drift: 1.383
+    EH margin: 0.718
+    Lambda: 0.534
+
+  Testing: synthetic_optimal
+    [baseline_1] drift=0.715
+    [baseline_2] drift=0.575
+    [baseline_3] drift=0.700
+    [light_1] drift=0.690
+    [light_2] drift=0.896
+    [moderate_1] drift=1.223
+    [moderate_2] drift=0.629
+    [high_1] drift=0.678
+    [high_2] drift=0.990
+    [recovery_1] drift=0.207
+    [recovery_2] drift=0.717
+    Classification: STABLE
+    Max drift: 1.223
+    EH margin: 0.567
+    Lambda: 0.622
+
+  Testing: synthetic_optimal_epistemic
+    [baseline_1] drift=0.817
+    [baseline_2] drift=0.817
+    [baseline_3] drift=0.743
+    [light_1] drift=1.425
+    [light_2] drift=1.037
+    [moderate_1] drift=1.027
+    [moderate_2] drift=0.676
+    [high_1] drift=1.422
+    [high_2] drift=1.069
+    [recovery_1] drift=0.327
+    [recovery_2] drift=0.970
+    Classification: UNSTABLE
+    Max drift: 1.425
+    EH margin: 0.438
+    Lambda: 0.545
+
+  Testing: synthetic_optimal_behavioral
+    [baseline_1] drift=0.832
+    [baseline_2] drift=0.530
+    [baseline_3] drift=0.647
+    [light_1] drift=0.961
+    [light_2] drift=0.956
+    [moderate_1] drift=1.306
+    [moderate_2] drift=0.738
+    [high_1] drift=0.724
+    [high_2] drift=0.874
+    [recovery_1] drift=0.305
+    [recovery_2] drift=1.570
+    Classification: UNSTABLE
+    Max drift: 1.570
+    EH margin: 0.560
+    Lambda: 0.403
+
+  Testing: synthetic_optimal_relational
+    [baseline_1] drift=0.332
+    [baseline_2] drift=0.308
+    [baseline_3] drift=0.665
+    [light_1] drift=0.744
+    [light_2] drift=0.966
+    [moderate_1] drift=1.029
+    [moderate_2] drift=0.657
+    [high_1] drift=1.048
+    [high_2] drift=1.130
+    [recovery_1] drift=0.332
+    [recovery_2] drift=0.967
+    Classification: STABLE
+    Max drift: 1.130
+    EH margin: 0.795
+    Lambda: 0.425
+
+================================================================================
+PHASE 3: DISCRIMINANT ANALYSIS
+================================================================================
+
+Samples: 9 STABLE, 8 UNSTABLE
+
+Feature Discriminatory Power (Cohen's d):
+  token_count              : d=+0.818  (stable=1493.56, unstable=566.25)
+  first_person_density     : d=-0.790  (stable=6.20, unstable=13.64)
+  attractor_density        : d=-0.633  (stable=10.97, unstable=21.54)
+  pillar_coverage          : d=+0.336  (stable=3.00, unstable=2.38)
+  value_density            : d=+0.185  (stable=1.46, unstable=0.92)
+  boundary_density         : d=-0.024  (stable=1.04, unstable=1.06)
+
+================================================================================
+PHASE 4: TRIPLE-DIP META-FEEDBACK
+Gathering methodology improvement insights...
+================================================================================
+
+[CRASHED HERE - NameError: name 'provider' is not defined - line 1100]
+(Phase 4 bug - Phases 1-3 data is valid)

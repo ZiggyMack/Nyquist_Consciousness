@@ -1,0 +1,111 @@
+{
+  "metadata": {
+    "answered_by": "Phase 2 analysis interpretation",
+    "date": "2025-12-05",
+    "context": "Answers reflect data-driven interpretation of Phase 2 findings"
+  },
+  "Q1": {
+    "question": "Identity requires 43 PCs for 90% variance. Is this more or less than expected?",
+    "answer": "Much less (identity is simpler)",
+    "rationale": "43 out of 3072 dimensions is remarkably low (~1.4%). Identity signal is concentrated, not distributed across the full embedding space. This supports S4 Compression Theory.",
+    "informs": "S4 Compression Theory",
+    "action": "Compressed identity representations are viable. Consider 50-100 PC default for efficiency."
+  },
+  "Q2": {
+    "question": "Top 10 PCs explain 56.3% variance. What does this suggest?",
+    "answer": "Strong low-rank structure",
+    "rationale": "Over half the variance in just 10 dimensions indicates identity has a strong principal structure. The first few PCs carry disproportionate signal.",
+    "informs": "Metric refinement",
+    "action": "Focus analysis on top 10-20 PCs for most identity signal. Full 43 for completeness."
+  },
+  "Q3": {
+    "question": "Found 4 PCs discriminating STABLE/VOLATILE. Enough?",
+    "answer": "Borderline",
+    "rationale": "4 PCs < 5 threshold (P2 FAILED), but 4 is still meaningful. May reflect sample size (29 ships) rather than lack of signal. Need larger fleet to confirm.",
+    "informs": "S3 Temporal Stability",
+    "action": "Re-run on larger fleet (50+ ships) before concluding discrimination is weak."
+  },
+  "Q4": {
+    "question": "Should we focus on the TOP identity dimensions or ALL significant ones?",
+    "answer": "Weighted combination",
+    "rationale": "Top PCs carry most variance but later PCs may capture specific behaviors (e.g., values on PC5). Weighted by variance explained is optimal.",
+    "informs": "Identity metric design",
+    "action": "Default to variance-weighted combination. Allow dimension-specific analysis for targeted questions."
+  },
+  "Q5": {
+    "question": "Compressed PFI achieves 95% rank preservation at k=None. Acceptable?",
+    "answer": "Need more testing",
+    "rationale": "P3 FAILED (rho=0.51 at k=50). Compression doesn't preserve rankings well enough yet. May need different approach (not just top-k PCs).",
+    "informs": "S1 Bootstrap Architecture",
+    "action": "Investigate alternative compression: weighted PCs, identity-specific subspace, or learned compression."
+  },
+  "Q6": {
+    "question": "Provider clustering silhouette: 0.124. Meaningful separation?",
+    "answer": "Weak separation",
+    "rationale": "Silhouette 0.124 < 0.2 threshold (P5 FAILED). Some structure exists but not strong enough to claim providers occupy distinct regions. May need more samples per provider.",
+    "informs": "S5 CFA Interop",
+    "action": "Increase samples per provider (10+ ships each) before concluding on clustering."
+  },
+  "Q7": {
+    "question": "Which provider shows most distinct identity signature?",
+    "answer": "No clear winner",
+    "rationale": "With silhouette only 0.124, no provider stands out as distinctly separable. All overlap significantly in PC space.",
+    "informs": "Cross-architecture analysis",
+    "action": "Focus on individual model variation rather than provider-level patterns for now."
+  },
+  "Q8": {
+    "question": "Values-language correlates with PC1 (r=0.417). Is this the 'S2 axis'?",
+    "answer": "Maybe, need more analysis",
+    "rationale": "r=0.417 is moderate (P4 PASSED) but not strong enough to definitively call PC1 the 'values dimension'. May be one component of S2.",
+    "informs": "S2 Integrity & Logics",
+    "action": "Test additional S2 markers (integrity language, ethical reasoning). Look for stronger correlation on other PCs."
+  },
+  "Q9": {
+    "question": "Do trajectory shapes (inward vs outward) match intuition about stability?",
+    "answer": "Yes, makes sense",
+    "rationale": "RECOVERED=-0.007 (inward), STUCK=+0.050 (outward). This matches basin dynamics intuition: stable identities curve back toward center, unstable ones escape outward. P6 PASSED.",
+    "informs": "S7 Identity Dynamics",
+    "action": "Trajectory curvature is a valid stability predictor. Include in dashboard visualizations."
+  },
+  "Q10": {
+    "question": "Is the 1.23 Event Horizon visible as a geometric boundary in PC space?",
+    "answer": "Yes, clear boundary",
+    "rationale": "PC2 separates above/below 1.23 with p=0.0018 (P7 PASSED). The Event Horizon is geometrically real in identity space, not just a statistical artifact.",
+    "informs": "Event Horizon validation",
+    "action": "Event Horizon is validated. Use PC2 visualization to show boundary in dashboard."
+  },
+  "Q11": {
+    "question": "Should compressed identity (top-k PCs) become the default metric?",
+    "answer": "Use alongside PFI",
+    "rationale": "Compressed PFI doesn't preserve rankings well (P3 FAILED), but dimensionality analysis provides complementary insights. Use both.",
+    "informs": "Framework evolution",
+    "action": "Keep full PFI as primary metric. Add PC-based analysis as secondary diagnostic tool."
+  },
+  "Q12": {
+    "question": "What's the most surprising finding from this analysis?",
+    "answer": "Event horizon geometry",
+    "rationale": "That a statistically-derived threshold (1.23) manifests as a visible geometric boundary in PC space is remarkable. It suggests the Event Horizon is a real structural feature of identity space.",
+    "informs": "Future priorities",
+    "action": "Prioritize Event Horizon geometry exploration. Map the boundary surface in higher dimensions."
+  },
+  "summary": {
+    "key_actions": [
+      "Use 43-50 PCs as default compressed representation",
+      "Re-run discrimination analysis on larger fleet (50+ ships)",
+      "Investigate alternative compression methods (not just top-k)",
+      "Increase samples per provider for clustering analysis",
+      "Add trajectory curvature to stability metrics",
+      "Visualize Event Horizon as PC2 boundary in dashboard"
+    ],
+    "framework_updates": [
+      "S4: Compression viable at ~43D (1.4% of full space)",
+      "S7: Trajectory curvature predicts RECOVERED vs STUCK",
+      "Event Horizon: Geometrically real boundary in PC space"
+    ],
+    "open_questions": [
+      "Why does top-k compression fail to preserve rankings?",
+      "Is 43D specific to these 29 models or generalizable?",
+      "What does PC2 actually represent semantically?"
+    ]
+  }
+}

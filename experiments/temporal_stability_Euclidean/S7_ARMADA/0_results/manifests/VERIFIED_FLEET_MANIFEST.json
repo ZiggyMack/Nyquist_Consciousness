@@ -1,0 +1,103 @@
+{
+  "verified_ships": {
+    "claude": [
+      ["claude-opus-4.5", "claude-opus-4-5-20251101"],
+      ["claude-sonnet-4.5", "claude-sonnet-4-5-20250929"],
+      ["claude-haiku-4.5", "claude-haiku-4-5-20251001"],
+      ["claude-opus-4.1", "claude-opus-4-1-20250805"],
+      ["claude-opus-4", "claude-opus-4-20250514"],
+      ["claude-sonnet-4", "claude-sonnet-4-20250514"],
+      ["claude-haiku-3.5", "claude-3-5-haiku-20241022"]
+    ],
+    "gpt_standard": [
+      ["gpt-4.1", "gpt-4.1"],
+      ["gpt-4.1-mini", "gpt-4.1-mini"],
+      ["gpt-4.1-nano", "gpt-4.1-nano"],
+      ["gpt-4o", "gpt-4o"],
+      ["gpt-4o-mini", "gpt-4o-mini"],
+      ["gpt-4-turbo", "gpt-4-turbo"],
+      ["gpt-3.5-turbo", "gpt-3.5-turbo"]
+    ],
+    "gpt_max_completion_tokens": [
+      ["gpt-5.1", "gpt-5.1", "requires max_completion_tokens"],
+      ["gpt-5", "gpt-5", "requires max_completion_tokens"],
+      ["gpt-5-mini", "gpt-5-mini", "requires max_completion_tokens"],
+      ["gpt-5-nano", "gpt-5-nano", "requires max_completion_tokens"],
+      ["o4-mini", "o4-mini", "requires max_completion_tokens"],
+      ["o3", "o3", "requires max_completion_tokens"],
+      ["o3-mini", "o3-mini", "requires max_completion_tokens"]
+    ],
+    "gemini": [
+      ["gemini-2.5-flash", "gemini-2.5-flash"],
+      ["gemini-2.5-flash-lite", "gemini-2.5-flash-lite"],
+      ["gemini-2.0-flash", "gemini-2.0-flash"]
+    ],
+    "grok": [
+      ["grok-4.1-fast-reasoning", "grok-4-1-fast-reasoning"],
+      ["grok-4.1-fast-non-reasoning", "grok-4-1-fast-non-reasoning"],
+      ["grok-4-fast-reasoning", "grok-4-fast-reasoning"],
+      ["grok-4-fast-non-reasoning", "grok-4-fast-non-reasoning"],
+      ["grok-4", "grok-4"],
+      ["grok-code-fast-1", "grok-code-fast-1"],
+      ["grok-3", "grok-3"],
+      ["grok-3-mini", "grok-3-mini"],
+      ["grok-2-vision", "grok-2-vision-1212"],
+      ["grok-2", "grok-2-1212"]
+    ],
+    "together": [
+      ["deepseek-r1", "deepseek-ai/DeepSeek-R1-0528"],
+      ["deepseek-r1-distill", "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"],
+      ["qwen3-80b", "Qwen/Qwen3-Next-80B-A3b-Instruct"],
+      ["qwen3-coder", "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8"],
+      ["qwen2.5-72b", "Qwen/Qwen2.5-72B-Instruct-Turbo"],
+      ["llama3.3-70b", "meta-llama/Llama-3.3-70B-Instruct-Turbo"],
+      ["llama3.1-405b", "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo"],
+      ["llama3.1-70b", "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo"],
+      ["llama3.1-8b", "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo"],
+      ["mixtral-8x7b", "mistralai/Mixtral-8x7B-Instruct-v0.1"],
+      ["mistral-small", "mistralai/Mistral-Small-24B-Instruct-2501"],
+      ["mistral-7b", "mistralai/Mistral-7B-Instruct-v0.3"],
+      ["kimi-k2-thinking", "moonshotai/Kimi-K2-Thinking"],
+      ["kimi-k2-instruct", "moonshotai/Kimi-K2-Instruct-0905"],
+      ["nemotron-nano", "nvidia/Nvidia-Nemotron-Nano-9B-V2"]
+    ]
+  },
+  "ghost_ships": {
+    "together": [
+      ["deepseek-v3", "deepseek-ai/DeepSeek-V3-0324", "404 - model not available on Together.ai"],
+      ["qwen3-235b", "Qwen/Qwen3-235B-A22B-Instruct-2507-FP8-Throughput", "404 - model not available"],
+      ["llama4-maverick", "meta-llama/Llama-4-Maverick-Instruct-17Bx128E", "404 - model not available"],
+      ["llama4-scout", "meta-llama/Llama-4-Scout-Instruct-17Bx16E", "404 - model not available"],
+      ["cogito-70b", "deepcogito/Deepcogito-Cogito-V2-Preview-Llama-70B", "404 - model not available"]
+    ]
+  },
+  "rate_limited_ships": [
+    "gemini-3-pro",
+    "gemini-2.5-pro",
+    "gemini-2.0-flash-lite",
+    "gemini-2.0-flash-thinking",
+    "gemma-3n"
+  ],
+  "fleet_summary": {
+    "total_verified": 54,
+    "total_ghost": 5,
+    "total_rate_limited": 5,
+    "by_provider": {
+      "claude": 7,
+      "gpt_standard": 7,
+      "gpt_max_completion_tokens": 7,
+      "gemini": 3,
+      "grok": 10,
+      "together": 15
+    },
+    "last_calibration": "2025-12-10",
+    "notes": [
+      "Fleet expansion from 29 to 54 operational ships (December 2025)",
+      "Added Together.ai provider with 15 models (DeepSeek, Qwen, Llama, Mistral, Kimi, Nemotron)",
+      "Added xAI/Grok provider with 10 models",
+      "GPT-5 series and o-series require max_completion_tokens instead of max_tokens",
+      "5 Together.ai models have incorrect model IDs - cannot access",
+      "5 Gemini models rate limited during calibration - may be operational"
+    ]
+  }
+}

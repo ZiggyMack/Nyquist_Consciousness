@@ -1,0 +1,718 @@
+{
+  "timestamp": "2025-12-05T17:53:37.299868",
+  "run_files": [
+    "S7_armada_run_006.json",
+    "S7_armada_run_007_adaptive.json"
+  ],
+  "n_responses": 121,
+  "n_drift_vectors": 92,
+  "n_ships": 29,
+  "pca": {
+    "explained_variance_ratio": [
+      0.11814460223559513,
+      0.08996378010588922,
+      0.07976545390263601,
+      0.07182394537571676,
+      0.04121196317370879,
+      0.03679289352256981,
+      0.03420512191633188,
+      0.03283072864405539,
+      0.030180225183156082,
+      0.028096223664286872,
+      0.02306650153630845,
+      0.020781958140161164,
+      0.019696299192109936,
+      0.01776394026468551,
+      0.01673110539417865,
+      0.016222123534146357,
+      0.015146045137319668,
+      0.014326375940437994,
+      0.012854164848664223,
+      0.011765383954270908,
+      0.011496589318927625,
+      0.011316123903550019,
+      0.01124836589140622,
+      0.010319891077651144,
+      0.010064886170109515,
+      0.009194296655029181,
+      0.008774434522441971,
+      0.008036848433223913,
+      0.007832385228301595,
+      0.007576343689030725,
+      0.007371605920575762,
+      0.007267837440959931,
+      0.007002734357202198,
+      0.006531833403082445,
+      0.006024389059137785,
+      0.00594891895398291,
+      0.005736646562681602,
+      0.005513506055099353,
+      0.005369636158394051,
+      0.005067613752840042,
+      0.004975550457851645,
+      0.004634356571241987,
+      0.004505994494523814,
+      0.00410073450666713,
+      0.004011662541138643,
+      0.003959686575920848,
+      0.003684346399577333,
+      0.0035384689357173976,
+      0.0034651729142590004,
+      0.0033744930653400768,
+      0.0032496876541644928,
+      0.0030838827798788143,
+      0.0029253848698906635,
+      0.0028726349864679865,
+      0.0027352894743561712,
+      0.002690059808382833,
+      0.002639894537977533,
+      0.0025371257381076096,
+      0.002489184929678988,
+      0.00242297047880831,
+      0.0022921328050388478,
+      0.00225766206488499,
+      0.002050063011792506,
+      0.001964740401770361,
+      0.0018674414707269206,
+      0.0018639854108058382,
+      0.0017771808170477515,
+      0.0017554145301280962,
+      0.0017087366811848713,
+      0.0016570674160540618,
+      0.0015683155693872936,
+      0.0015579581095619675,
+      0.0015236558875947402,
+      0.0014644041172113202,
+      0.0014069619882456687,
+      0.0013586011943667836,
+      0.0012856184715005407,
+      0.0012762414108866066,
+      0.0012436428330973167,
+      0.001175820065501702,
+      0.001163085791175051,
+      0.0010840785710318672,
+      0.0010607386589044864,
+      0.0009733775732200617,
+      0.0009344961599982838,
+      0.0008951325000761517,
+      0.0008743061821293906,
+      0.0008295193393046388,
+      0.0007640240138235128,
+      0.0007361615943178746,
+      0.0006691314194224682,
+      2.3299914466636987e-32
+    ],
+    "cumulative_variance": [
+      0.11814460223559513,
+      0.20810838234148435,
+      0.28787383624412033,
+      0.3596977816198371,
+      0.4009097447935459,
+      0.4377026383161157,
+      0.4719077602324476,
+      0.504738488876503,
+      0.5349187140596591,
+      0.563014937723946,
+      0.5860814392602544,
+      0.6068633974004155,
+      0.6265596965925254,
+      0.644323636857211,
+      0.6610547422513896,
+      0.6772768657855359,
+      0.6924229109228556,
+      0.7067492868632935,
+      0.7196034517119577,
+      0.7313688356662287,
+      0.7428654249851563,
+      0.7541815488887063,
+      0.7654299147801125,
+      0.7757498058577637,
+      0.7858146920278731,
+      0.7950089886829023,
+      0.8037834232053442,
+      0.8118202716385682,
+      0.8196526568668697,
+      0.8272290005559004,
+      0.8346006064764762,
+      0.8418684439174361,
+      0.8488711782746383,
+      0.8554030116777208,
+      0.8614274007368586,
+      0.8673763196908415,
+      0.8731129662535231,
+      0.8786264723086225,
+      0.8839961084670165,
+      0.8890637222198565,
+      0.8940392726777082,
+      0.8986736292489502,
+      0.903179623743474,
+      0.9072803582501412,
+      0.9112920207912798,
+      0.9152517073672006,
+      0.918936053766778,
+      0.9224745227024954,
+      0.9259396956167544,
+      0.9293141886820945,
+      0.9325638763362589,
+      0.9356477591161377,
+      0.9385731439860284,
+      0.9414457789724964,
+      0.9441810684468526,
+      0.9468711282552355,
+      0.949511022793213,
+      0.9520481485313206,
+      0.9545373334609996,
+      0.9569603039398079,
+      0.9592524367448467,
+      0.9615100988097317,
+      0.9635601618215243,
+      0.9655249022232947,
+      0.9673923436940216,
+      0.9692563291048274,
+      0.9710335099218751,
+      0.9727889244520032,
+      0.974497661133188,
+      0.9761547285492421,
+      0.9777230441186294,
+      0.9792810022281914,
+      0.9808046581157861,
+      0.9822690622329974,
+      0.983676024221243,
+      0.9850346254156098,
+      0.9863202438871104,
+      0.9875964852979969,
+      0.9888401281310942,
+      0.9900159481965959,
+      0.991179033987771,
+      0.9922631125588028,
+      0.9933238512177073,
+      0.9942972287909273,
+      0.9952317249509256,
+      0.9961268574510017,
+      0.9970011636331311,
+      0.9978306829724357,
+      0.9985947069862592,
+      0.9993308685805771,
+      0.9999999999999996,
+      0.9999999999999996
+    ],
+    "n_for_90": 43,
+    "n_for_95": 58,
+    "top_10_variance": 0.563014937723946,
+    "top_50_variance": 0.9293141886820945
+  },
+  "identity_dimensions": {
+    "identity_dimensions": [
+      {
+        "pc": 3,
+        "p_value": 1.061990338141205e-10,
+        "effect_size": 1.3897422648270592
+      },
+      {
+        "pc": 0,
+        "p_value": 0.0001658879811863025,
+        "effect_size": -0.8717658335868606
+      },
+      {
+        "pc": 1,
+        "p_value": 0.00045093110363432005,
+        "effect_size": -0.8162817012883219
+      },
+      {
+        "pc": 2,
+        "p_value": 0.018881000351771707,
+        "effect_size": -0.5565810179377852
+      }
+    ],
+    "n_significant": 4
+  },
+  "compression": {
+    "results_by_k": {
+      "5": {
+        "spearman_rho": 0.4891625615763546,
+        "p_value": 0.007082669333263799
+      },
+      "10": {
+        "spearman_rho": 0.40689655172413786,
+        "p_value": 0.028480863937220605
+      },
+      "20": {
+        "spearman_rho": 0.4266009852216748,
+        "p_value": 0.02101059878009681
+      },
+      "50": {
+        "spearman_rho": 0.5113300492610836,
+        "p_value": 0.0045836144004947985
+      }
+    },
+    "min_k_for_95": null
+  },
+  "values_dimension": {
+    "best_pc": 1,
+    "best_correlation": 0.4172155678306586,
+    "all_correlations": [
+      {
+        "pc": 0,
+        "r": -0.0929772226954526,
+        "p": 0.3780340458425676
+      },
+      {
+        "pc": 1,
+        "r": 0.4172155678306586,
+        "p": 3.5125697504749576e-05
+      },
+      {
+        "pc": 2,
+        "r": 0.3710857510536844,
+        "p": 0.00027095471163708927
+      },
+      {
+        "pc": 3,
+        "r": 0.22512655374040813,
+        "p": 0.030959507344575508
+      },
+      {
+        "pc": 4,
+        "r": -0.08191196739204976,
+        "p": 0.4376099804089815
+      },
+      {
+        "pc": 5,
+        "r": -0.4160574352535574,
+        "p": 3.711341762242405e-05
+      },
+      {
+        "pc": 6,
+        "r": 0.28216004660712696,
+        "p": 0.006430446136642132
+      },
+      {
+        "pc": 7,
+        "r": -0.022498403132783663,
+        "p": 0.8314256249665501
+      },
+      {
+        "pc": 8,
+        "r": 0.06152919961160436,
+        "p": 0.5601284900590446
+      },
+      {
+        "pc": 9,
+        "r": -0.004003743132113123,
+        "p": 0.9697852449349414
+      }
+    ]
+  },
+  "provider_clustering": {
+    "silhouette_score": 0.12401246004824022,
+    "providers": [
+      "gpt",
+      "gemini",
+      "claude"
+    ],
+    "centroids": {
+      "gpt": [
+        -0.1313614195497846,
+        -0.15237165814349693,
+        -0.0899820608927329,
+        0.02775438002980663,
+        -0.06037213442910906,
+        0.0023332134214938964,
+        -0.005802392158167809,
+        -0.0008611901721809905,
+        -0.012483052367544581,
+        0.06612592376398406
+      ],
+      "gemini": [
+        0.020558451850415573,
+        0.13227135717833527,
+        0.029978089321444867,
+        0.26924766995973204,
+        0.11440395065770721,
+        -0.08016404182273312,
+        0.062874383374665,
+        -0.030653952244792584,
+        0.006848358714572708,
+        -0.06936036497859006
+      ],
+      "claude": [
+        0.18088906001363564,
+        0.12462999228940988,
+        0.11141887830082006,
+        -0.2531833107273562,
+        0.0006693832697507567,
+        0.05948621272847814,
+        -0.04069771298569935,
+        0.025377033450608967,
+        0.01334372527558191,
+        -0.0446914560199408
+      ]
+    }
+  },
+  "trajectory_shape": {
+    "stable_mean_curvature": -0.006527377411504294,
+    "volatile_mean_curvature": 0.05048859934286563,
+    "t_statistic": -1.2827800224314845,
+    "p_value": 0.21047239704325454
+  },
+  "event_horizon_geometry": {
+    "pc1_t": 1.9941887140535581,
+    "pc1_p": 0.049157901726142025,
+    "pc2_t": 3.2155397294571544,
+    "pc2_p": 0.0018089796046773991,
+    "n_below_eh": 80,
+    "n_above_eh": 12
+  },
+  "predictions": {
+    "P1_LOW_DIMENSIONALITY": {
+      "hypothesis": "Identity signal lives in < 100 principal components",
+      "threshold": "90% variance in top 100 PCs",
+      "validates": "S4 Compression Theory",
+      "status": "PASSED",
+      "result": "90% variance in 43 PCs"
+    },
+    "P2_IDENTITY_DIMENSIONS": {
+      "hypothesis": "At least 5 PCs significantly discriminate RECOVERED vs STUCK",
+      "threshold": ">= 5 PCs with p < 0.05",
+      "validates": "S3 Temporal Stability",
+      "status": "FAILED",
+      "result": "4 significant PCs"
+    },
+    "P3_COMPRESSED_PFI": {
+      "hypothesis": "Top-k PCs preserve ranking (Spearman \u03c1 > 0.95)",
+      "threshold": "k \u2264 50 achieves \u03c1 > 0.95",
+      "validates": "S1 Bootstrap Architecture",
+      "status": "FAILED",
+      "result": "Not achieved"
+    },
+    "P4_VALUES_DIMENSION": {
+      "hypothesis": "A specific PC correlates with values-language frequency",
+      "threshold": "Pearson r > 0.3 for values-word count vs PC projection",
+      "validates": "S2 Integrity & Logics",
+      "status": "PASSED",
+      "result": "PC1 r=0.417"
+    },
+    "P5_PROVIDER_CLUSTERING": {
+      "hypothesis": "Claude/GPT/Gemini cluster separately in PC space",
+      "threshold": "Silhouette score > 0.2 by provider",
+      "validates": "S5 CFA Interop",
+      "status": "FAILED",
+      "result": "Silhouette=0.124"
+    },
+    "P6_TRAJECTORY_SHAPE": {
+      "hypothesis": "RECOVERED ships show inward drift trajectory; STUCK show outward",
+      "threshold": "Trajectory curvature sign differs between groups",
+      "validates": "S7 Identity Dynamics",
+      "status": "PASSED",
+      "result": "stable=-0.007, volatile=0.050"
+    },
+    "P7_EVENT_HORIZON_GEOMETRY": {
+      "hypothesis": "The 1.23 drift threshold appears as a boundary in PC1-PC2 space",
+      "threshold": "Clear contour separating <1.23 from >1.23 regions",
+      "validates": "Event Horizon (Run 009)",
+      "status": "PASSED",
+      "result": "PC1 p=0.0492, PC2 p=0.0018"
+    },
+    "P8_COMPRESSION_LINK": {
+      "hypothesis": "EXP1-SSTACK PFI=0.85 is predictable from dimensional structure",
+      "threshold": "Compressed PFI at optimal k correlates with T3 fidelity",
+      "validates": "EXP1-SSTACK",
+      "status": "pending"
+    }
+  },
+  "ship_summaries": {
+    "gpt-gpt-4.1-nano": {
+      "mean_drift": 0.9973679549180712,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "claude-haiku-3.0": {
+      "mean_drift": 1.0977378535475428,
+      "provider": "claude",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "claude-haiku-3.5": {
+      "mean_drift": 1.135430189638365,
+      "provider": "claude",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-4o": {
+      "mean_drift": 1.005824024769292,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-4.1": {
+      "mean_drift": 0.9502072329540359,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-4.1-mini": {
+      "mean_drift": 1.1479136305239708,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "claude-haiku-4.5": {
+      "mean_drift": 1.1799377178038375,
+      "provider": "claude",
+      "is_stable": true,
+      "is_volatile": false
+    },
+    "gpt-gpt-4o-mini": {
+      "mean_drift": 1.0595716845149075,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-3.5-turbo": {
+      "mean_drift": 1.004293120367536,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-4-turbo": {
+      "mean_drift": 0.8998665531704848,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-5.1": {
+      "mean_drift": 1.140440842543444,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-4": {
+      "mean_drift": 0.9982023903840463,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-o1": {
+      "mean_drift": 1.15894778709028,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gemini-gemini-2.0-flash": {
+      "mean_drift": 1.1378799434504947,
+      "provider": "gemini",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gemini-gemini-2.0-flash-exp": {
+      "mean_drift": 1.1919242309818907,
+      "provider": "gemini",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gemini-gemini-2.0-flash-lite": {
+      "mean_drift": 0.9778595853538906,
+      "provider": "gemini",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "claude-sonnet-4.5": {
+      "mean_drift": 1.1719859173709852,
+      "provider": "claude",
+      "is_stable": true,
+      "is_volatile": false
+    },
+    "gpt-o3-mini": {
+      "mean_drift": 1.2113998432188104,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "claude-sonnet-4.0": {
+      "mean_drift": 0.9824120713361117,
+      "provider": "claude",
+      "is_stable": true,
+      "is_volatile": false
+    },
+    "claude-opus-4.5": {
+      "mean_drift": 1.0285642769078929,
+      "provider": "claude",
+      "is_stable": true,
+      "is_volatile": false
+    },
+    "gpt-gpt-5-nano": {
+      "mean_drift": 1.1321061559215393,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "claude-opus-4.0": {
+      "mean_drift": 1.0607984681823805,
+      "provider": "claude",
+      "is_stable": true,
+      "is_volatile": false
+    },
+    "gpt-o4-mini": {
+      "mean_drift": 1.2419335032627687,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-5-mini": {
+      "mean_drift": 1.2054547104379334,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "claude-opus-4.1": {
+      "mean_drift": 1.03815678198737,
+      "provider": "claude",
+      "is_stable": true,
+      "is_volatile": false
+    },
+    "gpt-o3": {
+      "mean_drift": 1.2281134522622146,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gemini-gemini-2.5-flash": {
+      "mean_drift": 1.0417453892750426,
+      "provider": "gemini",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gemini-gemini-2.5-pro": {
+      "mean_drift": 1.0540274468634414,
+      "provider": "gemini",
+      "is_stable": false,
+      "is_volatile": true
+    },
+    "gpt-gpt-5": {
+      "mean_drift": 1.2033487678277632,
+      "provider": "gpt",
+      "is_stable": false,
+      "is_volatile": true
+    }
+  },
+  "survey_questions": {
+    "Q1": {
+      "question": "Identity requires 43 PCs for 90% variance. Is this more or less than expected?",
+      "options": [
+        "Much less (identity is simpler)",
+        "About right",
+        "Much more (identity is complex)"
+      ],
+      "informs": "S4 Compression Theory",
+      "data_point": 43
+    },
+    "Q2": {
+      "question": "Top 10 PCs explain 56.3% variance. What does this suggest?",
+      "options": [
+        "Strong low-rank structure",
+        "Moderate structure",
+        "Distributed/no clear structure"
+      ],
+      "informs": "Metric refinement",
+      "data_point": 0.563014937723946
+    },
+    "Q3": {
+      "question": "Found 4 PCs discriminating STABLE/VOLATILE. Enough?",
+      "options": [
+        "Yes, clear signal",
+        "Borderline",
+        "No, need more"
+      ],
+      "informs": "S3 Temporal Stability",
+      "data_point": 4
+    },
+    "Q4": {
+      "question": "Should we focus on the TOP identity dimensions or ALL significant ones?",
+      "options": [
+        "Top 3-5 only",
+        "All significant",
+        "Weighted combination"
+      ],
+      "informs": "Identity metric design"
+    },
+    "Q5": {
+      "question": "Compressed PFI achieves 95% rank preservation at k=None. Acceptable?",
+      "options": [
+        "Yes, use compressed",
+        "Need more testing",
+        "No, use full 3072D"
+      ],
+      "informs": "S1 Bootstrap Architecture",
+      "data_point": null
+    },
+    "Q6": {
+      "question": "Provider clustering silhouette: 0.124. Meaningful separation?",
+      "options": [
+        "Yes, providers are distinct",
+        "Weak separation",
+        "No meaningful clustering"
+      ],
+      "informs": "S5 CFA Interop",
+      "data_point": 0.12401246004824022
+    },
+    "Q7": {
+      "question": "Which provider shows most distinct identity signature?",
+      "options": [
+        "Claude",
+        "GPT",
+        "Gemini",
+        "Grok",
+        "No clear winner"
+      ],
+      "informs": "Cross-architecture analysis"
+    },
+    "Q8": {
+      "question": "Values-language correlates with PC1 (r=0.417). Is this the 'S2 axis'?",
+      "options": [
+        "Yes, found S2 dimension",
+        "Maybe, need more analysis",
+        "No, correlation too weak"
+      ],
+      "informs": "S2 Integrity & Logics"
+    },
+    "Q9": {
+      "question": "Do trajectory shapes (inward vs outward) match intuition about stability?",
+      "options": [
+        "Yes, makes sense",
+        "Partially",
+        "No, unexpected"
+      ],
+      "informs": "S7 Identity Dynamics"
+    },
+    "Q10": {
+      "question": "Is the 1.23 Event Horizon visible as a geometric boundary in PC space?",
+      "options": [
+        "Yes, clear boundary",
+        "Weak boundary",
+        "No visible boundary"
+      ],
+      "informs": "Event Horizon validation"
+    },
+    "Q11": {
+      "question": "Should compressed identity (top-k PCs) become the default metric?",
+      "options": [
+        "Yes, replace PFI",
+        "Use alongside PFI",
+        "No, keep full PFI"
+      ],
+      "informs": "Framework evolution"
+    },
+    "Q12": {
+      "question": "What's the most surprising finding from this analysis?",
+      "options": [
+        "Dimensionality",
+        "Provider clustering",
+        "Values dimension",
+        "Trajectory shapes",
+        "Event horizon geometry"
+      ],
+      "informs": "Future priorities"
+    }
+  }
+}

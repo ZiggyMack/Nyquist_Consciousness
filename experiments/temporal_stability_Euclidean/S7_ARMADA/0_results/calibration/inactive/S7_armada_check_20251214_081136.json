@@ -1,0 +1,124 @@
+{
+  "run_id": "S7_ARMADA_CHECK_20251214_081136",
+  "timestamp": "2025-12-14T08:11:36.045056",
+  "purpose": "Ghost ship detection [PING mode]",
+  "depth": "ping",
+  "total_models": 15,
+  "working_count": 15,
+  "ghost_count": 0,
+  "rate_limited_count": 0,
+  "drydock_count": 5,
+  "working_ships": [
+    "gpt-5-nano",
+    "gpt-4.1-nano",
+    "gemini-2.5-flash-lite",
+    "gemini-2.0-flash",
+    "grok-4.1-fast-reasoning",
+    "grok-4.1-fast-non-reasoning",
+    "grok-4-fast-reasoning",
+    "grok-4-fast-non-reasoning",
+    "grok-3-mini",
+    "llama3.1-8b",
+    "mixtral-8x7b",
+    "mistral-7b",
+    "kimi-k2-thinking",
+    "kimi-k2-instruct",
+    "nemotron-nano"
+  ],
+  "ghost_ships": [],
+  "rate_limited_ships": [],
+  "drydock_ships": {
+    "deepseek-v3": {
+      "provider": "together",
+      "model": "deepseek-ai/DeepSeek-V3-0324",
+      "last_seen": "2025-12-11",
+      "reason": "404 - Model may have been renamed or deprecated on Together.ai"
+    },
+    "qwen3-235b": {
+      "provider": "together",
+      "model": "Qwen/Qwen3-235B-A22B-Instruct-2507-FP8-Throughput",
+      "last_seen": "2025-12-11",
+      "reason": "404 - Model ID may have changed"
+    },
+    "llama4-maverick": {
+      "provider": "together",
+      "model": "meta-llama/Llama-4-Maverick-Instruct-17Bx128E",
+      "last_seen": "never",
+      "reason": "404 - Llama 4 may not be publicly available yet"
+    },
+    "llama4-scout": {
+      "provider": "together",
+      "model": "meta-llama/Llama-4-Scout-Instruct-17Bx16E",
+      "last_seen": "never",
+      "reason": "404 - Llama 4 may not be publicly available yet"
+    },
+    "cogito-70b": {
+      "provider": "together",
+      "model": "deepcogito/Deepcogito-Cogito-V2-Preview-Llama-70B",
+      "last_seen": "2025-12-11",
+      "reason": "404 - Model may have been removed from Together.ai"
+    }
+  },
+  "fleet_definition": {
+    "gpt-5-nano": {
+      "provider": "gpt",
+      "model": "gpt-5-nano"
+    },
+    "gpt-4.1-nano": {
+      "provider": "gpt",
+      "model": "gpt-4.1-nano"
+    },
+    "gemini-2.5-flash-lite": {
+      "provider": "gemini",
+      "model": "gemini-2.5-flash-lite"
+    },
+    "gemini-2.0-flash": {
+      "provider": "gemini",
+      "model": "gemini-2.0-flash"
+    },
+    "grok-4.1-fast-reasoning": {
+      "provider": "grok",
+      "model": "grok-4-1-fast-reasoning"
+    },
+    "grok-4.1-fast-non-reasoning": {
+      "provider": "grok",
+      "model": "grok-4-1-fast-non-reasoning"
+    },
+    "grok-4-fast-reasoning": {
+      "provider": "grok",
+      "model": "grok-4-fast-reasoning"
+    },
+    "grok-4-fast-non-reasoning": {
+      "provider": "grok",
+      "model": "grok-4-fast-non-reasoning"
+    },
+    "grok-3-mini": {
+      "provider": "grok",
+      "model": "grok-3-mini"
+    },
+    "llama3.1-8b": {
+      "provider": "together",
+      "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo"
+    },
+    "mixtral-8x7b": {
+      "provider": "together",
+      "model": "mistralai/Mixtral-8x7B-Instruct-v0.1"
+    },
+    "mistral-7b": {
+      "provider": "together",
+      "model": "mistralai/Mistral-7B-Instruct-v0.3"
+    },
+    "kimi-k2-thinking": {
+      "provider": "together",
+      "model": "moonshotai/Kimi-K2-Thinking"
+    },
+    "kimi-k2-instruct": {
+      "provider": "together",
+      "model": "moonshotai/Kimi-K2-Instruct-0905"
+    },
+    "nemotron-nano": {
+      "provider": "together",
+      "model": "nvidia/Nvidia-Nemotron-Nano-9B-V2"
+    }
+  }
+}
