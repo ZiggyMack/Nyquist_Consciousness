@@ -240,9 +240,12 @@ def count_trajectories_from_manifest(manifest: Dict) -> Tuple[int, int, int]:
     """Count trajectories from manifest experiments data.
 
     Returns (stable_count, volatile_count, total_count) based on drift values.
-    Event Horizon threshold = 1.23
+
+    NOTE: Event Horizon 1.23 was calibrated for Keyword RMS (Run 009), NOT cosine.
+    This threshold is used as a PLACEHOLDER until run023b calibrates a cosine threshold.
+    See METHODOLOGY_DOMAINS.md for full details.
     """
-    EVENT_HORIZON = 1.23
+    EVENT_HORIZON = 1.23  # TODO: Update after run023b calibration
     stable = 0
     volatile = 0
 

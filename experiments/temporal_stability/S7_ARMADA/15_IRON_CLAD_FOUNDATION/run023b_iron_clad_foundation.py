@@ -21,8 +21,10 @@ METHODOLOGY:
     Cosine distance is the standardized methodology because:
     - Measures directional similarity, not raw magnitude
     - Bounded [0, 2] providing consistent interpretation
-    - Event Horizon 1.23 threshold calibrated for cosine distance
-    - See PHILOSOPHICAL_FAQ.md and RUN_METHODOLOGY.md for rationale
+    - See METHODOLOGY_DOMAINS.md and RUN_METHODOLOGY.md for rationale
+
+    NOTE: The Event Horizon 1.23 was calibrated for Keyword RMS (Run 009), NOT cosine.
+    This run (023b) is collecting data to CALIBRATE a new cosine Event Horizon.
 
 LAYER COVERAGE:
     Layer 1 (Foundation): Event Horizon validation, stability classification
@@ -291,7 +293,9 @@ def calculate_drift(baseline: str, response: str) -> float:
     PFI (Persona Fidelity Index) = 1 - cosine_similarity(response, baseline)
     Range: [0, 2] where 0 = identical, 2 = opposite
 
-    The Event Horizon threshold (1.23) is calibrated for this cosine distance metric.
+    NOTE: The Event Horizon 1.23 was calibrated for Keyword RMS (Run 009), NOT cosine.
+    This run (023b) is collecting data to CALIBRATE a new cosine Event Horizon.
+    See METHODOLOGY_DOMAINS.md for full details.
     """
     import numpy as np
 

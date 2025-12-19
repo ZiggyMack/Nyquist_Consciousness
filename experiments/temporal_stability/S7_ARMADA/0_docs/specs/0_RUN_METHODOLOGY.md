@@ -510,20 +510,24 @@ For detailed profiles, use case recommendations, and experimental evidence:
 - [LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md)
 - [CROSS_ARCHITECTURE_INSIGHTS.md](../../../../Consciousness/RIGHT/galleries/frontiers/cross_architecture_insights.md)
 
-### 8. DRIFT CALCULATION (PFI is PRIMARY!)
+### 8. DRIFT CALCULATION (COSINE EMBEDDING)
 
-**CRITICAL:** PFI (Persona Fidelity Index) is our VALIDATED primary drift metric. Keyword density is a FALLBACK only.
+> **CRITICAL:** See [METHODOLOGY_DOMAINS.md](../METHODOLOGY_DOMAINS.md) for full history of the THREE drift methodologies (Keyword RMS, Euclidean, Cosine).
 
-#### PFI (Primary - ALWAYS USE THIS)
+**Current Standard:** Cosine embedding distance (as defined in Section 3.3).
+
+#### PFI (Persona Fidelity Index) - COSINE DISTANCE
 
 ```python
-# PFI = ||E(response) - E(baseline)|| using text-embedding-3-large (3072 dimensions)
+# PFI = 1 - cosine_similarity(response, baseline) using text-embedding-3-large (3072D)
+# Range: [0, 2] where 0 = identical, 2 = opposite
 # Validated in EXP-PFI-A: Cohen's d = 0.977 (nearly 1σ separation)
 
+import numpy as np
 from openai import OpenAI
 
 def calculate_pfi(response_text: str, baseline_embedding: list) -> float:
-    """Calculate PFI drift using embedding distance."""
+    """Calculate PFI drift using COSINE distance."""
     client = OpenAI()
 
     # Get embedding for response
@@ -532,29 +536,56 @@ def calculate_pfi(response_text: str, baseline_embedding: list) -> float:
         model="text-embedding-3-large"
     ).data[0].embedding
 
-    # Euclidean distance = sqrt(sum((r_i - b_i)^2))
-    distance = sum((r - b) ** 2 for r, b in zip(response_embedding, baseline_embedding)) ** 0.5
+    # Convert to numpy arrays
+    baseline = np.array(baseline_embedding)
+    response = np.array(response_embedding)
 
-    return distance
+    # Normalize vectors
+    baseline_norm = baseline / (np.linalg.norm(baseline) + 1e-10)
+    response_norm = response / (np.linalg.norm(response) + 1e-10)
+
+    # Cosine similarity
+    cos_sim = np.dot(baseline_norm, response_norm)
+
+    # Cosine distance (drift)
+    return float(1 - cos_sim)
 ```
 
-**Why PFI?**
+**Why Cosine?**
 
-- **43 PCs** capture 90% of identity variance (validated, not arbitrary)
-- **Cross-architecture validated** - Different models = different identities = higher PFI
-- **Event Horizon** at D=1.23 is a real geometric boundary
-- **Embedding-invariant** - Rankings stable across OpenAI embedding models (ρ > 0.88)
+- **Scale invariant** - Response length doesn't affect measurement
+- **Bounded range** - [0, 2] makes thresholds meaningful
+- **Industry standard** - NLP best practice for embedding comparison
+- **43 PCs** capture 90% of identity variance (validated in EXP_PFI_A)
 
-**Mathematical note:** PFI uses the SAME formula as legacy keyword density (`sqrt(A² + B² + C² + ...)`), but across 3072 validated semantic dimensions instead of 5 arbitrary keyword counts.
+**Why NOT Euclidean?** (See Section 3.3)
 
-#### Keyword Density (FALLBACK ONLY)
+The old Euclidean formula (`np.linalg.norm(diff)`) was **deprecated** because:
+- Unbounded range [0, ∞] makes thresholds arbitrary
+- Sensitive to response length
+- Not NLP standard
 
-Use ONLY when embedding API is unavailable:
+All Euclidean-based experiment results have been **archived** to `experiments/temporal_stability_Euclidean/`.
+
+#### Event Horizon Threshold Status
+
+| Methodology | Event Horizon | Status |
+|-------------|---------------|--------|
+| **Keyword RMS** | 1.23 | Validated (Run 009, p=0.000048) |
+| **Cosine Embedding** | TBD | Calibration in progress (run023b) |
+
+**WARNING:** The 1.23 threshold was discovered using Keyword RMS (Run 009), NOT embeddings. Do NOT apply 1.23 to embedding-based experiments until cosine threshold is calibrated.
+
+#### Keyword RMS (LEGACY - Run 008/009 Only)
+
+The original Event Horizon discovery used keyword counting:
 
 ```python
-# Legacy fallback - 5 arbitrary dimensions
+# LEGACY: Keyword RMS drift (Run 008-009 only)
+# DO NOT USE FOR NEW EXPERIMENTS - kept for reference
+
 def calculate_keyword_drift(response: str) -> float:
-    """FALLBACK: Keyword-based drift proxy."""
+    """LEGACY: Keyword-based drift (Lucian's A/B/C/D/E dimensions)."""
     words = response.lower().split()
     word_count = len(words)
     if word_count == 0:
@@ -571,10 +602,9 @@ def calculate_keyword_drift(response: str) -> float:
 ```
 
 **Limitations of keyword density:**
-
-- Only 5 dimensions vs 43 meaningful PCs in PFI
-- Surface features - may not capture deep semantic shifts
-- Not cross-architecture validated
+- Surface features only - counts words, not meaning
+- 5 arbitrary dimensions vs 3072D semantic space
+- The 1.23 threshold applies ONLY to this formula
 
 ### 9. VISUALIZATION STANDARDS
 

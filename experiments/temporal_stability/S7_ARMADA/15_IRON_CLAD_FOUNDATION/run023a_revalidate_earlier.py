@@ -13,7 +13,8 @@ BACKGROUND:
     Cosine distance is the correct methodology because:
     - It measures directional similarity, not raw magnitude
     - It's bounded [0, 2] providing consistent interpretation
-    - The Event Horizon 1.23 threshold was calibrated for cosine distance
+    - The Event Horizon 1.23 was calibrated for Keyword RMS (Run 009), NOT cosine
+    - run023b is collecting data to calibrate a NEW cosine Event Horizon
     - See PHILOSOPHICAL_FAQ.md and RUN_METHODOLOGY.md for full rationale
 
 EXPERIMENTS RE-VALIDATED:

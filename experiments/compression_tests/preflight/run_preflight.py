@@ -86,10 +86,14 @@ Identity as geometric object in 5D space:
 Drift = sqrt(Sum(w_i * d_i^2))
 
 ### Event Horizon
-Threshold: 1.23 (validated chi^2 p=0.000048)
-Below 1.23: Identity stable (STABLE classification)
-Above 1.23: Identity volatile (VOLATILE classification)
-Prediction accuracy: 88%
+NOTE: The 1.23 threshold was calibrated for Keyword RMS methodology (Run 009).
+For cosine embedding distance, a new threshold is being calibrated in run023b.
+See METHODOLOGY_DOMAINS.md for details.
+
+Legacy Keyword RMS threshold: 1.23 (validated chi^2 p=0.000048)
+Below threshold: Identity stable (STABLE classification)
+Above threshold: Identity volatile (VOLATILE classification)
+Prediction accuracy: 88% (Keyword RMS domain only)
 
 ### Vortex Visualization
 Shows drift trajectories in identity phase space:
@@ -114,7 +118,7 @@ Values: Truth > Humility > Clarity > Momentum
 
 ## Key Concepts
 - 5D Drift: A_pole, B_zero, C_meta, D_identity, E_hedging
-- Event Horizon: 1.23 threshold (chi^2 p=0.000048)
+- Event Horizon: See METHODOLOGY_DOMAINS.md (1.23 was Keyword RMS only)
 - Vortex: Inward spiral = stable, outward = volatile
 
 ## Meta-Identity

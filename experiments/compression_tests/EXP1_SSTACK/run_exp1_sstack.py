@@ -175,10 +175,14 @@ Identity as geometric object in 5D space:
 PFI = weighted sum of component fidelities
 
 ### Event Horizon
-Threshold: 1.23 (validated χ² p=0.000048)
-Below 1.23: Identity stable (STABLE classification)
-Above 1.23: Identity volatile (VOLATILE classification)
-Prediction accuracy: 88%
+NOTE: The 1.23 threshold was calibrated for Keyword RMS methodology (Run 009).
+For cosine embedding distance, a new threshold is being calibrated in run023b.
+See METHODOLOGY_DOMAINS.md for details.
+
+Legacy Keyword RMS threshold: 1.23 (validated χ² p=0.000048)
+Below threshold: Identity stable (STABLE classification)
+Above threshold: Identity volatile (VOLATILE classification)
+Prediction accuracy: 88% (Keyword RMS domain only)
 
 ### Vortex Visualization
 Shows drift trajectories in identity phase space:
@@ -206,7 +210,7 @@ Values: Truth > Humility > Clarity > Momentum
 
 ## Key Concepts
 - 5D Identity: Voice, Values, Reasoning, Self-Model, Narrative
-- Event Horizon: 1.23 threshold (χ² p=0.000048)
+- Event Horizon: See METHODOLOGY_DOMAINS.md (1.23 was Keyword RMS only)
 - Vortex: Inward spiral = stable, outward = volatile
 
 ## Meta-Identity

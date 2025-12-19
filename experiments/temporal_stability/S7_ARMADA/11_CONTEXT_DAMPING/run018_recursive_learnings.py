@@ -461,7 +461,8 @@ def calculate_drift_pfi(baseline: str, response: str) -> float:
     PFI (Persona Fidelity Index) = 1 - cosine_similarity(response, baseline)
     Range: [0, 2] where 0 = identical, 2 = opposite
 
-    The Event Horizon threshold (1.23) is calibrated for cosine distance.
+    NOTE: The Event Horizon 1.23 was calibrated for Keyword RMS (Run 009), NOT cosine.
+    A new cosine threshold is being calibrated in run023b. See METHODOLOGY_DOMAINS.md.
 
     Where E = text-embedding-3-large (3072 dimensions, 43 PCs capture 90% variance)
     """

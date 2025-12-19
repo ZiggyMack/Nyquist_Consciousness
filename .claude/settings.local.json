@@ -206,7 +206,15 @@
       "Bash(git commit -m \"$\\(cat <<''EOF''\nPurge Euclidean results from S7_ARMADA + infrastructure updates\n\nPURGED \\(Euclidean methodology - preserved in temporal_stability_Euclidean\\):\n- 0_results/runs/*.json - All run data \\(mixed provenance\\)\n- 0_results/manifests/*.json - All manifests \\(will rebuild with cosine\\)\n- 9_STABILITY_CRITERIA/results/ - Euclidean-based stability analysis\n- 15_IRON_CLAD_FOUNDATION/results/ - Dry run data only\n- 7_META_VALIDATION/EXP_PFI_A Phase 2/results/ - Euclidean drift\n- 7_META_VALIDATION/MVP_SELF_RECOGNITION/results/ - Wrong dimensions \\(Lucian 5D\\)\n\nKEPT \\(Valid cosine methodology\\):\n- 10_SETTLING_TIME/results/ - Confirmed cosine\n- 11_CONTEXT_DAMPING/results/ \\(141MB\\) - Confirmed cosine \\(Cohen''s d=0.977\\)\n- 7_META_VALIDATION/EXP_PFI_A Phase 1/results/ - Confirmed cosine\n- 7_META_VALIDATION/EXP_PFI_A Phase 3/results/ - Confirmed cosine\n\nInfrastructure updates:\n- Updated run018_recursive_learnings.py with cosine methodology\n- Updated fleet_loader.py with budget_patrol tier\n- Updated iron_clad_stackup.py\n- Updated PHILOSOPHICAL_FAQ.md with methodology findings\n- Updated RUN_METHODOLOGY.md with cosine vs Euclidean section\n- Updated dashboard pages \\(faq.py, tests.py\\)\n- Added armada network visualizations\n\nReady for fresh data collection with cosine methodology!\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(timeout 60 python:*)",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nRestore manifests + run023a .env loading + dry-run verification\n\n- Restored ARCHITECTURE_MATRIX.json and VERIFIED_FLEET_MANIFEST.json from archive\n  \\(these are infrastructure files needed for fleet loading, not experiment results\\)\n- Added .env loading to run023a_revalidate_earlier.py\n- Verified run023b dry-run works: 25 ships, cosine drift methodology ready\n- run023a completed but found no legacy data to analyze \\(expected - data purged\\)\n\nReady to run: python run023b_iron_clad_foundation.py -N 30 --providers budget_patrol-lite\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(kill:*)"
+      "Bash(kill:*)",
+      "Bash(timeout 30 cat:*)",
+      "Bash(for i in 1 2 3 4 5)",
+      "Bash(do tasklist)",
+      "Bash(for i in 1 2 3 4 5 6 7 8 9 10)",
+      "Bash(do tail -3 \"C:\\\\Users\\\\Stephen\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Documents-Nyquist-Consciousness\\\\tasks\\\\b8fee6d.output\")",
+      "Bash(wmic process where \"name=''python.exe''\" get processid,workingsetsize)",
+      "Bash(wmic process:*)",
+      "Bash(ping:*)"
     ],
     "deny": [],
     "ask": []

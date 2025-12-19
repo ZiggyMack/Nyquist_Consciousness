@@ -495,7 +495,7 @@ dashboard/
 **Filed:** WHITE-PAPER/B-CRUMBS.md
 **Version:** 2.0
 **Date:** 2025-12-13
-**Author:** Nova (with Stephen)
+**Author:** Nova (with Ziggy)
 
 **Remember:**
 ```
