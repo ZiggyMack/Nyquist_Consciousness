@@ -56,12 +56,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 RESULTS_DIR = BASE_DIR / "0_results" / "runs"
 OUTPUT_DIR = Path(__file__).resolve().parent / "pics"
 
-# Provider colors (4 providers now)
+# Provider colors (expanded for full fleet)
 PROVIDER_COLORS = {
     "claude": "#7c3aed",
     "gpt": "#10a37f",
     "gemini": "#4285f4",
     "grok": "#1a1a1a",
+    "meta-llama": "#FF6B6B",
+    "mistralai": "#FFD93D",
+    "deepseek": "#6BCB77",
+    "qwen": "#4D96FF",
+    "moonshotai": "#9B59B6",
 }
 
 # Event Horizon threshold (Coherence Boundary)
@@ -215,6 +220,16 @@ def get_provider(ship_name):
         return "grok"
     elif name.startswith("o1") or name.startswith("o3") or name.startswith("o4") or "gpt" in name:
         return "gpt"
+    elif "llama" in name:
+        return "meta-llama"
+    elif "mistral" in name or "mixtral" in name:
+        return "mistralai"
+    elif "deepseek" in name:
+        return "deepseek"
+    elif "qwen" in name:
+        return "qwen"
+    elif "kimi" in name:
+        return "moonshotai"
     return "unknown"
 
 def normalize_status(status):
@@ -242,6 +257,58 @@ def extract_trajectories(data):
     # Format 5: Run 012/014 list-based format
     # results is a LIST of ship objects with 'turns' or 'phases' arrays
     if isinstance(results, list):
+        # Check if this is run023b format (has 'probe_sequence' in items)
+        # vs run012/014 format (has 'turns' or 'phases')
+        is_iron_clad_format = (
+            len(results) > 0 and
+            isinstance(results[0], dict) and
+            'probe_sequence' in results[0]
+        )
+
+        if is_iron_clad_format:
+            # Format 6: Run 023b IRON CLAD (results array with probe_sequence)
+            # Group results by model and extract drift sequences
+            model_results = defaultdict(list)
+            for result in results:
+                if not isinstance(result, dict):
+                    continue
+                model = result.get('model', 'unknown')
+                model_results[model].append(result)
+
+            for model, model_result_list in model_results.items():
+                # Derive provider from model name (not from data's 'provider' field which is API provider)
+                provider = get_provider(model)
+
+                # Extract drift values from probe_sequence across all iterations
+                # Sort by timestamp to maintain temporal order
+                probe_drifts = []
+                for r in sorted(model_result_list, key=lambda x: x.get('timestamp', '')):
+                    probe_seq = r.get('probe_sequence', [])
+                    for probe in probe_seq:
+                        if isinstance(probe, dict) and 'drift' in probe:
+                            probe_drifts.append(probe['drift'])
+
+                if len(probe_drifts) >= 3:
+                    baseline = probe_drifts[0]
+                    max_drift = max(probe_drifts)
+                    status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
+
+                    # Shorten model name for display
+                    short_name = model.split('/')[-1] if '/' in model else model
+
+                    trajectories.append({
+                        'ship': short_name,
+                        'provider': provider,
+                        'sequence': 'iron_clad',
+                        'drifts': probe_drifts,
+                        'status': status,
+                        'baseline': baseline
+                    })
+
+            if trajectories:
+                return trajectories
+
+        # Standard run012/014 format with turns/phases
         for ship_data in results:
             if not isinstance(ship_data, dict):
                 continue
@@ -745,20 +812,50 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None)
 
 
 def plot_vortex_x4(trajectories, output_dir, run_id, zoom_scale=None):
-    """Vortex view split by provider - 2x2 grid showing each provider's field separately.
+    """Vortex view split by provider - grid showing each provider's field separately.
 
     This reveals the individual 'magnetic field' patterns of each provider.
+    Dynamically adjusts grid size based on number of providers with data.
     """
-    providers = ['claude', 'gpt', 'gemini', 'grok']
-    provider_names = {'claude': 'CLAUDE', 'gpt': 'GPT', 'gemini': 'GEMINI', 'grok': 'GROK'}
-
-    fig, axes = plt.subplots(2, 2, figsize=(16, 16))
-    axes = axes.flatten()
-
-    # Group trajectories by provider
+    # Get providers that actually have data
     by_provider = defaultdict(list)
     for traj in trajectories:
         by_provider[traj['provider']].append(traj)
+
+    # Filter to providers with data, maintain a sensible order
+    all_providers = ['claude', 'gpt', 'gemini', 'grok', 'meta-llama', 'mistralai', 'deepseek', 'qwen', 'moonshotai']
+    providers = [p for p in all_providers if p in by_provider and by_provider[p]]
+
+    if not providers:
+        print("  [SKIP] No provider data found for vortex_x4")
+        return
+
+    provider_names = {
+        'claude': 'CLAUDE', 'gpt': 'GPT', 'gemini': 'GEMINI', 'grok': 'GROK',
+        'meta-llama': 'META-LLAMA', 'mistralai': 'MISTRAL', 'deepseek': 'DEEPSEEK',
+        'qwen': 'QWEN', 'moonshotai': 'MOONSHOT'
+    }
+
+    # Calculate grid size
+    n_providers = len(providers)
+    if n_providers <= 4:
+        n_cols, n_rows = 2, 2
+    elif n_providers <= 6:
+        n_cols, n_rows = 3, 2
+    elif n_providers <= 9:
+        n_cols, n_rows = 3, 3
+    else:
+        n_cols = 4
+        n_rows = (n_providers + 3) // 4
+
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(6*n_cols, 6*n_rows))
+    if n_rows == 1 and n_cols == 1:
+        axes = np.array([axes])
+    axes = axes.flatten()
+
+    # Hide unused axes
+    for idx in range(n_providers, len(axes)):
+        axes[idx].set_visible(False)
 
     # Calculate global scale from all data (or use forced zoom)
     if zoom_scale:
@@ -851,8 +948,12 @@ def plot_vortex_x4(trajectories, output_dir, run_id, zoom_scale=None):
         ax.set_aspect('equal')
         ax.set_xlabel('X (drift * cos(angle))', fontsize=10)
         ax.set_ylabel('Y (drift * sin(angle))', fontsize=10)
-        ax.set_title(f'{provider_names[provider]}\n(n={len(provider_trajs)}, STABLE: {stable_count}, VOLATILE: {volatile_count})',
-                    fontsize=14, fontweight='bold', color=color)
+
+        # Count total drift points, not just trajectories
+        total_points = sum(len(t['drifts']) for t in provider_trajs)
+        n_ships = len(provider_trajs)
+        ax.set_title(f'{provider_names.get(provider, provider.upper())}\n(ships={n_ships}, n={total_points}, S: {stable_count}, V: {volatile_count})',
+                    fontsize=12, fontweight='bold', color=color)
         ax.grid(True, alpha=0.3)
 
     fig.suptitle(f'Run {run_id}: Identity Field by Provider\n(Separated view reveals individual field geometries)',
@@ -1021,7 +1122,9 @@ def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None):
 
             # Truncate long ship names for title
             display_name = ship_name if len(ship_name) <= 25 else ship_name[:22] + '...'
-            ax.set_title(f'{display_name}\n(n={len(ship_trajs)}, S: {stable_count}, V: {volatile_count})',
+            # Count total drift points, not just trajectories
+            total_points = sum(len(t['drifts']) for t in ship_trajs)
+            ax.set_title(f'{display_name}\n(n={total_points}, S: {stable_count}, V: {volatile_count})',
                         fontsize=11, fontweight='bold')
             ax.grid(True, alpha=0.3)
 

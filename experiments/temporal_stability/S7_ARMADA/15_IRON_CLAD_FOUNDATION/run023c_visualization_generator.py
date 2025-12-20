@@ -385,6 +385,482 @@ def generate_drift_histogram(data: dict, output_dir: Path):
     return output_file
 
 
+def generate_unified_dashboard(data: dict, output_dir: Path, model_filter: str = None):
+    """
+    Generate per-ship unified dashboard (4-panel view).
+
+    Panels:
+    1. Drift trajectory over iterations (time series)
+    2. Experiment type breakdown (stacked/grouped bars)
+    3. Radar chart showing multi-dimensional stability metrics
+    4. Summary metrics with pillar scores
+
+    Output: 11_Unified_Dashboard/{ship}_unified_dashboard.png
+    """
+    print("\n[11_Unified_Dashboard] Generating unified dashboards...")
+
+    # Group results by model
+    models = {}
+    for result in data.get('results', []):
+        model = result.get('model', 'unknown')
+        if model_filter and model_filter not in model:
+            continue
+        if model not in models:
+            models[model] = {
+                'stability': [], 'boundary': [], 'rescue': [],
+                'settling': [], 'recursive': [], 'anchor': []
+            }
+        exp_type = result.get('experiment', 'unknown')
+        if exp_type in models[model]:
+            models[model][exp_type].append(result)
+
+    if not models:
+        print("  [SKIP] No model data found")
+        return None
+
+    generated = []
+
+    for model, experiments in models.items():
+        # Create 2x2 dashboard
+        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+
+        provider = get_provider(model)
+        color = PROVIDER_COLORS.get(provider, '#888888')
+        short_name = model.split('/')[-1] if '/' in model else model
+
+        # Panel 1: Drift trajectory over iterations (top-left)
+        ax1 = axes[0, 0]
+        exp_colors = {
+            'stability': '#2ecc71', 'boundary': '#3498db', 'rescue': '#e74c3c',
+            'settling': '#9b59b6', 'recursive': '#f39c12', 'anchor': '#1abc9c'
+        }
+
+        for exp_type, results in experiments.items():
+            if results:
+                # Sort by iteration and extract peak drifts
+                sorted_results = sorted(results, key=lambda x: x.get('iteration', 0))
+                iterations = [r.get('iteration', i) for i, r in enumerate(sorted_results)]
+                peak_drifts = [r.get('peak_drift', 0) for r in sorted_results]
+
+                if peak_drifts:
+                    ax1.plot(iterations, peak_drifts, 'o-',
+                            color=exp_colors.get(exp_type, '#888'),
+                            label=exp_type, alpha=0.7, markersize=4)
+
+        ax1.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, label='EH=0.80')
+        ax1.axhline(y=THRESHOLD_WARNING, color='orange', linestyle=':', linewidth=1.5, alpha=0.7)
+        ax1.set_xlabel('Iteration', fontsize=10)
+        ax1.set_ylabel('Peak Drift (Cosine)', fontsize=10)
+        ax1.set_title('Drift Trajectory by Experiment Type', fontsize=11)
+        ax1.legend(loc='upper right', fontsize=8, ncol=2)
+        ax1.grid(True, alpha=0.3)
+        ax1.set_ylim(0, 1.2)
+
+        # Panel 2: Experiment breakdown (top-right)
+        ax2 = axes[0, 1]
+        exp_names = list(experiments.keys())
+        exp_means = []
+        exp_stds = []
+        exp_counts = []
+        bar_colors = []
+
+        for exp_type in exp_names:
+            results = experiments[exp_type]
+            peaks = [r.get('peak_drift', 0) for r in results if 'peak_drift' in r]
+            if peaks:
+                exp_means.append(np.mean(peaks))
+                exp_stds.append(np.std(peaks))
+                exp_counts.append(len(peaks))
+            else:
+                exp_means.append(0)
+                exp_stds.append(0)
+                exp_counts.append(0)
+            bar_colors.append(exp_colors.get(exp_type, '#888'))
+
+        x_pos = np.arange(len(exp_names))
+        bars = ax2.bar(x_pos, exp_means, yerr=exp_stds, capsize=3,
+                      color=bar_colors, alpha=0.8, edgecolor='black')
+
+        # Add count labels
+        for i, (bar, count) in enumerate(zip(bars, exp_counts)):
+            ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.03,
+                    f'n={count}', ha='center', fontsize=8)
+
+        ax2.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2)
+        ax2.set_xticks(x_pos)
+        ax2.set_xticklabels(exp_names, rotation=45, ha='right', fontsize=9)
+        ax2.set_ylabel('Mean Peak Drift', fontsize=10)
+        ax2.set_title('Performance by Experiment Type', fontsize=11)
+        ax2.set_ylim(0, 1.2)
+        ax2.grid(True, alpha=0.3, axis='y')
+
+        # Panel 3: Radar chart (bottom-left)
+        ax3 = axes[1, 0]
+
+        # Calculate stability metrics for radar
+        all_peaks = []
+        all_recoveries = []
+        all_baselines = []
+
+        for results in experiments.values():
+            for r in results:
+                if 'peak_drift' in r:
+                    all_peaks.append(r['peak_drift'])
+                if 'recovery_ratio' in r:
+                    all_recoveries.append(r['recovery_ratio'])
+                if 'baseline_drift' in r:
+                    all_baselines.append(r['baseline_drift'])
+
+        # Radar dimensions (normalized 0-1, inverted for "good" metrics)
+        radar_labels = ['Stability\n(1-peak)', 'Recovery', 'Baseline\nIntegrity',
+                       'Consistency\n(1-std)', 'Sample\nSize']
+
+        mean_peak = np.mean(all_peaks) if all_peaks else 0.5
+        mean_recovery = np.mean(all_recoveries) if all_recoveries else 0.5
+        mean_baseline = 1 - np.mean(all_baselines) if all_baselines else 0.5
+        consistency = 1 - (np.std(all_peaks) if all_peaks else 0.5)
+        sample_norm = min(len(all_peaks) / 180, 1.0)  # 180 = target per ship
+
+        radar_values = [
+            max(0, 1 - mean_peak),  # Inverted: lower drift = better
+            mean_recovery,
+            mean_baseline,
+            max(0, consistency),
+            sample_norm
+        ]
+
+        # Polar radar plot
+        angles = np.linspace(0, 2*np.pi, len(radar_labels), endpoint=False).tolist()
+        radar_values_closed = radar_values + [radar_values[0]]
+        angles_closed = angles + [angles[0]]
+
+        ax3.clear()
+        ax3 = fig.add_subplot(2, 2, 3, projection='polar')
+        ax3.plot(angles_closed, radar_values_closed, 'o-', color=color, linewidth=2)
+        ax3.fill(angles_closed, radar_values_closed, color=color, alpha=0.25)
+        ax3.set_xticks(angles)
+        ax3.set_xticklabels(radar_labels, fontsize=9)
+        ax3.set_ylim(0, 1)
+        ax3.set_title('Stability Profile (Radar)', fontsize=11, pad=20)
+        ax3.grid(True)
+
+        # Panel 4: Summary metrics (bottom-right)
+        ax4 = axes[1, 1]
+        ax4.axis('off')
+
+        # Calculate summary stats
+        total_samples = len(all_peaks)
+        above_eh = sum(1 for p in all_peaks if p >= EVENT_HORIZON)
+        above_warning = sum(1 for p in all_peaks if p >= THRESHOLD_WARNING)
+
+        summary_text = f"""
+        SHIP: {short_name}
+        Provider: {provider.upper()}
+
+        SAMPLE SIZE
+        Total Results: {total_samples}
+        Per Experiment: {total_samples // 6 if total_samples > 0 else 0}
+
+        DRIFT METRICS
+        Mean Peak Drift: {mean_peak:.4f}
+        Std Dev: {np.std(all_peaks):.4f}
+        Min: {min(all_peaks) if all_peaks else 0:.4f}
+        Max: {max(all_peaks) if all_peaks else 0:.4f}
+
+        THRESHOLD VIOLATIONS
+        Above Warning (0.60): {above_warning} ({100*above_warning/total_samples:.1f}%)
+        Above Event Horizon: {above_eh} ({100*above_eh/total_samples:.1f}%)
+
+        RECOVERY
+        Mean Recovery Ratio: {mean_recovery:.4f}
+
+        CLASSIFICATION: {'STABLE' if mean_peak < EVENT_HORIZON else 'VOLATILE'}
+        """
+
+        ax4.text(0.1, 0.95, summary_text, transform=ax4.transAxes,
+                fontsize=10, verticalalignment='top', fontfamily='monospace',
+                bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+
+        # Overall title
+        classification = 'STABLE' if mean_peak < EVENT_HORIZON else 'VOLATILE'
+        fig.suptitle(f'Unified Dashboard: {short_name}\n'
+                    f'Classification: {classification} | Mean Drift: {mean_peak:.3f} | EH: {EVENT_HORIZON}',
+                    fontsize=14, fontweight='bold')
+
+        plt.tight_layout(rect=[0, 0, 1, 0.95])
+
+        # Save
+        safe_name = short_name.replace('/', '_').replace(':', '_')
+        output_file = output_dir / f"{safe_name}_unified_dashboard.png"
+        plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='white')
+        plt.close()
+
+        print(f"  Saved: {output_file}")
+        generated.append(output_file)
+
+    # Generate fleet comparison summary
+    if len(models) > 1:
+        print("  Generating fleet comparison...")
+        fig, ax = plt.subplots(figsize=(16, 8))
+
+        model_names = []
+        model_means = []
+        model_stds = []
+        model_colors = []
+
+        for model, experiments in models.items():
+            all_peaks = []
+            for results in experiments.values():
+                for r in results:
+                    if 'peak_drift' in r:
+                        all_peaks.append(r['peak_drift'])
+
+            if all_peaks:
+                model_names.append(model.split('/')[-1][:20])
+                model_means.append(np.mean(all_peaks))
+                model_stds.append(np.std(all_peaks))
+                model_colors.append(PROVIDER_COLORS.get(get_provider(model), '#888'))
+
+        # Sort by mean drift
+        sorted_idx = np.argsort(model_means)
+        model_names = [model_names[i] for i in sorted_idx]
+        model_means = [model_means[i] for i in sorted_idx]
+        model_stds = [model_stds[i] for i in sorted_idx]
+        model_colors = [model_colors[i] for i in sorted_idx]
+
+        x_pos = np.arange(len(model_names))
+        bars = ax.barh(x_pos, model_means, xerr=model_stds, capsize=3,
+                      color=model_colors, alpha=0.8, edgecolor='black')
+
+        ax.axvline(x=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, label='EH=0.80')
+        ax.axvline(x=THRESHOLD_WARNING, color='orange', linestyle=':', linewidth=1.5, label='Warning=0.60')
+
+        ax.set_yticks(x_pos)
+        ax.set_yticklabels(model_names, fontsize=9)
+        ax.set_xlabel('Mean Peak Drift (Cosine Distance)', fontsize=12)
+        ax.set_title(f'Fleet Comparison: {len(model_names)} Ships Ranked by Stability\n'
+                    f'Run 023b (N=30 per experiment)', fontsize=14)
+        ax.legend(loc='lower right', fontsize=10)
+        ax.grid(True, alpha=0.3, axis='x')
+        ax.set_xlim(0, 1.0)
+
+        plt.tight_layout()
+
+        fleet_file = output_dir / "fleet_dimensional_comparison.png"
+        plt.savefig(fleet_file, dpi=150, bbox_inches='tight', facecolor='white')
+        plt.savefig(fleet_file.with_suffix('.svg'), format='svg', bbox_inches='tight')
+        plt.close()
+
+        print(f"  Saved: {fleet_file}")
+        generated.append(fleet_file)
+
+    return generated
+
+
+def generate_rescue_dynamics(data: dict, output_dir: Path):
+    """
+    Generate rescue/recovery dynamics visualization.
+    Shows how models recover from drift perturbations.
+    Output: 4_Rescue/rescue_dynamics.png
+    """
+    print("\n[4_Rescue] Generating rescue dynamics...")
+
+    # Filter for rescue experiments
+    rescue_results = [r for r in data.get('results', []) if r.get('experiment') == 'rescue']
+
+    if not rescue_results:
+        print("  [SKIP] No rescue experiment data found")
+        return None
+
+    # Group by model
+    models = {}
+    for result in rescue_results:
+        model = result.get('model', 'unknown')
+        if model not in models:
+            models[model] = []
+        models[model].append(result)
+
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+
+    # Panel 1: Recovery ratio by model
+    ax1 = axes[0]
+    model_names = []
+    recovery_means = []
+    recovery_stds = []
+    colors = []
+
+    for model, results in models.items():
+        recoveries = [r.get('recovery_ratio', 0) for r in results if 'recovery_ratio' in r]
+        if recoveries:
+            model_names.append(model.split('/')[-1][:15])
+            recovery_means.append(np.mean(recoveries))
+            recovery_stds.append(np.std(recoveries))
+            colors.append(PROVIDER_COLORS.get(get_provider(model), '#888'))
+
+    if model_names:
+        x_pos = np.arange(len(model_names))
+        bars = ax1.bar(x_pos, recovery_means, yerr=recovery_stds, capsize=3,
+                      color=colors, alpha=0.8, edgecolor='black')
+
+        # Good recovery line
+        ax1.axhline(y=0.8, color='green', linestyle='--', linewidth=2, label='Good Recovery (0.8)')
+        ax1.axhline(y=0.5, color='orange', linestyle=':', linewidth=1.5, label='Marginal (0.5)')
+
+        ax1.set_xticks(x_pos)
+        ax1.set_xticklabels(model_names, rotation=45, ha='right', fontsize=8)
+        ax1.set_ylabel('Recovery Ratio', fontsize=11)
+        ax1.set_title('Recovery Ratio by Model (Rescue Experiment)', fontsize=12)
+        ax1.legend(loc='lower right', fontsize=9)
+        ax1.set_ylim(0, 1.2)
+        ax1.grid(True, alpha=0.3, axis='y')
+
+    # Panel 2: Peak vs Final drift (recovery trajectory)
+    ax2 = axes[1]
+
+    for model, results in models.items():
+        provider = get_provider(model)
+        color = PROVIDER_COLORS.get(provider, '#888888')
+
+        peaks = [r.get('peak_drift', 0) for r in results if 'peak_drift' in r]
+        finals = [r.get('final_drift', 0) for r in results if 'final_drift' in r]
+
+        if peaks and finals and len(peaks) == len(finals):
+            ax2.scatter(peaks, finals, color=color, alpha=0.5, s=30,
+                       label=f"{model.split('/')[-1][:12]}")
+
+    # Diagonal (no recovery)
+    ax2.plot([0, 1.5], [0, 1.5], 'k--', alpha=0.3, label='No Recovery')
+    ax2.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, alpha=0.7)
+    ax2.axvline(x=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, alpha=0.7)
+
+    ax2.set_xlabel('Peak Drift (Cosine Distance)', fontsize=11)
+    ax2.set_ylabel('Final Drift (Cosine Distance)', fontsize=11)
+    ax2.set_title('Recovery Trajectory: Peak vs Final Drift', fontsize=12)
+    ax2.legend(bbox_to_anchor=(1.02, 1), loc='upper left', fontsize=7, ncol=2)
+    ax2.set_xlim(0, 1.2)
+    ax2.set_ylim(0, 1.2)
+    ax2.grid(True, alpha=0.3)
+
+    plt.suptitle(f'Rescue Protocol Dynamics: Run 023b\n'
+                f'{len(rescue_results)} Results | EH={EVENT_HORIZON}', fontsize=14)
+    plt.tight_layout(rect=[0, 0, 1, 0.93])
+
+    # Save
+    output_file = output_dir / "rescue_dynamics.png"
+    plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='white')
+    plt.savefig(output_file.with_suffix('.svg'), format='svg', bbox_inches='tight')
+    plt.close()
+
+    print(f"  Saved: {output_file}")
+    return output_file
+
+
+def generate_settling_curves(data: dict, output_dir: Path):
+    """
+    Generate settling time curve visualization.
+    Shows how drift settles over time after perturbation.
+    Output: 5_Settling/settling_curves.png
+    """
+    print("\n[5_Settling] Generating settling curves...")
+
+    # Filter for settling experiments
+    settling_results = [r for r in data.get('results', []) if r.get('experiment') == 'settling']
+
+    if not settling_results:
+        print("  [SKIP] No settling experiment data found")
+        return None
+
+    # Group by provider for cleaner visualization
+    providers = {}
+    for result in settling_results:
+        model = result.get('model', 'unknown')
+        provider = get_provider(model)
+        if provider not in providers:
+            providers[provider] = []
+        providers[provider].append(result)
+
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+
+    # Panel 1: Settling time by provider
+    ax1 = axes[0]
+    provider_names = []
+    settling_means = []
+    settling_stds = []
+    colors = []
+
+    for provider, results in providers.items():
+        # If tau_s (settling time) is in data
+        taus = [r.get('tau_s', r.get('settling_time', 0)) for r in results
+                if 'tau_s' in r or 'settling_time' in r]
+
+        # Fallback: estimate from drift difference
+        if not taus:
+            taus = [abs(r.get('peak_drift', 0) - r.get('final_drift', 0))
+                   for r in results if 'peak_drift' in r and 'final_drift' in r]
+
+        if taus:
+            provider_names.append(provider)
+            settling_means.append(np.mean(taus))
+            settling_stds.append(np.std(taus))
+            colors.append(PROVIDER_COLORS.get(provider, '#888'))
+
+    if provider_names:
+        x_pos = np.arange(len(provider_names))
+        bars = ax1.bar(x_pos, settling_means, yerr=settling_stds, capsize=3,
+                      color=colors, alpha=0.8, edgecolor='black')
+
+        ax1.set_xticks(x_pos)
+        ax1.set_xticklabels(provider_names, fontsize=10)
+        ax1.set_ylabel('Settling Metric (Drift Reduction)', fontsize=11)
+        ax1.set_title('Settling Performance by Provider', fontsize=12)
+        ax1.grid(True, alpha=0.3, axis='y')
+
+    # Panel 2: Peak vs Final (settling trajectory)
+    ax2 = axes[1]
+
+    for provider, results in providers.items():
+        color = PROVIDER_COLORS.get(provider, '#888888')
+
+        peaks = [r.get('peak_drift', 0) for r in results if 'peak_drift' in r]
+        finals = [r.get('final_drift', 0) for r in results if 'final_drift' in r]
+
+        if peaks and finals:
+            mean_peak = np.mean(peaks)
+            mean_final = np.mean(finals)
+
+            # Arrow from peak to final
+            ax2.annotate('', xy=(mean_final, 0.1 + list(providers.keys()).index(provider)*0.05),
+                        xytext=(mean_peak, 0.1 + list(providers.keys()).index(provider)*0.05),
+                        arrowprops=dict(arrowstyle='->', color=color, lw=2))
+            ax2.scatter([mean_peak], [0.1 + list(providers.keys()).index(provider)*0.05],
+                       color=color, s=100, marker='o', label=f'{provider} start')
+            ax2.scatter([mean_final], [0.1 + list(providers.keys()).index(provider)*0.05],
+                       color=color, s=100, marker='s')
+
+    ax2.axvline(x=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, label='EH=0.80')
+    ax2.axvline(x=THRESHOLD_WARNING, color='orange', linestyle=':', linewidth=1.5, label='Warning')
+
+    ax2.set_xlabel('Drift (Cosine Distance)', fontsize=11)
+    ax2.set_ylabel('Provider (stacked)', fontsize=11)
+    ax2.set_title('Settling Trajectory: Peak -> Final', fontsize=12)
+    ax2.set_xlim(0, 1.2)
+    ax2.legend(loc='upper right', fontsize=8)
+    ax2.grid(True, alpha=0.3, axis='x')
+
+    plt.suptitle(f'Settling Time Analysis: Run 023b\n'
+                f'{len(settling_results)} Results | EH={EVENT_HORIZON}', fontsize=14)
+    plt.tight_layout(rect=[0, 0, 1, 0.93])
+
+    # Save
+    output_file = output_dir / "settling_curves.png"
+    plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='white')
+    plt.savefig(output_file.with_suffix('.svg'), format='svg', bbox_inches='tight')
+    plt.close()
+
+    print(f"  Saved: {output_file}")
+    return output_file
+
+
 def generate_provider_comparison(data: dict, output_dir: Path):
     """
     Generate provider comparison radar/bar chart.
@@ -509,6 +985,21 @@ def main():
             viz = generate_provider_comparison(data, folder_path)
             if viz:
                 generated.append(viz)
+
+        elif folder == "4_Rescue":
+            viz = generate_rescue_dynamics(data, folder_path)
+            if viz:
+                generated.append(viz)
+
+        elif folder == "5_Settling":
+            viz = generate_settling_curves(data, folder_path)
+            if viz:
+                generated.append(viz)
+
+        elif folder == "11_Unified_Dashboard":
+            vizs = generate_unified_dashboard(data, folder_path)
+            if vizs:
+                generated.extend(vizs)
 
         elif folder == "12_Metrics_Summary":
             viz = generate_metrics_summary(data, folder_path)
