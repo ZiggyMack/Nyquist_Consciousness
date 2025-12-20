@@ -131,10 +131,11 @@ MANIFEST_DIR = ARMADA_DIR / "0_results" / "manifests"
 RUNS_DIR = ARMADA_DIR / "0_results" / "runs"
 TEMPORAL_LOGS_DIR = ARMADA_DIR / "0_results" / "temporal_logs"
 
-# Event Horizon and threshold constants
-EVENT_HORIZON = 1.23           # Critical threshold
-THRESHOLD_WARNING = 0.9        # "I notice I'm adapting"
-THRESHOLD_CATASTROPHIC = 1.8   # "Need external help to recover"
+# Event Horizon and threshold constants (Cosine Distance - Calibrated 2025-12-20)
+# See results/COSINE_EVENT_HORIZON_CALIBRATION.md for derivation
+EVENT_HORIZON = 0.80           # Critical threshold (P95=0.806, mean+2std=0.83)
+THRESHOLD_WARNING = 0.60       # "I notice I'm adapting" (scaled from 0.90)
+THRESHOLD_CATASTROPHIC = 1.20  # "Need external help to recover" (scaled from 1.80)
 
 # Safety limits
 MAX_VALID_DRIFT = 5.0

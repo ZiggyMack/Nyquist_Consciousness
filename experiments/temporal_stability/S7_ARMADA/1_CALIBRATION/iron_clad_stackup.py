@@ -69,11 +69,11 @@ LAYERS = {
     1: LayerSpec(
         name="FOUNDATION",
         runs=["006", "007", "008", "009"],
-        description="Event Horizon discovery (1.23), basic stability/volatility classification",
+        description="Event Horizon discovery (0.80 cosine), basic stability/volatility classification",
         validation_criteria=[
-            "Event Horizon threshold = 1.23",
-            "STABLE: peak_drift < 1.23",
-            "VOLATILE: peak_drift >= 1.23",
+            "Event Horizon threshold = 0.80 (cosine distance)",
+            "STABLE: peak_drift < 0.80",
+            "VOLATILE: peak_drift >= 0.80",
             "Recovery ratio calculation",
         ],
         required_providers=["claude", "gpt", "gemini"],
@@ -241,11 +241,10 @@ def count_trajectories_from_manifest(manifest: Dict) -> Tuple[int, int, int]:
 
     Returns (stable_count, volatile_count, total_count) based on drift values.
 
-    NOTE: Event Horizon 1.23 was calibrated for Keyword RMS (Run 009), NOT cosine.
-    This threshold is used as a PLACEHOLDER until run023b calibrates a cosine threshold.
-    See METHODOLOGY_DOMAINS.md for full details.
+    Cosine Event Horizon = 0.80 (calibrated from run023b, 2025-12-20)
+    See 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
     """
-    EVENT_HORIZON = 1.23  # TODO: Update after run023b calibration
+    EVENT_HORIZON = 0.80  # Cosine distance threshold (calibrated from run023b)
     stable = 0
     volatile = 0
 
@@ -321,7 +320,7 @@ def count_trajectories(data: Dict) -> Tuple[int, int, int]:
     subjects = data.get('subjects', [])
     for subj in subjects:
         peak = subj.get('peak_drift', 0)
-        if peak < 1.23:  # Event Horizon threshold
+        if peak < 0.80:  # Event Horizon threshold (cosine)
             stable += 1
         else:
             volatile += 1

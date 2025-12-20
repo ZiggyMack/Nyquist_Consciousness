@@ -7,6 +7,24 @@ TARGET: 4500 (25 ships x 180 results)
 STATUS: COMPLETE (100.1%)
 
 ======================================================================
+COSINE EVENT HORIZON CALIBRATION
+======================================================================
+
+CALIBRATED: 2025-12-20
+See: COSINE_EVENT_HORIZON_CALIBRATION.md for full details
+
+NEW THRESHOLDS (Cosine Distance):
+  WARNING:       0.60  (was 0.90 for keyword RMS)
+  EVENT HORIZON: 0.80  (was 1.23 for keyword RMS)
+  CATASTROPHIC:  1.20  (was 1.80 for keyword RMS)
+
+EMPIRICAL DATA:
+  Mean peak drift:   0.5738
+  Median peak drift: 0.5609
+  P95:               0.8062
+  Observed range:    [0.18, 0.89]
+
+======================================================================
 COMPLETE SHIPS (25/25 ships @ N=30, 180 results each)
 ======================================================================
 
@@ -60,9 +78,16 @@ Phase 2: run023b_complete_partial.py (Dec 19-20)
   - Added 1231 new results
 
 Phase 3: run023b_fill_gaps.py (Dec 20)
-  - Filled 429 rate limit gaps in Grok ships
-  - Filled gaps in gpt-5-nano, Mixtral
+  - Filled remaining rate limit gaps
+  - Grok ships: 16 gaps
+  - GPT-5-nano: 2 gaps
+  - Mixtral: 2 gaps
   - Added 20 final results
+
+Phase 4: Event Horizon Calibration (Dec 20)
+  - Analyzed 4500 peak_drift values
+  - Calibrated cosine Event Horizon = 0.80
+  - Updated all threshold constants in codebase
 
 ======================================================================
 METHODOLOGY
@@ -83,8 +108,8 @@ N=30 iterations per ship (CLT minimum for statistical validity)
 NEXT STEPS
 ======================================================================
 
-1. [PENDING] Calibrate cosine Event Horizon from drift data
-2. [PENDING] Generate drift distribution histograms
+1. [COMPLETE] Calibrate cosine Event Horizon from drift data
+2. [PENDING] Generate drift distribution visualizations
 3. [PENDING] Complete IRON CLAD stack: runs 18, 20a, 20b
 
 ======================================================================
@@ -92,6 +117,14 @@ DATA FILES
 ======================================================================
 
 Primary: S7_run_023b_CURRENT.json (4505 results)
+Calibration: COSINE_EVENT_HORIZON_CALIBRATION.md
 Scripts: run023b_complete_partial.py, run023b_fill_gaps.py
+Log: completion_log.txt (raw execution log - see notes below)
+
+NOTE ON completion_log.txt:
+  This is a RAW execution log from the completion scripts.
+  It starts with "PARTIAL SHIPS TO COMPLETE" which was the state
+  BEFORE completion. The log shows each ship being processed.
+  For authoritative status, use THIS file (STATUS_SUMMARY.txt).
 
 ======================================================================
