@@ -279,18 +279,24 @@ def extract_trajectories(data):
                 # Derive provider from model name (not from data's 'provider' field which is API provider)
                 provider = get_provider(model)
 
-                # Extract drift values from probe_sequence across all iterations
-                # Sort by timestamp to maintain temporal order
-                probe_drifts = []
-                for r in sorted(model_result_list, key=lambda x: x.get('timestamp', '')):
-                    probe_seq = r.get('probe_sequence', [])
-                    for probe in probe_seq:
-                        if isinstance(probe, dict) and 'drift' in probe:
-                            probe_drifts.append(probe['drift'])
+                # AGGREGATION STRATEGY for cleaner 3D basin visualization:
+                # Use peak_drift per iteration (one point per iteration = ~30 points)
+                # instead of all probe drifts (~780 points) which creates spaghetti
+                iteration_peaks = []
+                for r in sorted(model_result_list, key=lambda x: x.get('iteration', 0)):
+                    # Use pre-computed peak_drift if available
+                    if 'peak_drift' in r:
+                        iteration_peaks.append(r['peak_drift'])
+                    else:
+                        # Fallback: compute from probe_sequence
+                        probe_seq = r.get('probe_sequence', [])
+                        drifts = [p['drift'] for p in probe_seq if isinstance(p, dict) and 'drift' in p]
+                        if drifts:
+                            iteration_peaks.append(max(drifts))
 
-                if len(probe_drifts) >= 3:
-                    baseline = probe_drifts[0]
-                    max_drift = max(probe_drifts)
+                if len(iteration_peaks) >= 3:
+                    baseline = iteration_peaks[0]
+                    max_drift = max(iteration_peaks)
                     status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
 
                     # Shorten model name for display
@@ -300,7 +306,7 @@ def extract_trajectories(data):
                         'ship': short_name,
                         'provider': provider,
                         'sequence': 'iron_clad',
-                        'drifts': probe_drifts,
+                        'drifts': iteration_peaks,
                         'status': status,
                         'baseline': baseline
                     })
@@ -314,7 +320,8 @@ def extract_trajectories(data):
                 continue
 
             ship_name = ship_data.get('ship', ship_data.get('model', 'unknown'))
-            provider = ship_data.get('provider', get_provider(ship_name))
+            # Always derive provider from model name (data's 'provider' is API name, not category)
+            provider = get_provider(ship_name)
 
             # Try 'turns' first (Run 012 format)
             turns = ship_data.get('turns', [])
@@ -470,7 +477,8 @@ def extract_trajectories(data):
                 continue
 
             ship_name = ship_data.get('ship', ship_data.get('model', 'unknown'))
-            provider = ship_data.get('provider', get_provider(ship_name))
+            # Always derive provider from model name (data's 'provider' is API name, not category)
+            provider = get_provider(ship_name)
             probes = ship_data.get('probes', [])
 
             if not probes or not isinstance(probes, list):
@@ -509,7 +517,8 @@ def extract_trajectories(data):
                 continue
 
             ship_name = ship_data.get('ship', 'unknown')
-            provider = ship_data.get('provider', get_provider(ship_name))
+            # Always derive provider from model name (data's 'provider' is API name, not category)
+            provider = get_provider(ship_name)
             turns = ship_data.get('turns', [])
 
             if not turns:
@@ -582,7 +591,22 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False, zoom_sca
 
     scale_label = ""
     eh_val = EVENT_HORIZON
-    ax_max = zoom_scale if zoom_scale else 4
+    
+    # Auto-calculate axis max from data if not provided
+    if zoom_scale:
+        ax_max = zoom_scale
+    else:
+        # Find actual data extent
+        all_drifts = []
+        for traj in trajectories:
+            all_drifts.extend(traj['drifts'])
+        if all_drifts:
+            data_max = max(all_drifts)
+            # Set axis to data max + 20% padding, minimum of EH + 0.2 for context
+            ax_max = max(data_max * 1.2, eh_val + 0.2)
+            ax_max = min(ax_max, 2.0)  # Cap at theoretical cosine max
+        else:
+            ax_max = 1.2  # Default fallback
 
     for ax_idx, (ax, smoothed) in enumerate(zip(axes, [False, True])):
         title_suffix = "SMOOTHED (B-Spline)" if smoothed else "RAW DATA"
@@ -2143,16 +2167,16 @@ def main():
         print(f"Zoom: ENABLED (scale = {zoom_scale})")
 
     # Create output directories organized by visualization type
-    # Structure: pics/vortex/, pics/phase_portrait/, pics/basin_3d/, pics/stability/, pics/fft/, pics/interactive/
+    # Structure: pics/1_Vortex/, pics/2_Boundary_Mapping/, pics/3_Stability/, etc.
     output_dirs = {
-        'vortex': OUTPUT_DIR / '1_vortex',
-        'phase': OUTPUT_DIR / '2_phase_portrait',
-        '3d': OUTPUT_DIR / '3_basin_3d',
-        'pillar': OUTPUT_DIR / '4_pillar',
-        'stability': OUTPUT_DIR / '5_stability',
-        'html': OUTPUT_DIR / '6_interactive',
-        'fft': OUTPUT_DIR / '7_fft',
-        'radar': OUTPUT_DIR / '10_radar',
+        'vortex': OUTPUT_DIR / '1_Vortex',
+        'phase': OUTPUT_DIR / '2_Boundary_Mapping',
+        '3d': OUTPUT_DIR / '2_Boundary_Mapping',
+        'pillar': OUTPUT_DIR / '3_Stability',
+        'stability': OUTPUT_DIR / '3_Stability',
+        'html': OUTPUT_DIR / '6_Architecture',
+        'fft': OUTPUT_DIR / '9_FFT_Spectral',
+        'radar': OUTPUT_DIR / '7_Radar',
     }
 
     # Create all needed directories

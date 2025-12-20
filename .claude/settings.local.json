@@ -222,7 +222,11 @@
       "Bash(git commit -m \"$\\(cat <<''EOF''\nCalibrate cosine Event Horizon = 0.80 from run023b data\n\nEmpirical calibration from 4500 results across 25 ships:\n- Mean peak_drift: 0.574, P95: 0.806\n- New thresholds: WARNING=0.60, EVENT_HORIZON=0.80, CATASTROPHIC=1.20\n- Scaling factor: ~1.54x from legacy keyword RMS thresholds\n\nChanges:\n- Add COSINE_EVENT_HORIZON_CALIBRATION.md with full derivation\n- Update threshold constants in run023b_iron_clad_foundation.py\n- Update iron_clad_stackup.py validation thresholds\n- Update STATUS_SUMMARY.txt with calibration results\n- Add clarifying header to completion_log.txt\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(py -3.12 run023c_visualization_generator.py:*)",
       "Bash(py -3.12 visualize_armada.py:*)",
-      "Bash(py -3.12 -c:*)"
+      "Bash(py -3.12 -c:*)",
+      "Bash(git -C \"d:/Documents/Nyquist_Consciousness\" log --oneline --all -- \"*basin*\" \"*3d*\")",
+      "Bash(git -C \"d:/Documents/Nyquist_Consciousness\" show 2b89d66:experiments/temporal_stability/S7_ARMADA/visualizations/visualize_armada.py)",
+      "Bash(git -C \"d:/Documents/Nyquist_Consciousness\" show e07a1ee --name-only)",
+      "Bash(py -3.12:*)"
     ],
     "deny": [],
     "ask": []
