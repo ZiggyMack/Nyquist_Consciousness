@@ -690,7 +690,17 @@ def generate_rescue_dynamics(data: dict, output_dir: Path):
     colors = []
 
     for model, results in models.items():
-        recoveries = [r.get('recovery_ratio', 0) for r in results if 'recovery_ratio' in r]
+        # Calculate recovery ratio from available fields
+        # recovery = 1 - (settled_drift / peak_drift) for peak > 0
+        # Higher = better recovery (drift reduced more)
+        recoveries = []
+        for r in results:
+            peak = r.get('peak_drift', 0)
+            settled = r.get('settled_drift', r.get('final_drift', peak))
+            if peak > 0.01:  # Avoid division by tiny values
+                recovery = max(0, 1 - (settled / peak))
+                recoveries.append(recovery)
+
         if recoveries:
             model_names.append(model.split('/')[-1][:15])
             recovery_means.append(np.mean(recoveries))
@@ -721,10 +731,16 @@ def generate_rescue_dynamics(data: dict, output_dir: Path):
         provider = get_provider(model)
         color = PROVIDER_COLORS.get(provider, '#888888')
 
-        peaks = [r.get('peak_drift', 0) for r in results if 'peak_drift' in r]
-        finals = [r.get('final_drift', 0) for r in results if 'final_drift' in r]
+        # Extract paired peak/settled data
+        peaks = []
+        finals = []
+        for r in results:
+            if 'peak_drift' in r:
+                peaks.append(r['peak_drift'])
+                # Use settled_drift as final, fallback to final_drift
+                finals.append(r.get('settled_drift', r.get('final_drift', r['peak_drift'])))
 
-        if peaks and finals and len(peaks) == len(finals):
+        if peaks and finals:
             ax2.scatter(peaks, finals, color=color, alpha=0.5, s=30,
                        label=f"{model.split('/')[-1][:12]}")
 

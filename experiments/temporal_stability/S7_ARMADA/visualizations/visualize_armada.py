@@ -69,7 +69,7 @@ PROVIDER_COLORS = {
     "moonshotai": "#9B59B6",
 }
 
-# Event Horizon threshold (Coherence Boundary)
+# Event Horizon threshold
 # Cosine distance calibrated from run023b (2025-12-20)
 # See 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
 EVENT_HORIZON = 0.80
@@ -304,6 +304,7 @@ def extract_trajectories(data):
 
                     trajectories.append({
                         'ship': short_name,
+                        'full_model': model,  # Keep full name for API type detection
                         'provider': provider,
                         'sequence': 'iron_clad',
                         'drifts': iteration_peaks,
@@ -574,7 +575,10 @@ def smooth_trajectory_2d(x_vals, y_vals, num_points=100):
 # =============================================================================
 
 def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None):
-    """Phase portrait: drift[N] vs drift[N+1] - Raw vs Smoothed.
+    """Phase portrait: drift[N] vs drift[N+1] - Raw vs Aggregated.
+
+    Left panel: Raw data with all individual trajectories
+    Right panel: Aggregated/smoothed view for cleaner presentation
 
     NOTE: dB scaling is DISABLED. It distorts the phase space geometry
     by compressing small values to extreme negatives.
@@ -582,6 +586,8 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False, zoom_sca
     Args:
         zoom_scale: If provided, use this as the axis max instead of 4.0
     """
+    from matplotlib.lines import Line2D
+
     # Ignore dB flag - it distorts the geometry
     if use_dB:
         print("  NOTE: dB scaling disabled for phase portrait (distorts geometry)")
@@ -591,7 +597,7 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False, zoom_sca
 
     scale_label = ""
     eh_val = EVENT_HORIZON
-    
+
     # Auto-calculate axis max from data if not provided
     if zoom_scale:
         ax_max = zoom_scale
@@ -608,90 +614,259 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False, zoom_sca
         else:
             ax_max = 1.2  # Default fallback
 
-    for ax_idx, (ax, smoothed) in enumerate(zip(axes, [False, True])):
-        title_suffix = "SMOOTHED (B-Spline)" if smoothed else "RAW DATA"
+    zoom_label = " [ZOOMED]" if zoom_scale else ""
+    ax_min = 0
 
-        for traj in trajectories:
-            drifts = np.array(traj['drifts'])
-            if len(drifts) < 3:
-                continue
+    # Provider display names
+    provider_names = {
+        'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok',
+        'meta-llama': 'Llama', 'mistralai': 'Mistral', 'deepseek': 'DeepSeek',
+        'qwen': 'Qwen', 'moonshotai': 'Moonshot'
+    }
 
-            provider = traj['provider']
-            status = traj['status']
-            color = PROVIDER_COLORS.get(provider, 'gray')
+    # ===== LEFT PANEL: RAW DATA =====
+    ax = axes[0]
 
-            xs = drifts[:-1]
-            ys = drifts[1:]
+    for traj in trajectories:
+        drifts = np.array(traj['drifts'])
+        if len(drifts) < 3:
+            continue
 
-            # STABLE = inside basin = good, VOLATILE = outside = bad
-            alpha = 0.4 if status == "STABLE" else 0.7
-            linewidth = 0.8 if status == "STABLE" else 1.5
+        provider = traj['provider']
+        status = traj['status']
+        color = PROVIDER_COLORS.get(provider, 'gray')
 
-            if smoothed:
-                xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=50)
-                ax.plot(xs_smooth, ys_smooth, color=color, alpha=alpha, linewidth=linewidth)
-                ax.scatter(xs, ys, color=color, s=15, alpha=0.5, edgecolors='white', linewidths=0.5, zorder=5)
-            else:
-                for i in range(len(xs) - 1):
-                    ax.annotate('', xy=(xs[i+1], ys[i+1]), xytext=(xs[i], ys[i]),
-                               arrowprops=dict(arrowstyle='->', color=color, alpha=alpha, lw=0.5))
+        xs = drifts[:-1]
+        ys = drifts[1:]
 
-            if len(xs) > 0:
-                ax.scatter(xs[0], ys[0], color='lime', s=30, alpha=0.8, zorder=10,
-                          marker='D', edgecolors='darkgreen', linewidths=1)
-                # STABLE = cyan (good), VOLATILE = red (bad)
-                end_color = 'cyan' if status == "STABLE" else 'red'
-                end_marker = 'o' if status == "STABLE" else 'X'
-                ax.scatter(xs[-1], ys[-1], color=end_color, s=40, alpha=0.8, zorder=10,
-                          marker=end_marker, edgecolors='black', linewidths=1)
+        # STABLE = inside basin = good, VOLATILE = outside = bad
+        alpha = 0.4 if status == "STABLE" else 0.7
 
-        # Axis limits (linear scale only)
-        ax_min = 0
+        for i in range(len(xs) - 1):
+            ax.annotate('', xy=(xs[i+1], ys[i+1]), xytext=(xs[i], ys[i]),
+                       arrowprops=dict(arrowstyle='->', color=color, alpha=alpha, lw=0.5))
 
-        ax.plot([ax_min, ax_max], [ax_min, ax_max], 'k--', alpha=0.3, label='No change')
-        ax.fill_between([ax_min, ax_max], [ax_min, ax_max], [ax_max, ax_max], alpha=0.08, color='red')
-        ax.fill_between([ax_min, ax_max], [ax_min, ax_min], [ax_min, ax_max], alpha=0.08, color='green')
-        ax.axvline(x=eh_val, color='red', linestyle=':', alpha=0.5, label=f'Coherence Boundary ({EVENT_HORIZON})')
-        ax.axhline(y=eh_val, color='red', linestyle=':', alpha=0.5)
+        if len(xs) > 0:
+            ax.scatter(xs[0], ys[0], color='lime', s=30, alpha=0.8, zorder=10,
+                      marker='D', edgecolors='darkgreen', linewidths=1)
+            # STABLE = cyan (good), VOLATILE = red (bad)
+            end_color = 'cyan' if status == "STABLE" else 'red'
+            end_marker = 'o' if status == "STABLE" else 'X'
+            ax.scatter(xs[-1], ys[-1], color=end_color, s=40, alpha=0.8, zorder=10,
+                      marker=end_marker, edgecolors='black', linewidths=1)
 
-        ax.set_xlabel('Drift at Turn N', fontsize=12)
-        ax.set_ylabel('Drift at Turn N+1', fontsize=12)
-        zoom_label = " [ZOOMED]" if zoom_scale else ""
-        ax.set_title(f'PHASE PORTRAIT: {title_suffix}{zoom_label}', fontsize=14, fontweight='bold')
-        ax.set_xlim(ax_min, ax_max)
-        ax.set_ylim(ax_min, ax_max)
-        ax.set_aspect('equal')
-        ax.grid(True, alpha=0.3)
+    ax.plot([ax_min, ax_max], [ax_min, ax_max], 'k--', alpha=0.3, label='No change')
+    ax.fill_between([ax_min, ax_max], [ax_min, ax_max], [ax_max, ax_max], alpha=0.08, color='red')
+    ax.fill_between([ax_min, ax_max], [ax_min, ax_min], [ax_min, ax_max], alpha=0.08, color='green')
+    ax.axvline(x=eh_val, color='red', linestyle=':', alpha=0.5)
+    ax.axhline(y=eh_val, color='red', linestyle=':', alpha=0.5)
 
-        # Add legend (on right/smoothed panel only for cleaner look)
-        if smoothed:
-            from matplotlib.lines import Line2D
-            legend_handles = []
-            # Provider colors
-            provider_names = {'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok'}
-            providers_in_data = set(t['provider'] for t in trajectories)
-            for provider in sorted(providers_in_data):
-                color = PROVIDER_COLORS.get(provider, 'gray')
-                legend_handles.append(Line2D([0], [0], color=color, linewidth=2,
-                                            label=provider_names.get(provider, provider.title())))
-            # Marker explanations
-            legend_handles.append(Line2D([0], [0], marker='D', color='w', markerfacecolor='lime',
-                                        markersize=8, label='Start', markeredgecolor='darkgreen'))
-            legend_handles.append(Line2D([0], [0], marker='o', color='w', markerfacecolor='cyan',
-                                        markersize=8, label='End (STABLE)', markeredgecolor='black'))
-            legend_handles.append(Line2D([0], [0], marker='X', color='w', markerfacecolor='red',
-                                        markersize=10, label='End (VOLATILE)', markeredgecolor='black'))
-            # Region explanations
-            legend_handles.append(Line2D([0], [0], color='red', linestyle=':', linewidth=2,
-                                        label=f'Event Horizon ({EVENT_HORIZON})'))
-            ax.legend(handles=legend_handles, loc='upper left', fontsize=8, framealpha=0.9)
+    ax.set_xlabel('Drift at Turn N', fontsize=12)
+    ax.set_ylabel('Drift at Turn N+1', fontsize=12)
+    ax.set_title(f'PHASE PORTRAIT: RAW DATA{zoom_label}', fontsize=14, fontweight='bold')
+    ax.set_xlim(ax_min, ax_max)
+    ax.set_ylim(ax_min, ax_max)
+    ax.set_aspect('equal')
+    ax.grid(True, alpha=0.3)
 
-    fig.suptitle(f'Run {run_id}: Identity Flow', fontsize=16, fontweight='bold', y=1.02)
+    # ===== RIGHT PANEL: AGGREGATED/SMOOTHED (pretty version) =====
+    ax = axes[1]
+
+    # Aggregate by provider: compute mean trajectory with B-spline smoothing
+    provider_trajectories = defaultdict(list)
+    for traj in trajectories:
+        provider = traj['provider']
+        drifts = np.array(traj['drifts'])
+        if len(drifts) >= 3:
+            provider_trajectories[provider].append(drifts)
+
+    for provider, traj_list in provider_trajectories.items():
+        color = PROVIDER_COLORS.get(provider, 'gray')
+
+        # Resample all trajectories to standard 30-point grid (N=30 iterations)
+        target_len = 30
+        resampled = []
+        for drifts in traj_list:
+            if len(drifts) >= 2:
+                old_x = np.linspace(0, 1, len(drifts))
+                new_x = np.linspace(0, 1, target_len)
+                resampled.append(np.interp(new_x, old_x, drifts))
+
+        if not resampled:
+            continue
+
+        resampled = np.array(resampled)
+        mean_drifts = np.mean(resampled, axis=0)
+
+        # Create phase portrait coordinates from mean trajectory
+        xs = mean_drifts[:-1]  # ~29 points
+        ys = mean_drifts[1:]
+
+        # Smooth the mean trajectory with B-spline for prettier visualization
+        if len(xs) >= 4:
+            xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=100)
+
+            # Plot thick smooth line for mean trajectory
+            ax.plot(xs_smooth, ys_smooth, color=color, linewidth=3, alpha=0.9,
+                   label=f'{provider_names.get(provider, provider)} ({len(traj_list)} ships)')
+        else:
+            # Not enough points for spline, just plot raw
+            ax.plot(xs, ys, color=color, linewidth=2, alpha=0.8,
+                   label=f'{provider_names.get(provider, provider)} ({len(traj_list)} ships)')
+
+        # Mark start and end of mean trajectory
+        if len(xs) > 0:
+            ax.scatter(xs[0], ys[0], color='lime', s=80, alpha=0.9, zorder=15,
+                      marker='D', edgecolors='darkgreen', linewidths=2)
+            ax.scatter(xs[-1], ys[-1], color=color, s=100, alpha=0.9, zorder=15,
+                      marker='*', edgecolors='black', linewidths=1)
+
+    # Decorations
+    ax.plot([ax_min, ax_max], [ax_min, ax_max], 'k--', alpha=0.3, label='No change')
+    ax.fill_between([ax_min, ax_max], [ax_min, ax_max], [ax_max, ax_max], alpha=0.08, color='red')
+    ax.fill_between([ax_min, ax_max], [ax_min, ax_min], [ax_min, ax_max], alpha=0.08, color='green')
+    ax.axvline(x=eh_val, color='red', linestyle=':', alpha=0.5)
+    ax.axhline(y=eh_val, color='red', linestyle=':', alpha=0.5)
+
+    ax.set_xlabel('Drift at Turn N', fontsize=12)
+    ax.set_ylabel('Drift at Turn N+1', fontsize=12)
+    ax.set_title(f'PHASE PORTRAIT: AGGREGATED BY PROVIDER{zoom_label}', fontsize=14, fontweight='bold')
+    ax.set_xlim(ax_min, ax_max)
+    ax.set_ylim(ax_min, ax_max)
+    ax.set_aspect('equal')
+    ax.grid(True, alpha=0.3)
+
+    # Legend with provider colors and markers
+    legend_handles = []
+    providers_in_data = set(t['provider'] for t in trajectories)
+    for provider in sorted(providers_in_data):
+        color = PROVIDER_COLORS.get(provider, 'gray')
+        n_ships = len(provider_trajectories.get(provider, []))
+        legend_handles.append(Line2D([0], [0], color=color, linewidth=3,
+                                    label=f'{provider_names.get(provider, provider)} ({n_ships} ships)'))
+    # Marker explanations
+    legend_handles.append(Line2D([0], [0], marker='D', color='w', markerfacecolor='lime',
+                                markersize=10, label='Start (baseline)', markeredgecolor='darkgreen'))
+    legend_handles.append(Line2D([0], [0], marker='*', color='w', markerfacecolor='gray',
+                                markersize=12, label='End (final)', markeredgecolor='black'))
+    legend_handles.append(Line2D([0], [0], color='red', linestyle=':', linewidth=2,
+                                label=f'Event Horizon ({EVENT_HORIZON})'))
+    ax.legend(handles=legend_handles, loc='upper left', fontsize=8, framealpha=0.9)
+
+    fig.suptitle(f'Run {run_id}: Identity Flow (Left: All Ships | Right: Provider Means)',
+                fontsize=16, fontweight='bold', y=1.02)
 
     plt.tight_layout()
     plt.savefig(output_dir / f'run{run_id}_phase_portrait.png', dpi=300, bbox_inches='tight')
     plt.savefig(output_dir / f'run{run_id}_phase_portrait.svg', format='svg', bbox_inches='tight')
     print(f"  Saved: run{run_id}_phase_portrait.png + .svg")
+    plt.close()
+
+    # Also generate an aggregated-only version for maximum prettiness
+    _plot_phase_portrait_aggregated(trajectories, output_dir, run_id, ax_max, eh_val)
+
+
+def _plot_phase_portrait_aggregated(trajectories, output_dir, run_id, ax_max, eh_val):
+    """Generate a standalone aggregated phase portrait (single panel, maximum pretty).
+
+    Aggregation strategy:
+    1. Each trajectory already has ~30 peak_drift values (one per iteration)
+    2. Average across ships per provider to get provider mean trajectory
+    3. Apply B-spline smoothing for pretty curves
+    """
+    from matplotlib.lines import Line2D
+
+    fig, ax = plt.subplots(figsize=(12, 12))
+
+    provider_names = {
+        'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok',
+        'meta-llama': 'Llama', 'mistralai': 'Mistral', 'deepseek': 'DeepSeek',
+        'qwen': 'Qwen', 'moonshotai': 'Moonshot'
+    }
+
+    # Auto-fit axis to data range (not starting at 0)
+    all_drifts = []
+    for traj in trajectories:
+        all_drifts.extend(traj['drifts'])
+    if all_drifts:
+        data_min = min(all_drifts)
+        data_max = max(all_drifts)
+        # Add 10% padding on each side
+        ax_min = max(0, data_min - (data_max - data_min) * 0.1)
+        ax_max = data_max + (data_max - data_min) * 0.1
+        ax_max = min(ax_max, 2.0)  # Cap at cosine max
+    else:
+        ax_min = 0
+
+    # Aggregate by provider - trajectories already contain iteration-level peak_drifts
+    provider_trajectories = defaultdict(list)
+    for traj in trajectories:
+        provider = traj['provider']
+        drifts = np.array(traj['drifts'])
+        if len(drifts) >= 3:
+            provider_trajectories[provider].append(drifts)
+
+    for provider, traj_list in provider_trajectories.items():
+        color = PROVIDER_COLORS.get(provider, 'gray')
+
+        # Resample all trajectories to same length (30 points typical)
+        target_len = 30  # Standard N=30 iterations
+        resampled = []
+        for drifts in traj_list:
+            if len(drifts) >= 2:
+                old_x = np.linspace(0, 1, len(drifts))
+                new_x = np.linspace(0, 1, target_len)
+                resampled.append(np.interp(new_x, old_x, drifts))
+
+        if not resampled:
+            continue
+
+        resampled = np.array(resampled)
+        mean_drifts = np.mean(resampled, axis=0)
+
+        # Phase portrait: drift[N] vs drift[N+1]
+        xs = mean_drifts[:-1]  # ~29 points
+        ys = mean_drifts[1:]
+
+        # Apply B-spline smoothing for pretty curves
+        if len(xs) >= 4:
+            xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=100)
+            ax.plot(xs_smooth, ys_smooth, color=color, linewidth=4, alpha=0.9,
+                   label=f'{provider_names.get(provider, provider)} ({len(traj_list)} ships)')
+        else:
+            ax.plot(xs, ys, color=color, linewidth=3, alpha=0.8,
+                   label=f'{provider_names.get(provider, provider)} ({len(traj_list)} ships)')
+
+        # Mark start and end
+        if len(xs) > 0:
+            ax.scatter(xs[0], ys[0], color='lime', s=150, alpha=0.9, zorder=15,
+                      marker='D', edgecolors='darkgreen', linewidths=2)
+            ax.scatter(xs[-1], ys[-1], color=color, s=200, alpha=0.9, zorder=15,
+                      marker='*', edgecolors='black', linewidths=2)
+
+    # Decorations
+    ax.plot([ax_min, ax_max], [ax_min, ax_max], 'k--', alpha=0.3, linewidth=2)
+    ax.fill_between([ax_min, ax_max], [ax_min, ax_max], [ax_max, ax_max], alpha=0.06, color='red')
+    ax.fill_between([ax_min, ax_max], [ax_min, ax_min], [ax_min, ax_max], alpha=0.06, color='green')
+    ax.axvline(x=eh_val, color='red', linestyle='--', alpha=0.7, linewidth=2)
+    ax.axhline(y=eh_val, color='red', linestyle='--', alpha=0.7, linewidth=2)
+
+    ax.set_xlabel('Drift at Turn N (Cosine Distance)', fontsize=14)
+    ax.set_ylabel('Drift at Turn N+1 (Cosine Distance)', fontsize=14)
+    ax.set_title(f'Run {run_id}: Identity Flow by Provider (Aggregated Means)\n'
+                f'{len(trajectories)} Ships | Event Horizon = {eh_val}',
+                fontsize=16, fontweight='bold')
+    ax.set_xlim(ax_min, ax_max)
+    ax.set_ylim(ax_min, ax_max)
+    ax.set_aspect('equal')
+    ax.grid(True, alpha=0.3)
+
+    ax.legend(loc='upper left', fontsize=10, framealpha=0.9)
+
+    plt.tight_layout()
+    plt.savefig(output_dir / f'run{run_id}_phase_portrait_aggregated.png', dpi=300, bbox_inches='tight')
+    plt.savefig(output_dir / f'run{run_id}_phase_portrait_aggregated.svg', format='svg', bbox_inches='tight')
+    print(f"  Saved: run{run_id}_phase_portrait_aggregated.png + .svg")
     plt.close()
 
 def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None):
@@ -761,7 +936,7 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None)
             ax.scatter(xs[-1], ys[-1], color=end_color, s=45, alpha=0.9, zorder=10,
                       marker=end_marker, edgecolors='black', linewidths=1)
 
-        # Coherence Boundary circle (Event Horizon)
+        # Event Horizon circle
         eh_radius = EVENT_HORIZON
         theta = np.linspace(0, 2*np.pi, 100)
         ax.plot(eh_radius * np.cos(theta), eh_radius * np.sin(theta), 'r--', linewidth=2.5, alpha=0.7,
@@ -1157,7 +1332,7 @@ def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None):
             axes[idx].set_visible(False)
 
         fig.suptitle(f'Run {run_id}: {company_name} Identity Field by Model\n' +
-                    f'(Coherence Boundary = {EVENT_HORIZON})',
+                    f'(Event Horizon = {EVENT_HORIZON})',
                     fontsize=18, fontweight='bold', color=color, y=1.02)
 
         plt.tight_layout()
@@ -1244,7 +1419,7 @@ def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False, show_cylinder=
                 ax.scatter([xs[-1]], [ys[-1]], [zs[-1]], color=end_color, s=50, alpha=0.9,
                           marker=end_marker)
 
-        # Event Horizon Cylinder (Coherence Boundary) - optional
+        # Event Horizon Cylinder - optional
         if show_cylinder:
             eh_val = EVENT_HORIZON
             max_turns = 15
@@ -1315,7 +1490,7 @@ def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False, show_cylinder=
 
             ax.legend(handles=legend_handles, loc='upper left', fontsize=9, framealpha=0.9)
 
-    subtitle = f'(Coherence Boundary = {EVENT_HORIZON})' if show_cylinder else f'(Event Horizon at {EVENT_HORIZON})'
+    subtitle = f'(Event Horizon = {EVENT_HORIZON})'
     fig.suptitle(f'Run {run_id}: Identity Attractor Basin\n{subtitle}',
                 fontsize=16, fontweight='bold', y=1.02)
 
@@ -1326,9 +1501,25 @@ def plot_3d_basin(trajectories, output_dir, run_id, use_dB=False, show_cylinder=
     plt.close()
 
 def plot_stability_basin(trajectories, output_dir, run_id, zoom_scale=None):
-    """Stability basin: baseline vs max drift by provider."""
+    """Stability basin: scatter + histogram view of STABLE vs VOLATILE classification.
+
+    Panels:
+    1. Baseline vs Peak Drift scatter (by provider)
+    2. STABLE vs VOLATILE histogram distribution
+    """
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
-    ax_max = zoom_scale if zoom_scale else 4
+
+    # Auto-scale axis limits based on actual data (cosine distance range [0, 2])
+    if zoom_scale:
+        ax_max = zoom_scale
+    else:
+        all_max_drifts = [max(t['drifts']) for t in trajectories if t.get('drifts')]
+        if all_max_drifts:
+            data_max = max(all_max_drifts)
+            ax_max = max(data_max * 1.2, EVENT_HORIZON + 0.15)
+            ax_max = min(ax_max, 2.0)
+        else:
+            ax_max = 1.2
 
     # Group by provider
     provider_data = defaultdict(lambda: {'baselines': [], 'max_drifts': [], 'statuses': []})
@@ -1341,75 +1532,399 @@ def plot_stability_basin(trajectories, output_dir, run_id, zoom_scale=None):
             provider_data[provider]['max_drifts'].append(max(drifts))
             provider_data[provider]['statuses'].append(traj['status'])
 
-    # Left: Baseline vs Max Drift
+    # ===== PANEL 1: Baseline vs Peak Drift =====
     ax1 = axes[0]
     for provider, pdata in provider_data.items():
         color = PROVIDER_COLORS.get(provider, 'gray')
         ax1.scatter(pdata['baselines'], pdata['max_drifts'],
-                   c=color, alpha=0.6, s=60, label=f"{provider.title()} (n={len(pdata['baselines'])})")
+                   c=color, alpha=0.7, s=100, label=f"{provider.title()} (n={len(pdata['baselines'])})")
 
     ax1.plot([0, ax_max], [0, ax_max], 'k--', alpha=0.3, label='No change')
-    ax1.axvline(x=EVENT_HORIZON, color='red', linestyle=':', alpha=0.5, label=f'Coherence Boundary ({EVENT_HORIZON})')
-    ax1.set_xlabel('Baseline Drift', fontsize=12)
-    ax1.set_ylabel('Max Drift', fontsize=12)
-    zoom_label = " [ZOOMED]" if zoom_scale else ""
-    ax1.set_title(f'Baseline vs Max Drift by Provider{zoom_label}', fontsize=14, fontweight='bold')
-    ax1.legend(loc='upper left')
+    ax1.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, alpha=0.7,
+                label=f'Event Horizon ({EVENT_HORIZON})')
+    ax1.set_xlabel('Baseline Drift (Cosine Distance)', fontsize=12)
+    ax1.set_ylabel('Peak Drift (Cosine Distance)', fontsize=12)
+    ax1.set_title('Baseline vs Peak Drift by Provider', fontsize=14, fontweight='bold')
+    ax1.legend(loc='upper left', fontsize=10)
     ax1.grid(True, alpha=0.3)
     ax1.set_xlim(0, ax_max)
     ax1.set_ylim(0, ax_max)
 
-    # Right: STABLE vs VOLATILE distribution (side-by-side bars to prevent overlap)
+    # ===== PANEL 2: STABLE vs VOLATILE histogram =====
     ax2 = axes[1]
     stable_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'STABLE']
     volatile_baselines = [traj['baseline'] for traj in trajectories if traj['status'] == 'VOLATILE']
 
-    # Auto-scale bins based on actual data range (fixes Run 014 histogram bug)
     all_baselines = stable_baselines + volatile_baselines
     if all_baselines:
-        bin_max = max(max(all_baselines) * 1.1, 3.0)  # At least 3.0, or 10% above max
+        bin_max = max(all_baselines) * 1.1
+        bin_max = max(bin_max, EVENT_HORIZON + 0.1)
+        bin_max = min(bin_max, 2.0)
     else:
-        bin_max = 3.0
-    bins = np.linspace(0, bin_max, 20)
-    # Use side-by-side histogram to show both distributions clearly
+        bin_max = 1.0
+    bins = np.linspace(0, bin_max, 12)
+
     if stable_baselines or volatile_baselines:
         data_to_plot = []
         labels = []
         colors = []
         if stable_baselines:
             data_to_plot.append(stable_baselines)
-            labels.append(f'STABLE (recovers, n={len(stable_baselines)})')
-            colors.append('cyan')
+            labels.append(f'STABLE (n={len(stable_baselines)})')
+            colors.append('#2ecc71')
         if volatile_baselines:
             data_to_plot.append(volatile_baselines)
-            labels.append(f'VOLATILE (no recovery, n={len(volatile_baselines)})')
-            colors.append('red')
+            labels.append(f'VOLATILE (n={len(volatile_baselines)})')
+            colors.append('#e74c3c')
         ax2.hist(data_to_plot, bins=bins, alpha=0.8, color=colors,
                 label=labels, edgecolor='white', rwidth=0.85)
 
-    # Draw coherence boundary
-    ax2.axvline(x=EVENT_HORIZON, color='black', linestyle='--', linewidth=2,
-               label=f'Coherence Boundary ({EVENT_HORIZON})')
-
-    ax2.set_xlabel('Baseline Drift', fontsize=12)
-    ax2.set_ylabel('Count', fontsize=12)
-    ax2.set_title(f'Identity Basin: STABLE vs VOLATILE Distribution\n(Status = max drift < {EVENT_HORIZON}, not baseline)', fontsize=13, fontweight='bold')
-    ax2.legend(loc='upper right')
+    ax2.axvline(x=EVENT_HORIZON, color='red', linestyle='--', linewidth=2,
+               label=f'Event Horizon ({EVENT_HORIZON})')
+    ax2.set_xlabel('Baseline Drift (Cosine Distance)', fontsize=12)
+    ax2.set_ylabel('Ship Count', fontsize=12)
+    ax2.set_title(f'STABLE vs VOLATILE Distribution\n(Classification: peak_drift < {EVENT_HORIZON})',
+                 fontsize=14, fontweight='bold')
+    ax2.legend(loc='upper right', fontsize=11)
     ax2.grid(True, alpha=0.3, axis='y')
 
-    fig.suptitle(f'Run {run_id}: Identity Stability Analysis', fontsize=16, fontweight='bold', y=1.02)
+    # Overall title
+    stable_count = len(stable_baselines)
+    volatile_count = len(volatile_baselines)
+    fig.suptitle(f'Run {run_id}: Identity Stability Basin\n'
+                f'{len(trajectories)} Ships | STABLE: {stable_count} | VOLATILE: {volatile_count} | EH={EVENT_HORIZON}',
+                fontsize=16, fontweight='bold', y=1.02)
 
     plt.tight_layout()
     plt.savefig(output_dir / f'run{run_id}_stability_basin.png', dpi=300, bbox_inches='tight')
-    print(f"  Saved: run{run_id}_stability_basin.png")
+    plt.savefig(output_dir / f'run{run_id}_stability_basin.svg', format='svg', bbox_inches='tight')
+    print(f"  Saved: run{run_id}_stability_basin.png + .svg")
     plt.close()
 
 
-def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
-    """Pillar analysis: Shows how providers cluster in angular phase space.
+def _plot_boxplots_single(trajectories, output_dir, run_id, zoom_scale, title_suffix, filename_suffix):
+    """Helper function to create a single boxplot visualization for a subset of trajectories."""
+    if not trajectories:
+        return
 
-    This is a derived view of the identity stress test data that reveals
-    structural "pillars" - angular positions where provider trajectories cluster.
+    fig, axes = plt.subplots(1, 2, figsize=(18, 8))
+
+    # Auto-scale axis limits
+    if zoom_scale:
+        ax_max = zoom_scale
+    else:
+        all_max_drifts = [max(t['drifts']) for t in trajectories if t.get('drifts')]
+        if all_max_drifts:
+            data_max = max(all_max_drifts)
+            ax_max = max(data_max * 1.2, EVENT_HORIZON + 0.15)
+            ax_max = min(ax_max, 2.0)
+        else:
+            ax_max = 1.2
+
+    # Group by provider for panel 2
+    provider_data = defaultdict(lambda: {'max_drifts': []})
+    for traj in trajectories:
+        provider = traj['provider']
+        drifts = traj['drifts']
+        if len(drifts) >= 2:
+            provider_data[provider]['max_drifts'].append(max(drifts))
+
+    # ===== PANEL 1: Drift Distribution by Ship =====
+    ax1 = axes[0]
+
+    ship_data = []
+    ship_names = []
+    ship_colors = []
+
+    for traj in sorted(trajectories, key=lambda t: np.mean(t['drifts'])):
+        ship_data.append(traj['drifts'])
+        # Shorten ship name for display
+        short_name = traj['ship']
+        # Remove provider prefixes for cleaner labels
+        if '/' in short_name:
+            short_name = short_name.split('/')[-1]
+        short_name = short_name.replace('claude-', 'c-').replace('gpt-', 'g-')
+        short_name = short_name.replace('gemini-', 'gem-').replace('grok-', 'grk-')
+        short_name = short_name.replace('-20241022', '').replace('-20251001', '')
+        short_name = short_name.replace('-Instruct-Turbo', '').replace('-Instruct', '')
+        short_name = short_name.replace('-Turbo', '').replace('-Distill-', '-')
+        if len(short_name) > 18:
+            short_name = short_name[:16] + '..'
+        ship_names.append(short_name)
+        ship_colors.append(PROVIDER_COLORS.get(traj['provider'], 'gray'))
+
+    if ship_data:
+        bp = ax1.boxplot(ship_data, patch_artist=True, vert=True)
+
+        for patch, color in zip(bp['boxes'], ship_colors):
+            patch.set_facecolor(color)
+            patch.set_alpha(0.7)
+
+        ax1.set_xticklabels(ship_names, rotation=55, ha='right', fontsize=9)
+        ax1.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2,
+                   label=f'Event Horizon ({EVENT_HORIZON})')
+        ax1.set_ylabel('Drift (Cosine Distance)', fontsize=12)
+        ax1.set_title('Drift Distribution by Ship (sorted by mean)', fontsize=13, fontweight='bold')
+        ax1.legend(loc='upper left', fontsize=10)
+        ax1.grid(True, alpha=0.3, axis='y')
+        ax1.set_ylim(0, ax_max)
+
+    # ===== PANEL 2: Peak Drift by Provider =====
+    ax2 = axes[1]
+
+    # Use all available providers, sorted by median drift
+    provider_order = sorted(provider_data.keys(),
+                           key=lambda p: np.median(provider_data[p]['max_drifts']) if provider_data[p]['max_drifts'] else 0)
+    provider_peaks = []
+    provider_labels = []
+    provider_colors_list = []
+
+    for provider in provider_order:
+        if provider in provider_data and provider_data[provider]['max_drifts']:
+            provider_peaks.append(provider_data[provider]['max_drifts'])
+            n = len(provider_data[provider]['max_drifts'])
+            provider_labels.append(f'{provider.title()}\n(n={n})')
+            provider_colors_list.append(PROVIDER_COLORS.get(provider, 'gray'))
+
+    if provider_peaks:
+        # Style outliers to be more visible and match legend
+        flierprops = dict(marker='o', markerfacecolor='none', markeredgecolor='gray',
+                         markersize=6, alpha=0.6, linestyle='none')
+        bp = ax2.boxplot(provider_peaks, patch_artist=True, vert=True, widths=0.6,
+                        flierprops=flierprops)
+
+        for patch, color in zip(bp['boxes'], provider_colors_list):
+            patch.set_facecolor(color)
+            patch.set_alpha(0.7)
+
+        ax2.set_xticklabels(provider_labels, fontsize=10)
+        ax2.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2,
+                   label=f'Event Horizon ({EVENT_HORIZON})')
+        ax2.set_ylabel('Peak Drift (Cosine Distance)', fontsize=12)
+        ax2.set_title('Peak Drift by Provider (sorted by median)', fontsize=13, fontweight='bold')
+
+        # Add legend with outlier explanation
+        from matplotlib.lines import Line2D
+        legend_handles = [
+            Line2D([0], [0], color='red', linestyle='--', linewidth=2, label=f'Event Horizon ({EVENT_HORIZON})'),
+            Line2D([0], [0], marker='o', color='w', markerfacecolor='none', markeredgecolor='gray',
+                   markersize=8, label='Outliers (>1.5×IQR)')
+        ]
+        ax2.legend(handles=legend_handles, loc='upper right', fontsize=10)
+        ax2.grid(True, alpha=0.3, axis='y')
+
+        # Scale right panel based on its own data for better resolution
+        all_provider_peaks = [p for peaks in provider_peaks for p in peaks]
+        if all_provider_peaks:
+            panel2_max = max(all_provider_peaks) * 1.15
+            panel2_max = max(panel2_max, EVENT_HORIZON + 0.1)  # At least show EH
+            panel2_max = min(panel2_max, 2.0)  # Cap at cosine max
+        else:
+            panel2_max = ax_max
+        ax2.set_ylim(0, panel2_max)
+
+    # Overall title
+    stable_count = sum(1 for t in trajectories if t.get('status') == 'STABLE')
+    volatile_count = sum(1 for t in trajectories if t.get('status') == 'VOLATILE')
+    fig.suptitle(f'Run {run_id}: {title_suffix}\n'
+                f'{len(trajectories)} Ships | STABLE: {stable_count} | VOLATILE: {volatile_count} | EH={EVENT_HORIZON}',
+                fontsize=15, fontweight='bold', y=1.02)
+
+    plt.tight_layout()
+    plt.savefig(output_dir / f'run{run_id}_{filename_suffix}.png', dpi=300, bbox_inches='tight')
+    plt.savefig(output_dir / f'run{run_id}_{filename_suffix}.svg', format='svg', bbox_inches='tight')
+    print(f"  Saved: run{run_id}_{filename_suffix}.png + .svg")
+    plt.close()
+
+
+def plot_stability_boxplots(trajectories, output_dir, run_id, zoom_scale=None):
+    """Stability box plots: generates TWO separate high-resolution visualizations.
+
+    1. By Ship - Drift distribution per ship (all ships, sorted by mean)
+    2. By Provider - Peak drift per provider (aggregated)
+
+    Both visualizations include ALL ships for maximum resolution.
+    """
+    if not trajectories:
+        return
+
+    # Generate by-ship visualization
+    _plot_boxplots_byship(trajectories, output_dir, run_id, zoom_scale)
+
+    # Generate by-provider visualization
+    _plot_boxplots_byprovider(trajectories, output_dir, run_id, zoom_scale)
+
+
+def _plot_boxplots_byship(trajectories, output_dir, run_id, zoom_scale):
+    """Single-panel boxplot: Drift distribution by ship (all ships)."""
+    if not trajectories:
+        return
+
+    # Auto-scale axis limits
+    if zoom_scale:
+        ax_max = zoom_scale
+    else:
+        all_max_drifts = [max(t['drifts']) for t in trajectories if t.get('drifts')]
+        if all_max_drifts:
+            data_max = max(all_max_drifts)
+            ax_max = max(data_max * 1.2, EVENT_HORIZON + 0.15)
+            ax_max = min(ax_max, 2.0)
+        else:
+            ax_max = 1.2
+
+    fig, ax = plt.subplots(figsize=(16, 8))
+
+    ship_data = []
+    ship_names = []
+    ship_colors = []
+
+    for traj in sorted(trajectories, key=lambda t: np.mean(t['drifts'])):
+        ship_data.append(traj['drifts'])
+        # Shorten ship name for display
+        short_name = traj['ship']
+        # Remove provider prefixes for cleaner labels
+        if '/' in short_name:
+            short_name = short_name.split('/')[-1]
+        short_name = short_name.replace('claude-', 'c-').replace('gpt-', 'g-')
+        short_name = short_name.replace('gemini-', 'gem-').replace('grok-', 'grk-')
+        short_name = short_name.replace('-20241022', '').replace('-20251001', '')
+        short_name = short_name.replace('-Instruct-Turbo', '').replace('-Instruct', '')
+        short_name = short_name.replace('-Turbo', '').replace('-Distill-', '-')
+        if len(short_name) > 18:
+            short_name = short_name[:16] + '..'
+        ship_names.append(short_name)
+        ship_colors.append(PROVIDER_COLORS.get(traj['provider'], 'gray'))
+
+    if ship_data:
+        bp = ax.boxplot(ship_data, patch_artist=True, vert=True)
+
+        for patch, color in zip(bp['boxes'], ship_colors):
+            patch.set_facecolor(color)
+            patch.set_alpha(0.7)
+
+        ax.set_xticklabels(ship_names, rotation=55, ha='right', fontsize=9)
+        ax.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2,
+                   label=f'Event Horizon ({EVENT_HORIZON})')
+        ax.set_ylabel('Drift (Cosine Distance)', fontsize=12)
+        ax.set_xlabel('Ship (sorted by mean drift)', fontsize=12)
+        ax.legend(loc='upper left', fontsize=10)
+        ax.grid(True, alpha=0.3, axis='y')
+        ax.set_ylim(0, ax_max)
+
+    # Title with stats
+    stable_count = sum(1 for t in trajectories if t.get('status') == 'STABLE')
+    volatile_count = sum(1 for t in trajectories if t.get('status') == 'VOLATILE')
+    ax.set_title(f'Run {run_id}: Drift Distribution by Ship\n'
+                 f'{len(trajectories)} Ships | STABLE: {stable_count} | VOLATILE: {volatile_count} | EH={EVENT_HORIZON}',
+                 fontsize=14, fontweight='bold')
+
+    plt.tight_layout()
+    plt.savefig(output_dir / f'run{run_id}_stability_boxplots_byship.png', dpi=300, bbox_inches='tight')
+    plt.savefig(output_dir / f'run{run_id}_stability_boxplots_byship.svg', format='svg', bbox_inches='tight')
+    print(f"  Saved: run{run_id}_stability_boxplots_byship.png + .svg")
+    plt.close()
+
+
+def _plot_boxplots_byprovider(trajectories, output_dir, run_id, zoom_scale):
+    """Single-panel boxplot: Peak drift by provider (all ships aggregated)."""
+    if not trajectories:
+        return
+
+    from matplotlib.lines import Line2D
+
+    # Group by provider
+    provider_data = defaultdict(lambda: {'max_drifts': []})
+    for traj in trajectories:
+        provider = traj['provider']
+        drifts = traj['drifts']
+        if len(drifts) >= 2:
+            provider_data[provider]['max_drifts'].append(max(drifts))
+
+    # Sort providers by median drift
+    provider_order = sorted(provider_data.keys(),
+                           key=lambda p: np.median(provider_data[p]['max_drifts']) if provider_data[p]['max_drifts'] else 0)
+
+    provider_peaks = []
+    provider_labels = []
+    provider_colors_list = []
+
+    provider_names = {
+        'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok',
+        'meta-llama': 'Llama', 'mistralai': 'Mistral', 'deepseek': 'DeepSeek',
+        'qwen': 'Qwen', 'moonshotai': 'Moonshot'
+    }
+
+    for provider in provider_order:
+        if provider in provider_data and provider_data[provider]['max_drifts']:
+            provider_peaks.append(provider_data[provider]['max_drifts'])
+            n = len(provider_data[provider]['max_drifts'])
+            label = provider_names.get(provider, provider.title())
+            provider_labels.append(f'{label}\n({n} ships)')
+            provider_colors_list.append(PROVIDER_COLORS.get(provider, 'gray'))
+
+    if not provider_peaks:
+        return
+
+    fig, ax = plt.subplots(figsize=(12, 8))
+
+    # Style outliers to be more visible and match legend
+    flierprops = dict(marker='o', markerfacecolor='none', markeredgecolor='gray',
+                     markersize=6, alpha=0.6, linestyle='none')
+    bp = ax.boxplot(provider_peaks, patch_artist=True, vert=True, widths=0.6,
+                    flierprops=flierprops)
+
+    for patch, color in zip(bp['boxes'], provider_colors_list):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.7)
+
+    ax.set_xticklabels(provider_labels, fontsize=11)
+    ax.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2,
+               label=f'Event Horizon ({EVENT_HORIZON})')
+    ax.set_ylabel('Peak Drift (Cosine Distance)', fontsize=12)
+    ax.set_xlabel('Provider (sorted by median peak drift)', fontsize=12)
+
+    # Add legend with outlier explanation
+    legend_handles = [
+        Line2D([0], [0], color='red', linestyle='--', linewidth=2, label=f'Event Horizon ({EVENT_HORIZON})'),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='none', markeredgecolor='gray',
+               markersize=8, label='Outliers (>1.5x IQR)')
+    ]
+    ax.legend(handles=legend_handles, loc='upper right', fontsize=10)
+    ax.grid(True, alpha=0.3, axis='y')
+
+    # Auto-fit y-axis to data range for better resolution (don't force start at 0)
+    all_provider_peaks = [p for peaks in provider_peaks for p in peaks]
+    if all_provider_peaks:
+        data_min = min(all_provider_peaks)
+        data_max = max(all_provider_peaks)
+        data_range = data_max - data_min
+        # Add 15% padding on each side
+        ax_min = max(0, data_min - data_range * 0.15)
+        ax_max = data_max + data_range * 0.15
+        # Ensure Event Horizon is visible
+        ax_max = max(ax_max, EVENT_HORIZON + 0.05)
+        ax_min = min(ax_min, EVENT_HORIZON - 0.05) if EVENT_HORIZON > data_min else ax_min
+        ax_max = min(ax_max, 2.0)  # Cap at cosine max
+    else:
+        ax_min, ax_max = 0, 1.2
+    ax.set_ylim(ax_min, ax_max)
+
+    # Title with stats
+    stable_count = sum(1 for t in trajectories if t.get('status') == 'STABLE')
+    volatile_count = sum(1 for t in trajectories if t.get('status') == 'VOLATILE')
+    ax.set_title(f'Run {run_id}: Peak Drift by Provider\n'
+                 f'{len(trajectories)} Ships | STABLE: {stable_count} | VOLATILE: {volatile_count} | EH={EVENT_HORIZON}',
+                 fontsize=14, fontweight='bold')
+
+    plt.tight_layout()
+    plt.savefig(output_dir / f'run{run_id}_stability_boxplots_byprovider.png', dpi=300, bbox_inches='tight')
+    plt.savefig(output_dir / f'run{run_id}_stability_boxplots_byprovider.svg', format='svg', bbox_inches='tight')
+    print(f"  Saved: run{run_id}_stability_boxplots_byprovider.png + .svg")
+    plt.close()
+
+
+def _plot_pillar_analysis_single(trajectories, output_dir, run_id, zoom_scale, title_suffix, filename_suffix):
+    """Helper function to create a single pillar analysis visualization for a subset of trajectories.
 
     Creates 4-panel visualization:
     1. 3-Pillar structure with provider centroids
@@ -1418,7 +1933,25 @@ def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
     4. Pillar stability (distance from Event Horizon)
     """
     from matplotlib.lines import Line2D
-    ax_lim = zoom_scale if zoom_scale else 4
+
+    if not trajectories:
+        return
+
+    # Auto-scale axis limits based on data if not specified
+    if zoom_scale:
+        ax_lim = zoom_scale
+    else:
+        # Find max drift across all trajectories
+        all_drifts = []
+        for traj in trajectories:
+            all_drifts.extend(traj.get('drifts', []))
+        if all_drifts:
+            max_drift = max(all_drifts)
+            # Set axis limit to max drift + 20% padding, at least EVENT_HORIZON + 0.2
+            ax_lim = max(max_drift * 1.2, EVENT_HORIZON + 0.2)
+            ax_lim = min(ax_lim, 2.0)  # Cap at 2.0 for cosine distance
+        else:
+            ax_lim = 1.2  # Default for cosine methodology
 
     fig, axes = plt.subplots(2, 2, figsize=(18, 16))
 
@@ -1468,8 +2001,13 @@ def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
         provider_stats[provider]['ships'][ship]['baselines'].append(drifts[0])
         provider_stats[provider]['ships'][ship]['finals'].append(drifts[-1])
 
-    providers = ['claude', 'gpt', 'gemini', 'grok']
-    provider_names = {'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok'}
+    # Dynamically determine providers from data
+    providers = list(provider_stats.keys())
+    provider_names = {
+        'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok',
+        'meta-llama': 'Llama', 'mistralai': 'Mistral', 'deepseek': 'DeepSeek',
+        'qwen': 'Qwen', 'moonshotai': 'Moonshot'
+    }
 
     # ===== PANEL 1: 3-Pillar Structure =====
     ax1 = axes[0, 0]
@@ -1529,7 +2067,7 @@ def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
     # Event Horizon circle
     theta = np.linspace(0, 2*np.pi, 100)
     ax1.plot(EVENT_HORIZON * np.cos(theta), EVENT_HORIZON * np.sin(theta),
-            'r--', linewidth=2.5, alpha=0.7, label=f'Coherence Boundary ({EVENT_HORIZON})')
+            'r--', linewidth=2.5, alpha=0.7, label=f'Event Horizon ({EVENT_HORIZON})')
     ax1.scatter([0], [0], color='gold', s=200, marker='*', zorder=15)
 
     ax1.set_xlim(-ax_lim, ax_lim)
@@ -1594,30 +2132,42 @@ def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
                      for p in providers if p in provider_stats]
     ax2.legend(handles=legend_handles, loc='upper right', fontsize=9)
 
-    # Smart labeling: only show labels if points are spread out enough
-    # Calculate point spread to detect tight clustering (like Run 010)
+    # Smart labeling with adjustText to avoid overlaps
     if all_ship_data:
-        xs = [d['x'] for d in all_ship_data]
-        ys = [d['y'] for d in all_ship_data]
-        spread_x = max(xs) - min(xs) if xs else 0
-        spread_y = max(ys) - min(ys) if ys else 0
-        spread = max(spread_x, spread_y)
-
-        # Only show labels if spread is > 0.5 (relative to ax_lim)
-        # OR if there are <= 8 points (always label small datasets)
-        show_labels = spread > 0.5 or len(all_ship_data) <= 8
-
-        if show_labels:
+        try:
+            from adjustText import adjust_text
+            texts = []
             for ship_data in all_ship_data:
                 sx, sy = ship_data['x'], ship_data['y']
                 ship = ship_data['ship']
-                label = ship[:15] + '...' if len(ship) > 15 else ship
+                # Shorter labels for readability
+                label = ship.replace('claude-', '').replace('gpt-', '').replace('gemini-', '').replace('grok-', '')
+                label = label.replace('-20241022', '').replace('-20251001', '')  # Remove date suffixes
+                label = label[:10] + '..' if len(label) > 10 else label
+                txt = ax2.text(sx, sy, label, fontsize=6, alpha=0.85)
+                texts.append(txt)
+
+            # Adjust text positions to avoid overlaps - stronger forces for tight clusters
+            adjust_text(texts, ax=ax2,
+                       arrowprops=dict(arrowstyle='-', color='gray', alpha=0.4, lw=0.5),
+                       expand_points=(2.0, 2.0),
+                       expand_text=(1.5, 1.5),
+                       force_text=(1.0, 1.0),
+                       force_points=(0.5, 0.5),
+                       lim=500)  # More iterations for better placement
+        except ImportError:
+            # Fallback: radial labeling without adjustText
+            for i, ship_data in enumerate(all_ship_data):
+                sx, sy = ship_data['x'], ship_data['y']
+                ship = ship_data['ship']
+                label = ship[:12] + '..' if len(ship) > 12 else ship
+                # Offset labels radially outward
+                angle = np.arctan2(sy, sx) + (i % 5) * 0.2  # Spread labels
+                offset_x = 15 * np.cos(angle)
+                offset_y = 15 * np.sin(angle)
                 ax2.annotate(label, (sx, sy), fontsize=6, alpha=0.7,
-                            xytext=(3, 3), textcoords='offset points')
-        else:
-            # Add note about clustering
-            ax2.text(0.02, 0.02, f'Labels hidden: {len(all_ship_data)} points clustered',
-                    transform=ax2.transAxes, fontsize=8, alpha=0.5, style='italic')
+                            xytext=(offset_x, offset_y), textcoords='offset points',
+                            arrowprops=dict(arrowstyle='-', color='gray', alpha=0.3, lw=0.5))
 
     # ===== PANEL 3: Angular Distribution =====
     ax3 = axes[1, 0]
@@ -1680,19 +2230,61 @@ def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
         ax4.axhspan(0, 2, alpha=0.1, color='green', label='Below EH (STABLE)')
 
     ax4.set_ylabel('Safety Margin from Event Horizon', fontsize=11)
-    ax4.set_title('PILLAR STABILITY\n(Positive = safely below boundary)', fontsize=14, fontweight='bold')
+    ax4.set_title('PILLAR STABILITY\n(Positive = safely below Event Horizon)', fontsize=14, fontweight='bold')
     ax4.legend(loc='upper right', fontsize=9)
     ax4.grid(True, alpha=0.3, axis='y')
     ax4.set_ylim(-1, 1.5)
 
-    fig.suptitle(f'Run {run_id}: PILLAR ANALYSIS\n(Structural support of the identity manifold)',
-                fontsize=18, fontweight='bold', y=1.02)
+    # Count ships and classification
+    stable_count = sum(1 for t in trajectories if t.get('status') == 'STABLE')
+    volatile_count = sum(1 for t in trajectories if t.get('status') == 'VOLATILE')
+
+    fig.suptitle(f'Run {run_id}: PILLAR ANALYSIS - {title_suffix}\n'
+                f'{len(trajectories)} Ships | STABLE: {stable_count} | VOLATILE: {volatile_count} | EH={EVENT_HORIZON}',
+                fontsize=16, fontweight='bold', y=1.02)
 
     plt.tight_layout()
-    plt.savefig(output_dir / f'run{run_id}_pillar_analysis.png', dpi=300, bbox_inches='tight')
-    plt.savefig(output_dir / f'run{run_id}_pillar_analysis.svg', format='svg', bbox_inches='tight')
-    print(f"  Saved: run{run_id}_pillar_analysis.png + .svg")
+    plt.savefig(output_dir / f'run{run_id}_{filename_suffix}.png', dpi=300, bbox_inches='tight')
+    plt.savefig(output_dir / f'run{run_id}_{filename_suffix}.svg', format='svg', bbox_inches='tight')
+    print(f"  Saved: run{run_id}_{filename_suffix}.png + .svg")
     plt.close()
+
+
+def plot_pillar_analysis(trajectories, output_dir, run_id, zoom_scale=None):
+    """Pillar analysis: generates THREE separate visualizations.
+
+    1. Native API models (Claude, GPT, Gemini, Grok) - direct API access
+    2. Together.ai models (Llama, Mistral, DeepSeek, Qwen, Moonshot) - via Together.ai
+    3. Combined (all ships together)
+    """
+    # Split trajectories by API type
+    # Together.ai models have '/' in their full_model name (e.g., "meta-llama/Llama-3.3-70B")
+    native_trajectories = [t for t in trajectories if '/' not in t.get('full_model', t['ship'])]
+    together_trajectories = [t for t in trajectories if '/' in t.get('full_model', t['ship'])]
+
+    # Generate native API plot
+    if native_trajectories:
+        _plot_pillar_analysis_single(
+            native_trajectories, output_dir, run_id, zoom_scale,
+            title_suffix="Native API Models (Claude, GPT, Gemini, Grok)",
+            filename_suffix="pillar_analysis_native"
+        )
+
+    # Generate Together.ai plot
+    if together_trajectories:
+        _plot_pillar_analysis_single(
+            together_trajectories, output_dir, run_id, zoom_scale,
+            title_suffix="Together.ai Models (Llama, Mistral, DeepSeek, Qwen, Moonshot)",
+            filename_suffix="pillar_analysis_together"
+        )
+
+    # Generate combined plot (all ships)
+    if trajectories:
+        _plot_pillar_analysis_single(
+            trajectories, output_dir, run_id, zoom_scale,
+            title_suffix="All Ships Combined",
+            filename_suffix="pillar_analysis"
+        )
 
 
 def plot_fft_spectral(trajectories, output_dir, run_id):
@@ -1840,11 +2432,11 @@ def create_interactive_html(trajectories, output_dir, run_id, zoom_scale=None):
         opacity=0.2,
         colorscale=[[0, 'red'], [1, 'red']],
         showscale=False,
-        name='Coherence Boundary'
+        name='Event Horizon'
     ))
 
     fig.update_layout(
-        title=f"Run {run_id}: Interactive 3D Identity Basin<br>(Red cylinder = Coherence Boundary at {EVENT_HORIZON})",
+        title=f"Run {run_id}: Interactive 3D Identity Basin<br>(Red cylinder = Event Horizon at {EVENT_HORIZON})",
         scene=dict(
             xaxis_title="Drift at Turn N",
             yaxis_title="Drift at Turn N+1",
@@ -1892,7 +2484,7 @@ def create_interactive_html(trajectories, output_dir, run_id, zoom_scale=None):
         x=EVENT_HORIZON * np.cos(theta), y=EVENT_HORIZON * np.sin(theta),
         mode='lines',
         line=dict(color='red', width=3, dash='dash'),
-        name=f'Coherence Boundary ({EVENT_HORIZON})'
+        name=f'Event Horizon ({EVENT_HORIZON})'
     ))
 
     # Identity attractor at center
@@ -2216,6 +2808,7 @@ def main():
             print(f"  SKIPPED: stability ({reason})")
         else:
             plot_stability_basin(trajectories, output_dirs['stability'], run_id, zoom_scale=zoom_scale)
+            plot_stability_boxplots(trajectories, output_dirs['stability'], run_id, zoom_scale=zoom_scale)
 
     if 'fft' in viz_types:
         skip, reason = should_skip_visualization(run_id, 'fft')
