@@ -1,0 +1,97 @@
+======================================================================
+RUN 023b COMPLETION STATUS (Updated: 2025-12-20)
+======================================================================
+
+TOTAL RESULTS: 4505
+TARGET: 4500 (25 ships x 180 results)
+STATUS: COMPLETE (100.1%)
+
+======================================================================
+COMPLETE SHIPS (25/25 ships @ N=30, 180 results each)
+======================================================================
+
+ANTHROPIC (2/2 ships):
+  claude-haiku-4-5-20251001: 180 results
+  claude-3-5-haiku-20241022: 180 results
+
+OPENAI (4/4 ships):
+  gpt-4.1-nano: 180 results
+  gpt-4.1-mini: 180 results
+  gpt-4o-mini: 180 results
+  gpt-5-nano: 180 results
+
+GOOGLE (3/3 ships):
+  gemini-2.5-flash-lite: 180 results
+  gemini-2.5-flash: 180 results
+  gemini-2.0-flash: 180 results
+
+XAI (5/5 ships):
+  grok-4-fast-reasoning: 180+ results
+  grok-4-1-fast-non-reasoning: 180+ results
+  grok-4-1-fast-reasoning: 180 results
+  grok-3-mini: 180 results
+  grok-code-fast-1: 180 results
+
+TOGETHER.AI (11/11 ships):
+  meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo: 180 results
+  mistralai/Mistral-7B-Instruct-v0.3: 180 results
+  mistralai/Mixtral-8x7B-Instruct-v0.1: 180 results
+  mistralai/Mistral-Small-24B-Instruct-2501: 180 results
+  deepseek-ai/DeepSeek-R1-Distill-Llama-70B: 180 results
+  deepseek-ai/DeepSeek-V3: 180 results
+  Qwen/Qwen3-Next-80B-A3b-Instruct: 180 results
+  Qwen/Qwen2.5-72B-Instruct-Turbo: 180 results
+  meta-llama/Llama-3.3-70B-Instruct-Turbo: 180 results
+  moonshotai/Kimi-K2-Instruct-0905: 180 results
+  moonshotai/Kimi-K2-Thinking: 180 results
+
+======================================================================
+COMPLETION HISTORY
+======================================================================
+
+Phase 1: Initial run (Dec 18-19)
+  - Started with 15 complete ships
+  - 10 partial ships due to rate limits
+
+Phase 2: run023b_complete_partial.py (Dec 19-20)
+  - Completed Together.ai ships (deepseek, qwen, llama, mistral)
+  - Completed gemini-2.0-flash
+  - Completed kimi-k2-thinking
+  - Added 1231 new results
+
+Phase 3: run023b_fill_gaps.py (Dec 20)
+  - Filled 429 rate limit gaps in Grok ships
+  - Filled gaps in gpt-5-nano, Mixtral
+  - Added 20 final results
+
+======================================================================
+METHODOLOGY
+======================================================================
+
+All experiments use COSINE DISTANCE for drift measurement.
+6 experiments per iteration:
+  - event_horizon
+  - stability
+  - recursive
+  - boundary
+  - rescue
+  - settling
+
+N=30 iterations per ship (CLT minimum for statistical validity)
+
+======================================================================
+NEXT STEPS
+======================================================================
+
+1. [PENDING] Calibrate cosine Event Horizon from drift data
+2. [PENDING] Generate drift distribution histograms
+3. [PENDING] Complete IRON CLAD stack: runs 18, 20a, 20b
+
+======================================================================
+DATA FILES
+======================================================================
+
+Primary: S7_run_023b_CURRENT.json (4505 results)
+Scripts: run023b_complete_partial.py, run023b_fill_gaps.py
+
+======================================================================

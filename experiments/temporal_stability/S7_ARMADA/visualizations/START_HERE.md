@@ -197,7 +197,6 @@ The script auto-detects JSON files from `../0_results/runs/`:
 
 **Phase 4 (Context Damping):**
 
-- `S7_run_017_*.json` - Run 017 context damping (delegated visualizer)
 - `S7_run_018_*.json` - Run 018 recursive learnings (4 sub-experiments)
 - `S7_run_020_*.json` - Run 020A tribunal + 020B induced vs inherent
 

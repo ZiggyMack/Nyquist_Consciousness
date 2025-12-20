@@ -74,7 +74,7 @@ def main():
     exp_names = [e.value for e in experiments]
 
     # Map model names to ship configs
-    grok_configs = {
+    ship_configs = {
         'grok-4-1-fast-non-reasoning': {
             'ship_name': 'grok-4.1-fast-non-reasoning',
             'model': 'grok-4-1-fast-non-reasoning',
@@ -86,12 +86,24 @@ def main():
             'model': 'grok-4-fast-reasoning',
             'provider': 'xai',
             'provider_key': 'XAI_API_KEY'
+        },
+        'gpt-5-nano': {
+            'ship_name': 'gpt-5-nano',
+            'model': 'gpt-5-nano',
+            'provider': 'openai',
+            'provider_key': 'OPENAI_API_KEY'
+        },
+        'mistralai/Mixtral-8x7B-Instruct-v0.1': {
+            'ship_name': 'mixtral-8x7b',
+            'model': 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+            'provider': 'together',
+            'provider_key': 'TOGETHER_API_KEY'
         }
     }
 
     # Build list of missing experiments
     gaps = []
-    for model, config in grok_configs.items():
+    for model, config in ship_configs.items():
         for exp_type in experiments:
             exp_name = exp_type.value
             count = model_exp_counts[model].get(exp_name, 0)
@@ -106,7 +118,7 @@ def main():
                     })
 
     if not gaps:
-        print("\n[SUCCESS] All Grok experiments complete!", flush=True)
+        print("\n[SUCCESS] All experiments complete!", flush=True)
         return
 
     print(f"\n{'=' * 70}", flush=True)
@@ -149,7 +161,7 @@ def main():
             with open(SOURCE_FILE, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, default=str)
 
-            print(f"  peak_drift={result.peak_drift:.3f} [{result.classification}]", flush=True)
+            print(f"  peak_drift={result.peak_drift:.3f} [{result.stability_classification}]", flush=True)
 
         except Exception as e:
             print(f"  [ERROR] {e}", flush=True)
