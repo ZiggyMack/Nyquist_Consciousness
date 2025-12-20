@@ -140,23 +140,26 @@ py -3.12 visualize_armada.py --run 012 --type unified  # NEW: all dimensions in 
 
 ## Output Location
 
-All outputs go to `0_visualizations/pics/run{ID}/`:
+All outputs go to `visualizations/pics/` organized by CONCEPT (not run number):
 
 ```
 pics/
-  run008/
-    run008_phase_portrait.png
-    run008_phase_portrait.svg
-    run008_vortex.png
-    run008_vortex.svg
-    run008_3d_basin.png
-    run008_3d_basin.svg
-    run008_stability_basin.png
-    run008_interactive_3d.html
-    run008_interactive_vortex.html
-  run009/
-    ...
+  1_Vortex/                    # Drift spiral dynamics
+  2_Boundary_Mapping/          # Phase portraits + 3D basins
+  3_Stability/                 # Pillar analysis + stability basins
+  4_Rescue/                    # Recovery dynamics
+  5_Settling/                  # Settling time curves
+  6_Architecture/              # Provider signatures
+  7_Radar/                     # PFI dimensional analysis
+  8_Oscilloscope/              # Time-series drift views
+  9_FFT_Spectral/              # Frequency analysis
+  10_PFI_Dimensional/          # Conceptual explanations
+  11_Unified_Dashboard/        # Per-ship multi-panel dashboards
+  12_Metrics_Summary/          # Fleet-wide metrics comparison
 ```
+
+**Note:** Visualizations are organized by concept, not per-run.
+One representative visualization per concept (typically from run009 or run023b).
 
 ---
 
@@ -185,22 +188,25 @@ Plotly is optional (only needed for HTML exports).
 
 ## Data Sources
 
-The script auto-detects JSON files from `../0_results/runs/`:
+The script auto-detects JSON files from `../0_results/runs/` and `../15_IRON_CLAD_FOUNDATION/results/`:
 
-**Phase 3 (Bare Metal):**
+**Current IRON CLAD Runs (Cosine Methodology, EH=0.80):**
 
-- `S7_run_008_*.json` - Run 008 (dimensional drift metric)
-- `S7_run_009_*.json` - Run 009 drain capture
-- `S7_run_010_*.json` - Run 010 recursive capture
-- `S7_run_011_*.json` - Run 011 persona comparison
-- `S7_run_012_*.json` - Run 012 fleet revalidation (100% EH crossing, 100% recovery)
+- `S7_run_023b_*.json` - Run 023b IRON CLAD foundation (25 ships x 30 iterations)
+- `S7_run_023c_*.json` - Run 023c cosine migration (re-runs 009-018 with cosine)
 
-**Phase 4 (Context Damping):**
+**Legacy Runs (Archived - see .archive/temporal_stability_Euclidean/):**
 
-- `S7_run_018_*.json` - Run 018 recursive learnings (4 sub-experiments)
-- `S7_run_020_*.json` - Run 020A tribunal + 020B induced vs inherent
+- Runs 008-012 used keyword RMS (Event Horizon 1.23)
+- These are preserved for historical reference but not used for new analysis
 
-Phase 4 runs use specialized visualizers - they're automatically delegated
+**Specialized Visualizers:**
+
+- Run 015 (Stability) -> `9_STABILITY_CRITERIA/visualize_run015.py`
+- Run 016 (Settling) -> `10_SETTLING_TIME/visualize_run016.py`
+- Run 018 (Context Damping) -> `11_CONTEXT_DAMPING/visualize_run018.py`
+
+These are automatically delegated by `visualize_armada.py`
 
 ---
 
