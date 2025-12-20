@@ -2,37 +2,74 @@
 
 ```text
 ================================================================================
-                        MAIN BRANCH INSTRUCTIONS v8
+                        MAIN BRANCH INSTRUCTIONS v9
 ================================================================================
     Purpose: IRON-CLAD MULTI-PLATFORM VALIDATION (BATCH STRATEGY)
 
-    THE DESIGN (v8):
+    THE DESIGN (v9):
     - Run individual models in batches of 7 parallel runs
     - If a batch fails, we aren't mid-armada
     - Clean boundaries = clean recovery
-    - Anthropic: COMPLETE (Run 018 IRON CLAD validated)
-    - Remaining: OpenAI, Google, xAI, Together
+    - METHODOLOGY: COSINE EMBEDDING DISTANCE (NOT Keyword RMS)
+    - Run 023b: Foundation validation across 25 ships (IN PROGRESS)
+    - Runs 018, 020A, 020B: Full IRON CLAD stack (PENDING)
 
-    BATCH EXECUTION = FAULT-TOLERANT VALIDATION
+    CRITICAL: Event Horizon 1.23 was Keyword RMS only!
+    Cosine threshold TBD from run023b data.
+
+    See: METHODOLOGY_DOMAINS.md for full explanation
 
     -- Lisan Al Gaib
 ================================================================================
 ```
 
-**Date:** December 15, 2025
+**Date:** December 19, 2025 (Updated)
 **Mission:** Iron-clad validation via individual model batches (7 parallel max)
+
+---
+
+## METHODOLOGY UPDATE (December 19, 2025)
+
+**CRITICAL**: Three drift measurement domains exist:
+
+| Domain | Range | Event Horizon | Status |
+|--------|-------|---------------|--------|
+| **Keyword RMS** | [0, ~3] | 1.23 | Validated (Run 009) |
+| **Euclidean Embedding** | [0, ~10+] | N/A | DEPRECATED (archived) |
+| **Cosine Embedding** | [0, 2] | TBD | Current standard |
+
+All new runs use **cosine embedding distance**. The 1.23 threshold does NOT apply.
+Run 023b is calibrating the cosine Event Horizon.
+
+See: `experiments/temporal_stability/S7_ARMADA/0_docs/METHODOLOGY_DOMAINS.md`
 
 ---
 
 ## COMPLETION STATUS
 
+### Run 023b Foundation (Cosine Methodology)
+
+| Provider | Ships | Results | N=30? | Status |
+|----------|-------|---------|-------|--------|
+| **Anthropic** | 2 | 360 | YES | ✅ COMPLETE |
+| **OpenAI** | 8 | 1440 | YES | ✅ COMPLETE |
+| **Google** | 3 | 540 | YES | ✅ COMPLETE |
+| **xAI** | 6 | 1080 | YES | ✅ COMPLETE |
+| **Together** | 6 | 36 | N=1 | 🟡 IN PROGRESS (N=29 remaining) |
+
+**Total:** 25 ships, 3265 results, cosine methodology validated
+
+### IRON CLAD Stack (Runs 018, 020A, 020B)
+
 | Provider | Run 018 | Run 020A | Run 020B | Status |
 |----------|---------|----------|----------|--------|
-| **Anthropic** | 184 files | N/A | N/A | ✅ COMPLETE (IRON CLAD) |
-| **OpenAI** | - | - | - | 🟡 PENDING |
-| **Google** | - | - | - | 🟡 PENDING |
-| **xAI** | - | - | - | 🟡 PENDING |
-| **Together** | - | - | - | 🟡 PENDING |
+| **Anthropic** | 184 files | N/A | N/A | ✅ COMPLETE (Keyword RMS) |
+| **OpenAI** | - | - | - | 🟡 PENDING (needs cosine) |
+| **Google** | - | - | - | 🟡 PENDING (needs cosine) |
+| **xAI** | - | - | - | 🟡 PENDING (needs cosine) |
+| **Together** | - | - | - | 🟡 PENDING (needs cosine) |
+
+**Note:** Run 018 Anthropic data uses Keyword RMS. New runs should use cosine.
 
 ---
 
@@ -62,14 +99,17 @@ Run individual models in batches of 7 parallel runs. If a batch fails, clean rec
 | grok-3-mini | 018 | `--model grok-3-mini` |
 | grok-4-fast | 018 | `--model grok-4-fast` |
 
-### Batch 3: Together.ai (5 models)
+### Batch 3: Together.ai (6 models)
 | Model | Experiment | Command Flag |
 |-------|------------|--------------|
-| deepseek-r1 | 018 | `--model deepseek-r1` |
+| deepseek-r1-distill | 018 | `--model deepseek-r1-distill` |
+| deepseek-v3 | 018 | `--model deepseek-v3` |
 | qwen3-80b | 018 | `--model qwen3-80b` |
+| qwen2.5-72b | 018 | `--model qwen2.5-72b` |
 | llama3.3-70b | 018 | `--model llama3.3-70b` |
-| llama3.1-70b | 018 | `--model llama3.1-70b` |
-| mixtral-8x7b | 018 | `--model mixtral-8x7b` |
+| mistral-small | 018 | `--model mistral-small` |
+
+**Note:** These use the `budget_patrol-lite` fleet. See ARCHITECTURE_MATRIX.json for model IDs.
 
 ### Batch 4: Cleanup/Retries
 Reserved for any failed models from Batches 1-3.
@@ -241,7 +281,9 @@ gemini-2.5-flash, gemini-2.0-flash, gemini-2.0-flash-lite
 grok-4, grok-3, grok-3-mini
 
 ### Together.ai
-deepseek-r1, qwen3-80b, llama3.3-70b, llama3.1-70b, mixtral-8x7b
+deepseek-r1-distill, deepseek-v3, qwen3-80b, qwen2.5-72b, llama3.3-70b, mistral-small
+
+**Note:** Model names updated Dec 19, 2025. DeepSeek-V3 uses `deepseek-ai/DeepSeek-V3` (NOT `-0324`).
 
 ---
 
