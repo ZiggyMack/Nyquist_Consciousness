@@ -65,7 +65,9 @@ PROVIDER_COLORS = {
 }
 
 # Event Horizon threshold (Coherence Boundary)
-EVENT_HORIZON = 1.23
+# Cosine distance calibrated from run023b (2025-12-20)
+# See 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
+EVENT_HORIZON = 0.80
 
 # =============================================================================
 # VISUALIZATION EXCLUSIONS (per-run appropriateness)
@@ -119,11 +121,15 @@ def find_available_runs():
     if not RESULTS_DIR.exists():
         return runs
 
-    # Search both main directory and legacy_runs subdirectory
+    # Search main directory, legacy_runs, and IRON_CLAD results
     search_dirs = [RESULTS_DIR]
     legacy_dir = RESULTS_DIR / "legacy_runs"
     if legacy_dir.exists():
         search_dirs.append(legacy_dir)
+    # IRON CLAD foundation results (run023b cosine data)
+    iron_clad_dir = BASE_DIR / "15_IRON_CLAD_FOUNDATION" / "results"
+    if iron_clad_dir.exists():
+        search_dirs.append(iron_clad_dir)
 
     for search_dir in search_dirs:
         for f in search_dir.glob("S7_run_*.json"):
@@ -668,7 +674,7 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None)
         eh_radius = EVENT_HORIZON
         theta = np.linspace(0, 2*np.pi, 100)
         ax.plot(eh_radius * np.cos(theta), eh_radius * np.sin(theta), 'r--', linewidth=2.5, alpha=0.7,
-               label='Event Horizon (1.23)')
+               label=f'Event Horizon ({EVENT_HORIZON})')
         ax.scatter([0], [0], color='gold', s=300, marker='*', zorder=15, label='Identity Attractor')
 
         # Add legend entries for providers
@@ -1260,7 +1266,7 @@ def plot_stability_basin(trajectories, output_dir, run_id, zoom_scale=None):
 
     ax2.set_xlabel('Baseline Drift', fontsize=12)
     ax2.set_ylabel('Count', fontsize=12)
-    ax2.set_title('Identity Basin: STABLE vs VOLATILE Distribution\n(Status = max drift < 1.23, not baseline)', fontsize=13, fontweight='bold')
+    ax2.set_title(f'Identity Basin: STABLE vs VOLATILE Distribution\n(Status = max drift < {EVENT_HORIZON}, not baseline)', fontsize=13, fontweight='bold')
     ax2.legend(loc='upper right')
     ax2.grid(True, alpha=0.3, axis='y')
 
