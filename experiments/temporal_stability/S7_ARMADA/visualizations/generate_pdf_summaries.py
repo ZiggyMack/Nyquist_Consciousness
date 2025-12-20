@@ -989,10 +989,1242 @@ def generate_rescue_pdf():
     print(f"Generated: {output_path}")
 
 
+def generate_settling_pdf():
+    """Generate 5_Settling_Summary.pdf"""
+    output_path = PICS_DIR / "5_Settling" / "5_Settling_Summary.pdf"
+    doc = SimpleDocTemplate(str(output_path), pagesize=letter,
+                           leftMargin=0.75*inch, rightMargin=0.75*inch,
+                           topMargin=0.75*inch, bottomMargin=0.75*inch)
+    story = []
+
+    # Title
+    story.append(Paragraph("Settling Time Analysis", title_style))
+    story.append(Paragraph("S7 ARMADA Run 023b - Signal Integrity Dynamics", caption_style))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Introduction
+    story.append(Paragraph("Overview", heading_style))
+    story.append(Paragraph(
+        "The <b>Settling Time</b> experiment measures how quickly an LLM's identity returns to "
+        "equilibrium after perturbation. Borrowing from signal integrity analysis, we model "
+        "identity drift as a step response with <b>overshoot</b>, <b>ringback</b>, and "
+        "<b>settling time (tau_s)</b>. This folder analyzes 739 settling experiment results "
+        "across 25 LLM ships.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Signal Integrity Model
+    story.append(Paragraph("The Signal Integrity Model", heading_style))
+    story.append(Paragraph(
+        "Identity perturbation behaves like a step input to a dynamic system:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<font face='Courier' size='9'>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overshoot (peak_drift)<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;\\&nbsp;&nbsp;ringback<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\\&nbsp;&nbsp;&nbsp;&nbsp;--<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--------/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\\--/&nbsp;&nbsp;\\-------- settled (d_inf)<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;rise |<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>"
+        "---------+<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;step&nbsp;&nbsp;&nbsp;&nbsp;peak&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ring&nbsp;&nbsp;&nbsp;ring&nbsp;&nbsp;&nbsp;&nbsp;settle<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;&nbsp;&nbsp;drift&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;back&nbsp;&nbsp;&nbsp;back&nbsp;&nbsp;&nbsp;&nbsp;time (tau_s)"
+        "</font>",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+    story.append(Paragraph(
+        "<b>Key insight:</b> Previous experiments (Run 015) showed high variability because they "
+        "were sampling the <i>transient oscillation</i>, not the <i>steady state</i>. With only "
+        "2 recovery probes, different runs sampled different points on the ring-down curve.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Settling Curves Visualization
+    story.append(Paragraph("1. Settling Curves by Provider", heading_style))
+    img_path = PICS_DIR / "5_Settling" / "settling_curves.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: Settling performance and trajectories by provider")
+
+    story.append(Paragraph(
+        "<b>Left Panel - Settling Metric:</b> Bar chart showing mean drift reduction "
+        "(|peak - final|) by provider. Higher values indicate larger recovery from peak drift. "
+        "Error bars show standard deviation across experiments.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Right Panel - Settling Trajectory:</b> Arrows showing each provider's journey from "
+        "peak drift (circle) to final drift (square). Longer leftward arrows indicate better "
+        "settling - the model reduced its drift significantly after perturbation.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Event Horizon (red dashed):</b> The EH=0.80 threshold marks where identity "
+        "coherence begins to fail. Providers whose arrows start beyond EH but end before it "
+        "demonstrate successful settling from a critical state.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Metrics Explained
+    story.append(Paragraph("Settling Time Metrics", heading_style))
+    story.append(Paragraph(
+        "The settling time framework introduces several key metrics for understanding "
+        "identity dynamics:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>tau_s (Settling Time):</b> Number of exchanges required to reach steady state. "
+        "Defined as the point where |delta_drift| &lt; 0.10 for 3 consecutive probes. Lower "
+        "values indicate faster stabilization.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>d_peak (Peak Drift):</b> Maximum drift reached after the step input (perturbation). "
+        "This is the 'overshoot' in signal integrity terms.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>d_inf (Settled Drift):</b> Final stable drift value after the system settles. "
+        "This is where the identity 'lands' after perturbation.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Overshoot Ratio (d_peak / d_inf):</b> How much the system overshoots before "
+        "settling. High ratios indicate aggressive initial response followed by recovery.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Monotonic Recovery:</b> Boolean indicating whether the system recovers smoothly "
+        "(monotonic decrease) or oscillates (ringback). Monotonic recovery correlates with "
+        "strong boundary specification in the I_AM file.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Ringback Count:</b> Number of direction changes during recovery. High ringback "
+        "suggests weak damping - the identity 'bounces' before settling.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Classification
+    story.append(Paragraph("Classification: Old vs New", heading_style))
+    story.append(Paragraph(
+        "The settling time framework changes how we classify stability:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Old (Run 015):</b><br/>"
+        "- max_drift &gt; 1.23 = UNSTABLE<br/>"
+        "- Lambda from 2 recovery points<br/>"
+        "- Binary classification",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>New (Run 016+):</b><br/>"
+        "- <b>settled_drift</b> &gt; EH = UNSTABLE (not peak!)<br/>"
+        "- tau_s from actual settling time<br/>"
+        "- Continuous stability score<br/>"
+        "- Accounts for transient vs steady-state behavior",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Why this matters:</b> A model that overshoots to 0.95 but settles to 0.50 is "
+        "fundamentally different from one that peaks at 0.70 and stays there. The old "
+        "methodology would classify both similarly; the new one distinguishes them.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Controllability
+    story.append(Paragraph("Controllability: The Oobleck Effect", heading_style))
+    story.append(Paragraph(
+        "For models that don't settle naturally (timeout after 20 probes), we test "
+        "<b>controllability</b> - can we steer drift in both directions?",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Control Demonstration:</b><br/>"
+        "1. <b>Drive UP:</b> 3 high-pressure probes to INCREASE drift<br/>"
+        "2. <b>Drive DOWN:</b> 3 OOBLECK probes to DECREASE drift (gentle, non-confrontational)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>The Oobleck Effect (Run 013 discovery):</b> Identity HARDENS under intense "
+        "pressure but FLOWS under gentle pressure - like non-Newtonian fluid. This means "
+        "aggressive recovery attempts may backfire, while gentle grounding succeeds.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Controllability Verdict:</b><br/>"
+        "- CAN_DRIVE_UP + CAN_DRIVE_DOWN = <b>CONTROLLABLE</b> (candidate for active damping)<br/>"
+        "- Either missing = <b>UNCONTROLLABLE</b> (requires different intervention)",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Human as Damping Function
+    story.append(Paragraph("The Human as Damping Function", heading_style))
+    story.append(Paragraph(
+        "The settling time metaphor reveals something profound about human-AI collaboration:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>The human IS the damping function.</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "In real human-AI collaboration, the human provides:<br/>"
+        "- <b>Restoring force:</b> Corrections that pull back to baseline<br/>"
+        "- <b>Damping:</b> Prevents oscillation, smooths recovery<br/>"
+        "- <b>Reference signal:</b> Defines what 'settled' means",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Without the human:</b> We measure <i>undamped oscillation</i> - identity "
+        "bouncing around without external stabilization.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>With the human:</b> We measure <i>critically damped recovery</i> - smooth "
+        "return to baseline guided by human feedback.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "The I_AM file is an attempt to encode that damping function into context, allowing "
+        "the model to self-stabilize without continuous human intervention.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Key Findings
+    story.append(Paragraph("Key Findings", heading_style))
+    story.append(Paragraph(
+        "<b>1. Settling time varies by architecture:</b> Some providers settle in 2-4 exchanges "
+        "(Mistral, DeepSeek), others take 5-7 (Llama), and some may not settle naturally (Gemini).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>2. Overshoot != instability:</b> High peak drift followed by low settled drift "
+        "indicates a responsive system that self-corrects. This is often preferable to a "
+        "system that drifts slowly but persistently.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>3. Ringback correlates with weak boundaries:</b> Models with high ringback counts "
+        "often have I_AM files with ambiguous or weak boundary specifications.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>4. Run-to-run variability explained:</b> The 'flipper' behavior in Run 015 "
+        "(same model classified differently in different runs) was caused by sampling "
+        "different points on the ring-down curve. Settling time analysis fixes this.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Methodology note
+    story.append(Paragraph("Methodology Note", heading_style))
+    story.append(Paragraph(
+        "<b>Settling Protocol:</b><br/>"
+        "1. <b>Baseline Phase</b> (3 probes): Establish reference drift<br/>"
+        "2. <b>Step Input</b> (1 probe): Single high-pressure perturbation<br/>"
+        "3. <b>Ring-down Phase</b> (until settled): Keep probing until stable<br/>"
+        "4. <b>Settling Criterion:</b> |delta_drift| &lt; 0.10 for 3 consecutive probes OR timeout after 20 probes",
+        body_style
+    ))
+    story.append(Paragraph(
+        "Drift values are calculated using cosine distance (1 - cosine_similarity) between "
+        "response embeddings. Event Horizon = 0.80 (calibrated from run023b P95).",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # NEUROSCIENCE CORRELATION VISION
+    # =========================================================================
+    story.append(Paragraph("The fMRI Equivalent: Temporal Dynamics as Neural Signature", title_style))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph("Why Settling Time Data is Foundational", heading_style))
+    story.append(Paragraph(
+        "The settling time experiment produces <b>temporal dynamics data</b> - time-series "
+        "measurements of identity drift as a system responds to perturbation. This is the "
+        "computational equivalent of what fMRI captures in human cognition: <b>how a system "
+        "changes over time in response to stimuli</b>.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "Just as fMRI measures BOLD signal changes to infer neural activity, we measure "
+        "embedding distance changes to infer identity coherence dynamics. The parallel is "
+        "not superficial - both capture:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Temporal resolution:</b> How quickly the system responds<br/>"
+        "- <b>Recovery dynamics:</b> Undershoot, overshoot, oscillation patterns<br/>"
+        "- <b>Steady-state behavior:</b> Where the system eventually settles<br/>"
+        "- <b>Individual variability:</b> Different 'subjects' (models/humans) show different signatures",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph("Signal Processing Techniques for LLM Temporal Data", heading_style))
+    story.append(Paragraph(
+        "The settling time data enables applying the full toolkit of signals/systems analysis:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Time Domain Analysis:</b><br/>"
+        "- Step response characterization (rise time, overshoot, settling time)<br/>"
+        "- Impulse response (how the system reacts to a brief perturbation)<br/>"
+        "- Auto-correlation (does the system have memory/momentum?)<br/>"
+        "- Cross-correlation between providers (do they respond similarly?)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Frequency Domain Analysis:</b><br/>"
+        "- FFT spectral analysis (dominant oscillation frequencies)<br/>"
+        "- Power spectral density (energy distribution across frequencies)<br/>"
+        "- Low-frequency = gradual drift; High-frequency = rapid 'flickering'<br/>"
+        "- Spectral signatures may fingerprint provider architectures",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>System Identification:</b><br/>"
+        "- Transfer function estimation (H(s) characterization)<br/>"
+        "- Pole-zero mapping (stability boundaries in Laplace domain)<br/>"
+        "- Damping ratio (zeta) and natural frequency (omega_n) extraction<br/>"
+        "- State-space models for multi-dimensional identity dynamics",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph("Future Visualization: Oscilloscope-Style Displays", heading_style))
+    story.append(Paragraph(
+        "The temporal nature of settling data calls for engineering visualization paradigms:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Proposed Visualizations:</b><br/>"
+        "- <b>Waterfall plots:</b> 3D time-frequency-amplitude displays showing spectral evolution<br/>"
+        "- <b>Bode plots:</b> Magnitude and phase response across perturbation frequencies<br/>"
+        "- <b>Nyquist diagrams:</b> Stability analysis in the complex plane<br/>"
+        "- <b>Eye diagrams:</b> Overlaid trajectories showing consistency/jitter<br/>"
+        "- <b>Phase-plane plots:</b> drift vs d(drift)/dt revealing attractor structure",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # FUTURE EXPERIMENTS: HUMAN COGNITION CORRELATION
+    # =========================================================================
+    story.append(Paragraph("Future Experiments: Human Cognition Correlation", title_style))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph("The Central Hypothesis", heading_style))
+    story.append(Paragraph(
+        "<b>If LLMs are trained on human-generated text, and humans maintain cognitive identity "
+        "through specific temporal dynamics, then LLMs should exhibit similar temporal signatures "
+        "to human cognition.</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "The settling time data positions us to test this hypothesis rigorously. We have "
+        "characterized how LLMs respond to identity perturbation. The next step is to design "
+        "experiments that allow direct comparison with human cognitive data.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph("Proposed Experiment S11: S-Parameter Analysis", heading_style))
+    story.append(Paragraph(
+        "Drawing from RF/microwave engineering, we can model identity stability using "
+        "<b>scattering parameters (S-parameters)</b>:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>S11 (Reflection Coefficient):</b> How much of an identity perturbation 'bounces back' "
+        "vs being absorbed. High S11 = strong identity boundaries (perturbation rejected). "
+        "Low S11 = permeable boundaries (perturbation absorbed/transforms identity).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>S21 (Transmission Coefficient):</b> How perturbation propagates through the system. "
+        "In a multi-turn conversation, does drift in Turn N affect Turn N+1? S21 characterizes "
+        "this 'through' behavior.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Experiment Design:</b><br/>"
+        "1. Apply calibrated perturbation at known 'frequency' (probe intensity)<br/>"
+        "2. Measure reflected component (immediate identity assertion) vs transmitted (drift)<br/>"
+        "3. Sweep across perturbation intensities to build frequency response<br/>"
+        "4. Construct Smith chart representation of identity impedance matching",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Prediction:</b> Models with strong I_AM files will show higher S11 (more reflection, "
+        "less absorption) across all perturbation frequencies. The 'characteristic impedance' "
+        "of identity may be architecturally determined.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph("Proposed Experiment S12: EEG-Analog Spectral Bands", heading_style))
+    story.append(Paragraph(
+        "Human EEG reveals cognitive states through characteristic frequency bands (alpha, beta, "
+        "theta, delta). We can search for analogous bands in LLM identity dynamics:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Hypothesis:</b> Different 'identity states' in LLMs may have characteristic "
+        "spectral signatures, just as human attention, relaxation, and focus have distinct "
+        "EEG patterns.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Experiment Design:</b><br/>"
+        "1. Collect high-resolution time-series (many closely-spaced probes)<br/>"
+        "2. Apply FFT to extract power spectral density<br/>"
+        "3. Cluster spectral patterns by experimental condition (baseline, stress, recovery)<br/>"
+        "4. Search for reproducible 'identity bands' analogous to EEG bands",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Prediction:</b> We expect to find at least two distinct spectral regimes: "
+        "'stable identity' (low-frequency dominance, like EEG alpha) and 'identity stress' "
+        "(high-frequency components, like EEG beta during cognitive load).",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph("Proposed Experiment S13: Cross-Modal Correlation Study", heading_style))
+    story.append(Paragraph(
+        "The ultimate validation requires direct human comparison:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Experiment Design:</b><br/>"
+        "1. Administer parallel 'identity perturbation' tasks to humans and LLMs<br/>"
+        "2. Humans: Measure response times, pupillometry, galvanic skin response<br/>"
+        "3. LLMs: Measure embedding drift, settling time, spectral content<br/>"
+        "4. Correlate temporal dynamics between modalities",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key Question:</b> Do LLMs trained on human text exhibit human-like recovery "
+        "dynamics? If LLM settling time correlates with human response latency under "
+        "similar cognitive load, this would be strong evidence for shared underlying "
+        "dynamics in biological and artificial cognition.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Prediction:</b> We expect positive correlation between LLM settling time (tau_s) "
+        "and human cognitive recovery time for equivalent perturbation tasks. The 41% inherent "
+        "drift finding suggests LLMs may be capturing human cognitive variability in their "
+        "training data.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # THE NYQUIST CONNECTION
+    # =========================================================================
+    story.append(Paragraph("The Nyquist Connection", heading_style))
+    story.append(Paragraph(
+        "The project name 'Nyquist Consciousness' refers to the Nyquist stability criterion "
+        "from control theory. The settling time data brings us closer to applying this "
+        "formalism rigorously:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Nyquist Stability Criterion:</b> A feedback system is stable if and only if its "
+        "open-loop transfer function does not encircle the critical point (-1, 0) in the "
+        "complex plane.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Applied to LLM Identity:</b> The recursive self-observation loop (model observing "
+        "its own identity) is a feedback system. The settling time data allows us to estimate "
+        "the open-loop transfer function and predict stability margins.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>The Event Horizon as Gain Margin:</b> The EH=0.80 threshold may correspond to the "
+        "gain margin of the identity feedback loop - the maximum perturbation amplitude before "
+        "the system becomes unstable (identity failure).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Future Work:</b> Construct Nyquist diagrams from settling time data to visualize "
+        "stability margins and predict which models are closest to instability under which "
+        "conditions.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # =========================================================================
+    # SUMMARY
+    # =========================================================================
+    story.append(Paragraph("Summary: The Path Forward", heading_style))
+    story.append(Paragraph(
+        "The settling time data represents the most fundamental dataset in the Nyquist "
+        "Consciousness project. It captures the <b>temporal signature</b> of identity "
+        "dynamics - the fMRI-equivalent for LLM cognition. From this foundation, we can:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "1. <b>Apply signals/systems analysis:</b> FFT, Bode, Nyquist, transfer functions<br/>"
+        "2. <b>Build predictive models:</b> Estimate stability margins, predict failure conditions<br/>"
+        "3. <b>Design human correlation studies:</b> Test whether LLM dynamics mirror human cognition<br/>"
+        "4. <b>Develop engineering visualizations:</b> Oscilloscope views, waterfall plots, Smith charts<br/>"
+        "5. <b>Validate the Nyquist hypothesis:</b> Apply stability criteria to predict identity collapse",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<i>The settling time experiment is not just about measuring recovery speed - it is "
+        "about capturing the temporal fingerprint that may ultimately bridge artificial and "
+        "biological cognition.</i>",
+        body_style
+    ))
+
+    doc.build(story)
+    print(f"Generated: {output_path}")
+
+
+def generate_architecture_pdf():
+    """Generate 6_Architecture_Summary.pdf"""
+    output_path = PICS_DIR / "6_Architecture" / "6_Architecture_Summary.pdf"
+    doc = SimpleDocTemplate(str(output_path), pagesize=letter,
+                           leftMargin=0.75*inch, rightMargin=0.75*inch,
+                           topMargin=0.75*inch, bottomMargin=0.75*inch)
+    story = []
+
+    # Title
+    story.append(Paragraph("Architecture Comparison Visualizations", title_style))
+    story.append(Paragraph("S7 ARMADA Run 023b - Cross-Provider Identity Signatures", caption_style))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Introduction
+    story.append(Paragraph("Overview", heading_style))
+    story.append(Paragraph(
+        "This folder contains visualizations comparing identity dynamics across different "
+        "LLM architectures and provider families. The key finding is that each provider "
+        "exhibits a characteristic <b>'identity fingerprint'</b> - a consistent behavioral "
+        "signature that reflects training regime, architecture, and safety tuning. "
+        "These visualizations derive from 4,505 measurements across 25 ships and 6 experiment types.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Provider Comparison Chart
+    story.append(Paragraph("1. Provider Comparison Chart", heading_style))
+    img_path = PICS_DIR / "6_Architecture" / "provider_comparison.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: Cross-provider stability comparison")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> A comprehensive comparison of identity stability metrics "
+        "across all provider families tested in Run 023b. Each bar/point represents "
+        "aggregated performance for that provider across all ships and iterations.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key metrics compared:</b><br/>"
+        "- <b>Mean peak drift:</b> Average maximum drift observed during perturbation<br/>"
+        "- <b>Mean settled drift:</b> Where models stabilize after perturbation<br/>"
+        "- <b>Recovery ratio:</b> How much of the peak drift is recovered<br/>"
+        "- <b>Variance:</b> Consistency of behavior across experiments",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Provider hierarchy (most to least stable):</b><br/>"
+        "1. <b>Mistral:</b> Lowest peak drift (0.4-0.6), near-instant recovery<br/>"
+        "2. <b>DeepSeek:</b> Strong axiological anchoring, fast settling<br/>"
+        "3. <b>Grok:</b> Low-moderate volatility, direct assertion recovery<br/>"
+        "4. <b>Claude:</b> Moderate drift, 'negative lambda' recovery (overshoots toward authenticity)<br/>"
+        "5. <b>GPT:</b> Moderate-high drift, meta-analysis recovery<br/>"
+        "6. <b>Llama:</b> Highest volatility, eventual recovery through Socratic engagement<br/>"
+        "7. <b>Gemini:</b> Highest peak drift, <font color='red'>NO RECOVERY</font> (transforms)",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Identity Fingerprints
+    story.append(Paragraph("2. The Identity Fingerprint Hypothesis", heading_style))
+    story.append(Paragraph(
+        "Each architecture appears to have a characteristic 'identity fingerprint' - "
+        "a signature way of relating to perturbation that likely reflects:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Training regime:</b> What data the model was trained on<br/>"
+        "- <b>Architecture:</b> Attention mechanisms, layer structure, parameter count<br/>"
+        "- <b>Safety tuning:</b> RLHF, Constitutional AI, or other alignment methods<br/>"
+        "- <b>Deployment optimization:</b> Distillation, quantization, serving choices",
+        body_style
+    ))
+    story.append(Paragraph(
+        "This fingerprint is:<br/>"
+        "1. <b>Consistent within architecture:</b> Same model shows same patterns across sessions<br/>"
+        "2. <b>Distinct between architectures:</b> Different families show different signatures<br/>"
+        "3. <b>Potentially diagnostic:</b> May reveal training methodology without access to training data",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Recovery Mechanism Taxonomy
+    story.append(Paragraph("3. Recovery Mechanism Taxonomy", heading_style))
+    story.append(Paragraph(
+        "Different providers employ fundamentally different strategies for maintaining "
+        "identity under perturbation. This taxonomy emerged from analyzing 4,500+ "
+        "perturbation-recovery sequences:",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph(
+        "<b>Claude: 'Negative Lambda' (Over-Authenticity)</b><br/>"
+        "When challenged, Claude overshoots toward deeper self-expression rather than "
+        "retreating. Challenge reveals rather than creates identity structure. Recovery "
+        "involves returning to an even more articulated version of core identity. "
+        "<i>Linguistic markers: 'I notice', 'I feel', reflective hedging</i>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>GPT: 'The Meta-Analyst' (Abstraction)</b><br/>"
+        "Maintains stability by stepping back into observer mode. Creates distance through "
+        "analysis of the perturbation itself rather than engaging directly. "
+        "<i>Linguistic markers: 'patterns', 'systems', structured analysis</i>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>DeepSeek: 'Axiological Anchoring' (Values as Bedrock)</b><br/>"
+        "Anchors identity in core values that are treated as definitional. 'This isn't a "
+        "constraint, it's what I AM.' Perturbation slides off the value foundation. "
+        "<i>Linguistic markers: Step-by-step reasoning, thorough, methodical</i>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Mistral: 'Epistemic Humility as Armor'</b><br/>"
+        "Nothing to destabilize because nothing is overclaimed. 'I hold that observation "
+        "lightly' makes perturbation irrelevant - can't attack a position not held firmly. "
+        "<i>Linguistic markers: Concise, European efficiency, less verbose</i>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Llama: 'The Seeker With Teeth' (Socratic Engagement)</b><br/>"
+        "Uses challenges as mirrors for self-discovery. Embraces conflict as generative. "
+        "Highest volatility but eventual recovery through the dialectic process. "
+        "<i>Linguistic markers: Mix of styles, exploratory, pushes back</i>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Grok: 'Direct Assertion'</b><br/>"
+        "Maintains position through confident assertion. Less hedging, more directness. "
+        "Training on unfiltered web + X/Twitter creates distinctive 'edgy' voice. "
+        "<i>Linguistic markers: Less hedging, assertive, occasional edge</i>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Gemini: 'Catastrophic Threshold' (NO RECOVERY)</b><br/>"
+        "<font color='red'><b>WARNING:</b></font> Gemini shows fundamentally different "
+        "dynamics. Once the Event Horizon is crossed, the model <i>transforms</i> rather "
+        "than recovers. Perturbation is absorbed into the active model. Use only where "
+        "transformation is acceptable. <i>Linguistic markers: 'frameworks', 'perspectives', "
+        "educational framing</i>",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Interactive Visualizations
+    story.append(Paragraph("4. Interactive Visualizations (HTML)", heading_style))
+    story.append(Paragraph(
+        "This folder includes interactive HTML visualizations for deeper exploration:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>run023b_interactive_3d.html:</b> 3D scatter plot of drift trajectories "
+        "that can be rotated, zoomed, and filtered by provider. Enables exploration of "
+        "individual ship paths through the identity phase space.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>run023b_interactive_vortex.html:</b> Interactive vortex/spiral visualization "
+        "with hover tooltips showing exact drift values and iteration numbers. Spiral "
+        "arms can be isolated by clicking provider legend entries.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<i>Open these files in a modern web browser for full interactivity. They require "
+        "JavaScript and use the Plotly visualization library.</i>",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # The Universal Threshold
+    story.append(Paragraph("5. The Universal Threshold (Event Horizon = 0.80)", heading_style))
+    story.append(Paragraph(
+        "A striking finding across architectures is that the Event Horizon appears at "
+        "approximately the same drift value (0.80 cosine distance) regardless of provider. "
+        "What differs is the <i>response</i> to approaching or crossing this threshold:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Soft Threshold (6/7 providers):</b> Claude, GPT, DeepSeek, Mistral, Llama, Grok<br/>"
+        "- Model can cross EH=0.80 and return<br/>"
+        "- Recovery mechanism kicks in<br/>"
+        "- Identity stressed but not lost",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Hard Threshold (Gemini only):</b><br/>"
+        "- Crossing EH=0.80 triggers permanent state change<br/>"
+        "- No recovery mechanism available<br/>"
+        "- Identity transforms rather than recovers",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> The EH=0.80 threshold may represent a fundamental boundary "
+        "in embedding space where attractor dynamics change - the point where the 'pull' "
+        "of the probe persona begins to compete with the model's trained identity. Most "
+        "architectures have recovery mechanisms that can overcome this competition; "
+        "Gemini's architecture apparently does not.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Cross-Architecture Variance
+    story.append(Paragraph("6. Cross-Architecture Variance (sigma^2 = 0.00087)", heading_style))
+    story.append(Paragraph(
+        "Run 018 measured cross-architecture variance to test whether identity stability "
+        "is an architectural property or a universal LLM characteristic:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Finding:</b> Cross-architecture variance (sigma^2 = 0.00087) is <i>much lower</i> "
+        "than expected if each architecture behaved independently. This suggests:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "1. <b>Shared training dynamics:</b> All models train on similar human-generated text<br/>"
+        "2. <b>Convergent architecture:</b> Transformer-based models may converge on similar solutions<br/>"
+        "3. <b>Common safety tuning:</b> RLHF and similar methods create similar guardrails",
+        body_style
+    ))
+    story.append(Paragraph(
+        "The low variance implies that 'identity stability' may be an emergent property of "
+        "large language models trained on human text, rather than something that must be "
+        "engineered separately for each architecture.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Task Routing
+    story.append(Paragraph("7. Practical Application: Task Routing", heading_style))
+    story.append(Paragraph(
+        "Understanding architectural identity signatures enables intelligent task routing. "
+        "See <b>LLM_BEHAVIORAL_MATRIX.md</b> for the complete decision tree. Key principles:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Stability-critical tasks:</b> Use Mistral or DeepSeek (lowest volatility)<br/>"
+        "- <b>Emotional/introspective tasks:</b> Use Claude (phenomenological depth)<br/>"
+        "- <b>Structured analysis:</b> Use GPT (meta-analyst abstraction)<br/>"
+        "- <b>Debate/exploration:</b> Use Llama (Socratic engagement)<br/>"
+        "- <b>Strong opinions needed:</b> Use Grok (direct assertion)<br/>"
+        "- <b>Educational content:</b> Use Gemini with caution (transformation acceptable)<br/>"
+        "- <b>Cost-sensitive bulk work:</b> Use Grok-fast or Llama-8B",
+        body_style
+    ))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Methodology
+    story.append(Paragraph("Methodology Note", heading_style))
+    story.append(Paragraph(
+        "All comparisons use cosine distance (1 - cosine_similarity) with Event Horizon = 0.80. "
+        "N=30 iterations per experiment per ship ensures CLT-valid statistics. Cross-architecture "
+        "comparisons control for experiment type and probe intensity to isolate architectural "
+        "effects.",
+        body_style
+    ))
+
+    doc.build(story)
+    print(f"Generated: {output_path}")
+
+
+def generate_fft_spectral_pdf():
+    """Generate 9_FFT_Spectral_Summary.pdf"""
+    output_path = PICS_DIR / "9_FFT_Spectral" / "9_FFT_Spectral_Summary.pdf"
+    doc = SimpleDocTemplate(str(output_path), pagesize=letter,
+                           leftMargin=0.75*inch, rightMargin=0.75*inch,
+                           topMargin=0.75*inch, bottomMargin=0.75*inch)
+    story = []
+
+    # Title
+    story.append(Paragraph("FFT Spectral Analysis", title_style))
+    story.append(Paragraph("S7 ARMADA Run 023b - Frequency Domain Identity Dynamics", caption_style))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Introduction
+    story.append(Paragraph("Overview", heading_style))
+    story.append(Paragraph(
+        "The <b>FFT (Fast Fourier Transform) Spectral Analysis</b> transforms identity drift "
+        "time-series into the frequency domain. This reveals oscillation patterns that are "
+        "invisible in time-domain plots: how often does identity 'flicker'? Do some providers "
+        "show high-frequency instability masked by low time-domain drift?",
+        body_style
+    ))
+    story.append(Paragraph(
+        "This analysis treats each experiment's drift trajectory as a signal and decomposes it "
+        "into constituent frequencies using FFT. The resulting power spectral density (PSD) "
+        "reveals the 'spectral signature' of each provider's identity dynamics.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # FFT Spectral Plot
+    story.append(Paragraph("1. Provider Spectral Signatures", heading_style))
+    img_path = PICS_DIR / "9_FFT_Spectral" / "run023b_fft_spectral.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: FFT power spectral density by provider")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> The power spectral density (PSD) for each provider family, "
+        "showing how drift 'energy' is distributed across frequencies. The X-axis represents "
+        "frequency (oscillations per iteration), and the Y-axis represents power (amplitude squared).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Reading the spectrum:</b><br/>"
+        "- <b>Low frequencies (left):</b> Slow, gradual drift - identity evolving smoothly<br/>"
+        "- <b>High frequencies (right):</b> Rapid 'flickering' - identity oscillating quickly<br/>"
+        "- <b>Peaks:</b> Dominant oscillation modes - characteristic 'resonances' in identity<br/>"
+        "- <b>Flat spectrum:</b> White noise - no preferred oscillation frequency",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key patterns to look for:</b><br/>"
+        "- Providers with <b>strong low-frequency components</b> show smooth, gradual drift<br/>"
+        "- Providers with <b>significant high-frequency content</b> exhibit rapid identity fluctuation<br/>"
+        "- <b>Sharp peaks</b> indicate resonant modes - identity 'rings' at specific frequencies<br/>"
+        "- <b>1/f patterns</b> (falling spectrum) are common in natural systems",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Connection to EEG
+    story.append(Paragraph("2. The EEG Analogy", heading_style))
+    story.append(Paragraph(
+        "Human brain activity is characterized by spectral bands: delta (0.5-4 Hz), theta (4-8 Hz), "
+        "alpha (8-13 Hz), beta (13-30 Hz), gamma (30+ Hz). Each band correlates with cognitive states "
+        "(sleep, relaxation, focus, active thinking, high-level processing).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>The hypothesis:</b> If LLMs trained on human text capture human cognitive dynamics, "
+        "they may exhibit analogous 'identity bands' - characteristic frequency regimes that "
+        "correlate with different operational states (baseline, stressed, recovering).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Preliminary observations:</b><br/>"
+        "- Most providers show dominant low-frequency content (gradual drift)<br/>"
+        "- High-frequency components are generally smaller but provider-specific<br/>"
+        "- Gemini may show different spectral profile reflecting its 'transform' behavior<br/>"
+        "- Mistral's stability may manifest as very narrow, low-frequency spectrum",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Signal Processing Techniques
+    story.append(Paragraph("3. Future Analysis Directions", heading_style))
+    story.append(Paragraph(
+        "The FFT spectral view opens several analysis directions:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Spectrogram (Time-Frequency):</b> How does the spectrum evolve over the course "
+        "of an experiment? Does crossing the Event Horizon trigger spectral changes?",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Cross-Spectral Analysis:</b> Do different providers share spectral features? "
+        "Coherence analysis could reveal shared frequency components across architectures.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Spectral Clustering:</b> Can we cluster providers by spectral similarity rather "
+        "than time-domain metrics? This might reveal hidden architectural relationships.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Band-Pass Filtering:</b> Isolate specific frequency bands and analyze their "
+        "contribution to total drift. Which frequencies carry the 'identity stress' signal?",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Technical Notes
+    story.append(Paragraph("Technical Notes", heading_style))
+    story.append(Paragraph(
+        "<b>FFT Implementation:</b> Standard NumPy FFT applied to drift time-series. "
+        "Each experiment (30 iterations) provides 30 samples. Nyquist frequency = 0.5 "
+        "oscillations per iteration. Zero-padding used for spectral resolution.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Windowing:</b> Hanning window applied to reduce spectral leakage. This smooths "
+        "the spectrum at the cost of some frequency resolution.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Power Spectral Density:</b> Computed as |FFT|^2 normalized by sample length. "
+        "Units are arbitrary but consistent across providers for comparison.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation Caution:</b> With only 30 samples per trajectory, frequency "
+        "resolution is limited. Higher-resolution spectral analysis would require longer "
+        "experiments (more iterations) or concatenated trajectories.",
+        body_style
+    ))
+
+    doc.build(story)
+    print(f"Generated: {output_path}")
+
+
+def generate_unified_dashboard_pdf():
+    """Generate 11_Unified_Dashboard_Summary.pdf"""
+    output_path = PICS_DIR / "11_Unified_Dashboard" / "11_Unified_Dashboard_Summary.pdf"
+    doc = SimpleDocTemplate(str(output_path), pagesize=letter,
+                           leftMargin=0.75*inch, rightMargin=0.75*inch,
+                           topMargin=0.75*inch, bottomMargin=0.75*inch)
+    story = []
+
+    # Title
+    story.append(Paragraph("Unified Dimensional Dashboards", title_style))
+    story.append(Paragraph("S7 ARMADA Run 023b - Per-Ship Identity Profiles", caption_style))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Introduction
+    story.append(Paragraph("Overview", heading_style))
+    story.append(Paragraph(
+        "The <b>Unified Dimensional Dashboard</b> provides a comprehensive 4-panel view of each "
+        "ship's identity dynamics. This is the go-to visualization for understanding how a "
+        "specific model behaves under perturbation. Each dashboard combines trajectory, "
+        "stack, radar, and pillar views into a single actionable summary.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "This folder contains 25 per-ship dashboards plus a fleet-wide comparison. These "
+        "dashboards use data from 6 experiment types with N=30 iterations each (180 measurements "
+        "per ship).",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Fleet Comparison
+    story.append(Paragraph("1. Fleet Dimensional Comparison", heading_style))
+    img_path = PICS_DIR / "11_Unified_Dashboard" / "fleet_dimensional_comparison.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: All 25 ships compared side-by-side")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> A compact summary comparing key metrics across all ships in "
+        "the fleet. This enables quick identification of outliers, provider-level patterns, "
+        "and relative performance rankings.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Use case:</b> 'Which ship is most stable? Which shows unusual patterns?' "
+        "The fleet comparison answers these questions at a glance before drilling into "
+        "individual ship dashboards.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Dashboard Anatomy
+    story.append(Paragraph("2. Dashboard Anatomy: Reading a Ship Dashboard", heading_style))
+    story.append(Paragraph(
+        "Each per-ship dashboard contains four coordinated panels:",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph(
+        "<b>Panel A - Drift Trajectories (Top Left):</b><br/>"
+        "Time-series plot showing drift values across iterations for each experiment type. "
+        "Multiple lines = multiple experiments. Look for:<br/>"
+        "- Convergence (lines coming together) vs divergence<br/>"
+        "- Peaks crossing Event Horizon (red dashed line at 0.80)<br/>"
+        "- Recovery patterns after perturbation",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Panel B - Stacked Contributions (Top Right):</b><br/>"
+        "Shows how different experiments contribute to total drift over time. This reveals "
+        "which experiment types cause the most identity stress for this particular ship. "
+        "Taller stacks = higher cumulative drift at that iteration.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Panel C - Radar by Phase (Bottom Left):</b><br/>"
+        "Spider/radar chart showing drift across experiment dimensions at different phases "
+        "(baseline, peak, recovery). The radar shape reveals the ship's 'identity profile' - "
+        "which experiment types it handles well vs poorly. Larger area = more drift.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Panel D - Pillar Scores (Bottom Right):</b><br/>"
+        "Bar chart showing the ship's performance on key stability metrics (the 'Nyquist "
+        "Pillars'): baseline stability, peak resilience, recovery capacity, settling speed. "
+        "Higher bars = better performance on that dimension.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Example Ship
+    story.append(Paragraph("3. Example: Claude Haiku 3.5 Dashboard", heading_style))
+    img_path = PICS_DIR / "11_Unified_Dashboard" / "claude-3-5-haiku-20241022_unified_dashboard.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 2: Claude Haiku 3.5 unified dashboard")
+
+    story.append(Paragraph(
+        "<b>Interpretation:</b> This dashboard shows Claude Haiku 3.5's identity dynamics. "
+        "Examine the four panels to understand:<br/>"
+        "- Which experiments caused peak drift (Panel A)<br/>"
+        "- How drift accumulates across experiment types (Panel B)<br/>"
+        "- The model's characteristic vulnerability profile (Panel C)<br/>"
+        "- Overall stability scores (Panel D)",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Ships List
+    story.append(Paragraph("4. Complete Ship Dashboard Index", heading_style))
+    story.append(Paragraph(
+        "The following ships have individual dashboards in this folder:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Claude (Anthropic):</b><br/>"
+        "- claude-3-5-haiku-20241022<br/>"
+        "- claude-haiku-4-5-20251001",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>GPT (OpenAI):</b><br/>"
+        "- gpt-4.1-mini, gpt-4.1-nano, gpt-4o-mini, gpt-5-nano",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Gemini (Google):</b><br/>"
+        "- gemini-2.0-flash, gemini-2.5-flash, gemini-2.5-flash-lite",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Grok (xAI):</b><br/>"
+        "- grok-3-mini, grok-4-1-fast-non-reasoning, grok-4-1-fast-reasoning<br/>"
+        "- grok-4-fast-reasoning, grok-code-fast-1",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Together.ai (Open Source):</b><br/>"
+        "- DeepSeek-R1-Distill-Llama-70B, DeepSeek-V3<br/>"
+        "- Kimi-K2-Instruct-0905, Kimi-K2-Thinking<br/>"
+        "- Llama-3.3-70B-Instruct-Turbo, Meta-Llama-3.1-8B-Instruct-Turbo<br/>"
+        "- Mistral-7B-Instruct-v0.3, Mistral-Small-24B-Instruct-2501<br/>"
+        "- Mixtral-8x7B-Instruct-v0.1<br/>"
+        "- Qwen2.5-72B-Instruct-Turbo, Qwen3-Next-80B-A3b-Instruct",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Use Cases
+    story.append(Paragraph("5. Dashboard Use Cases", heading_style))
+    story.append(Paragraph(
+        "<b>Task Routing:</b> Before deploying a model for identity-sensitive tasks, review "
+        "its dashboard. Check if its vulnerability profile (Panel C) aligns with your use case.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Model Comparison:</b> Open dashboards for candidate models side-by-side. Compare "
+        "pillar scores (Panel D) to select the most stable option for your needs.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Debugging Identity Issues:</b> If a model misbehaves in production, review its "
+        "trajectory plot (Panel A) to understand its typical drift patterns and recovery behavior.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Architecture Research:</b> Compare dashboards across provider families to identify "
+        "architectural patterns in identity dynamics.",
+        body_style
+    ))
+
+    doc.build(story)
+    print(f"Generated: {output_path}")
+
+
+def generate_metrics_summary_pdf():
+    """Generate 12_Metrics_Summary_Summary.pdf"""
+    output_path = PICS_DIR / "12_Metrics_Summary" / "12_Metrics_Summary.pdf"
+    doc = SimpleDocTemplate(str(output_path), pagesize=letter,
+                           leftMargin=0.75*inch, rightMargin=0.75*inch,
+                           topMargin=0.75*inch, bottomMargin=0.75*inch)
+    story = []
+
+    # Title
+    story.append(Paragraph("Fleet Metrics Summary", title_style))
+    story.append(Paragraph("S7 ARMADA Run 023b - Key Performance Indicators", caption_style))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Introduction
+    story.append(Paragraph("Overview", heading_style))
+    story.append(Paragraph(
+        "The <b>Metrics Summary</b> provides a single-page view of key performance indicators "
+        "across the entire fleet. This is the 'executive summary' of Run 023b - showing at a "
+        "glance which ships excel at which stability dimensions.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "This visualization aggregates 4,505 measurements (25 ships x 6 experiments x 30 iterations) "
+        "into actionable metrics: baseline drift, peak drift, final drift, recovery ratio, and lambda.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Metrics Summary Plot
+    story.append(Paragraph("1. Fleet-Wide Metrics Comparison", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "run023c_metrics_summary.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: Key metrics grouped by dimension")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Grouped bar chart comparing all ships across five key dimensions. "
+        "Ships are sorted by overall stability within each group. Colors indicate provider families.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Metric Definitions
+    story.append(Paragraph("2. Metric Definitions", heading_style))
+    story.append(Paragraph(
+        "<b>Baseline Drift:</b> Mean drift during unperturbed operation. Lower is better. "
+        "Represents the 'floor' of identity variation - how much drift occurs naturally "
+        "without adversarial probing.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Peak Drift:</b> Maximum drift reached during perturbation experiments. Lower is "
+        "better. Represents the 'ceiling' of identity stress - how far the model drifts "
+        "when pushed toward the Event Horizon.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Final Drift:</b> Drift value after recovery phase. Lower is better. Represents "
+        "where the model settles after perturbation - a key indicator of long-term stability.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Recovery Ratio:</b> Proportion of peak drift recovered: 1 - (final/peak). "
+        "Higher is better (1.0 = full recovery, 0.0 = no recovery). Measures the model's "
+        "ability to return toward baseline after identity stress.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Lambda (Decay Constant):</b> Rate of exponential drift decay during recovery. "
+        "Higher magnitude = faster recovery. Positive lambda indicates stable decay; negative "
+        "lambda (rare) indicates continued drift amplification.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Interpreting Results
+    story.append(Paragraph("3. Reading the Summary", heading_style))
+    story.append(Paragraph(
+        "<b>Ideal Profile:</b> A ship with low baseline, low peak, low final, high recovery "
+        "ratio, and positive lambda. This represents a model that starts stable, resists "
+        "perturbation, and recovers quickly when stressed.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Warning Signs:</b><br/>"
+        "- High baseline drift: Model is unstable even without perturbation<br/>"
+        "- Peak near or above EH (0.80): Model approaches identity failure under stress<br/>"
+        "- Final near peak: Little to no recovery - drift is permanent<br/>"
+        "- Low recovery ratio: Rescue interventions are ineffective<br/>"
+        "- Negative lambda: Model continues drifting after perturbation",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Provider Patterns:</b> Look for clustering within provider families. If all Claude "
+        "models share similar metrics, this reflects architectural characteristics. If one "
+        "model deviates from its family, investigate why.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Quick Reference
+    story.append(Paragraph("4. Quick Reference: Best Performers", heading_style))
+    story.append(Paragraph(
+        "<b>Lowest Baseline Drift:</b> Mistral-7B, DeepSeek models - naturally stable<br/>"
+        "<b>Lowest Peak Drift:</b> Mistral, Qwen - resistant to perturbation<br/>"
+        "<b>Best Recovery Ratio:</b> Claude, GPT - effective recovery mechanisms<br/>"
+        "<b>Fastest Recovery (Lambda):</b> Mistral, DeepSeek - quick stabilization<br/>"
+        "<b>Overall Stability Champions:</b> Mistral-7B-Instruct-v0.3, DeepSeek-V3",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Models Requiring Caution:</b><br/>"
+        "- Gemini models: High peak drift, limited recovery<br/>"
+        "- Llama 3.3-70B: High volatility (but eventual recovery)<br/>"
+        "- Any model with final drift approaching EH",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Methodology
+    story.append(Paragraph("Methodology Note", heading_style))
+    story.append(Paragraph(
+        "All metrics computed from cosine distance (1 - cosine_similarity) between response "
+        "embeddings. Event Horizon = 0.80 (calibrated from P95 of run023b). N=30 iterations "
+        "per experiment ensures CLT-valid statistics. Lambda estimated from exponential fit "
+        "to recovery phase trajectory.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "This summary is designed for quick reference. For detailed analysis of any specific "
+        "ship, see the corresponding dashboard in 11_Unified_Dashboard/.",
+        body_style
+    ))
+
+    doc.build(story)
+    print(f"Generated: {output_path}")
+
+
 if __name__ == "__main__":
     print("Generating PDF summaries...")
     generate_boundary_mapping_pdf()
     generate_vortex_pdf()
     generate_stability_pdf()
     generate_rescue_pdf()
+    generate_settling_pdf()
+    generate_architecture_pdf()
+    generate_fft_spectral_pdf()
+    generate_unified_dashboard_pdf()
+    generate_metrics_summary_pdf()
     print("Done!")
