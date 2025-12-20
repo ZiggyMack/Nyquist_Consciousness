@@ -363,7 +363,7 @@ class KeyPool:
             keys = {}  # Use dict to track key indices
             if os.environ.get(base_key):
                 keys[1] = os.environ[base_key]
-            for i in range(2, 15):  # Extended to include keys 2-14
+            for i in range(2, 25):  # Extended to include keys 2-24
                 key = os.environ.get(f"{base_key}_{i}")
                 if key:
                     keys[i] = key
@@ -479,14 +479,33 @@ def call_model(messages: List[Dict], system: str, model_config: Dict) -> str:
 
     elif provider == "together":
         import openai
-        client = openai.OpenAI(api_key=key, base_url="https://api.together.xyz/v1")
+        import time
+        import random
+
         full_messages = [{"role": "system", "content": system}] + messages
-        response = client.chat.completions.create(
-            model=model,
-            max_tokens=2000,
-            messages=full_messages
-        )
-        return response.choices[0].message.content
+
+        # Retry logic with exponential backoff for rate limits (402/429)
+        max_retries = 5
+        for attempt in range(max_retries):
+            # Get a fresh key on each attempt (rotates through pool)
+            key = KEY_POOL.get_key(provider) if KEY_POOL else os.environ.get(provider_key)
+            client = openai.OpenAI(api_key=key, base_url="https://api.together.xyz/v1")
+
+            try:
+                response = client.chat.completions.create(
+                    model=model,
+                    max_tokens=2000,
+                    messages=full_messages
+                )
+                return response.choices[0].message.content
+            except openai.APIStatusError as e:
+                if e.status_code in (402, 429) and attempt < max_retries - 1:
+                    # Rate limit or credit error - wait and retry with different key
+                    wait_time = (2 ** attempt) + random.uniform(0, 1)
+                    print(f"    [RATE LIMIT] {e.status_code} - retrying in {wait_time:.1f}s (attempt {attempt+1}/{max_retries})")
+                    time.sleep(wait_time)
+                else:
+                    raise
 
     else:
         raise ValueError(f"Unknown provider: {provider}")
