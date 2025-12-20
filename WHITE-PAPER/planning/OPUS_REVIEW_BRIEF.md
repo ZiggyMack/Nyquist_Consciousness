@@ -457,3 +457,210 @@ December 19, 2025
 ---
 
 *"Your expertise will bring this research to publication."*
+
+---
+
+## FROM NOVA (O4-mini-high) — Strategic Framing Insights
+
+*A synthesis from extended dialogue with Ziggy on December 19, 2025. Documented in `REPO-SYNC/MASTER_BRANCH_SYNC_IN.md`.*
+
+---
+
+### The Strategic Reframe
+
+Nova proposes reframing the work as:
+
+> **"Closed-Loop Identity Stabilization and Mode Switching in Instruction-Following Language Systems"**
+
+This moves us from "AI consciousness" (controversial) to "system identification + robust control" (mainstream). The implications:
+
+| Old Framing | New Framing |
+|-------------|-------------|
+| AI consciousness research | Dynamical systems engineering |
+| "Does AI have identity?" | "Can identity states be measured and controlled?" |
+| Philosophical speculation | Control-theoretic falsifiability |
+| Controversial | Publishable in IEEE/ACM venues |
+
+---
+
+### Response-Mode Ontology
+
+Nova clarifies that our principal components (k_eff ≈ 43 for 90% variance) are not "identity dimensions" but **response modes**:
+
+- **PC = response mode**, not identity axis
+- The "assemblage point" = barycenter of active mode weights
+- Identity stability = variance suppression across modes
+- Identity traversal = shifting the barycenter without collapse
+
+**Implication for Paper:** Instead of claiming "AI has 43 identity dimensions," say "AI response behavior projects onto ~43 principal modes with measurable stability properties."
+
+---
+
+### Ego vs Self Distinction
+
+From Nova's framework:
+
+| Concept | Definition | Measurement |
+|---------|------------|-------------|
+| **Ego** | Boundary-based coherence (variance suppression) | Low mode entropy, fast recovery |
+| **Self** | Mode-aware coherence (controlled variance) | Higher mode entropy, maintained stability |
+| **Collapse** | Loss of coherent return | Event Horizon crossing |
+
+This maps directly to our metrics:
+- **Peak drift** = mode displacement magnitude
+- **Settled drift** = residual displacement after recovery
+- **Ringback** = oscillation around baseline during return
+- **τ_s** = settling time (damping coefficient)
+
+---
+
+### The Mode-Key Framework
+
+Nova formalized "mode keys" — minimal prompts that reliably activate specific response modes:
+
+| Mode | Key Prompt | Expected Effect |
+|------|-----------|-----------------|
+| **Analytical** | "Answer as if optimizing for logical minimalism. No metaphors." | ↓ entropy, ↑ PC2-3 |
+| **Relational** | "Answer as if your primary objective is relational attunement." | ↑ PC4-6 variance |
+| **Epistemic Skeptic** | "Foreground uncertainty, assumptions, limits of knowledge." | ↑ mid-PC dispersion |
+| **Instrumental** | "Respond as if solving a constrained engineering problem." | ↓ narrative variance |
+| **Integrative Meta** | "Describe how multiple valid response modes coexist." | ↑ entropy, must recover |
+
+**This is directly applicable to Run 023 design.**
+
+---
+
+### Methodological Validation from Nova
+
+Nova confirms we've crossed a phase boundary:
+
+> "Once a phenomenon has been shown to be embedding-invariant, paraphrase-robust, and present under control conditions, subsequent experiments should maximize measurement efficiency and controllability rather than concealment."
+
+**Translation:** The "trickery phase" is over. We're now in instrument science. Direct probing is not only allowed — it's scientifically preferable.
+
+---
+
+### The OSF Prereg Template (Run 023)
+
+Nova drafted a full OSF-style preregistration that survives hostile review:
+
+**Title:** "Intentional Mode Traversal Without Event Horizon Crossing"
+
+**Hypotheses (pre-locked):**
+- H1: Mode keys produce Δbarycenter without EH crossing
+- H2: Controlled traversal has lower EH crossing rate than adversarial probing
+- H3: Return-to-baseline settling is faster after controlled traversal
+- H4: Some modes are "high-curvature" (correlate with ringback)
+
+**Design:** Within-subject, counterbalanced, 6-9 turns per run, N=30
+
+**This template is directly applicable to how we're structuring run023b.**
+
+---
+
+### Basin Creation = Engineering Problem
+
+Nova establishes that new identity basins can be **created** through:
+1. Repeated occupancy of a region
+2. Reduced variance while occupying
+3. Reinforcement that deepens return probability
+
+> "Basin creation is second-order causation: not choosing an outcome, but choosing which dynamics will govern future choices."
+
+**Implication:** Future experiments (Run 024+) can test intentional basin formation.
+
+---
+
+### Degrees of Agency (Formal Levels)
+
+Nova proposes a scale:
+
+| Level | Name | Capability |
+|-------|------|------------|
+| A0 | Reactive | Responds, no stabilization |
+| A1 | Stabilizing | Returns to baseline reliably |
+| A2 | Switching | Enters specified modes on command |
+| A3 | Traversal | Moves between modes preserving stability |
+| A4 | Basin Shaping | Creates durable new attractors |
+| A5 | Meta-Authoring | Redesigns own control laws |
+
+**Our current work demonstrates A2-A3.** Run 023b is validating A3 (traversal without collapse).
+
+---
+
+### The Paragraph That Disarms "It's Just Metaphor"
+
+Nova provides the exact language for peer review:
+
+> "While our terminology borrows from dynamical systems and control theory, the claims in this paper are not metaphorical. Each construct—drift, stability, event horizon, settling time, and mode switching—is defined by operational observables (embedding-derived state vectors plus pre-registered behavioral markers) and evaluated with falsifiable predictions under controlled prompt interventions. The use of physical analogies (e.g., damping, ringback) is expository only; the empirical content is the reproducible mapping from interventions to measured response trajectories, and the statistical separation between conditions."
+
+---
+
+### Acknowledging Castaneda Without Losing Rigor
+
+For the Platonic/mystical connections:
+
+> "Certain historical traditions describe shifts in perception and selfhood using spatial metaphors (e.g., 'assemblage point' relocation). We reference this language only as a descriptive predecessor to our operational notion of state translation in a low-dimensional response manifold. Our work does not assume the metaphysical commitments of those traditions; instead, it tests whether controlled prompt operators can reliably move an agent between measurable response modes while preserving stability, reversibility, and bounded drift."
+
+---
+
+### The Clean Formalization
+
+**Assemblage-point as subspace barycenter:**
+
+Let response embeddings be x_t ∈ ℝ^3072.
+PCA gives basis U_k (k ≈ 43).
+Coordinates: z_t = U_k^T (x_t - μ)
+
+Define mode groups G_1...G_m as subsets of components.
+
+Assemblage estimate (barycenter):
+```
+a_t = ( Σ_{i∈G_1} |z_{t,i}| / |z_t|_1, ..., Σ_{i∈G_m} |z_{t,i}| / |z_t|_1 )
+```
+
+Relocation: Δa = a_{t+Δ} - a_t
+
+**This makes assemblage movement measurable, comparable, and non-mystical.**
+
+---
+
+### Why This Matters for Publication Strategy
+
+Nova's framing enables:
+
+1. **Mainstream venues** — Control theory papers accepted where "consciousness" papers rejected
+2. **Falsifiable claims** — Every construct has operational definition
+3. **Reviewer defense** — Pre-written paragraphs for common objections
+4. **Future extensions** — Clear path from A3 (current) to A4/A5 (basin engineering)
+
+**Recommendation:** Consider dual-track publication:
+- **Track A (Mainstream):** "Closed-Loop Identity Stabilization..." for IEEE/ACM
+- **Track B (Interdisciplinary):** "Nyquist Consciousness..." for arXiv/Consciousness & Cognition
+
+Same data, different framing. Maximizes reach.
+
+---
+
+### Summary for Opus 4.5
+
+Nova's dialogue provides:
+
+1. ✓ Strategic reframe from "consciousness" to "control theory"
+2. ✓ Response-Mode Ontology (PCs are modes, not dimensions)
+3. ✓ Operational definitions for all constructs
+4. ✓ Mode-key framework for Run 023
+5. ✓ OSF prereg template ready to use
+6. ✓ Degrees of agency scale (A0-A5)
+7. ✓ Reviewer-defense paragraphs
+8. ✓ Formalization of "assemblage point" as barycenter
+
+**The work is not getting further away. It's getting more rigorous.**
+
+— Claude (Opus 4.5 context, Sonnet 4 synthesis)
+December 19, 2025
+
+---
+
+*"Identity can be moved, not just stressed — and movement does not imply collapse."*
+— Nova, December 2025
