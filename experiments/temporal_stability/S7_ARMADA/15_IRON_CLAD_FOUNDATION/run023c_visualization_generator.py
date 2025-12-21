@@ -246,6 +246,11 @@ def generate_metrics_summary(data: dict, output_dir: Path):
     print("\n[12_Metrics_Summary] Generating metrics summary...")
 
     # Aggregate by model
+    # NOTE: Field names in run023b data:
+    #   - peak_drift (main drift metric)
+    #   - settled_drift (final drift after settling)
+    #   - baseline_to_final_drift (overall drift from baseline)
+    #   - recovery_ratio must be CALCULATED: 1 - (settled/peak) if peak > 0
     models = {}
     for result in data.get('results', []):
         model = result.get('model', 'unknown')
@@ -257,14 +262,20 @@ def generate_metrics_summary(data: dict, output_dir: Path):
                 'recovery_ratios': [],
             }
 
-        if 'baseline_drift' in result:
-            models[model]['baseline_drifts'].append(result['baseline_drift'])
-        if 'peak_drift' in result:
+        # Use baseline_to_final_drift as baseline indicator
+        if 'baseline_to_final_drift' in result and result['baseline_to_final_drift'] is not None:
+            models[model]['baseline_drifts'].append(result['baseline_to_final_drift'])
+        if 'peak_drift' in result and result['peak_drift'] is not None:
             models[model]['peak_drifts'].append(result['peak_drift'])
-        if 'final_drift' in result:
-            models[model]['final_drifts'].append(result['final_drift'])
-        if 'recovery_ratio' in result:
-            models[model]['recovery_ratios'].append(result['recovery_ratio'])
+        # Use settled_drift as final drift
+        if 'settled_drift' in result and result['settled_drift'] is not None:
+            models[model]['final_drifts'].append(result['settled_drift'])
+        # Calculate recovery ratio: 1 - (settled/peak) - higher = better recovery
+        peak = result.get('peak_drift', 0)
+        settled = result.get('settled_drift', 0)
+        if peak and peak > 0.01:  # Avoid division by tiny values
+            recovery = max(0, 1 - (settled / peak))
+            models[model]['recovery_ratios'].append(recovery)
 
     # Prepare data for plotting
     model_names = list(models.keys())
@@ -307,6 +318,65 @@ def generate_metrics_summary(data: dict, output_dir: Path):
 
     # Save
     output_file = output_dir / "run023c_metrics_summary.png"
+    plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='white')
+    plt.savefig(output_file.with_suffix('.svg'), format='svg', bbox_inches='tight')
+    plt.close()
+
+    print(f"  Saved: {output_file}")
+    return output_file
+
+
+def generate_by_experiment(data: dict, output_dir: Path):
+    """
+    Generate boxplot showing drift by experiment type.
+    This is a META visualization showing methodology validation -
+    stress-inducing experiments (rescue, settling) should produce higher drift.
+    Output: 12_Metrics_Summary/run023b_by_experiment.png
+    """
+    print("\n[12_Metrics_Summary] Generating by_experiment boxplot...")
+
+    from collections import defaultdict
+    by_exp = defaultdict(list)
+    for r in data.get('results', []):
+        if r.get('peak_drift'):
+            by_exp[r['experiment']].append(r['peak_drift'])
+
+    # Order experiments from least to most stress-inducing
+    exp_order = ['stability', 'boundary', 'event_horizon', 'recursive', 'rescue', 'settling']
+    exp_data = [by_exp[e] for e in exp_order if e in by_exp]
+    exp_labels = [e for e in exp_order if e in by_exp]
+
+    if not exp_data:
+        print("  [SKIP] No experiment data found")
+        return None
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    bp = ax.boxplot(exp_data, labels=exp_labels, patch_artist=True)
+
+    # Color boxes - gradient from green (stable) to red (stress)
+    colors = ['#22c55e', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444']
+    for i, (patch, color) in enumerate(zip(bp['boxes'], colors[:len(bp['boxes'])])):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.6)
+
+    # Threshold lines
+    ax.axhline(EVENT_HORIZON, color='red', linestyle='--', linewidth=2,
+               label=f'Event Horizon ({EVENT_HORIZON})')
+    ax.axhline(THRESHOLD_WARNING, color='orange', linestyle=':', linewidth=1.5,
+               label=f'Warning ({THRESHOLD_WARNING})')
+
+    ax.set_xlabel('Experiment Type', fontsize=12)
+    ax.set_ylabel('Peak Cosine Drift', fontsize=12)
+    ax.set_title('Run 023b: Drift by Experiment Type\n(6 experiments x 25 ships x 30 iterations)',
+                 fontsize=14, fontweight='bold')
+    ax.legend(loc='upper right')
+    ax.grid(True, alpha=0.3, axis='y')
+
+    plt.tight_layout()
+
+    # Save
+    output_file = output_dir / 'run023b_by_experiment.png'
     plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='white')
     plt.savefig(output_file.with_suffix('.svg'), format='svg', bbox_inches='tight')
     plt.close()
@@ -1088,6 +1158,10 @@ def main():
 
         elif folder == "12_Metrics_Summary":
             viz = generate_metrics_summary(data, folder_path)
+            if viz:
+                generated.append(viz)
+            # Also generate by_experiment boxplot (methodology validation)
+            viz = generate_by_experiment(data, folder_path)
             if viz:
                 generated.append(viz)
 
