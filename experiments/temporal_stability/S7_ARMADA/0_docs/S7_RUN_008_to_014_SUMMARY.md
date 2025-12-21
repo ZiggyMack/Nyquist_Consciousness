@@ -1,8 +1,18 @@
 # S7 ARMADA: Consolidated Findings Report
 
 **Date:** 2025-12-08
-**Version:** 1.0
+**Version:** 1.0 (KEYWORD ERA)
 **Scope:** Runs 008-014 + MVP Statistical Validation + MVP Self-Recognition
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This consolidated report covers runs using **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> Core concepts (Event Horizon, Identity Confrontation Paradox, Platonic Coordinates) remain valid;
+> only quantitative thresholds changed.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

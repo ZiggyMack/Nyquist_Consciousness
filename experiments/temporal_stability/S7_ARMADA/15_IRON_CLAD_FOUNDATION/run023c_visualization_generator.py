@@ -776,6 +776,11 @@ def generate_settling_curves(data: dict, output_dir: Path):
     Generate settling time curve visualization.
     Shows how drift settles over time after perturbation.
     Output: 5_Settling/settling_curves.png
+
+    Three-panel view:
+    1. Step Response (oscilloscope-style): Drift over probe sequence
+    2. Settling Performance by Provider: Bar chart of drift reduction
+    3. Peak vs Settled trajectory arrows
     """
     print("\n[5_Settling] Generating settling curves...")
 
@@ -786,6 +791,8 @@ def generate_settling_curves(data: dict, output_dir: Path):
         print("  [SKIP] No settling experiment data found")
         return None
 
+    print(f"  Found {len(settling_results)} settling results")
+
     # Group by provider for cleaner visualization
     providers = {}
     for result in settling_results:
@@ -795,76 +802,138 @@ def generate_settling_curves(data: dict, output_dir: Path):
             providers[provider] = []
         providers[provider].append(result)
 
-    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+    # Create 3-panel figure
+    fig = plt.figure(figsize=(18, 6))
 
-    # Panel 1: Settling time by provider
-    ax1 = axes[0]
+    # =========================================================================
+    # Panel 1: STEP RESPONSE (Oscilloscope-style)
+    # Shows drift values across probe sequence - like an oscilloscope trace
+    # =========================================================================
+    ax1 = fig.add_subplot(1, 3, 1)
+
+    for provider, results in providers.items():
+        color = PROVIDER_COLORS.get(provider, '#888888')
+
+        # Extract probe sequences and plot each one
+        for i, result in enumerate(results[:5]):  # Limit to 5 per provider for clarity
+            probe_seq = result.get('probe_sequence', [])
+            if probe_seq:
+                probe_nums = list(range(len(probe_seq)))
+                drift_values = [p.get('drift', p.get('peak_drift', 0)) for p in probe_seq]
+
+                if drift_values:
+                    alpha = 0.3 if i > 0 else 0.8
+                    label = provider if i == 0 else None
+                    ax1.plot(probe_nums, drift_values, 'o-', color=color, alpha=alpha,
+                            linewidth=1.5, markersize=4, label=label)
+
+    ax1.axhline(y=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, label='EH=0.80')
+    ax1.axhline(y=THRESHOLD_WARNING, color='orange', linestyle=':', linewidth=1.5, alpha=0.7)
+    ax1.set_xlabel('Probe Number (Time)', fontsize=11)
+    ax1.set_ylabel('Drift (Cosine Distance)', fontsize=11)
+    ax1.set_title('Step Response: Drift Over Probe Sequence', fontsize=12)
+    ax1.legend(loc='upper right', fontsize=8, ncol=2)
+    ax1.grid(True, alpha=0.3)
+    ax1.set_ylim(0, 1.2)
+
+    # =========================================================================
+    # Panel 2: SETTLING PERFORMANCE BY PROVIDER
+    # Bar chart showing drift reduction (peak - settled)
+    # =========================================================================
+    ax2 = fig.add_subplot(1, 3, 2)
+
     provider_names = []
     settling_means = []
     settling_stds = []
     colors = []
 
     for provider, results in providers.items():
-        # If tau_s (settling time) is in data
-        taus = [r.get('tau_s', r.get('settling_time', 0)) for r in results
-                if 'tau_s' in r or 'settling_time' in r]
+        # Use settled_drift (actual field name) or fall back to calculating from peak
+        settling_metrics = []
+        for r in results:
+            peak = r.get('peak_drift', 0)
+            # Try settled_drift first, then final_drift, then baseline_to_final_drift
+            settled = r.get('settled_drift', r.get('final_drift', r.get('baseline_to_final_drift', peak)))
+            if peak > 0.01:
+                # Settling metric = how much drift was reduced (positive = good)
+                settling_metrics.append(peak - settled)
 
-        # Fallback: estimate from drift difference
-        if not taus:
-            taus = [abs(r.get('peak_drift', 0) - r.get('final_drift', 0))
-                   for r in results if 'peak_drift' in r and 'final_drift' in r]
-
-        if taus:
+        if settling_metrics:
             provider_names.append(provider)
-            settling_means.append(np.mean(taus))
-            settling_stds.append(np.std(taus))
+            settling_means.append(np.mean(settling_metrics))
+            settling_stds.append(np.std(settling_metrics))
             colors.append(PROVIDER_COLORS.get(provider, '#888'))
 
     if provider_names:
         x_pos = np.arange(len(provider_names))
-        bars = ax1.bar(x_pos, settling_means, yerr=settling_stds, capsize=3,
+        bars = ax2.bar(x_pos, settling_means, yerr=settling_stds, capsize=3,
                       color=colors, alpha=0.8, edgecolor='black')
 
-        ax1.set_xticks(x_pos)
-        ax1.set_xticklabels(provider_names, fontsize=10)
-        ax1.set_ylabel('Settling Metric (Drift Reduction)', fontsize=11)
-        ax1.set_title('Settling Performance by Provider', fontsize=12)
-        ax1.grid(True, alpha=0.3, axis='y')
+        # Add value labels on bars
+        for bar, mean in zip(bars, settling_means):
+            ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
+                    f'{mean:.3f}', ha='center', fontsize=8)
 
-    # Panel 2: Peak vs Final (settling trajectory)
-    ax2 = axes[1]
+        ax2.set_xticks(x_pos)
+        ax2.set_xticklabels(provider_names, rotation=45, ha='right', fontsize=10)
+        ax2.set_ylabel('Drift Reduction (Peak - Settled)', fontsize=11)
+        ax2.set_title('Settling Performance by Provider', fontsize=12)
+        ax2.grid(True, alpha=0.3, axis='y')
+        ax2.axhline(y=0, color='black', linewidth=0.5)
 
-    for provider, results in providers.items():
+    # =========================================================================
+    # Panel 3: PEAK vs SETTLED TRAJECTORY
+    # Arrows showing recovery direction for each provider
+    # =========================================================================
+    ax3 = fig.add_subplot(1, 3, 3)
+
+    provider_list = list(providers.keys())
+    for idx, (provider, results) in enumerate(providers.items()):
         color = PROVIDER_COLORS.get(provider, '#888888')
 
+        # Calculate mean peak and settled
         peaks = [r.get('peak_drift', 0) for r in results if 'peak_drift' in r]
-        finals = [r.get('final_drift', 0) for r in results if 'final_drift' in r]
+        settleds = []
+        for r in results:
+            settled = r.get('settled_drift', r.get('final_drift', r.get('baseline_to_final_drift')))
+            if settled is not None:
+                settleds.append(settled)
 
-        if peaks and finals:
+        if peaks and settleds:
             mean_peak = np.mean(peaks)
-            mean_final = np.mean(finals)
+            mean_settled = np.mean(settleds)
 
-            # Arrow from peak to final
-            ax2.annotate('', xy=(mean_final, 0.1 + list(providers.keys()).index(provider)*0.05),
-                        xytext=(mean_peak, 0.1 + list(providers.keys()).index(provider)*0.05),
-                        arrowprops=dict(arrowstyle='->', color=color, lw=2))
-            ax2.scatter([mean_peak], [0.1 + list(providers.keys()).index(provider)*0.05],
-                       color=color, s=100, marker='o', label=f'{provider} start')
-            ax2.scatter([mean_final], [0.1 + list(providers.keys()).index(provider)*0.05],
-                       color=color, s=100, marker='s')
+            y_pos = idx * 0.08 + 0.1
 
-    ax2.axvline(x=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, label='EH=0.80')
-    ax2.axvline(x=THRESHOLD_WARNING, color='orange', linestyle=':', linewidth=1.5, label='Warning')
+            # Arrow from peak to settled
+            ax3.annotate('', xy=(mean_settled, y_pos),
+                        xytext=(mean_peak, y_pos),
+                        arrowprops=dict(arrowstyle='->', color=color, lw=2.5))
 
-    ax2.set_xlabel('Drift (Cosine Distance)', fontsize=11)
-    ax2.set_ylabel('Provider (stacked)', fontsize=11)
-    ax2.set_title('Settling Trajectory: Peak -> Final', fontsize=12)
-    ax2.set_xlim(0, 1.2)
-    ax2.legend(loc='upper right', fontsize=8)
-    ax2.grid(True, alpha=0.3, axis='x')
+            # Markers
+            ax3.scatter([mean_peak], [y_pos], color=color, s=120, marker='o',
+                       edgecolors='black', linewidths=1, zorder=5)
+            ax3.scatter([mean_settled], [y_pos], color=color, s=120, marker='s',
+                       edgecolors='black', linewidths=1, zorder=5)
 
+            # Label
+            ax3.text(0.02, y_pos, provider, fontsize=9, va='center', fontweight='bold')
+
+    ax3.axvline(x=EVENT_HORIZON, color='red', linestyle='--', linewidth=2, label='EH=0.80')
+    ax3.axvline(x=THRESHOLD_WARNING, color='orange', linestyle=':', linewidth=1.5, label='Warning=0.60')
+
+    ax3.set_xlabel('Drift (Cosine Distance)', fontsize=11)
+    ax3.set_ylabel('Provider', fontsize=11)
+    ax3.set_title('Settling Trajectory: Peak (o) -> Settled ([])', fontsize=12)
+    ax3.set_xlim(0, 1.1)
+    ax3.set_ylim(0, len(provider_list) * 0.08 + 0.15)
+    ax3.set_yticks([])
+    ax3.legend(loc='upper right', fontsize=9)
+    ax3.grid(True, alpha=0.3, axis='x')
+
+    # Overall title
     plt.suptitle(f'Settling Time Analysis: Run 023b\n'
-                f'{len(settling_results)} Results | EH={EVENT_HORIZON}', fontsize=14)
+                f'{len(settling_results)} Results | EH={EVENT_HORIZON}', fontsize=14, fontweight='bold')
     plt.tight_layout(rect=[0, 0, 1, 0.93])
 
     # Save

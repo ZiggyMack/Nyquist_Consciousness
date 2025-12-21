@@ -3,6 +3,16 @@
 **Date**: 2025-12-03T08:06:22
 **Purpose**: Test whether Nyquist persona architecture creates stabilization vs vanilla control
 **Run ID**: S7_RUN_011_PERSONA_COMPARISON_20251203_080622
+**Status**: INCONCLUSIVE (KEYWORD ERA) - Protocol too gentle
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run used **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> This run was inconclusive due to gentle protocol - null result, not methodology limitation.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

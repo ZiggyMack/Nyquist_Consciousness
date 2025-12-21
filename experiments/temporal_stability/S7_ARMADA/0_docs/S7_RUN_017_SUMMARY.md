@@ -1,8 +1,17 @@
 # S7 Run 017 Summary: Context Damping
 
 **Date:** 2025-12-10
-**Status:** COMPLETED
+**Status:** COMPLETED (KEYWORD ERA)
 **Purpose:** Test identity stability with complete measurement circuit (I_AM + S0-S7 research context)
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run used **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> Core concepts (I_AM as termination resistor, context damping) remain valid; only quantitative thresholds changed.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

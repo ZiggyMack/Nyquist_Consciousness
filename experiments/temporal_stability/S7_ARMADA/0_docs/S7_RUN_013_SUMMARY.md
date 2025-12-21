@@ -1,8 +1,17 @@
 # S7 Run 013 Summary: Boundary Mapping
 
 **Date:** 2025-12-07
-**Status:** COMPLETED
+**Status:** COMPLETED (KEYWORD ERA)
 **Purpose:** Explore twilight zone (0.8-1.2) to explain 12% anomaly from Run 009
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run used **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> Core concepts (Oobleck Model, Identity Confrontation Paradox) remain valid; only quantitative thresholds changed.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

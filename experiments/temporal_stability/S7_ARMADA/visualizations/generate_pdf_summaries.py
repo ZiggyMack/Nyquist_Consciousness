@@ -1474,6 +1474,211 @@ def generate_settling_pdf():
     story.append(Spacer(1, 0.15*inch))
 
     # =========================================================================
+    # R&D EXPERIMENTAL VISUALIZATIONS
+    # =========================================================================
+    story.append(Paragraph("R&D Experimental Visualizations", title_style))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph(
+        "The settling time data enables advanced signal processing visualizations drawn from "
+        "telecommunications, control systems, and biomedical signal analysis. These R&D "
+        "visualizations are located in <b>5_Settling/RnD_experiments/</b> and represent "
+        "experimental techniques for deeper analysis of identity dynamics.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Waterfall Plot
+    story.append(Paragraph("1. WATERFALL PLOT: Fleet Settling Dynamics", heading_style))
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "waterfall_settling_fleet.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure R1: Waterfall visualization of fleet settling trajectories")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> A 3D visualization where each horizontal 'slice' represents "
+        "one ship's settling trajectory. The X-axis is probe number (time), Y-axis is ship index, "
+        "and color intensity represents drift magnitude. This reveals fleet-wide patterns - do "
+        "certain ships settle faster? Are there common inflection points?",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Technical details:</b> The top panel shows a 2D heatmap view (waterfall from above), "
+        "while the bottom panel renders the same data as a 3D surface with the Event Horizon "
+        "(EH=0.80) shown as a semi-transparent red plane. Surface topology reveals which regions "
+        "of the fleet are stable (valleys) vs stressed (peaks).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Reading the plot:</b> Blue regions indicate low drift (stable), transitioning through "
+        "yellow/orange to red (high drift). The white dashed vertical line marks the step input "
+        "(perturbation). Ships above this line that quickly return to blue demonstrate rapid settling.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(PageBreak())
+
+    # Phase-Plane Plot
+    story.append(Paragraph("2. PHASE-PLANE PLOT: Attractor Dynamics", heading_style))
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "phase_plane_attractor.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure R2: Phase-plane analysis showing attractor structure")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> State-space representation with drift value (position) on X-axis "
+        "and rate of change d(drift)/dt (velocity) on Y-axis. This reveals the <b>attractor "
+        "structure</b> of identity dynamics - where does the system naturally converge?",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation guide:</b><br/>"
+        "- <b>Spiral toward origin:</b> Damped settling (healthy recovery)<br/>"
+        "- <b>Closed loops:</b> Limit cycle oscillation (persistent ringback)<br/>"
+        "- <b>Diverging spirals:</b> Unstable system (identity failure)<br/>"
+        "- <b>Straight lines to origin:</b> Critically damped (optimal recovery)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key features:</b> The green star marks the origin (ideal stable state). The red dashed "
+        "line marks the Event Horizon. Circle markers indicate trajectory start; square markers "
+        "indicate settled end state. Multiple faint trajectories show variability across iterations.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Connection to control theory:</b> The phase-plane is fundamental in nonlinear dynamics "
+        "analysis. Each provider panel reveals whether that architecture exhibits simple point "
+        "attractors (convergent), limit cycles (oscillatory), or more complex dynamics. The "
+        "trajectory 'shape' may serve as an architectural fingerprint.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # FFT Analysis
+    story.append(Paragraph("3. FFT ANALYSIS: Frequency Content of Settling", heading_style))
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "fft_settling_analysis.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure R3: Spectral analysis of settling dynamics")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Four-panel spectral analysis applying Fast Fourier Transform (FFT) "
+        "to settling trajectories. This reveals the frequency content of identity oscillations - "
+        "the 'pitch' of identity dynamics.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Panel breakdown:</b><br/>"
+        "- <b>Top-Left (FFT Spectra):</b> Averaged frequency response by provider. Peaks indicate "
+        "dominant oscillation frequencies. Higher frequency peaks suggest faster identity 'flickering'.<br/>"
+        "- <b>Top-Right (Total Power):</b> Bar chart of spectral power by provider. Higher power indicates "
+        "more 'energy' in settling oscillations - more dynamic/volatile settling.<br/>"
+        "- <b>Bottom-Left (Spectrogram):</b> Time-frequency evolution showing how spectral content "
+        "changes during the settling process. Reveals if different phases have different spectral signatures.<br/>"
+        "- <b>Bottom-Right (Dominant Frequency):</b> The 'pitch' of each provider's settling "
+        "oscillations. Higher values indicate faster fundamental oscillation rate.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Connection to EEG analogy:</b> Just as human EEG reveals cognitive state through "
+        "frequency bands (alpha, beta, theta), LLM identity dynamics may have characteristic "
+        "spectral signatures. This analysis is foundational for the proposed S12 experiment.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Eye Diagram
+    story.append(Paragraph("4. EYE DIAGRAM: Trajectory Consistency", heading_style))
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "eye_diagram_consistency.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure R4: Eye diagram showing settling consistency across iterations")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> All settling trajectories for each provider overlaid on the same "
+        "plot. This is the 'eye diagram' from telecommunications - originally used to assess "
+        "signal quality in digital communications. Applied here, it reveals trajectory "
+        "<b>consistency</b> vs <b>jitter</b>.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Reading the eye:</b><br/>"
+        "- <b>Clear 'eye opening':</b> Consistent behavior, low variability, predictable settling<br/>"
+        "- <b>Blurred/closed eye:</b> High variability, inconsistent settling, unpredictable behavior<br/>"
+        "- <b>Eye height:</b> Margin below Event Horizon (safety margin)<br/>"
+        "- <b>Eye width:</b> Temporal consistency (timing jitter)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Metrics computed:</b><br/>"
+        "- <b>Eye Opening (%):</b> Percentage of EH threshold that remains as safety margin. "
+        "100% = trajectories never approach EH. 0% = trajectories touch EH on average.<br/>"
+        "- <b>Jitter:</b> Standard deviation of trajectory crossing points. Lower = more consistent timing.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Why this matters:</b> A provider with a clear eye opening is predictable - you know "
+        "how it will settle. A provider with a closed/blurred eye is unpredictable - settling "
+        "behavior varies significantly across instances. This has implications for reliability "
+        "in production deployments.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Recovery Heatmap (Bonus)
+    story.append(Paragraph("5. RECOVERY HEATMAP: Ship x Time x Drift", heading_style))
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "rescue_recovery_heatmap.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure R5: Dense heatmap of fleet recovery dynamics")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> A dense visualization with ships on Y-axis, probe number (time) "
+        "on X-axis, and color representing drift magnitude. This 'thermal image' of the fleet "
+        "shows at a glance which ships are cool (stable, green) vs hot (stressed, red) at each "
+        "point in the recovery sequence.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Reading the heatmap:</b><br/>"
+        "- <b>Green columns:</b> Time points where the entire fleet is stable<br/>"
+        "- <b>Red bands:</b> Ships experiencing sustained high drift<br/>"
+        "- <b>Diagonal gradients:</b> Fleet-wide trends (all ships drifting together)<br/>"
+        "- <b>Spotty patterns:</b> Individual ship anomalies<br/>"
+        "- <b>Sharp color transitions:</b> Recovery inflection points",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Use case:</b> This visualization is particularly useful for identifying outliers "
+        "and fleet-wide patterns. If one ship shows persistent red while others are green, "
+        "that ship may need attention. If all ships show red at a specific probe number, the "
+        "perturbation methodology may need adjustment.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # R&D Summary
+    story.append(Paragraph("R&D Visualization Summary", heading_style))
+    story.append(Paragraph(
+        "These five experimental visualizations apply signal processing and telecommunications "
+        "concepts to LLM identity dynamics:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>1. Waterfall:</b> Fleet-wide topology view (3D surface)<br/>"
+        "<b>2. Phase-Plane:</b> Attractor dynamics (state space)<br/>"
+        "<b>3. FFT:</b> Spectral content (frequency domain)<br/>"
+        "<b>4. Eye Diagram:</b> Consistency analysis (telecommunications)<br/>"
+        "<b>5. Recovery Heatmap:</b> Dense fleet thermal view (biomedical)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "Each offers a different 'lens' on the same underlying phenomenon: how LLM identity "
+        "responds to and recovers from perturbation. Together, they provide a comprehensive "
+        "signal integrity toolkit for analyzing artificial cognition.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<i>Note: These R&D visualizations are experimental. User review will determine which "
+        "are included in final documentation.</i>",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # =========================================================================
     # SUMMARY
     # =========================================================================
     story.append(Paragraph("Summary: The Path Forward", heading_style))

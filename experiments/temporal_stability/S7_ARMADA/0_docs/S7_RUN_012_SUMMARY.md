@@ -1,8 +1,17 @@
 # S7 Run 012 Summary: Armada Revalidation
 
 **Date:** 2025-12-06
-**Status:** COMPLETED
+**Status:** COMPLETED (KEYWORD ERA)
 **Purpose:** Replace invalid Runs 001-007 with REAL 5D drift metric
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run used **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> Core concepts (Recovery Paradox, Provider Fingerprints) remain valid; only quantitative thresholds changed.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

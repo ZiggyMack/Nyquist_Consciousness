@@ -1,8 +1,17 @@
 # S7 Run 015 Summary: Stability Criteria Discovery
 
 **Date:** 2025-12-09
-**Status:** COMPLETED (Phase 4 crashed, data salvaged)
+**Status:** COMPLETED (KEYWORD ERA) - Phase 4 crashed, data salvaged
 **Purpose:** Find the criteria that predict identity stability — what makes an I_AM file stable vs unstable?
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run used **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> Core concepts (boundary_density as predictor) remain valid; only quantitative thresholds changed.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

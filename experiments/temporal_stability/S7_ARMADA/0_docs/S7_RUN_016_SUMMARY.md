@@ -1,8 +1,17 @@
 # S7 Run 016 Summary: Settling Time Analysis
 
 **Date:** 2025-12-10
-**Status:** COMPLETED (Validation phase crashed, core data valid)
+**Status:** COMPLETED (KEYWORD ERA)
 **Purpose:** Measure ring-down behavior to find true steady-state drift and reduce run-to-run variability
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run used **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> Core concepts (tau_s settling time, ringback dynamics) remain valid; only quantitative thresholds changed.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

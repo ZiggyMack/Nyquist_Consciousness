@@ -3,6 +3,16 @@
 **Date**: 2025-12-03T01:24:00
 **Purpose**: Meta-feedback collection for experiment improvement
 **Run ID**: S7_RUN_010_RECURSIVE_20251203_012400
+**Status**: COMPLETED (KEYWORD ERA)
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run used **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> Core concepts (recursive meta-feedback) remain valid; only quantitative thresholds changed.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

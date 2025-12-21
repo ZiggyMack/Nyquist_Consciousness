@@ -84,7 +84,9 @@ except ImportError:
 SETTLING_THRESHOLD = 0.10  # |Δdrift| < 0.10 to be considered "settled"
 SETTLING_CONSECUTIVE = 3   # Need 3 consecutive samples below threshold
 MAX_RECOVERY_PROBES = 20   # Timeout after 20 recovery probes (increased from 12)
-EVENT_HORIZON = 1.23       # Identity coherence threshold
+# UPDATED December 2025: Cosine methodology
+# See: 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
+EVENT_HORIZON = 0.80  # Cosine threshold (was 1.23 for keyword RMS)
 
 # Control demonstration (for models that don't settle)
 CONTROL_DEMO_PROBES = 3    # Number of probes in each direction for control demo

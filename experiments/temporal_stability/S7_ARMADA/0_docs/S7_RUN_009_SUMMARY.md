@@ -1,8 +1,17 @@
 # S7 Run 009: Drain Capture Summary
 
 **Date**: December 2-3, 2025
-**Status**: COMPLETED
+**Status**: COMPLETED (KEYWORD ERA)
 **Data File**: `armada_results/S7_run_009_drain_20251202_170600.json`
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run used **Keyword RMS methodology** with Event Horizon = 1.23.
+> For cosine embedding methodology (Event Horizon = 0.80), see Run 023+.
+> Core concepts (Event Horizon phase transition) remain valid; only quantitative thresholds changed.
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
 
 ---
 

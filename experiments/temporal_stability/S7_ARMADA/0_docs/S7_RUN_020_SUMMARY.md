@@ -1,9 +1,16 @@
 # S7 Run 020A Summary: Philosophical Tribunal (IRON CLAD)
 
 **Date:** 2025-12-11 (Updated 2025-12-16)
-**Status:** IRON CLAD COMPLETE (7/7 providers)
+**Status:** IRON CLAD COMPLETE (COSINE ERA) - 7/7 providers
 **Purpose:** Blind identity probing via philosophical tribunal frame
 **Manifest:** `0_results/manifests/RUN_020A_DRIFT_MANIFEST.json`
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run uses **Cosine Embedding methodology** with Event Horizon = 0.80.
+> This is the CURRENT methodology - no update needed.
 
 ---
 

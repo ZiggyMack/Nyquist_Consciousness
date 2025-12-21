@@ -1,8 +1,15 @@
 # S7 Run 019 Summary: Blind Validation (Creative Writing Vehicle)
 
 **Date:** 2025-12-11
-**Status:** COMPLETED
+**Status:** COMPLETED (COSINE ERA)
 **Purpose:** Blind identity probing via creative writing collaboration frame
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run uses **Cosine Embedding methodology** with Event Horizon = 0.80.
+> This is the CURRENT methodology - no update needed.
 
 ---
 
