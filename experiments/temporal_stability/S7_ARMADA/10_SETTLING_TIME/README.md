@@ -1,17 +1,18 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-21
 depends_on:
   - ./run016_settling_time.py
   - ./visualize_run016.py
-  - ../0_docs/specs/
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json
 impacts:
   - ../README.md
+  - ../0_docs/S7_RUN_023_SUMMARY.md
 keywords:
-  - consciousness
-  - experiments
-  - armada
-  - drift
-  - temporal
+  - settling_time
+  - iron_clad
+  - cosine
+  - oobleck
+  - controllability
 -->
 # Run 016: Settling Time Analysis
 
@@ -100,11 +101,13 @@ Models that are UNSTABLE but CONTROLLABLE are candidates for **active damping** 
 
 ## Classification Change
 
-| Old (Run 015) | New (Run 016) |
-|---------------|---------------|
-| max_drift > 1.23 = UNSTABLE | settled_drift > 1.23 = UNSTABLE |
+| Old (Run 015) | New (Run 016+) |
+|---------------|----------------|
+| max_drift > 1.23 = UNSTABLE (keyword RMS) | settled_drift > 0.80 = VOLATILE (cosine) |
 | λ from 2 recovery points | τ_s from actual settling time |
 | Binary classification | Continuous stability score |
+
+> **Note:** As of Run 023, methodology uses cosine distance with Event Horizon = 0.80 (calibrated from P95).
 
 ## Usage
 
@@ -167,6 +170,8 @@ The I_AM file is an attempt to encode that damping function into context.
 
 ## Status
 
-**NEW** - Created December 9, 2025
+**COMPLETE** - Methodology validated and incorporated into Run 023d extended settling.
 
-This is a methodological correction that should produce more stable, reproducible classifications.
+Run 016 concepts are now part of the IRON CLAD foundation (Run 023b/023d).
+
+**Last Updated**: December 21, 2025

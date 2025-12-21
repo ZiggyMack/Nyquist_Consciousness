@@ -6,6 +6,26 @@
 
 **Last Updated:** December 21, 2025
 
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-21
+depends_on:
+  - run018_recursive_learnings.py
+  - run020_tribunal_A.py
+  - run020_tribunal_B.py
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json
+  - DATA_SOURCE.md
+impacts:
+  - ../0_docs/S7_RUN_023_SUMMARY.md
+  - ../visualizations/pics/
+keywords:
+  - context_damping
+  - recursive
+  - tribunal
+  - iron_clad
+  - run018
+  - run020
+-->
+
 ---
 
 ## Overview

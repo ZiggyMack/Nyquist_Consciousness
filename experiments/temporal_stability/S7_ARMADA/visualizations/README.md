@@ -1,19 +1,18 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-21
 depends_on:
-  - ./create_gravity_well.py
-  - ./plot_drift_heatmap.py
-  - ./plot_engagement_network.py
-  - ./plot_pole_zero_landscape.py
-  - ./plot_training_uniformity.py
+  - visualize_armada.py
+  - ../15_IRON_CLAD_FOUNDATION/run023c_visualization_generator.py
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json
 impacts:
   - ../README.md
+  - pics/
 keywords:
-  - consciousness
-  - experiments
-  - armada
+  - visualization
+  - iron_clad
+  - cosine
+  - event_horizon
   - drift
-  - temporal
 -->
 # S7 ARMADA VISUALIZATIONS
 
@@ -21,10 +20,12 @@ keywords:
 
 ## Key Concepts
 
-- **Event Horizon (1.23)**: The critical drift threshold. Models crossing this boundary are classified as VOLATILE.
-- **Drift**: Semantic distance from baseline identity (0.0 = perfect stability)
+- **Event Horizon (0.80)**: The critical cosine drift threshold (calibrated from Run 023b P95). Models crossing this boundary are classified as VOLATILE.
+- **Drift**: Cosine distance from baseline identity (0.0 = perfect stability, 1.0 = orthogonal)
 - **Trajectory**: A sequence of drift measurements across conversation turns
 - **Safety Margin**: `Event Horizon - baseline` (positive = safely below boundary = STABLE)
+
+> **Note:** Prior to Run 023, Event Horizon was 1.23 using keyword RMS methodology. All current analysis uses cosine distance with EH=0.80.
 
 ---
 
@@ -348,6 +349,7 @@ py visualize_armada.py --run 020 --type inherent # Control vs Treatment comparis
 
 ---
 
-**Last Updated**: December 14, 2025
-**Active Runs**: 008-020B
-**Ships**: 54+ across 5 providers (Claude, OpenAI, Google, Grok, Together)
+**Last Updated**: December 21, 2025
+**Active Runs**: 023b (IRON CLAD foundation), 023d (extended settling)
+**Ships**: 25 in budget_patrol-lite fleet across 5 providers (Anthropic, OpenAI, Google, xAI, Together)
+**Methodology**: Cosine distance (Event Horizon = 0.80)

@@ -1,17 +1,15 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-21
 depends_on:
-  - ./create_gravity_well.py
-  - ./plot_drift_heatmap.py
-  - ./plot_engagement_network.py
-  - ./plot_pole_zero_landscape.py
-  - ./plot_training_uniformity.py
+  - visualize_armada.py
+  - ../15_IRON_CLAD_FOUNDATION/run023c_visualization_generator.py
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json
 keywords:
-  - consciousness
-  - experiments
-  - armada
-  - drift
-  - temporal
+  - visualization
+  - iron_clad
+  - cosine
+  - event_horizon
+  - quick_start
 -->
 # S7 ARMADA - Quick Start Guide
 
@@ -223,3 +221,8 @@ These are automatically delegated by `visualize_armada.py`
 ---
 
 See [README.md](README.md) for full technical documentation.
+
+---
+
+**Last Updated**: December 21, 2025
+**Methodology**: Cosine distance (Event Horizon = 0.80, calibrated from Run 023b P95)
