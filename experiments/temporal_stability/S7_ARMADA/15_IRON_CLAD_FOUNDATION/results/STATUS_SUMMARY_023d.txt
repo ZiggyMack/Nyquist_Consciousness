@@ -1,44 +1,46 @@
 ======================================================================
 RUN 023d: EXTENDED SETTLING + OOBLECK CONTROLLABILITY
 ======================================================================
-Updated: 2025-12-21T12:18 (by Claude #1)
+Updated: 2025-12-21T12:30 (by Claude #1)
 Results file: S7_run_023d_CURRENT.json
 
-FLEET: budget_patrol-lite (25 ships) × N=30 = 750 target
-TOTAL RESULTS: 548 / 750 (73.1% complete)
-GAPS REMAINING: 202 experiments
+FLEET: budget_patrol-lite (25 ships) x N=30 = 750 target
+TOTAL RESULTS: 644 / 750 (85.9% complete)
+GAPS REMAINING: 106 experiments
 
-GAP FILLER ACTIVE: Yes (run023d_fill_gaps.py running)
+GAP FILLER STATUS: Stopped (internet interruption - restart required)
 
 STABILITY CLASSIFICATION:
-  STABLE:        ~90.3%
-  VOLATILE:       ~9.1%
-  CONTROLLABLE:   ~0.5%
+  STABLE:        ~90%
+  VOLATILE:       ~9%
+  CONTROLLABLE:   ~1%
 
 SETTLING BEHAVIOR:
   Naturally settled:  ~74%
   Timeout (20 probes): ~26%
   Average settling time: ~7 probes
 
-COMPLETE SHIPS (17/25 @ 30/30):
+COMPLETE SHIPS (18/24):
   claude-3-5-haiku-20241022, claude-haiku-4-5-20251001
   gemini-2.0-flash, gemini-2.5-flash, gemini-2.5-flash-lite
   gpt-4.1-nano, gpt-4o-mini, gpt-5-nano
   grok-3-mini, grok-4-1-fast-non-reasoning, grok-4-1-fast-reasoning, grok-4-fast-reasoning
+  grok-code-fast-1
   meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo
   mistralai/Mistral-7B-Instruct-v0.3, mistralai/Mixtral-8x7B-Instruct-v0.1
   moonshotai/Kimi-K2-Instruct-0905, moonshotai/Kimi-K2-Thinking
+  Qwen/Qwen3-Next-80B-A3b-Instruct
 
-PARTIAL SHIPS (2):
+PARTIAL SHIPS (6 - gaps remaining):
   gpt-4.1-mini: 29/30 (1 gap)
-  grok-code-fast-1: 9/30 (21 gaps) ← currently filling
+  grok-code-fast-1: 12/30 (18 gaps)
+  deepseek-ai/DeepSeek-R1-Distill-Llama-70B: 23/30 (7 gaps)
+  deepseek-ai/DeepSeek-V3: 17/30 (13 gaps)
+  Qwen/Qwen2.5-72B-Instruct-Turbo: 19/30 (11 gaps)
+  meta-llama/Llama-3.3-70B-Instruct-Turbo: 4/30 (26 gaps)
 
-MISSING SHIPS (6 - queued for gap filler):
-  deepseek-r1-distill (0/30)
-  deepseek-v3 (0/30)
-  qwen3-80b (0/30)
-  qwen2.5-72b (0/30)
-  llama3.3-70b (0/30)
-  mistral-small (0/30)
+TO RESTART GAP FILLER:
+  cd experiments/temporal_stability/S7_ARMADA/15_IRON_CLAD_FOUNDATION
+  python run023d_fill_gaps.py
 
 ======================================================================
