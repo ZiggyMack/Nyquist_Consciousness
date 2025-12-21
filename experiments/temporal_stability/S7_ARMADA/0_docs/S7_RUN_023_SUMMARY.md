@@ -172,13 +172,31 @@ whether nano variants have this capacity stripped.
 
 **Cosine Event Horizon Calibration:**
 
-From empirical analysis of 4500+ results:
+From empirical analysis of 4500+ results (see `results/CALIBRATION_023b_EVENT_HORIZON.md` for full details):
+
+| Threshold | Keyword RMS (Legacy) | Cosine (New) |
+|-----------|---------------------|--------------|
+| WARNING | 0.90 | **0.60** |
+| EVENT HORIZON | 1.23 | **0.80** |
+| CATASTROPHIC | 1.80 | **1.20** |
+
+**Statistical Basis:**
+- N = 4500 valid results
 - Mean peak_drift: 0.574
+- Median peak_drift: 0.561
 - P95 peak_drift: 0.806
-- **EVENT_HORIZON = 0.80** (calibrated)
-- WARNING = 0.60
-- CATASTROPHIC = 1.20
+- Observed range: [0.18, 0.89]
 - Scaling factor from keyword RMS: ~1.54x
+
+**Distribution (peak_drift buckets):**
+```
+[0.3-0.4):   314 (  7.0%)
+[0.4-0.5):   990 ( 22.0%)
+[0.5-0.6):  1395 ( 31.0%) <- MEDIAN
+[0.6-0.7):  1011 ( 22.5%) <- WARNING ZONE
+[0.7-0.8):   476 ( 10.6%) <- APPROACHING EVENT HORIZON
+[0.8-0.9):   291 (  6.5%) <- VOLATILE (above 0.80)
+```
 
 **Experiment Coverage:**
 
@@ -206,10 +224,10 @@ From empirical analysis of 4500+ results:
 
 ```
 15_IRON_CLAD_FOUNDATION/results/
-├── S7_run_023b_CURRENT.json      # Main results (4505 experiments)
-├── STATUS_SUMMARY.txt            # Human-readable progress
-├── completion_log.txt            # Audit trail
-└── COSINE_EVENT_HORIZON_CALIBRATION.md  # Threshold derivation
+├── S7_run_023b_CURRENT.json          # Main results (4505 experiments)
+├── STATUS_SUMMARY_023b.txt           # Human-readable progress
+├── CALIBRATION_023b_EVENT_HORIZON.md # Threshold derivation (EH=0.80)
+└── completion_log.txt                # Audit trail
 ```
 
 ---
@@ -298,8 +316,8 @@ Control Demo Results (iteration 0):
 | File | Location | Description |
 |------|----------|-------------|
 | Main Results | `results/S7_run_023b_CURRENT.json` | 4505 experiments |
-| Calibration | `results/COSINE_EVENT_HORIZON_CALIBRATION.md` | EH=0.80 derivation |
-| Status | `results/STATUS_SUMMARY.txt` | Human-readable progress |
+| Calibration | `results/CALIBRATION_023b_EVENT_HORIZON.md` | EH=0.80 derivation |
+| Status | `results/STATUS_SUMMARY_023b.txt` | Human-readable progress |
 | Scripts | `run023b_iron_clad_foundation.py` | Main experiment runner |
 | Gap Filler | `run023b_fill_gaps.py` | Rate limit recovery |
 
