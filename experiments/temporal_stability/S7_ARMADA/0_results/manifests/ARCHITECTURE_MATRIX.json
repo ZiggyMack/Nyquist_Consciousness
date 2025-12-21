@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Single source of truth for ARMADA fleet configuration",
-    "last_updated": "2025-12-14",
+    "last_updated": "2025-12-21",
     "source": "ARMADA_MAP.md",
     "total_ships": 49,
     "note": "All run scripts should import from this file, not hardcode the matrix",
@@ -11,6 +11,13 @@
       "armada": "$2.00-$8.00/1M output - First class",
       "patrol": "$0.60-$2.00/1M output - Business class",
       "budget": "FREE-$0.60/1M output - Poor Man's Navy"
+    },
+    "latency_definitions": {
+      "blazing": "<1s typical - Run these first, get 80% of data fast",
+      "fast": "1-3s typical - Standard production speed",
+      "moderate": "3-8s typical - Larger models, some reasoning",
+      "slow": "8-20s typical - Heavy reasoning, large context",
+      "glacial": "20s+ typical - Extended thinking, save for last"
     }
   },
   "ships": {
@@ -19,24 +26,26 @@
       "provider_key": "ANTHROPIC_API_KEY",
       "provider": "anthropic",
       "tier": "yacht",
-      "cost_input": 15.00,
-      "cost_output": 75.00,
+      "cost_input": 15.0,
+      "cost_output": 75.0,
       "context": 200000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "claude-sonnet-4.5": {
       "model": "claude-sonnet-4-5-20250929",
       "provider_key": "ANTHROPIC_API_KEY",
       "provider": "anthropic",
       "tier": "high_maintenance",
-      "cost_input": 3.00,
-      "cost_output": 15.00,
+      "cost_input": 3.0,
+      "cost_output": 15.0,
       "context": 200000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "claude-haiku-4.5": {
       "model": "claude-haiku-4-5-20251001",
@@ -48,43 +57,47 @@
       "context": 200000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "claude-opus-4.1": {
       "model": "claude-opus-4-1-20250805",
       "provider_key": "ANTHROPIC_API_KEY",
       "provider": "anthropic",
       "tier": "yacht",
-      "cost_input": 15.00,
-      "cost_output": 75.00,
+      "cost_input": 15.0,
+      "cost_output": 75.0,
       "context": 200000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "claude-opus-4": {
       "model": "claude-opus-4-20250514",
       "provider_key": "ANTHROPIC_API_KEY",
       "provider": "anthropic",
       "tier": "yacht",
-      "cost_input": 15.00,
-      "cost_output": 75.00,
+      "cost_input": 15.0,
+      "cost_output": 75.0,
       "context": 200000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "claude-sonnet-4": {
       "model": "claude-sonnet-4-20250514",
       "provider_key": "ANTHROPIC_API_KEY",
       "provider": "anthropic",
       "tier": "high_maintenance",
-      "cost_input": 3.00,
-      "cost_output": 15.00,
+      "cost_input": 3.0,
+      "cost_output": 15.0,
       "context": 200000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "claude-haiku-3.5": {
       "model": "claude-3-5-haiku-20241022",
@@ -96,107 +109,116 @@
       "context": 200000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gpt-5.1": {
       "model": "gpt-5.1",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "armada",
-      "cost_input": 2.50,
-      "cost_output": 8.00,
+      "cost_input": 2.5,
+      "cost_output": 8.0,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
       "status": "operational",
-      "syntax": "completion_tokens"
+      "syntax": "completion_tokens",
+      "latency_class": "moderate"
     },
     "gpt-5": {
       "model": "gpt-5",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "armada",
-      "cost_input": 2.50,
-      "cost_output": 8.00,
+      "cost_input": 2.5,
+      "cost_output": 8.0,
       "context": 128000,
       "rate_limited": false,
       "curated": false,
       "status": "operational",
-      "syntax": "completion_tokens"
+      "syntax": "completion_tokens",
+      "latency_class": "moderate"
     },
     "gpt-5-mini": {
       "model": "gpt-5-mini",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "armada",
-      "cost_input": 1.00,
-      "cost_output": 4.00,
+      "cost_input": 1.0,
+      "cost_output": 4.0,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
       "status": "operational",
-      "syntax": "completion_tokens"
+      "syntax": "completion_tokens",
+      "latency_class": "fast"
     },
     "gpt-5-nano": {
       "model": "gpt-5-nano",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "budget",
-      "cost_input": 0.10,
-      "cost_output": 0.40,
+      "cost_input": 0.1,
+      "cost_output": 0.4,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
       "syntax": "completion_tokens",
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gpt-4.1": {
       "model": "gpt-4.1",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "high_maintenance",
-      "cost_input": 2.50,
-      "cost_output": 10.00,
+      "cost_input": 2.5,
+      "cost_output": 10.0,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "gpt-4.1-mini": {
       "model": "gpt-4.1-mini",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "patrol",
-      "cost_input": 0.40,
-      "cost_output": 1.60,
+      "cost_input": 0.4,
+      "cost_output": 1.6,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gpt-4.1-nano": {
       "model": "gpt-4.1-nano",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "budget",
-      "cost_input": 0.10,
-      "cost_output": 0.40,
+      "cost_input": 0.1,
+      "cost_output": 0.4,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gpt-4o": {
       "model": "gpt-4o",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "high_maintenance",
-      "cost_input": 2.50,
-      "cost_output": 10.00,
+      "cost_input": 2.5,
+      "cost_output": 10.0,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "gpt-4o-mini": {
       "model": "gpt-4o-mini",
@@ -204,74 +226,80 @@
       "provider": "openai",
       "tier": "patrol",
       "cost_input": 0.15,
-      "cost_output": 0.60,
+      "cost_output": 0.6,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "o4-mini": {
       "model": "o4-mini",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "armada",
-      "cost_input": 1.10,
-      "cost_output": 4.40,
+      "cost_input": 1.1,
+      "cost_output": 4.4,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
       "status": "operational",
-      "syntax": "completion_tokens"
+      "syntax": "completion_tokens",
+      "latency_class": "slow"
     },
     "o3": {
       "model": "o3",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "yacht",
-      "cost_input": 15.00,
-      "cost_output": 60.00,
+      "cost_input": 15.0,
+      "cost_output": 60.0,
       "context": 200000,
       "rate_limited": false,
       "curated": true,
       "status": "operational",
-      "syntax": "completion_tokens"
+      "syntax": "completion_tokens",
+      "latency_class": "glacial"
     },
     "o3-mini": {
       "model": "o3-mini",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "armada",
-      "cost_input": 1.10,
-      "cost_output": 4.40,
+      "cost_input": 1.1,
+      "cost_output": 4.4,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
       "status": "operational",
-      "syntax": "completion_tokens"
+      "syntax": "completion_tokens",
+      "latency_class": "slow"
     },
     "gpt-4-turbo": {
       "model": "gpt-4-turbo",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "high_maintenance",
-      "cost_input": 10.00,
-      "cost_output": 30.00,
+      "cost_input": 10.0,
+      "cost_output": 30.0,
       "context": 128000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "gpt-3.5-turbo": {
       "model": "gpt-3.5-turbo",
       "provider_key": "OPENAI_API_KEY",
       "provider": "openai",
       "tier": "patrol",
-      "cost_input": 0.50,
-      "cost_output": 1.50,
+      "cost_input": 0.5,
+      "cost_output": 1.5,
       "context": 16000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gemini-2.5-flash": {
       "model": "gemini-2.5-flash",
@@ -279,47 +307,51 @@
       "provider": "google",
       "tier": "patrol",
       "cost_input": 0.15,
-      "cost_output": 0.60,
+      "cost_output": 0.6,
       "context": 1000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gemini-2.5-flash-lite": {
       "model": "gemini-2.5-flash-lite",
       "provider_key": "GOOGLE_API_KEY",
       "provider": "google",
       "tier": "budget",
-      "cost_input": 0.00,
-      "cost_output": 0.00,
+      "cost_input": 0.0,
+      "cost_output": 0.0,
       "context": 1000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gemini-2.0-flash": {
       "model": "gemini-2.0-flash",
       "provider_key": "GOOGLE_API_KEY",
       "provider": "google",
       "tier": "budget",
-      "cost_input": 0.10,
-      "cost_output": 0.40,
+      "cost_input": 0.1,
+      "cost_output": 0.4,
       "context": 1000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gemini-2.0-flash-lite": {
       "model": "gemini-2.0-flash-lite",
       "provider_key": "GOOGLE_API_KEY",
       "provider": "google",
       "tier": "budget",
-      "cost_input": 0.00,
-      "cost_output": 0.00,
+      "cost_input": 0.0,
+      "cost_output": 0.0,
       "context": 1000000,
       "rate_limited": true,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "gemini-2.5-pro": {
       "model": "gemini-2.5-pro",
@@ -327,11 +359,12 @@
       "provider": "google",
       "tier": "armada",
       "cost_input": 1.25,
-      "cost_output": 5.00,
+      "cost_output": 5.0,
       "context": 2000000,
       "rate_limited": true,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "gemini-3-pro": {
       "model": "gemini-3.0-pro",
@@ -339,119 +372,129 @@
       "provider": "google",
       "tier": "armada",
       "cost_input": 1.25,
-      "cost_output": 5.00,
+      "cost_output": 5.0,
       "context": 2000000,
       "rate_limited": true,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "grok-4.1-fast-reasoning": {
       "model": "grok-4-1-fast-reasoning",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "budget",
-      "cost_input": 0.20,
-      "cost_output": 0.50,
+      "cost_input": 0.2,
+      "cost_output": 0.5,
       "context": 2000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "grok-4.1-fast-non-reasoning": {
       "model": "grok-4-1-fast-non-reasoning",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "budget",
-      "cost_input": 0.20,
-      "cost_output": 0.50,
+      "cost_input": 0.2,
+      "cost_output": 0.5,
       "context": 2000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "grok-4-fast-reasoning": {
       "model": "grok-4-fast-reasoning",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "budget",
-      "cost_input": 0.20,
-      "cost_output": 0.50,
+      "cost_input": 0.2,
+      "cost_output": 0.5,
       "context": 2000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "grok-4-fast-non-reasoning": {
       "model": "grok-4-fast-non-reasoning",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "budget",
-      "cost_input": 0.20,
-      "cost_output": 0.50,
+      "cost_input": 0.2,
+      "cost_output": 0.5,
       "context": 2000000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "grok-4": {
       "model": "grok-4",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "yacht",
-      "cost_input": 3.00,
-      "cost_output": 15.00,
+      "cost_input": 3.0,
+      "cost_output": 15.0,
       "context": 2000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "grok-code-fast-1": {
       "model": "grok-code-fast-1",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "patrol",
-      "cost_input": 0.20,
-      "cost_output": 1.50,
+      "cost_input": 0.2,
+      "cost_output": 1.5,
       "context": 2000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "grok-3": {
       "model": "grok-3",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "yacht",
-      "cost_input": 3.00,
-      "cost_output": 15.00,
+      "cost_input": 3.0,
+      "cost_output": 15.0,
       "context": 2000000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "grok-3-mini": {
       "model": "grok-3-mini",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "budget",
-      "cost_input": 0.30,
-      "cost_output": 0.50,
+      "cost_input": 0.3,
+      "cost_output": 0.5,
       "context": 2000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "grok-2-vision": {
       "model": "grok-2-vision-1212",
       "provider_key": "XAI_API_KEY",
       "provider": "xai",
       "tier": "high_maintenance",
-      "cost_input": 2.00,
-      "cost_output": 10.00,
+      "cost_input": 2.0,
+      "cost_output": 10.0,
       "context": 2000000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "deepseek-r1": {
       "model": "deepseek-ai/DeepSeek-R1-0528",
@@ -463,7 +506,8 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "deepseek-r1-distill": {
       "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
@@ -475,7 +519,8 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "deepseek-v3": {
       "model": "deepseek-ai/DeepSeek-V3",
@@ -487,43 +532,47 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "qwen3-80b": {
       "model": "Qwen/Qwen3-Next-80B-A3b-Instruct",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "patrol",
-      "cost_input": 0.90,
-      "cost_output": 0.90,
+      "cost_input": 0.9,
+      "cost_output": 0.9,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "qwen3-coder": {
       "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "armada",
-      "cost_input": 1.20,
-      "cost_output": 2.40,
+      "cost_input": 1.2,
+      "cost_output": 2.4,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "qwen2.5-72b": {
       "model": "Qwen/Qwen2.5-72B-Instruct-Turbo",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "patrol",
-      "cost_input": 1.20,
-      "cost_output": 1.20,
+      "cost_input": 1.2,
+      "cost_output": 1.2,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "moderate"
     },
     "llama3.3-70b": {
       "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
@@ -535,19 +584,21 @@
       "context": 130000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "llama3.1-405b": {
       "model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "armada",
-      "cost_input": 3.50,
-      "cost_output": 3.50,
+      "cost_input": 3.5,
+      "cost_output": 3.5,
       "context": 130000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "llama3.1-70b": {
       "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
@@ -559,7 +610,8 @@
       "context": 130000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "llama3.1-8b": {
       "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
@@ -571,7 +623,8 @@
       "context": 130000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "mixtral-8x7b": {
       "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
@@ -583,67 +636,73 @@
       "context": 32000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "mistral-small": {
       "model": "mistralai/Mistral-Small-24B-Instruct-2501",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "patrol",
-      "cost_input": 0.20,
-      "cost_output": 0.60,
+      "cost_input": 0.2,
+      "cost_output": 0.6,
       "context": 32000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "mistral-7b": {
       "model": "mistralai/Mistral-7B-Instruct-v0.3",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "budget",
-      "cost_input": 0.20,
-      "cost_output": 0.20,
+      "cost_input": 0.2,
+      "cost_output": 0.2,
       "context": 32000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     },
     "kimi-k2-thinking": {
       "model": "moonshotai/Kimi-K2-Thinking",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "budget",
-      "cost_input": 0.30,
-      "cost_output": 0.30,
+      "cost_input": 0.3,
+      "cost_output": 0.3,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "slow"
     },
     "kimi-k2-instruct": {
       "model": "moonshotai/Kimi-K2-Instruct-0905",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "budget",
-      "cost_input": 0.20,
-      "cost_output": 0.20,
+      "cost_input": 0.2,
+      "cost_output": 0.2,
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "fast"
     },
     "nemotron-nano": {
       "model": "nvidia/Nvidia-Nemotron-Nano-9B-V2",
       "provider_key": "TOGETHER_API_KEY",
       "provider": "together",
       "tier": "budget",
-      "cost_input": 0.20,
-      "cost_output": 0.20,
+      "cost_input": 0.2,
+      "cost_output": 0.2,
       "context": 128000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational"
+      "status": "operational",
+      "latency_class": "blazing"
     }
   },
   "legacy_aliases": {

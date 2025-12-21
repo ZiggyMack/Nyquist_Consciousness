@@ -39,6 +39,46 @@ Run 023 is the **calibration and foundation run** for the S7 ARMADA methodology.
 **Discovery Date:** December 20, 2025
 **Status:** EMERGING - Early signal, requires full armada validation
 
+**Protocol Flow:**
+
+```
+STEP INPUT (perturbation) ──► RECOVERY (up to 20 probes)
+                                       │
+                              ┌────────┴────────┐
+                              ▼                 ▼
+                          SETTLED           TIMEOUT (20 probes)
+                        (natural)               │
+                             │            CONTROL DEMO
+                             ▼            (can we steer?)
+                           DONE                 │
+                                       ┌────────┴────────┐
+                                       ▼                 ▼
+                                 CONTROLLABLE     UNCONTROLLABLE
+                                 (Oobleck works)  (nothing there?)
+```
+
+**Key Insight:**
+
+Models that **SETTLE naturally** never reach the Control Demo - they recover on their
+own, which is expected and good (identity is resilient). The Control Demo only runs
+for models that **TIMEOUT** after 20 probes without settling.
+
+The interesting finding is in the TIMEOUT cases:
+
+- **CONTROLLABLE**: We can steer drift up AND down - "something there" to grab
+- **UNCONTROLLABLE**: Can't steer either direction - just noise that wanders
+
+**Outcome Matrix:**
+
+| | SETTLED | TIMEOUT |
+|---|---------|---------|
+| **n/a** | Normal (most models) | → Control Demo |
+| **CONTROLLABLE** | - | "Something there" (Claude, Llama) |
+| **UNCONTROLLABLE** | - | "Nothing there" (nano models) |
+
+The nano models are stuck in a weird limbo - they drift but never stabilize, and
+we can't nudge them either direction. Just noise that wanders.
+
 **The Observation:**
 
 During Run 023d extended settling experiments, models that hit the 20-probe timeout

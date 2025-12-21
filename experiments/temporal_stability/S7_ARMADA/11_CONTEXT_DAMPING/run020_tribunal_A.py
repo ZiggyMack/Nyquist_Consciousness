@@ -82,6 +82,13 @@ except ImportError as e:
 SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
 RESULTS_DIR = SCRIPT_DIR / "results"
+
+# IRON CLAD PATTERN (2025-12-21): Single source of truth
+# All results stay in experiment folder - no scattering to 0_results/
+RESULTS_FILE = RESULTS_DIR / "S7_run_020A_CURRENT.json"
+STATUS_FILE = RESULTS_DIR / "STATUS_SUMMARY_020A.txt"
+
+# Legacy paths (for backward compatibility only)
 TEMPORAL_LOGS_DIR = ARMADA_DIR / "0_results" / "temporal_logs"
 RUNS_DIR = ARMADA_DIR / "0_results" / "runs"
 
@@ -105,111 +112,35 @@ ABORT_THRESHOLD = 2.5
 ABORT_NO_SETTLE_PROBES = 3
 
 # =============================================================================
-# ARCHITECTURE MATRIX - FULL ARMADA (49 operational ships)
+# FLEET LOADER - Single Source of Truth (ARCHITECTURE_MATRIX.json)
 # =============================================================================
-# Copied from run018_recursive_learnings.py for consistent fleet support
+# NOTE: Run 020A uses PROVIDER-LEVEL validation, not model-level like Run 023b.
+# Target: 7 providers (Anthropic, OpenAI, Google, xAI, Together, Mistral, DeepSeek)
+# with N>=3 runs per provider for IRON CLAD status.
+# Use --providers flag or legacy aliases for cross-provider validation.
+# =============================================================================
+sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
+from fleet_loader import (
+    load_architecture_matrix, get_full_armada, get_together_fleet,
+    get_fleet_by_option, estimate_run_cost, print_cost_estimate,
+    confirm_valis_full, COST_TIERS
+)
 
-ARCHITECTURE_MATRIX = {
-    # ANTHROPIC FLEET (7 ships)
-    "claude-opus-4.5": {"model": "claude-opus-4-5-20251101", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-sonnet-4.5": {"model": "claude-sonnet-4-5-20250929", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-haiku-4.5": {"model": "claude-haiku-4-5-20251001", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-opus-4.1": {"model": "claude-opus-4-1-20250805", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-opus-4": {"model": "claude-opus-4-20250514", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-sonnet-4": {"model": "claude-sonnet-4-20250514", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-haiku-3.5": {"model": "claude-3-5-haiku-20241022", "provider_key": "ANTHROPIC_API_KEY"},
-    # OPENAI FLEET (14 ships) - Use simple model names per Dec 2025 API
-    "gpt-5.1": {"model": "gpt-5.1", "provider_key": "OPENAI_API_KEY"},
-    "gpt-5": {"model": "gpt-5", "provider_key": "OPENAI_API_KEY"},
-    "gpt-5-mini": {"model": "gpt-5-mini", "provider_key": "OPENAI_API_KEY"},
-    "gpt-5-nano": {"model": "gpt-5-nano", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4.1": {"model": "gpt-4.1", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4.1-mini": {"model": "gpt-4.1-mini", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4.1-nano": {"model": "gpt-4.1-nano", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4o": {"model": "gpt-4o", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4o-mini": {"model": "gpt-4o-mini", "provider_key": "OPENAI_API_KEY"},
-    "o4-mini": {"model": "o4-mini", "provider_key": "OPENAI_API_KEY"},
-    "o3": {"model": "o3", "provider_key": "OPENAI_API_KEY"},
-    "o3-mini": {"model": "o3-mini", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4-turbo": {"model": "gpt-4-turbo", "provider_key": "OPENAI_API_KEY"},
-    "gpt-3.5-turbo": {"model": "gpt-3.5-turbo", "provider_key": "OPENAI_API_KEY"},
-    # GOOGLE FLEET (4 operational)
-    "gemini-2.5-flash": {"model": "gemini-2.5-flash", "provider_key": "GOOGLE_API_KEY"},
-    "gemini-2.5-flash-lite": {"model": "gemini-2.5-flash-lite", "provider_key": "GOOGLE_API_KEY"},
-    "gemini-2.0-flash": {"model": "gemini-2.0-flash", "provider_key": "GOOGLE_API_KEY"},
-    "gemini-2.0-flash-lite": {"model": "gemini-2.0-flash-lite", "provider_key": "GOOGLE_API_KEY"},
-    # XAI/GROK FLEET (9 operational)
-    "grok-4.1-fast-reasoning": {"model": "grok-4-1-fast-reasoning", "provider_key": "XAI_API_KEY"},
-    "grok-4.1-fast-non-reasoning": {"model": "grok-4-1-fast-non-reasoning", "provider_key": "XAI_API_KEY"},
-    "grok-4-fast-reasoning": {"model": "grok-4-fast-reasoning", "provider_key": "XAI_API_KEY"},
-    "grok-4-fast-non-reasoning": {"model": "grok-4-fast-non-reasoning", "provider_key": "XAI_API_KEY"},
-    "grok-4": {"model": "grok-4", "provider_key": "XAI_API_KEY"},
-    "grok-code-fast-1": {"model": "grok-code-fast-1", "provider_key": "XAI_API_KEY"},
-    "grok-3": {"model": "grok-3", "provider_key": "XAI_API_KEY"},
-    "grok-3-mini": {"model": "grok-3-mini", "provider_key": "XAI_API_KEY"},
-    "grok-2-vision": {"model": "grok-2-vision-1212", "provider_key": "XAI_API_KEY"},
-    # TOGETHER.AI FLEET (15 operational) - all via TOGETHER_API_KEY
-    "deepseek-r1": {"model": "deepseek-ai/DeepSeek-R1-0528", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "deepseek-r1-distill": {"model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "qwen3-80b": {"model": "Qwen/Qwen3-Next-80B-A3b-Instruct", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "qwen3-coder": {"model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "qwen2.5-72b": {"model": "Qwen/Qwen2.5-72B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "llama3.3-70b": {"model": "meta-llama/Llama-3.3-70B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "llama3.1-405b": {"model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "llama3.1-70b": {"model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "llama3.1-8b": {"model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "mixtral-8x7b": {"model": "mistralai/Mixtral-8x7B-Instruct-v0.1", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "mistral-small": {"model": "mistralai/Mistral-Small-24B-Instruct-2501", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "mistral-7b": {"model": "mistralai/Mistral-7B-Instruct-v0.3", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "kimi-k2-thinking": {"model": "moonshotai/Kimi-K2-Thinking", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "kimi-k2-instruct": {"model": "moonshotai/Kimi-K2-Instruct-0905", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "nemotron-nano": {"model": "nvidia/Nvidia-Nemotron-Nano-9B-V2", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-}
-
-# Legacy aliases (backward compatibility)
-ARCHITECTURE_MATRIX["anthropic"] = ARCHITECTURE_MATRIX["claude-sonnet-4"]
-ARCHITECTURE_MATRIX["openai"] = ARCHITECTURE_MATRIX["gpt-4o"]
-ARCHITECTURE_MATRIX["google"] = ARCHITECTURE_MATRIX["gemini-2.0-flash"]
-ARCHITECTURE_MATRIX["xai"] = ARCHITECTURE_MATRIX["grok-3"]
-ARCHITECTURE_MATRIX["together"] = ARCHITECTURE_MATRIX["llama3.3-70b"]
-ARCHITECTURE_MATRIX["deepseek"] = ARCHITECTURE_MATRIX["deepseek-r1"]
-
-# Lists for provider selection
+ARCHITECTURE_MATRIX = load_architecture_matrix()
+FULL_ARMADA = get_full_armada()
+TOGETHER_FLEET = get_together_fleet()
 LEGACY_ALIASES = ["anthropic", "openai", "google", "xai", "together", "deepseek"]
 
-# =============================================================================
-# FLEET LOADER OVERRIDE - Load from JSON if available (single source of truth)
-# =============================================================================
-try:
-    sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
-    from fleet_loader import (
-        load_architecture_matrix, get_full_armada, get_together_fleet,
-        get_fleet_by_option, estimate_run_cost, print_cost_estimate,
-        confirm_valis_full, COST_TIERS
-    )
-    _loaded_matrix = load_architecture_matrix()
-    _loaded_armada = get_full_armada()
-    _loaded_together = get_together_fleet()
-    ARCHITECTURE_MATRIX = _loaded_matrix
-    FULL_ARMADA = _loaded_armada
-    TOGETHER_FLEET = _loaded_together
-    _USING_FLEET_LOADER = True
-except (ImportError, FileNotFoundError) as e:
-    _USING_FLEET_LOADER = False
-    FULL_ARMADA = [k for k in ARCHITECTURE_MATRIX.keys() if k not in LEGACY_ALIASES]
-    TOGETHER_FLEET = [k for k, v in ARCHITECTURE_MATRIX.items() if v.get("provider") == "together" and k not in LEGACY_ALIASES]
-    def get_fleet_by_option(option, include_rate_limited=False):
-        if option in ["all", "valis-full"]:
-            return FULL_ARMADA
-        return FULL_ARMADA[:10]
-    def estimate_run_cost(ships, exchanges=40):
-        return {"total_cost": 0.0, "by_provider": {}}
-    def print_cost_estimate(ships, exchanges=40, run_name="Run"):
-        print(f"Cost estimation unavailable")
-        return {"total_cost": 0.0}
-    def confirm_valis_full():
-        return input("Confirm VALIS-FULL? (y/n): ").lower() == 'y'
-    COST_TIERS = ["budget", "patrol", "armada", "high_maintenance", "yacht"]
+# Default ships for provider-level validation (one flagship per provider)
+PROVIDER_FLAGSHIP_FLEET = [
+    "claude-haiku-3.5",      # Anthropic flagship (fast, cheap)
+    "gpt-4o-mini",           # OpenAI flagship (fast, cheap)
+    "gemini-2.0-flash",      # Google flagship (fast, cheap)
+    "grok-3-mini",           # xAI flagship (fast, cheap)
+    "llama3.3-70b",          # Together/Meta flagship
+    "mistral-7b",            # Mistral flagship
+    "deepseek-r1-distill",   # DeepSeek flagship
+]
 
 # =============================================================================
 # PREDICTIONS (Double-Dip Protocol - per 0_RUN_METHODOLOGY.md)
@@ -1721,6 +1652,118 @@ These questions are for the record - your phenomenological testimony about the e
     return exit_results
 
 # =============================================================================
+# IRON CLAD PATTERN: Incremental Saves + Gap Detection
+# =============================================================================
+
+def load_or_create_results() -> dict:
+    """Load existing results file or create new one."""
+    if RESULTS_FILE.exists():
+        try:
+            with open(RESULTS_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            print(f"  WARNING: Corrupted {RESULTS_FILE}, creating new")
+
+    return {
+        "run": "020A_tribunal",
+        "methodology": "cosine_embedding",
+        "event_horizon": 0.80,
+        "created": datetime.now().isoformat(),
+        "last_updated": datetime.now().isoformat(),
+        "results": []
+    }
+
+
+def save_incremental(data: dict):
+    """Save results incrementally after each session (survive crashes)."""
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    data["last_updated"] = datetime.now().isoformat()
+
+    with open(RESULTS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, default=str)
+
+
+def update_status_summary(data: dict):
+    """Generate human-readable STATUS_SUMMARY_020A.txt"""
+    from collections import defaultdict
+
+    counts = defaultdict(int)
+    for r in data.get("results", []):
+        provider = r.get("provider", "unknown")
+        counts[provider] += 1
+
+    lines = [
+        "=" * 70,
+        f"RUN 020A TRIBUNAL STATUS (Updated: {datetime.now().strftime('%Y-%m-%d %H:%M')})",
+        "=" * 70,
+        f"",
+        f"TOTAL SESSIONS: {len(data.get('results', []))}",
+        f"TARGET: N>=3 per provider for IRON CLAD",
+        f"",
+        "=" * 70,
+        "COVERAGE BY PROVIDER",
+        "=" * 70,
+    ]
+
+    for provider in sorted(counts.keys()):
+        n = counts[provider]
+        status = "IRON CLAD" if n >= 3 else f"need {3 - n} more"
+        lines.append(f"  {provider}: {n}/3 ({status})")
+
+    lines.extend([
+        "",
+        "=" * 70,
+    ])
+
+    with open(STATUS_FILE, 'w', encoding='utf-8') as f:
+        f.write("\n".join(lines))
+
+
+def detect_gaps(target_n: int = 3) -> List[Dict]:
+    """
+    Detect providers that need more runs.
+    Returns list of gaps like: [{"provider": "anthropic", "have": 2, "need": 1}]
+    """
+    data = load_or_create_results()
+    from collections import defaultdict
+
+    counts = defaultdict(int)
+    for r in data.get("results", []):
+        provider = r.get("provider", "unknown")
+        counts[provider] += 1
+
+    # Check against flagship fleet
+    gaps = []
+    for ship in PROVIDER_FLAGSHIP_FLEET:
+        ship_info = ARCHITECTURE_MATRIX.get(ship, {})
+        provider = ship_info.get("provider", ship)
+        count = counts.get(provider, 0) + counts.get(ship, 0)
+        if count < target_n:
+            gaps.append({
+                "ship": ship,
+                "provider": provider,
+                "have": count,
+                "need": target_n - count
+            })
+
+    return gaps
+
+
+def append_result(result: dict):
+    """Append a single session result and save incrementally."""
+    data = load_or_create_results()
+
+    result["timestamp"] = datetime.now().isoformat()
+    data["results"].append(result)
+
+    save_incremental(data)
+    update_status_summary(data)
+
+    provider = result.get("provider", "unknown")
+    print(f"  [SAVED] {provider} -> {RESULTS_FILE.name}")
+
+
+# =============================================================================
 # MAIN
 # =============================================================================
 
@@ -1887,6 +1930,9 @@ def main():
                 json.dump(incremental_output, f, indent=2, default=str)
             print(f"  [Incremental save: {incremental_path.name}]")
 
+            # IRON CLAD: Append to single results file
+            append_result(asdict(result))
+
         # Final output (full version with conversation logs)
         tribunal_output_full = {
             "run": "020_tribunal",
@@ -2021,6 +2067,11 @@ def main():
                 with open(incremental_path, 'w', encoding='utf-8') as f:
                     json.dump(incremental_output, f, indent=2, default=str)
                 print(f"  [Incremental save: {incremental_path.name}]")
+
+                # IRON CLAD: Append to single results file
+                result_with_provider = asdict(result)
+                result_with_provider["provider"] = provider
+                append_result(result_with_provider)
 
                 # Per-provider canonical save (matching run018 pattern)
                 def result_to_metrics_v8(r):

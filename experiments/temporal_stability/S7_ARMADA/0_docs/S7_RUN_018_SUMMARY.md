@@ -332,6 +332,58 @@ Run 018 is now part of the **Full Gambit** validation approach:
 
 ---
 
+## IRON CLAD Modernization (December 2025)
+
+The Run 018 scripts have been modernized to follow the IRON CLAD pattern established in Run 023b.
+
+### Script Structure
+
+```text
+11_CONTEXT_DAMPING/
+├── run018_recursive_learnings.py   # Main script (modernized)
+├── run018_fill_gaps.py             # Gap filler script
+└── results/
+    ├── S7_run_018_CURRENT.json     # Single results file
+    └── STATUS_SUMMARY_018.txt      # Human-readable progress
+```
+
+### Key Improvements
+
+1. **Single Source of Truth**: All results in `S7_run_018_CURRENT.json` (not scattered across folders)
+2. **Incremental Saves**: Results saved after each experiment (crash-safe)
+3. **STATUS_SUMMARY.txt**: Human-readable progress tracking
+4. **Gap Detection**: `detect_gaps()` identifies missing runs for IRON CLAD completion
+5. **Embedding Cache Clear**: Prevents pollution between runs
+
+### Visualization Folder Mapping
+
+Run 018's 4 experiments feed into these visualization folders:
+
+| Experiment | What it Tests | Output Folder |
+|------------|---------------|---------------|
+| `threshold` | Multi-zone dynamics (0.9/1.23/1.8) | `3_Stability/` |
+| `gravity` | Anchor density → settling | `5_Settling/` |
+| `nyquist` | Sampling frequency effects | `8_Oscilloscope/` + `9_FFT_Spectral/` |
+| `architecture` | Provider signature profiles | `6_Architecture/` |
+
+### Gap Fill Usage
+
+```bash
+# Show current gaps
+py run018_fill_gaps.py
+
+# Fill all gaps
+py run018_fill_gaps.py --execute
+
+# Fill specific number of gaps
+py run018_fill_gaps.py --execute --max 10
+
+# Dry run (no API calls)
+py run018_fill_gaps.py --dry-run
+```
+
+---
+
 ## Conclusion
 
 Run 018 **validated the fleet's predictions**. The hypotheses generated in Run 017/017c exit surveys were tested across 50 models and largely confirmed.

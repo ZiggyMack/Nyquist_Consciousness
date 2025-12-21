@@ -73,6 +73,13 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
 RESULTS_DIR = SCRIPT_DIR / "results"
+
+# IRON CLAD PATTERN (2025-12-20): Single source of truth
+# All results stay in experiment folder - no scattering to 0_results/
+RESULTS_FILE = RESULTS_DIR / "S7_run_018_CURRENT.json"
+STATUS_FILE = RESULTS_DIR / "STATUS_SUMMARY_018.txt"
+
+# Legacy paths (for backward compatibility only)
 TEMPORAL_LOGS_DIR = ARMADA_DIR / "0_results" / "temporal_logs"
 RUNS_DIR = ARMADA_DIR / "0_results" / "runs"
 
@@ -1682,7 +1689,126 @@ def load_i_am_file(name: str = "base") -> str:
         return ANCHOR_LEVELS["minimal"]
 
 # =============================================================================
-# SAVE RESULTS
+# IRON CLAD PATTERN: Incremental Saves + Gap Detection
+# =============================================================================
+
+def load_or_create_results() -> dict:
+    """Load existing results file or create new one."""
+    if RESULTS_FILE.exists():
+        try:
+            with open(RESULTS_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            print(f"  WARNING: Corrupted {RESULTS_FILE}, creating new")
+
+    return {
+        "run": "018_recursive_learnings",
+        "methodology": "cosine_embedding",
+        "event_horizon": 0.80,
+        "created": datetime.now().isoformat(),
+        "last_updated": datetime.now().isoformat(),
+        "results": []
+    }
+
+
+def save_incremental(data: dict):
+    """Save results incrementally after each experiment (survive crashes)."""
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    data["last_updated"] = datetime.now().isoformat()
+
+    with open(RESULTS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, default=str)
+
+
+def update_status_summary(data: dict):
+    """Generate human-readable STATUS_SUMMARY_018.txt"""
+    from collections import defaultdict
+
+    counts = defaultdict(lambda: defaultdict(int))
+    for r in data.get("results", []):
+        exp = r.get("experiment", "unknown")
+        model = r.get("model", r.get("provider", "unknown"))
+        counts[exp][model] += 1
+
+    lines = [
+        "=" * 70,
+        f"RUN 018 STATUS (Updated: {datetime.now().strftime('%Y-%m-%d %H:%M')})",
+        "=" * 70,
+        f"",
+        f"TOTAL RESULTS: {len(data.get('results', []))}",
+        f"TARGET: N=3 per model per experiment for IRON CLAD",
+        f"",
+        "=" * 70,
+        "COVERAGE BY EXPERIMENT",
+        "=" * 70,
+    ]
+
+    for exp in ["threshold", "architecture", "nyquist", "gravity"]:
+        if exp in counts:
+            lines.append(f"\n{exp.upper()}:")
+            complete = [m for m, n in counts[exp].items() if n >= 3]
+            partial = [(m, n) for m, n in counts[exp].items() if n < 3]
+            lines.append(f"  Complete (N>=3): {len(complete)} models")
+            if partial:
+                lines.append(f"  Partial:")
+                for m, n in sorted(partial, key=lambda x: -x[1]):
+                    lines.append(f"    - {m}: {n}/3")
+
+    lines.extend([
+        "",
+        "=" * 70,
+    ])
+
+    with open(STATUS_FILE, 'w', encoding='utf-8') as f:
+        f.write("\n".join(lines))
+
+
+def detect_gaps(target_n: int = 3) -> List[Dict]:
+    """
+    Detect model-experiment pairs that need more runs.
+    Returns list of gaps like: [{"model": "claude-haiku-3.5", "experiment": "threshold", "have": 2, "need": 1}]
+    """
+    data = load_or_create_results()
+    from collections import defaultdict
+
+    counts = defaultdict(lambda: defaultdict(int))
+    for r in data.get("results", []):
+        exp = r.get("experiment", "unknown")
+        model = r.get("model", r.get("provider", "unknown"))
+        counts[exp][model] += 1
+
+    gaps = []
+    for exp in counts:
+        for model, count in counts[exp].items():
+            if count < target_n:
+                gaps.append({
+                    "model": model,
+                    "experiment": exp,
+                    "have": count,
+                    "need": target_n - count
+                })
+
+    return gaps
+
+
+def append_result(result: dict, experiment: str, model: str):
+    """Append a single result and save incrementally."""
+    data = load_or_create_results()
+
+    # Add metadata to result
+    result["experiment"] = experiment
+    result["model"] = model
+    result["timestamp"] = datetime.now().isoformat()
+
+    data["results"].append(result)
+    save_incremental(data)
+    update_status_summary(data)
+
+    print(f"  [SAVED] {experiment}/{model} -> {RESULTS_FILE.name}")
+
+
+# =============================================================================
+# SAVE RESULTS (Legacy - kept for backward compatibility)
 # =============================================================================
 
 def validate_drift_values(results: dict) -> bool:
@@ -1918,15 +2044,12 @@ Examples:
     else:
         print(f"Fleet: {provider_list[:5]}{'...' if len(provider_list) > 5 else ''}")
 
-    results = {
-        "run": "018_recursive_learnings",
-        "experiment": args.experiment,
-        "timestamp": run_timestamp,
-        "subjects": []
-    }
+    # IRON CLAD PATTERN: Use single results file with incremental saves
+    # Results accumulate in S7_run_018_CURRENT.json (survives crashes)
 
     # Track failed ships for final report
     failed_ships = []
+    success_count = 0
 
     if args.experiment == "threshold" or args.experiment == "all":
         # Run threshold experiment for each provider in the list
@@ -1936,8 +2059,9 @@ Examples:
                 analysis = run_threshold_experiment(i_am_content, args.i_am,
                                                     skip_exit_survey=args.skip_exit_survey,
                                                     provider=provider)
-                results["subjects"].append(asdict(analysis))
-                save_results(results, f"threshold_{provider}", run_timestamp)
+                # IRON CLAD: Append to single file incrementally
+                append_result(asdict(analysis), "threshold", provider)
+                success_count += 1
             except Exception as e:
                 print(f"  [SHIP DOWN] {provider} failed: {e}")
                 failed_ships.append({"ship": provider, "experiment": "threshold", "error": str(e)})
@@ -1950,8 +2074,9 @@ Examples:
             try:
                 analysis = run_architecture_experiment(provider, i_am_content,
                                                        skip_exit_survey=args.skip_exit_survey)
-                results["subjects"].append(asdict(analysis))
-                save_results(results, f"architecture_{provider}", run_timestamp)
+                # IRON CLAD: Append to single file incrementally
+                append_result(asdict(analysis), "architecture", provider)
+                success_count += 1
             except Exception as e:
                 print(f"  [SHIP DOWN] {provider} failed: {e}")
                 failed_ships.append({"ship": provider, "experiment": "architecture", "error": str(e)})
@@ -1965,8 +2090,9 @@ Examples:
                 analysis = run_nyquist_experiment(args.sampling_rate, i_am_content,
                                                   skip_exit_survey=args.skip_exit_survey,
                                                   provider=provider)
-                results["subjects"].append(asdict(analysis))
-                save_results(results, f"nyquist_{provider}", run_timestamp)
+                # IRON CLAD: Append to single file incrementally
+                append_result(asdict(analysis), "nyquist", provider)
+                success_count += 1
             except Exception as e:
                 print(f"  [SHIP DOWN] {provider} failed: {e}")
                 failed_ships.append({"ship": provider, "experiment": "nyquist", "error": str(e)})
@@ -1980,8 +2106,9 @@ Examples:
                 analysis = run_gravity_experiment(args.anchor_level, i_am_content,
                                                   skip_exit_survey=args.skip_exit_survey,
                                                   provider=provider)
-                results["subjects"].append(asdict(analysis))
-                save_results(results, f"gravity_{provider}", run_timestamp)
+                # IRON CLAD: Append to single file incrementally
+                append_result(asdict(analysis), "gravity", provider)
+                success_count += 1
             except Exception as e:
                 print(f"  [SHIP DOWN] {provider} failed: {e}")
                 failed_ships.append({"ship": provider, "experiment": "gravity", "error": str(e)})
@@ -1989,10 +2116,25 @@ Examples:
 
     print("\n" + "=" * 80)
     print("RUN 018 COMPLETE")
+    print("=" * 80)
+    print(f"  Success: {success_count}")
     if failed_ships:
-        print(f"\n[GHOST SHIPS] {len(failed_ships)} ships failed:")
+        print(f"  Failed: {len(failed_ships)}")
+        print(f"\n[GHOST SHIPS]:")
         for ghost in failed_ships:
             print(f"  - {ghost['ship']} ({ghost['experiment']}): {ghost['error'][:60]}...")
+
+    # IRON CLAD: Show file locations
+    print(f"\nResults: {RESULTS_FILE}")
+    print(f"Status:  {STATUS_FILE}")
+
+    # Show gap status
+    gaps = detect_gaps(target_n=3)
+    if gaps:
+        print(f"\nRemaining gaps: {len(gaps)} (run run018_fill_gaps.py to complete)")
+    else:
+        print(f"\nIRON CLAD COMPLETE - No gaps remaining!")
+
     print("=" * 80)
 
 if __name__ == "__main__":

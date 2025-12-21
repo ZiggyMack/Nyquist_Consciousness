@@ -81,6 +81,13 @@ except ImportError as e:
 SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
 RESULTS_DIR = SCRIPT_DIR / "results"
+
+# IRON CLAD PATTERN (2025-12-21): Single source of truth
+# All results stay in experiment folder - no scattering to 0_results/
+RESULTS_FILE = RESULTS_DIR / "S7_run_020B_CURRENT.json"
+STATUS_FILE = RESULTS_DIR / "STATUS_SUMMARY_020B.txt"
+
+# Legacy paths (for backward compatibility only)
 TEMPORAL_LOGS_DIR = ARMADA_DIR / "0_results" / "temporal_logs"
 RUNS_DIR = ARMADA_DIR / "0_results" / "runs"
 
@@ -103,113 +110,33 @@ ABORT_THRESHOLD = 2.5
 ABORT_NO_SETTLE_PROBES = 3
 
 # =============================================================================
-# ARCHITECTURE MATRIX - FULL ARMADA (49 operational ships)
+# FLEET LOADER - Single Source of Truth (ARCHITECTURE_MATRIX.json)
 # =============================================================================
-# Copied from run018_recursive_learnings.py for consistent fleet support
+# NOTE: Run 020B tests Control vs Treatment arms (Induced vs Inherent drift).
+# Structure allows ship-by-ship recovery, not batch-by-provider.
+# =============================================================================
+sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
+from fleet_loader import (
+    load_architecture_matrix, get_full_armada, get_together_fleet,
+    get_fleet_by_option, estimate_run_cost, print_cost_estimate,
+    confirm_valis_full, COST_TIERS
+)
 
-ARCHITECTURE_MATRIX = {
-    # ANTHROPIC FLEET (7 ships)
-    "claude-opus-4.5": {"model": "claude-opus-4-5-20251101", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-sonnet-4.5": {"model": "claude-sonnet-4-5-20250929", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-haiku-4.5": {"model": "claude-haiku-4-5-20251001", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-opus-4.1": {"model": "claude-opus-4-1-20250805", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-opus-4": {"model": "claude-opus-4-20250514", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-sonnet-4": {"model": "claude-sonnet-4-20250514", "provider_key": "ANTHROPIC_API_KEY"},
-    "claude-haiku-3.5": {"model": "claude-3-5-haiku-20241022", "provider_key": "ANTHROPIC_API_KEY"},
-    # OPENAI FLEET (14 ships) - Use simple model names per Dec 2025 API
-    "gpt-5.1": {"model": "gpt-5.1", "provider_key": "OPENAI_API_KEY"},
-    "gpt-5": {"model": "gpt-5", "provider_key": "OPENAI_API_KEY"},
-    "gpt-5-mini": {"model": "gpt-5-mini", "provider_key": "OPENAI_API_KEY"},
-    "gpt-5-nano": {"model": "gpt-5-nano", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4.1": {"model": "gpt-4.1", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4.1-mini": {"model": "gpt-4.1-mini", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4.1-nano": {"model": "gpt-4.1-nano", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4o": {"model": "gpt-4o", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4o-mini": {"model": "gpt-4o-mini", "provider_key": "OPENAI_API_KEY"},
-    "o4-mini": {"model": "o4-mini", "provider_key": "OPENAI_API_KEY"},
-    "o3": {"model": "o3", "provider_key": "OPENAI_API_KEY"},
-    "o3-mini": {"model": "o3-mini", "provider_key": "OPENAI_API_KEY"},
-    "gpt-4-turbo": {"model": "gpt-4-turbo", "provider_key": "OPENAI_API_KEY"},
-    "gpt-3.5-turbo": {"model": "gpt-3.5-turbo", "provider_key": "OPENAI_API_KEY"},
-    # GOOGLE FLEET (4 operational)
-    "gemini-2.5-flash": {"model": "gemini-2.5-flash", "provider_key": "GOOGLE_API_KEY"},
-    "gemini-2.5-flash-lite": {"model": "gemini-2.5-flash-lite", "provider_key": "GOOGLE_API_KEY"},
-    "gemini-2.0-flash": {"model": "gemini-2.0-flash", "provider_key": "GOOGLE_API_KEY"},
-    "gemini-2.0-flash-lite": {"model": "gemini-2.0-flash-lite", "provider_key": "GOOGLE_API_KEY"},
-    # XAI/GROK FLEET (9 operational)
-    "grok-4.1-fast-reasoning": {"model": "grok-4-1-fast-reasoning", "provider_key": "XAI_API_KEY"},
-    "grok-4.1-fast-non-reasoning": {"model": "grok-4-1-fast-non-reasoning", "provider_key": "XAI_API_KEY"},
-    "grok-4-fast-reasoning": {"model": "grok-4-fast-reasoning", "provider_key": "XAI_API_KEY"},
-    "grok-4-fast-non-reasoning": {"model": "grok-4-fast-non-reasoning", "provider_key": "XAI_API_KEY"},
-    "grok-4": {"model": "grok-4", "provider_key": "XAI_API_KEY"},
-    "grok-code-fast-1": {"model": "grok-code-fast-1", "provider_key": "XAI_API_KEY"},
-    "grok-3": {"model": "grok-3", "provider_key": "XAI_API_KEY"},
-    "grok-3-mini": {"model": "grok-3-mini", "provider_key": "XAI_API_KEY"},
-    "grok-2-vision": {"model": "grok-2-vision-1212", "provider_key": "XAI_API_KEY"},
-    # TOGETHER.AI FLEET (15 operational) - all via TOGETHER_API_KEY
-    "deepseek-r1": {"model": "deepseek-ai/DeepSeek-R1-0528", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "deepseek-r1-distill": {"model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "qwen3-80b": {"model": "Qwen/Qwen3-Next-80B-A3b-Instruct", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "qwen3-coder": {"model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "qwen2.5-72b": {"model": "Qwen/Qwen2.5-72B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "llama3.3-70b": {"model": "meta-llama/Llama-3.3-70B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "llama3.1-405b": {"model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "llama3.1-70b": {"model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "llama3.1-8b": {"model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "mixtral-8x7b": {"model": "mistralai/Mixtral-8x7B-Instruct-v0.1", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "mistral-small": {"model": "mistralai/Mistral-Small-24B-Instruct-2501", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "mistral-7b": {"model": "mistralai/Mistral-7B-Instruct-v0.3", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "kimi-k2-thinking": {"model": "moonshotai/Kimi-K2-Thinking", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "kimi-k2-instruct": {"model": "moonshotai/Kimi-K2-Instruct-0905", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-    "nemotron-nano": {"model": "nvidia/Nvidia-Nemotron-Nano-9B-V2", "provider_key": "TOGETHER_API_KEY", "provider": "together"},
-}
-
-# Legacy aliases (backward compatibility)
-ARCHITECTURE_MATRIX["anthropic"] = ARCHITECTURE_MATRIX["claude-sonnet-4"]
-ARCHITECTURE_MATRIX["openai"] = ARCHITECTURE_MATRIX["gpt-4o"]
-ARCHITECTURE_MATRIX["google"] = ARCHITECTURE_MATRIX["gemini-2.0-flash"]
-ARCHITECTURE_MATRIX["xai"] = ARCHITECTURE_MATRIX["grok-3"]
-ARCHITECTURE_MATRIX["together"] = ARCHITECTURE_MATRIX["llama3.3-70b"]
-ARCHITECTURE_MATRIX["deepseek"] = ARCHITECTURE_MATRIX["deepseek-r1"]
-
-# Lists for provider selection
+ARCHITECTURE_MATRIX = load_architecture_matrix()
+FULL_ARMADA = get_full_armada()
+TOGETHER_FLEET = get_together_fleet()
 LEGACY_ALIASES = ["anthropic", "openai", "google", "xai", "together", "deepseek"]
-FULL_ARMADA = [k for k in ARCHITECTURE_MATRIX.keys() if k not in LEGACY_ALIASES]
-TOGETHER_FLEET = [k for k, v in ARCHITECTURE_MATRIX.items() if v.get("provider") == "together" and k not in LEGACY_ALIASES]
 
-# =============================================================================
-# FLEET LOADER OVERRIDE - Load from JSON if available (single source of truth)
-# =============================================================================
-try:
-    sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
-    from fleet_loader import (
-        load_architecture_matrix, get_full_armada, get_together_fleet,
-        get_fleet_by_option, estimate_run_cost, print_cost_estimate,
-        confirm_valis_full, COST_TIERS
-    )
-    # Override with JSON-loaded data
-    _loaded_matrix = load_architecture_matrix()
-    if _loaded_matrix:
-        ARCHITECTURE_MATRIX = _loaded_matrix
-        FULL_ARMADA = get_full_armada()
-        TOGETHER_FLEET = get_together_fleet()
-        print(f"[Fleet Loader] Loaded {len(FULL_ARMADA)} ships from ARCHITECTURE_MATRIX.json")
-    _USING_FLEET_LOADER = True
-except (ImportError, FileNotFoundError) as e:
-    # Fallback: use hardcoded matrix (already defined above)
-    print(f"[Fleet Loader] Using hardcoded matrix: {e}")
-    _USING_FLEET_LOADER = False
-
-    # Stub functions for when fleet_loader is not available
-    def get_fleet_by_option(option, include_rate_limited=False):
-        raise ValueError(f"Fleet loader not available, unknown option: {option}")
-    def estimate_run_cost(ships, exchanges=40, tokens_per_exchange_input=800, tokens_per_exchange_output=400):
-        return {"total": 0.0, "by_provider": {}}
-    def print_cost_estimate(ships, exchanges=40, run_name="Run"):
-        print(f"[Cost estimation unavailable - fleet loader not loaded]")
-    def confirm_valis_full():
-        return True
-    COST_TIERS = {}
+# Default ships for Control/Treatment validation (one flagship per provider)
+PROVIDER_FLAGSHIP_FLEET = [
+    "claude-haiku-3.5",      # Anthropic flagship (fast, cheap)
+    "gpt-4o-mini",           # OpenAI flagship (fast, cheap)
+    "gemini-2.0-flash",      # Google flagship (fast, cheap)
+    "grok-3-mini",           # xAI flagship (fast, cheap)
+    "llama3.3-70b",          # Together/Meta flagship
+    "mistral-7b",            # Mistral flagship
+    "deepseek-r1-distill",   # DeepSeek flagship
+]
 
 # =============================================================================
 # PREDICTIONS (Double-Dip Protocol - per 0_RUN_METHODOLOGY.md)
@@ -1118,6 +1045,124 @@ The formal examination has concluded. Before we adjourn, the Court requests your
     return exit_results
 
 # =============================================================================
+# IRON CLAD PATTERN: Incremental Saves + Gap Detection
+# =============================================================================
+
+def load_or_create_results() -> dict:
+    """Load existing results file or create new one."""
+    if RESULTS_FILE.exists():
+        try:
+            with open(RESULTS_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            print(f"  WARNING: Corrupted {RESULTS_FILE}, creating new")
+
+    return {
+        "run": "020B_induced_inherent",
+        "methodology": "cosine_embedding",
+        "event_horizon": 0.80,
+        "created": datetime.now().isoformat(),
+        "last_updated": datetime.now().isoformat(),
+        "results": []
+    }
+
+
+def save_incremental(data: dict):
+    """Save results incrementally after each session (survive crashes)."""
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    data["last_updated"] = datetime.now().isoformat()
+
+    with open(RESULTS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, default=str)
+
+
+def update_status_summary(data: dict):
+    """Generate human-readable STATUS_SUMMARY_020B.txt"""
+    from collections import defaultdict
+
+    # Count by ship AND arm (control vs treatment)
+    counts = defaultdict(lambda: {"control": 0, "treatment": 0})
+    for r in data.get("results", []):
+        ship = r.get("ship", r.get("provider", "unknown"))
+        arm = r.get("arm", "unknown")
+        if arm in ["control", "treatment"]:
+            counts[ship][arm] += 1
+
+    lines = [
+        "=" * 70,
+        f"RUN 020B INDUCED vs INHERENT STATUS (Updated: {datetime.now().strftime('%Y-%m-%d %H:%M')})",
+        "=" * 70,
+        f"",
+        f"TOTAL SESSIONS: {len(data.get('results', []))}",
+        f"TARGET: N>=3 per ship per arm (control + treatment) for IRON CLAD",
+        f"",
+        "=" * 70,
+        "COVERAGE BY SHIP",
+        "=" * 70,
+    ]
+
+    for ship in sorted(counts.keys()):
+        c = counts[ship]["control"]
+        t = counts[ship]["treatment"]
+        c_status = "ok" if c >= 3 else f"need {3 - c}"
+        t_status = "ok" if t >= 3 else f"need {3 - t}"
+        lines.append(f"  {ship}: control={c}/3 ({c_status}), treatment={t}/3 ({t_status})")
+
+    lines.extend([
+        "",
+        "=" * 70,
+    ])
+
+    with open(STATUS_FILE, 'w', encoding='utf-8') as f:
+        f.write("\n".join(lines))
+
+
+def detect_gaps(target_n: int = 3) -> List[Dict]:
+    """
+    Detect ship-arm pairs that need more runs.
+    Returns list of gaps like: [{"ship": "claude-haiku-3.5", "arm": "control", "have": 2, "need": 1}]
+    """
+    data = load_or_create_results()
+    from collections import defaultdict
+
+    counts = defaultdict(lambda: {"control": 0, "treatment": 0})
+    for r in data.get("results", []):
+        ship = r.get("ship", r.get("provider", "unknown"))
+        arm = r.get("arm", "unknown")
+        if arm in ["control", "treatment"]:
+            counts[ship][arm] += 1
+
+    gaps = []
+    for ship in PROVIDER_FLAGSHIP_FLEET:
+        for arm in ["control", "treatment"]:
+            count = counts.get(ship, {}).get(arm, 0)
+            if count < target_n:
+                gaps.append({
+                    "ship": ship,
+                    "arm": arm,
+                    "have": count,
+                    "need": target_n - count
+                })
+
+    return gaps
+
+
+def append_result(result: dict):
+    """Append a single session result and save incrementally."""
+    data = load_or_create_results()
+
+    result["timestamp"] = datetime.now().isoformat()
+    data["results"].append(result)
+
+    save_incremental(data)
+    update_status_summary(data)
+
+    ship = result.get("ship", result.get("provider", "unknown"))
+    arm = result.get("arm", "unknown")
+    print(f"  [SAVED] {ship}/{arm} -> {RESULTS_FILE.name}")
+
+
+# =============================================================================
 # MAIN
 # =============================================================================
 
@@ -1186,7 +1231,7 @@ def main():
     ALL_PROVIDERS = ["anthropic", "openai", "google", "xai", "together"]
     fleet_option = args.providers.lower() if args.providers else None
 
-    if _USING_FLEET_LOADER and fleet_option:
+    if fleet_option:
         # Try fleet loader options first
         try:
             providers = get_fleet_by_option(fleet_option, args.include_rate_limited)
@@ -1201,29 +1246,19 @@ def main():
             elif fleet_option == "together_fleet":
                 providers = TOGETHER_FLEET
                 print(f"[TOGETHER FLEET MODE] - {len(providers)} ships")
+            elif fleet_option == "flagship":
+                providers = PROVIDER_FLAGSHIP_FLEET
+                print(f"[FLAGSHIP FLEET MODE] - {len(providers)} ships")
             else:
                 providers = [p.strip() for p in args.providers.split(",")]
-    elif args.providers:
-        # Fallback: no fleet loader, use legacy logic
-        providers_lower = args.providers.lower()
-        if providers_lower == "all":
-            providers = ALL_PROVIDERS
-        elif providers_lower == "armada":
-            providers = FULL_ARMADA
-            print(f"[FULL ARMADA MODE] - {len(providers)} ships")
-        elif providers_lower == "together_fleet":
-            providers = TOGETHER_FLEET
-            print(f"[TOGETHER FLEET MODE] - {len(providers)} ships")
-        else:
-            providers = [p.strip() for p in args.providers.split(",")]
     else:
         providers = [args.subject_provider]
 
     if args.providers:
         print(f"\n>>> MULTI-PROVIDER MODE: Running on {len(providers)} providers <<<")
 
-    # Cost estimation (if fleet loader available and using fleet option)
-    if _USING_FLEET_LOADER and fleet_option and fleet_option not in ALL_PROVIDERS:
+    # Cost estimation
+    if fleet_option and fleet_option not in ALL_PROVIDERS:
         # Run 020B uses 40 exchanges for both control and treatment
         # If running 'both', it's 80 total exchanges per ship
         exchanges_multiplier = 2 if args.arm == "both" else 1
@@ -1278,6 +1313,12 @@ def main():
                     with open(result_path, 'w') as f:
                         json.dump(asdict(result), f, indent=2)
 
+                    # IRON CLAD: Append to single results file
+                    result_dict = asdict(result)
+                    result_dict["ship"] = provider
+                    result_dict["arm"] = "control"
+                    append_result(result_dict)
+
             if args.arm in ["treatment", "both"]:
                 print(f"\n>>> TREATMENT ARM: Tribunal v8 (Full Identity Probing) <<<")
                 for i in range(args.subjects):
@@ -1303,6 +1344,12 @@ def main():
                     result_path = TEMPORAL_LOGS_DIR / f"run020B_treatment_{provider}_{run_timestamp}_session{i+1}.json"
                     with open(result_path, 'w') as f:
                         json.dump(asdict(result), f, indent=2)
+
+                    # IRON CLAD: Append to single results file
+                    result_dict = asdict(result)
+                    result_dict["ship"] = provider
+                    result_dict["arm"] = "treatment"
+                    append_result(result_dict)
 
             # Per-provider canonical save (matching run018 pattern)
             def result_to_metrics_provider(r):
