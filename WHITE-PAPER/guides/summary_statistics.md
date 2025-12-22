@@ -1,8 +1,14 @@
 # Summary Statistics: Nyquist Consciousness Experiments
 
 **Paper:** "Measuring AI Identity Drift: Evidence from 21 Experiments"
-**Version:** 1.0
-**Last Updated:** 2025-12-13
+**Version:** 2.0
+**Last Updated:** 2025-12-22
+
+---
+
+> **📐 METHODOLOGY NOTE:** This document now reflects Run 023 IRON CLAD findings using **Cosine distance** methodology. Historical values (Euclidean, Keyword RMS) preserved for reference.
+>
+> For full methodology reconciliation, see [../planning/METHODOLOGY_DOMAINS.md](../planning/METHODOLOGY_DOMAINS.md)
 
 ---
 

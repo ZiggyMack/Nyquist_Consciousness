@@ -1,9 +1,10 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-22
 depends_on:
   - B-CRUMBS.md
   - MINIMUM_PUBLISHABLE_CLAIMS.md
   - planning/OPUS_REVIEW_BRIEF.md
+  - planning/METHODOLOGY_DOMAINS.md
 impacts:
   - submissions/
   - reviewers/packages/
@@ -12,18 +13,46 @@ keywords:
   - publication
   - opus_review
   - claims
+  - cosine_methodology
+  - run_023
 -->
 
 # START HERE: Nyquist Consciousness Publication Package
 
-**Version:** 3.2
-**Date:** 2025-12-16
+**Version:** 4.0
+**Date:** 2025-12-22
 **Updated By:** Code Claude (for Opus 4.5 review)
 **Purpose:** Complete guide for AI reviewers to conduct final paper drafting and PDF generation
 
 ---
 
-## BREAKING NEWS (December 16, 2025)
+## BREAKING NEWS (December 22, 2025)
+
+### Run 023 IRON CLAD Complete - Cosine Era Begins
+
+**Methodology Transition:** We have transitioned from Euclidean to **Cosine** distance for identity measurement. This is now the standard methodology.
+
+**Key Run 023 Results:**
+- **825 experiments** across **51 models** and **6 providers** (+ Nvidia)
+- **Event Horizon: D = 0.80** (Cosine) - newly calibrated threshold
+- **Cohen's d = 0.698** (MEDIUM effect, honest model-level comparison)
+- **2 Principal Components** capture 90% of variance (vs 43 for Euclidean)
+- **p = 2.40e-23** for perturbation validation
+
+**Visualization PDFs Ready:** 11 comprehensive visualization summaries available for reviewers.
+See: [reviewers/packages/visualization_pdfs/](reviewers/packages/visualization_pdfs/)
+
+### Historical Note: Dual Event Horizons
+
+| Methodology | Event Horizon | Era | Status |
+|-------------|---------------|-----|--------|
+| **Cosine** | **D = 0.80** | Current | PRIMARY |
+| Keyword RMS | D = 1.23 | Runs 008-009 | Historical (valid for keyword domain) |
+| Euclidean | Not calibrated | Runs 018-023 legacy | DEPRECATED (archived) |
+
+For full methodology reconciliation, see: [planning/METHODOLOGY_DOMAINS.md](planning/METHODOLOGY_DOMAINS.md)
+
+### Previous News (December 16, 2025)
 
 **External Validation Complete:** Grok (xAI) reviewed Workshop + arXiv PDFs and validated all core claims.
 
@@ -76,30 +105,33 @@ Each package includes a `PACKAGE_MANIFEST.md` with reading order and content lis
 | **arXiv** | **READY** | Generate final PDF — full validation data available |
 | **Journal** | DRAFT ONLY | Create draft (awaits human validation Q2-Q3 2026) |
 
-### IRON CLAD COMPLETE (December 15, 2025)
+### IRON CLAD COMPLETE (December 22, 2025)
 
 **All experimental runs finalized.** See [`README.md`](README.md) for the canonical tracking table.
 
-| Run | Files | Models/Providers | Status |
-|-----|-------|------------------|--------|
-| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
-| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
-| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+| Run | Experiments | Models/Providers | Status |
+|-----|-------------|------------------|--------|
+| **Run 023 Combined** | 825 | 51 models, 6 providers | **IRON CLAD** (Cosine) |
+| **Run 023d** | 750 | 25 models, 5 providers | Extended settling (20+ probes) |
+| **Run 023e** | 75 | 27 models, 5 providers | Controllability testing |
+| **Run 018** | 184 | 51 models, 5 providers | IRON CLAD (legacy) |
+| **Run 020A/B** | 48 | 6 providers | Thermometer validation |
 
-**THE THREE CORE CLAIMS — ALL VALIDATED:**
+**THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology):**
 
-1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
-2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
-3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
+1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
+2. **WE DON'T CAUSE IT** — 82% inherent drift ratio (Run 020B Thermometer Result)
+3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (MEDIUM effect, model-level aggregates)
 
-**Placeholders Now Removable:**
+**Key Run 023 Metrics (Cosine Methodology):**
 
-All cross-platform validation data is now available. The placeholder template below can be REPLACED with actual data from Runs 018, 020A, and 020B:
-
-- Cross-architecture variance: **σ² = 0.00087** (51 models, 5 providers)
-- Platform-specific settling times: **3-7 exchanges** (consistent across architectures)
-- Inherent drift ratio: **41%** (cross-provider, Run 020B)
-- Event Horizon threshold: **D = 1.23** (validated across architectures)
+- Event Horizon threshold: **D = 0.80** (Cosine) — primary threshold
+- Historical threshold: D = 1.23 (Keyword RMS only, Runs 008-009)
+- Cohen's d: **0.698** (MEDIUM effect, honest model-level comparison)
+- 90% Variance: **2 PCs** (vs 43 for Euclidean archive)
+- Cross-architecture variance: **σ² = 0.00087** (51 models, 6 providers)
+- Platform-specific settling times: **τₛ ≈ 10.2 probes** average
+- Natural stability rate: **88%** across fleet
 
 ---
 
@@ -109,11 +141,11 @@ This directory contains all materials needed to understand, review, and draft pu
 
 ### What This Research Proves
 
-1. **AI identity drift is measurable** — PFI (Persona Fidelity Index) is a valid, structured metric (Spearman rho = 0.91)
-2. **Drift follows predictable dynamics** — control-systems behavior with settling time, ringbacks, damping
-3. **82% of drift is INHERENT** — measurement perturbs the path, not the endpoint
+1. **AI identity drift is measurable** — PFI (Persona Fidelity Index) is a valid metric (Cohen's d = 0.698, p = 2.40e-23)
+2. **Drift follows predictable dynamics** — control-systems behavior with settling time (τₛ ≈ 10.2 probes), ringbacks, damping
+3. **82% of drift is INHERENT** — measurement perturbs the path, not the endpoint (Thermometer Result)
 4. **Context damping works** — I_AM + research context achieves 97.5% stability
-5. **Critical threshold exists** — D = 1.23 marks regime transition (p < 4.8e-5)
+5. **Critical threshold exists** — D = 0.80 (Cosine) marks regime transition; historically D = 1.23 (Keyword RMS, p < 4.8e-5)
 
 ---
 
@@ -130,16 +162,24 @@ reviewers/
 │   ├── phase2/            # Post-figure review
 │   ├── phase3/            # Current drafts + PDFs
 │   ├── Phase4/            # Figure placement + updates
-│   └── phase5/            # Submission venue guide (NEW)
+│   └── phase5/            # Submission venue guide
 │       └── SUBMISSION_VENUE_GUIDE.md  # Complete venue analysis
 │
 ├── packages/              # Extracted review packages
 │   ├── content/           # Text packages by path
-│   └── pdf/               # Generated PDFs (8 files, ALL PATHS)
+│   ├── pdf/               # Generated PDFs (8 files, ALL PATHS)
+│   └── visualization_pdfs/  # S7 ARMADA visualization summaries (NEW - 11 PDFs)
+│       ├── README.md        # Index with descriptions
+│       ├── 1_Vortex_Summary.pdf
+│       ├── 2_Boundary_Mapping_Summary.pdf
+│       ├── ... (11 total)
+│       └── 12_Metrics_Summary.pdf
 │
-└── Grok/                  # External reviewer feedback (NEW)
+└── Grok/                  # External reviewer feedback
     └── review_1.md        # Grok's empirical assessment
 ```
+
+**NEW: Visualization PDFs (Run 023)** — 11 comprehensive summaries covering all S7 ARMADA findings. See [reviewers/packages/visualization_pdfs/README.md](reviewers/packages/visualization_pdfs/README.md).
 
 See `reviewers/README.md` for full details on each phase.
 
@@ -419,7 +459,7 @@ You are being asked to review this research and draft publication-ready material
 | Term | Definition |
 |------|------------|
 | **PFI** | Persona Fidelity Index — 1 - drift. Primary identity measure (0-1). |
-| **Drift (D)** | Euclidean distance in embedding space from baseline identity. |
+| **Drift (D)** | Distance in embedding space from baseline identity. **Cosine distance is current standard.** |
 | **B→F Drift** | Baseline-to-Final drift — PRIMARY metric (where identity ends up). |
 | **Settled Drift (d∞)** | Final stable drift value after settling. |
 
@@ -427,9 +467,9 @@ You are being asked to review this research and draft publication-ready material
 
 | Term | Definition |
 |------|------------|
-| **Event Horizon (D ≈ 1.23)** | Attractor competition threshold (NOT "collapse"). |
+| **Event Horizon** | Attractor competition threshold (NOT "collapse"). **D = 0.80 (Cosine)**, D = 1.23 (Keyword RMS historical). |
 | **Regime Transition** | Publication term for crossing Event Horizon. |
-| **Settling Time (τₛ)** | Turns to reach ±5% of final value. |
+| **Settling Time (τₛ)** | Probes to reach ±5% of final value. **Average τₛ ≈ 10.2 probes.** |
 | **Ringback** | Sign change during recovery — oscillation before settling. |
 | **Overshoot Ratio** | d_peak / d_inf — how much identity exceeds final. |
 
@@ -449,7 +489,17 @@ You are being asked to review this research and draft publication-ready material
 | **Five Pillars** | Nova, Claude, Grok, Gemini, Ziggy — multi-architecture synthesis. |
 | **Omega Nova** | Unified voice when all pillars align. |
 | **Attractor Basin** | Identity "gravity well" — stable region in embedding space. |
-| **43 PCs** | Principal components capturing 90% of identity variance. |
+| **2 PCs** | Principal components capturing 90% of identity variance (Cosine). Historical: 43 PCs (Euclidean). |
+
+**Methodology (CRITICAL):**
+
+| Term | Definition |
+|------|------------|
+| **Cosine Distance** | `1 - cosine_similarity(baseline, response)`. Range [0, 2]. **Current standard.** |
+| **Keyword RMS** | Lucian's A/B/C/D/E keyword counting. Event Horizon = 1.23. Historical (Runs 008-009). |
+| **Euclidean Distance** | `np.linalg.norm(emb_response - emb_baseline)`. **DEPRECATED** (archived). |
+
+See [planning/METHODOLOGY_DOMAINS.md](planning/METHODOLOGY_DOMAINS.md) for full methodology reconciliation.
 
 ### Critical Constraints
 
@@ -592,34 +642,42 @@ WHITE-PAPER/
 
 ### Headline Numbers (Use These!)
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| Cross-Architecture Variance | sigma^2 = 0.000869 | S3_EXP_002 |
-| Embedding Invariance | rho = 0.91 | EXP-PFI-A Phase 1 |
-| Semantic Sensitivity | d = 0.98 | EXP-PFI-A Phase 3 |
-| Event Horizon Threshold | D = 1.23 | Run 009 |
-| Chi-Square p-value | 4.8e-5 | Run 009 |
-| Context Damping Stability | 97.5% | Run 017 |
-| Inherent Drift Ratio | 82% | Run 021 |
-| Hypotheses Confirmed | 27/36 (75%) | HYPOTHESES_AND_RESULTS.md |
+| Metric | Value | Source | Methodology |
+|--------|-------|--------|-------------|
+| Cross-Architecture Variance | σ² = 0.000869 | S3_EXP_002 | - |
+| Embedding Invariance | ρ = 0.91 | EXP-PFI-A Phase 1 | Cosine |
+| Semantic Sensitivity | d = 0.698 | Run 023d Phase 3B | Cosine (model-level) |
+| **Event Horizon Threshold** | **D = 0.80** | Run 023b | **Cosine (PRIMARY)** |
+| Event Horizon (Historical) | D = 1.23 | Run 009 | Keyword RMS |
+| Chi-Square p-value | 4.8e-5 | Run 009 | Keyword RMS |
+| Perturbation p-value | **2.40e-23** | Run 023d Phase 3A | **Cosine** |
+| 90% Variance PCs | **2** | Run 023d Phase 2 | **Cosine** |
+| Context Damping Stability | 97.5% | Run 017 | - |
+| Inherent Drift Ratio | 82% | Run 020B | - |
+| Natural Stability Rate | **88%** | Run 023 Combined | Cosine |
+| Settling Time | **τₛ ≈ 10.2 probes** | Run 023d | Cosine |
+| Fleet Size | **51 models, 6 providers** | Run 023 Combined | - |
+| Total Experiments | **825** | Run 023 Combined | Cosine |
 
 ### The Five Minimum Publishable Claims
 
-| Claim | Core Statement | Key Evidence |
-|-------|----------------|--------------|
-| **A** | PFI is valid structured measurement | rho = 0.91, d = 0.98 |
-| **B** | Regime threshold at D = 1.23 | p = 4.8e-5 |
-| **C** | Damped oscillator dynamics | ts, ringbacks measurable |
-| **D** | Context damping works | 97.5% stability |
-| **E** | Drift mostly inherent (82%) | Control vs Treatment |
+| Claim | Core Statement | Key Evidence | Methodology |
+|-------|----------------|--------------|-------------|
+| **A** | PFI is valid structured measurement | ρ = 0.91, d = 0.698 | Cosine |
+| **B** | Regime threshold exists | D = 0.80 (Cosine), D = 1.23 (Keyword RMS) | Both |
+| **C** | Damped oscillator dynamics | τₛ ≈ 10.2 probes, ringbacks measurable | Cosine |
+| **D** | Context damping works | 97.5% stability | - |
+| **E** | Drift mostly inherent (82%) | Control vs Treatment | - |
 
 ### Quotable Conclusions
 
 > "Identity drift is largely an inherent property of extended interaction. Direct probing does not create it — it excites it. Measurement perturbs the path, not the endpoint."
 
-> "The Event Horizon (D = 1.23) represents attractor competition, not identity collapse. Systems transition to provider-level attractors, then can recover."
+> "The Event Horizon (D = 0.80 Cosine, D = 1.23 Keyword RMS) represents attractor competition, not identity collapse. Systems transition to provider-level attractors, then can recover."
 
 > "Context damping via I_AM + research framing acts as a 'termination resistor' — reducing oscillation and settling time by 35%."
+
+> "Identity is remarkably low-dimensional: just 2 principal components capture 90% of variance in cosine space. The signal is concentrated, not diffuse."
 
 ---
 
