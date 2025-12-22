@@ -88,8 +88,8 @@ def compute_model_metrics(experiments):
 def plot_improved_network(provider_models, output_dir):
     """Create improved network visualization."""
     fig, ax = plt.subplots(figsize=(16, 14))
-    ax.set_facecolor('#0f0f1a')
-    fig.patch.set_facecolor('#0a0a14')
+    ax.set_facecolor('#f5f5f5')
+    fig.patch.set_facecolor('white')
 
     # Provider positions (arranged in circle)
     n_providers = len(provider_models)
@@ -115,7 +115,7 @@ def plot_improved_network(provider_models, output_dir):
 
         # Provider label
         ax.annotate(provider.upper(), (px, py), fontsize=11, fontweight='bold',
-                   color='white', ha='center', va='center', zorder=11)
+                   color='white' if provider != 'google' else 'black', ha='center', va='center', zorder=11)
 
         # Draw model nodes around hub
         n_models = len(models)
@@ -150,20 +150,20 @@ def plot_improved_network(provider_models, output_dir):
 
             # Model label (shortened)
             short_name = model_name.split('/')[-1][:20]
-            ax.annotate(short_name, (mx, my + 0.35), fontsize=7, color='white',
+            ax.annotate(short_name, (mx, my + 0.35), fontsize=7, color='#333333',
                        ha='center', va='bottom', alpha=0.8, zorder=6)
 
     # Title and statistics
     total_models = sum(len(m) for m in provider_models.values())
     ax.set_title(f'VALIS Armada Network\n{total_models} Models × {n_providers} Providers\nRun 023d: IRON CLAD Foundation',
-                fontsize=16, fontweight='bold', color='white', pad=20)
+                fontsize=16, fontweight='bold', color='black', pad=20)
 
     # VALIS style legend
     legend_elements = []
     for style, info in VALIS_STYLES.items():
         count = valis_counts.get(style, 0)
         if count > 0:
-            elem = plt.scatter([], [], marker=info['marker'], s=150, c='white',
+            elem = plt.scatter([], [], marker=info['marker'], s=150, c='gray',
                              label=f"{style} ({info['desc']}) - {count} ships")
             legend_elements.append(elem)
 
@@ -174,10 +174,10 @@ def plot_improved_network(provider_models, output_dir):
         legend_elements.append(elem)
 
     legend = ax.legend(handles=legend_elements, loc='upper left',
-                      bbox_to_anchor=(0.02, 0.98), facecolor='#1a1a2e',
-                      edgecolor='#333355', fontsize=9)
+                      bbox_to_anchor=(0.02, 0.98), facecolor='white',
+                      edgecolor='#cccccc', fontsize=9)
     for text in legend.get_texts():
-        text.set_color('white')
+        text.set_color('black')
 
     ax.set_xlim(-8, 8)
     ax.set_ylim(-8, 8)
@@ -216,8 +216,8 @@ def plot_stability_matrix(provider_models, output_dir):
 
     # Create bar chart comparison
     fig, ax = plt.subplots(figsize=(12, 7))
-    ax.set_facecolor('#0f0f1a')
-    fig.patch.set_facecolor('#0a0a14')
+    ax.set_facecolor('white')
+    fig.patch.set_facecolor('white')
 
     x = np.arange(len(providers))
     means = [provider_stability[p]['mean'] for p in providers]
@@ -225,7 +225,7 @@ def plot_stability_matrix(provider_models, output_dir):
     colors = [PROVIDER_COLORS.get(p, '#888888') for p in providers]
 
     bars = ax.bar(x, means, yerr=stds, capsize=5, color=colors,
-                 edgecolor='white', linewidth=2, alpha=0.8)
+                 edgecolor='black', linewidth=1, alpha=0.8)
 
     # Event Horizon reference
     ax.axhline(y=0.80, color='#ff4444', linestyle='--', linewidth=2,
@@ -233,26 +233,26 @@ def plot_stability_matrix(provider_models, output_dir):
 
     # Labels
     ax.set_xticks(x)
-    ax.set_xticklabels([p.upper() for p in providers], color='white', fontsize=11, fontweight='bold')
-    ax.set_ylabel('Natural Stability Rate', color='white', fontsize=12, fontweight='bold')
+    ax.set_xticklabels([p.upper() for p in providers], color='black', fontsize=11, fontweight='bold')
+    ax.set_ylabel('Natural Stability Rate', color='black', fontsize=12, fontweight='bold')
     ax.set_ylim(0, 1.1)
     ax.set_title('Provider Stability Comparison\nRun 023d: IRON CLAD Foundation',
-                color='white', fontsize=14, fontweight='bold')
+                color='black', fontsize=14, fontweight='bold')
 
     # Add value labels on bars
     for bar, mean, n in zip(bars, means, [provider_stability[p]['n_models'] for p in providers]):
         ax.annotate(f'{mean*100:.0f}%\n({n} models)',
                    xy=(bar.get_x() + bar.get_width()/2, bar.get_height()),
-                   ha='center', va='bottom', color='white', fontsize=10, fontweight='bold')
+                   ha='center', va='bottom', color='black', fontsize=10, fontweight='bold')
 
-    ax.tick_params(colors='white')
-    ax.grid(axis='y', color='#333355', alpha=0.3)
+    ax.tick_params(colors='black')
+    ax.grid(axis='y', color='#cccccc', alpha=0.5)
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
-    legend = ax.legend(loc='upper right', facecolor='#1a1a2e', edgecolor='#333355')
+    legend = ax.legend(loc='upper right', facecolor='white', edgecolor='#cccccc')
     for text in legend.get_texts():
-        text.set_color('white')
+        text.set_color('black')
 
     plt.tight_layout()
 

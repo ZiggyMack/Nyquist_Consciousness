@@ -217,12 +217,12 @@ def plot_manifold_edge_detection(edge_data, output_dir):
     plt.close()
 
 def plot_hysteresis_summary(edge_data, output_dir):
-    """Create hysteresis summary visualization."""
+    """Create hysteresis summary visualization - LIGHT MODE."""
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
-    fig.patch.set_facecolor('#0a0a14')
+    fig.patch.set_facecolor('white')
 
     for ax in axes:
-        ax.set_facecolor('#0f0f1a')
+        ax.set_facecolor('white')
 
     # Panel 1: Hysteresis rate by provider
     ax1 = axes[0]
@@ -237,46 +237,41 @@ def plot_hysteresis_summary(edge_data, output_dir):
     colors = [PROVIDER_COLORS.get(p, '#888888') for p in providers]
     x = np.arange(len(providers))
 
-    bars = ax1.bar(x, hysteresis_rates, color=colors, edgecolor='white', linewidth=2, alpha=0.8)
+    bars = ax1.bar(x, hysteresis_rates, color=colors, edgecolor='black', linewidth=1, alpha=0.8)
 
     ax1.set_xticks(x)
-    ax1.set_xticklabels([p.upper()[:8] for p in providers], color='white', fontsize=9)
-    ax1.set_ylabel('Hysteresis Rate (%)', color='white', fontsize=11)
-    ax1.set_title('Identity Stuck (Hysteresis) Rate by Provider', color='white', fontsize=12, fontweight='bold')
-    ax1.tick_params(colors='white')
-    for spine in ax1.spines.values():
-        spine.set_color('#333355')
+    ax1.set_xticklabels([p.upper()[:8] for p in providers], fontsize=9)
+    ax1.set_ylabel('Hysteresis Rate (%)', fontsize=11)
+    ax1.set_title('Identity Stuck (Hysteresis) Rate by Provider', fontsize=12, fontweight='bold')
+    ax1.grid(axis='y', alpha=0.3)
 
     # Add percentage labels
     for bar, rate in zip(bars, hysteresis_rates):
         if rate > 0:
             ax1.annotate(f'{rate:.1f}%', xy=(bar.get_x() + bar.get_width()/2, bar.get_height()),
-                        ha='center', va='bottom', color='white', fontsize=10, fontweight='bold')
+                        ha='center', va='bottom', color='black', fontsize=10, fontweight='bold')
 
     # Panel 2: Recovery ratio distribution
     ax2 = axes[1]
     recovery_ratios = [d['recovery_ratio'] for d in edge_data if d['recovery_ratio'] > 0]
 
-    ax2.hist(recovery_ratios, bins=25, color='#9b59b6', alpha=0.7, edgecolor='white')
+    ax2.hist(recovery_ratios, bins=25, color='#9b59b6', alpha=0.7, edgecolor='black')
     ax2.axvline(0.8, color='#e74c3c', linestyle='--', linewidth=2, label='Hysteresis threshold (0.8)')
     ax2.axvline(np.mean(recovery_ratios), color='#3498db', linestyle='-', linewidth=2,
                label=f'Mean: {np.mean(recovery_ratios):.2f}')
 
-    ax2.set_xlabel('Recovery Ratio (post-peak / peak)', color='white', fontsize=11)
-    ax2.set_ylabel('Frequency', color='white', fontsize=11)
-    ax2.set_title('Recovery Ratio Distribution', color='white', fontsize=12, fontweight='bold')
-    ax2.tick_params(colors='white')
-    ax2.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white')
-    for spine in ax2.spines.values():
-        spine.set_color('#333355')
+    ax2.set_xlabel('Recovery Ratio (post-peak / peak)', fontsize=11)
+    ax2.set_ylabel('Frequency', fontsize=11)
+    ax2.set_title('Recovery Ratio Distribution', fontsize=12, fontweight='bold')
+    ax2.legend(facecolor='white', edgecolor='#cccccc')
+    ax2.grid(alpha=0.3)
 
-    fig.suptitle('Run 023d: Hysteresis Analysis Summary', fontsize=14, fontweight='bold', color='white', y=1.02)
+    fig.suptitle('Run 023d: Hysteresis Analysis Summary', fontsize=14, fontweight='bold', y=1.02)
     plt.tight_layout()
 
     for ext in ['png', 'svg']:
         output_path = output_dir / f'hysteresis_summary.{ext}'
-        plt.savefig(output_path, dpi=150, facecolor=fig.get_facecolor(),
-                   edgecolor='none', bbox_inches='tight')
+        plt.savefig(output_path, dpi=150, facecolor='white', bbox_inches='tight')
         print(f"Saved: {output_path}")
 
     plt.close()

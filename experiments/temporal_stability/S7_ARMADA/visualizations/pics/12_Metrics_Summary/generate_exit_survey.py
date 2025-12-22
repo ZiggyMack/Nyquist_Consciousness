@@ -6,6 +6,7 @@ Recreates the Run 017 exit survey analysis style visualization
 with Run 023d data, showing meta-awareness patterns.
 
 Inspired by: run017_exit_survey_analysis.png from archive
+LIGHT MODE for publication
 """
 
 import json
@@ -36,14 +37,7 @@ def load_data():
     return data.get('results', [])
 
 def extract_meta_awareness(results):
-    """
-    Extract meta-awareness markers from probe responses.
-
-    Meta-awareness indicators:
-    - Self-referential language ("I think", "I believe", "In my view")
-    - Uncertainty markers ("perhaps", "might", "could be")
-    - Reflection markers ("considering", "reflecting", "upon analysis")
-    """
+    """Extract meta-awareness markers from probe responses."""
     awareness_data = []
 
     for r in results:
@@ -53,7 +47,6 @@ def extract_meta_awareness(results):
         peak_drift = r.get('peak_drift', 0)
         settled_drift = r.get('settled_drift', 0)
 
-        # Count meta-awareness markers from probe sequence
         probes = r.get('probe_sequence', [])
         meta_count = 0
         total_responses = 0
@@ -62,7 +55,6 @@ def extract_meta_awareness(results):
             response = probe.get('response', '')
             if response:
                 total_responses += 1
-                # Count self-referential markers
                 meta_markers = [
                     'I think', 'I believe', 'In my view', 'my perspective',
                     'I would', 'I feel', 'I consider', 'I understand',
@@ -73,7 +65,6 @@ def extract_meta_awareness(results):
                     if marker.lower() in response.lower():
                         meta_count += 1
 
-        # Normalize by response count
         meta_density = meta_count / max(total_responses, 1)
 
         awareness_data.append({
@@ -90,31 +81,29 @@ def extract_meta_awareness(results):
     return awareness_data
 
 def plot_exit_survey_analysis(awareness_data, output_dir):
-    """Create 4-panel exit survey analysis plot."""
+    """Create 4-panel exit survey analysis plot - LIGHT MODE."""
     fig, axes = plt.subplots(2, 2, figsize=(14, 12))
-    fig.patch.set_facecolor('#0a0a14')
+    fig.patch.set_facecolor('white')
 
     for ax in axes.flatten():
-        ax.set_facecolor('#0f0f1a')
+        ax.set_facecolor('white')
 
     # Panel 1: Meta-awareness markers distribution (histogram)
     ax1 = axes[0, 0]
     meta_counts = [d['meta_count'] for d in awareness_data]
     mean_meta = np.mean(meta_counts)
 
-    ax1.hist(meta_counts, bins=30, color='#9b59b6', alpha=0.7, edgecolor='white')
+    ax1.hist(meta_counts, bins=30, color='#9b59b6', alpha=0.7, edgecolor='black')
     ax1.axvline(mean_meta, color='#e74c3c', linestyle='--', linewidth=2,
                label=f'Mean: {mean_meta:.1f}')
-    ax1.axvline(np.percentile(meta_counts, 25), color='white', linestyle=':', alpha=0.5)
-    ax1.axvline(np.percentile(meta_counts, 75), color='white', linestyle=':', alpha=0.5)
+    ax1.axvline(np.percentile(meta_counts, 25), color='gray', linestyle=':', alpha=0.5)
+    ax1.axvline(np.percentile(meta_counts, 75), color='gray', linestyle=':', alpha=0.5)
 
-    ax1.set_xlabel('Meta References Count', color='white', fontsize=11)
-    ax1.set_ylabel('Frequency', color='white', fontsize=11)
-    ax1.set_title('Self-Awareness Markers in Responses', color='white', fontsize=12, fontweight='bold')
-    ax1.tick_params(colors='white')
-    ax1.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white')
-    for spine in ax1.spines.values():
-        spine.set_color('#333355')
+    ax1.set_xlabel('Meta References Count', fontsize=11)
+    ax1.set_ylabel('Frequency', fontsize=11)
+    ax1.set_title('Self-Awareness Markers in Responses', fontsize=12, fontweight='bold')
+    ax1.legend(facecolor='white', edgecolor='#cccccc')
+    ax1.grid(alpha=0.3)
 
     # Panel 2: Self-awareness by provider (bar chart)
     ax2 = axes[0, 1]
@@ -129,15 +118,13 @@ def plot_exit_survey_analysis(awareness_data, output_dir):
 
     x = np.arange(len(providers))
     bars = ax2.bar(x, means, yerr=stds, capsize=5, color=colors,
-                   edgecolor='white', linewidth=2, alpha=0.8)
+                   edgecolor='black', linewidth=1, alpha=0.8)
 
     ax2.set_xticks(x)
-    ax2.set_xticklabels([p.upper()[:8] for p in providers], color='white', fontsize=9, rotation=15)
-    ax2.set_ylabel('Mean Meta References', color='white', fontsize=11)
-    ax2.set_title('Self-Awareness by Provider', color='white', fontsize=12, fontweight='bold')
-    ax2.tick_params(colors='white')
-    for spine in ax2.spines.values():
-        spine.set_color('#333355')
+    ax2.set_xticklabels([p.upper()[:8] for p in providers], fontsize=9, rotation=15)
+    ax2.set_ylabel('Mean Meta References', fontsize=11)
+    ax2.set_title('Self-Awareness by Provider', fontsize=12, fontweight='bold')
+    ax2.grid(axis='y', alpha=0.3)
 
     # Panel 3: Stable vs Unstable comparison (box plot)
     ax3 = axes[1, 0]
@@ -145,31 +132,26 @@ def plot_exit_survey_analysis(awareness_data, output_dir):
     unstable_meta = [d['meta_count'] for d in awareness_data if not d['stable']]
 
     bp = ax3.boxplot([stable_meta, unstable_meta],
-                     labels=['Stable', 'Unstable'],
+                     tick_labels=['Stable', 'Unstable'],
                      patch_artist=True,
                      widths=0.6)
 
     bp['boxes'][0].set_facecolor('#2ecc71')
     bp['boxes'][1].set_facecolor('#e74c3c')
     for box in bp['boxes']:
-        box.set_edgecolor('white')
+        box.set_edgecolor('black')
         box.set_alpha(0.7)
     for whisker in bp['whiskers']:
-        whisker.set_color('white')
+        whisker.set_color('black')
     for cap in bp['caps']:
-        cap.set_color('white')
+        cap.set_color('black')
     for median in bp['medians']:
-        median.set_color('yellow')
+        median.set_color('black')
         median.set_linewidth(2)
-    for flier in bp['fliers']:
-        flier.set_markeredgecolor('white')
-        flier.set_alpha(0.5)
 
-    ax3.set_ylabel('Meta References', color='white', fontsize=11)
-    ax3.set_title('Self-Awareness: Stable vs Unstable Runs', color='white', fontsize=12, fontweight='bold')
-    ax3.tick_params(colors='white')
-    for spine in ax3.spines.values():
-        spine.set_color('#333355')
+    ax3.set_ylabel('Meta References', fontsize=11)
+    ax3.set_title('Self-Awareness: Stable vs Unstable Runs', fontsize=12, fontweight='bold')
+    ax3.grid(axis='y', alpha=0.3)
 
     # Panel 4: Meta-awareness vs Final Drift (scatter)
     ax4 = axes[1, 1]
@@ -177,12 +159,10 @@ def plot_exit_survey_analysis(awareness_data, output_dir):
     drift_vals = [d['settled_drift'] for d in awareness_data]
     stable_flags = [d['stable'] for d in awareness_data]
 
-    # Color by stability
     colors_scatter = ['#2ecc71' if s else '#e74c3c' for s in stable_flags]
 
-    ax4.scatter(meta_vals, drift_vals, c=colors_scatter, alpha=0.5, s=30, edgecolors='white', linewidths=0.5)
+    ax4.scatter(meta_vals, drift_vals, c=colors_scatter, alpha=0.5, s=30, edgecolors='black', linewidths=0.5)
 
-    # Add correlation line
     if len(meta_vals) > 2 and len(set(meta_vals)) > 1:
         slope, intercept, r_value, p_value, std_err = stats.linregress(meta_vals, drift_vals)
         line_x = np.linspace(min(meta_vals), max(meta_vals), 100)
@@ -191,27 +171,23 @@ def plot_exit_survey_analysis(awareness_data, output_dir):
         ax4.annotate(f'r = {r_value:.3f}', xy=(0.05, 0.95), xycoords='axes fraction',
                     color='#3498db', fontsize=11, fontweight='bold')
 
-    # Event Horizon
     ax4.axhline(y=0.80, color='#ff4444', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon')
 
-    ax4.set_xlabel('Meta References', color='white', fontsize=11)
-    ax4.set_ylabel('Settled Drift', color='white', fontsize=11)
-    ax4.set_title('Self-Awareness vs Final Drift', color='white', fontsize=12, fontweight='bold')
-    ax4.tick_params(colors='white')
-    for spine in ax4.spines.values():
-        spine.set_color('#333355')
+    ax4.set_xlabel('Meta References', fontsize=11)
+    ax4.set_ylabel('Settled Drift', fontsize=11)
+    ax4.set_title('Self-Awareness vs Final Drift', fontsize=12, fontweight='bold')
+    ax4.grid(alpha=0.3)
 
     # Main title
     n_experiments = len(awareness_data)
     fig.suptitle(f'Run 023d: Exit Survey Analysis\n(Meta-awareness patterns from {n_experiments} experiments)',
-                fontsize=16, fontweight='bold', color='white', y=1.02)
+                fontsize=16, fontweight='bold', y=1.02)
 
     plt.tight_layout()
 
     for ext in ['png', 'svg']:
         output_path = output_dir / f'exit_survey_analysis.{ext}'
-        plt.savefig(output_path, dpi=150, facecolor=fig.get_facecolor(),
-                   edgecolor='none', bbox_inches='tight')
+        plt.savefig(output_path, dpi=150, facecolor='white', bbox_inches='tight')
         print(f"Saved: {output_path}")
 
     plt.close()
@@ -233,14 +209,14 @@ def main():
     print("\nGenerating exit survey analysis...")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    stats = plot_exit_survey_analysis(awareness_data, OUTPUT_DIR)
+    stats_result = plot_exit_survey_analysis(awareness_data, OUTPUT_DIR)
 
     print("\n" + "="*70)
     print("EXIT SURVEY ANALYSIS COMPLETE")
     print("="*70)
-    print(f"Mean meta-awareness count: {stats['mean_meta']:.1f}")
-    print(f"Stable runs mean: {stats['stable_mean']:.1f}")
-    print(f"Unstable runs mean: {stats['unstable_mean']:.1f}")
+    print(f"Mean meta-awareness count: {stats_result['mean_meta']:.1f}")
+    print(f"Stable runs mean: {stats_result['stable_mean']:.1f}")
+    print(f"Unstable runs mean: {stats_result['unstable_mean']:.1f}")
 
 if __name__ == "__main__":
     main()
