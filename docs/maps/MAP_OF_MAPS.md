@@ -125,6 +125,8 @@ keywords:
 | **VALIDATION_STATUS.md** | Progress Tracker | Layer-by-layer validation, S7 98% complete, 82% inherent drift |
 | **TESTABLE_PREDICTIONS_MATRIX.md** | Claim Registry | 46 predictions, P1-P46, status badges, confidence tiers |
 
+**📐 METHODOLOGY NOTE:** Predictions are validated under different methodologies (Keyword RMS, Euclidean, Cosine). Each methodology has its own Event Horizon threshold. For the ONE SOURCE OF TRUTH on methodology domains, see **[5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md)**.
+
 **The Proof** - Publication-ready evidence lives here. Claims without entries here are speculation.
 
 ---
@@ -360,11 +362,15 @@ START                                                                    INSIGHT
 ╠═══════════════════════════════════════════════════════════════╣
 ║  KEY FINDINGS (VALIDATED)                                     ║
 ║                                                               ║
-║  Event Horizon......................... D = 1.23              ║
+║  Event Horizon (Keyword RMS)........... D = 1.23              ║
+║  Event Horizon (Cosine)................ D = 0.80              ║
 ║  Inherent Drift........................ 82%                   ║
 ║  Stability with Context................ 97.5%                 ║
 ║  Prediction Accuracy................... 88%                   ║
 ║  Chi-squared p-value................... 0.000048              ║
+║  90% Variance PCs (Cosine)............. 2 (Run 023d)          ║
+║                                                               ║
+║  📐 See 5_METHODOLOGY_DOMAINS.md for methodology context      ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
@@ -452,6 +458,6 @@ When creating a new map:
 
 ---
 
-*Last Updated: 2025-12-15*
+*Last Updated: 2025-12-22*
 *Maps Count: 22*
 *Territory: The Mind*

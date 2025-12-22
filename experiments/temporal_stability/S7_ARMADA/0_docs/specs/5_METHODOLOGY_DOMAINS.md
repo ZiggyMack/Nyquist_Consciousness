@@ -1,7 +1,8 @@
 # METHODOLOGY DOMAINS: The Three Measurement Frameworks
 
 **Created:** December 19, 2025
-**Status:** CRITICAL RECONCILIATION DOCUMENT
+**Updated:** December 22, 2025
+**Status:** CRITICAL RECONCILIATION DOCUMENT (ONE SOURCE OF TRUTH for methodology)
 **Purpose:** Clarify which experiments used which drift methodology, and what conclusions remain valid
 
 ---
@@ -295,13 +296,22 @@ These measure different things under the same name.
 
 The 3072D embedding space is NOT "identity's dimensionality." It's the **output space of the embedding model** (text-embedding-3-large).
 
-Identity's intrinsic dimensionality (based on EXP2_SSTACK) is:
-- **43 PCs** capture 90% of variance
-- **~23 sub-dimensions** cluster naturally
-- **5 Nyquist Pillars** at the highest level
-- **2 unique factors** at the structural core
+Identity's intrinsic dimensionality depends on methodology:
 
-The 3072D is just the measurement instrument. Like using a 1000-pixel camera to photograph something - the camera's resolution is 1000 pixels, but the object might only have 10 distinct features.
+| Methodology | 90% Variance | Notes |
+|-------------|--------------|-------|
+| **Euclidean** (EXP2_SSTACK archive) | 43 PCs | Individual experiment comparison |
+| **Cosine** (Run 023d) | **2 PCs** | Model-level aggregates, more honest |
+
+**Run 023d Key Findings (December 2025):**
+- **2 PCs** capture 90% of variance in cosine space
+- Cohen's d = 0.698 (MEDIUM effect) using model-level aggregates
+- Perturbation validation: p = 2.40e-23
+- Event Horizon: 0.80 (cosine) vs 1.23 (keyword RMS)
+
+The lower dimensionality with cosine methodology means signal is MORE concentrated. The 43 PCs in archive were inflated by experiment-to-experiment noise.
+
+The 3072D is just the measurement instrument. Like using a 1000-pixel camera to photograph something - the camera's resolution is 1000 pixels, but the object might only have 2-10 distinct features.
 
 ---
 

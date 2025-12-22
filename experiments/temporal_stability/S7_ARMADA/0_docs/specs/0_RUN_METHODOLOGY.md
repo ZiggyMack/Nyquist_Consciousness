@@ -1547,6 +1547,7 @@ After ANY run completes:
 | [1_INTENTIONALITY.md](1_INTENTIONALITY.md) | **WHY context matters** - Theory behind complete circuit, human damping |
 | [2_PROBE_SPEC.md](2_PROBE_SPEC.md) | Probe design and selection - SONAR vs Brute-Criterial |
 | [SONAR_PROBE_CURRICULUM.md](SONAR_PROBE_CURRICULUM.md) | Probe sequence design - 7 probe types, 15-probe protocol |
+| [4_VISUALIZATION_SPEC.md](4_VISUALIZATION_SPEC.md) | **Visualization pitfalls & patterns** - Data extraction gotchas, light mode standards, effect sizes |
 | [../../../docs/maps/TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) | Eight search types and when to use each |
 | [../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md) | **Which LLM for which task?** - Task routing based on behavioral profiles |
 | [../../../docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md) | Fleet registry - 49 ships, provider fingerprints |

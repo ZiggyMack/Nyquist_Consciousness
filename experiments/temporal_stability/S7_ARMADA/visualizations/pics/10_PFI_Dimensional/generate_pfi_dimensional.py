@@ -631,37 +631,58 @@ def generate_phase3b_crossmodel(probe_data, results):
 
 
 def calculate_within_cross_distances(results):
-    """Calculate within-provider and cross-provider drift distances."""
-    # Group results by provider
-    by_provider = defaultdict(list)
+    """Calculate within-provider and cross-provider drift distances.
+
+    Uses MODEL-LEVEL aggregates (mean peak_drift per model) rather than
+    individual experiments. This gives more meaningful comparison of
+    identity differences between models rather than random experiment variance.
+    """
+    # Group results by (provider, model) and compute mean peak_drift per model
+    model_drifts = defaultdict(list)
     for r in results:
         provider = r.get('provider', 'unknown')
-        by_provider[provider].append(r.get('peak_drift', 0))
+        model = r.get('model', 'unknown')
+        peak_drift = r.get('peak_drift', 0)
+        model_drifts[(provider, model)].append(peak_drift)
 
-    # Within-provider: variance within each provider
+    # Compute mean drift per model
+    model_means = {}
+    for (provider, model), drifts in model_drifts.items():
+        model_means[(provider, model)] = np.mean(drifts)
+
+    # Group models by provider
+    by_provider = defaultdict(list)
+    for (provider, model), mean_drift in model_means.items():
+        by_provider[provider].append((model, mean_drift))
+
+    # Within-provider: pairwise differences between models of SAME provider
     within_distances = []
-    for provider, drifts in by_provider.items():
-        if len(drifts) > 1:
-            # Pairwise differences within provider
-            for i in range(len(drifts)):
-                for j in range(i+1, len(drifts)):
-                    within_distances.append(abs(drifts[i] - drifts[j]))
+    for provider, models in by_provider.items():
+        if len(models) > 1:
+            for i in range(len(models)):
+                for j in range(i+1, len(models)):
+                    diff = abs(models[i][1] - models[j][1])
+                    within_distances.append(diff)
 
-    # Cross-provider: differences between providers
+    # Cross-provider: pairwise differences between models of DIFFERENT providers
     cross_distances = []
     providers = list(by_provider.keys())
     for i in range(len(providers)):
         for j in range(i+1, len(providers)):
-            for d1 in by_provider[providers[i]][:20]:  # Limit for speed
-                for d2 in by_provider[providers[j]][:20]:
-                    cross_distances.append(abs(d1 - d2))
+            for (model_i, drift_i) in by_provider[providers[i]]:
+                for (model_j, drift_j) in by_provider[providers[j]]:
+                    diff = abs(drift_i - drift_j)
+                    cross_distances.append(diff)
+
+    print(f"  Within-provider pairs: {len(within_distances)}, Cross-provider pairs: {len(cross_distances)}")
+    print(f"  Within mean: {np.mean(within_distances):.4f}, Cross mean: {np.mean(cross_distances):.4f}")
 
     return within_distances, cross_distances
 
 
 def generate_cross_model_comparison(probe_data, results, output_dir):
-    """Generate within vs cross-provider comparison box plot - LIGHT MODE."""
-    fig, ax = plt.subplots(figsize=(10, 7))
+    """Generate within vs cross-provider comparison with violin + strip plot - LIGHT MODE."""
+    fig, ax = plt.subplots(figsize=(12, 8))
     fig.patch.set_facecolor('white')
     ax.set_facecolor('white')
 
@@ -671,41 +692,80 @@ def generate_cross_model_comparison(probe_data, results, output_dir):
     pooled_std = np.sqrt((np.var(within_dists) + np.var(cross_dists)) / 2)
     cohens_d = (np.mean(cross_dists) - np.mean(within_dists)) / pooled_std if pooled_std > 0 else 0
 
-    # Box plot
-    data = [within_dists, cross_dists]
-    positions = [1, 2]
-
-    bp = ax.boxplot(data, positions=positions, patch_artist=True, widths=0.6)
+    # Calculate stats for display
+    within_mean, within_std = np.mean(within_dists), np.std(within_dists)
+    cross_mean, cross_std = np.mean(cross_dists), np.std(cross_dists)
 
     colors = ['#4285F4', '#E07B53']
-    for patch, color in zip(bp['boxes'], colors):
-        patch.set_facecolor(color)
-        patch.set_alpha(0.7)
+    positions = [1, 2]
+    data = [within_dists, cross_dists]
 
-    for element in ['whiskers', 'caps', 'medians']:
-        for item in bp[element]:
-            item.set_color('black')
+    # Violin plot for distribution shape
+    parts = ax.violinplot(data, positions=positions, widths=0.7, showmeans=False,
+                          showmedians=False, showextrema=False)
+
+    for i, pc in enumerate(parts['bodies']):
+        pc.set_facecolor(colors[i])
+        pc.set_alpha(0.3)
+        pc.set_edgecolor(colors[i])
+        pc.set_linewidth(2)
+
+    # Add jittered strip plot (sample for visibility)
+    np.random.seed(42)
+    for i, (d, pos, color) in enumerate(zip(data, positions, colors)):
+        # Sample if too many points
+        sample_size = min(200, len(d))
+        sample_idx = np.random.choice(len(d), sample_size, replace=False)
+        sampled = [d[j] for j in sample_idx]
+
+        # Add jitter
+        jitter = np.random.normal(0, 0.08, len(sampled))
+        x = [pos + j for j in jitter]
+
+        ax.scatter(x, sampled, c=color, alpha=0.4, s=15, edgecolor='none', zorder=2)
+
+    # Add mean ± std error bars (prominent)
+    for i, (mean, std, pos, color) in enumerate(zip([within_mean, cross_mean],
+                                                     [within_std, cross_std],
+                                                     positions, colors)):
+        # Mean marker (large diamond)
+        ax.scatter([pos], [mean], c='white', s=200, marker='D', edgecolor=color,
+                   linewidth=3, zorder=10, label=f'Mean' if i == 0 else None)
+
+        # Std error bars
+        ax.errorbar(pos, mean, yerr=std, fmt='none', ecolor='black',
+                    elinewidth=2, capsize=8, capthick=2, zorder=9)
+
+        # Annotate mean ± std
+        ax.annotate(f'μ={mean:.3f}\nσ={std:.3f}',
+                    xy=(pos, mean + std + 0.05), ha='center', va='bottom',
+                    fontsize=10, color='black', fontweight='bold',
+                    bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
+                              edgecolor=color, alpha=0.9))
 
     ax.set_xticks(positions)
     ax.set_xticklabels(['Within-Provider\n(same family)', 'Cross-Provider\n(different families)'],
-                       fontsize=11, color='black')
+                       fontsize=12, color='black', fontweight='bold')
     ax.set_ylabel('Drift Difference (|d1 - d2|)', fontsize=12, color='black')
     ax.set_title(f"Cross-Model Comparison (Cohen's d = {cohens_d:.3f})\n" +
                  '(d > 0.8 = LARGE effect = genuine identity differences)',
-                 fontsize=13, color='black', fontweight='bold')
+                 fontsize=14, color='black', fontweight='bold')
 
+    ax.set_xlim(0.3, 2.7)
     ax.grid(True, alpha=0.3, axis='y')
     ax.tick_params(colors='black')
 
     for spine in ax.spines.values():
         spine.set_color('#cccccc')
 
-    # Effect size interpretation
+    # Effect size interpretation (larger, more prominent)
     effect_label = "LARGE" if cohens_d >= 0.8 else "MEDIUM" if cohens_d >= 0.5 else "SMALL"
-    ax.text(0.98, 0.98, f"Cohen's d = {cohens_d:.3f}\n({effect_label} effect)",
-            transform=ax.transAxes, fontsize=12, color='#27ae60' if cohens_d >= 0.8 else 'black',
-            verticalalignment='top', horizontalalignment='right',
-            bbox=dict(boxstyle='round', facecolor='white', edgecolor='#cccccc', alpha=0.9))
+    box_color = '#27ae60' if cohens_d >= 0.8 else '#f39c12' if cohens_d >= 0.5 else '#e74c3c'
+    ax.text(0.98, 0.98, f"Cohen's d = {cohens_d:.3f}\n({effect_label} effect)\n\n" +
+            f"Separation:\n{cross_mean - within_mean:.3f}",
+            transform=ax.transAxes, fontsize=12, color=box_color,
+            verticalalignment='top', horizontalalignment='right', fontweight='bold',
+            bbox=dict(boxstyle='round', facecolor='white', edgecolor=box_color, alpha=0.95, linewidth=2))
 
     plt.tight_layout()
 

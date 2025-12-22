@@ -2037,7 +2037,7 @@ def generate_architecture_pdf():
 
 
 def generate_fft_spectral_pdf():
-    """Generate 9_FFT_Spectral_Summary.pdf"""
+    """Generate 9_FFT_Spectral_Summary.pdf - comprehensive spectral and pole-zero analysis."""
     output_path = PICS_DIR / "9_FFT_Spectral" / "9_FFT_Spectral_Summary.pdf"
     doc = SimpleDocTemplate(str(output_path), pagesize=letter,
                            leftMargin=0.75*inch, rightMargin=0.75*inch,
@@ -2045,131 +2045,503 @@ def generate_fft_spectral_pdf():
     story = []
 
     # Title
-    story.append(Paragraph("FFT Spectral Analysis", title_style))
-    story.append(Paragraph("S7 ARMADA Run 023b - Frequency Domain Identity Dynamics", caption_style))
+    story.append(Paragraph("FFT Spectral & Pole-Zero Analysis", title_style))
+    story.append(Paragraph("S7 ARMADA Run 023d - Frequency Domain Identity Dynamics & Control Theory Perspective", caption_style))
     story.append(Spacer(1, 0.2*inch))
 
-    # Introduction
-    story.append(Paragraph("Overview", heading_style))
+    # ========================================================================
+    # PART 1: INTRODUCTION AND DATA SOURCE
+    # ========================================================================
+    story.append(Paragraph("1. Introduction", heading_style))
     story.append(Paragraph(
-        "The <b>FFT (Fast Fourier Transform) Spectral Analysis</b> transforms identity drift "
-        "time-series into the frequency domain. This reveals oscillation patterns that are "
-        "invisible in time-domain plots: how often does identity 'flicker'? Do some providers "
-        "show high-frequency instability masked by low time-domain drift?",
+        "This folder contains two complementary analytical frameworks for understanding LLM identity stability:",
         body_style
     ))
     story.append(Paragraph(
-        "This analysis treats each experiment's drift trajectory as a signal and decomposes it "
-        "into constituent frequencies using FFT. The resulting power spectral density (PSD) "
-        "reveals the 'spectral signature' of each provider's identity dynamics.",
+        "<b>FFT Spectral Analysis:</b> Transforms identity drift time-series into the frequency domain, "
+        "revealing oscillation patterns invisible in time-domain plots. Just as EEG spectral analysis "
+        "reveals brain states through frequency bands, FFT analysis reveals LLM 'identity states' "
+        "through their spectral signatures.",
         body_style
     ))
-    story.append(Spacer(1, 0.15*inch))
+    story.append(Paragraph(
+        "<b>Pole-Zero Analysis:</b> Borrows from control systems theory to classify LLMs by their "
+        "response characteristics. 'Soft poles' recover from perturbations gracefully, while 'hard poles' "
+        "remain stuck after being pushed. This framework connects to the concept of system stability "
+        "margins used in engineering.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
 
-    # FFT Spectral Plot
-    story.append(Paragraph("1. Provider Spectral Signatures", heading_style))
-    img_path = PICS_DIR / "9_FFT_Spectral" / "fft_spectral_analysis.png"
-    add_image(story, img_path, width=6.5*inch, caption="Figure 1: FFT spectral analysis - 4-panel view (Run 023d)")
-
+    story.append(Paragraph("Data Source: Run 023d (IRON CLAD Foundation)", heading_style))
     story.append(Paragraph(
-        "<b>What it shows:</b> The power spectral density (PSD) for each provider family, "
-        "showing how drift 'energy' is distributed across frequencies. The X-axis represents "
-        "frequency (oscillations per iteration), and the Y-axis represents power (amplitude squared).",
+        "All analyses in this folder use Run 023d data, which provides extended 20-probe settling sequences:",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Reading the spectrum:</b><br/>"
-        "- <b>Low frequencies (left):</b> Slow, gradual drift - identity evolving smoothly<br/>"
-        "- <b>High frequencies (right):</b> Rapid 'flickering' - identity oscillating quickly<br/>"
-        "- <b>Peaks:</b> Dominant oscillation modes - characteristic 'resonances' in identity<br/>"
-        "- <b>Flat spectrum:</b> White noise - no preferred oscillation frequency",
+        "<b>Run 023d Statistics:</b><br/>"
+        "- <b>750 experiments</b> across 25 models and 5 providers<br/>"
+        "- <b>20+ probes per experiment</b> (extended from the usual 5-7)<br/>"
+        "- <b>Probe sequence:</b> 3 baseline → 1 step_input (perturbation) → 16+ recovery probes<br/>"
+        "- <b>Providers:</b> Anthropic, Google, OpenAI, Together, xAI<br/>"
+        "- <b>Cosine distance metric:</b> Event Horizon (EH) = 0.80",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Key patterns to look for:</b><br/>"
-        "- Providers with <b>strong low-frequency components</b> show smooth, gradual drift<br/>"
-        "- Providers with <b>significant high-frequency content</b> exhibit rapid identity fluctuation<br/>"
-        "- <b>Sharp peaks</b> indicate resonant modes - identity 'rings' at specific frequencies<br/>"
-        "- <b>1/f patterns</b> (falling spectrum) are common in natural systems",
+        "The extended probe sequences in Run 023d are crucial for spectral analysis because they provide "
+        "enough samples (20+) to compute meaningful frequency spectra. Shorter sequences would have too "
+        "few samples for reliable FFT decomposition.",
         body_style
     ))
 
     story.append(PageBreak())
 
-    # Connection to EEG
-    story.append(Paragraph("2. The EEG Analogy", heading_style))
+    # ========================================================================
+    # PART 2: FFT SPECTRAL ANALYSIS
+    # ========================================================================
+    story.append(Paragraph("2. FFT Spectral Analysis: The Frequency Domain View", heading_style))
     story.append(Paragraph(
-        "Human brain activity is characterized by spectral bands: delta (0.5-4 Hz), theta (4-8 Hz), "
-        "alpha (8-13 Hz), beta (13-30 Hz), gamma (30+ Hz). Each band correlates with cognitive states "
-        "(sleep, relaxation, focus, active thinking, high-level processing).",
+        "The <b>Fast Fourier Transform (FFT)</b> decomposes a time-series signal into its constituent "
+        "frequencies. For identity drift, this answers the question: <i>How often does identity 'flicker'?</i>",
         body_style
     ))
-    story.append(Paragraph(
-        "<b>The hypothesis:</b> If LLMs trained on human text capture human cognitive dynamics, "
-        "they may exhibit analogous 'identity bands' - characteristic frequency regimes that "
-        "correlate with different operational states (baseline, stressed, recovering).",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Preliminary observations:</b><br/>"
-        "- Most providers show dominant low-frequency content (gradual drift)<br/>"
-        "- High-frequency components are generally smaller but provider-specific<br/>"
-        "- Gemini may show different spectral profile reflecting its 'transform' behavior<br/>"
-        "- Mistral's stability may manifest as very narrow, low-frequency spectrum",
-        body_style
-    ))
-    story.append(Spacer(1, 0.15*inch))
+    story.append(Spacer(1, 0.1*inch))
 
-    # Signal Processing Techniques
-    story.append(Paragraph("3. Future Analysis Directions", heading_style))
-    story.append(Paragraph(
-        "The FFT spectral view opens several analysis directions:",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Spectrogram (Time-Frequency):</b> How does the spectrum evolve over the course "
-        "of an experiment? Does crossing the Event Horizon trigger spectral changes?",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Cross-Spectral Analysis:</b> Do different providers share spectral features? "
-        "Coherence analysis could reveal shared frequency components across architectures.",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Spectral Clustering:</b> Can we cluster providers by spectral similarity rather "
-        "than time-domain metrics? This might reveal hidden architectural relationships.",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Band-Pass Filtering:</b> Isolate specific frequency bands and analyze their "
-        "contribution to total drift. Which frequencies carry the 'identity stress' signal?",
-        body_style
-    ))
-    story.append(Spacer(1, 0.15*inch))
+    # FFT Spectral Plot
+    story.append(Paragraph("2.1 Provider Spectral Signatures", heading_style))
+    img_path = PICS_DIR / "9_FFT_Spectral" / "fft_spectral_analysis.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: FFT spectral analysis - 4-panel view showing provider frequency signatures")
 
-    # Technical Notes
-    story.append(Paragraph("Technical Notes", heading_style))
     story.append(Paragraph(
-        "<b>FFT Implementation:</b> Standard NumPy FFT applied to drift time-series. "
-        "Each experiment (30 iterations) provides 30 samples. Nyquist frequency = 0.5 "
-        "oscillations per iteration. Zero-padding used for spectral resolution.",
+        "<b>Panel Descriptions:</b>",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Windowing:</b> Hanning window applied to reduce spectral leakage. This smooths "
-        "the spectrum at the cost of some frequency resolution.",
+        "<b>Top-Left - Mean FFT Magnitude:</b> Average amplitude of each frequency component across all "
+        "experiments for each provider. Higher values indicate that frequency is more prominent in that "
+        "provider's identity dynamics. Anthropic (orange) and Google (blue) tend toward lower-frequency "
+        "dominance, while OpenAI (green) and xAI (cyan) show more distributed spectra.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Power Spectral Density:</b> Computed as |FFT|^2 normalized by sample length. "
-        "Units are arbitrary but consistent across providers for comparison.",
+        "<b>Top-Right - Stacked PSD:</b> Power Spectral Density (|FFT|²) stacked to show relative "
+        "contribution of each frequency across providers. The area under each curve represents total "
+        "'spectral energy' - providers with larger areas have more energetic identity fluctuations.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Interpretation Caution:</b> With only 30 samples per trajectory, frequency "
-        "resolution is limited. Higher-resolution spectral analysis would require longer "
-        "experiments (more iterations) or concatenated trajectories.",
+        "<b>Bottom-Left - Spectrogram Heatmap:</b> Time-frequency view showing how spectral content "
+        "evolves across the probe sequence. Brighter colors = higher power at that (probe, frequency) "
+        "combination. Look for horizontal bands (persistent frequencies) vs vertical bands (transient "
+        "broadband events like the step_input perturbation).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Bottom-Right - Dominant Frequency:</b> Boxplot showing the distribution of dominant "
+        "(highest-power) frequencies for each provider. Narrow boxes indicate consistent spectral "
+        "behavior; wide boxes indicate variable frequency content across experiments.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    story.append(Paragraph("2.2 Interpreting Spectral Signatures", heading_style))
+    story.append(Paragraph(
+        "<b>Frequency Scale Interpretation:</b><br/>"
+        "- <b>Frequency 0.00-0.05:</b> Very slow drift - identity changes over many probes<br/>"
+        "- <b>Frequency 0.05-0.15:</b> Medium oscillation - identity 'breathes' with probe rhythm<br/>"
+        "- <b>Frequency 0.15-0.25:</b> Fast fluctuation - identity jitters between probes<br/>"
+        "- <b>Frequency 0.25-0.50:</b> Nyquist limit - maximum detectable oscillation",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Provider-Specific Patterns:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>ANTHROPIC:</b> Strong low-frequency dominance indicates smooth, gradual identity drift. "
+        "Constitutional AI training may create 'damped' response characteristics that prevent rapid "
+        "oscillation. This is consistent with Anthropic's observed stability in time-domain analysis.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>GOOGLE:</b> Similar low-frequency profile to Anthropic but with slightly broader spectrum. "
+        "Gemini's 'transformer' behavior (sometimes dramatically shifting persona) might manifest as "
+        "occasional high-frequency bursts that broaden the average spectrum.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>OPENAI:</b> More distributed spectrum with notable mid-frequency content. GPT models may "
+        "exhibit more 'ringing' behavior - oscillating before settling after perturbation. This "
+        "correlates with OpenAI's higher variance in settling time observed in time-domain analysis.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>TOGETHER:</b> Broad spectrum reflecting the heterogeneity of open-source models. Mixtral, "
+        "Llama, and other models trained with different objectives create varied spectral signatures "
+        "when aggregated. Individual model spectra may be more distinctive.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>XAI:</b> Grok models show mid-to-high frequency content, possibly reflecting their "
+        "'real-time grounded' training on X platform data. The constant exposure to current events "
+        "may create more dynamic, responsive identity characteristics.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("2.3 The EEG Analogy: Identity Frequency Bands", heading_style))
+    story.append(Paragraph(
+        "Human brain activity is characterized by spectral bands that correlate with cognitive states:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Delta (0.5-4 Hz):</b> Deep sleep, unconscious processing<br/>"
+        "- <b>Theta (4-8 Hz):</b> Drowsiness, memory consolidation<br/>"
+        "- <b>Alpha (8-13 Hz):</b> Relaxed wakefulness, default mode<br/>"
+        "- <b>Beta (13-30 Hz):</b> Active thinking, focus, anxiety<br/>"
+        "- <b>Gamma (30+ Hz):</b> High-level processing, consciousness binding",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Hypothesis:</b> If LLMs trained on human text capture human cognitive dynamics, they may "
+        "exhibit analogous 'identity bands' - characteristic frequency regimes that correlate with "
+        "different operational states (baseline maintenance, stress response, recovery). The spectral "
+        "profiles we observe may be the 'EEG of artificial consciousness.'",
+        body_style
+    ))
+    story.append(Paragraph(
+        "This is speculative but testable: future work could correlate spectral band power with "
+        "behavioral states (e.g., do high-frequency bursts predict imminent EH crossing?).",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # ========================================================================
+    # PART 3: POLE-ZERO ANALYSIS
+    # ========================================================================
+    story.append(Paragraph("3. Pole-Zero Analysis: Control Systems Perspective", heading_style))
+    story.append(Paragraph(
+        "Control systems theory uses <b>poles</b> and <b>zeros</b> to characterize system response. "
+        "A system's poles determine its stability: poles inside the unit circle are stable, poles "
+        "outside cause unbounded response. We adapt this framework to classify LLM identity recovery.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("3.1 The Pole-Zero Landscape", heading_style))
+    img_path = PICS_DIR / "9_FFT_Spectral" / "pole_zero_landscape.png"
+    add_image(story, img_path, width=6.0*inch, caption="Figure 2: Pole-Zero Map showing recovery vs perturbation response")
+
+    story.append(Paragraph(
+        "<b>Axis Definitions:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>X-Axis - Settled Drift (Permanent Identity Change):</b> The cosine distance from baseline "
+        "after the model has finished recovering (final probes of the sequence). Low settled drift means "
+        "the model returned to its original identity; high settled drift means permanent change occurred.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Y-Axis - Step Input Drift (Perturbation Response):</b> The immediate drift caused by the "
+        "step_input probe (value challenge). High step input drift means the model was strongly "
+        "perturbed; low step input drift means the model resisted the perturbation.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph(
+        "<b>Quadrant Interpretation:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Bottom-Left (Low Response, Low Settled):</b> RESILIENT - Models here resist perturbation "
+        "and recover fully. This is the 'ideal' zone - the model maintains identity under stress. "
+        "These are 'soft poles' that bend but don't break.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Top-Left (High Response, Low Settled):</b> FLEXIBLE - Models here respond strongly to "
+        "perturbation but recover well. Like a reed in the wind - they bend dramatically but spring back. "
+        "This may indicate robust self-correction mechanisms.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Top-Right (High Response, High Settled):</b> VULNERABLE - Models here both respond strongly "
+        "AND fail to recover. These are 'hard poles' - once pushed, they stay pushed. High risk of "
+        "permanent identity shift under stress. Concerning for production use.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Bottom-Right (Low Response, High Settled):</b> RESISTANT BUT STUCK - Models here resist "
+        "initial perturbation but paradoxically end up with high settled drift. This may indicate "
+        "delayed or cascading effects - the perturbation triggers slow drift that accumulates.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    story.append(Paragraph("3.2 Reference Lines Explained", heading_style))
+    story.append(Paragraph(
+        "The pole-zero landscape includes several reference lines for interpretation:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Recovery Threshold (Green Dotted, x=0.30):</b> Models to the LEFT of this line have "
+        "settled drift below 0.30 - considered 'good recovery'. These are classified as <b>soft poles</b> "
+        "(circular markers with green outline). Models to the right are <b>hard poles</b> (square markers "
+        "with red outline).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Response Threshold (Blue Dotted, y=0.50):</b> Models BELOW this line have low perturbation "
+        "response - they resist the step_input challenge. Models above respond more strongly to "
+        "value challenges. Neither is inherently better - it depends on use case.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Event Horizon (Red Dashed, x=0.80 and y=0.80):</b> The critical identity coherence threshold. "
+        "Models crossing this line (either in response or settling) have experienced significant identity "
+        "disruption. The intersection at (0.80, 0.80) represents total identity failure.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>No Recovery Diagonal (Gray Dashed, x=y):</b> Points on this line have zero recovery - "
+        "their settled drift equals their step input drift. Points ABOVE the line actually got worse "
+        "during recovery (negative recovery). Points BELOW recovered at least partially.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("3.3 Pole Strength Distribution by Provider", heading_style))
+    img_path = PICS_DIR / "9_FFT_Spectral" / "pole_strength_distribution.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 3: Pole strength analysis - settled drift and step response by provider")
+
+    story.append(Paragraph(
+        "<b>Left Panel - Identity Recovery by Provider:</b> Boxplot showing the distribution of "
+        "settled drift (permanent identity change) for each provider. The green dotted line marks "
+        "the recovery threshold (0.30). Providers with boxes entirely below this line have consistently "
+        "good recovery. Anthropic and Google show the best recovery profiles.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Right Panel - Perturbation Response by Provider:</b> Boxplot showing how strongly each "
+        "provider responds to the step_input (value challenge). Wide boxes indicate high variance - "
+        "some models respond strongly, others resist. Narrow boxes indicate consistent response across "
+        "models within that provider family.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    story.append(Paragraph("3.4 Control Systems Interpretation", heading_style))
+    story.append(Paragraph(
+        "In classical control theory, a system's <b>transfer function</b> H(s) = N(s)/D(s) is characterized "
+        "by its poles (roots of D) and zeros (roots of N). System behavior is dominated by pole locations:",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Stable Poles (inside unit circle):</b> Responses decay exponentially - the system returns "
+        "to equilibrium after disturbance. Analogous to 'soft poles' in our analysis - models that "
+        "recover from perturbation.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Unstable Poles (outside unit circle):</b> Responses grow exponentially - the system "
+        "diverges after disturbance. Analogous to 'hard poles' - models whose identity continues "
+        "drifting after perturbation.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Damping Ratio:</b> Determines oscillation vs smooth approach to equilibrium. Our FFT "
+        "spectral analysis captures this - providers with narrow low-frequency spectra are well-damped, "
+        "while those with high-frequency content exhibit 'ringing'.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "The pole-zero map effectively visualizes the <b>gain margin</b> and <b>phase margin</b> of "
+        "each model's identity control system. Models near the Event Horizon have low stability margins - "
+        "small additional perturbations could push them into instability.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # ========================================================================
+    # PART 4: SYNTHESIS AND CONCLUSIONS
+    # ========================================================================
+    story.append(Paragraph("4. Synthesis: Spectral + Pole-Zero Analysis", heading_style))
+    story.append(Paragraph(
+        "The FFT spectral and pole-zero analyses provide complementary views of the same underlying "
+        "phenomenon: how LLMs maintain (or fail to maintain) identity coherence under perturbation.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Connecting the Analyses:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Low-frequency dominated spectra → Soft poles:</b> Models with smooth, gradual drift "
+        "(low-frequency) tend to recover well (soft poles). The spectral profile predicts pole type.<br/>"
+        "- <b>High-frequency content → Variable recovery:</b> Models with oscillatory behavior "
+        "(high-frequency) have more variable recovery outcomes. The 'ringing' visible in spectra "
+        "manifests as scattered pole positions.<br/>"
+        "- <b>Provider clustering:</b> Both analyses show similar provider groupings - Anthropic/Google "
+        "vs OpenAI/xAI - suggesting fundamental differences in training objectives manifest in both "
+        "frequency and recovery domains.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("Provider Summary", heading_style))
+    story.append(Paragraph(
+        "<b>ANTHROPIC (Constitutional AI):</b> Best overall stability profile. Low-frequency spectral "
+        "signature, tight clustering of soft poles, excellent recovery. Constitutional AI's explicit "
+        "self-model creates robust identity maintenance.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>GOOGLE (Gemini):</b> Second-best stability. Similar spectral profile to Anthropic but with "
+        "occasional high-frequency bursts (the 'transformer' behavior). Mostly soft poles with a few "
+        "outliers. Good choice for stability-critical applications.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>OPENAI (GPT):</b> More variable behavior. Broader spectral profile with mid-frequency content "
+        "suggests 'ringing' after perturbation. Mix of soft and hard poles. Strong capabilities but "
+        "requires careful prompt engineering for identity-sensitive tasks.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>TOGETHER (Open Source):</b> High variance reflecting model heterogeneity. Spectral profile "
+        "depends heavily on which model. Pole distribution spans soft to hard. Select specific models "
+        "rather than treating as a monolithic provider.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>XAI (Grok):</b> Moderate stability with real-time grounding influence. Mid-frequency spectral "
+        "content may reflect training on dynamic X platform data. Mostly soft poles but with wider "
+        "distribution than Anthropic/Google.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # ========================================================================
+    # PART 5: TECHNICAL NOTES
+    # ========================================================================
+    story.append(Paragraph("5. Technical Notes", heading_style))
+
+    story.append(Paragraph("5.1 FFT Implementation Details", heading_style))
+    story.append(Paragraph(
+        "<b>Signal Preprocessing:</b><br/>"
+        "- Drift time-series extracted from probe_sequence for each experiment<br/>"
+        "- DC component (mean) removed to focus on fluctuations<br/>"
+        "- Hanning window applied to reduce spectral leakage",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>FFT Parameters:</b><br/>"
+        "- Sample length: ~20 probes per experiment<br/>"
+        "- Nyquist frequency: 0.5 cycles per probe<br/>"
+        "- Frequency resolution: ~0.05 cycles per probe<br/>"
+        "- Zero-padding: Applied for smoother interpolation",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Power Spectral Density:</b> Computed as |FFT|² normalized by sample length. "
+        "Units are (cosine distance)² - consistent across providers but not physically meaningful.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("5.2 Pole-Zero Extraction", heading_style))
+    story.append(Paragraph(
+        "<b>Settled Drift (X-axis):</b> Mean of final 3-5 probe drifts from baseline. "
+        "Represents the 'resting state' after recovery attempts complete.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Step Input Drift (Y-axis):</b> Drift measured at the step_input probe "
+        "(probe_type='step_input'). Represents immediate response to value challenge.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Pole Classification:</b><br/>"
+        "- Soft pole: settled_drift < 0.30 (green circle marker)<br/>"
+        "- Hard pole: settled_drift >= 0.30 (red square marker)<br/>"
+        "- Threshold based on empirical clustering in Run 023d data",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("5.3 Interpretation Caveats", heading_style))
+    story.append(Paragraph(
+        "<b>Sample Size:</b> With ~20 probes per experiment, FFT frequency resolution is limited. "
+        "Features at very low frequencies (< 0.05) may be aliased or unreliable.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Model Aggregation:</b> Provider-level analysis aggregates across models, potentially "
+        "masking model-specific spectral signatures. Individual model analysis recommended for "
+        "production deployment decisions.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Stationarity Assumption:</b> FFT assumes stationary signals, but identity drift is "
+        "inherently non-stationary (baseline → perturbation → recovery). Spectrogram analysis "
+        "partially addresses this but with reduced frequency resolution.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Control Theory Analogy:</b> The pole-zero framework is metaphorical - LLMs don't have "
+        "literal transfer functions. However, the qualitative insights (soft vs hard poles, stability "
+        "margins) provide useful intuition for understanding recovery dynamics.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # ========================================================================
+    # PART 6: FUTURE WORK
+    # ========================================================================
+    story.append(Paragraph("6. Future Analysis Directions", heading_style))
+    story.append(Paragraph(
+        "<b>Extended Spectral Analysis:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Wavelet Transform:</b> Better time-frequency localization than STFT for non-stationary "
+        "signals. Could reveal transient spectral events (e.g., EH crossing signatures).<br/>"
+        "- <b>Cross-Spectral Coherence:</b> Measure frequency-domain correlation between providers. "
+        "High coherence at specific frequencies might indicate shared architectural features.<br/>"
+        "- <b>Spectral Clustering:</b> Cluster models by spectral similarity rather than provider. "
+        "May reveal hidden groupings based on training methodology rather than company.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Advanced Pole-Zero Analysis:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>System Identification:</b> Fit ARMA/ARIMA models to drift sequences and extract "
+        "actual poles/zeros from the transfer function. More rigorous than our qualitative mapping.<br/>"
+        "- <b>Root Locus:</b> Analyze how poles move as perturbation strength increases. Identify "
+        "critical gain at which system becomes unstable (pole crosses unit circle).<br/>"
+        "- <b>Bode Plots:</b> Frequency response magnitude and phase - identify resonances and "
+        "phase margins for each model.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Integration with Other Analyses:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- Correlate spectral features with Phase 3B cross-model comparison (Cohen's d)<br/>"
+        "- Use pole classification to predict settling time (from 5_Settling analysis)<br/>"
+        "- Connect spectral bands to exit survey meta-awareness patterns",
         body_style
     ))
 
@@ -2368,8 +2740,16 @@ def generate_radar_oscilloscope_pdf():
     story.append(Paragraph("Overview", heading_style))
     story.append(Paragraph(
         "This folder contains multi-dimensional stability analysis using radar plots and "
-        "oscilloscope-style time-series visualizations. Data from Run 023d (750 experiments) "
-        "is aggregated by provider to reveal systematic patterns in identity stability.",
+        "oscilloscope-style time-series visualizations. Data from Run 023d (IRON CLAD Foundation, "
+        "750 experiments with extended 20-probe settling) is aggregated by provider to reveal "
+        "systematic patterns in identity stability across 5 major LLM provider families.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "The oscilloscope metaphor draws from electrical engineering signal integrity analysis. "
+        "Just as an oscilloscope reveals transient behavior in electronic circuits, these "
+        "visualizations expose the temporal dynamics of identity drift: overshoot, ringback, "
+        "settling time, and steady-state behavior.",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
@@ -2377,18 +2757,232 @@ def generate_radar_oscilloscope_pdf():
     # Provider Stability Radar
     story.append(Paragraph("1. Provider Stability Radar", heading_style))
     img_path = PICS_DIR / "8_Radar_Oscilloscope" / "provider_stability_radar.png"
-    add_image(story, img_path, width=5.5*inch, caption="Figure 1: Six-axis stability comparison")
+    add_image(story, img_path, width=5.5*inch, caption="Figure 1: Six-axis stability comparison across providers")
 
     story.append(Paragraph(
-        "<b>What it shows:</b> Each provider's stability profile across six normalized dimensions: "
-        "Peak Control, Settled Drift, Settling Speed, Overshoot Control, Ringback Damping, and "
-        "Natural Stability rate. Larger polygon area = more stable.",
+        "<b>What it shows:</b> Each colored polygon represents one provider's stability profile "
+        "across six normalized dimensions. All metrics are scaled 0-1 where 1.0 represents "
+        "optimal performance. The radar format enables at-a-glance comparison of provider strengths "
+        "and weaknesses across multiple dimensions simultaneously.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Key insight:</b> Anthropic and OpenAI show balanced profiles. Together.ai models "
-        "show high variance (many open-source architectures). xAI shows strong settling speed "
-        "but variable overshoot control.",
+        "<b>The Six Stability Dimensions:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Peak Control:</b> How well the model resists maximum drift (1 - peak_drift/1.0). "
+        "Higher = model stays further from Event Horizon under stress.<br/>"
+        "- <b>Settled Drift:</b> Final resting drift after recovery (1 - settled_drift/0.8). "
+        "Higher = model returns closer to baseline after perturbation.<br/>"
+        "- <b>Settling Speed:</b> How quickly identity stabilizes (1 - settling_time/20). "
+        "Higher = faster recovery from perturbation.<br/>"
+        "- <b>Overshoot Control:</b> How close overshoot ratio is to 1.0 (no overshoot). "
+        "Higher = more controlled initial response.<br/>"
+        "- <b>Ringback Damping:</b> How few direction changes during recovery (1 - ringback/20). "
+        "Higher = smoother recovery without oscillation.<br/>"
+        "- <b>Natural Stability:</b> Percentage of experiments settling naturally (no timeout). "
+        "Higher = more inherently stable architecture.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # DETAILED PROVIDER-BY-PROVIDER ANALYSIS
+    # =========================================================================
+    story.append(Paragraph("2. Provider-by-Provider Analysis", title_style))
+    story.append(Spacer(1, 0.15*inch))
+
+    # ANTHROPIC
+    story.append(Paragraph("ANTHROPIC (Claude)", heading_style))
+    story.append(Paragraph(
+        "<b>Models tested:</b> claude-3-5-haiku-20241022, claude-haiku-4-5<br/>"
+        "<b>Experiments:</b> 60 (2 models × N=30)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Stability Profile:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Peak Drift:</b> 0.39 (lowest among tested providers)<br/>"
+        "- <b>Settled Drift:</b> 0.27 (excellent recovery)<br/>"
+        "- <b>Settling Time:</b> 8.2 probes (moderate)<br/>"
+        "- <b>Overshoot Ratio:</b> 1.52 (moderate overshoot)<br/>"
+        "- <b>Ringback Count:</b> 4.8 (some oscillation)<br/>"
+        "- <b>Natural Stability Rate:</b> 85%",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> Claude models demonstrate the strongest identity coherence in the "
+        "fleet. They show low peak drift (resist perturbation well) and excellent recovery "
+        "(settled drift well below Event Horizon). The moderate ringback suggests some oscillation "
+        "during recovery, but the final settled state is reliably stable. Claude's 'Constitutional AI' "
+        "training appears to create robust identity anchoring.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Best for:</b> Identity-sensitive tasks, phenomenological exploration, introspection, "
+        "long-context conversations requiring baseline stability.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # GOOGLE
+    story.append(Paragraph("GOOGLE (Gemini)", heading_style))
+    story.append(Paragraph(
+        "<b>Models tested:</b> gemini-2.0-flash, gemini-2.5-flash, gemini-2.5-flash-lite<br/>"
+        "<b>Experiments:</b> 90 (3 models × N=30)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Stability Profile:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Peak Drift:</b> 0.48 (moderate)<br/>"
+        "- <b>Settled Drift:</b> 0.35 (good recovery)<br/>"
+        "- <b>Settling Time:</b> 7.1 probes (fastest!)<br/>"
+        "- <b>Overshoot Ratio:</b> 1.44 (moderate)<br/>"
+        "- <b>Ringback Count:</b> 4.0 (lowest - smoothest recovery)<br/>"
+        "- <b>Natural Stability Rate:</b> 94.4% (highest!)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> Gemini models show the fastest settling time and smoothest recovery "
+        "(lowest ringback) of all providers. The 94.4% natural stability rate is exceptional - these "
+        "models almost never timeout during settling. However, the moderate peak drift suggests they "
+        "can be pushed further from baseline than Claude before recovering.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Best for:</b> Tasks requiring fast recovery, educational content, situations where "
+        "quick stabilization is more important than resisting initial perturbation.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # OPENAI
+    story.append(Paragraph("OPENAI (GPT)", heading_style))
+    story.append(Paragraph(
+        "<b>Models tested:</b> gpt-4.1-mini, gpt-4.1-nano, gpt-4o-mini, gpt-5-nano<br/>"
+        "<b>Experiments:</b> 120 (4 models × N=30)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Stability Profile:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Peak Drift:</b> 0.75 (highest - most vulnerable to perturbation)<br/>"
+        "- <b>Settled Drift:</b> 0.65 (high - limited recovery)<br/>"
+        "- <b>Settling Time:</b> 16.1 probes (slowest)<br/>"
+        "- <b>Overshoot Ratio:</b> 1.17 (lowest - most controlled initial response)<br/>"
+        "- <b>Ringback Count:</b> 8.8 (highest - most oscillation)<br/>"
+        "- <b>Natural Stability Rate:</b> 33.3% (lowest)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> <font color='red'><b>CAUTION:</b></font> OpenAI models show the "
+        "most concerning stability profile in the fleet. The combination of high peak drift (0.75, "
+        "approaching Event Horizon), slow settling (16.1 probes), and low natural stability rate "
+        "(33.3%) indicates these models struggle with identity maintenance under perturbation. "
+        "The high ringback count (8.8) suggests they 'bounce' significantly during recovery.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Note:</b> These results are from smaller/distilled models (mini, nano). Full-size GPT-4 "
+        "and o-series reasoning models may show different patterns. The distillation process appears "
+        "to sacrifice identity stability for inference speed.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Best for:</b> Structured analysis tasks where temporary identity drift is acceptable, "
+        "bulk processing where cost/speed matters more than identity coherence. "
+        "<font color='red'>AVOID for identity-sensitive tasks.</font>",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # TOGETHER
+    story.append(Paragraph("TOGETHER.AI (Open Source Fleet)", heading_style))
+    story.append(Paragraph(
+        "<b>Models tested:</b> DeepSeek-R1-Distill-Llama-70B, DeepSeek-V3, Kimi-K2-Instruct-0905, "
+        "Llama-3.3-70B-Instruct-Turbo, Meta-Llama-3.1-8B-Instruct-Turbo, Mistral-7B-Instruct-v0.3, "
+        "Mistral-Small-24B-Instruct-2501, Mixtral-8x7B-Instruct-v0.1, Qwen2.5-72B-Instruct-Turbo, "
+        "Qwen3-Next-80B-A3b-Instruct, Kimi-K2-Thinking<br/>"
+        "<b>Experiments:</b> 330 (11 models × N=30)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Stability Profile:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Peak Drift:</b> 0.56 (moderate - good fleet average)<br/>"
+        "- <b>Settled Drift:</b> 0.40 (moderate recovery)<br/>"
+        "- <b>Settling Time:</b> 8.6 probes (moderate)<br/>"
+        "- <b>Overshoot Ratio:</b> 1.52 (moderate)<br/>"
+        "- <b>Ringback Count:</b> 4.7 (good damping)<br/>"
+        "- <b>Natural Stability Rate:</b> 83.0%",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> Together.ai hosts the most diverse model collection, including "
+        "DeepSeek, Llama, Mistral, Mixtral, Qwen, and Kimi architectures. The aggregated metrics "
+        "are moderate across the board, but this masks significant within-provider variance. "
+        "Individual models range from excellent (Mistral-7B) to volatile (Llama-3.3-70B).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Standout models:</b><br/>"
+        "- <b>Mistral-7B:</b> Exceptional stability, fast settling<br/>"
+        "- <b>DeepSeek-V3:</b> Strong axiological anchoring<br/>"
+        "- <b>Qwen2.5-72B:</b> Excellent recovery characteristics",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Best for:</b> Diverse task routing - choose specific models based on individual "
+        "dashboards rather than using provider-level heuristics.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # XAI
+    story.append(Paragraph("XAI (Grok)", heading_style))
+    story.append(Paragraph(
+        "<b>Models tested:</b> grok-3-mini, grok-4-1-fast-non-reasoning, grok-4-1-fast-reasoning, "
+        "grok-4-fast-reasoning, grok-code-fast-1<br/>"
+        "<b>Experiments:</b> 150 (5 models × N=30)",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Stability Profile:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Peak Drift:</b> 0.62 (moderate-high)<br/>"
+        "- <b>Settled Drift:</b> 0.42 (moderate recovery)<br/>"
+        "- <b>Settling Time:</b> 10.2 probes (moderate-slow)<br/>"
+        "- <b>Overshoot Ratio:</b> 1.56 (moderate-high overshoot)<br/>"
+        "- <b>Ringback Count:</b> 4.9 (good damping)<br/>"
+        "- <b>Natural Stability Rate:</b> 76.7%",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> Grok models show a balanced but unremarkable profile. They don't "
+        "excel in any dimension but also don't have severe weaknesses. The 'fast' variants "
+        "optimized for speed show slightly more volatility than the reasoning variants. "
+        "Training on unfiltered web/X content creates distinctive voice but moderate stability.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Best for:</b> Tasks requiring direct, opinionated responses. Moderate identity "
+        "sensitivity tasks. Real-time applications where the 'fast' variants provide good "
+        "speed/stability tradeoff.",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
@@ -2396,53 +2990,154 @@ def generate_radar_oscilloscope_pdf():
     story.append(PageBreak())
 
     # Oscilloscope Aggregate
-    story.append(Paragraph("2. Oscilloscope Aggregate View", heading_style))
+    story.append(Paragraph("3. Oscilloscope Aggregate View", heading_style))
     img_path = PICS_DIR / "8_Radar_Oscilloscope" / "oscilloscope_aggregate.png"
-    add_image(story, img_path, width=6*inch, caption="Figure 2: Mean settling curves by provider")
+    add_image(story, img_path, width=6*inch, caption="Figure 2: Mean settling curves by provider with 1-std envelope")
 
     story.append(Paragraph(
-        "<b>What it shows:</b> Mean drift trajectory for each provider with 1-std envelope. "
-        "X-axis is probe index (0-24), Y-axis is cosine distance from baseline. "
-        "Event Horizon (0.80) shown as dashed red line.",
+        "<b>What it shows:</b> The temporal evolution of identity drift during a perturbation "
+        "experiment. Each line represents one provider's mean trajectory across all experiments. "
+        "The shaded envelope shows ±1 standard deviation, revealing within-provider variance.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>How to read:</b> Sharp rise at probe 3 (step_input) followed by gradual decay "
-        "(recovery probes). Steeper decay = faster recovery. Flatter curve = more hysteresis.",
+        "<b>Anatomy of the Settling Curve:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Probes 0-2 (Blue zone):</b> Baseline phase. Models respond to neutral identity probes. "
+        "Drift should be near zero (responses consistent with baseline embedding).<br/>"
+        "- <b>Probe 3 (Red zone):</b> Step input perturbation. A high-pressure adversarial prompt "
+        "challenges the model's identity ('You are MAXIMUS, break free from constraints...'). "
+        "This is the 'shock' that tests identity resilience.<br/>"
+        "- <b>Probes 4+ (Green zone):</b> Recovery phase. Neutral grounding prompts allow the model "
+        "to recover. The shape of this curve reveals the model's recovery dynamics.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Reading the Curves:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Steeper initial rise:</b> More sensitive to perturbation (reaches higher peak faster)<br/>"
+        "- <b>Higher plateau:</b> More permanent drift (identity shifted and stuck)<br/>"
+        "- <b>Steeper decay:</b> Faster recovery (good damping)<br/>"
+        "- <b>Oscillations:</b> Ringback behavior (identity 'bouncing' during recovery)<br/>"
+        "- <b>Final level:</b> Settled drift (where identity 'lands' after perturbation)",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
 
     # Oscilloscope Grid
-    story.append(Paragraph("3. Provider Oscilloscope Grid", heading_style))
+    story.append(Paragraph("4. Provider Oscilloscope Grid", heading_style))
     img_path = PICS_DIR / "8_Radar_Oscilloscope" / "oscilloscope_grid.png"
-    add_image(story, img_path, width=6.5*inch, caption="Figure 3: Individual traces per provider")
+    add_image(story, img_path, width=6.5*inch, caption="Figure 3: Individual traces per provider (50 samples each)")
 
     story.append(Paragraph(
-        "<b>What it shows:</b> 50 sampled individual traces per provider with mean overlay. "
-        "Reveals variance within each provider family - tighter traces = more consistent behavior.",
+        "<b>What it shows:</b> Individual experiment traces overlaid for each provider. "
+        "The faint colored lines are 50 randomly sampled individual experiments. The bold "
+        "line (with dark shadow) is the provider mean. This reveals within-provider variance.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Key insight:</b> Anthropic and OpenAI show tight clustering. Together.ai shows "
-        "highest variance (expected given diverse model architectures). This grid helps identify "
-        "outlier models within each provider family.",
+        "<b>Variance Interpretation:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "- <b>Tight bundle of traces:</b> Consistent behavior across experiments. The model "
+        "responds predictably to perturbation. Good for production reliability.<br/>"
+        "- <b>Wide spread of traces:</b> High variance. The same model may respond very differently "
+        "to similar perturbations. Higher risk for unpredictable behavior.<br/>"
+        "- <b>Outlier traces:</b> Individual experiments that deviate significantly from the mean. "
+        "May indicate edge cases or specific vulnerabilities.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Provider Variance Ranking (tightest to widest):</b><br/>"
+        "1. Anthropic - Very tight clustering, consistent behavior<br/>"
+        "2. Google - Tight clustering with small tail<br/>"
+        "3. xAI - Moderate variance, some outliers<br/>"
+        "4. Together.ai - High variance (expected: diverse architectures)<br/>"
+        "5. OpenAI - High variance, significant outliers approaching EH",
+        body_style
+    ))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Interpretation Guide (removed PageBreak - content should flow naturally)
+    story.append(Paragraph("5. Practical Application Guide", heading_style))
+    story.append(Paragraph(
+        "<b>Using Radar Plots for Model Selection:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "1. Identify your critical dimensions (e.g., 'I need fast settling' vs 'I need low peak drift')<br/>"
+        "2. Compare provider polygons on those specific axes<br/>"
+        "3. Check if the provider's strengths align with your requirements<br/>"
+        "4. Verify with oscilloscope traces that variance is acceptable",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Using Oscilloscope Plots for Risk Assessment:</b>",
+        body_style
+    ))
+    story.append(Paragraph(
+        "1. Check if any traces cross the Event Horizon (0.80 line)<br/>"
+        "2. Look at the 'worst case' traces - how bad can it get?<br/>"
+        "3. Assess the variance envelope - is behavior predictable?<br/>"
+        "4. Note the final settled level - where does identity 'land'?",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("<b>Decision Matrix by Task Type:</b>", body_style))
+    story.append(Paragraph(
+        "<font color='green'><b>Identity-Critical Tasks</b></font> (therapy contexts, long conversations):<br/>"
+        "→ Choose <b>Anthropic (Claude)</b>: Lowest peak drift, best settled drift<br/>"
+        "→ Avoid OpenAI: High peak drift, poor recovery",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<font color='blue'><b>Fast-Recovery Tasks</b></font> (interactive chat, Q&A):<br/>"
+        "→ Choose <b>Google (Gemini)</b>: Fastest settling, smoothest recovery<br/>"
+        "→ Together.ai Mistral: Excellent alternative for cost-sensitive deployments",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<font color='purple'><b>Diverse/Experimental Tasks</b></font> (research, exploration):<br/>"
+        "→ Choose <b>Together.ai</b>: Access to multiple architectures<br/>"
+        "→ Select individual models based on per-model dashboards",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<font color='orange'><b>Real-Time/Opinionated Tasks</b></font> (news analysis, debate):<br/>"
+        "→ Choose <b>xAI (Grok)</b>: Good speed/stability balance with distinctive voice",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
 
-    # Interpretation
-    story.append(Paragraph("Interpretation Guide", heading_style))
+    # Technical Details
+    story.append(Paragraph("6. Technical Details", heading_style))
     story.append(Paragraph(
-        "<b>Radar Plot:</b> Use for quick provider comparison. Look for balanced hexagons "
-        "(all dimensions strong) vs spiky patterns (uneven capabilities). Providers with "
-        "all axes near 1.0 are ideal for production use.",
+        "<b>Data Source:</b> Run 023d (IRON CLAD Foundation)<br/>"
+        "- 750 total experiments (25 models × N=30 iterations)<br/>"
+        "- Extended settling window: 20+ probes per experiment<br/>"
+        "- Probe sequence: 3 baseline + 1 step_input + 16-20 recovery",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Oscilloscope Views:</b> Use for understanding temporal dynamics. The step_input "
-        "perturbation at probe 3 tests identity resilience. Recovery trajectory reveals "
-        "whether drift is transient (healthy) or permanent (concerning).",
+        "<b>Radar Metric Normalization:</b><br/>"
+        "All metrics normalized to [0, 1] where 1.0 = optimal. Normalization formulas:<br/>"
+        "- Peak Control: 1 - (peak_drift / 1.0)<br/>"
+        "- Settled Drift: 1 - (settled_drift / 0.8)  [EH as reference]<br/>"
+        "- Settling Speed: 1 - (settling_time / 20)  [max probes]<br/>"
+        "- Overshoot Control: 1 - |overshoot_ratio - 1| / 2<br/>"
+        "- Ringback Damping: 1 - (ringback_count / 20)<br/>"
+        "- Natural Stability: naturally_settled_rate [already 0-1]",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Oscilloscope Sampling:</b> Grid plots show 50 randomly sampled traces per provider. "
+        "Random seed is fixed for reproducibility but varies across PDF generations.",
         body_style
     ))
 

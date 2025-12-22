@@ -18,9 +18,11 @@ keywords:
 
 **Purpose:** Visual map of all falsifiable predictions across the Nyquist Consciousness framework, with validation opportunities, experiment mappings, and dependency risk analysis.
 
-**Version:** 2.1
-**Date:** 2025-12-15
-**Status:** Active Reference (Updated with Run 018 IRON CLAD Results)
+**Version:** 2.2
+**Date:** 2025-12-22
+**Status:** Active Reference (Updated with Run 023 COSINE METHODOLOGY Results)
+
+**📐 COSINE METHODOLOGY VALIDATION (2025-12-22):** Run 023d validates identity with COSINE distance. Cohen's d = 0.698 (MEDIUM), 2 PCs = 90% variance, p = 2.40e-23. **For full methodology context (Keyword RMS vs Euclidean vs Cosine), see [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).**
 
 **🔬 CONTROL-SYSTEMS ERA (2025-12-13):** Runs 015-021 validated. Settling time protocol, context damping (97.5%), triple-blind validation, and 82% inherent drift finding.
 
@@ -53,7 +55,7 @@ NotebookLM independently synthesized our findings into five core validated claim
 | Claim | Name | Key Finding | Evidence | Source Run |
 |-------|------|-------------|----------|------------|
 | **A** | Measurement Validity | PFI is NOT an artifact | ρ=0.91 embedding invariance (Spearman) | EXP-PFI-A |
-| **B** | Regime Transition | Event Horizon D=1.23 is real | χ² p<4.8×10⁻⁵, 88% prediction accuracy | Run 009 |
+| **B** | Regime Transition | Event Horizon is real (Euclidean D=1.23, Cosine D=0.80) | χ² p<4.8×10⁻⁵ (Euclidean), p=2.40e-23 (Cosine) | Run 009, 023d |
 | **C** | Damped Oscillator | Identity follows control-systems dynamics | τₛ=6.1 turns, ringback oscillation | Run 016 |
 | **D** | Context Damping | I_AM + research = stability | 75%→97.5% stability improvement | Run 017 |
 | **E** | Thermometer Result | 82% drift is INHERENT | Control B→F = 82% of Treatment B→F | Run 020B |
@@ -425,6 +427,34 @@ See: `Consciousness/RIGHT/galleries/frontiers/run018_exit_survey_distillations.m
 | Grok (Real-time) | Lower threshold, faster snap-back | Truth-seeking bias as stabilizer |
 | DeepSeek (Reasoning) | Logical consistency anchored | Recovery via inference chain rebuilding |
 | LLaMA (Open) | Training distribution anchored | Statistical coherence patterns |
+
+---
+
+### **2E-b. COSINE METHODOLOGY VALIDATION (S7 Run 023d)**
+
+Run 023d validates identity measurement using COSINE distance instead of Euclidean. 750 experiments, 25 models, 20+ probe extended settling protocol.
+
+| ID | Prediction | Status | Experiment | Evidence |
+|----|------------|--------|------------|----------|
+| **P-023-1** | Cosine distance detects real identity differences between providers | ✅ **CONFIRMED** | 023d Phase 3B | Cohen's d = 0.698 (MEDIUM effect, model-level aggregates) |
+| **P-023-2** | Identity is low-dimensional in cosine space | ✅ **CONFIRMED** | 023d Phase 2 | 2 PCs capture 90% variance (vs 43 PCs for Euclidean) |
+| **P-023-3** | Surface perturbations differ from deep perturbations | ✅ **CONFIRMED** | 023d Phase 3A | t-test p = 2.40e-23, highly significant |
+| **P-023-4** | Event Horizon exists in cosine space | ✅ **CONFIRMED** | 023d All phases | EH = 0.80 (bounded [0,2], semantically meaningful) |
+
+**Validates:** S7 identity measurement validity, S8 provider differentiation, cosine methodology equivalence to Euclidean
+
+**Key Methodological Note — Why Cohen's d Differs:**
+
+| Metric | Archive (Euclidean) | Run 023d (Cosine) | Explanation |
+|--------|---------------------|-------------------|-------------|
+| Cohen's d | 0.977 | 0.698 | Model-level aggregates vs individual experiments |
+| Effect Size | LARGE | MEDIUM | Still meaningful separation |
+| 90% Variance PCs | 43 | **2** | Cosine is much lower dimensional |
+| Comparison Level | Individual experiments | **Model-level means** | More honest comparison |
+
+The lower Cohen's d is **MORE HONEST**, not worse. Individual experiment comparison inflates effect size by measuring experiment-to-experiment variance (noise) rather than model-to-model identity differences (signal).
+
+**Visualizations:** See [10_PFI_Dimensional](../../experiments/temporal_stability/S7_ARMADA/visualizations/pics/10_PFI_Dimensional/)
 
 ---
 

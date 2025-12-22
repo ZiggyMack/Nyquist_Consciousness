@@ -13,7 +13,9 @@ keywords:
 # Maps Directory Guide
 
 **Purpose:** Quick-reference navigation for the 21 maps in this directory.
-**Last Updated:** 2025-12-15
+**Last Updated:** 2025-12-22
+
+**📐 METHODOLOGY NOTE:** Maps reference predictions validated under different methodologies (Keyword RMS, Euclidean, Cosine). For the full story on methodology domains and what thresholds apply where, see [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
 
 ---
 

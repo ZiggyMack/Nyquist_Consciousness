@@ -120,7 +120,7 @@ def compute_radar_metrics(provider_data):
     return radar_data
 
 def plot_provider_radar(radar_data, output_dir):
-    """Create radar plot comparing all providers."""
+    """Create radar plot comparing all providers - LIGHT MODE."""
     categories = ['Peak\nControl', 'Settled\nDrift', 'Settling\nSpeed',
                   'Overshoot\nControl', 'Ringback\nDamping', 'Natural\nStability']
     n_cats = len(categories)
@@ -130,8 +130,8 @@ def plot_provider_radar(radar_data, output_dir):
     angles += angles[:1]  # Close the loop
 
     fig, ax = plt.subplots(figsize=(12, 10), subplot_kw=dict(polar=True))
-    ax.set_facecolor('#1a1a2e')
-    fig.patch.set_facecolor('#0f0f1a')
+    ax.set_facecolor('white')
+    fig.patch.set_facecolor('white')
 
     # Plot each provider
     for provider, data in radar_data.items():
@@ -140,16 +140,16 @@ def plot_provider_radar(radar_data, output_dir):
 
         ax.plot(angles, values, 'o-', linewidth=2.5, label=f"{provider} (n={data['n_results']})",
                 color=color, markersize=8)
-        ax.fill(angles, values, alpha=0.15, color=color)
+        ax.fill(angles, values, alpha=0.2, color=color)
 
     # Customize appearance
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(categories, size=11, color='white', fontweight='bold')
+    ax.set_xticklabels(categories, size=11, color='black', fontweight='bold')
     ax.set_ylim(0, 1)
     ax.set_yticks([0.25, 0.5, 0.75, 1.0])
-    ax.set_yticklabels(['0.25', '0.50', '0.75', '1.00'], color='#888888', size=9)
-    ax.yaxis.grid(True, color='#333355', linestyle='--', alpha=0.5)
-    ax.xaxis.grid(True, color='#333355', linestyle='--', alpha=0.5)
+    ax.set_yticklabels(['0.25', '0.50', '0.75', '1.00'], color='#555555', size=9)
+    ax.yaxis.grid(True, color='#cccccc', linestyle='--', alpha=0.7)
+    ax.xaxis.grid(True, color='#cccccc', linestyle='--', alpha=0.7)
 
     # Add Event Horizon reference circle (0.8 stability threshold)
     eh_circle = plt.Circle((0, 0), 0.8, transform=ax.transData._b,
@@ -157,14 +157,14 @@ def plot_provider_radar(radar_data, output_dir):
                            linewidth=1.5, alpha=0.7)
 
     ax.set_title('Provider Stability Radar\nRun 023d: IRON CLAD Foundation (750 experiments)',
-                 size=16, color='white', fontweight='bold', pad=20)
+                 size=16, color='black', fontweight='bold', pad=20)
 
     # Legend
     legend = ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1),
-                      facecolor='#1a1a2e', edgecolor='#333355',
+                      facecolor='white', edgecolor='#cccccc',
                       fontsize=10)
     for text in legend.get_texts():
-        text.set_color('white')
+        text.set_color('black')
 
     plt.tight_layout()
 
@@ -178,10 +178,10 @@ def plot_provider_radar(radar_data, output_dir):
     plt.close()
 
 def plot_oscilloscope_aggregate(provider_data, output_dir):
-    """Create oscilloscope-style aggregate settling curves per provider."""
+    """Create oscilloscope-style aggregate settling curves per provider - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(14, 8))
-    ax.set_facecolor('#0a0a14')
-    fig.patch.set_facecolor('#0f0f1a')
+    ax.set_facecolor('#f8f8f8')
+    fig.patch.set_facecolor('white')
 
     max_probes = 25  # Extended settling window
 
@@ -215,26 +215,26 @@ def plot_oscilloscope_aggregate(provider_data, output_dir):
     ax.axhline(y=0.80, color='#ff4444', linestyle='--', linewidth=2,
                alpha=0.8, label='Event Horizon (0.80)')
 
-    # Probe regions
-    ax.axvspan(0, 3, alpha=0.1, color='#4444ff', label='Baseline (0-2)')
-    ax.axvspan(3, 4, alpha=0.15, color='#ff4444', label='Step Input (3)')
-    ax.axvspan(4, max_probes, alpha=0.08, color='#44ff44', label='Recovery (4+)')
+    # Probe regions (softer colors for light mode)
+    ax.axvspan(0, 3, alpha=0.08, color='#3366cc', label='Baseline (0-2)')
+    ax.axvspan(3, 4, alpha=0.12, color='#cc3333', label='Step Input (3)')
+    ax.axvspan(4, max_probes, alpha=0.06, color='#33aa33', label='Recovery (4+)')
 
-    ax.set_xlabel('Probe Index', size=12, color='white', fontweight='bold')
-    ax.set_ylabel('Cosine Distance from Baseline', size=12, color='white', fontweight='bold')
+    ax.set_xlabel('Probe Index', size=12, color='black', fontweight='bold')
+    ax.set_ylabel('Cosine Distance from Baseline', size=12, color='black', fontweight='bold')
     ax.set_title('Oscilloscope: Provider Aggregate Settling Dynamics\nRun 023d: IRON CLAD Foundation',
-                 size=14, color='white', fontweight='bold')
+                 size=14, color='black', fontweight='bold')
 
     ax.set_xlim(0, max_probes - 1)
     ax.set_ylim(0, 1.0)
-    ax.grid(True, color='#222244', linestyle='-', alpha=0.3)
-    ax.tick_params(colors='white')
+    ax.grid(True, color='#cccccc', linestyle='-', alpha=0.5)
+    ax.tick_params(colors='black')
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
-    legend = ax.legend(loc='upper right', facecolor='#1a1a2e', edgecolor='#333355', fontsize=9)
+    legend = ax.legend(loc='upper right', facecolor='white', edgecolor='#cccccc', fontsize=9)
     for text in legend.get_texts():
-        text.set_color('white')
+        text.set_color('black')
 
     plt.tight_layout()
 
@@ -247,7 +247,7 @@ def plot_oscilloscope_aggregate(provider_data, output_dir):
     plt.close()
 
 def plot_oscilloscope_grid(provider_data, output_dir):
-    """Create grid of individual provider oscilloscope views."""
+    """Create grid of individual provider oscilloscope views - LIGHT MODE."""
     providers = sorted(provider_data.keys())
     n_providers = len(providers)
 
@@ -255,14 +255,14 @@ def plot_oscilloscope_grid(provider_data, output_dir):
     rows = (n_providers + cols - 1) // cols
 
     fig, axes = plt.subplots(rows, cols, figsize=(15, 4 * rows))
-    fig.patch.set_facecolor('#0f0f1a')
+    fig.patch.set_facecolor('white')
     axes = axes.flatten() if n_providers > 1 else [axes]
 
     max_probes = 25
 
     for idx, provider in enumerate(providers):
         ax = axes[idx]
-        ax.set_facecolor('#0a0a14')
+        ax.set_facecolor('#f8f8f8')
 
         data = provider_data[provider]
         sequences = data['probe_sequences']
@@ -286,29 +286,29 @@ def plot_oscilloscope_grid(provider_data, output_dir):
         for i in sample_idx:
             ax.plot(x, arr[i], '-', linewidth=0.5, alpha=0.3, color=color)
 
-        # Mean curve
+        # Mean curve (with darker outline for visibility on light background)
         mean_curve = np.mean(arr, axis=0)
-        ax.plot(x, mean_curve, '-', linewidth=3, color='white', alpha=0.9)
-        ax.plot(x, mean_curve, '-', linewidth=2, color=color)
+        ax.plot(x, mean_curve, '-', linewidth=3.5, color='black', alpha=0.3)
+        ax.plot(x, mean_curve, '-', linewidth=2.5, color=color)
 
         # EH line
         ax.axhline(y=0.80, color='#ff4444', linestyle='--', linewidth=1.5, alpha=0.7)
 
         ax.set_title(f'{provider.upper()}\nn={len(sequences)} | models={len(data["models"])}',
-                    color='white', fontsize=11, fontweight='bold')
+                    color='black', fontsize=11, fontweight='bold')
         ax.set_xlim(0, max_probes - 1)
         ax.set_ylim(0, 1.0)
-        ax.grid(True, color='#222244', linestyle='-', alpha=0.3)
-        ax.tick_params(colors='#888888', labelsize=8)
+        ax.grid(True, color='#cccccc', linestyle='-', alpha=0.5)
+        ax.tick_params(colors='#333333', labelsize=8)
         for spine in ax.spines.values():
-            spine.set_color('#333355')
+            spine.set_color('#cccccc')
 
     # Hide unused axes
     for idx in range(n_providers, len(axes)):
         axes[idx].set_visible(False)
 
     fig.suptitle('Provider Oscilloscope Grid: Individual Settling Traces\nRun 023d: IRON CLAD Foundation',
-                 size=14, color='white', fontweight='bold', y=1.02)
+                 size=14, color='black', fontweight='bold', y=1.02)
 
     plt.tight_layout()
 
