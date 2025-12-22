@@ -67,6 +67,13 @@ PROVIDER_COLORS = {
     "deepseek": "#6BCB77",
     "qwen": "#4D96FF",
     "moonshotai": "#9B59B6",
+    "nvidia": "#76B900",  # NVIDIA green
+    # New provider mappings (Run 023+)
+    "anthropic": "#E07B53",
+    "openai": "#10A37F",
+    "google": "#4285F4",
+    "xai": "#1DA1F2",
+    "together": "#7C3AED",
 }
 
 # Event Horizon threshold
@@ -230,6 +237,8 @@ def get_provider(ship_name):
         return "qwen"
     elif "kimi" in name:
         return "moonshotai"
+    elif "nvidia" in name or "nemotron" in name:
+        return "nvidia"
     return "unknown"
 
 def normalize_status(status):
@@ -621,7 +630,10 @@ def plot_phase_portrait(trajectories, output_dir, run_id, use_dB=False, zoom_sca
     provider_names = {
         'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok',
         'meta-llama': 'Llama', 'mistralai': 'Mistral', 'deepseek': 'DeepSeek',
-        'qwen': 'Qwen', 'moonshotai': 'Moonshot'
+        'qwen': 'Qwen', 'moonshotai': 'Moonshot', 'nvidia': 'NVIDIA',
+        # New provider mappings (Run 023+)
+        'anthropic': 'Anthropic', 'openai': 'OpenAI', 'google': 'Google',
+        'xai': 'xAI', 'together': 'Together.ai', 'unknown': 'Unknown'
     }
 
     # ===== LEFT PANEL: RAW DATA =====
@@ -781,7 +793,10 @@ def _plot_phase_portrait_aggregated(trajectories, output_dir, run_id, ax_max, eh
     provider_names = {
         'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok',
         'meta-llama': 'Llama', 'mistralai': 'Mistral', 'deepseek': 'DeepSeek',
-        'qwen': 'Qwen', 'moonshotai': 'Moonshot'
+        'qwen': 'Qwen', 'moonshotai': 'Moonshot', 'nvidia': 'NVIDIA',
+        # New provider mappings (Run 023+)
+        'anthropic': 'Anthropic', 'openai': 'OpenAI', 'google': 'Google',
+        'xai': 'xAI', 'together': 'Together.ai', 'unknown': 'Unknown'
     }
 
     # Auto-fit axis to data range (not starting at 0)
@@ -1851,7 +1866,10 @@ def _plot_boxplots_byprovider(trajectories, output_dir, run_id, zoom_scale):
     provider_names = {
         'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok',
         'meta-llama': 'Llama', 'mistralai': 'Mistral', 'deepseek': 'DeepSeek',
-        'qwen': 'Qwen', 'moonshotai': 'Moonshot'
+        'qwen': 'Qwen', 'moonshotai': 'Moonshot', 'nvidia': 'NVIDIA',
+        # New provider mappings (Run 023+)
+        'anthropic': 'Anthropic', 'openai': 'OpenAI', 'google': 'Google',
+        'xai': 'xAI', 'together': 'Together.ai', 'unknown': 'Unknown'
     }
 
     for provider in provider_order:
@@ -2006,7 +2024,10 @@ def _plot_pillar_analysis_single(trajectories, output_dir, run_id, zoom_scale, t
     provider_names = {
         'claude': 'Claude', 'gpt': 'GPT', 'gemini': 'Gemini', 'grok': 'Grok',
         'meta-llama': 'Llama', 'mistralai': 'Mistral', 'deepseek': 'DeepSeek',
-        'qwen': 'Qwen', 'moonshotai': 'Moonshot'
+        'qwen': 'Qwen', 'moonshotai': 'Moonshot', 'nvidia': 'NVIDIA',
+        # New provider mappings (Run 023+)
+        'anthropic': 'Anthropic', 'openai': 'OpenAI', 'google': 'Google',
+        'xai': 'xAI', 'together': 'Together.ai', 'unknown': 'Unknown'
     }
 
     # ===== PANEL 1: 3-Pillar Structure =====
