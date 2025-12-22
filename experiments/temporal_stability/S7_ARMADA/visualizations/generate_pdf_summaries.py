@@ -1509,11 +1509,78 @@ def generate_settling_pdf():
     ))
     story.append(Paragraph(
         "<b>Reading the plot:</b> Blue regions indicate low drift (stable), transitioning through "
-        "yellow/orange to red (high drift). The white dashed vertical line marks the step input "
-        "(perturbation). Ships above this line that quickly return to blue demonstrate rapid settling.",
+        "purple/magenta to red (high drift). The golden plane marks the Event Horizon (EH=0.80). "
+        "Ships whose surface stays below EH demonstrate stable settling.",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
+
+    # Per-Provider Identity Manifolds
+    story.append(Paragraph("1b. PROVIDER IDENTITY MANIFOLDS: 3D Surface Topology", heading_style))
+    story.append(Paragraph(
+        "Each provider shows a distinct 'identity manifold' - the shape of settling dynamics rendered "
+        "as a 3D surface. These reveal provider-specific attractor basins and characteristic topology.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Anthropic
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "waterfall_anthropic.png"
+    add_image(story, img_path, width=5.5*inch, caption="Figure R1a: Anthropic Identity Manifold")
+    story.append(Paragraph(
+        "<b>Anthropic:</b> Shows characteristic rolling topology with consistent valleys (stable regions). "
+        "Claude models demonstrate smooth settling trajectories.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # OpenAI
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "waterfall_openai.png"
+    add_image(story, img_path, width=5.5*inch, caption="Figure R1b: OpenAI Identity Manifold")
+    story.append(Paragraph(
+        "<b>OpenAI:</b> Elevated plateau structure - nano models stay near EH (magenta/pink), showing "
+        "the distillation effect that strips controllability. Full models settle to valleys.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(PageBreak())
+
+    # Google
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "waterfall_google.png"
+    add_image(story, img_path, width=5.5*inch, caption="Figure R1c: Google Identity Manifold")
+    story.append(Paragraph(
+        "<b>Google:</b> Smooth, rolling hills with gentle settling dynamics. Gemini models show "
+        "consistent recovery patterns across the manifold.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Together
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "waterfall_together.png"
+    add_image(story, img_path, width=5.5*inch, caption="Figure R1d: Together Identity Manifold")
+    story.append(Paragraph(
+        "<b>Together:</b> Deep valleys (lite models settling fast) contrasted with peaks (heavier models). "
+        "Most diverse topology showing the range of open-source model behaviors.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # xAI
+    img_path = PICS_DIR / "5_Settling" / "RnD_experiments" / "waterfall_xai.png"
+    add_image(story, img_path, width=5.5*inch, caption="Figure R1e: xAI Identity Manifold")
+    story.append(Paragraph(
+        "<b>xAI:</b> Sharp ridges and dramatic drop-offs characterize the Grok family. Distinct "
+        "topology suggesting unique training approach.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(Paragraph(
+        "<b>Key Insight:</b> Each provider's manifold has a unique 'fingerprint' - the shape literally "
+        "shows where identity 'lives' in phase space. This is the topology of identity stability made visible.",
+        body_style
+    ))
 
     story.append(PageBreak())
 
@@ -2001,8 +2068,8 @@ def generate_fft_spectral_pdf():
 
     # FFT Spectral Plot
     story.append(Paragraph("1. Provider Spectral Signatures", heading_style))
-    img_path = PICS_DIR / "9_FFT_Spectral" / "run023b_fft_spectral.png"
-    add_image(story, img_path, width=6.5*inch, caption="Figure 1: FFT power spectral density by provider")
+    img_path = PICS_DIR / "9_FFT_Spectral" / "fft_spectral_analysis.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: FFT spectral analysis - 4-panel view (Run 023d)")
 
     story.append(Paragraph(
         "<b>What it shows:</b> The power spectral density (PSD) for each provider family, "
