@@ -9,7 +9,7 @@ Visualizations:
 1. WATERFALL PLOT - 3D time-frequency-amplitude (if temporal resolution permits)
 2. PHASE-PLANE PLOT - drift vs d(drift)/dt showing attractor dynamics
 3. FFT OF SETTLING CURVES - Frequency content of settling oscillations
-4. EYE DIAGRAM - Overlaid trajectories showing consistency/jitter
+4. CONSISTENCY ENVELOPE - Overlaid trajectories showing bundle coherence
 
 DATA LIMITATION NOTE (2025-12-20):
 ==================================
@@ -453,23 +453,24 @@ def generate_fft_settling_plot(results):
     return output_path
 
 # ============================================================================
-# 4. EYE DIAGRAM - Overlaid Trajectories
+# 4. CONSISTENCY ENVELOPE - Overlaid Trajectories
 # ============================================================================
 
-def generate_eye_diagram(results):
+def generate_consistency_envelope(results):
     """
-    EYE DIAGRAM: All trajectories overlaid, showing consistency/jitter.
+    CONSISTENCY ENVELOPE: All trajectories overlaid, showing trajectory bundle coherence.
 
-    Named after the communications engineering technique:
-    - Clear "eye opening" = consistent behavior, low jitter
-    - Blurred/closed eye = high variability, inconsistent settling
+    Conceptually inspired by eye diagrams but adapted for our measurement paradigm:
+    - Unlike digital signals, our trajectories are not periodic/repeating
+    - Each experiment is a single path-dependent trajectory
+    - We overlay N trajectories to show the "bundle" consistency
 
-    The "eye" shows:
-    - Envelope width = amplitude variability
-    - Crossing spread = timing jitter
-    - Eye opening = signal quality / identity coherence
+    The envelope shows:
+    - Envelope Width = amplitude variability (tighter = more consistent)
+    - Trajectory Spread = timing/path variance
+    - Coherence = how tightly the bundle converges
     """
-    print("\n[4/4] Generating EYE DIAGRAM...")
+    print("\n[4/4] Generating CONSISTENCY ENVELOPE...")
 
     fig, axes = plt.subplots(2, 3, figsize=(16, 10))
     axes = axes.flatten()
@@ -526,11 +527,15 @@ def generate_eye_diagram(results):
         ax.axhline(y=EVENT_HORIZON, color='red', linestyle='--',
                   linewidth=2, alpha=0.7, label=f'EH={EVENT_HORIZON}')
 
-        # Calculate "eye opening" metric
-        min_opening = np.min(EVENT_HORIZON - (mean_traj + std_traj))
-        eye_quality = max(0, min_opening / EVENT_HORIZON) * 100
+        # Calculate envelope width metric (inverse = coherence)
+        # Envelope width = average std across trajectory (lower = tighter bundle)
+        envelope_width = np.mean(std_traj)
 
-        # Jitter metric (crossing spread)
+        # Coherence metric: how much margin to Event Horizon (higher = better)
+        min_margin = np.min(EVENT_HORIZON - (mean_traj + std_traj))
+        coherence = max(0, min_margin / EVENT_HORIZON) * 100
+
+        # Jitter metric (crossing spread at 0.3 threshold)
         crossings = []
         for traj in normalized:
             for i in range(len(traj)-1):
@@ -541,7 +546,7 @@ def generate_eye_diagram(results):
         ax.set_xlabel('Normalized Time', fontsize=10)
         ax.set_ylabel('Drift', fontsize=10)
         ax.set_title(f'{provider.upper()}\n' +
-                    f'Eye Opening: {eye_quality:.1f}% | Jitter: {jitter:.2f}',
+                    f'Envelope Width: {envelope_width:.2f} | Jitter: {jitter:.2f}',
                     fontsize=11, fontweight='bold')
         ax.set_ylim(-0.1, 1.5)
         ax.set_xlim(0, max_len-1)
@@ -554,12 +559,12 @@ def generate_eye_diagram(results):
     for idx in range(len(providers), 6):
         axes[idx].set_visible(False)
 
-    plt.suptitle('EYE DIAGRAM: Trajectory Consistency Analysis\n' +
-                 '(Clear eye = consistent | Limited to 6 probes - Run 023d: 20 probes)',
+    plt.suptitle('CONSISTENCY ENVELOPE: Trajectory Bundle Analysis\n' +
+                 '(Tighter envelope = more consistent | Limited to 6 probes - Run 023d: 20 probes)',
                  fontsize=12, fontweight='bold', y=1.02)
     plt.tight_layout()
 
-    output_path = OUTPUT_DIR / 'eye_diagram_consistency.png'
+    output_path = OUTPUT_DIR / 'consistency_envelope.png'
     plt.savefig(output_path, dpi=150, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
     plt.close()
@@ -688,9 +693,9 @@ def main():
         print(f"   ERROR in FFT: {e}")
 
     try:
-        outputs.append(generate_eye_diagram(results))
+        outputs.append(generate_consistency_envelope(results))
     except Exception as e:
-        print(f"   ERROR in eye diagram: {e}")
+        print(f"   ERROR in consistency envelope: {e}")
 
     try:
         outputs.append(generate_recovery_heatmap(results))
