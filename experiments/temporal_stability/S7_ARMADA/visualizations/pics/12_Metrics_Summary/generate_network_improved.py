@@ -12,6 +12,7 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.patheffects as patheffects
 from pathlib import Path
 from collections import defaultdict
 
@@ -109,13 +110,15 @@ def plot_improved_network(provider_models, output_dir):
         px, py = provider_positions[provider]
         color = PROVIDER_COLORS.get(provider, '#888888')
 
-        # Draw provider hub (large node)
-        hub = ax.scatter([px], [py], s=2500, c=color, marker='h',
-                        edgecolors='white', linewidths=3, zorder=10, alpha=0.9)
+        # Draw provider hub (larger node for readability)
+        hub = ax.scatter([px], [py], s=3500, c=color, marker='h',
+                        edgecolors='black', linewidths=2, zorder=10, alpha=0.9)
 
-        # Provider label
-        ax.annotate(provider.upper(), (px, py), fontsize=11, fontweight='bold',
-                   color='white' if provider != 'google' else 'black', ha='center', va='center', zorder=11)
+        # Provider label - ensure contrast with background color
+        # Use white text with black outline for readability on all colors
+        ax.annotate(provider.upper(), (px, py), fontsize=12, fontweight='bold',
+                   color='white', ha='center', va='center', zorder=11,
+                   path_effects=[patheffects.withStroke(linewidth=3, foreground='black')])
 
         # Draw model nodes around hub
         n_models = len(models)
@@ -148,10 +151,11 @@ def plot_improved_network(provider_models, output_dir):
             # Draw connection to hub
             ax.plot([px, mx], [py, my], '-', color=color, alpha=0.4, linewidth=1.5, zorder=1)
 
-            # Model label (shortened)
-            short_name = model_name.split('/')[-1][:20]
-            ax.annotate(short_name, (mx, my + 0.35), fontsize=7, color='#333333',
-                       ha='center', va='bottom', alpha=0.8, zorder=6)
+            # Model label (shortened) - improved readability
+            short_name = model_name.split('/')[-1][:18]
+            ax.annotate(short_name, (mx, my + 0.4), fontsize=8, color='#333333',
+                       ha='center', va='bottom', alpha=0.9, zorder=6,
+                       fontweight='bold')
 
     # Title and statistics
     total_models = sum(len(m) for m in provider_models.values())
@@ -173,8 +177,9 @@ def plot_improved_network(provider_models, output_dir):
         elem = mpatches.Patch(color=color, label=f'{provider.upper()}')
         legend_elements.append(elem)
 
-    legend = ax.legend(handles=legend_elements, loc='upper left',
-                      bbox_to_anchor=(0.02, 0.98), facecolor='white',
+    # Move legend to bottom-right to avoid overlapping network nodes
+    legend = ax.legend(handles=legend_elements, loc='lower right',
+                      bbox_to_anchor=(0.98, 0.02), facecolor='white',
                       edgecolor='#cccccc', fontsize=9)
     for text in legend.get_texts():
         text.set_color('black')

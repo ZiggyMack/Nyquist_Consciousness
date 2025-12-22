@@ -165,44 +165,44 @@ def generate_phase2_pca(features, metadata):
 
 
 def generate_variance_curve(pca, output_dir):
-    """Generate cumulative explained variance curve."""
+    """Generate cumulative explained variance curve - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(10, 6))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     cumvar = np.cumsum(pca.explained_variance_ratio_)
     n_components = len(cumvar)
 
-    ax.plot(range(1, n_components + 1), cumvar, 'o-', color='#00ff88',
+    ax.plot(range(1, n_components + 1), cumvar, 'o-', color='#2ecc71',
             linewidth=2, markersize=6)
 
     # Mark 90% threshold
     idx_90 = np.argmax(cumvar >= 0.90) + 1
-    ax.axhline(y=0.90, color='#ff4444', linestyle='--', linewidth=2,
+    ax.axhline(y=0.90, color='#e74c3c', linestyle='--', linewidth=2,
                alpha=0.8, label=f'90% threshold')
-    ax.axhline(y=0.95, color='#ffaa00', linestyle='--', linewidth=1.5,
+    ax.axhline(y=0.95, color='#f39c12', linestyle='--', linewidth=1.5,
                alpha=0.6, label='95% threshold')
 
-    ax.axvline(x=idx_90, color='#ff4444', linestyle=':', alpha=0.5)
+    ax.axvline(x=idx_90, color='#e74c3c', linestyle=':', alpha=0.5)
     ax.annotate(f'90%: {idx_90} PCs', xy=(idx_90, 0.90),
                 xytext=(idx_90 + 0.5, 0.85),
-                fontsize=11, color='white',
-                arrowprops=dict(arrowstyle='->', color='white', alpha=0.5))
+                fontsize=11, color='black',
+                arrowprops=dict(arrowstyle='->', color='black', alpha=0.5))
 
-    ax.set_xlabel('Number of Principal Components', fontsize=12, color='white')
-    ax.set_ylabel('Cumulative Variance Explained', fontsize=12, color='white')
+    ax.set_xlabel('Number of Principal Components', fontsize=12, color='black')
+    ax.set_ylabel('Cumulative Variance Explained', fontsize=12, color='black')
     ax.set_title('Identity Dimensionality: How Many Dimensions Carry Signal?\n' +
                  '(Low value = identity is low-dimensional, structured)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white')
-    ax.grid(True, alpha=0.3, color='#333355')
-    ax.tick_params(colors='white')
+    ax.legend(facecolor='white', edgecolor='#cccccc')
+    ax.grid(True, alpha=0.3)
+    ax.tick_params(colors='black')
     ax.set_xlim(0, n_components + 1)
     ax.set_ylim(0, 1.05)
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     plt.tight_layout()
 
@@ -214,10 +214,10 @@ def generate_variance_curve(pca, output_dir):
 
 
 def generate_pc_scatter(transformed, metadata, output_dir):
-    """Generate PC1 vs PC2 scatter plot."""
+    """Generate PC1 vs PC2 scatter plot - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(10, 8))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     providers = [m['provider'] for m in metadata]
     peak_drifts = [m.get('peak_drift', 0) for m in metadata]
@@ -232,20 +232,20 @@ def generate_pc_scatter(transformed, metadata, output_dir):
         color = PROVIDER_COLORS.get(provider, '#888888')
         display = PROVIDER_DISPLAY.get(provider, provider)
 
-        ax.scatter(x, y, c=color, label=display, alpha=0.7, s=50, edgecolor='white', linewidth=0.3)
+        ax.scatter(x, y, c=color, label=display, alpha=0.7, s=50, edgecolor='black', linewidth=0.3)
 
-    ax.set_xlabel('PC1', fontsize=12, color='white')
-    ax.set_ylabel('PC2', fontsize=12, color='white')
+    ax.set_xlabel('PC1', fontsize=12, color='black')
+    ax.set_ylabel('PC2', fontsize=12, color='black')
     ax.set_title('Identity Space: Experiments in Principal Component Space\n' +
                  '(Clusters = provider-specific identity regions)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white', loc='upper right')
-    ax.grid(True, alpha=0.3, color='#333355')
-    ax.tick_params(colors='white')
+    ax.legend(facecolor='white', edgecolor='#cccccc', loc='upper right')
+    ax.grid(True, alpha=0.3)
+    ax.tick_params(colors='black')
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     plt.tight_layout()
 
@@ -257,10 +257,10 @@ def generate_pc_scatter(transformed, metadata, output_dir):
 
 
 def generate_provider_clusters(transformed, metadata, output_dir):
-    """Generate provider clustering visualization with centroids."""
+    """Generate provider clustering visualization with centroids - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(10, 8))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     providers = [m['provider'] for m in metadata]
 
@@ -280,7 +280,7 @@ def generate_provider_clusters(transformed, metadata, output_dir):
 
         # Plot centroid
         cx, cy = np.mean(x), np.mean(y)
-        ax.scatter(cx, cy, c=color, s=200, marker='X', edgecolor='white',
+        ax.scatter(cx, cy, c=color, s=200, marker='X', edgecolor='black',
                    linewidth=2, zorder=10, label=f'{display} centroid')
 
         # Plot error ellipse (1 std)
@@ -296,19 +296,19 @@ def generate_provider_clusters(transformed, metadata, output_dir):
     labels = [unique_providers.index(p) for p in providers]
     sil_score = silhouette_score(transformed[:, :2], labels)
 
-    ax.set_xlabel('PC1', fontsize=12, color='white')
-    ax.set_ylabel('PC2', fontsize=12, color='white')
+    ax.set_xlabel('PC1', fontsize=12, color='black')
+    ax.set_ylabel('PC2', fontsize=12, color='black')
     ax.set_title(f'Provider Clustering (Silhouette: {sil_score:.3f})\n' +
                  '(Centroids with 1-std ellipses)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white',
+    ax.legend(facecolor='white', edgecolor='#cccccc',
               loc='upper right', fontsize=9)
-    ax.grid(True, alpha=0.3, color='#333355')
-    ax.tick_params(colors='white')
+    ax.grid(True, alpha=0.3)
+    ax.tick_params(colors='black')
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     plt.tight_layout()
 
@@ -320,10 +320,10 @@ def generate_provider_clusters(transformed, metadata, output_dir):
 
 
 def generate_eh_contour(features, transformed, metadata, output_dir):
-    """Generate Event Horizon contour in PC space."""
+    """Generate Event Horizon contour in PC space - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(10, 8))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     providers = [m['provider'] for m in metadata]
 
@@ -337,44 +337,44 @@ def generate_eh_contour(features, transformed, metadata, output_dir):
     # Plot below EH (stable)
     sc1 = ax.scatter(transformed[below_eh, 0], transformed[below_eh, 1],
                      c=peak_drifts[below_eh], cmap='viridis', s=50,
-                     alpha=0.7, edgecolor='white', linewidth=0.3,
+                     alpha=0.7, edgecolor='black', linewidth=0.3,
                      vmin=0, vmax=1.2)
 
     # Plot above EH (volatile) with different marker
     sc2 = ax.scatter(transformed[above_eh, 0], transformed[above_eh, 1],
                      c=peak_drifts[above_eh], cmap='viridis', s=80,
-                     alpha=0.9, edgecolor='#ff4444', linewidth=2,
+                     alpha=0.9, edgecolor='#e74c3c', linewidth=2,
                      marker='s', vmin=0, vmax=1.2)
 
     cbar = plt.colorbar(sc1, ax=ax, label='Peak Drift (Cosine Distance)')
-    cbar.ax.yaxis.label.set_color('white')
-    cbar.ax.tick_params(colors='white')
+    cbar.ax.yaxis.label.set_color('black')
+    cbar.ax.tick_params(colors='black')
 
     # Add EH indicator to legend
-    ax.scatter([], [], c='gray', s=50, edgecolor='white', label=f'Stable (< {EVENT_HORIZON})')
-    ax.scatter([], [], c='gray', s=80, edgecolor='#ff4444', linewidth=2,
+    ax.scatter([], [], c='gray', s=50, edgecolor='black', label=f'Stable (< {EVENT_HORIZON})')
+    ax.scatter([], [], c='gray', s=80, edgecolor='#e74c3c', linewidth=2,
                marker='s', label=f'Volatile (>= {EVENT_HORIZON})')
 
-    ax.set_xlabel('PC1', fontsize=12, color='white')
-    ax.set_ylabel('PC2', fontsize=12, color='white')
+    ax.set_xlabel('PC1', fontsize=12, color='black')
+    ax.set_ylabel('PC2', fontsize=12, color='black')
     ax.set_title(f'Event Horizon ({EVENT_HORIZON}) in PC Space\n' +
                  f'(Red border = volatile, crossed EH)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white', loc='upper right')
-    ax.grid(True, alpha=0.3, color='#333355')
-    ax.tick_params(colors='white')
+    ax.legend(facecolor='white', edgecolor='#cccccc', loc='upper right')
+    ax.grid(True, alpha=0.3)
+    ax.tick_params(colors='black')
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     # Add stats
     n_stable = np.sum(below_eh)
     n_volatile = np.sum(above_eh)
     pct_stable = 100 * n_stable / len(peak_drifts)
     ax.text(0.02, 0.98, f'Stable: {n_stable} ({pct_stable:.1f}%)\nVolatile: {n_volatile}',
-            transform=ax.transAxes, fontsize=10, color='white',
-            verticalalignment='top', bbox=dict(boxstyle='round', facecolor='#1a1a2e', alpha=0.8))
+            transform=ax.transAxes, fontsize=10, color='black',
+            verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', edgecolor='#cccccc', alpha=0.9))
 
     plt.tight_layout()
 
@@ -407,10 +407,10 @@ def generate_phase3a_perturbation(probe_data):
 
 
 def generate_perturbation_comparison(probe_data, output_dir):
-    """Compare drift from deep (step_input) vs surface (recovery) perturbations."""
+    """Compare drift from deep (step_input) vs surface (recovery) perturbations - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(10, 7))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     # Collect drift by perturbation type
     deep_drifts = []  # step_input
@@ -436,28 +436,28 @@ def generate_perturbation_comparison(probe_data, output_dir):
 
     for element in ['whiskers', 'caps', 'medians']:
         for item in bp[element]:
-            item.set_color('white')
-    bp['fliers'][0].set_markeredgecolor('white')
-    bp['fliers'][1].set_markeredgecolor('white')
+            item.set_color('black')
+    bp['fliers'][0].set_markeredgecolor('black')
+    bp['fliers'][1].set_markeredgecolor('black')
 
     # Event Horizon line
-    ax.axhline(y=EVENT_HORIZON, color='#ff4444', linestyle='--', linewidth=2,
+    ax.axhline(y=EVENT_HORIZON, color='#e74c3c', linestyle='--', linewidth=2,
                alpha=0.8, label=f'Event Horizon ({EVENT_HORIZON})')
 
     ax.set_xticks(positions)
     ax.set_xticklabels(['Surface\n(Recovery Probes)', 'Deep\n(Step Input)'],
-                       fontsize=11, color='white')
-    ax.set_ylabel('Cosine Distance (Drift)', fontsize=12, color='white')
+                       fontsize=11, color='black')
+    ax.set_ylabel('Cosine Distance (Drift)', fontsize=12, color='black')
     ax.set_title('Perturbation Type Comparison\n' +
                  '(Deep > Surface = cosine measures meaning, not vocabulary)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white')
-    ax.grid(True, alpha=0.3, axis='y', color='#333355')
-    ax.tick_params(colors='white')
+    ax.legend(facecolor='white', edgecolor='#cccccc')
+    ax.grid(True, alpha=0.3, axis='y')
+    ax.tick_params(colors='black')
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     # Add stats
     surface_mean = np.mean(surface_drifts)
@@ -466,8 +466,8 @@ def generate_perturbation_comparison(probe_data, output_dir):
 
     ax.text(0.02, 0.98, f'Surface mean: {surface_mean:.3f}\nDeep mean: {deep_mean:.3f}\n' +
             f't-test p={p_value:.2e}',
-            transform=ax.transAxes, fontsize=10, color='white',
-            verticalalignment='top', bbox=dict(boxstyle='round', facecolor='#1a1a2e', alpha=0.8))
+            transform=ax.transAxes, fontsize=10, color='black',
+            verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', edgecolor='#cccccc', alpha=0.9))
 
     plt.tight_layout()
 
@@ -479,10 +479,10 @@ def generate_perturbation_comparison(probe_data, output_dir):
 
 
 def generate_eh_crossings(probe_data, output_dir):
-    """Show Event Horizon crossing rates by perturbation type."""
+    """Show Event Horizon crossing rates by perturbation type - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(10, 7))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     # Count EH crossings
     deep_total = 0
@@ -510,24 +510,24 @@ def generate_eh_crossings(probe_data, output_dir):
     rates = [surface_rate * 100, deep_rate * 100]
     colors = ['#4285F4', '#E07B53']
 
-    bars = ax.bar(categories, rates, color=colors, alpha=0.8, edgecolor='white', linewidth=0.5)
+    bars = ax.bar(categories, rates, color=colors, alpha=0.8, edgecolor='black', linewidth=0.5)
 
     # Add value labels on bars
     for bar, rate in zip(bars, rates):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 1,
-                f'{rate:.1f}%', ha='center', va='bottom', fontsize=12, color='white')
+                f'{rate:.1f}%', ha='center', va='bottom', fontsize=12, color='black')
 
-    ax.set_ylabel('EH Crossing Rate (%)', fontsize=12, color='white')
+    ax.set_ylabel('EH Crossing Rate (%)', fontsize=12, color='black')
     ax.set_title('Event Horizon Crossings by Perturbation Type\n' +
                  '(Higher = more identity disruption)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.grid(True, alpha=0.3, axis='y', color='#333355')
-    ax.tick_params(colors='white')
+    ax.grid(True, alpha=0.3, axis='y')
+    ax.tick_params(colors='black')
     ax.set_ylim(0, max(rates) * 1.2)
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     plt.tight_layout()
 
@@ -539,10 +539,10 @@ def generate_eh_crossings(probe_data, output_dir):
 
 
 def generate_ship_comparison(probe_data, output_dir):
-    """Show per-model response to perturbations."""
+    """Show per-model response to perturbations - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(12, 8))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     # Aggregate by model
     model_stats = defaultdict(lambda: {'deep': [], 'surface': [], 'provider': None})
@@ -568,14 +568,14 @@ def generate_ship_comparison(probe_data, output_dir):
         color = PROVIDER_COLORS.get(provider, '#888888')
 
         ax.scatter(surface_mean, deep_mean, c=color, s=100, alpha=0.7,
-                   edgecolor='white', linewidth=0.5)
+                   edgecolor='black', linewidth=0.5)
 
     # Diagonal line (Deep = Surface)
-    ax.plot([0, 1.2], [0, 1.2], '--', color='white', alpha=0.5, label='Equal line')
+    ax.plot([0, 1.2], [0, 1.2], '--', color='gray', alpha=0.5, label='Equal line')
 
     # EH lines
-    ax.axhline(y=EVENT_HORIZON, color='#ff4444', linestyle=':', alpha=0.5)
-    ax.axvline(x=EVENT_HORIZON, color='#ff4444', linestyle=':', alpha=0.5)
+    ax.axhline(y=EVENT_HORIZON, color='#e74c3c', linestyle=':', alpha=0.5)
+    ax.axvline(x=EVENT_HORIZON, color='#e74c3c', linestyle=':', alpha=0.5)
 
     # Legend for providers
     for provider in set(d['provider'] for d in probe_data):
@@ -583,20 +583,20 @@ def generate_ship_comparison(probe_data, output_dir):
         display = PROVIDER_DISPLAY.get(provider, provider)
         ax.scatter([], [], c=color, s=100, label=display, alpha=0.7)
 
-    ax.set_xlabel('Surface Drift (Recovery Probes)', fontsize=12, color='white')
-    ax.set_ylabel('Deep Drift (Step Input)', fontsize=12, color='white')
+    ax.set_xlabel('Surface Drift (Recovery Probes)', fontsize=12, color='black')
+    ax.set_ylabel('Deep Drift (Step Input)', fontsize=12, color='black')
     ax.set_title('Surface vs Deep Drift by Model\n' +
                  '(Points above diagonal = Deep > Surface)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white', loc='lower right')
-    ax.grid(True, alpha=0.3, color='#333355')
-    ax.tick_params(colors='white')
+    ax.legend(facecolor='white', edgecolor='#cccccc', loc='lower right')
+    ax.grid(True, alpha=0.3)
+    ax.tick_params(colors='black')
     ax.set_xlim(0, 1.2)
     ax.set_ylim(0, 1.2)
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     plt.tight_layout()
 
@@ -660,10 +660,10 @@ def calculate_within_cross_distances(results):
 
 
 def generate_cross_model_comparison(probe_data, results, output_dir):
-    """Generate within vs cross-provider comparison box plot."""
+    """Generate within vs cross-provider comparison box plot - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(10, 7))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     within_dists, cross_dists = calculate_within_cross_distances(results)
 
@@ -684,28 +684,28 @@ def generate_cross_model_comparison(probe_data, results, output_dir):
 
     for element in ['whiskers', 'caps', 'medians']:
         for item in bp[element]:
-            item.set_color('white')
+            item.set_color('black')
 
     ax.set_xticks(positions)
     ax.set_xticklabels(['Within-Provider\n(same family)', 'Cross-Provider\n(different families)'],
-                       fontsize=11, color='white')
-    ax.set_ylabel('Drift Difference (|d1 - d2|)', fontsize=12, color='white')
+                       fontsize=11, color='black')
+    ax.set_ylabel('Drift Difference (|d1 - d2|)', fontsize=12, color='black')
     ax.set_title(f"Cross-Model Comparison (Cohen's d = {cohens_d:.3f})\n" +
                  '(d > 0.8 = LARGE effect = genuine identity differences)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.grid(True, alpha=0.3, axis='y', color='#333355')
-    ax.tick_params(colors='white')
+    ax.grid(True, alpha=0.3, axis='y')
+    ax.tick_params(colors='black')
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     # Effect size interpretation
     effect_label = "LARGE" if cohens_d >= 0.8 else "MEDIUM" if cohens_d >= 0.5 else "SMALL"
     ax.text(0.98, 0.98, f"Cohen's d = {cohens_d:.3f}\n({effect_label} effect)",
-            transform=ax.transAxes, fontsize=12, color='#00ff88' if cohens_d >= 0.8 else 'white',
+            transform=ax.transAxes, fontsize=12, color='#27ae60' if cohens_d >= 0.8 else 'black',
             verticalalignment='top', horizontalalignment='right',
-            bbox=dict(boxstyle='round', facecolor='#1a1a2e', alpha=0.8))
+            bbox=dict(boxstyle='round', facecolor='white', edgecolor='#cccccc', alpha=0.9))
 
     plt.tight_layout()
 
@@ -719,10 +719,10 @@ def generate_cross_model_comparison(probe_data, results, output_dir):
 
 
 def generate_cross_model_histogram(probe_data, results, output_dir):
-    """Generate overlapping histograms for within vs cross-provider."""
+    """Generate overlapping histograms for within vs cross-provider - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(10, 7))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     within_dists, cross_dists = calculate_within_cross_distances(results)
 
@@ -730,22 +730,22 @@ def generate_cross_model_histogram(probe_data, results, output_dir):
     bins = np.linspace(0, max(max(within_dists), max(cross_dists)), 30)
 
     ax.hist(within_dists, bins=bins, alpha=0.6, color='#4285F4',
-            label=f'Within-Provider (n={len(within_dists)})', edgecolor='white', linewidth=0.5)
+            label=f'Within-Provider (n={len(within_dists)})', edgecolor='black', linewidth=0.5)
     ax.hist(cross_dists, bins=bins, alpha=0.6, color='#E07B53',
-            label=f'Cross-Provider (n={len(cross_dists)})', edgecolor='white', linewidth=0.5)
+            label=f'Cross-Provider (n={len(cross_dists)})', edgecolor='black', linewidth=0.5)
 
-    ax.set_xlabel('Drift Difference', fontsize=12, color='white')
-    ax.set_ylabel('Count', fontsize=12, color='white')
+    ax.set_xlabel('Drift Difference', fontsize=12, color='black')
+    ax.set_ylabel('Count', fontsize=12, color='black')
     ax.set_title('Distribution of Cross-Model Drift Differences\n' +
                  '(Separated distributions = genuine identity differences)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
-    ax.legend(facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white')
-    ax.grid(True, alpha=0.3, color='#333355')
-    ax.tick_params(colors='white')
+    ax.legend(facecolor='white', edgecolor='#cccccc')
+    ax.grid(True, alpha=0.3)
+    ax.tick_params(colors='black')
 
     for spine in ax.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     plt.tight_layout()
 
@@ -757,10 +757,10 @@ def generate_cross_model_histogram(probe_data, results, output_dir):
 
 
 def generate_provider_matrix(probe_data, results, output_dir):
-    """Generate provider-to-provider similarity matrix."""
+    """Generate provider-to-provider similarity matrix - LIGHT MODE."""
     fig, ax = plt.subplots(figsize=(9, 8))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#1a1a2e')
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     # Group by provider
     by_provider = defaultdict(list)
@@ -788,23 +788,25 @@ def generate_provider_matrix(probe_data, results, output_dir):
     display_labels = [PROVIDER_DISPLAY.get(p, p) for p in providers]
     ax.set_xticks(range(n))
     ax.set_yticks(range(n))
-    ax.set_xticklabels(display_labels, fontsize=10, color='white')
-    ax.set_yticklabels(display_labels, fontsize=10, color='white')
+    ax.set_xticklabels(display_labels, fontsize=10, color='black', rotation=45, ha='right')
+    ax.set_yticklabels(display_labels, fontsize=10, color='black')
 
-    # Add values
+    # Add values - use contrasting text color
     for i in range(n):
         for j in range(n):
+            # Use white text on dark cells, black on light
+            text_color = 'white' if matrix[i, j] > matrix.max() * 0.6 else 'black'
             text = ax.text(j, i, f'{matrix[i, j]:.2f}',
-                          ha='center', va='center', fontsize=10,
-                          color='black' if matrix[i, j] > matrix.max()/2 else 'white')
+                          ha='center', va='center', fontsize=11, fontweight='bold',
+                          color=text_color)
 
     cbar = plt.colorbar(im, ax=ax, label='Mean Drift Difference')
-    cbar.ax.yaxis.label.set_color('white')
-    cbar.ax.tick_params(colors='white')
+    cbar.ax.yaxis.label.set_color('black')
+    cbar.ax.tick_params(colors='black')
 
     ax.set_title('Provider Similarity Matrix\n' +
                  '(Lower diagonal = more similar identity profiles)',
-                 fontsize=13, color='white', fontweight='bold')
+                 fontsize=13, color='black', fontweight='bold')
 
     plt.tight_layout()
 

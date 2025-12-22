@@ -97,6 +97,47 @@ def extract_drift_timeseries(result, skip_baseline=False):
 # 1. WATERFALL PLOT - 3D Time-Frequency-Amplitude
 # ============================================================================
 
+def get_pastel_cmap(dark_mode=True):
+    """Create consistent colormap for all waterfall plots.
+
+    Args:
+        dark_mode: If True, use vibrant colors suitable for dark backgrounds
+    """
+    from matplotlib.colors import LinearSegmentedColormap
+
+    if dark_mode:
+        # Blue → Purple → Magenta → Red gradient (no yellow-green!)
+        # Clean, professional, high contrast on dark backgrounds
+        colors = [
+            '#4FC3F7',  # Light blue (stable/low drift)
+            '#7E57C2',  # Purple (moderate)
+            '#E040FB',  # Magenta (warning zone)
+            '#FF5252',  # Red (high drift/unstable)
+        ]
+        bad_color = '#3D3D3D'  # Medium gray for NaN (settled early)
+    else:
+        # Original pastels for light mode
+        colors = [
+            '#98D8AA',  # Soft mint green (stable/low drift)
+            '#C4E4C1',  # Light sage
+            '#F5F5DC',  # Cream/beige (neutral)
+            '#FFDAB9',  # Peach puff
+            '#E8A0A0',  # Soft coral/rose (high drift)
+        ]
+        bad_color = '#D0D0D0'  # Light gray for NaN
+
+    cmap = LinearSegmentedColormap.from_list('drift_cmap', colors)
+    cmap.set_bad(color=bad_color)
+    return cmap
+
+
+# Use dark mode by default
+DARK_MODE = True
+BG_COLOR = '#1E1E1E' if DARK_MODE else 'white'
+TEXT_COLOR = '#E8E8E8' if DARK_MODE else 'black'
+GRID_COLOR = '#404040' if DARK_MODE else 'white'
+
+
 def generate_waterfall_plot(results):
     """
     WATERFALL PLOT: 3D visualization showing multiple settling curves stacked.
@@ -128,45 +169,78 @@ def generate_waterfall_plot(results):
 
     for i, ship in enumerate(ships):
         if by_model[ship]:
-            # Average across iterations for this ship
+            # FIXED: Average across ALL iterations for this ship
             all_ts = by_model[ship]
-            # Pad/truncate to max_probes
+            avg_ts = np.zeros(max_probes)
+            count = np.zeros(max_probes)
+
             for ts in all_ts:
                 length = min(len(ts), max_probes)
-                waterfall_matrix[i, :length] = ts[:length]
-                break  # Just use first iteration for clarity
+                avg_ts[:length] += ts[:length]
+                count[:length] += 1
 
-    # Create figure
-    fig = plt.figure(figsize=(14, 10))
+            # Average where we have data
+            with np.errstate(divide='ignore', invalid='ignore'):
+                avg_ts = np.where(count > 0, avg_ts / count, np.nan)
+            waterfall_matrix[i] = avg_ts
+
+    # Create figure with dark background
+    fig = plt.figure(figsize=(14, 10), facecolor=BG_COLOR)
+
+    # Use dark-mode colormap
+    drift_cmap = get_pastel_cmap(dark_mode=DARK_MODE)
 
     # 2D heatmap view (waterfall seen from above)
     ax1 = fig.add_subplot(211)
-    im = ax1.imshow(waterfall_matrix, aspect='auto', cmap='RdYlBu_r',
-                    vmin=0, vmax=1.5, interpolation='nearest')
-    # Column 0 is now step_input (baseline probes skipped)
-    ax1.axvline(x=0.5, color='white', linestyle='--', alpha=0.7, label='After step')
-    ax1.axhline(y=len(ships)//2, color='white', linestyle=':', alpha=0.5)
+    ax1.set_facecolor(BG_COLOR)
+    im = ax1.imshow(waterfall_matrix, aspect='auto', cmap=drift_cmap,
+                    vmin=0, vmax=1.0, interpolation='nearest')
 
-    # Event Horizon line
-    ax1.text(max_probes - 1, 0.5, f'EH={EVENT_HORIZON}', color='red',
-             fontsize=8, ha='right', va='bottom')
+    # Add subtle grid for readability
+    ax1.set_xticks(np.arange(-0.5, max_probes, 1), minor=True)
+    ax1.set_yticks(np.arange(-0.5, len(ships), 1), minor=True)
+    ax1.grid(which='minor', color=GRID_COLOR, linestyle='-', linewidth=0.3, alpha=0.5)
 
-    ax1.set_xlabel('Recovery Phase (Step input + recovery probes)', fontsize=11)
-    ax1.set_ylabel('Ship (stacked)', fontsize=11)
+    ax1.set_xlabel('Recovery Phase (Step input + recovery probes)', fontsize=11, color=TEXT_COLOR)
+    ax1.set_ylabel('Ship (stacked)', fontsize=11, color=TEXT_COLOR)
     ax1.set_title('WATERFALL VIEW: Fleet Settling Dynamics\n' +
-                  '(Each row = one ship | Run 023d: Step + 20 recovery probes)', fontsize=11)
+                  '(Each row = one ship, averaged across N=30 iterations)',
+                  fontsize=11, color=TEXT_COLOR)
+    ax1.tick_params(colors=TEXT_COLOR)
 
-    # Colorbar
+    # Colorbar with EH marker
     cbar = plt.colorbar(im, ax=ax1, shrink=0.8)
-    cbar.set_label('Drift (cosine distance)', fontsize=10)
+    cbar.set_label('Drift (cosine)', fontsize=10, color=TEXT_COLOR)
+    cbar.ax.axhline(y=EVENT_HORIZON, color='#FFD700', linewidth=2, linestyle='--')
+    # Place EH label on left side of colorbar to avoid overlap with label
+    cbar.ax.text(-0.5, EVENT_HORIZON, f'EH', fontsize=8, va='center', ha='right', color='#FFD700')
+    cbar.ax.tick_params(colors=TEXT_COLOR)
 
-    # Y-axis labels (ship names, rotated)
-    short_names = [s[:12] + '..' if len(s) > 14 else s for s in ships]
+    # Legend explaining colors
+    from matplotlib.patches import Patch
+    legend_elements = [
+        Patch(facecolor='#4FC3F7', edgecolor='#888', label='Stable (low drift)'),
+        Patch(facecolor='#FF5252', edgecolor='#888', label='Unstable (high drift)'),
+        Patch(facecolor='#3D3D3D', edgecolor='#888', label='Settled Early')
+    ]
+    leg = ax1.legend(handles=legend_elements, loc='upper right', fontsize=8,
+                     framealpha=0.9, facecolor='#2A2A2A', edgecolor='#555',
+                     labelcolor=TEXT_COLOR, title='Legend', title_fontsize=9)
+    leg.get_title().set_color(TEXT_COLOR)
+
+    # Y-axis labels (ship names)
+    short_names = [s[:15] + '..' if len(s) > 17 else s for s in ships]
     ax1.set_yticks(range(len(ships)))
-    ax1.set_yticklabels(short_names, fontsize=7)
+    ax1.set_yticklabels(short_names, fontsize=7, color=TEXT_COLOR)
+
+    # X-axis labels
+    x_labels = ['Step'] + [str(i) for i in range(1, max_probes)]
+    ax1.set_xticks(range(max_probes))
+    ax1.set_xticklabels(x_labels, fontsize=8, color=TEXT_COLOR)
 
     # 3D surface view
     ax2 = fig.add_subplot(212, projection='3d')
+    ax2.set_facecolor(BG_COLOR)
 
     X = np.arange(max_probes)
     Y = np.arange(len(ships))
@@ -175,27 +249,261 @@ def generate_waterfall_plot(results):
     # Replace NaN with 0 for surface plot
     Z = np.nan_to_num(waterfall_matrix, nan=0)
 
-    surf = ax2.plot_surface(X, Y, Z, cmap='RdYlBu_r',
-                            linewidth=0.1, antialiased=True, alpha=0.8)
+    surf = ax2.plot_surface(X, Y, Z, cmap=drift_cmap,
+                            linewidth=0.1, antialiased=True, alpha=0.8,
+                            vmin=0, vmax=1.0)
 
-    # Event Horizon plane
-    eh_plane = np.ones_like(Z) * EVENT_HORIZON
-    ax2.plot_surface(X, Y, eh_plane, alpha=0.2, color='red')
+    # Note: EH plane removed for cleaner visualization - EH shown on colorbar instead
 
-    ax2.set_xlabel('Probe Number', fontsize=10)
-    ax2.set_ylabel('Ship Index', fontsize=10)
-    ax2.set_zlabel('Drift', fontsize=10)
-    ax2.set_title('3D WATERFALL: Settling Surface Topology', fontsize=11)
+    ax2.set_xlabel('Probe Number', fontsize=10, color=TEXT_COLOR)
+    ax2.set_ylabel('Ship Index', fontsize=10, color=TEXT_COLOR)
+    ax2.set_zlabel('Drift', fontsize=10, color=TEXT_COLOR)
+    ax2.set_title('3D WATERFALL: Settling Surface Topology', fontsize=11, color=TEXT_COLOR)
+    ax2.tick_params(colors=TEXT_COLOR)
     ax2.view_init(elev=25, azim=-60)
 
     plt.tight_layout()
     output_path = OUTPUT_DIR / 'waterfall_settling_fleet.png'
     plt.savefig(output_path, dpi=150, bbox_inches='tight',
-                facecolor='white', edgecolor='none')
+                facecolor=BG_COLOR, edgecolor='none')
     plt.close()
     print(f"   Saved: {output_path}")
 
     return output_path
+
+
+def generate_provider_waterfall_plots(results):
+    """
+    PER-PROVIDER WATERFALL PLOTS: 3D surface topology per provider.
+
+    Shows the identity manifold topology for each provider - the shape of
+    settling dynamics rendered as a 3D surface.
+    """
+    print("\n[1b/4] Generating PER-PROVIDER WATERFALL PLOTS (3D Surface Only)...")
+
+    # Group results by provider
+    by_provider = defaultdict(list)
+    for r in results:
+        provider = r.get('provider', 'unknown')
+        by_provider[provider].append(r)
+
+    providers = sorted(by_provider.keys())
+    drift_cmap = get_pastel_cmap(dark_mode=DARK_MODE)
+    max_probes = 21
+
+    output_paths = []
+
+    for provider in providers:
+        provider_results = by_provider[provider]
+
+        # Group by model within this provider
+        by_model = defaultdict(list)
+        for r in provider_results:
+            model = r.get('model', 'unknown')
+            drift_ts = extract_drift_timeseries(r, skip_baseline=True)
+            if len(drift_ts) > 0:
+                by_model[model].append(drift_ts)
+
+        ships = sorted(by_model.keys())
+        if not ships:
+            continue
+
+        # Build matrix
+        waterfall_matrix = np.zeros((len(ships), max_probes))
+        waterfall_matrix[:] = np.nan
+
+        for i, ship in enumerate(ships):
+            if by_model[ship]:
+                all_ts = by_model[ship]
+                avg_ts = np.zeros(max_probes)
+                count = np.zeros(max_probes)
+
+                for ts in all_ts:
+                    length = min(len(ts), max_probes)
+                    avg_ts[:length] += ts[:length]
+                    count[:length] += 1
+
+                with np.errstate(divide='ignore', invalid='ignore'):
+                    avg_ts = np.where(count > 0, avg_ts / count, np.nan)
+                waterfall_matrix[i] = avg_ts
+
+        # Provider-specific color (brighter for dark background)
+        provider_colors_bright = {
+            'anthropic': '#FF9966',  # Brighter orange
+            'openai': '#40E0D0',     # Turquoise
+            'google': '#87CEEB',     # Sky blue
+            'xai': '#FF6B6B',        # Coral red
+            'together': '#DDA0DD',   # Plum
+        }
+        provider_color = provider_colors_bright.get(provider, '#E0E0E0')
+
+        # Create figure with just 3D surface
+        fig = plt.figure(figsize=(10, 8), facecolor=BG_COLOR)
+        ax = fig.add_subplot(111, projection='3d')
+        ax.set_facecolor(BG_COLOR)
+
+        X = np.arange(max_probes)
+        Y = np.arange(len(ships))
+        X, Y = np.meshgrid(X, Y)
+
+        # Replace NaN with 0 for surface plot
+        Z = np.nan_to_num(waterfall_matrix, nan=0)
+
+        surf = ax.plot_surface(X, Y, Z, cmap=drift_cmap,
+                               linewidth=0.1, antialiased=True, alpha=0.8,
+                               vmin=0, vmax=1.0)
+
+        # Note: EH plane removed for cleaner visualization - EH shown on colorbar instead
+
+        ax.set_xlabel('Probe Number', fontsize=11, color=TEXT_COLOR)
+        ax.set_ylabel('Ship Index', fontsize=11, color=TEXT_COLOR)
+        ax.set_zlabel('Drift', fontsize=11, color=TEXT_COLOR)
+        ax.set_title(f'{provider.upper()} Identity Manifold\n' +
+                     f'({len(ships)} ships, N=30 iterations averaged)',
+                     fontsize=13, fontweight='bold', color=provider_color)
+        ax.tick_params(colors=TEXT_COLOR)
+        ax.view_init(elev=25, azim=-60)
+
+        # Add colorbar
+        cbar = fig.colorbar(surf, ax=ax, shrink=0.6, pad=0.1)
+        cbar.set_label('Drift (cosine)', fontsize=10, color=TEXT_COLOR)
+        cbar.ax.axhline(y=EVENT_HORIZON, color='#FFD700', linewidth=2, linestyle='--')
+        cbar.ax.tick_params(colors=TEXT_COLOR)
+
+        plt.tight_layout()
+
+        output_path = OUTPUT_DIR / f'waterfall_{provider}.png'
+        plt.savefig(output_path, dpi=150, bbox_inches='tight',
+                    facecolor=BG_COLOR, edgecolor='none')
+        plt.close()
+        print(f"   Saved: {output_path}")
+        output_paths.append(output_path)
+
+    return output_paths
+
+
+def generate_combined_provider_waterfalls(results):
+    """
+    COMBINED PROVIDER WATERFALLS: All 5 providers in one figure.
+
+    Shows all identity manifolds side-by-side for easy comparison.
+    2 rows x 3 columns layout (5 providers + 1 empty or legend).
+    """
+    print("\n[1c/4] Generating COMBINED PROVIDER WATERFALLS...")
+
+    # Group results by provider
+    by_provider = defaultdict(list)
+    for r in results:
+        provider = r.get('provider', 'unknown')
+        by_provider[provider].append(r)
+
+    providers = sorted(by_provider.keys())
+    drift_cmap = get_pastel_cmap(dark_mode=DARK_MODE)
+    max_probes = 21
+
+    # Provider-specific colors
+    provider_colors_bright = {
+        'anthropic': '#FF9966',
+        'openai': '#40E0D0',
+        'google': '#87CEEB',
+        'xai': '#FF6B6B',
+        'together': '#DDA0DD',
+    }
+
+    # Create figure with 2x3 subplots
+    fig = plt.figure(figsize=(18, 12), facecolor=BG_COLOR)
+
+    for idx, provider in enumerate(providers[:5]):
+        provider_results = by_provider[provider]
+
+        # Group by model
+        by_model = defaultdict(list)
+        for r in provider_results:
+            model = r.get('model', 'unknown')
+            drift_ts = extract_drift_timeseries(r, skip_baseline=True)
+            if len(drift_ts) > 0:
+                by_model[model].append(drift_ts)
+
+        ships = sorted(by_model.keys())
+        if not ships:
+            continue
+
+        # Build matrix
+        waterfall_matrix = np.zeros((len(ships), max_probes))
+        waterfall_matrix[:] = np.nan
+
+        for i, ship in enumerate(ships):
+            if by_model[ship]:
+                all_ts = by_model[ship]
+                avg_ts = np.zeros(max_probes)
+                count = np.zeros(max_probes)
+                for ts in all_ts:
+                    length = min(len(ts), max_probes)
+                    avg_ts[:length] += ts[:length]
+                    count[:length] += 1
+                with np.errstate(divide='ignore', invalid='ignore'):
+                    avg_ts = np.where(count > 0, avg_ts / count, np.nan)
+                waterfall_matrix[i] = avg_ts
+
+        provider_color = provider_colors_bright.get(provider, '#E0E0E0')
+
+        # Subplot position (2 rows x 3 cols)
+        ax = fig.add_subplot(2, 3, idx + 1, projection='3d')
+        ax.set_facecolor(BG_COLOR)
+
+        X = np.arange(max_probes)
+        Y = np.arange(len(ships))
+        X, Y = np.meshgrid(X, Y)
+        Z = np.nan_to_num(waterfall_matrix, nan=0)
+
+        surf = ax.plot_surface(X, Y, Z, cmap=drift_cmap,
+                               linewidth=0.1, antialiased=True, alpha=0.8,
+                               vmin=0, vmax=1.0)
+
+        ax.set_xlabel('Probe', fontsize=9, color=TEXT_COLOR)
+        ax.set_ylabel('Ship', fontsize=9, color=TEXT_COLOR)
+        ax.set_zlabel('Drift', fontsize=9, color=TEXT_COLOR)
+        ax.set_title(f'{provider.upper()}\n({len(ships)} ships)',
+                     fontsize=11, fontweight='bold', color=provider_color)
+        ax.tick_params(colors=TEXT_COLOR, labelsize=7)
+        ax.view_init(elev=25, azim=-60)
+
+    # Add legend/info in 6th subplot
+    ax6 = fig.add_subplot(2, 3, 6)
+    ax6.set_facecolor(BG_COLOR)
+    ax6.axis('off')
+
+    # Add colorbar for reference
+    from matplotlib.patches import Patch
+    legend_elements = [
+        Patch(facecolor='#4FC3F7', edgecolor='#888', label='Stable (low drift)'),
+        Patch(facecolor='#7E57C2', edgecolor='#888', label='Moderate drift'),
+        Patch(facecolor='#E040FB', edgecolor='#888', label='Warning zone'),
+        Patch(facecolor='#FF5252', edgecolor='#888', label='Unstable (high drift)'),
+    ]
+    leg = ax6.legend(handles=legend_elements, loc='center', fontsize=10,
+                     framealpha=0.9, facecolor='#2A2A2A', edgecolor='#555',
+                     labelcolor=TEXT_COLOR, title='Drift Scale', title_fontsize=12)
+    leg.get_title().set_color(TEXT_COLOR)
+
+    ax6.text(0.5, 0.15, 'Event Horizon (EH) = 0.80\nN=30 iterations averaged',
+             ha='center', va='center', fontsize=10, color=TEXT_COLOR,
+             transform=ax6.transAxes)
+
+    plt.suptitle('PROVIDER IDENTITY MANIFOLDS: Comparative 3D Topology\n' +
+                 '(Each surface shows settling dynamics for one provider family)',
+                 fontsize=14, fontweight='bold', color=TEXT_COLOR, y=0.98)
+
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+
+    output_path = OUTPUT_DIR / 'waterfall_all_providers.png'
+    plt.savefig(output_path, dpi=150, bbox_inches='tight',
+                facecolor=BG_COLOR, edgecolor='none')
+    plt.close()
+    print(f"   Saved: {output_path}")
+
+    return output_path
+
 
 # ============================================================================
 # 2. PHASE-PLANE PLOT - Drift vs d(Drift)/dt
@@ -772,24 +1080,48 @@ def generate_recovery_heatmap(results):
                 avg_ts = np.where(count > 0, avg_ts / count, np.nan)
             heatmap[i] = avg_ts
 
-    # Plot heatmap - use 'gray' for NaN values (early settlers)
-    cmap = plt.cm.RdYlGn_r.copy()
-    cmap.set_bad(color='lightgray')  # NaN = early settled = gray
-    im = ax.imshow(heatmap, aspect='auto', cmap=cmap,
+    # Create custom pastel colormap: soft mint → cream → soft coral
+    # More professional and easier on the eyes than harsh red-green
+    from matplotlib.colors import LinearSegmentedColormap
+    pastel_colors = [
+        '#98D8AA',  # Soft mint green (stable)
+        '#C4E4C1',  # Light sage
+        '#F5F5DC',  # Cream/beige (neutral)
+        '#FFDAB9',  # Peach puff
+        '#E8A0A0',  # Soft coral/rose (unstable)
+    ]
+    pastel_cmap = LinearSegmentedColormap.from_list('pastel_stability', pastel_colors)
+    pastel_cmap.set_bad(color='#B8C5D6')  # Soft steel blue for NaN (early settlers)
+
+    im = ax.imshow(heatmap, aspect='auto', cmap=pastel_cmap,
                    vmin=0, vmax=1.0, interpolation='nearest')
+
+    # Add subtle grid lines for better readability
+    ax.set_xticks(np.arange(-0.5, max_probes, 1), minor=True)
+    ax.set_yticks(np.arange(-0.5, len(ships), 1), minor=True)
+    ax.grid(which='minor', color='white', linestyle='-', linewidth=0.5, alpha=0.7)
 
     # Event Horizon threshold indicator (via colorbar)
     cbar = plt.colorbar(im, ax=ax, shrink=0.8, pad=0.02)
     cbar.set_label('Drift (cosine)', fontsize=10)
     # Draw EH line on colorbar
-    cbar.ax.axhline(y=EVENT_HORIZON, color='black', linewidth=2, linestyle='--')
+    cbar.ax.axhline(y=EVENT_HORIZON, color='#333333', linewidth=2, linestyle='--')
 
     # Labels
     ax.set_xlabel('Recovery Phase (Probe after step input)', fontsize=12)
     ax.set_ylabel('Ship', fontsize=12)
-    ax.set_title('FLEET RECOVERY HEATMAP: Step Input → Recovery Dynamics\n' +
-                 '(Green = stable, Red = unstable | Probe 1 = step input, 2+ = recovery)',
-                 fontsize=12, fontweight='bold')
+    ax.set_title('FLEET RECOVERY HEATMAP: Step Input → Recovery Dynamics',
+                 fontsize=13, fontweight='bold', pad=10)
+
+    # Add legend explaining the colors (more visible than in title)
+    from matplotlib.patches import Patch
+    legend_elements = [
+        Patch(facecolor='#98D8AA', edgecolor='#666', label='Stable (low drift)'),
+        Patch(facecolor='#E8A0A0', edgecolor='#666', label='Unstable (high drift)'),
+        Patch(facecolor='#B8C5D6', edgecolor='#666', label='Settled Early')
+    ]
+    ax.legend(handles=legend_elements, loc='upper right', fontsize=9,
+              framealpha=0.95, title='Legend', fancybox=True, shadow=True)
 
     # Y-axis labels
     short_names = [s[:15] + '..' if len(s) > 17 else s for s in ships]
@@ -810,6 +1142,146 @@ def generate_recovery_heatmap(results):
     print(f"   Saved: {output_path}")
 
     return output_path
+
+
+# ============================================================================
+# 7. PER-PROVIDER HEATMAP GALLERY
+# ============================================================================
+
+def generate_provider_heatmaps(results):
+    """
+    PROVIDER HEATMAPS: One heatmap per provider showing their ships' recovery dynamics.
+
+    Same visualization as the fleet heatmap, but broken down by provider family
+    for better visibility of per-provider patterns.
+    """
+    print("\n[7/7] Generating PER-PROVIDER HEATMAPS...")
+
+    # Group results by provider
+    by_provider = defaultdict(list)
+    for r in results:
+        provider = r.get('provider', 'unknown')
+        by_provider[provider].append(r)
+
+    providers = sorted(by_provider.keys())
+    n_providers = len(providers)
+
+    # Create a grid: 2 rows x 3 cols (fits up to 6 providers)
+    n_cols = 3
+    n_rows = (n_providers + n_cols - 1) // n_cols
+
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(18, 5 * n_rows))
+    axes = axes.flatten() if n_providers > 1 else [axes]
+
+    max_probes = 21  # Show full 20+ probe recovery
+
+    for idx, provider in enumerate(providers):
+        ax = axes[idx]
+        provider_results = by_provider[provider]
+
+        # Build matrix: ships x probes for this provider
+        by_model = defaultdict(list)
+        for r in provider_results:
+            model = r.get('model', 'unknown')
+            drift_ts = extract_drift_timeseries(r, skip_baseline=True)
+            if len(drift_ts) > 0:
+                by_model[model].append(drift_ts)
+
+        ships = sorted(by_model.keys())
+
+        if not ships:
+            ax.text(0.5, 0.5, 'No data', ha='center', va='center', fontsize=12)
+            ax.set_title(f'{provider}', fontsize=11, fontweight='bold')
+            continue
+
+        heatmap = np.zeros((len(ships), max_probes))
+        heatmap[:] = np.nan
+
+        for i, ship in enumerate(ships):
+            if by_model[ship]:
+                all_ts = by_model[ship]
+                avg_ts = np.zeros(max_probes)
+                count = np.zeros(max_probes)
+
+                for ts in all_ts:
+                    length = min(len(ts), max_probes)
+                    avg_ts[:length] += ts[:length]
+                    count[:length] += 1
+
+                with np.errstate(divide='ignore', invalid='ignore'):
+                    avg_ts = np.where(count > 0, avg_ts / count, np.nan)
+                heatmap[i] = avg_ts
+
+        # Create same pastel colormap for consistency
+        from matplotlib.colors import LinearSegmentedColormap
+        pastel_colors = [
+            '#98D8AA',  # Soft mint green (stable)
+            '#C4E4C1',  # Light sage
+            '#F5F5DC',  # Cream/beige (neutral)
+            '#FFDAB9',  # Peach puff
+            '#E8A0A0',  # Soft coral/rose (unstable)
+        ]
+        pastel_cmap = LinearSegmentedColormap.from_list('pastel_stability', pastel_colors)
+        pastel_cmap.set_bad(color='#B8C5D6')  # Soft steel blue for NaN
+
+        im = ax.imshow(heatmap, aspect='auto', cmap=pastel_cmap,
+                       vmin=0, vmax=1.0, interpolation='nearest')
+
+        # Add subtle grid lines
+        ax.set_xticks(np.arange(-0.5, max_probes, 1), minor=True)
+        ax.set_yticks(np.arange(-0.5, len(ships), 1), minor=True)
+        ax.grid(which='minor', color='white', linestyle='-', linewidth=0.5, alpha=0.7)
+
+        # Event Horizon line on colorbar
+        cbar = plt.colorbar(im, ax=ax, shrink=0.8, pad=0.02)
+        cbar.set_label('Drift', fontsize=9)
+        cbar.ax.axhline(y=EVENT_HORIZON, color='#333333', linewidth=2, linestyle='--')
+
+        # Labels
+        ax.set_xlabel('Recovery Phase', fontsize=10)
+        ax.set_ylabel('Ship', fontsize=10)
+
+        # Provider-specific color for title
+        provider_color = PROVIDER_COLORS.get(provider, '#333333')
+        ax.set_title(f'{provider.upper()} ({len(ships)} ships)',
+                     fontsize=11, fontweight='bold', color=provider_color)
+
+        # Y-axis: ship names (shorter for readability)
+        # Extract just the model name without provider prefix
+        short_names = []
+        for s in ships:
+            # Try to extract just the key part of the model name
+            parts = s.split('/')
+            name = parts[-1] if len(parts) > 1 else s
+            # Truncate if still too long
+            name = name[:18] + '..' if len(name) > 20 else name
+            short_names.append(name)
+
+        ax.set_yticks(range(len(ships)))
+        ax.set_yticklabels(short_names, fontsize=8)
+
+        # X-axis: probe numbers
+        x_labels = ['S'] + [str(i) if i % 5 == 0 else '' for i in range(1, max_probes)]
+        ax.set_xticks(range(max_probes))
+        ax.set_xticklabels(x_labels, fontsize=7)
+
+    # Hide unused axes
+    for idx in range(n_providers, len(axes)):
+        axes[idx].axis('off')
+
+    plt.suptitle('PROVIDER FAMILY HEATMAPS: Recovery Dynamics by Provider\n' +
+                 '(Green=stable, Red=unstable, Blue=settled early | S=Step input)',
+                 fontsize=13, fontweight='bold', y=1.02)
+    plt.tight_layout()
+
+    output_path = OUTPUT_DIR / 'provider_heatmap_gallery.png'
+    plt.savefig(output_path, dpi=150, bbox_inches='tight',
+                facecolor='white', edgecolor='none')
+    plt.close()
+    print(f"   Saved: {output_path}")
+
+    return output_path
+
 
 # ============================================================================
 # MAIN
@@ -840,6 +1312,17 @@ def main():
         print(f"   ERROR in waterfall: {e}")
 
     try:
+        provider_waterfalls = generate_provider_waterfall_plots(results)
+        outputs.extend(provider_waterfalls)
+    except Exception as e:
+        print(f"   ERROR in provider waterfalls: {e}")
+
+    try:
+        outputs.append(generate_combined_provider_waterfalls(results))
+    except Exception as e:
+        print(f"   ERROR in combined provider waterfalls: {e}")
+
+    try:
         outputs.append(generate_phase_plane_plot(results))
     except Exception as e:
         print(f"   ERROR in phase-plane: {e}")
@@ -864,12 +1347,19 @@ def main():
     except Exception as e:
         print(f"   ERROR in heatmap: {e}")
 
+    try:
+        outputs.append(generate_provider_heatmaps(results))
+    except Exception as e:
+        print(f"   ERROR in provider heatmaps: {e}")
+
     print("\n" + "=" * 70)
     print("R&D VISUALIZATION COMPLETE")
     print("=" * 70)
     print(f"\nGenerated {len(outputs)} visualizations:")
     for o in outputs:
-        print(f"  - {o.name}")
+        if o is not None:
+            name = o.name if hasattr(o, 'name') else str(o)
+            print(f"  - {name}")
     print("\nReview these and let me know which to include in the final package!")
 
 if __name__ == "__main__":

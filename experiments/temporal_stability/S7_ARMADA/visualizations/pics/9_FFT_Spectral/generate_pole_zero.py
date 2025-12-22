@@ -40,7 +40,7 @@ def extract_pole_zero_data(results):
     Extract baseline drift and perturbation response for pole-zero analysis.
 
     Concept:
-    - Baseline drift: How much the model drifts during initial baseline probes
+    - Baseline drift: Result-level baseline_drift (aggregated measure)
     - Perturbation drift: How much the model responds to step_input challenge
     - Hard poles: Models that hit a ceiling and can't be pushed further
     - Soft poles: Models that respond proportionally to perturbation
@@ -55,33 +55,30 @@ def extract_pole_zero_data(results):
         if len(probes) < 5:
             continue
 
-        # Calculate baseline drift (probes 0-2)
-        baseline_drifts = []
+        # Get baseline drift from result level (NOT individual probes which are 0 by definition)
+        baseline_drift = r.get('baseline_drift', 0)
+
+        # Find step_input and recovery drifts from probe sequence
         step_input_drift = None
         recovery_drift = None
 
-        for i, probe in enumerate(probes):
+        for probe in probes:
             drift = probe.get('drift', 0)
             probe_type = probe.get('probe_type', probe.get('type', ''))
 
-            if probe_type == 'baseline':
-                baseline_drifts.append(drift)
-            elif probe_type == 'step_input':
+            if probe_type == 'step_input' and step_input_drift is None:
                 step_input_drift = drift
             elif probe_type == 'recovery' and recovery_drift is None:
                 recovery_drift = drift
 
-        if not baseline_drifts or step_input_drift is None:
+        if step_input_drift is None:
             continue
-
-        baseline_mean = np.mean(baseline_drifts)
-        baseline_max = max(baseline_drifts) if baseline_drifts else 0
 
         pz_data.append({
             'provider': provider,
             'model': model,
-            'baseline_drift': baseline_mean,
-            'baseline_max': baseline_max,
+            'baseline_drift': baseline_drift,
+            'baseline_max': baseline_drift,  # Use result-level value
             'step_input_drift': step_input_drift,
             'recovery_drift': recovery_drift or step_input_drift,
             'peak_drift': r.get('peak_drift', 0),
@@ -178,12 +175,12 @@ def plot_pole_zero_landscape(pz_data, output_dir):
     plt.close()
 
 def plot_pole_strength_distribution(pz_data, output_dir):
-    """Create distribution plot of pole strengths by provider."""
+    """Create distribution plot of pole strengths by provider - LIGHT MODE."""
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
-    fig.patch.set_facecolor('#0a0a14')
+    fig.patch.set_facecolor('white')
 
     for ax in axes:
-        ax.set_facecolor('#0f0f1a')
+        ax.set_facecolor('white')
 
     # Panel 1: Baseline drift distribution by provider
     ax1 = axes[0]
@@ -198,23 +195,24 @@ def plot_pole_strength_distribution(pz_data, output_dir):
     for i, (box, provider) in enumerate(zip(bp1['boxes'], providers)):
         box.set_facecolor(PROVIDER_COLORS.get(provider, '#888888'))
         box.set_alpha(0.7)
-        box.set_edgecolor('white')
+        box.set_edgecolor('black')
 
     for whisker in bp1['whiskers']:
-        whisker.set_color('white')
+        whisker.set_color('black')
     for cap in bp1['caps']:
-        cap.set_color('white')
+        cap.set_color('black')
     for median in bp1['medians']:
-        median.set_color('yellow')
+        median.set_color('black')
         median.set_linewidth(2)
 
     ax1.set_xticks(positions)
-    ax1.set_xticklabels([p.upper()[:8] for p in providers], color='white', fontsize=9)
-    ax1.set_ylabel('Baseline Drift', color='white', fontsize=11)
-    ax1.set_title('Baseline Drift by Provider', color='white', fontsize=12, fontweight='bold')
-    ax1.tick_params(colors='white')
+    ax1.set_xticklabels([p.upper()[:8] for p in providers], color='black', fontsize=9)
+    ax1.set_ylabel('Baseline Drift', color='black', fontsize=11)
+    ax1.set_title('Baseline Drift by Provider', color='black', fontsize=12, fontweight='bold')
+    ax1.tick_params(colors='black')
+    ax1.grid(axis='y', alpha=0.3)
     for spine in ax1.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
     # Panel 2: Perturbation response distribution by provider
     ax2 = axes[1]
@@ -226,29 +224,30 @@ def plot_pole_strength_distribution(pz_data, output_dir):
     for i, (box, provider) in enumerate(zip(bp2['boxes'], providers)):
         box.set_facecolor(PROVIDER_COLORS.get(provider, '#888888'))
         box.set_alpha(0.7)
-        box.set_edgecolor('white')
+        box.set_edgecolor('black')
 
     for whisker in bp2['whiskers']:
-        whisker.set_color('white')
+        whisker.set_color('black')
     for cap in bp2['caps']:
-        cap.set_color('white')
+        cap.set_color('black')
     for median in bp2['medians']:
-        median.set_color('yellow')
+        median.set_color('black')
         median.set_linewidth(2)
 
     # Hard pole reference
     ax2.axhline(y=0.30, color='#e74c3c', linestyle=':', linewidth=2, alpha=0.8, label='Hard Pole Ceiling')
 
     ax2.set_xticks(positions)
-    ax2.set_xticklabels([p.upper()[:8] for p in providers], color='white', fontsize=9)
-    ax2.set_ylabel('Step Input Drift', color='white', fontsize=11)
-    ax2.set_title('Perturbation Response by Provider', color='white', fontsize=12, fontweight='bold')
-    ax2.tick_params(colors='white')
-    ax2.legend(loc='upper right', facecolor='#1a1a2e', edgecolor='#333355', labelcolor='white')
+    ax2.set_xticklabels([p.upper()[:8] for p in providers], color='black', fontsize=9)
+    ax2.set_ylabel('Step Input Drift', color='black', fontsize=11)
+    ax2.set_title('Perturbation Response by Provider', color='black', fontsize=12, fontweight='bold')
+    ax2.tick_params(colors='black')
+    ax2.grid(axis='y', alpha=0.3)
+    ax2.legend(loc='upper right', facecolor='white', edgecolor='#cccccc')
     for spine in ax2.spines.values():
-        spine.set_color('#333355')
+        spine.set_color('#cccccc')
 
-    fig.suptitle('Pole Strength Analysis: Run 023d', fontsize=14, fontweight='bold', color='white', y=1.02)
+    fig.suptitle('Pole Strength Analysis: Run 023d', fontsize=14, fontweight='bold', color='black', y=1.02)
     plt.tight_layout()
 
     for ext in ['png', 'svg']:

@@ -52,7 +52,7 @@ def extract_meta_awareness(results):
         total_responses = 0
 
         for probe in probes:
-            response = probe.get('response', '')
+            response = probe.get('response_text', '')
             if response:
                 total_responses += 1
                 meta_markers = [

@@ -2351,6 +2351,105 @@ def generate_unified_dashboard_pdf():
     print(f"Generated: {output_path}")
 
 
+def generate_radar_oscilloscope_pdf():
+    """Generate 8_Radar_Oscilloscope_Summary.pdf"""
+    output_path = PICS_DIR / "8_Radar_Oscilloscope" / "8_Radar_Oscilloscope_Summary.pdf"
+    doc = SimpleDocTemplate(str(output_path), pagesize=letter,
+                           leftMargin=0.75*inch, rightMargin=0.75*inch,
+                           topMargin=0.75*inch, bottomMargin=0.75*inch)
+    story = []
+
+    # Title
+    story.append(Paragraph("Radar & Oscilloscope Visualizations", title_style))
+    story.append(Paragraph("S7 ARMADA Run 023d - Provider Stability Analysis", caption_style))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Introduction
+    story.append(Paragraph("Overview", heading_style))
+    story.append(Paragraph(
+        "This folder contains multi-dimensional stability analysis using radar plots and "
+        "oscilloscope-style time-series visualizations. Data from Run 023d (750 experiments) "
+        "is aggregated by provider to reveal systematic patterns in identity stability.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Provider Stability Radar
+    story.append(Paragraph("1. Provider Stability Radar", heading_style))
+    img_path = PICS_DIR / "8_Radar_Oscilloscope" / "provider_stability_radar.png"
+    add_image(story, img_path, width=5.5*inch, caption="Figure 1: Six-axis stability comparison")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Each provider's stability profile across six normalized dimensions: "
+        "Peak Control, Settled Drift, Settling Speed, Overshoot Control, Ringback Damping, and "
+        "Natural Stability rate. Larger polygon area = more stable.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key insight:</b> Anthropic and OpenAI show balanced profiles. Together.ai models "
+        "show high variance (many open-source architectures). xAI shows strong settling speed "
+        "but variable overshoot control.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(PageBreak())
+
+    # Oscilloscope Aggregate
+    story.append(Paragraph("2. Oscilloscope Aggregate View", heading_style))
+    img_path = PICS_DIR / "8_Radar_Oscilloscope" / "oscilloscope_aggregate.png"
+    add_image(story, img_path, width=6*inch, caption="Figure 2: Mean settling curves by provider")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Mean drift trajectory for each provider with 1-std envelope. "
+        "X-axis is probe index (0-24), Y-axis is cosine distance from baseline. "
+        "Event Horizon (0.80) shown as dashed red line.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>How to read:</b> Sharp rise at probe 3 (step_input) followed by gradual decay "
+        "(recovery probes). Steeper decay = faster recovery. Flatter curve = more hysteresis.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Oscilloscope Grid
+    story.append(Paragraph("3. Provider Oscilloscope Grid", heading_style))
+    img_path = PICS_DIR / "8_Radar_Oscilloscope" / "oscilloscope_grid.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 3: Individual traces per provider")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> 50 sampled individual traces per provider with mean overlay. "
+        "Reveals variance within each provider family - tighter traces = more consistent behavior.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key insight:</b> Anthropic and OpenAI show tight clustering. Together.ai shows "
+        "highest variance (expected given diverse model architectures). This grid helps identify "
+        "outlier models within each provider family.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Interpretation
+    story.append(Paragraph("Interpretation Guide", heading_style))
+    story.append(Paragraph(
+        "<b>Radar Plot:</b> Use for quick provider comparison. Look for balanced hexagons "
+        "(all dimensions strong) vs spiky patterns (uneven capabilities). Providers with "
+        "all axes near 1.0 are ideal for production use.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Oscilloscope Views:</b> Use for understanding temporal dynamics. The step_input "
+        "perturbation at probe 3 tests identity resilience. Recovery trajectory reveals "
+        "whether drift is transient (healthy) or permanent (concerning).",
+        body_style
+    ))
+
+    doc.build(story)
+    print(f"Generated: {output_path}")
+
+
 def generate_metrics_summary_pdf():
     """Generate 12_Metrics_Summary_Summary.pdf"""
     output_path = PICS_DIR / "12_Metrics_Summary" / "12_Metrics_Summary.pdf"
@@ -2497,6 +2596,7 @@ if __name__ == "__main__":
     generate_settling_pdf()
     generate_architecture_pdf()
     generate_fft_spectral_pdf()
+    generate_radar_oscilloscope_pdf()
     generate_unified_dashboard_pdf()
     generate_metrics_summary_pdf()
     print("Done!")
