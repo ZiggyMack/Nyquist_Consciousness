@@ -790,7 +790,7 @@ def generate_rescue_dynamics(data: dict, output_dir: Path):
         ax1.set_xticklabels(model_names, rotation=45, ha='right', fontsize=8)
         ax1.set_ylabel('Recovery Ratio', fontsize=11)
         ax1.set_title('Recovery Ratio by Model (Rescue Experiment)', fontsize=12)
-        ax1.legend(loc='lower right', fontsize=9)
+        ax1.legend(loc='upper right', fontsize=9)  # Moved to top right to avoid data overlap
         ax1.set_ylim(0, 1.2)
         ax1.grid(True, alpha=0.3, axis='y')
 
