@@ -440,7 +440,7 @@ def generate_fft_settling_plot(results):
     ax4.grid(True, alpha=0.3, axis='y')
 
     plt.suptitle('FFT ANALYSIS: Frequency Content of Settling Dynamics\n' +
-                 '(Limited to 6 probes - insufficient for spectrogram | Run 023d: 20 probes)',
+                 '(Run 023d: 750 experiments x 20+ probes)',
                  fontsize=12, fontweight='bold', y=1.02)
     plt.tight_layout()
 
@@ -560,7 +560,7 @@ def generate_consistency_envelope(results):
         axes[idx].set_visible(False)
 
     plt.suptitle('CONSISTENCY ENVELOPE: Trajectory Bundle Analysis\n' +
-                 '(Tighter envelope = more consistent | Limited to 6 probes - Run 023d: 20 probes)',
+                 '(Tighter envelope = more consistent | Run 023d: 750 experiments x 20+ probes)',
                  fontsize=12, fontweight='bold', y=1.02)
     plt.tight_layout()
 
@@ -573,7 +573,145 @@ def generate_consistency_envelope(results):
     return output_path
 
 # ============================================================================
-# 5. BONUS: RECOVERY HEATMAP (Multi-dimensional view)
+# 5. SPECTROGRAM GALLERY - Per-Provider + Combined Fleet
+# ============================================================================
+
+def generate_spectrogram_gallery(results):
+    """
+    SPECTROGRAM GALLERY: Time-frequency evolution for each provider + combined fleet.
+
+    Shows the "spectral fingerprint" of settling dynamics:
+    - X-axis: Time (probe number)
+    - Y-axis: Frequency (oscillation rate)
+    - Color: Magnitude (intensity of that frequency at that time)
+
+    Patterns to look for:
+    - High-frequency early, low-frequency late = damped oscillation (healthy settling)
+    - Persistent high-frequency = unstable oscillation
+    - Broadband = chaotic settling
+    - Narrowband = dominant resonance mode
+    """
+    print("\n[5/6] Generating SPECTROGRAM GALLERY...")
+
+    # Group trajectories by provider
+    by_provider = defaultdict(list)
+    all_trajectories = []
+
+    for r in results:
+        provider = r.get('provider', 'unknown')
+        drift_ts = extract_drift_timeseries(r)
+        if len(drift_ts) >= 8:  # Need enough points for spectrogram
+            by_provider[provider].append(drift_ts)
+            all_trajectories.append(drift_ts)
+
+    providers = sorted(by_provider.keys())
+    n_providers = len(providers)
+
+    # Create figure: 2 rows x 3 cols (5 providers + 1 combined)
+    fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+    axes = axes.flatten()
+
+    def compute_averaged_spectrogram(trajectories, nperseg=4):
+        """Compute averaged spectrogram across multiple trajectories."""
+        if not trajectories:
+            return None, None, None
+
+        # Find consistent length (use median)
+        lengths = [len(t) for t in trajectories]
+        target_len = int(np.median(lengths))
+        target_len = max(target_len, 10)  # Minimum 10 points
+
+        all_Sxx = []
+        f_out, t_out = None, None
+
+        for drift_ts in trajectories[:100]:  # Limit for performance
+            # Normalize length
+            if len(drift_ts) < target_len:
+                padded = np.zeros(target_len)
+                padded[:len(drift_ts)] = drift_ts
+                drift_ts = padded
+            else:
+                drift_ts = drift_ts[:target_len]
+
+            # Compute spectrogram
+            try:
+                f, t, Sxx = signal.spectrogram(
+                    drift_ts, fs=1.0,
+                    nperseg=min(nperseg, len(drift_ts)//2),
+                    noverlap=min(nperseg-1, len(drift_ts)//2 - 1),
+                    mode='magnitude'
+                )
+                if f_out is None:
+                    f_out, t_out = f, t
+                if Sxx.shape == (len(f_out), len(t_out)):
+                    all_Sxx.append(Sxx)
+            except Exception:
+                continue
+
+        if not all_Sxx:
+            return None, None, None
+
+        # Average spectrograms
+        avg_Sxx = np.mean(all_Sxx, axis=0)
+        return f_out, t_out, avg_Sxx
+
+    # Plot per-provider spectrograms
+    for idx, provider in enumerate(providers[:5]):  # Max 5 providers
+        ax = axes[idx]
+        trajectories = by_provider[provider]
+        color = PROVIDER_COLORS.get(provider, '#888888')
+
+        f, t, Sxx = compute_averaged_spectrogram(trajectories)
+
+        if Sxx is not None:
+            im = ax.pcolormesh(t, f, Sxx, shading='gouraud', cmap='viridis')
+            plt.colorbar(im, ax=ax, label='Magnitude', shrink=0.8)
+
+            # Stats
+            n_traj = len(trajectories)
+            avg_len = np.mean([len(tr) for tr in trajectories])
+
+            ax.set_xlabel('Time (probe)', fontsize=10)
+            ax.set_ylabel('Frequency', fontsize=10)
+            ax.set_title(f'{provider.upper()}\n({n_traj} trajectories, avg {avg_len:.0f} probes)',
+                        fontsize=11, fontweight='bold', color=color)
+        else:
+            ax.text(0.5, 0.5, f'{provider}\nInsufficient data',
+                   ha='center', va='center', fontsize=12)
+            ax.set_title(f'{provider.upper()}', fontsize=11, fontweight='bold')
+
+    # Plot combined fleet spectrogram in last panel
+    ax = axes[5]
+    f, t, Sxx = compute_averaged_spectrogram(all_trajectories, nperseg=5)
+
+    if Sxx is not None:
+        im = ax.pcolormesh(t, f, Sxx, shading='gouraud', cmap='plasma')
+        plt.colorbar(im, ax=ax, label='Magnitude', shrink=0.8)
+
+        ax.set_xlabel('Time (probe)', fontsize=10)
+        ax.set_ylabel('Frequency', fontsize=10)
+        ax.set_title(f'COMBINED FLEET\n({len(all_trajectories)} total trajectories)',
+                    fontsize=11, fontweight='bold', color='darkred')
+    else:
+        ax.text(0.5, 0.5, 'COMBINED\nInsufficient data',
+               ha='center', va='center', fontsize=12)
+
+    plt.suptitle('SPECTROGRAM GALLERY: Time-Frequency Settling Signatures by Provider\n' +
+                 '(Brighter = stronger frequency component at that time)',
+                 fontsize=14, fontweight='bold', y=1.02)
+    plt.tight_layout()
+
+    output_path = OUTPUT_DIR / 'spectrogram_gallery.png'
+    plt.savefig(output_path, dpi=150, bbox_inches='tight',
+                facecolor='white', edgecolor='none')
+    plt.close()
+    print(f"   Saved: {output_path}")
+
+    return output_path
+
+
+# ============================================================================
+# 6. BONUS: RECOVERY HEATMAP (Multi-dimensional view)
 # ============================================================================
 
 def generate_recovery_heatmap(results):
@@ -632,7 +770,7 @@ def generate_recovery_heatmap(results):
     ax.set_xlabel('Probe Number (Time)', fontsize=12)
     ax.set_ylabel('Ship', fontsize=12)
     ax.set_title('FLEET RECOVERY HEATMAP\n' +
-                 '(Green = stable, Red = unstable | Limited to 6 probes - Run 023d: 20 probes)',
+                 '(Green = stable, Red = unstable | Run 023d: 750 experiments x 20+ probes)',
                  fontsize=12, fontweight='bold')
 
     # Y-axis labels
@@ -696,6 +834,11 @@ def main():
         outputs.append(generate_consistency_envelope(results))
     except Exception as e:
         print(f"   ERROR in consistency envelope: {e}")
+
+    try:
+        outputs.append(generate_spectrogram_gallery(results))
+    except Exception as e:
+        print(f"   ERROR in spectrogram gallery: {e}")
 
     try:
         outputs.append(generate_recovery_heatmap(results))
