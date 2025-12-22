@@ -122,7 +122,22 @@ def plot_improved_network(provider_models, output_dir):
 
         # Draw model nodes around hub
         n_models = len(models)
-        model_radius = 1.8
+
+        # Dynamic radius and font size based on number of models
+        # More models = larger radius to spread them out, smaller font
+        if n_models <= 3:
+            model_radius = 1.8
+            label_font = 8
+            label_offset = 0.4
+        elif n_models <= 6:
+            model_radius = 2.2
+            label_font = 7
+            label_offset = 0.35
+        else:
+            # Many models (like Together with 11) - spread wider, smaller labels
+            model_radius = 2.8
+            label_font = 6
+            label_offset = 0.3
 
         for j, (model_name, experiments) in enumerate(sorted(models.items())):
             # Position model around provider hub
@@ -133,8 +148,9 @@ def plot_improved_network(provider_models, output_dir):
             # Get metrics
             metrics = compute_model_metrics(experiments)
 
-            # Node size based on experiments
-            node_size = 150 + metrics['n_experiments'] * 30
+            # Node size based on experiments (smaller for crowded providers)
+            base_size = 120 if n_models > 6 else 150
+            node_size = base_size + metrics['n_experiments'] * 25
 
             # VALIS style
             valis_style = classify_valis_style(model_name, provider)
@@ -151,10 +167,24 @@ def plot_improved_network(provider_models, output_dir):
             # Draw connection to hub
             ax.plot([px, mx], [py, my], '-', color=color, alpha=0.4, linewidth=1.5, zorder=1)
 
-            # Model label (shortened) - improved readability
-            short_name = model_name.split('/')[-1][:18]
-            ax.annotate(short_name, (mx, my + 0.4), fontsize=8, color='#333333',
-                       ha='center', va='bottom', alpha=0.9, zorder=6,
+            # Model label (shortened) - stagger radially for crowded providers
+            short_name = model_name.split('/')[-1][:15]  # Shorter for crowded
+
+            # Stagger label position: alternating inside/outside for crowded providers
+            if n_models > 6:
+                # Radial label placement - labels point outward from hub
+                label_dist = label_offset + (0.15 if j % 2 == 0 else 0)
+                lx = mx + label_dist * np.cos(model_angle)
+                ly = my + label_dist * np.sin(model_angle)
+                # Align based on quadrant
+                ha = 'left' if np.cos(model_angle) > 0 else 'right'
+                va = 'bottom' if np.sin(model_angle) > 0 else 'top'
+            else:
+                lx, ly = mx, my + label_offset
+                ha, va = 'center', 'bottom'
+
+            ax.annotate(short_name, (lx, ly), fontsize=label_font, color='#333333',
+                       ha=ha, va=va, alpha=0.9, zorder=6,
                        fontweight='bold')
 
     # Title and statistics

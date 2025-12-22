@@ -5,7 +5,7 @@ AI Fleet Experiments for Temporal Identity Coherence
 Date: November 26, 2025 - Present | Status: **IRON CLAD COMPLETE** | Phase 4 Finalized
 
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-21
 depends_on:
   - 0_docs/specs/0_RUN_METHODOLOGY.md
   - 0_docs/specs/1_INTENTIONALITY.md
