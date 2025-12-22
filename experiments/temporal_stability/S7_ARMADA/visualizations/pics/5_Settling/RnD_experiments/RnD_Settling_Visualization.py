@@ -11,16 +11,14 @@ Visualizations:
 3. FFT OF SETTLING CURVES - Frequency content of settling oscillations
 4. CONSISTENCY ENVELOPE - Overlaid trajectories showing bundle coherence
 
-DATA LIMITATION NOTE (2025-12-20):
-==================================
-Current data (run023b) has ONLY 6 PROBES per settling experiment.
-This limits temporal resolution for:
-- Waterfall plots (showing only 6 time points, not full 20)
-- FFT spectral analysis (insufficient for meaningful spectrogram)
-- Oobleck controllability demonstration (not captured)
+DATA SOURCE NOTE (2025-12-21):
+==============================
+Now using Run 023d data with FULL 20-PROBE extended settling!
+- Waterfall plots: Full temporal resolution (20 time points)
+- FFT spectral analysis: Sufficient data for meaningful spectrogram
+- Oobleck controllability: Captured for non-settling models
 
-Run 023d will collect extended 20-probe settling data with Oobleck
-controllability demonstration to enable full visualization capabilities.
+Run 023d: 750 experiments (25 ships x 30 iterations) COMPLETE.
 
 Created: 2025-12-20
 Author: Claude Code (Anthropic)
@@ -39,7 +37,7 @@ from scipy.fft import fft, fftfreq
 # ============================================================================
 
 DATA_FILE = Path(__file__).parent.parent.parent.parent.parent / \
-    "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023b_CURRENT.json"
+    "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023d_CURRENT.json"
 
 OUTPUT_DIR = Path(__file__).parent  # Same folder as this script
 
@@ -67,7 +65,9 @@ def load_settling_data():
 
     settling_results = []
     for result in data.get('results', []):
-        if result.get('experiment') == 'settling':
+        # Support both 'settling' (023b) and 'extended_settling' (023d)
+        exp_type = result.get('experiment', '')
+        if exp_type in ('settling', 'extended_settling'):
             settling_results.append(result)
 
     print(f"Loaded {len(settling_results)} settling results")
