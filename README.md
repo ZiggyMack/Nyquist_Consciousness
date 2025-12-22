@@ -148,7 +148,7 @@ Nyquist_Consciousness/
 | 012 | 20 | Revalidation | 100% EH crossing, 100% recovery | COMPLETE |
 | 013-016 | - | Various | Boundary Mapping, Rescue Protocol, Stability Criteria | COMPLETE |
 | **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** | **COMPLETE** |
-| **018** | 51 | **Recursive Learnings** | **IRON CLAD: 184 files, P-018-1/2/3 CONFIRMED** | **WRAPPING UP** |
+| **018** | 51 | **Recursive Learnings** | **52.6% IRON CLAD: 337 valid/465 files, 82 runs needed** | **IN PROGRESS** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** | **COMPLETE** |
 | **020A** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **WRAPPING UP** |
 | **020B** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **WRAPPING UP** |
@@ -264,24 +264,34 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: Runs 018/020A/020B WRAPPING UP → Run 022 READY → 12_CFA COMING
-**Last Updated**: 2025-12-15
-**Key Milestone**: LOGOS Commutation Cartography (Run 022) methodology FULLY VALIDATED
+**Current Phase**: Run 023 IRON CLAD | Run 018 at 52.6% | Run 022 READY
+**Last Updated**: 2025-12-22 (IRON CLAD status VERIFIED)
+**Key Milestone**: Run 023d IRON CLAD complete (825+ experiments, Cosine methodology)
 
-### Current Status (December 15, 2025)
+### Current Status (December 22, 2025 - VERIFIED)
 
-- **Wrapping up:** Run 018 (gravity/threshold/nyquist), Run 020A (Tribunal), Run 020B (Induced)
-- **Ready for execution:** Run 022 (LOGOS Commutation Cartography) - methodology FULLY VALIDATED by LOGOS Claude
-- **Coming soon:** 12_CFA Trinity Audit (worldview profile testing)
+| Run | Valid Results | Status | Methodology |
+|-----|---------------|--------|-------------|
+| **Run 023d** | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 018** | 337 | **52.6%** (82 runs needed) | Keyword RMS (EH=1.23) |
+| **Run 020A** | ~20 | **50%** (needs verification) | Mixed |
+| **Run 020B** | 16 | **COMPLETE** (gpt-4o only) | Mixed |
+
+**Note:** Previous claims of "184 files, IRON CLAD" for Run 018 were incorrect. Verified Dec 22 via consolidation script.
+
+- **IRON CLAD:** Run 023d (Cosine methodology, primary data source)
+- **In progress:** Run 018 (52.6%, 82 runs needed for completion)
+- **Ready for execution:** Run 022 (LOGOS Commutation Cartography)
 
 ### Active Work Streams
 
 | Stream | Status | Next Action |
 |--------|--------|-------------|
-| **Run 018/020A/020B** | WRAPPING UP | Multi-provider coverage in progress |
+| **Run 023d** | IRON CLAD | Primary data source (Cosine methodology) |
+| **Run 018** | 52.6% | 82 runs needed for IRON CLAD completion |
 | **Run 022 (13_LOGOS)** | READY | LOGOS algebra vs S² topology testing |
 | **12_CFA Trinity** | COMING | CFA-ARMADA worldview profile testing |
-| **Publication** | DRAFT READY | Phase 3 papers ready (awaiting wrap-up) |
+| **Publication** | DRAFT READY | Phase 3 papers ready |
 
 ### Methodology Compliance Status (per 0_RUN_METHODOLOGY.md)
 
@@ -385,10 +395,11 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ### Active Development
 
-1. **Run 018 IRON CLAD**: 184 files, 51 models, P-018-1/2/3 CONFIRMED
-2. **Publication Pipeline**: WHITE-PAPER ready for final draft (awaiting Run 020A/020B)
-3. **VALIS Network**: 54 ships across 5 providers operational
-4. **External Integrations**: 6 partner repos via REPO-SYNC/ (CFA, FRAME_THEORY, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS)
+1. **Run 023d IRON CLAD**: 825+ experiments, 51 models, 6 providers (Cosine methodology)
+2. **Run 018 in progress**: 52.6% IRON CLAD (337 valid results, 82 runs needed)
+3. **Publication Pipeline**: WHITE-PAPER ready for final draft
+4. **VALIS Network**: 54 ships across 6 providers operational
+5. **External Integrations**: 6 partner repos via REPO-SYNC/ (CFA, FRAME_THEORY, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS)
 
 ### Future Work (Priority Order)
 

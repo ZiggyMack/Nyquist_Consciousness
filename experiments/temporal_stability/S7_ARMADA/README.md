@@ -2,7 +2,7 @@
 
 AI Fleet Experiments for Temporal Identity Coherence
 
-Date: November 26, 2025 - Present | Status: **IRON CLAD COMPLETE** | Phase 4 Finalized
+Date: November 26, 2025 - Present | Status: **Run 023 IRON CLAD | Run 018 52.6%** | Phase 4 Active
 
 <!-- FROSTY_MANIFEST
 last_reviewed: 2025-12-21
@@ -611,18 +611,22 @@ py visualize_armada.py --run 009 --type pillar
 
 **IMPORTANT:** Runs 006-016 are `bare_metal` (no I_AM file). Phase 4 (Run 017+) uses `i_am_plus_research` to complete the measurement circuit. See `0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md`
 
-**Current Status (December 15, 2025):**
+**Current Status (December 22, 2025 - VERIFIED):**
 
-### IRON CLAD COMPLETE
+### IRON CLAD STATUS (Honest Assessment)
 
-| Run | Files | Models/Providers | Status |
-|-----|-------|------------------|--------|
-| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
-| **Run 020A** | 33 | 7/7 providers | **IRON CLAD** |
-| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+| Run | Files | Valid Results | Status | Methodology |
+|-----|-------|---------------|--------|-------------|
+| **Run 023d** | 825+ | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Keyword RMS (EH=1.23) |
+| **Run 020A** | 33 | ~20 | **50%** (needs verification) | Mixed |
+| **Run 020B** | 16 | 16 | **COMPLETE** (gpt-4o only) | Mixed |
 
-- **Run 022:** READY (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
-- **12_CFA:** Coming (Trinity Audit)
+**Key data locations:**
+- Run 023d: `15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json`
+- Run 018: `11_CONTEXT_DAMPING/results/S7_run_018_CURRENT.json` (consolidated Dec 22)
+
+**Note:** Previous claims of "184 files, IRON CLAD" for Run 018 were incorrect. Actual: 465 files, 337 valid, 52.6% IRON CLAD.
 
 See [0_docs/maps/TESTING_MAP.md](0_docs/maps/TESTING_MAP.md) for detailed run-by-run breakdown.
 
@@ -676,11 +680,12 @@ The **Philosophical Tribunal** paradigm tested direct identity probing across 4 
 
 ## CURRENT DEVELOPMENT
 
-1. **Run 018**: **IRON CLAD COMPLETE** — 184 files, 51 models, 5 providers (gravity/threshold/nyquist)
-2. **Run 020A**: **IRON CLAD COMPLETE** — 33 files, 7/7 providers at N≥3 (Tribunal paradigm)
-3. **Run 020B**: **COMPLETE** — 16 files, 4 arms (OpenAI + Together Control/Treatment)
-4. **Run 022**: READY — LOGOS Commutation Cartography (methodology validated by LOGOS Claude)
-5. **12_CFA**: COMING — CFA Trinity Audit (worldview profile testing)
+1. **Run 023d**: **IRON CLAD** — 825+ experiments, 51 models, 6 providers (Cosine methodology)
+2. **Run 018**: **52.6% IRON CLAD** — 337 valid results from 465 files, 82 runs needed (Keyword RMS methodology)
+3. **Run 020A**: **50%** — Needs verification (Tribunal paradigm)
+4. **Run 020B**: **COMPLETE** — 16 files, gpt-4o only (Control/Treatment)
+5. **Run 022**: READY — LOGOS Commutation Cartography (methodology validated by LOGOS Claude)
+6. **12_CFA**: COMING — CFA Trinity Audit (worldview profile testing)
 
 ---
 
@@ -841,6 +846,6 @@ See [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
 
 ---
 
-**Last Updated**: December 17, 2025 (Exit survey bug fixed, Diamond Rush methodology added)
+**Last Updated**: December 22, 2025 (IRON CLAD status verified: Run 023 IRON CLAD, Run 018 at 52.6%)
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*

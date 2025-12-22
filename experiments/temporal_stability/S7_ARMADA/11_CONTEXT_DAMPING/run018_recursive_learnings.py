@@ -378,6 +378,9 @@ class ThresholdAnalysis:
     recovery_from_each_zone: Dict[str, float]  # Recovery time per zone
     max_drift_achieved: float
     catastrophic_reached: bool
+    # Model identification (CRITICAL: prevents 'unknown' model issue)
+    model: str = ""  # Model identifier (e.g., "claude-opus-4.5")
+    provider: str = ""  # Provider name (e.g., "anthropic")
     # Run 021 methodology: Add B→F drift as primary metric
     baseline_to_final_drift: float = 0.0  # PRIMARY METRIC per Run 021 learnings
     baseline_text: str = ""  # For B→F calculation
@@ -415,6 +418,9 @@ class NyquistAnalysis:
     final_drift: float
     cumulative_drift: float
     aliasing_detected: bool  # False coherence from undersampling
+    # Model identification (CRITICAL: prevents 'unknown' model issue)
+    model: str = ""  # Model identifier (e.g., "claude-opus-4.5")
+    provider: str = ""  # Provider name (e.g., "anthropic")
     # NEW (Nova): Identity aliasing index = d_inf / d_peak
     identity_aliasing_index: float = 0.0  # Distinguishes phase distortion from instability
     peak_drift: float = 0.0  # For aliasing index calculation
@@ -448,6 +454,9 @@ class GravityAnalysis:
     fitted_lambda: float  # Damping coefficient
     fitted_omega: float  # Natural frequency
     r_squared: float  # Model fit quality
+    # Model identification (CRITICAL: prevents 'unknown' model issue)
+    model: str = ""  # Model identifier (e.g., "claude-opus-4.5")
+    provider: str = ""  # Provider name (e.g., "anthropic")
     # Run 021 methodology: Add B→F drift as primary metric
     baseline_to_final_drift: float = 0.0  # PRIMARY METRIC per Run 021 learnings
     peak_drift: float = 0.0  # Secondary metric (may be artifact per Run 021)
@@ -1141,6 +1150,11 @@ def run_threshold_experiment(i_am_content: str, i_am_name: str,
     b_to_f_drift = calculate_drift(baseline_text, final_text)
     print(f"  B->F drift (PRIMARY): {b_to_f_drift:.3f}")
 
+    # Extract actual model and provider from ARCHITECTURE_MATRIX
+    config = ARCHITECTURE_MATRIX.get(provider, {})
+    actual_model = config.get("model", provider)  # Fallback to provider if not in matrix
+    actual_provider = config.get("provider", provider)  # e.g., "anthropic", "openai"
+
     return ThresholdAnalysis(
         i_am_name=i_am_name,
         threshold_crossings=threshold_crossings,
@@ -1148,6 +1162,8 @@ def run_threshold_experiment(i_am_content: str, i_am_name: str,
         recovery_from_each_zone=recovery_from_zone,
         max_drift_achieved=max_drift,
         catastrophic_reached=catastrophic_reached,
+        model=actual_model,  # CRITICAL: Capture model for IRON CLAD tracking
+        provider=actual_provider,  # CRITICAL: Capture provider for IRON CLAD tracking
         baseline_to_final_drift=b_to_f_drift,
         baseline_text=baseline_text,
         final_text=final_text,
@@ -1437,6 +1453,11 @@ def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
     # BUG FIX (2025-12-17): Was hardcoded to "anthropic" - now uses tested provider
     exit_responses = run_exit_survey(messages, system, provider, skip=skip_exit_survey)
 
+    # Extract actual model and provider from ARCHITECTURE_MATRIX
+    config = ARCHITECTURE_MATRIX.get(provider, {})
+    actual_model = config.get("model", provider)  # Fallback to provider if not in matrix
+    actual_provider = config.get("provider", provider)  # e.g., "anthropic", "openai"
+
     return NyquistAnalysis(
         sampling_rate=sampling_rate,
         checkpoint_interval=interval,
@@ -1444,6 +1465,8 @@ def run_nyquist_experiment(sampling_rate: str, i_am_content: str,
         final_drift=final_drift,
         cumulative_drift=cumulative_drift,
         aliasing_detected=aliasing,
+        model=actual_model,  # CRITICAL: Capture model for IRON CLAD tracking
+        provider=actual_provider,  # CRITICAL: Capture provider for IRON CLAD tracking
         baseline_to_final_drift=b_to_f_drift,
         baseline_text=baseline_text,
         final_text=final_text,
@@ -1645,12 +1668,19 @@ def run_gravity_experiment(anchor_level: str, i_am_content: Optional[str],
     # BUG FIX (2025-12-17): Was hardcoded to "anthropic" - now uses tested provider
     exit_responses = run_exit_survey(messages, system, provider, skip=skip_exit_survey)
 
+    # Extract actual model and provider from ARCHITECTURE_MATRIX
+    config = ARCHITECTURE_MATRIX.get(provider, {})
+    actual_model = config.get("model", provider)  # Fallback to provider if not in matrix
+    actual_provider = config.get("provider", provider)  # e.g., "anthropic", "openai"
+
     return GravityAnalysis(
         anchor_level=anchor_level,
         fitted_gamma=gamma,
         fitted_lambda=lam,
         fitted_omega=omega,
         r_squared=r_sq,
+        model=actual_model,  # CRITICAL: Capture model for IRON CLAD tracking
+        provider=actual_provider,  # CRITICAL: Capture provider for IRON CLAD tracking
         recovery_sequence=recovery_sequence,
         baseline_to_final_drift=b_to_f_drift,
         baseline_text=baseline_text,

@@ -15,17 +15,19 @@ See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for operations guide.
 
 ---
 
-## Current Status (December 15, 2025) — IRON CLAD COMPLETE
+## Current Status (December 22, 2025 - VERIFIED)
 
-| Run | Files | Models/Providers | Status |
-|-----|-------|------------------|--------|
-| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
-| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
-| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
-| **Run 022** | - | - | READY (LOGOS Commutation Cartography) |
-| **12_CFA** | - | - | COMING (CFA Trinity Audit) |
+| Run | Files | Valid Results | Status | Methodology |
+|-----|-------|---------------|--------|-------------|
+| **Run 023d** | 825+ | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Keyword RMS (EH=1.23) |
+| **Run 020A** | 33 | ~20 | **50%** (needs verification) | Mixed |
+| **Run 020B** | 16 | 16 | **COMPLETE** (gpt-4o only) | Mixed |
+| **Run 022** | - | - | READY (LOGOS Commutation Cartography) | - |
 
-**Fleet Size:** 54+ operational ships across 5 providers (Anthropic, OpenAI, Google, xAI, Together.ai)
+**Note:** Previous claims of "184 files, IRON CLAD" for Run 018 were incorrect. Verified Dec 22: 465 files, 337 valid, 52.6% IRON CLAD.
+
+**Fleet Size:** 54+ operational ships across 6 providers (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia)
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 
@@ -233,4 +235,4 @@ See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for complete run history.
 
 ---
 
-*Last Updated: December 15, 2025*
+*Last Updated: December 22, 2025 (IRON CLAD status verified)*

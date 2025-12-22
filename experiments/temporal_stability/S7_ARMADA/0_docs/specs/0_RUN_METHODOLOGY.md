@@ -49,6 +49,36 @@ class ProbeResult:
     prompt_text: str = ""     # PROMPT USED - FOR REPRODUCIBILITY
 ```
 
+### 1.5 MODEL IDENTIFICATION (Run 018 'unknown' model bug)
+
+**CRITICAL:** Every Analysis result class MUST capture the model/provider that generated the data.
+This prevents the "unknown model" bug where data becomes unattributable after file consolidation.
+
+- [ ] **`model` field** - Store exact model identifier (e.g., "claude-opus-4.5", "gpt-4o")
+- [ ] **`provider` field** - Store provider name (e.g., "anthropic", "openai", "google", "xai", "together")
+- [ ] **Populate at experiment time** - Set fields when running experiment, NOT from filename parsing
+- [ ] **Verify before save** - Assert model != "" before saving results
+
+```python
+# REQUIRED in ALL Analysis dataclasses (ThresholdAnalysis, GravityAnalysis, NyquistAnalysis, etc.):
+@dataclass
+class ExperimentAnalysis:
+    # ... experiment-specific fields ...
+
+    # Model identification (CRITICAL: prevents 'unknown' model issue)
+    model: str = ""      # Model identifier (e.g., "claude-opus-4.5")
+    provider: str = ""   # Provider name (e.g., "anthropic")
+
+    # ... other fields ...
+```
+
+**Why this matters:**
+
+- Scattered result files (run018g_gravity_claude-opus-4.5_*.json) encode model in FILENAME only
+- When consolidating into S7_run_018_CURRENT.json, filename info is lost
+- Gap detection then sees "unknown" models and cannot match to IRON CLAD targets
+- Run 023 fixed this by including model/provider in every result entry
+
 ### 2. PARALLEL EXECUTION (API key collisions killed us)
 
 - [ ] **Key pool with rotation** - Don't use single key for parallel runs

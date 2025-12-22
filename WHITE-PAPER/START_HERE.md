@@ -105,17 +105,19 @@ Each package includes a `PACKAGE_MANIFEST.md` with reading order and content lis
 | **arXiv** | **READY** | Generate final PDF — full validation data available |
 | **Journal** | DRAFT ONLY | Create draft (awaits human validation Q2-Q3 2026) |
 
-### IRON CLAD COMPLETE (December 22, 2025)
+### IRON CLAD STATUS (December 22, 2025 - VERIFIED)
 
-**All experimental runs finalized.** See [`README.md`](README.md) for the canonical tracking table.
+**Run 023: IRON CLAD complete. Run 018: 52.6% (in progress).** See [`README.md`](README.md) for the canonical tracking table.
 
-| Run | Experiments | Models/Providers | Status |
-|-----|-------------|------------------|--------|
-| **Run 023 Combined** | 825 | 51 models, 6 providers | **IRON CLAD** (Cosine) |
-| **Run 023d** | 750 | 25 models, 5 providers | Extended settling (20+ probes) |
-| **Run 023e** | 75 | 27 models, 5 providers | Controllability testing |
-| **Run 018** | 184 | 51 models, 5 providers | IRON CLAD (legacy) |
-| **Run 020A/B** | 48 | 6 providers | Thermometer validation |
+| Run | Experiments | Valid Results | Status | Methodology |
+|-----|-------------|---------------|--------|-------------|
+| **Run 023 Combined** | 825 | 825 | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 023d** | 750 | 750 | Extended settling (20+ probes) | Cosine |
+| **Run 023e** | 75 | 75 | Controllability testing | Cosine |
+| **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Keyword RMS (EH=1.23) |
+| **Run 020A/B** | 48 | ~36 | ~50% (needs verification) | Mixed |
+
+**Note (Dec 22 VERIFIED):** Run 018 previously claimed "184 files, IRON CLAD" — this was incorrect. Actual data: 465 files, 337 valid, 52.6% IRON CLAD.
 
 **THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology):**
 
@@ -183,15 +185,15 @@ reviewers/
 
 See `reviewers/README.md` for full details on each phase.
 
-### Phase 3 Status — IRON CLAD COMPLETE
+### Phase 3 Status — Run 023 IRON CLAD
 
 | Paper | Pages | Status |
 |-------|-------|--------|
-| Workshop | 5 | **READY** — All core claims validated |
-| arXiv | 8 | **READY** — Full validation matrix complete |
+| Workshop | 5 | **READY** — All core claims validated (Run 023 data) |
+| arXiv | 8 | **READY** — Full validation matrix complete (Run 023 data) |
 | Journal | - | DRAFT ONLY (awaits human validation Q2-Q3 2026) |
 
-**All experimental data collected.** 232 total files across Runs 018, 020A, 020B.
+**Run 023: IRON CLAD complete** (825 experiments). Run 018: 52.6% (337 valid from 465 files, 82 runs needed).
 
 ---
 
