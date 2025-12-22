@@ -2107,10 +2107,31 @@ def generate_fft_spectral_pdf():
     ))
     story.append(Spacer(1, 0.1*inch))
 
-    # FFT Spectral Plot
-    story.append(Paragraph("2.1 Provider Spectral Signatures", heading_style))
+    # FFT Spectral Plot - Per-Provider View (from visualize_armada.py)
+    story.append(Paragraph("2.1 Per-Provider FFT Spectral Signatures", heading_style))
+    img_path = PICS_DIR / "9_FFT_Spectral" / "run023_fft_spectral.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: Per-provider FFT spectral analysis with confidence bands")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> FFT magnitude (in dB) vs frequency for each provider family. "
+        "The shaded region shows the standard deviation across all experiments for that provider. "
+        "Each panel shows mean (line) ± 1 std (shaded area).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key observations:</b><br/>"
+        "- <b>Claude:</b> Low-frequency dominance with smooth rolloff - gradual, stable drift<br/>"
+        "- <b>GPT:</b> Flatter spectrum with high-frequency spike - more rapid oscillations<br/>"
+        "- <b>Gemini:</b> Mid-frequency peak - rhythmic identity 'breathing'<br/>"
+        "- <b>Grok:</b> Low confidence bands - consistent spectral behavior across experiments",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # FFT Spectral Plot - 4-Panel Analysis (from generate_fft_spectral.py)
+    story.append(Paragraph("2.2 Comprehensive Spectral Analysis", heading_style))
     img_path = PICS_DIR / "9_FFT_Spectral" / "fft_spectral_analysis.png"
-    add_image(story, img_path, width=6.5*inch, caption="Figure 1: FFT spectral analysis - 4-panel view showing provider frequency signatures")
+    add_image(story, img_path, width=6.5*inch, caption="Figure 2: FFT spectral analysis - 4-panel view showing provider frequency signatures")
 
     story.append(Paragraph(
         "<b>Panel Descriptions:</b>",
