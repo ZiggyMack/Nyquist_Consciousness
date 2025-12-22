@@ -73,11 +73,19 @@ def load_settling_data():
     print(f"Loaded {len(settling_results)} settling results")
     return settling_results
 
-def extract_drift_timeseries(result):
-    """Extract drift values from probe sequence as time series."""
+def extract_drift_timeseries(result, skip_baseline=False):
+    """Extract drift values from probe sequence as time series.
+
+    Args:
+        result: Experiment result dict
+        skip_baseline: If True, skip baseline probes (useful for 023d extended settling)
+    """
     probe_seq = result.get('probe_sequence', [])
     drift_values = []
     for p in probe_seq:
+        # Skip baseline probes if requested (they're always 0 in 023d)
+        if skip_baseline and p.get('type', '') == 'baseline':
+            continue
         drift = p.get('drift', p.get('peak_drift', 0))
         if drift is not None:
             drift_values.append(float(drift))
@@ -720,20 +728,24 @@ def generate_recovery_heatmap(results):
 
     A dense visualization showing how each ship recovers over the probe sequence.
     Color intensity = drift magnitude. Goal: see fleet-wide patterns.
+
+    NOTE: For 023d extended settling data, we skip baseline probes (always 0)
+    and show the step_input + recovery phases where the interesting dynamics happen.
     """
     print("\n[BONUS] Generating RECOVERY HEATMAP...")
 
-    fig, ax = plt.subplots(figsize=(14, 10))
+    fig, ax = plt.subplots(figsize=(16, 12))
 
     # Build matrix: ships x probes
+    # Skip baseline probes for 023d - they're always 0 and not interesting
     by_model = defaultdict(list)
     for r in results:
         model = r.get('model', 'unknown')
-        drift_ts = extract_drift_timeseries(r)
+        drift_ts = extract_drift_timeseries(r, skip_baseline=True)
         if len(drift_ts) > 0:
             by_model[model].append(drift_ts)
 
-    max_probes = 15
+    max_probes = 21  # Show full 20+ probe recovery (after skipping 3 baseline)
     ships = sorted(by_model.keys())
 
     heatmap = np.zeros((len(ships), max_probes))
@@ -767,10 +779,10 @@ def generate_recovery_heatmap(results):
                  fontsize=9, va='center', transform=cbar.ax.transAxes)
 
     # Labels
-    ax.set_xlabel('Probe Number (Time)', fontsize=12)
+    ax.set_xlabel('Recovery Phase (Probe after step input)', fontsize=12)
     ax.set_ylabel('Ship', fontsize=12)
-    ax.set_title('FLEET RECOVERY HEATMAP\n' +
-                 '(Green = stable, Red = unstable | Run 023d: 750 experiments x 20+ probes)',
+    ax.set_title('FLEET RECOVERY HEATMAP: Step Input → Recovery Dynamics\n' +
+                 '(Green = stable, Red = unstable | Probe 1 = step input, 2+ = recovery)',
                  fontsize=12, fontweight='bold')
 
     # Y-axis labels
@@ -778,9 +790,10 @@ def generate_recovery_heatmap(results):
     ax.set_yticks(range(len(ships)))
     ax.set_yticklabels(short_names, fontsize=7)
 
-    # Probe number labels
+    # Probe number labels - label probe 1 as "Step" and rest as recovery numbers
+    x_labels = ['Step'] + [str(i) for i in range(1, max_probes)]
     ax.set_xticks(range(max_probes))
-    ax.set_xticklabels(range(1, max_probes + 1), fontsize=9)
+    ax.set_xticklabels(x_labels, fontsize=8)
 
     plt.tight_layout()
 
