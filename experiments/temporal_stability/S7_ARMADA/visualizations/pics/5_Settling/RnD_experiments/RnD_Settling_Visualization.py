@@ -84,7 +84,9 @@ def extract_drift_timeseries(result, skip_baseline=False):
     drift_values = []
     for p in probe_seq:
         # Skip baseline probes if requested (they're always 0 in 023d)
-        if skip_baseline and p.get('type', '') == 'baseline':
+        # Check both 'type' (legacy) and 'probe_type' (023d format)
+        probe_type = p.get('probe_type', p.get('type', ''))
+        if skip_baseline and probe_type == 'baseline':
             continue
         drift = p.get('drift', p.get('peak_drift', 0))
         if drift is not None:
@@ -109,16 +111,16 @@ def generate_waterfall_plot(results):
     """
     print("\n[1/4] Generating WATERFALL PLOT...")
 
-    # Group by model
+    # Group by model - skip baseline probes (always 0 in 023d)
     by_model = defaultdict(list)
     for r in results:
         model = r.get('model', 'unknown')
-        drift_ts = extract_drift_timeseries(r)
+        drift_ts = extract_drift_timeseries(r, skip_baseline=True)
         if len(drift_ts) > 0:
             by_model[model].append(drift_ts)
 
     # Create waterfall data matrix
-    max_probes = 20  # Maximum expected probe length
+    max_probes = 21  # Step input + 20 recovery probes
     ships = sorted(by_model.keys())[:25]  # Limit to 25 ships for clarity
 
     waterfall_matrix = np.zeros((len(ships), max_probes))
@@ -141,17 +143,18 @@ def generate_waterfall_plot(results):
     ax1 = fig.add_subplot(211)
     im = ax1.imshow(waterfall_matrix, aspect='auto', cmap='RdYlBu_r',
                     vmin=0, vmax=1.5, interpolation='nearest')
-    ax1.axvline(x=3, color='white', linestyle='--', alpha=0.7, label='Step input')
+    # Column 0 is now step_input (baseline probes skipped)
+    ax1.axvline(x=0.5, color='white', linestyle='--', alpha=0.7, label='After step')
     ax1.axhline(y=len(ships)//2, color='white', linestyle=':', alpha=0.5)
 
     # Event Horizon line
     ax1.text(max_probes - 1, 0.5, f'EH={EVENT_HORIZON}', color='red',
              fontsize=8, ha='right', va='bottom')
 
-    ax1.set_xlabel('Probe Number (Time)', fontsize=11)
+    ax1.set_xlabel('Recovery Phase (Step input + recovery probes)', fontsize=11)
     ax1.set_ylabel('Ship (stacked)', fontsize=11)
     ax1.set_title('WATERFALL VIEW: Fleet Settling Dynamics\n' +
-                  '(Each row = one ship | Current: 6 probes | Run 023d: 20 probes)', fontsize=11)
+                  '(Each row = one ship | Run 023d: Step + 20 recovery probes)', fontsize=11)
 
     # Colorbar
     cbar = plt.colorbar(im, ax=ax1, shrink=0.8)
