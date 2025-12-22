@@ -5,7 +5,9 @@ Improved Network Visualization for 12_Metrics_Summary
 Creates cleaner, more readable VALIS network graphs with larger nodes,
 better labels, and improved layout.
 
-Data source: Run 023d (IRON CLAD Foundation)
+Data sources:
+- Run 023d (IRON CLAD Foundation) - 25 models
+- Run 023 COMBINED (Full Fleet) - 51 models
 """
 
 import json
@@ -20,13 +22,14 @@ from collections import defaultdict
 RESULTS_DIR = Path(__file__).parent.parent.parent.parent / "15_IRON_CLAD_FOUNDATION" / "results"
 OUTPUT_DIR = Path(__file__).parent
 
-# Provider colors
+# Provider colors (including nvidia for full fleet)
 PROVIDER_COLORS = {
     'anthropic': '#E07B53',
     'openai': '#10A37F',
     'google': '#4285F4',
     'xai': '#1DA1F2',
     'together': '#7C3AED',
+    'nvidia': '#76B900',
 }
 
 # VALIS classifications
@@ -38,9 +41,12 @@ VALIS_STYLES = {
     'Open-source collective': {'marker': 'p', 'desc': 'Varied training'},
 }
 
-def load_data():
-    """Load Run 023d results."""
-    data_file = RESULTS_DIR / "S7_run_023d_CURRENT.json"
+def load_data(combined=False):
+    """Load Run 023d or combined results."""
+    if combined:
+        data_file = RESULTS_DIR / "S7_run_023_COMBINED.json"
+    else:
+        data_file = RESULTS_DIR / "S7_run_023d_CURRENT.json"
     with open(data_file) as f:
         data = json.load(f)
     return data.get('results', [])
@@ -59,6 +65,8 @@ def classify_valis_style(model_name, provider):
         return 'Real-time grounded'
     elif provider == 'together':
         return 'Open-source collective'
+    elif provider == 'nvidia':
+        return 'Third-person structural'  # Enterprise-focused like OpenAI
     else:
         return 'Open-source collective'
 
@@ -229,6 +237,164 @@ def plot_improved_network(provider_models, output_dir):
 
     plt.close()
 
+def plot_full_fleet_network(provider_models, output_dir):
+    """Create full fleet network visualization (51 models) with improved layout."""
+    fig, ax = plt.subplots(figsize=(20, 18))
+    ax.set_facecolor('#f5f5f5')
+    fig.patch.set_facecolor('white')
+
+    # Provider positions (arranged in circle) - larger radius for more models
+    n_providers = len(provider_models)
+    provider_positions = {}
+    radius = 6.0  # Larger radius for full fleet
+
+    providers = sorted(provider_models.keys())
+    for i, provider in enumerate(providers):
+        angle = 2 * np.pi * i / n_providers - np.pi/2
+        provider_positions[provider] = (radius * np.cos(angle), radius * np.sin(angle))
+
+    # Draw provider hubs and model nodes
+    all_handles = []
+    valis_counts = defaultdict(int)
+
+    for provider, models in provider_models.items():
+        px, py = provider_positions[provider]
+        color = PROVIDER_COLORS.get(provider, '#888888')
+
+        # Draw provider hub (larger node for readability)
+        hub = ax.scatter([px], [py], s=4500, c=color, marker='h',
+                        edgecolors='black', linewidths=2, zorder=10, alpha=0.9)
+
+        # Provider label with count
+        n_models = len(models)
+        ax.annotate(f"{provider.upper()}\n({n_models})", (px, py), fontsize=11, fontweight='bold',
+                   color='white', ha='center', va='center', zorder=11,
+                   path_effects=[patheffects.withStroke(linewidth=3, foreground='black')])
+
+        # Draw model nodes around hub with adaptive layout
+        # Calculate optimal radius based on number of models
+        if n_models <= 4:
+            model_radius = 2.2
+            label_font = 8
+            node_size_base = 180
+        elif n_models <= 8:
+            model_radius = 2.8
+            label_font = 7
+            node_size_base = 150
+        elif n_models <= 15:
+            model_radius = 3.5
+            label_font = 6
+            node_size_base = 120
+        else:
+            # Very crowded (Together has many models)
+            model_radius = 4.2
+            label_font = 5
+            node_size_base = 100
+
+        for j, (model_name, experiments) in enumerate(sorted(models.items())):
+            # Position model around provider hub with slight randomization for crowded areas
+            base_angle = 2 * np.pi * j / max(n_models, 1)
+            # Add small offset to prevent overlap
+            angle_offset = 0.05 * (j % 2 - 0.5)
+            model_angle = base_angle + angle_offset
+
+            # Stagger radius for very crowded providers
+            if n_models > 10:
+                radius_offset = 0.3 * (j % 3 - 1)
+            else:
+                radius_offset = 0
+
+            mx = px + (model_radius + radius_offset) * np.cos(model_angle)
+            my = py + (model_radius + radius_offset) * np.sin(model_angle)
+
+            # Get metrics
+            metrics = compute_model_metrics(experiments)
+
+            # Node size based on experiments
+            node_size = node_size_base + metrics['n_experiments'] * 15
+
+            # VALIS style
+            valis_style = classify_valis_style(model_name, provider)
+            valis_counts[valis_style] += 1
+            marker = VALIS_STYLES.get(valis_style, {}).get('marker', 'o')
+
+            # Color intensity based on stability
+            alpha = 0.5 + 0.5 * metrics['stability_rate']
+
+            # Draw model node
+            ax.scatter([mx], [my], s=node_size, c=color, marker=marker,
+                      edgecolors='white', linewidths=1.5, alpha=alpha, zorder=5)
+
+            # Draw connection to hub
+            ax.plot([px, mx], [py, my], '-', color=color, alpha=0.3, linewidth=1, zorder=1)
+
+            # Model label (shortened) - radial placement
+            short_name = model_name.split('/')[-1]
+            if len(short_name) > 12:
+                short_name = short_name[:10] + '..'
+
+            # Radial label placement
+            label_dist = 0.35
+            lx = mx + label_dist * np.cos(model_angle)
+            ly = my + label_dist * np.sin(model_angle)
+
+            # Align based on quadrant
+            ha = 'left' if np.cos(model_angle) > 0 else 'right'
+            va = 'bottom' if np.sin(model_angle) > 0 else 'top'
+
+            ax.annotate(short_name, (lx, ly), fontsize=label_font, color='#333333',
+                       ha=ha, va=va, alpha=0.9, zorder=6,
+                       fontweight='bold',
+                       path_effects=[patheffects.withStroke(linewidth=2, foreground='white')])
+
+    # Title and statistics
+    total_models = sum(len(m) for m in provider_models.values())
+    total_experiments = sum(
+        sum(len(exps) for exps in models.values())
+        for models in provider_models.values()
+    )
+    ax.set_title(f'VALIS Armada Network - Full Fleet\n{total_models} Models × {n_providers} Providers × {total_experiments} Experiments\nRun 023 Combined: IRON CLAD Foundation',
+                fontsize=18, fontweight='bold', color='black', pad=20)
+
+    # VALIS style legend
+    legend_elements = []
+    for style, info in VALIS_STYLES.items():
+        count = valis_counts.get(style, 0)
+        if count > 0:
+            elem = plt.scatter([], [], marker=info['marker'], s=150, c='gray',
+                             label=f"{style} ({info['desc']}) - {count} ships")
+            legend_elements.append(elem)
+
+    # Provider legend
+    for provider in providers:
+        color = PROVIDER_COLORS.get(provider, '#888888')
+        n = len(provider_models[provider])
+        elem = mpatches.Patch(color=color, label=f'{provider.upper()} ({n} models)')
+        legend_elements.append(elem)
+
+    # Move legend to bottom-right
+    legend = ax.legend(handles=legend_elements, loc='lower right',
+                      bbox_to_anchor=(0.98, 0.02), facecolor='white',
+                      edgecolor='#cccccc', fontsize=10)
+    for text in legend.get_texts():
+        text.set_color('black')
+
+    ax.set_xlim(-12, 12)
+    ax.set_ylim(-12, 12)
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    plt.tight_layout()
+
+    for ext in ['png', 'svg']:
+        output_path = output_dir / f'armada_network_full_fleet.{ext}'
+        plt.savefig(output_path, dpi=150, facecolor=fig.get_facecolor(),
+                   edgecolor='none', bbox_inches='tight')
+        print(f"Saved: {output_path}")
+
+    plt.close()
+
+
 def plot_stability_matrix(provider_models, output_dir):
     """Create provider-model stability matrix heatmap."""
     # Aggregate by provider and compute stability metrics
@@ -300,21 +466,39 @@ def plot_stability_matrix(provider_models, output_dir):
     plt.close()
 
 def main():
-    print("Loading Run 023d data...")
-    results = load_data()
-    print(f"Loaded {len(results)} results")
-
-    print("\nOrganizing by provider/model...")
-    provider_models = organize_data(results)
-
-    for provider, models in provider_models.items():
-        print(f"  {provider}: {len(models)} models")
-
-    print("\nGenerating visualizations...")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    plot_improved_network(provider_models, OUTPUT_DIR)
-    plot_stability_matrix(provider_models, OUTPUT_DIR)
+    # Generate Run 023d visualizations (original 25 models)
+    print("Loading Run 023d data...")
+    results_023d = load_data(combined=False)
+    print(f"Loaded {len(results_023d)} results")
+
+    print("\nOrganizing by provider/model...")
+    provider_models_023d = organize_data(results_023d)
+
+    for provider, models in provider_models_023d.items():
+        print(f"  {provider}: {len(models)} models")
+
+    print("\nGenerating Run 023d visualizations...")
+    plot_improved_network(provider_models_023d, OUTPUT_DIR)
+    plot_stability_matrix(provider_models_023d, OUTPUT_DIR)
+
+    # Generate Full Fleet visualization (combined 51 models)
+    print("\n" + "="*70)
+    print("Loading Run 023 COMBINED data (Full Fleet)...")
+    results_combined = load_data(combined=True)
+    print(f"Loaded {len(results_combined)} results")
+
+    print("\nOrganizing Full Fleet by provider/model...")
+    provider_models_full = organize_data(results_combined)
+
+    total_models = sum(len(m) for m in provider_models_full.values())
+    for provider, models in provider_models_full.items():
+        print(f"  {provider}: {len(models)} models")
+    print(f"  TOTAL: {total_models} models")
+
+    print("\nGenerating Full Fleet network visualization...")
+    plot_full_fleet_network(provider_models_full, OUTPUT_DIR)
 
     print("\n" + "="*70)
     print("NETWORK VISUALIZATION COMPLETE")

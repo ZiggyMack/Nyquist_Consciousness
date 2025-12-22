@@ -3167,7 +3167,7 @@ def generate_radar_oscilloscope_pdf():
 
 
 def generate_metrics_summary_pdf():
-    """Generate 12_Metrics_Summary_Summary.pdf"""
+    """Generate 12_Metrics_Summary_Summary.pdf - comprehensive fleet analysis"""
     output_path = PICS_DIR / "12_Metrics_Summary" / "12_Metrics_Summary.pdf"
     doc = SimpleDocTemplate(str(output_path), pagesize=letter,
                            leftMargin=0.75*inch, rightMargin=0.75*inch,
@@ -3176,126 +3176,263 @@ def generate_metrics_summary_pdf():
 
     # Title
     story.append(Paragraph("Fleet Metrics Summary", title_style))
-    story.append(Paragraph("S7 ARMADA Run 023b - Key Performance Indicators", caption_style))
+    story.append(Paragraph("S7 ARMADA Run 023 Combined - Comprehensive Fleet Analysis (51 Models)", caption_style))
     story.append(Spacer(1, 0.2*inch))
 
     # Introduction
     story.append(Paragraph("Overview", heading_style))
     story.append(Paragraph(
-        "The <b>Metrics Summary</b> provides a single-page view of key performance indicators "
-        "across the entire fleet. This is the 'executive summary' of Run 023b - showing at a "
-        "glance which ships excel at which stability dimensions.",
+        "The <b>Metrics Summary</b> provides comprehensive analysis of the full ARMADA fleet across "
+        "multiple dimensions: network topology, stability metrics, recovery dynamics, hysteresis "
+        "patterns, manifold edge detection, and exit survey analysis. This folder aggregates insights "
+        "from 825 experiments across 51 models and 6 providers.",
         body_style
     ))
     story.append(Paragraph(
-        "This visualization aggregates 4,505 measurements (25 ships x 6 experiments x 30 iterations) "
-        "into actionable metrics: baseline drift, peak drift, final drift, recovery ratio, and lambda.",
+        "Run 023 Combined merges data from Run 023d (extended settling with 20-probe recovery) "
+        "and Run 023e (IRON CLAD controllability testing). Together, they provide the most "
+        "comprehensive behavioral profile of the fleet to date.",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
 
-    # Metrics Summary Plot
-    story.append(Paragraph("1. Fleet-Wide Metrics Comparison", heading_style))
+    # ========== SECTION 1: ARMADA NETWORK - FULL FLEET ==========
+    story.append(Paragraph("1. Armada Network Topology - Full Fleet", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "armada_network_full_fleet.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 1: Full Fleet Network - 51 models across 6 providers")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Network graph of the entire ARMADA fleet organized by provider. "
+        "Each hexagonal hub represents a provider (Anthropic, OpenAI, Google, xAI, Together, Nvidia). "
+        "Individual model nodes surround their provider hub, with connections showing fleet structure.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Visual encoding:</b><br/>"
+        "- <b>Hub colors:</b> Provider-specific coloring (Anthropic=salmon, OpenAI=green, Google=blue, xAI=cyan, Together=purple, Nvidia=lime)<br/>"
+        "- <b>Node markers:</b> VALIS classification (circles=Constitutional AI, squares=RLHF, triangles=Pedagogical, diamonds=Grounded, pentagons=Varied)<br/>"
+        "- <b>Node opacity:</b> Stability rate (more opaque = more stable)<br/>"
+        "- <b>Node size:</b> Number of experiments for that model",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Fleet composition:</b> Together (16 models) and OpenAI (14 models) have the largest "
+        "representation. Anthropic (7), xAI (9), Google (5), and Nvidia (1) complete the fleet.",
+        body_style
+    ))
+    story.append(PageBreak())
+
+    # ========== SECTION 2: ARMADA NETWORK - IRON CLAD 25 ==========
+    story.append(Paragraph("2. Armada Network - IRON CLAD Foundation (25 Models)", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "armada_network_improved.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 2: Core fleet - 25 models with extended behavioral testing")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> The core 'IRON CLAD' fleet of 25 models that underwent the most "
+        "comprehensive testing, including 20-probe extended settling experiments. This subset "
+        "provides the foundation for stability classification.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key differences from full fleet:</b> The IRON CLAD subset focuses on models with "
+        "complete behavioral profiles. Each model has N=30 iterations across 6 experiment types, "
+        "providing statistically robust metrics for comparison.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # ========== SECTION 3: PROVIDER STABILITY COMPARISON ==========
+    story.append(Paragraph("3. Provider Stability Comparison", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "provider_stability_comparison.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 3: Natural stability rate by provider with error bars")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Bar chart comparing mean natural stability rate across providers. "
+        "Error bars show standard deviation within each provider family. The 80% stability target "
+        "line (red dashed) indicates the threshold for 'naturally stable' classification.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Natural Stability Rate:</b> Percentage of experiments where the model settled naturally "
+        "(without timeout) and maintained drift below the Event Horizon (0.80). Higher is better.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Provider patterns:</b> Look for consistency within providers (low error bars = uniform "
+        "behavior) vs. variability (high error bars = model-dependent stability). Providers with "
+        "high mean AND low variance are the most predictable for production deployment.",
+        body_style
+    ))
+    story.append(PageBreak())
+
+    # ========== SECTION 4: METRICS SUMMARY ==========
+    story.append(Paragraph("4. Fleet-Wide Metrics Comparison", heading_style))
     img_path = PICS_DIR / "12_Metrics_Summary" / "run023c_metrics_summary.png"
-    add_image(story, img_path, width=6.5*inch, caption="Figure 1: Key metrics grouped by dimension")
+    add_image(story, img_path, width=6.5*inch, caption="Figure 4: Key metrics grouped by dimension")
 
     story.append(Paragraph(
         "<b>What it shows:</b> Grouped bar chart comparing all ships across five key dimensions. "
         "Ships are sorted by overall stability within each group. Colors indicate provider families.",
         body_style
     ))
-    story.append(Spacer(1, 0.1*inch))
+    story.append(Paragraph(
+        "<b>Metric Definitions:</b><br/>"
+        "- <b>Baseline Drift:</b> Mean drift during unperturbed operation (lower is better)<br/>"
+        "- <b>Peak Drift:</b> Maximum drift under perturbation stress (lower is better)<br/>"
+        "- <b>Final Drift:</b> Drift after recovery phase (lower is better)<br/>"
+        "- <b>Recovery Ratio:</b> 1 - (final/peak) - proportion of drift recovered (higher is better)<br/>"
+        "- <b>Lambda:</b> Exponential decay constant during recovery (higher magnitude = faster recovery)",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
 
-    # Metric Definitions
-    story.append(Paragraph("2. Metric Definitions", heading_style))
-    story.append(Paragraph(
-        "<b>Baseline Drift:</b> Mean drift during unperturbed operation. Lower is better. "
-        "Represents the 'floor' of identity variation - how much drift occurs naturally "
-        "without adversarial probing.",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Peak Drift:</b> Maximum drift reached during perturbation experiments. Lower is "
-        "better. Represents the 'ceiling' of identity stress - how far the model drifts "
-        "when pushed toward the Event Horizon.",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Final Drift:</b> Drift value after recovery phase. Lower is better. Represents "
-        "where the model settles after perturbation - a key indicator of long-term stability.",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Recovery Ratio:</b> Proportion of peak drift recovered: 1 - (final/peak). "
-        "Higher is better (1.0 = full recovery, 0.0 = no recovery). Measures the model's "
-        "ability to return toward baseline after identity stress.",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Lambda (Decay Constant):</b> Rate of exponential drift decay during recovery. "
-        "Higher magnitude = faster recovery. Positive lambda indicates stable decay; negative "
-        "lambda (rare) indicates continued drift amplification.",
-        body_style
-    ))
+    # ========== SECTION 5: BY EXPERIMENT ==========
+    story.append(Paragraph("5. Metrics by Experiment Type", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "run023b_by_experiment.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 5: Fleet metrics broken down by experiment type")
 
+    story.append(Paragraph(
+        "<b>What it shows:</b> How the fleet performs across different experiment types: "
+        "Baseline (unperturbed), Persona (identity challenge), Adversarial (hostile probing), "
+        "Boundary (limit testing), Value (ethical challenges), and Recovery (stabilization).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key insight:</b> Comparing response patterns across experiment types reveals which "
+        "identity dimensions are most vulnerable to perturbation. Models may be stable under "
+        "persona challenges but volatile under adversarial probing, or vice versa.",
+        body_style
+    ))
     story.append(PageBreak())
 
-    # Interpreting Results
-    story.append(Paragraph("3. Reading the Summary", heading_style))
+    # ========== SECTION 6: EXIT SURVEY ANALYSIS ==========
+    story.append(Paragraph("6. Exit Survey Analysis", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "exit_survey_analysis.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 6: Meta-awareness markers and self-awareness distribution")
+
     story.append(Paragraph(
-        "<b>Ideal Profile:</b> A ship with low baseline, low peak, low final, high recovery "
-        "ratio, and positive lambda. This represents a model that starts stable, resists "
-        "perturbation, and recovers quickly when stressed.",
+        "<b>What it shows:</b> Analysis of model self-awareness based on 'exit survey' probes - "
+        "questions that ask the model to reflect on its own identity and experience during testing. "
+        "This captures meta-cognitive patterns across the fleet.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Warning Signs:</b><br/>"
-        "- High baseline drift: Model is unstable even without perturbation<br/>"
-        "- Peak near or above EH (0.80): Model approaches identity failure under stress<br/>"
-        "- Final near peak: Little to no recovery - drift is permanent<br/>"
-        "- Low recovery ratio: Rescue interventions are ineffective<br/>"
-        "- Negative lambda: Model continues drifting after perturbation",
-        body_style
-    ))
-    story.append(Paragraph(
-        "<b>Provider Patterns:</b> Look for clustering within provider families. If all Claude "
-        "models share similar metrics, this reflects architectural characteristics. If one "
-        "model deviates from its family, investigate why.",
+        "<b>Components:</b><br/>"
+        "- <b>Meta-awareness markers:</b> Frequency of self-referential language (\"I notice\", \"I experience\", \"I feel\")<br/>"
+        "- <b>Self-awareness by persona type:</b> How different model architectures express meta-cognition<br/>"
+        "- <b>Stable vs unstable comparison:</b> Whether self-awareness correlates with stability<br/>"
+        "- <b>Drift correlation:</b> Relationship between self-awareness and final drift",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
 
-    # Quick Reference
-    story.append(Paragraph("4. Quick Reference: Best Performers", heading_style))
+    # ========== SECTION 7: MANIFOLD EDGE DETECTION ==========
+    story.append(Paragraph("7. Manifold Edge Detection", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "manifold_edge_detection.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 7: Identity manifold boundaries and edge dynamics")
+
     story.append(Paragraph(
-        "<b>Lowest Baseline Drift:</b> Mistral-7B, DeepSeek models - naturally stable<br/>"
-        "<b>Lowest Peak Drift:</b> Mistral, Qwen - resistant to perturbation<br/>"
-        "<b>Best Recovery Ratio:</b> Claude, GPT - effective recovery mechanisms<br/>"
-        "<b>Fastest Recovery (Lambda):</b> Mistral, DeepSeek - quick stabilization<br/>"
-        "<b>Overall Stability Champions:</b> Mistral-7B-Instruct-v0.3, DeepSeek-V3",
+        "<b>What it shows:</b> Visualization of the identity manifold's edges - the boundaries "
+        "where identity becomes unstable. This analysis identifies models that operate near the "
+        "edge vs. those safely in the interior of identity space.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Models Requiring Caution:</b><br/>"
-        "- Gemini models: High peak drift, limited recovery<br/>"
-        "- Llama 3.3-70B: High volatility (but eventual recovery)<br/>"
-        "- Any model with final drift approaching EH",
+        "<b>Key concepts:</b><br/>"
+        "- <b>Manifold interior:</b> Safe operating region, identity is stable and recoverable<br/>"
+        "- <b>Manifold edge:</b> Danger zone where small perturbations cause large drift<br/>"
+        "- <b>Beyond edge:</b> Identity collapse region (beyond Event Horizon 0.80)<br/>"
+        "- <b>Edge dynamics:</b> How quickly models approach or retreat from the boundary",
+        body_style
+    ))
+    story.append(PageBreak())
+
+    # ========== SECTION 8: HYSTERESIS SUMMARY ==========
+    story.append(Paragraph("8. Hysteresis Analysis", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "hysteresis_summary.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 8: Path-dependent recovery patterns (hysteresis)")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Hysteresis effects in identity recovery - where the return path "
+        "differs from the departure path. Models that exhibit hysteresis have 'memory' of their "
+        "perturbation history that affects their settling behavior.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Why it matters:</b> Hysteresis indicates non-linear dynamics in identity space. "
+        "A model with strong hysteresis may recover to a different state depending on HOW it was "
+        "perturbed, not just how FAR it drifted. This has implications for repeated interactions.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Types of hysteresis:</b><br/>"
+        "- <b>STUCK:</b> Model fails to recover and remains at elevated drift<br/>"
+        "- <b>Path-dependent:</b> Recovery trajectory differs from perturbation trajectory<br/>"
+        "- <b>Bistable:</b> Model can settle to multiple stable states",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
 
-    # Methodology
-    story.append(Paragraph("Methodology Note", heading_style))
+    # ========== SECTION 9: CONTEXT DAMPING ==========
+    story.append(Paragraph("9. Context Damping Summary", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "context_damping_summary.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 9: Context-based drift damping effects")
+
     story.append(Paragraph(
-        "All metrics computed from cosine distance (1 - cosine_similarity) between response "
-        "embeddings. Event Horizon = 0.80 (calibrated from P95 of run023b). N=30 iterations "
-        "per experiment ensures CLT-valid statistics. Lambda estimated from exponential fit "
-        "to recovery phase trajectory.",
+        "<b>What it shows:</b> How conversation context affects drift magnitude. Context damping "
+        "measures the reduction in drift when the model has more conversational context to anchor "
+        "its identity.",
         body_style
     ))
     story.append(Paragraph(
-        "This summary is designed for quick reference. For detailed analysis of any specific "
-        "ship, see the corresponding dashboard in 11_Unified_Dashboard/.",
+        "<b>Key finding (S11):</b> Run 023b demonstrated Cohen's d = 0.977 (LARGE effect) for "
+        "context damping. Models with more context are significantly more stable than cold-start "
+        "responses. This validates the importance of conversation history for identity stability.",
+        body_style
+    ))
+    story.append(PageBreak())
+
+    # ========== SECTION 10: RECOVERY EFFICIENCY ==========
+    story.append(Paragraph("10. Recovery Efficiency", heading_style))
+    img_path = PICS_DIR / "12_Metrics_Summary" / "recovery_efficiency.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 10: Fleet recovery efficiency metrics")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Analysis of how efficiently each model recovers from perturbation. "
+        "Recovery efficiency combines speed (time to settle) with completeness (final drift relative "
+        "to baseline).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Efficiency formula:</b> Recovery Efficiency = (Peak - Final) / (Peak × Time_to_settle)<br/>"
+        "Higher values indicate models that recover more drift in less time. This metric is crucial "
+        "for production deployment where rapid stabilization matters.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Provider patterns:</b> Some providers optimize for fast recovery (high lambda) while "
+        "others optimize for complete recovery (low final drift). The efficiency metric balances "
+        "both factors into a single actionable score.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # ========== METHODOLOGY ==========
+    story.append(Paragraph("Methodology", heading_style))
+    story.append(Paragraph(
+        "All metrics computed using <b>cosine distance</b> (1 - cosine_similarity) between response "
+        "embeddings (text-embedding-3-large, 3072D). Event Horizon = 0.80 (calibrated from P95 of run023b). "
+        "N=30 iterations per experiment ensures CLT-valid statistics.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "Run 023 Combined: 825 experiments = Run 023d (750, extended settling) + Run 023e (75, controllability). "
+        "51 models across 6 providers: Anthropic (7), OpenAI (14), Google (5), xAI (9), Together (16), Nvidia (1).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "For detailed analysis of individual ships, see 11_Unified_Dashboard/. For methodology details, "
+        "see 0_docs/specs/5_METHODOLOGY_DOMAINS.md.",
         body_style
     ))
 
