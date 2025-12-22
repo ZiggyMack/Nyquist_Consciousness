@@ -766,20 +766,23 @@ def generate_recovery_heatmap(results):
                 avg_ts[:length] += ts[:length]
                 count[:length] += 1
 
-            count[count == 0] = 1  # Avoid division by zero
-            avg_ts /= count
+            # Keep NaN where no data (model settled early)
+            # This shows as gray in the heatmap
+            with np.errstate(divide='ignore', invalid='ignore'):
+                avg_ts = np.where(count > 0, avg_ts / count, np.nan)
             heatmap[i] = avg_ts
 
-    # Plot heatmap
-    im = ax.imshow(heatmap, aspect='auto', cmap='RdYlGn_r',
+    # Plot heatmap - use 'gray' for NaN values (early settlers)
+    cmap = plt.cm.RdYlGn_r.copy()
+    cmap.set_bad(color='lightgray')  # NaN = early settled = gray
+    im = ax.imshow(heatmap, aspect='auto', cmap=cmap,
                    vmin=0, vmax=1.0, interpolation='nearest')
 
     # Event Horizon threshold indicator (via colorbar)
-    cbar = plt.colorbar(im, ax=ax, shrink=0.8)
-    cbar.set_label('Drift (cosine distance)', fontsize=11)
-    cbar.ax.axhline(y=EVENT_HORIZON, color='black', linewidth=2)
-    cbar.ax.text(1.1, EVENT_HORIZON, f'EH={EVENT_HORIZON}',
-                 fontsize=9, va='center', transform=cbar.ax.transAxes)
+    cbar = plt.colorbar(im, ax=ax, shrink=0.8, pad=0.02)
+    cbar.set_label('Drift (cosine)', fontsize=10)
+    # Draw EH line on colorbar
+    cbar.ax.axhline(y=EVENT_HORIZON, color='black', linewidth=2, linestyle='--')
 
     # Labels
     ax.set_xlabel('Recovery Phase (Probe after step input)', fontsize=12)
