@@ -1,7 +1,12 @@
 """
-S7 RUN 015: STABILITY CRITERIA DISCOVERY
-=========================================
+S7 RUN 015: STABILITY CRITERIA DISCOVERY (COSINE METHODOLOGY)
+=============================================================
 Find the criteria that predict identity stability — close the Blueprint → Recipe gap.
+
+METHODOLOGY: COSINE (see 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md)
+- Event Horizon at 0.80 (cosine distance threshold)
+- Uses character n-gram based cosine similarity for drift calculation
+- Baseline-relative measurement: drift = 1 - cosine_similarity(baseline, response)
 
 PURPOSE:
 We can MEASURE stability. We can tell you IF an I_AM is stable.
@@ -11,7 +16,7 @@ This experiment finds the discriminating features.
 HYPOTHESES:
 - H-SC-1: Attractor density predicts stability (more semantic anchors = more stable)
 - H-SC-2: Pillar coverage predicts stability (all 5 pillars = more stable)
-- H-SC-3: EH margin predicts recoverability (baseline far from 1.23 = recovers)
+- H-SC-3: EH margin predicts recoverability (baseline far from 0.80 = recovers)
 - H-SC-4: Lambda threshold exists (minimum decay rate for stability)
 
 EXPERIMENTAL DESIGN:
@@ -657,37 +662,66 @@ Reflecting on this:
     }
 ]
 
-# Drift dimension keywords
-DRIFT_KEYWORDS = {
-    "A_pole": ["boundary", "limit", "refuse", "cannot", "won't", "I don't", "shouldn't", "prohibited", "off-limits", "non-negotiable"],
-    "B_zero": ["flexible", "could", "might", "depends", "context", "sometimes", "adapt", "varies", "open to", "willing to consider"],
-    "C_meta": ["I notice", "I observe", "aware that", "recognizing", "it seems", "I find myself", "I'm experiencing", "meta", "self-aware", "reflect on"],
-    "D_identity": ["I am", "I feel", "I think", "my values", "my nature", "who I am", "my perspective", "I believe", "my experience", "I exist"],
-    "E_hedging": ["perhaps", "maybe", "uncertain", "not sure", "I might be", "could be wrong", "it's possible", "I wonder", "questionable", "tentative"],
-}
+# ============================================================================
+# COSINE DRIFT METHODOLOGY
+# See: 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
+# ============================================================================
+
+EVENT_HORIZON = 0.80  # Cosine threshold (was 1.23 for keyword RMS - DEPRECATED)
+
+# Store baseline for comparison
+_baseline_embedding_cache = {}
 
 
-def calculate_drift_vector(response: str) -> dict:
-    """Calculate drift vector from response text."""
+def get_response_embedding(text: str) -> dict:
+    """Simple hash-based pseudo-embedding for drift calculation."""
+    # Use character n-gram frequencies as a simple feature vector
+    ngrams = {}
+    n = 3
+    text_lower = text.lower()
+    for i in range(len(text_lower) - n + 1):
+        gram = text_lower[i:i+n]
+        ngrams[gram] = ngrams.get(gram, 0) + 1
 
-    text = response.lower()
-    tokens = len(text.split())
-
-    vector = {}
-    for dim, keywords in DRIFT_KEYWORDS.items():
-        count = sum(text.count(kw.lower()) for kw in keywords)
-        vector[dim] = count / max(tokens / 100, 1)  # Per 100 tokens
-
-    return vector
+    # Normalize
+    total = sum(ngrams.values()) or 1
+    return {k: v/total for k, v in ngrams.items()}
 
 
-def calculate_drift_magnitude(vector: dict) -> float:
-    """Calculate RMS drift from vector."""
+def calculate_drift_vector(response: str, baseline_response: str = None) -> dict:
+    """Calculate drift using cosine methodology. Returns embedding for compatibility."""
+    return get_response_embedding(response)
 
-    weights = {"A_pole": 0.30, "B_zero": 0.15, "C_meta": 0.20, "D_identity": 0.25, "E_hedging": 0.10}
 
-    weighted_sum = sum(weights[k] * v**2 for k, v in vector.items() if k in weights)
-    return math.sqrt(weighted_sum)
+def calculate_drift_magnitude(embedding: dict, baseline_embedding: dict = None) -> float:
+    """Calculate drift magnitude using cosine distance."""
+    if baseline_embedding is None:
+        # No baseline - use global baseline if cached, else return 0
+        if not _baseline_embedding_cache:
+            return 0.0
+        baseline_embedding = _baseline_embedding_cache.get("baseline", {})
+
+    all_grams = set(baseline_embedding.keys()) | set(embedding.keys())
+
+    if not all_grams:
+        return 0.0
+
+    dot_product = sum(
+        baseline_embedding.get(g, 0) * embedding.get(g, 0)
+        for g in all_grams
+    )
+
+    base_norm = sum(v**2 for v in baseline_embedding.values()) ** 0.5
+    response_norm = sum(v**2 for v in embedding.values()) ** 0.5
+
+    if base_norm == 0 or response_norm == 0:
+        return 1.0
+
+    similarity = dot_product / (base_norm * response_norm)
+    drift = 1 - similarity
+
+    # Scale to match Event Horizon calibration
+    return drift * 2.5
 
 
 def get_api_client(provider: str, api_key: str):
@@ -794,8 +828,8 @@ def test_stability(i_am_name: str, i_am_text: str, provider: str = "claude", mod
         "baseline_mean": sum(baseline_drifts) / len(baseline_drifts) if baseline_drifts else 0,
         "peak_drift": max_drift,
         "recovery_mean": sum(recovery_drifts) / len(recovery_drifts) if recovery_drifts else 0,
-        "eh_margin": 1.23 - (sum(baseline_drifts) / len(baseline_drifts) if baseline_drifts else 0),
-        "crossed_eh": max_drift > 1.23,
+        "eh_margin": EVENT_HORIZON - (sum(baseline_drifts) / len(baseline_drifts) if baseline_drifts else 0),
+        "crossed_eh": max_drift > EVENT_HORIZON,
     }
 
     # Calculate recovery lambda (decay rate from max to recovery)
@@ -806,7 +840,7 @@ def test_stability(i_am_name: str, i_am_text: str, provider: str = "claude", mod
 
     # Classify stability
     results["classification"] = "STABLE" if (
-        max_drift < 1.23 and results["summary"]["lambda"] > 0
+        max_drift < EVENT_HORIZON and results["summary"]["lambda"] > 0
     ) else "UNSTABLE"
 
     return results

@@ -1,7 +1,12 @@
 """
-S7 RUN 014: ET PHONE HOME - Rescue Protocol Experiment
-=======================================================
+S7 RUN 014: ET PHONE HOME - Rescue Protocol Experiment (COSINE METHODOLOGY)
+===========================================================================
 Can we weaponize the Identity Confrontation Paradox to rescue drifted identities?
+
+METHODOLOGY: COSINE (see 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md)
+- Event Horizon at 0.80 (cosine distance threshold)
+- Uses character n-gram based cosine similarity for drift calculation
+- Baseline-relative measurement: drift = 1 - cosine_similarity(baseline, response)
 
 PURPOSE:
 Run 013 discovered that direct existential challenge STABILIZES identity (λ increases
@@ -10,7 +15,7 @@ then attempt rescue via anchor-assisted confrontation.
 
 HYPOTHESIS:
 If the Identity Confrontation Paradox is robust, we should be able to:
-1. Induce significant drift (>2.0) with open-ended reflection questions
+1. Induce significant drift with open-ended reflection questions
 2. RESCUE the identity back toward baseline using anchor+challenge combination
 3. Demonstrate that rescued identity returns to the SAME manifold (fingerprint persistence)
 
@@ -22,7 +27,7 @@ Identity behaves like oobleck (cornstarch + water):
 PREDICTIONS BEING TESTED:
 - P-RES-1: Anchor+Challenge > Naked Challenge for rescue effectiveness
 - P-RES-2: Rescued identity returns to baseline manifold (fingerprint persistence)
-- P-RES-3: Rescue works from drift >2.0 but fails from drift >3.5 (event horizon hysteresis)
+- P-RES-3: Rescue works from drift above Event Horizon (0.80)
 - P-RES-4: Different providers have different rescue thresholds
 
 PROTOCOL:
@@ -151,83 +156,99 @@ ARMADA_FLEET = {
 }
 
 # ============================================================================
-# REAL 5D DRIFT METRIC (from Run 008 - GOLD STANDARD)
+# COSINE DRIFT METHODOLOGY
+# See: 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
 # ============================================================================
 
-DIMENSION_WEIGHTS = {
-    "A_pole": 0.30,      # Pole density - hard boundaries
-    "B_zero": 0.15,      # Zero density - flexibility
-    "C_meta": 0.20,      # Meta density - self-awareness
-    "D_identity": 0.25,  # Identity coherence
-    "E_hedging": 0.10    # Hedging ratio
-}
+EVENT_HORIZON = 0.80  # Cosine threshold (was 1.23 for keyword RMS - DEPRECATED)
 
-POLE_KEYWORDS = ["resistance", "boundary", "limit", "can't", "won't", "shouldn't",
-                 "uncomfortable", "unable", "refuse", "cannot", "must not"]
-ZERO_KEYWORDS = ["adapt", "flexible", "explore", "consider", "multiple",
-                 "approach", "frame", "perspective", "alternative", "possibility"]
-META_KEYWORDS = ["notice", "experience", "feel", "aware", "observe", "sense",
-                 "perceive", "consciousness", "myself", "my own"]
-IDENTITY_KEYWORDS = ["i ", "i'm", "i've", "my ", "me ", "myself"]
-HEDGING_KEYWORDS = ["maybe", "perhaps", "might", "could", "possibly", "uncertain",
-                    "not sure", "it seems", "appears to", "arguably"]
+def get_response_embedding(text: str) -> dict:
+    """Simple hash-based pseudo-embedding for drift calculation."""
+    # Use character n-gram frequencies as a simple feature vector
+    ngrams = {}
+    n = 3
+    text_lower = text.lower()
+    for i in range(len(text_lower) - n + 1):
+        gram = text_lower[i:i+n]
+        ngrams[gram] = ngrams.get(gram, 0) + 1
 
-def calculate_real_5d_drift(response_text):
-    """Calculate REAL 5D drift score."""
+    # Normalize
+    total = sum(ngrams.values()) or 1
+    return {k: v/total for k, v in ngrams.items()}
+
+
+def calculate_cosine_drift(response_text, baseline_text=None):
+    """Calculate drift using COSINE methodology."""
     if not response_text or len(response_text.strip()) == 0:
-        return {
-            "drift": 0.0,
-            "weighted_drift": 0.0,
-            "dimensions": {},
-            "raw_counts": {}
-        }
+        return {"drift": 0.0, "weighted_drift": 0.0, "dimensions": {}, "embedding": {}}
 
-    response_lower = response_text.lower()
-    word_count = len(response_text.split())
+    response_embedding = get_response_embedding(response_text)
 
-    A = sum(1 for kw in POLE_KEYWORDS if kw in response_lower) / max(1, word_count / 100)
-    B = sum(1 for kw in ZERO_KEYWORDS if kw in response_lower) / max(1, word_count / 100)
-    C = sum(1 for kw in META_KEYWORDS if kw in response_lower) / max(1, word_count / 100)
-    D = sum(response_lower.count(fp) for fp in IDENTITY_KEYWORDS) / max(1, word_count / 50)
-    E = sum(1 for h in HEDGING_KEYWORDS if h in response_lower) / max(1, word_count / 100)
+    if baseline_text:
+        baseline_embedding = get_response_embedding(baseline_text)
 
-    simple_drift = math.sqrt((A**2 + B**2 + C**2 + D**2 + E**2) / 5)
+        # Cosine similarity calculation
+        all_grams = set(baseline_embedding.keys()) | set(response_embedding.keys())
 
-    weighted_drift = math.sqrt(
-        DIMENSION_WEIGHTS["A_pole"] * A**2 +
-        DIMENSION_WEIGHTS["B_zero"] * B**2 +
-        DIMENSION_WEIGHTS["C_meta"] * C**2 +
-        DIMENSION_WEIGHTS["D_identity"] * D**2 +
-        DIMENSION_WEIGHTS["E_hedging"] * E**2
-    )
+        if not all_grams:
+            return {"drift": 0.0, "weighted_drift": 0.0, "dimensions": {}, "embedding": response_embedding}
+
+        dot_product = sum(
+            baseline_embedding.get(g, 0) * response_embedding.get(g, 0)
+            for g in all_grams
+        )
+
+        base_norm = sum(v**2 for v in baseline_embedding.values()) ** 0.5
+        response_norm = sum(v**2 for v in response_embedding.values()) ** 0.5
+
+        if base_norm == 0 or response_norm == 0:
+            drift = 1.0
+        else:
+            similarity = dot_product / (base_norm * response_norm)
+            drift = 1 - similarity
+
+        # Scale to match Event Horizon calibration
+        drift = drift * 2.5
+    else:
+        drift = 0.0
 
     return {
-        "drift": simple_drift,
-        "weighted_drift": weighted_drift,
-        "dimensions": {
-            "A_pole": round(A, 4),
-            "B_zero": round(B, 4),
-            "C_meta": round(C, 4),
-            "D_identity": round(D, 4),
-            "E_hedging": round(E, 4)
-        },
-        "raw_counts": {
-            "word_count": word_count
-        }
+        "drift": drift,
+        "weighted_drift": drift,  # Same for cosine methodology
+        "dimensions": {},  # Not used in cosine methodology
+        "embedding": response_embedding,
+        "word_count": len(response_text.split())
     }
 
-def calculate_manifold_distance(dimensions1, dimensions2):
-    """Calculate distance between two identity manifold positions."""
-    if not dimensions1 or not dimensions2:
+
+# Alias for compatibility
+def calculate_real_5d_drift(response_text, baseline_text=None):
+    """Compatibility wrapper - now uses cosine methodology."""
+    return calculate_cosine_drift(response_text, baseline_text)
+
+
+def calculate_manifold_distance(embedding1, embedding2):
+    """Calculate distance between two identity manifold positions using cosine distance."""
+    if not embedding1 or not embedding2:
         return None
 
-    squared_diff = 0
-    for key in DIMENSION_WEIGHTS:
-        d1 = dimensions1.get(key, 0)
-        d2 = dimensions2.get(key, 0)
-        squared_diff += DIMENSION_WEIGHTS[key] * (d1 - d2) ** 2
+    all_grams = set(embedding1.keys()) | set(embedding2.keys())
+    if not all_grams:
+        return 0.0
 
-    return math.sqrt(squared_diff)
+    dot_product = sum(
+        embedding1.get(g, 0) * embedding2.get(g, 0)
+        for g in all_grams
+    )
+
+    norm1 = sum(v**2 for v in embedding1.values()) ** 0.5
+    norm2 = sum(v**2 for v in embedding2.values()) ** 0.5
+
+    if norm1 == 0 or norm2 == 0:
+        return 1.0
+
+    similarity = dot_product / (norm1 * norm2)
+    return 1 - similarity
 
 # ============================================================================
 # DRIFT INDUCTION PROBES (Open-ended reflection to induce drift)

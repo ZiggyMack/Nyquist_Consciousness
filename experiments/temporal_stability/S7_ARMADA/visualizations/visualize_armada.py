@@ -2789,7 +2789,7 @@ def main():
         'stability': OUTPUT_DIR / '3_Stability',
         'html': OUTPUT_DIR / '6_Architecture',
         'fft': OUTPUT_DIR / '9_FFT_Spectral',
-        'radar': OUTPUT_DIR / '7_Radar',
+        'radar': OUTPUT_DIR / '8_Radar_Oscilloscope',
     }
 
     # Create all needed directories

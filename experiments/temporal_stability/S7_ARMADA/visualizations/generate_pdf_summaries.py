@@ -2775,10 +2775,32 @@ def generate_radar_oscilloscope_pdf():
     ))
     story.append(Spacer(1, 0.15*inch))
 
+    # Provider Identity Fingerprint (from visualize_armada.py radar)
+    story.append(Paragraph("1. Provider Identity Fingerprint", heading_style))
+    img_path = PICS_DIR / "8_Radar_Oscilloscope" / "run023_provider_fingerprint.png"
+    add_image(story, img_path, width=5.5*inch, caption="Figure 1: Five-dimension behavioral signature per provider")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> A 5-axis radar chart capturing each provider's behavioral fingerprint "
+        "across key identity dimensions: Peak Drift, Final Drift, Recovery Ratio, Probe Stability, "
+        "and Variance Control. Each colored polygon represents one provider's unique behavioral signature.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> Providers with larger polygons generally perform better across "
+        "multiple dimensions. The shape of the polygon reveals characteristic strengths: a provider "
+        "might excel at low peak drift but show weakness in recovery dynamics, creating a distinctive "
+        "'fingerprint' useful for model selection based on specific requirements.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    story.append(PageBreak())
+
     # Provider Stability Radar
-    story.append(Paragraph("1. Provider Stability Radar", heading_style))
+    story.append(Paragraph("2. Provider Stability Radar (Extended)", heading_style))
     img_path = PICS_DIR / "8_Radar_Oscilloscope" / "provider_stability_radar.png"
-    add_image(story, img_path, width=5.5*inch, caption="Figure 1: Six-axis stability comparison across providers")
+    add_image(story, img_path, width=5.5*inch, caption="Figure 2: Six-axis stability comparison across providers")
 
     story.append(Paragraph(
         "<b>What it shows:</b> Each colored polygon represents one provider's stability profile "
@@ -3011,9 +3033,9 @@ def generate_radar_oscilloscope_pdf():
     story.append(PageBreak())
 
     # Oscilloscope Aggregate
-    story.append(Paragraph("3. Oscilloscope Aggregate View", heading_style))
+    story.append(Paragraph("4. Oscilloscope Aggregate View", heading_style))
     img_path = PICS_DIR / "8_Radar_Oscilloscope" / "oscilloscope_aggregate.png"
-    add_image(story, img_path, width=6*inch, caption="Figure 2: Mean settling curves by provider with 1-std envelope")
+    add_image(story, img_path, width=6*inch, caption="Figure 3: Mean settling curves by provider with 1-std envelope")
 
     story.append(Paragraph(
         "<b>What it shows:</b> The temporal evolution of identity drift during a perturbation "
@@ -3050,9 +3072,9 @@ def generate_radar_oscilloscope_pdf():
     story.append(Spacer(1, 0.15*inch))
 
     # Oscilloscope Grid
-    story.append(Paragraph("4. Provider Oscilloscope Grid", heading_style))
+    story.append(Paragraph("5. Provider Oscilloscope Grid", heading_style))
     img_path = PICS_DIR / "8_Radar_Oscilloscope" / "oscilloscope_grid.png"
-    add_image(story, img_path, width=6.5*inch, caption="Figure 3: Individual traces per provider (50 samples each)")
+    add_image(story, img_path, width=6.5*inch, caption="Figure 4: Individual traces per provider (50 samples each)")
 
     story.append(Paragraph(
         "<b>What it shows:</b> Individual experiment traces overlaid for each provider. "
@@ -3085,7 +3107,7 @@ def generate_radar_oscilloscope_pdf():
     story.append(Spacer(1, 0.2*inch))
 
     # Interpretation Guide (removed PageBreak - content should flow naturally)
-    story.append(Paragraph("5. Practical Application Guide", heading_style))
+    story.append(Paragraph("6. Practical Application Guide", heading_style))
     story.append(Paragraph(
         "<b>Using Radar Plots for Model Selection:</b>",
         body_style
@@ -3137,7 +3159,7 @@ def generate_radar_oscilloscope_pdf():
     story.append(Spacer(1, 0.15*inch))
 
     # Technical Details
-    story.append(Paragraph("6. Technical Details", heading_style))
+    story.append(Paragraph("7. Technical Details", heading_style))
     story.append(Paragraph(
         "<b>Data Source:</b> Run 023d (IRON CLAD Foundation)<br/>"
         "- 750 total experiments (25 models × N=30 iterations)<br/>"

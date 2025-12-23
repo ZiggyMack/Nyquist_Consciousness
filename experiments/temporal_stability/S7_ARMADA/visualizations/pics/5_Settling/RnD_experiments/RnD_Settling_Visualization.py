@@ -788,27 +788,49 @@ def generate_consistency_envelope(results):
     - Envelope Width = amplitude variability (tighter = more consistent)
     - Trajectory Spread = timing/path variance
     - Coherence = how tightly the bundle converges
+
+    UPDATED: Shows Anthropic, OpenAI, Google, xAI, DeepSeek, Llama as the 6 panels
+    (DeepSeek and Llama are both hosted on Together.ai but shown separately)
     """
     print("\n[4/4] Generating CONSISTENCY ENVELOPE...")
 
     fig, axes = plt.subplots(2, 3, figsize=(16, 10))
     axes = axes.flatten()
 
-    # Group by provider
-    by_provider = defaultdict(list)
+    # Group by provider, but split Together.ai into DeepSeek and Llama
+    by_category = defaultdict(list)
     for r in results:
         provider = r.get('provider', 'unknown')
+        model = r.get('model', 'unknown')
         drift_ts = extract_drift_timeseries(r)
         if len(drift_ts) >= 3:
-            by_provider[provider].append(drift_ts)
+            # For Together.ai, categorize by model family
+            if provider == 'together':
+                family = get_model_family(model)
+                if family in ('DeepSeek', 'Llama'):
+                    by_category[family].append(drift_ts)
+                # Skip other Together.ai models for this view
+            else:
+                by_category[provider].append(drift_ts)
 
-    providers = list(by_provider.keys())[:6]
+    # Show these 6 categories: Anthropic, OpenAI, Google, xAI, DeepSeek, Llama
+    categories = ['anthropic', 'openai', 'google', 'xai', 'DeepSeek', 'Llama']
 
-    for idx, provider in enumerate(providers):
+    # Colors for categories
+    category_colors = {
+        'anthropic': '#E07B39',
+        'openai': '#10A37F',
+        'google': '#4285F4',
+        'xai': '#1DA1F2',
+        'DeepSeek': '#7C3AED',  # Purple
+        'Llama': '#FF6B6B',     # Coral red
+    }
+
+    for idx, category in enumerate(categories):
         ax = axes[idx]
-        color = PROVIDER_COLORS.get(provider, '#888888')
+        color = category_colors.get(category, '#888888')
 
-        trajectories = by_provider[provider]
+        trajectories = by_category[category]
 
         # Normalize all trajectories to same length
         max_len = 15
@@ -864,7 +886,7 @@ def generate_consistency_envelope(results):
 
         ax.set_xlabel('Normalized Time', fontsize=10)
         ax.set_ylabel('Drift', fontsize=10)
-        ax.set_title(f'{provider.upper()}\n' +
+        ax.set_title(f'{category.upper()}\n' +
                     f'Envelope Width: {envelope_width:.2f} | Jitter: {jitter:.2f}',
                     fontsize=11, fontweight='bold')
         ax.set_ylim(-0.1, 1.5)
@@ -875,11 +897,11 @@ def generate_consistency_envelope(results):
             ax.legend(loc='upper right', fontsize=8)
 
     # Hide unused axes
-    for idx in range(len(providers), 6):
+    for idx in range(len(categories), 6):
         axes[idx].set_visible(False)
 
     plt.suptitle('CONSISTENCY ENVELOPE: Trajectory Bundle Analysis\n' +
-                 '(Tighter envelope = more consistent | Run 023d: 750 experiments x 20+ probes)',
+                 '(Anthropic, OpenAI, Google, xAI + DeepSeek & Llama from Together.ai)',
                  fontsize=12, fontweight='bold', y=1.02)
     plt.tight_layout()
 
@@ -890,6 +912,160 @@ def generate_consistency_envelope(results):
     print(f"   Saved: {output_path}")
 
     return output_path
+
+# ============================================================================
+# 4b. CONSISTENCY ENVELOPE - Together.ai Model Families
+# ============================================================================
+
+def get_model_family(model_name):
+    """Extract model family from full model name."""
+    model_lower = model_name.lower()
+    if 'deepseek' in model_lower:
+        return 'DeepSeek'
+    elif 'llama' in model_lower:
+        return 'Llama'
+    elif 'mistral' in model_lower or 'mixtral' in model_lower:
+        return 'Mistral'
+    elif 'qwen' in model_lower:
+        return 'Qwen'
+    elif 'kimi' in model_lower:
+        return 'Kimi'
+    elif 'nemotron' in model_lower:
+        return 'Nvidia'
+    else:
+        return 'Other'
+
+
+def generate_consistency_envelope_together(results):
+    """
+    CONSISTENCY ENVELOPE - Together.ai Focus
+
+    Shows all the model families hosted on Together.ai:
+    DeepSeek, Llama, Mistral, Qwen, Kimi, Nvidia, etc.
+    """
+    print("\n[4b] Generating CONSISTENCY ENVELOPE (Together.ai)...")
+
+    # Filter to Together.ai results only
+    together_results = [r for r in results if r.get('provider') == 'together']
+
+    if not together_results:
+        print("   No Together.ai data found!")
+        return None
+
+    # Model family colors
+    family_colors = {
+        'DeepSeek': '#7C3AED',  # Purple
+        'Llama': '#FF6B6B',     # Coral red
+        'Mistral': '#FF8C00',   # Orange
+        'Qwen': '#10A37F',      # Teal
+        'Kimi': '#4285F4',      # Blue
+        'Nvidia': '#76B900',    # Nvidia green
+        'Other': '#888888',     # Gray
+    }
+
+    fig, axes = plt.subplots(2, 3, figsize=(16, 10))
+    axes = axes.flatten()
+
+    # Group by model family
+    by_family = defaultdict(list)
+    for r in together_results:
+        model = r.get('model', 'unknown')
+        family = get_model_family(model)
+        drift_ts = extract_drift_timeseries(r)
+        if len(drift_ts) >= 3:
+            by_family[family].append((model, drift_ts))
+
+    families = ['DeepSeek', 'Llama', 'Mistral', 'Qwen', 'Kimi', 'Nvidia']
+
+    for idx, family in enumerate(families):
+        ax = axes[idx]
+        color = family_colors.get(family, '#888888')
+
+        trajectories_data = by_family.get(family, [])
+        trajectories = [t[1] for t in trajectories_data]
+        models_in_family = list(set([t[0] for t in trajectories_data]))
+
+        # Normalize all trajectories to same length
+        max_len = 15
+        normalized = []
+
+        for drift_ts in trajectories:
+            if len(drift_ts) >= 2:
+                x_orig = np.linspace(0, 1, len(drift_ts))
+                x_new = np.linspace(0, 1, max_len)
+                interp = np.interp(x_new, x_orig, drift_ts)
+                normalized.append(interp)
+
+        if not normalized:
+            ax.text(0.5, 0.5, 'No data', ha='center', va='center', fontsize=12)
+            ax.set_title(f'{family}', fontsize=11)
+            continue
+
+        normalized = np.array(normalized)
+
+        # Plot all trajectories
+        for traj in normalized:
+            ax.plot(range(max_len), traj, color=color, alpha=0.15, linewidth=0.8)
+
+        # Calculate and plot envelope
+        mean_traj = np.mean(normalized, axis=0)
+        std_traj = np.std(normalized, axis=0)
+
+        ax.plot(range(max_len), mean_traj, color=color, linewidth=3,
+               label='Mean trajectory')
+        ax.fill_between(range(max_len), mean_traj - std_traj, mean_traj + std_traj,
+                       color=color, alpha=0.3, label='±1 std')
+
+        # Event Horizon
+        ax.axhline(y=EVENT_HORIZON, color='red', linestyle='--',
+                  linewidth=2, alpha=0.7, label=f'EH={EVENT_HORIZON}')
+
+        # Calculate metrics
+        envelope_width = np.mean(std_traj)
+
+        # Jitter metric
+        crossings = []
+        for traj in normalized:
+            for i in range(len(traj)-1):
+                if (traj[i] < 0.3 and traj[i+1] >= 0.3) or (traj[i] >= 0.3 and traj[i+1] < 0.3):
+                    crossings.append(i + (0.3 - traj[i]) / (traj[i+1] - traj[i]))
+        jitter = np.std(crossings) if crossings else 0
+
+        ax.set_xlabel('Normalized Time', fontsize=10)
+        ax.set_ylabel('Drift', fontsize=10)
+
+        # Show model names in subtitle
+        model_names = ', '.join([m.split('/')[-1][:20] for m in models_in_family[:3]])
+        if len(models_in_family) > 3:
+            model_names += f'... (+{len(models_in_family)-3})'
+
+        ax.set_title(f'{family.upper()} ({len(normalized)} traj)\n' +
+                    f'Width: {envelope_width:.2f} | Jitter: {jitter:.2f}',
+                    fontsize=11, fontweight='bold')
+        ax.set_ylim(-0.1, 1.5)
+        ax.set_xlim(0, max_len-1)
+        ax.grid(True, alpha=0.3)
+
+        if idx == 0:
+            ax.legend(loc='upper right', fontsize=8)
+
+    # Hide unused axes
+    for idx in range(len(families), 6):
+        axes[idx].set_visible(False)
+
+    plt.suptitle('CONSISTENCY ENVELOPE: Together.ai Model Families\n' +
+                 '(DeepSeek, Llama, Mistral, Qwen, Kimi, Nvidia)',
+                 fontsize=12, fontweight='bold', y=1.02)
+    plt.tight_layout()
+
+    output_path = OUTPUT_DIR / 'consistency_envelope_together.png'
+    plt.savefig(output_path, dpi=150, bbox_inches='tight',
+                facecolor='white', edgecolor='none')
+    plt.close()
+    print(f"   Saved: {output_path}")
+
+    return output_path
+
 
 # ============================================================================
 # 5. SPECTROGRAM GALLERY - Per-Provider + Combined Fleet
@@ -1336,6 +1512,11 @@ def main():
         outputs.append(generate_consistency_envelope(results))
     except Exception as e:
         print(f"   ERROR in consistency envelope: {e}")
+
+    try:
+        outputs.append(generate_consistency_envelope_together(results))
+    except Exception as e:
+        print(f"   ERROR in consistency envelope (together): {e}")
 
     try:
         outputs.append(generate_spectrogram_gallery(results))
