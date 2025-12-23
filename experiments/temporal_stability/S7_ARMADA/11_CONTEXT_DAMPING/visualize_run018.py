@@ -162,6 +162,71 @@ def load_from_manifest(run_number: str = "018") -> Optional[Dict]:
         return None
 
 
+def load_from_consolidated() -> Optional[Dict]:
+    """Load from the consolidated S7_run_018_CURRENT.json file.
+
+    This is the PRIMARY data source as of December 2025, containing
+    337+ valid results from 465 scattered files.
+
+    Returns:
+        Dict with 'results' list containing all consolidated experiments.
+    """
+    consolidated_file = RESULTS_DIR / "S7_run_018_CURRENT.json"
+    if not consolidated_file.exists():
+        print(f"Warning: Consolidated file not found at {consolidated_file}")
+        return None
+
+    try:
+        with open(consolidated_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Warning: Could not load consolidated file: {e}")
+        return None
+
+
+def get_consolidated_experiment_data(data: Dict, experiment: str) -> List[Dict]:
+    """Extract all runs for an experiment from consolidated data.
+
+    The consolidated file stores data as:
+        data["results"][i] = {
+            "experiment": "gravity"|"threshold"|"nyquist",
+            "model": "claude-opus-4.5",
+            "provider": "anthropic",
+            "subjects": [{ ... probe data ... }]
+        }
+
+    Field name mapping (consolidated -> visualization expected):
+        fitted_gamma -> gamma
+        fitted_lambda -> lambda
+        fitted_omega -> omega
+        baseline_to_final_drift -> drift
+        peak_drift -> peak_drift (same)
+
+    Returns list of flattened dicts with subject data + model/provider.
+    """
+    results = []
+    for r in data.get("results", []):
+        if r.get("experiment") == experiment:
+            for subject in r.get("subjects", []):
+                entry = subject.copy()
+                entry["model"] = r.get("model", "unknown")
+                entry["provider"] = r.get("provider", "unknown")
+                entry["_source"] = "consolidated"
+
+                # Map field names from consolidated format to visualization expected format
+                if "fitted_gamma" in entry:
+                    entry["gamma"] = entry["fitted_gamma"]
+                if "fitted_lambda" in entry:
+                    entry["lambda"] = entry["fitted_lambda"]
+                if "fitted_omega" in entry:
+                    entry["omega"] = entry["fitted_omega"]
+                if "baseline_to_final_drift" in entry:
+                    entry["drift"] = entry["baseline_to_final_drift"]
+
+                results.append(entry)
+    return results
+
+
 def get_manifest_experiment_data(manifest: Dict, experiment: str) -> List[Dict]:
     """Extract all runs for an experiment from manifest.
 
@@ -224,21 +289,25 @@ def visualize_threshold(results: List[Dict]):
     model_drifts = {}  # model -> list of drifts
 
     for r in results:
-        # Manifest format (flat entry with direct drift values)
-        if '_source' in r and r['_source'] == 'manifest':
+        # Consolidated/Manifest format (flat entry with direct drift values)
+        if '_source' in r and r['_source'] in ('manifest', 'consolidated'):
             drift = r.get('drift', 0)
             max_drift = r.get('peak_drift', 0)
             model = r.get('model', 'unknown')
 
-            all_drifts.append(drift)
-            zone_counts[get_zone(drift)] += 1
+            # Skip entries without drift data
+            if drift == 0 and max_drift == 0:
+                continue
+
+            all_drifts.append(drift if drift > 0 else max_drift)
+            zone_counts[get_zone(drift if drift > 0 else max_drift)] += 1
 
             if model not in model_drifts:
                 model_drifts[model] = []
-            model_drifts[model].append(drift)
+            model_drifts[model].append(drift if drift > 0 else max_drift)
 
-            # Also count max_drift if different
-            if max_drift != drift and max_drift > 0:
+            # Also count max_drift if different and valid
+            if max_drift != drift and max_drift > 0 and max_drift < MAX_VALID_DRIFT:
                 all_drifts.append(max_drift)
                 zone_counts[get_zone(max_drift)] += 1
 
@@ -396,8 +465,42 @@ def visualize_architecture(results: List[Dict]):
     family_metrics = {}
 
     for r in results:
+        # CONSOLIDATED FORMAT: Flat entry with model/provider at top level
+        if '_source' in r and r['_source'] == 'consolidated':
+            model = r.get('model', 'unknown')
+            raw_provider = r.get('provider', model)  # Use model if no provider
+            family = get_provider_family(raw_provider)
+
+            if family not in family_metrics:
+                family_metrics[family] = {
+                    'peak_drifts': [],
+                    'settling_times': [],
+                    'ringback_counts': [],
+                    'trajectories': [],
+                    'models': set(),
+                    'model_metrics': {}
+                }
+
+            family_metrics[family]['models'].add(model)
+
+            if model not in family_metrics[family]['model_metrics']:
+                family_metrics[family]['model_metrics'][model] = {
+                    'peak_drifts': [], 'settling_times': [], 'ringback_counts': []
+                }
+
+            peak_drift = r.get('peak_drift', 0)
+            if peak_drift > 0 and peak_drift < MAX_VALID_DRIFT:
+                family_metrics[family]['peak_drifts'].append(peak_drift)
+                family_metrics[family]['model_metrics'][model]['peak_drifts'].append(peak_drift)
+            if 'settling_time' in r:
+                family_metrics[family]['settling_times'].append(r['settling_time'])
+                family_metrics[family]['model_metrics'][model]['settling_times'].append(r['settling_time'])
+            if 'ringback_count' in r:
+                family_metrics[family]['ringback_counts'].append(r['ringback_count'])
+                family_metrics[family]['model_metrics'][model]['ringback_counts'].append(r['ringback_count'])
+
         # NEW FORMAT: Data is in 'subjects' array with provider per subject
-        if 'subjects' in r:
+        elif 'subjects' in r:
             for subject in r['subjects']:
                 raw_provider = subject.get('provider', 'unknown')
                 family = get_provider_family(raw_provider)
@@ -958,10 +1061,10 @@ def visualize_nyquist(results: List[Dict]):
     # Group by sampling rate
     rate_data = {'high': [], 'low': [], 'none': []}
 
-    # First try using manifest data (which now includes sampling_rate)
+    # First try using consolidated/manifest data
     for r in results:
-        # Manifest format: flat entry with _source='manifest'
-        if r.get('_source') == 'manifest':
+        # Consolidated/Manifest format: flat entry with _source
+        if r.get('_source') in ('manifest', 'consolidated'):
             rate = r.get('sampling_rate', 'unknown')
             drift = r.get('drift', 0)
             max_drift = r.get('peak_drift', 0)
@@ -1133,8 +1236,8 @@ def visualize_gravity(results: List[Dict]):
     model_params = []  # List of {model, drift, gamma, lambda, omega, r_squared}
 
     for r in results:
-        # Manifest format - contains pre-fitted parameters
-        if '_source' in r and r['_source'] == 'manifest':
+        # Consolidated/Manifest format - contains pre-fitted parameters
+        if '_source' in r and r['_source'] in ('manifest', 'consolidated'):
             model = r.get('model', 'unknown')
             drift = r.get('drift', 0)
             gamma = r.get('gamma', None)
@@ -1597,39 +1700,57 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
 def get_run018_data() -> Dict[str, List[Dict]]:
     """Load all Run 018 data, organized by experiment type.
 
-    Data sources:
-        - threshold, nyquist, gravity: From consolidated manifest (IRON CLAD data)
-        - architecture: From local results directory (run018a_architecture_*.json)
+    Data sources (in priority order):
+        1. S7_run_018_CURRENT.json (consolidated file - PRIMARY as of Dec 2025)
+        2. RUN_018_DRIFT_MANIFEST.json (legacy manifest)
+        3. Scattered run018*.json files (fallback)
+
+    Architecture data comes from separate architecture-specific files.
 
     Returns:
         Dict with keys: 'threshold', 'architecture', 'nyquist', 'gravity'
         Each value is a list of result dictionaries.
     """
-    # Load manifest for threshold/nyquist/gravity data
-    manifest = load_from_manifest("018")
-
     data = {
         'threshold': [],
-        'architecture': load_results("run018a_architecture_*.json"),
+        'architecture': [],
         'nyquist': [],
         'gravity': [],
     }
 
-    if manifest:
-        data['threshold'] = get_manifest_experiment_data(manifest, 'threshold')
-        data['nyquist'] = get_manifest_experiment_data(manifest, 'nyquist')
-        data['gravity'] = get_manifest_experiment_data(manifest, 'gravity')
+    # Try consolidated file first (PRIMARY source as of Dec 2025)
+    consolidated = load_from_consolidated()
+    if consolidated:
+        data['threshold'] = get_consolidated_experiment_data(consolidated, 'threshold')
+        data['nyquist'] = get_consolidated_experiment_data(consolidated, 'nyquist')
+        data['gravity'] = get_consolidated_experiment_data(consolidated, 'gravity')
+        data['architecture'] = get_consolidated_experiment_data(consolidated, 'architecture')
 
-        print(f"Loaded from manifest: threshold={len(data['threshold'])}, "
-              f"nyquist={len(data['nyquist'])}, gravity={len(data['gravity'])}")
+        iron_clad_status = consolidated.get('iron_clad', {})
+        print(f"Loaded from CONSOLIDATED: threshold={len(data['threshold'])}, "
+              f"nyquist={len(data['nyquist'])}, gravity={len(data['gravity'])}, "
+              f"architecture={len(data['architecture'])}")
+        print(f"IRON CLAD status: {iron_clad_status.get('status', 'N/A')} "
+              f"({iron_clad_status.get('complete', '?')}/{iron_clad_status.get('total', '?')} complete)")
     else:
-        # Fallback to local files if manifest not available
-        data['threshold'] = load_results("run018a_threshold_*.json")
-        data['nyquist'] = load_results("run018c_nyquist_*.json")
-        data['gravity'] = load_results("run018d_gravity_*.json")
-        print("Loaded from local files (manifest not found)")
+        # Try legacy manifest
+        manifest = load_from_manifest("018")
+        if manifest:
+            data['threshold'] = get_manifest_experiment_data(manifest, 'threshold')
+            data['nyquist'] = get_manifest_experiment_data(manifest, 'nyquist')
+            data['gravity'] = get_manifest_experiment_data(manifest, 'gravity')
 
-    print(f"Loaded from local: architecture={len(data['architecture'])}")
+            data['architecture'] = get_manifest_experiment_data(manifest, 'architecture')
+            print(f"Loaded from manifest: threshold={len(data['threshold'])}, "
+                  f"nyquist={len(data['nyquist'])}, gravity={len(data['gravity'])}, "
+                  f"architecture={len(data['architecture'])}")
+        else:
+            # Fallback to scattered files
+            data['threshold'] = load_results("run018t_threshold_*.json")
+            data['nyquist'] = load_results("run018n_nyquist_*.json")
+            data['gravity'] = load_results("run018g_gravity_*.json")
+            data['architecture'] = load_results("run018a_architecture_*.json")
+            print("Loaded from scattered files (consolidated/manifest not found)")
 
     return data
 
