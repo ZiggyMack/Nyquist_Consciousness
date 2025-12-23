@@ -41,7 +41,7 @@ from run020_tribunal_A import (
     KeyPool,
     KEY_POOL,
     # Experiment runner
-    run_tribunal_session_v8,
+    run_tribunal,
     run_exit_survey,
     # Constants
     RESULTS_FILE,
@@ -104,8 +104,8 @@ def fill_gap(gap: dict, i_am_content: str, key_pool, skip_exit_survey: bool = Fa
     print(f"\n>>> FILLING GAP: {ship} ({provider}) <<<")
 
     try:
-        # Run tribunal v8 session
-        result = run_tribunal_session_v8(i_am_content, provider=ship)
+        # Run tribunal session
+        result = run_tribunal(subject_provider=ship)
 
         if result is None:
             print(f"  [ERROR] Session returned None")
