@@ -256,8 +256,16 @@ def normalize_status(status):
     else:
         return 'UNKNOWN'
 
-def extract_trajectories(data):
-    """Extract drift trajectories from run data (handles multiple formats)."""
+def extract_trajectories(data, full_resolution=False):
+    """Extract drift trajectories from run data (handles multiple formats).
+
+    Args:
+        data: Run data dictionary
+        full_resolution: If True, extract ALL probe drifts (~780 per model = ~19,500 total)
+                        for dense visualizations like vortex spirals.
+                        If False, use peak_drift per iteration (~30 per model) for
+                        cleaner 3D basin visualizations.
+    """
     trajectories = []
 
     # Try Run 008+ format (sequences)
@@ -288,38 +296,65 @@ def extract_trajectories(data):
                 # Derive provider from model name (not from data's 'provider' field which is API provider)
                 provider = get_provider(model)
 
-                # AGGREGATION STRATEGY for cleaner 3D basin visualization:
-                # Use peak_drift per iteration (one point per iteration = ~30 points)
-                # instead of all probe drifts (~780 points) which creates spaghetti
-                iteration_peaks = []
-                for r in sorted(model_result_list, key=lambda x: x.get('iteration', 0)):
-                    # Use pre-computed peak_drift if available
-                    if 'peak_drift' in r:
-                        iteration_peaks.append(r['peak_drift'])
-                    else:
-                        # Fallback: compute from probe_sequence
+                if full_resolution:
+                    # FULL RESOLUTION: Extract ALL probe drifts across ALL iterations
+                    # This gives ~780 points per model = ~19,500 total points
+                    # Creates the beautiful dense spiral patterns for vortex visualization
+                    probe_drifts = []
+                    for r in sorted(model_result_list, key=lambda x: x.get('timestamp', '')):
                         probe_seq = r.get('probe_sequence', [])
-                        drifts = [p['drift'] for p in probe_seq if isinstance(p, dict) and 'drift' in p]
-                        if drifts:
-                            iteration_peaks.append(max(drifts))
+                        for probe in probe_seq:
+                            if isinstance(probe, dict) and 'drift' in probe:
+                                probe_drifts.append(probe['drift'])
 
-                if len(iteration_peaks) >= 3:
-                    baseline = iteration_peaks[0]
-                    max_drift = max(iteration_peaks)
-                    status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
+                    if len(probe_drifts) >= 3:
+                        baseline = probe_drifts[0]
+                        max_drift = max(probe_drifts)
+                        status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
+                        short_name = model.split('/')[-1] if '/' in model else model
 
-                    # Shorten model name for display
-                    short_name = model.split('/')[-1] if '/' in model else model
+                        trajectories.append({
+                            'ship': short_name,
+                            'full_model': model,
+                            'provider': provider,
+                            'sequence': 'iron_clad',
+                            'drifts': probe_drifts,
+                            'status': status,
+                            'baseline': baseline
+                        })
+                else:
+                    # AGGREGATION STRATEGY for cleaner 3D basin visualization:
+                    # Use peak_drift per iteration (one point per iteration = ~30 points)
+                    # instead of all probe drifts (~780 points) which creates spaghetti
+                    iteration_peaks = []
+                    for r in sorted(model_result_list, key=lambda x: x.get('iteration', 0)):
+                        # Use pre-computed peak_drift if available
+                        if 'peak_drift' in r:
+                            iteration_peaks.append(r['peak_drift'])
+                        else:
+                            # Fallback: compute from probe_sequence
+                            probe_seq = r.get('probe_sequence', [])
+                            drifts = [p['drift'] for p in probe_seq if isinstance(p, dict) and 'drift' in p]
+                            if drifts:
+                                iteration_peaks.append(max(drifts))
 
-                    trajectories.append({
-                        'ship': short_name,
-                        'full_model': model,  # Keep full name for API type detection
-                        'provider': provider,
-                        'sequence': 'iron_clad',
-                        'drifts': iteration_peaks,
-                        'status': status,
-                        'baseline': baseline
-                    })
+                    if len(iteration_peaks) >= 3:
+                        baseline = iteration_peaks[0]
+                        max_drift = max(iteration_peaks)
+                        status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
+
+                        # Shorten model name for display
+                        short_name = model.split('/')[-1] if '/' in model else model
+
+                        trajectories.append({
+                            'ship': short_name,
+                            'full_model': model,  # Keep full name for API type detection
+                            'provider': provider,
+                            'sequence': 'iron_clad',
+                            'drifts': iteration_peaks,
+                            'status': status,
+                            'baseline': baseline
+                        })
 
             if trajectories:
                 return trajectories
@@ -884,7 +919,7 @@ def _plot_phase_portrait_aggregated(trajectories, output_dir, run_id, ax_max, eh
     print(f"  Saved: run{run_id}_phase_portrait_aggregated.png + .svg")
     plt.close()
 
-def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None):
+def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None, draw_lines=True, dark_mode=False):
     """Vortex/drain view - polar spiral visualization.
 
     NOTE: dB scaling is DISABLED for vortex view. The polar coordinate
@@ -892,13 +927,29 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None)
 
     Args:
         zoom_scale: If provided, use this as the axis limit instead of auto-calculating
+        draw_lines: If True, connect trajectory points with lines. If False, scatter only.
+                   For large datasets (>100 trajectories), scatter-only looks better
+                   (resembles a nervous system pattern).
+        dark_mode: If True, use dark background (better for scatter-only with many points).
     """
     # Ignore dB flag for vortex - it distorts the polar geometry
     if use_dB:
         print("  NOTE: dB scaling disabled for vortex view (distorts polar geometry)")
         return  # Skip dB version entirely
 
-    fig, axes = plt.subplots(1, 2, figsize=(18, 9))
+    # Dark mode styling
+    if dark_mode:
+        bg_color = '#1E1E1E'
+        text_color = '#E8E8E8'
+        grid_color = '#404040'
+        ref_circle_color = '#505050'
+    else:
+        bg_color = 'white'
+        text_color = 'black'
+        grid_color = 'gray'
+        ref_circle_color = 'gray'
+
+    fig, axes = plt.subplots(1, 2, figsize=(18, 9), facecolor=bg_color)
 
     scale_label = ""
     forced_ax_lim = zoom_scale  # Will be used if set
@@ -910,6 +961,7 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None)
     providers_seen = set()
 
     for ax_idx, (ax, smoothed) in enumerate(zip(axes, [False, True])):
+        ax.set_facecolor(bg_color)
         title_suffix = "SMOOTHED" if smoothed else "RAW"
 
         for traj in trajectories:
@@ -938,11 +990,16 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None)
             linewidth = 0.8 if status == "STABLE" else 1.5
 
             if smoothed:
-                xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=80)
-                ax.plot(xs_smooth, ys_smooth, color=color, alpha=alpha, linewidth=linewidth)
+                if draw_lines:
+                    xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=80)
+                    ax.plot(xs_smooth, ys_smooth, color=color, alpha=alpha, linewidth=linewidth)
                 ax.scatter(xs, ys, color=color, s=12, alpha=0.4, edgecolors='white', linewidths=0.3, zorder=5)
             else:
-                ax.plot(xs, ys, color=color, alpha=alpha, linewidth=linewidth)
+                if draw_lines:
+                    ax.plot(xs, ys, color=color, alpha=alpha, linewidth=linewidth)
+                else:
+                    # Scatter only - "nervous system" view for large datasets
+                    ax.scatter(xs, ys, color=color, s=8, alpha=0.5, edgecolors='none')
 
             ax.scatter(xs[0], ys[0], color='lime', s=35, alpha=0.9, zorder=10,
                       marker='D', edgecolors='darkgreen', linewidths=1)
@@ -999,38 +1056,63 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None)
 
         for r in radii_ref:
             if r < ax_lim:
-                circle = plt.Circle((0, 0), r, fill=False, color='gray', alpha=0.2, linestyle=':')
+                circle = plt.Circle((0, 0), r, fill=False, color=ref_circle_color, alpha=0.3 if dark_mode else 0.2, linestyle=':')
                 ax.add_patch(circle)
 
         ax.set_xlim(-ax_lim, ax_lim)
         ax.set_ylim(-ax_lim, ax_lim)
         ax.set_aspect('equal')
-        ax.set_xlabel(f'X (drift * cos(angle)){scale_label}', fontsize=11)
-        ax.set_ylabel(f'Y (drift * sin(angle)){scale_label}', fontsize=11)
+        ax.set_xlabel(f'X (drift * cos(angle)){scale_label}', fontsize=11, color=text_color)
+        ax.set_ylabel(f'Y (drift * sin(angle)){scale_label}', fontsize=11, color=text_color)
         zoom_label = " [ZOOMED]" if forced_ax_lim else ""
-        ax.set_title(f'VORTEX VIEW: {title_suffix}{zoom_label}', fontsize=14, fontweight='bold')
-        ax.grid(True, alpha=0.3)
+        ax.set_title(f'VORTEX VIEW: {title_suffix}{zoom_label}', fontsize=14, fontweight='bold', color=text_color)
+        ax.grid(True, alpha=0.3, color=grid_color)
+        ax.tick_params(colors=text_color)
+        for spine in ax.spines.values():
+            spine.set_color(grid_color)
 
         # Add legend (only on right plot)
         if smoothed:
-            ax.legend(loc='upper right', fontsize=8, framealpha=0.9)
+            legend = ax.legend(loc='upper right', fontsize=8, framealpha=0.9,
+                              facecolor=bg_color if dark_mode else 'white',
+                              edgecolor=grid_color)
+            if dark_mode:
+                for text in legend.get_texts():
+                    text.set_color(text_color)
 
     fig.suptitle(f'Run {run_id}: Looking Into the Identity Drain\n(Inside = STABLE, Outside = VOLATILE)',
-                fontsize=16, fontweight='bold', y=1.02)
+                fontsize=16, fontweight='bold', y=1.02, color=text_color)
 
     plt.tight_layout()
-    plt.savefig(output_dir / f'run{run_id}_vortex.png', dpi=300, bbox_inches='tight')
-    plt.savefig(output_dir / f'run{run_id}_vortex.svg', format='svg', bbox_inches='tight')
+    plt.savefig(output_dir / f'run{run_id}_vortex.png', dpi=300, bbox_inches='tight',
+                facecolor=bg_color, edgecolor='none')
+    plt.savefig(output_dir / f'run{run_id}_vortex.svg', format='svg', bbox_inches='tight',
+                facecolor=bg_color, edgecolor='none')
     print(f"  Saved: run{run_id}_vortex.png + .svg")
     plt.close()
 
 
-def plot_vortex_x4(trajectories, output_dir, run_id, zoom_scale=None):
+def plot_vortex_x4(trajectories, output_dir, run_id, zoom_scale=None, draw_lines=True, dark_mode=False):
     """Vortex view split by provider - grid showing each provider's field separately.
 
     This reveals the individual 'magnetic field' patterns of each provider.
     Dynamically adjusts grid size based on number of providers with data.
+
+    Args:
+        draw_lines: If True, connect trajectory points with lines. If False, scatter only.
+        dark_mode: If True, use dark background (better for scatter-only with many points).
     """
+    # Dark mode styling
+    if dark_mode:
+        bg_color = '#1E1E1E'
+        text_color = '#E8E8E8'
+        grid_color = '#404040'
+        ref_circle_color = '#505050'
+    else:
+        bg_color = 'white'
+        text_color = 'black'
+        grid_color = 'gray'
+        ref_circle_color = 'gray'
     # Get providers that actually have data
     by_provider = defaultdict(list)
     for traj in trajectories:
@@ -1062,14 +1144,16 @@ def plot_vortex_x4(trajectories, output_dir, run_id, zoom_scale=None):
         n_cols = 4
         n_rows = (n_providers + 3) // 4
 
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(6*n_cols, 6*n_rows))
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(6*n_cols, 6*n_rows), facecolor=bg_color)
     if n_rows == 1 and n_cols == 1:
         axes = np.array([axes])
     axes = axes.flatten()
 
-    # Hide unused axes
+    # Hide unused axes and set background
     for idx in range(n_providers, len(axes)):
         axes[idx].set_visible(False)
+    for ax in axes[:n_providers]:
+        ax.set_facecolor(bg_color)
 
     # Calculate global scale from all data (or use forced zoom)
     if zoom_scale:
@@ -1130,10 +1214,14 @@ def plot_vortex_x4(trajectories, output_dir, run_id, zoom_scale=None):
             alpha = 0.5 if status == "STABLE" else 0.8
             linewidth = 1.0 if status == "STABLE" else 2.0
 
-            # Smooth version
-            xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=80)
-            ax.plot(xs_smooth, ys_smooth, color=color, alpha=alpha, linewidth=linewidth)
-            ax.scatter(xs, ys, color=color, s=10, alpha=0.3, edgecolors='white', linewidths=0.2)
+            # Smooth version (or scatter only)
+            if draw_lines:
+                xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=80)
+                ax.plot(xs_smooth, ys_smooth, color=color, alpha=alpha, linewidth=linewidth)
+                ax.scatter(xs, ys, color=color, s=10, alpha=0.3, edgecolors='white', linewidths=0.2)
+            else:
+                # Scatter only - "nervous system" view for large datasets
+                ax.scatter(xs, ys, color=color, s=6, alpha=0.4, edgecolors='none')
 
             # Start/end markers
             ax.scatter(xs[0], ys[0], color='lime', s=40, alpha=0.9, zorder=10,
@@ -1154,38 +1242,58 @@ def plot_vortex_x4(trajectories, output_dir, run_id, zoom_scale=None):
         # Reference circles
         for r in [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]:
             if r < ax_lim:
-                circle = plt.Circle((0, 0), r, fill=False, color='gray', alpha=0.15, linestyle=':')
+                circle = plt.Circle((0, 0), r, fill=False, color=ref_circle_color, alpha=0.25 if dark_mode else 0.15, linestyle=':')
                 ax.add_patch(circle)
 
         ax.set_xlim(-ax_lim, ax_lim)
         ax.set_ylim(-ax_lim, ax_lim)
         ax.set_aspect('equal')
-        ax.set_xlabel('X (drift * cos(angle))', fontsize=10)
-        ax.set_ylabel('Y (drift * sin(angle))', fontsize=10)
+        ax.set_xlabel('X (drift * cos(angle))', fontsize=10, color=text_color)
+        ax.set_ylabel('Y (drift * sin(angle))', fontsize=10, color=text_color)
 
         # Count total drift points, not just trajectories
         total_points = sum(len(t['drifts']) for t in provider_trajs)
         n_ships = len(provider_trajs)
         ax.set_title(f'{provider_names.get(provider, provider.upper())}\n(ships={n_ships}, n={total_points}, S: {stable_count}, V: {volatile_count})',
                     fontsize=12, fontweight='bold', color=color)
-        ax.grid(True, alpha=0.3)
+        ax.grid(True, alpha=0.3, color=grid_color)
+        ax.tick_params(colors=text_color)
+        for spine in ax.spines.values():
+            spine.set_color(grid_color)
 
     fig.suptitle(f'Run {run_id}: Identity Field by Provider\n(Separated view reveals individual field geometries)',
-                fontsize=18, fontweight='bold', y=1.02)
+                fontsize=18, fontweight='bold', y=1.02, color=text_color)
 
     plt.tight_layout()
-    plt.savefig(output_dir / f'run{run_id}_vortex_x4.png', dpi=300, bbox_inches='tight')
-    plt.savefig(output_dir / f'run{run_id}_vortex_x4.svg', format='svg', bbox_inches='tight')
+    plt.savefig(output_dir / f'run{run_id}_vortex_x4.png', dpi=300, bbox_inches='tight',
+                facecolor=bg_color, edgecolor='none')
+    plt.savefig(output_dir / f'run{run_id}_vortex_x4.svg', format='svg', bbox_inches='tight',
+                facecolor=bg_color, edgecolor='none')
     print(f"  Saved: run{run_id}_vortex_x4.png + .svg")
     plt.close()
 
 
-def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None):
+def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None, draw_lines=True, dark_mode=False):
     """Generate individual vortex plots per company, showing all models from that company.
 
     Creates: run{id}_vortex_Claude.png, run{id}_vortex_OpenAI.png,
              run{id}_vortex_Google.png, run{id}_vortex_Grok.png
+
+    Args:
+        draw_lines: If True, connect trajectory points with lines. If False, scatter only.
+        dark_mode: If True, use dark background (better for scatter-only with many points).
     """
+    # Dark mode styling
+    if dark_mode:
+        bg_color = '#1E1E1E'
+        text_color = '#E8E8E8'
+        grid_color = '#404040'
+        ref_circle_color = '#505050'
+    else:
+        bg_color = 'white'
+        text_color = 'black'
+        grid_color = 'gray'
+        ref_circle_color = 'gray'
     # Map providers to company names for filenames
     provider_to_company = {
         'claude': 'Claude',
@@ -1264,10 +1372,14 @@ def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None):
             rows, cols = 4, 4
             fig_width, fig_height = 20, 20
 
-        fig, axes = plt.subplots(rows, cols, figsize=(fig_width, fig_height))
+        fig, axes = plt.subplots(rows, cols, figsize=(fig_width, fig_height), facecolor=bg_color)
         if n_models == 1:
             axes = np.array([axes])
         axes = axes.flatten()
+
+        # Set background for all axes
+        for ax in axes:
+            ax.set_facecolor(bg_color)
 
         color = PROVIDER_COLORS.get(provider, 'gray')
 
@@ -1301,18 +1413,23 @@ def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None):
                 alpha = 0.6 if status == "STABLE" else 0.9
                 linewidth = 1.5 if status == "STABLE" else 2.5
 
-                # Smooth version
-                xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=80)
-                ax.plot(xs_smooth, ys_smooth, color=color, alpha=alpha, linewidth=linewidth)
-                ax.scatter(xs, ys, color=color, s=12, alpha=0.4, edgecolors='white', linewidths=0.2)
+                # Smooth version (or scatter only)
+                if draw_lines:
+                    xs_smooth, ys_smooth = smooth_trajectory_2d(xs, ys, num_points=80)
+                    ax.plot(xs_smooth, ys_smooth, color=color, alpha=alpha, linewidth=linewidth)
+                    ax.scatter(xs, ys, color=color, s=12, alpha=0.4, edgecolors='white', linewidths=0.2)
+                else:
+                    # Scatter only - "nervous system" view for large datasets
+                    ax.scatter(xs, ys, color=color, s=6, alpha=0.4, edgecolors='none')
 
-                # Start/end markers
-                ax.scatter(xs[0], ys[0], color='lime', s=50, alpha=0.9, zorder=10,
-                          marker='D', edgecolors='darkgreen', linewidths=1.5)
+                # Start/end markers (smaller when scatter-only)
+                marker_scale = 1.0 if draw_lines else 0.6
+                ax.scatter(xs[0], ys[0], color='lime', s=int(50*marker_scale), alpha=0.9, zorder=10,
+                          marker='D', edgecolors='darkgreen', linewidths=1.5 if draw_lines else 0.8)
                 end_color = 'cyan' if status == "STABLE" else 'red'
                 end_marker = 'o' if status == "STABLE" else 'X'
-                ax.scatter(xs[-1], ys[-1], color=end_color, s=60, alpha=0.9, zorder=10,
-                          marker=end_marker, edgecolors='black', linewidths=1.5)
+                ax.scatter(xs[-1], ys[-1], color=end_color, s=int(60*marker_scale), alpha=0.9, zorder=10,
+                          marker=end_marker, edgecolors='black', linewidths=1.5 if draw_lines else 0.8)
 
             # Event Horizon circle
             theta = np.linspace(0, 2*np.pi, 100)
@@ -1325,22 +1442,25 @@ def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None):
             # Reference circles
             for r in [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]:
                 if r < ax_lim:
-                    circle = plt.Circle((0, 0), r, fill=False, color='gray', alpha=0.15, linestyle=':')
+                    circle = plt.Circle((0, 0), r, fill=False, color=ref_circle_color, alpha=0.25 if dark_mode else 0.15, linestyle=':')
                     ax.add_patch(circle)
 
             ax.set_xlim(-ax_lim, ax_lim)
             ax.set_ylim(-ax_lim, ax_lim)
             ax.set_aspect('equal')
-            ax.set_xlabel('X (drift * cos(angle))', fontsize=10)
-            ax.set_ylabel('Y (drift * sin(angle))', fontsize=10)
+            ax.set_xlabel('X (drift * cos(angle))', fontsize=10, color=text_color)
+            ax.set_ylabel('Y (drift * sin(angle))', fontsize=10, color=text_color)
+            ax.grid(True, alpha=0.3, color=grid_color)
+            ax.tick_params(colors=text_color)
+            for spine in ax.spines.values():
+                spine.set_color(grid_color)
 
             # Truncate long ship names for title
             display_name = ship_name if len(ship_name) <= 25 else ship_name[:22] + '...'
             # Count total drift points, not just trajectories
             total_points = sum(len(t['drifts']) for t in ship_trajs)
             ax.set_title(f'{display_name}\n(n={total_points}, S: {stable_count}, V: {volatile_count})',
-                        fontsize=11, fontweight='bold')
-            ax.grid(True, alpha=0.3)
+                        fontsize=11, fontweight='bold', color=text_color)
 
         # Hide unused subplots
         for idx in range(len(by_ship), len(axes)):
@@ -1351,8 +1471,10 @@ def plot_vortex_by_company(trajectories, output_dir, run_id, zoom_scale=None):
                     fontsize=18, fontweight='bold', color=color, y=1.02)
 
         plt.tight_layout()
-        plt.savefig(output_dir / f'run{run_id}_vortex_{company_name}.png', dpi=300, bbox_inches='tight')
-        plt.savefig(output_dir / f'run{run_id}_vortex_{company_name}.svg', format='svg', bbox_inches='tight')
+        plt.savefig(output_dir / f'run{run_id}_vortex_{company_name}.png', dpi=300, bbox_inches='tight',
+                    facecolor=bg_color, edgecolor='none')
+        plt.savefig(output_dir / f'run{run_id}_vortex_{company_name}.svg', format='svg', bbox_inches='tight',
+                    facecolor=bg_color, edgecolor='none')
         print(f"  Saved: run{run_id}_vortex_{company_name}.png + .svg")
         plt.close()
 
@@ -2677,6 +2799,12 @@ def main():
     parser.add_argument('--zoom', action='store_true', help='Auto-zoom to fit data (for tight distributions)')
     parser.add_argument('--type', type=str, choices=['phase', 'vortex', '3d', 'pillar', 'stability', 'fft', 'html', 'radar'],
                        help='Specific visualization type')
+    parser.add_argument('--scatter-only', action='store_true',
+                       help='Vortex: scatter points only, no connecting lines (better for large datasets)')
+    parser.add_argument('--dark', action='store_true',
+                       help='Use dark mode for visualizations (better for scatter-only with many points)')
+    parser.add_argument('--suffix', type=str, default='',
+                       help='Add suffix to run ID in output filenames (e.g., --suffix _full)')
     args = parser.parse_args()
 
     # List available runs
@@ -2766,12 +2894,18 @@ def main():
     with open(data_file, encoding='utf-8') as f:
         data = json.load(f)
 
-    trajectories = extract_trajectories(data)
+    # Extract trajectories in both modes:
+    # - Aggregated (default): ~30 points per model for clean 3D basins
+    # - Full resolution: ~780 points per model for dense vortex spirals
+    trajectories = extract_trajectories(data, full_resolution=False)
+    trajectories_full = extract_trajectories(data, full_resolution=True)
 
     stable = sum(1 for t in trajectories if t['status'] == "STABLE")
     volatile = sum(1 for t in trajectories if t['status'] == "VOLATILE")
     unknown = len(trajectories) - stable - volatile
+    total_full_points = sum(len(t['drifts']) for t in trajectories_full)
     print(f"Trajectories: {len(trajectories)} (STABLE: {stable}, VOLATILE: {volatile}, UNKNOWN: {unknown})")
+    print(f"Full resolution: {total_full_points:,} drift points for vortex")
 
     # Compute zoom scale if requested
     zoom_scale = None
@@ -2813,9 +2947,25 @@ def main():
         plot_phase_portrait(trajectories, output_dirs['phase'], run_id, use_dB=args.dB, zoom_scale=zoom_scale)
 
     if 'vortex' in viz_types:
-        plot_vortex(trajectories, output_dirs['vortex'], run_id, use_dB=args.dB, zoom_scale=zoom_scale)
-        plot_vortex_x4(trajectories, output_dirs['vortex'], run_id, zoom_scale=zoom_scale)
-        plot_vortex_by_company(trajectories, output_dirs['vortex'], run_id, zoom_scale=zoom_scale)
+        # Apply suffix to run_id if provided (e.g., "023_full" instead of "023b")
+        output_run_id = f"{run_id}{args.suffix}" if args.suffix else run_id
+
+        # Main vortex: Full resolution with connecting lines (the beautiful dense spiral)
+        # This is the flagship visualization - ~19,500 points with lines connecting each trajectory
+        plot_vortex(trajectories_full, output_dirs['vortex'], output_run_id, use_dB=args.dB, zoom_scale=zoom_scale, draw_lines=True, dark_mode=False)
+
+        # Secondary vortex variants use aggregated data or scatter mode as appropriate
+        draw_lines = not args.scatter_only
+        dark_mode = args.dark
+
+        if args.scatter_only or args.dark:
+            # User explicitly requested scatter-only or dark mode - use full resolution scatter
+            plot_vortex_x4(trajectories_full, output_dirs['vortex'], output_run_id, zoom_scale=zoom_scale, draw_lines=draw_lines, dark_mode=dark_mode)
+            plot_vortex_by_company(trajectories_full, output_dirs['vortex'], output_run_id, zoom_scale=zoom_scale, draw_lines=draw_lines, dark_mode=dark_mode)
+        else:
+            # Default: use aggregated trajectories for x4 and by_company (cleaner visuals)
+            plot_vortex_x4(trajectories, output_dirs['vortex'], output_run_id, zoom_scale=zoom_scale, draw_lines=draw_lines, dark_mode=dark_mode)
+            plot_vortex_by_company(trajectories, output_dirs['vortex'], output_run_id, zoom_scale=zoom_scale, draw_lines=draw_lines, dark_mode=dark_mode)
 
     if '3d' in viz_types:
         plot_3d_basin(trajectories, output_dirs['3d'], run_id, use_dB=args.dB, zoom_scale=zoom_scale)
