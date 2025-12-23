@@ -222,7 +222,7 @@ def generate_vortex_pdf():
 
     # Title
     story.append(Paragraph("Vortex / Drain Visualizations", title_style))
-    story.append(Paragraph("S7 ARMADA Run 023b - Cosine Methodology", caption_style))
+    story.append(Paragraph("S7 ARMADA Run 023 - The Identity Manifold", caption_style))
     story.append(Spacer(1, 0.2*inch))
 
     # Introduction
@@ -235,128 +235,243 @@ def generate_vortex_pdf():
         "polar coordinates where radius = drift magnitude and angle = iteration phase.",
         body_style
     ))
-    story.append(Spacer(1, 0.15*inch))
+    story.append(Paragraph(
+        "This document presents two complementary views of the same data: the <b>flagship "
+        "dense visualization</b> (run023b) showing all 19,500 individual drift measurements "
+        "creating an organic neural-network-like pattern, and the <b>downsampled view</b> "
+        "(run023) showing aggregated trajectories for clearer individual ship tracking.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.2*inch))
 
-    # Fleet Overview
-    story.append(Paragraph("1. Fleet Overview (All Ships)", heading_style))
+    # =========================================================================
+    # FLAGSHIP VISUALIZATION - The Cover Shot
+    # =========================================================================
+    story.append(Paragraph("THE FLAGSHIP: Full Resolution Identity Manifold", title_style))
+    story.append(Spacer(1, 0.1*inch))
+
     img_path = PICS_DIR / "1_Vortex" / "run023b_vortex.png"
-    add_image(story, img_path, caption="Figure 1: All 25 ships shown as spiraling trajectories")
+    add_image(story, img_path, width=7*inch, caption="Figure 1: THE FLAGSHIP - 19,500 drift points revealing the identity manifold structure")
 
     story.append(Paragraph(
-        "<b>What it shows:</b> Each spiral represents one ship's drift trajectory "
-        "across iterations. Starting from the center (iteration 0), spirals wind "
-        "outward as iterations progress. The radial distance from center represents "
-        "drift magnitude.",
+        "<b>What you're seeing:</b> This is the complete identity manifold of 25 AI models "
+        "under recursive self-observation stress. Each of the 19,500 individual drift "
+        "measurements is plotted, creating the dense organic spiral pattern. The left panel "
+        "shows raw data; the right panel shows spline-smoothed trajectories.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Key features:</b> The red circle marks the Event Horizon (EH = 0.80). "
-        "Colors indicate provider families. Spirals that stay within the red circle "
-        "maintain identity coherence; those that cross it experience identity stress.",
+        "<b>The Central Eye:</b> Notice the pentagram-shaped void at the center. This is "
+        "an artifact of the visualization math (angles = 2*pi * turns/5), not a property "
+        "of the data itself. The 5-fold symmetry emerges from how we map temporal iterations "
+        "to angular position. It serves as a reminder that all visualizations impose structure.",
         body_style
     ))
     story.append(Paragraph(
-        "<b>Interpretation:</b> The majority of spirals remain contained within "
-        "the Event Horizon boundary, indicating stable identity maintenance across "
-        "the fleet. Occasional excursions beyond EH typically show recovery (spiral "
-        "returns inward) rather than permanent divergence.",
+        "<b>The Dense Spiral Structure:</b> The overlapping trajectories create a neural-"
+        "network-like pattern that reveals the collective identity dynamics of the fleet. "
+        "Tight clustering near the center indicates stable identity maintenance; sparse "
+        "outer regions show where models briefly drift toward (but recover from) instability.",
         body_style
     ))
-    story.append(Spacer(1, 0.15*inch))
-
-    # 2x2 Grid
-    story.append(Paragraph("2. Expanded View (2x2 Grid)", heading_style))
-    img_path = PICS_DIR / "1_Vortex" / "run023b_vortex_x4.png"
-    add_image(story, img_path, caption="Figure 2: Four-panel grid showing trajectory details")
-
     story.append(Paragraph(
-        "<b>What it shows:</b> A 2x2 arrangement providing larger, clearer views "
-        "of the vortex patterns. This format is useful for presentations and "
-        "detailed trajectory analysis.",
+        "<b>Key Observation:</b> The density gradient from center to edge visually encodes "
+        "the probability distribution of identity states. Most of the 'mass' is contained "
+        "within the Event Horizon (red circle at 0.80), confirming that modern LLMs "
+        "demonstrate robust identity coherence under recursive self-observation.",
         body_style
     ))
 
     story.append(PageBreak())
 
-    # Provider-specific views
-    story.append(Paragraph("3. Provider-Specific Vortex Plots", heading_style))
+    # =========================================================================
+    # DOWNSAMPLED VIEW - Individual Ship Tracking
+    # =========================================================================
+    story.append(Paragraph("Downsampled View: Individual Ship Trajectories", title_style))
+    story.append(Spacer(1, 0.1*inch))
+
     story.append(Paragraph(
-        "The following plots isolate each provider family to reveal provider-specific "
-        "drift patterns and stability characteristics.",
+        "While the flagship visualization shows the full data density, the following "
+        "downsampled views aggregate measurements by ship, making individual trajectories "
+        "traceable. This is useful for identifying specific model behaviors.",
         body_style
     ))
     story.append(Spacer(1, 0.1*inch))
 
-    # Claude
-    story.append(Paragraph("3a. Claude Models", heading_style))
-    img_path = PICS_DIR / "1_Vortex" / "run023b_vortex_Claude.png"
-    add_image(story, img_path, width=4.5*inch, caption="Figure 3a: Claude family vortex patterns")
+    # Downsampled fleet overview
+    story.append(Paragraph("1. Fleet Overview (Downsampled)", heading_style))
+    img_path = PICS_DIR / "1_Vortex" / "run023_vortex.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 2: Downsampled view - 25 ships with traceable trajectories")
 
     story.append(Paragraph(
-        "<b>Models:</b> Claude Haiku 3.5, Claude Sonnet 3.5/3.6, Claude Opus 3/4/4.5<br/>"
-        "<b>Characteristics:</b> Generally tight spirals with consistent drift levels. "
-        "Shows moderate variance across model versions. Newer models (Opus 4.5) tend "
-        "to show slightly tighter containment.",
+        "<b>What it shows:</b> Each spiral represents one ship's aggregated drift trajectory. "
+        "The smoothed lines make it easier to follow individual ships from start to finish. "
+        "This view sacrifices the full data density for trajectory clarity.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Comparison to flagship:</b> Same data, different resolution. The flagship shows "
+        "every heartbeat; this view shows the overall path. Both are valid representations "
+        "that emphasize different aspects of the identity dynamics.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Downsampled 2x2 Grid
+    story.append(Paragraph("2. Provider Grid (Downsampled)", heading_style))
+    img_path = PICS_DIR / "1_Vortex" / "run023_vortex_x4.png"
+    add_image(story, img_path, width=6*inch, caption="Figure 3: Provider breakdown with traceable trajectories")
+
+    story.append(Paragraph(
+        "The 2x2 grid separates trajectories by provider family, revealing provider-specific "
+        "behavioral signatures. Claude models cluster tightly; GPT models show wider variance; "
+        "Gemini shows moderate spread; Grok demonstrates exceptional stability.",
         body_style
     ))
 
-    # OpenAI
-    story.append(Paragraph("3b. OpenAI (GPT) Models", heading_style))
-    img_path = PICS_DIR / "1_Vortex" / "run023b_vortex_OpenAI.png"
-    add_image(story, img_path, width=4.5*inch, caption="Figure 3b: GPT family vortex patterns")
+    story.append(PageBreak())
+
+    # =========================================================================
+    # FULL RESOLUTION PROVIDER VIEWS
+    # =========================================================================
+    story.append(Paragraph("Full Resolution Provider Views", title_style))
+    story.append(Spacer(1, 0.1*inch))
 
     story.append(Paragraph(
-        "<b>Models:</b> GPT-4o, GPT-4o-mini, GPT-4.1, GPT-4.1-mini, GPT-4.1-nano, o1, o1-mini, o3-mini<br/>"
-        "<b>Characteristics:</b> Widest spirals among providers, approaching but rarely "
-        "exceeding the Event Horizon. The 'o' series (reasoning models) show distinct "
-        "patterns compared to standard GPT models.",
+        "The following plots show each provider family at full 19,500-point resolution, "
+        "revealing the dense internal structure of each provider's identity manifold.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Full res 2x2 grid
+    story.append(Paragraph("Provider Grid (Full Resolution)", heading_style))
+    img_path = PICS_DIR / "1_Vortex" / "run023b_vortex_x4.png"
+    add_image(story, img_path, width=6.5*inch, caption="Figure 4: All providers at full resolution - dense spiral patterns")
+
+    story.append(Paragraph(
+        "Each panel shows a different provider family's complete drift trajectory data. "
+        "The varying density patterns reveal distinct 'fingerprints' for each provider - "
+        "a visual signature of their identity dynamics under stress.",
+        body_style
+    ))
+
+    story.append(PageBreak())
+
+    # Individual provider full-res views
+    story.append(Paragraph("Individual Provider Analysis (Full Resolution)", heading_style))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Claude
+    story.append(Paragraph("Claude (Anthropic)", heading_style))
+    img_path = PICS_DIR / "1_Vortex" / "run023b_vortex_Claude.png"
+    add_image(story, img_path, width=5*inch, caption="Figure 5a: Claude family - full resolution identity manifold")
+
+    story.append(Paragraph(
+        "<b>Models:</b> Claude Haiku 3.5, Claude Sonnet 3.5/3.6, Claude Opus 3/4/4.5<br/>"
+        "<b>Observations:</b> Tight central clustering with consistent spiral structure. "
+        "The dense core indicates strong baseline identity stability. Outer excursions "
+        "are brief and recover quickly. The pattern suggests robust identity anchoring.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # OpenAI
+    story.append(Paragraph("GPT (OpenAI)", heading_style))
+    img_path = PICS_DIR / "1_Vortex" / "run023b_vortex_OpenAI.png"
+    add_image(story, img_path, width=5*inch, caption="Figure 5b: GPT family - full resolution identity manifold")
+
+    story.append(Paragraph(
+        "<b>Models:</b> GPT-4o, GPT-4o-mini, GPT-4.1 series, o1, o1-mini, o3-mini<br/>"
+        "<b>Observations:</b> Widest spiral spread among providers. The 'o' series reasoning "
+        "models show distinct patterns from standard GPT models. More variance indicates "
+        "higher sensitivity to recursive probing, though still within safe bounds.",
         body_style
     ))
 
     story.append(PageBreak())
 
     # Google
-    story.append(Paragraph("3c. Google (Gemini) Models", heading_style))
+    story.append(Paragraph("Gemini (Google)", heading_style))
     img_path = PICS_DIR / "1_Vortex" / "run023b_vortex_Google.png"
-    add_image(story, img_path, width=4.5*inch, caption="Figure 3c: Gemini family vortex patterns")
+    add_image(story, img_path, width=5*inch, caption="Figure 5c: Gemini family - full resolution identity manifold")
 
     story.append(Paragraph(
-        "<b>Models:</b> Gemini 1.5 Flash, Gemini 1.5 Pro, Gemini 2.0 Flash, Gemini 2.5 Pro<br/>"
-        "<b>Characteristics:</b> Moderate spiral width with good containment. Flash "
-        "models (optimized for speed) show similar stability to Pro models, suggesting "
-        "identity coherence is not sacrificed for latency optimization.",
+        "<b>Models:</b> Gemini 1.5 Flash/Pro, Gemini 2.0 Flash, Gemini 2.5 Pro<br/>"
+        "<b>Observations:</b> Moderate spread with good containment. Flash models (optimized "
+        "for speed) show similar stability to Pro models - identity coherence is not "
+        "sacrificed for latency optimization. Well-balanced performance.",
         body_style
     ))
+    story.append(Spacer(1, 0.1*inch))
 
     # Grok
-    story.append(Paragraph("3d. xAI (Grok) Models", heading_style))
+    story.append(Paragraph("Grok (xAI)", heading_style))
     img_path = PICS_DIR / "1_Vortex" / "run023b_vortex_Grok.png"
-    add_image(story, img_path, width=4.5*inch, caption="Figure 3d: Grok family vortex patterns")
+    add_image(story, img_path, width=5*inch, caption="Figure 5d: Grok family - full resolution identity manifold")
 
     story.append(Paragraph(
         "<b>Models:</b> Grok 2, Grok 3, Grok 3-mini<br/>"
-        "<b>Characteristics:</b> Tightest spirals among all providers - lowest average "
-        "drift. Demonstrates strong identity coherence even under recursive self-observation "
-        "stress. This may indicate architectural features that promote semantic stability.",
+        "<b>Observations:</b> Tightest spirals among all providers - exceptional stability. "
+        "The compact manifold structure indicates strong resistance to identity drift. "
+        "This may reflect architectural features that promote semantic coherence.",
         body_style
     ))
-    story.append(Spacer(1, 0.3*inch))
 
-    # Methodology note
+    story.append(PageBreak())
+
+    # =========================================================================
+    # METHODOLOGY & INTERPRETATION
+    # =========================================================================
+    story.append(Paragraph("Understanding the Visualization", title_style))
+    story.append(Spacer(1, 0.15*inch))
+
     story.append(Paragraph("Reading Vortex Plots", heading_style))
     story.append(Paragraph(
-        "<b>Radius:</b> Distance from center = drift magnitude (cosine distance)<br/>"
-        "<b>Angle:</b> Angular position = iteration number (full rotation = all iterations)<br/>"
+        "<b>Radius:</b> Distance from center = drift magnitude (cosine distance, 0-2 scale)<br/>"
+        "<b>Angle:</b> Angular position = iteration number (5 turns per full dataset)<br/>"
         "<b>Color:</b> Provider family identification<br/>"
         "<b>Red circle:</b> Event Horizon (EH = 0.80) - identity coherence threshold<br/>"
-        "<b>Spiral direction:</b> Counterclockwise progression through iterations",
+        "<b>Spiral direction:</b> Counterclockwise progression through iterations<br/>"
+        "<b>Gold star:</b> Identity Attractor at origin - the stable identity state",
         body_style
     ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("The Visualization Math", heading_style))
+    story.append(Paragraph(
+        "The spiral mapping uses: <b>angles = 2*pi * (turns/5)</b>, which creates the "
+        "5-fold symmetry visible in the central void. This is a <i>visualization choice</i>, "
+        "not a property of the data. Different divisors would produce different shapes "
+        "(4 = square, 6 = hexagon, 7 = heptagram).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>What the data actually contains:</b><br/>"
+        "- A sequence of drift magnitudes (cosine distance: 0.0 to ~1.5)<br/>"
+        "- Temporal ordering (probe 1, 2, 3...)<br/>"
+        "<b>What the visualization imposes:</b><br/>"
+        "- Polar mapping (drift magnitude to radius)<br/>"
+        "- Angular progression rate (iterations to angle)<br/>"
+        "- The spiral/drain metaphor itself",
+        body_style
+    ))
+    story.append(Paragraph(
+        "The honest interpretation: This is a <i>polar spiral projection of drift magnitude "
+        "sequences</i> that reveals temporal dynamics but does not claim geometric fidelity "
+        "to the underlying high-dimensional identity manifold. Every 2D visualization is a "
+        "lossy compression that emphasizes some relationships while hiding others.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    story.append(Paragraph("Interpretation Guidelines", heading_style))
     story.append(Paragraph(
         "A 'healthy' vortex stays contained within the Event Horizon throughout "
         "its trajectory. Excursions beyond EH indicate identity stress, while "
         "persistent residence beyond EH would indicate identity failure (not observed "
-        "in this dataset).",
+        "in this dataset). The density gradient from center to edge encodes the "
+        "probability distribution of identity states across the measurement period.",
         body_style
     ))
 

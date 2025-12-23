@@ -986,6 +986,8 @@ def plot_vortex(trajectories, output_dir, run_id, use_dB=False, zoom_scale=None,
                 all_coords.extend(xs)
                 all_coords.extend(ys)
 
+            # Line styling - keep the original dense organic look
+            # The overlapping lines create the beautiful spiral pattern
             alpha = 0.4 if status == "STABLE" else 0.7
             linewidth = 0.8 if status == "STABLE" else 1.5
 

@@ -1,12 +1,12 @@
 # Summary Statistics: Nyquist Consciousness Experiments
 
-**Paper:** "Measuring AI Identity Drift: Evidence from 21 Experiments"
-**Version:** 2.0
-**Last Updated:** 2025-12-22
+**Paper:** "Measuring AI Identity Drift: Evidence from 23 Experiments"
+**Version:** 3.0
+**Last Updated:** 2025-12-23
 
 ---
 
-> **📐 METHODOLOGY NOTE:** This document now reflects Run 023 IRON CLAD findings using **Cosine distance** methodology. Historical values (Euclidean, Keyword RMS) preserved for reference.
+> **📐 METHODOLOGY NOTE:** This document reflects **Run 023 IRON CLAD** findings using **Cosine distance** methodology (primary). Historical values (Euclidean, Keyword RMS) preserved for reference.
 >
 > For full methodology reconciliation, see [../planning/METHODOLOGY_DOMAINS.md](../planning/METHODOLOGY_DOMAINS.md)
 
@@ -16,9 +16,9 @@
 
 | Category | Value | Notes |
 |----------|-------|-------|
-| Total Experiments | 21 | S7 ARMADA Suite |
-| Total Model Deployments | 215+ | Across all runs |
-| Architectures Tested | 5 | Claude, GPT, Gemini, Grok, Together (Llama/DeepSeek/Mistral) |
+| Total Experiments | **825** | Run 023 Combined (IRON CLAD) |
+| Total Models | **51** | Across 6 providers |
+| Providers Tested | **6** | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
 | Hypotheses Tested | 36 | 27 confirmed (75%) |
 | Evidence Pillars | 15 | B-CRUMBS documented |
 | Publication Claims | 5 | A-E, peer-review ready |
@@ -37,35 +37,46 @@
 
 ### Dimensionality Analysis
 
-| Metric | Value | Notes |
-|--------|-------|-------|
-| Raw dimensions | 3072 | text-embedding-3-small |
-| Effective dimensions (90% var) | 43 | Principal components |
-| Effective dimensions (95% var) | 67 | Extended set |
-| Effective dimensions (99% var) | 156 | Full reconstruction |
+| Metric | Cosine (Current) | Euclidean (Archived) | Notes |
+|--------|------------------|----------------------|-------|
+| Raw dimensions | 3072 | 3072 | text-embedding-3-small |
+| **90% variance PCs** | **2** | 43 | Dramatic concentration |
+| 95% variance PCs | ~3 | 67 | Extended set |
+| 99% variance PCs | ~8 | 156 | Full reconstruction |
+
+**Key finding:** Cosine methodology reveals identity signal is highly concentrated—just **2 PCs** capture 90% variance vs 43 for Euclidean.
 
 ### Semantic Sensitivity
 
-| Test | Cohen's d | p-value | Effect Size |
+| Test | Cohen's d | p-value | Methodology |
 |------|-----------|---------|-------------|
-| In-character vs generic | 0.98 | < 0.001 | Large |
-| Claude vs GPT baseline | 0.85 | < 0.001 | Large |
-| Persona vs persona | 1.12 | < 0.001 | Large |
+| **Cross-model (Run 023)** | **0.698** | **2.40e-23** | Cosine (model-level) |
+| In-character vs generic | 0.98 | < 0.001 | Historical |
+| Claude vs GPT baseline | 0.85 | < 0.001 | Historical |
+
+**Note:** Cohen's d = 0.698 is honest model-level aggregate from Run 023d Phase 3B. Lower than archive (0.977) because we use proper statistical aggregation, not noise-inflated experiment-level comparison.
 
 ---
 
 ## II. Regime Threshold (Claim B)
 
-### Event Horizon Detection
+### Event Horizon Detection (Dual Methodologies)
 
-| Metric | Value | 95% CI |
-|--------|-------|--------|
-| Critical threshold D* | 1.23 | [1.18, 1.28] |
-| Chi-square statistic | 18.7 | - |
-| p-value | 4.8 × 10⁻⁵ | - |
-| Classification accuracy | 88% | [83%, 92%] |
+| Methodology | Event Horizon | p-value | Source | Status |
+|-------------|---------------|---------|--------|--------|
+| **Cosine** | **D = 0.80** | **2.40e-23** | Run 023d | **PRIMARY** |
+| Keyword RMS | D = 1.23 | 4.8e-5 | Run 009 | Historical |
 
-### Threshold Validation Across Runs
+### Run 023 Cosine Threshold Validation
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| Event Horizon (P95) | **0.80** | Calibrated from Run 023b |
+| Natural stability rate | **88%** | 51 models, 6 providers |
+| Perturbation validation p | **2.40e-23** | Phase 3A |
+| 90% Variance PCs | **2** | Highly concentrated signal |
+
+### Historical Threshold Validation (Keyword RMS)
 
 | Run | Method | Threshold Found | Consistent? |
 |-----|--------|-----------------|-------------|
@@ -78,32 +89,41 @@
 
 ## III. Oscillator Dynamics (Claim C)
 
-### Settling Time Analysis (Run 016)
+### Settling Time Analysis (Run 023 - PRIMARY)
 
-| Condition | τₛ (turns) | SD | n |
-|-----------|------------|-----|---|
-| All runs | 6.1 | 1.8 | 42 |
-| Claude | 4.8 | 1.2 | 12 |
-| GPT | 7.2 | 2.1 | 10 |
-| Gemini | 5.5 | 1.5 | 10 |
-| Grok | 4.2 | 0.9 | 10 |
+| Metric | Run 023 (Cosine) | Run 016 (Historical) |
+|--------|------------------|----------------------|
+| **τₛ (avg probes)** | **10.2** | 6.1 turns |
+| Natural stability | **88%** | ~75% |
+| Extended protocol | 20+ probes | 10 probes |
+| Total models | **51** | 42 |
 
-### Ringback Statistics
+### Run 023 Stability Classification
 
-| Metric | Value | Range |
+| Classification | Count | Percentage |
+|----------------|-------|------------|
+| **STABLE** | ~45 | **88%** |
+| VOLATILE | ~4 | 7% |
+| CONTROLLABLE | ~2 | 5% |
+
+### Settling Behavior (Run 023d Extended)
+
+| Metric | Value | Notes |
 |--------|-------|-------|
-| Mean ringbacks | 3.2 | [1, 7] |
-| Monotonic recovery % | 23% | - |
-| Overshoot ratio (mean) | 1.45 | [1.1, 2.3] |
+| Naturally settled | 73% | Without timeout |
+| Timeout (20 probes) | 27% | Hit max probes |
+| Average τₛ | **10.2 probes** | Fleet-wide |
 
-### Provider Signatures
+### Provider Signatures (Run 023)
 
 | Provider | Pattern | Distinguishing Feature |
 |----------|---------|------------------------|
-| Claude | Piecewise | Quantized plateaus |
-| GPT | Smooth | Longer τₛ, gradual |
-| Gemini | Phase-shifted | Language mode switching |
-| Grok | Fast snapback | Low τₛ, high damping |
+| Anthropic | Piecewise | Quantized plateaus |
+| OpenAI | Smooth | Longer τₛ, gradual |
+| Google | Phase-shifted | Language mode switching |
+| xAI | Fast snapback | Low τₛ, high damping |
+| Together | Variable | Model-dependent |
+| Nvidia | Stable | New to fleet |
 
 ---
 
@@ -326,34 +346,49 @@
 ## Appendix: Raw Numbers Quick Reference
 
 ```
-PFI Validity:
+=== RUN 023 IRON CLAD (PRIMARY - Cosine) ===
+
+Fleet:
+  Models = 51
+  Providers = 6
+  Experiments = 825
+
+PFI Validity (Claim A):
   ρ = 0.91 [0.87, 0.94]
   σ² = 0.000869
-  d = 0.98
-  PCs = 43 (90% var)
+  d = 0.698 (model-level, Cosine)
+  PCs = 2 (90% var, Cosine)  ← vs 43 Euclidean
+  p = 2.40e-23 (perturbation)
 
-Threshold:
-  D* = 1.23 [1.18, 1.28]
-  χ² = 18.7
-  p = 4.8 × 10⁻⁵
-  Accuracy = 88%
+Event Horizon (Claim B):
+  D* = 0.80 (Cosine - PRIMARY)
+  D* = 1.23 (Keyword RMS - Historical)
+  p = 2.40e-23 (Cosine)
+  p = 4.8e-5 (Keyword RMS)
 
-Dynamics:
-  τₛ = 6.1 ± 1.8
-  Ringbacks = 3.2 ± 1.1
-  Overshoot = 1.45 ± 0.23
+Dynamics (Claim C):
+  τₛ = 10.2 probes (Run 023)
+  Natural stability = 88%
+  Naturally settled = 73%
 
-Damping:
+Damping (Claim D):
   Bare → Full = 75% → 97.5%
   Δ = +22.5 pp
   d = 1.89
 
-82% Finding:
+82% Finding (Claim E):
   Control B→F = 0.399
   Treatment B→F = 0.489
   Ratio = 81.6%
 
-Oobleck:
-  Gentle D = 1.89, λ = 0.035
-  Challenge D = 0.76, λ = 0.109
+=== HISTORICAL (Reference Only) ===
+
+Euclidean Era (ARCHIVED):
+  PCs = 43 (90% var)
+  Event Horizon = Not calibrated
+
+Keyword RMS Era (Runs 008-009):
+  D* = 1.23 [1.18, 1.28]
+  χ² = 18.7
+  p = 4.8 × 10⁻⁵
 ```
