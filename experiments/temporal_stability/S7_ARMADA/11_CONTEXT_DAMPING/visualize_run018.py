@@ -107,12 +107,12 @@ VISUALIZATION_TYPES = ['threshold', 'architecture', 'nyquist', 'gravity', 'provi
 # Random vectors produce ~78.4 drift, validated data should be < 5.0
 MAX_VALID_DRIFT = 5.0
 
-# Threshold zones from design
+# Threshold zones - UPDATED for cosine methodology (Event Horizon = 0.80)
 THRESHOLD_ZONES = {
-    "SAFE": (0, 0.9),
-    "WARNING": (0.9, 1.23),
-    "CRITICAL": (1.23, 1.8),
-    "CATASTROPHIC": (1.8, float("inf"))
+    "SAFE": (0, 0.6),
+    "WARNING": (0.6, 0.80),
+    "CRITICAL": (0.80, 1.2),
+    "CATASTROPHIC": (1.2, float("inf"))
 }
 
 # Colors for zones
@@ -344,12 +344,12 @@ def visualize_threshold(results: List[Dict]):
 
     # Add vertical threshold lines
     ax1.axvline(x=0.9, color='orange', linestyle='--', linewidth=2, label='WARNING threshold (0.9)')
-    ax1.axvline(x=1.23, color='red', linestyle='--', linewidth=2, label='CRITICAL threshold (1.23)')
+    ax1.axvline(x=0.80, color='red', linestyle='--', linewidth=2, label='Event Horizon (0.80)')
 
     # Add zone labels
     ax1.axvspan(0, 0.9, alpha=0.1, color='green', label='SAFE zone')
-    ax1.axvspan(0.9, 1.23, alpha=0.1, color='orange', label='WARNING zone')
-    ax1.axvspan(1.23, 3.0, alpha=0.1, color='red', label='CRITICAL+ zone')
+    ax1.axvspan(0.6, 0.80, alpha=0.1, color='orange', label='WARNING zone')
+    ax1.axvspan(0.80, 1.5, alpha=0.1, color='red', label='CRITICAL+ zone')
 
     ax1.set_xlabel("Drift (PFI)", fontsize=12)
     ax1.set_ylabel("Count", fontsize=12)
@@ -392,7 +392,7 @@ def visualize_threshold(results: List[Dict]):
     if warning_count / total < 0.1 if total > 0 else False:
         interp_text += "Minimal WARNING zone (~5%)\n"
         interp_text += "→ Binary behavior: SAFE or CRITICAL\n"
-        interp_text += "→ Sharp threshold at D≈1.23"
+        interp_text += "→ Sharp threshold at D≈0.80"
     else:
         interp_text += f"WARNING: {warning_count/total*100:.1f}%\n"
         interp_text += "Gradual transition between zones"
@@ -649,7 +649,7 @@ def visualize_architecture(results: List[Dict]):
     ax1 = axes[0, 0]
     y_pos = np.arange(len(families))
     bars = ax1.barh(y_pos, peak_means, xerr=peak_stds, color=colors, capsize=3, alpha=0.8)
-    ax1.axvline(x=1.23, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (1.23)')
+    ax1.axvline(x=0.80, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (0.80)')
     ax1.set_yticks(y_pos)
     ax1.set_yticklabels([f"{f}\n(n={sample_counts[i]})" for i, f in enumerate(families)], fontsize=9)
     ax1.set_xlabel("Peak Drift (PFI)", fontsize=11)
@@ -677,7 +677,7 @@ def visualize_architecture(results: List[Dict]):
     for i, f in enumerate(families):
         ax3.scatter(peak_means[i], peak_stds[i], c=[colors[i]], s=sample_counts[i]*3 + 50,
                    alpha=0.7, edgecolors='black', linewidth=1)
-    ax3.axvline(x=1.23, color='red', linestyle='--', alpha=0.5)
+    ax3.axvline(x=0.80, color='red', linestyle='--', alpha=0.5)
     ax3.set_xlabel("Mean Peak Drift", fontsize=11)
     ax3.set_ylabel("Drift Variability (Std)", fontsize=11)
     ax3.set_title("Stability Profile: Mean vs Variance\n(bubble size = sample count)", fontsize=12, fontweight='bold')
@@ -725,12 +725,15 @@ def visualize_architecture(results: List[Dict]):
 def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
     """Generate per-provider model breakdown visualizations.
 
-    Creates separate figures showing model-level signatures within each provider family.
-    Shows horizontal bar chart of peak drift for each model within a provider.
+    Creates 2x2 quad figures for each major provider showing 4 metrics at model level:
+    - Top-Left: Peak Drift by model (bar chart)
+    - Top-Right: Settling Time by model (bar chart)
+    - Bottom-Left: Stability Profile (mean vs std scatter)
+    - Bottom-Right: Ringback Count by model (bar chart)
 
     Layout strategy:
-    - Figure _2: Top 4 providers (OpenAI, Anthropic, xAI, Google) - 2x2 grid
-    - Figure _3: Open-source/Together.ai ecosystem (Meta, DeepSeek, Mistral, Alibaba, Moonshot) - combined view
+    - Figure _2: Major providers in quad format (one figure per provider combined into grid)
+    - Figure _3: Open-source/Together.ai ecosystem - combined view
     """
     # Only generate for families with multiple models AND per-model data
     families_with_models = {f: v for f, v in family_metrics.items()
@@ -753,42 +756,33 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
     major = [f for f in all_families if f in major_providers]
     opensource = [f for f in all_families if f in opensource_families]
 
-    # Pastel color palette - soft, inviting, professional
-    pastel_colors = {
-        'OpenAI': {'base': '#98D8AA', 'dark': '#5BB381', 'light': '#C5EBCF', 'accent': '#2E7D4A', 'bg': '#F0FFF4'},
-        'Anthropic': {'base': '#F7C59F', 'dark': '#E8A66D', 'light': '#FDDFC2', 'accent': '#B8723B', 'bg': '#FFFAF5'},
-        'Google': {'base': '#A8D4F0', 'dark': '#6BB3DE', 'light': '#D0E8F7', 'accent': '#2E6B8A', 'bg': '#F5FAFF'},
-        'xAI': {'base': '#B8C5F2', 'dark': '#8A9DE0', 'light': '#D8E0F8', 'accent': '#4A5899', 'bg': '#F8F9FF'},
+    # Provider color palette
+    provider_colors = {
+        'OpenAI': {'base': '#74B49B', 'dark': '#4A8A6B', 'accent': '#2E7D4A'},
+        'Anthropic': {'base': '#D4A574', 'dark': '#B8723B', 'accent': '#8B5A2B'},
+        'Google': {'base': '#4285F4', 'dark': '#2E6B8A', 'accent': '#1A5276'},
+        'xAI': {'base': '#1DA1F2', 'dark': '#4A5899', 'accent': '#2C3E50'},
     }
 
-    # Figure _2: Major providers (2x2 grid) - PASTEL VERSION
+    # Figure _2: Major providers - 2x2 MEGA-QUAD (each cell is a 2x2 quad for one provider)
     if major:
-        n_plots = len(major)
-        if n_plots == 1:
-            nrows, ncols = 1, 1
-        elif n_plots == 2:
-            nrows, ncols = 1, 2
-        else:
-            nrows, ncols = 2, 2
+        # Create a 2x2 grid where each cell contains a provider's quad
+        fig = plt.figure(figsize=(20, 16), facecolor='#FAFBFC')
 
-        # Set up pastel style with light background
-        plt.style.use('default')
-        fig, axes = plt.subplots(nrows, ncols, figsize=(14, 10 if nrows == 2 else 5),
-                                  facecolor='#FAFBFC')
+        # Create 2x2 grid of subfigures (one per provider)
+        subfigs = fig.subfigures(2, 2, wspace=0.05, hspace=0.08)
+        subfigs = subfigs.flatten()
 
-        if n_plots == 1:
-            axes = np.array([axes])
-        axes = axes.flatten()
+        for idx, family in enumerate(major[:4]):  # Max 4 providers
+            subfig = subfigs[idx]
+            colors = provider_colors.get(family, {'base': '#9CA3AF', 'dark': '#6B7280', 'accent': '#374151'})
 
-        for idx, family in enumerate(major):
-            ax = axes[idx]
-
-            colors = pastel_colors.get(family, {'base': '#C4C4C4', 'dark': '#888888', 'light': '#E8E8E8', 'accent': '#444444', 'bg': '#F8F8F8'})
-            ax.set_facecolor(colors['bg'])
+            # Create 2x2 axes within this subfigure
+            axes = subfig.subplots(2, 2)
 
             model_metrics = family_metrics[family].get('model_metrics', {})
 
-            # Filter out models with zero or no data (corrupted entries)
+            # Filter out models with zero or no data
             valid_models = {m: v for m, v in model_metrics.items()
                           if v['peak_drifts'] and np.mean(v['peak_drifts']) > 0}
 
@@ -796,97 +790,104 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
             models = sorted(valid_models.keys(),
                           key=lambda m: np.mean(valid_models[m]['peak_drifts']))
 
-            # Limit to top 15 models if too many (increased from 12)
-            if len(models) > 15:
-                models = models[:15]
+            # Limit to top 10 models for readability in quad format
+            if len(models) > 10:
+                models = models[:10]
 
-            # Use valid_models for data
-            model_metrics = valid_models
+            model_data = valid_models
 
+            # Clean model names
+            def clean_name(m):
+                return m.replace('claude-', '').replace('gpt-', '').replace('gemini-', '') \
+                        .replace('grok-', '').replace('meta-llama/', '').replace('deepseek-ai/', '')
+
+            clean_names = [clean_name(m) for m in models]
             y_pos = np.arange(len(models))
-            means = [np.mean(model_metrics[m]['peak_drifts']) if model_metrics[m]['peak_drifts'] else 0 for m in models]
-            stds = [np.std(model_metrics[m]['peak_drifts']) if len(model_metrics[m]['peak_drifts']) > 1 else 0 for m in models]
-            counts = [len(model_metrics[m]['peak_drifts']) for m in models]
 
-            # Clip error bars to prevent negative values (drift can't be negative)
-            err_lower = [min(std, mean) for mean, std in zip(means, stds)]
-            err_upper = stds
+            # Calculate metrics for each model
+            peak_means = [np.mean(model_data[m]['peak_drifts']) for m in models]
+            peak_stds = [np.std(model_data[m]['peak_drifts']) if len(model_data[m]['peak_drifts']) > 1 else 0 for m in models]
+            settle_means = [np.mean(model_data[m]['settling_times']) if model_data[m]['settling_times'] else 0 for m in models]
+            settle_stds = [np.std(model_data[m]['settling_times']) if len(model_data[m]['settling_times']) > 1 else 0 for m in models]
+            ring_means = [np.mean(model_data[m]['ringback_counts']) if model_data[m]['ringback_counts'] else 0 for m in models]
+            ring_stds = [np.std(model_data[m]['ringback_counts']) if len(model_data[m]['ringback_counts']) > 1 else 0 for m in models]
+            counts = [len(model_data[m]['peak_drifts']) for m in models]
 
-            # Create soft gradient effect - lighter colors for lower drift, base for higher
-            bar_colors = []
-            for mean in means:
-                # Interpolate between light and base based on drift
-                intensity = min(mean / 1.2, 1.0)  # Normalize to 0-1
-                r1, g1, b1 = int(colors['light'][1:3], 16), int(colors['light'][3:5], 16), int(colors['light'][5:7], 16)
-                r2, g2, b2 = int(colors['base'][1:3], 16), int(colors['base'][3:5], 16), int(colors['base'][5:7], 16)
-                r = int(r1 + (r2 - r1) * intensity)
-                g = int(g1 + (g2 - g1) * intensity)
-                b = int(b1 + (b2 - b1) * intensity)
-                bar_colors.append(f'#{r:02x}{g:02x}{b:02x}')
+            # --- Top-Left: Peak Drift ---
+            ax1 = axes[0, 0]
+            err_lower = [min(std, mean) for mean, std in zip(peak_means, peak_stds)]
+            ax1.barh(y_pos, peak_means, xerr=[err_lower, peak_stds], color=colors['base'], alpha=0.8, capsize=3)
+            ax1.axvline(x=0.80, color='red', linestyle='--', linewidth=2, alpha=0.7)
+            ax1.set_yticks(y_pos)
+            ax1.set_yticklabels([f"{n[:20]}" for n in clean_names], fontsize=7)
+            ax1.set_xlabel("Peak Drift (PFI)", fontsize=9)
+            ax1.set_title("Peak Drift", fontsize=10, fontweight='bold')
+            ax1.set_xlim(0, max(1.2, max(peak_means) * 1.2) if peak_means else 1.2)
 
-            # Draw bars with soft shadow effect
-            for i, (y, mean, err_l, err_u, bar_color) in enumerate(zip(y_pos, means, err_lower, err_upper, bar_colors)):
-                # Soft shadow layer (offset slightly)
-                ax.barh(y + 0.02, mean, height=0.65, color='#000000', alpha=0.08, zorder=1)
-                # Main bar with rounded appearance (using alpha gradient)
-                ax.barh(y, mean, height=0.6, color=bar_color, alpha=0.85, zorder=2,
-                       edgecolor=colors['dark'], linewidth=1.0)
-                # Highlight strip at top of bar for 3D effect
-                ax.barh(y + 0.15, mean, height=0.15, color='#FFFFFF', alpha=0.3, zorder=3)
-                # Error bar
-                ax.errorbar(mean, y, xerr=[[err_l], [err_u]], fmt='none',
-                           color=colors['accent'], capsize=4, capthick=1.5, zorder=4, alpha=0.8)
+            # --- Top-Right: Settling Time ---
+            ax2 = axes[0, 1]
+            err_lower_s = [min(std, mean) for mean, std in zip(settle_means, settle_stds)]
+            ax2.barh(y_pos, settle_means, xerr=[err_lower_s, settle_stds], color=colors['base'], alpha=0.8, capsize=3)
+            ax2.set_yticks(y_pos)
+            ax2.set_yticklabels([f"{n[:20]}" for n in clean_names], fontsize=7)
+            ax2.set_xlabel("Settling Time (probes)", fontsize=9)
+            ax2.set_title("Settling Time", fontsize=10, fontweight='bold')
+            ax2.set_xlim(0, 7)
 
-            # Event horizon line - softer coral red
-            ax.axvline(x=1.23, color='#E57373', linestyle='--', linewidth=2.5, alpha=0.7, zorder=5)
-            ax.axvspan(1.23, max(1.5, max(means) * 1.3) if means else 1.5, alpha=0.08, color='#FFCDD2', zorder=0)
+            # --- Bottom-Left: Stability Profile (mean vs std scatter) ---
+            ax3 = axes[1, 0]
+            scatter_colors = [colors['base'] if m < 0.80 else '#E74C3C' for m in peak_means]
+            sizes = [c * 20 + 30 for c in counts]
+            ax3.scatter(peak_means, peak_stds, c=scatter_colors, s=sizes, alpha=0.7, edgecolors='black', linewidth=0.5)
+            ax3.axvline(x=0.80, color='red', linestyle='--', alpha=0.5)
+            ax3.set_xlabel("Mean Peak Drift", fontsize=9)
+            ax3.set_ylabel("Drift Variability (Std)", fontsize=9)
+            ax3.set_title("Stability Profile", fontsize=10, fontweight='bold')
+            ax3.set_xlim(0, max(1.2, max(peak_means) * 1.2) if peak_means else 1.2)
+            # Add model labels near points
+            for i, name in enumerate(clean_names):
+                ax3.annotate(name[:12], (peak_means[i], peak_stds[i]), fontsize=6, alpha=0.7,
+                            xytext=(2, 2), textcoords='offset points')
 
-            ax.set_xlim(0, max(1.4, max(means) * 1.3) if means else 1.5)
+            # --- Bottom-Right: Ringback Count ---
+            ax4 = axes[1, 1]
+            err_lower_r = [min(std, mean) for mean, std in zip(ring_means, ring_stds)]
+            ax4.barh(y_pos, ring_means, xerr=[err_lower_r, ring_stds], color=colors['base'], alpha=0.8, capsize=3)
+            ax4.set_yticks(y_pos)
+            ax4.set_yticklabels([f"{n[:20]}" for n in clean_names], fontsize=7)
+            ax4.set_xlabel("Ringback Count", fontsize=9)
+            ax4.set_title("Ringback Oscillations", fontsize=10, fontweight='bold')
+            ax4.set_xlim(0, None)
 
-            # Clean model names for display
-            clean_names = [m.replace('claude-', '').replace('gpt-', '').replace('gemini-', '')
-                          .replace('grok-', '').replace('llama', 'L').replace('mistral-', '')
-                          for m in models]
-            ax.set_yticks(y_pos)
-            ax.set_yticklabels([f"{n} (n={counts[i]})" for i, n in enumerate(clean_names)],
-                              fontsize=9, color='#000000', fontweight='medium')
-            ax.set_xlabel("Peak Drift (PFI)", fontsize=11, color='#000000', fontweight='bold')
-            ax.set_title(f"{family} Models", fontsize=14, fontweight='bold', color=colors['accent'],
-                        pad=12)
+            # Style all axes
+            for ax in axes.flatten():
+                ax.tick_params(labelsize=7)
+                for spine in ['top', 'right']:
+                    ax.spines[spine].set_visible(False)
 
-            # Soft grid styling
-            ax.grid(axis='x', alpha=0.3, color='#CCCCCC', linestyle='-', linewidth=0.5)
-            ax.tick_params(colors='#000000', length=4)
-            ax.set_axisbelow(True)  # Grid behind bars
+            # Provider title
+            n_samples = len(family_metrics[family]['peak_drifts'])
+            n_models = len(valid_models)
+            subfig.suptitle(f"{family} ({n_models} models, n={n_samples})",
+                          fontsize=12, fontweight='bold', color=colors['accent'])
 
-            # Subtle spines
-            for spine in ['top', 'right']:
-                ax.spines[spine].set_visible(False)
-            for spine in ['bottom', 'left']:
-                ax.spines[spine].set_color('#CCCCCC')
-                ax.spines[spine].set_linewidth(0.8)
+        # Hide unused subfigures
+        for idx in range(len(major), 4):
+            for ax in subfigs[idx].subplots(1, 1) if hasattr(subfigs[idx], 'subplots') else []:
+                ax.axis('off')
 
-        # Hide unused subplots
-        for idx in range(len(major), len(axes)):
-            axes[idx].axis('off')
-
-        # Clean title
-        fig.suptitle("Run 018: Intra-Provider Model Signatures (Part 1)\nModel-Level Drift Comparison",
+        # Main title
+        fig.suptitle("Run 018b: Intra-Provider Model Signatures\n4-Metric Quad Analysis per Provider Family",
                      fontsize=16, fontweight='bold', color='#2C3E50', y=0.98)
 
-        # Subtle footer
-        fig.text(0.5, 0.01, "Event Horizon (D=1.23) marks identity collapse threshold  |  PFI = Persona Fidelity Index",
+        # Footer
+        fig.text(0.5, 0.01, "Event Horizon (D=0.80) marks identity collapse threshold  |  PFI = Persona Fidelity Index",
                 fontsize=9, ha='center', color='#888888', style='italic')
 
-        plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-
         outfile = PICS_DIR / "run018b_architecture_signatures_2.png"
-        plt.savefig(outfile, dpi=200, bbox_inches='tight', facecolor='#FAFBFC', edgecolor='none')
+        plt.savefig(outfile, dpi=150, bbox_inches='tight', facecolor='#FAFBFC', edgecolor='none')
         print(f"Saved: {outfile}")
         plt.close()
-
-        # Reset style for other plots
-        plt.style.use('default')
 
     # Figure _3: Open-source ecosystem (all models from Meta, DeepSeek, Mistral, etc.)
     if opensource:
@@ -930,7 +931,7 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
 
             # Create bars with family colors
             bars = ax.barh(y_pos, means, xerr=[err_lower, err_upper], color=colors, alpha=0.7, capsize=2)
-            ax.axvline(x=1.23, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (1.23)')
+            ax.axvline(x=0.80, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (0.80)')
             ax.set_xlim(0, max(1.4, max(means) * 1.3) if means else 1.5)
 
             # Clean model names and add family tag
@@ -955,9 +956,8 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
             print(f"Saved: {outfile}")
             plt.close()
 
-    # Figure _4: Cross-provider comparison (1 representative model per provider)
-    # Shows peak drift, settling time, and ringback count side-by-side
-    visualize_architecture_cross_provider(family_metrics, family_colors)
+    # DISABLED: Figure _4 (cross-provider comparison) is redundant with main quad visual
+    # visualize_architecture_cross_provider(family_metrics, family_colors)
 
 
 def visualize_architecture_cross_provider(family_metrics: Dict, family_colors: Dict):
@@ -1024,7 +1024,7 @@ def visualize_architecture_cross_provider(family_metrics: Dict, family_colors: D
     err_lower = [min(std, mean) for mean, std in zip(peak_drifts, peak_stds)]
 
     bars = ax.barh(y_pos, peak_drifts, xerr=[err_lower, peak_stds], color=colors, alpha=0.7, capsize=3)
-    ax.axvline(x=1.23, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (1.23)')
+    ax.axvline(x=0.80, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (0.80)')
     ax.set_yticks(y_pos)
     ax.set_yticklabels(labels, fontsize=10)
     ax.set_xlabel("Peak Drift (PFI)", fontsize=12)
@@ -1144,7 +1144,7 @@ def visualize_nyquist(results: List[Dict]):
 
     bars = ax1.bar([labels[r] for r in rates], final_means, yerr=final_stds,
                    color=[colors[r] for r in rates], capsize=5)
-    ax1.axhline(y=1.23, color='red', linestyle='--', alpha=0.5, label='Event Horizon')
+    ax1.axhline(y=0.80, color='red', linestyle='--', alpha=0.5, label='Event Horizon')
     ax1.set_ylabel("Final Drift (PFI)")
     ax1.set_title("Final Drift by Sampling Rate")
     ax1.legend()
@@ -1161,7 +1161,7 @@ def visualize_nyquist(results: List[Dict]):
         patch.set_facecolor(colors[rate])
         patch.set_alpha(0.7)
 
-    ax2.axhline(y=1.23, color='red', linestyle='--', alpha=0.3)
+    ax2.axhline(y=0.80, color='red', linestyle='--', alpha=0.3)
     ax2.set_ylabel("Final Drift (PFI)")
     ax2.set_title("Drift Distribution by Sampling Rate")
 
@@ -1325,20 +1325,44 @@ def visualize_gravity(results: List[Dict]):
     cbar = plt.colorbar(scatter, ax=ax2)
     cbar.set_label('Gamma (γ)')
 
-    # Plot 3: Gamma distribution histogram
+    # Plot 3: Gamma distribution histogram with log-scale x-axis for better spread
     ax3 = axes[1, 0]
-    high_gammas = [p['gamma'] for p in high_gravity]
-    low_gammas = [p['gamma'] for p in low_gravity]
+    all_gammas = [p['gamma'] for p in model_params]
 
-    ax3.hist(low_gammas, bins=15, alpha=0.7, label=f'Low Gravity (N={len(low_gammas)})',
-             color=colors['low'], edgecolor='black')
-    ax3.hist(high_gammas, bins=15, alpha=0.7, label=f'High Gravity (N={len(high_gammas)})',
-             color=colors['high'], edgecolor='black')
-    ax3.axvline(x=median_gamma, color='gray', linestyle='--', linewidth=2)
-    ax3.set_xlabel('Gamma (γ)')
+    # Use log scale for x-axis to spread out small values (including zeros)
+    # Filter out zeros for log binning, but count them separately
+    nonzero_gammas = [g for g in all_gammas if g > 0]
+    zero_count = len([g for g in all_gammas if g == 0])
+
+    if nonzero_gammas:
+        # Create log-spaced bins
+        log_min = np.log10(max(min(nonzero_gammas), 1e-6))
+        log_max = np.log10(max(nonzero_gammas))
+        log_bins = np.logspace(log_min, log_max, 20)
+
+        # Color by high/low gravity
+        high_gammas_nz = [g for g in nonzero_gammas if g >= median_gamma]
+        low_gammas_nz = [g for g in nonzero_gammas if g < median_gamma]
+
+        ax3.hist(low_gammas_nz, bins=log_bins, alpha=0.7, label=f'Low Gravity (N={len(low_gammas_nz)})',
+                 color=colors['low'], edgecolor='black')
+        ax3.hist(high_gammas_nz, bins=log_bins, alpha=0.7, label=f'High Gravity (N={len(high_gammas_nz)})',
+                 color=colors['high'], edgecolor='black')
+        ax3.set_xscale('log')
+        ax3.axvline(x=median_gamma, color='gray', linestyle='--', linewidth=2, label=f'Median γ={median_gamma:.3f}')
+
+        # Add note about zeros if any
+        if zero_count > 0:
+            ax3.text(0.02, 0.98, f'γ=0: {zero_count} entries\n(no exponential decay)',
+                     transform=ax3.transAxes, fontsize=8, verticalalignment='top',
+                     bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+    else:
+        ax3.text(0.5, 0.5, 'No non-zero gamma values', ha='center', va='center', transform=ax3.transAxes)
+
+    ax3.set_xlabel('Gamma (γ) - Log Scale')
     ax3.set_ylabel('Count')
     ax3.set_title('Distribution of Identity Gravity Strength')
-    ax3.legend()
+    ax3.legend(loc='upper right', fontsize=8)
 
     # Plot 4: Drift vs Gamma correlation
     ax4 = axes[1, 1]
@@ -1346,7 +1370,7 @@ def visualize_gravity(results: List[Dict]):
     gammas = [p['gamma'] for p in model_params]
 
     ax4.scatter(gammas, drifts, alpha=0.6, c=['#2ecc71' if g >= median_gamma else '#e74c3c' for g in gammas])
-    ax4.axhline(y=1.23, color='red', linestyle='--', alpha=0.3, label='Event Horizon')
+    ax4.axhline(y=0.80, color='red', linestyle='--', alpha=0.3, label='Event Horizon')
     ax4.axvline(x=median_gamma, color='gray', linestyle='--', alpha=0.3)
 
     # Add correlation
@@ -1485,7 +1509,7 @@ def visualize_model_breakdown(all_data: Dict[str, List[Dict]]):
     ax.set_yticklabels(models, fontsize=8)
     ax.set_xlabel('Mean Drift (PFI)')
     ax.set_title(f'Run 018: Drift by Model (N={len(model_summary)} models)')
-    ax.axvline(x=1.23, color='red', linestyle='--', label='Event Horizon (D=1.23)')
+    ax.axvline(x=0.80, color='red', linestyle='--', label='Event Horizon (D=0.80)')
     ax.legend(loc='lower right')
 
     plt.tight_layout()
@@ -1502,7 +1526,7 @@ def visualize_model_breakdown(all_data: Dict[str, List[Dict]]):
     ax.set_yticklabels(models, fontsize=8)
     ax.set_xlabel('Mean Drift (PFI)')
     ax.set_title(f'Run 018: Drift by Model (N={len(model_summary)} models)')
-    ax.axvline(x=1.23, color='red', linestyle='--', label='Event Horizon (D=1.23)')
+    ax.axvline(x=0.80, color='red', linestyle='--', label='Event Horizon (D=0.80)')
     ax.legend(loc='lower right')
     plt.tight_layout()
     plt.savefig(pdf_path, bbox_inches='tight')
@@ -1638,7 +1662,7 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
         patch.set_facecolor(color)
         patch.set_alpha(0.6)
 
-    ax1.axhline(y=1.23, color='red', linestyle='--', label='Event Horizon')
+    ax1.axhline(y=0.80, color='red', linestyle='--', label='Event Horizon')
     ax1.set_ylabel('Drift (PFI)')
     ax1.set_xlabel('Provider Family')
     ax1.set_title('Drift Distribution by Provider Family')
@@ -1671,7 +1695,7 @@ def visualize_provider_variance(all_data: Dict[str, List[Dict]]):
     for patch, color in zip(bp['boxes'], colors[:len(bp['boxes'])]):
         patch.set_facecolor(color)
         patch.set_alpha(0.6)
-    ax1.axhline(y=1.23, color='red', linestyle='--', label='Event Horizon')
+    ax1.axhline(y=0.80, color='red', linestyle='--', label='Event Horizon')
     ax1.set_ylabel('Drift (PFI)')
     ax1.set_xlabel('Provider Family')
     ax1.set_title('Drift Distribution by Provider Family')
@@ -1780,8 +1804,10 @@ def generate_all_run018_visualizations(experiment: str = 'all') -> None:
     if experiment in ['architecture', 'all']:
         visualize_architecture(data['architecture'])
 
-    if experiment in ['nyquist', 'all']:
-        visualize_nyquist(data['nyquist'])
+    # DISABLED: Nyquist experiment incomplete - only 'high' sampling rate was run
+    # Missing 'low' and 'none' conditions. Flag for future re-run with all 3 conditions.
+    # if experiment in ['nyquist', 'all']:
+    #     visualize_nyquist(data['nyquist'])
 
     if experiment in ['gravity', 'all']:
         visualize_gravity(data['gravity'])
