@@ -99,7 +99,9 @@ PICS_DIR.mkdir(parents=True, exist_ok=True)
 # =============================================================================
 # EXPORTED CONSTANTS (for master visualizer integration)
 # =============================================================================
-VISUALIZATION_TYPES = ['threshold', 'architecture', 'nyquist', 'gravity', 'model_breakdown', 'provider_variance', 'all']
+# DEPRECATED: 'model_breakdown' removed - uses obsolete RMS methodology (EH=1.23)
+# Use run018_persona_analysis.py in pics/run018/ for cosine methodology (EH=0.80)
+VISUALIZATION_TYPES = ['threshold', 'architecture', 'nyquist', 'gravity', 'provider_variance', 'all']
 
 # Maximum valid drift (above this = corrupted embedding data)
 # Random vectors produce ~78.4 drift, validated data should be < 5.0
@@ -1784,8 +1786,10 @@ def generate_all_run018_visualizations(experiment: str = 'all') -> None:
     if experiment in ['gravity', 'all']:
         visualize_gravity(data['gravity'])
 
-    if experiment in ['model_breakdown', 'all']:
-        visualize_model_breakdown(data)
+    # DEPRECATED: model_breakdown uses obsolete RMS methodology (EH=1.23)
+    # Use run018_persona_analysis.py in pics/run018/ for cosine-based persona ranking
+    # if experiment in ['model_breakdown', 'all']:
+    #     visualize_model_breakdown(data)
 
     if experiment in ['provider_variance', 'all']:
         visualize_provider_variance(data)

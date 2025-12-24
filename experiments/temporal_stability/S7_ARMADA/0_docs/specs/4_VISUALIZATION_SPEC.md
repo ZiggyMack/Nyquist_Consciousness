@@ -834,6 +834,120 @@ ax.bar(x, [mean * 100], yerr=[[ci_low * 100], [ci_high * 100]], capsize=5)
 
 ---
 
+## PITFALL #11: ASSUMING FIELD SEMANTICS WITHOUT VERIFICATION
+
+### The Problem
+
+Different experimental runs use the same field names with DIFFERENT semantic meanings. Code that works on one dataset silently produces empty visualizations on another because it assumes a field means something it doesn't.
+
+### Real Example: Run 020B subject_id (Dec 2025)
+
+Bottom panels of `oobleck_control_treatment.png` were completely empty. The code tried to match control and treatment data by `subject_id`:
+
+```python
+# WRONG: Assumes subject_id is a provider/model identifier shared between arms
+providers = set(d.get('subject_id', d.get('model', 'unknown')) for d in data)
+
+for prov in providers:
+    c_data = [d for d in control if d.get('subject_id', d.get('model')) == prov]
+    t_data = [d for d in treatment if d.get('subject_id', d.get('model')) == prov]
+
+    if c_data and t_data:  # NEVER TRUE!
+        # ... plot data
+```
+
+**Why it failed:** In Run 020B, `subject_id` contains **unique session identifiers** like:
+- Control: `control_81ec4971`, `control_6ec06259`, `control_d4a3e001`
+- Treatment: `treatment_fdac1bbe`, `treatment_90c7e42a`, `treatment_a7b2c3d4`
+
+There is **zero overlap** between control and treatment subject_ids. The `if c_data and t_data` condition is never satisfied.
+
+### Solution: Verify Field Semantics Before Using
+
+```python
+# FIRST: Inspect what the field actually contains
+def diagnose_field(data, field_name):
+    """Check semantic meaning of a field across arms."""
+    values = set(d.get(field_name, 'MISSING') for d in data)
+    by_arm = {}
+    for d in data:
+        arm = d.get('arm', 'unknown')
+        val = d.get(field_name, 'MISSING')
+        by_arm.setdefault(arm, set()).add(val)
+
+    print(f"\n{field_name} analysis:")
+    print(f"  Unique values: {len(values)}")
+    for arm, vals in by_arm.items():
+        print(f"  {arm}: {len(vals)} unique values")
+        print(f"    Samples: {list(vals)[:3]}")
+
+    # Check overlap
+    if len(by_arm) == 2:
+        arms = list(by_arm.keys())
+        overlap = by_arm[arms[0]] & by_arm[arms[1]]
+        print(f"  Overlap between arms: {len(overlap)}")  # If 0, matching will FAIL!
+
+diagnose_field(data, 'subject_id')
+# Output reveals: Overlap between arms: 0  ← This is the bug!
+```
+
+### Correct Pattern: Aggregate When No Cross-Arm Identifier Exists
+
+```python
+# RIGHT: When subject_id is per-session (no overlap), aggregate ALL data per arm
+control_drifts = [d.get('final_drift', 0) for d in data if d.get('arm') == 'control']
+treatment_drifts = [d.get('final_drift', 0) for d in data if d.get('arm') == 'treatment']
+
+# Plot aggregate comparison instead of per-subject matching
+c_mean = np.mean(control_drifts)
+t_mean = np.mean(treatment_drifts)
+
+ax.bar(['Control', 'Treatment'], [c_mean, t_mean])
+```
+
+### Field Semantics Reference
+
+| Field | Run 023d Meaning | Run 020B Meaning | Watch Out |
+|-------|------------------|------------------|-----------|
+| `subject_id` | N/A (not present) | Unique session ID (`control_abc123`) | NOT a join key! |
+| `model` | Model name (e.g., `gpt-4`) | NOT present in 020B | Check before using |
+| `provider` | Provider (e.g., `openai`) | NOT present in 020B | Check before using |
+| `arm` | N/A | `control` or `treatment` | Split by this, not join |
+
+### Defensive Pattern: Always Validate Join Keys
+
+```python
+def validate_join_key(data, key_field, group_field):
+    """Validate that key_field has overlap across group_field values."""
+    groups = set(d.get(group_field) for d in data)
+    key_sets = {g: set(d.get(key_field) for d in data if d.get(group_field) == g) for g in groups}
+
+    for g1 in groups:
+        for g2 in groups:
+            if g1 < g2:  # Avoid duplicate comparisons
+                overlap = key_sets[g1] & key_sets[g2]
+                if not overlap:
+                    print(f"[WARNING] No {key_field} overlap between {g1} and {g2}!")
+                    print(f"  {g1} has {len(key_sets[g1])} unique values")
+                    print(f"  {g2} has {len(key_sets[g2])} unique values")
+                    return False
+    return True
+
+# Use before any matching logic
+if not validate_join_key(data, 'subject_id', 'arm'):
+    print("Cannot match by subject_id - using aggregate comparison instead")
+    # Fall back to aggregate logic
+```
+
+### Key Insight
+
+**Never assume a field named `subject_id` or `model` is a join key.** Always verify:
+1. The field exists in both datasets being compared
+2. There is actual overlap in values between the groups you're trying to match
+3. The field semantically represents what you think it does
+
+---
+
 ## RELATED SPECS
 
 | Spec | Purpose |

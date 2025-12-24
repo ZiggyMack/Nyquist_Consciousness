@@ -19,8 +19,8 @@ import numpy as np
 from pathlib import Path
 from collections import defaultdict
 
-# Paths
-S7_ARMADA = Path(__file__).parent.parent.parent.parent.parent
+# Paths - script is in S7_ARMADA/visualizations/pics/run018/
+S7_ARMADA = Path(__file__).parent.parent.parent.parent
 RESULTS_DIR = S7_ARMADA / "11_CONTEXT_DAMPING" / "results"
 OUTPUT_DIR = Path(__file__).parent
 
@@ -255,7 +255,11 @@ def plot_run018_waterfall_persona(trajectories_by_provider, output_path):
 
 
 def plot_run018_persona_ranking(trajectories_by_model, output_path):
-    """Create bar chart ranking models by persona stability."""
+    """Create bar chart ranking models by persona stability.
+
+    NOTE: Uses Standard Error (SE = std/sqrt(n)) for error bars per Pitfall #10.
+    Standard deviation produces absurdly large whiskers with continuous data.
+    """
 
     # Compute stats per model
     models = []
@@ -264,13 +268,15 @@ def plot_run018_persona_ranking(trajectories_by_model, output_path):
             final_drifts = [t['final_drift'] for t in trajs]
             peak_drifts = [t['peak_drift'] for t in trajs]
             provider = trajs[0]['provider']
+            n = len(final_drifts)
 
             models.append({
                 'model': model,
                 'provider': provider,
-                'n': len(trajs),
+                'n': n,
                 'mean_final': np.mean(final_drifts),
-                'std_final': np.std(final_drifts),
+                # Use Standard Error instead of std dev (Pitfall #10)
+                'se_final': np.std(final_drifts) / np.sqrt(n) if n > 1 else 0,
                 'mean_peak': np.mean(peak_drifts),
             })
 
@@ -279,12 +285,14 @@ def plot_run018_persona_ranking(trajectories_by_model, output_path):
 
     # Create bar chart
     fig, ax = plt.subplots(figsize=(14, 12))
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
 
     y_pos = np.arange(len(models))
     colors = [PROVIDER_COLORS.get(m['provider'], 'gray') for m in models]
 
     bars = ax.barh(y_pos, [m['mean_final'] for m in models],
-                   xerr=[m['std_final'] for m in models],
+                   xerr=[m['se_final'] for m in models],
                    color=colors, alpha=0.8, capsize=2)
 
     # Event Horizon line

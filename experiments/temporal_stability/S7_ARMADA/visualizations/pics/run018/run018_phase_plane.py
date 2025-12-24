@@ -23,8 +23,8 @@ import numpy as np
 from pathlib import Path
 from collections import defaultdict
 
-# Paths
-S7_ARMADA = Path(__file__).parent.parent.parent.parent.parent
+# Paths - script is in S7_ARMADA/visualizations/pics/run018/
+S7_ARMADA = Path(__file__).parent.parent.parent.parent
 RESULTS_DIR = S7_ARMADA / "11_CONTEXT_DAMPING" / "results"
 OUTPUT_DIR = Path(__file__).parent
 
