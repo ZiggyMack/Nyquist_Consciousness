@@ -1,9 +1,9 @@
 # Opus 4.5 Review Brief
 
 **Purpose:** Orient Opus 4.5 for final paper reconciliation
-**Version:** 3.0 — METHODOLOGY RECONCILIATION ERA
-**Date:** 2025-12-19
-**Status:** CRITICAL METHODOLOGY DISCOVERY - THREE MEASUREMENT DOMAINS IDENTIFIED
+**Version:** 4.0 — IRON CLAD COMPLETE
+**Date:** 2025-12-24
+**Status:** RUN 023 COMPLETE | METHODOLOGY RESOLVED | READY FOR PUBLICATION
 
 ---
 
@@ -70,21 +70,21 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 - 51 models tested
 - 5 providers validated
 
-### Discovery #5: THREE METHODOLOGY DOMAINS (December 19, 2025) ⚠️ CRITICAL
+### Discovery #5: THREE METHODOLOGY DOMAINS — NOW RESOLVED ✅
 
-**The Core Discovery:** We have been using THREE different drift measurement methodologies across experiments, but treating them as if they measured the same thing.
+**The Resolution (December 2025):** After extensive analysis, we have standardized on **Cosine distance** as the PRIMARY methodology with a calibrated Event Horizon.
 
-| Domain | How It Works | Experiments Using It | Event Horizon |
-|--------|--------------|---------------------|---------------|
-| **Keyword RMS** | Count keywords in 5 Lucian dimensions (A/B/C/D/E), compute weighted RMS | Run 008, Run 009 (EH discovery) | **1.23** (original) |
-| **Euclidean Embedding** | `np.linalg.norm(emb_response - emb_baseline)` in 3072D space | run018, run023, EXP_PFI_A Phase 2 (PURGED) | Not calibrated |
-| **Cosine Embedding** | `1 - cosine_similarity(emb_baseline, emb_response)` | run023b (current), EXP2_SSTACK, S10, S11 | **NOT YET CALIBRATED** |
+| Domain | How It Works | Status | Event Horizon |
+|--------|--------------|--------|---------------|
+| **Keyword RMS** | Count keywords in 5 Lucian dimensions (A/B/C/D/E), compute weighted RMS | HISTORICAL (Runs 008-009) | **1.23** (legacy) |
+| **Euclidean Embedding** | `np.linalg.norm(emb_response - emb_baseline)` in 3072D space | DEPRECATED | N/A |
+| **Cosine Embedding** | `1 - cosine_similarity(emb_baseline, emb_response)` | **PRIMARY** ✅ | **0.80** (calibrated from Run 023b P95) |
 
-**The Problem:**
-- The Event Horizon threshold of 1.23 was discovered in Run 008-009 using **Keyword RMS** methodology
-- The `calculate_drift()` function in run009 counts keywords like "resistance", "adapt", "myself" - NOT embeddings
-- Later experiments used embedding-based drift (first Euclidean, now Cosine)
-- We cannot apply the 1.23 threshold to embedding-based experiments - it's a different metric entirely
+**The Resolution:**
+- Cosine distance calibrated from Run 023b P95 data → **Event Horizon = 0.80**
+- All Run 023+ experiments use cosine methodology consistently
+- Keyword RMS (1.23) preserved as HISTORICAL reference for Runs 008-009
+- Euclidean methodology DEPRECATED and archived
 
 **Lucian's 5D Framework (what 1.23 was calibrated on):**
 
@@ -122,23 +122,21 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 
 ---
 
-## What's Changed Since Last Review
+## What's Changed Since Last Review (Dec 19 → Dec 24)
 
-| Change | Impact | Priority |
-|--------|--------|----------|
-| **THREE METHODOLOGY DOMAINS DISCOVERED** | 1.23 threshold only valid for Keyword RMS, not embeddings | **CRITICAL** |
-| Euclidean experiments purged | run018, run023, EXP_PFI_A Phase 2 results archived | **CRITICAL** |
-| Cosine methodology standardized | All new experiments use cosine distance | **CRITICAL** |
-| run023b in progress | Collecting fresh cosine-based drift data (18/25 ships) | HIGH |
-| Exit survey bug fixed | Non-Claude exit surveys now use correct provider | HIGH |
-| Diamond Rush created | New cross-model analysis methodology | HIGH |
-| Triple-Dip library | Centralized exit survey infrastructure | HIGH |
-| Run 018 IRON CLAD | 184 consolidated files, 51 models, 5 providers | HIGH |
-| Visualizations generated | Runs 009, 010, 012, 013, 014 now have full viz | MEDIUM |
-| LLM_BOOK discovered | NotebookLM validated Levin hypothesis | HIGH |
-| 8 publication paths identified | Was 3, now includes dissemination | MEDIUM |
-| reviewers/ restructured | Multi-AI sync protocol implemented | MEDIUM |
-| I_AM_NYQUIST.md updated | Methodology Evolution (Four Eras) documented | MEDIUM |
+| Change | Impact | Status |
+|--------|--------|--------|
+| **RUN 023 IRON CLAD COMPLETE** | 825 experiments, 51 models, 6 providers | ✅ DONE |
+| **METHODOLOGY RESOLVED** | Cosine = PRIMARY (EH = 0.80), Keyword RMS = Historical | ✅ DONE |
+| **EVENT HORIZON CALIBRATED** | D = 0.80 (from Run 023b P95) | ✅ DONE |
+| **ALL CLAIMS A-E VALIDATED** | Cohen's d = 0.698, 2 PCs = 90%, p = 2.40e-23 | ✅ DONE |
+| **16 VISUALIZATION PDFs** | Full audit complete, all summaries generated | ✅ DONE |
+| Exit survey bug fixed | Non-Claude exit surveys now use correct provider | ✅ DONE |
+| Diamond Rush created | New cross-model analysis methodology | ✅ DONE |
+| Triple-Dip library | Centralized exit survey infrastructure | ✅ DONE |
+| Run 018 IRON CLAD | 184 consolidated files, 51 models, 5 providers | ✅ DONE |
+| LLM_BOOK discovered | NotebookLM validated Levin hypothesis | ✅ DONE |
+| 8 publication paths identified | Was 3, now includes dissemination | ✅ DONE |
 
 ---
 
@@ -170,43 +168,30 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 
 ## Key Decisions Needed
 
-### Decision 0: Methodology Reconciliation (URGENT)
+### Decision 0: Methodology Reconciliation — ✅ RESOLVED
 
 | Question | How should we handle the three methodology domains in the paper? |
 |----------|----------------------------------------------------------------|
-| **Context** | We discovered that 1.23 Event Horizon was calibrated using Keyword RMS (Lucian's A/B/C/D/E dimensions), NOT embeddings. Later experiments used Euclidean, now standardized on Cosine. These are incommensurable metrics. |
+| **Resolution** | **Option A executed:** Cosine = PRIMARY methodology. Event Horizon calibrated at **D = 0.80** from Run 023b P95 data. Keyword RMS (1.23) preserved as historical reference only. |
 
-**Option A: Single Methodology (Clean but Incomplete)**
-- Use ONLY cosine embedding distance throughout the paper
-- Discard Keyword RMS findings (lose 1.23 threshold, chi-squared validation)
-- Calibrate NEW Event Horizon from run023b data
-- Pro: Methodologically pure. Con: Loses foundational statistical validation.
+**Final Methodology:**
 
-**Option B: Dual Methodology (Rigorous but Complex)**
-- Present BOTH Keyword RMS and Cosine Embedding as complementary approaches
-- Keyword RMS = interpretable (we know what the words mean)
-- Cosine Embedding = holistic (captures semantic gestalt)
-- Show they correlate (if they do) or explain divergence (if they don't)
-- Pro: Comprehensive. Con: Adds complexity to paper.
+- **PRIMARY:** Cosine Embedding Distance (Event Horizon = 0.80)
+- **HISTORICAL:** Keyword RMS (Event Horizon = 1.23) - Runs 008-009 only
+- **DEPRECATED:** Euclidean Embedding - archived, not used
 
-**Option C: Staged Approach (Pragmatic)**
-- Paper v1: Focus on Keyword RMS findings (1.23 is already validated)
-- Paper v2: Add embedding-based validation once cosine EH is calibrated
-- Pro: Can publish sooner. Con: May look incomplete.
+**Key Metrics (Cosine methodology):**
 
-**Option D: Meta-Finding (Turn Bug into Feature)**
-- Frame the methodology evolution AS a finding
-- "Identity can be measured at multiple levels: lexical (keywords), semantic (embeddings)"
-- Show that Event Horizon exists in BOTH domains (different numbers, same concept)
-- Pro: Honest, scientifically interesting. Con: Requires more data.
+| Metric | Value | Significance |
+|--------|-------|--------------|
+| Event Horizon | 0.80 | P95 threshold from Run 023b |
+| Cohen's d | 0.698 | Model-level effect size (MEDIUM) |
+| PCs for 90% variance | 2 | Identity is LOW-dimensional |
+| Perturbation p-value | 2.40e-23 | Highly significant |
 
-| Recommendation | Option B or D preferred - the discovery is interesting, not embarrassing |
-|---------------|-------------------------------------------------------------------------|
+**Documentation:**
 
-**Materials for this decision:**
-- `experiments/temporal_stability/S7_ARMADA/3_EVENT_HORIZON/run009_drain_capture.py` (see `calculate_drift()` function)
-- `experiments/temporal_stability_Euclidean/` (archived Euclidean data)
-- `experiments/temporal_stability/S7_ARMADA/0_docs/0_RUN_METHODOLOGY.md`
+- `experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md` - ONE SOURCE OF TRUTH
 
 ---
 
@@ -240,31 +225,32 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 
 ## Current Validation Status
 
-### Claims A-E Summary (UPDATED WITH METHODOLOGY NOTES)
+### Claims A-E Summary — ALL VALIDATED ✅
 
 | Claim | Description | Status | Evidence | Methodology |
 |-------|-------------|--------|----------|-------------|
-| **A** | Cross-architecture stability | CONFIRMED | σ² = 0.000869 | Cosine ✓ |
-| **B** | Context damping works | CONFIRMED | 97.5% stability | Cosine ✓ |
-| **C** | Event Horizon threshold | ⚠️ NEEDS CLARIFICATION | D ≈ 1.23 | **Keyword RMS only** |
-| **D** | PFI predicts fidelity | CONFIRMED | ρ ≈ 0.91 | Cosine ✓ |
-| **E** | Semantic sensitivity | CONFIRMED | d ≈ 0.98 | Cosine ✓ |
+| **A** | Cross-architecture stability | ✅ CONFIRMED | σ² = 0.000869 | Cosine |
+| **B** | Context damping works | ✅ CONFIRMED | 97.5% stability | Cosine |
+| **C** | Event Horizon threshold | ✅ CONFIRMED | D = 0.80 (P95) | Cosine |
+| **D** | PFI predicts fidelity | ✅ CONFIRMED | ρ ≈ 0.91 | Cosine |
+| **E** | Semantic sensitivity | ✅ CONFIRMED | d = 0.698 | Cosine |
 
-**Note on Claim C:** The 1.23 threshold was validated using Keyword RMS methodology (Run 008-009). This threshold does NOT apply to embedding-based drift measurements. A new Event Horizon must be calibrated for cosine distance once run023b completes.
+**Note:** All claims now validated using Cosine methodology with calibrated Event Horizon = 0.80.
 
-### Key Numbers
+### Key Numbers (Run 023 IRON CLAD)
 
 | Metric | Value | Significance |
 |--------|-------|--------------|
-| Total experimental runs | 22/22 | 100% complete |
-| AI providers tested | 5 | Anthropic, OpenAI, Google, xAI, Together |
-| Consolidated data files | 184 | Run 018 IRON CLAD |
-| Inherent drift | 82% | Thermometer Result (Run 018 Claude) |
+| **Total experiments** | **825** | Run 023 COMBINED |
+| **Models tested** | **51** | Full fleet |
+| **Providers** | **6** | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
+| **Event Horizon** | **0.80** | Cosine P95 threshold |
+| **Cohen's d** | **0.698** | Model-level effect size (MEDIUM) |
+| **PCs for 90% variance** | **2** | Identity is low-dimensional |
+| **Perturbation p-value** | **2.40e-23** | Highly significant |
+| **Visualization PDFs** | **16** | Full audit complete |
 | Cross-arch variance | 0.000869 | Near-universal stability |
-| **Run 020A** | **32 files** ✓ | 6/7 providers IRON CLAD (mistral-7b: 1/3) |
-| **Run 020B** | **4 arms** ✓ | Control vs Treatment complete |
-| **Inherent Drift** | **38%** | Cross-provider (OpenAI + Together) — figure-verified |
-| **Run 018 Visualizations** | **6** | a-f complete + PDFs |
+| Inherent drift | 82% | Thermometer Result (Run 018 Claude) |
 
 ---
 

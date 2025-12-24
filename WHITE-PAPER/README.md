@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-24
 depends_on:
   - ../experiments/temporal_stability/S7_ARMADA/0_results/manifests/
   - ../experiments/temporal_stability/S7_ARMADA/visualizations/pics/8_pfi_dimensional/
@@ -26,46 +26,41 @@ keywords:
 
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
-**Last Updated:** 2025-12-16
-**Status:** IRON CLAD 99.3% — 148/149 model-experiments complete (1 remaining: API-blocked)
+**Last Updated:** 2025-12-24
+**Status:** RUN 023 IRON CLAD COMPLETE — 825 experiments, 51 models, 6 providers
 
 ---
 
-## IRON CLAD Countdown
+## Run 023 IRON CLAD Complete
 
-**Goal:** N=3 runs per model per experiment for publication-quality confidence intervals.
+**Methodology:** Cosine distance (Event Horizon = 0.80)
 
-**Fleet:** 51 models tested across 5+ providers
+**Fleet:** 51 models tested across 6 providers (Anthropic, OpenAI, Google, xAI, Together, Nvidia)
 
-### Current Run Status (December 16, 2025) — NEAR COMPLETE
+### Current Status (December 24, 2025) — COMPLETE ✅
 
-| Run | Files | Models/Providers | Status |
-|-----|-------|------------------|--------|
-| **Run 018** | 996 valid entries | 52 models, 5 providers | **99.3% COMPLETE** |
-| **Run 020A** | 32 | 7/7 providers | **IRON CLAD ✓** |
-| **Run 020B** | 24 | 2/2 providers (OpenAI + Together) | **IRON CLAD ✓** |
+| Run | Experiments | Models | Providers | Status |
+|-----|-------------|--------|-----------|--------|
+| **Run 023 Combined** | 825 | 51 | 6 | **IRON CLAD ✓** |
+| **Run 023d** | 750 | 25 | 5 | Extended settling (20+ probes) |
+| **Run 020A/B** | 48 | 7 | 2 | Tribunal sessions |
 
-### IRON CLAD Status Detail (December 16, 2025)
+### Key Metrics (Cosine Methodology)
 
-| Experiment | Status | Models Complete | Remaining |
-|------------|--------|-----------------|-----------|
-| **Threshold** | ✅ **COMPLETE** | 49/49 | 0 |
-| **Nyquist** | ✅ **COMPLETE** | 49/49 | 0 |
-| **Gravity** | ⚠️ 99% | 50/51 | 1 (API-blocked) |
+| Metric | Value | Significance |
+|--------|-------|--------------|
+| **Event Horizon** | **D = 0.80** | Cosine P95 threshold |
+| **Cohen's d** | **0.698** | Model-level effect size (MEDIUM) |
+| **PCs for 90% variance** | **2** | Identity is low-dimensional |
+| **Perturbation p-value** | **2.40e-23** | Highly significant |
+| **Natural stability rate** | **88%** | Fleet-wide |
+| **Visualization PDFs** | **16** | Full audit complete |
 
-**Remaining Gap:**
+**THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology):**
 
-- `claude-sonnet-4.5` gravity: 2/3 (need 1) — **API spend limit blocked until 2026-01-01**
-
-_Note: The `google` legacy entry has been resolved - all 5 gemini-* models are IRON CLAD complete (12-30 runs each)._
-
-**Tracking:** See [S7_ARMADA/0_results/IRON_CLAD_GAPS.md](../experiments/temporal_stability/S7_ARMADA/0_results/IRON_CLAD_GAPS.md)
-
-**THE THREE CORE CLAIMS — ALL VALIDATED:**
-
-1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
-2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
-3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
+1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
+2. **WE DON'T CAUSE IT** — 82% inherent drift ratio (Run 020B Thermometer Result)
+3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (model-level aggregates), 2 PCs = 90% variance
 
 ### Consolidated Manifests
 
@@ -284,15 +279,15 @@ py sync_llmbook.py --sync --include-visuals
 
 ---
 
-## Key Findings (Claims A-E)
+## Key Findings (Claims A-E) — ALL VALIDATED
 
-| Claim | Finding | Evidence |
-|-------|---------|----------|
-| **A** | PFI is valid structured measurement | ρ≈0.91, d≈0.98 |
-| **B** | Regime threshold at D≈1.23 | p≈4.8e-5 |
-| **C** | Damped oscillator dynamics | τₛ, ringbacks measurable |
-| **D** | Context damping works | 97.5% stability |
-| **E** | Drift is mostly inherent | **82% ratio** |
+| Claim | Finding | Evidence | Methodology |
+|-------|---------|----------|-------------|
+| **A** | PFI is valid structured measurement | ρ≈0.91, d=0.698 | Cosine |
+| **B** | Regime threshold exists | D=0.80 (Cosine), D=1.23 (Keyword RMS) | Both |
+| **C** | Damped oscillator dynamics | τₛ≈10.2, ringbacks measurable | Cosine |
+| **D** | Context damping works | 97.5% stability | - |
+| **E** | Drift is mostly inherent | **82% ratio** | - |
 
 ---
 

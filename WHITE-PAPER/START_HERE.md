@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-22
+last_reviewed: 2025-12-24
 depends_on:
   - B-CRUMBS.md
   - MINIMUM_PUBLISHABLE_CLAIMS.md
@@ -19,9 +19,9 @@ keywords:
 
 # START HERE: Nyquist Consciousness Publication Package
 
-**Version:** 4.0
-**Date:** 2025-12-22
-**Updated By:** Code Claude (for Opus 4.5 review)
+**Version:** 4.1
+**Date:** 2025-12-24
+**Updated By:** Claude Opus 4.5
 **Purpose:** Complete guide for AI reviewers to conduct final paper drafting and PDF generation
 
 ---
@@ -39,7 +39,7 @@ keywords:
 - **2 Principal Components** capture 90% of variance (vs 43 for Euclidean)
 - **p = 2.40e-23** for perturbation validation
 
-**Visualization PDFs Ready:** 11 comprehensive visualization summaries available for reviewers.
+**Visualization PDFs Ready:** 16 comprehensive visualization summaries available for reviewers.
 See: [reviewers/packages/visualization_pdfs/](reviewers/packages/visualization_pdfs/)
 
 ### Historical Note: Dual Event Horizons
@@ -170,18 +170,19 @@ reviewers/
 ├── packages/              # Extracted review packages
 │   ├── content/           # Text packages by path
 │   ├── pdf/               # Generated PDFs (8 files, ALL PATHS)
-│   └── visualization_pdfs/  # S7 ARMADA visualization summaries (NEW - 11 PDFs)
+│   └── visualization_pdfs/  # S7 ARMADA visualization summaries (16 PDFs)
 │       ├── README.md        # Index with descriptions
-│       ├── 1_Vortex_Summary.pdf
-│       ├── 2_Boundary_Mapping_Summary.pdf
-│       ├── ... (11 total)
-│       └── 12_Metrics_Summary.pdf
+│       ├── 1_Vortex_Summary.pdf ... 13_Model_Waveforms_Summary.pdf
+│       ├── 14_Ringback_Summary.pdf (NEW)
+│       ├── 15_Oobleck_Effect_Summary.pdf (NEW)
+│       ├── run018_Summary.pdf (NEW)
+│       └── run020_Summary.pdf (NEW)
 │
 └── Grok/                  # External reviewer feedback
     └── review_1.md        # Grok's empirical assessment
 ```
 
-**NEW: Visualization PDFs (Run 023)** — 11 comprehensive summaries covering all S7 ARMADA findings. See [reviewers/packages/visualization_pdfs/README.md](reviewers/packages/visualization_pdfs/README.md).
+**Visualization PDFs (Run 023)** — 16 comprehensive summaries covering all S7 ARMADA findings. See [reviewers/packages/visualization_pdfs/README.md](reviewers/packages/visualization_pdfs/README.md).
 
 See `reviewers/README.md` for full details on each phase.
 
@@ -732,6 +733,40 @@ WHITE-PAPER/
 3. **Draft introduction** — why this matters for AI alignment
 4. **Create figure list** — what visualizations communicate the findings?
 5. **Compile references** — key papers to cite
+
+---
+
+## Refreshing This Package (For Future Updates)
+
+When new visualization PDFs are generated in `experiments/temporal_stability/S7_ARMADA/visualizations/pics/`:
+
+**Step 1: Copy PDFs to reviewer packages**
+
+```bash
+# From project root - copy all summary PDFs
+cp experiments/temporal_stability/S7_ARMADA/visualizations/pics/*/*.pdf WHITE-PAPER/reviewers/packages/visualization_pdfs/
+cp experiments/temporal_stability/S7_ARMADA/visualizations/pics/run*/*.pdf WHITE-PAPER/reviewers/packages/visualization_pdfs/
+```
+
+**Step 2: Update documentation**
+
+- Update `reviewers/packages/visualization_pdfs/README.md` with new entries
+- Update this `START_HERE.md` with new dates and PDF counts
+- Update `planning/OPUS_REVIEW_BRIEF.md` if methodology or metrics changed
+
+**Step 3: Sync to LLM_BOOK (if applicable)**
+
+```bash
+# Sync LLM_BOOK content to WHITE-PAPER submissions
+py WHITE-PAPER/sync_llmbook.py --sync
+```
+
+**Step 4: Verify and commit**
+
+```bash
+git add WHITE-PAPER/
+git commit -m "Update reviewer package with new visualization PDFs"
+```
 
 ---
 

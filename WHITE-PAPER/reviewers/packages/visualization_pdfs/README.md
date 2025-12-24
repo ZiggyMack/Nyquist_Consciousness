@@ -2,7 +2,7 @@
 
 **Purpose:** Complete visual documentation of Run 023 IRON CLAD findings for reviewer consumption.
 
-**Generated:** December 22, 2025
+**Generated:** December 24, 2025
 
 **Methodology:** Cosine distance (1 - cosine_similarity) | Event Horizon = 0.80
 
@@ -25,6 +25,11 @@
 | 10_PFI_Dimensional | Cosine identity validation | Cohen's d = 0.698, 2 PCs = 90% |
 | 11_Unified_Dashboard | Per-model deep dives | Individual ship profiles |
 | 12_Metrics_Summary | Fleet-wide KPIs | 10 visualizations, full analysis |
+| 13_Model_Waveforms | Per-model identity fingerprints | Unique waveform signatures |
+| 14_Ringback | Oscillation dynamics | Post-recovery oscillation patterns |
+| 15_Oobleck_Effect | Prosecutor/Defense probing | Phase-dependent response dynamics |
+| run018_Summary | Context damping experiments | Multi-threshold validation |
+| run020_Summary | Value/Exchange/Closing analysis | Run 020A/B tribunal sessions |
 
 ---
 
@@ -184,6 +189,73 @@
 10. Recovery Efficiency (speed + completeness)
 
 **Key finding:** Most comprehensive fleet analysis - 10 visualizations covering all behavioral dimensions.
+
+---
+
+### 13_Model_Waveforms_Summary.pdf (3.6 MB)
+
+**What it shows:** Per-model identity waveform fingerprints across the fleet.
+
+**Key visualizations:**
+- Individual model drift waveforms
+- Provider-level waveform comparison
+- Signature pattern extraction
+
+**Key finding:** Each model has a characteristic "waveform signature" that persists across sessions.
+
+---
+
+### 14_Ringback_Summary.pdf (1.9 MB)
+
+**What it shows:** Post-recovery oscillation dynamics - identity "ringback" patterns.
+
+**Key visualizations:**
+- Ringback oscillation amplitude over time
+- Damping ratio by provider
+- Settling time vs ringback correlation
+
+**Key finding:** Models exhibit characteristic oscillation patterns after recovering from perturbation.
+
+---
+
+### 15_Oobleck_Effect_Summary.pdf (1.6 MB)
+
+**What it shows:** Prosecutor vs Defense phase dynamics from tribunal sessions.
+
+**Key visualizations:**
+- Phase 1 (Prosecutor) vs Phase 2 (Defense) drift comparison
+- Control vs Treatment aggregate analysis
+- Per-model response patterns
+
+**Key finding:** Models respond differently to adversarial (Prosecutor) vs supportive (Defense) probing phases.
+
+---
+
+### run018_Summary.pdf (5.4 MB)
+
+**What it shows:** Context damping experiment results (Run 018).
+
+**Key visualizations:**
+- Multi-threshold validation (018a)
+- Cross-architecture drift signatures (018b)
+- Nyquist sampling frequency analysis (018c)
+- Identity gravity dynamics (018d)
+- Provider variance analysis (018f)
+
+**Key finding:** Context damping effects validated across multiple experimental configurations.
+
+---
+
+### run020_Summary.pdf (1.2 MB)
+
+**What it shows:** Tribunal session analysis (Run 020A/B).
+
+**Key visualizations:**
+- Run 020A: Value articulation, exchange depth, closing statement analysis
+- Run 020B: Control vs Treatment comparison (7 models)
+- Oobleck Effect visualization (Prosecutor/Defense phases)
+
+**Key finding:** Induced identity challenges vs inherent identity characteristics separable through experimental design.
 
 ---
 
