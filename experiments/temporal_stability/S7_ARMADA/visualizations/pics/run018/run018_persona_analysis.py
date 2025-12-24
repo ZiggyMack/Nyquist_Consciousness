@@ -472,6 +472,9 @@ def plot_run018_3d_waterfall_combined(trajectories_by_provider, output_path):
                                linewidth=0.1, antialiased=True, alpha=0.8,
                                vmin=0, vmax=1.5)
 
+        # Set z-axis limits to match color scale (prevents clipping)
+        ax.set_zlim(0, 1.5)
+
         ax.set_xlabel('Probe', fontsize=9, color=TEXT_COLOR)
         ax.set_ylabel('Ship', fontsize=9, color=TEXT_COLOR)
         ax.set_zlabel('Drift', fontsize=9, color=TEXT_COLOR)
@@ -575,6 +578,9 @@ def plot_run018_3d_waterfall_per_provider(trajectories_by_provider, output_dir):
         surf = ax.plot_surface(X, Y, Z, cmap=drift_cmap,
                                linewidth=0.1, antialiased=True, alpha=0.8,
                                vmin=0, vmax=1.5)
+
+        # Set z-axis limits to match color scale (prevents clipping)
+        ax.set_zlim(0, 1.5)
 
         ax.set_xlabel('Probe Number', fontsize=11, color=TEXT_COLOR)
         ax.set_ylabel('Ship Index', fontsize=11, color=TEXT_COLOR)
