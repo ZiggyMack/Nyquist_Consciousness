@@ -29,7 +29,8 @@ S7_ARMADA/
 │   │   ├── 12_Metrics_Summary/ # Fleet-wide metrics comparison
 │   │   ├── 13_Model_Waveforms/ # Per-model identity fingerprints
 │   │   ├── 14_Ringback/        # Ringback oscillation analysis
-│   │   └── 15_Oobleck_Effect/  # Prosecutor/Defense probing dynamics
+│   │   ├── 15_Oobleck_Effect/  # Prosecutor/Defense probing dynamics
+│   │   └── run020/             # Run 020 value/exchange/closing analysis
 │   └── START_HERE.md           # THIS FILE
 ├── 0_docs/specs/               # CRITICAL - READ THESE FIRST
 │   ├── 4_VISUALIZATION_SPEC.md # Pitfalls, patterns, templates
@@ -266,6 +267,7 @@ Each `pics/` subdirectory should contain:
 | 13_Model_Waveforms | Identity fingerprints | Per-model drift patterns |
 | 14_Ringback | Oscillation analysis | Ringback dynamics |
 | 15_Oobleck_Effect | Probing paradigm | Prosecutor vs Defense |
+| run020 | Value/Exchange/Closing | Run 020A/B detailed analysis |
 
 ---
 
@@ -340,6 +342,7 @@ After writing visualization code, verify compliance with each pitfall:
 
 | Date | Changes |
 |------|---------|
+| 2025-12-24 | Added run020/ directory for Run 020A/B value, exchange, and closing analysis |
 | 2025-12-24 | Added Pitfall #10 (SE for proportions), workflow tips, audit checklist |
 | 2025-12-23 | Initial onboarding guide with 9 pitfalls |
 

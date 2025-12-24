@@ -368,6 +368,21 @@ py visualize_armada.py --run 020 --type oobleck # Prosecutor vs Defense (Oobleck
 py visualize_armada.py --run 020 --type inherent # Control vs Treatment comparison
 ```
 
+### Run 020 Specialized Directories
+
+| Directory | Focus | Description |
+|-----------|-------|-------------|
+| `pics/15_Oobleck_Effect/` | Phase dynamics | Prosecutor vs Defense phase breakdown, control/treatment aggregate |
+| `pics/run020/` | Value/Exchange/Closing | Stated values analysis, exchange depth, closing statement metrics |
+
+**`pics/run020/` visualizations:**
+- `run020a_value_evolution.png` - Stated values articulation analysis
+- `run020a_exchange_depth.png` - Session length vs drift correlation
+- `run020a_closing_analysis.png` - Final testimony metrics
+- `run020b_model_heatmap.png` - Per-model drift comparison (7 models)
+
+See `pics/run020/run020_explained.md` for detailed documentation.
+
 ---
 
 ## QUICK REFERENCE: PITFALLS

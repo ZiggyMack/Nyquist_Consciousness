@@ -948,6 +948,136 @@ if not validate_join_key(data, 'subject_id', 'arm'):
 
 ---
 
+## PITFALL #12: COMPRESSED DATA - WHEN TO USE LOG SCALE OR dB
+
+### The Problem
+
+When data spans multiple orders of magnitude OR has many near-zero values with rare large outliers, linear scales compress the majority of data into an unreadable cluster while outliers stretch the axis.
+
+### Real Example: Gravity Parameter Space (Dec 2025)
+
+The Run 018d gravity dynamics scatter plots were unreadable:
+- X-axis (gamma) ranged from 0 to 400+
+- 90% of data clustered between 0-1
+- A few outliers at 100-400 stretched the axis
+- Result: All interesting structure invisible in a blob at origin
+
+```python
+# WRONG: Linear scale compresses the signal
+ax.scatter(gammas, drifts)  # Most points at origin, axis stretched to 400
+
+# RIGHT: Log scale spreads the data
+valid_pairs = [(g, d) for g, d in zip(gammas, drifts) if g > 0]
+valid_gammas, valid_drifts = zip(*valid_pairs)
+ax.scatter(valid_gammas, valid_drifts)
+ax.set_xscale('log')  # Now structure visible across decades
+```
+
+### When to Use Log Scale
+
+| Condition | Use Log Scale | Why |
+|-----------|---------------|-----|
+| Data spans 3+ orders of magnitude | ✅ YES | Linear compresses small values |
+| Many zeros with rare large values | ✅ YES (filter zeros) | Zeros drown signal |
+| Exponential decay/growth data | ✅ YES | Linearizes exponentials |
+| Rate/frequency data | ✅ YES | Natural for multiplicative processes |
+| Bounded 0-1 data (proportions) | ❌ NO | Use linear or logit |
+| Symmetric around zero | ❌ NO | Log undefined for negatives |
+
+### Handling Zeros in Log Plots
+
+Zeros are undefined in log scale. Three approaches:
+
+```python
+# Approach 1: Filter zeros, note in visualization
+nonzero = [x for x in data if x > 0]
+zero_count = len(data) - len(nonzero)
+ax.hist(nonzero, bins=np.logspace(-3, 2, 30))
+ax.set_xscale('log')
+ax.text(0.02, 0.98, f'{zero_count} zero values excluded',
+        transform=ax.transAxes, fontsize=8, va='top')
+
+# Approach 2: Epsilon replacement (for colormaps)
+data_log_safe = [max(x, 0.001) for x in data]  # Small epsilon
+scatter = ax.scatter(xs, ys, c=data_log_safe,
+                     norm=plt.matplotlib.colors.LogNorm())
+
+# Approach 3: Symlog for data with zeros AND negatives
+ax.set_xscale('symlog', linthresh=0.01)  # Linear near 0, log elsewhere
+```
+
+### dB Scale for Signal Analysis
+
+When comparing signal ratios or SNR-like metrics, decibels (dB) may be more intuitive:
+
+```python
+# Convert ratio to dB
+def to_dB(ratio):
+    """Convert power ratio to decibels."""
+    return 10 * np.log10(max(ratio, 1e-10))  # Floor to avoid -inf
+
+def to_dB_amplitude(ratio):
+    """Convert amplitude ratio to decibels (20*log10)."""
+    return 20 * np.log10(max(ratio, 1e-10))
+
+# Example: SNR plot
+snr_db = [to_dB(signal / noise) for signal, noise in pairs]
+ax.hist(snr_db, bins=30)
+ax.set_xlabel('SNR (dB)')
+```
+
+### When to Use dB
+
+| Use Case | dB Type | Formula | Example |
+|----------|---------|---------|---------|
+| Power ratios | Power dB | 10·log₁₀(P₁/P₂) | Signal power / noise power |
+| Amplitude ratios | Amplitude dB | 20·log₁₀(A₁/A₂) | Voltage, drift magnitude |
+| Frequency response | Either | Depends on context | Filter gain plots |
+
+### Log-Scaled Histograms
+
+For distributions with long tails, use log-spaced bins:
+
+```python
+# WRONG: Linear bins compress the tail
+ax.hist(data, bins=50)  # 90% of counts in first 2 bins!
+
+# RIGHT: Log-spaced bins spread the distribution
+log_min = np.log10(max(min(data), 1e-6))
+log_max = np.log10(max(data))
+log_bins = np.logspace(log_min, log_max, 30)
+
+ax.hist(data, bins=log_bins)
+ax.set_xscale('log')
+```
+
+### Colormap Log Normalization
+
+For scatter plot colormaps with skewed data:
+
+```python
+# Linear colormap (WRONG for skewed data)
+scatter = ax.scatter(x, y, c=values, cmap='viridis')  # Most colors unused
+
+# Log-normalized colormap (RIGHT)
+from matplotlib.colors import LogNorm
+scatter = ax.scatter(x, y, c=values, cmap='viridis',
+                     norm=LogNorm(vmin=0.01, vmax=100))
+```
+
+### Validation Checklist for Log/dB Decisions
+
+Before finalizing any visualization:
+
+- [ ] Check data range: Does it span 3+ orders of magnitude?
+- [ ] Check for zeros: How many? Can they be filtered or need epsilon?
+- [ ] Check for negatives: If present, use symlog not log
+- [ ] Check if structure emerges: Does log reveal patterns hidden in linear?
+- [ ] Label axes clearly: Include "(Log Scale)" or "(dB)" in axis label
+- [ ] Note filtered values: If zeros excluded, show count in annotation
+
+---
+
 ## RELATED SPECS
 
 | Spec | Purpose |

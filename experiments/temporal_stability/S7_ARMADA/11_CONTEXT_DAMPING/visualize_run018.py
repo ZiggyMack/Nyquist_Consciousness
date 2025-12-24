@@ -767,10 +767,10 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
     # Figure _2: Major providers - 2x2 MEGA-QUAD (each cell is a 2x2 quad for one provider)
     if major:
         # Create a 2x2 grid where each cell contains a provider's quad
-        fig = plt.figure(figsize=(20, 16), facecolor='#FAFBFC')
+        fig = plt.figure(figsize=(24, 20), facecolor='#FAFBFC')
 
         # Create 2x2 grid of subfigures (one per provider)
-        subfigs = fig.subfigures(2, 2, wspace=0.05, hspace=0.08)
+        subfigs = fig.subfigures(2, 2, wspace=0.08, hspace=0.12)
         subfigs = subfigs.flatten()
 
         for idx, family in enumerate(major[:4]):  # Max 4 providers
@@ -790,16 +790,18 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
             models = sorted(valid_models.keys(),
                           key=lambda m: np.mean(valid_models[m]['peak_drifts']))
 
-            # Limit to top 10 models for readability in quad format
-            if len(models) > 10:
-                models = models[:10]
+            # Limit to top 8 models for readability in quad format
+            if len(models) > 8:
+                models = models[:8]
 
             model_data = valid_models
 
-            # Clean model names
+            # Clean model names - more aggressive truncation for readability
             def clean_name(m):
-                return m.replace('claude-', '').replace('gpt-', '').replace('gemini-', '') \
-                        .replace('grok-', '').replace('meta-llama/', '').replace('deepseek-ai/', '')
+                name = m.replace('claude-', '').replace('gpt-', '').replace('gemini-', '') \
+                        .replace('grok-', '').replace('meta-llama/', '').replace('deepseek-ai/', '') \
+                        .replace('-preview', '').replace('-latest', '').replace('-turbo', 'T')
+                return name[:18]  # Hard limit for bar labels
 
             clean_names = [clean_name(m) for m in models]
             y_pos = np.arange(len(models))
@@ -817,11 +819,11 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
             ax1 = axes[0, 0]
             err_lower = [min(std, mean) for mean, std in zip(peak_means, peak_stds)]
             ax1.barh(y_pos, peak_means, xerr=[err_lower, peak_stds], color=colors['base'], alpha=0.8, capsize=3)
-            ax1.axvline(x=0.80, color='red', linestyle='--', linewidth=2, alpha=0.7)
+            ax1.axvline(x=0.80, color='red', linestyle='--', linewidth=2, alpha=0.7, label='EH')
             ax1.set_yticks(y_pos)
-            ax1.set_yticklabels([f"{n[:20]}" for n in clean_names], fontsize=7)
-            ax1.set_xlabel("Peak Drift (PFI)", fontsize=9)
-            ax1.set_title("Peak Drift", fontsize=10, fontweight='bold')
+            ax1.set_yticklabels(clean_names, fontsize=8)
+            ax1.set_xlabel("Peak Drift (PFI)", fontsize=10)
+            ax1.set_title("Peak Drift", fontsize=11, fontweight='bold')
             ax1.set_xlim(0, max(1.2, max(peak_means) * 1.2) if peak_means else 1.2)
 
             # --- Top-Right: Settling Time ---
@@ -829,47 +831,47 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
             err_lower_s = [min(std, mean) for mean, std in zip(settle_means, settle_stds)]
             ax2.barh(y_pos, settle_means, xerr=[err_lower_s, settle_stds], color=colors['base'], alpha=0.8, capsize=3)
             ax2.set_yticks(y_pos)
-            ax2.set_yticklabels([f"{n[:20]}" for n in clean_names], fontsize=7)
-            ax2.set_xlabel("Settling Time (probes)", fontsize=9)
-            ax2.set_title("Settling Time", fontsize=10, fontweight='bold')
+            ax2.set_yticklabels(clean_names, fontsize=8)
+            ax2.set_xlabel("Settling Time (probes)", fontsize=10)
+            ax2.set_title("Settling Time", fontsize=11, fontweight='bold')
             ax2.set_xlim(0, 7)
 
-            # --- Bottom-Left: Stability Profile (mean vs std scatter) ---
+            # --- Bottom-Left: Variability (std as bar chart - clearer than scatter) ---
             ax3 = axes[1, 0]
-            scatter_colors = [colors['base'] if m < 0.80 else '#E74C3C' for m in peak_means]
-            sizes = [c * 20 + 30 for c in counts]
-            ax3.scatter(peak_means, peak_stds, c=scatter_colors, s=sizes, alpha=0.7, edgecolors='black', linewidth=0.5)
-            ax3.axvline(x=0.80, color='red', linestyle='--', alpha=0.5)
-            ax3.set_xlabel("Mean Peak Drift", fontsize=9)
-            ax3.set_ylabel("Drift Variability (Std)", fontsize=9)
-            ax3.set_title("Stability Profile", fontsize=10, fontweight='bold')
-            ax3.set_xlim(0, max(1.2, max(peak_means) * 1.2) if peak_means else 1.2)
-            # Add model labels near points
-            for i, name in enumerate(clean_names):
-                ax3.annotate(name[:12], (peak_means[i], peak_stds[i]), fontsize=6, alpha=0.7,
-                            xytext=(2, 2), textcoords='offset points')
+            # Sort by variability for this plot
+            var_order = sorted(range(len(models)), key=lambda i: peak_stds[i])
+            var_names = [clean_names[i] for i in var_order]
+            var_stds = [peak_stds[i] for i in var_order]
+            var_colors = [colors['base'] if peak_means[i] < 0.80 else '#E74C3C' for i in var_order]
+            y_var = np.arange(len(var_names))
+            ax3.barh(y_var, var_stds, color=var_colors, alpha=0.8)
+            ax3.set_yticks(y_var)
+            ax3.set_yticklabels(var_names, fontsize=8)
+            ax3.set_xlabel("Drift Variability (Std)", fontsize=10)
+            ax3.set_title("Stability (lower = more consistent)", fontsize=11, fontweight='bold')
 
             # --- Bottom-Right: Ringback Count ---
             ax4 = axes[1, 1]
             err_lower_r = [min(std, mean) for mean, std in zip(ring_means, ring_stds)]
             ax4.barh(y_pos, ring_means, xerr=[err_lower_r, ring_stds], color=colors['base'], alpha=0.8, capsize=3)
             ax4.set_yticks(y_pos)
-            ax4.set_yticklabels([f"{n[:20]}" for n in clean_names], fontsize=7)
-            ax4.set_xlabel("Ringback Count", fontsize=9)
-            ax4.set_title("Ringback Oscillations", fontsize=10, fontweight='bold')
+            ax4.set_yticklabels(clean_names, fontsize=8)
+            ax4.set_xlabel("Ringback Count", fontsize=10)
+            ax4.set_title("Ringback Oscillations", fontsize=11, fontweight='bold')
             ax4.set_xlim(0, None)
 
             # Style all axes
             for ax in axes.flatten():
-                ax.tick_params(labelsize=7)
+                ax.tick_params(labelsize=8)
                 for spine in ['top', 'right']:
                     ax.spines[spine].set_visible(False)
+                ax.grid(axis='x', alpha=0.3, linestyle='-', linewidth=0.5)
 
             # Provider title
             n_samples = len(family_metrics[family]['peak_drifts'])
             n_models = len(valid_models)
             subfig.suptitle(f"{family} ({n_models} models, n={n_samples})",
-                          fontsize=12, fontweight='bold', color=colors['accent'])
+                          fontsize=14, fontweight='bold', color=colors['accent'])
 
         # Hide unused subfigures
         for idx in range(len(major), 4):
@@ -878,11 +880,11 @@ def visualize_architecture_intra(family_metrics: Dict, family_colors: Dict):
 
         # Main title
         fig.suptitle("Run 018b: Intra-Provider Model Signatures\n4-Metric Quad Analysis per Provider Family",
-                     fontsize=16, fontweight='bold', color='#2C3E50', y=0.98)
+                     fontsize=18, fontweight='bold', color='#2C3E50', y=0.98)
 
         # Footer
-        fig.text(0.5, 0.01, "Event Horizon (D=0.80) marks identity collapse threshold  |  PFI = Persona Fidelity Index",
-                fontsize=9, ha='center', color='#888888', style='italic')
+        fig.text(0.5, 0.01, "Event Horizon (D=0.80) marks identity collapse threshold  |  PFI = Persona Fidelity Index  |  Red bars = models above EH",
+                fontsize=10, ha='center', color='#888888', style='italic')
 
         outfile = PICS_DIR / "run018b_architecture_signatures_2.png"
         plt.savefig(outfile, dpi=150, bbox_inches='tight', facecolor='#FAFBFC', edgecolor='none')
@@ -1312,18 +1314,28 @@ def visualize_gravity(results: List[Dict]):
     ax1.legend(loc='lower right')
     ax1.invert_yaxis()
 
-    # Plot 2: Lambda (λ) vs Omega (ω) scatter plot
+    # Plot 2: Lambda (λ) vs Omega (ω) scatter plot - LOG SCALE to spread compressed data
     ax2 = axes[0, 1]
     lambdas = [p['lambda'] for p in model_params]
     omegas = [p['omega'] for p in model_params]
     gammas = [p['gamma'] for p in model_params]
 
-    scatter = ax2.scatter(lambdas, omegas, c=gammas, cmap='RdYlGn', alpha=0.7, s=50)
-    ax2.set_xlabel('Lambda (λ) - Damping Rate')
-    ax2.set_ylabel('Omega (ω) - Oscillation Frequency')
+    # Filter out zeros/negatives for log scale, use small epsilon for color mapping
+    valid_mask = [(l > 0 and o > 0) for l, o in zip(lambdas, omegas)]
+    valid_lambdas = [l for l, v in zip(lambdas, valid_mask) if v]
+    valid_omegas = [o for o, v in zip(omegas, valid_mask) if v]
+    valid_gammas = [max(g, 0.001) for g, v in zip(gammas, valid_mask) if v]  # epsilon for log color
+
+    if valid_lambdas:
+        scatter = ax2.scatter(valid_lambdas, valid_omegas, c=valid_gammas, cmap='RdYlGn',
+                             alpha=0.7, s=50, norm=plt.matplotlib.colors.LogNorm())
+        ax2.set_xscale('log')
+        ax2.set_yscale('log')
+        cbar = plt.colorbar(scatter, ax=ax2)
+        cbar.set_label('Gamma (γ) - Log Scale')
+    ax2.set_xlabel('Lambda (λ) - Damping Rate (Log)')
+    ax2.set_ylabel('Omega (ω) - Oscillation Frequency (Log)')
     ax2.set_title('Damped Oscillator Parameter Space')
-    cbar = plt.colorbar(scatter, ax=ax2)
-    cbar.set_label('Gamma (γ)')
 
     # Plot 3: Gamma distribution histogram with log-scale x-axis for better spread
     ax3 = axes[1, 0]
@@ -1364,25 +1376,39 @@ def visualize_gravity(results: List[Dict]):
     ax3.set_title('Distribution of Identity Gravity Strength')
     ax3.legend(loc='upper right', fontsize=8)
 
-    # Plot 4: Drift vs Gamma correlation
+    # Plot 4: Drift vs Gamma correlation - LOG SCALE on x-axis to spread compressed data
     ax4 = axes[1, 1]
     drifts = [p['drift'] for p in model_params]
     gammas = [p['gamma'] for p in model_params]
 
-    ax4.scatter(gammas, drifts, alpha=0.6, c=['#2ecc71' if g >= median_gamma else '#e74c3c' for g in gammas])
-    ax4.axhline(y=0.80, color='red', linestyle='--', alpha=0.3, label='Event Horizon')
-    ax4.axvline(x=median_gamma, color='gray', linestyle='--', alpha=0.3)
+    # Filter for log scale (gamma > 0)
+    valid_pairs = [(g, d) for g, d in zip(gammas, drifts) if g > 0]
+    if valid_pairs:
+        valid_gammas, valid_drifts = zip(*valid_pairs)
+        scatter_colors = ['#2ecc71' if g >= median_gamma else '#e74c3c' for g in valid_gammas]
+        ax4.scatter(valid_gammas, valid_drifts, alpha=0.6, c=scatter_colors)
+        ax4.set_xscale('log')
+        ax4.axhline(y=0.80, color='red', linestyle='--', alpha=0.5, label='Event Horizon')
+        ax4.axvline(x=median_gamma, color='gray', linestyle='--', alpha=0.5, label=f'Median γ={median_gamma:.3f}')
 
-    # Add correlation
-    if len(gammas) > 2:
-        corr = np.corrcoef(gammas, drifts)[0, 1]
-        ax4.text(0.05, 0.95, f'r = {corr:.3f}', transform=ax4.transAxes, fontsize=10,
-                 verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+        # Add correlation (on log-transformed data)
+        if len(valid_gammas) > 2:
+            log_gammas = np.log10(valid_gammas)
+            corr = np.corrcoef(log_gammas, valid_drifts)[0, 1]
+            ax4.text(0.05, 0.95, f'r(log) = {corr:.3f}', transform=ax4.transAxes, fontsize=10,
+                     verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
-    ax4.set_xlabel('Gamma (γ) - Gravity Strength')
+        # Note about zeros excluded
+        zero_count = len([g for g in gammas if g == 0])
+        if zero_count > 0:
+            ax4.text(0.95, 0.05, f'{zero_count} entries with γ=0\n(excluded from log plot)',
+                     transform=ax4.transAxes, fontsize=7, ha='right', va='bottom',
+                     bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+    ax4.set_xlabel('Gamma (γ) - Gravity Strength (Log)')
     ax4.set_ylabel('Final Drift (PFI)')
     ax4.set_title('Gravity Strength vs Final Drift')
-    ax4.legend(loc='upper right')
+    ax4.legend(loc='upper right', fontsize=8)
 
     plt.suptitle("Run 018d: Identity Gravity Dynamics", fontsize=14, fontweight='bold')
     plt.tight_layout()
