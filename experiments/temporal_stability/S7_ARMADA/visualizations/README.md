@@ -24,11 +24,13 @@ keywords:
 ## FOR NEW CLAUDE INSTANCES
 
 **Start here:** [START_HERE.md](START_HERE.md) - Complete onboarding guide with:
+
 - Directory structure and data locations
-- 9 documented pitfalls to avoid (see `0_docs/specs/4_VISUALIZATION_SPEC.md`)
+- 10 documented pitfalls to avoid (see `0_docs/specs/4_VISUALIZATION_SPEC.md`)
 - Visualization template with boilerplate code
 - Layout patterns (2x2 quad preferred)
 - Key constants and findings
+- Workflow tips and audit checklist
 
 **Critical specs:**
 - `../0_docs/specs/4_VISUALIZATION_SPEC.md` - Pitfalls, patterns, templates
@@ -368,7 +370,26 @@ py visualize_armada.py --run 020 --type inherent # Control vs Treatment comparis
 
 ---
 
-**Last Updated**: December 23, 2025
+## QUICK REFERENCE: PITFALLS
+
+| # | Pitfall | Fix |
+|---|---------|-----|
+| 1 | Baseline drift is always 0 | Use `peak_drift` or `settled_drift` |
+| 2 | Wrong aggregation level | Group by `(provider, model)` first |
+| 3 | Wrong field names | Use `probe_type`, `response_text` |
+| 4 | Wrong provider names | Use `anthropic` not `claude` |
+| 5 | Dark mode | Use white background for publication |
+| 6 | Legend overlap | Use `add_artist()` for multiple legends |
+| 7 | Missing effect size | Report Cohen's d, not just p-values |
+| 8 | Missing data fields | Validate fields exist before computing |
+| 9 | Horizontal stretch | Use 2x2 quad layout for 3-4 panels |
+| 10 | Wrong error bars | Use Standard Error for proportions |
+
+See `0_docs/specs/4_VISUALIZATION_SPEC.md` for full details and code examples.
+
+---
+
+**Last Updated**: December 24, 2025
 **Active Runs**: 023d (750 experiments, 25 models), 023 COMBINED (825 experiments, 51 models)
 **Fleet**: 51 models across 6 providers (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia)
 **Methodology**: Cosine distance (Event Horizon = 0.80)

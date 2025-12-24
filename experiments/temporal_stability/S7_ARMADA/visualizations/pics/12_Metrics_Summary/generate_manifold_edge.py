@@ -146,7 +146,7 @@ def select_interesting_examples(edge_data, n_per_category=3):
     return selected
 
 def plot_single_manifold_panel(ax, example, phase_colors):
-    """Plot a single manifold edge detection panel."""
+    """Plot a single manifold edge detection panel with status labels."""
     drifts = example['drifts']
     n_probes = len(drifts)
     x = np.arange(n_probes)
@@ -163,26 +163,81 @@ def plot_single_manifold_panel(ax, example, phase_colors):
     ax.plot(x, drifts, 'o-', color=color, linewidth=2.5, markersize=8,
            markeredgecolor='white', markeredgewidth=1.5, zorder=3)
 
-    # Mark hysteresis if detected
-    if example['is_hysteresis']:
-        ax.annotate('STUCK\n(hysteresis)', xy=(n_probes * 0.7, max(drifts) * 0.9),
-                   fontsize=10, fontweight='bold', color='#d32f2f',
-                   ha='center', va='center',
-                   bbox=dict(boxstyle='round', facecolor='#FFCDD2', edgecolor='#d32f2f'))
-
-    # Baseline and recovery annotations
+    # Baseline and recovery values
     baseline_val = np.mean(drifts[:3]) if len(drifts) >= 3 else drifts[0]
     recovery_val = np.mean(drifts[-3:]) if len(drifts) >= 3 else drifts[-1]
+    peak_drift = example['peak_drift']
+    crossed_eh = peak_drift > 0.80
 
-    # Info box
-    info_text = f"Baseline: {baseline_val:.2f}\nPeak: {example['peak_drift']:.2f}\nRecovery: {recovery_val:.2f}"
+    # ==========================================================================
+    # STATUS LABELS - Show stability classification
+    # ==========================================================================
+
+    # Primary status badge (top-right corner)
+    if example['is_hysteresis']:
+        # Hysteresis = identity got stuck at elevated drift
+        ax.annotate('STUCK', xy=(0.98, 0.98), xycoords='axes fraction',
+                   fontsize=11, fontweight='bold', color='#d32f2f',
+                   ha='right', va='top',
+                   bbox=dict(boxstyle='round,pad=0.3', facecolor='#FFCDD2', edgecolor='#d32f2f'))
+    elif crossed_eh:
+        # Crossed Event Horizon but recovered
+        ax.annotate('VOLATILE', xy=(0.98, 0.98), xycoords='axes fraction',
+                   fontsize=11, fontweight='bold', color='#e65100',
+                   ha='right', va='top',
+                   bbox=dict(boxstyle='round,pad=0.3', facecolor='#FFE0B2', edgecolor='#e65100'))
+    elif example['stable']:
+        # Naturally settled without crossing EH
+        ax.annotate('STABLE', xy=(0.98, 0.98), xycoords='axes fraction',
+                   fontsize=11, fontweight='bold', color='#2e7d32',
+                   ha='right', va='top',
+                   bbox=dict(boxstyle='round,pad=0.3', facecolor='#C8E6C9', edgecolor='#2e7d32'))
+    else:
+        # Unsettled but didn't cross EH
+        ax.annotate('UNSETTLED', xy=(0.98, 0.98), xycoords='axes fraction',
+                   fontsize=10, fontweight='bold', color='#5d4037',
+                   ha='right', va='top',
+                   bbox=dict(boxstyle='round,pad=0.3', facecolor='#D7CCC8', edgecolor='#5d4037'))
+
+    # Recovery ratio indicator (below status if hysteresis)
+    if example['is_hysteresis']:
+        recovery_pct = example['recovery_ratio'] * 100
+        ax.annotate(f'Recovery: {recovery_pct:.0f}%', xy=(0.98, 0.88), xycoords='axes fraction',
+                   fontsize=9, color='#d32f2f', ha='right', va='top')
+
+    # ==========================================================================
+    # INFO BOX (top-left) - Key metrics
+    # ==========================================================================
+    info_text = f"Baseline: {baseline_val:.2f}\nPeak: {peak_drift:.2f}\nRecovery: {recovery_val:.2f}"
     ax.annotate(info_text, xy=(0.02, 0.98), xycoords='axes fraction',
                fontsize=9, va='top', ha='left',
                bbox=dict(boxstyle='round', facecolor='white', edgecolor='gray', alpha=0.9))
 
-    # Event Horizon
-    ax.axhline(y=0.80, color='#e74c3c', linestyle='--', linewidth=1.5, alpha=0.7)
+    # ==========================================================================
+    # FEATURE ANNOTATIONS on the plot itself
+    # ==========================================================================
 
+    # Mark the peak point
+    peak_idx = np.argmax(drifts)
+    if peak_drift > 0.3:  # Only annotate significant peaks
+        ax.annotate('peak', xy=(peak_idx, drifts[peak_idx]),
+                   xytext=(peak_idx, drifts[peak_idx] + 0.08),
+                   fontsize=8, ha='center', color='#666666',
+                   arrowprops=dict(arrowstyle='->', color='#999999', lw=0.8))
+
+    # Explain near-zero baseline (cosine distance = 0 means identical to reference)
+    if baseline_val < 0.05:
+        ax.annotate('≈ baseline\n(identical)', xy=(1, baseline_val),
+                   xytext=(2.5, 0.15),
+                   fontsize=8, ha='center', color='#666666', style='italic',
+                   arrowprops=dict(arrowstyle='->', color='#999999', lw=0.8))
+
+    # Event Horizon line with label
+    ax.axhline(y=0.80, color='#e74c3c', linestyle='--', linewidth=1.5, alpha=0.7)
+    ax.annotate('Event Horizon', xy=(n_probes - 1, 0.82), fontsize=8,
+               color='#e74c3c', ha='right', va='bottom', alpha=0.8)
+
+    # Title and axes
     model_short = example['model'].split('/')[-1][:25]
     ax.set_title(f"{model_short}\n({example['provider']})",
                 fontsize=11, fontweight='bold')
@@ -278,59 +333,162 @@ def plot_manifold_edge_quad(edge_data, output_dir):
         print(f"Saved: manifold_edge_together_models.png")
         plt.close()
 
-def plot_hysteresis_summary(edge_data, output_dir):
-    """Create hysteresis summary visualization - LIGHT MODE."""
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+def plot_hysteresis_summary_quad(edge_data, output_dir):
+    """Create 2x2 QUAD hysteresis summary visualization - LIGHT MODE.
+
+    Per VISUALIZATION_SPEC Pitfall #9: Use 2x2 quad layout, not 1x3 horizontal.
+    Per Pitfall #10: Use Standard Error for proportion error bars.
+
+    Layout:
+    - Top-Left: Hysteresis Rate by Provider (bar chart with SE error bars)
+    - Top-Right: Peak Drift by Provider (box plot)
+    - Bottom-Left: Recovery Ratio Distribution (histogram)
+    - Bottom-Right: Key Findings (text box)
+    """
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
     fig.patch.set_facecolor('white')
 
-    for ax in axes:
+    for ax in axes.flatten():
         ax.set_facecolor('white')
 
-    # Panel 1: Hysteresis rate by provider
-    ax1 = axes[0]
     providers = sorted(set(d['provider'] for d in edge_data))
-
-    hysteresis_rates = []
-    for provider in providers:
-        provider_data = [d for d in edge_data if d['provider'] == provider]
-        rate = sum(1 for d in provider_data if d['is_hysteresis']) / len(provider_data) if provider_data else 0
-        hysteresis_rates.append(rate * 100)
-
     colors = [PROVIDER_COLORS.get(p, '#888888') for p in providers]
     x = np.arange(len(providers))
 
-    bars = ax1.bar(x, hysteresis_rates, color=colors, edgecolor='black', linewidth=1, alpha=0.8)
+    # =========================================================================
+    # Panel 1 (Top-Left): Hysteresis Rate by Provider with SE error bars
+    # =========================================================================
+    ax1 = axes[0, 0]
+
+    hysteresis_rates = []
+    hysteresis_se = []  # Standard Error for proportions
+    sample_counts = []
+
+    for provider in providers:
+        provider_data = [d for d in edge_data if d['provider'] == provider]
+        n = len(provider_data)
+        successes = sum(1 for d in provider_data if d['is_hysteresis'])
+        p = successes / n if n > 0 else 0
+        hysteresis_rates.append(p * 100)
+        # Standard Error for proportion: sqrt(p*(1-p)/n) - per Pitfall #10
+        se = np.sqrt(p * (1 - p) / n) * 100 if n > 0 else 0
+        hysteresis_se.append(se)
+        sample_counts.append(n)
+
+    bars = ax1.bar(x, hysteresis_rates, yerr=hysteresis_se, capsize=5,
+                   color=colors, edgecolor='black', linewidth=1, alpha=0.8)
 
     ax1.set_xticks(x)
-    ax1.set_xticklabels([p.upper()[:8] for p in providers], fontsize=9)
-    ax1.set_ylabel('Hysteresis Rate (%)', fontsize=11)
+    ax1.set_xticklabels([p.upper()[:8] for p in providers], fontsize=10, fontweight='bold')
+    ax1.set_ylabel('Hysteresis Rate (%)', fontsize=11, fontweight='bold')
     ax1.set_title('Identity Stuck (Hysteresis) Rate by Provider', fontsize=12, fontweight='bold')
     ax1.grid(axis='y', alpha=0.3)
+    ax1.set_ylim(0, max(hysteresis_rates) * 1.3 + 5)
 
-    # Add percentage labels
-    for bar, rate in zip(bars, hysteresis_rates):
-        if rate > 0:
-            ax1.annotate(f'{rate:.1f}%', xy=(bar.get_x() + bar.get_width()/2, bar.get_height()),
-                        ha='center', va='bottom', color='black', fontsize=10, fontweight='bold')
+    # Add percentage labels with sample size
+    for bar, rate, n in zip(bars, hysteresis_rates, sample_counts):
+        ax1.annotate(f'{rate:.1f}%\n(n={n})',
+                    xy=(bar.get_x() + bar.get_width()/2, bar.get_height() + hysteresis_se[bars.index(bar)] + 1),
+                    ha='center', va='bottom', color='black', fontsize=9, fontweight='bold')
 
-    # Panel 2: Recovery ratio distribution
-    ax2 = axes[1]
+    # =========================================================================
+    # Panel 2 (Top-Right): Peak Drift by Provider (box plot)
+    # =========================================================================
+    ax2 = axes[0, 1]
+
+    drift_by_provider = {p: [d['peak_drift'] for d in edge_data if d['provider'] == p] for p in providers}
+
+    bp = ax2.boxplot([drift_by_provider[p] for p in providers],
+                     positions=x, patch_artist=True, widths=0.6)
+
+    for i, (box, provider) in enumerate(zip(bp['boxes'], providers)):
+        box.set_facecolor(PROVIDER_COLORS.get(provider, '#888888'))
+        box.set_alpha(0.7)
+        box.set_edgecolor('black')
+
+    for whisker in bp['whiskers']:
+        whisker.set_color('black')
+    for cap in bp['caps']:
+        cap.set_color('black')
+    for median in bp['medians']:
+        median.set_color('black')
+        median.set_linewidth(2)
+
+    ax2.axhline(y=0.80, color='#e74c3c', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (0.80)')
+    ax2.set_xticks(x)
+    ax2.set_xticklabels([p.upper()[:8] for p in providers], fontsize=10, fontweight='bold')
+    ax2.set_ylabel('Peak Drift', fontsize=11, fontweight='bold')
+    ax2.set_title('Peak Drift Distribution by Provider', fontsize=12, fontweight='bold')
+    ax2.legend(loc='upper right', facecolor='white', edgecolor='#cccccc', fontsize=9)
+    ax2.grid(axis='y', alpha=0.3)
+
+    # =========================================================================
+    # Panel 3 (Bottom-Left): Recovery Ratio Distribution (histogram)
+    # =========================================================================
+    ax3 = axes[1, 0]
     recovery_ratios = [d['recovery_ratio'] for d in edge_data]
+    mean_recovery = np.mean(recovery_ratios)
 
-    ax2.hist(recovery_ratios, bins=25, color='#9b59b6', alpha=0.7, edgecolor='black')
-    ax2.axvline(0.2, color='#e74c3c', linestyle='--', linewidth=2, label='Hysteresis threshold (<0.2)')
-    ax2.axvline(np.mean(recovery_ratios), color='#3498db', linestyle='-', linewidth=2,
-               label=f'Mean: {np.mean(recovery_ratios):.2f}')
+    ax3.hist(recovery_ratios, bins=25, color='#9b59b6', alpha=0.7, edgecolor='black')
+    ax3.axvline(0.2, color='#e74c3c', linestyle='--', linewidth=2, label='Hysteresis threshold (<0.2)')
+    ax3.axvline(mean_recovery, color='#3498db', linestyle='-', linewidth=2,
+               label=f'Mean: {mean_recovery:.2f}')
 
-    ax2.set_xlabel('Recovery Ratio (0=stuck, 1=full recovery)', fontsize=11)
-    ax2.set_ylabel('Frequency', fontsize=11)
-    ax2.set_title('Recovery Ratio Distribution', fontsize=12, fontweight='bold')
-    ax2.legend(facecolor='white', edgecolor='#cccccc')
-    ax2.grid(alpha=0.3)
-    ax2.set_xlim(-0.05, 1.05)  # Clamp x-axis to 0-1 range
+    ax3.set_xlabel('Recovery Ratio (0=stuck, 1=full recovery)', fontsize=11, fontweight='bold')
+    ax3.set_ylabel('Frequency', fontsize=11)
+    ax3.set_title('Recovery Ratio Distribution', fontsize=12, fontweight='bold')
+    ax3.legend(loc='upper right', facecolor='white', edgecolor='#cccccc', fontsize=9)
+    ax3.grid(alpha=0.3)
+    ax3.set_xlim(-0.05, 1.05)
 
-    fig.suptitle('Run 023d: Hysteresis Analysis Summary', fontsize=14, fontweight='bold', y=1.02)
-    plt.tight_layout()
+    # =========================================================================
+    # Panel 4 (Bottom-Right): Key Findings Text Box
+    # =========================================================================
+    ax4 = axes[1, 1]
+    ax4.set_facecolor('#f8f8f8')
+
+    total_experiments = len(edge_data)
+    unique_models = len(set(d['model'] for d in edge_data))
+    hysteresis_total = sum(1 for d in edge_data if d['is_hysteresis'])
+    hysteresis_pct = hysteresis_total / total_experiments * 100
+
+    mean_peak = np.mean([d['peak_drift'] for d in edge_data])
+    mean_settled = np.mean([d['settled_drift'] for d in edge_data])
+    eh_crossings = sum(1 for d in edge_data if d['peak_drift'] > 0.80)
+    eh_pct = eh_crossings / total_experiments * 100
+
+    findings_text = f"""KEY FINDINGS: HYSTERESIS ANALYSIS
+
+DATA SUMMARY:
+  Total Experiments: {total_experiments}
+  Unique Models: {unique_models}
+  Providers: {len(providers)}
+
+HYSTERESIS (Identity Stuck):
+  Total Cases: {hysteresis_total} ({hysteresis_pct:.1f}%)
+  Threshold: Recovery Ratio < 0.2
+  Mean Recovery: {mean_recovery:.2f}
+
+DRIFT METRICS:
+  Mean Peak Drift: {mean_peak:.3f}
+  Mean Settled Drift: {mean_settled:.3f}
+  Event Horizon Crossings: {eh_pct:.1f}%
+
+INTERPRETATION:
+Hysteresis indicates identity "sticking" at
+elevated drift levels after perturbation.
+Lower recovery ratios = more stuck behavior.
+"""
+
+    ax4.text(0.05, 0.95, findings_text, transform=ax4.transAxes,
+            fontsize=10, fontfamily='monospace', color='black',
+            verticalalignment='top', horizontalalignment='left',
+            bbox=dict(boxstyle='round', facecolor='white', edgecolor='#cccccc', alpha=0.9))
+    ax4.axis('off')
+
+    fig.suptitle('Run 023: Hysteresis & Recovery Analysis (COMBINED - 825 experiments × 51 models)',
+                fontsize=14, fontweight='bold', y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
 
     for ext in ['png', 'svg']:
         output_path = output_dir / f'hysteresis_summary.{ext}'
@@ -361,8 +519,8 @@ def main():
     # Generate quad manifold edge files (4 models each, 2 files total)
     plot_manifold_edge_quad(edge_data, OUTPUT_DIR)
 
-    # Generate hysteresis summary
-    plot_hysteresis_summary(edge_data, OUTPUT_DIR)
+    # Generate hysteresis summary - now as 2x2 QUAD per VISUALIZATION_SPEC
+    plot_hysteresis_summary_quad(edge_data, OUTPUT_DIR)
 
     print("\n" + "="*70)
     print("MANIFOLD EDGE DETECTION COMPLETE")

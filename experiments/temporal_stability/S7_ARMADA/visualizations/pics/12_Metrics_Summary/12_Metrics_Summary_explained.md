@@ -98,15 +98,19 @@ Four-panel showing identity edge detection for open-source models:
 
 ### 6. hysteresis_summary.png
 
-**Hysteresis Analysis Summary (1x2)**
+**Hysteresis & Recovery Analysis (2x2 Quad)**
 
-Two-panel analysis of "stuck" identity patterns:
-- **Left:** Hysteresis rate by provider (bar chart)
-- **Right:** Recovery ratio distribution (histogram)
+Four-panel analysis of "stuck" identity patterns and recovery dynamics:
+- **Top-left:** Hysteresis rate by provider (bar chart with Standard Error bars per Pitfall #10)
+- **Top-right:** Peak drift distribution by provider (box plot with Event Horizon reference)
+- **Bottom-left:** Recovery ratio distribution (histogram with hysteresis threshold)
+- **Bottom-right:** Key findings text box (data summary, hysteresis stats, drift metrics)
 
 **Hysteresis definition:** When identity drift increases but doesn't recover (recovery ratio < 0.2).
 
-**Key insight:** Some providers show higher hysteresis rates, indicating models that get "stuck" at elevated drift levels after perturbation.
+**Key insight:** Some providers show higher hysteresis rates, indicating models that get "stuck" at elevated drift levels after perturbation. The quad layout enables direct comparison of hysteresis rate with drift behavior.
+
+**Layout:** 2x2 QUAD per VISUALIZATION_SPEC Pitfall #9 (previously was 1x2 horizontal)
 
 **Generator:** `generate_manifold_edge.py`
 

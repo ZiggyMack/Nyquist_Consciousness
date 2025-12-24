@@ -753,6 +753,87 @@ This quad pattern is preferred over horizontal stretching when combining 3+ rela
 
 ---
 
+## PITFALL #10: ERROR BARS ON BINARY/PROPORTION DATA
+
+### The Problem
+
+When displaying stability rates or other proportion metrics (0-100%), using standard deviation for error bars produces absurdly large whiskers. Binary data (0/1 outcomes) has high variance by nature: `std = sqrt(p*(1-p))` which at p=0.85 gives std≈0.36 (36 percentage points!).
+
+### Real Example: Provider Stability Bar Chart (Dec 2025)
+
+Error bars extended 30-40 percentage points because the code used raw standard deviation:
+
+```python
+# WRONG: Standard deviation of binary outcomes is HUGE
+rates = [1 if d['stable'] else 0 for d in provider_data]  # List of 0s and 1s
+stability_std = np.std(rates) * 100  # At 85% stable, std ≈ 36%!
+
+bars = ax.bar(x, stability_means, yerr=stability_std, capsize=5)
+# Result: Whiskers extend from 50% to 120% on an 85% bar!
+```
+
+### Correct Pattern: Use Standard Error for Proportions
+
+```python
+# RIGHT: Standard error gives appropriate confidence interval
+rates = [1 if d['stable'] else 0 for d in provider_data]
+n = len(rates)
+p = np.mean(rates)
+
+# Standard error of proportion: sqrt(p*(1-p)/n)
+stability_se = np.sqrt(p * (1 - p) / n) * 100 if n > 0 else 0
+
+bars = ax.bar(x, [p * 100], yerr=[stability_se], capsize=5)
+# Result: With n=150 and p=0.85, SE ≈ 2.9% - reasonable whiskers!
+```
+
+### Why Standard Error?
+
+| Statistic | Formula | Purpose | Typical Size |
+|-----------|---------|---------|--------------|
+| **Std Dev (σ)** | `sqrt(p*(1-p))` | Spread of individual outcomes | 30-50% for proportions |
+| **Std Error (SE)** | `sqrt(p*(1-p)/n)` | Precision of the MEAN | 2-5% with decent n |
+
+Standard error shrinks with sample size (√n in denominator), representing our confidence in the estimate. Standard deviation doesn't shrink - it just measures spread.
+
+### When to Use Each
+
+| Metric Type | Use | Why |
+|-------------|-----|-----|
+| Proportions/rates (0-100%) | **Standard Error** | Shows precision of estimate |
+| Continuous measurements | Either (document which) | Std dev shows spread, SE shows precision |
+| Small samples (n < 30) | **Confidence interval** | More accurate for small n |
+
+### Alternative: Wilson Score Confidence Interval
+
+For publication-quality proportion confidence intervals:
+
+```python
+from scipy import stats
+
+def wilson_ci(successes, total, confidence=0.95):
+    """Wilson score confidence interval for proportions."""
+    if total == 0:
+        return 0, 0, 0
+    p = successes / total
+    z = stats.norm.ppf((1 + confidence) / 2)
+    denom = 1 + z**2 / total
+    center = (p + z**2 / (2 * total)) / denom
+    spread = z * np.sqrt(p * (1 - p) / total + z**2 / (4 * total**2)) / denom
+    return center, center - spread, center + spread
+
+# Usage
+stable_count = sum(1 for d in data if d['stable'])
+total = len(data)
+mean, ci_low, ci_high = wilson_ci(stable_count, total)
+
+# For asymmetric error bars:
+yerr = [[mean - ci_low], [ci_high - mean]]
+ax.bar(x, [mean * 100], yerr=[[ci_low * 100], [ci_high * 100]], capsize=5)
+```
+
+---
+
 ## RELATED SPECS
 
 | Spec | Purpose |

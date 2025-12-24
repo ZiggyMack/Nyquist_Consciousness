@@ -2,7 +2,7 @@
 
 **Purpose:** Everything a Claude instance needs to work on visualizations in any `pics/` subdirectory.
 
-**Last Updated:** December 23, 2025
+**Last Updated:** December 24, 2025
 
 ---
 
@@ -22,13 +22,14 @@ S7_ARMADA/
 │   │   ├── 4_Rescue/           # Recovery dynamics
 │   │   ├── 5_Settling/         # Settling time curves
 │   │   ├── 6_Architecture/     # Provider network diagrams
-│   │   ├── 7_Radar/            # Radar overlays
 │   │   ├── 8_Radar_Oscilloscope/ # Combined radar + time-series
 │   │   ├── 9_FFT_Spectral/     # Frequency analysis
 │   │   ├── 10_PFI_Dimensional/ # PCA/dimensional analysis
 │   │   ├── 11_Unified_Dashboard/ # Per-ship multi-panel dashboards
 │   │   ├── 12_Metrics_Summary/ # Fleet-wide metrics comparison
-│   │   └── 13_Model_Waveforms/ # Per-model identity fingerprints
+│   │   ├── 13_Model_Waveforms/ # Per-model identity fingerprints
+│   │   ├── 14_Ringback/        # Ringback oscillation analysis
+│   │   └── 15_Oobleck_Effect/  # Prosecutor/Defense probing dynamics
 │   └── START_HERE.md           # THIS FILE
 ├── 0_docs/specs/               # CRITICAL - READ THESE FIRST
 │   ├── 4_VISUALIZATION_SPEC.md # Pitfalls, patterns, templates
@@ -48,7 +49,7 @@ S7_ARMADA/
 
 **File:** `S7_ARMADA/0_docs/specs/4_VISUALIZATION_SPEC.md`
 
-This contains 9 documented pitfalls we've already hit:
+This contains 10 documented pitfalls we've already hit:
 
 | Pitfall | Summary |
 |---------|---------|
@@ -61,6 +62,7 @@ This contains 9 documented pitfalls we've already hit:
 | #7 | Always report effect size (Cohen's d, not just p-values) |
 | #8 | Missing data fields: validate before computing |
 | #9 | Use 2x2 QUAD layout, not 1x3 horizontal |
+| #10 | Use Standard Error (not Std Dev) for proportion/rate error bars |
 
 ### 2. Understand the Data Structure
 
@@ -256,13 +258,14 @@ Each `pics/` subdirectory should contain:
 | 4_Rescue | Recovery dynamics | Post-perturbation recovery |
 | 5_Settling | Settling time curves | Time to stabilize |
 | 6_Architecture | Provider network | Fleet structure diagram |
-| 7_Radar | Dimensional analysis | 5-axis radar overlay |
-| 8_Radar_Oscilloscope | Combined view | Radar + time-series |
+| 8_Radar_Oscilloscope | Radar + time-series | Multi-axis stability analysis |
 | 9_FFT_Spectral | Frequency analysis | Spectral signatures |
 | 10_PFI_Dimensional | PCA analysis | Variance explained |
 | 11_Unified_Dashboard | Per-ship dashboards | All metrics per model |
 | 12_Metrics_Summary | Fleet-wide summary | Cross-provider comparison |
 | 13_Model_Waveforms | Identity fingerprints | Per-model drift patterns |
+| 14_Ringback | Oscillation analysis | Ringback dynamics |
+| 15_Oobleck_Effect | Probing paradigm | Prosecutor vs Defense |
 
 ---
 
@@ -279,12 +282,66 @@ Each `pics/` subdirectory should contain:
 
 ---
 
+## WORKFLOW TIPS FOR CLAUDE INSTANCES
+
+### Before Making Changes
+
+1. **Read the `*_explained.md` file** in the subdirectory you're working on - it documents what each visualization shows and why
+2. **Check the VISUALIZATION_SPEC** for pitfalls before writing code
+3. **Look at existing `generate_*.py` scripts** as templates - copy the boilerplate
+
+### When Modifying Visualizations
+
+1. **Run the script after changes** to verify output: `py -3.12 generate_something.py`
+2. **Check the output visually** - open the PNG files to confirm they look correct
+3. **Update documentation** (`*_explained.md`) when adding/removing visualizations
+4. **Save both PNG and SVG** - always use `for ext in ['png', 'svg']:`
+
+### Common Tasks
+
+| Task | Approach |
+|------|----------|
+| Change layout from 1x3 to 2x2 | Use `plt.subplots(2, 2, figsize=(14, 12))` per Pitfall #9 |
+| Add error bars to proportion data | Use Standard Error `sqrt(p*(1-p)/n)` per Pitfall #10 |
+| Group Together.ai models | Use family detection: DeepSeek, Llama, Qwen, Kimi, Mistral, Nvidia |
+| Add new visualization | Create function, add to `main()`, update `*_explained.md` |
+| Delete visualization | Remove function, remove from `main()`, delete files, update docs |
+
+### Auditing Code Against Spec
+
+After writing visualization code, verify compliance with each pitfall:
+
+```python
+# Quick audit checklist:
+# [ ] Pitfall #1: Not using baseline_drift for comparisons
+# [ ] Pitfall #2: Aggregating at model level (group by provider, model)
+# [ ] Pitfall #3: Using probe_type (not type), response_text (not response)
+# [ ] Pitfall #4: Using anthropic (not claude) for provider names
+# [ ] Pitfall #5: Light mode (white background, black text)
+# [ ] Pitfall #6: Multiple legends use add_artist()
+# [ ] Pitfall #7: Effect sizes reported where applicable
+# [ ] Pitfall #8: Validating data fields exist before using
+# [ ] Pitfall #9: Using 2x2 quad layout for 3-4 panels
+# [ ] Pitfall #10: Using SE (not std) for proportion error bars
+```
+
+---
+
 ## GETTING HELP
 
 1. **Visualization pitfalls:** `0_docs/specs/4_VISUALIZATION_SPEC.md`
 2. **Data structure:** `0_docs/specs/0_RUN_METHODOLOGY.md`
 3. **Methodology context:** `0_docs/specs/5_METHODOLOGY_DOMAINS.md`
 4. **Example scripts:** Look at existing `generate_*.py` in any subdirectory
+
+---
+
+## CHANGELOG
+
+| Date | Changes |
+|------|---------|
+| 2025-12-24 | Added Pitfall #10 (SE for proportions), workflow tips, audit checklist |
+| 2025-12-23 | Initial onboarding guide with 9 pitfalls |
 
 ---
 

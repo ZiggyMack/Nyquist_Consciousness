@@ -413,10 +413,17 @@ def plot_stability_matrix(provider_models, output_dir):
 
     x = np.arange(len(providers))
     means = [provider_stability[p]['mean'] for p in providers]
-    stds = [provider_stability[p]['std'] for p in providers]
+    # Use Standard Error for proportions per Pitfall #10: SE = sqrt(p*(1-p)/n)
+    # where p is the mean stability rate and n is the number of models
+    ses = []
+    for p in providers:
+        mean = provider_stability[p]['mean']
+        n = provider_stability[p]['n_models']
+        se = np.sqrt(mean * (1 - mean) / n) if n > 0 else 0
+        ses.append(se)
     colors = [PROVIDER_COLORS.get(p, '#888888') for p in providers]
 
-    bars = ax.bar(x, means, yerr=stds, capsize=5, color=colors,
+    bars = ax.bar(x, means, yerr=ses, capsize=5, color=colors,
                  edgecolor='black', linewidth=1, alpha=0.8)
 
     # Event Horizon reference
@@ -472,7 +479,8 @@ def main():
 
     print("\nGenerating Run 023d visualizations...")
     plot_improved_network(provider_models_023d, OUTPUT_DIR)
-    plot_stability_matrix(provider_models_023d, OUTPUT_DIR)
+    # NOTE: plot_stability_matrix removed - redundant with combined_provider_analysis.png Panel 1
+    # from generate_context_damping.py (uses same data, same visualization)
 
     # Generate Full Fleet visualization (combined 51 models)
     print("\n" + "="*70)

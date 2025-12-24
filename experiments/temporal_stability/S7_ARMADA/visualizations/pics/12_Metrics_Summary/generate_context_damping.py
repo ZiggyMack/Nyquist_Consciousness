@@ -221,52 +221,6 @@ correlate with specific recovery behaviors.
 
     plt.close()
 
-def plot_recovery_efficiency(damping_data, output_dir):
-    """Create recovery efficiency comparison - LIGHT MODE."""
-    fig, ax = plt.subplots(figsize=(12, 8))
-    ax.set_facecolor('white')
-    fig.patch.set_facecolor('white')
-
-    providers = sorted(set(d['provider'] for d in damping_data))
-
-    efficiency_by_provider = {p: [d['recovery_efficiency'] for d in damping_data if d['provider'] == p] for p in providers}
-
-    positions = np.arange(len(providers))
-    bp = ax.boxplot([efficiency_by_provider[p] for p in providers],
-                    positions=positions, patch_artist=True, widths=0.6)
-
-    for i, (box, provider) in enumerate(zip(bp['boxes'], providers)):
-        box.set_facecolor(PROVIDER_COLORS.get(provider, '#888888'))
-        box.set_alpha(0.7)
-        box.set_edgecolor('black')
-
-    for whisker in bp['whiskers']:
-        whisker.set_color('black')
-    for cap in bp['caps']:
-        cap.set_color('black')
-    for median in bp['medians']:
-        median.set_color('black')
-        median.set_linewidth(2)
-
-    ax.axhline(y=1.0, color='#2ecc71', linestyle='--', linewidth=2, alpha=0.7, label='Full Recovery (100%)')
-    ax.axhline(y=0.5, color='#f1c40f', linestyle=':', linewidth=2, alpha=0.7, label='Partial Recovery (50%)')
-
-    ax.set_xticks(positions)
-    ax.set_xticklabels([p.upper() for p in providers], fontsize=11, fontweight='bold')
-    ax.set_ylabel('Recovery Efficiency', fontsize=12, fontweight='bold')
-    ax.set_title('Context Damping: Recovery Efficiency by Provider\nRun 023d: IRON CLAD Foundation',
-                fontsize=14, fontweight='bold')
-    ax.legend(loc='upper right', facecolor='white', edgecolor='#cccccc')
-    ax.grid(axis='y', alpha=0.3)
-
-    plt.tight_layout()
-
-    for ext in ['png', 'svg']:
-        output_path = output_dir / f'recovery_efficiency.{ext}'
-        plt.savefig(output_path, dpi=150, facecolor='white', bbox_inches='tight')
-        print(f"Saved: {output_path}")
-
-    plt.close()
 
 def plot_combined_provider_analysis(damping_data, output_dir):
     """Create COMBINED 2x2 quad visualization: Stability + Recovery + Drift Distribution + Summary Stats
@@ -285,17 +239,21 @@ def plot_combined_provider_analysis(damping_data, output_dir):
     ax1.set_facecolor('white')
 
     stability_by_provider = {}
-    stability_std = {}
+    stability_se = {}  # Standard Error instead of Std Dev
     model_counts = {}
     for provider in providers:
         provider_data = [d for d in damping_data if d['provider'] == provider]
         rates = [1 if d['stable'] else 0 for d in provider_data]
-        stability_by_provider[provider] = np.mean(rates) * 100
-        stability_std[provider] = np.std(rates) * 100
+        n = len(rates)
+        p = np.mean(rates)
+        stability_by_provider[provider] = p * 100
+        # Use standard error for proportions: sqrt(p*(1-p)/n) * 100
+        # This gives appropriate error bar size for binary data
+        stability_se[provider] = np.sqrt(p * (1 - p) / n) * 100 if n > 0 else 0
         model_counts[provider] = len(set(d['model'] for d in provider_data))
 
     bars = ax1.bar(x, [stability_by_provider[p] for p in providers],
-                   yerr=[stability_std[p] for p in providers],
+                   yerr=[stability_se[p] for p in providers],
                    capsize=5, color=colors_prov, edgecolor='black', linewidth=1, alpha=0.8)
 
     ax1.axhline(y=80, color='#ff4444', linestyle='--', linewidth=2, alpha=0.8, label='80% Target')
@@ -347,28 +305,45 @@ def plot_combined_provider_analysis(damping_data, output_dir):
     ax2.legend(loc='upper right', facecolor='white', edgecolor='#cccccc', fontsize=9)
     ax2.grid(axis='y', alpha=0.3)
 
-    # Panel 3 (bottom-left): Peak Drift Distribution Histogram
+    # Panel 3 (bottom-left): Peak Drift by Provider (boxplot)
+    # Replaces histogram (which is already in context_damping_summary)
     ax3 = axes[1, 0]
     ax3.set_facecolor('white')
 
-    peak_drifts = [d['peak_drift'] for d in damping_data]
-    mean_peak = np.mean(peak_drifts)
+    peak_by_provider = {p: [d['peak_drift'] for d in damping_data if d['provider'] == p] for p in providers}
 
-    ax3.hist(peak_drifts, bins=25, color='#3498db', alpha=0.7, edgecolor='black')
-    ax3.axvline(0.80, color='#e74c3c', linestyle='--', linewidth=2, label='Event Horizon (0.80)')
-    ax3.axvline(mean_peak, color='#f1c40f', linestyle='-', linewidth=2, label=f'Mean: {mean_peak:.2f}')
+    bp3 = ax3.boxplot([peak_by_provider[p] for p in providers],
+                      positions=x, patch_artist=True, widths=0.6)
 
-    ax3.set_xlabel('Peak Drift', fontsize=11, fontweight='bold')
-    ax3.set_ylabel('Frequency', fontsize=11)
-    ax3.set_title('Peak Drift Distribution', fontsize=12, fontweight='bold')
+    for i, (box, provider) in enumerate(zip(bp3['boxes'], providers)):
+        box.set_facecolor(PROVIDER_COLORS.get(provider, '#888888'))
+        box.set_alpha(0.7)
+        box.set_edgecolor('black')
+
+    for whisker in bp3['whiskers']:
+        whisker.set_color('black')
+    for cap in bp3['caps']:
+        cap.set_color('black')
+    for median in bp3['medians']:
+        median.set_color('black')
+        median.set_linewidth(2)
+
+    ax3.axhline(y=0.80, color='#e74c3c', linestyle='--', linewidth=2, alpha=0.7, label='Event Horizon (0.80)')
+    ax3.axhline(y=0.60, color='#f1c40f', linestyle=':', linewidth=2, alpha=0.7, label='Warning (0.60)')
+
+    ax3.set_xticks(x)
+    ax3.set_xticklabels([p.upper() for p in providers], fontsize=10, fontweight='bold')
+    ax3.set_ylabel('Peak Drift', fontsize=11, fontweight='bold')
+    ax3.set_title('Peak Drift by Provider', fontsize=12, fontweight='bold')
     ax3.legend(loc='upper right', facecolor='white', edgecolor='#cccccc', fontsize=9)
-    ax3.grid(alpha=0.3)
+    ax3.grid(axis='y', alpha=0.3)
 
     # Panel 4 (bottom-right): Summary Statistics Text Box
     ax4 = axes[1, 1]
     ax4.set_facecolor('#f8f8f8')
 
     stability_rate = np.mean([1 if d['stable'] else 0 for d in damping_data])
+    mean_peak = np.mean([d['peak_drift'] for d in damping_data])
     mean_settled = np.mean([d['settled_drift'] for d in damping_data])
     mean_ringback = np.mean([d['ringback_count'] for d in damping_data])
     eh_crossings = sum(1 for d in damping_data if d['peak_drift'] > 0.80)
@@ -425,7 +400,6 @@ def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     plot_context_damping_summary(damping_data, OUTPUT_DIR)
-    plot_recovery_efficiency(damping_data, OUTPUT_DIR)
     plot_combined_provider_analysis(damping_data, OUTPUT_DIR)
 
     print("\n" + "="*70)
