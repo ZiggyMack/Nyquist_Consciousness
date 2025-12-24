@@ -462,6 +462,121 @@ Before committing any visualization:
 
 ---
 
+## TIPS AND TRICKS
+
+Lessons learned from Run 023 visualization debugging sessions.
+
+### Full Resolution vs Aggregated Data
+
+When visualizing drift trajectories, two complementary views exist:
+
+| Data Type | Points Per Model | Use Case | File Naming |
+|-----------|------------------|----------|-------------|
+| **Aggregated** | ~30 (peak_drift per iteration) | Cleaner labels, traceable individual paths | `run023_*.png` |
+| **Full Resolution** | ~780 (all probe drifts) | Dense patterns, emerged structure | `run023b_*.png` |
+
+**Implementation:** Use `extract_trajectories(data, full_resolution=True/False)`
+
+```python
+# Aggregated (default) - one point per experiment iteration
+trajectories = extract_trajectories(data, full_resolution=False)  # ~30 points/model
+
+# Full resolution - every probe drift value
+trajectories_full = extract_trajectories(data, full_resolution=True)  # ~780 points/model
+```
+
+### Line Visibility for Dense Visualizations
+
+For dense visualizations (vortex, pillar analysis) with 16,000+ data points, balance visibility:
+
+| Stability | Alpha | Linewidth | Rationale |
+|-----------|-------|-----------|-----------|
+| STABLE | 0.35-0.4 | 0.8-1.0 | Lighter - they're the norm |
+| VOLATILE | 0.5-0.7 | 1.2-1.5 | Darker - highlight anomalies |
+
+**Visibility ranges:**
+
+```python
+# Too faint - patterns invisible
+alpha=0.15, linewidth=0.5
+
+# Correct - emerged patterns visible
+if status == 'STABLE':
+    ax.plot(xs, ys, color=color, alpha=0.35, linewidth=0.8)
+else:  # VOLATILE
+    ax.plot(xs, ys, color=color, alpha=0.5, linewidth=1.2)
+
+# Too dense - occludes everything
+alpha=0.8, linewidth=2.0
+```
+
+### Vortex Full-Resolution Treatment (16K+ Datapoints)
+
+The flagship vortex visualization (`run023b_vortex_*.png`) renders ~16,000 data points. Special treatment required:
+
+**Problem:** Individual traces at default visibility (alpha=0.7, linewidth=1.5) create an unreadable blob.
+
+**Solution:** Gradient trace visibility based on stability:
+
+```python
+# For full-resolution vortex (16K+ points)
+for traj in trajectories:
+    status = traj.get('status', 'STABLE')
+    provider = traj.get('provider', 'unknown')
+    color = PROVIDER_COLORS.get(provider, 'gray')
+
+    # Visibility based on stability
+    if status == 'STABLE':
+        alpha, lw = 0.35, 0.8
+    else:  # VOLATILE - make anomalies stand out
+        alpha, lw = 0.5, 1.2
+
+    # Plot trajectory
+    ax.plot(angles, radii, color=color, alpha=alpha, linewidth=lw)
+```
+
+**Key insight:** With 16K points, you're not trying to see individual traces - you're looking for the **emerged pattern** (the vortex structure). Lower alpha makes the pattern visible.
+
+### Safety Margin Calculation (Pillar Stability Panel 4)
+
+The safety margin shows how far BELOW the Event Horizon a provider operates.
+
+**Problem:** Using `mean_baseline` for full-resolution data produces all-identical bars (~0.80).
+
+```python
+# WRONG for full-resolution data:
+safety_margin = EVENT_HORIZON - mean_baseline  # All bars show ~0.80
+
+# WHY: Full-resolution trajectories have many short segments.
+# Each segment's "baseline" is the first drift value, often near 0.
+# So EVENT_HORIZON - 0 = 0.80 for all providers.
+```
+
+**Solution:** Use the maximum of baseline and final drift:
+
+```python
+# CORRECT for both data types:
+max_drift = max(mean_baseline, mean_final)
+safety_margin = EVENT_HORIZON - max_drift
+```
+
+**Why:** The `mean_final` (or max of both) captures actual operational drift, not the segment start point.
+
+### Label Readability in Dense Plots
+
+For pillar analysis Panel 2 (provider centroids), truncate long model names:
+
+```python
+# Too long - overlaps with other labels
+label = traj['model']  # "claude-3-5-sonnet-20241022"
+
+# Just right - readable without overlap
+label = traj['model'][:20] + '...' if len(traj['model']) > 20 else traj['model']
+fontsize = 8  # Not 6 - too small to read
+```
+
+---
+
 ## RELATED SPECS
 
 | Spec | Purpose |

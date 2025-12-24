@@ -238,20 +238,23 @@ def plot_improved_network(provider_models, output_dir):
     plt.close()
 
 def plot_full_fleet_network(provider_models, output_dir):
-    """Create full fleet network visualization (51 models) with improved layout."""
-    fig, ax = plt.subplots(figsize=(20, 18))
-    ax.set_facecolor('#f5f5f5')
+    """Create full fleet network visualization (51 models) with COMPACT layout."""
+    fig, ax = plt.subplots(figsize=(24, 22))  # Compact canvas
+    ax.set_facecolor('#f8f8f8')
     fig.patch.set_facecolor('white')
 
-    # Provider positions (arranged in circle) - larger radius for more models
-    n_providers = len(provider_models)
-    provider_positions = {}
-    radius = 6.0  # Larger radius for full fleet
+    # MANUAL provider positions - COMPACT layout
+    # Providers positioned in a tight pentagon-like arrangement
+    # Each cluster is kept small with short arms
+    provider_positions = {
+        'together': (-7, 0),       # Left (16 models)
+        'openai': (7, 0),          # Right (14 models)
+        'xai': (4, -6),            # Bottom right
+        'google': (-4, -6),        # Bottom left
+        'anthropic': (0, 7),       # Top center
+    }
 
     providers = sorted(provider_models.keys())
-    for i, provider in enumerate(providers):
-        angle = 2 * np.pi * i / n_providers - np.pi/2
-        provider_positions[provider] = (radius * np.cos(angle), radius * np.sin(angle))
 
     # Draw provider hubs and model nodes
     all_handles = []
@@ -261,46 +264,34 @@ def plot_full_fleet_network(provider_models, output_dir):
         px, py = provider_positions[provider]
         color = PROVIDER_COLORS.get(provider, '#888888')
 
-        # Draw provider hub (larger node for readability)
-        hub = ax.scatter([px], [py], s=4500, c=color, marker='h',
+        # Draw provider hub (large, prominent)
+        hub = ax.scatter([px], [py], s=4000, c=color, marker='h',
                         edgecolors='black', linewidths=2, zorder=10, alpha=0.9)
 
         # Provider label with count
         n_models = len(models)
         ax.annotate(f"{provider.upper()}\n({n_models})", (px, py), fontsize=11, fontweight='bold',
                    color='white', ha='center', va='center', zorder=11,
-                   path_effects=[patheffects.withStroke(linewidth=3, foreground='black')])
+                   path_effects=[patheffects.withStroke(linewidth=4, foreground='black')])
 
-        # Draw model nodes around hub with adaptive layout
-        # Calculate optimal radius based on number of models
-        if n_models <= 4:
-            model_radius = 2.2
-            label_font = 8
-            node_size_base = 180
-        elif n_models <= 8:
-            model_radius = 2.8
-            label_font = 7
-            node_size_base = 150
-        elif n_models <= 15:
-            model_radius = 3.5
-            label_font = 6
-            node_size_base = 120
-        else:
-            # Very crowded (Together has many models)
-            model_radius = 4.2
-            label_font = 5
-            node_size_base = 100
+        # Draw model nodes around hub - SHORT ARMS, COMPACT CLUSTERS
+        # Use same small radius for all providers - just pack them tighter
+        model_radius = 2.5  # SHORT arms - same for all
+        label_font = 7      # Small font for compactness
+        node_size_base = 100  # Small nodes
 
         for j, (model_name, experiments) in enumerate(sorted(models.items())):
-            # Position model around provider hub with slight randomization for crowded areas
+            # Position model around provider hub
             base_angle = 2 * np.pi * j / max(n_models, 1)
-            # Add small offset to prevent overlap
+            # Tiny angle offset
             angle_offset = 0.05 * (j % 2 - 0.5)
             model_angle = base_angle + angle_offset
 
-            # Stagger radius for very crowded providers
+            # Stagger radius slightly for crowded providers
             if n_models > 10:
-                radius_offset = 0.3 * (j % 3 - 1)
+                radius_offset = 0.4 * (j % 3 - 1)
+            elif n_models > 6:
+                radius_offset = 0.25 * (j % 2 - 0.5)
             else:
                 radius_offset = 0
 
@@ -310,8 +301,8 @@ def plot_full_fleet_network(provider_models, output_dir):
             # Get metrics
             metrics = compute_model_metrics(experiments)
 
-            # Node size based on experiments
-            node_size = node_size_base + metrics['n_experiments'] * 15
+            # Small fixed node size
+            node_size = node_size_base + metrics['n_experiments'] * 3
 
             # VALIS style
             valis_style = classify_valis_style(model_name, provider)
@@ -323,17 +314,17 @@ def plot_full_fleet_network(provider_models, output_dir):
 
             # Draw model node
             ax.scatter([mx], [my], s=node_size, c=color, marker=marker,
-                      edgecolors='white', linewidths=1.5, alpha=alpha, zorder=5)
+                      edgecolors='white', linewidths=1, alpha=alpha, zorder=5)
 
-            # Draw connection to hub
-            ax.plot([px, mx], [py, my], '-', color=color, alpha=0.3, linewidth=1, zorder=1)
+            # Draw connection to hub - visible line
+            ax.plot([px, mx], [py, my], '-', color=color, alpha=0.4, linewidth=2.0, zorder=1)
 
-            # Model label (shortened) - radial placement
+            # Model label - SHORT names, placed close to node
             short_name = model_name.split('/')[-1]
             if len(short_name) > 12:
                 short_name = short_name[:10] + '..'
 
-            # Radial label placement
+            # Label placement - close to node, pointing outward
             label_dist = 0.35
             lx = mx + label_dist * np.cos(model_angle)
             ly = my + label_dist * np.sin(model_angle)
@@ -342,13 +333,14 @@ def plot_full_fleet_network(provider_models, output_dir):
             ha = 'left' if np.cos(model_angle) > 0 else 'right'
             va = 'bottom' if np.sin(model_angle) > 0 else 'top'
 
-            ax.annotate(short_name, (lx, ly), fontsize=label_font, color='#333333',
+            ax.annotate(short_name, (lx, ly), fontsize=label_font, color='#222222',
                        ha=ha, va=va, alpha=0.9, zorder=6,
                        fontweight='bold',
                        path_effects=[patheffects.withStroke(linewidth=2, foreground='white')])
 
     # Title and statistics
     total_models = sum(len(m) for m in provider_models.values())
+    n_providers = len(providers)
     total_experiments = sum(
         sum(len(exps) for exps in models.values())
         for models in provider_models.values()
@@ -372,14 +364,14 @@ def plot_full_fleet_network(provider_models, output_dir):
         elem = mpatches.Patch(color=color, label=f'{provider.upper()} ({n} models)')
         legend_elements.append(elem)
 
-    # Move legend to bottom-right
+    # Legend in corner
     legend = ax.legend(handles=legend_elements, loc='lower right',
-                      bbox_to_anchor=(0.98, 0.02), facecolor='white',
+                      bbox_to_anchor=(0.99, 0.01), facecolor='white',
                       edgecolor='#cccccc', fontsize=10)
     for text in legend.get_texts():
         text.set_color('black')
 
-    ax.set_xlim(-12, 12)
+    ax.set_xlim(-12, 12)  # Compact view
     ax.set_ylim(-12, 12)
     ax.set_aspect('equal')
     ax.axis('off')

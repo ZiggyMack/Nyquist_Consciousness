@@ -1155,6 +1155,10 @@ if __name__ == "__main__":
 **Cause:** Forgot to update dashboard page
 **Fix:** Add to results pipeline checklist
 
+### "Pillar stability bars all show same value (0.80)"
+**Cause:** Using `mean_baseline` for safety margin with full-resolution data. Full-resolution trajectories have many short segments where baseline ≈ 0, so `EH - 0 = 0.80` for all.
+**Fix:** Use `max(mean_baseline, mean_final)` for conservative safety margin calculation. See [4_VISUALIZATION_SPEC.md](4_VISUALIZATION_SPEC.md#safety-margin-calculation-pillar-stability-panel-4) for details.
+
 ---
 
 ## FLEET CONFIGURATION (Single Source of Truth)

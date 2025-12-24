@@ -579,7 +579,8 @@ def generate_stability_pdf():
         "across the LLM fleet. Using cosine distance as the drift metric with "
         "<b>Event Horizon (EH = 0.80)</b>, these plots reveal how models maintain "
         "or lose identity coherence under recursive self-observation stress. "
-        "Data spans 25 ships, 6 experiment types, and N=30 iterations (4,505 total results).",
+        "Data spans <b>51 models across 5 providers</b>, with 825 total experiments "
+        "achieving IRON CLAD statistical foundation (N&gt;=30 per model).",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))
@@ -683,12 +684,12 @@ def generate_stability_pdf():
     # Stability Box Plots - By Ship
     story.append(Paragraph("4. Drift Distribution by Ship", heading_style))
     img_path = PICS_DIR / "3_Stability" / "run023b_stability_boxplots_byship.png"
-    add_image(story, img_path, width=6.5*inch, caption="Figure 4: Drift distributions for all 25 ships")
+    add_image(story, img_path, width=6.5*inch, caption="Figure 4: Drift distributions for all 51 models")
 
     story.append(Paragraph(
         "<b>What it shows:</b> Box plots showing the full drift distribution for each of "
-        "the 25 ships in the fleet, sorted from lowest to highest mean drift. Each box "
-        "represents approximately 180 measurements (6 experiments x 30 iterations).",
+        "the 51 models in the fleet, sorted from lowest to highest mean drift. Each box "
+        "represents multiple iterations per model from the IRON CLAD dataset.",
         body_style
     ))
     story.append(Paragraph(
@@ -740,19 +741,20 @@ def generate_stability_pdf():
     # Statistical Summary
     story.append(Paragraph("Statistical Summary", heading_style))
     story.append(Paragraph(
-        "<b>Fleet Statistics (Run 023b):</b><br/>"
-        "- Total measurements: 4,505<br/>"
-        "- Ships tested: 25 (across 4 provider families)<br/>"
-        "- Iterations per experiment: 30 (CLT-valid sample size)<br/>"
-        "- Experiment types: 6 (Event Horizon, Boundary, Rescue, Stability, Settling, Recursive)",
+        "<b>Fleet Statistics (Run 023 IRON CLAD):</b><br/>"
+        "- Total experiments: 825<br/>"
+        "- Models tested: 51 (across 5 providers: Anthropic, OpenAI, Google, xAI, Together)<br/>"
+        "- Iterations per model: N&gt;=30 (CLT-valid sample size)<br/>"
+        "- IRON CLAD status: Achieved for all models",
         body_style
     ))
     story.append(Paragraph(
         "<b>Key Metrics:</b><br/>"
-        "- Mean peak drift: ~0.574<br/>"
-        "- P95 peak drift: ~0.806 (used to calibrate EH=0.80)<br/>"
-        "- STABLE classification rate: >85% of measurements<br/>"
-        "- No ship showed persistent identity failure (sustained drift > EH)",
+        "- Mean peak drift: ~0.57<br/>"
+        "- Event Horizon: 0.80 (cosine distance threshold)<br/>"
+        "- STABLE classification: 37 models (73%)<br/>"
+        "- VOLATILE classification: 12 models (24%) - crossed EH at least once<br/>"
+        "- Cohen's d effect size: 0.698 (model-level comparison)",
         body_style
     ))
     story.append(Spacer(1, 0.15*inch))

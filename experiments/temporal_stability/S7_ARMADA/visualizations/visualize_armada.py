@@ -300,15 +300,28 @@ def extract_trajectories(data, full_resolution=False):
                     # FULL RESOLUTION: Extract ALL probe drifts across ALL iterations
                     # This gives ~780 points per model = ~19,500 total points
                     # Creates the beautiful dense spiral patterns for vortex visualization
+                    #
+                    # IMPORTANT: Skip baseline probes (type='baseline') which have drift=0.0 by definition.
+                    # Use first non-baseline probe as meaningful baseline for visualization.
                     probe_drifts = []
+                    first_non_baseline_drift = None
                     for r in sorted(model_result_list, key=lambda x: x.get('timestamp', '')):
                         probe_seq = r.get('probe_sequence', [])
                         for probe in probe_seq:
                             if isinstance(probe, dict) and 'drift' in probe:
-                                probe_drifts.append(probe['drift'])
+                                probe_type = probe.get('probe_type', probe.get('type', 'unknown'))
+                                # Skip baseline probes - they're always 0.0 by definition
+                                if probe_type == 'baseline':
+                                    continue
+                                drift_val = probe['drift']
+                                probe_drifts.append(drift_val)
+                                # Capture first non-baseline drift as the meaningful starting point
+                                if first_non_baseline_drift is None:
+                                    first_non_baseline_drift = drift_val
 
                     if len(probe_drifts) >= 3:
-                        baseline = probe_drifts[0]
+                        # Use first non-baseline probe as baseline (meaningful starting point)
+                        baseline = first_non_baseline_drift if first_non_baseline_drift is not None else probe_drifts[0]
                         max_drift = max(probe_drifts)
                         status = "VOLATILE" if max_drift >= EVENT_HORIZON else "STABLE"
                         short_name = model.split('/')[-1] if '/' in model else model
@@ -2170,7 +2183,12 @@ def _plot_pillar_analysis_single(trajectories, output_dir, run_id, zoom_scale, t
         xs = drifts * np.cos(angles)
         ys = drifts * np.sin(angles)
 
-        ax1.plot(xs, ys, color=color, alpha=0.15, linewidth=0.5)
+        # Determine line style based on trajectory stability
+        status = traj.get('status', 'STABLE')
+        if status == 'STABLE':
+            ax1.plot(xs, ys, color=color, alpha=0.35, linewidth=0.8)
+        else:
+            ax1.plot(xs, ys, color=color, alpha=0.5, linewidth=1.2)
 
     # Draw provider centroids as stars
     centroid_data = []
@@ -2189,8 +2207,12 @@ def _plot_pillar_analysis_single(trajectories, output_dir, run_id, zoom_scale, t
         mean_baseline = np.mean(stats['baselines'])
         mean_final = np.mean(stats['finals'])
 
+        # For full resolution data, use final drift (more meaningful)
+        # For aggregated data, baseline and final are similar
         # Safety margin: how far BELOW the Event Horizon (positive = safe, negative = danger)
-        safety_margin = EVENT_HORIZON - mean_baseline
+        # Use the HIGHER of baseline/final to get conservative safety margin
+        max_drift = max(mean_baseline, mean_final)
+        safety_margin = EVENT_HORIZON - max_drift
 
         centroid_data.append({
             'provider': provider,
@@ -2270,49 +2292,59 @@ def _plot_pillar_analysis_single(trajectories, output_dir, run_id, zoom_scale, t
     ax2.set_title(f'EXTENDED PILLARS{zoom_label}\n({len(all_ship_data)} Individual Models)', fontsize=14, fontweight='bold')
     ax2.grid(True, alpha=0.3)
 
-    # Legend for providers
+    # Legend for providers with model counts
     legend_handles = [Line2D([0], [0], marker='o', color='w',
                             markerfacecolor=PROVIDER_COLORS.get(p, 'gray'),
-                            markersize=10, label=provider_names[p])
+                            markersize=10, label=f"{provider_names[p]} ({len(provider_stats[p]['ships'])} models)")
                      for p in providers if p in provider_stats]
     ax2.legend(handles=legend_handles, loc='upper right', fontsize=9)
 
-    # Smart labeling with adjustText to avoid overlaps
-    if all_ship_data:
+    # Labeling strategy: For large fleets (>15 models), skip individual labels entirely
+    # Let the color-coded legend and point positions tell the story
+    MAX_LABELS = 15
+
+    if all_ship_data and len(all_ship_data) <= MAX_LABELS:
         try:
             from adjustText import adjust_text
             texts = []
             for ship_data in all_ship_data:
                 sx, sy = ship_data['x'], ship_data['y']
                 ship = ship_data['ship']
-                # Shorter labels for readability
+                # Cleaner label formatting - remove common prefixes and date suffixes
                 label = ship.replace('claude-', '').replace('gpt-', '').replace('gemini-', '').replace('grok-', '')
-                label = label.replace('-20241022', '').replace('-20251001', '')  # Remove date suffixes
-                label = label[:10] + '..' if len(label) > 10 else label
-                txt = ax2.text(sx, sy, label, fontsize=6, alpha=0.85)
+                label = label.replace('-20241022', '').replace('-20251001', '').replace('-20250414', '')
+                label = label.replace('llama-', '').replace('mistral-', '').replace('deepseek-', '')
+                label = label.replace('qwen-', '').replace('moonshot-', '').replace('nvidia-', '')
+                # Truncate long names but keep more characters for readability
+                label = label[:12] + '..' if len(label) > 14 else label
+                txt = ax2.text(sx, sy, label, fontsize=8, alpha=0.9, fontweight='medium')
                 texts.append(txt)
 
             # Adjust text positions to avoid overlaps - stronger forces for tight clusters
             adjust_text(texts, ax=ax2,
-                       arrowprops=dict(arrowstyle='-', color='gray', alpha=0.4, lw=0.5),
-                       expand_points=(2.0, 2.0),
-                       expand_text=(1.5, 1.5),
-                       force_text=(1.0, 1.0),
-                       force_points=(0.5, 0.5),
-                       lim=500)  # More iterations for better placement
+                       arrowprops=dict(arrowstyle='-', color='gray', alpha=0.5, lw=0.6),
+                       expand_points=(2.5, 2.5),
+                       expand_text=(1.8, 1.8),
+                       force_text=(1.2, 1.2),
+                       force_points=(0.6, 0.6),
+                       lim=800)  # More iterations for better placement
         except ImportError:
             # Fallback: radial labeling without adjustText
             for i, ship_data in enumerate(all_ship_data):
                 sx, sy = ship_data['x'], ship_data['y']
                 ship = ship_data['ship']
-                label = ship[:12] + '..' if len(ship) > 12 else ship
+                label = ship[:14] + '..' if len(ship) > 16 else ship
                 # Offset labels radially outward
                 angle = np.arctan2(sy, sx) + (i % 5) * 0.2  # Spread labels
-                offset_x = 15 * np.cos(angle)
-                offset_y = 15 * np.sin(angle)
-                ax2.annotate(label, (sx, sy), fontsize=6, alpha=0.7,
+                offset_x = 18 * np.cos(angle)
+                offset_y = 18 * np.sin(angle)
+                ax2.annotate(label, (sx, sy), fontsize=8, alpha=0.85,
                             xytext=(offset_x, offset_y), textcoords='offset points',
-                            arrowprops=dict(arrowstyle='-', color='gray', alpha=0.3, lw=0.5))
+                            arrowprops=dict(arrowstyle='-', color='gray', alpha=0.4, lw=0.6))
+    elif all_ship_data and len(all_ship_data) > MAX_LABELS:
+        # Large fleet: Add subtitle explaining why no labels
+        ax2.text(0.5, 0.02, f"({len(all_ship_data)} models - labels hidden for clarity. See legend for provider breakdown.)",
+                transform=ax2.transAxes, ha='center', fontsize=9, style='italic', alpha=0.7)
 
     # ===== PANEL 3: Angular Distribution =====
     ax3 = axes[1, 0]
@@ -2973,15 +3005,20 @@ def main():
         plot_3d_basin(trajectories, output_dirs['3d'], run_id, use_dB=args.dB, zoom_scale=zoom_scale)
 
     if 'pillar' in viz_types:
-        plot_pillar_analysis(trajectories, output_dirs['pillar'], run_id, zoom_scale=zoom_scale)
+        # Only generate full resolution pillar analysis (aggregated version is statistically weak)
+        # Full resolution uses ALL probe drifts - shows emerged dense patterns with 16K+ points
+        # Uses 'b' suffix to match vortex naming convention (run023 vs run023b)
+        plot_pillar_analysis(trajectories_full, output_dirs['pillar'], f"{run_id}b", zoom_scale=zoom_scale)
 
     if 'stability' in viz_types:
         skip, reason = should_skip_visualization(run_id, 'stability')
         if skip:
             print(f"  SKIPPED: stability ({reason})")
         else:
-            plot_stability_basin(trajectories, output_dirs['stability'], run_id, zoom_scale=zoom_scale)
-            plot_stability_boxplots(trajectories, output_dirs['stability'], run_id, zoom_scale=zoom_scale)
+            # Use full resolution data for consistency (more data, more fidelity)
+            # Uses 'b' suffix to match vortex/pillar naming convention
+            plot_stability_basin(trajectories_full, output_dirs['stability'], f"{run_id}b", zoom_scale=zoom_scale)
+            plot_stability_boxplots(trajectories_full, output_dirs['stability'], f"{run_id}b", zoom_scale=zoom_scale)
 
     if 'fft' in viz_types:
         skip, reason = should_skip_visualization(run_id, 'fft')
