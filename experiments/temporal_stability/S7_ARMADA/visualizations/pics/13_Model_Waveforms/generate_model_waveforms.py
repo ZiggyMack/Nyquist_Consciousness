@@ -111,132 +111,219 @@ def plot_single_waveform_panel(ax, provider, model, results, max_probes=25):
     ax.set_ylabel('Drift', fontsize=8)
 
 
-def plot_model_waveform_grid_4x4(by_model, output_dir):
-    """Create 4x4 grid visualizations split into two files.
+def get_model_family(model_name):
+    """Classify Together.ai model into family."""
+    name_lower = model_name.lower()
+    if 'deepseek' in name_lower:
+        return 'DeepSeek'
+    elif 'llama' in name_lower or 'meta-llama' in name_lower:
+        return 'Llama'
+    elif 'qwen' in name_lower:
+        return 'Qwen'
+    elif 'kimi' in name_lower or 'moonshot' in name_lower:
+        return 'Kimi'
+    elif 'mistral' in name_lower:
+        return 'Mistral'
+    elif 'nvidia' in name_lower or 'nemotron' in name_lower:
+        return 'Nvidia'
+    else:
+        return 'Other'
 
-    File 1: Major Providers (Anthropic, OpenAI, Google, xAI)
-    File 2: Together.ai Models grouped by family (DeepSeek, Llama, Qwen, Others)
 
-    Per user request: 4x4 layout, always show x-axis labels ("Probe")
+def plot_provider_overlay_panel(ax, models_data, by_model, title, title_color, max_probes=25):
+    """Plot all models from a provider/family overlaid on one panel.
+
+    Each model gets its own color, with mean waveform shown as line with legend.
+    """
+    ax.set_facecolor('white')
+
+    # Generate distinct colors for models
+    n_models = len(models_data)
+    cmap = plt.colormaps['tab10' if n_models <= 10 else 'tab20']
+
+    legend_handles = []
+    legend_labels = []
+
+    for idx, (provider, model) in enumerate(models_data):
+        results = by_model[(provider, model)]
+        color = cmap(idx % 20)
+
+        # Extract all probe sequences
+        all_traces = []
+        for r in results:
+            probes = r.get('probe_sequence', [])
+            drifts = [p.get('drift', 0) for p in probes]
+            if drifts:
+                all_traces.append(drifts)
+
+        if not all_traces:
+            continue
+
+        # Pad to same length
+        padded = []
+        for trace in all_traces:
+            if len(trace) < max_probes:
+                trace = trace + [trace[-1]] * (max_probes - len(trace))
+            padded.append(trace[:max_probes])
+
+        arr = np.array(padded)
+        x = np.arange(max_probes)
+
+        # Plot mean waveform
+        mean_trace = np.mean(arr, axis=0)
+        line, = ax.plot(x, mean_trace, '-', linewidth=1.8, alpha=0.85, color=color)
+
+        # Short model name for legend
+        short_name = short_model_name(model)
+        legend_handles.append(line)
+        legend_labels.append(short_name)
+
+    # Event Horizon
+    ax.axhline(y=0.80, color='#ff4444', linestyle='--', linewidth=2, alpha=0.7)
+
+    # Step input marker (probe 3)
+    ax.axvline(x=3, color='#ff9800', linestyle=':', linewidth=1.5, alpha=0.7)
+
+    # Title with provider color
+    ax.set_title(f'{title}\n({n_models} models)', fontsize=12, fontweight='bold', color=title_color)
+
+    ax.set_xlim(0, max_probes - 1)
+    ax.set_ylim(0, 1.0)
+    ax.grid(True, alpha=0.3)
+    ax.set_xlabel('Probe Index', fontsize=10)
+    ax.set_ylabel('Cosine Distance', fontsize=10)
+
+    # Legend - place inside plot area
+    if legend_handles:
+        ax.legend(legend_handles, legend_labels, loc='upper right', fontsize=8,
+                 framealpha=0.9, ncol=1 if n_models <= 6 else 2)
+
+
+def plot_provider_overlay_quad(by_model, output_dir):
+    """Create 2x2 QUAD provider overlay visualizations.
+
+    File 1: Major Providers - each panel shows all models from one provider overlaid
+    File 2: Together.ai Families - each panel shows all models from one family overlaid
+
+    Per VISUALIZATION_SPEC Pitfall #9: Use 2x2 quad layout
     """
     max_probes = 25
 
     # Separate models by provider type
-    major_providers = ['anthropic', 'openai', 'google', 'xai']
+    major_providers = ['anthropic', 'google', 'openai', 'xai']
+    provider_display = {
+        'anthropic': 'ANTHROPIC',
+        'google': 'GOOGLE',
+        'openai': 'OPENAI',
+        'xai': 'XAI'
+    }
 
-    major_models = [(p, m) for (p, m) in by_model.keys() if p in major_providers]
-    together_models = [(p, m) for (p, m) in by_model.keys() if p == 'together']
+    # Group models by provider
+    models_by_provider = defaultdict(list)
+    models_by_family = defaultdict(list)
 
-    # Sort major providers
-    major_models = sorted(major_models, key=lambda x: (major_providers.index(x[0]), x[1]))
-
-    # =========================================================================
-    # FILE 1: Major Providers (4x4 grid)
-    # =========================================================================
-    if major_models:
-        n_major = len(major_models)
-        rows, cols = 4, 4
-
-        fig, axes = plt.subplots(rows, cols, figsize=(16, 16))
-        fig.patch.set_facecolor('white')
-        axes_flat = axes.flatten()
-
-        for ax in axes_flat:
-            ax.set_facecolor('#fafafa')
-
-        for idx, (provider, model) in enumerate(major_models[:16]):
-            ax = axes_flat[idx]
-            results = by_model[(provider, model)]
-            plot_single_waveform_panel(ax, provider, model, results, max_probes)
-
-        # Hide unused panels
-        for idx in range(len(major_models), 16):
-            axes_flat[idx].set_visible(False)
-
-        fig.suptitle(f'Run 023d: Major Provider Identity Waveforms\n(Anthropic, OpenAI, Google, xAI - {len(major_models)} models)',
-                    fontsize=14, fontweight='bold', y=0.995)
-
-        plt.tight_layout(rect=[0, 0, 1, 0.97])
-
-        for ext in ['png', 'svg']:
-            output_path = output_dir / f'waveforms_major_providers.{ext}'
-            plt.savefig(output_path, dpi=150, bbox_inches='tight')
-            print(f"Saved: {output_path}")
-
-        plt.close()
-
-    # =========================================================================
-    # FILE 2: Together.ai Models (4x4 grid) - grouped by family
-    # =========================================================================
-    if together_models:
-        # Group Together models by family
-        def get_model_family(model_name):
-            name_lower = model_name.lower()
-            if 'deepseek' in name_lower:
-                return 'DeepSeek'
-            elif 'llama' in name_lower or 'meta-llama' in name_lower:
-                return 'Llama'
-            elif 'qwen' in name_lower:
-                return 'Qwen'
-            elif 'kimi' in name_lower or 'moonshot' in name_lower:
-                return 'Kimi'
-            elif 'mistral' in name_lower:
-                return 'Mistral'
-            elif 'nvidia' in name_lower or 'nemotron' in name_lower:
-                return 'Nvidia'
-            else:
-                return 'Other'
-
-        # Sort by family, then by model name
-        family_order = ['DeepSeek', 'Llama', 'Qwen', 'Kimi', 'Mistral', 'Nvidia', 'Other']
-        together_models_sorted = sorted(together_models,
-            key=lambda x: (family_order.index(get_model_family(x[1]))
-                          if get_model_family(x[1]) in family_order else 99, x[1]))
-
-        n_together = len(together_models_sorted)
-        rows, cols = 4, 4
-
-        fig, axes = plt.subplots(rows, cols, figsize=(16, 16))
-        fig.patch.set_facecolor('white')
-        axes_flat = axes.flatten()
-
-        for ax in axes_flat:
-            ax.set_facecolor('#fafafa')
-
-        for idx, (provider, model) in enumerate(together_models_sorted[:16]):
-            ax = axes_flat[idx]
-            results = by_model[(provider, model)]
-
-            # Custom title with family label
+    for (provider, model) in by_model.keys():
+        if provider in major_providers:
+            models_by_provider[provider].append((provider, model))
+        elif provider == 'together':
             family = get_model_family(model)
-            plot_single_waveform_panel(ax, provider, model, results, max_probes)
+            models_by_family[family].append((provider, model))
 
-            # Override title to include family
-            short_name = short_model_name(model)
-            ax.set_title(f'{short_name}\n({family})', fontsize=9, fontweight='bold',
-                        color=PROVIDER_COLORS.get('together', '#7C3AED'))
+    # =========================================================================
+    # FILE 1: Major Providers (2x2 QUAD)
+    # =========================================================================
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    fig.patch.set_facecolor('white')
 
-        # Hide unused panels
-        for idx in range(len(together_models_sorted), 16):
-            axes_flat[idx].set_visible(False)
+    for idx, provider in enumerate(major_providers):
+        ax = axes[idx // 2, idx % 2]
+        models = models_by_provider.get(provider, [])
+        title = provider_display.get(provider, provider.upper())
+        color = PROVIDER_COLORS.get(provider, '#333333')
 
-        # Get family counts for subtitle
-        family_counts = defaultdict(int)
-        for _, model in together_models_sorted:
-            family_counts[get_model_family(model)] += 1
-        family_summary = ', '.join([f'{f}: {c}' for f, c in sorted(family_counts.items()) if c > 0])
+        if models:
+            plot_provider_overlay_panel(ax, models, by_model, title, color, max_probes)
+        else:
+            ax.set_visible(False)
 
-        fig.suptitle(f'Run 023d: Together.ai Identity Waveforms\n({family_summary})',
-                    fontsize=14, fontweight='bold', y=0.995)
+    fig.suptitle('Run 023d: Provider Model Overlays (Mean Waveforms)',
+                fontsize=14, fontweight='bold', y=0.98)
 
-        plt.tight_layout(rect=[0, 0, 1, 0.97])
+    # Caption at bottom
+    fig.text(0.5, 0.02, "Each provider's models overlaid on separate panels.",
+            ha='center', fontsize=10, style='italic')
 
-        for ext in ['png', 'svg']:
-            output_path = output_dir / f'waveforms_together_models.{ext}'
-            plt.savefig(output_path, dpi=150, bbox_inches='tight')
-            print(f"Saved: {output_path}")
+    plt.tight_layout(rect=[0, 0.04, 1, 0.96])
 
-        plt.close()
+    for ext in ['png', 'svg']:
+        output_path = output_dir / f'waveforms_major_providers.{ext}'
+        plt.savefig(output_path, dpi=150, bbox_inches='tight')
+        print(f"Saved: {output_path}")
+
+    plt.close()
+
+    # =========================================================================
+    # FILE 2: Together.ai Families (2x2 QUAD)
+    # =========================================================================
+    # Select top 4 families by model count, group rest as "Other"
+    family_counts = {f: len(models) for f, models in models_by_family.items()}
+
+    # Primary families for quad: DeepSeek, Llama, Qwen, Other
+    quad_families = ['DeepSeek', 'Llama', 'Qwen', 'Other']
+
+    # Merge smaller families into "Other"
+    other_models = []
+    for family, models in models_by_family.items():
+        if family not in ['DeepSeek', 'Llama', 'Qwen']:
+            other_models.extend(models)
+
+    # Update models_by_family with merged Other
+    quad_family_models = {
+        'DeepSeek': models_by_family.get('DeepSeek', []),
+        'Llama': models_by_family.get('Llama', []),
+        'Qwen': models_by_family.get('Qwen', []),
+        'Other': other_models
+    }
+
+    # Family colors (variations of purple for Together.ai)
+    family_colors = {
+        'DeepSeek': '#5B21B6',  # Deep purple
+        'Llama': '#7C3AED',     # Together purple
+        'Qwen': '#8B5CF6',      # Light purple
+        'Other': '#A78BFA'      # Lavender
+    }
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    fig.patch.set_facecolor('white')
+
+    for idx, family in enumerate(quad_families):
+        ax = axes[idx // 2, idx % 2]
+        models = quad_family_models.get(family, [])
+        color = family_colors.get(family, '#7C3AED')
+
+        if models:
+            plot_provider_overlay_panel(ax, models, by_model, family.upper(), color, max_probes)
+        else:
+            ax.set_visible(False)
+
+    # Get family counts for subtitle
+    family_summary = ', '.join([f'{f}: {len(quad_family_models[f])}' for f in quad_families if quad_family_models[f]])
+
+    fig.suptitle(f'Run 023d: Together.ai Family Overlays (Mean Waveforms)\n({family_summary})',
+                fontsize=14, fontweight='bold', y=0.98)
+
+    # Caption at bottom
+    fig.text(0.5, 0.02, "Each family's models overlaid on separate panels. Other = Kimi, Mistral, Nvidia, misc.",
+            ha='center', fontsize=10, style='italic')
+
+    plt.tight_layout(rect=[0, 0.04, 1, 0.96])
+
+    for ext in ['png', 'svg']:
+        output_path = output_dir / f'waveforms_together_models.{ext}'
+        plt.savefig(output_path, dpi=150, bbox_inches='tight')
+        print(f"Saved: {output_path}")
+
+    plt.close()
 
 
 def plot_fleet_wide_waveform_comparison(by_model, output_dir):
@@ -446,8 +533,10 @@ def main():
     # Fleet-wide comparison (all model means overlaid)
     plot_fleet_wide_waveform_comparison(by_model, OUTPUT_DIR)
 
-    # 4x4 grid layouts (two files: major providers + Together.ai families)
-    plot_model_waveform_grid_4x4(by_model, OUTPUT_DIR)
+    # 2x2 QUAD overlay layouts (per VISUALIZATION_SPEC Pitfall #9)
+    # - Major providers: Anthropic, Google, OpenAI, xAI
+    # - Together.ai families: DeepSeek, Llama, Qwen, Other
+    plot_provider_overlay_quad(by_model, OUTPUT_DIR)
 
     # Individual model detailed views (top 6 by sample size)
     plot_individual_model_detailed(by_model, OUTPUT_DIR, n_models=6)

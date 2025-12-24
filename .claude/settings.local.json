@@ -273,7 +273,9 @@
       "Bash(import numpy as np)",
       "Bash(cmd /c \"dir /s /b d:\\\\Documents\\\\Nyquist_Consciousness\\\\experiments\\\\archive\\\\*.png 2>nul\")",
       "Bash(cmd /c \"dir /b d:\\\\Documents\\\\Nyquist_Consciousness\\\\experiments\\\\temporal_stability\\\\S7_ARMADA\\\\visualizations\\\\pics\\\\12_Metrics_Summary\\\\manifold*.png 2>nul\")",
-      "Bash(cmd /c:*)"
+      "Bash(cmd /c:*)",
+      "Bash(py -3.12 generate_context_damping.py:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\n13_Model_Waveforms: 4x4 grids + verbose docs + Pitfall #10\n\nVisualization changes:\n- Split model waveforms into 4x4 grids \\(major providers + Together.ai families\\)\n- Added fleet_waveform_comparison.png \\(all 25 model means overlaid\\)\n- Restored individual model detailed views \\(top 6 by sample size\\)\n- Removed redundant provider_waveform_overlay and model_waveform_grid files\n\nDocumentation improvements:\n- Added Pitfall #10: Use Standard Error \\(not Std Dev\\) for proportion error bars\n- Comprehensive 13_model_waveforms_explained.md with interpretation guides\n- Updated START_HERE.md with workflow tips and audit checklist\n- README.md quick reference table for all 10 pitfalls\n\n12_Metrics_Summary updates:\n- hysteresis_summary.png now uses 2x2 QUAD layout \\(Pitfall #9\\)\n- SE error bars for hysteresis rate \\(Pitfall #10\\)\n- manifold_edge panels with status labels \\(STABLE/VOLATILE/STUCK\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ],
     "deny": [],
     "ask": []

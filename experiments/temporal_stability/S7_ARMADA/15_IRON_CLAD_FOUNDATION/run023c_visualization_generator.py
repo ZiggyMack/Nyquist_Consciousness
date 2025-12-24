@@ -14,12 +14,14 @@ PURPOSE:
         4_Rescue/           - Recovery dynamics
         5_Settling/         - Settling time curves
         6_Architecture/     - Provider signatures
-        7_Radar/            - PFI dimensional analysis
-        8_Oscilloscope/     - Time-series drift views
+        8_Radar_Oscilloscope/ - Radar + time-series drift views
         9_FFT_Spectral/     - Frequency analysis
         10_PFI_Dimensional/ - Conceptual explanations
         11_Unified_Dashboard/ - Per-ship multi-panel dashboards
         12_Metrics_Summary/ - Fleet-wide metrics comparison
+        13_Model_Waveforms/ - Per-model drift waveforms
+        14_Ringback/        - Ringback oscillation analysis
+        15_Oobleck_Effect/  - Prosecutor/Defense probing dynamics
 
 METHODOLOGY:
     Uses COSINE DISTANCE drift values (EH=0.80, calibrated from run023b)
@@ -98,12 +100,14 @@ VIZ_FOLDERS = {
     "4_Rescue": "Recovery dynamics",
     "5_Settling": "Settling time curves",
     "6_Architecture": "Provider signatures",
-    "7_Radar": "PFI dimensional analysis",
-    "8_Oscilloscope": "Time-series drift views",
+    "8_Radar_Oscilloscope": "Radar + time-series drift views",
     "9_FFT_Spectral": "Frequency analysis",
     "10_PFI_Dimensional": "Conceptual explanations",
     "11_Unified_Dashboard": "Per-ship multi-panel dashboards",
     "12_Metrics_Summary": "Fleet-wide metrics comparison",
+    "13_Model_Waveforms": "Per-model drift waveforms",
+    "14_Ringback": "Ringback oscillation analysis",
+    "15_Oobleck_Effect": "Prosecutor/Defense probing dynamics",
 }
 
 # =============================================================================

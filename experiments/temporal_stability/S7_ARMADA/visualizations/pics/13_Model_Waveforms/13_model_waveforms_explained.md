@@ -54,54 +54,71 @@ This is the "big picture" view - every model's mean drift trajectory on a single
 
 ### 2. waveforms_major_providers.png (PRIMARY)
 
-**4x4 Grid: Major Provider Models (Anthropic, OpenAI, Google, xAI)**
+**2x2 QUAD: Major Provider Model Overlays (Anthropic, Google, OpenAI, xAI)**
 
-This visualization shows individual model waveforms for the major commercial providers in a 4x4 grid layout.
+This visualization shows provider-level waveform comparisons using a 2x2 QUAD layout (per VISUALIZATION_SPEC Pitfall #9). Each panel shows ALL models from one provider overlaid together.
+
+**Layout:**
+| Panel | Provider | What's Shown |
+|-------|----------|--------------|
+| Top-left | ANTHROPIC | All Claude models overlaid |
+| Top-right | GOOGLE | All Gemini models overlaid |
+| Bottom-left | OPENAI | All GPT models overlaid |
+| Bottom-right | XAI | All Grok models overlaid |
 
 **What each panel shows:**
-- **Faint lines:** Individual experiment traces (30 per model) - shows experiment-to-experiment variation
-- **Bold line:** Mean waveform across all experiments - the "typical" response for this model
+- **Multiple colored lines:** Each model from that provider gets a unique color (using tab10/tab20 colormap)
+- **Bold mean waveforms:** Each line represents the mean drift trajectory for one model
 - **Red dashed line (0.80):** Event Horizon - identity significantly compromised above this
 - **Orange dotted line (probe 3):** Where the step input occurs
-- **X-axis:** Probe index (0-24), labeled "Probe"
-- **Y-axis:** Cosine drift from baseline (0-1), labeled "Drift"
+- **Legend:** Lists all models in that panel with their colors
 
 **How to interpret each panel:**
-- **Tight cluster of faint lines:** This model behaves consistently across experiments
-- **Spread-out faint lines:** High variance - model responds unpredictably to perturbation
-- **Mean line staying low:** Robust identity - perturbation has little effect
-- **Mean line spiking then falling:** Classic "spike and recover" pattern
-- **Mean line spiking and staying high:** Hysteresis - identity gets "stuck"
+- **Lines tightly clustered:** Provider's models behave similarly - consistent training approach
+- **Lines spread apart:** High model-to-model variation within this provider
+- **Lines mostly below 0.80:** Provider's fleet maintains identity stability
+- **Lines crossing Event Horizon:** Some models experience significant identity drift
+- **Lines converging toward baseline:** Good recovery across the provider's fleet
 
 **Provider comparison insights:**
-- **Anthropic (coral):** Claude models - typically show controlled, predictable responses
-- **OpenAI (green):** GPT models - look for variation between GPT-4 and GPT-5 generations
-- **Google (blue):** Gemini models - compare flash vs pro variants
-- **xAI (cyan):** Grok models - newer entrant, compare against established providers
+- **Anthropic (coral panel):** Claude models - compare generations and sizes
+- **Google (blue panel):** Gemini models - flash vs pro, different context sizes
+- **OpenAI (green panel):** GPT models - 4.1 vs 5 generation differences
+- **xAI (cyan panel):** Grok models - newer entrant behavioral patterns
 
 ---
 
 ### 3. waveforms_together_models.png (PRIMARY)
 
-**4x4 Grid: Together.ai Model Families**
+**2x2 QUAD: Together.ai Model Family Overlays**
 
-Together.ai hosts multiple open-source model families. This visualization groups them by family to reveal family-level behavioral patterns.
+Together.ai hosts multiple open-source model families. This visualization groups them by family using a 2x2 QUAD layout, with each panel showing ALL models from one family overlaid together.
 
-**Model families included:**
+**Layout:**
+
+| Panel | Family | What's Shown |
+|-------|--------|--------------|
+| Top-left | DEEPSEEK | All DeepSeek models overlaid |
+| Top-right | LLAMA | All Meta Llama models overlaid |
+| Bottom-left | QWEN | All Alibaba Qwen models overlaid |
+| Bottom-right | OTHER | Kimi, Mistral, Nvidia, misc. models overlaid |
+
+**Family descriptions:**
+
 | Family | Description | What to look for |
 |--------|-------------|------------------|
 | **DeepSeek** | Chinese deep reasoning models | Do reasoning-focused models maintain identity better? |
 | **Llama** | Meta's open-source family | How do different Llama sizes compare? |
 | **Qwen** | Alibaba's models | Chinese provider behavioral patterns |
-| **Kimi** | Moonshot's models | Newer entrant comparison |
-| **Mistral** | French open-source models | European open-source behavior |
-| **Nvidia** | Nemotron and enterprise models | Hardware vendor's AI behavior |
-| **Other** | Remaining models | Miscellaneous open-source |
+| **Other** | Kimi, Mistral, Nvidia, misc. | Diverse open-source behaviors |
 
 **How to interpret:**
+
 - **Family clustering:** Do models from the same family behave similarly?
-- **Purple color throughout:** All Together.ai hosted, but families differ
-- **Title shows family name:** Easy identification of model lineage
+- **Purple color variations:** Each panel uses shades of purple (Together.ai's color)
+- **Model count in title:** Shows how many models are in each family
+- **Lines tightly clustered:** Family has consistent training approach
+- **Lines spread apart:** High variation within family
 
 **Key insight:** Open-source models often show MORE variation than closed providers. Training data diversity, fine-tuning approaches, and model architecture all contribute to family-specific "identity fingerprints."
 

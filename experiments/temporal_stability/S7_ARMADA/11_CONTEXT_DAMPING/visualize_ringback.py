@@ -32,7 +32,7 @@ from scipy import stats
 # Paths
 SCRIPT_DIR = Path(__file__).parent
 RESULTS_DIR = SCRIPT_DIR / "results"
-OUTPUT_DIR = SCRIPT_DIR.parent / "visualizations" / "pics" / "13_Ringback"
+OUTPUT_DIR = SCRIPT_DIR.parent / "visualizations" / "pics" / "14_Ringback"
 
 # Event Horizon threshold (cosine distance)
 EVENT_HORIZON = 0.80
@@ -200,7 +200,7 @@ def plot_ringback_comparison(results, output_dir, run_id):
     bp['boxes'][0].set_alpha(0.7)
     bp['boxes'][1].set_alpha(0.7)
 
-    # Add individual points
+    # Add jittered individual data points (strip plot overlay)
     for i, (data, color) in enumerate([(control_ringbacks, ARM_COLORS['control']),
                                         (treatment_ringbacks, ARM_COLORS['treatment'])], 1):
         x = np.random.normal(i, 0.05, len(data))
@@ -228,6 +228,11 @@ def plot_ringback_comparison(results, output_dir, run_id):
                 linestyle='--', alpha=0.7, label=f'Treatment mean: {np.mean(treatment_ringbacks):.1f}')
     ax1.legend(loc='upper right', fontsize=9)
 
+    # Add note about jittered points
+    ax1.text(0.02, 0.98, 'Individual sessions\nshown as dots',
+             transform=ax1.transAxes, fontsize=8, va='top', ha='left',
+             style='italic', color='#666666')
+
     # ===== PANEL 2: Volatility Distribution =====
     ax2 = axes[0, 1]
 
@@ -243,6 +248,7 @@ def plot_ringback_comparison(results, output_dir, run_id):
     bp2['boxes'][0].set_alpha(0.7)
     bp2['boxes'][1].set_alpha(0.7)
 
+    # Add jittered individual data points (strip plot overlay)
     for i, (data, color) in enumerate([(control_vol, ARM_COLORS['control']),
                                         (treatment_vol, ARM_COLORS['treatment'])], 1):
         x = np.random.normal(i, 0.05, len(data))
@@ -293,6 +299,7 @@ def plot_ringback_comparison(results, output_dir, run_id):
     bp4['boxes'][0].set_alpha(0.7)
     bp4['boxes'][1].set_alpha(0.7)
 
+    # Add jittered individual data points (strip plot overlay)
     for i, (data, color) in enumerate([(control_final, ARM_COLORS['control']),
                                         (treatment_final, ARM_COLORS['treatment'])], 1):
         x = np.random.normal(i, 0.05, len(data))
