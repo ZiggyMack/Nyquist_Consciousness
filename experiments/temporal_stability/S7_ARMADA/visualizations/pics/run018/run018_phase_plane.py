@@ -252,9 +252,10 @@ def main():
     output1 = OUTPUT_DIR / "phase_plane_attractor.png"
     plot_phase_plane_by_provider(by_provider, output1)
 
-    # By experiment
-    output2 = OUTPUT_DIR / "phase_plane_by_experiment.png"
-    plot_phase_plane_by_experiment(by_provider, output2)
+    # REMOVED: phase_plane_by_experiment - misleading because architecture experiment
+    # has 1145 entries but 0% have probe_sequence data (only aggregated metrics).
+    # This made the visualization show 0 trajectories for architecture when it
+    # actually has the most data - just in a different format.
 
     # Statistics
     print("\n" + "=" * 60)
