@@ -96,11 +96,12 @@ keywords:
 | **arXiv** | READY | Full validation matrix complete |
 | **Journal** | DRAFT | Awaits human validation (Q2-Q3 2026) |
 
-### External Reviews (December 16, 2025)
+### External Reviews (December 2025)
 
 | Reviewer | Papers Reviewed | Verdict | Key Finding |
 |----------|-----------------|---------|-------------|
 | **Grok (xAI)** | Workshop + arXiv PDFs | **VALIDATED** | "Claims tested, measured, verified" |
+| **NotebookLLM (Google)** | Full staging package | **VALIDATED** | All 5 claims + novel findings correctly synthesized |
 
 **Grok's Assessment Highlights:**
 
@@ -110,6 +111,20 @@ keywords:
 - Recommended: Cross-linguistic testing, Grok-specific Oobleck threshold measurement
 
 See: [reviewers/Grok/review_1.md](reviewers/Grok/review_1.md)
+
+**NotebookLLM Synthesis (December 24, 2025):**
+
+Google's NotebookLLM independently processed our research package and generated:
+- Full academic paper (arXiv-ready)
+- Technical report (provider comparison)
+- Visual guide (waveform interpretation)
+- Executive briefing document
+- Audio podcast + video presentation
+- Mind map and infographics
+
+**Key Validation:** NotebookLLM correctly identified Event Horizon = 0.80, Cohen's d = 0.698, 82% inherent drift, all 5 claims (A-E), plus novel phenomena (Oobleck Effect, Provider Fingerprints, Nano Control Hypothesis).
+
+See: [reviewers/LLM_BOOK_SYNTHESIS/INDEX.md](reviewers/LLM_BOOK_SYNTHESIS/INDEX.md)
 
 ### Submission Tracking (NEW)
 
@@ -185,12 +200,17 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   │   ├── phase2/                  # Post-figure review
 │   │   ├── phase3/                  # Current drafts + PDFs
 │   │   ├── Phase4/                  # Figure placement + updates
-│   │   └── phase5/                  # Submission venue guide (NEW)
+│   │   └── phase5/                  # Submission venue guide
 │   ├── packages/                    # Extracted review packages
 │   │   ├── content/                 # Text packages by path
 │   │   └── pdf/                     # Generated PDFs (8 files)
-│   └── Grok/                        # External reviewer feedback (NEW)
-│       └── review_1.md              # Grok's empirical assessment
+│   ├── Grok/                        # External reviewer feedback
+│   │   └── review_1.md              # Grok's empirical assessment
+│   └── LLM_BOOK_SYNTHESIS/          # NotebookLLM outputs (NEW)
+│       ├── INDEX.md                 # Directory guide
+│       ├── *.md (5 files)           # Academic/technical docs
+│       ├── *.pdf, *.png (3 files)   # Visual materials
+│       └── *.m4a, *.mp4 (2 files)   # Audio/video (~76MB)
 │
 ├── submissions/                      # ★ 8 PUBLICATION PATHS
 │   ├── blueprints/                  # Planning docs for each path
