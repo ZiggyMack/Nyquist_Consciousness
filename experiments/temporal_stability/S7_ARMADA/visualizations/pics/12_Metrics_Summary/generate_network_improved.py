@@ -95,57 +95,58 @@ def compute_model_metrics(experiments):
     }
 
 def plot_improved_network(provider_models, output_dir):
-    """Create improved network visualization."""
-    fig, ax = plt.subplots(figsize=(16, 14))
-    ax.set_facecolor('#f5f5f5')
+    """Create improved network visualization with WIDER spacing for readability."""
+    fig, ax = plt.subplots(figsize=(20, 18))  # Larger canvas
+    ax.set_facecolor('#f8f8f8')
     fig.patch.set_facecolor('white')
 
-    # Provider positions (arranged in circle)
-    n_providers = len(provider_models)
-    provider_positions = {}
-    radius = 4.5
+    # Provider positions - MANUAL placement for optimal spacing
+    # Spread providers far apart with room for model labels
+    # Anthropic moved down-right to avoid crossing XAI connections
+    provider_positions = {
+        'together': (-6, 5),      # Top left (most models)
+        'openai': (6, 4),         # Top right
+        'xai': (-6, -4),          # Bottom left (moved left)
+        'google': (6, -3),        # Bottom right
+        'anthropic': (2, -7),     # Bottom center-right (moved right to avoid XAI)
+    }
 
     providers = sorted(provider_models.keys())
-    for i, provider in enumerate(providers):
-        angle = 2 * np.pi * i / n_providers - np.pi/2
-        provider_positions[provider] = (radius * np.cos(angle), radius * np.sin(angle))
 
     # Draw provider hubs and model nodes
     all_handles = []
     valis_counts = defaultdict(int)
 
     for provider, models in provider_models.items():
-        px, py = provider_positions[provider]
+        px, py = provider_positions.get(provider, (0, 0))
         color = PROVIDER_COLORS.get(provider, '#888888')
 
         # Draw provider hub (larger node for readability)
-        hub = ax.scatter([px], [py], s=3500, c=color, marker='h',
-                        edgecolors='black', linewidths=2, zorder=10, alpha=0.9)
+        hub = ax.scatter([px], [py], s=4000, c=color, marker='h',
+                        edgecolors='black', linewidths=2.5, zorder=10, alpha=0.9)
 
         # Provider label - ensure contrast with background color
-        # Use white text with black outline for readability on all colors
-        ax.annotate(provider.upper(), (px, py), fontsize=12, fontweight='bold',
+        ax.annotate(provider.upper(), (px, py), fontsize=14, fontweight='bold',
                    color='white', ha='center', va='center', zorder=11,
-                   path_effects=[patheffects.withStroke(linewidth=3, foreground='black')])
+                   path_effects=[patheffects.withStroke(linewidth=4, foreground='black')])
 
         # Draw model nodes around hub
         n_models = len(models)
 
-        # Dynamic radius and font size based on number of models
-        # More models = larger radius to spread them out, smaller font
+        # WIDER spacing for all providers - much more room for labels
         if n_models <= 3:
-            model_radius = 1.8
+            model_radius = 2.5
+            label_font = 10
+            label_offset = 0.5
+        elif n_models <= 6:
+            model_radius = 3.0
+            label_font = 9
+            label_offset = 0.45
+        else:
+            # Many models - spread even wider
+            model_radius = 3.8
             label_font = 8
             label_offset = 0.4
-        elif n_models <= 6:
-            model_radius = 2.2
-            label_font = 7
-            label_offset = 0.35
-        else:
-            # Many models (like Together with 11) - spread wider, smaller labels
-            model_radius = 2.8
-            label_font = 6
-            label_offset = 0.3
 
         for j, (model_name, experiments) in enumerate(sorted(models.items())):
             # Position model around provider hub
@@ -156,9 +157,9 @@ def plot_improved_network(provider_models, output_dir):
             # Get metrics
             metrics = compute_model_metrics(experiments)
 
-            # Node size based on experiments (smaller for crowded providers)
-            base_size = 120 if n_models > 6 else 150
-            node_size = base_size + metrics['n_experiments'] * 25
+            # Larger, more visible nodes
+            base_size = 200
+            node_size = base_size + metrics['n_experiments'] * 30
 
             # VALIS style
             valis_style = classify_valis_style(model_name, provider)
@@ -175,28 +176,26 @@ def plot_improved_network(provider_models, output_dir):
             # Draw connection to hub
             ax.plot([px, mx], [py, my], '-', color=color, alpha=0.4, linewidth=1.5, zorder=1)
 
-            # Model label (shortened) - stagger radially for crowded providers
-            short_name = model_name.split('/')[-1][:15]  # Shorter for crowded
+            # Model label - more readable with background
+            short_name = model_name.split('/')[-1][:18]  # Slightly longer names OK with spacing
 
-            # Stagger label position: alternating inside/outside for crowded providers
-            if n_models > 6:
-                # Radial label placement - labels point outward from hub
-                label_dist = label_offset + (0.15 if j % 2 == 0 else 0)
-                lx = mx + label_dist * np.cos(model_angle)
-                ly = my + label_dist * np.sin(model_angle)
-                # Align based on quadrant
-                ha = 'left' if np.cos(model_angle) > 0 else 'right'
-                va = 'bottom' if np.sin(model_angle) > 0 else 'top'
-            else:
-                lx, ly = mx, my + label_offset
-                ha, va = 'center', 'bottom'
+            # Label placement - always radially outward from hub
+            label_dist = label_offset
+            lx = mx + label_dist * np.cos(model_angle)
+            ly = my + label_dist * np.sin(model_angle)
 
-            ax.annotate(short_name, (lx, ly), fontsize=label_font, color='#333333',
-                       ha=ha, va=va, alpha=0.9, zorder=6,
-                       fontweight='bold')
+            # Align based on quadrant for clean placement
+            ha = 'left' if np.cos(model_angle) > 0.1 else ('right' if np.cos(model_angle) < -0.1 else 'center')
+            va = 'bottom' if np.sin(model_angle) > 0.1 else ('top' if np.sin(model_angle) < -0.1 else 'center')
+
+            ax.annotate(short_name, (lx, ly), fontsize=label_font, color='#222222',
+                       ha=ha, va=va, alpha=1.0, zorder=6,
+                       fontweight='bold',
+                       path_effects=[patheffects.withStroke(linewidth=3, foreground='white')])
 
     # Title and statistics
     total_models = sum(len(m) for m in provider_models.values())
+    n_providers = len(providers)
     ax.set_title(f'VALIS Armada Network\n{total_models} Models × {n_providers} Providers\nRun 023d: IRON CLAD Foundation',
                 fontsize=16, fontweight='bold', color='black', pad=20)
 
@@ -222,8 +221,8 @@ def plot_improved_network(provider_models, output_dir):
     for text in legend.get_texts():
         text.set_color('black')
 
-    ax.set_xlim(-8, 8)
-    ax.set_ylim(-8, 8)
+    ax.set_xlim(-12, 12)
+    ax.set_ylim(-12, 12)
     ax.set_aspect('equal')
     ax.axis('off')
 

@@ -1,9 +1,9 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-21
+last_reviewed: 2025-12-23
 depends_on:
   - visualize_armada.py
-  - ../15_IRON_CLAD_FOUNDATION/run023c_visualization_generator.py
-  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023_COMBINED.json
 impacts:
   - ../README.md
   - pics/
@@ -13,10 +13,29 @@ keywords:
   - cosine
   - event_horizon
   - drift
+  - onboarding
 -->
 # S7 ARMADA VISUALIZATIONS
 
-**Unified visualization toolkit for all Armada experiment runs.**
+**Unified visualization toolkit for the Nyquist Consciousness Project.**
+
+---
+
+## FOR NEW CLAUDE INSTANCES
+
+**Start here:** [START_HERE.md](START_HERE.md) - Complete onboarding guide with:
+- Directory structure and data locations
+- 9 documented pitfalls to avoid (see `0_docs/specs/4_VISUALIZATION_SPEC.md`)
+- Visualization template with boilerplate code
+- Layout patterns (2x2 quad preferred)
+- Key constants and findings
+
+**Critical specs:**
+- `../0_docs/specs/4_VISUALIZATION_SPEC.md` - Pitfalls, patterns, templates
+- `../0_docs/specs/0_RUN_METHODOLOGY.md` - Data structure, field names
+- `../0_docs/specs/5_METHODOLOGY_DOMAINS.md` - Cosine vs RMS methodology
+
+---
 
 ## Key Concepts
 
@@ -349,7 +368,8 @@ py visualize_armada.py --run 020 --type inherent # Control vs Treatment comparis
 
 ---
 
-**Last Updated**: December 21, 2025
-**Active Runs**: 023b (IRON CLAD foundation), 023d (extended settling)
-**Ships**: 25 in budget_patrol-lite fleet across 5 providers (Anthropic, OpenAI, Google, xAI, Together)
+**Last Updated**: December 23, 2025
+**Active Runs**: 023d (750 experiments, 25 models), 023 COMBINED (825 experiments, 51 models)
+**Fleet**: 51 models across 6 providers (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia)
 **Methodology**: Cosine distance (Event Horizon = 0.80)
+**Key Finding**: Cohen's d = 0.698 (model-level), 90% variance in 2 PCs, p = 2.40e-23

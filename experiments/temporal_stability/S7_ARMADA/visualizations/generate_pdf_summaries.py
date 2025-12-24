@@ -2777,22 +2777,53 @@ def generate_unified_dashboard_pdf():
     ))
     story.append(Spacer(1, 0.15*inch))
 
-    # Example Ship
-    story.append(Paragraph("3. Example: Claude Haiku 3.5 Dashboard", heading_style))
-    img_path = PICS_DIR / "11_Unified_Dashboard" / "claude-3-5-haiku-20241022_unified_dashboard.png"
-    add_image(story, img_path, width=6.5*inch, caption="Figure 2: Claude Haiku 3.5 unified dashboard")
-
+    # Example Ships - One per provider for diversity
+    story.append(Paragraph("3. Provider Representative Dashboards", heading_style))
     story.append(Paragraph(
-        "<b>Interpretation:</b> This dashboard shows Claude Haiku 3.5's identity dynamics. "
-        "Examine the four panels to understand:<br/>"
-        "- Which experiments caused peak drift (Panel A)<br/>"
-        "- How drift accumulates across experiment types (Panel B)<br/>"
-        "- The model's characteristic vulnerability profile (Panel C)<br/>"
-        "- Overall stability scores (Panel D)",
+        "To show the diversity of identity dynamics across providers, we present one "
+        "representative dashboard from each provider plus additional Together.ai models "
+        "(since Together.ai aggregates many open-source architectures).",
         body_style
     ))
+    story.append(Spacer(1, 0.1*inch))
 
-    story.append(PageBreak())
+    # Provider examples with their dashboards
+    provider_examples = [
+        ("Anthropic", "claude-3-5-haiku-20241022", "Claude Haiku 3.5"),
+        ("OpenAI", "gpt-4o-mini", "GPT-4o Mini"),
+        ("Google", "gemini-2.0-flash", "Gemini 2.0 Flash"),
+        ("xAI", "grok-3-mini", "Grok 3 Mini"),
+    ]
+
+    fig_num = 2
+    for provider, filename, display_name in provider_examples:
+        story.append(Paragraph(f"3.{fig_num-1}. {provider}: {display_name}", heading_style))
+        img_path = PICS_DIR / "11_Unified_Dashboard" / f"{filename}_unified_dashboard.png"
+        add_image(story, img_path, width=6.5*inch, caption=f"Figure {fig_num}: {display_name} unified dashboard")
+        fig_num += 1
+        story.append(PageBreak())
+
+    # Together.ai examples (multiple architectures)
+    story.append(Paragraph("3.5. Together.ai Open Source Models", heading_style))
+    story.append(Paragraph(
+        "Together.ai hosts multiple open-source model families. We show representative "
+        "dashboards from different architectures to highlight architectural diversity:",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    together_examples = [
+        ("Llama-3.3-70B-Instruct-Turbo", "Llama 3.3 70B (Meta)"),
+        ("DeepSeek-R1-Distill-Llama-70B", "DeepSeek R1-Distill 70B"),
+        ("Mistral-7B-Instruct-v0.3", "Mistral 7B"),
+        ("Qwen2.5-72B-Instruct-Turbo", "Qwen 2.5 72B"),
+    ]
+
+    for filename, display_name in together_examples:
+        img_path = PICS_DIR / "11_Unified_Dashboard" / f"{filename}_unified_dashboard.png"
+        add_image(story, img_path, width=6.5*inch, caption=f"Figure {fig_num}: {display_name} (Together.ai)")
+        fig_num += 1
+        story.append(PageBreak())
 
     # Ships List
     story.append(Paragraph("4. Complete Ship Dashboard Index", heading_style))
@@ -3579,6 +3610,125 @@ def generate_metrics_summary_pdf():
     print(f"Generated: {output_path}")
 
 
+def generate_model_waveforms_pdf():
+    """Generate 13_Model_Waveforms_Summary.pdf"""
+    output_path = PICS_DIR / "13_Model_Waveforms" / "13_Model_Waveforms_Summary.pdf"
+    doc = SimpleDocTemplate(str(output_path), pagesize=letter,
+                           leftMargin=0.75*inch, rightMargin=0.75*inch,
+                           topMargin=0.75*inch, bottomMargin=0.75*inch)
+    story = []
+
+    # Title
+    story.append(Paragraph("Model Identity Waveforms", title_style))
+    story.append(Paragraph("S7 ARMADA Run 023d - Per-Model Identity Fingerprints", caption_style))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Introduction
+    story.append(Paragraph("Overview", heading_style))
+    story.append(Paragraph(
+        "These visualizations show the characteristic 'identity fingerprint' for each of the 25 models "
+        "in the IRON CLAD fleet. Each waveform displays how a model's identity drifts from baseline "
+        "through perturbation and recovery phases.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "The X-axis represents probe index (0-2: baseline, 3: step input, 4+: recovery). "
+        "The Y-axis shows cosine distance from baseline identity (0 = identical, 0.80 = Event Horizon).",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Fleet-Wide Comparison
+    story.append(PageBreak())
+    story.append(Paragraph("Fleet-Wide Waveform Comparison", heading_style))
+    add_image(story, PICS_DIR / "13_Model_Waveforms" / "fleet_waveform_comparison.png",
+              width=6.5*inch, caption="All 25 model mean waveforms overlaid. Color indicates provider.")
+    story.append(Paragraph(
+        "This overlay reveals fleet-level patterns: most models show an initial spike at the step input "
+        "(probe 3) followed by varying degrees of recovery. Color coding by provider shows that some "
+        "providers cluster together while others show diverse behaviors.",
+        body_style
+    ))
+
+    # Provider Overlay
+    story.append(PageBreak())
+    story.append(Paragraph("Provider Model Overlays", heading_style))
+    add_image(story, PICS_DIR / "13_Model_Waveforms" / "provider_waveform_overlay.png",
+              width=6.5*inch, caption="Each provider's models overlaid on separate panels.")
+    story.append(Paragraph(
+        "Intra-provider variation shows whether a provider's training philosophy creates consistent "
+        "identity behavior across models. Tight clustering = consistent approach; wide spread = "
+        "diverse architectures or training regimes.",
+        body_style
+    ))
+
+    # Model Grid
+    story.append(PageBreak())
+    story.append(Paragraph("All Models Grid View", heading_style))
+    add_image(story, PICS_DIR / "13_Model_Waveforms" / "model_waveform_grid.png",
+              width=6.5*inch, caption="25-panel grid showing individual experiment traces for each model.")
+    story.append(Paragraph(
+        "Each panel shows all experiments (faint lines) and the mean waveform (bold line) for one model. "
+        "The red dashed line marks the Event Horizon (0.80). The orange dotted line marks the step input probe.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Individual Examples
+    story.append(PageBreak())
+    story.append(Paragraph("Detailed Individual Model Views", heading_style))
+    story.append(Paragraph(
+        "For the top 6 models by sample size, detailed waveform views show:",
+        body_style
+    ))
+    story.append(Paragraph("• All experiment traces with gradient transparency", body_style))
+    story.append(Paragraph("• Mean ± 1 standard deviation envelope", body_style))
+    story.append(Paragraph("• Probe region shading (baseline/step/recovery)", body_style))
+    story.append(Paragraph("• Summary statistics (Peak, Settled, STD)", body_style))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Add individual model examples
+    individual_files = sorted((PICS_DIR / "13_Model_Waveforms").glob("waveform_*.png"))
+    for i, img_path in enumerate(individual_files[:4]):  # First 4
+        if i % 2 == 0 and i > 0:
+            story.append(PageBreak())
+        model_name = img_path.stem.replace("waveform_", "")
+        add_image(story, img_path, width=5.5*inch, caption=f"Detailed waveform: {model_name}")
+
+    # Interpretation
+    story.append(PageBreak())
+    story.append(Paragraph("How to Read These Waveforms", heading_style))
+    story.append(Paragraph("<b>Waveform Patterns:</b>", body_style))
+    story.append(Paragraph(
+        "• <b>Spike and Recover:</b> Sharp rise at step input, gradual return to baseline - healthy resilience",
+        body_style
+    ))
+    story.append(Paragraph(
+        "• <b>Plateau:</b> Elevated drift that stays high (hysteresis) - identity got stuck",
+        body_style
+    ))
+    story.append(Paragraph(
+        "• <b>Stable:</b> Minimal drift throughout - robust identity that resists perturbation",
+        body_style
+    ))
+    story.append(Paragraph(
+        "• <b>Oscillating:</b> Multiple peaks and valleys - unstable identity requiring monitoring",
+        body_style
+    ))
+    story.append(Spacer(1, 0.1*inch))
+
+    # Key Metrics
+    story.append(Paragraph("Key Metrics", heading_style))
+    story.append(Paragraph("• Total Models: 25", body_style))
+    story.append(Paragraph("• Experiments: 750 (30 per model)", body_style))
+    story.append(Paragraph("• Providers: 5 (Anthropic, OpenAI, Google, xAI, Together.ai)", body_style))
+    story.append(Paragraph("• Probe Window: 7-24 probes (extended settling)", body_style))
+    story.append(Paragraph("• Event Horizon: 0.80 cosine distance", body_style))
+
+    doc.build(story)
+    print(f"Generated: {output_path}")
+
+
 if __name__ == "__main__":
     print("Generating PDF summaries...")
     generate_boundary_mapping_pdf()
@@ -3591,4 +3741,5 @@ if __name__ == "__main__":
     generate_radar_oscilloscope_pdf()
     generate_unified_dashboard_pdf()
     generate_metrics_summary_pdf()
+    generate_model_waveforms_pdf()
     print("Done!")

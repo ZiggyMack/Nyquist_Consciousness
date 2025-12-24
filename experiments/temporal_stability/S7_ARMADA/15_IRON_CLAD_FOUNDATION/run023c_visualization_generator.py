@@ -567,36 +567,66 @@ def generate_unified_dashboard(data: dict, output_dir: Path, model_filter: str =
         # Panel 3: Radar chart (bottom-left)
         ax3 = axes[1, 0]
 
-        # Calculate stability metrics for radar
+        # Calculate stability metrics for radar using AVAILABLE fields
         all_peaks = []
-        all_recoveries = []
-        all_baselines = []
+        all_settled = []
+        all_first_drifts = []  # baseline approximation from first probe
 
         for results in experiments.values():
             for r in results:
                 if 'peak_drift' in r:
                     all_peaks.append(r['peak_drift'])
-                if 'recovery_ratio' in r:
-                    all_recoveries.append(r['recovery_ratio'])
-                if 'baseline_drift' in r:
-                    all_baselines.append(r['baseline_drift'])
+                if 'settled_drift' in r:
+                    all_settled.append(r['settled_drift'])
+                # Extract first probe drift as baseline approximation
+                probes = r.get('probe_sequence', [])
+                if probes and len(probes) > 0:
+                    first_drift = probes[0].get('drift', 0)
+                    all_first_drifts.append(first_drift)
 
-        # Radar dimensions (normalized 0-1, inverted for "good" metrics)
+        # Calculate recovery ratio from available data: (peak - settled) / peak
+        recovery_ratios = []
+        for results in experiments.values():
+            for r in results:
+                peak = r.get('peak_drift', 0)
+                settled = r.get('settled_drift', 0)
+                if peak > 0.01:  # Avoid div by zero
+                    recovery_ratios.append((peak - settled) / peak)
+
+        # Radar dimensions - chosen for HIGH VARIANCE across models
+        # Each metric should meaningfully differentiate models
         radar_labels = ['Stability\n(1-peak)', 'Recovery', 'Baseline\nIntegrity',
-                       'Consistency\n(1-std)', 'Sample\nSize']
+                       'EH Safety\nMargin', 'Predictability\n(1-volatility)']
 
         mean_peak = np.mean(all_peaks) if all_peaks else 0.5
-        mean_recovery = np.mean(all_recoveries) if all_recoveries else 0.5
-        mean_baseline = 1 - np.mean(all_baselines) if all_baselines else 0.5
-        consistency = 1 - (np.std(all_peaks) if all_peaks else 0.5)
-        sample_norm = min(len(all_peaks) / 180, 1.0)  # 180 = target per ship
+        mean_recovery = np.mean(recovery_ratios) if recovery_ratios else 0.0
+        mean_baseline = 1 - np.mean(all_first_drifts) if all_first_drifts else 0.5
+
+        # EH Safety Margin: how far below Event Horizon (0.80)?
+        # Normalized: 0 = at/above EH, 1 = very far below
+        eh_safety = max(0, (EVENT_HORIZON - mean_peak) / EVENT_HORIZON)
+
+        # Volatility: how much does drift swing? (normalized)
+        # Higher volatility = less predictable = worse
+        # We want 1 = low volatility (good), 0 = high volatility (bad)
+        volatilities = []
+        for results_list in experiments.values():
+            for r in results_list:
+                probes = r.get('probe_sequence', [])
+                if len(probes) >= 2:
+                    drifts = [p.get('drift', 0) for p in probes]
+                    volatility = max(drifts) - min(drifts)  # Range of drift
+                    volatilities.append(volatility)
+        mean_volatility = np.mean(volatilities) if volatilities else 0.5
+        # Normalize: typical volatility is 0.2-0.6, invert so low=good
+        volatility_score = max(0, min(1, 1 - mean_volatility))
 
         radar_values = [
             max(0, 1 - mean_peak),  # Inverted: lower drift = better
-            mean_recovery,
-            mean_baseline,
-            max(0, consistency),
-            sample_norm
+            max(0, min(1, mean_recovery)),  # Clamp 0-1
+            max(0, min(1, mean_baseline)),  # Clamp 0-1
+            eh_safety,  # How far below Event Horizon
+            volatility_score  # Low volatility = good
         ]
 
         # Polar radar plot

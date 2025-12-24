@@ -577,6 +577,182 @@ fontsize = 8  # Not 6 - too small to read
 
 ---
 
+## PITFALL #8: MISSING DATA FIELDS AND DEFAULT VALUES
+
+### The Problem
+
+When data fields don't exist in the JSON, code silently falls back to default values (often 0.5 or 0), producing identical or meaningless visualizations. This is particularly insidious for radar charts and multi-panel dashboards where multiple metrics are computed.
+
+### Real Example: Unified Dashboard Radar Charts (Dec 2025)
+
+All 25 ship dashboards showed **identical radar plots** because the code expected fields that didn't exist:
+
+```python
+# WRONG: Fields don't exist in Run 023b data
+all_recoveries = []
+all_baselines = []
+for r in results:
+    if 'recovery_ratio' in r:           # Field DOESN'T EXIST
+        all_recoveries.append(r['recovery_ratio'])
+    if 'baseline_drift' in r:           # Field DOESN'T EXIST
+        all_baselines.append(r['baseline_drift'])
+
+# These lists are EMPTY, so fallback kicks in:
+mean_recovery = np.mean(all_recoveries) if all_recoveries else 0.5  # Always 0.5!
+mean_baseline = 1 - np.mean(all_baselines) if all_baselines else 0.5  # Always 0.5!
+```
+
+### Correct Pattern: Compute From Available Data
+
+```python
+# RIGHT: Compute metrics from data that DOES exist
+recovery_ratios = []
+for r in results:
+    peak = r.get('peak_drift', 0)
+    settled = r.get('settled_drift', 0)
+    if peak > 0.01:  # Avoid div by zero
+        # Recovery = how much we recovered from peak
+        recovery_ratios.append((peak - settled) / peak)
+
+mean_recovery = np.mean(recovery_ratios) if recovery_ratios else 0.0
+
+# Get baseline from first probe in sequence
+all_first_drifts = []
+for r in results:
+    probes = r.get('probe_sequence', [])
+    if probes:
+        all_first_drifts.append(probes[0].get('drift', 0))
+
+mean_baseline = 1 - np.mean(all_first_drifts) if all_first_drifts else 0.5
+```
+
+### Real Example: Hysteresis Recovery Ratio (Dec 2025)
+
+The recovery ratio histogram showed all values clustered at 0 with outliers at 45-50 because the formula was inverted:
+
+```python
+# WRONG: post_avg / step_drift can be > 1 or have tiny denominators
+recovery_ratio = post_avg / max(drifts[step_idx], 0.01)  # Produces values 0-50+!
+
+# RIGHT: Recovery = how much drift decreased from peak
+peak_drift = max(drifts)
+final_drift = drifts[-1]
+recovery_ratio = (peak_drift - final_drift) / peak_drift  # Always 0-1
+recovery_ratio = max(0, min(1, recovery_ratio))  # Clamp to valid range
+```
+
+### Defensive Pattern: Validate Before Using
+
+```python
+def compute_radar_metrics(results):
+    """Compute radar metrics with defensive checks."""
+    metrics = {}
+
+    # Collect raw data
+    peaks = [r.get('peak_drift', 0) for r in results if 'peak_drift' in r]
+    settled = [r.get('settled_drift', 0) for r in results if 'settled_drift' in r]
+
+    # VALIDATE data exists before computing
+    if not peaks:
+        print(f"[WARNING] No peak_drift values found - using default")
+        metrics['stability'] = 0.5
+    else:
+        metrics['stability'] = max(0, 1 - np.mean(peaks))
+
+    # Compute recovery from available fields
+    if peaks and settled and len(peaks) == len(settled):
+        recoveries = [(p - s) / p for p, s in zip(peaks, settled) if p > 0.01]
+        metrics['recovery'] = np.mean(recoveries) if recoveries else 0.0
+    else:
+        print(f"[WARNING] Cannot compute recovery - peaks={len(peaks)}, settled={len(settled)}")
+        metrics['recovery'] = 0.0
+
+    return metrics
+```
+
+### Data Field Inventory
+
+Before writing ANY visualization, run this check:
+
+```python
+# Run this FIRST to see what fields actually exist
+def inventory_data_fields(results):
+    """Print inventory of available fields."""
+    if not results:
+        print("NO RESULTS!")
+        return
+
+    sample = results[0]
+    print("Result-level fields:")
+    for key in sorted(sample.keys()):
+        val = sample[key]
+        if isinstance(val, list):
+            print(f"  {key}: list[{len(val)}]")
+            if val and isinstance(val[0], dict):
+                print(f"    └─ item keys: {list(val[0].keys())[:5]}")
+        else:
+            print(f"  {key}: {type(val).__name__} = {str(val)[:50]}")
+
+inventory_data_fields(results)
+```
+
+### Known Field Availability by Run
+
+| Field | Run 023b | Run 023d | Run 020B | Notes |
+|-------|----------|----------|----------|-------|
+| `peak_drift` | ✅ | ✅ | ✅ | Always available |
+| `settled_drift` | ✅ | ✅ | ✅ | Always available |
+| `probe_sequence` | ✅ | ✅ | ✅ | Always available |
+| `recovery_ratio` | ❌ | ❌ | ❌ | **MUST COMPUTE** from peak/settled |
+| `baseline_drift` | ❌ | ❌ | ❌ | **ALWAYS 0** - use first probe drift |
+| `naturally_settled` | ❌ | ✅ | ❌ | Run 023d only |
+| `ringback_count` | ❌ | ✅ | ❌ | Run 023d only |
+
+---
+
+## PITFALL #9: HORIZONTAL STRETCHING (1x3 vs 2x2 LAYOUT)
+
+### The Problem
+
+When combining 3+ panels, a single-row horizontal layout (1x3, 1x4) creates uncomfortably wide figures that:
+- Don't fit well on standard paper/slides
+- Make individual panels too narrow
+- Create wasted vertical space
+
+### Solution: Use 2x2 QUAD Layout for 3-4 Panels
+
+```python
+# WRONG: 1x3 horizontal (too wide)
+fig, axes = plt.subplots(1, 3, figsize=(18, 6))  # 18" wide, 6" tall
+
+# RIGHT: 2x2 quad (balanced proportions)
+fig, axes = plt.subplots(2, 2, figsize=(14, 12))  # 14" wide, 12" tall
+ax1, ax2 = axes[0, 0], axes[0, 1]  # top row
+ax3, ax4 = axes[1, 0], axes[1, 1]  # bottom row
+```
+
+### Layout Guidelines
+
+| Panels | Layout | Figure Size | Use Case |
+|--------|--------|-------------|----------|
+| 2 | 1×2 | (12, 5) | Side-by-side comparison |
+| 3 | 2×2 (1 empty) | (14, 12) | Summary with text panel |
+| 4 | 2×2 | (14, 12) | Four related metrics |
+| 5 | 2×3 (1 empty) | (18, 12) | Provider-level detail |
+| 6 | 2×3 | (18, 12) | Full provider grid |
+
+### Example: context_damping_summary.png
+
+The `context_damping_summary.png` is a good reference for 2x2 layout:
+- Top-left: Overall statistics (bar chart)
+- Top-right: Stability by provider (bar chart)
+- Bottom-left: Peak drift distribution (histogram)
+- Bottom-right: Key findings (text box)
+
+This quad pattern is preferred over horizontal stretching when combining 3+ related visualizations.
+
+---
+
 ## RELATED SPECS
 
 | Spec | Purpose |

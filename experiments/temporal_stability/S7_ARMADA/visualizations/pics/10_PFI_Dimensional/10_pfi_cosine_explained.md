@@ -154,14 +154,14 @@ This is lower than the archive's Euclidean result (0.977) because we now compare
 ### Visualizations in phase3b_crossmodel/:
 
 #### cross_model_comparison.png
-**What it shows:** Box plots comparing within-provider vs cross-provider drift differences.
-**How to read it:** Separated boxes = cross-provider differences are larger.
-**Key insight:** Cohen's d = 1.123 proves genuine identity differences between providers.
+**What it shows:** Violin plots comparing within-provider vs cross-provider drift differences.
+**How to read it:** The cross-provider distribution (orange) is shifted right and has a longer tail than within-provider (blue). The means differ by 0.07 (0.101 vs 0.171).
+**Key insight:** Cohen's d = 0.698 (MEDIUM effect) - cross-provider differences are statistically distinguishable from within-provider, though distributions overlap.
 
 #### cross_model_histogram.png
-**What it shows:** Overlapping histograms of within- vs cross-provider differences.
-**How to read it:** Shifted peaks indicate distinct distributions.
-**Key insight:** The distributions barely overlap - providers have distinct identity signatures.
+**What it shows:** Overlapping histograms of within- vs cross-provider drift differences.
+**How to read it:** Blue (within-provider, n=75) is concentrated in the 0-0.15 range. Orange (cross-provider, n=225) has a wider spread extending to 0.6. The distributions DO overlap in the 0-0.15 range but cross-provider extends further.
+**Key insight:** While there IS overlap at low values (models within the same provider CAN differ as much as some cross-provider pairs), the cross-provider distribution has more high-difference pairs, driving the MEDIUM effect size.
 
 #### provider_matrix.png
 **What it shows:** Heatmap of mean drift difference between all provider pairs.
