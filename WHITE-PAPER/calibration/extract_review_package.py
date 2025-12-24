@@ -72,12 +72,20 @@ PUBLICATION_PATHS = [
 # Map which LLM_BOOK_SYNTHESIS files go to which publication paths
 NOTEBOOKLM_INTEGRATION = {
     "arxiv": [
+        "README.md",  # Master synthesis (173KB)
+        "INDEX.md",   # Content guide
         "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 825 Experiments Across 51 Models.md",
         "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
+        "Decoding Ai Identity Drift.png",    # Infographic
+        "NotebookLM Mind Map (1).png",       # Concept map
     ],
     "journal": [
+        "README.md",  # Master synthesis (173KB)
+        "INDEX.md",   # Content guide
         "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 825 Experiments Across 51 Models.md",
         "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
+        "Decoding Ai Identity Drift.png",    # Infographic
+        "NotebookLM Mind Map (1).png",       # Concept map
     ],
     "workshop": [
         "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md",
@@ -149,7 +157,7 @@ ARXIV_CONTENT = PathContent(
     theory=["*.md"],  # All theory docs
     guides=["*.md"],  # All guides
     references=["references.md", "references.bib"],
-    figures=["fig*.md", "ascii/", "run018/", "run020/", "suggested/", "8_pfi_dimensional/"],  # All figure specs + run visualizations
+    figures=["fig*.md", "ascii/", "current/", "historical/"],  # Organized: current (Run 023) + historical (pre-Run 023)
     planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md"],
     reviewers=["phase1/NOVA_S7_REVIEW.md", "phase3/*.md"],
     reading_order=[
@@ -171,7 +179,7 @@ JOURNAL_CONTENT = PathContent(
     theory=["*.md"],
     guides=["*.md"],
     references=["references.md", "references.bib"],
-    figures=["fig*.md", "ascii/", "run018/", "run020/", "suggested/", "8_pfi_dimensional/"],  # All figure specs + run visualizations
+    figures=["fig*.md", "ascii/", "current/", "historical/"],  # Organized: current (Run 023) + historical (pre-Run 023)
     planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md"],
     reviewers=["phase1/*.md", "phase2/*.md", "phase3/*.md"],
     reading_order=[

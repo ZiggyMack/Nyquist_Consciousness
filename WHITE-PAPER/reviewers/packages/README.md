@@ -46,10 +46,12 @@ packages/
 │   │   ├── REVIEWER_GUIDE.md
 │   │   ├── README.md
 │   │   ├── PACKAGE_MANIFEST.md
-│   │   ├── LLM_SYNTHESIS/
+│   │   ├── LLM_SYNTHESIS/     # NotebookLLM synthesis (6 files)
+│   │   ├── maps/              # ARMADA_MAP + PREDICTIONS_MATRIX
+│   │   ├── reviewers/         # phase1/2/3 draft progress
+│   │   ├── figures/           # current/ + historical/ organized
 │   │   ├── submissions/
 │   │   ├── theory/
-│   │   ├── figures/
 │   │   └── ...
 │   ├── workshop/          # Priority
 │   │   ├── REVIEWER_GUIDE.md
@@ -60,9 +62,10 @@ packages/
 │   ├── education/
 │   ├── policy/
 │   ├── funding/
-│   └── media/
-├── pdf/                   # PDF layer (separate)
-└── visualization_pdfs/    # S7 ARMADA visualization summaries (16 PDFs)
+│   ├── media/
+│   ├── visualization_pdfs/    # ★ 17 S7 ARMADA summary PDFs (62MB)
+│   └── legacy_pdfs/           # ★ Pre-IRON-CLAD publication PDFs (9.5MB)
+└── pdf/                   # PDF layer (original location, now in v2/legacy_pdfs/)
 ```
 
 ---
