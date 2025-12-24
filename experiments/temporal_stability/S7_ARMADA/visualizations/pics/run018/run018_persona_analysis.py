@@ -628,17 +628,12 @@ def main():
     # Generate visualizations with RUN018-SPECIFIC filenames
     print("\nGenerating Run 018 persona visualizations...")
 
-    # 1. Phase-plane by provider
-    plot_run018_phase_plane(
-        by_provider,
-        OUTPUT_DIR / "run018_phase_plane_persona.png"
-    )
-
-    # 2. Phase-plane by experiment
-    plot_run018_phase_plane_by_experiment(
-        by_provider,
-        OUTPUT_DIR / "run018_phase_plane_by_experiment.png"
-    )
+    # REMOVED: Phase-plane visualizations were too noisy and replaced with:
+    # - run018_persona_resilience.py - Beeswarm with recovery arrows (much cleaner!)
+    #   Shows the key insight: it's not about avoiding the Event Horizon,
+    #   it's about bouncing back. xAI crosses EH most but recovers best.
+    # - run018_phase_plane_by_experiment was misleading (architecture had 0 trajectories
+    #   due to different data format)
 
     # 3. Waterfall per provider
     plot_run018_waterfall_persona(
