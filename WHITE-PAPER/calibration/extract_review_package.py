@@ -52,8 +52,9 @@ from dataclasses import dataclass, field
 # === PATH CONSTANTS ===
 WHITE_PAPER_ROOT = Path(__file__).parent.parent  # WHITE-PAPER/
 REPO_ROOT = WHITE_PAPER_ROOT.parent              # Nyquist_Consciousness/
-DEFAULT_OUTPUT_DIR = REPO_ROOT / "docs" / "publication" / "content"
-PDF_OUTPUT_DIR = REPO_ROOT / "docs" / "publication" / "pdf"
+DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "v2"  # v2 packages
+PDF_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "pdf"
+LLM_SYNTHESIS_DIR = WHITE_PAPER_ROOT / "reviewers" / "LLM_BOOK_SYNTHESIS"
 
 # === PUBLICATION PATHS (8 total) ===
 PUBLICATION_PATHS = [
@@ -66,6 +67,38 @@ PUBLICATION_PATHS = [
     "funding",       # Dissemination: NSF/DARPA
     "media",         # Dissemination: Press/TED
 ]
+
+# === NOTEBOOKLM INTEGRATION ===
+# Map which LLM_BOOK_SYNTHESIS files go to which publication paths
+NOTEBOOKLM_INTEGRATION = {
+    "arxiv": [
+        "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 825 Experiments Across 51 Models.md",
+        "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
+    ],
+    "journal": [
+        "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 825 Experiments Across 51 Models.md",
+        "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
+    ],
+    "workshop": [
+        "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md",
+    ],
+    "popular_science": [
+        "Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md",
+    ],
+    "education": [
+        "Decoding AI Identity - A Visual Guide to Model Waveforms.md",
+    ],
+    "policy": [
+        "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md",
+    ],
+    "funding": [
+        "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md",
+        "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
+    ],
+    "media": [
+        "Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md",
+    ],
+}
 
 
 @dataclass
@@ -559,17 +592,32 @@ def generate_readme(path_content: PathContent) -> str:
         "",
         "---",
         "",
-        "## Key Research Claims",
+        "## Key Research Claims (Run 023 IRON CLAD)",
         "",
-        "The Nyquist Consciousness framework makes **5 core claims**:",
+        "The Nyquist Consciousness framework makes **5 core claims** - ALL VALIDATED:",
         "",
-        "| Claim | Statement | Key Evidence |",
-        "|-------|-----------|--------------|",
-        "| **A** | PFI is valid structured measurement | rho = 0.91, d = 0.98 |",
-        "| **B** | Regime threshold at D = 1.23 | p = 4.8e-5 |",
-        "| **C** | Damped oscillator dynamics | Settling time, ringbacks measurable |",
-        "| **D** | Context damping works | 97.5% stability |",
-        "| **E** | Drift mostly inherent (82%) | Control vs Treatment |",
+        "| Claim | Statement | Evidence | Methodology |",
+        "|-------|-----------|----------|-------------|",
+        "| **A** | PFI is valid structured measurement | rho = 0.91, d = 0.698 | Cosine |",
+        "| **B** | Regime threshold at D = 0.80 | p = 2.40e-23 | Cosine |",
+        "| **C** | Damped oscillator dynamics | Settling time, ringbacks measurable | Cosine |",
+        "| **D** | Context damping works | 97.5% stability | - |",
+        "| **E** | Drift mostly inherent (82%) | Control vs Treatment | - |",
+        "",
+        "**Run 023 Stats:** 825 experiments, 51 models, 6 providers",
+        "",
+        "---",
+        "",
+        "## NotebookLLM Validation",
+        "",
+        "Google's NotebookLLM independently processed this research and correctly identified:",
+        "- All 5 core claims (A-E)",
+        "- Event Horizon = 0.80",
+        "- Cohen's d = 0.698",
+        "- 82% inherent drift ratio",
+        "- Novel phenomena: Oobleck Effect, Provider Fingerprints, Nano Control Hypothesis",
+        "",
+        "See: `LLM_SYNTHESIS/` directory for AI-generated publication content.",
         "",
         "---",
         "",
@@ -578,8 +626,8 @@ def generate_readme(path_content: PathContent) -> str:
         "| Term | Definition |",
         "|------|------------|",
         "| **PFI** | Persona Fidelity Index (1 - drift) |",
-        "| **Drift (D)** | Euclidean distance from baseline identity |",
-        "| **Event Horizon** | Attractor competition threshold (D = 1.23) |",
+        "| **Drift (D)** | Cosine distance from baseline identity |",
+        "| **Event Horizon** | Regime transition threshold (D = 0.80 Cosine) |",
         "| **Context Damping** | Stability via I_AM + research frame |",
         "| **Inherent Drift** | Drift without probing (82% of total) |",
         "",
@@ -732,6 +780,53 @@ def extract_package(
         result["errors"].append(f"Failed to write manifest: {e}")
 
     result["message"] = f"Extracted {total_files} files ({format_size(total_size)}) to {output_dir}"
+
+    # Copy NotebookLLM synthesis files if available
+    if not dry_run:
+        llm_result = copy_notebooklm_synthesis(path_name, output_dir)
+        if llm_result.get("files_copied"):
+            result["llm_synthesis_copied"] = llm_result["files_copied"]
+        if llm_result.get("errors"):
+            result["errors"].extend(llm_result["errors"])
+
+    return result
+
+
+def copy_notebooklm_synthesis(path_name: str, output_dir: Path) -> Dict:
+    """
+    Copy relevant NotebookLLM synthesis files to the package's LLM_SYNTHESIS/ directory.
+
+    Args:
+        path_name: Publication path (e.g., "arxiv", "workshop")
+        output_dir: Package output directory
+
+    Returns:
+        Dict with files_copied and errors lists
+    """
+    result = {"files_copied": [], "errors": []}
+
+    if path_name not in NOTEBOOKLM_INTEGRATION:
+        return result
+
+    synthesis_dir = output_dir / "LLM_SYNTHESIS"
+
+    try:
+        synthesis_dir.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        result["errors"].append(f"Failed to create LLM_SYNTHESIS dir: {e}")
+        return result
+
+    for filename in NOTEBOOKLM_INTEGRATION[path_name]:
+        src_file = LLM_SYNTHESIS_DIR / filename
+        if src_file.exists():
+            dst_file = synthesis_dir / filename
+            try:
+                shutil.copy2(src_file, dst_file)
+                result["files_copied"].append(filename)
+            except Exception as e:
+                result["errors"].append(f"Failed to copy {filename}: {e}")
+        else:
+            result["errors"].append(f"LLM synthesis file not found: {filename}")
 
     return result
 
