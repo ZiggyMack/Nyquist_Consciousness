@@ -9,9 +9,10 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image
 from reportlab.lib.colors import HexColor, black, grey
 import re
+import os
 
 # Paths
 SUBMISSIONS_DIR = Path(__file__).parent
@@ -124,6 +125,106 @@ quote_style = ParagraphStyle(
     alignment=TA_CENTER,
     textColor=HexColor('#555555')
 )
+
+caption_style = ParagraphStyle(
+    'Caption',
+    parent=styles['Normal'],
+    fontSize=9,
+    alignment=TA_CENTER,
+    textColor=HexColor('#666666'),
+    spaceAfter=15,
+    spaceBefore=5
+)
+
+# Figure paths - resolve relative paths from markdown to actual locations
+# Note: ../figures/ from submissions/arxiv/ goes to WHITE-PAPER/figures/
+WHITE_PAPER_DIR = SUBMISSIONS_DIR.parent  # WHITE-PAPER/
+FIGURES_DIR = WHITE_PAPER_DIR / "figures"
+FIGURES_GENERATED_DIR = FIGURES_DIR / "generated" / "png"
+FIGURES_RUN018_DIR = FIGURES_DIR / "run018"
+FIGURES_RUN020_DIR = FIGURES_DIR / "run020"
+
+def resolve_image_path(md_path, relative_path):
+    """Resolve a relative image path from markdown to actual file path."""
+    # Get the directory of the markdown file
+    md_dir = Path(md_path).parent.resolve()
+    filename = Path(relative_path).name
+
+    # First try relative to the markdown file
+    img_path = (md_dir / relative_path).resolve()
+    if img_path.exists():
+        return img_path
+
+    # The markdown paths use ../figures/ expecting to go up from submissions/arxiv/
+    # but figures/ is at WHITE-PAPER/figures/, not submissions/figures/
+    # So we need to look in WHITE-PAPER/figures/ directly
+
+    # Check figures/generated/png/ (most common location)
+    alt_path = FIGURES_GENERATED_DIR / filename
+    if alt_path.exists():
+        return alt_path
+
+    # Check figures/run018/
+    alt_path = FIGURES_RUN018_DIR / filename
+    if alt_path.exists():
+        return alt_path
+
+    # Check figures/run020/
+    alt_path = FIGURES_RUN020_DIR / filename
+    if alt_path.exists():
+        return alt_path
+
+    # Check parent figures directory
+    alt_path = FIGURES_DIR / filename
+    if alt_path.exists():
+        return alt_path
+
+    # Try to match the subfolder structure from the relative path
+    # e.g., ../figures/generated/png/file.png -> WHITE-PAPER/figures/generated/png/file.png
+    if 'figures/' in relative_path:
+        parts = relative_path.split('figures/')[-1]  # Get everything after 'figures/'
+        alt_path = FIGURES_DIR / parts
+        if alt_path.exists():
+            return alt_path
+
+    return None
+
+def add_image_to_story(story, img_path, caption=None, max_width=6.0*inch):
+    """Add an image with optional caption to the story."""
+    if img_path and img_path.exists():
+        try:
+            # Calculate dimensions maintaining aspect ratio
+            from PIL import Image as PILImage
+            with PILImage.open(img_path) as pil_img:
+                orig_width, orig_height = pil_img.size
+
+            # Scale to fit page width
+            aspect = orig_height / orig_width
+            width = min(max_width, 6.0*inch)
+            height = width * aspect
+
+            # Cap height to avoid too-tall images
+            max_height = 4.5*inch
+            if height > max_height:
+                height = max_height
+                width = height / aspect
+
+            img = Image(str(img_path), width=width, height=height)
+            story.append(Spacer(1, 0.15*inch))
+            story.append(img)
+
+            if caption:
+                story.append(Paragraph(f"<i>{clean_unicode(caption)}</i>", caption_style))
+            story.append(Spacer(1, 0.1*inch))
+            return True
+        except Exception as e:
+            print(f"  Warning: Could not add image {img_path}: {e}")
+            story.append(Paragraph(f"[Image: {caption or img_path.name}]", caption_style))
+            return False
+    else:
+        if caption:
+            story.append(Paragraph(f"[Image not found: {caption}]", caption_style))
+        return False
 
 def clean_unicode(text):
     """Replace Unicode characters that cause black squares in reportlab."""
@@ -447,14 +548,26 @@ def markdown_to_story(md_path):
             i += 1
             continue
 
-        # Figure references (skip image markdown, just show caption)
+        # Figure references - parse and embed images
         if line.startswith('!['):
+            # Parse: ![caption](path)
+            match = re.match(r'!\[([^\]]*)\]\(([^)]+)\)', line)
+            if match:
+                caption = match.group(1)
+                img_relative_path = match.group(2)
+                img_path = resolve_image_path(md_path, img_relative_path)
+                if img_path:
+                    add_image_to_story(story, img_path, caption)
+                else:
+                    print(f"  Warning: Image not found: {img_relative_path}")
+                    story.append(Paragraph(f"[Image not found: {caption}]", caption_style))
             i += 1
             continue
 
-        # Figure captions (*Figure X:...)
+        # Figure captions (*Figure X:...) - already included with image above
         if line.startswith('*Figure') or line.startswith('*Table'):
             caption = line.strip('*').strip()
+            # Only show standalone captions (not already part of image)
             story.append(Paragraph(f"<i>{clean_markdown(caption)}</i>", affiliation_style))
             i += 1
             continue

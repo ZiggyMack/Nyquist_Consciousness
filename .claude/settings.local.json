@@ -279,7 +279,9 @@
       "Bash(git commit -m \"$\\(cat <<''EOF''\n13_Model_Waveforms: 2x2 QUAD overlays + PDF generator\n\nVisualization changes:\n- Replaced 4x4 grid layouts with 2x2 QUAD provider overlays\n- waveforms_major_providers.png: Anthropic, Google, OpenAI, xAI panels\n- waveforms_together_models.png: DeepSeek, Llama, Qwen, Other panels\n- Each panel shows ALL models from provider/family overlaid together\n- Updated documentation to reflect new 2x2 overlay format\n\nNew files:\n- generate_pdf_summary.py: Dedicated PDF generator for 13_Model_Waveforms\n- 13_Model_Waveforms_Summary.pdf: Updated with all 9 current visualizations\n\nNew directories staged:\n- 14_Ringback/: Ringback oscillation analysis \\(moved from 13_Ringback\\)\n- 15_Oobleck_Effect/: Prosecutor/Defense probing dynamics\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(paste:*)",
       "Bash(grip:*)",
-      "Bash(py -m grip:*)"
+      "Bash(py -m grip:*)",
+      "Bash(for file in arxiv/*.md workshop/*.md journal/*.md funding/*.md policy/*.md media/*.md education/*.md popular_science/*.md)",
+      "Bash(do echo \"=== $file ===\" grep -o '!\\\\[.*\\\\]\\(.*\\\\.png\\)' \"$file\")"
     ],
     "deny": [],
     "ask": []
