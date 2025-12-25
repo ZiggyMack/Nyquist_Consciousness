@@ -147,6 +147,8 @@ Full submission infrastructure now available:
 1. **New reviewer?** Start with [START_HERE.md](START_HERE.md)
 2. **Looking for theory?** See [theory/](theory/) directory
 3. **Ready to generate papers?** Check [submissions/](submissions/) for each path
+4. **Before writing claims?** Read [planning/NOVAS_OVERCLAIMING_PREVENTION.md](planning/NOVAS_OVERCLAIMING_PREVENTION.md)
+5. **Confused about Event Horizon?** See [planning/METHODOLOGY_DOMAINS.md](planning/METHODOLOGY_DOMAINS.md)
 
 ---
 
@@ -232,7 +234,9 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   ├── generate_pdfs.py             # Generate all 8 PDFs (NEW)
 │   └── publication_stats.json       # Machine-readable stats
 │
-├── planning/                         # Integration planning
+├── planning/                         # ★ METHODOLOGY & GUARDRAILS
+│   ├── METHODOLOGY_DOMAINS.md        # Cosine vs Keyword RMS (dual Event Horizon)
+│   ├── NOVAS_OVERCLAIMING_PREVENTION.md # What NOT to claim (critical!)
 │   ├── PUBLICATION_PIPELINE_MASTER.md  # Source of truth for 8 paths
 │   └── OPUS_REVIEW_BRIEF.md         # Opus 4.5 review orientation
 │
@@ -308,6 +312,27 @@ py sync_llmbook.py --sync --include-visuals
 | **C** | Damped oscillator dynamics | τₛ≈10.2, ringbacks measurable | Cosine |
 | **D** | Context damping works | 97.5% stability | - |
 | **E** | Drift is mostly inherent | **82% ratio** | - |
+
+---
+
+## Critical Guardrails (Before Writing)
+
+Before drafting any publication content, review these documents in `planning/`:
+
+| Document | Purpose | When to Use |
+|----------|---------|-------------|
+| [NOVAS_OVERCLAIMING_PREVENTION.md](planning/NOVAS_OVERCLAIMING_PREVENTION.md) | What claims to AVOID | Before writing any claims |
+| [METHODOLOGY_DOMAINS.md](planning/METHODOLOGY_DOMAINS.md) | Dual Event Horizon (0.80 vs 1.23) | When referencing thresholds |
+| [PUBLICATION_PIPELINE_MASTER.md](planning/PUBLICATION_PIPELINE_MASTER.md) | 8 publication paths | Planning submissions |
+
+**Key Language Rules:**
+
+| Avoid | Use Instead |
+|-------|-------------|
+| "identity collapses" | "regime transition" |
+| "Event Horizon = failure" | "attractor competition threshold" |
+| "Platonic coordinates" | "attractor basin consistency" |
+| Subjective experience claims | Behavioral/dynamical framing |
 
 ---
 
