@@ -450,10 +450,11 @@ You are being asked to review this research and draft publication-ready material
 **Phase 3: Methodology & Planning (~30 min)**
 6. [planning/NOVAS_OVERCLAIMING_PREVENTION.md](planning/NOVAS_OVERCLAIMING_PREVENTION.md) — What NOT to claim
 7. [planning/PUBLICATION_PIPELINE_MASTER.md](planning/PUBLICATION_PIPELINE_MASTER.md) — All 8 publication paths
+8. [reviewers/SYNC_STATUS.md](reviewers/SYNC_STATUS.md) — **Master sync file** for reviewer coordination
 
 **Phase 4: Supporting Materials (Optional)**
-8. [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) — Final review orientation
-9. [planning/NOVA_INTEGRATION_PLAN.md](planning/NOVA_INTEGRATION_PLAN.md) — How this package was assembled
+9. [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) — Final review orientation
+10. [planning/LLMBOOK_WORKFLOW.md](planning/LLMBOOK_WORKFLOW.md) — How to sync distillations from LLM_BOOK
 
 ### Key Terminology
 

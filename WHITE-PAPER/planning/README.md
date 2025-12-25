@@ -26,6 +26,11 @@ This directory contains planning documents, methodology guidance, and integratio
 | `OPUS_REVIEW_BRIEF.md` | Opus 4.5 orientation for final review | CURRENT |
 | `METHODOLOGY_DOMAINS.md` | Cosine vs Keyword RMS methodology reconciliation | CURRENT |
 | `NOVAS_OVERCLAIMING_PREVENTION.md` | Critical guidance on what claims to avoid | ACTIVE |
+| `LLMBOOK_WORKFLOW.md` | How to sync LLM_BOOK distillations to WHITE-PAPER | NEW |
+
+## Master Sync Reference
+
+**Source of truth for reviewer sync:** [../reviewers/SYNC_STATUS.md](../reviewers/SYNC_STATUS.md)
 
 ## Event Horizon Thresholds
 
