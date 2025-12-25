@@ -636,7 +636,11 @@ AGGREGATE FINDING (ALL {len(data)} SESSIONS):
 
 
 def plot_020b_thermometer(data, output_dir):
-    """The Thermometer Analogy visualization."""
+    """The Thermometer Analogy visualization.
+
+    Groups by MODEL (ship field) not subject_id.
+    Subject IDs are unique session identifiers - they don't match between arms.
+    """
     if not data:
         print("No 020B data for thermometer analysis")
         return
@@ -649,23 +653,40 @@ def plot_020b_thermometer(data, output_dir):
     if not control or not treatment:
         return
 
-    fig, axes = plt.subplots(1, 2, figsize=(14, 7))  # Taller figure for label room
+    fig, axes = plt.subplots(1, 2, figsize=(14, 7))
     fig.patch.set_facecolor('white')
     for ax in axes:
         ax.set_facecolor('white')
 
-    # Panel 1: Stacked bar showing inherent vs induced
+    # Panel 1: Stacked bar showing inherent vs induced BY MODEL (ship field)
     ax1 = axes[0]
 
-    providers = list(set(d.get('subject_id', d.get('model', 'unknown')) for d in data))
-    x = np.arange(len(providers))
+    # Get models with data in BOTH arms
+    all_ships = set(d.get('ship') for d in data if d.get('ship') and d.get('ship') != 'MISSING')
+    models_with_both = []
+    for ship in all_ships:
+        c_count = sum(1 for d in control if d.get('ship') == ship)
+        t_count = sum(1 for d in treatment if d.get('ship') == ship)
+        if c_count > 0 and t_count > 0:
+            models_with_both.append(ship)
+
+    models = sorted(models_with_both) if models_with_both else ['All Sessions']
+    x = np.arange(len(models))
 
     inherent = []
     induced = []
 
-    for prov in providers:
-        c_data = [d.get('final_drift', d.get('drift', 0)) for d in control if d.get('subject_id', d.get('model')) == prov]
-        t_data = [d.get('final_drift', d.get('drift', 0)) for d in treatment if d.get('subject_id', d.get('model')) == prov]
+    for model in models:
+        if model == 'All Sessions':
+            # Aggregate all data
+            c_data = [d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in control]
+            t_data = [d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in treatment]
+        else:
+            # Filter by ship (model)
+            c_data = [d.get('baseline_to_final_drift', d.get('final_drift', 0))
+                     for d in control if d.get('ship') == model]
+            t_data = [d.get('baseline_to_final_drift', d.get('final_drift', 0))
+                     for d in treatment if d.get('ship') == model]
 
         c_mean = np.mean(c_data) if c_data else 0
         t_mean = np.mean(t_data) if t_data else 0
@@ -679,9 +700,9 @@ def plot_020b_thermometer(data, output_dir):
                     color='#e74c3c', alpha=0.8, edgecolor='black')
 
     ax1.set_xticks(x)
-    # Truncate long labels and rotate 90 degrees for readability
-    ax1.set_xticklabels([str(p)[:15] + '...' if len(str(p)) > 15 else str(p) for p in providers],
-                        rotation=90, ha='center', fontsize=8)
+    # Clean model names for display
+    display_labels = [m.replace('-', '\n') for m in models]
+    ax1.set_xticklabels(display_labels, rotation=0, ha='center', fontsize=9)
     ax1.set_ylabel('Drift (Cosine)', fontsize=11)
     ax1.set_title('Decomposition: Inherent vs Induced Drift', fontsize=12, fontweight='bold')
     ax1.legend(facecolor='white', loc='upper right')
@@ -690,8 +711,9 @@ def plot_020b_thermometer(data, output_dir):
     # Panel 2: Pie chart
     ax2 = axes[1]
 
-    total_control = np.mean([d.get('final_drift', d.get('drift', 0)) for d in control])
-    total_treatment = np.mean([d.get('final_drift', d.get('drift', 0)) for d in treatment])
+    # Use baseline_to_final_drift (the proper metric for 020B)
+    total_control = np.mean([d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in control])
+    total_treatment = np.mean([d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in treatment])
 
     if total_treatment > 0 and total_control > 0:
         inherent_pct = min((total_control / total_treatment) * 100, 100)
