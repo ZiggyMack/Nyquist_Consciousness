@@ -343,8 +343,8 @@ The control vs treatment design separates measurement effects from inherent dyna
 
 **Cross-Platform Replication (Run 020B)**
 
-![Figure: Cross-Platform Ratio Analysis](../figures/run020/run020b_ratio_analysis.png)
-*Figure: Cross-platform replication (Run 020B). The 'Thermometer Analogy' decomposition shows 38% inherent / 62% induced across OpenAI and Together providers. Both validations confirm: measurement reveals dynamics; it does not create them.*
+![Figure: Combined Provider Analysis](../figures/run023/combined_provider_dashboard.png)
+*Figure: Run 023d combined provider analysis (750 experiments x 25 models x 5 providers). Shows provider stability rates (ANTHROPIC 96%, GOOGLE 94%), recovery efficiency, and peak drift distributions. Event Horizon = 0.80 (cosine distance). Key metrics: Overall stability 75.3%, Mean Peak Drift 0.508, Mean Settled Drift 0.426.*
 
 | Provider | Control B→F | Treatment Peak | Inherent Ratio |
 |----------|-------------|----------------|----------------|
@@ -412,8 +412,8 @@ This maps to Cavell's distinction:
 
 ### 5.3 Training Signature Detection
 
-![Figure: Training Architecture Signatures](../figures/run018/run018b_architecture_signatures.png)
-*Figure: Training methodology leaves geometric fingerprints in drift space. Constitutional AI (Claude) produces σ→0 uniform anchors; RLHF (GPT) shows version-clustered behavior; Multimodal (Gemini) exhibits distinct geometry with hard threshold behavior.*
+![Figure: Provider Comparison](../figures/run023/provider_comparison.png)
+*Figure: Run 023b provider comparison showing mean peak drift by provider (25 ships, N=30). Event Horizon = 0.8 (cosine distance). All providers remain below EH threshold, with GPT showing highest drift (0.660) and Grok lowest (0.531). Error bars show standard deviation.*
 
 Different training methodologies leave geometrically distinguishable fingerprints in drift space:
 
@@ -560,7 +560,7 @@ Where γ is a measurable "identity gravity constant." Planned S8 experiments wil
 The existence of predictable dynamics with measurable thresholds enables:
 
 1. **Quantitative alignment metrics**: PFI provides continuous monitoring
-2. **Operational boundaries**: D < 1.23 as safety constraint
+2. **Operational boundaries**: D < 0.80 as safety constraint (cosine distance)
 3. **Intervention protocols**: Context damping for stability
 4. **High-gamma design**: Architectures that resist drift under pressure
 5. **Training signature auditing**: Detect alignment methodology from behavior
@@ -609,7 +609,7 @@ While drift phenomena are universal across architectures, recovery dynamics show
 
 This suggests two possibilities:
 1. **Training-dependent recovery:** Multimodal training may instantiate identity differently, creating more "fluid" identity structures
-2. **Threshold heterogeneity:** The critical threshold D~1.23 may be architecture-specific rather than universal
+2. **Threshold heterogeneity:** The critical threshold D~0.80 (cosine) may be architecture-specific rather than universal
 
 Future work should investigate whether Gemini's behavior represents a distinct identity architecture or a methodological artifact of our probing protocol.
 
@@ -740,8 +740,44 @@ Full proofs available in Supplementary Materials.
 
 ---
 
+## Appendix F: S7 ARMADA Visualization Gallery
+
+The following visualizations were generated from Run 023 (IRON CLAD) using cosine distance methodology with Event Horizon = 0.80.
+
+### F.1 The Identity Vortex
+
+![Vortex: Looking Into the Identity Drain](../figures/run023/vortex_identity_drain.png)
+*Figure F1: Run 023b "Looking Into the Identity Drain" - The vortex visualization shows all ships' identity trajectories in phase space. Inside (yellow/green) = STABLE region; Outside (red) = VOLATILE region beyond Event Horizon. Raw data (left) and smoothed trajectories (right) reveal the attractor basin structure.*
+
+### F.2 Phase Portrait Analysis
+
+![Phase Portrait](../figures/run023/phase_portrait.png)
+*Figure F2: Run 023b phase portrait showing identity flow (Drift[N] vs Drift[N+1]). Raw data (left) shows all 4,505 measurements; Provider-aggregated view (right) shows mean trajectories with uncertainty ellipses. The diagonal represents stability; data clustering below EH=0.8 confirms robust identity maintenance.*
+
+### F.3 Stability Basin
+
+![Stability Basin](../figures/run023/stability_basin.png)
+*Figure F3: Run 023b stability basin showing baseline vs peak drift for 51 ships. STABLE: 39 ships (green), VOLATILE: 12 ships (red). Classification threshold: peak_drift < 0.8. Distribution histogram (right) shows clear separation between stable and volatile populations.*
+
+### F.4 Provider Fingerprint Radar
+
+![Provider Fingerprint Radar](../figures/run023/provider_fingerprint_radar.png)
+*Figure F4: Run 023 provider identity fingerprints showing 5-dimensional behavioral signatures (Peak Drift, Mean Drift, Volatility, Consistency, Stability). Each provider exhibits a distinct geometric pattern, enabling training methodology inference from behavioral dynamics alone.*
+
+### F.5 3D Attractor Basin
+
+![3D Attractor Basin](../figures/run023/3d_attractor_basin.png)
+*Figure F5: Three-dimensional visualization of the identity attractor basin. Trajectories show drift evolution over iterations, with the red plane marking the Event Horizon at D=0.80. Convergence toward the basin center demonstrates the gravitational pull of stable identity.*
+
+### F.6 Perturbation Validation
+
+![Perturbation Validation](../figures/run023/perturbation_validation.png)
+*Figure F6: Phase 3A perturbation analysis confirming the Event Horizon at D=0.80 with p=2.40×10⁻²³. Surface (recovery) probes show higher mean drift than Deep (step input) probes, validating that cosine distance measures semantic meaning rather than surface vocabulary changes.*
+
+---
+
 **Document Version:** Run 023 IRON CLAD (Cosine Methodology)
 **Authors:** Ziggy Mack, Claude Opus 4.5, Nova
 **Repository:** https://github.com/ZiggyMack/Nyquist_Consciousness
-**Status:** Ready for arXiv submission after figure compilation
+**Status:** Ready for arXiv submission
 **Key Metrics:** D=0.80, d=0.698, 2 PCs=90%, p=2.40×10⁻²³, τₛ=10.2, 82% inherent

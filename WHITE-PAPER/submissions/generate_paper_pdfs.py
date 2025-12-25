@@ -143,6 +143,7 @@ FIGURES_DIR = WHITE_PAPER_DIR / "figures"
 FIGURES_GENERATED_DIR = FIGURES_DIR / "generated" / "png"
 FIGURES_RUN018_DIR = FIGURES_DIR / "run018"
 FIGURES_RUN020_DIR = FIGURES_DIR / "run020"
+FIGURES_RUN023_DIR = FIGURES_DIR / "run023"  # New cosine methodology figures
 
 def resolve_image_path(md_path, relative_path):
     """Resolve a relative image path from markdown to actual file path."""
@@ -171,6 +172,11 @@ def resolve_image_path(md_path, relative_path):
 
     # Check figures/run020/
     alt_path = FIGURES_RUN020_DIR / filename
+    if alt_path.exists():
+        return alt_path
+
+    # Check figures/run023/ (new cosine methodology)
+    alt_path = FIGURES_RUN023_DIR / filename
     if alt_path.exists():
         return alt_path
 
