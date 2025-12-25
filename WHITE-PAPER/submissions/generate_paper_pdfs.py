@@ -377,6 +377,9 @@ def clean_markdown(text):
     # First, replace Unicode characters that cause black squares
     text = clean_unicode(text)
 
+    # Escape ampersands FIRST (before any HTML tags are added)
+    text = text.replace('&', '&amp;')
+
     # Bold: **text** -> <b>text</b>
     text = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', text)
     # Italic: *text* -> <i>text</i>
@@ -385,9 +388,7 @@ def clean_markdown(text):
     text = re.sub(r'`([^`]+)`', r'<font name="Courier">\1</font>', text)
     # Links: [text](url) -> text
     text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
-    # Escape special chars for XML
-    text = text.replace('&', '&amp;').replace('<b>', '<<b>>').replace('</b>', '<</b>>').replace('<i>', '<<i>>').replace('</i>', '<</i>>').replace('<font', '<<font').replace('</font>', '<</font>>')
-    text = text.replace('<<', '<').replace('>>', '>')
+
     return text
 
 def parse_table(lines):

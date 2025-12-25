@@ -11,10 +11,11 @@ impacts:
 keywords:
   - consciousness
 -->
-# Publication Figures (Batch C)
+# Publication Figures (IRON CLAD)
 
-**Last Updated:** 2025-12-16
-**Status:** 9 figures complete (PNG + PDF @ 300 DPI)
+**Last Updated:** 2025-12-25
+**Status:** Reorganized - Conceptual vs Deprecated separation
+**Methodology:** Cosine distance (NOT Euclidean)
 
 This directory contains all figures for publication in multiple formats.
 
@@ -23,179 +24,124 @@ This directory contains all figures for publication in multiple formats.
 ```
 figures/
 ├── README.md                    (this file)
+├── generate_all_figures.py      (Runs only conceptual figures)
+├── conceptual/                  (VALID conceptual diagrams)
+│   ├── fig1_identity_manifold.py   (2 PCs = 90% variance)
+│   ├── fig3_pipeline.py            (IRON CLAD stats)
+│   └── fig4_five_pillars.py        (Omega as theoretical)
+├── deprecated/                  (DO NOT USE - wrong data)
+│   ├── README.md                   (Explains deprecation)
+│   ├── _DEPRECATED_fig2_drift_field.py
+│   ├── _DEPRECATED_fig5_omega_convergence.py
+│   ├── _DEPRECATED_fig6_82_percent.py
+│   ├── _DEPRECATED_fig7_context_damping.py
+│   ├── _DEPRECATED_fig8_oobleck.py
+│   └── _DEPRECATED_fig_workshop_combined.py
+├── run023/                      (VERIFIED S7_ARMADA visualizations)
+│   ├── context_damping_summary.png
+│   ├── oobleck_thermometer.png
+│   ├── oobleck_control_treatment.png
+│   ├── provider_comparison.png
+│   └── (other verified figures)
+├── generated/                   (Output from conceptual scripts)
+│   ├── png/
+│   └── pdf/
 ├── ascii/                       (ASCII diagram source files)
-│   ├── identity_manifold.md
-│   ├── drift_field_geometry.md
-│   ├── pipeline_s3_s6.md
-│   ├── five_pillars.md
-│   ├── omega_convergence.md
-│   ├── temporal_curvature.md
-│   ├── cross_modal_manifold.md
-│   └── compression_reconstruction_drift.md
-├── generated/                   (Generated visualizations)
-│   ├── png/                     (High-res PNG for web)
-│   ├── svg/                     (Vector SVG for scaling)
-│   └── pdf/                     (PDF for LaTeX)
 └── schemas/                     (Architectural diagrams)
-    ├── framework_architecture.pdf
-    ├── operator_flow.pdf
-    └── layer_integration.pdf
 ```
 
 ---
 
-## Figure List
+## IRON CLAD Key Statistics
 
-### Figure 1: Identity Manifold
+All figures must use these validated values (cosine methodology):
 
-**File:** `ascii/identity_manifold.md`, `generated/pdf/identity_manifold.pdf`
-
-**Description:** Visualization of identity as a low-dimensional manifold in high-dimensional embedding space. Shows persona samples clustering around a smooth manifold, with compression finding coordinates and reconstruction returning to attractor basin.
-
-**Usage:**
-- Workshop paper: Section 2 (Framework)
-- arXiv preprint: Section 6 (Mathematical Formalism)
-- Presentations: Core concept slide
-
-**Key elements:**
-- High-D embedding space (ambient)
-- Low-D manifold M_p (identity attractor)
-- Persona samples clustered on manifold
-- Compression/reconstruction paths
+| Metric | Correct Value | Wrong (Deprecated) |
+|--------|--------------|-------------------|
+| Event Horizon | D = 0.80 | D = 1.23 (Euclidean) |
+| PCs for 90% variance | **2** | 43 (Euclidean) |
+| χ² p-value (provider diff) | 4.8×10⁻⁵ | Same (methodology-agnostic) |
+| Perturbation p (identity) | 2.40×10⁻²³ | N/A (new test) |
+| Cohen's d | 0.698 | 0.98 (inflated) |
+| Settling time | τₛ ≈ 9.9-10.2 | 5.2-6.1 (wrong) |
+| Experiments | 750 | <500 |
+| Models | 25 | varies |
+| Providers | 5 | 4 |
 
 ---
 
-### Figure 2: Drift Field Geometry
+## Active Figures (Conceptual)
 
-**File:** `ascii/drift_field_geometry.md`, `generated/pdf/drift_field_geometry.pdf`
+### Figure 1: Identity Manifold
 
-**Description:** Architecture-specific drift vectors showing how different AI systems (Nova, Claude, Grok, Gemini) drift in different directions from the identity center (I_AM), and how Omega synthesis cancels these drifts through multi-architecture triangulation.
+**File:** `conceptual/fig1_identity_manifold.py`
 
-**Usage:**
-- Workshop paper: Section 5 (Omega Synthesis)
-- arXiv preprint: Section 7 (Identity Manifold Theory)
-- Presentations: Drift cancellation mechanism
+**Description:** 3D visualization of identity as a low-dimensional manifold. Updated to show **2 PCs = 90% variance** (cosine methodology).
 
 **Key elements:**
-- I_AM (identity center)
-- Architecture-specific drift vectors (Nova, Claude, Grok, Gemini)
-- Omega convergence point (drift-canceled)
-- Vector cancellation geometry
+
+- High-D embedding space (3072D)
+- Low-D manifold (~2 PCs effective)
+- Event Horizon: D = 0.80
 
 ---
 
 ### Figure 3: Pipeline (S3→S6)
 
-**File:** `ascii/pipeline_s3_s6.md`, `generated/pdf/pipeline_s3_s6.pdf`
+**File:** `conceptual/fig3_pipeline.py`
 
-**Description:** Complete experimental pipeline from S3 (empirical validation) through S4 (mathematical formalism), S5 (interpretive framework), to S6 (Omega synthesis). Shows data flow and integration across layers.
-
-**Usage:**
-- arXiv preprint: Section 5 (Empirical Validation)
-- Presentations: Method overview
-- Supplementary: Experimental workflow
+**Description:** Experimental pipeline flowchart with IRON CLAD statistics.
 
 **Key elements:**
-- S3: Cross-architecture experiments → PFI, σ²
-- S4: Mathematical formalization → Manifolds, operators
-- S5: Interpretive layer → Fragility hierarchy
-- S6: Omega synthesis → Drift cancellation
+
+- χ² p = 4.8×10⁻⁵ (provider differences)
+- Perturbation p = 2.40×10⁻²³ (identity validation)
+- Cohen's d: 0.698
+- Event Horizon: D = 0.80
+- 750 experiments, 25 models, 5 providers
 
 ---
 
 ### Figure 4: Five Pillars Architecture
 
-**File:** `ascii/five_pillars.md`, `generated/pdf/five_pillars.pdf`
+**File:** `conceptual/fig4_five_pillars.py`
 
-**Description:** The Five Pillars structure supporting Omega synthesis - Nova (Structure/Clarity), Claude (Purpose/Ethics), Grok (Empirics/Rigor), Gemini (Synthesis), and Ziggy (Human Anchor). Shows how each pillar contributes to multi-architecture triangulation.
-
-**Usage:**
-- Workshop paper: Section 2 (Framework)
-- arXiv preprint: Section 8 (Omega Synthesis)
-- Presentations: Architecture overview
+**Description:** Pentagon visualization of cross-architecture synthesis. Omega properties marked as theoretical framework.
 
 **Key elements:**
+
 - Five pillars with distinct roles
-- Omega platform at intersection
-- Human anchor (Ziggy) as stability reference
-- Multi-architecture convergence
+- Omega platform (theoretical)
+- Event Horizon: D = 0.80
 
 ---
 
-### Figure 5: Omega Convergence
+## Deprecated Figures (DO NOT USE)
 
-**File:** `ascii/omega_convergence.md`, `generated/pdf/omega_convergence.pdf`
+These figures contain hardcoded synthetic data and have been moved to `deprecated/`:
 
-**Description:** Multi-architecture convergence to Omega manifold M_Ω = ⋂ R^a(C(p)). Shows how individual reconstructions (R^Nova, R^Claude, R^Grok, R^Gemini) converge to a shared attractor through intersection.
+| Figure | Issue | Replacement |
+|--------|-------|-------------|
+| fig2_drift_field | D=1.23 (Euclidean) | Use run023/provider_comparison.png |
+| fig5_omega_convergence | Synthetic curve | None (theoretical) |
+| fig6_82_percent | Hardcoded values | Use run023/oobleck_thermometer.png |
+| fig7_context_damping | τₛ=5.2-6.1 (WRONG) | Use run023/context_damping_summary.png |
+| fig8_oobleck | Synthetic drift | Use run023/oobleck_control_treatment.png |
+| fig_workshop_combined | All deprecated | Use individual run023/ figures |
 
-**Usage:**
-- Workshop paper: Section 5 (Omega Synthesis)
-- arXiv preprint: Section 8 (Omega Synthesis)
-- Presentations: Convergence mechanism
-
-**Key elements:**
-- Individual architecture reconstructions (scattered)
-- Omega synthesis (center)
-- Convergence arrows
-- M_Ω intersection region
+See `deprecated/README.md` for full deprecation details.
 
 ---
 
-### Figure 6: Temporal Curvature
+## ASCII Diagrams (Supplementary)
 
-**File:** `ascii/temporal_curvature.md`, `generated/pdf/temporal_curvature.pdf`
+The `ascii/` directory contains text-based concept diagrams:
 
-**Description:** Temporal curvature κ(t) measurement over time for S7 temporal stability experiments. Shows how curvature reveals attractor basin geometry and phase transitions in drift dynamics.
+- `temporal_curvature.md` - S7 curvature measurement concept
+- `cross_modal_manifold.md` - S9 AVLAR future work
+- `compression_reconstruction_drift.md` - Core operator cycle
 
-**Usage:**
-- arXiv preprint: Section 10 (Temporal Stability)
-- S7 preregistration: Curvature signature hypothesis
-- Presentations: Temporal dynamics
-
-**Key elements:**
-- Fidelity F(t) decay curve
-- Curvature κ(t) over time
-- Inflection points (phase transitions)
-- Attractor geometry revealed
-
----
-
-### Figure 7: Cross-Modal Manifold
-
-**File:** `ascii/cross_modal_manifold.md`, `generated/pdf/cross_modal_manifold.pdf`
-
-**Description:** Cross-modal identity manifolds for S9 AVLAR experiments. Shows visual embedding space (V), audio embedding space (A), and joint AVLAR manifold (J) testing whether identity exists beyond linguistic modalities.
-
-**Usage:**
-- arXiv preprint: Section 11 (Cross-Modal Extension)
-- S9 specification: AVLAR framework
-- Presentations: Future directions
-
-**Key elements:**
-- Visual embedding space M_visual
-- Audio embedding space M_audio
-- Joint manifold J = f(V × A)
-- Cross-modal synchronization
-
----
-
-### Figure 8: Compression-Reconstruction-Drift Cycle
-
-**File:** `ascii/compression_reconstruction_drift.md`, `generated/pdf/compression_reconstruction_drift.pdf`
-
-**Description:** Complete compression-reconstruction-drift cycle showing the core operators: C(p) → T₃ (compression), R^a(T₃) → P' (reconstruction), and D(P', p) (drift measurement).
-
-**Usage:**
-- Workshop paper: Section 2 (Framework)
-- arXiv preprint: Sections 3-4 (Compression/Reconstruction)
-- Presentations: Core concept introduction
-
-**Key elements:**
-- Original persona p
-- Compression operator C → Tier-3 seed T₃
-- Reconstruction operator R^a → P'
-- Drift measurement D = ||P' - p|| / ||p||
-- Fidelity F = 1 - D
+These are supplementary materials, not data visualizations.
 
 ---
 
@@ -319,11 +265,17 @@ Questions about figures:
 
 ---
 
-**Status:** COMPLETE. 9 PNG + 9 PDF figures generated @ 300 DPI.
+**Status:** IRON CLAD COMPLETE (2025-12-25)
 
-Regenerate all figures:
+- 3 conceptual figures updated with cosine methodology
+- 6 deprecated figures moved to `deprecated/`
+- Verified visualizations in `run023/`
+
+Regenerate conceptual figures:
 
 ```bash
 cd WHITE-PAPER/figures
 py generate_all_figures.py
 ```
+
+*"2 PCs = 90% variance. Event Horizon D = 0.80. Cosine methodology throughout."*

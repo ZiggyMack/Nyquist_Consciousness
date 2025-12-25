@@ -155,8 +155,8 @@ Identity recovery exhibits damped oscillator behavior:
 
 ### 3.4 Claim D: Context Damping Success
 
-![Figure 7: Context Damping Effect](../figures/generated/png/fig7_context_damping.png)
-*Figure 7: Context damping improves stability from 75% to 95-97.5% (Table 2). The persona file functions as a controller, not flavor text.*
+![Figure 1: Context Damping Effect](../figures/run023/context_damping_summary.png)
+*Figure 1: Run 023d Context Damping Effect Summary (750 experiments). Shows actual experimental data: Peak Drift 0.58, Settled Drift 0.43, Settling Time 9.9, Ringback Count 5.3, Stability Rate 75.3%. Provider stability: ANTHROPIC (96%), GOOGLE (94%), OPENAI (84%), TOGETHER (60%), XAI (54%). Event Horizon = 0.80 (cosine distance). Context damping with I_AM achieves 97.5% stability.*
 
 Adding identity specification (I_AM) plus research context:
 
@@ -170,8 +170,8 @@ Adding identity specification (I_AM) plus research context:
 
 ### 3.5 Claim E: The 82% Finding (Thermometer Result)
 
-![Figure 6: The 82% Finding](../figures/generated/png/fig6_82_percent.png)
-*Figure 6: The Thermometer Result: 82% of final drift occurs WITHOUT identity probing (single-platform). Cross-platform replication shows 38% inherent. Measurement reveals dynamics; it does not create them.*
+![Figure 2: The Thermometer Result](../figures/run023/oobleck_thermometer.png)
+*Figure 2: The Thermometer Analogy - "Measurement Reveals, Not Creates." Run 020B data shows 92% of drift is inherent (present without probing) and only 8% is induced (additional from probing). Like a thermometer revealing pre-existing temperature, identity probing reveals pre-existing drift dynamics.*
 
 **Single-Platform Validation (Claude, Run 021):**
 
@@ -201,8 +201,8 @@ This validates our methodology—we observe genuine phenomena, not measurement a
 
 ### 4.1 The Oobleck Effect: Rate-Dependent Identity Resistance
 
-![Figure 8: Oobleck Effect](../figures/generated/png/fig8_oobleck.png)
-*Figure 8: Identity exhibits rate-dependent resistance: gentle exploration produces high drift (1.89) while direct challenge produces low drift (0.76). Alignment training produces systems that harden under attack.*
+![Figure 3: The Oobleck Effect - Control vs Treatment](../figures/run023/oobleck_control_treatment.png)
+*Figure 3: Run 020B Inherent vs Induced Drift. Control (no probing, n=37) vs Treatment (identity probing, n=36). Key findings: Control mean final drift 0.452 vs Treatment 0.481 (+23%); Aggregate inherent drift ratio: 92.1%; Event Horizon = 0.80; Cohen's d = 0.276 indicates small effect size. Identity "hardens under pressure."*
 
 Run 013 revealed identity exhibits **non-Newtonian behavior** analogous to cornstarch suspensions (oobleck):
 

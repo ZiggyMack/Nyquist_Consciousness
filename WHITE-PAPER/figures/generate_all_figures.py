@@ -2,8 +2,14 @@
 Generate All Publication Figures
 Nyquist Consciousness Publication
 
-Batch runner that generates all 9 publication figures and saves them
-to organized directories (generated/png/ and generated/pdf/).
+Batch runner that generates CONCEPTUAL figures only.
+Data-driven figures should come from S7_ARMADA/visualizations/pics/
+and are stored in figures/run023/.
+
+DEPRECATED figures (containing hardcoded fake data) are in figures/deprecated/
+and should NOT be regenerated.
+
+OUTPUT: PNG only to conceptual/pics/ (PDFs generated on-demand for papers)
 """
 
 import os
@@ -15,22 +21,29 @@ from pathlib import Path
 FIGURES_DIR = Path(__file__).parent
 os.chdir(FIGURES_DIR)
 
-# Create output directories
-(FIGURES_DIR / "generated" / "png").mkdir(parents=True, exist_ok=True)
-(FIGURES_DIR / "generated" / "pdf").mkdir(parents=True, exist_ok=True)
+# Output directory for conceptual figures
+PICS_DIR = FIGURES_DIR / "conceptual" / "pics"
+PICS_DIR.mkdir(parents=True, exist_ok=True)
 
-# List of figure scripts to run
+# List of CONCEPTUAL figure scripts to run (NO hardcoded experimental data)
+# These are theoretical/illustrative diagrams only
 FIGURE_SCRIPTS = [
-    "fig1_identity_manifold.py",
-    "fig2_drift_field.py",
-    "fig3_pipeline.py",
-    "fig4_five_pillars.py",
-    "fig5_omega_convergence.py",
-    "fig6_82_percent.py",
-    "fig7_context_damping.py",
-    "fig8_oobleck.py",
-    "fig_workshop_combined.py",
+    "conceptual/fig1_identity_manifold.py",  # Identity manifold concept diagram
+    "conceptual/fig2_drift_field.py",         # Drift field geometry concept
+    "conceptual/fig3_pipeline.py",            # Experimental pipeline flowchart
+    "conceptual/fig4_five_pillars.py",        # Architecture diagram
 ]
+
+# DEPRECATED - DO NOT USE (contain hardcoded fake data)
+# These have been moved to deprecated/ with _DEPRECATED_ prefix:
+# - _DEPRECATED_fig2_drift_field.py      (D=1.23 wrong, hardcoded drifts)
+# - _DEPRECATED_fig5_omega_convergence.py (hardcoded drifts)
+# - _DEPRECATED_fig6_82_percent.py       (hardcoded experimental data)
+# - _DEPRECATED_fig7_context_damping.py  (wrong settling time)
+# - _DEPRECATED_fig8_oobleck.py          (hardcoded intensity/drift)
+# - _DEPRECATED_fig_workshop_combined.py (all panels hardcoded)
+#
+# Use figures from run023/ instead - these are VERIFIED from S7_ARMADA experiments
 
 def run_figure_script(script_name: str) -> bool:
     """Run a single figure script and return success status."""
@@ -81,9 +94,7 @@ def main():
     print("GENERATING ALL PUBLICATION FIGURES")
     print("="*60)
     print(f"Working directory: {FIGURES_DIR}")
-    print(f"Output directories:")
-    print(f"  PNG: {FIGURES_DIR / 'generated' / 'png'}")
-    print(f"  PDF: {FIGURES_DIR / 'generated' / 'pdf'}")
+    print(f"Output: {PICS_DIR} (PNG only)")
 
     results = []
     for script in FIGURE_SCRIPTS:
@@ -109,14 +120,12 @@ def main():
                 print(f"  - {script}")
 
     # List generated files
-    print("\nGenerated files:")
-    for folder in ['png', 'pdf']:
-        folder_path = FIGURES_DIR / 'generated' / folder
-        if folder_path.exists():
-            files = list(folder_path.glob(f'*.{folder}'))
-            print(f"\n  {folder.upper()} ({len(files)} files):")
-            for f in sorted(files):
-                print(f"    {f.name}")
+    print("\nGenerated files in conceptual/pics/:")
+    if PICS_DIR.exists():
+        files = list(PICS_DIR.glob('*.png'))
+        print(f"\n  PNG ({len(files)} files):")
+        for f in sorted(files):
+            print(f"    {f.name}")
 
 if __name__ == '__main__':
     main()

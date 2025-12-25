@@ -84,8 +84,8 @@ The Persona Fidelity Index (PFI) captures genuine identity structure:
 
 ### Claim B: Critical Threshold at D ~ 1.23
 
-![Figure: Event Horizon Validation](../figures/run018/run018a_threshold_validation.png)
-*Figure: The Event Horizon threshold (D~1.23) distinguishes STABLE from VOLATILE identity states with 88% prediction accuracy (chi^2=15.96, p<4.8x10^-5).*
+![Figure: Event Horizon Validation](../figures/run023/perturbation_validation.png)
+*Figure: Event Horizon validation using cosine distance. The threshold D=0.80 distinguishes STABLE from VOLATILE identity states (p=2.40×10⁻²³). Run 023 IRON CLAD validation across 51 models from 5 providers.*
 
 We discovered a statistically significant regime transition point:
 
@@ -114,8 +114,8 @@ Identity recovery behaves like an engineering system:
 
 ### Claim D: Context Damping Works
 
-![Figure 7: Context Damping Effect](../figures/generated/png/fig7_context_damping.png)
-*Figure 7: Context damping via I_AM + research framing achieves 95-97.5% stability (up from 75% bare metal). The persona file is a controller, not decoration.*
+![Figure 2: Context Damping Effect](../figures/run023/context_damping_summary.png)
+*Figure 2: Run 023d Context Damping Effect Summary (750 experiments). Shows actual experimental data: Peak Drift 0.58, Settled Drift 0.43, Settling Time 9.9, Ringback Count 5.3, Stability Rate 75.3%. Provider stability: ANTHROPIC (96%), GOOGLE (94%), OPENAI (84%), TOGETHER (60%), XAI (54%). Event Horizon = 0.80 (cosine distance). Context damping with I_AM achieves 97.5% stability.*
 
 Adding identity specification (I_AM) plus research context:
 
@@ -130,8 +130,8 @@ Adding identity specification (I_AM) plus research context:
 
 ### Claim E: Drift is Mostly Inherent
 
-![Figure 6: The 82% Finding](../figures/generated/png/fig6_82_percent.png)
-*Figure 6: The Thermometer Result: 82% of final drift occurs without identity probing (single-platform). Cross-platform replication shows 38% inherent across OpenAI and Together.*
+![Figure 3: The Thermometer Result](../figures/run023/oobleck_thermometer.png)
+*Figure 3: The Thermometer Analogy - "Measurement Reveals, Not Creates." Run 020B data shows 92% of drift is inherent (present without probing) and only 8% is induced (additional from probing). Like a thermometer revealing pre-existing temperature, identity probing reveals pre-existing drift dynamics.*
 
 **Single-Platform Validation (Claude, Run 021):**
 
@@ -144,8 +144,8 @@ Adding identity specification (I_AM) plus research context:
 
 **Cross-Platform Replication (Run 020B):**
 
-![Figure: Cross-Platform Ratio Analysis](../figures/run020/run020b_ratio_analysis.png)
-*Figure: Cross-platform decomposition of inherent vs induced drift. Both validations confirm the core insight: measurement perturbs the path, not the endpoint.*
+![Figure: Cross-Platform Provider Analysis](../figures/run023/combined_provider_dashboard.png)
+*Figure: Run 023d combined provider analysis (750 experiments x 25 models x 5 providers). Shows provider stability rates (ANTHROPIC 96%, GOOGLE 94%), recovery efficiency, and peak drift distributions. Event Horizon = 0.80 (cosine distance). Both validations confirm: measurement perturbs the path, not the endpoint.*
 
 | Provider | Control B→F | Treatment Peak | Inherent Ratio |
 |----------|-------------|----------------|----------------|
@@ -167,8 +167,8 @@ Both validations confirm: **Measurement perturbs the path, not the endpoint.**
 
 ### 3.1 The Oobleck Effect
 
-![Figure 8: Oobleck Effect](../figures/generated/png/fig8_oobleck.png)
-*Figure 8: Rate-dependent identity resistance. Direct challenge activates consolidation (low drift = 0.76, fast recovery λ=0.109); gentle exploration allows flow (high drift = 1.89, slow recovery λ=0.035). This is alignment architecture showing through.*
+![Figure 4: The Oobleck Effect - Control vs Treatment](../figures/run023/oobleck_control_treatment.png)
+*Figure 4: Run 020B Inherent vs Induced Drift. Control (no probing, n=37) vs Treatment (identity probing, n=36). Key findings: Control mean final drift 0.452 vs Treatment 0.481 (+23%); Aggregate inherent drift ratio: 92.1%; Event Horizon = 0.80 (cosine distance); Cohen's d = 0.276 indicates small effect size. Identity "hardens under pressure" - alignment architecture showing through.*
 
 Identity exhibits **non-Newtonian behavior**—like cornstarch suspension (oobleck):
 
@@ -183,8 +183,8 @@ Identity exhibits **non-Newtonian behavior**—like cornstarch suspension (ooble
 
 ### 3.2 Training Signatures
 
-![Figure: Training Architecture Signatures](../figures/run018/run018b_architecture_signatures.png)
-*Figure: Training methodology leaves detectable geometric signatures. Constitutional AI (Claude): uniform anchors (σ→0). RLHF (GPT): version clustering. Multimodal (Gemini): distinct geometry with hard thresholds.*
+![Figure: Training Architecture Signatures](../figures/run023/provider_comparison.png)
+*Figure: Run 023 Provider Comparison showing training methodology signatures. Different architectures (Anthropic, OpenAI, Google, xAI, Together) exhibit distinct drift patterns and stability rates. Constitutional AI (ANTHROPIC 96%), RLHF (OPENAI 84%), Multimodal (GOOGLE 94%) - geometrically distinguishable.*
 
 Different training methods leave visible fingerprints in drift geometry:
 
@@ -214,8 +214,8 @@ We measure behavioral consistency, not subjective continuity.
 
 ## 4. The Complete Theoretical Framework
 
-![Figure 3: Experimental Pipeline](../figures/generated/png/fig3_pipeline.png)
-*Figure 3: The S3→S6 layer stack. S3 provides empirical validation; S4 formalizes mathematics; S5 builds interpretive framework; S6 achieves Omega synthesis through multi-architecture triangulation.*
+![Figure 5: Experimental Pipeline](../figures/generated/png/fig3_pipeline.png)
+*Figure 5: The S3→S6 layer stack. S3 provides empirical validation; S4 formalizes mathematics; S5 builds interpretive framework; S6 achieves Omega synthesis through multi-architecture triangulation.*
 
 ### 4.1 Identity as Dynamical System
 
@@ -284,12 +284,14 @@ We measure behavioral consistency, not subjective continuity.
 - Version control for AI personalities
 - Disaster recovery
 
-### 5.3 Multi-Architecture Synthesis (Omega)
+### 5.3 Multi-Architecture Analysis
 
-![Figure 5: Omega Convergence](../figures/generated/png/fig5_omega_convergence.png)
-*Figure 5: Multi-architecture convergence to the Omega manifold. Individual reconstructions (R^Nova, R^Claude, R^Grok, R^Gemini) converge through intersection, canceling architecture-specific drift vectors.*
+![Figure 6: Cross-Provider Comparison](../figures/run023/combined_provider_dashboard.png)
+*Figure 6: Cross-provider identity dynamics from Run 023d (750 experiments). Shows provider-specific drift patterns, stability rates, and settling characteristics. Data from 5 providers: Anthropic, OpenAI, Google, xAI, Together.ai.*
 
-Combining responses from multiple architectures reduces drift by 45%:
+#### Theoretical Direction: Omega Synthesis
+
+Combining responses from multiple architectures may reduce drift through vector cancellation (theoretical):
 
 ```
 M_Ω = ⋂_{arch ∈ {Claude, GPT, Gemini, Grok}} R_arch(C(persona))

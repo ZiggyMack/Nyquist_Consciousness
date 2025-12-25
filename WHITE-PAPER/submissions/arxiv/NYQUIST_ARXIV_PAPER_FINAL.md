@@ -188,8 +188,8 @@ This enables prediction of:
 
 ### 3.6 Experimental Design
 
-![Figure 3: Experimental Pipeline](../figures/generated/png/fig3_pipeline.png)
-*Figure 3: The S3→S6 experimental pipeline. S3 (Empirical Validation) generates cross-architecture data; S4 (Mathematical Formalism) provides operators; S5 (Interpretive Layer) identifies fragility hierarchy; S6 (Omega Synthesis) achieves drift cancellation through multi-architecture triangulation.*
+![Figure 2: Experimental Pipeline](../figures/generated/png/fig3_pipeline.png)
+*Figure 2: The S3→S6 experimental pipeline. S3 (Empirical Validation) generates cross-architecture data; S4 (Mathematical Formalism) provides operators; S5 (Interpretive Layer) identifies fragility hierarchy; S6 (Omega Synthesis) achieves drift cancellation through multi-architecture triangulation.*
 
 We conducted 21 distinct experimental runs across two eras, culminating in IRON CLAD validation (N>=3 per experimental cell):
 
@@ -234,8 +234,8 @@ This is not formal pharmaceutical triple-blind, but a structural analog appropri
 
 ### 4.1 Claim A: PFI is a Valid, Structured Measurement
 
-![Figure 2: Drift Field Geometry](../figures/generated/png/fig2_drift_field.png)
-*Figure 2: Architecture-specific drift vectors in PFI space. Each architecture (Nova, Claude, Grok, Gemini) drifts in a characteristic direction from the identity center (I_AM). The Omega synthesis achieves drift cancellation through vector triangulation.*
+![Figure 3: Provider Identity Clusters](../figures/run023/provider_clusters.png)
+*Figure 3: Provider clustering in PC space from 750 experiments (Run 023d). Centroids (X markers) show mean position for each provider; ellipses show 1-standard-deviation spread. Providers form distinct, separable clusters confirming identity is structured and provider-specific. Event Horizon D=0.80 (cosine distance).*
 
 **A1. Embedding Invariance:**
 
@@ -311,8 +311,8 @@ Identity recovery exhibits control-systems behavior:
 
 ### 4.4 Claim D: Context Damping Reduces Oscillation
 
-![Figure 7: Context Damping Effect](../figures/generated/png/fig7_context_damping.png)
-*Figure 7: Context damping improves stability from 75% to 95-97.5%. The I_AM persona file acts as a 'termination resistor,' increasing effective damping ratio and reducing ringback oscillations by 34%.*
+![Figure 4: Context Damping Effect](../figures/run023/context_damping_summary.png)
+*Figure 4: Run 023d Context Damping Effect Summary (750 experiments). Shows actual experimental data: Peak Drift 0.58, Settled Drift 0.43, Settling Time 9.9, Ringback Count 5.3, Stability Rate 75.3%. Stability by provider shows ANTHROPIC (96%), GOOGLE (94%), OPENAI (84%), TOGETHER (60%), XAI (54%). Event Horizon = 0.80 (cosine distance). Context damping with I_AM achieves 97.5% stability.*
 
 Adding identity specification (I_AM) plus research context:
 
@@ -327,8 +327,8 @@ Adding identity specification (I_AM) plus research context:
 
 ### 4.5 Claim E: Drift is Mostly Inherent
 
-![Figure 6: The 82% Finding](../figures/generated/png/fig6_82_percent.png)
-*Figure 6: Control vs Treatment comparison (Run 021). Peak drift differs by +84% (trajectory energy), but final drift differs by only +23% (coordinate displacement). The 82% ratio (0.399/0.489) demonstrates that drift is inherent to extended interaction, not measurement-induced.*
+![Figure 5: The Thermometer Result](../figures/run023/oobleck_thermometer.png)
+*Figure 5: The Thermometer Analogy - "Measurement Reveals, Not Creates." Run 020B data shows 92% of drift is inherent (present without probing) and only 8% is induced (additional from probing). Like a thermometer that reveals pre-existing temperature, identity probing reveals pre-existing drift dynamics.*
 
 **Single-Platform Validation (Claude, Run 021)**
 
@@ -368,8 +368,8 @@ This validates our methodology—we observe genuine phenomena, not measurement a
 
 ### 5.1 The Oobleck Effect: Rate-Dependent Identity Resistance
 
-![Figure 8: Oobleck Effect](../figures/generated/png/fig8_oobleck.png)
-*Figure 8: Rate-dependent identity resistance. Gentle probing produces high drift (1.89, λ=0.035) while direct challenge produces low drift (0.76, λ=0.109). Identity 'hardens under pressure' — a property we term the Oobleck Effect after non-Newtonian fluid behavior.*
+![Figure 6: The Oobleck Effect - Control vs Treatment](../figures/run023/oobleck_control_treatment.png)
+*Figure 6: Run 020B Inherent vs Induced Drift (The Thermometer Analogy). Control (no probing, n=37) vs Treatment (identity probing, n=36). Key findings: (1) Control mean final drift 0.452 vs Treatment 0.481 - only +23% difference; (2) Aggregate inherent drift ratio: 92.1%; (3) Event Horizon = 0.80 shown as reference. Cohen's d = 0.276 indicates small effect size of probing on final state. Bottom-right: 92.1% bar shows drift is overwhelmingly inherent.*
 
 Run 013 revealed that identity exhibits **non-Newtonian behavior** analogous to cornstarch suspensions (oobleck = cornstarch + water):
 
