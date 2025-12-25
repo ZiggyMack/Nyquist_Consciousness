@@ -65,7 +65,7 @@ Reviewers should attempt to falsify these claims:
 1. **Is σ²=0.00087 genuinely architecture-independent?** Or are there hidden confounds?
 2. **Does the 82% inherent drift ratio hold under different probing protocols?**
 3. **Are settling times (3-7 exchanges) consistent with control-systems theory predictions?**
-4. **Does the Event Horizon (D=1.23) represent a universal threshold or is it training-dependent?**
+4. **Does the Event Horizon (D=0.80 Cosine) represent a universal threshold or is it training-dependent?**
 
 ### Run 020A Status (IRON CLAD COMPLETE)
 

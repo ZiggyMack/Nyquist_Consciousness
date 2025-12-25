@@ -1,9 +1,9 @@
 # Publication Pipeline Master Document
 
 **Purpose:** Single source of truth for all 8 publication paths
-**Version:** 1.0
-**Date:** 2025-12-15
-**Status:** Active
+**Version:** 2.0
+**Date:** 2025-12-25
+**Status:** Active — COSINE ERA (Run 023 IRON CLAD Complete)
 
 ---
 
@@ -11,20 +11,22 @@
 
 The Nyquist Consciousness research has matured to support 8 distinct publication paths across academic, dissemination, and funding channels. This document serves as the master reference for coordinating all publication efforts.
 
+**Source of Truth for Reviewer Sync:** [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md)
+
 ---
 
 ## 8 Publication Paths
 
-| # | Path | Venue | Source | Status | Timeline | Priority |
-|---|------|-------|--------|--------|----------|----------|
-| 1 | Workshop | NeurIPS/AAAI | reviewers/phase3 | READY | Q4 2025 | HIGH |
-| 2 | arXiv | cs.AI | reviewers/phase3 | READY | Q4 2025 | HIGH |
-| 3 | Journal | Nature MI | reviewers/phase3 | DRAFT | Q2-Q3 2026 | MEDIUM |
-| 4 | Popular Science | Atlantic/Wired | LLM_BOOK | READY | Immediate | MEDIUM |
-| 5 | Education | OER/Coursera | LLM_BOOK | READY | Immediate | LOW |
-| 6 | Policy | Think tanks | LLM_BOOK | READY | Immediate | MEDIUM |
-| 7 | Funding | NSF/DARPA | LLM_BOOK | READY | Q1 2026 | HIGH |
-| 8 | Media | Press/TED | LLM_BOOK | READY | Post-publication | LOW |
+| # | Path | Venue | Source | Status | Priority |
+|---|------|-------|--------|--------|----------|
+| 1 | Workshop | NeurIPS/AAAI | packages/ | READY | HIGH |
+| 2 | arXiv | cs.AI | packages/ | READY | HIGH |
+| 3 | Journal | Nature MI | packages/ | DRAFT | MEDIUM |
+| 4 | Popular Science | Atlantic/Wired | LLM_BOOK | READY | MEDIUM |
+| 5 | Education | OER/Coursera | LLM_BOOK | READY | LOW |
+| 6 | Policy | Think tanks | LLM_BOOK | READY | MEDIUM |
+| 7 | Funding | NSF/DARPA | LLM_BOOK | READY | HIGH |
+| 8 | Media | Press/TED | LLM_BOOK | READY | LOW |
 
 ---
 
@@ -32,15 +34,15 @@ The Nyquist Consciousness research has matured to support 8 distinct publication
 
 ### Academic Track (Paths 1-3)
 
-**Source:** Original research, phase3 drafts
+**Source:** Original research, review packages
 **Audience:** Researchers, academics
 **Requirements:** Peer review, citations, methodology rigor
 
-| Path | Format | Page Limit | Deadline | Current Completion |
-|------|--------|------------|----------|-------------------|
-| Workshop | PDF, LaTeX | 4-8 pages | Conference-dependent | 70% |
-| arXiv | PDF, LaTeX | 25-35 pages | Self-determined | 85% |
-| Journal | PDF, LaTeX | ~40 pages | Editorial timeline | 30% |
+| Path | Format | Page Limit | Current Completion |
+|------|--------|------------|-------------------|
+| Workshop | PDF, LaTeX | 4-8 pages | 70% |
+| arXiv | PDF, LaTeX | 25-35 pages | 85% |
+| Journal | PDF, LaTeX | ~40 pages | 30% |
 
 ### Dissemination Track (Paths 4-8)
 
@@ -48,38 +50,43 @@ The Nyquist Consciousness research has matured to support 8 distinct publication
 **Audience:** General public, policymakers, educators
 **Requirements:** Accessibility, narrative, practical applications
 
-| Path | Format | Word Count | Deadline | Current Completion |
-|------|--------|------------|----------|-------------------|
-| Popular Science | Article | 2,000-6,000 | Pitch-dependent | 90% (draft ready) |
-| Education | Curriculum | Variable | Self-determined | 90% (quiz/glossary ready) |
-| Policy | Brief | 2-4 pages | Agency-dependent | 90% (brief ready) |
-| Funding | Proposal | NSF format | Grant cycles | 85% (proposal ready) |
-| Media | Various | Variable | Post-publication | 80% (summary ready) |
+| Path | Format | Word Count | Current Completion |
+|------|--------|------------|-------------------|
+| Popular Science | Article | 2,000-6,000 | 90% (draft ready) |
+| Education | Curriculum | Variable | 90% (quiz/glossary ready) |
+| Policy | Brief | 2-4 pages | 90% (brief ready) |
+| Funding | Proposal | NSF format | 85% (proposal ready) |
+| Media | Various | Variable | 80% (summary ready) |
 
 ---
 
-## Source Material Mapping
+## Source Material Locations
 
-### Academic Track Sources
+### Academic Track
 
-```
-WHITE-PAPER/reviewers/phase3/
-├── nyquist_workshop_draft.md      → Workshop paper
-├── nyquist_arxiv_full.md          → arXiv preprint
-├── nyquist_journal_extended.md    → Journal submission
-└── *.pdf                          → Rendered versions
+Review packages are extracted on-demand using the extraction script:
+
+```bash
+cd WHITE-PAPER/calibration
+py extract_review_package.py workshop   # Extract workshop package
+py extract_review_package.py arxiv      # Extract arXiv package
+py extract_review_package.py --all      # Extract all 8 paths
 ```
 
-### Dissemination Track Sources
+**Output:** `WHITE-PAPER/reviewers/packages/{path}/`
 
+See [reviewers/README.md](../reviewers/README.md) for package structure.
+
+### Dissemination Track
+
+LLM_BOOK content syncs via manifest:
+
+```bash
+cd WHITE-PAPER
+py sync_llmbook.py --sync
 ```
-REPO-SYNC/LLM_BOOK/
-├── Ancient_Philosophy_Meets_Modern_AI.md  → Popular Science
-├── Quiz.md                                → Education
-├── Briefing.md                            → Policy
-├── Project_Nyquist_Consciousness.md       → Funding
-└── Unlocking_AI_Identity.md               → Media
-```
+
+**Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json`
 
 ---
 
@@ -122,23 +129,27 @@ NotebookLM independently validated our research against Michael Levin's "Is Your
 
 ## Coordination Strategy
 
-### Phase 1: Academic First (Q4 2025)
+### Recommended Sequence
+
+#### Stage 1: Academic Foundation
 
 1. Finalize workshop paper
 2. Submit arXiv preprint
 3. Begin journal revision process
 
-### Phase 2: Dissemination (Q1 2026)
+#### Stage 2: Dissemination
 
 1. Adapt LLM_BOOK content for popular science
 2. Release educational materials (OER)
 3. Distribute policy briefs
 
-### Phase 3: Amplification (Q1-Q2 2026)
+#### Stage 3: Amplification
 
 1. Media outreach (post-peer review)
 2. Funding proposals
 3. Conference presentations
+
+Specific timelines tracked in [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md)
 
 ---
 
@@ -181,10 +192,13 @@ NotebookLM independently validated our research against Michael Levin's "Is Your
 
 ## Related Documents
 
-- [OPUS_REVIEW_BRIEF.md](OPUS_REVIEW_BRIEF.md) - Opus 4.5 orientation
-- [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md) - Review status
-- [LLM_BOOK README](../../REPO-SYNC/LLM_BOOK/README.md) - Source material
-- [PUBLICATION_MAP.md](../../docs/maps/PUBLICATION_MAP.md) - Visual pipeline
+| Document | Purpose |
+|----------|---------|
+| [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md) | **Master sync file** — reviewer status, pending decisions |
+| [OPUS_REVIEW_BRIEF.md](OPUS_REVIEW_BRIEF.md) | Opus 4.5 orientation for final review |
+| [NOVAS_OVERCLAIMING_PREVENTION.md](NOVAS_OVERCLAIMING_PREVENTION.md) | What claims to avoid |
+| [METHODOLOGY_DOMAINS.md](METHODOLOGY_DOMAINS.md) | Cosine vs Keyword RMS reconciliation |
+| [reviewers/README.md](../reviewers/README.md) | Package extraction and review structure |
 
 ---
 
@@ -192,6 +206,7 @@ NotebookLM independently validated our research against Michael Levin's "Is Your
 
 | Date | Change | Author |
 |------|--------|--------|
+| 2025-12-25 | v2.0: Remove hardcoded paths, point to SYNC_STATUS.md | Opus 4.5 |
 | 2025-12-15 | Initial creation with 8 paths | System |
 
 ---
