@@ -649,7 +649,7 @@ def plot_020b_thermometer(data, output_dir):
     if not control or not treatment:
         return
 
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(14, 7))  # Taller figure for label room
     fig.patch.set_facecolor('white')
     for ax in axes:
         ax.set_facecolor('white')
@@ -679,10 +679,12 @@ def plot_020b_thermometer(data, output_dir):
                     color='#e74c3c', alpha=0.8, edgecolor='black')
 
     ax1.set_xticks(x)
-    ax1.set_xticklabels([str(p)[:12] for p in providers], rotation=45, ha='right')
+    # Truncate long labels and rotate 90 degrees for readability
+    ax1.set_xticklabels([str(p)[:15] + '...' if len(str(p)) > 15 else str(p) for p in providers],
+                        rotation=90, ha='center', fontsize=8)
     ax1.set_ylabel('Drift (Cosine)', fontsize=11)
     ax1.set_title('Decomposition: Inherent vs Induced Drift', fontsize=12, fontweight='bold')
-    ax1.legend(facecolor='white')
+    ax1.legend(facecolor='white', loc='upper right')
     ax1.grid(axis='y', alpha=0.3)
 
     # Panel 2: Pie chart
@@ -716,7 +718,7 @@ def plot_020b_thermometer(data, output_dir):
              bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.8))
 
     plt.suptitle('Run 020B: The Thermometer Analogy', fontsize=14, fontweight='bold', y=1.02)
-    plt.tight_layout(rect=[0, 0.08, 1, 0.95])
+    plt.tight_layout(rect=[0, 0.12, 1, 0.95])  # More bottom margin for rotated labels
 
     for ext in ['png', 'svg']:
         outfile = output_dir / f'oobleck_thermometer.{ext}'
