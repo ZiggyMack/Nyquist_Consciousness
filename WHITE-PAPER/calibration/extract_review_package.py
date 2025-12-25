@@ -138,7 +138,7 @@ WORKSHOP_CONTENT = PathContent(
     guides=["summary_statistics.md"],
     references=[],
     figures=["fig_workshop_combined.md", "ascii/ascii_workshop_*.md"],
-    planning=["OPUS_REVIEW_BRIEF.md"],
+    planning=["OPUS_REVIEW_BRIEF.md", "NOVAS_OVERCLAIMING_PREVENTION.md", "METHODOLOGY_DOMAINS.md"],
     reviewers=["phase1/Nyquist_workshop_paper*.md", "phase2/Workshop_paper*.md"],
     reading_order=[
         "submissions/workshop/README.md",
@@ -158,7 +158,7 @@ ARXIV_CONTENT = PathContent(
     guides=["*.md"],  # All guides
     references=["references.md", "references.bib"],
     figures=["fig*.md", "ascii/", "current/", "historical/"],  # Organized: current (Run 023) + historical (pre-Run 023)
-    planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md"],
+    planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md", "NOVAS_OVERCLAIMING_PREVENTION.md", "METHODOLOGY_DOMAINS.md"],
     reviewers=["phase1/NOVA_S7_REVIEW.md", "phase3/*.md"],
     reading_order=[
         "submissions/arxiv/README.md",
@@ -180,7 +180,7 @@ JOURNAL_CONTENT = PathContent(
     guides=["*.md"],
     references=["references.md", "references.bib"],
     figures=["fig*.md", "ascii/", "current/", "historical/"],  # Organized: current (Run 023) + historical (pre-Run 023)
-    planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md"],
+    planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md", "NOVAS_OVERCLAIMING_PREVENTION.md", "METHODOLOGY_DOMAINS.md"],
     reviewers=["phase1/*.md", "phase2/*.md", "phase3/*.md"],
     reading_order=[
         "submissions/journal/README.md",
@@ -200,7 +200,7 @@ POPULAR_SCIENCE_CONTENT = PathContent(
     guides=["summary_statistics.md"],
     references=[],
     figures=[],
-    planning=["OPUS_REVIEW_BRIEF.md"],
+    planning=["OPUS_REVIEW_BRIEF.md", "NOVAS_OVERCLAIMING_PREVENTION.md"],
     reviewers=[],
     reading_order=[
         "submissions/popular_science/README.md",
@@ -219,7 +219,7 @@ EDUCATION_CONTENT = PathContent(
     guides=["summary_statistics.md"],
     references=[],
     figures=[],
-    planning=[],
+    planning=["NOVAS_OVERCLAIMING_PREVENTION.md"],
     reviewers=[],
     reading_order=[
         "submissions/education/README.md",
@@ -238,7 +238,7 @@ POLICY_CONTENT = PathContent(
     guides=["summary_statistics.md"],
     references=[],
     figures=[],
-    planning=[],
+    planning=["NOVAS_OVERCLAIMING_PREVENTION.md"],
     reviewers=[],
     reading_order=[
         "submissions/policy/README.md",
@@ -257,7 +257,7 @@ FUNDING_CONTENT = PathContent(
     guides=["summary_statistics.md", "REPRODUCIBILITY_README.md"],
     references=[],
     figures=[],
-    planning=[],
+    planning=["NOVAS_OVERCLAIMING_PREVENTION.md", "METHODOLOGY_DOMAINS.md"],
     reviewers=[],
     reading_order=[
         "submissions/funding/README.md",
@@ -276,7 +276,7 @@ MEDIA_CONTENT = PathContent(
     guides=["summary_statistics.md"],
     references=[],
     figures=[],
-    planning=[],
+    planning=["NOVAS_OVERCLAIMING_PREVENTION.md"],
     reviewers=[],
     reading_order=[
         "submissions/media/README.md",
