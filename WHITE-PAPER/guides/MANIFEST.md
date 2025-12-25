@@ -1,9 +1,9 @@
 # Publication Materials Manifest
 
 **Project:** Nyquist Consciousness
-**Generated:** 2025-12-13
-**Generator:** Code Claude (per Opus task specifications)
-**Total Files:** 34
+**Last Updated:** 2025-12-25
+**Status:** COSINE ERA — Run 023 IRON CLAD Complete
+**Methodology:** Cosine distance (Event Horizon D = 0.80)
 
 ---
 
@@ -11,69 +11,91 @@
 
 | Category | Files | Status |
 |----------|-------|--------|
-| Main Publication Figures | 16 | COMPLETE |
-| ASCII Art Diagrams | 5 | COMPLETE |
-| Workshop Materials | 9 | COMPLETE |
-| References | 2 | COMPLETE |
-| Supporting Materials | 2 | COMPLETE |
-| **TOTAL** | **34** | **COMPLETE** |
+| Conceptual Figures (Active) | 3 | CURRENT |
+| Verified Visualizations (Run 023) | 6+ | CURRENT |
+| ASCII Art Diagrams | 7 | CURRENT |
+| Deprecated Figures | 6 | ARCHIVED |
+| Workshop Materials | 5 | CURRENT |
+| References | 2 | CURRENT |
+| Supporting Materials | 4 | CURRENT |
 
 ---
 
-## Main Publication Figures (16 files)
+## Active Figures
 
-Each figure has two files: ASCII/markdown specification + Python rendering code.
+### Conceptual Figures (3 files)
 
-| # | File | Purpose | Status |
-|---|------|---------|--------|
-| 1 | `figures/fig1_identity_manifold.md` | 3D manifold ASCII diagram | DONE |
-| 2 | `figures/fig1_identity_manifold.py` | matplotlib 3D surface code | DONE |
-| 3 | `figures/fig2_drift_field.md` | Architecture drift vectors ASCII | DONE |
-| 4 | `figures/fig2_drift_field.py` | Quiver plot generation | DONE |
-| 5 | `figures/fig3_pipeline.md` | S3-S6 experimental flow ASCII | DONE |
-| 6 | `figures/fig3_pipeline.py` | Flowchart generation | DONE |
-| 7 | `figures/fig4_five_pillars.md` | Pentagon structure ASCII | DONE |
-| 8 | `figures/fig4_five_pillars.py` | Radar/polar plot | DONE |
-| 9 | `figures/fig5_omega_convergence.md` | Multi-arch convergence ASCII | DONE |
-| 10 | `figures/fig5_omega_convergence.py` | Convergence line plot | DONE |
-| 11 | `figures/fig6_82_percent.md` | Control vs Treatment ASCII | DONE |
-| 12 | `figures/fig6_82_percent.py` | Side-by-side bar chart | DONE |
-| 13 | `figures/fig7_context_damping.md` | Before/after stability ASCII | DONE |
-| 14 | `figures/fig7_context_damping.py` | Grouped bar chart | DONE |
-| 15 | `figures/fig8_oobleck.md` | Non-Newtonian curve ASCII | DONE |
-| 16 | `figures/fig8_oobleck.py` | Inverse relationship plot | DONE |
+Publication-ready conceptual diagrams with correct Cosine methodology.
+
+| Figure | File | Purpose | Status |
+|--------|------|---------|--------|
+| Fig 1 | `figures/conceptual/fig1_identity_manifold.py` | 3D manifold (2 PCs = 90% variance) | CURRENT |
+| Fig 3 | `figures/conceptual/fig3_pipeline.py` | S3-S6 pipeline with IRON CLAD stats | CURRENT |
+| Fig 4 | `figures/conceptual/fig4_five_pillars.py` | Pentagon architecture | CURRENT |
+
+**Regenerate:** `cd figures && py generate_all_figures.py`
+
+### Verified Visualizations (Run 023)
+
+Empirical visualizations from S7_ARMADA with correct data.
+
+| File | Source | Description |
+|------|--------|-------------|
+| `figures/run023/context_damping_summary.png` | Run 017 | 97.5% stability results |
+| `figures/run023/oobleck_thermometer.png` | Run 020B | 82% inherent drift |
+| `figures/run023/oobleck_control_treatment.png` | Run 020B | Control vs Treatment |
+| `figures/run023/pc_scatter.png` | Run 023d | PCA visualization |
+| `figures/run023/provider_clusters.png` | Run 023d | Provider clustering |
+| `figures/run023/variance_curve.png` | Run 023d | Variance explained |
+
+**Note:** These are the primary empirical figures for publication.
 
 ---
 
-## ASCII Art Diagrams (5 files)
+## ASCII Art Diagrams (7 files)
 
 Standalone ASCII diagrams for paper text and presentations.
 
-| # | File | Purpose | Status |
-|---|------|---------|--------|
-| 17 | `ascii/ascii_framework.md` | Three-layer P→S→U architecture | DONE |
-| 18 | `ascii/ascii_evidence_chain.md` | Claim→Hypothesis→Run→Data lineage | DONE |
-| 19 | `ascii/ascii_compression.md` | S0→S6 transformation pipeline | DONE |
-| 20 | `ascii/ascii_vortex.md` | Identity drain spiral patterns | DONE |
-| 21 | `ascii/ascii_triple_blind.md` | Triple-blind validation structure | DONE |
+| File | Purpose | Status |
+|------|---------|--------|
+| `figures/ascii/ascii_framework.md` | Three-layer P→S→U architecture | CURRENT |
+| `figures/ascii/ascii_evidence_chain.md` | Claim→Hypothesis→Run→Data lineage | CURRENT |
+| `figures/ascii/ascii_compression.md` | S0→S6 transformation pipeline | CURRENT |
+| `figures/ascii/ascii_vortex.md` | Identity drain spiral patterns | CURRENT |
+| `figures/ascii/ascii_triple_blind.md` | Triple-blind validation structure | CURRENT |
+| `figures/ascii/ascii_workshop_abstract.md` | Visual abstract for poster | CURRENT |
+| `figures/ascii/ascii_workshop_contributions.md` | 7 contributions summary | CURRENT |
 
 ---
 
-## Workshop Materials (9 files)
+## Deprecated Figures (DO NOT USE)
+
+These contain hardcoded synthetic data with wrong methodology (Euclidean, D=1.23).
+
+| File | Issue | Replacement |
+|------|-------|-------------|
+| `figures/deprecated/_DEPRECATED_fig2_drift_field.*` | D=1.23 (Euclidean) | run023/provider_clusters.png |
+| `figures/deprecated/_DEPRECATED_fig5_omega_convergence.*` | Synthetic curve | None (theoretical) |
+| `figures/deprecated/_DEPRECATED_fig6_82_percent.*` | Hardcoded values | run023/oobleck_thermometer.png |
+| `figures/deprecated/_DEPRECATED_fig7_context_damping.*` | τₛ=5.2-6.1 (WRONG) | run023/context_damping_summary.png |
+| `figures/deprecated/_DEPRECATED_fig8_oobleck.*` | Synthetic drift | run023/oobleck_control_treatment.png |
+| `figures/deprecated/_DEPRECATED_fig_workshop_combined.*` | All deprecated | Use individual run023/ figures |
+
+See `figures/deprecated/README.md` for full deprecation details.
+
+---
+
+## Workshop Materials (5 files)
 
 Materials specific to the workshop paper submission.
 
-| # | File | Purpose | Status |
-|---|------|---------|--------|
-| 22 | `figures/fig_workshop_combined.md` | 2×2 combined panel ASCII | DONE |
-| 23 | `figures/fig_workshop_combined.py` | Combined subplot generation | DONE |
-| 24 | `ascii/ascii_workshop_abstract.md` | Visual abstract for poster | DONE |
-| 25 | `ascii/ascii_workshop_contributions.md` | 7 contributions summary | DONE |
-| 26 | `workshop/table_workshop_results.md` | Compressed results table | DONE |
-| 27 | `workshop/table_workshop_protocol.md` | 97.5% stability protocol | DONE |
-| 28 | `workshop/workshop_supplementary.md` | Extended materials & links | DONE |
-| 29 | `workshop/workshop_slides_outline.md` | 10-minute presentation script | DONE |
-| 30 | `workshop/poster_layout.md` | A0 portrait specification | DONE |
+| File | Purpose | Status |
+|------|---------|--------|
+| `submissions/workshop/table_workshop_results.md` | Compressed results table | CURRENT |
+| `submissions/workshop/table_workshop_protocol.md` | 97.5% stability protocol | CURRENT |
+| `submissions/workshop/workshop_supplementary.md` | Extended materials & links | CURRENT |
+| `submissions/workshop/workshop_slides_outline.md` | 10-minute presentation script | CURRENT |
+| `submissions/workshop/poster_layout.md` | A0 portrait specification | CURRENT |
 
 ---
 
@@ -81,12 +103,13 @@ Materials specific to the workshop paper submission.
 
 Academic reference list in multiple formats.
 
-| # | File | Purpose | Status |
-|---|------|---------|--------|
-| 31 | `references.bib` | BibTeX format (55 refs) | DONE |
-| 32 | `references.md` | Readable markdown (7 categories) | DONE |
+| File | Purpose | Status |
+|------|---------|--------|
+| `references/references.bib` | BibTeX format (55 refs) | CURRENT |
+| `references/references.md` | Readable markdown (7 categories) | CURRENT |
 
 ### Reference Categories
+
 - Persona/Role-Playing in LLMs (10)
 - Behavioral Drift & Distribution Shift (8)
 - AI Alignment & Safety (10)
@@ -98,99 +121,92 @@ Academic reference list in multiple formats.
 
 ---
 
-## Supporting Materials (2 files)
+## Supporting Materials (4 files)
 
-Reproducibility and summary documentation.
+Documentation and reproducibility guides.
 
-| # | File | Purpose | Status |
-|---|------|---------|--------|
-| 33 | `REPRODUCIBILITY_README.md` | Full reproduction guide | DONE |
-| 34 | `summary_statistics.md` | All key numbers consolidated | DONE |
+| File | Purpose | Status |
+|------|---------|--------|
+| `guides/MANIFEST.md` | This file - materials inventory | CURRENT |
+| `guides/REPRODUCIBILITY_README.md` | Full reproduction guide | CURRENT |
+| `guides/summary_statistics.md` | All key numbers consolidated | NEEDS UPDATE |
+| `guides/UNIFIED_STATISTICS_REFERENCE.md` | Detailed statistics reference | CURRENT |
 
 ---
 
-## Directory Structure After Generation
+## Directory Structure
 
 ```
 WHITE-PAPER/
-├── MANIFEST.md                    <-- THIS FILE
-├── START_HERE.md                  (updated with completion status)
-├── REPRODUCIBILITY_README.md      (NEW)
-├── summary_statistics.md          (NEW)
-├── references.bib                 (NEW)
-├── references.md                  (NEW)
+├── guides/
+│   ├── MANIFEST.md                  (this file)
+│   ├── REPRODUCIBILITY_README.md
+│   ├── summary_statistics.md
+│   └── UNIFIED_STATISTICS_REFERENCE.md
 │
-├── figures/                       (16 NEW files)
-│   ├── fig1_identity_manifold.md
-│   ├── fig1_identity_manifold.py
-│   ├── fig2_drift_field.md
-│   ├── fig2_drift_field.py
-│   ├── fig3_pipeline.md
-│   ├── fig3_pipeline.py
-│   ├── fig4_five_pillars.md
-│   ├── fig4_five_pillars.py
-│   ├── fig5_omega_convergence.md
-│   ├── fig5_omega_convergence.py
-│   ├── fig6_82_percent.md
-│   ├── fig6_82_percent.py
-│   ├── fig7_context_damping.md
-│   ├── fig7_context_damping.py
-│   ├── fig8_oobleck.md
-│   ├── fig8_oobleck.py
-│   ├── fig_workshop_combined.md
-│   └── fig_workshop_combined.py
+├── figures/
+│   ├── README.md                    (figure index)
+│   ├── generate_all_figures.py      (runs conceptual only)
+│   ├── conceptual/                  (3 VALID figures)
+│   │   ├── fig1_identity_manifold.py
+│   │   ├── fig3_pipeline.py
+│   │   └── fig4_five_pillars.py
+│   ├── run023/                      (VERIFIED empirical)
+│   │   ├── context_damping_summary.png
+│   │   ├── oobleck_thermometer.png
+│   │   ├── oobleck_control_treatment.png
+│   │   └── (other verified figures)
+│   ├── deprecated/                  (DO NOT USE)
+│   │   └── _DEPRECATED_*
+│   ├── ascii/                       (7 ASCII diagrams)
+│   ├── generated/                   (output from scripts)
+│   └── suggested/                   (supplementary S7 visuals)
 │
-├── ascii/                         (7 NEW files)
-│   ├── ascii_framework.md
-│   ├── ascii_evidence_chain.md
-│   ├── ascii_compression.md
-│   ├── ascii_vortex.md
-│   ├── ascii_triple_blind.md
-│   ├── ascii_workshop_abstract.md
-│   └── ascii_workshop_contributions.md
+├── references/
+│   ├── references.bib
+│   └── references.md
 │
-└── workshop/                      (5 NEW files)
-    ├── table_workshop_results.md
-    ├── table_workshop_protocol.md
-    ├── workshop_supplementary.md
-    ├── workshop_slides_outline.md
-    └── poster_layout.md
+└── submissions/workshop/            (5 workshop materials)
 ```
 
 ---
 
-## Source Task Specifications
+## Key Statistics (Cosine Methodology)
 
-| Document | Location | Files Requested |
-|----------|----------|-----------------|
-| Main Prompt | `docs/CFA-SYNC/Opus/CODE_CLAUDE_PROMPT.md` | 25 |
-| Workshop Addendum | `docs/CFA-SYNC/Opus/Code_claude_workshop_addendum.md` | 9 |
-| **Total** | | **34** |
+All materials must use these validated values:
 
----
-
-## Verification
-
-All 34 files have been generated and are ready for Opus review.
-
-To verify file existence:
-```bash
-cd WHITE-PAPER
-dir /s /b *.md *.py *.bib | find /c "."
-```
-
-Expected count: 34+ (includes pre-existing files)
+| Metric | Correct Value | Source |
+|--------|--------------|--------|
+| Event Horizon | D = 0.80 | Run 023 IRON CLAD |
+| PCs for 90% variance | **2** | Run 023d Phase 2 |
+| Perturbation p-value | **2.40×10⁻²³** | Run 023d Phase 3A |
+| Cohen's d | **0.698** | Run 023d Phase 3B |
+| Settling time | τₛ ≈ 10.2 | Run 023d |
+| Inherent drift ratio | **82%** | Run 020B |
+| Context damping | **97.5%** | Run 017 |
+| Experiments | 825 | Run 023 Combined |
+| Models | 51 | Run 023 Combined |
+| Providers | 6 | Run 023 Combined |
 
 ---
 
-## Next Steps for Opus
+## Related Documents
 
-1. Review generated figures for accuracy
-2. Verify ASCII diagrams render correctly in target documents
-3. Check references against paper citations
-4. Run Python scripts to generate high-resolution figures
-5. Integrate materials into final paper drafts
+| Document | Purpose |
+|----------|---------|
+| [figures/README.md](../figures/README.md) | Figure index with deprecation details |
+| [planning/METHODOLOGY_DOMAINS.md](../planning/METHODOLOGY_DOMAINS.md) | Dual Event Horizon reconciliation |
+| [START_HERE.md](../START_HERE.md) | Complete reviewer orientation |
 
 ---
 
-*Generated by Code Claude per Opus task specifications (2025-12-13)*
+## Changelog
+
+| Date | Change |
+|------|--------|
+| 2025-12-25 | Major update: Cosine Era reorganization, deprecated figures noted |
+| 2025-12-13 | Initial creation with 34 files |
+
+---
+
+*"2 PCs = 90% variance. Event Horizon D = 0.80. Cosine methodology throughout."*
