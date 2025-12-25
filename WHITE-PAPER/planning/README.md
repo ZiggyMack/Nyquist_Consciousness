@@ -1,84 +1,78 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-25
 impacts:
   - ../README.md
 keywords:
   - consciousness
+  - cosine_era
+  - publication
 -->
 # WHITE-PAPER/planning/
 
 Publication planning workspace for Nyquist Consciousness.
 
-**Last Updated:** 2025-12-16
-**Status:** IRON CLAD 83.8% — Data recovery in progress
+**Last Updated:** 2025-12-25
+**Status:** COSINE ERA — Run 023 IRON CLAD Complete (825 experiments, 51 models, 6 providers)
 
 ## Purpose
 
-This directory contains planning documents, methodology guidance, and integration notes for advancing publication readiness. All documents here capture Nova's comprehensive S7 review (REVIEW_1.md, ~6000 lines) and translate it into actionable publication tasks.
+This directory contains planning documents, methodology guidance, and integration notes for advancing publication readiness.
 
 ## Key Documents
 
 | Document | Description | Status |
 |----------|-------------|--------|
-| PUBLICATION_PIPELINE_MASTER.md | All 8 publication paths overview | CURRENT |
-| OPUS_REVIEW_BRIEF.md | Opus 4.5 orientation for final review | CURRENT |
-| NOVA_INTEGRATION_PLAN.md | Master plan for integrating Nova's S7 review | COMPLETE |
-| NOVAS_OVERCLAIMING_PREVENTION.md | Critical guidance on what claims to avoid | ACTIVE |
-| RUN_018_PRELAUNCH.md | Pre-launch checklist for Run 018 | ARCHIVED (Run complete) |
-| RUN_020_021_METHODOLOGY.md | Triple-blind-like validation methodology | COMPLETE |
+| `PUBLICATION_PIPELINE_MASTER.md` | All 8 publication paths overview | CURRENT |
+| `OPUS_REVIEW_BRIEF.md` | Opus 4.5 orientation for final review | CURRENT |
+| `METHODOLOGY_DOMAINS.md` | Cosine vs Keyword RMS methodology reconciliation | CURRENT |
+| `NOVAS_OVERCLAIMING_PREVENTION.md` | Critical guidance on what claims to avoid | ACTIVE |
 
-## Source Material
+## Event Horizon Thresholds
 
-- **Primary:** `docs/CFA-SYNC/S7_REVIEW/REVIEW_1.md` (~6000 lines)
-- **Context:** `dashboard/README.md`, `dashboard/START_HERE.md`
-- **Existing:** `WHITE-PAPER/B-CRUMBS.md`, `WHITE-PAPER/HYPOTHESES_AND_RESULTS.md`
+| Methodology | Event Horizon | Era | Status |
+|-------------|---------------|-----|--------|
+| **Cosine** | **D = 0.80** | Run 023+ | **PRIMARY** |
+| Keyword RMS | D = 1.23 | Runs 008-009 | Historical |
 
-## Publication Progression
+See `METHODOLOGY_DOMAINS.md` for full reconciliation.
 
-1. **Phase 1:** Integrate Nova's review findings into existing docs ✓
-2. **Phase 2:** Create new theory/claims documents ✓
-3. **Phase 3:** Update arxiv package ✓
-4. **Phase 4:** Execute Run 018 with Nova's guidance ✓ (184 files)
-5. **Phase 5:** Final terminology sweep ✓
-6. **Phase 6:** Generate all 8 PDFs ✓ (December 16, 2025)
-7. **Phase 7:** External review (Grok) ✓ — VALIDATED
-8. **Phase 8:** Data Recovery 🔄 (December 16, 2025)
-   - Discovered embedding cache pollution from dry-run mode
-   - 272 corrupted files archived to `.archive/Run018_Corrupted/`
-   - 124/148 model-experiments complete (83.8%)
-   - 36 re-runs needed across 24 gaps
-   - Strategy: One model at a time with validation after each write
+## Publication Status
 
-**NEXT:** Complete 36 re-runs → Restore IRON CLAD → Submit arXiv
+| Path | Target | Status |
+|------|--------|--------|
+| **Workshop** | NeurIPS/AAAI | READY |
+| **arXiv** | cs.AI preprint | READY |
+| **Journal** | Nature MI | DRAFT (Q2-Q3 2026) |
 
-## Critical Language Updates
+## THE THREE CORE CLAIMS — ALL VALIDATED
 
-When updating any publication material, apply these terminology changes:
+1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
+2. **WE DON'T CAUSE IT** — 82% inherent drift ratio (Run 020B Thermometer Result)
+3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (model-level aggregates), 2 PCs = 90% variance
 
-| Old Term | New Term |
-|----------|----------|
-| "identity collapses into generic AI mode" | "system transitions to provider-level attractor" |
-| "Event Horizon = catastrophic failure" | "Event Horizon = attractor competition threshold" |
-| "collapse" | "regime transition" or "basin exit" |
-| "magic number 1.23" | "critical excitation threshold D≈1.23" |
-| "Platonic coordinates" | "attractor basin return / basin consistency" |
+## Critical Language (Publication)
 
-## The 82% Finding
+When writing publication material, use these terms:
 
-Run 021's most important result: **82% of drift is INHERENT**, not induced by probing.
+| Avoid | Use Instead |
+|-------|-------------|
+| "identity collapses" | "regime transition" or "basin exit" |
+| "Event Horizon = failure" | "attractor competition threshold" |
+| "Platonic coordinates" | "attractor basin consistency" |
+| Subjective experience claims | Behavioral/dynamical framing |
 
-This moves drift from "observer-induced hallucination" to "natural relaxation under sustained interaction."
+## External Validation
 
-## External Validation (NEW)
-
-**Grok (xAI)** reviewed our Workshop + arXiv PDFs on December 16, 2025:
-
-- PFI validity confirmed (ρ=0.91, d=0.98)
-- 98% convergence in framework methodology
+**Grok (xAI)** reviewed Workshop + arXiv PDFs (December 2025):
+- PFI validity confirmed (rho=0.91, d=0.698)
 - "Claims tested, measured, verified"
-- See: `reviewers/Grok/review_1.md`
+- See: `../reviewers/Grok/review_1.md`
+
+**NotebookLLM (Google)** independently synthesized full research package:
+- Correctly identified all 5 claims (A-E)
+- See: `../reviewers/LLM_BOOK_SYNTHESIS/INDEX.md`
 
 ---
 
 Created: 2025-12-13
-Updated: 2025-12-16
+Updated: 2025-12-25
