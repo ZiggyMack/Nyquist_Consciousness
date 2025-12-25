@@ -129,7 +129,7 @@ Documentation and reproducibility guides.
 |------|---------|--------|
 | `guides/MANIFEST.md` | This file - materials inventory | CURRENT |
 | `guides/REPRODUCIBILITY_README.md` | Full reproduction guide | CURRENT |
-| `guides/summary_statistics.md` | All key numbers consolidated | NEEDS UPDATE |
+| `guides/summary_statistics.md` | All key numbers consolidated | CURRENT |
 | `guides/UNIFIED_STATISTICS_REFERENCE.md` | Detailed statistics reference | CURRENT |
 
 ---
