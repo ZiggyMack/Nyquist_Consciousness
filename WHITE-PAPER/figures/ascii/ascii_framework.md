@@ -13,7 +13,7 @@
 │  ╠═══════════════════════════════════════════════════════════════════════╣ │
 │  ║  ├─ Embedding-invariant (ρ ≈ 0.91 across 3 models)                    ║ │
 │  ║  ├─ Low-dimensional (~2 PCs capture 90% variance)                     ║ │
-│  ║  ├─ Semantically sensitive (d ≈ 1.123 cross-provider)                 ║ │
+│  ║  ├─ Semantically sensitive (d ≈ 0.698 cross-provider)                 ║ │
 │  ║  └─ Paraphrase-robust (0% above Event Horizon D=0.80)                 ║ │
 │  ╚═══════════════════════════════════════════════════════════════════════╝ │
 │                                    │                                        │

@@ -15,9 +15,9 @@ CLAIM A (Instrument Validity)
 │   └── 2 principal components capture 90% of variance
 │       └── Interpretation: Remarkably low-dimensional identity space
 │
-├── EXP-PFI-A Phase 3: Semantic sensitivity (d ≈ 1.123)
+├── EXP-PFI-A Phase 3: Semantic sensitivity (d ≈ 0.698)
 │   └── Cross-provider semantic drift detection
-│       └── Result: Cohen's d = 1.123 between genuine vs shuffled
+│       └── Result: Cohen's d = 0.698 between genuine vs shuffled
 │
 └── EXP-PFI-A Phase 4: Paraphrase robustness (0% above EH)
     └── Paraphrased responses stay within baseline variance

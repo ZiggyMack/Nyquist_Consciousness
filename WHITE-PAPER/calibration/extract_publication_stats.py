@@ -41,7 +41,7 @@ def extract_stats() -> dict:
                 "status": "validated",
                 "description": "PFI is valid structured measurement",
                 "rho": 0.91,
-                "d": 1.123,  # Updated from 0.98 (Euclidean)
+                "d": 0.698,  # Model-level aggregate from Run 023d Phase 3B
                 "pcs_90_variance": 2  # Key finding: only 2 PCs needed
             },
             "B": {
@@ -122,7 +122,7 @@ def extract_stats() -> dict:
         # Key statistics (IRON CLAD - Cosine methodology)
         "key_statistics": {
             "pfi_correlation": 0.91,
-            "pfi_effect_size": 1.123,  # Updated from 0.98
+            "pfi_effect_size": 0.698,  # Model-level aggregate from Run 023d Phase 3B
             "threshold_d": 0.80,  # Updated from 1.23 (cosine, not Euclidean)
             "threshold_p": 2.40e-23,  # Updated from 4.8e-5
             "inherent_ratio": 0.92,  # Updated from 0.82
