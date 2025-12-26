@@ -34,27 +34,28 @@ def extract_stats() -> dict:
         "generated": datetime.now().isoformat(),
         "white_paper_path": str(WHITE_PAPER_ROOT),
 
-        # Claims A-E (hardcoded from validated results)
+        # Claims A-E (IRON CLAD validated - Cosine methodology)
         "claims": {
             "A": {
                 "name": "PFI Validity",
                 "status": "validated",
                 "description": "PFI is valid structured measurement",
                 "rho": 0.91,
-                "d": 0.98
+                "d": 1.123,  # Updated from 0.98 (Euclidean)
+                "pcs_90_variance": 2  # Key finding: only 2 PCs needed
             },
             "B": {
                 "name": "Regime Threshold",
                 "status": "validated",
-                "description": "Critical threshold at D=1.23",
-                "threshold": 1.23,
-                "p_value": 4.8e-5
+                "description": "Critical threshold at D=0.80 (cosine)",
+                "threshold": 0.80,  # Updated from 1.23 (Euclidean)
+                "p_value": 2.40e-23  # Updated from 4.8e-5
             },
             "C": {
                 "name": "Oscillator Dynamics",
                 "status": "validated",
                 "description": "Damped oscillator dynamics measurable",
-                "tau_s": "measured",
+                "tau_s": "9.9-10.2",  # Updated from 5.2-6.1
                 "ringbacks": "observed"
             },
             "D": {
@@ -64,20 +65,21 @@ def extract_stats() -> dict:
                 "stability": 0.975
             },
             "E": {
-                "name": "82% Inherent",
+                "name": "92% Inherent",  # Updated from 82%
                 "status": "validated",
                 "description": "Drift is mostly inherent, not induced",
-                "ratio": 0.82
+                "ratio": 0.92  # Updated from 0.82
             }
         },
 
-        # Run counts
+        # Run counts (IRON CLAD era)
         "runs": {
-            "total": 21,
-            "s7_armada": 21,
-            "latest": "run021",
-            "discovery_era": "001-006",
-            "control_systems_era": "007-021"
+            "total_experiments": 750,  # Updated from 21 runs
+            "s7_armada": "run023",  # Current IRON CLAD run
+            "latest": "run023",
+            "providers": 5,  # Updated from 4
+            "models": 25,
+            "methodology": "cosine"
         },
 
         # File counts (computed)
@@ -117,16 +119,18 @@ def extract_stats() -> dict:
             }
         },
 
-        # Key statistics (for quick reference)
+        # Key statistics (IRON CLAD - Cosine methodology)
         "key_statistics": {
             "pfi_correlation": 0.91,
-            "pfi_effect_size": 0.98,
-            "threshold_d": 1.23,
-            "threshold_p": 4.8e-5,
-            "inherent_ratio": 0.82,
+            "pfi_effect_size": 1.123,  # Updated from 0.98
+            "threshold_d": 0.80,  # Updated from 1.23 (cosine, not Euclidean)
+            "threshold_p": 2.40e-23,  # Updated from 4.8e-5
+            "inherent_ratio": 0.92,  # Updated from 0.82
             "stability_rate": 0.975,
-            "hypotheses_tested": 36,
-            "architectures_tested": 4
+            "pcs_for_90_variance": 2,  # Key finding
+            "experiments": 750,
+            "providers_tested": 5,  # Updated from 4
+            "models_tested": 25
         },
 
         # Directory structure validation
@@ -156,10 +160,13 @@ def main():
         json.dump(stats, f, indent=2)
 
     print(f"Written to: {output_path}")
-    print(f"\nSummary:")
+    print(f"\nSummary (IRON CLAD - Cosine methodology):")
     print(f"  Claims validated: {sum(1 for c in stats['claims'].values() if c['status']=='validated')}/5")
-    print(f"  Total runs: {stats['runs']['total']}")
-    print(f"  Files generated: {stats['files']['total_generated']}")
+    print(f"  Experiments: {stats['runs']['total_experiments']}")
+    print(f"  Providers: {stats['runs']['providers']} | Models: {stats['runs']['models']}")
+    print(f"  Event Horizon: D = {stats['key_statistics']['threshold_d']} (cosine)")
+    print(f"  PCs for 90% variance: {stats['key_statistics']['pcs_for_90_variance']}")
+    print(f"  Inherent drift: {stats['key_statistics']['inherent_ratio']*100:.0f}%")
     print(f"  Workshop: {stats['submissions']['workshop']['status']}")
     print(f"  arXiv: {stats['submissions']['arxiv']['status']}")
     print(f"  Journal: {stats['submissions']['journal']['status']}")
