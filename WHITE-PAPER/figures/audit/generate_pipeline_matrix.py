@@ -80,10 +80,10 @@ for i in range(len(visuals)):
         )
         ax.add_patch(rect)
 
-        # Add checkmark for primary, 'A' for appendix
+        # Add 'P' for primary, 'A' for appendix (avoid Unicode issues)
         if matrix[i, j] == 1:
-            ax.text(j + 0.45, len(visuals) - 0.55 - i, '✓',
-                   ha='center', va='center', fontsize=14, fontweight='bold', color='white')
+            ax.text(j + 0.45, len(visuals) - 0.55 - i, 'P',
+                   ha='center', va='center', fontsize=12, fontweight='bold', color='white')
         elif matrix[i, j] == 2:
             ax.text(j + 0.45, len(visuals) - 0.55 - i, 'A',
                    ha='center', va='center', fontsize=11, fontweight='bold', color='white')
@@ -111,7 +111,7 @@ ax.set_title('Visual-to-Pipeline Matrix\nRun 023 IRON CLAD COSINE (750 experimen
 
 # Legend
 legend_patches = [
-    mpatches.Patch(color='#2ecc71', label='Primary Figure (✓)'),
+    mpatches.Patch(color='#2ecc71', label='Primary Figure (P)'),
     mpatches.Patch(color='#3498db', label='Appendix (A)'),
     mpatches.Patch(color='#f0f0f0', label='Not Included'),
 ]
@@ -139,4 +139,4 @@ svg_path = output_path.replace('.png', '.svg')
 plt.savefig(svg_path, format='svg', bbox_inches='tight', facecolor='white')
 print(f"Saved: {svg_path}")
 
-plt.show()
+# plt.show()  # Commented out for non-interactive use
