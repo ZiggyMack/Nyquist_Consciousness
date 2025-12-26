@@ -1,7 +1,7 @@
 # Publication Figures (IRON CLAD)
 
-**Last Updated:** 2025-12-25
-**Status:** Restructured with Visual Index System
+**Last Updated:** 2025-12-26
+**Status:** Restructured with Visual Index System + Audit Tools
 **Methodology:** Cosine distance (NOT Euclidean)
 
 ---
@@ -80,6 +80,13 @@ figures/
 │       ├── provider_comparison.png
 │       └── ... (10 more)
 │
+├── audit/                       # Philosophy 5: Internal assessment tools
+│   ├── README.md                # Audit directory guide
+│   ├── VISUAL_PIPELINE_MATRIX.md  # Detailed visual-to-pipeline mapping
+│   ├── visual_pipeline_matrix.png # Visual matrix (20 visuals x 8 pipelines)
+│   ├── visual_pipeline_matrix.svg # Vector version
+│   └── generate_pipeline_matrix.py # Regenerate matrix
+│
 └── deprecated/                  # DO NOT USE
     ├── suggested/               # Old Euclidean-era visuals
     │   ├── pdf/ (18 files)
@@ -91,7 +98,7 @@ figures/
 
 ---
 
-## 4 Visual Philosophies
+## 5 Visual Philosophies
 
 ### 1. ASCII Diagrams (`ascii/`)
 
@@ -162,6 +169,25 @@ Verified visualizations from S7_ARMADA IRON CLAD experiments (14 files).
 | `perturbation_validation.png` | 10_PFI_Dimensional | p=2.40×10⁻²³ |
 
 **Source catalog:** `experiments/temporal_stability/S7_ARMADA/visualizations/pics/1-15/`
+
+---
+
+### 5. Audit Tools (`audit/`)
+
+Internal assessment and quality control visuals - NOT for publication.
+
+| File | Purpose |
+|------|---------|
+| `visual_pipeline_matrix.png` | Matrix showing 20 visuals x 8 pipelines |
+| `VISUAL_PIPELINE_MATRIX.md` | Detailed breakdown with gap analysis |
+| `generate_pipeline_matrix.py` | Regenerate after changes |
+
+**Use cases:**
+- Verify which visuals support each claim (A-E)
+- Identify coverage gaps before submission
+- Review visual allocation across pipelines
+
+**Regenerate:** `cd figures/audit && python generate_pipeline_matrix.py`
 
 ---
 
