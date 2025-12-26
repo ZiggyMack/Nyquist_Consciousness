@@ -12,7 +12,7 @@
 │   ──────────────────────────────────────────────────────────────────────────  │
 │                                                                               │
 │   1   METRIC            PFI validated across          ρ = 0.91               │
-│       VALIDITY          3 embedding models            d = 0.98               │
+│       VALIDITY          3 embedding models            d = 1.123              │
 │                         (EXP-PFI-A, 4 phases)                                │
 │                                                                               │
 │   2   REGIME            Perturbation validation       D = 0.80               │
@@ -87,7 +87,7 @@
 │                                                                               │
 │   A  PFI is a valid, structured measurement of identity fidelity             │
 │      ▸ ρ = 0.91 embedding invariance                                         │
-│      ▸ d = 0.98 semantic sensitivity                                         │
+│      ▸ d = 1.123 semantic sensitivity                                        │
 │                                                                               │
 │   B  A regime threshold exists at D = 0.80                                   │
 │      ▸ p = 2.40×10⁻²³ perturbation validation                               │
