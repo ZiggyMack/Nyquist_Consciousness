@@ -52,7 +52,7 @@ from dataclasses import dataclass, field
 # === PATH CONSTANTS ===
 WHITE_PAPER_ROOT = Path(__file__).parent.parent  # WHITE-PAPER/
 REPO_ROOT = WHITE_PAPER_ROOT.parent              # Nyquist_Consciousness/
-DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "v2"  # v2 packages
+DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "v3"  # v3 packages (Run 023 IRON CLAD + latest visualizations)
 PDF_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "pdf"
 LLM_SYNTHESIS_DIR = WHITE_PAPER_ROOT / "reviewers" / "LLM_BOOK_SYNTHESIS"
 
@@ -74,7 +74,7 @@ NOTEBOOKLM_INTEGRATION = {
     "arxiv": [
         "README.md",  # Master synthesis (173KB)
         "INDEX.md",   # Content guide
-        "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 825 Experiments Across 51 Models.md",
+        "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md",
         "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
         "Decoding Ai Identity Drift.png",    # Infographic
         "NotebookLM Mind Map (1).png",       # Concept map
@@ -82,7 +82,7 @@ NOTEBOOKLM_INTEGRATION = {
     "journal": [
         "README.md",  # Master synthesis (173KB)
         "INDEX.md",   # Content guide
-        "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 825 Experiments Across 51 Models.md",
+        "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md",
         "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
         "Decoding Ai Identity Drift.png",    # Infographic
         "NotebookLM Mind Map (1).png",       # Concept map
