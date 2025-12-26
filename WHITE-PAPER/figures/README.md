@@ -37,9 +37,13 @@ figures/
 ├── README.md                    # This file
 │
 ├── ascii/                       # Philosophy 1: ASCII text diagrams
-│   ├── temporal_curvature.md
-│   ├── cross_modal_manifold.md
-│   └── compression_reconstruction_drift.md
+│   ├── ascii_compression.md
+│   ├── ascii_evidence_chain.md
+│   ├── ascii_framework.md
+│   ├── ascii_triple_blind.md
+│   ├── ascii_vortex.md
+│   ├── ascii_workshop_abstract.md
+│   └── ascii_workshop_contributions.md
 │
 ├── conceptual/                  # Philosophy 2: Conceptual illustrations
 │   ├── meta/                    # Context/methodology .md files
@@ -58,13 +62,15 @@ figures/
 │   └── fig4_five_pillars.py
 │
 ├── generated/                   # Philosophy 3: Reviewer-curated
-│   ├── pdf/                     # Summary PDFs (15 files) - REVIEWER MENU
+│   ├── pdf/                     # Summary PDFs (16 files) - REVIEWER MENU
 │   │   ├── 1_Vortex_Summary.pdf
 │   │   ├── 2_Boundary_Mapping_Summary.pdf
-│   │   ├── ... (13 more)
-│   │   ├── run018_Summary.pdf
-│   │   └── run020_Summary.pdf
-│   └── png/                     # ONLY images listed in visual_index.md
+│   │   ├── ... (1-6, 8-15 + run018 + run020)
+│   │   └── (Note: Folder 7 has HTML only, no PDF)
+│   ├── png/                     # ONLY images listed in visual_index.md
+│   └── llmbook/                 # LLMBook-specific visuals
+│       ├── LLM_FRAMEWORK.png
+│       └── LLM_NotebookLM_Mind_Map.png
 │
 ├── experiments/                 # Philosophy 4: Verified experiment visuals
 │   └── run023/                  # 14 verified PNGs from S7_ARMADA
@@ -74,13 +80,13 @@ figures/
 │       ├── provider_comparison.png
 │       └── ... (10 more)
 │
-├── deprecated/                  # DO NOT USE
-│   ├── suggested/               # Old Euclidean-era visuals
-│   │   ├── pdf/ (18 files)
-│   │   └── png/ (25 files)
-│   └── _DEPRECATED_*.py         # Deprecated scripts
-│
-└── llmbook/                     # (if separate chapter needs)
+└── deprecated/                  # DO NOT USE
+    ├── suggested/               # Old Euclidean-era visuals
+    │   ├── pdf/ (18 files)
+    │   ├── png/ (25 files)
+    │   └── README.md
+    ├── _DEPRECATED_*.py         # Deprecated scripts
+    └── README.md
 ```
 
 ---
@@ -89,11 +95,15 @@ figures/
 
 ### 1. ASCII Diagrams (`ascii/`)
 
-Text-based concept diagrams for documentation.
+Text-based concept diagrams for documentation (7 files).
 
-- `temporal_curvature.md` - S7 curvature concept
-- `cross_modal_manifold.md` - S9 AVLAR future work
-- `compression_reconstruction_drift.md` - Core operator cycle
+- `ascii_compression.md` - Compression operator concept
+- `ascii_evidence_chain.md` - Evidence chain diagram
+- `ascii_framework.md` - Framework overview
+- `ascii_triple_blind.md` - Triple-blind methodology
+- `ascii_vortex.md` - Vortex concept
+- `ascii_workshop_abstract.md` - Workshop abstract
+- `ascii_workshop_contributions.md` - Workshop contributions
 
 **Status:** Supplementary, not for publication PDFs.
 
@@ -118,17 +128,23 @@ Theoretical/illustrative diagrams - NOT real data, but correctly labeled with IR
 
 ### 3. Curated/Generated (`generated/`)
 
-**pdf/** - Summary PDFs from experiments (15 files)
+**pdf/** - Summary PDFs from experiments (16 files)
 
 - This is the "menu" for reviewers
 - Each PDF contains multiple visualizations with descriptions
 - Reviewers browse to select visuals for publication
+- Folders 1-6, 8-15 + run018 + run020 (Folder 7 has HTML only)
 
 **png/** - ONLY images listed in `visual_index.md`
 
 - Starts EMPTY
 - Populated based on reviewer selection
 - Source of truth is the visual_index.md
+
+**llmbook/** - LLMBook-specific visuals (2 files)
+
+- `LLM_FRAMEWORK.png` - Framework diagram
+- `LLM_NotebookLM_Mind_Map.png` - Mind map
 
 ---
 
@@ -234,10 +250,12 @@ and Reconstruction Across AI Architectures." Licensed under CC-BY-4.0.
 
 **Status:** IRON CLAD COMPLETE (2025-12-25)
 
+- 7 ASCII diagrams in `ascii/`
 - 4 conceptual figures in `conceptual/pics/`
 - 4 methodology .md files in `conceptual/meta/`
 - 14 experiment figures in `experiments/run023/`
-- 15 summary PDFs in `generated/pdf/`
+- 16 summary PDFs in `generated/pdf/`
+- 2 LLMBook visuals in `generated/llmbook/`
 - Deprecated figures in `deprecated/`
 - Visual index in `visual_index.md`
 
