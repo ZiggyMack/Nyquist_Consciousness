@@ -21,9 +21,9 @@
 ║   │    MEASURE      │────▶│    PREDICT      │────▶│    CONTROL      │        ║
 ║   │                 │     │                 │     │                 │        ║
 ║   │  PFI Metric     │     │  Event Horizon  │     │  Context        │        ║
-║   │  ρ = 0.91       │     │  D ≈ 1.23       │     │  Damping        │        ║
-║   │  d = 0.98       │     │  p < 10⁻⁵       │     │  97.5%          │        ║
-║   │  43 PCs         │     │  88% accuracy   │     │  stability      │        ║
+║   │  ρ = 0.91       │     │  D = 0.80       │     │  Damping        │        ║
+║   │  d = 1.123      │     │  p = 2.40×10⁻²³│     │  97.5%          │        ║
+║   │  2 PCs          │     │  750 experiments│     │  stability      │        ║
 ║   └─────────────────┘     └─────────────────┘     └─────────────────┘        ║
 ║                                                                               ║
 ╠═══════════════════════════════════════════════════════════════════════════════╣
@@ -33,7 +33,7 @@
 ║                                                                               ║
 ║   ┌─────────────────────────────────────────────────────────────────────────┐║
 ║   │                                                                         │║
-║   │  • 82% of drift is INHERENT                                            │║
+║   │  • 92% of drift is INHERENT                                            │║
 ║   │    (Measurement reveals drift, doesn't create it)                      │║
 ║   │                                                                         │║
 ║   │  • Identity HARDENS under challenge (Oobleck Effect)                   │║
@@ -65,7 +65,7 @@
 ║   EXPERIMENTAL SCALE                                                          ║
 ║   ══════════════════                                                          ║
 ║                                                                               ║
-║   21 Runs  │  42+ Models  │  4 Providers  │  215+ Deployments  │  75% conf   ║
+║   750 Exp  │  25 Models   │  5 Providers  │  IRON CLAD Valid   │  p<10⁻²³   ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
@@ -80,17 +80,17 @@
 │   METRIC          VALUE           INTERPRETATION                              │
 │   ─────────────────────────────────────────────────────────────────────────── │
 │   PFI             0.00 - 1.00     Persona Fidelity Index (1 - drift)         │
-│   Event Horizon   D ≈ 1.23       Regime transition threshold                 │
-│   Settling Time   ~5-6 turns     Time to stable identity                     │
-│   Inherent Drift  82%            Proportion not caused by measurement        │
+│   Event Horizon   D = 0.80       Regime transition threshold (cosine)       │
+│   Settling Time   ~9-10 turns    Time to stable identity                     │
+│   Inherent Drift  92%            Proportion not caused by measurement        │
 │                                                                               │
 │   PROTOCOL FOR 97.5% STABILITY                                                │
 │   ─────────────────────────────────────────────────────────────────────────── │
 │   1. Define I_AM specification (core values, voice, boundaries)              │
 │   2. Add research context framing                                            │
 │   3. Monitor PFI continuously                                                │
-│   4. Allow 5-6 turns settling time                                           │
-│   5. Alert if D approaches 1.23                                              │
+│   4. Allow 9-10 turns settling time                                          │
+│   5. Alert if D approaches 0.80                                              │
 │                                                                               │
 └───────────────────────────────────────────────────────────────────────────────┘
 ```

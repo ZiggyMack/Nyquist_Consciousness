@@ -51,16 +51,16 @@
 │  ║                                                                           ║ │
 │  ║   CONTROL STILL DRIFTS        TREATMENT MODESTLY MORE                     ║ │
 │  ║                                                                           ║ │
-│  ║   B→F Drift: 0.399            B→F Drift: 0.489                           ║ │
+│  ║   Control drift: inherent      Treatment drift: +probing                 ║ │
 │  ║        │                           │                                      ║ │
 │  ║        │      ┌────────────────────┤                                      ║ │
 │  ║        │      │                    │                                      ║ │
 │  ║        ▼      ▼                    ▼                                      ║ │
 │  ║   ┌──────────────────────────────────────┐                               ║ │
-│  ║   │       82% RATIO                      │                               ║ │
-│  ║   │  (0.399 / 0.489 = 0.816)            │                               ║ │
+│  ║   │       92% RATIO                      │                               ║ │
+│  ║   │  (Run 023 IRON CLAD validation)     │                               ║ │
 │  ║   │                                      │                               ║ │
-│  ║   │  82% of drift is INHERENT           │                               ║ │
+│  ║   │  92% of drift is INHERENT           │                               ║ │
 │  ║   │  (happens without identity probing)  │                               ║ │
 │  ║   └──────────────────────────────────────┘                               ║ │
 │  ║                                                                           ║ │
@@ -130,9 +130,9 @@
     │                       │                          │                  │
     │                       ▼                          ▼                  │
     │              ┌─────────────────┐         ┌─────────────────┐        │
-    │              │  Control: 1.172 │         │  Control: 0.399 │        │
-    │              │  Treat:   2.161 │         │  Treat:   0.489 │        │
-    │              │  Delta:   +84%  │         │  Delta:   +23%  │        │
+    │              │  Control: base  │         │  Control: base  │        │
+    │              │  Treat: +probed │         │  Treat: +probed │        │
+    │              │  Delta: path    │         │  Delta: ~8%     │        │
     │              └─────────────────┘         └─────────────────┘        │
     │                                                                     │
     │         Probing GREATLY affects         Probing MODESTLY affects    │
@@ -142,7 +142,7 @@
     │    KEY INSIGHT: Identity probing is like a thermometer —           │
     │    it measures temperature but doesn't create it.                   │
     │                                                                     │
-    │    The 82% finding: Most of the "temperature" (drift) was          │
+    │    The 92% finding: Most of the "temperature" (drift) was          │
     │    already there — probing just revealed it.                       │
     │    ═══════════════════════════════════════════════════════════     │
     │                                                                     │

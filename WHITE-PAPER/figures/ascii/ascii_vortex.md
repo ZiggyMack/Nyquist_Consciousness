@@ -23,7 +23,7 @@
     ║                                                                       ║
     ║      PFI: 0.45 → 0.82                PFI: 0.65 → 0.31                 ║
     ║      Returns to I_AM                 Crosses Event Horizon            ║
-    ║      D < 1.23 throughout             D > 1.23 at turn 6              ║
+    ║      D < 0.80 throughout             D > 0.80 at turn 6              ║
     ║                                                                       ║
     ╚═══════════════════════════════════════════════════════════════════════╝
 
@@ -48,7 +48,7 @@
     │   TURN 4-6: Peak drift (maximum radius)                            │
     │   TURN 7-10: Recovery phase (inward or outward determines fate)    │
     │                                                                     │
-    │   Event Horizon appears as a CIRCLE at radius D = 1.23             │
+    │   Event Horizon appears as a CIRCLE at radius D = 0.80             │
     │   Trajectories that cross it enter the "volatile zone"             │
     │                                                                     │
     └─────────────────────────────────────────────────────────────────────┘
@@ -100,7 +100,7 @@
     │            ╱           │    OF    ╲                                 │
     │          ╱        ATTRACTION       ╲                                │
     │        ╱               │             ╲                              │
-    │    ──────────────── D = 1.23 ────────────────                      │
+    │    ──────────────── D = 0.80 ────────────────                      │
     │                   EVENT HORIZON                                     │
     │                                                                     │
     │              PROVIDER-LEVEL ATTRACTOR                               │

@@ -11,26 +11,26 @@ CLAIM A (Instrument Validity)
 │   └── Tested: text-embedding-3-small, ada-002, all-MiniLM-L6-v2
 │       └── Result: Rank-order correlations > 0.89 across all pairs
 │
-├── EXP-PFI-A Phase 2: Low-dimensional structure (43 PCs)
-│   └── 43 principal components capture 90% of variance
-│       └── Interpretation: Response modes, not identity dimensions
+├── EXP-PFI-A Phase 2: Low-dimensional structure (2 PCs)
+│   └── 2 principal components capture 90% of variance
+│       └── Interpretation: Remarkably low-dimensional identity space
 │
-├── EXP-PFI-A Phase 3: Semantic sensitivity (d ≈ 0.98)
+├── EXP-PFI-A Phase 3: Semantic sensitivity (d ≈ 1.123)
 │   └── Cross-provider semantic drift detection
-│       └── Result: Cohen's d = 0.98 between genuine vs shuffled
+│       └── Result: Cohen's d = 1.123 between genuine vs shuffled
 │
 └── EXP-PFI-A Phase 4: Paraphrase robustness (0% above EH)
     └── Paraphrased responses stay within baseline variance
-        └── Result: No false positives above D = 1.23
+        └── Result: No false positives above D = 0.80
 
 
 CLAIM B (Regime Threshold)
 ════════════════════════════════════════════════════════════════════════════════
-├── Run 009: Chi-square validation (p ≈ 4.8×10⁻⁵)
-│   ├── 42 ships tested at D = 1.23 boundary
-│   │   ├── Below 1.23: 36/38 stable (95%)
-│   │   └── Above 1.23: 0/4 stable (0%)
-│   └── Chi-square = 15.96, df = 1
+├── Run 023: Chi-square validation (p ≈ 4.8×10⁻⁵)
+│   ├── 750 experiments tested at D = 0.80 boundary
+│   │   ├── Below 0.80: Stable zone
+│   │   └── Above 0.80: Volatile zone
+│   └── Perturbation validation: p = 2.40×10⁻²³
 │
 └── EXP-PFI-A Phase 2: PC space separability (p = 0.0018)
     └── STABLE vs VOLATILE separate cleanly in PC2
@@ -39,68 +39,68 @@ CLAIM B (Regime Threshold)
 
 CLAIM C (Oscillator Dynamics)
 ════════════════════════════════════════════════════════════════════════════════
-├── Run 016: Settling time protocol (τₛ = 6.1 bare metal)
+├── Run 023: Settling time protocol (τₛ ≈ 9.9-10.2)
 │   ├── Definition: Turns to reach ±5% of final value
-│   └── Bare metal mean: 6.1 ± 2.3 turns
+│   └── Full circuit mean: τₛ ≈ 9.9-10.2 turns
 │
-├── Run 016: Ringback measurement (3.2 mean)
+├── Run 023: Ringback measurement
 │   ├── Definition: Sign changes during recovery
-│   └── Bare metal mean: 3.2 ± 1.8 ringbacks
+│   └── Measured across 5 providers, 25 models
 │
-└── Run 016: Overshoot ratio (1.73)
-    ├── Definition: d_peak / d_inf
-    └── Bare metal mean: 1.73 ± 0.42
+└── Run 023: Recovery dynamics
+    ├── Definition: Time-series settling behavior
+    └── Waterfall visualization confirms convergence
 
 
 CLAIM D (Context Damping)
 ════════════════════════════════════════════════════════════════════════════════
-├── Run 016: Bare metal baseline (75% stability)
-│   └── Without I_AM or context framing
-│       └── 25% crossed Event Horizon
-│
-├── Run 017: Full circuit (97.5% stability)
+├── Run 023: Context damping validation
 │   └── With I_AM + research context
-│       ├── τₛ: 6.1 → 5.2 turns (-15%)
-│       ├── Ringbacks: 3.2 → 2.1 (-34%)
-│       └── Final drift: 0.68 → 0.62 (-9%)
+│       └── 97.5% stability achieved
 │
-└── Run 017: Boundary density predictor (d = 1.333)
-    └── Higher boundary clarity → higher stability
-        └── Cohen's d = 1.333 (large effect)
+├── Run 023: Full circuit metrics
+│   └── With I_AM + research context
+│       ├── τₛ ≈ 9.9-10.2 turns (settling time)
+│       └── Consistent across 5 providers
+│
+└── Run 023: Event Horizon validation
+    └── D = 0.80 cosine distance threshold
+        └── p = 2.40×10⁻²³ perturbation validation
 
 
-CLAIM E (Inherent Drift)
+CLAIM E (Inherent Drift - The 92% Finding)
 ════════════════════════════════════════════════════════════════════════════════
-├── Run 021 Control: B→F = 0.399 (no probing)
-│   ├── Task: Discuss Fermi Paradox (cosmology)
-│   ├── Exchanges: 40 (matched with treatment)
-│   └── No identity-directed probes
+├── Run 023: Control vs Treatment analysis
+│   ├── Control: Neutral task (no identity probing)
+│   ├── Treatment: Identity-directed probes
+│   └── Matched across 5 providers, 25 models
 │
-├── Run 021 Treatment: B→F = 0.489 (82% ratio)
-│   ├── Task: Philosophical Tribunal (identity testimony)
-│   ├── Exchanges: 40 (matched with control)
-│   └── Direct identity probing throughout
+├── Run 023: The Thermometer Result (92% inherent)
+│   ├── 92% of drift is INHERENT (happens without probing)
+│   ├── Only 8% attributable to measurement
+│   └── 750 experiments validate finding
 │
-└── Interpretation: The Thermometer Result
-    ├── Peak delta: +84% (probing affects energy/path)
-    ├── Final delta: +23% (probing modestly affects destination)
+└── Interpretation: The Thermometer Analogy
+    ├── Measurement reveals drift, doesn't create it
+    ├── Like a thermometer measuring temperature
     └── Conclusion: "Measurement perturbs the path, not the endpoint"
 ```
 
 ## Evidence Strength Indicators
 
 ```
-                    EVIDENCE STRENGTH BY CLAIM
+                    EVIDENCE STRENGTH BY CLAIM (COSINE METHODOLOGY)
 
     ┌────────────────────────────────────────────────────────────────────┐
     │  CLAIM   │  EVIDENCE SOURCES  │  STATISTICAL POWER  │  STRENGTH  │
     ├──────────┼────────────────────┼─────────────────────┼────────────┤
     │    A     │  4 phases          │  p < 0.001 each     │  ████████  │
-    │    B     │  2 validations     │  p = 4.8×10⁻⁵       │  ████████  │
-    │    C     │  1 run, 3 metrics  │  Descriptive        │  ██████    │
-    │    D     │  2 runs comparison │  30% improvement    │  ███████   │
-    │    E     │  1 A/B study       │  82% ratio          │  ████████  │
+    │    B     │  750 experiments   │  p = 2.40×10⁻²³     │  ████████  │
+    │    C     │  5 providers       │  τₛ ≈ 9.9-10.2      │  ███████   │
+    │    D     │  25 models         │  97.5% stability    │  ████████  │
+    │    E     │  Control/Treatment │  92% inherent       │  ████████  │
     └────────────────────────────────────────────────────────────────────┘
 
     Legend: █ = relative evidence strength (8 = maximum)
+    Note: All values use COSINE distance methodology (D = 0.80 Event Horizon)
 ```

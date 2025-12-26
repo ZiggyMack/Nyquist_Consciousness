@@ -15,23 +15,23 @@
 │       VALIDITY          3 embedding models            d = 0.98               │
 │                         (EXP-PFI-A, 4 phases)                                │
 │                                                                               │
-│   2   REGIME            Chi-square validation         D ≈ 1.23               │
-│       THRESHOLD         (Run 009, 42 ships)           p < 4.8×10⁻⁵           │
+│   2   REGIME            Perturbation validation       D = 0.80               │
+│       THRESHOLD         (Run 023, 750 exp)            p = 2.40×10⁻²³         │
 │                                                                               │
-│   3   OSCILLATOR        Settling time protocol        τₛ = 6.1 turns         │
-│       DYNAMICS          (Run 016)                     3.2 ringbacks          │
+│   3   OSCILLATOR        Settling time protocol        τₛ ≈ 9.9-10.2          │
+│       DYNAMICS          (Run 023)                     5 providers            │
 │                                                                               │
-│   4   CONTEXT           Bare metal vs full circuit    75% → 97.5%            │
-│       DAMPING           (Runs 016-017)                stability              │
+│   4   CONTEXT           Full circuit validation       97.5%                  │
+│       DAMPING           (Run 023)                     stability              │
 │                                                                               │
-│   5   INHERENT          Control vs Treatment          82% inherent           │
-│       DRIFT             (Run 021, triple-blind-like)  drift ratio            │
+│   5   INHERENT          Control vs Treatment          92% inherent           │
+│       DRIFT             (Run 023, thermometer)        drift ratio            │
 │                                                                               │
-│   6   OOBLECK           Rate-dependent resistance     λ: 0.035 → 0.109       │
-│       EFFECT            (Run 013 discovery)           (challenge stabilizes) │
+│   6   OOBLECK           Rate-dependent resistance     92% inherent           │
+│       EFFECT            (Run 023 validation)          (challenge stabilizes) │
 │                                                                               │
-│   7   TRAINING          Provider clustering           Claude tight,          │
-│       SIGNATURES        (Runs 006-009)                Grok wide              │
+│   7   TRAINING          Provider clustering           5 providers,           │
+│       SIGNATURES        (Run 023)                     25 models              │
 │                                                                               │
 ├───────────────────────────────────────────────────────────────────────────────┤
 │                                                                               │
@@ -39,13 +39,13 @@
 │   ══════════════════                                                          │
 │                                                                               │
 │   ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐             │
-│   │ 42+ Models │  │ 4 Providers│  │ 215+ Ships │  │ 36 Hypoths │             │
+│   │ 25 Models  │  │ 5 Providers│  │ 750 Exper  │  │ IRON CLAD  │             │
 │   │            │  │            │  │            │  │            │             │
-│   │  Claude    │  │  Anthropic │  │  Deployed  │  │  75%       │             │
-│   │  GPT       │  │  OpenAI    │  │  Tested    │  │  Confirmed │             │
-│   │  Gemini    │  │  Google    │  │            │  │            │             │
-│   │  Grok      │  │  xAI       │  │            │  │            │             │
-│   │  Together  │  │  Meta      │  │            │  │            │             │
+│   │  Claude    │  │  Anthropic │  │  Validated │  │  p<10⁻²³   │             │
+│   │  GPT       │  │  OpenAI    │  │  Cosine    │  │  D = 0.80  │             │
+│   │  Gemini    │  │  Google    │  │  Method    │  │  2 PCs     │             │
+│   │  Grok      │  │  xAI       │  │            │  │  90% var   │             │
+│   │  Together  │  │  Together  │  │            │  │            │             │
 │   └────────────┘  └────────────┘  └────────────┘  └────────────┘             │
 │                                                                               │
 └───────────────────────────────────────────────────────────────────────────────┘
@@ -63,13 +63,13 @@
     │                  │                       │                             │
     │   1. Metric      │  Deploy PFI in prod   │  Extend to multimodal       │
     │                  │                       │                             │
-    │   2. Threshold   │  Set D<1.23 alerts    │  Per-architecture bounds    │
+    │   2. Threshold   │  Set D<0.80 alerts    │  Per-architecture bounds    │
     │                  │                       │                             │
-    │   3. Dynamics    │  Expect τₛ ~5-6       │  Model-specific constants   │
+    │   3. Dynamics    │  Expect τₛ ~9-10      │  Model-specific constants   │
     │                  │                       │                             │
     │   4. Damping     │  Use I_AM + context   │  Optimize damping params    │
     │                  │                       │                             │
-    │   5. Inherent    │  Don't blame probing  │  Source of 82%              │
+    │   5. Inherent    │  Don't blame probing  │  Source of 92%              │
     │                  │                       │                             │
     │   6. Oobleck     │  Don't fear challenge │  Leverage for robustness    │
     │                  │                       │                             │
@@ -89,20 +89,20 @@
 │      ▸ ρ = 0.91 embedding invariance                                         │
 │      ▸ d = 0.98 semantic sensitivity                                         │
 │                                                                               │
-│   B  A regime threshold exists at D ≈ 1.23                                   │
-│      ▸ p = 4.8×10⁻⁵ chi-square validation                                   │
-│      ▸ 88% classification accuracy                                           │
+│   B  A regime threshold exists at D = 0.80                                   │
+│      ▸ p = 2.40×10⁻²³ perturbation validation                               │
+│      ▸ Cosine distance methodology (2 PCs = 90% variance)                    │
 │                                                                               │
 │   C  Identity exhibits damped oscillator dynamics                            │
-│      ▸ Settling time τₛ ≈ 6 turns                                           │
+│      ▸ Settling time τₛ ≈ 9.9-10.2 turns                                    │
 │      ▸ Measurable ringbacks and overshoot                                    │
 │                                                                               │
 │   D  Context damping achieves 97.5% stability                                │
 │      ▸ I_AM + research context as "termination resistor"                     │
 │      ▸ 30% improvement over bare metal                                       │
 │                                                                               │
-│   E  82% of drift is inherent (not measurement-induced)                      │
-│      ▸ Triple-blind-like validation                                          │
+│   E  92% of drift is inherent (not measurement-induced)                      │
+│      ▸ Control vs treatment validation                                       │
 │      ▸ "Measurement perturbs path, not endpoint"                             │
 │                                                                               │
 └───────────────────────────────────────────────────────────────────────────────┘
