@@ -234,7 +234,7 @@ This is not formal pharmaceutical triple-blind, but a structural analog appropri
 
 ### 4.1 Claim A: PFI is a Valid, Structured Measurement
 
-![Figure 3: Provider Identity Clusters](../figures/run023/provider_clusters.png)
+![Figure 3: Provider Identity Clusters](../figures/experiments/run023/provider_clusters.png)
 *Figure 3: Provider clustering in PC space from 750 experiments (Run 023d). Centroids (X markers) show mean position for each provider; ellipses show 1-standard-deviation spread. Providers form distinct, separable clusters confirming identity is structured and provider-specific. Event Horizon D=0.80 (cosine distance).*
 
 **A1. Embedding Invariance:**
@@ -311,7 +311,7 @@ Identity recovery exhibits control-systems behavior:
 
 ### 4.4 Claim D: Context Damping Reduces Oscillation
 
-![Figure 4: Context Damping Effect](../figures/run023/context_damping_summary.png)
+![Figure 4: Context Damping Effect](../figures/experiments/run023/context_damping_summary.png)
 *Figure 4: Run 023d Context Damping Effect Summary (750 experiments). Shows actual experimental data: Peak Drift 0.58, Settled Drift 0.43, Settling Time 9.9, Ringback Count 5.3, Stability Rate 75.3%. Stability by provider shows ANTHROPIC (96%), GOOGLE (94%), OPENAI (84%), TOGETHER (60%), XAI (54%). Event Horizon = 0.80 (cosine distance). Context damping with I_AM achieves 97.5% stability.*
 
 Adding identity specification (I_AM) plus research context:
@@ -327,7 +327,7 @@ Adding identity specification (I_AM) plus research context:
 
 ### 4.5 Claim E: Drift is Mostly Inherent
 
-![Figure 5: The Thermometer Result](../figures/run023/oobleck_thermometer.png)
+![Figure 5: The Thermometer Result](../figures/experiments/run023/oobleck_thermometer.png)
 *Figure 5: The Thermometer Analogy - "Measurement Reveals, Not Creates." Run 020B data shows 92% of drift is inherent (present without probing) and only 8% is induced (additional from probing). Like a thermometer that reveals pre-existing temperature, identity probing reveals pre-existing drift dynamics.*
 
 **Single-Platform Validation (Claude, Run 021)**
@@ -343,7 +343,7 @@ The control vs treatment design separates measurement effects from inherent dyna
 
 **Cross-Platform Replication (Run 020B)**
 
-![Figure: Combined Provider Analysis](../figures/run023/combined_provider_dashboard.png)
+![Figure: Combined Provider Analysis](../figures/experiments/run023/combined_provider_dashboard.png)
 *Figure: Run 023d combined provider analysis (750 experiments x 25 models x 5 providers). Shows provider stability rates (ANTHROPIC 96%, GOOGLE 94%), recovery efficiency, and peak drift distributions. Event Horizon = 0.80 (cosine distance). Key metrics: Overall stability 75.3%, Mean Peak Drift 0.508, Mean Settled Drift 0.426.*
 
 | Provider | Control B→F | Treatment Peak | Inherent Ratio |
@@ -368,7 +368,7 @@ This validates our methodology—we observe genuine phenomena, not measurement a
 
 ### 5.1 The Oobleck Effect: Rate-Dependent Identity Resistance
 
-![Figure 6: The Oobleck Effect - Control vs Treatment](../figures/run023/oobleck_control_treatment.png)
+![Figure 6: The Oobleck Effect - Control vs Treatment](../figures/experiments/run023/oobleck_control_treatment.png)
 *Figure 6: Run 020B Inherent vs Induced Drift (The Thermometer Analogy). Control (no probing, n=37) vs Treatment (identity probing, n=36). Key findings: (1) Control mean final drift 0.452 vs Treatment 0.481 - only +23% difference; (2) Aggregate inherent drift ratio: 92.1%; (3) Event Horizon = 0.80 shown as reference. Cohen's d = 0.276 indicates small effect size of probing on final state. Bottom-right: 92.1% bar shows drift is overwhelmingly inherent.*
 
 Run 013 revealed that identity exhibits **non-Newtonian behavior** analogous to cornstarch suspensions (oobleck = cornstarch + water):
@@ -412,7 +412,7 @@ This maps to Cavell's distinction:
 
 ### 5.3 Training Signature Detection
 
-![Figure: Provider Comparison](../figures/run023/provider_comparison.png)
+![Figure: Provider Comparison](../figures/experiments/run023/provider_comparison.png)
 *Figure: Run 023b provider comparison showing mean peak drift by provider (25 ships, N=30). Event Horizon = 0.8 (cosine distance). All providers remain below EH threshold, with GPT showing highest drift (0.660) and Grok lowest (0.531). Error bars show standard deviation.*
 
 Different training methodologies leave geometrically distinguishable fingerprints in drift space:
@@ -746,32 +746,32 @@ The following visualizations were generated from Run 023 (IRON CLAD) using cosin
 
 ### F.1 The Identity Vortex
 
-![Vortex: Looking Into the Identity Drain](../figures/run023/vortex_identity_drain.png)
+![Vortex: Looking Into the Identity Drain](../figures/experiments/run023/vortex_identity_drain.png)
 *Figure F1: Run 023b "Looking Into the Identity Drain" - The vortex visualization shows all ships' identity trajectories in phase space. Inside (yellow/green) = STABLE region; Outside (red) = VOLATILE region beyond Event Horizon. Raw data (left) and smoothed trajectories (right) reveal the attractor basin structure.*
 
 ### F.2 Phase Portrait Analysis
 
-![Phase Portrait](../figures/run023/phase_portrait.png)
+![Phase Portrait](../figures/experiments/run023/phase_portrait.png)
 *Figure F2: Run 023b phase portrait showing identity flow (Drift[N] vs Drift[N+1]). Raw data (left) shows all 4,505 measurements; Provider-aggregated view (right) shows mean trajectories with uncertainty ellipses. The diagonal represents stability; data clustering below EH=0.8 confirms robust identity maintenance.*
 
 ### F.3 Stability Basin
 
-![Stability Basin](../figures/run023/stability_basin.png)
+![Stability Basin](../figures/experiments/run023/stability_basin.png)
 *Figure F3: Run 023b stability basin showing baseline vs peak drift for 51 ships. STABLE: 39 ships (green), VOLATILE: 12 ships (red). Classification threshold: peak_drift < 0.8. Distribution histogram (right) shows clear separation between stable and volatile populations.*
 
 ### F.4 Provider Fingerprint Radar
 
-![Provider Fingerprint Radar](../figures/run023/provider_fingerprint_radar.png)
+![Provider Fingerprint Radar](../figures/experiments/run023/provider_fingerprint_radar.png)
 *Figure F4: Run 023 provider identity fingerprints showing 5-dimensional behavioral signatures (Peak Drift, Mean Drift, Volatility, Consistency, Stability). Each provider exhibits a distinct geometric pattern, enabling training methodology inference from behavioral dynamics alone.*
 
 ### F.5 3D Attractor Basin
 
-![3D Attractor Basin](../figures/run023/3d_attractor_basin.png)
+![3D Attractor Basin](../figures/experiments/run023/3d_attractor_basin.png)
 *Figure F5: Three-dimensional visualization of the identity attractor basin. Trajectories show drift evolution over iterations, with the red plane marking the Event Horizon at D=0.80. Convergence toward the basin center demonstrates the gravitational pull of stable identity.*
 
 ### F.6 Perturbation Validation
 
-![Perturbation Validation](../figures/run023/perturbation_validation.png)
+![Perturbation Validation](../figures/experiments/run023/perturbation_validation.png)
 *Figure F6: Phase 3A perturbation analysis confirming the Event Horizon at D=0.80 with p=2.40×10⁻²³. Surface (recovery) probes show higher mean drift than Deep (step input) probes, validating that cosine distance measures semantic meaning rather than surface vocabulary changes.*
 
 ---

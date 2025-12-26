@@ -42,7 +42,7 @@ Uses markdown2 + xhtml2pdf for pure-Python generation (fallback).
 
 ### VERIFIED (Use These)
 
-All figures should come from `WHITE-PAPER/figures/run023/` which contains verified S7_ARMADA visualizations:
+All figures should come from `WHITE-PAPER/figures/experiments/run023/` which contains verified S7_ARMADA visualizations:
 
 | Figure | Source | Data Origin |
 |--------|--------|-------------|

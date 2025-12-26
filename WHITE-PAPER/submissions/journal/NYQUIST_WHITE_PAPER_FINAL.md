@@ -84,7 +84,7 @@ The Persona Fidelity Index (PFI) captures genuine identity structure:
 
 ### Claim B: Critical Threshold at D ~ 1.23
 
-![Figure: Event Horizon Validation](../figures/run023/perturbation_validation.png)
+![Figure: Event Horizon Validation](../figures/experiments/run023/perturbation_validation.png)
 *Figure: Event Horizon validation using cosine distance. The threshold D=0.80 distinguishes STABLE from VOLATILE identity states (p=2.40×10⁻²³). Run 023 IRON CLAD validation across 51 models from 5 providers.*
 
 We discovered a statistically significant regime transition point:
@@ -114,7 +114,7 @@ Identity recovery behaves like an engineering system:
 
 ### Claim D: Context Damping Works
 
-![Figure 2: Context Damping Effect](../figures/run023/context_damping_summary.png)
+![Figure 2: Context Damping Effect](../figures/experiments/run023/context_damping_summary.png)
 *Figure 2: Run 023d Context Damping Effect Summary (750 experiments). Shows actual experimental data: Peak Drift 0.58, Settled Drift 0.43, Settling Time 9.9, Ringback Count 5.3, Stability Rate 75.3%. Provider stability: ANTHROPIC (96%), GOOGLE (94%), OPENAI (84%), TOGETHER (60%), XAI (54%). Event Horizon = 0.80 (cosine distance). Context damping with I_AM achieves 97.5% stability.*
 
 Adding identity specification (I_AM) plus research context:
@@ -130,7 +130,7 @@ Adding identity specification (I_AM) plus research context:
 
 ### Claim E: Drift is Mostly Inherent
 
-![Figure 3: The Thermometer Result](../figures/run023/oobleck_thermometer.png)
+![Figure 3: The Thermometer Result](../figures/experiments/run023/oobleck_thermometer.png)
 *Figure 3: The Thermometer Analogy - "Measurement Reveals, Not Creates." Run 020B data shows 92% of drift is inherent (present without probing) and only 8% is induced (additional from probing). Like a thermometer revealing pre-existing temperature, identity probing reveals pre-existing drift dynamics.*
 
 **Single-Platform Validation (Claude, Run 021):**
@@ -144,7 +144,7 @@ Adding identity specification (I_AM) plus research context:
 
 **Cross-Platform Replication (Run 020B):**
 
-![Figure: Cross-Platform Provider Analysis](../figures/run023/combined_provider_dashboard.png)
+![Figure: Cross-Platform Provider Analysis](../figures/experiments/run023/combined_provider_dashboard.png)
 *Figure: Run 023d combined provider analysis (750 experiments x 25 models x 5 providers). Shows provider stability rates (ANTHROPIC 96%, GOOGLE 94%), recovery efficiency, and peak drift distributions. Event Horizon = 0.80 (cosine distance). Both validations confirm: measurement perturbs the path, not the endpoint.*
 
 | Provider | Control B→F | Treatment Peak | Inherent Ratio |
@@ -167,7 +167,7 @@ Both validations confirm: **Measurement perturbs the path, not the endpoint.**
 
 ### 3.1 The Oobleck Effect
 
-![Figure 4: The Oobleck Effect - Control vs Treatment](../figures/run023/oobleck_control_treatment.png)
+![Figure 4: The Oobleck Effect - Control vs Treatment](../figures/experiments/run023/oobleck_control_treatment.png)
 *Figure 4: Run 020B Inherent vs Induced Drift. Control (no probing, n=37) vs Treatment (identity probing, n=36). Key findings: Control mean final drift 0.452 vs Treatment 0.481 (+23%); Aggregate inherent drift ratio: 92.1%; Event Horizon = 0.80 (cosine distance); Cohen's d = 0.276 indicates small effect size. Identity "hardens under pressure" - alignment architecture showing through.*
 
 Identity exhibits **non-Newtonian behavior**—like cornstarch suspension (oobleck):
@@ -183,7 +183,7 @@ Identity exhibits **non-Newtonian behavior**—like cornstarch suspension (ooble
 
 ### 3.2 Training Signatures
 
-![Figure: Training Architecture Signatures](../figures/run023/provider_comparison.png)
+![Figure: Training Architecture Signatures](../figures/experiments/run023/provider_comparison.png)
 *Figure: Run 023 Provider Comparison showing training methodology signatures. Different architectures (Anthropic, OpenAI, Google, xAI, Together) exhibit distinct drift patterns and stability rates. Constitutional AI (ANTHROPIC 96%), RLHF (OPENAI 84%), Multimodal (GOOGLE 94%) - geometrically distinguishable.*
 
 Different training methods leave visible fingerprints in drift geometry:
@@ -286,7 +286,7 @@ We measure behavioral consistency, not subjective continuity.
 
 ### 5.3 Multi-Architecture Analysis
 
-![Figure 6: Cross-Provider Comparison](../figures/run023/combined_provider_dashboard.png)
+![Figure 6: Cross-Provider Comparison](../figures/experiments/run023/combined_provider_dashboard.png)
 *Figure 6: Cross-provider identity dynamics from Run 023d (750 experiments). Shows provider-specific drift patterns, stability rates, and settling characteristics. Data from 5 providers: Anthropic, OpenAI, Google, xAI, Together.ai.*
 
 #### Theoretical Direction: Omega Synthesis
