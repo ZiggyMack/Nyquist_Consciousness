@@ -194,6 +194,7 @@ These are the full visualization summaries from S7_ARMADA experiments. Reviewers
 | 6_Architecture_Summary.pdf | Provider comparison | provider_comparison.png |
 | 8_Radar_Oscilloscope_Summary.pdf | Radar plots | provider_fingerprint_radar.png |
 | 9_FFT_Spectral_Summary.pdf | FFT analysis | fft_spectral_analysis.png |
+| 10_PFI_Dimensional_Summary.pdf | PCA/Cosine identity validation | provider_clusters.png, perturbation_validation.png |
 | 11_Unified_Dashboard_Summary.pdf | Per-model dashboards | *_unified_dashboard.png |
 | 12_Metrics_Summary.pdf | Context damping, network | context_damping_summary.png |
 | 13_Model_Waveforms_Summary.pdf | Model waveforms | model_waveform_*.png |
@@ -220,3 +221,4 @@ These are the full visualization summaries from S7_ARMADA experiments. Reviewers
 - Only visuals listed in this index should be in `generated/png/`
 - Paths in publications should use `../figures/experiments/run023/` or `../figures/conceptual/pics/`
 - Deprecated Euclidean-era visuals are in `deprecated/suggested/` (do not use)
+- Folder 7 (interactive) contains HTML only - no PDF summary available
