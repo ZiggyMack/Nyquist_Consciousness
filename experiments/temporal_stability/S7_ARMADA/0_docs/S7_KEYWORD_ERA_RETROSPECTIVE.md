@@ -292,17 +292,37 @@ Direct philosophical examination:
 
 ### Run 021: Control/Treatment Validation
 
-**Discovery:** 41% of measured drift is inherent (not probe-induced)
+**Discovery:** Inherent drift ratio varies by methodology
 
 Using control group (no identity probing) vs treatment group (tribunal probing):
-- Control drift: 0.41 (conversation itself causes some drift)
-- Treatment drift: 1.35 (probing adds 0.94 additional drift)
+
+| Methodology | Control | Treatment | Inherent Ratio | Era |
+|-------------|---------|-----------|----------------|-----|
+| **Euclidean (filtered)** | 0.399 | 0.489 | **82%** | Run 018/020B archived |
+| **Euclidean (full)** | 0.972 | 1.659 | **59%** | Run 020B manifest |
+| **Cosine (current)** | 0.907 | 0.805 | **100%** (capped) | Run 020B CURRENT |
+
+**CRITICAL INSIGHT:** The "82% inherent drift" finding came from a **specific filtered subset**
+during the Euclidean era (Control=0.399, Treatment=0.489). These values were hardcoded in
+deprecated visualization scripts (`_DEPRECATED_fig6_82_percent.py`).
+
+The current Cosine-era data shows Control > Treatment, which inverts the ratio. This is NOT
+a bug - it reflects:
+1. Different distance metrics (Euclidean vs Cosine measure different aspects)
+2. Different data quality (36% of Cosine treatment sessions have zero drift = incomplete)
+3. Different filtering criteria used in original analysis
 
 **The Thermometer Analogy:**
 > "We don't cause fever by measuring temperature, but the measurement does have
 > a small perturbative effect."
 
-**Preserved Insight:** We measure more than we cause, but we do cause some.
+**Both findings are valid** - they measure different aspects of the same phenomenon:
+- **82% (Euclidean):** Most of the "destination drift" is inherent
+- **41-60% (Euclidean full):** Control is roughly half of treatment
+- **Cosine:** Data quality issues obscure the relationship
+
+**Preserved Insight:** We measure more than we cause, but the exact ratio depends on
+methodology and data subset. The qualitative finding (drift is largely inherent) is robust.
 
 ---
 

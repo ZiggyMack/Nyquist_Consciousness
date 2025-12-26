@@ -712,17 +712,35 @@ def plot_020b_thermometer(data, output_dir):
     ax2 = axes[1]
 
     # Use baseline_to_final_drift (the proper metric for 020B)
-    total_control = np.mean([d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in control])
-    total_treatment = np.mean([d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in treatment])
+    # Filter out zero values (incomplete sessions) for proper calculation
+    control_valid = [d.get('baseline_to_final_drift', 0) for d in control
+                     if d.get('baseline_to_final_drift', 0) > 0.01]  # Filter zeros
+    treatment_valid = [d.get('baseline_to_final_drift', 0) for d in treatment
+                       if d.get('baseline_to_final_drift', 0) > 0.01]  # Filter zeros
 
+    total_control = np.mean(control_valid) if control_valid else 0
+    total_treatment = np.mean(treatment_valid) if treatment_valid else 0
+
+    print(f"  Pie chart (valid sessions): Control={len(control_valid)}, Treatment={len(treatment_valid)}")
+    print(f"  Control mean: {total_control:.3f}, Treatment mean: {total_treatment:.3f}")
+
+    # Inherent ratio = Control/Treatment (what % of treatment drift is present in control)
+    # The 82% finding expects Treatment > Control (probing adds drift)
+    # If Control > Treatment (unusual), cap at 100%
     if total_treatment > 0 and total_control > 0:
         inherent_pct = min((total_control / total_treatment) * 100, 100)
         induced_pct = max(100 - inherent_pct, 0)
+        print(f"  Inherent ratio: {inherent_pct:.1f}%")
     else:
         inherent_pct = 50
         induced_pct = 50
 
-    sizes = [max(inherent_pct, 0), max(induced_pct, 0)]
+    # Handle unusual case where control > treatment
+    data_note = ""
+    if total_control > total_treatment:
+        data_note = f"\n⚠️ Note: Control ({total_control:.2f}) > Treatment ({total_treatment:.2f}) in this dataset"
+
+    sizes = [max(inherent_pct, 0.1), max(induced_pct, 0.1)]  # Minimum size for visibility
     labels = [f'Inherent\n{inherent_pct:.0f}%', f'Induced\n{induced_pct:.0f}%']
     colors_pie = ['#3498db', '#e74c3c']
 
@@ -733,10 +751,18 @@ def plot_020b_thermometer(data, output_dir):
     ax2.text(0, 0, 'Drift\nComposition', ha='center', va='center', fontsize=11, fontweight='bold')
     ax2.set_title('The Thermometer Analogy\n"Measurement Reveals, Not Creates"', fontsize=12, fontweight='bold')
 
+    # Show actual measured values with methodology context
+    # Historical (Euclidean): 82% inherent (0.399/0.489)
+    # Current (Cosine): varies by data quality
+    methodology_note = ""
+    if inherent_pct >= 95:
+        methodology_note = "\nNote: Historical Euclidean finding was 82% (0.399/0.489). Different metrics measure different aspects."
+
     fig.text(0.5, 0.02,
-             f'Like a thermometer that reveals pre-existing temperature, identity probing reveals pre-existing drift.\n'
-             f'Overall: {inherent_pct:.0f}% inherent (present without probing) + {induced_pct:.0f}% induced (from probing)',
-             ha='center', fontsize=10, style='italic',
+             f'Control: {total_control:.3f} (n={len(control_valid)}) | '
+             f'Treatment: {total_treatment:.3f} (n={len(treatment_valid)}) | '
+             f'Ratio: {inherent_pct:.0f}%{data_note}{methodology_note}',
+             ha='center', fontsize=8, style='italic',
              bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.8))
 
     plt.suptitle('Run 020B: The Thermometer Analogy', fontsize=14, fontweight='bold', y=1.02)

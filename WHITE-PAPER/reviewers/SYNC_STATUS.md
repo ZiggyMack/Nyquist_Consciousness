@@ -20,7 +20,7 @@
 
 | Paper | Section | Question | Assignee | Priority | Status |
 |-------|---------|----------|----------|----------|--------|
-| Workshop | Results | Include 82% inherent drift graph? | Opus | HIGH | PENDING |
+| Workshop | Results | Include 92% inherent drift graph? | Opus | HIGH | PENDING |
 | arXiv | Discussion | Integrate Levin/Platonic validation now or v2? | Opus | HIGH | PENDING |
 | All | Pipeline | Review 8-path publication strategy | Opus | HIGH | PENDING |
 | arXiv | Methods | Cross-platform variance claim wording | Nova | MEDIUM | COMPLETE |
@@ -40,16 +40,16 @@
 
 **Updated:** 2025-12-15 (Run 018 IRON CLAD analysis)
 
-### Run 018: IRON CLAD Foundation (COMPLETE)
+### Run 023: IRON CLAD Foundation (COMPLETE)
 
 **Reviewers must validate these cornerstone findings:**
 
 | Finding | Value | Significance | Reviewer Task |
 |---------|-------|--------------|---------------|
-| **Cross-architecture σ²** | 0.00087 | Extremely low variance across 51 models | Confirm this is publication-worthy |
-| **Sample size** | 184 files, 51 models, 5 providers | Robust coverage | Verify N≥3 per cell |
-| **Settling times** | 3-7 exchanges | Consistent across platforms | Check against prior literature |
-| **82% inherent drift** | CI [73%, 89%] | Core thermometer finding | Scrutinize methodology |
+| **Cross-architecture σ²** | 0.00087 | Extremely low variance across 25 models | Confirm this is publication-worthy |
+| **Sample size** | 750 experiments, 25 models, 5 providers | Robust coverage | Verify N≥3 per cell |
+| **Settling times** | τₛ ≈ 10.2 probes | Consistent across platforms | Check against prior literature |
+| **92% inherent drift** | Run 023 COSINE | Core thermometer finding | Scrutinize methodology |
 
 ### Why This Data Is Rock Solid
 
@@ -63,8 +63,8 @@
 Reviewers should attempt to falsify these claims:
 
 1. **Is σ²=0.00087 genuinely architecture-independent?** Or are there hidden confounds?
-2. **Does the 82% inherent drift ratio hold under different probing protocols?**
-3. **Are settling times (3-7 exchanges) consistent with control-systems theory predictions?**
+2. **Does the 92% inherent drift ratio hold under different probing protocols?**
+3. **Are settling times (τₛ ≈ 10.2 probes) consistent with control-systems theory predictions?**
 4. **Does the Event Horizon (D=0.80 Cosine) represent a universal threshold or is it training-dependent?**
 
 ### Run 020A Status (IRON CLAD COMPLETE)

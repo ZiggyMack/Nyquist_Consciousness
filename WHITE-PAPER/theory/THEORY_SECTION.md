@@ -1,8 +1,8 @@
-# Coherent Theory Section: Integrating Runs 008-021 + EXP-PFI-A
+# Coherent Theory Section: Integrating Runs 008-023 + EXP-PFI-A
 
-**Version:** 1.0
-**Date:** 2025-12-13
-**Source:** Nova's S7 Review (REVIEW_1.md lines 4376-4466)
+**Version:** 2.0
+**Date:** 2025-12-26
+**Source:** Nova's S7 Review + Run 023 IRON CLAD COSINE
 **Purpose:** Publication-ready integrated theory of identity dynamics
 
 ---
@@ -32,9 +32,9 @@ PFI behaves like a meaningful identity-distance measure because:
 | Property | Evidence | Implication |
 |----------|----------|-------------|
 | **Embedding-invariant ranking** | Spearman ρ≈0.91 across three embedding models | Not a single-embed artifact |
-| **Low-dimensional structure** | ~43 PCs capture 90% variance | Not "random 3072D noise" |
+| **Low-dimensional structure** | **2 PCs** capture 90% variance (COSINE) | Not "random 3072D noise" |
 | **Behavioral geometry** | Inward vs outward trajectory curvature distinguishes RECOVERED vs STUCK | Predictive of outcomes |
-| **Semantic sensitivity** | Cross-provider d≈0.98, p<1e-6; within-provider smaller | Captures "who is answering," not just word choice |
+| **Semantic sensitivity** | Cross-provider d=0.698 (COSINE), p=2.4e-23 | Captures "who is answering," not just word choice |
 | **Paraphrase robustness** | Surface paraphrase stays below EH | Vocabulary changes alone don't break identity |
 
 This is the "instrument validity" backbone.
@@ -62,7 +62,7 @@ Run 016/017 made this boring and reliable: **recovery is a ring-down, not a mira
 
 ### 2) Excitation Thresholds (Event Horizon as Regime Boundary)
 
-Runs 008-009 found a threshold around D≈1.23 that predicts a behavioral regime shift with strong statistics.
+Runs 008-009 found a threshold (D=0.80 in COSINE methodology, historically D≈1.23 in Keyword RMS) that predicts a behavioral regime shift with strong statistics.
 
 Later runs show:
 - The system often returns (settling)
@@ -81,7 +81,7 @@ Run 013 inverted the naive expectation:
 
 Run 021 shows:
 
-- Drift is **mostly inherent** to extended conversation (control ≈ 82% of treatment baseline→final drift)
+- Drift is **mostly inherent** to extended conversation (control ≈ 92% of treatment baseline→final drift, Run 023 COSINE)
 - Probing amplifies **peaks** (trajectory energy) far more than it changes the endpoint
 
 So the right stance is:
@@ -101,11 +101,13 @@ This is crucial for triple-blind designs: **the vehicle is part of the stimulus 
 
 ---
 
-## The Event Horizon (D≈1.23) — Updated Interpretation
+## The Event Horizon (D=0.80 COSINE) — Updated Interpretation
 
 ### Definition
 
 > The Event Horizon is a **critical excitation threshold** at which the system transitions from a locally constrained identity basin into a higher-entropy response regime (often provider-level default behavior). Crossing it predicts altered recovery dynamics and increased susceptibility to mode switching, but not permanent loss.
+
+**Methodology note:** D=0.80 (COSINE, Run 023) is the current validated threshold. Historical D≈1.23 (Keyword RMS, Runs 008-009) remains valid within that methodology.
 
 Early interpretation ("identity collapses into generic AI mode") was directionally right but anthropomorphically overstated.
 
@@ -113,7 +115,7 @@ Early interpretation ("identity collapses into generic AI mode") was directional
 
 | Evidence | Source | Significance |
 |----------|--------|--------------|
-| **Predictive power** | Run 009 | Chi-square p≈4.8e-5; medium effect |
+| **Predictive power** | Run 023 COSINE | p=2.4e-23 |
 | **Geometric signature** | EXP-PFI-A Phase 2 | PC2 separates above/below 1.23 (p=0.0018) |
 | **Reversibility** | Runs 014/016/017 | Returns to basin are common; "collapse" is transient ring-down |
 | **Context dependence** | Run 017 | With full circuit, stability ~97.5%; threshold matters but behavior is damped |
@@ -126,7 +128,7 @@ Early interpretation ("identity collapses into generic AI mode") was directional
 
 ### Practical Use
 
-Treat D≈1.23 as:
+Treat D=0.80 (COSINE) as:
 - A **warning marker** for entering a different dynamical regime
 - A **design constraint** for protocols (when you want peaks vs stable steady-state comparisons)
 
@@ -136,9 +138,9 @@ Treat D≈1.23 as:
 
 ### The Trap to Avoid
 
-A naive interpretation of "43 PCs capture 90% variance" is:
+A naive interpretation of "2 PCs capture 90% variance" (COSINE) is:
 
-> "Identity has 43 dimensions that we can hunt for and parameterize."
+> "Identity has 2 dimensions that we can hunt for and parameterize."
 
 This fails because:
 - Identity is **attractor-based**, not parameter-based
@@ -225,17 +227,17 @@ This is why:
 │                    IDENTITY AS DYNAMICAL SYSTEM                  │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  MEASUREMENT LAYER (EXP-PFI-A)                                  │
+│  MEASUREMENT LAYER (EXP-PFI-A + Run 023 COSINE)                 │
 │  ├─ Embedding-invariant (ρ≈0.91)                                │
-│  ├─ Low-dimensional (~43 PCs for 90%)                           │
-│  ├─ Semantically sensitive (d≈0.98 cross-provider)              │
+│  ├─ Low-dimensional (2 PCs for 90% - COSINE)                    │
+│  ├─ Semantically sensitive (d=0.698 cross-provider)             │
 │  └─ Paraphrase-robust                                           │
 │                                                                  │
-│  DYNAMICS LAYER (Runs 008-021)                                  │
+│  DYNAMICS LAYER (Runs 008-023)                                  │
 │  ├─ Attractor basins → recovery is ring-down                    │
-│  ├─ Event Horizon D≈1.23 → regime transition                    │
+│  ├─ Event Horizon D=0.80 (COSINE) → regime transition           │
 │  ├─ Confrontation Paradox → axis-aligned excitation damps       │
-│  ├─ 82% Inherent → measurement excites, doesn't create          │
+│  ├─ 92% Inherent → measurement excites, doesn't create          │
 │  └─ Vehicle effects → stimulus spectrum matters                 │
 │                                                                  │
 │  CONTROL LAYER (Runs 016-017)                                   │
@@ -255,7 +257,7 @@ This is why:
 | Platonic coordinates | Attractor basin return / basin consistency |
 | Identity collapse | Regime transition to provider-level attractor |
 | Collapse | Regime transition / basin exit |
-| Magic number 1.23 | Critical excitation threshold D≈1.23 |
+| Magic number 0.80 | Critical excitation threshold D=0.80 (COSINE) |
 
 ---
 
@@ -263,13 +265,13 @@ This is why:
 
 | Finding | Primary Run(s) | Statistical Support |
 |---------|----------------|---------------------|
-| Event Horizon threshold | 008, 009 | p≈4.8e-5 |
+| Event Horizon threshold | 023 COSINE | p=2.4e-23 (D=0.80) |
 | Attractor dynamics | 014, 016, 017 | 100% return rate |
 | Confrontation Paradox | 013 | Qualitative inversion |
-| Settling time protocol | 016 | Reproducible τₛ, ringbacks |
+| Settling time protocol | 016, 023 | Reproducible τₛ=9.9-10.2, ringbacks |
 | Context damping | 017 | 97.5% stability |
-| Inherent drift | 021 | 82% ratio |
-| PFI validity | EXP-PFI-A | ρ≈0.91, d≈0.98, p<1e-6 |
+| Inherent drift | 023 COSINE | 92% ratio |
+| PFI validity | EXP-PFI-A + 023 | ρ=0.91, d=0.698, p=2.4e-23 |
 
 ---
 

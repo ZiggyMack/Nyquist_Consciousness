@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-13T06:04:54.530327",
+  "generated": "2025-12-26T00:59:58.556203",
   "white_paper_path": "D:\\Documents\\Nyquist_Consciousness\\WHITE-PAPER",
   "claims": {
     "A": {
@@ -7,20 +7,21 @@
       "status": "validated",
       "description": "PFI is valid structured measurement",
       "rho": 0.91,
-      "d": 0.98
+      "d": 0.698,
+      "pcs_90_variance": 2
     },
     "B": {
       "name": "Regime Threshold",
       "status": "validated",
-      "description": "Critical threshold at D=1.23",
-      "threshold": 1.23,
-      "p_value": 4.8e-05
+      "description": "Critical threshold at D=0.80 (cosine)",
+      "threshold": 0.8,
+      "p_value": 2.4e-23
     },
     "C": {
       "name": "Oscillator Dynamics",
       "status": "validated",
       "description": "Damped oscillator dynamics measurable",
-      "tau_s": "measured",
+      "tau_s": "9.9-10.2",
       "ringbacks": "observed"
     },
     "D": {
@@ -30,24 +31,25 @@
       "stability": 0.975
     },
     "E": {
-      "name": "82% Inherent",
+      "name": "92% Inherent",
       "status": "validated",
       "description": "Drift is mostly inherent, not induced",
-      "ratio": 0.82
+      "ratio": 0.92
     }
   },
   "runs": {
-    "total": 21,
-    "s7_armada": 21,
-    "latest": "run021",
-    "discovery_era": "001-006",
-    "control_systems_era": "007-021"
+    "total_experiments": 750,
+    "s7_armada": "run023",
+    "latest": "run023",
+    "providers": 5,
+    "models": 25,
+    "methodology": "cosine"
   },
   "files": {
-    "figures": 9,
-    "figure_scripts": 9,
+    "figures": 0,
+    "figure_scripts": 0,
     "ascii": 7,
-    "workshop": 6,
+    "workshop": 7,
     "references": 55,
     "theory_docs": 4,
     "total_generated": 34
@@ -94,13 +96,15 @@
   },
   "key_statistics": {
     "pfi_correlation": 0.91,
-    "pfi_effect_size": 0.98,
-    "threshold_d": 1.23,
-    "threshold_p": 4.8e-05,
-    "inherent_ratio": 0.82,
+    "pfi_effect_size": 0.698,
+    "threshold_d": 0.8,
+    "threshold_p": 2.4e-23,
+    "inherent_ratio": 0.92,
     "stability_rate": 0.975,
-    "hypotheses_tested": 36,
-    "architectures_tested": 4
+    "pcs_for_90_variance": 2,
+    "experiments": 750,
+    "providers_tested": 5,
+    "models_tested": 25
   },
   "structure": {
     "theory": true,

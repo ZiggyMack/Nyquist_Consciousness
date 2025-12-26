@@ -9,6 +9,22 @@
 > as it uses the same script (`run020_tribunal_B.py`) and represents the Control/Treatment
 > validation arm of the tribunal paradigm.
 
+> **⚠️ METHODOLOGY NOTE (December 2025):**
+>
+> The "82% inherent drift" statistic has multiple values depending on methodology era:
+>
+> | Source | Control | Treatment | Ratio | Notes |
+> |--------|---------|-----------|-------|-------|
+> | Euclidean (filtered) | 0.399 | 0.489 | **82%** | Original hardcoded values |
+> | Euclidean (manifest) | 0.972 | 1.659 | **59%** | Full `RUN_020b_DRIFT_MANIFEST.json` |
+> | Cosine (current) | 0.907 | 0.805 | **100%** | `S7_run_020B_CURRENT.json` |
+>
+> The Cosine-era data shows Control > Treatment due to data quality issues (36% treatment
+> sessions have zero drift = incomplete). **The qualitative finding remains valid:**
+> drift is largely inherent to conversation dynamics.
+>
+> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for full methodology reconciliation.
+
 ---
 
 ## The Core Question

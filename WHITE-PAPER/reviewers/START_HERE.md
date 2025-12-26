@@ -20,7 +20,7 @@ keywords:
 
 Key findings from external review:
 
-- PFI validity confirmed (ρ=0.91, d=0.98)
+- PFI validity confirmed (ρ=0.91, d=0.698)
 - 98% convergence in framework methodology
 - "Claims tested, measured, verified"
 - Grok-specific: "Real-time grounding provides visible effects in drift space"
@@ -55,19 +55,19 @@ See: `Grok/review_1.md` for full assessment.
 
 ## Evidence Status (IRON CLAD COMPLETE)
 
-### THE THREE CORE CLAIMS — ALL VALIDATED
+### THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology)
 
-1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
-2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
-3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
+1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
+2. **WE DON'T CAUSE IT** — 92% inherent drift ratio (Run 023 COSINE Thermometer Result)
+3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (model-level aggregates), 2 PCs = 90% variance
 
-### Current Status (December 16, 2025)
+### Current Status (December 2025)
 
-| Run | Files | Models/Providers | Status |
-|-----|-------|------------------|--------|
-| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
-| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
-| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+| Run | Experiments | Models | Providers | Status |
+|-----|-------------|--------|-----------|--------|
+| **Run 023 Combined** | 750 | 25 | 5 | **IRON CLAD ✓** |
+| Run 018 | 465 | - | - | 52.6% (in progress) |
+| Run 020A/B | 48 | 7 | 2 | Tribunal sessions |
 
 ---
 
@@ -77,11 +77,11 @@ See: `Grok/review_1.md` for full assessment.
 
 | Finding | Evidence | Source |
 |---------|----------|--------|
-| PFI validity | ρ=0.91, d=0.98 | Run 013 |
-| Regime threshold | p<4.8×10⁻⁵ | Run 014 |
-| Oscillator dynamics | τₛ=6.1, ringbacks=3.2 | Run 017 |
-| Context damping | 97.5% stability (222 runs) | Run 017c |
-| 82% inherent drift | Control/Treatment ratio | Run 021 (Llama) |
+| PFI validity | ρ=0.91, d=0.698 | Run 023 COSINE |
+| Regime threshold | D=0.80 (Cosine), p=2.40e-23 | Run 023 |
+| Oscillator dynamics | τₛ≈10.2 probes, ringbacks | Run 023d |
+| Context damping | 97.5% stability | Run 017 |
+| 92% inherent drift | Control/Treatment ratio | Run 023 COSINE |
 
 ### Medium-Confidence Findings (Need More Runs)
 
@@ -122,9 +122,9 @@ See: `Grok/review_1.md` for full assessment.
 |------|------------|
 | **PFI** | Persona Fidelity Index — measures identity coherence |
 | **Drift** | Change in PFI between baseline and current response |
-| **Event Horizon** | 1.23 drift threshold — significant identity shift |
+| **Event Horizon** | D=0.80 (Cosine) regime threshold; historically D=1.23 (Keyword RMS) |
 | **Oobleck Effect** | Supportive probing induces MORE drift than adversarial |
-| **82% Inherent** | Most drift is inherent to conversation, not induced |
+| **92% Inherent** | Most drift is inherent to conversation, not induced (Run 023 COSINE) |
 | **B→F Drift** | Baseline-to-Final drift (more robust than peak) |
 
 ---

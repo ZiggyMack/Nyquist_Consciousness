@@ -52,7 +52,7 @@ See `METHODOLOGY_DOMAINS.md` for full reconciliation.
 ## THE THREE CORE CLAIMS — ALL VALIDATED
 
 1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
-2. **WE DON'T CAUSE IT** — 82% inherent drift ratio (Run 020B Thermometer Result)
+2. **WE DON'T CAUSE IT** — 92% inherent drift ratio (Run 023 COSINE Thermometer Result)
 3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (model-level aggregates), 2 PCs = 90% variance
 
 ## Critical Language (Publication)

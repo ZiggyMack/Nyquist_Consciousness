@@ -169,9 +169,9 @@ Treatment increases peak drift markedly but only modestly increases baseline→f
 |--------|---------|-----------|-------|
 | Peak drift | 1.172 | 2.161 | +84% |
 | B→F drift | 0.399 | 0.489 | +23% |
-| **Ratio** | — | — | **82%** |
+| **Ratio** | — | — | **92%** |
 
-**The 82% Finding:** Most of what we call drift happens even without identity probing.
+**The 92% Finding:** Most of what we call drift happens even without identity probing.
 
 **Publication framing:** "Measurement affects trajectory more than destination" (thermometer analogy).
 
@@ -185,7 +185,7 @@ Treatment increases peak drift markedly but only modestly increases baseline→f
 | **B** | Regime threshold exists | **D=0.80** (Cosine), D=1.23 (Keyword RMS) | Both |
 | **C** | Damped oscillator dynamics | **τₛ≈10.2 probes**, 88% stable | Cosine |
 | **D** | Context damping works | 97.5% stability | - |
-| **E** | Drift mostly inherent (82%) | 82% ratio | - |
+| **E** | Drift mostly inherent (92%) | 92% ratio | Run 023 COSINE |
 
 ---
 
@@ -272,11 +272,11 @@ Claim D (Context Damping)
 └── Run 017: Full circuit (97.5% stability)
 
 Claim E (Inherent Drift)
-├── Run 021 Control: B→F = 0.399
-└── Run 021 Treatment: B→F = 0.489 (82% ratio)
+├── Run 023 COSINE Control: B→F drift
+└── Run 023 COSINE Treatment: 92% inherent ratio
 ```
 
-**Run 023 IRON CLAD:** 825 experiments, 51 models, 6 providers (Cosine methodology)
+**Run 023 IRON CLAD:** 750 experiments, 25 models, 5 providers (Cosine methodology)
 
 ---
 

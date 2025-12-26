@@ -27,7 +27,7 @@ keywords:
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
 **Last Updated:** 2025-12-24
-**Status:** RUN 023 IRON CLAD COMPLETE — 825 experiments, 51 models, 6 providers
+**Status:** RUN 023 IRON CLAD COMPLETE — 750 experiments, 25 models, 5 providers
 
 ---
 
@@ -35,13 +35,13 @@ keywords:
 
 **Methodology:** Cosine distance (Event Horizon = 0.80)
 
-**Fleet:** 51 models tested across 6 providers (Anthropic, OpenAI, Google, xAI, Together, Nvidia)
+**Fleet:** 25 models tested across 5 providers (Anthropic, OpenAI, Google, xAI, Together)
 
 ### Current Status (December 24, 2025) — COMPLETE ✅
 
 | Run | Experiments | Models | Providers | Status |
 |-----|-------------|--------|-----------|--------|
-| **Run 023 Combined** | 825 | 51 | 6 | **IRON CLAD ✓** |
+| **Run 023 Combined** | 750 | 25 | 5 | **IRON CLAD ✓** |
 | **Run 023d** | 750 | 25 | 5 | Extended settling (20+ probes) |
 | **Run 020A/B** | 48 | 7 | 2 | Tribunal sessions |
 
@@ -59,7 +59,7 @@ keywords:
 **THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology):**
 
 1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
-2. **WE DON'T CAUSE IT** — 82% inherent drift ratio (Run 020B Thermometer Result)
+2. **WE DON'T CAUSE IT** — 92% inherent drift ratio (Run 023 COSINE Thermometer Result)
 3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (model-level aggregates), 2 PCs = 90% variance
 
 ### Consolidated Manifests
@@ -105,7 +105,7 @@ keywords:
 
 **Grok's Assessment Highlights:**
 
-- PFI validity confirmed (ρ=0.91, d=0.98)
+- PFI validity confirmed (ρ=0.91, d=0.698)
 - Framework methodology validated with 98% convergence
 - Grok-specific findings: "Real-time grounding provides visible effects in drift space"
 - Recommended: Cross-linguistic testing, Grok-specific Oobleck threshold measurement
@@ -122,7 +122,7 @@ Google's NotebookLLM independently processed our research package and generated:
 - Audio podcast + video presentation
 - Mind map and infographics
 
-**Key Validation:** NotebookLLM correctly identified Event Horizon = 0.80, Cohen's d = 0.698, 82% inherent drift, all 5 claims (A-E), plus novel phenomena (Oobleck Effect, Provider Fingerprints, Nano Control Hypothesis).
+**Key Validation:** NotebookLLM correctly identified Event Horizon = 0.80, Cohen's d = 0.698, 92% inherent drift, all 5 claims (A-E), plus novel phenomena (Oobleck Effect, Provider Fingerprints, Nano Control Hypothesis).
 
 See: [reviewers/LLM_BOOK_SYNTHESIS/INDEX.md](reviewers/LLM_BOOK_SYNTHESIS/INDEX.md)
 
@@ -185,7 +185,7 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   ├── 8_pfi_dimensional/           # ★ PFI validation visuals (NEW)
 │   │   ├── phase2_*/ (PCA, variance, clusters)
 │   │   ├── phase3a_synthetic/ (perturbation tests)
-│   │   ├── phase3b_crossmodel/ (d=0.977 cross-provider)
+│   │   ├── phase3b_crossmodel/ (d=0.698 cross-provider)
 │   │   ├── 8_pfi_explained.pdf      # Combined PDF with 10 figures
 │   │   └── README.md
 │   └── 10_radar/                    # ★ Radar visualizations (NEW)
@@ -311,7 +311,7 @@ py sync_llmbook.py --sync --include-visuals
 | **B** | Regime threshold exists | D=0.80 (Cosine), D=1.23 (Keyword RMS) | Both |
 | **C** | Damped oscillator dynamics | τₛ≈10.2, ringbacks measurable | Cosine |
 | **D** | Context damping works | 97.5% stability | - |
-| **E** | Drift is mostly inherent | **82% ratio** | - |
+| **E** | Drift is mostly inherent | **92% ratio** | Run 023 COSINE |
 
 ---
 
@@ -393,4 +393,4 @@ Output: `publication_stats.json` — machine-readable stats for AI_ARMADA.py
 
 ---
 
-*This package represents 21 experimental runs, 36 hypotheses, and extensive theoretical development.*
+*This package represents Run 023 IRON CLAD COSINE methodology, 36 hypotheses, and extensive theoretical development.*

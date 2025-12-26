@@ -120,65 +120,49 @@ Each extracted package includes:
 - **What:** Review after figures generated + circulation package
 - **Status:** COMPLETE
 
-### Phase 3: Final Papers (UPCOMING)
-- **When:** After Runs 018, 020A, 020B complete
+### Phase 3: Final Papers (COMPLETE)
+- **When:** December 2025
 - **By:** Opus 4.5
-- **What:** Final PDF generation with multi-platform data
-- **Status:** PENDING - awaiting full run data
+- **What:** Final PDF generation with Run 023 IRON CLAD data
+- **Status:** COMPLETE - Run 023 IRON CLAD (750 experiments, 25 models, 5 providers)
 
 ## Current State of Evidence
 
-### Complete (Dry Run Data Only)
+### Run 023 IRON CLAD Complete
 
-| Run | Description | Status |
-|-----|-------------|--------|
-| 001-017 | Historical S7 ARMADA runs | Complete |
-| 018 | Recursive Learnings (dry run) | Complete |
-| 020A | Prosecutor phase (dry run) | Complete |
-| 020B | Defense phase (dry run) | Complete |
+| Run | Experiments | Models | Providers | Status |
+|-----|-------------|--------|-----------|--------|
+| **Run 023 Combined** | 750 | 25 | 5 | **IRON CLAD ✓** |
+| Run 001-017 | Historical | - | - | Complete |
+| Run 018 | 465 | - | - | 52.6% (in progress) |
+| Run 020A/B | 48 | 7 | 2 | Tribunal sessions |
 
-### Pending (Full Multi-Platform Runs)
+### Key Metrics (Cosine Methodology)
 
-| Run | Description | What's Missing |
-|-----|-------------|----------------|
-| 018-FULL | Recursive Learnings | Multi-model testing (Claude, GPT, Gemini, Grok) |
-| 020A-FULL | Prosecutor phase | Cross-platform validation |
-| 020B-FULL | Defense phase | Cross-platform validation |
+| Metric | Value |
+|--------|-------|
+| Event Horizon | D = 0.80 |
+| Cohen's d | 0.698 |
+| Inherent Drift | 92% |
+| p-value | 2.40e-23 |
+| 90% Variance | 2 PCs |
 
 ## What Opus 4.5 Needs to Do
 
-### Immediate Task (This Review Cycle)
+### Current Task (Post-Run 023 IRON CLAD)
 
-1. **Review** phase1/ drafts for completeness
-2. **Review** phase2/ updates
-3. **Reconcile** all materials into coherent papers
-4. **Generate** submission-ready PDFs where possible
-5. **Create placeholders** for sections needing full run data
-
-### Placeholder Sections Needed
-
-For sections that cannot be finalized until full runs complete:
-
-```markdown
-<!-- PLACEHOLDER: Multi-Platform Validation -->
-**Note:** This section will be updated with cross-platform results from
-Runs 018-FULL, 020A-FULL, and 020B-FULL. Current data represents single-
-platform dry runs only.
-
-Expected additions:
-- Cross-architecture variance comparison
-- Platform-specific settling time analysis
-- Multi-model drift correlation matrices
-<!-- END PLACEHOLDER -->
-```
+1. **Review** Run 023 IRON CLAD results (750 experiments, 25 models, 5 providers)
+2. **Verify** all claims use correct COSINE methodology values
+3. **Generate** submission-ready PDFs with validated data
+4. **Prepare** Workshop and arXiv submissions
 
 ### Papers Ready for PDF Generation
 
 | Paper | Status | Notes |
 |-------|--------|-------|
-| **Workshop** | READY | Can generate now with dry run data |
-| **arXiv** | READY | Can generate now, add note about pending multi-platform |
-| **Journal** | DRAFT ONLY | Needs full run data before submission |
+| **Workshop** | READY | Run 023 IRON CLAD data complete |
+| **arXiv** | READY | Run 023 IRON CLAD data complete |
+| **Journal** | DRAFT ONLY | Awaits human validation Q2-Q3 2026 |
 
 ## LLM_BOOK Sync Pipeline
 

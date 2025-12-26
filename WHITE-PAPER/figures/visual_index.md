@@ -199,7 +199,7 @@ These are the full visualization summaries from S7_ARMADA experiments. Reviewers
 | 12_Metrics_Summary.pdf | Context damping, network | context_damping_summary.png |
 | 13_Model_Waveforms_Summary.pdf | Model waveforms | model_waveform_*.png |
 | 14_Ringback_Summary.pdf | Ringback analysis | ringback_*.png |
-| 15_Oobleck_Effect_Summary.pdf | 82%/92% finding | oobleck_thermometer.png, oobleck_control_treatment.png |
+| 15_Oobleck_Effect_Summary.pdf | 92% inherent drift finding | oobleck_thermometer.png, oobleck_control_treatment.png |
 | run018_Summary.pdf | Historical Euclidean | (deprecated reference) |
 | run020_Summary.pdf | Historical ratio analysis | (deprecated reference) |
 

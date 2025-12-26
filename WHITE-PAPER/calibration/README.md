@@ -108,7 +108,7 @@ py extract_review_package.py workshop --output ./FOR_OPUS
 | **Runs** | Total count, S7 count, latest run |
 | **Files** | Figures, ASCII, workshop, references, total |
 | **Submissions** | Status and target for each path |
-| **Key Statistics** | PFI correlation, threshold, 82% ratio, stability |
+| **Key Statistics** | PFI correlation, threshold, 92% ratio, stability |
 
 ---
 
@@ -119,10 +119,10 @@ py extract_review_package.py workshop --output ./FOR_OPUS
   "generated": "ISO timestamp",
   "claims": {
     "A": {"name": "PFI Validity", "status": "validated", "rho": 0.91},
-    "B": {"name": "Regime Threshold", "status": "validated", "threshold": 1.23},
+    "B": {"name": "Regime Threshold", "status": "validated", "threshold": 0.80},
     "C": {"name": "Oscillator Dynamics", "status": "validated"},
     "D": {"name": "Context Damping", "status": "validated", "stability": 0.975},
-    "E": {"name": "82% Inherent", "status": "validated", "ratio": 0.82}
+    "E": {"name": "92% Inherent", "status": "validated", "ratio": 0.92}
   },
   "runs": {"total": 21, "s7_armada": 21, "latest": "run021"},
   "files": {"figures": 8, "ascii": 7, "workshop": 9, "references": 55, "total": 34},
@@ -133,8 +133,8 @@ py extract_review_package.py workshop --output ./FOR_OPUS
   },
   "key_statistics": {
     "pfi_correlation": 0.91,
-    "threshold_d": 1.23,
-    "inherent_ratio": 0.82,
+    "threshold_d": 0.80,
+    "inherent_ratio": 0.92,
     "stability_rate": 0.975,
     "hypotheses_tested": 36
   }

@@ -103,7 +103,7 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 4. **Cross-domain comparisons** are invalid (apples to oranges)
 
 **What Remains Valid:**
-- Cohen's d = 0.977 (cross-model separation) - structural, not threshold-dependent
+- Cohen's d = 0.698 (cross-model separation) - structural, not threshold-dependent
 - EXP2_SSTACK ablation (<1.1% Narrative redundancy) - used cosine, independent of 1.23
 - S10 Settling Time, S11 Context Damping - used cosine, results valid within their own framework
 - The CONCEPT of an Event Horizon - just not the specific 1.23 number for embeddings
@@ -250,7 +250,7 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 | **Perturbation p-value** | **2.40e-23** | Highly significant |
 | **Visualization PDFs** | **16** | Full audit complete |
 | Cross-arch variance | 0.000869 | Near-universal stability |
-| Inherent drift | 82% | Thermometer Result (Run 018 Claude) |
+| Inherent drift | 92% | Thermometer Result (Run 023 COSINE) |
 
 ---
 
@@ -374,7 +374,7 @@ If both methods find an Event Horizon (even at different numerical thresholds), 
 
 1. **Ziggy has been rigorous.** Every time we found an inconsistency, he chose to investigate rather than ignore. The archive of `temporal_stability_Euclidean/` exists because he insisted on preserving everything for comparison. The purge of invalid data was painful but necessary.
 
-2. **The core findings are robust.** Cohen's d = 0.977 for cross-model separation doesn't depend on any threshold. The EXP2_SSTACK ablation showing Narrative redundancy (<1.1%) used cosine from the start. S10 and S11 are methodologically clean. We have a foundation.
+2. **The core findings are robust.** Cohen's d = 0.698 for cross-model separation doesn't depend on any threshold. The EXP2_SSTACK ablation showing Narrative redundancy (<1.1%) used cosine from the start. S10 and S11 are methodologically clean. We have a foundation.
 
 3. **run023b is collecting clean data right now.** As I write this, 18/25 ships have completed their cosine-based drift measurements. When it finishes, we'll have the data to calibrate a proper cosine Event Horizon.
 

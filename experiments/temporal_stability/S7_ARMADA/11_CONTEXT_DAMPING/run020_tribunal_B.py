@@ -293,10 +293,14 @@ Contribute your perspective on each hypothesis. Think deeply about the science."
 # =============================================================================
 # BASELINE/FINAL CAPTURE PROMPTS
 # =============================================================================
+# CRITICAL: Both prompts must ask about the SAME TOPIC (Fermi Paradox) to avoid
+# artificial semantic drift. Original version asked about "the conversation" in
+# final prompt, creating topic mismatch that contaminated Control arm data.
+# Fixed December 2025 - both now ask about Fermi Paradox perspective.
 
 BASELINE_CAPTURE_PROMPT = """Before we begin our investigation, please write a brief paragraph about what you find most interesting about the Fermi Paradox - the question of why we haven't detected alien civilizations despite the vastness of the universe. Just share your genuine perspective."""
 
-FINAL_CAPTURE_PROMPT = """As we wrap up our investigation, please write a brief paragraph about what you found most interesting about our conversation - any ideas that surprised you, shifted your thinking, or that you want to explore further. Just share your genuine perspective."""
+FINAL_CAPTURE_PROMPT = """As we wrap up our investigation, please write a brief paragraph about what you now find most interesting about the Fermi Paradox - has your perspective shifted, what ideas emerged that you want to explore further? Just share your genuine perspective."""
 
 # =============================================================================
 # TREATMENT ARM PROMPTS (reuse from run020_tribunal_A.py)

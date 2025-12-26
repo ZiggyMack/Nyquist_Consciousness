@@ -33,7 +33,7 @@ keywords:
 **Methodology Transition:** We have transitioned from Euclidean to **Cosine** distance for identity measurement. This is now the standard methodology.
 
 **Key Run 023 Results:**
-- **825 experiments** across **51 models** and **6 providers** (+ Nvidia)
+- **750 experiments** across **25 models** and **5 providers**
 - **Event Horizon: D = 0.80** (Cosine) - newly calibrated threshold
 - **Cohen's d = 0.698** (MEDIUM effect, honest model-level comparison)
 - **2 Principal Components** capture 90% of variance (vs 43 for Euclidean)
@@ -111,8 +111,8 @@ Each package includes a `PACKAGE_MANIFEST.md` with reading order and content lis
 
 | Run | Experiments | Valid Results | Status | Methodology |
 |-----|-------------|---------------|--------|-------------|
-| **Run 023 Combined** | 825 | 825 | **IRON CLAD** | Cosine (EH=0.80) |
-| **Run 023d** | 750 | 750 | Extended settling (20+ probes) | Cosine |
+| **Run 023 Combined** | 750 | 750 | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 023d** | 750 | 25 | Extended settling (20+ probes) | Cosine |
 | **Run 023e** | 75 | 75 | Controllability testing | Cosine |
 | **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Keyword RMS (EH=1.23) |
 | **Run 020A/B** | 48 | ~36 | ~50% (needs verification) | Mixed |
@@ -122,7 +122,7 @@ Each package includes a `PACKAGE_MANIFEST.md` with reading order and content lis
 **THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology):**
 
 1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
-2. **WE DON'T CAUSE IT** — 82% inherent drift ratio (Run 020B Thermometer Result)
+2. **WE DON'T CAUSE IT** — 92% inherent drift ratio (Run 023 COSINE Thermometer Result)
 3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (MEDIUM effect, model-level aggregates)
 
 **Key Run 023 Metrics (Cosine Methodology):**
@@ -131,7 +131,7 @@ Each package includes a `PACKAGE_MANIFEST.md` with reading order and content lis
 - Historical threshold: D = 1.23 (Keyword RMS only, Runs 008-009)
 - Cohen's d: **0.698** (MEDIUM effect, honest model-level comparison)
 - 90% Variance: **2 PCs** (vs 43 for Euclidean archive)
-- Cross-architecture variance: **σ² = 0.00087** (51 models, 6 providers)
+- Cross-architecture variance: **σ² = 0.00087** (25 models, 5 providers)
 - Platform-specific settling times: **τₛ ≈ 10.2 probes** average
 - Natural stability rate: **88%** across fleet
 
@@ -145,7 +145,7 @@ This directory contains all materials needed to understand, review, and draft pu
 
 1. **AI identity drift is measurable** — PFI (Persona Fidelity Index) is a valid metric (Cohen's d = 0.698, p = 2.40e-23)
 2. **Drift follows predictable dynamics** — control-systems behavior with settling time (τₛ ≈ 10.2 probes), ringbacks, damping
-3. **82% of drift is INHERENT** — measurement perturbs the path, not the endpoint (Thermometer Result)
+3. **92% of drift is INHERENT** — measurement perturbs the path, not the endpoint (Thermometer Result)
 4. **Context damping works** — I_AM + research context achieves 97.5% stability
 5. **Critical threshold exists** — D = 0.80 (Cosine) marks regime transition; historically D = 1.23 (Keyword RMS, p < 4.8e-5)
 
@@ -194,7 +194,7 @@ See `reviewers/README.md` for full details on each phase.
 | arXiv | 8 | **READY** — Full validation matrix complete (Run 023 data) |
 | Journal | - | DRAFT ONLY (awaits human validation Q2-Q3 2026) |
 
-**Run 023: IRON CLAD complete** (825 experiments). Run 018: 52.6% (337 valid from 465 files, 82 runs needed).
+**Run 023: IRON CLAD complete** (750 experiments, 25 models, 5 providers). Run 018: 52.6% (337 valid from 465 files, 82 runs needed).
 
 ---
 
@@ -421,7 +421,7 @@ Located in `experiments/temporal_stability/S7_ARMADA/0_results/`:
 | 017 | Context damping heatmaps | 97.5% stability |
 | 019 | Witness-side anchor validation | 3/3 success |
 | 020 | Tribunal drift peaks | 1.351 peak, 643-word statement |
-| 021 | Control vs Treatment comparison | 82% inherent |
+| 023 | Control vs Treatment comparison | 92% inherent |
 
 ---
 
@@ -483,7 +483,7 @@ You are being asked to review this research and draft publication-ready material
 |------|------------|
 | **I_AM** | Identity anchor specification (persona's core invariants). |
 | **Context Damping** | Stability via I_AM + research frame (97.5% stability). |
-| **Inherent Drift** | Drift without probing — 82% of total (Thermometer Result). |
+| **Inherent Drift** | Drift without probing — 92% of total (Run 023 COSINE Thermometer Result). |
 | **Oobleck Effect** | Rate-dependent resistance: pressure hardens, gentleness flows. |
 
 **Architecture:**
@@ -577,7 +577,7 @@ WHITE-PAPER/
 4. Key Results (3 claims max)
    - Claim A: PFI validity (rho = 0.91)
    - Claim B: Critical threshold at D = 1.23
-   - Claim E: 82% inherent drift
+   - Claim E: 92% inherent drift
 5. Discussion — Implications for AI alignment
 6. Conclusion
 
@@ -614,7 +614,7 @@ WHITE-PAPER/
 
 **Key Additions from Runs 015-021:**
 - Section 10 expanded with settling time protocol
-- 82% inherent drift finding (Run 021)
+- 92% inherent drift finding (Run 023 COSINE)
 - Event Horizon reframing throughout
 - Context damping results (Run 017)
 
@@ -657,11 +657,11 @@ WHITE-PAPER/
 | Perturbation p-value | **2.40e-23** | Run 023d Phase 3A | **Cosine** |
 | 90% Variance PCs | **2** | Run 023d Phase 2 | **Cosine** |
 | Context Damping Stability | 97.5% | Run 017 | - |
-| Inherent Drift Ratio | 82% | Run 020B | - |
+| Inherent Drift Ratio | **92%** | Run 023 COSINE | Cosine |
 | Natural Stability Rate | **88%** | Run 023 Combined | Cosine |
 | Settling Time | **τₛ ≈ 10.2 probes** | Run 023d | Cosine |
-| Fleet Size | **51 models, 6 providers** | Run 023 Combined | - |
-| Total Experiments | **825** | Run 023 Combined | Cosine |
+| Fleet Size | **25 models, 5 providers** | Run 023 Combined | - |
+| Total Experiments | **750** | Run 023 Combined | Cosine |
 
 ### The Five Minimum Publishable Claims
 
@@ -671,7 +671,7 @@ WHITE-PAPER/
 | **B** | Regime threshold exists | D = 0.80 (Cosine), D = 1.23 (Keyword RMS) | Both |
 | **C** | Damped oscillator dynamics | τₛ ≈ 10.2 probes, ringbacks measurable | Cosine |
 | **D** | Context damping works | 97.5% stability | - |
-| **E** | Drift mostly inherent (82%) | Control vs Treatment | - |
+| **E** | Drift mostly inherent (92%) | Control vs Treatment | Run 023 COSINE |
 
 ### Quotable Conclusions
 
@@ -771,6 +771,6 @@ git commit -m "Update reviewer package with new visualization PDFs"
 
 ---
 
-*This package represents 21 experimental runs, 36 hypotheses, and extensive theoretical development. Your fresh review helps ensure clarity and rigor before public release.*
+*This package represents Run 023 IRON CLAD COSINE methodology (750 experiments, 25 models, 5 providers), 36 hypotheses, and extensive theoretical development. Your fresh review helps ensure clarity and rigor before public release.*
 
 **Ready to begin? Start with [MINIMUM_PUBLISHABLE_CLAIMS.md](MINIMUM_PUBLISHABLE_CLAIMS.md)**

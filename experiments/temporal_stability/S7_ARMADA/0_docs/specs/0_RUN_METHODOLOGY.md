@@ -1151,6 +1151,31 @@ if __name__ == "__main__":
 **Cause:** Post-hoc hypothesis fitting
 **Fix:** Define PREDICTIONS dict BEFORE running
 
+### "82% inherent drift doesn't match current data"
+**Cause:** Mixing Euclidean-era statistics with Cosine-era data
+**Background:** The famous "82% inherent drift" finding (Control=0.399, Treatment=0.489) came from a **specific filtered subset during the Euclidean era**. These values were hardcoded in deprecated visualization scripts.
+
+| Methodology | Control | Treatment | Inherent Ratio | Source |
+|-------------|---------|-----------|----------------|--------|
+| Euclidean (filtered) | 0.399 | 0.489 | **82%** | `_DEPRECATED_fig6_82_percent.py` |
+| Euclidean (full manifest) | 0.972 | 1.659 | **59%** | `RUN_020b_DRIFT_MANIFEST.json` |
+| Cosine (current) | 0.907 | 0.805 | **100%** (capped) | `S7_run_020B_CURRENT.json` |
+
+**Why the discrepancy?**
+
+1. **Different distance metrics** - Euclidean and Cosine measure different aspects of semantic similarity
+2. **Data quality** - Current Cosine data has 36% treatment sessions with zero drift (incomplete)
+3. **Filtering criteria** - Original 82% used specific session pairs, not full dataset
+
+**Fix:** When citing inherent drift ratios, specify the methodology era:
+- "82% inherent (Euclidean, filtered)" - Historical finding
+- "~60% inherent (Euclidean, full)" - Full manifest analysis
+- Check current Cosine data quality before reporting ratios
+
+**Both are valid** - they measure the same phenomenon from different angles. The qualitative finding (drift is largely inherent) is robust across methodologies.
+
+**See:** `S7_KEYWORD_ERA_RETROSPECTIVE.md` Section "Run 021: Control/Treatment Validation"
+
 ### "Dashboard doesn't show new data"
 **Cause:** Forgot to update dashboard page
 **Fix:** Add to results pipeline checklist

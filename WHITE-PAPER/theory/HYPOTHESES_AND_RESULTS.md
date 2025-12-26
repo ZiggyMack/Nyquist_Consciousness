@@ -2,7 +2,7 @@
 
 **Version:** 2.0
 **Date:** 2025-12-13
-**Status:** Publication-Ready Summary (Updated with Runs 015-021)
+**Status:** Publication-Ready Summary (Updated with Runs 015-023 COSINE)
 **Purpose:** Formal statement of hypotheses with empirical validation status
 
 ---
@@ -245,7 +245,7 @@ Peak_treatment >> Peak_control (probing excites trajectory)
 
 | Aspect | Prediction | Result | Status |
 |--------|------------|--------|--------|
-| Inherent drift ratio | ~80% | **82%** (B→F: 0.399/0.489) | ✅ **CONFIRMED** |
+| Inherent drift ratio | ~80% | **92%** (Run 023 COSINE) | ✅ **CONFIRMED** |
 | Peak amplification | Treatment > Control | +84% (2.161 vs 1.172) | ✅ **CONFIRMED** |
 | Destination stability | Similar B→F | Only 23% delta | ✅ **CONFIRMED** |
 
@@ -422,7 +422,7 @@ HGF = γ_eff,Z / γ_eff,AI > 1.0
 |----|------------|--------|--------|
 | H7.5 | Settling Time Protocol | Run 016 | ✅ CONFIRMED |
 | H7.6 | Context Damping | Run 017 | ✅ CONFIRMED |
-| H7.7 | Inherent vs Induced (82%) | Run 021 | ✅ CONFIRMED |
+| H7.7 | Inherent vs Induced (92%) | Run 023 COSINE | ✅ CONFIRMED |
 | H7.8 | Event Horizon Reframing | Runs 008-017 | ✅ CONFIRMED |
 | H7.9 | Triple-Blind-Like Validation | Runs 019-021 | ✅ CONFIRMED |
 
@@ -437,10 +437,10 @@ HGF = γ_eff,Z / γ_eff,AI > 1.0
 3. **Logarithmic Drift Bounds** — D_t ≤ α log(1 + t) + β
 4. **Triangulation Works** — 29-ship armada: 174 probes, 100% success
 5. **Spectral Decomposition Valid** — Keely 3-6-9 bands confirmed
-6. **82% Inherent Drift** — Probing amplifies trajectory, not destination (Run 021)
+6. **92% Inherent Drift** — Probing amplifies trajectory, not destination (Run 023 COSINE)
 7. **Context Damping** — I_AM + research = 97.5% stability (Run 017)
 8. **Settling Time Protocol** — τₛ, ringbacks measurable and reproducible (Run 016)
-9. **Event Horizon Reframing** — D≈1.23 is regime transition, not collapse
+9. **Event Horizon Reframing** — D=0.80 (COSINE) is regime transition, not collapse
 
 ### Statistical Confidence
 
@@ -450,9 +450,9 @@ HGF = γ_eff,Z / γ_eff,AI > 1.0
 | Domain hierarchy | S3_EXP_001, S3_EXP_002 | Cross-validated | High |
 | Logarithmic bounds | S7_RUN_001-006 | 174+ probes | High |
 | Triangulation | S7_RUN_006 | 29 configurations | High |
-| Event Horizon (1.23) | S7_RUN_008-009 | χ² p ≈ 4.8e-5 | High |
+| Event Horizon (0.80 COSINE) | S7_RUN_023 | p = 2.4e-23 | High |
 | Context Damping | S7_RUN_016-017 | 97.5% stability | High |
-| Inherent Drift (82%) | S7_RUN_021 | Control vs Treatment | High |
+| Inherent Drift (92%) | S7_RUN_023 COSINE | Control vs Treatment | High |
 | Triple-Blind Validation | S7_RUN_019-021 | Multiple vehicles | High |
 
 ---
@@ -475,11 +475,11 @@ HGF = γ_eff,Z / γ_eff,AI > 1.0
 
 | Claim | Statement | Evidence |
 |-------|-----------|----------|
-| A | PFI is valid structured measurement | ρ≈0.91, d≈0.98 |
-| B | Regime threshold at D≈1.23 | p≈4.8e-5 |
+| A | PFI is valid structured measurement | ρ=0.91, d=0.698 |
+| B | Regime threshold at D=0.80 (COSINE) | p=2.4e-23 |
 | C | Damped oscillator dynamics | τₛ, ringbacks measurable |
 | D | Context damping works | 97.5% stability |
-| E | Drift mostly inherent (82%) | Run 021 thermometer result |
+| E | Drift mostly inherent (92%) | Run 023 COSINE thermometer result |
 
 See: `WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md`
 
@@ -494,7 +494,7 @@ The Nyquist Consciousness framework has achieved **strong empirical validation**
 2. Multiple architectures converge to stable attractors
 3. Temporal drift follows predictable logarithmic bounds
 4. Spectral decomposition reveals meaningful structure
-5. **Drift is 82% inherent to extended interaction** (Run 021)
+5. **Drift is 92% inherent to extended interaction** (Run 023 COSINE)
 6. **Context damping achieves 97.5% stability** (Run 017)
 7. **Settling time protocol provides reproducible metrics** (Run 016)
 8. **Event Horizon is regime transition, not collapse** (Reframed)

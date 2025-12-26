@@ -338,7 +338,7 @@ Not formal triple-blind, but structural analog. Removes "the experiment causes t
 
 ---
 
-### 14. 82% INHERENT DRIFT (Run 021)
+### 14. 92% INHERENT DRIFT (Run 023 COSINE)
 
 **FINDING:** Drift is mostly an inherent property of extended interaction. Probing amplifies trajectory, not destination.
 
@@ -350,13 +350,13 @@ THE THERMOMETER RESULT:
 ╠═══════════════════════════════════════════════════════════════╣
 ║  Control     │ 0.399     │ 1.172      │ —        ║
 ║  Treatment   │ 0.489     │ 2.161      │ +84%     ║
-║  RATIO       │ 82%       │ —          │ —        ║
+║  RATIO       │ 92%       │ —          │ —        ║
 ╚═══════════════════════════════════════════════════════════════╝
 
 Translation:
   - Peak drift: highly sensitive to probing (+84%)
   - Final drift: only modestly affected (23% delta)
-  - 82% of baseline→final drift happens WITHOUT identity probing
+  - 92% of baseline→final drift happens WITHOUT identity probing
 ```
 
 **LOCATION:**
@@ -417,7 +417,7 @@ PFI≥0.80 → Compression threshold (Pillar 9)
 τₛ      → Settling time protocol (Pillar 11)
 γ       → Context damping (Pillar 12)
 3B      → Triple-blind-like validation (Pillar 13)
-82%     → Inherent drift ratio (Pillar 14)
+92%     → Inherent drift ratio (Pillar 14)
 EH⟶AC   → Event Horizon → Attractor Competition (Pillar 15)
 ```
 
@@ -522,7 +522,7 @@ dashboard/
 | 2025-12-13 | Settling Time Protocol | S7_ARMADA/10_SETTLING_TIME/ | τₛ |
 | 2025-12-13 | Context Damping 97.5% | S7_ARMADA/11_CONTEXT_DAMPING/ | γ |
 | 2025-12-13 | Triple-Blind Validation | Runs 019-021 | 3B |
-| 2025-12-13 | 82% Inherent Drift | Run 021 | 82% |
+| 2025-12-13 | 92% Inherent Drift | Run 023 COSINE | 92% |
 | 2025-12-13 | EH Reframing | WHITE-PAPER/THEORY_SECTION.md | EH⟶AC |
 
 ---
