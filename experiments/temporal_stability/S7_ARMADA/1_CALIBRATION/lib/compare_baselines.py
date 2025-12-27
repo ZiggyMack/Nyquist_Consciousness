@@ -23,8 +23,8 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# Output directory (lib/ -> 1_CALIBRATION/ -> S7_ARMADA/ -> 0_results/calibration/)
-CALIBRATION_DIR = Path(__file__).parent.parent.parent / "0_results" / "calibration"
+# Output directory (lib/ -> 1_CALIBRATION/ -> S7_ARMADA/ -> 14_CONSCIOUSNESS/results/)
+CALIBRATION_DIR = Path(__file__).parent.parent.parent / "14_CONSCIOUSNESS" / "results"
 
 # ARMADA_MAP location (lib/ -> 1_CALIBRATION/ -> S7_ARMADA/ -> temporal_stability/ -> experiments/ -> Nyquist_Consciousness/docs/maps/)
 REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent.parent
@@ -363,3 +363,13 @@ def main():
 
 if __name__ == "__main__":
     exit(main())
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 5_METHODOLOGY_DOMAINS.md: Methodology reference
+# - 0_RUN_METHODOLOGY.md: Baseline question definitions
+# - ARMADA_MAP.md: Auto-updated by update_armada_map()
+# =============================================================================

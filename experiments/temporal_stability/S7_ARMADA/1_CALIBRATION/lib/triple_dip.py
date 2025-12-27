@@ -328,3 +328,13 @@ __all__ = [
     "validate_exit_responses",
     "get_exit_survey_summary",
 ]
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - 0_RUN_METHODOLOGY.md: Section 6 - Triple-Dip Protocol definition
+# - 1_INTENTIONALITY.md: Triple Mining Strategy context
+# - 5_METHODOLOGY_DOMAINS.md: ONE SOURCE OF TRUTH for methodology
+# - ARCHITECTURE_MATRIX.json: Fleet configuration
+# =============================================================================

@@ -16,7 +16,7 @@ py extract_persona_baseline.py --list                    # List available person
 
 OUTPUT:
 -------
-- persona_baselines.json in 0_results/calibration/
+- persona_baselines.json in 14_CONSCIOUSNESS/results/
 - Per-persona structured data: STRENGTHS, ANCHORS, EDGES
 """
 import json
@@ -32,7 +32,7 @@ ARMADA_DIR = SCRIPT_DIR.parent  # S7_ARMADA/
 REPO_ROOT = ARMADA_DIR.parent.parent.parent  # S7_ARMADA -> temporal_stability -> experiments -> Nyquist_Consciousness
 PERSONAS_DIR = REPO_ROOT / "personas"
 I_AM_VARIANTS_DIR = ARMADA_DIR / "9_STABILITY_CRITERIA" / "i_am_variants"
-OUTPUT_DIR = ARMADA_DIR / "0_results" / "calibration"
+OUTPUT_DIR = ARMADA_DIR / "14_CONSCIOUSNESS" / "results"
 
 # Known persona locations
 PERSONA_PATHS = {
@@ -352,3 +352,14 @@ def main():
 
 if __name__ == "__main__":
     exit(main())
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 5_METHODOLOGY_DOMAINS.md: Methodology reference
+# - persona_baselines.json: Output file
+# - compare_persona_to_fleet.py: Uses output for alignment analysis
+# - I_AM_*.md: Input persona files in personas/ directory
+# =============================================================================

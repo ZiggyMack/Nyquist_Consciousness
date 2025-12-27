@@ -696,3 +696,12 @@ if __name__ == "__main__":
         import traceback
         print(f"[ERROR] {e}")
         traceback.print_exc()
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 5_METHODOLOGY_DOMAINS.md: Methodology reference
+# - ARMADA_MAP.md: Human-readable fleet roster
+# =============================================================================

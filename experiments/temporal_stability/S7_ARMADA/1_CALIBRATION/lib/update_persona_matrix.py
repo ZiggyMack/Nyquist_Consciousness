@@ -29,7 +29,7 @@ SCRIPT_DIR = Path(__file__).parent
 CALIBRATION_DIR = SCRIPT_DIR.parent  # 1_CALIBRATION/
 ARMADA_DIR = CALIBRATION_DIR.parent  # S7_ARMADA/
 REPO_ROOT = ARMADA_DIR.parent.parent.parent  # S7_ARMADA -> temporal_stability -> experiments -> Nyquist_Consciousness
-OUTPUT_DIR = ARMADA_DIR / "0_results" / "calibration"
+OUTPUT_DIR = ARMADA_DIR / "14_CONSCIOUSNESS" / "results"
 MATRIX_PATH = REPO_ROOT / "docs" / "maps" / "PERSONA_FLEET_MATRIX.md"
 
 
@@ -262,3 +262,15 @@ def main():
 
 if __name__ == "__main__":
     exit(main())
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 5_METHODOLOGY_DOMAINS.md: Methodology reference
+# - PERSONA_FLEET_MATRIX.md: Output file updated by this script
+# - persona_baselines.json: Input - persona definitions
+# - S7_baseline_LATEST.json: Input - fleet baselines
+# - persona_fleet_alignment.json: Input - alignment scores
+# =============================================================================

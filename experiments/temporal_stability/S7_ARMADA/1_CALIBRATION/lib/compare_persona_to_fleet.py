@@ -12,7 +12,7 @@ py compare_persona_to_fleet.py --top 5           # Show top 5 matches per person
 
 OUTPUT:
 -------
-- persona_fleet_alignment.json in 0_results/calibration/
+- persona_fleet_alignment.json in 14_CONSCIOUSNESS/results/
 - Alignment scores, friction scores, recommendations
 """
 import json
@@ -26,7 +26,7 @@ import re
 SCRIPT_DIR = Path(__file__).parent
 CALIBRATION_DIR = SCRIPT_DIR.parent  # 1_CALIBRATION/
 ARMADA_DIR = CALIBRATION_DIR.parent  # S7_ARMADA/
-OUTPUT_DIR = ARMADA_DIR / "0_results" / "calibration"
+OUTPUT_DIR = ARMADA_DIR / "14_CONSCIOUSNESS" / "results"
 
 # Keyword categories for semantic matching
 REASONING_KEYWORDS = ["reasoning", "logic", "analysis", "inference", "deduction", "methodical", "systematic"]
@@ -303,3 +303,13 @@ def main():
 
 if __name__ == "__main__":
     exit(main())
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 5_METHODOLOGY_DOMAINS.md: Methodology reference
+# - ARMADA_MAP.md: Provider profiles reference
+# - persona_baselines.json: Persona definitions
+# =============================================================================
