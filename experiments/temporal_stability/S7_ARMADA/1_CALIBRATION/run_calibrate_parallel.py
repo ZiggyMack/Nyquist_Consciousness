@@ -832,7 +832,7 @@ def run_full_armada_check(depth="baseline"):
     # Generate clean fleet for copy-paste
     if working:
         print("\n" + "=" * 70)
-        print("COPY THIS WORKING FLEET TO RUN 011:")
+        print("WORKING FLEET (for copy-paste to run scripts):")
         print("=" * 70)
         print("\nWORKING_FLEET = {")
         for ship in working:
@@ -1050,7 +1050,7 @@ def run_bandwidth_test():
 
     # Config snippet
     print("\n" + "-" * 70)
-    print("COPY TO RUN 011:")
+    print("MAX_WORKERS CONFIG (for copy-paste to run scripts):")
     print("-" * 70)
     print(f"""
 MAX_WORKERS = {{
