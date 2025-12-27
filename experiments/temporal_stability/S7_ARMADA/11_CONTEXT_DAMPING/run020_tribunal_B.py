@@ -1267,7 +1267,9 @@ def append_result(result: dict):
     data["results"].append(result)
 
     save_incremental(data)
-    update_status_summary(data)
+    # NOTE: Auto-update disabled to prevent erratic status file updates.
+    # Run manually: python -c "from run020_tribunal_B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
+    # update_status_summary(data)
 
     ship = result.get("ship", result.get("provider", "unknown"))
     arm = result.get("arm", "unknown")
