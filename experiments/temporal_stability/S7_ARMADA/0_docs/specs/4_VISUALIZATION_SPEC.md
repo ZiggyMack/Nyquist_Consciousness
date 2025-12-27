@@ -1078,6 +1078,108 @@ Before finalizing any visualization:
 
 ---
 
+## PITFALL #14: X-AXIS LABEL CROWDING WITH MANY CATEGORIES
+
+### The Problem
+
+When visualizing data across the full armada (35-50+ models), x-axis labels become an unreadable mess of overlapping text. This is especially common with bar charts showing per-model breakdowns.
+
+### Real Example: Oobleck Thermometer (Dec 2025)
+
+The thermometer visualization tried to show inherent vs induced drift for all 35+ ships:
+- Model names like `grok-4.1-fast-non-reasoning` are long
+- Breaking on hyphens (`m.replace('-', '\n')`) creates tall vertical labels
+- With 35 bars, labels overlap completely - rendering them useless
+
+### Wrong Pattern
+
+```python
+# WRONG: Full model names with line breaks - unreadable with >10 models
+display_labels = [m.replace('-', '\n') for m in models]
+ax.set_xticklabels(display_labels, rotation=0, ha='center', fontsize=9)
+```
+
+### Correct Pattern: Adaptive Labeling
+
+```python
+# RIGHT: Adapt strategy based on number of categories
+if len(models) > 10:
+    # Abbreviate model names for readability
+    def abbreviate_model(name):
+        abbrevs = [
+            ('claude-', 'c-'), ('anthropic-', 'a-'),
+            ('gemini-', 'gem-'), ('google-', 'g-'),
+            ('-mini', '-m'), ('-nano', '-n'),
+            ('-fast-', '-f-'), ('-reasoning', '-r'),
+            ('-non-reasoning', '-nr'), ('-distill', '-d'),
+            ('deepseek-', 'ds-'), ('mistral-', 'mis-'),
+            ('mixtral-', 'mix-'), ('llama', 'L'),
+            ('nemotron-', 'nem-'), ('grok-', 'grk-'),
+            ('kimi-', 'k-'),
+        ]
+        result = name
+        for old, new in abbrevs:
+            result = result.replace(old, new)
+        return result
+
+    display_labels = [abbreviate_model(m) for m in models]
+    ax.set_xticklabels(display_labels, rotation=45, ha='right', fontsize=7)
+else:
+    # Full names are fine with <10 models
+    display_labels = [m.replace('-', '\n') for m in models]
+    ax.set_xticklabels(display_labels, rotation=0, ha='center', fontsize=9)
+```
+
+### Alternative Strategies for Many Categories
+
+| Strategy | When to Use | Implementation |
+|----------|-------------|----------------|
+| **Abbreviate** | 10-30 models | Use abbreviation table + rotation |
+| **Index + Legend** | 30-50 models | Number labels, key in legend/annotation |
+| **Facet/Group** | 50+ models | Split by provider, show faceted subplots |
+| **Top-N only** | Huge datasets | Show only top/bottom N, aggregate rest |
+
+### Index + Legend Pattern (for 30+ categories)
+
+```python
+# When abbreviations still crowd, use indices
+if len(models) > 30:
+    # Use numeric indices on x-axis
+    ax.set_xticks(range(len(models)))
+    ax.set_xticklabels(range(1, len(models) + 1), fontsize=8)
+
+    # Create legend mapping in separate text box
+    legend_text = "\\n".join([f"{i+1}: {m}" for i, m in enumerate(models)])
+    fig.text(1.02, 0.5, legend_text, fontsize=6, fontfamily='monospace',
+             transform=ax.transAxes, va='center')
+```
+
+### Faceted Subplots Pattern (for provider grouping)
+
+```python
+# Group by provider and create subplots
+providers = sorted(set(get_provider(m) for m in models))
+fig, axes = plt.subplots(1, len(providers), figsize=(4*len(providers), 6), sharey=True)
+
+for ax, provider in zip(axes, providers):
+    provider_models = [m for m in models if get_provider(m) == provider]
+    # Plot only this provider's models - now manageable number per subplot
+    ax.bar(range(len(provider_models)), values_for_provider)
+    ax.set_title(provider.upper())
+```
+
+### Validation Checklist for Label Crowding
+
+Before finalizing any categorical visualization:
+
+- [ ] Count categories: If >10, abbreviation likely needed
+- [ ] Test at target resolution: Does it render clearly at intended DPI?
+- [ ] Check overlap: Can you read all labels without overlap?
+- [ ] Consider alternatives: Would faceting or aggregation be clearer?
+- [ ] Preserve readability: Abbreviations should still be recognizable
+
+---
+
 ## RELATED SPECS
 
 | Spec | Purpose |

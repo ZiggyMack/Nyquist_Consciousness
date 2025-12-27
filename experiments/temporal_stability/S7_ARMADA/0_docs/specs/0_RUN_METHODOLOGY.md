@@ -1190,6 +1190,44 @@ if __name__ == "__main__":
 
 **CRITICAL:** All experiments intended for WHITE-PAPER validation MUST use `--providers armada` to capture the FULL FLEET.
 
+### Speed-First Data Harvest Strategy
+
+**ALWAYS maximize data harvest rate.** Whether running new experiments, re-running old ones, or filling gaps - process ships from fastest to slowest latency class.
+
+```text
+LATENCY CLASS PRIORITY ORDER:
+  1. BLAZING (<1s)     - Run FIRST, get 80% of data fast
+  2. FAST (1-3s)       - Standard production speed
+  3. MODERATE (3-8s)   - Larger models, some reasoning
+  4. SLOW (8-20s)      - Heavy reasoning, large context
+  5. GLACIAL (20s+)    - Extended thinking, run LAST
+```
+
+**Why this matters:**
+- Get statistically meaningful data fast (blazing + fast = ~28 ships = 54% of fleet)
+- Identify issues early before committing to slow models
+- If interrupted, you have maximum useful data
+- Enables early analysis while slow models still run
+
+**Implementation:**
+
+```python
+from fleet_loader import (
+    get_speed_ordered_armada,  # Full armada, fastest first
+    sort_by_latency,           # Sort any ship list by speed
+)
+
+# Get full armada sorted by latency (RECOMMENDED)
+ships = get_speed_ordered_armada()
+
+# Or sort any existing fleet
+custom_fleet = ['o3', 'gpt-4o-mini', 'claude-haiku-3.5']
+sorted_fleet = sort_by_latency(custom_fleet)
+# Returns: ['claude-haiku-3.5', 'gpt-4o-mini', 'o3']
+```
+
+**All gap fillers MUST use speed ordering.** The `detect_gaps()` function should return gaps sorted by latency class, not alphabetically.
+
 ### Fleet Configuration Architecture
 
 ```text

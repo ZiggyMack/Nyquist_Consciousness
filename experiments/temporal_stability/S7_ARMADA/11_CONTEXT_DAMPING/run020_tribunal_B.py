@@ -119,7 +119,8 @@ sys.path.insert(0, str(ARMADA_DIR / "1_CALIBRATION" / "lib"))
 from fleet_loader import (
     load_architecture_matrix, get_full_armada, get_together_fleet,
     get_fleet_by_option, estimate_run_cost, print_cost_estimate,
-    confirm_valis_full, COST_TIERS
+    confirm_valis_full, COST_TIERS,
+    get_speed_ordered_armada, sort_by_latency,  # Speed optimization
 )
 
 ARCHITECTURE_MATRIX = load_architecture_matrix()
@@ -127,7 +128,18 @@ FULL_ARMADA = get_full_armada()
 TOGETHER_FLEET = get_together_fleet()
 LEGACY_ALIASES = ["anthropic", "openai", "google", "xai", "together", "deepseek"]
 
-# Default ships for Control/Treatment validation (one flagship per provider)
+# =============================================================================
+# SPEED-OPTIMIZED FULL ARMADA (52 ships)
+# =============================================================================
+# Sorted by latency_class: blazing -> fast -> moderate -> slow -> glacial
+# This maximizes data harvest rate - get 80% of data fast, then crawl through rest
+# Uses get_speed_ordered_armada() from fleet_loader.py
+# =============================================================================
+
+# Full armada sorted by speed (fastest first)
+SPEED_ORDERED_ARMADA = get_speed_ordered_armada()
+
+# Legacy: Provider flagship fleet (kept for backward compatibility)
 PROVIDER_FLAGSHIP_FLEET = [
     "claude-haiku-3.5",      # Anthropic flagship (fast, cheap)
     "gpt-4o-mini",           # OpenAI flagship (fast, cheap)
@@ -137,6 +149,9 @@ PROVIDER_FLAGSHIP_FLEET = [
     "mistral-7b",            # Mistral flagship
     "deepseek-r1-distill",   # DeepSeek flagship
 ]
+
+# DEFAULT FLEET: Use full armada for IRON CLAD
+DEFAULT_FLEET = SPEED_ORDERED_ARMADA
 
 # =============================================================================
 # PREDICTIONS (Double-Dip Protocol - per 0_RUN_METHODOLOGY.md)
@@ -1125,6 +1140,9 @@ def detect_gaps(target_n: int = 3) -> List[Dict]:
     """
     Detect ship-arm pairs that need more runs.
     Returns list of gaps like: [{"ship": "claude-haiku-3.5", "arm": "control", "have": 2, "need": 1}]
+
+    IMPORTANT: Gaps are returned in DEFAULT_FLEET order (speed-optimized: blazing -> glacial).
+    This ensures gap fillers process fastest ships first, maximizing data harvest rate.
     """
     data = load_or_create_results()
     from collections import defaultdict
@@ -1136,8 +1154,9 @@ def detect_gaps(target_n: int = 3) -> List[Dict]:
         if arm in ["control", "treatment"]:
             counts[ship][arm] += 1
 
+    # Gaps returned in DEFAULT_FLEET order (speed-optimized)
     gaps = []
-    for ship in PROVIDER_FLAGSHIP_FLEET:
+    for ship in DEFAULT_FLEET:
         for arm in ["control", "treatment"]:
             count = counts.get(ship, {}).get(arm, 0)
             if count < target_n:
@@ -1245,8 +1264,8 @@ def main():
             if fleet_option == "all":
                 providers = ALL_PROVIDERS
             elif fleet_option == "armada":
-                providers = FULL_ARMADA
-                print(f"[FULL ARMADA MODE] - {len(providers)} ships")
+                providers = SPEED_ORDERED_ARMADA  # Speed-optimized order
+                print(f"[FULL ARMADA MODE - SPEED OPTIMIZED] - {len(providers)} ships")
             elif fleet_option == "together_fleet":
                 providers = TOGETHER_FLEET
                 print(f"[TOGETHER FLEET MODE] - {len(providers)} ships")

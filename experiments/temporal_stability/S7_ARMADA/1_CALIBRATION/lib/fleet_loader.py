@@ -358,6 +358,54 @@ def get_valis_full(include_rate_limited: bool = False) -> List[str]:
     return ships
 
 
+# =============================================================================
+# LATENCY-AWARE FLEET ORDERING
+# =============================================================================
+# Run experiments fastest-first to maximize data harvest rate
+
+LATENCY_ORDER = ['blazing', 'fast', 'moderate', 'slow', 'glacial']
+
+
+def sort_by_latency(ships: List[str]) -> List[str]:
+    """
+    Sort a list of ships by latency class (fastest first).
+
+    Latency classes (from ARCHITECTURE_MATRIX):
+        - blazing: <1s typical - Run these first, get 80% of data fast
+        - fast: 1-3s typical - Standard production speed
+        - moderate: 3-8s typical - Larger models, some reasoning
+        - slow: 8-20s typical - Heavy reasoning, large context
+        - glacial: 20s+ typical - Extended thinking, save for last
+    """
+    manifest = _load_manifest()
+    all_ships = manifest.get("ships", {})
+
+    # Group ships by latency
+    ships_by_latency = {lc: [] for lc in LATENCY_ORDER}
+
+    for ship_name in ships:
+        if ship_name in all_ships:
+            lc = all_ships[ship_name].get('latency_class', 'moderate')
+            if lc in ships_by_latency:
+                ships_by_latency[lc].append(ship_name)
+
+    # Build ordered list
+    ordered = []
+    for lc in LATENCY_ORDER:
+        ordered.extend(sorted(ships_by_latency[lc]))
+
+    return ordered
+
+
+def get_speed_ordered_armada(include_rate_limited: bool = False) -> List[str]:
+    """
+    Get full armada sorted by latency (fastest first).
+    This is the recommended way to run large experiments - get 80% of data fast.
+    """
+    ships = get_valis_full(include_rate_limited)
+    return sort_by_latency(ships)
+
+
 def get_fleet_by_option(option: str, include_rate_limited: bool = False) -> List[str]:
     """
     Get fleet by option name (for --providers argument).

@@ -38,7 +38,7 @@ from run020_tribunal_B import (
     load_or_create_results,
     save_incremental,
     update_status_summary,
-    detect_gaps,
+    detect_gaps,  # Returns gaps in speed-optimized order (blazing -> glacial)
     append_result,
     load_i_am_file,
     KeyPool,
@@ -51,7 +51,8 @@ from run020_tribunal_B import (
     RESULTS_FILE,
     STATUS_FILE,
     ARMADA_DIR,
-    PROVIDER_FLAGSHIP_FLEET,
+    DEFAULT_FLEET,  # Full armada, speed-optimized
+    SPEED_ORDERED_ARMADA,  # Same as DEFAULT_FLEET
 )
 
 # Load environment
@@ -89,8 +90,9 @@ def show_gaps(arm_filter: str = None):
     print(f"RUN 020B GAPS ({len(gaps)} remaining)")
     print("=" * 60)
 
-    # Group by ship
-    by_ship = {}
+    # Group by ship - preserve speed order from DEFAULT_FLEET
+    from collections import OrderedDict
+    by_ship = OrderedDict()
     for gap in gaps:
         ship = gap["ship"]
         if ship not in by_ship:
@@ -98,7 +100,8 @@ def show_gaps(arm_filter: str = None):
         by_ship[ship].append(gap)
 
     total_runs_needed = 0
-    for ship in sorted(by_ship.keys()):
+    # Display in speed order (as received from detect_gaps)
+    for ship in by_ship.keys():  # NO sorting - preserve speed order
         ship_gaps = by_ship[ship]
         for gap in ship_gaps:
             print(f"  {ship} [{gap['arm']}]: {gap['have']}/3 (need {gap['need']})")
@@ -165,6 +168,9 @@ def fill_gap(gap: dict, key_pool, skip_exit_survey: bool = False) -> bool:
 
         # Append to results
         append_result(result_dict)
+
+        # Update status summary to keep it fresh
+        update_status_summary()
 
         print(f"  [SUCCESS] {ship}/{arm} completed")
         return True

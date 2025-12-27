@@ -294,7 +294,11 @@
       "Bash(git commit -m \"$\\(cat <<''EOF''\nUpdate WHITE-PAPER files to IRON CLAD COSINE methodology\n\n- Fix 82% → 92% inherent drift ratio throughout\n- Fix Cohen''s d = 0.98/0.977 → 0.698 \\(correct model-level value\\)\n- Fix Event Horizon D = 1.23 → D = 0.80 \\(COSINE primary\\)\n- Fix 825/51/6 → 750/25/5 \\(experiments/models/providers\\)\n- Fix 43 PCs → 2 PCs for 90% variance\n- Update Run 023 IRON CLAD status across all reviewer docs\n- Delete outdated 2025-12-15 data quality validation request\n- Add Run 020B experimental data and temporal logs\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(python extract_review_package.py:*)",
       "Bash(for:*)",
-      "Bash(do cp \"$f\" \"d:/Documents/Nyquist_Consciousness/WHITE-PAPER/reviewers/packages/v3/visualization_pdfs/\")"
+      "Bash(do cp \"$f\" \"d:/Documents/Nyquist_Consciousness/WHITE-PAPER/reviewers/packages/v3/visualization_pdfs/\")",
+      "Bash(tasklist /FI \"WINDOWTITLE eq *run020b*\")",
+      "Bash(wmic process where \"name=''python.exe''\" get processid,commandline)",
+      "Bash(powershell -Command \"Get-Process python* -ErrorAction SilentlyContinue | Select-Object Id, ProcessName | Format-Table -AutoSize\")",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nRun 020B: Clean corrupted data, fix viz labels, auto-update status\n\n- Remove 72 corrupted sessions from 020B data \\(baseline capture errors\\)\n- Clean data: 86 valid sessions across 49 ships\n- Fix x-axis label crowding \\(Pitfall #14\\) in thermometer & per-model viz\n- Fix cross-platform summary to show aggregate for 020A \\(no provider attribution\\)\n- Gap filler now auto-updates STATUS_SUMMARY after each session\n- Regenerate all Oobleck Effect visualizations with clean data\n- Update legal correspondence docs\n\nIRON CLAD status: 5 ships complete \\(gpt-5-mini, gpt-5.1, o3-mini, \nclaude-haiku-3.5, gemini-2.0-flash\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ],
     "deny": [],
     "ask": []

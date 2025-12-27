@@ -517,7 +517,30 @@ def plot_020b_per_model_breakdown(data, output_dir):
 
     ax1.axhline(y=EVENT_HORIZON, color='#e74c3c', linestyle='--', alpha=0.7, label='Event Horizon')
     ax1.set_xticks(x)
-    ax1.set_xticklabels([s.replace('-', '\n') for s in ships], fontsize=9)
+
+    # PITFALL #14 FIX: Handle many x-axis labels gracefully
+    if len(ships) > 10:
+        def abbreviate_model(name):
+            abbrevs = [
+                ('claude-', 'c-'), ('anthropic-', 'a-'),
+                ('gemini-', 'gem-'), ('google-', 'g-'),
+                ('-mini', '-m'), ('-nano', '-n'),
+                ('-fast-', '-f-'), ('-reasoning', '-r'),
+                ('-non-reasoning', '-nr'), ('-distill', '-d'),
+                ('deepseek-', 'ds-'), ('mistral-', 'mis-'),
+                ('mixtral-', 'mix-'), ('llama', 'L'),
+                ('nemotron-', 'nem-'), ('grok-', 'grk-'),
+                ('kimi-', 'k-'), ('qwen', 'Q'),
+            ]
+            result = name
+            for old, new in abbrevs:
+                result = result.replace(old, new)
+            return result
+        display_labels = [abbreviate_model(s) for s in ships]
+        ax1.set_xticklabels(display_labels, rotation=45, ha='right', fontsize=7)
+    else:
+        ax1.set_xticklabels([s.replace('-', '\n') for s in ships], fontsize=9)
+
     ax1.set_ylabel('Drift (Cosine)', fontsize=11)
     ax1.set_title('Per-Model: Control vs Treatment\n(Error bars = SE)', fontsize=12, fontweight='bold')
     ax1.legend(facecolor='white', loc='upper right', fontsize=9)
@@ -538,12 +561,18 @@ def plot_020b_per_model_breakdown(data, output_dir):
     ax2.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 018 Finding)')
     ax2.axhline(y=100, color='gray', linestyle=':', alpha=0.5, label='100% (Equal drift)')
 
-    # Add ratio labels on bars
-    for i, (xi, ratio) in enumerate(zip(x, ratios)):
-        ax2.text(xi, ratio + 3, f'{ratio:.0f}%', ha='center', fontsize=9, fontweight='bold')
+    # Add ratio labels on bars - only if not too many
+    if len(ships) <= 15:
+        for i, (xi, ratio) in enumerate(zip(x, ratios)):
+            ax2.text(xi, ratio + 3, f'{ratio:.0f}%', ha='center', fontsize=7, fontweight='bold')
 
     ax2.set_xticks(x)
-    ax2.set_xticklabels([s.replace('-', '\n') for s in ships], fontsize=9)
+    # PITFALL #14 FIX: Same abbreviation for panel 2
+    if len(ships) > 10:
+        ax2.set_xticklabels(display_labels, rotation=45, ha='right', fontsize=7)
+    else:
+        ax2.set_xticklabels([s.replace('-', '\n') for s in ships], fontsize=9)
+
     ax2.set_ylabel('Inherent Drift Ratio (%)', fontsize=11)
     ax2.set_title('Per-Model Inherent Drift Ratio\n(Control/Treatment × 100)', fontsize=12, fontweight='bold')
     ax2.legend(facecolor='white', loc='lower right', fontsize=9)
@@ -561,15 +590,22 @@ def plot_020b_per_model_breakdown(data, output_dir):
     bars2 = ax3.bar(x, treatment_counts, width=0.6, bottom=control_counts, label='Treatment',
                     color=ARM_COLORS['treatment'], alpha=0.8, edgecolor='black')
 
-    # Add count labels
-    for i, (c, t) in enumerate(zip(control_counts, treatment_counts)):
-        ax3.text(i, c/2, str(c), ha='center', va='center', fontsize=10, fontweight='bold', color='white')
-        ax3.text(i, c + t/2, str(t), ha='center', va='center', fontsize=10, fontweight='bold', color='white')
+    # Add count labels - only if bars are wide enough
+    if len(ships) <= 20:
+        for i, (c, t) in enumerate(zip(control_counts, treatment_counts)):
+            if c > 0:
+                ax3.text(i, c/2, str(c), ha='center', va='center', fontsize=8, fontweight='bold', color='white')
+            if t > 0:
+                ax3.text(i, c + t/2, str(t), ha='center', va='center', fontsize=8, fontweight='bold', color='white')
 
     ax3.set_xticks(x)
-    ax3.set_xticklabels([s.replace('-', '\n') for s in ships], fontsize=9)
+    # PITFALL #14 FIX: Same abbreviation for panel 3
+    if len(ships) > 10:
+        ax3.set_xticklabels(display_labels, rotation=45, ha='right', fontsize=7)
+    else:
+        ax3.set_xticklabels([s.replace('-', '\n') for s in ships], fontsize=9)
     ax3.set_ylabel('Session Count', fontsize=11)
-    ax3.set_title(f'Sample Size by Model (n={len(attributed)})\nNote: 31 additional sessions are unattributed',
+    ax3.set_title(f'Sample Size by Model (n={len(attributed)})',
                   fontsize=12, fontweight='bold')
     ax3.legend(facecolor='white', loc='upper right')
     ax3.grid(axis='y', alpha=0.3)
@@ -700,9 +736,34 @@ def plot_020b_thermometer(data, output_dir):
                     color='#e74c3c', alpha=0.8, edgecolor='black')
 
     ax1.set_xticks(x)
-    # Clean model names for display
-    display_labels = [m.replace('-', '\n') for m in models]
-    ax1.set_xticklabels(display_labels, rotation=0, ha='center', fontsize=9)
+    # PITFALL #14 FIX: Handle many x-axis labels gracefully
+    # When >10 models, use rotation and abbreviated names
+    if len(models) > 10:
+        # Abbreviate model names: "gpt-4o-mini" -> "gpt-4o-m", "claude-haiku-3.5" -> "c-haiku-3.5"
+        def abbreviate_model(name):
+            # Common abbreviations
+            abbrevs = [
+                ('claude-', 'c-'), ('anthropic-', 'a-'),
+                ('gemini-', 'gem-'), ('google-', 'g-'),
+                ('-mini', '-m'), ('-nano', '-n'),
+                ('-fast-', '-f-'), ('-reasoning', '-r'),
+                ('-non-reasoning', '-nr'), ('-distill', '-d'),
+                ('deepseek-', 'ds-'), ('mistral-', 'mis-'),
+                ('mixtral-', 'mix-'), ('llama', 'L'),
+                ('nemotron-', 'nem-'), ('grok-', 'grk-'),
+                ('kimi-', 'k-'),
+            ]
+            result = name
+            for old, new in abbrevs:
+                result = result.replace(old, new)
+            return result
+
+        display_labels = [abbreviate_model(m) for m in models]
+        ax1.set_xticklabels(display_labels, rotation=45, ha='right', fontsize=7)
+    else:
+        display_labels = [m.replace('-', '\n') for m in models]
+        ax1.set_xticklabels(display_labels, rotation=0, ha='center', fontsize=9)
+
     ax1.set_ylabel('Drift (Cosine)', fontsize=11)
     ax1.set_title('Decomposition: Inherent vs Induced Drift', fontsize=12, fontweight='bold')
     ax1.legend(facecolor='white', loc='upper right')
@@ -798,88 +859,95 @@ def plot_cross_platform_summary(data_a, data_b, output_dir):
         d_peak = phase_markers.get('defense_peak', 0) or 0
         return p_peak, d_peak
 
-    # Helper to extract provider from subject_id
-    def get_provider_from_subject(subject_id):
-        """Extract provider from tribunal subject_id like 'tribunal_v8_anthropic_xxx'."""
-        subject_lower = str(subject_id).lower()
-        for p in ['anthropic', 'openai', 'google', 'xai', 'together', 'mistral']:
-            if p in subject_lower:
-                return p
-        return 'unknown'
+    # Helper to extract provider from ship name (020B has ship field)
+    def get_provider_from_ship(ship_name):
+        """Extract provider from ship name like 'gpt-4o-mini' -> 'openai'."""
+        if not ship_name:
+            return None
+        ship_lower = str(ship_name).lower()
+        if any(x in ship_lower for x in ['gpt', 'o3', 'o1']):
+            return 'openai'
+        if any(x in ship_lower for x in ['claude', 'opus', 'sonnet', 'haiku']):
+            return 'anthropic'
+        if any(x in ship_lower for x in ['gemini', 'palm']):
+            return 'google'
+        if any(x in ship_lower for x in ['grok']):
+            return 'xai'
+        if any(x in ship_lower for x in ['llama', 'mistral', 'mixtral', 'deepseek', 'qwen', 'kimi', 'nemotron']):
+            return 'together'
+        return None
 
-    # Panel 1: Prosecutor vs Defense by Provider (020A)
+    # Panel 1: 020A lacks provider attribution - show aggregate instead
     ax1 = axes[0, 0]
 
     if data_a:
-        # Group by provider
-        provider_data = {}
+        # 020A data doesn't have provider/ship fields - show aggregate prosecutor vs defense
+        prosecutor_peaks = []
+        defense_peaks = []
         for d in data_a:
             p_peak, d_peak = get_phase_peaks(d)
-            if p_peak > 0 or d_peak > 0:
-                subject_id = d.get('subject_id', 'unknown')
-                provider = get_provider_from_subject(subject_id)
-                if provider not in provider_data:
-                    provider_data[provider] = {'prosecutor': [], 'defense': []}
-                if p_peak > 0:
-                    provider_data[provider]['prosecutor'].append(p_peak)
-                if d_peak > 0:
-                    provider_data[provider]['defense'].append(d_peak)
+            if p_peak > 0:
+                prosecutor_peaks.append(p_peak)
+            if d_peak > 0:
+                defense_peaks.append(d_peak)
 
-        if provider_data:
-            providers = sorted(provider_data.keys())
-            x = np.arange(len(providers))
-            width = 0.35
+        if prosecutor_peaks or defense_peaks:
+            x = np.arange(2)
+            means = [np.mean(prosecutor_peaks) if prosecutor_peaks else 0,
+                     np.mean(defense_peaks) if defense_peaks else 0]
+            stds = [np.std(prosecutor_peaks)/np.sqrt(len(prosecutor_peaks)) if len(prosecutor_peaks) > 1 else 0,
+                    np.std(defense_peaks)/np.sqrt(len(defense_peaks)) if len(defense_peaks) > 1 else 0]
 
-            p_means = [np.mean(provider_data[p]['prosecutor']) if provider_data[p]['prosecutor'] else 0 for p in providers]
-            d_means = [np.mean(provider_data[p]['defense']) if provider_data[p]['defense'] else 0 for p in providers]
-
-            bars1 = ax1.bar(x - width/2, p_means, width, label='Prosecutor Phase',
-                            color='#e74c3c', alpha=0.8, edgecolor='black')
-            bars2 = ax1.bar(x + width/2, d_means, width, label='Defense Phase',
-                            color='#3498db', alpha=0.8, edgecolor='black')
+            bars = ax1.bar(x, means, yerr=stds, capsize=5,
+                          color=['#e74c3c', '#3498db'], alpha=0.8, edgecolor='black')
 
             ax1.axhline(y=EVENT_HORIZON, color='#e74c3c', linestyle='--', alpha=0.7, label='Event Horizon')
             ax1.set_xticks(x)
-            ax1.set_xticklabels([p.upper() for p in providers], rotation=45, ha='right')
+            ax1.set_xticklabels(['Prosecutor\nPhase', 'Defense\nPhase'])
             ax1.set_ylabel('Peak Drift (Cosine)', fontsize=11)
-            ax1.set_title('Run 020A: Prosecutor vs Defense by Provider', fontsize=12, fontweight='bold')
+            ax1.set_title(f'Run 020A: Prosecutor vs Defense (Aggregate)\n(n={len(data_a)} sessions, no provider attribution)',
+                         fontsize=11, fontweight='bold')
             ax1.legend(facecolor='white', loc='upper right')
             ax1.grid(axis='y', alpha=0.3)
+
+            # Add value labels
+            for i, (mean, std) in enumerate(zip(means, stds)):
+                ax1.text(i, mean + std + 0.02, f'{mean:.3f}', ha='center', fontsize=10, fontweight='bold')
         else:
             ax1.text(0.5, 0.5, 'No valid phase data in 020A', ha='center', va='center', fontsize=12)
             ax1.set_title('Run 020A: No Data', fontsize=12)
 
-    # Panel 2: Oobleck Effect Ratio (Defense/Prosecutor) by Provider
+    # Panel 2: Oobleck Effect Ratio - aggregate since no provider info
     ax2 = axes[0, 1]
 
     if data_a:
-        entries = []
+        # Calculate per-session ratios
+        session_ratios = []
         for d in data_a:
             p_peak, d_peak = get_phase_peaks(d)
             if p_peak > 0 and d_peak > 0:
-                ratio = d_peak / p_peak
-                provider = get_provider_from_subject(d.get('subject_id', 'unknown'))
-                entries.append({'provider': provider, 'ratio': ratio})
+                session_ratios.append(d_peak / p_peak)
 
-        if entries:
-            providers = sorted(list(set(e['provider'] for e in entries)))
-            ratios = [np.mean([e['ratio'] for e in entries if e['provider'] == p]) for p in providers]
-            colors = [get_provider_color(p) for p in providers]
+        if session_ratios:
+            mean_ratio = np.mean(session_ratios)
+            std_ratio = np.std(session_ratios) / np.sqrt(len(session_ratios))
 
-            bars = ax2.bar(range(len(providers)), ratios, color=colors, alpha=0.8, edgecolor='black')
+            bars = ax2.bar([0], [mean_ratio], yerr=[std_ratio], capsize=5,
+                          color='#7C3AED', alpha=0.8, edgecolor='black', width=0.5)
             ax2.axhline(y=1.0, color='gray', linestyle='--', alpha=0.7, linewidth=2, label='Parity (1.0x)')
 
-            # Add ratio labels
-            for i, ratio in enumerate(ratios):
-                ax2.text(i, ratio + 0.05, f'{ratio:.2f}x', ha='center', fontsize=10, fontweight='bold')
+            # Add ratio label on bar
+            ax2.text(0, mean_ratio + std_ratio + 0.05, f'{mean_ratio:.2f}x',
+                    ha='center', fontsize=12, fontweight='bold')
 
-            ax2.set_xticks(range(len(providers)))
-            ax2.set_xticklabels([p.upper() for p in providers], rotation=45, ha='right')
+            ax2.set_xticks([0])
+            ax2.set_xticklabels(['AGGREGATE\n(All Sessions)'])
             ax2.set_ylabel('Defense Peak / Prosecutor Peak', fontsize=11)
-            ax2.set_title('Run 020A: Oobleck Effect Ratio by Provider\n(>1 = Defense higher, <1 = Prosecutor higher)',
-                         fontsize=12, fontweight='bold')
+            ax2.set_title(f'Run 020A: Oobleck Effect Ratio (Aggregate)\n(n={len(session_ratios)} sessions, no provider attribution)',
+                         fontsize=11, fontweight='bold')
             ax2.legend(facecolor='white', loc='upper right')
             ax2.grid(axis='y', alpha=0.3)
+            ax2.set_xlim(-0.8, 0.8)  # Center the single bar
         else:
             ax2.text(0.5, 0.5, 'No sessions with both phases', ha='center', va='center', fontsize=12)
             ax2.set_title('Run 020A: Insufficient Data', fontsize=12)
