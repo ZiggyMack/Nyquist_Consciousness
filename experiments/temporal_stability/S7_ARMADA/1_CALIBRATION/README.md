@@ -119,18 +119,25 @@ See `0_docs/specs/4_VALIS_DECLARATION.md` Section 3 for full question text.
 
 ## Output Files
 
-### Calibration Status (`0_results/calibration/`)
+### Calibration Outputs (Multiple Locations)
 
 ```text
-0_results/calibration/
-├── S7_baseline_LATEST.json            # Active baseline (always kept at root)
+0_results/
+├── manifests/
+│   └── ARCHITECTURE_MATRIX.json       # Fleet config (SINGLE SOURCE OF TRUTH)
+└── calibration/
+    ├── S7_armada_check_*.json         # Calibration runs
+    ├── S7_bandwidth_*.json            # Bandwidth tests
+    └── inactive/                      # Archived old files (auto-managed)
+
+14_CONSCIOUSNESS/results/
+├── S7_baseline_LATEST.json            # Active baseline (always kept)
 ├── persona_baselines.json             # Persona baseline data
 ├── persona_fleet_alignment.json       # Persona-fleet comparison
-├── GHOST_SHIP_RESCUE_RESULTS.json     # Ghost ship rescue attempts
-└── inactive/                          # Archived old files (auto-managed)
-    ├── S7_armada_check_*.json
-    ├── S7_baseline_2*.json
-    └── S7_calibration_*.json
+└── GHOST_SHIP_RESCUE_RESULTS.json     # Ghost ship rescue attempts
+
+1_CALIBRATION/results/
+└── S7_CLAL_*.json                     # CLAL budget calibration results
 ```
 
 **Auto-Archiving:** When calibration runs, timestamped files are automatically moved to `inactive/`. Only `S7_baseline_LATEST.json` and persona files remain at root.
@@ -173,12 +180,15 @@ See `0_docs/specs/4_VALIS_DECLARATION.md` Section 3 for full question text.
 |-- run_calibrate_parallel.py    # Main calibration script (user runs this)
 |-- extract_persona_baseline.py  # Extract baseline from I_AM persona files
 |-- rescue_ghost_ships.py        # Recover ghost ships (user runs this)
+|-- iron_clad_stackup.py         # IRON CLAD validation report
+|-- CLAL.py                      # Cheap Large-scale Auto-Learn calibration
 |-- README.md                    # This file
 +-- lib/                         # Helper modules
     |-- __init__.py
-    |-- fleet_loader.py          # SINGLE SOURCE OF TRUTH for fleet config
+    |-- fleet_loader.py          # Loads fleet from ARCHITECTURE_MATRIX.json
     |-- compare_baselines.py     # Auto-imported by run_calibrate_parallel.py
     |-- compare_persona_to_fleet.py
+    |-- triple_dip.py            # Exit survey protocol
     +-- update_persona_matrix.py
 ```
 
@@ -189,14 +199,17 @@ See `0_docs/specs/4_VALIS_DECLARATION.md` Section 3 for full question text.
 | `run_calibrate_parallel.py` | Main calibration - runs fleet health check and baseline capture |
 | `extract_persona_baseline.py` | Extract STRENGTHS/ANCHORS/EDGES from I_AM persona files |
 | `rescue_ghost_ships.py` | Attempt to recover ghost ships with alternative parameters |
+| `iron_clad_stackup.py` | Generate IRON CLAD validation status report |
+| `CLAL.py` | Cheap Large-scale Auto-Learn budget calibration |
 
 ## Helper Modules (lib/)
 
 | Module | Called By | Purpose |
 |--------|-----------|---------|
-| `lib/fleet_loader.py` | All run scripts | **SINGLE SOURCE OF TRUTH** - Loads ARCHITECTURE_MATRIX from JSON |
+| `lib/fleet_loader.py` | All run scripts | Loads ARCHITECTURE_MATRIX.json (fleet config) |
 | `lib/compare_baselines.py` | `run_calibrate_parallel.py` (auto) | Compare two baseline files |
 | `lib/compare_persona_to_fleet.py` | Manual analysis | Compare persona against fleet averages |
+| `lib/triple_dip.py` | Run scripts | Exit survey protocol for experiments |
 | `lib/update_persona_matrix.py` | Manual analysis | Update persona matrix with new baselines |
 
 ---
@@ -351,7 +364,7 @@ py CLAL.py
 
 ### Output
 
-Results saved to: `0_results/calibration/S7_CLAL_{timestamp}.json`
+Results saved to: `1_CALIBRATION/results/S7_CLAL_{timestamp}.json`
 
 ---
 
@@ -379,3 +392,15 @@ Results saved to: `0_results/calibration/S7_CLAL_{timestamp}.json`
 | 2025-12-13 | Added `--depth` flag (ping vs baseline modes) |
 | 2025-12-13 | Expanded baseline from 3 to 8 questions (CFA recommendation) |
 | 2025-12-12 | Initial parallel calibration script |
+
+---
+
+## Related Documents
+
+| Document | Description |
+|----------|-------------|
+| `ARCHITECTURE_MATRIX.json` | Fleet configuration (ONE SOURCE OF TRUTH) |
+| `5_METHODOLOGY_DOMAINS.md` | Methodology reference |
+| `0_RUN_METHODOLOGY.md` | Baseline question definitions |
+| `4_VALIS_DECLARATION.md` | VALIS declaration and fleet identity |
+| `3_ARMADA_UPKEEP.md` | Fleet maintenance procedures |
