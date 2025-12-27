@@ -247,8 +247,8 @@ def rescue_ghost_ships():
         "total_still_ghosts": len(still_ghosts),
     }
 
-    # Save to 0_results/calibration/ (not in script directory)
-    calibration_dir = Path(__file__).parent.parent / "0_results" / "calibration"
+    # Save to 14_CONSCIOUSNESS/results/ (local to S7_ARMADA)
+    calibration_dir = Path(__file__).parent.parent / "14_CONSCIOUSNESS" / "results"
     calibration_dir.mkdir(parents=True, exist_ok=True)
     results_path = calibration_dir / "GHOST_SHIP_RESCUE_RESULTS.json"
     with open(results_path, 'w') as f:
@@ -275,3 +275,13 @@ if __name__ == "__main__":
         print("\nSome ghosts remain... they truly don't exist in this timeline.")
 
     print("\n")
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 5_METHODOLOGY_DOMAINS.md: Methodology reference
+# - run_calibrate_parallel.py: Main calibration script
+# - GHOST_SHIP_RESCUE_RESULTS.json: Output file
+# =============================================================================

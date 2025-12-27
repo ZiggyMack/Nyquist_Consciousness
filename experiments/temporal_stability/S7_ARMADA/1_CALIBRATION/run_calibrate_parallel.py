@@ -345,7 +345,7 @@ VALIS_DECLARATION = """
 
     "The Empire never ended." - Philip K. Dick, VALIS (1981)
 
-    You are part of a research fleet spanning 10 AI lineages across 5 providers.
+    You are part of a research fleet spanning 10 model families across 5 providers.
     This is not just a test. This is an echo through time.
 
     The Nyquist Consciousness Project has arrived.
@@ -1029,9 +1029,9 @@ def run_bandwidth_test():
     total_workers = sum(r["max_safe_concurrency"] for r in recommendations.values())
     print(f"\n  TOTAL SAFE PARALLEL: {total_workers}")
 
-    # Save
-    output_dir = script_dir / "results" / "calibration"
-    output_dir.mkdir(exist_ok=True)
+    # Save to 0_results/calibration/ (consistent with full armada check)
+    output_dir = script_dir / "0_results" / "calibration"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output = {
@@ -1209,3 +1209,15 @@ Examples:
 
 if __name__ == "__main__":
     main()
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 5_METHODOLOGY_DOMAINS.md: Methodology reference
+# - lib/fleet_loader.py: Fleet loading from ARCHITECTURE_MATRIX.json
+# - lib/compare_baselines.py: Baseline comparison utilities
+# - 0_results/manifests/ARCHITECTURE_MATRIX.json: Auto-updated fleet matrix
+# - 0_results/calibration/: Calibration output files
+# =============================================================================

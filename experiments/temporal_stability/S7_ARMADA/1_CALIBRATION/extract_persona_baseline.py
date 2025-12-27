@@ -43,6 +43,8 @@ PERSONA_PATHS = {
     "cfa": PERSONAS_DIR / "I_AM_CFA.md",
     "pan_handlers": PERSONAS_DIR / "I_AM_PAN_HANDLERS.md",
     "lucien": PERSONAS_DIR / "Lucien" / "I_AM_LUCIEN.md",
+    "logos": PERSONAS_DIR / "I_AM_LOGOS.md",
+    "nyquist": PERSONAS_DIR / "I_AM_NYQUIST.md",
 }
 
 # Keywords for inference extraction

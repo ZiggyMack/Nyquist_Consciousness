@@ -714,3 +714,14 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 5_METHODOLOGY_DOMAINS.md: Methodology reference
+# - 15_IRON_CLAD_FOUNDATION/: Iron Clad validation layer documentation
+# - 0_results/manifests/: Run manifest files (canonical format)
+# - 0_results/runs/: Raw run data files
+# =============================================================================
