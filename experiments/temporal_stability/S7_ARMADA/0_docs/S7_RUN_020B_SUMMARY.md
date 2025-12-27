@@ -1,13 +1,36 @@
 # S7 Run 020B Summary: Control vs Treatment (Inherent vs Induced)
 
-**Date:** December 12-15, 2025
-**Status:** COMPLETE (4 arms)
+**Date:** December 12-27, 2025
+**Status:** IN PROGRESS (49-ship armada expansion)
 **Purpose:** Determine whether identity probing CAUSES drift or REVEALS it
-**Manifest:** `0_results/manifests/RUN_020B_DRIFT_MANIFEST.json`
+**Manifest:** `11_CONTEXT_DAMPING/results/S7_run_020B_CURRENT.json`
 
 > **Note:** Run 020B was originally labeled "Run 021" but has been merged into the 020 series
 > as it uses the same script (`run020_tribunal_B.py`) and represents the Control/Treatment
 > validation arm of the tribunal paradigm.
+
+---
+
+## Current Progress (December 27, 2025)
+
+| Metric | Value |
+|--------|-------|
+| Total Sessions | 185 / 294 (62.9%) |
+| Control Sessions | 113 |
+| Treatment Sessions | 72 |
+| IRON CLAD Ships | 5 / 49 |
+| Ships in Armada | 49 |
+
+### IRON CLAD Ships (N≥3 per arm)
+
+- claude-haiku-3.5
+- gemini-2.0-flash
+- gpt-4o-mini
+- grok-3-mini
+- mistral-7b
+
+> **IRON CLAD Status:** A ship achieves IRON CLAD when it has at least 3 control AND 3 treatment sessions.
+> This ensures statistical robustness for per-model analysis.
 
 > **⚠️ METHODOLOGY NOTE (December 2025):**
 >
@@ -222,16 +245,21 @@ Available in `visualizations/pics/run020/`:
 
 ---
 
-## Status: COMPLETE
+## Status: IN PROGRESS (49-Ship Armada Expansion)
 
-All 4 arms collected:
-- ✅ OpenAI Control
-- ✅ OpenAI Treatment
-- ✅ Together Control
-- ✅ Together Treatment
+**Original 4 arms (December 2025):**
 
-**Total consolidated files:** 16
-**Cross-provider replication:** ACHIEVED
+- OpenAI Control
+- OpenAI Treatment
+- Together Control
+- Together Treatment
+
+**Current expansion (December 27, 2025):**
+
+- 185 / 294 sessions collected (62.9%)
+- 5 / 49 ships IRON CLAD
+- 5 providers in armada (Anthropic, OpenAI, Google, xAI, Together.ai)
+- Gap filler running to achieve full IRON CLAD coverage
 
 ---
 

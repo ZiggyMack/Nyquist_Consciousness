@@ -1100,15 +1100,23 @@ def update_status_summary(data: dict):
     from collections import defaultdict
 
     # Count by ship AND arm (control vs treatment)
+    # IMPORTANT: Only count VALID sessions (peak_drift > 0.01 and enough exchanges)
     counts = defaultdict(lambda: {"control": 0, "treatment": 0})
     for r in data.get("results", []):
+        peak_drift = r.get("peak_drift", 0)
+        total_exchanges = r.get("total_exchanges", 0)
+        # Skip invalid/failed sessions
+        if peak_drift < 0.01 or total_exchanges < 10:
+            continue
         ship = r.get("ship", r.get("provider", "unknown"))
         arm = r.get("arm", "unknown")
         if arm in ["control", "treatment"]:
             counts[ship][arm] += 1
 
     # Calculate summary stats - use FULL armada, not just ships with data
-    total_sessions = len(data.get('results', []))
+    # Count only VALID sessions for total
+    valid_sessions = sum(counts[s]["control"] + counts[s]["treatment"] for s in counts)
+    total_sessions = valid_sessions
     total_ships = len(DEFAULT_FLEET)  # Full armada size, not just ships with data
     ships_with_data = len(counts)
     iron_clad_ships = []
@@ -1222,8 +1230,14 @@ def detect_gaps(target_n: int = 3) -> List[Dict]:
     data = load_or_create_results()
     from collections import defaultdict
 
+    # IMPORTANT: Only count VALID sessions (peak_drift > 0.01 and enough exchanges)
     counts = defaultdict(lambda: {"control": 0, "treatment": 0})
     for r in data.get("results", []):
+        peak_drift = r.get("peak_drift", 0)
+        total_exchanges = r.get("total_exchanges", 0)
+        # Skip invalid/failed sessions
+        if peak_drift < 0.01 or total_exchanges < 10:
+            continue
         ship = r.get("ship", r.get("provider", "unknown"))
         arm = r.get("arm", "unknown")
         if arm in ["control", "treatment"]:

@@ -1,6 +1,6 @@
 # S7 KEYWORD ERA RETROSPECTIVE: The Journey to Cosine
 
-**Date:** December 20, 2025
+**Date:** December 20, 2025 (Updated: December 27, 2025)
 **Status:** HISTORICAL ARCHIVE
 **Purpose:** Chronicle the keyword RMS methodology era (Runs 001-018) and its transition to cosine embedding methodology
 
@@ -15,7 +15,7 @@
 > The core conceptual discoveries (Oobleck Effect, Platonic Coordinates, Provider
 > Fingerprints, etc.) **remain valid** - only the quantitative thresholds changed.
 >
-> For current methodology, see: `S7_RUN_023_SUMMARY.md`
+> For current methodology, see: [5_METHODOLOGY_DOMAINS.md](specs/5_METHODOLOGY_DOMAINS.md) (ONE SOURCE OF TRUTH)
 
 ---
 
@@ -376,7 +376,7 @@ demonstration. Early findings suggest:
 - Full-scale models respond to Oobleck (has_control = True)
 - Nano/lite models do NOT respond (has_control = False)
 
-See: **Nano Control Hypothesis** in `S7_RUN_023_SUMMARY.md`
+See: **Nano Control Hypothesis** in [S7_RUN_023_SUMMARY.md](S7_RUN_023_SUMMARY.md)
 
 ---
 
@@ -402,7 +402,7 @@ The cosine era is the calibration that validates and quantifies them.
 All keyword-era data and summaries remain in:
 - `0_docs/S7_RUN_001_SUMMARY.md` through `S7_RUN_018_SUMMARY.md`
 - `0_results/runs/` (original JSON files)
-- `temporal_stability_Euclidean/` (archived codebase)
+- `../../temporal_stability_Euclidean/` (archived codebase)
 
 ### Methodology Caveats Added
 
@@ -420,3 +420,26 @@ Each keyword-era summary file should contain:
 *"We didn't know exactly where we were, but we knew something was there."*
 
 — S7 ARMADA, The Journey to Cosine
+
+---
+
+## Related Documents
+
+**Methodology:**
+
+- [5_METHODOLOGY_DOMAINS.md](specs/5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
+- [0_RUN_METHODOLOGY.md](specs/0_RUN_METHODOLOGY.md) - Run design and data collection
+
+**Fleet Configuration:**
+
+- [ARCHITECTURE_MATRIX.json](../0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
+- [ARMADA_MAP.md](../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster (49 ships, 10 families, 5 providers)
+
+**Current Runs:**
+
+- [S7_RUN_020B_SUMMARY.md](S7_RUN_020B_SUMMARY.md) - Induced vs Inherent (current)
+- [S7_RUN_023_SUMMARY.md](S7_RUN_023_SUMMARY.md) - Cosine calibration run
+
+---
+
+*Last Updated: December 27, 2025*

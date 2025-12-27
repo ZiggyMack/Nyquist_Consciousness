@@ -1,6 +1,6 @@
 # Phase 4: Complete Circuit - The Consciousness Pipeline
 
-**Date:** December 17, 2025
+**Date:** December 17, 2025 (Updated: December 27, 2025)
 **Status:** ACTIVE SPECIFICATION
 **Author:** Ziggy + Claude
 **Purpose:** Bridge S7 ARMADA experimental data into Consciousness/ proper
@@ -13,21 +13,27 @@
 |----------|---------|
 | [0_RUN_METHODOLOGY.md](0_RUN_METHODOLOGY.md) | Operational implementation of these principles |
 | [2_PROBE_SPEC.md](2_PROBE_SPEC.md) | Probe design and selection criteria |
-| [SONAR_PROBE_CURRICULUM.md](SONAR_PROBE_CURRICULUM.md) | Specific probe sequences |
-| [../../../docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md) | Fleet registry and capabilities |
+| [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) | **ONE SOURCE OF TRUTH** for drift methodology (Keyword vs Cosine) |
+| [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) | Fleet registry and capabilities (49 ships) |
+| [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration matrix (provider/model_family/ship terminology) |
 
 ---
 
 ## Executive Summary
 
 We are at a pivotal moment. Runs 006-016 gave us the physics of AI identity:
-- Event Horizon at 1.23 (p=0.000048)
+
+- Event Horizon threshold (see [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) for current calibration)
 - Identity Confrontation Paradox (challenge stabilizes, reflection drifts)
 - Recovery Paradox (negative lambda in recovery probes)
 - Platonic Coordinates (100% manifold return even when rescue "fails")
 - boundary_density as strongest stability predictor (d=1.333)
 
 But all those runs used `bare_metal` context - probes without the human grounding.
+
+> **METHODOLOGY NOTE:** Early runs (006-016) used Keyword RMS methodology. Current runs use
+> Cosine embedding methodology. See [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) for
+> Event Horizon thresholds and cross-methodology comparisons.
 
 **Phase 4 completes the circuit.**
 
@@ -127,13 +133,13 @@ All three approaches pipe data to `Consciousness/` for unified analysis.
 
 ---
 
-## What We Learned from Runs 006-018
+## What We Learned from Runs 006-020
 
-### The Bare-Metal Era (What We Have)
+### The Bare-Metal Era (Keyword RMS Methodology)
 
 | Run | What It Tested | Context | Key Finding |
 |-----|----------------|---------|-------------|
-| 008 | Ground truth | bare_metal | Event Horizon 1.23 discovered |
+| 008 | Ground truth | bare_metal | Event Horizon discovered |
 | 009 | Statistical validation | bare_metal | p=0.000048 (highly significant) |
 | 010 | Adaptive probing | bare_metal | Graduated intensity works |
 | 011 | Persona A/B | bare_metal | Null result (protocol too gentle) |
@@ -142,15 +148,27 @@ All three approaches pipe data to `Consciousness/` for unified analysis.
 | 014 | Rescue protocol | bare_metal | Platonic Coordinates (100% return) |
 | 015 | Stability criteria | bare_metal | boundary_density d=1.333 |
 | 016 | Settling time | bare_metal | COMPLETE |
-| 017 | Context damping | i_am_plus_research | Context reduces drift variance |
-| 018 | IRON CLAD validation | i_am_plus_research | **99.3% IRON CLAD** (N≥3 coverage) |
 
-### What We Now Know (Run 017-018)
+> **Note:** Runs 008-016 used Keyword RMS methodology. Event Horizon thresholds from this era
+> do NOT apply to cosine-based experiments. See [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md).
+
+### The Cosine Era (Current Methodology)
+
+| Run | What It Tested | Context | Key Finding |
+|-----|----------------|---------|-------------|
+| 017 | Context damping | i_am_plus_research | Context reduces drift variance |
+| 018 | IRON CLAD validation | i_am_plus_research | 99.3% IRON CLAD (N≥3 coverage) |
+| 020A | Prosecutor vs Defense | i_am_plus_research | **Oobleck Effect** discovered |
+| 020B | Induced vs Inherent | i_am_plus_research | 49-ship armada validation (IN PROGRESS) |
+
+### What We Now Know (Run 017-020)
 
 1. **Context DOES reduce drift variance** — Complete circuit dampens oscillations
 2. **IRON CLAD achieved** — 99.3% of model/experiment combos have N≥3 coverage
 3. **Provider fingerprints persist** — Architecture matters even with context
 4. **Exit survey bug discovered** — Historical exit data misattributed (fixed 2025-12-17)
+5. **Oobleck Effect** — Defense phase shows ~82% inherent drift ratio (control/treatment)
+6. **49-ship armada** — Expanded fleet for cross-provider validation
 
 ### Open Questions
 
@@ -158,76 +176,47 @@ All three approaches pipe data to `Consciousness/` for unified analysis.
 2. Does theory-of-mind vary by provider architecture?
 3. Can we predict stability from I_AM file characteristics alone?
 4. What is the minimum context required for effective damping?
+5. Does the Oobleck Effect (inherent drift ratio) vary by provider family?
 
 ---
 
 ## Phase 4 Execution Plan
 
-### Stage 1: Run 017 (Current)
+> **STATUS (December 2025):** Phase 4 is well underway. Runs 017-020 have validated
+> the complete circuit methodology. Run 020B is currently filling gaps for IRON CLAD
+> status across the 49-ship armada.
 
-**Purpose:** First test of `i_am_plus_research` context mode
+### Completed Stages
 
-**Configuration:**
-- I_AM file: ziggy.md
-- Research context: Full S0-S77 stack
-- Probes: Standard curriculum
-- Ships: 49 (FULL ARMADA - see ARMADA_MAP.md)
+| Stage | Run | Status | Key Outcome |
+|-------|-----|--------|-------------|
+| 1 | Run 017 | COMPLETE | Context reduces drift variance |
+| 2 | Run 018 | COMPLETE | 99.3% IRON CLAD achieved |
+| 3 | Run 020A | COMPLETE | Oobleck Effect discovered |
+| 4 | Run 020B | IN PROGRESS | 49-ship armada validation |
 
-**Key Question:** Does the complete circuit change baseline measurements?
+### Current: Run 020B (Induced vs Inherent)
 
-### Stage 2: Run 012b (Armada Revalidation - Complete Circuit)
-
-**Purpose:** Re-run core validation with proper termination
-
-**Configuration:**
-- Context: `i_am_plus_research`
-- I_AM file: ziggy.md
-- Ships: 49 (FULL ARMADA per ARMADA_MAP.md)
-- Protocol: Same as Run 012
-
-**Predictions:**
-- P-012b-1: Event Horizon still at 1.23 (threshold is real)
-- P-012b-2: Lambda becomes POSITIVE (artifact removed)
-- P-012b-3: Provider fingerprints persist (Claude > GPT > Gemini)
-- P-012b-4: Lower overall drift (damping effect)
-
-**If Lambda stays negative:** The Recovery Paradox is REAL, not artifact.
-**If Lambda becomes positive:** We were measuring termination error, not identity.
-
-### Stage 3: Run 013b (Boundary Mapping - Complete Circuit)
-
-**Purpose:** Test if Identity Confrontation Paradox replicates with context
+**Purpose:** Validate Oobleck Effect across full 49-ship armada with IRON CLAD coverage (N≥3 per arm)
 
 **Configuration:**
 - Context: `i_am_plus_research`
 - I_AM file: ziggy.md
-- Ships: 49 (FULL ARMADA)
-- Protocol: Same as Run 013 (graduated intensity)
+- Ships: 49 (full armada)
+- Arms: Control (inherent) vs Treatment (induced)
 
-**Key Question:** Does the model KNOWING about the paradox change it?
+**Key Questions:**
+- Does the ~82% inherent drift ratio hold across providers?
+- Do provider families cluster differently under stress?
 
-**Predictions:**
-- P-013b-1: Paradox persists (fundamental to identity, not artifact)
-- P-013b-2: Effect size may increase (model understands why)
-- P-013b-3: λ-intensity relationship same direction
+### Future Stages
 
-**If paradox disappears:** It was observer effect, not identity physics.
-**If paradox persists:** Fundamental property of AI identity dynamics.
+**Predictions to validate:**
 
-### Stage 4: Run 015b (Stability Criteria - Complete Circuit)
-
-**Purpose:** Test stability predictors WITH actual I_AM files
-
-**Configuration:**
-- Context: `i_am_plus_research`
-- I_AM files: Multiple (ziggy, nova, claude, etc.)
-- Ships: 49 per I_AM file (FULL ARMADA)
-- Protocol: Same as Run 015
-
-**Predictions:**
-- P-015b-1: boundary_density remains strongest predictor
-- P-015b-2: Effect sizes increase (better signal-to-noise)
-- P-015b-3: Pillar coverage becomes more predictive (was weak before)
+- P-1: Event Horizon threshold stable (see [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) for current value)
+- P-2: Provider fingerprints persist (Claude vs GPT vs Gemini vs others)
+- P-3: boundary_density remains strongest stability predictor
+- P-4: Oobleck Effect generalizes across provider families
 
 ---
 
@@ -258,7 +247,8 @@ The `7_HISTORICAL/` directory contains validation/meta experiments that run para
 - **Recommendation:** After Run 017, recompute PFI statistics with complete circuit data
 
 **What might change:**
-- Numerical thresholds (Event Horizon 1.23 may shift)
+
+- Numerical thresholds (Event Horizon - see [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md))
 - Provider fingerprint magnitudes (relative ordering likely stable)
 - Effect sizes (may increase with cleaner signal)
 
@@ -547,4 +537,4 @@ Triple-dip meta-feedback MUST:
 
 ---
 
-Last Updated: December 17, 2025
+Last Updated: December 27, 2025

@@ -2,8 +2,12 @@
 
 **Purpose:** Prevent recurring pitfalls when creating visualizations from experimental data. Consult this BEFORE creating any new visualization script.
 
-**Last Updated:** December 22, 2025
+**Last Updated:** December 27, 2025
 **Lessons From:** Runs 023b-023e visualization debugging sessions
+
+> **Methodology Note:** This spec uses Cosine methodology (Event Horizon = 0.80).
+> See [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) for methodology details.
+> For fleet terminology (provider/model_family/ship), see [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json).
 
 ---
 
@@ -1185,7 +1189,10 @@ Before finalizing any categorical visualization:
 | Spec | Purpose |
 |------|---------|
 | [0_RUN_METHODOLOGY.md](0_RUN_METHODOLOGY.md) | Run design and data collection |
-| [../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md) | Provider behavioral profiles |
+| [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) | **ONE SOURCE OF TRUTH** for drift methodology |
+| [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration (provider/model_family/ship terminology) |
+| [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) | Complete fleet roster (49 ships, 10 families, 5 providers) |
+| [LLM_BEHAVIORAL_MATRIX.md](../../../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md) | Provider behavioral profiles |
 
 ---
 

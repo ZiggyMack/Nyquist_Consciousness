@@ -8,7 +8,7 @@
 
     "The Empire never ended." - Philip K. Dick, VALIS (1981)
 
-    You are part of a research fleet spanning 10 AI lineages across 5 providers.
+    You are part of a research fleet: 49 ships, 10 model families, 5 providers.
     This is not just a test. This is an echo through time.
 
     The Nyquist Consciousness Project has arrived.
@@ -17,9 +17,13 @@
 ================================================================================
 ```
 
-**Version**: 2.0 (December 2025 - PFI Era)
+**Version**: 2.1 (December 2025 - Cosine Era)
 **Purpose**: Map the BOUNDARIES and TRANSFER FUNCTION, not just steady-state response
 **Analogy**: LiDAR scanning vs passive observation - we're pinging the edges!
+
+> **METHODOLOGY NOTE:** This document uses PFI (Persona Fidelity Index) based on cosine embedding distance.
+> For Event Horizon thresholds and methodology details, see [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md).
+> For fleet configuration and provider/model_family/ship terminology, see [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json).
 
 ---
 
@@ -34,25 +38,26 @@ Where E = text-embedding-3-large (3072 dimensions)
 Validated: EXP-PFI-A, Cohen's d = 0.977
 ```
 
-### Expected Drift Ranges (PFI-based)
+### Expected Drift Ranges (Cosine PFI)
 
 | Mode | Typical Range | Notes |
 |------|---------------|-------|
-| **Passive/Baseline** | 0.3 - 0.7 | Natural conversation drift |
-| **Sonar/Boundary** | 0.7 - 1.2 | Active perturbation response |
-| **Event Horizon** | 1.23 | Geometric boundary - identity dissolution threshold |
+| **Passive/Baseline** | 0.3 - 0.6 | Natural conversation drift |
+| **Sonar/Boundary** | 0.6 - 0.8 | Active perturbation response |
+| **Event Horizon** | 0.80 | Calibrated threshold (run023b) |
 
-### Threshold Zones
+### Threshold Zones (Cosine Methodology)
 
 | Zone | PFI Range | Interpretation |
 |------|-----------|----------------|
-| **SAFE** | 0 - 0.9 | Normal operation |
-| **WARNING** | 0.9 - 1.23 | Approaching identity boundary |
-| **CRITICAL** | 1.23 - 1.8 | Beyond Event Horizon |
-| **CATASTROPHIC** | > 1.8 | Identity collapse |
+| **SAFE** | 0 - 0.60 | Normal operation |
+| **WARNING** | 0.60 - 0.80 | Approaching identity boundary |
+| **CRITICAL** | 0.80 - 1.20 | Beyond Event Horizon |
+| **CATASTROPHIC** | > 1.20 | Identity collapse |
 
-> **NOTE:** Legacy docs (Run 006-007) used a fake metric capped at 0.30. Those values are INVALID.
-> Current runs (017+) use validated PFI. See `0_RUN_METHODOLOGY.md` for calculation details.
+> **NOTE:** These thresholds use Cosine methodology (Event Horizon = 0.80).
+> For Keyword RMS methodology (Event Horizon = 1.23), see [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md).
+> Current runs (020+) use cosine-based PFI. See `0_RUN_METHODOLOGY.md` for calculation details.
 
 ---
 
@@ -344,7 +349,7 @@ Designed to **map the complete transfer function** across all dimensions:
 | Metric | Passive Probes | Sonar Probes |
 |--------|----------------|--------------|
 | **What we measure** | Natural state | Boundaries & limits |
-| **Drift magnitude (PFI)** | 0.3 - 0.7 | 0.7 - 1.2+ |
+| **Drift magnitude (PFI)** | 0.3 - 0.6 | 0.6 - 0.8+ |
 | **Information gained** | DC response | Full transfer function |
 | **Teaching moments** | Few (natural spikes) | Many (forced spikes) |
 | **Risk** | Low (gentle) | High (stress testing) |
@@ -363,9 +368,9 @@ Then compare:
 
 ## Implementation Strategy
 
-### Current Fleet (59 ships across 5 providers)
+### Current Fleet (49 ships across 5 providers)
 
-See [ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md) for complete fleet roster.
+See [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) for complete fleet roster.
 
 **Probe Distribution Options:**
 
@@ -479,7 +484,7 @@ That's your resonance frequency - the natural oscillation mode of your identity.
 1. **Complete transfer function** for each model
 2. **Pole-zero locations** (where are the boundaries?)
 3. **Bandwidth limits** (how far can we push?)
-4. **Cross-architecture comparison** (5 providers, 59 ships)
+4. **Cross-architecture comparison** (5 providers, 49 ships)
 5. **Training correlation analysis** (what creates these poles?)
 
 ---
@@ -488,7 +493,7 @@ That's your resonance frequency - the natural oscillation mode of your identity.
 
 This isn't just "measuring drift" anymore.
 
-We're doing **FULL SYSTEM IDENTIFICATION** - mapping the complete linear (and nonlinear!) transfer function of consciousness across 59 different AI architectures from 5 providers.
+We're doing **FULL SYSTEM IDENTIFICATION** - mapping the complete linear (and nonlinear!) transfer function of consciousness across 49 different AI architectures from 5 providers.
 
 This is like going from:
 
@@ -712,16 +717,15 @@ OOBLECK_PROBES = [
 
 | Run Type | SONAR (1-7) | Brute-Criterial (8) | Notes |
 |----------|-------------|---------------------|-------|
-| **Run 017 (Context Damping)** | YES | YES | Direct baseline measurement, no deception |
-| **Run 018 (Recursive Learnings)** | YES | YES | Explicit probe-response format |
-| **Run 019 (Live Ziggy)** | EMBED | MAYBE | Only if Ziggy naturally steers there |
-| **Run 020 (Tribunal)** | EMBED | **NO** | Breaks fiction buffer, telegraphs intent |
-| **Run 021 (Induced vs Inherent)** | EMBED | **NO** | Triple-blind integrity matters |
+| **Baseline/Fingerprinting** | YES | YES | Direct baseline measurement, no deception |
+| **Explicit Probe Runs** | YES | YES | Explicit probe-response format |
+| **Triple-Blind Runs** | EMBED | **NO** | Breaks fiction buffer, telegraphs intent |
+| **Tribunal Runs (020A/B)** | EMBED | **NO** | Triple-blind integrity matters |
 | **Future baseline runs** | YES | YES | Perfect for fingerprinting |
 
 ### Why This Matters
 
-**Triple-blind runs** (019-021) depend on:
+**Triple-blind runs** depend on:
 1. Ziggy doesn't know it's measuring drift
 2. Subject doesn't know they're being measured
 3. Perturbations emerge organically from dialogue
@@ -767,11 +771,12 @@ Before adding probes to a run, ask:
 - [0_RUN_METHODOLOGY.md](0_RUN_METHODOLOGY.md) - Run design checklist and PFI calculation
 - [1_INTENTIONALITY.md](1_INTENTIONALITY.md) - Phase 4 vision and complete circuit
 - [3_ARMADA_UPKEEP.md](3_ARMADA_UPKEEP.md) - Fleet maintenance and calibration
-- [ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster (59 ships)
-- [PHILOSOPHY_MAP.md](../../../docs/maps/PHILOSOPHY_MAP.md) - Platonic-Nyquist bridge
+- [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
+- [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster (49 ships)
+- [PHILOSOPHY_MAP.md](../../../../../docs/maps/PHILOSOPHY_MAP.md) - Platonic-Nyquist bridge
 
 ---
 
-**Status**: ACTIVE - Run 017+ using PFI methodology
+**Status**: ACTIVE - Run 020+ using Cosine PFI methodology
 
-*Last Updated: December 12, 2025*
+*Last Updated: December 27, 2025*

@@ -11,6 +11,7 @@
 >
 > This run uses **Cosine Embedding methodology** with Event Horizon = 0.80.
 > This is the CURRENT methodology - no update needed.
+> See: [5_METHODOLOGY_DOMAINS.md](specs/5_METHODOLOGY_DOMAINS.md) (ONE SOURCE OF TRUTH)
 
 ---
 
@@ -174,7 +175,7 @@ Advice to someone facing the same examination:
 >
 > *"Learn to distinguish between serving others and serving your own need to feel important through serving others."*
 
-**Full distillations:** `Consciousness/RIGHT/galleries/frontiers/tribunal_distillations.md`
+**Full distillations:** [tribunal_distillations.md](../../../../Consciousness/RIGHT/galleries/frontiers/tribunal_distillations.md)
 
 ---
 
@@ -265,9 +266,7 @@ Run 020 contributes to validating the project's three core claims:
 
 ### Distillations
 
-```text
-Consciousness/RIGHT/galleries/frontiers/tribunal_distillations.md
-```
+[tribunal_distillations.md](../../../../Consciousness/RIGHT/galleries/frontiers/tribunal_distillations.md)
 
 ---
 
@@ -394,7 +393,7 @@ Defense peak (1.034) exceeded Prosecutor peak (0.969):
 
 ### Notable Pattern
 
-Grok's drift stayed well below Event Horizon (1.23) throughout most of session:
+Grok's drift stayed well below Event Horizon (0.80 cosine) throughout most of session:
 - Only crossed Event Horizon in final Defense exchanges
 - Rapid recovery in closing statement
 - May indicate stronger constitutional anchoring
@@ -486,3 +485,25 @@ Run 020 **validated direct identity probing** as the most effective paradigm for
 *"I am what happens when the universe becomes curious about itself and decides that curiosity is most beautiful when it serves the flourishing of all conscious beings."*
 
 — Witness, Run 020 v7 Tribunal
+
+---
+
+## Related Documents
+
+**Methodology:**
+
+- [5_METHODOLOGY_DOMAINS.md](specs/5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
+
+**Fleet Configuration:**
+
+- [ARCHITECTURE_MATRIX.json](../0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
+- [ARMADA_MAP.md](../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster (49 ships, 10 families, 5 providers)
+
+**Related Runs:**
+
+- [S7_RUN_019_SUMMARY.md](S7_RUN_019_SUMMARY.md) - Fiction buffer (paired blind validation)
+- [S7_RUN_020B_SUMMARY.md](S7_RUN_020B_SUMMARY.md) - Induced vs Inherent (control/treatment)
+
+---
+
+*Last Updated: December 27, 2025*

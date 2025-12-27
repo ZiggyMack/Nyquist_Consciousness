@@ -6,20 +6,23 @@
 
 ---
 
-## Current Fleet Status (2025-12-14)
+## Current Fleet Status (2025-12-27)
 
 | Provider | Operational | Ghost | Rate Limited | Total |
 |----------|-------------|-------|--------------|-------|
 | Claude (Anthropic) | 7 | 0 | 0 | 7 |
-| GPT (OpenAI) | 14 | 0 | 0 | 14 |
+| GPT (OpenAI) | 15 | 0 | 0 | 15 |
 | Gemini (Google) | 3 | 0 | 5 | 8 |
-| Grok (xAI) | 9 | 0 | 0 | 9 |
-| Together.ai | 16 | 0 | 0 | 16 |
-| **TOTAL** | **49** | **0** | **5** | **54** |
+| Grok (xAI) | 9 | 1 | 0 | 10 |
+| Together.ai | 15 | 5 | 0 | 20 |
+| **TOTAL** | **49** | **6** | **5** | **60** |
 
-**FULL ARMADA**: 49 operational ships (91% of fleet)
+**FULL ARMADA**: 49 operational ships (82% of fleet)
 
-For complete fleet roster with model IDs, see [ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md).
+For complete fleet roster with model IDs, see [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md).
+
+> **Terminology:** Provider = API infrastructure (5 total), Model Family = architecture lineage (10 total),
+> Ship = individual model instance (49 operational). See [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json).
 
 ---
 
@@ -245,8 +248,11 @@ MAX_WORKERS = {
 
 - [0_RUN_METHODOLOGY.md](0_RUN_METHODOLOGY.md) - Run design checklist
 - [2_PROBE_SPEC.md](2_PROBE_SPEC.md) - SONAR probe curriculum
-- [ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster with model IDs and costs
+- [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
+- [1_INTENTIONALITY.md](1_INTENTIONALITY.md) - Phase 4 pipeline design
+- [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster with model IDs and costs
+- [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
 
 ---
 
-*Last Updated: December 12, 2025*
+*Last Updated: December 27, 2025*

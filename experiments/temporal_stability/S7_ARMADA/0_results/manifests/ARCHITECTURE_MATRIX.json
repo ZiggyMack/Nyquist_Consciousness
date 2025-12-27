@@ -1,10 +1,17 @@
 {
   "_meta": {
     "description": "Single source of truth for ARMADA fleet configuration",
-    "last_updated": "2025-12-21",
+    "last_updated": "2025-12-27",
     "source": "ARMADA_MAP.md",
     "total_ships": 49,
-    "note": "All run scripts should import from this file, not hardcode the matrix",
+    "total_providers": 5,
+    "providers": ["anthropic", "openai", "google", "xai", "together"],
+    "terminology": {
+      "provider": "API infrastructure (5 total: Anthropic, OpenAI, Google, xAI, Together.ai)",
+      "model_family": "Architecture lineage (Claude, GPT, Gemini, Grok, DeepSeek, Llama, Qwen, Mistral, Kimi, Nemotron)",
+      "ship": "Individual model instance (49 total across all providers)"
+    },
+    "note": "All run scripts should import from this file, not hardcode the matrix. Together.ai hosts multiple model families (DeepSeek, Llama, Qwen, Mistral, Kimi, Nemotron) but counts as 1 provider.",
     "tier_definitions": {
       "yacht": "$15.00+/1M output - Superyacht flagships",
       "high_maintenance": "$8.00-$15.00/1M output - Private jet tier",

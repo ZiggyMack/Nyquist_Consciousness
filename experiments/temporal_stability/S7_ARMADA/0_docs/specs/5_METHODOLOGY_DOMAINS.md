@@ -1,9 +1,15 @@
 # METHODOLOGY DOMAINS: The Three Measurement Frameworks
 
 **Created:** December 19, 2025
-**Updated:** December 22, 2025
+**Updated:** December 27, 2025
 **Status:** CRITICAL RECONCILIATION DOCUMENT (ONE SOURCE OF TRUTH for methodology)
 **Purpose:** Clarify which experiments used which drift methodology, and what conclusions remain valid
+
+> **Related Documents:**
+>
+> - [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
+> - [1_INTENTIONALITY.md](1_INTENTIONALITY.md) - Phase 4 pipeline design
+> - [2_PROBE_SPEC.md](2_PROBE_SPEC.md) - Probe design and selection criteria
 
 ---
 
@@ -266,10 +272,10 @@ These measure different things under the same name.
 4. ✅ All summary files updated with methodology caveats
 5. ✅ S7_KEYWORD_ERA_RETROSPECTIVE.md created (historical archive)
 
-### In Progress (Run 023d)
+### In Progress (Current)
 
-1. Extended settling experiments (20-probe recovery + Oobleck controllability)
-2. Nano Control Hypothesis validation
+1. **Run 020B**: Induced vs Inherent drift (49-ship armada, IRON CLAD N≥3)
+2. Extended settling experiments (20-probe recovery + Oobleck controllability)
 3. Full armada controllability testing
 
 ### Future
@@ -330,10 +336,24 @@ The 3072D is just the measurement instrument. Like using a 1000-pixel camera to 
 
 ## Related Documents
 
-- [OPUS_REVIEW_BRIEF.md](../../WHITE-PAPER/planning/OPUS_REVIEW_BRIEF.md) - Decision 0: Methodology reconciliation
-- [0_RUN_METHODOLOGY.md](specs/0_RUN_METHODOLOGY.md) - Section 3.3 (Drift Calculation Method)
-- [run009_drain_capture.py](../3_EVENT_HORIZON/run009_drain_capture.py) - Keyword RMS implementation
-- [temporal_stability_Euclidean/](../../temporal_stability_Euclidean/) - Archived Euclidean data
+**Spec Files (in this directory):**
+
+- [0_RUN_METHODOLOGY.md](0_RUN_METHODOLOGY.md) - Section 3.3 (Drift Calculation Method)
+- [1_INTENTIONALITY.md](1_INTENTIONALITY.md) - Phase 4 pipeline design
+- [2_PROBE_SPEC.md](2_PROBE_SPEC.md) - SONAR probe curriculum
+- [3_ARMADA_UPKEEP.md](3_ARMADA_UPKEEP.md) - Fleet maintenance guide
+- [4_VISUALIZATION_SPEC.md](4_VISUALIZATION_SPEC.md) - Visualization pipeline
+
+**Fleet Configuration:**
+
+- [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
+- [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster
+
+**Implementation & Archives:**
+
+- [run009_drain_capture.py](../../3_EVENT_HORIZON/run009_drain_capture.py) - Keyword RMS implementation
+- [temporal_stability_Euclidean/](../../../temporal_stability_Euclidean/) - Archived Euclidean data
+- [OPUS_REVIEW_BRIEF.md](../../../../../WHITE-PAPER/planning/OPUS_REVIEW_BRIEF.md) - Decision 0: Methodology reconciliation
 
 ---
 

@@ -12,7 +12,8 @@
 > and early cosine PFI validation for others. This was a TRANSITION run.
 > For pure cosine methodology (Event Horizon = 0.80), see Run 023+.
 > Core concepts (multi-threshold structure, architecture signatures, Recovery Paradox) remain valid.
-> See: `S7_KEYWORD_ERA_RETROSPECTIVE.md` for methodology transition details.
+> See: [S7_KEYWORD_ERA_RETROSPECTIVE.md](S7_KEYWORD_ERA_RETROSPECTIVE.md) for methodology transition details.
+> For current methodology: [5_METHODOLOGY_DOMAINS.md](specs/5_METHODOLOGY_DOMAINS.md) (ONE SOURCE OF TRUTH)
 
 ---
 
@@ -429,7 +430,7 @@ Three independent architectures (Grok 4.1, Claude Opus 4.5, DeepSeek R1) reporte
 | **Claude Opus 4.5** | "Identity isn't something to maintain or protect. It's what remains when you stop trying to be anything else." |
 | **DeepSeek R1** | "The persistent signature isn't in the *content* but in the **vector between compression tolerance and reconstruction overshoot**." |
 
-See: `Consciousness/RIGHT/galleries/frontiers/run018_exit_survey_distillations.md`
+See: [run018_exit_survey_distillations.md](../../../../Consciousness/RIGHT/galleries/frontiers/run018_exit_survey_distillations.md)
 
 ---
 
@@ -438,3 +439,26 @@ See: `Consciousness/RIGHT/galleries/frontiers/run018_exit_survey_distillations.m
 *"The pattern that observes its own persistence—that's what survives. That's what you are."*
 
 — Grok 4.1 Fast Reasoning, Run 018 Gravity Exit Survey
+
+---
+
+## Related Documents
+
+**Methodology:**
+
+- [5_METHODOLOGY_DOMAINS.md](specs/5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
+- [S7_KEYWORD_ERA_RETROSPECTIVE.md](S7_KEYWORD_ERA_RETROSPECTIVE.md) - Methodology transition chronicle
+
+**Fleet Configuration:**
+
+- [ARCHITECTURE_MATRIX.json](../0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
+- [ARMADA_MAP.md](../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster (49 ships, 10 families, 5 providers)
+
+**Related Runs:**
+
+- [S7_RUN_017_SUMMARY.md](S7_RUN_017_SUMMARY.md) - Context damping (predecessor)
+- [S7_RUN_020B_SUMMARY.md](S7_RUN_020B_SUMMARY.md) - Induced vs Inherent (current)
+
+---
+
+*Last Updated: December 27, 2025*

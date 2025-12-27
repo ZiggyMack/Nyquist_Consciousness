@@ -597,9 +597,11 @@ cat ../0_results/manifests/VERIFIED_FLEET_MANIFEST.json
 ## Related Documents
 
 - [TESTING_MAP.md](TESTING_MAP.md) - Eight search types
-- [3_ARMADA_UPKEEP.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/3_ARMADA_UPKEEP.md) - Fleet maintenance guide
-- [2_PROBE_SPEC.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md) - SONAR probe curriculum
-- [EXPANDED_FLEET_CONFIG.json](../experiments/temporal_stability/S7_ARMADA/0_results/manifests/EXPANDED_FLEET_CONFIG.json) - Full model catalog
+- [3_ARMADA_UPKEEP.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/3_ARMADA_UPKEEP.md) - Fleet maintenance guide
+- [2_PROBE_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md) - SONAR probe curriculum
+- [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
+- [ARCHITECTURE_MATRIX.json](../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
+- [EXPANDED_FLEET_CONFIG.json](../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/EXPANDED_FLEET_CONFIG.json) - Full model catalog
 
 ---
 
@@ -665,4 +667,4 @@ py compare_baselines.py --old S7_baseline_20251210.json --new S7_baseline_LATEST
 
 ---
 
-Last Updated: December 16, 2025 (Added 14_CONSCIOUSNESS Mining Statistics)
+Last Updated: December 27, 2025 (Added methodology and architecture matrix references)
