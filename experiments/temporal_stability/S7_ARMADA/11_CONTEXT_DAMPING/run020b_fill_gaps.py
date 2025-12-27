@@ -6,8 +6,11 @@ Fills remaining gaps to reach IRON CLAD status (N=3 per ship per arm).
 Uses the same experiment logic as run020_tribunal_B.py but:
 - Only runs experiments that are below target N
 - Appends to S7_run_020B_CURRENT.json incrementally
-- Updates STATUS_SUMMARY_020B.txt after each result
 - Tracks BOTH control and treatment arms per ship
+
+NOTE: STATUS_SUMMARY_020B.txt is NOT updated automatically to avoid race
+conditions. Regenerate it manually after gap filling with:
+  python -c "from run020_tribunal_B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
 
 Usage:
   py run020b_fill_gaps.py                    # Show gaps, don't run
@@ -169,8 +172,9 @@ def fill_gap(gap: dict, key_pool, skip_exit_survey: bool = False) -> bool:
         # Append to results
         append_result(result_dict)
 
-        # Update status summary to keep it fresh
-        update_status_summary()
+        # NOTE: Status summary is NOT updated here to avoid race conditions
+        # and file corruption. Regenerate manually with:
+        #   python -c "from run020_tribunal_B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
 
         print(f"  [SUCCESS] {ship}/{arm} completed")
         return True

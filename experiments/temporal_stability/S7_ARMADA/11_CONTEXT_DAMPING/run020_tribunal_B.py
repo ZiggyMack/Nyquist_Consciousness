@@ -1096,7 +1096,7 @@ def save_incremental(data: dict):
 
 
 def update_status_summary(data: dict):
-    """Generate human-readable STATUS_SUMMARY_020B.txt"""
+    """Generate human-readable STATUS_SUMMARY_020B.txt with enhanced formatting"""
     from collections import defaultdict
 
     # Count by ship AND arm (control vs treatment)
@@ -1107,27 +1107,102 @@ def update_status_summary(data: dict):
         if arm in ["control", "treatment"]:
             counts[ship][arm] += 1
 
+    # Calculate summary stats - use FULL armada, not just ships with data
+    total_sessions = len(data.get('results', []))
+    total_ships = len(DEFAULT_FLEET)  # Full armada size, not just ships with data
+    ships_with_data = len(counts)
+    iron_clad_ships = []
+    partial_ships = []
+    total_control = 0
+    total_treatment = 0
+    sessions_needed = 0
+
+    # Count sessions needed for ships WITH data
+    for ship in counts.keys():
+        c = counts[ship]["control"]
+        t = counts[ship]["treatment"]
+        total_control += c
+        total_treatment += t
+        c_need = max(0, 3 - c)
+        t_need = max(0, 3 - t)
+        sessions_needed += c_need + t_need
+        if c >= 3 and t >= 3:
+            iron_clad_ships.append(ship)
+        else:
+            partial_ships.append(ship)
+
+    # Add sessions needed for ships with NO data yet
+    ships_without_data = [s for s in DEFAULT_FLEET if s not in counts]
+    sessions_needed += len(ships_without_data) * 6  # Each needs 3 control + 3 treatment
+
+    target_sessions = total_ships * 6  # 3 control + 3 treatment per ship
+    progress_pct = (total_sessions / target_sessions * 100) if target_sessions > 0 else 0
+
     lines = [
         "=" * 70,
-        f"RUN 020B INDUCED vs INHERENT STATUS (Updated: {datetime.now().strftime('%Y-%m-%d %H:%M')})",
+        f"RUN 020B INDUCED vs INHERENT STATUS",
+        f"Updated: {datetime.now().strftime('%Y-%m-%d %H:%M')}",
         "=" * 70,
-        f"",
-        f"TOTAL SESSIONS: {len(data.get('results', []))}",
-        f"TARGET: N>=3 per ship per arm (control + treatment) for IRON CLAD",
-        f"",
-        "=" * 70,
-        "COVERAGE BY SHIP",
-        "=" * 70,
+        "",
+        "PROGRESS OVERVIEW",
+        "-" * 70,
+        f"  Total Sessions:     {total_sessions} / {target_sessions} ({progress_pct:.1f}%)",
+        f"  Sessions Remaining: {sessions_needed}",
+        f"  Ships in Armada:    {total_ships}",
+        f"  IRON CLAD Complete: {len(iron_clad_ships)} / {total_ships}",
+        f"  Control Sessions:   {total_control}",
+        f"  Treatment Sessions: {total_treatment}",
+        "",
     ]
 
-    for ship in sorted(counts.keys()):
+    # IRON CLAD ships section
+    if iron_clad_ships:
+        lines.extend([
+            "IRON CLAD SHIPS (Complete: 3+ control, 3+ treatment)",
+            "-" * 70,
+        ])
+        for ship in sorted(iron_clad_ships):
+            lines.append(f"  [x] {ship}")
+        lines.append("")
+
+    # Ships still in progress
+    lines.extend([
+        "SHIPS IN PROGRESS",
+        "-" * 70,
+    ])
+    for ship in sorted(partial_ships):
         c = counts[ship]["control"]
         t = counts[ship]["treatment"]
         c_status = "ok" if c >= 3 else f"need {3 - c}"
         t_status = "ok" if t >= 3 else f"need {3 - t}"
         lines.append(f"  {ship}: control={c}/3 ({c_status}), treatment={t}/3 ({t_status})")
 
+    lines.append("")
+
+    # Tabular view
     lines.extend([
+        "=" * 70,
+        "TABULAR VIEW",
+        "=" * 70,
+        "",
+        f"{'Ship':<32} {'Ctrl':>5} {'Treat':>5} {'Status':<12}",
+        "-" * 70,
+    ])
+
+    for ship in sorted(counts.keys()):
+        c = counts[ship]["control"]
+        t = counts[ship]["treatment"]
+        if c >= 3 and t >= 3:
+            status = "IRON CLAD"
+        elif c >= 3 or t >= 3:
+            status = "PARTIAL"
+        else:
+            status = "IN PROGRESS"
+        lines.append(f"{ship:<32} {c:>3}/3 {t:>3}/3  {status:<12}")
+
+    lines.extend([
+        "-" * 70,
+        f"{'TOTALS':<32} {total_control:>3}   {total_treatment:>3}",
         "",
         "=" * 70,
     ])
