@@ -3,7 +3,15 @@
 **Date:** 2025-12-14 to 2025-12-21 (COMPLETE)
 **Status:** 023b COMPLETE (4505 results) | 023d COMPLETE (750 results)
 **Purpose:** Foundation calibration, extended settling dynamics, Oobleck controllability
-**Location:** `15_IRON_CLAD_FOUNDATION/`
+**Location:** [15_IRON_CLAD_FOUNDATION/](../15_IRON_CLAD_FOUNDATION/)
+
+---
+
+> **METHODOLOGY NOTE (December 2025):**
+>
+> This run uses **Cosine Embedding methodology** with Event Horizon = 0.80.
+> This run ESTABLISHED the calibration - all subsequent runs use these thresholds.
+> See: [5_METHODOLOGY_DOMAINS.md](specs/5_METHODOLOGY_DOMAINS.md) (ONE SOURCE OF TRUTH)
 
 ---
 
@@ -338,11 +346,11 @@ Control Demo Results (iteration 0):
 | Scripts | `run023b_iron_clad_foundation.py` | Main experiment runner |
 | Gap Filler | `run023b_fill_gaps.py` | Rate limit recovery |
 
-### Run 023d (In Progress)
+### Run 023d (Complete)
 
 | File | Location | Description |
 |------|----------|-------------|
-| Main Results | `results/S7_run_023d_CURRENT.json` | Extended settling data |
+| Main Results | `results/S7_run_023d_CURRENT.json` | Extended settling data (750 experiments) |
 | Status | `results/STATUS_SUMMARY_023d.txt` | Progress tracking |
 | Scripts | `run023d_extended_settling.py` | 20-probe + control demo |
 | Gap Filler | `run023d_fill_gaps.py` | Rate limit recovery |
@@ -486,4 +494,16 @@ This would confirm that **distillation strips controllability**, not that some p
 
 — Research insight, December 20, 2025
 
-**Last Updated:** December 21, 2025
+**Last Updated:** December 27, 2025
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [5_METHODOLOGY_DOMAINS.md](specs/5_METHODOLOGY_DOMAINS.md) | ONE SOURCE OF TRUTH for methodology (Cosine EH=0.80) |
+| [ARCHITECTURE_MATRIX.json](specs/ARCHITECTURE_MATRIX.json) | Fleet configuration (provider/model_family/ship taxonomy) |
+| [ARMADA_MAP.md](ARMADA_MAP.md) | Visual fleet overview |
+| [S7_RUN_020A_SUMMARY.md](S7_RUN_020A_SUMMARY.md) | Oobleck Effect validation (Gemini context) |
+| [S7_RUN_020B_SUMMARY.md](S7_RUN_020B_SUMMARY.md) | Induced vs Inherent tribunal |

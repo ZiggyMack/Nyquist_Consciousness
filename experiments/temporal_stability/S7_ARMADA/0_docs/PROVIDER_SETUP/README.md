@@ -114,10 +114,15 @@ Before configuring any provider, locate these files:
 
 ---
 
-## Related Documentation
+## Related Documents
 
-| Document | Location |
-|----------|----------|
-| CLAL.py | `1_CALIBRATION/CLAL.py` |
-| Fleet Map | `../../../../docs/maps/ARMADA_MAP.md` |
-| 14_CONSCIOUSNESS | `14_CONSCIOUSNESS/README.md` |
+| Document | Purpose |
+|----------|---------|
+| [CLAL.py](../../1_CALIBRATION/CLAL.py) | Calibration script |
+| [ARMADA_MAP.md](../../../../docs/maps/ARMADA_MAP.md) | Fleet roster (49 ships, 10 families, 5 providers) |
+| [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration (provider/model_family/ship terminology) |
+| [5_METHODOLOGY_DOMAINS.md](../specs/5_METHODOLOGY_DOMAINS.md) | ONE SOURCE OF TRUTH for methodology |
+
+---
+
+*Last Updated: December 27, 2025*

@@ -130,3 +130,17 @@ print(response.content[0].text)
 1. Generate new key in Project Settings
 2. Update `.env` file
 3. Old key continues working until revoked
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [5_METHODOLOGY_DOMAINS.md](../../specs/5_METHODOLOGY_DOMAINS.md) | ONE SOURCE OF TRUTH for methodology |
+| [ARCHITECTURE_MATRIX.json](../../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration |
+| [README.md](../README.md) | Provider setup overview |
+
+---
+
+*Last Updated: December 27, 2025*

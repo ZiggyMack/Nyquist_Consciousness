@@ -96,3 +96,17 @@ For S7_ARMADA experiments:
 3. Don't bother with Gems unless you have Enterprise
 
 The free tier is excellent for stress testing. No pre-config needed!
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [5_METHODOLOGY_DOMAINS.md](../../specs/5_METHODOLOGY_DOMAINS.md) | ONE SOURCE OF TRUTH for methodology |
+| [ARCHITECTURE_MATRIX.json](../../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration |
+| [README.md](../README.md) | Provider setup overview |
+
+---
+
+*Last Updated: December 27, 2025*

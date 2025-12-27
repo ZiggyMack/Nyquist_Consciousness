@@ -146,3 +146,17 @@ response = client.chat.completions.create(
 
 - Use key rotation from .env file
 - Consider using gpt-4o-mini for high volume
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [5_METHODOLOGY_DOMAINS.md](../../specs/5_METHODOLOGY_DOMAINS.md) | ONE SOURCE OF TRUTH for methodology |
+| [ARCHITECTURE_MATRIX.json](../../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration |
+| [README.md](../README.md) | Provider setup overview |
+
+---
+
+*Last Updated: December 27, 2025*

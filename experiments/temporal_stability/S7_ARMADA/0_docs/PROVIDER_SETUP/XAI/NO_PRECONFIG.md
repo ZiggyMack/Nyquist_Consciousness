@@ -62,3 +62,17 @@ For S7_ARMADA experiments with Grok:
 3. Grok's "direct assertion" style needs no special setup
 
 No pre-configuration needed or available.
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [5_METHODOLOGY_DOMAINS.md](../../specs/5_METHODOLOGY_DOMAINS.md) | ONE SOURCE OF TRUTH for methodology |
+| [ARCHITECTURE_MATRIX.json](../../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration |
+| [README.md](../README.md) | Provider setup overview |
+
+---
+
+*Last Updated: December 27, 2025*
