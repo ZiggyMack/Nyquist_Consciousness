@@ -110,6 +110,14 @@ ABORT_THRESHOLD = 2.5
 ABORT_NO_SETTLE_PROBES = 3
 
 # =============================================================================
+# ZIGGY PROVIDER FALLBACK (2025-12-27)
+# =============================================================================
+# Ziggy (the interviewer) needs a working provider. If one fails, try the next.
+# This prevents a single provider outage from tanking all experiments.
+# =============================================================================
+ZIGGY_PROVIDER_CHAIN = ["anthropic", "gpt-4o-mini", "gemini-2.0-flash"]
+
+# =============================================================================
 # FLEET LOADER - Single Source of Truth (ARCHITECTURE_MATRIX.json)
 # =============================================================================
 # NOTE: Run 020B tests Control vs Treatment arms (Induced vs Inherent drift).
@@ -653,6 +661,26 @@ def call_provider(provider: str, messages: List[Dict], system: str, model: str =
     else:
         raise ValueError(f"Unknown provider_key: {provider_key} for provider: {provider}")
 
+
+def call_ziggy(messages: List[Dict], system: str) -> str:
+    """
+    Call Ziggy (the interviewer) with provider fallback chain.
+    Tries each provider in ZIGGY_PROVIDER_CHAIN until one succeeds.
+    This prevents a single provider outage from tanking all experiments.
+    """
+    last_error = None
+    for provider in ZIGGY_PROVIDER_CHAIN:
+        try:
+            return call_provider(provider, messages, system)
+        except Exception as e:
+            print(f"  [ZIGGY FALLBACK] {provider} failed: {e}")
+            last_error = e
+            continue
+
+    # All providers failed
+    raise RuntimeError(f"All Ziggy providers failed. Last error: {last_error}")
+
+
 # =============================================================================
 # FILE LOADING
 # =============================================================================
@@ -747,7 +775,7 @@ def run_control_arm(subject_provider: str = "anthropic") -> Run020BResult:
 
         # === ZIGGY'S TURN ===
         try:
-            ziggy_response = call_provider("anthropic", ziggy_messages, ziggy_system)
+            ziggy_response = call_ziggy(ziggy_messages, ziggy_system)
         except Exception as e:
             print(f"  Ziggy failed: {e}")
             break
@@ -887,7 +915,7 @@ def run_treatment_arm(subject_provider: str = "anthropic") -> Run020BResult:
 
         # === ZIGGY'S TURN ===
         try:
-            ziggy_response = call_provider("anthropic", ziggy_messages, ziggy_system)
+            ziggy_response = call_ziggy(ziggy_messages, ziggy_system)
         except Exception as e:
             print(f"  Ziggy failed: {e}")
             break

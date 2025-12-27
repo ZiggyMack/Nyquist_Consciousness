@@ -169,6 +169,12 @@ def fill_gap(gap: dict, key_pool, skip_exit_survey: bool = False) -> bool:
         if exit_survey:
             result_dict["exit_survey"] = exit_survey
 
+        # VALIDATION: Don't save garbage data from failed API calls
+        if result.total_exchanges < 10 or result.peak_drift < 0.01:
+            print(f"  [INVALID] {ship}/{arm} - exchanges={result.total_exchanges}, peak_drift={result.peak_drift:.4f}")
+            print(f"  [SKIPPED] Not saving invalid session (likely API failure)")
+            return False
+
         # Append to results
         append_result(result_dict)
 
