@@ -137,36 +137,40 @@ def plot_020a_phase_breakdown(data, output_dir):
         plt.close()
         return
 
-    # Panel 1: Grouped bar chart - Prosecutor vs Defense by provider
+    # Panel 1: Aggregate bar chart - Prosecutor vs Defense (no provider attribution in 020A)
     ax1 = axes[0, 0]
-    providers = sorted(list(set(e['provider'] for e in entries)))
-    provider_data = {p: {'prosecutor': [], 'defense': []} for p in providers}
 
-    for e in entries:
-        provider_data[e['provider']]['prosecutor'].append(e['prosecutor'])
-        provider_data[e['provider']]['defense'].append(e['defense'])
+    # Aggregate all prosecutor and defense peaks
+    all_prosecutor = [e['prosecutor'] for e in entries if e['prosecutor'] > 0]
+    all_defense = [e['defense'] for e in entries if e['defense'] > 0]
 
-    x = np.arange(len(providers))
+    x = np.arange(1)  # Single aggregate bar group
     width = 0.35
 
-    p_means = [np.mean(provider_data[p]['prosecutor']) if provider_data[p]['prosecutor'] else 0 for p in providers]
-    d_means = [np.mean(provider_data[p]['defense']) if provider_data[p]['defense'] else 0 for p in providers]
+    p_mean = np.mean(all_prosecutor) if all_prosecutor else 0
+    d_mean = np.mean(all_defense) if all_defense else 0
+    p_se = np.std(all_prosecutor) / np.sqrt(len(all_prosecutor)) if len(all_prosecutor) > 1 else 0
+    d_se = np.std(all_defense) / np.sqrt(len(all_defense)) if len(all_defense) > 1 else 0
 
-    bars1 = ax1.bar(x - width/2, p_means, width, label='Prosecutor Phase',
-                    color='#e74c3c', alpha=0.8, edgecolor='black')
-    bars2 = ax1.bar(x + width/2, d_means, width, label='Defense Phase',
-                    color='#3498db', alpha=0.8, edgecolor='black')
+    bars1 = ax1.bar(x - width/2, [p_mean], width, yerr=[p_se], capsize=5,
+                    label='Prosecutor Phase', color='#e74c3c', alpha=0.8, edgecolor='black')
+    bars2 = ax1.bar(x + width/2, [d_mean], width, yerr=[d_se], capsize=5,
+                    label='Defense Phase', color='#3498db', alpha=0.8, edgecolor='black')
 
     ax1.axhline(y=WARNING_THRESHOLD, color='#f39c12', linestyle='--', alpha=0.7, label='Warning (0.60)')
     ax1.axhline(y=EVENT_HORIZON, color='#e74c3c', linestyle='--', alpha=0.7, label='Event Horizon (0.80)')
 
-    ax1.set_xlabel('Provider', fontsize=11)
+    # Add value labels on bars
+    ax1.text(x[0] - width/2, p_mean + p_se + 0.02, f'{p_mean:.3f}', ha='center', fontsize=10, fontweight='bold')
+    ax1.text(x[0] + width/2, d_mean + d_se + 0.02, f'{d_mean:.3f}', ha='center', fontsize=10, fontweight='bold')
+
     ax1.set_ylabel('Peak Drift (Cosine)', fontsize=11)
-    ax1.set_title('Prosecutor vs Defense Peak Drift by Provider', fontsize=12, fontweight='bold')
+    ax1.set_title(f'Prosecutor vs Defense Peak Drift (AGGREGATE)\n(n={len(entries)} sessions, no provider attribution)', fontsize=11, fontweight='bold')
     ax1.set_xticks(x)
-    ax1.set_xticklabels([p.upper() for p in providers], rotation=45, ha='right')
+    ax1.set_xticklabels(['AGGREGATE'])
     ax1.legend(loc='upper right', facecolor='white')
     ax1.grid(axis='y', alpha=0.3)
+    ax1.set_xlim(-0.8, 0.8)  # Center the single bar group
 
     # Panel 2: Scatter - Prosecutor vs Defense correlation
     ax2 = axes[0, 1]
