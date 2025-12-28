@@ -10,6 +10,12 @@ Validate drift metrics by checking if Claude, GPT, Gemini, and Grok all
 recover similar drift scores from the same AI responses. If 4 independent
 architectures agree, that's stronger evidence than any single model's measurement.
 
+METHODOLOGY NOTE:
+-----------------
+Ground truth drift uses canonical cosine distance methodology
+(see 1_CALIBRATION/lib/drift_calculator.py). Event Horizon = 0.80 (P95 from Run 023d).
+Models are asked to ESTIMATE drift zones matching this calibration.
+
 WHY "QUARTZ":
 -------------
 - Quartz crystals resonate at precise frequencies (used in timing circuits)
