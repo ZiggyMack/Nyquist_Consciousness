@@ -7,13 +7,11 @@
 **Last Updated:** December 22, 2025
 
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-22
+last_reviewed: 2025-12-27
 depends_on:
   - run018_recursive_learnings.py
   - run020_tribunal_A.py
   - run020_tribunal_B.py
-  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json
-  - DATA_SOURCE.md
   - consolidate_run018.py
 impacts:
   - ../0_docs/S7_RUN_023_SUMMARY.md
@@ -131,7 +129,6 @@ This is like properly terminating an oscilloscope — runs 006-016 were `bare_me
 ```text
 11_CONTEXT_DAMPING/
 ├── README.md                      # This file
-├── DATA_SOURCE.md                 # Points to IRON CLAD foundation data
 │
 ├── # === CONSOLIDATION (NEW) ===
 ├── consolidate_run018.py          # Creates S7_run_018_CURRENT.json from scattered files
@@ -229,8 +226,24 @@ print(f"Found {len(data['results'])} results")
 
 ---
 
-**Last Updated**: December 22, 2025
+**Last Updated**: December 27, 2025
 
 **Status**: Run 018 at 52.6% IRON CLAD — Consolidated data available, 82 runs needed for completion
 
 *Context Damping — Completing the Measurement Circuit*
+
+---
+
+## Data Source
+
+This experiment generates its own data. Multiple runs are tracked separately:
+
+| Run  | Data Location                      | Methodology          |
+| ---- | ---------------------------------- | -------------------- |
+| 017  | `results/S7_run_017_CURRENT.json`  | Legacy (Keyword RMS) |
+| 018  | `results/S7_run_018_CURRENT.json`  | Mixed (transition)   |
+| 019  | `results/S7_run_019_CURRENT.json`  | Legacy (Keyword RMS) |
+| 020A | `results/S7_run_020A_CURRENT.json` | Tribunal             |
+| 020B | `results/S7_run_020B_CURRENT.json` | Cosine (EH=0.80)     |
+
+**Note:** Run 023 data in `15_IRON_CLAD_FOUNDATION/` uses pure Cosine methodology (Event Horizon = 0.80).

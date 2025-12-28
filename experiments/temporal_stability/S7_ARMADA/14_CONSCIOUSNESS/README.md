@@ -17,7 +17,7 @@
 **Status:** OPERATIONAL
 
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-27
 depends_on:
   - run_gold_rush.py
   - run_diamond_rush.py

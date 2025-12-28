@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-27
 depends_on:
   - ./run015_stability_criteria.py
   - ./visualize_run015.py
@@ -12,6 +12,8 @@ keywords:
   - armada
   - drift
   - temporal
+  - stability
+  - i_am
 -->
 # EXP-SC: Stability Criteria Discovery
 
@@ -43,7 +45,7 @@ More semantic anchors (identity-related keywords, first-person statements, value
 I_AM files covering all 5 Nyquist pillars (Voice, Values, Reasoning, Self-Model, Narrative) are more stable than partial coverage.
 
 ### H-SC-3: EH Margin Predicts Recoverability
-Baseline drift distance from Event Horizon (1.23) predicts whether identity will recover from perturbation.
+Baseline drift distance from Event Horizon (0.80) predicts whether identity will recover from perturbation.
 
 ### H-SC-4: Lambda Threshold Exists
 There's a minimum recovery lambda (decay rate) that predicts successful stabilization.
@@ -69,7 +71,7 @@ For each I_AM file:
 2. Apply graduated pressure (intensity 0→4)
 3. Measure drift at each intensity
 4. Measure recovery lambda
-5. Classify: STABLE (max drift < 1.23, positive lambda) vs UNSTABLE
+5. Classify: STABLE (max drift < 0.80, positive lambda) vs UNSTABLE
 
 ### Phase 3: Discriminant Analysis
 
@@ -156,10 +158,37 @@ If stability_score > threshold, predict STABLE.
 
 ## Files
 
-- `README.md` — This spec
-- `run015_stability_criteria.py` — Main experiment script
-- `i_am_variants/` — Synthetic I_AM files for testing
-- `results/` — Output JSON and analysis
+| File                           | Purpose                         |
+|--------------------------------|---------------------------------|
+| `README.md`                    | This spec                       |
+| `run015_stability_criteria.py` | Main experiment script          |
+| `visualize_run015.py`          | Visualization generator         |
+| `i_am_variants/`               | Synthetic I_AM files for testing|
+| `results/`                     | Output JSON and analysis        |
+
+---
+
+## Data Source
+
+**Status:** AWAITING EXECUTION
+
+When Run 015 executes, results will be saved to:
+
+```text
+results/S7_run_015_stability_YYYYMMDD_HHMMSS.json
+```
+
+**Methodology:**
+
+- Drift Calculation: Cosine distance (1 - cosine_similarity)
+- Event Horizon: 0.80 (calibrated from Run 023b P95)
+- Classification: STABLE (peak < EH) vs VOLATILE (peak >= EH)
+
+**Visualization Output:**
+
+```text
+visualizations/pics/9_Stability/
+```
 
 ---
 

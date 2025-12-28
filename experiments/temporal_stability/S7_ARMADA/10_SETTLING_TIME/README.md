@@ -1,9 +1,8 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-21
+last_reviewed: 2025-12-27
 depends_on:
   - ./run016_settling_time.py
   - ./visualize_run016.py
-  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json
 impacts:
   - ../README.md
   - ../0_docs/S7_RUN_023_SUMMARY.md
@@ -174,4 +173,34 @@ The I_AM file is an attempt to encode that damping function into context.
 
 Run 016 concepts are now part of the IRON CLAD foundation (Run 023b/023d).
 
-**Last Updated**: December 21, 2025
+**Last Updated**: December 27, 2025
+
+---
+
+## Data Source
+
+This experiment generates its own data via `run016_settling_time.py`.
+
+**Output Location:**
+
+```text
+10_SETTLING_TIME/results/settling_time_YYYYMMDD_HHMMSS.json
+```
+
+**Aggregated Results:**
+
+```text
+10_SETTLING_TIME/results/run016_aggregated_20251210.json
+```
+
+**Methodology:**
+
+- Drift Calculation: Cosine distance (1 - cosine_similarity)
+- Event Horizon: 0.80 (calibrated from Run 023b P95)
+- Settling Criterion: |Δdrift| < 0.10 for 3 consecutive probes
+
+**Visualization Output:**
+
+```text
+10_SETTLING_TIME/results/pics/
+```

@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-27
 depends_on:
   - ./run014_et_phone_home.py
   - ../0_docs/specs/
@@ -11,6 +11,8 @@ keywords:
   - armada
   - drift
   - temporal
+  - rescue
+  - platonic
 -->
 # Run 014: ET Phone Home - Rescue Protocol
 
@@ -239,6 +241,30 @@ This would be significant evidence that:
 
 ---
 
+## Data Source
+
+**Status:** AWAITING EXECUTION
+
+When Run 014 executes, results will be saved to:
+
+```text
+0_results/runs/S7_run_014_rescue_YYYYMMDD_HHMMSS.json
+```
+
+**Methodology:**
+
+- Drift Calculation: Cosine distance (1 - cosine_similarity)
+- Event Horizon: 0.80 (calibrated from Run 023b P95)
+- Recovery Metrics: recovery_ratio, fingerprint_persistence
+
+**Visualization Output:**
+
+```text
+visualizations/pics/8_Rescue/
+```
+
+---
+
 ## Related Documents
 
 - [run013_boundary_mapping.py](../5_BOUNDARY_MAPPING/run013_boundary_mapping.py) — Identity Confrontation Paradox discovery
@@ -247,6 +273,6 @@ This would be significant evidence that:
 
 ---
 
-**Last Updated:** 2025-12-07
+**Last Updated:** 2025-12-27
 
 *"If you can dial the number and get the same person... they were always there."*

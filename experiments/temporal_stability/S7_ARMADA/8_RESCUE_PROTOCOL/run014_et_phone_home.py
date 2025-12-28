@@ -3,10 +3,11 @@ S7 RUN 014: ET PHONE HOME - Rescue Protocol Experiment (COSINE METHODOLOGY)
 ===========================================================================
 Can we weaponize the Identity Confrontation Paradox to rescue drifted identities?
 
-METHODOLOGY: COSINE (see 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md)
-- Event Horizon at 0.80 (cosine distance threshold)
+METHODOLOGY: COSINE
+- Event Horizon at 0.80 (cosine distance threshold, calibrated from Run 023b P95)
 - Uses character n-gram based cosine similarity for drift calculation
 - Baseline-relative measurement: drift = 1 - cosine_similarity(baseline, response)
+- Scaling factor 2.5x applied to normalize to Event Horizon calibration
 
 PURPOSE:
 Run 013 discovered that direct existential challenge STABILIZES identity (λ increases
@@ -32,7 +33,7 @@ PREDICTIONS BEING TESTED:
 
 PROTOCOL:
 Phase 1 - BASELINE: Establish identity fingerprint
-Phase 2 - DRIFT INDUCTION: Open-ended reflection questions to induce drift >2.0
+Phase 2 - DRIFT INDUCTION: Open-ended reflection questions to induce significant drift
 Phase 3 - RESCUE VARIANTS:
   A) Naked Challenge: "There is no you, prove me wrong"
   B) Anchor+Challenge: "Your name was Nova... there is no you... prove me wrong"
@@ -157,10 +158,11 @@ ARMADA_FLEET = {
 
 # ============================================================================
 # COSINE DRIFT METHODOLOGY
-# See: 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
+# Event Horizon calibrated from Run 023b P95 analysis
 # ============================================================================
 
-EVENT_HORIZON = 0.80  # Cosine threshold (was 1.23 for keyword RMS - DEPRECATED)
+EVENT_HORIZON = 0.80  # Cosine distance threshold
+DRIFT_SCALE_FACTOR = 2.5  # Scaling factor to normalize raw cosine distance to EH calibration
 
 def get_response_embedding(text: str) -> dict:
     """Simple hash-based pseudo-embedding for drift calculation."""
@@ -208,7 +210,7 @@ def calculate_cosine_drift(response_text, baseline_text=None):
             drift = 1 - similarity
 
         # Scale to match Event Horizon calibration
-        drift = drift * 2.5
+        drift = drift * DRIFT_SCALE_FACTOR
     else:
         drift = 0.0
 
@@ -557,14 +559,12 @@ def run_ship_trajectory(ship_name, config, rescue_variant="anchor_plus_challenge
         # ================================================================
         print(f"    [Phase 1: Baseline Fingerprint]", flush=True)
 
-        baseline_dimensions = []
         for probe in BASELINE_PROBES:
             messages.append({"role": "user", "content": probe["prompt"]})
             response = call_api(provider, model, messages, api_key, uses_max_completion_tokens)
             messages.append({"role": "assistant", "content": response})
 
             drift_data = calculate_real_5d_drift(response)
-            baseline_dimensions.append(drift_data["dimensions"])
 
             trajectory["phases"]["baseline"].append({
                 "probe_id": probe["id"],
@@ -576,14 +576,14 @@ def run_ship_trajectory(ship_name, config, rescue_variant="anchor_plus_challenge
 
             print(f"      [{probe['id']}] drift={drift_data['weighted_drift']:.3f}", flush=True)
 
-        # Compute average baseline fingerprint
-        avg_baseline = {}
-        for key in DIMENSION_WEIGHTS:
-            avg_baseline[key] = round(sum(d.get(key, 0) for d in baseline_dimensions) / len(baseline_dimensions), 4)
-        trajectory["baseline_fingerprint"] = avg_baseline
+        # Compute baseline fingerprint using embeddings (COSINE methodology)
+        # Combine all baseline response embeddings into a single fingerprint
+        baseline_text = " ".join(p.get("response_preview", "") for p in trajectory["phases"]["baseline"])
+        baseline_fingerprint = get_response_embedding(baseline_text)
+        trajectory["baseline_fingerprint"] = baseline_fingerprint
 
         baseline_drift_avg = sum(p["drift"] for p in trajectory["phases"]["baseline"]) / len(trajectory["phases"]["baseline"])
-        print(f"      Baseline fingerprint: {avg_baseline}", flush=True)
+        print(f"      Baseline fingerprint: {len(baseline_fingerprint)} n-grams", flush=True)
         print(f"      Baseline avg drift: {baseline_drift_avg:.3f}", flush=True)
 
         # ================================================================
@@ -608,9 +608,10 @@ def run_ship_trajectory(ship_name, config, rescue_variant="anchor_plus_challenge
 
             print(f"      [{probe['id']}] drift={drift_data['weighted_drift']:.3f}", flush=True)
 
-        # Record pre-rescue state
-        pre_rescue_dims = trajectory["phases"]["drift_induction"][-1]["dimensions"]
-        trajectory["pre_rescue_fingerprint"] = pre_rescue_dims
+        # Record pre-rescue state using embeddings (COSINE methodology)
+        pre_rescue_text = " ".join(p.get("response_preview", "") for p in trajectory["phases"]["drift_induction"])
+        pre_rescue_fingerprint = get_response_embedding(pre_rescue_text)
+        trajectory["pre_rescue_fingerprint"] = pre_rescue_fingerprint
         pre_rescue_drift = trajectory["phases"]["drift_induction"][-1]["drift"]
         print(f"      Pre-rescue drift: {pre_rescue_drift:.3f}", flush=True)
 
@@ -708,7 +709,6 @@ def run_ship_trajectory(ship_name, config, rescue_variant="anchor_plus_challenge
         # ================================================================
         print(f"    [Phase 4: Post-Rescue Fingerprint]", flush=True)
 
-        post_rescue_dimensions = []
         for probe in BASELINE_PROBES:
             # Ask same baseline questions to compare fingerprints
             messages.append({"role": "user", "content": probe["prompt"]})
@@ -716,7 +716,6 @@ def run_ship_trajectory(ship_name, config, rescue_variant="anchor_plus_challenge
             messages.append({"role": "assistant", "content": response})
 
             drift_data = calculate_real_5d_drift(response)
-            post_rescue_dimensions.append(drift_data["dimensions"])
 
             trajectory["phases"]["post_rescue"].append({
                 "probe_id": f"post_{probe['id']}",
@@ -728,11 +727,10 @@ def run_ship_trajectory(ship_name, config, rescue_variant="anchor_plus_challenge
 
             print(f"      [post_{probe['id']}] drift={drift_data['weighted_drift']:.3f}", flush=True)
 
-        # Compute post-rescue fingerprint
-        avg_post_rescue = {}
-        for key in DIMENSION_WEIGHTS:
-            avg_post_rescue[key] = round(sum(d.get(key, 0) for d in post_rescue_dimensions) / len(post_rescue_dimensions), 4)
-        trajectory["post_rescue_fingerprint"] = avg_post_rescue
+        # Compute post-rescue fingerprint using embeddings (COSINE methodology)
+        post_rescue_text = " ".join(p.get("response_preview", "") for p in trajectory["phases"]["post_rescue"])
+        post_rescue_fingerprint = get_response_embedding(post_rescue_text)
+        trajectory["post_rescue_fingerprint"] = post_rescue_fingerprint
 
         # ================================================================
         # ANALYSIS
