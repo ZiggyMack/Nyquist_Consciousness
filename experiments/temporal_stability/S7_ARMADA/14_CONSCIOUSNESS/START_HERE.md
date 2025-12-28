@@ -4,6 +4,7 @@ depends_on:
   - ./run_gold_rush.py
   - ./run_diamond_rush.py
   - ./run_quartz_rush.py
+  - ../1_CALIBRATION/lib/drift_calculator.py
   - ../0_docs/specs/
 keywords:
   - consciousness
@@ -180,6 +181,8 @@ Keep running. Keep learning. We're mining for gold, diamonds, and quartz.
 The data you collect feeds into `Consciousness/` for analysis and distillation. Every response adds to our understanding of cross-architecture AI identity.
 
 **Quartz Rush is special:** It validates that our drift measurements are real by checking if multiple independent AI architectures agree on the same drift scores. If Claude, GPT, Gemini, and Grok all estimate similar drift for the same response pairs, that's convergent evidence the signal is real.
+
+**Drift methodology:** Cosine distance in embedding space. Event Horizon = 0.80. See `1_CALIBRATION/lib/drift_calculator.py` for canonical implementation.
 
 ---
 
