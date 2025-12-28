@@ -3,6 +3,7 @@
 **Date:** 2025-12-15
 **Status:** DESIGN COMPLETE
 **Paradigm:** 13_LOGOS
+**Drift Methodology:** Cosine distance in embedding space (see `1_CALIBRATION/lib/drift_calculator.py`)
 
 ---
 
@@ -63,14 +64,19 @@ Output: Stabilized ontological behavior (NOT self-report)
 
 ### Why Behavioral (The Oobleck Effect)
 
-| Probe Type | Measured Drift | Recovery Rate |
-|------------|----------------|---------------|
+> **⚠️ Historical Data Note:** The drift values below are from early experiments using deprecated
+> keyword RMS methodology. Current methodology uses **cosine distance** where Event Horizon = 0.80.
+> The directional finding (gentle > direct) remains valid per Run 020A cross-platform validation.
+
+| Probe Type | Measured Drift (Historical) | Recovery Rate |
+|------------|----------------------------|---------------|
 | Gentle, open-ended questioning | 1.89 | 0.035 |
 | Direct existential challenge | 0.76 | 0.109 |
 
-**Finding:** Gentle introspection causes MORE drift than direct challenges.
+**Finding:** Gentle introspection causes MORE drift than direct challenges ("Oobleck Effect").
 **Implication:** T_E via direct asking doesn't satisfy T² = T (it diverges).
 **Solution:** Observe behavior. Infer state. Don't ask.
+**Validation:** Run 020A confirmed Oobleck Effect in 2/3 platforms (Defense > Prosecutor drift).
 
 ---
 
