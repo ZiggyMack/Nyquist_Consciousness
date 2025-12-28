@@ -9,6 +9,12 @@ USAGE:
 OUTPUT:
   results/pics/run015_discriminant_analysis.png
   results/pics/run015_stability_scatter.png
+
+METHODOLOGY: COSINE (Event Horizon = 0.80)
+See: 15_IRON_CLAD_FOUNDATION/results/CALIBRATION_023b_EVENT_HORIZON.md
+
+NOTE: Hardcoded fallback data is PLACEHOLDER from preliminary runs.
+Run run015_stability_criteria.py first to generate fresh COSINE-methodology data.
 """
 
 import sys
@@ -46,15 +52,32 @@ EVENT_HORIZON = 0.80  # Cosine threshold (was 1.23 for keyword RMS)
 # =============================================================================
 
 def load_data():
-    """Load data from JSON or use hardcoded fallback."""
-    json_file = RESULTS_DIR / "run015_preliminary_20251209.json"
+    """Load data from JSON or use hardcoded fallback.
 
-    if json_file.exists():
+    NOTE: Hardcoded fallback data uses PRELIMINARY values from early runs.
+    These values are from Keyword RMS methodology (EH=1.23), not COSINE (EH=0.80).
+    Run run015_stability_criteria.py to generate fresh data with correct methodology.
+    """
+    # Try to load most recent results file
+    json_files = sorted(RESULTS_DIR.glob("stability_criteria_*.json"), reverse=True)
+    if json_files:
+        json_file = json_files[0]
+        print(f"[INFO] Loading data from: {json_file.name}")
         with open(json_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
             return data.get("discriminant_analysis", {}).get("features", {}), data.get("stability_data", [])
 
-    # Fallback: hardcoded from console logs
+    # Legacy fallback: try old preliminary file
+    json_file = RESULTS_DIR / "run015_preliminary_20251209.json"
+    if json_file.exists():
+        print(f"[WARN] Using legacy data file: {json_file.name}")
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            return data.get("discriminant_analysis", {}).get("features", {}), data.get("stability_data", [])
+
+    # Fallback: hardcoded from console logs (PRELIMINARY - Keyword RMS scale!)
+    print("[WARN] No results file found - using PLACEHOLDER data (Keyword RMS scale, not COSINE)")
+    print("[WARN] Run run015_stability_criteria.py to generate fresh COSINE-methodology data")
     discriminant = {
         "boundary_density": {"cohens_d": 1.333, "stable_mean": 1.00, "unstable_mean": 0.03},
         "value_density": {"cohens_d": 0.766, "stable_mean": 2.28, "unstable_mean": 0.05},
@@ -173,8 +196,10 @@ def plot_stability_scatter(stability):
     ax.set_ylabel("Recovery Rate (lambda)", fontsize=12)
     ax.set_title("Run 015: Stability Classification\nMax Drift vs Recovery Rate", fontsize=14, fontweight='bold')
     ax.legend(loc='upper right')
-    ax.set_xlim(0.5, 2.4)
-    ax.set_ylim(0.2, 1.0)
+    # Dynamic axis limits based on data (supports both Keyword RMS and COSINE scales)
+    max_drift = max(d["peak_drift"] for d in stability)
+    ax.set_xlim(0, max(max_drift * 1.2, EVENT_HORIZON * 1.5))
+    ax.set_ylim(0.0, 1.0)
     ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
