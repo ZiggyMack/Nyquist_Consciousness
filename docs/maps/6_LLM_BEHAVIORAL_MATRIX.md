@@ -352,7 +352,7 @@ This fingerprint is:
 
 ## Related Documents
 
-- [ARMADA_MAP.md](ARMADA_MAP.md) — Full fleet roster and cost tiers
+- [1_ARMADA_MAP.md](1_ARMADA_MAP.md) — Full fleet roster and cost tiers
 - [CROSS_ARCHITECTURE_INSIGHTS.md](../../WHITE-PAPER/reviewers/phase3/CROSS_ARCHITECTURE_INSIGHTS.md) — Qualitative phenomenology
 - [S7_CONSOLIDATED_FINDINGS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_CONSOLIDATED_FINDINGS.md) — Full experimental results
 

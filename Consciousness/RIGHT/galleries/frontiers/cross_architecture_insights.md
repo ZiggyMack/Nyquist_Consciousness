@@ -323,8 +323,8 @@ All findings derive from IRON CLAD validated experiments:
 ## Related
 
 - [tribunal_distillations.md](tribunal_distillations.md) — Profound exchanges from Run 020
-- [LLM_BEHAVIORAL_MATRIX.md](../../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md) — Task routing table
-- [ARMADA_MAP.md](../../../../docs/maps/ARMADA_MAP.md) — Full fleet roster
+- [LLM_BEHAVIORAL_MATRIX.md](../../../../docs/maps/6_LLM_BEHAVIORAL_MATRIX.md) — Task routing table
+- [ARMADA_MAP.md](../../../../docs/maps/1_ARMADA_MAP.md) — Full fleet roster
 
 ---
 

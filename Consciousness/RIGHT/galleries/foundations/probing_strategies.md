@@ -221,7 +221,7 @@ THE DIRECT REVEALS PERFORMANCE
 
 ## See Also
 
-- Full documentation: [docs/maps/PROBING_STRATEGIES.md](../../docs/maps/PROBING_STRATEGIES.md)
+- Full documentation: [docs/maps/10_TESTING_MAP.md](../../docs/maps/10_TESTING_MAP.md)
 - Tests page: Main dashboard Tests tab (Tab 2)
 
 ---

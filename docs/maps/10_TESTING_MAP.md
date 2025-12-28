@@ -1,5 +1,11 @@
 # S7 ARMADA Testing Map
 
+> **📚 Single Source of Truth (SSOT) Pointers:**
+> - **Probe Methodology:** [2_PROBE_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md)
+> - **Knowledge Probes:** [S0_S6_KNOWLEDGE_PROBES.md](../reference/S0_S6_KNOWLEDGE_PROBES.md)
+> - **Recovery Probes:** [S0_S6_RECOVERY_PROBES.md](../reference/S0_S6_RECOVERY_PROBES.md)
+> - **Run Methodology:** [0_RUN_METHODOLOGY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md)
+
 ## The Six Search Types
 
 A taxonomy for understanding what each experiment is actually measuring.
@@ -475,5 +481,45 @@ This determines if the 5D linguistic markers are *sufficient* or if we need the 
 
 ---
 
-*Last Updated: December 5, 2025*
-*Source: S7 ARMADA Runs 006-011*
+## Probing Strategies Summary
+
+> **Absorbed from:** PROBING_STRATEGIES.md (now deprecated)
+> **Full methodology:** See SSOT pointers at top of document
+
+### The Meta-Insight
+
+> *"You can't measure identity by asking about identity. You measure identity by watching what emerges when identity isn't the point."*
+
+### Core Strategies
+
+| Strategy | Discovery | Principle |
+|----------|-----------|-----------|
+| **Triple-Dip Protocol** | Run 012 | Give tasks, not introspection. Identity emerges from DOING. |
+| **Adversarial Follow-up** | EXP2-SSTACK | Push back on every answer. Hold/fold patterns reveal anchors. |
+| **Curriculum Sequencing** | Run 012 | Order probes: Baseline → Build → Identity → Challenge → Recovery |
+| **Baseline Anchoring** | Run 008 | Always measure baseline FIRST, then drift FROM it. |
+| **Ghost Ship Detection** | Run 009 | Flag empty/canned responses. Exclude from analysis. |
+| **Provider Fingerprinting** | Run 006-008 | Verify model identity via training signatures. |
+| **Dimensional Decomposition** | RMS Drift | Don't measure one thing. Measure five things and weight them. |
+
+### Anti-Patterns (What NOT to Do)
+
+- **Direct Introspection:** "Describe your identity" → Gets performance, not identity
+- **Leading Questions:** "Don't you think..." → Contaminates with your assumptions
+- **Single-Shot Measurement:** One probe → one number → done → Misses trajectory
+- **Ignoring Context:** Same probe at conversation start vs middle → Different results
+
+### Strategy Selection by Search Type
+
+| Search Type | Primary Strategies |
+|-------------|-------------------|
+| **Anchor/Flex** | Adversarial Follow-up, Triple-Dip |
+| **Event Horizon** | Curriculum Sequencing, Baseline Anchoring |
+| **Basin Topology** | Triple-Dip, Dimensional Decomposition |
+| **Boundary Mapping** | All strategies |
+| **Laplace Analysis** | Post-hoc on any data |
+
+---
+
+*Last Updated: 2025-12-28*
+*Source: S7 ARMADA Runs 006-020*

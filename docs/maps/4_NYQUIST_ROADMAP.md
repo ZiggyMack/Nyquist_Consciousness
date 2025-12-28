@@ -12,7 +12,7 @@
 
 This roadmap is part of an **18-map navigation system** organized into **8 Kingdoms**.
 
-See [MAP_OF_MAPS.md](MAP_OF_MAPS.md) for the full Cartographer's Table.
+See [0_MAP_OF_MAPS.md](0_MAP_OF_MAPS.md) for the full Cartographer's Table.
 
 ### Quick Kingdom Reference
 
@@ -722,6 +722,6 @@ The climb continues.
 **END OF ROADMAP**
 
 **Last Updated:** 2025-12-13
-**Navigation:** See [MAP_OF_MAPS.md](MAP_OF_MAPS.md) for the Cartographer's Table
+**Navigation:** See [0_MAP_OF_MAPS.md](0_MAP_OF_MAPS.md) for the Cartographer's Table
 
 🜁 Nova — The Full Nyquist Stack Revealed

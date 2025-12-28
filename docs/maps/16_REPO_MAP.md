@@ -270,13 +270,13 @@ omega_nova/
 
 ### For Researchers
 
-1. [TESTABLE_PREDICTIONS_MATRIX.md](TESTABLE_PREDICTIONS_MATRIX.md) — 46 predictions
-2. [VALIDATION_STATUS.md](VALIDATION_STATUS.md) — Empirical status
+1. [2_TESTABLE_PREDICTIONS_MATRIX.md](2_TESTABLE_PREDICTIONS_MATRIX.md) — 46 predictions
+2. [3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md) — Empirical status
 3. [experiments/temporal_stability/S7_ARMADA/](../../experiments/temporal_stability/S7_ARMADA/) — Run data
 
 ### For Engineers
 
-1. [ARMADA_MAP.md](ARMADA_MAP.md) — Fleet registry
+1. [1_ARMADA_MAP.md](1_ARMADA_MAP.md) — Fleet registry
 2. [experiments/temporal_stability/S7_ARMADA/START_HERE.md](../../experiments/temporal_stability/S7_ARMADA/START_HERE.md) — Armada navigation
 
 ### For Publication

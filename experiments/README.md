@@ -118,7 +118,7 @@ experiments/
 
 **Testing Taxonomy (IMPORTANT):**
 
-See [TESTING_MAP.md](../docs/maps/TESTING_MAP.md) for the **Eight Search Types**:
+See [TESTING_MAP.md](../docs/maps/10_TESTING_MAP.md) for the **Eight Search Types**:
 
 1. **Anchor Detection** — Find identity fixed points (hard challenges)
 2. **Adaptive Range Detection** — Find stretch dimensions (moderate)
@@ -142,7 +142,7 @@ py visualizations/visualize_armada.py --list
 py visualizations/visualize_armada.py --run 009
 ```
 
-**Key Results:** See [S7_ARMADA/docs/maps/TESTING_MAP.md](temporal_stability/S7_ARMADA/docs/maps/TESTING_MAP.md)
+**Key Results:** See [S7_ARMADA/docs/maps/10_TESTING_MAP.md](temporal_stability/S7_ARMADA/docs/maps/10_TESTING_MAP.md)
 
 ---
 
@@ -263,8 +263,8 @@ py visualize_armada.py --run 017
 
 ## 🔗 Related Documentation
 
-- **[docs/maps/TESTABLE_PREDICTIONS_MATRIX.md](../docs/maps/TESTABLE_PREDICTIONS_MATRIX.md)** - All testable predictions (including P-018-*)
-- **[docs/maps/TESTING_MAP.md](../docs/maps/TESTING_MAP.md)** - Eight Search Types taxonomy
+- **[docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md](../docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md)** - All testable predictions (including P-018-*)
+- **[docs/maps/10_TESTING_MAP.md](../docs/maps/10_TESTING_MAP.md)** - Eight Search Types taxonomy
 - **[S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md](temporal_stability/S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md)** - Run design checklist
 - **[S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md](temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md)** - SONAR + Brute-Criterial probe taxonomy
 

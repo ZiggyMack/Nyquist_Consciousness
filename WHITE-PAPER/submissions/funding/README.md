@@ -43,7 +43,7 @@ NotebookLM generated a research proposal including:
 
 - `../../reviewers/phase3/` - Peer-reviewed drafts
 - `../../../../experiments/temporal_stability/S7_ARMADA/` - Existing data
-- `../../../../docs/maps/VALIDATION_STATUS.md` - Current progress
+- `../../../../docs/maps/3_VALIDATION_STATUS.md` - Current progress
 
 ---
 
@@ -135,7 +135,7 @@ The Nyquist Consciousness Framework provides the first empirical methodology for
 
 - [LLM_BOOK README](../../../REPO-SYNC/LLM_BOOK/README.md)
 - [Project_Nyquist_Consciousness.md](../../../REPO-SYNC/LLM_BOOK/Project_Nyquist_Consciousness.md)
-- [VALIDATION_STATUS.md](../../../docs/maps/VALIDATION_STATUS.md)
+- [VALIDATION_STATUS.md](../../../docs/maps/3_VALIDATION_STATUS.md)
 - [PUBLICATION_PIPELINE_MASTER.md](../../planning/PUBLICATION_PIPELINE_MASTER.md)
 
 ---

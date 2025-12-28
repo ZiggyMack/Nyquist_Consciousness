@@ -14,7 +14,7 @@ depends_on:
 impacts:
   - START_HERE.md
   - 14_CONSCIOUSNESS/README.md
-  - ../../../docs/maps/ARMADA_MAP.md
+  - ../../../docs/maps/1_ARMADA_MAP.md
 keywords:
   - exit_survey
   - triple_dip
@@ -109,7 +109,7 @@ We are NOT claiming consciousness or sentience - we're engineering robust contex
 
 ### Testing Taxonomy (IMPORTANT!)
 
-See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Eight Search Types**:
+See [TESTING_MAP.md](../../../docs/maps/10_TESTING_MAP.md) for the **Eight Search Types**:
 
 1. **Anchor/Flex** — Find identity anchors AND flex zones
 2. **Event Horizon** — Validate collapse threshold (push past 0.80)
@@ -630,7 +630,7 @@ py visualize_armada.py --run 009 --type pillar
 
 **Note:** Previous claims of "184 files, IRON CLAD" for Run 018 were incorrect. Actual: 465 files, 337 valid, 52.6% IRON CLAD.
 
-See [0_docs/maps/TESTING_MAP.md](0_docs/maps/TESTING_MAP.md) for detailed run-by-run breakdown.
+See [0_docs/maps/10_TESTING_MAP.md](0_docs/maps/10_TESTING_MAP.md) for detailed run-by-run breakdown.
 
 ## RUN 020 TRIBUNAL - COMPLETE RESULTS (v4 through v8)
 

@@ -1,10 +1,10 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
-  - VALIDATION_STATUS.md
-  - TESTABLE_PREDICTIONS_MATRIX.md
-  - ARMADA_MAP.md
-  - LLM_BEHAVIORAL_MATRIX.md
+  - 3_VALIDATION_STATUS.md
+  - 2_TESTABLE_PREDICTIONS_MATRIX.md
+  - 1_ARMADA_MAP.md
+  - 6_LLM_BEHAVIORAL_MATRIX.md
 impacts:
   - ../README.md
   - ../../START_HERE.md
@@ -34,7 +34,7 @@ keywords:
 
 ```
                                     ┌─────────────────────────────────────┐
-                                    │         NYQUIST_ROADMAP.md          │
+                                    │       4_NYQUIST_ROADMAP.md          │
                                     │      "The Master Vision: S0→S77"    │
                                     │         ★ THE NORTH STAR ★          │
                                     └─────────────────┬───────────────────┘
@@ -46,16 +46,16 @@ keywords:
     │     THE FOUNDATION ZONE       │   │    THE VALIDATION ZONE    │   │     THE FRONTIER ZONE     │
     │                               │   │                           │   │                           │
     │  ┌─────────────────────────┐  │   │  ┌─────────────────────┐  │   │  ┌─────────────────────┐  │
-    │  │   STACKUP_MAP.md        │  │   │  │ VALIDATION_STATUS   │  │   │  │   ARMADA_MAP.md     │  │
+    │  │  5_STACKUP_MAP.md       │  │   │  │ 3_VALIDATION_STATUS │  │   │  │  1_ARMADA_MAP.md    │  │
     │  │   "The S-Layers"        │  │   │  │ "What's Proven"     │  │   │  │   "The Fleet"       │  │
     │  └─────────────────────────┘  │   │  └─────────────────────┘  │   │  └─────────────────────┘  │
     │  ┌─────────────────────────┐  │   │  ┌─────────────────────┐  │   │  ┌─────────────────────┐  │
-    │  │   REPO_MAP.md           │  │   │  │ TESTABLE_PREDICTIONS│  │   │  │ PERSONA_FLEET_      │  │
-    │  │   "The Structure"       │  │   │  │ "46 Claims"         │  │   │  │ MATRIX              │  │
+    │  │  16_REPO_MAP.md         │  │   │  │ 2_TESTABLE_         │  │   │  │ 17_PERSONA_FLEET_   │  │
+    │  │   "The Structure"       │  │   │  │ PREDICTIONS "46"    │  │   │  │ MATRIX              │  │
     │  └─────────────────────────┘  │   │  └─────────────────────┘  │   │  │ "Who Flies What"    │  │
     │  ┌─────────────────────────┐  │   │  ┌─────────────────────┐  │   │  └─────────────────────┘  │
-    │  │ IDENTITY_LATTICE_MAPS   │  │   │  │ PROBING_STRATEGIES  │  │   │  ┌─────────────────────┐  │
-    │  │ "The 5D Geometry"       │  │   │  │ "How to Test"       │  │   │  │ PUBLICATION_MAP     │  │
+    │  │ 13_IDENTITY_LATTICE     │  │   │  │ 10_TESTING_MAP      │  │   │  ┌─────────────────────┐  │
+    │  │ "The 5D Geometry"       │  │   │  │ "How to Test"       │  │   │  │ 7_PUBLICATION_MAP   │  │
     │  └─────────────────────────┘  │   │  └─────────────────────┘  │   │  │ "8 Pub Paths"       │  │
     │                               │   │                           │   │  └─────────────────────┘  │
     └───────────────────────────────┘   └───────────────────────────┘   └───────────────────────────┘
@@ -69,21 +69,21 @@ keywords:
                     │     THE PHILOSOPHY ZONE       │   │       THE SUPPORT ZONE        │
                     │                               │   │                               │
                     │  ┌─────────────────────────┐  │   │  ┌─────────────────────────┐  │
-                    │  │   PHILOSOPHY_MAP.md     │  │   │  │   DATA_QUALITY_MAP.md   │  │
+                    │  │  12_PHILOSOPHY_MAP.md   │  │   │  │  9_DATA_QUALITY_MAP.md  │  │
                     │  │   "The Deep Theory"     │  │   │  │   "Trust the Data"      │  │
                     │  └─────────────────────────┘  │   │  └─────────────────────────┘  │
                     │  ┌─────────────────────────┐  │   │  ┌─────────────────────────┐  │
-                    │  │ KEELY_INTEGRATION       │  │   │  │   TESTING_MAP.md        │  │
-                    │  │ "The 3-6-9 Spectral"    │  │   │  │   "Quality Gates"       │  │
+                    │  │ 8_TEMPORAL_STABILITY    │  │   │  │  10_TESTING_MAP.md      │  │
+                    │  │ "Stability + PLL"       │  │   │  │   "Quality Gates"       │  │
                     │  └─────────────────────────┘  │   │  └─────────────────────────┘  │
                     │  ┌─────────────────────────┐  │   │  ┌─────────────────────────┐  │
-                    │  │ IDENTITY_LOCK_PARAMS    │  │   │  │ S7_META_LOOP_           │  │
-                    │  │ "The Thresholds"        │  │   │  │ CONSERVATIVE_ANALYSIS   │  │
+                    │  │ 13_IDENTITY_LATTICE     │  │   │  │ 15_S7_META_LOOP_        │  │
+                    │  │ "The 5D Geometry"       │  │   │  │ CONSERVATIVE_ANALYSIS   │  │
                     │  └─────────────────────────┘  │   │  │ "Methodology Notes"     │  │
-                    │  ┌─────────────────────────┐  │   │  └─────────────────────────┘  │
-                    │  │ INVERSE_PFI_PROTOCOL    │  │   │                               │
-                    │  │ "Reverse Engineering"   │  │   │                               │
-                    │  └─────────────────────────┘  │   │                               │
+                    │                               │   │  └─────────────────────────┘  │
+                    │                               │   │                               │
+                    │                               │   │                               │
+                    │                               │   │                               │
                     │                               │   │                               │
                     └───────────────────────────────┘   └───────────────────────────────┘
 ```
@@ -97,7 +97,7 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **NYQUIST_ROADMAP.md** | The Master Plan | S0-S77 complete stack, priority paths, Nova's recommendations |
+| **[4_NYQUIST_ROADMAP.md](4_NYQUIST_ROADMAP.md)** | The Master Plan | S0-S77 complete stack, priority paths, Nova's recommendations |
 
 **The North Star** - All other maps ultimately serve this vision. When lost, return here.
 
@@ -108,10 +108,10 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **STACKUP_MAP.md** | Layer Definitions | S0-S16, S77 specs, completion %, dependencies |
-| **REPO_MAP.md** | Directory Guide | Every folder explained, file purposes |
-| **IDENTITY_LATTICE_MAPS.md** | Geometric Model | 5D drift space, manifold topology, attractor basins |
-| **PHILOSOPHY_MAP.md** | Theoretical Frame | Platonic ideals, Nyquist bridge, conceptual grounding |
+| **[5_STACKUP_MAP.md](5_STACKUP_MAP.md)** | Layer Definitions | S0-S16, S77 specs, completion %, dependencies |
+| **[16_REPO_MAP.md](16_REPO_MAP.md)** | Directory Guide | Every folder explained, file purposes |
+| **[13_IDENTITY_LATTICE_MAPS.md](13_IDENTITY_LATTICE_MAPS.md)** | Geometric Model | 5D drift space, manifold topology, attractor basins |
+| **[12_PHILOSOPHY_MAP.md](12_PHILOSOPHY_MAP.md)** | Theoretical Frame | Platonic ideals, Nyquist bridge, conceptual grounding |
 
 **The Bedrock** - Without understanding these, the rest makes no sense.
 
@@ -122,8 +122,8 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **VALIDATION_STATUS.md** | Progress Tracker | Layer-by-layer validation, S7 98% complete, 82% inherent drift |
-| **TESTABLE_PREDICTIONS_MATRIX.md** | Claim Registry | 46 predictions, P1-P46, status badges, confidence tiers |
+| **[3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md)** | Progress Tracker | Layer-by-layer validation, S7 98% complete, 82% inherent drift |
+| **[2_TESTABLE_PREDICTIONS_MATRIX.md](2_TESTABLE_PREDICTIONS_MATRIX.md)** | Claim Registry | 46 predictions, P1-P46, status badges, confidence tiers |
 
 **📐 METHODOLOGY NOTE:** Predictions are validated under different methodologies (Keyword RMS, Euclidean, Cosine). Each methodology has its own Event Horizon threshold. For the ONE SOURCE OF TRUTH on methodology domains, see **[5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md)**.
 
@@ -136,9 +136,10 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **PROBING_STRATEGIES.md** | Experiment Cookbook | Triple-Dip, Adversarial, SONAR, Curriculum probes |
-| **INVERSE_PFI_PROTOCOL.md** | Reverse Measurement | Reconstructing identity from drift vectors |
-| **S7_META_LOOP_CONSERVATIVE_ANALYSIS.md** | Methodology Guard | Conservative interpretations, rigor checks |
+| **[10_TESTING_MAP.md](10_TESTING_MAP.md)** | Experiment Cookbook | Six search types, probing strategies, SSOT pointers |
+| **[15_S7_META_LOOP_CONSERVATIVE_ANALYSIS.md](15_S7_META_LOOP_CONSERVATIVE_ANALYSIS.md)** | Methodology Guard | Conservative interpretations, rigor checks |
+
+> **Note:** PROBING_STRATEGIES.md and INVERSE_PFI_PROTOCOL.md have been consolidated into 10_TESTING_MAP.md with SSOT pointers to spec files.
 
 **The Laboratory** - Experiment design specs. No run launches without consulting these.
 
@@ -149,12 +150,12 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **ARMADA_MAP.md** | Ship Registry | 48 ships, 5 providers, capabilities, run history |
-| **LLM_BEHAVIORAL_MATRIX.md** | Task Router | Which LLM for which task? Recovery profiles, drift fingerprints |
-| **PERSONA_FLEET_MATRIX.md** | Assignment Logic | 23 personas, compatibility scores, friction vs synergy |
-| **PUBLICATION_MAP.md** | Publication Pipeline | 8 paths, current position, LLM_BOOK integration |
+| **[1_ARMADA_MAP.md](1_ARMADA_MAP.md)** | Ship Registry | 48 ships, 5 providers, capabilities, run history |
+| **[6_LLM_BEHAVIORAL_MATRIX.md](6_LLM_BEHAVIORAL_MATRIX.md)** | Task Router | Which LLM for which task? Recovery profiles, drift fingerprints |
+| **[17_PERSONA_FLEET_MATRIX.md](17_PERSONA_FLEET_MATRIX.md)** | Assignment Logic | 23 personas, compatibility scores, friction vs synergy |
+| **[7_PUBLICATION_MAP.md](7_PUBLICATION_MAP.md)** | Publication Pipeline | 8 paths, current position, LLM_BOOK integration |
 
-**The Armada** - The ships that sail the identity ocean. Fleet management central. LLM_BEHAVIORAL_MATRIX answers "Which LLM should I use for THIS task?" based on IRON CLAD validated experiments.
+**The Armada** - The ships that sail the identity ocean. Fleet management central. 6_LLM_BEHAVIORAL_MATRIX answers "Which LLM should I use for THIS task?" based on IRON CLAD validated experiments.
 
 ---
 
@@ -163,8 +164,9 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **KEELY_INTEGRATION_ROADMAP.md** | Spectral Theory | 3-6-9 band decomposition, harmonic identity |
-| **IDENTITY_LOCK_PARAMETERS.md** | Threshold Specs | Lock conditions, parameter bounds |
+| **[8_TEMPORAL_STABILITY_MAP.md](8_TEMPORAL_STABILITY_MAP.md)** | Stability + PLL | Stability criteria, ILL parameters, threshold specs |
+
+> **Note:** KEELY_INTEGRATION_ROADMAP.md and IDENTITY_LOCK_PARAMETERS.md have been archived/consolidated. Speculative content now lives in 8_TEMPORAL_STABILITY_MAP.md or .archive/.
 
 **The Frontier** - Theory ahead of validation. Exciting but unproven.
 
@@ -175,8 +177,8 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **DATA_QUALITY_MAP.md** | Integrity Checks | Quality thresholds, anomaly flags |
-| **TESTING_MAP.md** | Test Coverage | CI/CD status, regression tests |
+| **[9_DATA_QUALITY_MAP.md](9_DATA_QUALITY_MAP.md)** | Integrity Checks | Quality thresholds, anomaly flags |
+| **[10_TESTING_MAP.md](10_TESTING_MAP.md)** | Test Coverage | CI/CD status, regression tests |
 
 **The Gatekeepers** - Nothing ships to publication without passing these.
 
@@ -188,10 +190,10 @@ keywords:
 
 | Resource | Role | Key Contents |
 |----------|------|--------------|
-| **REPO_SYNC_MAP.md** | External Repo Reference | 6 partners, sync directions, governance |
-| **STACKUP_MAP § External Integrations** | Integration Hub | Architecture diagram, S-layer mapping |
+| **[14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md)** | External Repo Reference | 6 partners, sync directions, governance |
+| **[5_STACKUP_MAP.md](5_STACKUP_MAP.md) § External Integrations** | Integration Hub | Architecture diagram, S-layer mapping |
 | **FRAME_THEORY** (REPO-SYNC/FRAME_THEORY/) | S10 Foundation | 3 cognitive diagrams, human cognition substrate |
-| **TEMPORAL_STABILITY_MAP.md** | Stability Central | Run 015-018, metrics, criteria discovery |
+| **[8_TEMPORAL_STABILITY_MAP.md](8_TEMPORAL_STABILITY_MAP.md)** | Stability Central | Run 015-018, metrics, criteria discovery |
 | **REPO-SYNC/** | External Repos | CFA, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS, FRAME_THEORY |
 
 **The Federation** - External repositories that extend and validate Nyquist findings.
@@ -453,11 +455,11 @@ When creating a new map:
 - [../GLOSSARY.md](../GLOSSARY.md) - Term definitions
 - [../../START_HERE.md](../../START_HERE.md) - Project entry point
 - [../../REPO-SYNC/FRAME_THEORY/INDEX.md](../../REPO-SYNC/FRAME_THEORY/INDEX.md) - Human cognition integration (S10)
-- [REPO_SYNC_MAP.md](REPO_SYNC_MAP.md) - External repo integrations (6 partners)
-- [TEMPORAL_STABILITY_MAP.md](TEMPORAL_STABILITY_MAP.md) - Stability criteria and experiments
+- [14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md) - External repo integrations (6 partners)
+- [8_TEMPORAL_STABILITY_MAP.md](8_TEMPORAL_STABILITY_MAP.md) - Stability criteria and experiments
 
 ---
 
-*Last Updated: 2025-12-22*
-*Maps Count: 22*
+*Last Updated: 2025-12-28*
+*Maps Count: 18 (numbered) + README.md + update_maps.py*
 *Territory: The Mind*

@@ -14,7 +14,7 @@
 | [0_RUN_METHODOLOGY.md](0_RUN_METHODOLOGY.md) | Operational implementation of these principles |
 | [2_PROBE_SPEC.md](2_PROBE_SPEC.md) | Probe design and selection criteria |
 | [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) | **ONE SOURCE OF TRUTH** for drift methodology (Keyword vs Cosine) |
-| [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) | Fleet registry and capabilities (49 ships) |
+| [ARMADA_MAP.md](../../../../../docs/maps/1_ARMADA_MAP.md) | Fleet registry and capabilities (49 ships) |
 | [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration matrix (provider/model_family/ship terminology) |
 
 ---

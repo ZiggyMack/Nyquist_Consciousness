@@ -347,7 +347,7 @@ The 3072D is just the measurement instrument. Like using a 1000-pixel camera to 
 **Fleet Configuration:**
 
 - [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
-- [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster
+- [ARMADA_MAP.md](../../../../../docs/maps/1_ARMADA_MAP.md) - Complete fleet roster
 
 **Implementation & Archives:**
 

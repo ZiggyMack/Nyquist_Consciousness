@@ -273,7 +273,7 @@ All visualizations use **Cosine distance** methodology:
 ## Related Documentation
 
 - [5_METHODOLOGY_DOMAINS.md](../../../planning/METHODOLOGY_DOMAINS.md) - ONE SOURCE OF TRUTH for methodology
-- [TESTABLE_PREDICTIONS_MATRIX.md](../../../../docs/maps/TESTABLE_PREDICTIONS_MATRIX.md) - 46 predictions with status
+- [TESTABLE_PREDICTIONS_MATRIX.md](../../../../docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md) - 46 predictions with status
 - [S7_RUN_023_SUMMARY.md](../../../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_023_SUMMARY.md) - Run 023 detailed summary
 
 ---

@@ -162,7 +162,7 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 | File | Purpose | Read Time |
 |------|---------|-----------|
 | `experiments/temporal_stability/S7_ARMADA/0_docs/S7_CONSOLIDATED_FINDINGS.md` | All S7 results | 20 min |
-| `docs/maps/VALIDATION_STATUS.md` | Validation progress | 10 min |
+| `docs/maps/3_VALIDATION_STATUS.md` | Validation progress | 10 min |
 
 ---
 

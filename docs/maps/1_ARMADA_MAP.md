@@ -487,7 +487,7 @@ These distinct behavioral patterns appear in identity stability experiments. Eac
 | **Qwen** | Technical | Precise, detail-oriented |
 | **Mistral** | Concise | European efficiency, less verbose |
 
-**Full behavioral matrix:** See [LLM_BEHAVIORAL_MATRIX.md](LLM_BEHAVIORAL_MATRIX.md) for task routing recommendations.
+**Full behavioral matrix:** See [6_LLM_BEHAVIORAL_MATRIX.md](6_LLM_BEHAVIORAL_MATRIX.md) for task routing recommendations.
 
 ---
 
@@ -596,7 +596,7 @@ cat ../0_results/manifests/VERIFIED_FLEET_MANIFEST.json
 
 ## Related Documents
 
-- [TESTING_MAP.md](TESTING_MAP.md) - Eight search types
+- [10_TESTING_MAP.md](10_TESTING_MAP.md) - Eight search types
 - [3_ARMADA_UPKEEP.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/3_ARMADA_UPKEEP.md) - Fleet maintenance guide
 - [2_PROBE_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md) - SONAR probe curriculum
 - [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology

@@ -207,7 +207,7 @@ py run_calibrate_parallel.py --full --depth baseline
 
 This updates:
 
-- `docs/maps/ARMADA_MAP.md` - Human-readable fleet status
+- `docs/maps/1_ARMADA_MAP.md` - Human-readable fleet status
 - `0_results/manifests/ARCHITECTURE_MATRIX.json` - Machine-readable fleet config
 
 **Single Source of Truth:** Run scripts automatically load fleet config from `1_CALIBRATION/lib/fleet_loader.py`. No manual script edits needed when fleet changes - just run calibration.
@@ -250,7 +250,7 @@ Results are saved to `0_results/runs/S7_run_XXX_*.json`
 
 ## The Eight Search Types
 
-See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for full details:
+See [TESTING_MAP.md](../../../docs/maps/10_TESTING_MAP.md) for full details:
 
 | Type | What It Finds | Protocol | Run |
 |------|---------------|----------|-----|
@@ -379,7 +379,7 @@ py 1_CALIBRATION/run_calibrate_parallel.py --fleet patrol-lite          # Curate
 
 See: [1_CALIBRATION/README.md](1_CALIBRATION/README.md) | [4_VALIS_DECLARATION.md](0_docs/specs/4_VALIS_DECLARATION.md)
 
-**Fleet Status (December 2025)**: 54+ operational ships across 5 providers. See [docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md).
+**Fleet Status (December 2025)**: 54+ operational ships across 5 providers. See [docs/maps/1_ARMADA_MAP.md](../../../docs/maps/1_ARMADA_MAP.md).
 
 ---
 
@@ -527,7 +527,7 @@ Proceed? [Y/n]:
 
 - Creates `S7_baseline_YYYYMMDD_HHMMSS.json`
 - Updates `S7_baseline_LATEST.json`
-- Updates `docs/maps/ARMADA_MAP.md` (fleet status + baseline history)
+- Updates `docs/maps/1_ARMADA_MAP.md` (fleet status + baseline history)
 
 ---
 
@@ -849,7 +849,7 @@ See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
 |------|----------|---------|
 | Run Design Checklist | `0_docs/specs/RUN_DESIGN_CHECKLIST.md` | Pre-flight for new runs |
 | Sonar Probe Curriculum | `0_docs/specs/SONAR_PROBE_CURRICULUM.md` | Probe sequence design |
-| Testing Map | `../../../docs/maps/TESTING_MAP.md` | Eight search types |
+| Testing Map | `../../../docs/maps/10_TESTING_MAP.md` | Eight search types |
 | CFA Design Spec | `12_CFA/schemas/RUN_CFA_DESIGN.md` | CFA Trinity experiment design |
 
 ---

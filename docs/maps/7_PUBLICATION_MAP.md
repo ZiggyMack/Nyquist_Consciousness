@@ -282,8 +282,8 @@ experiments/temporal_stability/S7_ARMADA/
 | Document | Purpose |
 |----------|---------|
 | [PUBLICATION_PIPELINE_MASTER.md](../../WHITE-PAPER/planning/PUBLICATION_PIPELINE_MASTER.md) | Source of truth for 8 paths |
-| [VALIDATION_STATUS.md](VALIDATION_STATUS.md) | Layer-by-layer validation |
-| [TEMPORAL_STABILITY_MAP.md](TEMPORAL_STABILITY_MAP.md) | S7 stability criteria |
+| [3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md) | Layer-by-layer validation |
+| [8_TEMPORAL_STABILITY_MAP.md](8_TEMPORAL_STABILITY_MAP.md) | S7 stability criteria |
 | [LLM_BOOK README](../../REPO-SYNC/LLM_BOOK/README.md) | NotebookLM validation |
 | [SYNC_STATUS.md](../../WHITE-PAPER/reviewers/SYNC_STATUS.md) | Review coordination |
 

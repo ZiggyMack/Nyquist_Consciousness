@@ -19,7 +19,7 @@
 
 **FULL ARMADA**: 49 operational ships (82% of fleet)
 
-For complete fleet roster with model IDs, see [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md).
+For complete fleet roster with model IDs, see [ARMADA_MAP.md](../../../../../docs/maps/1_ARMADA_MAP.md).
 
 > **Terminology:** Provider = API infrastructure (5 total), Model Family = architecture lineage (10 total),
 > Ship = individual model instance (49 operational). See [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json).
@@ -250,7 +250,7 @@ MAX_WORKERS = {
 - [2_PROBE_SPEC.md](2_PROBE_SPEC.md) - SONAR probe curriculum
 - [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
 - [1_INTENTIONALITY.md](1_INTENTIONALITY.md) - Phase 4 pipeline design
-- [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster with model IDs and costs
+- [ARMADA_MAP.md](../../../../../docs/maps/1_ARMADA_MAP.md) - Complete fleet roster with model IDs and costs
 - [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
 
 ---

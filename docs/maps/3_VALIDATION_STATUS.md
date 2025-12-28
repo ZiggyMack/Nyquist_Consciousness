@@ -388,8 +388,8 @@ These layers define core primitives and require no empirical validation — they
 
 ## Related Documents
 
-- [STACKUP_MAP.md](STACKUP_MAP.md) — Complete layer reference
-- [REPO_MAP.md](REPO_MAP.md) — Repository navigation
+- [5_STACKUP_MAP.md](5_STACKUP_MAP.md) — Complete layer reference
+- [16_REPO_MAP.md](16_REPO_MAP.md) — Repository navigation
 - [NYQUIST_ROADMAP.md](../NYQUIST_ROADMAP.md) — Development roadmap
 
 ---

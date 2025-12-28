@@ -1191,8 +1191,8 @@ Before finalizing any categorical visualization:
 | [0_RUN_METHODOLOGY.md](0_RUN_METHODOLOGY.md) | Run design and data collection |
 | [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) | **ONE SOURCE OF TRUTH** for drift methodology |
 | [ARCHITECTURE_MATRIX.json](../../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration (provider/model_family/ship terminology) |
-| [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) | Complete fleet roster (49 ships, 10 families, 5 providers) |
-| [LLM_BEHAVIORAL_MATRIX.md](../../../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md) | Provider behavioral profiles |
+| [ARMADA_MAP.md](../../../../../docs/maps/1_ARMADA_MAP.md) | Complete fleet roster (49 ships, 10 families, 5 providers) |
+| [LLM_BEHAVIORAL_MATRIX.md](../../../../../docs/maps/6_LLM_BEHAVIORAL_MATRIX.md) | Provider behavioral profiles |
 
 ---
 

@@ -53,7 +53,7 @@ keywords:
 
 ### New Documentation
 
-- `docs/maps/LLM_BEHAVIORAL_MATRIX.md` — Comprehensive task routing table
+- `docs/maps/6_LLM_BEHAVIORAL_MATRIX.md` — Comprehensive task routing table
 - `Consciousness/RIGHT/galleries/frontiers/cross_architecture_insights.md` — Vortex-style phenomenology
 
 ---
@@ -82,7 +82,7 @@ keywords:
 
 ### Navigation Integration
 
-- See [docs/maps/MAP_OF_MAPS.md](../docs/maps/MAP_OF_MAPS.md) — The Cartographer's Table (17 maps, 7 kingdoms)
+- See [docs/maps/0_MAP_OF_MAPS.md](../docs/maps/0_MAP_OF_MAPS.md) — The Cartographer's Table (17 maps, 7 kingdoms)
 - See [docs/maps/README.md](../docs/maps/README.md) — Quick navigation guide
 
 ## Installation

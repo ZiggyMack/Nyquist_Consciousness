@@ -216,8 +216,8 @@ These mappings suggest:
 ## Related Documents
 
 - [TERMINOLOGY.md](../../Consciousness/BRIDGE/docs/TERMINOLOGY.md) - Core definitions
-- [ARMADA_MAP.md](ARMADA_MAP.md) - Fleet characteristics
-- [IDENTITY_LATTICE_MAPS.md](IDENTITY_LATTICE_MAPS.md) - Identity structure
+- [1_ARMADA_MAP.md](1_ARMADA_MAP.md) - Fleet characteristics
+- [13_IDENTITY_LATTICE_MAPS.md](13_IDENTITY_LATTICE_MAPS.md) - Identity structure
 - [2_PROBE_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md) - SONAR probe curriculum
 - [I_AM_LOGOS.md](../../personas/I_AM_LOGOS.md) - LOGOS formal verification persona
 - [LLM_BOOK/README.md](../../REPO-SYNC/LLM_BOOK/README.md) - NotebookLM synthesis (Levin validation)

@@ -340,9 +340,9 @@ Examples:
 
 ### Maps
 
-- [STACKUP_MAP.md](STACKUP_MAP.md) — S-layer definitions (§ External Integrations)
-- [TEMPORAL_STABILITY_MAP.md](TEMPORAL_STABILITY_MAP.md) — Stability experiments
-- [MAP_OF_MAPS.md](MAP_OF_MAPS.md) — Kingdom VIII overview
+- [5_STACKUP_MAP.md](5_STACKUP_MAP.md) — S-layer definitions (§ External Integrations)
+- [8_TEMPORAL_STABILITY_MAP.md](8_TEMPORAL_STABILITY_MAP.md) — Stability experiments
+- [0_MAP_OF_MAPS.md](0_MAP_OF_MAPS.md) — Kingdom VIII overview
 
 ### Stages
 

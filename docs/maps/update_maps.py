@@ -162,11 +162,11 @@ def generate_report() -> str:
         f"  Ships in fleet: {count_ships()}",
         "",
         "## Source of Truth Mapping",
-        "  predictions: S7_RUN_*_SUMMARY.md → TESTABLE_PREDICTIONS_MATRIX.md",
-        "  validation: S7_RUN_*_SUMMARY.md → VALIDATION_STATUS.md",
+        "  predictions: S7_RUN_*_SUMMARY.md → 2_TESTABLE_PREDICTIONS_MATRIX.md",
+        "  validation: S7_RUN_*_SUMMARY.md → 3_VALIDATION_STATUS.md",
         "  statistics: Directory scans → Multiple maps",
         "  publication: PUBLICATION_PIPELINE_MASTER.md → publication_status.json",
-        "  publication: PUBLICATION_PIPELINE_MASTER.md → PUBLICATION_MAP.md",
+        "  publication: PUBLICATION_PIPELINE_MASTER.md → 7_PUBLICATION_MAP.md",
         "",
         "=" * 60,
         "To apply updates, run: py update_maps.py --update",
@@ -182,10 +182,10 @@ def update_predictions_matrix(dry_run: bool = True) -> List[str]:
     Returns list of changes made.
     """
     changes = []
-    matrix_path = MAPS_DIR / "TESTABLE_PREDICTIONS_MATRIX.md"
+    matrix_path = MAPS_DIR / "2_TESTABLE_PREDICTIONS_MATRIX.md"
 
     if not matrix_path.exists():
-        return ["ERROR: TESTABLE_PREDICTIONS_MATRIX.md not found"]
+        return ["ERROR: 2_TESTABLE_PREDICTIONS_MATRIX.md not found"]
 
     content = matrix_path.read_text(encoding="utf-8")
     original = content

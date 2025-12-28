@@ -554,7 +554,7 @@ ESTIMATED_COST = {
 
 **CRITICAL:** Different LLMs have fundamentally different behavioral profiles under identity probing. Select the right model for your experiment type based on IRON CLAD validated findings.
 
-**Primary Reference:** [LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md)
+**Primary Reference:** [LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/6_LLM_BEHAVIORAL_MATRIX.md)
 
 #### Quick Reference: Which LLM for Which Experiment?
 
@@ -605,7 +605,7 @@ Gemini at D > 1.5:
 #### See Full Matrix
 
 For detailed profiles, use case recommendations, and experimental evidence:
-- [LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md)
+- [LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/6_LLM_BEHAVIORAL_MATRIX.md)
 - [CROSS_ARCHITECTURE_INSIGHTS.md](../../../../Consciousness/RIGHT/galleries/frontiers/cross_architecture_insights.md)
 
 ### 8. DRIFT CALCULATION (COSINE EMBEDDING)
@@ -1659,9 +1659,9 @@ See [1_INTENTIONALITY.md](1_INTENTIONALITY.md) for the full Triple Mining Strate
 | [2_PROBE_SPEC.md](2_PROBE_SPEC.md) | Probe design and selection - SONAR vs Brute-Criterial |
 | [SONAR_PROBE_CURRICULUM.md](SONAR_PROBE_CURRICULUM.md) | Probe sequence design - 7 probe types, 15-probe protocol |
 | [4_VISUALIZATION_SPEC.md](4_VISUALIZATION_SPEC.md) | **Visualization pitfalls & patterns** - Data extraction gotchas, light mode standards, effect sizes |
-| [../../../docs/maps/TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) | Eight search types and when to use each |
-| [../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/LLM_BEHAVIORAL_MATRIX.md) | **Which LLM for which task?** - Task routing based on behavioral profiles |
-| [../../../docs/maps/ARMADA_MAP.md](../../../docs/maps/ARMADA_MAP.md) | Fleet registry - 49 ships, provider fingerprints |
+| [../../../docs/maps/10_TESTING_MAP.md](../../../docs/maps/10_TESTING_MAP.md) | Eight search types and when to use each |
+| [../../../docs/maps/6_LLM_BEHAVIORAL_MATRIX.md](../../../docs/maps/6_LLM_BEHAVIORAL_MATRIX.md) | **Which LLM for which task?** - Task routing based on behavioral profiles |
+| [../../../docs/maps/1_ARMADA_MAP.md](../../../docs/maps/1_ARMADA_MAP.md) | Fleet registry - 49 ships, provider fingerprints |
 
 ---
 

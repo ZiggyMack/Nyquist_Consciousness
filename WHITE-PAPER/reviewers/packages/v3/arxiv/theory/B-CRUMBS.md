@@ -281,7 +281,7 @@ Run 016 Results:
 
 **LOCATION:**
 - `experiments/temporal_stability/S7_ARMADA/10_SETTLING_TIME/`
-- `docs/maps/TESTABLE_PREDICTIONS_MATRIX.md` → Section 2F
+- `docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md` → Section 2F
 
 **WHY_IT_MATTERS:**
 Transient overshoot ≠ instability. Systems engineering teaches this; LLM research hadn't applied it.

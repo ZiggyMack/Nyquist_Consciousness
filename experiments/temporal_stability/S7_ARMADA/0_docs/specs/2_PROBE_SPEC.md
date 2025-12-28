@@ -370,7 +370,7 @@ Then compare:
 
 ### Current Fleet (49 ships across 5 providers)
 
-See [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) for complete fleet roster.
+See [ARMADA_MAP.md](../../../../../docs/maps/1_ARMADA_MAP.md) for complete fleet roster.
 
 **Probe Distribution Options:**
 
@@ -772,8 +772,8 @@ Before adding probes to a run, ask:
 - [1_INTENTIONALITY.md](1_INTENTIONALITY.md) - Phase 4 vision and complete circuit
 - [3_ARMADA_UPKEEP.md](3_ARMADA_UPKEEP.md) - Fleet maintenance and calibration
 - [5_METHODOLOGY_DOMAINS.md](5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
-- [ARMADA_MAP.md](../../../../../docs/maps/ARMADA_MAP.md) - Complete fleet roster (49 ships)
-- [PHILOSOPHY_MAP.md](../../../../../docs/maps/PHILOSOPHY_MAP.md) - Platonic-Nyquist bridge
+- [ARMADA_MAP.md](../../../../../docs/maps/1_ARMADA_MAP.md) - Complete fleet roster (49 ships)
+- [PHILOSOPHY_MAP.md](../../../../../docs/maps/12_PHILOSOPHY_MAP.md) - Platonic-Nyquist bridge
 
 ---
 

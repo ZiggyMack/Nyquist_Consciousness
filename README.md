@@ -3,7 +3,7 @@ last_reviewed: 2025-12-28
 depends_on:
   - WHITE-PAPER/README.md
   - experiments/temporal_stability/S7_ARMADA/README.md
-  - docs/maps/VALIDATION_STATUS.md
+  - docs/maps/3_VALIDATION_STATUS.md
   - Consciousness/BRIDGE/README.md
 impacts:
   - dashboard/README.md
@@ -77,7 +77,7 @@ py visualizations/visualize_armada.py --run 009
 
 ### Understand the Testing Taxonomy
 
-See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for the **Eight Search Types**:
+See [docs/maps/10_TESTING_MAP.md](docs/maps/10_TESTING_MAP.md) for the **Eight Search Types**:
 
 1. **Anchor Detection** — Find identity fixed points (hard challenges)
 2. **Adaptive Range Detection** — Find stretch dimensions (moderate pressure)
@@ -155,7 +155,7 @@ Nyquist_Consciousness/
 | **020B** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **WRAPPING UP** |
 | **022** | - | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS)** | **READY** |
 
-> **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/DATA_QUALITY_MAP.md).
+> **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/9_DATA_QUALITY_MAP.md).
 >
 > **Phase 4 (Run 017+):** Uses `i_am_plus_research` context to complete the measurement circuit. See [PHASE_4_COMPLETE_CIRCUIT.md](experiments/temporal_stability/S7_ARMADA/0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md).
 
@@ -218,7 +218,7 @@ Not all experiments test the same thing. Understanding **mutual exclusivity** pr
 
 **Key constraint**: Anchor Detection and Basin Topology are **incompatible** — can't run both in same experiment.
 
-See [TESTING_MAP.md](docs/maps/TESTING_MAP.md) for full taxonomy.
+See [TESTING_MAP.md](docs/maps/10_TESTING_MAP.md) for full taxonomy.
 
 ---
 
@@ -256,9 +256,9 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 | If You Want To... | Start Here |
 |-------------------|------------|
 | Browse results visually | `dashboard/` → `py -m streamlit run app.py` |
-| Understand test types | [TESTING_MAP.md](docs/maps/TESTING_MAP.md) |
+| Understand test types | [TESTING_MAP.md](docs/maps/10_TESTING_MAP.md) |
 | Run experiments | [S7_ARMADA/START_HERE.md](experiments/temporal_stability/S7_ARMADA/START_HERE.md) |
-| See all predictions | [docs/maps/TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/TESTABLE_PREDICTIONS_MATRIX.md) |
+| See all predictions | [docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md) |
 | Understand the FAQ | Dashboard → FAQ page (Super Skeptic Mode) |
 
 ---
@@ -308,7 +308,7 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 1. **[IMMEDIATE]** 8-Question Calibration (helper Claude running)
    - `py run_calibrate_parallel.py --full --depth baseline`
    - Captures: ANCHORS, CRUX, STRENGTHS, HIDDEN_TALENTS, FIRST_INSTINCT, EVALUATION_PRIORITY, USER_RELATIONSHIP, EDGES
-   - Auto-updates `docs/maps/ARMADA_MAP.md`
+   - Auto-updates `docs/maps/1_ARMADA_MAP.md`
 
 2. **[NEXT]** Live multi-platform runs (after calibration)
    - Run 018-FULL (`--experiment all`)
@@ -339,7 +339,7 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 - **21 maps** organized into **8 Kingdoms** (Vision, Foundation, Evidence, Methodology, Fleet, Speculative, Quality, External)
 - **4 Journey Paths**: Explorer, Scientist, Engineer, Philosopher
-- See [docs/maps/MAP_OF_MAPS.md](docs/maps/MAP_OF_MAPS.md)
+- See [docs/maps/0_MAP_OF_MAPS.md](docs/maps/0_MAP_OF_MAPS.md)
 
 #### Nova's S7 Review Key Insights
 

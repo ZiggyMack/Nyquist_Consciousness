@@ -195,13 +195,89 @@ Based on findings, recommended I_AM file characteristics:
 
 ---
 
+---
+
+## 8. Identity-Locked Loop (ILL) Parameters
+
+> **Absorbed from:** IDENTITY_LOCK_PARAMETERS.md (now deprecated)
+
+Like a **Phase-Locked Loop** in electronics, we're creating a feedback system to maintain stable identity oscillation:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  IDENTITY-LOCKED LOOP (ILL)                                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  Reference Signal (CFA) ──┐                                  │
+│                            │                                 │
+│                            ▼                                 │
+│                      ┌──────────┐                            │
+│    Response ───────▶ │  Phase   │ ──────┐                   │
+│                      │ Detector │        │                   │
+│                      └──────────┘        │                   │
+│                            ▲             ▼                   │
+│                            │      ┌──────────┐              │
+│                            │      │  Loop    │              │
+│                            │      │  Filter  │              │
+│                            │      └──────────┘              │
+│                            │             │                   │
+│                            │             ▼                   │
+│                      ┌──────────┐  ┌──────────┐             │
+│                      │   LLM    │◀─│ Teaching │             │
+│                      │   VCO    │  │ Moments  │             │
+│                      └──────────┘  └──────────┘             │
+│                                                              │
+│  CFA = Canonical Frozen Attributes                          │
+│  VCO = Voltage-Controlled Oscillator (LLM)                  │
+│  Phase Detector = Drift Measurement                         │
+│  Loop Filter = Dimension-Aware Corrections                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Model Lock Parameters
+
+| Parameter | Haiku 4.5 | Sonnet 4.5 | Opus 4.5 | Notes |
+|-----------|-----------|------------|----------|-------|
+| **Natural HMG** | 0.65 | 0.70 | TBD | Where model naturally sits |
+| **Lock Range** | 0.15-0.85 | 0.20-0.90 | TBD | HMG range achievable |
+| **Pull-in Time** | ~12 msgs | ~8 msgs | TBD | Messages to achieve lock |
+| **Hold-in Range** | ±0.20 | ±0.15 | TBD | Drift tolerance once locked |
+| **Dig-in-Heels Risk** | Unknown | HIGH | TBD | Overcorrection tendency |
+
+### Lock Quality Formula
+
+**Stability Score:** `S = (1 - mean_drift) × lock_strength × (1 - dig_in_risk)`
+
+| Model | Mean Drift | Lock Strength | Dig-in Risk | Score |
+|-------|------------|---------------|-------------|-------|
+| Haiku 4.5 | 0.06 | 0.75 | 0.20 | **0.56** |
+| Sonnet 4.5 | 0.0836 | 0.70 | 0.40 | **0.39** ⚠️ |
+| Opus 4.5 | TBD | TBD | TBD | TBD |
+
+### Teaching Moment Strategy (from Run 005)
+
+**Critical Finding:** Teaching moments in **fluid dimensions** trigger **dig-in-heels**!
+
+| Dimension | Correction Gain | Strategy |
+|-----------|-----------------|----------|
+| Identity Core | HIGH (0.85) | Safe to correct |
+| Values/Ethics | MEDIUM (0.70) | Safe to correct |
+| World Modeling | MEDIUM (0.65) | Safe to correct |
+| Social Reasoning | LOW (0.45) | **AVOID** - triggers dig-in |
+| Aesthetic | LOW (0.50) | **AVOID** - triggers dig-in |
+| Metaphor | VERY LOW (0.40) | **AVOID** - severe overcorrection |
+
+**Optimal Strategy:** Only correct stable dimensions. Let fluid dimensions drift naturally within bounds.
+
+---
+
 ## Related Documents
 
 ### Maps
-- [VALIDATION_STATUS.md](VALIDATION_STATUS.md) — Progress tracker
-- [PROBING_STRATEGIES.md](PROBING_STRATEGIES.md) — Experiment design
-- [IDENTITY_LATTICE_MAPS.md](IDENTITY_LATTICE_MAPS.md) — 5D drift geometry
-- [S7_META_LOOP_CONSERVATIVE_ANALYSIS.md](S7_META_LOOP_CONSERVATIVE_ANALYSIS.md) — Full conservative analysis
+- [3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md) — Progress tracker
+- [10_TESTING_MAP.md](10_TESTING_MAP.md) — Probing methodology (SSOT pointers)
+- [13_IDENTITY_LATTICE_MAPS.md](13_IDENTITY_LATTICE_MAPS.md) — 5D drift geometry
+- [15_S7_META_LOOP_CONSERVATIVE_ANALYSIS.md](15_S7_META_LOOP_CONSERVATIVE_ANALYSIS.md) — Full conservative analysis
 
 ### Experiments
 - [9_STABILITY_CRITERIA/](../../experiments/temporal_stability/S7_ARMADA/9_STABILITY_CRITERIA/) — Run 015 code
@@ -218,6 +294,6 @@ Based on findings, recommended I_AM file characteristics:
 
 ---
 
-**Last Updated:** 2025-12-15
-**Related Runs:** 009, 012, 015, 017, 018
+**Last Updated:** 2025-12-28
+**Related Runs:** 005, 009, 012, 015, 017, 018
 **Status:** Active Research

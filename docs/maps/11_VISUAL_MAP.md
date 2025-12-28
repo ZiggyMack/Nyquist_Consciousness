@@ -1,8 +1,14 @@
 # VISUAL_MAP.md - Master Visualization Guide
 
+> **📚 Single Source of Truth (SSOT):**
+> For the complete visualization specification, see:
+> [4_VISUALIZATION_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/4_VISUALIZATION_SPEC.md)
+>
+> This map provides a quick reference; the spec is authoritative.
+
 **Purpose:** Canonical reference for which visualizations are appropriate for which experiment types and data structures.
 
-**Last Updated:** December 17, 2025
+**Last Updated:** 2025-12-28
 
 ---
 

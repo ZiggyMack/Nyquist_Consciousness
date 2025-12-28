@@ -274,7 +274,7 @@ GOLDEN STANDARD: Maximum integration
 
 ## See Also
 
-- Full protocol: [docs/maps/INVERSE_PFI_PROTOCOL.md](../../docs/maps/INVERSE_PFI_PROTOCOL.md)
+- Full protocol: [.archive/maps/INVERSE_PFI_PROTOCOL.md](../../.archive/maps/INVERSE_PFI_PROTOCOL.md)
 
 ---
 

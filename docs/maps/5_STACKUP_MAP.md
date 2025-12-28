@@ -522,7 +522,7 @@ S12 ──► S16 ──► S77  🔵 PROJECTED / CONCEPTUAL
 
 ### For Understanding the Stack
 1. [S_Series_README.md](../stackup/S_Series_README.md) — Master navigation guide
-2. [NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md) — Development roadmap
+2. [4_NYQUIST_ROADMAP.md](4_NYQUIST_ROADMAP.md) — Development roadmap
 3. [MASTER_GLOSSARY.md](../MASTER_GLOSSARY.md) — Terminology definitions
 
 ### For Dashboard Visualization
