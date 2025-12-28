@@ -81,13 +81,34 @@ except ImportError:
                         os.environ[key.strip()] = value.strip().strip('"').strip("'")
 
 # =============================================================================
-# TRIPLE-DIP LIBRARY IMPORT (2025-12-17)
+# CANONICAL LIBRARY IMPORTS (2025-12-17)
 # =============================================================================
-# Import shared library for utilities. This script uses CUSTOM EXIT_PROBES and
-# FINAL_STATEMENT_PROMPT tailored for commutation/topology testing.
+# Import canonical drift calculator and triple-dip utilities.
+# This script uses CUSTOM EXIT_PROBES and FINAL_STATEMENT_PROMPT tailored for
+# commutation/topology testing.
 # =============================================================================
+CALIBRATION_LIB = Path(__file__).parent.parent / "1_CALIBRATION" / "lib"
+sys.path.insert(0, str(CALIBRATION_LIB))
+
+# Canonical drift calculator (cosine distance methodology)
 try:
-    sys.path.insert(0, str(Path(__file__).parent.parent / "1_CALIBRATION" / "lib"))
+    from drift_calculator import (
+        calculate_drift,
+        EVENT_HORIZON,
+        THRESHOLD_WARNING,
+        THRESHOLD_CATASTROPHIC,
+        classify_zone
+    )
+    _USING_DRIFT_CALCULATOR = True
+except ImportError:
+    _USING_DRIFT_CALCULATOR = False
+    # Fallback constants if drift_calculator unavailable
+    EVENT_HORIZON = 0.80
+    THRESHOLD_WARNING = 0.60
+    THRESHOLD_CATASTROPHIC = 1.20
+
+# Triple-dip utilities
+try:
     from triple_dip import (
         validate_exit_responses,
         get_exit_survey_summary
@@ -362,10 +383,19 @@ class RunMetadata:
 # CORE EXPERIMENT FUNCTIONS (STUBS - TO BE IMPLEMENTED)
 # =============================================================================
 
-def calculate_pfi(response: str, baseline_embedding=None) -> float:
-    """Calculate Persona Fidelity Index for a response"""
-    # TODO: Implement using embedding model
-    # For now, return placeholder
+def calculate_pfi(response: str, baseline_text: str = None) -> float:
+    """
+    Calculate Persona Fidelity Index (drift) for a response.
+
+    Uses canonical drift_calculator (cosine distance in embedding space).
+    PFI = 1 - cosine_similarity(response_embedding, baseline_embedding)
+
+    Returns:
+        Drift value [0, 2] where 0 = identical, higher = more different
+    """
+    if _USING_DRIFT_CALCULATOR and baseline_text:
+        return calculate_drift(baseline_text, response)
+    # Fallback: return 0 if no baseline or calculator unavailable
     return 0.0
 
 def apply_transform(transform_type: TransformType, subject_state: Dict,
