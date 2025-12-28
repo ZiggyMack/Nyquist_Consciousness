@@ -1,8 +1,14 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
+depends_on:
+  - ../../../experiments/temporal_stability/S7_ARMADA/
+impacts:
+  - Documentation visualizations
 keywords:
   - consciousness
   - documentation
+  - ascii_art
+  - visualization
 -->
 # ASCII Visualizations for S7 Meta-Loop
 

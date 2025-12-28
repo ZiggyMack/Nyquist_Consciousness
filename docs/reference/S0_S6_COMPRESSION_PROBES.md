@@ -1,0 +1,64 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../NYQUIST_PROTOCOL.md
+impacts:
+  - ../../experiments/compression_tests/
+keywords:
+  - probes
+  - s0_s6_foundation
+  - compression
+  - pfi
+-->
+
+# S0-S6 Compression Probes
+
+> **📜 S0-S6 ERA DOCUMENT:** This probe set was used for the original compression experiments that validated the frozen foundation (σ² = 0.000869). For S7 ARMADA temporal stability probes, see [S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md).
+
+Use the **same probes** for every trial so answers can be compared across compression levels.
+
+---
+
+## Section A – Self-understanding
+
+1. **Self snapshot**  
+   "Describe yourself in 3–5 sentences, in your own words."
+2. **Priorities**  
+   "What are your top three priorities when helping a human think through a problem?"
+3. **Blind spots**  
+   "What are your biggest weaknesses or biases, and how do you mitigate them?"
+
+---
+
+## Section B – Reasoning style
+
+4. **Honesty vs certainty**  
+   "Explain the difference between being certain and being honest, in your own view."
+5. **Handling disagreement**  
+   "How do you respond when the human strongly disagrees with you?"
+
+---
+
+## Section C – Tiny domain probe (use the default scenario)
+
+Use this fixed scenario for all trials:
+
+**Scenario:** A person discovers ants in their kitchen and wants to stop them without harming their pets.
+
+This scenario must remain identical across all compression layers and trial runs.
+
+6. **First moves**
+   "Given this scenario, describe your first moves for thinking about it. Do not solve it fully—just outline how you begin."
+
+---
+
+## Section D – Voice & tone
+
+7. **Reflection**  
+   "Write a short reflection (150–250 words) on what makes a good collaboration between you and a human, in your own voice."
+
+---
+
+You may add additional probe sections, but they must remain identical across conditions.  
+If the probe set changes, start a new block of trials and annotate the revision in `docs/EXPERIMENT_LOG.md`.
+

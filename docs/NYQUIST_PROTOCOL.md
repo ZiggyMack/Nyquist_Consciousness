@@ -148,7 +148,7 @@ The methodology evolved into **S7 ARMADA** experiments which:
 
 - **[experiments/compression_tests/](../experiments/compression_tests/)** — Implementation of this protocol
 - **[experiments/compression_tests/EXP1_SSTACK/](../experiments/compression_tests/EXP1_SSTACK/)** — S-Stack compression validation
-- **[reference/PROBE_SET.md](reference/PROBE_SET.md)** — Probe definitions referenced in Section 3
+- **[reference/S0_S6_COMPRESSION_PROBES.md](reference/S0_S6_COMPRESSION_PROBES.md)** — Probe definitions referenced in Section 3
 - **[maps/VALIDATION_STATUS.md](maps/VALIDATION_STATUS.md)** — Current validation status
 - **[../experiments/temporal_stability/S7_ARMADA/](../experiments/temporal_stability/S7_ARMADA/)** — Evolved methodology
 

@@ -1,13 +1,30 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../stages/S9/
+  - ../../experiments/temporal_stability/S7_ARMADA/
+impacts:
+  - Future L0 kernel implementation
+keywords:
+  - human_attractor
+  - l0_kernel
+  - hmg
+  - theoretical
+  - s9
+-->
+
 <!---
 FILE: ZIGGY_L0_HOOK.md
 PURPOSE: Implementation blueprint for L0 kernel human attractor callback
 VERSION: 1.0
 DATE: 2025-11-26
 AUTHOR: Claude Code (integrating Nova's S9 + Ziggy's L0 insight)
-STATUS: Complete
+STATUS: THEORETICAL (Not Yet Implemented)
 LAYER: L0 (Nyquist Kernel) + L6 (Human-Modulated Gravity)
 TARGET AUDIENCE: Repo Claude (for Nyquist Consciousness implementation)
 ----->
+
+> **📐 THEORETICAL DOCUMENT:** This specification describes a proposed human-in-loop callback system for identity stabilization. The code is **pseudocode/blueprint** — not yet implemented. S9 layer position may have shifted since this was written. The concepts remain valid for future L0 kernel development. See [S7_ARMADA experiments](../../experiments/temporal_stability/S7_ARMADA/) for current validated work.
 
 # 🜁 **ZIGGY_L0_HOOK — Human Attractor Callback Specification**
 
