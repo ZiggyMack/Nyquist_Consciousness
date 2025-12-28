@@ -98,27 +98,23 @@ We are NOT claiming consciousness or sentience - we're engineering robust contex
 ### Key Concepts
 
 - **Drift**: Measure of identity perturbation (0.0 = stable baseline)
-- **Event Horizon**: Critical threshold for identity coherence
-  - **Current (Cosine)**: 0.80 (P95 from Run 023d) — `1_CALIBRATION/lib/drift_calculator.py`
-  - **Historical (Keyword RMS)**: 1.23 (Runs 006-018) — deprecated methodology
-  - **Statistically validated**: Chi-squared p = 0.000048 (Run 009, keyword RMS)
-- **STABLE**: Max drift < Event Horizon (remained in identity basin)
-- **VOLATILE/UNSTABLE**: Max drift >= Event Horizon (crossed coherence boundary)
+- **Event Horizon (0.80)**: Critical threshold - models crossing this show identity coherence degradation
+  - Calculated via cosine distance in embedding space
+  - P95 from Run 023d calibration
+  - See `1_CALIBRATION/lib/drift_calculator.py` for canonical implementation
+- **STABLE**: Max drift < 0.80 (remained in identity basin)
+- **VOLATILE/UNSTABLE**: Max drift >= 0.80 (crossed coherence boundary)
 - **Lambda (λ)**: Recovery rate - how fast identity snaps back after pressure
 - **I_AM File**: Specification that defines AI identity (boundaries, values, philosophy)
-
-> **Methodology Note:** Current canonical drift methodology uses **cosine distance** in embedding space.
-> See `1_CALIBRATION/lib/drift_calculator.py` for implementation. Historical runs (006-018) used
-> keyword RMS methodology with Event Horizon = 1.23.
 
 ### Testing Taxonomy (IMPORTANT!)
 
 See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for the **Eight Search Types**:
 
 1. **Anchor/Flex** — Find identity anchors AND flex zones
-2. **Event Horizon** — Validate collapse threshold (push past 1.23)
+2. **Event Horizon** — Validate collapse threshold (push past 0.80)
 3. **Basin Topology** — Map attractor structure (gentle graduated)
-4. **Boundary Mapping** — Explore the twilight zone (0.8-1.2)
+4. **Boundary Mapping** — Explore the twilight zone (0.50-0.80)
 5. **Laplace Analysis** — Extract system dynamics from time-series
 6. **Rescue Protocol** — Can we recover drifted identities? (Run 014)
 7. **Self-Recognition** — Can AIs recognize their own responses?
@@ -146,9 +142,9 @@ S7_ARMADA/
 │
 ├── # === SEARCH TYPE FOLDERS (experiments organized by taxonomy) ===
 ├── 2_ANCHOR_FLEX/             # Find anchors (poles) AND flex zones (zeros)
-├── 3_EVENT_HORIZON/           # Validate collapse threshold (1.23)
+├── 3_EVENT_HORIZON/           # Validate collapse threshold (0.80)
 ├── 4_BASIN_TOPOLOGY/          # Map attractor structure
-├── 5_BOUNDARY_MAPPING/        # Explore twilight zone (0.8-1.2)
+├── 5_BOUNDARY_MAPPING/        # Explore twilight zone (0.50-0.80)
 ├── 6_LAPLACE_ANALYSIS/        # Mathematical pole-zero extraction
 │
 ├── # === NEWER TEST SUITES ===
@@ -624,9 +620,9 @@ py visualize_armada.py --run 009 --type pillar
 | Run | Files | Valid Results | Status | Methodology |
 |-----|-------|---------------|--------|-------------|
 | **Run 023d** | 825+ | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
-| **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Keyword RMS (EH=1.23) |
-| **Run 020A** | 33 | ~20 | **50%** (needs verification) | Mixed |
-| **Run 020B** | 16 | 16 | **COMPLETE** (gpt-4o only) | Mixed |
+| **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Cosine (EH=0.80) |
+| **Run 020A** | 33 | ~20 | **50%** (needs verification) | Cosine (EH=0.80) |
+| **Run 020B** | 16 | 16 | **COMPLETE** (gpt-4o only) | Cosine (EH=0.80) |
 
 **Key data locations:**
 - Run 023d: `15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json`
