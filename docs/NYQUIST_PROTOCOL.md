@@ -1,6 +1,22 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../experiments/compression_tests/
+  - reference/PROBE_SET.md
+impacts:
+  - ../experiments/compression_tests/EXP1_SSTACK/
+keywords:
+  - compression
+  - s0_s6_foundation
+  - pfi
+  - protocol
+-->
+
 # NYQUIST_PROTOCOL.md
 
-**Purpose:**  
+> **📜 FOUNDATIONAL DOCUMENT:** This protocol guided the S0-S6 compression experiments that established the frozen foundation (σ² = 0.000869). The methodology here validated that persona compression preserves identity fidelity, which became the basis for PFI measurement. See [experiments/compression_tests/](../experiments/compression_tests/) for implementations.
+
+**Purpose:**
 Provide a repeatable way to compare a fully context-saturated persona against compressed bootstraps using identical probes.
 
 ---
@@ -111,3 +127,31 @@ Record every trial in `docs/EXPERIMENT_LOG.md` with:
 This running log makes it easy to see when behavior converges and when it diverges as compression changes.
 
 ---
+
+## 8. Evolution to S7 ARMADA
+
+This protocol established the foundation for identity measurement. Key outcomes:
+
+- **PFI metric emerged** from compression fidelity testing
+- **σ² = 0.000869** validated cross-architecture consistency
+- **S0-S6 frozen** as canonical ground truth
+
+The methodology evolved into **S7 ARMADA** experiments which:
+
+- Extended from compression to **temporal stability** (identity under perturbation)
+- Added **Event Horizon threshold** (D = 0.80 cosine, p = 2.40e-23)
+- Scaled from manual trials to **825+ automated experiments** across 54 ships
+
+---
+
+## Related Documentation
+
+- **[experiments/compression_tests/](../experiments/compression_tests/)** — Implementation of this protocol
+- **[experiments/compression_tests/EXP1_SSTACK/](../experiments/compression_tests/EXP1_SSTACK/)** — S-Stack compression validation
+- **[reference/PROBE_SET.md](reference/PROBE_SET.md)** — Probe definitions referenced in Section 3
+- **[maps/VALIDATION_STATUS.md](maps/VALIDATION_STATUS.md)** — Current validation status
+- **[../experiments/temporal_stability/S7_ARMADA/](../experiments/temporal_stability/S7_ARMADA/)** — Evolved methodology
+
+---
+
+*Protocol established November 2025. Foundation for S0-S6 freeze.*
