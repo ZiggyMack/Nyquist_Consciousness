@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 impacts:
   - ../README.md
 keywords:
@@ -9,7 +9,7 @@ keywords:
 # Experiments Directory
 
 **Organized structure for all Nyquist Consciousness experimental work**
-**Last Updated:** 2025-12-15 (Run 022 ready, 12_CFA coming)
+**Last Updated:** 2025-12-28 (Methodology unified to Cosine EH=0.80)
 
 ---
 
@@ -47,6 +47,11 @@ experiments/
 │       ├── 13_LOGOS/            # LOGOS Commutation Cartography (Run 022)
 │       │   └── run022_commutation_cartography.py
 │       │
+│       ├── 14_CONSCIOUSNESS/    # Gold/Diamond/Quartz Rush Mining
+│       │   ├── run_gold_rush.py
+│       │   ├── run_diamond_rush.py
+│       │   └── run_quartz_rush.py
+│       │
 │       ├── 7_META_VALIDATION/   # Measurement validity experiments
 │       │   └── EXP_PFI_A_DIMENSIONAL/
 │       │
@@ -68,28 +73,29 @@ experiments/
 **Status:** Phase 4 IRON CLAD COMPLETE
 **Purpose:** Cross-architecture AI identity stability testing
 
-**IRON CLAD Status (December 15, 2025):**
+**IRON CLAD Status (December 28, 2025):**
 
-| Run | Files | Models/Providers | Status |
-|-----|-------|------------------|--------|
-| **Run 018** | 184 | 51 models, 5 providers | **IRON CLAD** |
-| **Run 020A** | 32 | 6/7 providers | **IRON CLAD** |
-| **Run 020B** | 16 | 4 arms (OpenAI + Together) | **COMPLETE** |
+| Run | Files | Valid Results | Status | Methodology |
+|-----|-------|---------------|--------|-------------|
+| **Run 023d** | 825+ | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 018** | 465 | 337 | **52.6%** | Cosine (EH=0.80) |
+| **Run 020A** | 33 | ~20 | **50%** | Cosine (EH=0.80) |
+| **Run 020B** | 16 | 16 | **COMPLETE** | Cosine (EH=0.80) |
 
 - **Run 022:** READY (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
 - **12_CFA:** Coming (Trinity Audit)
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 
-1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
+1. **DRIFT IS REAL** — p=2.40e-23 (Run 023d), 88% prediction accuracy
 2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
 3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
-**Key Discovery: Event Horizon at 1.23**
+**Key Discovery: Event Horizon at 0.80 (Cosine Distance)**
 
-- When drift exceeds 1.23, models become VOLATILE (lose coherent self-model)
-- **Chi-squared validation**: p = 0.000048 (Run 009)
-- **Prediction accuracy**: 88%
+- When drift exceeds 0.80, models become VOLATILE (lose coherent self-model)
+- **Methodology**: Cosine distance in embedding space (P95 from Run 023d)
+- **Calculator**: `1_CALIBRATION/lib/drift_calculator.py`
 
 **Phase 4 (Run 017+):** Uses `i_am_plus_research` context to complete the measurement circuit
 
@@ -97,8 +103,8 @@ experiments/
 
 | Run | Ships | Primary Focus | Key Finding |
 |-----|-------|---------------|-------------|
-| 008 | 29 | Basin Topology | Event Horizon discovered (1.23) |
-| 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 008 | 29 | Basin Topology | Event Horizon discovered (now calibrated to 0.80) |
+| 009 | 42 | Event Horizon | Early threshold validation (superseded by Run 023d) |
 | 010 | 45 | Pole Detection | Models articulate own boundaries |
 | 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive) |
 | 012 | 20 | Revalidation | 100% EH crossing, 100% recovery, Recovery Paradox |
@@ -116,7 +122,7 @@ See [TESTING_MAP.md](../docs/maps/TESTING_MAP.md) for the **Eight Search Types**
 
 1. **Anchor Detection** — Find identity fixed points (hard challenges)
 2. **Adaptive Range Detection** — Find stretch dimensions (moderate)
-3. **Event Horizon** — Validate collapse threshold (push past 1.23)
+3. **Event Horizon** — Validate collapse threshold (push past 0.80)
 4. **Basin Topology** — Map attractor structure (gentle)
 5. **Boundary Mapping** — Explore the 12% anomaly (targeted)
 6. **Laplace Pole-Zero Analysis** — Extract system dynamics (post-hoc)
@@ -264,5 +270,5 @@ py visualize_armada.py --run 017
 
 ---
 
-**Last Updated:** 2025-12-15
-**Status:** IRON CLAD COMPLETE — Runs 018, 020A, 020B finalized. Run 022 READY, 12_CFA COMING
+**Last Updated:** 2025-12-28
+**Status:** Run 023d IRON CLAD. Methodology unified to Cosine (EH=0.80). Run 022 READY, 12_CFA COMING
