@@ -603,7 +603,7 @@ See: [0_results/IRON_CLAD_GAPS.md](0_results/IRON_CLAD_GAPS.md) for full trackin
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 
-1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
+1. **DRIFT IS REAL** — p=2.40e-23 (Run 023d), 88% prediction accuracy
 2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
 3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 

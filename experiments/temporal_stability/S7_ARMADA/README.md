@@ -672,7 +672,7 @@ The **Philosophical Tribunal** paradigm tested direct identity probing across 4 
 
 | Claim | Status | Evidence |
 |-------|--------|----------|
-| **1. DRIFT IS REAL** | **VALIDATED** | χ² p=0.000048, 88% prediction accuracy, 100% EH crossing/recovery |
+| **1. DRIFT IS REAL** | **VALIDATED** | p=2.40e-23 (Run 023d), 88% prediction accuracy, 100% EH crossing/recovery |
 | **2. WE DON'T CAUSE IT** | **VALIDATED** | Run 020B: 41% inherent drift ratio (cross-provider), 82% inherent (Run 018) |
 | **3. WE CAN MEASURE IT** | **VALIDATED** | PFI d=0.977, ρ=0.91 embedding invariance, σ²=0.00087 cross-architecture |
 
