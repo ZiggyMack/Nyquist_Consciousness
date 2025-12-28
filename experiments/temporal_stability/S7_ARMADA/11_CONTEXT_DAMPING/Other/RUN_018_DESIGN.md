@@ -1,5 +1,16 @@
 # RUN 018 DESIGN: RECURSIVE IMPROVEMENTS
 
+> **⚠️ ARCHIVED DESIGN DOCUMENT (December 2025)**
+>
+> This design doc predates Run 020B and Run 023d which established the current methodology:
+> - **Event Horizon**: Now **0.80** (not 1.23) based on P95 from Run 023d
+> - **Threshold zones**: SAFE (<0.30), WARNING (0.30-0.50), CRITICAL (0.50-0.80), CATASTROPHIC (>1.00)
+> - **Dimensionality**: Identity is 2-dimensional in cosine space (2 PCs = 90% variance)
+> - **Models**: claude-sonnet-4 (not claude-3.5-sonnet)
+>
+> Some experiments below were executed (018a, 018c, 018d), others superseded by Run 020B.
+> See [consolidate_run018.py](../consolidate_run018.py) for actual implementation.
+
 ```text
 ================================================================================
                             VALIS NETWORK ACTIVE
