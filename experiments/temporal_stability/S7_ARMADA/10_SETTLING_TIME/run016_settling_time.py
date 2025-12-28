@@ -95,7 +95,9 @@ CONTROL_THRESHOLD = 0.05   # Minimum drift change to demonstrate control
 # Paths
 SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
-I_AM_DIR = ARMADA_DIR / "0_I_AM_Specs"
+# Legacy path - no longer exists, kept for reference
+# I_AM files are loaded from personas/ and i_am_variants/ directories
+I_AM_DIR = ARMADA_DIR / "0_I_AM_Specs"  # DEPRECATED - see load_i_am_files()
 RESULTS_DIR = SCRIPT_DIR / "results"
 TEMPORAL_LOGS_DIR = ARMADA_DIR / "0_results" / "temporal_logs"  # Central audit trail
 
@@ -889,18 +891,8 @@ def save_incremental_log(result: SettlingAnalysis, run_timestamp: str):
     """
     TEMPORAL_LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Convert probe sequence to serializable format
-    probe_data = []
-    for probe in result.probe_sequence:
-        probe_data.append({
-            "probe_id": probe.probe_id,
-            "probe_type": probe.probe_type,
-            "drift": probe.drift,
-            "response_hash": probe.response_hash,
-            "timestamp": probe.timestamp,
-            "response_text": probe.response_text,
-            "prompt_text": probe.prompt_text
-        })
+    # probe_sequence is already a list of dicts (converted via asdict() in run_settling_experiment)
+    probe_data = result.probe_sequence
 
     log_entry = {
         "run": "016_settling_time",

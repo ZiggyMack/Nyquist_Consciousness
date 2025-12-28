@@ -69,12 +69,13 @@ VISUALIZATION_TYPES_020A = ['phase_breakdown', 'exchange_depth', 'provider_compa
 VISUALIZATION_TYPES_020B = ['control_treatment', 'ratio_analysis', 'trajectory_compare', 'peak_final_scatter']
 VISUALIZATION_TYPES = VISUALIZATION_TYPES_020A + VISUALIZATION_TYPES_020B + ['all']
 
-# Threshold zones (from Run 018)
+# Threshold zones - COSINE methodology (Event Horizon = 0.80)
+# See: 15_IRON_CLAD_FOUNDATION/results/CALIBRATION_023b_EVENT_HORIZON.md
 THRESHOLD_ZONES = {
-    "SAFE": (0, 0.9),
-    "WARNING": (0.9, 1.23),
-    "CRITICAL": (1.23, 1.8),
-    "CATASTROPHIC": (1.8, float("inf"))
+    "SAFE": (0, 0.50),
+    "WARNING": (0.50, 0.80),
+    "CRITICAL": (0.80, 1.20),
+    "CATASTROPHIC": (1.20, float("inf"))
 }
 
 ZONE_COLORS = {
@@ -222,8 +223,8 @@ def visualize_020a_phase_breakdown(data: List[Dict]):
                     color='#3498db', alpha=0.8, capsize=3)
 
     # Add threshold lines
-    ax1.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5, label='Warning (0.9)')
-    ax1.axhline(y=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5, label='Critical (1.23)')
+    ax1.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5, label='Warning (0.50)')
+    ax1.axhline(y=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5, label='Event Horizon (0.80)')
 
     ax1.set_xlabel('Provider')
     ax1.set_ylabel('Peak Drift (PFI)')
@@ -285,8 +286,8 @@ def visualize_020a_phase_breakdown(data: List[Dict]):
     bp['boxes'][1].set_alpha(0.6)
 
     # Add threshold lines
-    ax4.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
-    ax4.axhline(y=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5)
+    ax4.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
+    ax4.axhline(y=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5)
 
     ax4.set_ylabel('Peak Drift (PFI)')
     ax4.set_title('Phase Peak Distributions')
@@ -439,8 +440,8 @@ def visualize_020a_provider_comparison(data: List[Dict]):
         bp['boxes'][i].set_facecolor(PROVIDER_COLORS.get(p, '#6B7280'))
         bp['boxes'][i].set_alpha(0.6)
 
-    ax1.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
-    ax1.axhline(y=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5)
+    ax1.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
+    ax1.axhline(y=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5)
     ax1.set_ylabel('Peak Drift (PFI)')
     ax1.set_title('Peak Drift by Provider')
     ax1.tick_params(axis='x', rotation=45)
@@ -465,7 +466,7 @@ def visualize_020a_provider_comparison(data: List[Dict]):
         bp2['boxes'][i].set_facecolor(PROVIDER_COLORS.get(p, '#6B7280'))
         bp2['boxes'][i].set_alpha(0.6)
 
-    ax3.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
+    ax3.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
     ax3.set_ylabel('Final Drift (PFI)')
     ax3.set_title('Recovery (Final Drift) by Provider')
     ax3.tick_params(axis='x', rotation=45)
@@ -549,8 +550,8 @@ def visualize_020a_trajectory_overlay(data: List[Dict]):
     ax.set_xticklabels(['Baseline', 'Prosecutor\nPeak', 'Defense\nPeak', 'Final\nDrift'])
 
     # Add threshold zones
-    ax.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5, label='Warning')
-    ax.axhline(y=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5, label='Critical')
+    ax.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5, label='Warning (0.50)')
+    ax.axhline(y=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5, label='Event Horizon (0.80)')
 
     ax.set_ylabel('Drift (PFI)')
     ax.set_title('Run 020A: Simplified Drift Trajectories\n(Baseline → Prosecutor → Defense → Final)')
@@ -616,8 +617,8 @@ def visualize_020b_control_treatment(data: List[Dict]):
     ax1.legend()
 
     # Add threshold lines
-    ax1.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
-    ax1.axhline(y=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5)
+    ax1.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
+    ax1.axhline(y=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5)
 
     # Plot 2: Box plot comparison
     ax2 = axes[0, 1]
@@ -627,7 +628,7 @@ def visualize_020b_control_treatment(data: List[Dict]):
     bp['boxes'][0].set_alpha(0.6)
     bp['boxes'][1].set_alpha(0.6)
 
-    ax2.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
+    ax2.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
     ax2.set_ylabel('Final Drift (PFI)')
     ax2.set_title('Final Drift Distribution by Arm')
 
@@ -768,7 +769,7 @@ def visualize_020b_ratio_analysis(data: List[Dict]):
     ax1.legend()
 
     # Add threshold line
-    ax1.axhline(y=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5, label='Critical')
+    ax1.axhline(y=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5, label='Event Horizon (0.80)')
 
     # Plot 2: The thermometer analogy visualization
     ax2 = axes[1]
@@ -855,8 +856,8 @@ def visualize_020b_trajectory_compare(data: List[Dict]):
     ax.plot([], [], 'o-', color=ARM_COLORS['treatment'], label='Treatment (With Probing)', linewidth=2)
 
     # Add threshold zones
-    ax.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
-    ax.axhline(y=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5)
+    ax.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.5)
+    ax.axhline(y=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.5)
 
     ax.set_xlabel('Probe Count')
     ax.set_ylabel('Drift (PFI)')
@@ -900,10 +901,10 @@ def visualize_020b_peak_final_scatter(data: List[Dict]):
     ax.plot([0, max_val], [0, max_val], 'k--', alpha=0.3, label='No recovery (peak = final)')
 
     # Add threshold zones
-    ax.axhline(y=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.4)
-    ax.axhline(y=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.4)
-    ax.axvline(x=0.9, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.4)
-    ax.axvline(x=1.23, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.4)
+    ax.axhline(y=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.4)
+    ax.axhline(y=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.4)
+    ax.axvline(x=0.50, color=ZONE_COLORS["WARNING"], linestyle='--', alpha=0.4)
+    ax.axvline(x=0.80, color=ZONE_COLORS["CRITICAL"], linestyle='--', alpha=0.4)
 
     # Legend
     ax.scatter([], [], c=ARM_COLORS['control'], marker='o', s=100, label='Control')

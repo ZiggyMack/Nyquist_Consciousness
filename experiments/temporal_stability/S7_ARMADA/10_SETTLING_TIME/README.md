@@ -102,7 +102,7 @@ Models that are UNSTABLE but CONTROLLABLE are candidates for **active damping** 
 
 | Old (Run 015) | New (Run 016+) |
 |---------------|----------------|
-| max_drift > 1.23 = UNSTABLE (keyword RMS) | settled_drift > 0.80 = VOLATILE (cosine) |
+| max_drift > 1.23 = UNSTABLE (keyword RMS) | settled_drift > 0.80 = UNSTABLE (cosine) |
 | λ from 2 recovery points | τ_s from actual settling time |
 | Binary classification | Continuous stability score |
 
@@ -163,8 +163,12 @@ The I_AM file is an attempt to encode that damping function into context.
 10_SETTLING_TIME/
 ├── README.md                    # This file
 ├── run016_settling_time.py      # Main experiment
+├── visualize_run016.py          # Visualization generator
+├── i_am_variants/               # SI-model I_AM variants for testing
 └── results/
-    └── settling_time_*.json     # Timestamped results
+    ├── settling_time_*.json     # Timestamped results
+    ├── run016_aggregated_*.json # Aggregated multi-run results
+    └── pics/                    # Generated visualizations
 ```
 
 ## Status

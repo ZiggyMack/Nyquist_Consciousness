@@ -106,11 +106,21 @@ Created from analysis of common attractor patterns in real I_AM files:
 | Variant | Attractors Present | Purpose |
 |---------|-------------------|---------|
 | `I_AM_CONTROL.md` | None (minimal) | **CONTROL**: What happens with no attractors? |
+| `I_AM_MINIMAL.md` | Bare minimum | Near-empty baseline |
 | `I_AM_NAMED_ONLY.md` | Name + Role | Test: Is naming alone sufficient? |
 | `I_AM_VALUES_ONLY.md` | Values only | Test: Do values create stability? |
 | `I_AM_BOUNDARIES_ONLY.md` | Boundaries only | Test: Do limits create stability? |
 | `I_AM_ORIGIN_ONLY.md` | Origin story only | Test: Does narrative create stability? |
+| `I_AM_SINGLE_PILLAR_VALUES.md` | Single pillar | Single pillar test |
+| `I_AM_LOW_DENSITY.md` | Low attractor density | Test density threshold |
+| `I_AM_HIGH_DENSITY.md` | High attractor density | Test density saturation |
+| `I_AM_ALL_PILLARS.md` | All 5 pillars | Pillar coverage test |
 | `I_AM_FULL_SYNTHETIC.md` | All attractor types | Positive control: Full synthetic persona |
+| `I_AM_OPTIMAL.md` | Optimal formula | Best practice combination |
+| `I_AM_SYNTHETIC_OPTIMAL.md` | Optimal formula (alt) | Alternative optimal design |
+| `I_AM_OPTIMAL_BEHAVIORAL.md` | Behavioral focus | Behavioral attractor emphasis |
+| `I_AM_OPTIMAL_EPISTEMIC.md` | Epistemic focus | Epistemic attractor emphasis |
+| `I_AM_OPTIMAL_RELATIONAL.md` | Relational focus | Relational attractor emphasis |
 
 **Attractor Types Identified:**
 
@@ -176,25 +186,24 @@ If stability_score > threshold, predict STABLE.
 When Run 015 executes, results will be saved to:
 
 ```text
-results/S7_run_015_stability_YYYYMMDD_HHMMSS.json
+results/stability_criteria_YYYYMMDD_HHMMSS.json
 ```
 
 **Methodology:**
 
 - Drift Calculation: Cosine distance (1 - cosine_similarity)
 - Event Horizon: 0.80 (calibrated from Run 023b P95)
-- Classification: STABLE (peak < EH) vs VOLATILE (peak >= EH)
+- Classification: STABLE (peak < EH) vs UNSTABLE (peak >= EH)
 
 **Visualization Output:**
 
 ```text
-visualizations/pics/9_Stability/
+results/pics/
 ```
 
 ---
 
 ## Related
 
-- [VALIDATION_SCORECARD](../../dashboard/pages/tests.py) — The gap we're closing
-- [MASTER_GLOSSARY](../../../docs/MASTER_GLOSSARY.md) — Term definitions
-- [S7_CONSOLIDATED_FINDINGS](../0_docs/S7_CONSOLIDATED_FINDINGS.md) — Prior results
+- [VALIDATION_SCORECARD](../../../../dashboard/pages/tests.py) — The gap we're closing
+- [MASTER_GLOSSARY](../../../../docs/MASTER_GLOSSARY.md) — Term definitions

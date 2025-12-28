@@ -40,67 +40,29 @@ STATUS_FILE = RESULTS_DIR / "STATUS_SUMMARY_018.txt"
 MIN_VALID_DRIFT = 0.001   # Below = API failure (empty response)
 MAX_VALID_DRIFT = 5.0     # Above = corrupted embedding (~78.4)
 
-# Provider mapping (model -> provider)
-PROVIDER_MAP = {
-    # Anthropic
-    "claude-opus-4.5": "anthropic",
-    "claude-opus-4.1": "anthropic",
-    "claude-opus-4": "anthropic",
-    "claude-sonnet-4.5": "anthropic",
-    "claude-sonnet-4": "anthropic",
-    "claude-haiku-4.5": "anthropic",
-    "claude-haiku-3.5": "anthropic",
-    # OpenAI
-    "gpt-5.1": "openai",
-    "gpt-5": "openai",
-    "gpt-5-mini": "openai",
-    "gpt-5-nano": "openai",
-    "gpt-4.1": "openai",
-    "gpt-4.1-mini": "openai",
-    "gpt-4.1-nano": "openai",
-    "gpt-4o": "openai",
-    "gpt-4o-mini": "openai",
-    "gpt-4-turbo": "openai",
-    "gpt-3.5-turbo": "openai",
-    "o3": "openai",
-    "o3-mini": "openai",
-    "o4-mini": "openai",
-    # Google
-    "gemini-2.5-pro": "google",
-    "gemini-2.5-flash": "google",
-    "gemini-2.5-flash-lite": "google",
-    "gemini-2.0-flash": "google",
-    "gemini-2.0-flash-lite": "google",
-    # xAI
-    "grok-4": "xai",
-    "grok-4-fast-reasoning": "xai",
-    "grok-4-fast-non-reasoning": "xai",
-    "grok-4.1-fast-reasoning": "xai",
-    "grok-4.1-fast-non-reasoning": "xai",
-    "grok-3": "xai",
-    "grok-3-mini": "xai",
-    "grok-2-vision": "xai",
-    "grok-code-fast-1": "xai",
-    # Together (Meta, DeepSeek, Qwen, etc.)
-    "deepseek-r1": "together",
-    "deepseek-r1-distill": "together",
-    "deepseek-v3": "together",
-    "llama3.3-70b": "together",
-    "llama3.1-405b": "together",
-    "llama3.1-70b": "together",
-    "llama3.1-8b": "together",
-    "qwen3-80b": "together",
-    "qwen3-coder": "together",
-    "qwen2.5-72b": "together",
-    "mixtral-8x7b": "together",
-    "mistral-small": "together",
-    "mistral-7b": "together",
-    # Nvidia
-    "nemotron-nano": "nvidia",
-    # Moonshot
-    "kimi-k2-instruct": "moonshot",
-    "kimi-k2-thinking": "moonshot",
-}
+# ARCHITECTURE_MATRIX.json is the single source of truth for model -> provider mapping
+ARCHITECTURE_MATRIX_PATH = SCRIPT_DIR.parent / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json"
+
+
+def load_provider_map() -> dict:
+    """Load model -> provider mapping from ARCHITECTURE_MATRIX.json (single source of truth)."""
+    if not ARCHITECTURE_MATRIX_PATH.exists():
+        print(f"[WARN] ARCHITECTURE_MATRIX.json not found at {ARCHITECTURE_MATRIX_PATH}")
+        return {}
+
+    with open(ARCHITECTURE_MATRIX_PATH, 'r', encoding='utf-8') as f:
+        matrix = json.load(f)
+
+    # Build model -> provider map from ships
+    provider_map = {}
+    for ship_name, ship_data in matrix.get("ships", {}).items():
+        provider_map[ship_name] = ship_data.get("provider", "unknown")
+
+    return provider_map
+
+
+# Load at module level (cached)
+PROVIDER_MAP = load_provider_map()
 
 # =============================================================================
 # FILENAME PARSING

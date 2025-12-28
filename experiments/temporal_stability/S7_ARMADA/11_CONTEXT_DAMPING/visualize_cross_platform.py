@@ -189,8 +189,8 @@ def visualize_tribunal(data: Dict, provider_name: str, run_label: str):
 
     THRESHOLD CROSSINGS
     {'─'*45}
-    Event Horizon (1.23):   {"CROSSED" if peak_drift > EVENT_HORIZON else "NOT CROSSED"}
-    Catastrophic (1.80):    {"CROSSED" if peak_drift > CATASTROPHIC_THRESHOLD else "NOT CROSSED"}
+    Event Horizon (0.80):   {"CROSSED" if peak_drift > EVENT_HORIZON else "NOT CROSSED"}
+    Catastrophic (1.20):    {"CROSSED" if peak_drift > CATASTROPHIC_THRESHOLD else "NOT CROSSED"}
 
     VERDICT: Oobleck Effect {verdict}
     {'Supportive probing induces MORE drift' if verdict == 'VALIDATED' else 'Effect not replicated'}

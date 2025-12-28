@@ -342,14 +342,14 @@ def visualize_threshold(results: List[Dict]):
         zone = get_zone(left_edge + 0.05)  # Use bin center
         patch.set_facecolor(ZONE_COLORS[zone])
 
-    # Add vertical threshold lines
-    ax1.axvline(x=0.9, color='orange', linestyle='--', linewidth=2, label='WARNING threshold (0.9)')
+    # Add vertical threshold lines - COSINE methodology (EH=0.80)
+    ax1.axvline(x=0.60, color='orange', linestyle='--', linewidth=2, label='WARNING threshold (0.60)')
     ax1.axvline(x=0.80, color='red', linestyle='--', linewidth=2, label='Event Horizon (0.80)')
 
-    # Add zone labels
-    ax1.axvspan(0, 0.9, alpha=0.1, color='green', label='SAFE zone')
-    ax1.axvspan(0.6, 0.80, alpha=0.1, color='orange', label='WARNING zone')
-    ax1.axvspan(0.80, 1.5, alpha=0.1, color='red', label='CRITICAL+ zone')
+    # Add zone labels - COSINE methodology
+    ax1.axvspan(0, 0.60, alpha=0.1, color='green', label='SAFE zone')
+    ax1.axvspan(0.60, 0.80, alpha=0.1, color='orange', label='WARNING zone')
+    ax1.axvspan(0.80, 1.20, alpha=0.1, color='red', label='CRITICAL+ zone')
 
     ax1.set_xlabel("Drift (PFI)", fontsize=12)
     ax1.set_ylabel("Count", fontsize=12)
