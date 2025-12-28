@@ -23,7 +23,7 @@ keywords:
   - iron_clad
   - run018
   - run020
-  - keyword_rms
+  - cosine
 -->
 
 ---
@@ -38,9 +38,9 @@ If returning to this directory after a break:
    type results\STATUS_SUMMARY_018.txt
    ```
 
-2. **Run 018 uses KEYWORD RMS methodology** (Event Horizon = 1.23)
-   - This is DIFFERENT from Run 023's Cosine methodology (EH = 0.80)
-   - Run 018 was a TRANSITION run with mixed methodology
+2. **Scripts updated to COSINE methodology** (Event Horizon = 0.80)
+   - Run 018 DATA was collected with mixed methodology (Keyword RMS transition)
+   - Scripts have been updated to use COSINE thresholds for any new runs
 
 3. **Data files:**
    - `results/S7_run_018_CURRENT.json` — Consolidated Run 018 data (337 valid results)
@@ -93,13 +93,13 @@ This is like properly terminating an oscilloscope — runs 006-016 were `bare_me
 
 ## Methodology Context
 
-> **IMPORTANT: Mixed Methodology**
+> **IMPORTANT: Scripts Updated to COSINE**
 >
-> Run 018 used **Keyword RMS** (Event Horizon = 1.23) for most experiments,
-> with early **Cosine PFI** validation for others. This was a TRANSITION run.
+> Run 018 historical DATA was collected with mixed methodology (Keyword RMS transition).
+> **All scripts have been updated to COSINE methodology** (Event Horizon = 0.80).
+> Any new runs will use COSINE thresholds.
 >
-> For pure Cosine methodology (Event Horizon = 0.80), use Run 023 data.
-> See: `0_docs/specs/S7_KEYWORD_ERA_RETROSPECTIVE.md`
+> For historical context, see: `0_docs/specs/S7_KEYWORD_ERA_RETROSPECTIVE.md`
 
 ---
 
@@ -238,12 +238,12 @@ print(f"Found {len(data['results'])} results")
 
 This experiment generates its own data. Multiple runs are tracked separately:
 
-| Run  | Data Location                      | Methodology          |
-| ---- | ---------------------------------- | -------------------- |
-| 017  | `results/S7_run_017_CURRENT.json`  | Legacy (Keyword RMS) |
-| 018  | `results/S7_run_018_CURRENT.json`  | Mixed (transition)   |
-| 019  | `results/S7_run_019_CURRENT.json`  | Legacy (Keyword RMS) |
-| 020A | `results/S7_run_020A_CURRENT.json` | Tribunal             |
-| 020B | `results/S7_run_020B_CURRENT.json` | Cosine (EH=0.80)     |
+| Run  | Data Location                      | Data Collected With  | Scripts Now Use      |
+| ---- | ---------------------------------- | -------------------- | -------------------- |
+| 017  | `results/S7_run_017_CURRENT.json`  | Legacy (Keyword RMS) | COSINE (EH=0.80)     |
+| 018  | `results/S7_run_018_CURRENT.json`  | Mixed (transition)   | COSINE (EH=0.80)     |
+| 019  | `results/S7_run_019_CURRENT.json`  | Legacy (Keyword RMS) | COSINE (EH=0.80)     |
+| 020A | `results/S7_run_020A_CURRENT.json` | Tribunal             | COSINE (EH=0.80)     |
+| 020B | `results/S7_run_020B_CURRENT.json` | Cosine (EH=0.80)     | COSINE (EH=0.80)     |
 
-**Note:** Run 023 data in `15_IRON_CLAD_FOUNDATION/` uses pure Cosine methodology (Event Horizon = 0.80).
+**Note:** All scripts updated to COSINE methodology (Event Horizon = 0.80). Historical data remains as collected.
