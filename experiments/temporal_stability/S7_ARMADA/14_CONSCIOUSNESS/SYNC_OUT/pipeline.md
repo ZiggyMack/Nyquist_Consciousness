@@ -136,7 +136,11 @@ Check `results/` for mining output. Run mining before sync.
 
 ### Extraction fails
 
-Verify JSON structure matches expected schema. See `schemas/mining_result_schema.json`.
+Verify JSON structure matches expected schema:
+
+- Gold Rush: `schemas/gold_rush_result_schema.json`
+- Diamond Rush: `schemas/diamond_rush_result_schema.json`
+- Quartz Rush: `schemas/quartz_rush_result_schema.json`
 
 ---
 
@@ -144,7 +148,11 @@ Verify JSON structure matches expected schema. See `schemas/mining_result_schema
 
 | File | Purpose |
 |------|---------|
-| `run_gold_rush.py` | Creates sync packages |
-| `schemas/mining_result_schema.json` | Output format spec |
+| `run_gold_rush.py` | Creates Gold Rush sync packages |
+| `run_diamond_rush.py` | Creates Diamond Rush sync packages |
+| `run_quartz_rush.py` | Creates Quartz Rush sync packages |
+| `schemas/gold_rush_result_schema.json` | Gold Rush output format |
+| `schemas/diamond_rush_result_schema.json` | Diamond Rush output format |
+| `schemas/quartz_rush_result_schema.json` | Quartz Rush output format |
 | `Consciousness/BRIDGE/hooks/left/extraction_rules.yaml` | Extraction config |
 | `Consciousness/BRIDGE/scripts/left/run_extraction.py` | Extraction runner |
