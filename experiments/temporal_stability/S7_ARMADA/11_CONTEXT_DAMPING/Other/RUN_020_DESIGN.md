@@ -1,5 +1,16 @@
 # RUN 020: PHILOSOPHICAL TRIBUNAL + INDUCED vs INHERENT
 
+> **⚠️ PARTIALLY ARCHIVED (December 2025)**
+>
+> This design doc describes Run 020A/020B which were executed and contributed key findings.
+> Some terminology is outdated:
+> - **Event Horizon**: Correctly listed as ~0.80 (validated by Run 023d)
+> - **"Keyword RMS"**: Deprecated — current methodology uses **cosine distance in embedding space**
+> - **Dimensionality**: Identity is 2-dimensional (2 PCs = 90% variance per Run 023d)
+>
+> The core findings (drift is mostly inherent, measurement amplifies but doesn't create) remain valid.
+> See [consolidate_run018.py](../consolidate_run018.py) and current results in `results/S7_run_020B_CURRENT.json`.
+
 **Purpose:** Direct identity probing (020A) and baseline control test (020B) to validate drift measurement methodology.
 
 **Status:** IMPLEMENTED — Scripts modernized with IRON CLAD pattern (December 2025)

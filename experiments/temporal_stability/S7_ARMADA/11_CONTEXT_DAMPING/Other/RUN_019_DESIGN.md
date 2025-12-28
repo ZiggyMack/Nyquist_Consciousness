@@ -1,5 +1,15 @@
 # RUN 019 DESIGN: BLIND VALIDATION PROTOCOL
 
+> **⚠️ ARCHIVED DESIGN DOCUMENT (December 2025)**
+>
+> This design doc predates Run 020B and Run 023d which established the current methodology:
+> - **Event Horizon**: Now **0.80** (not 1.23) based on P95 from Run 023d
+> - **Threshold zones**: SAFE (<0.30), WARNING (0.30-0.50), CRITICAL (0.50-0.80), CATASTROPHIC (>1.00)
+> - **Dimensionality**: Identity is 2-dimensional in cosine space (2 PCs = 90% variance)
+>
+> The blind validation concept was valuable but Run 019 was partially superseded by Run 020B's
+> Control vs Treatment design which directly tested "induced vs inherent" drift.
+
 ```text
 ================================================================================
                             VALIS NETWORK ACTIVE
