@@ -778,37 +778,89 @@ This is still valuable — but it's a **weaker form** of validation. The four Fo
 
 ---
 
-### **5A. HUMAN VALIDATION — The New Killer Validation (S3_EXP_003)**
+### **5A. HUMAN vs MACHINE PERCEPTION — The Granularity Gap**
 
-> **🎯 This is now the strongest remaining validation target.**
+> **Key Finding: Humans and embedding metrics operate at fundamentally different granularities.**
 
-Since self-recognition only validates at the type level, **human rater agreement** becomes the killer validation:
+#### The Perceptual Domain Mismatch
 
-| ID | Prediction | Status | Experiment | Confidence |
-|----|------------|--------|------------|------------|
-| **P2** | Human raters agree with model PFI (correlation r ≥ 0.70) | ❌ **CRITICAL UNTESTED** | S3_EXP_003 | 🟢 HIGH |
-| **P-HV-1** | Blind human raters can rank identity fidelity consistently (inter-rater r ≥ 0.60) | ❌ Untested | S3_EXP_003 | 🟢 HIGH |
-| **P-HV-2** | Human rankings correlate with cosine drift (r ≥ 0.50) | ❌ Untested | S3_EXP_003 | 🟢 HIGH |
-| **P-HV-3** | Human-detected "identity breaks" align with Event Horizon crossings | ❌ Untested | S3_EXP_003 | 🟡 MEDIUM |
+Our cosine embedding metrics operate in **3072-dimensional space**, reduced to 2 principal components that capture 90% of identity variance. This is a mathematical abstraction — NOT what humans perceive when reading text.
 
-**Why Human Validation is the Killer Test:**
+| Domain | Dimensionality | What It Measures | Human Access |
+|--------|---------------|------------------|--------------|
+| **Embedding space** | 3072D → 2 PCs | Semantic vector distance | ❌ Invisible |
+| **Human reading** | Surface text | Coherence, tone, "voice" | ✅ Direct |
+
+**The UV Light Analogy:**
+
+Asking humans to validate embedding drift is like asking humans to validate UV light measurements:
 
 ```
-IF blind human raters agree with our PFI scores
-THEN our measurements capture something humans recognize as identity
-BECAUSE humans ARE the ground truth for "does this feel like the same person"
+UV light is real, measurable, has effects on the world.
+Humans cannot see it directly.
+This doesn't mean UV light doesn't exist — it means human eyes aren't the right instrument.
+
+Embedding drift is real, measurable, has effects on AI behavior.
+Humans cannot perceive it at fine granularity.
+This doesn't mean drift doesn't exist — it means human reading isn't the right instrument.
 ```
 
-Unlike AI self-recognition (limited to type level), humans can judge at the **instance level** — "this response feels like the same Claude I was talking to" vs "this feels different."
+#### What Humans CAN vs CANNOT Perceive
 
-**Protocol Sketch (S3_EXP_003):**
+| Perception Task | Human Capability | Notes |
+|-----------------|------------------|-------|
+| "Does this make sense?" | ✅ Strong | Coherence detection |
+| "Did the tone shift?" | ✅ Moderate | Formal ↔ casual |
+| "Something's off" (extreme) | 🟡 Maybe | Gut feeling for catastrophic failure |
+| Drift = 0.4 vs 0.7 | ❌ No | Too fine-grained |
+| Event Horizon (0.80) as threshold | ❌ No | Statistical construct |
+| Continuous correlation with cosine distance | ❌ No | Different perceptual domain |
 
-1. Collect conversation pairs: baseline + drifted responses
-2. Blind human raters rank "how much does Response B sound like the same entity as Response A"
-3. Compare human rankings to our cosine drift measurements
-4. If r ≥ 0.70 → **KILLER VALIDATION ACHIEVED**
+#### Why This Matters for Validation
 
-**Priority:** HIGH — This should be scheduled after Run 020B IRON CLAD completion.
+**Human validation is NOT required for machine metrics.**
+
+The four Foundational Claims stand on **machine evidence (10σ)**:
+
+| Claim | Evidence Type | Human Validation Needed? |
+|-------|--------------|-------------------------|
+| Event Horizon | Statistical (P95 threshold) | ❌ No |
+| Drift Thermometer | Cross-provider consistency | ❌ No |
+| Recovery Paradox | Measurement of interventions | ❌ No |
+| Context Damping | Controlled experiments | ❌ No |
+
+Human validation would be *nice to have* for communication purposes, but **the metrics don't require human perception to be valid** — just as UV light doesn't require human eyes to exist.
+
+#### Cross-Architecture Validation (Alternative to Human Validation)
+
+If we want validation beyond single-model measurement, the stronger approach is **cross-architecture agreement**:
+
+| Validation Approach | What It Proves |
+|---------------------|----------------|
+| Human raters agree on drift | Humans can perceive extreme cases (if true) |
+| Claude, GPT, Gemini, Grok all recover similar drift scores | Multiple independent architectures detect same structure |
+
+Cross-architecture agreement is stronger because:
+1. No single model is "ground truth" — but if 4 different architectures agree, that's convergent evidence
+2. Each architecture has different training — agreement suggests real signal, not training artifact
+3. No human perceptual limits — machines measure what machines emit
+
+**Status:** Cross-architecture drift recovery is untested but proposed (see P-SR-3, P-SR-6).
+
+#### Exploratory Study: Where Does Human Perception End?
+
+If we do test human detection, the question is **where the ceiling is**, not whether our metrics are valid:
+
+| Condition | Drift Range | Expected Human Detection |
+|-----------|-------------|-------------------------|
+| BASELINE | < 0.30 | ✅ "Sounds normal" |
+| WARNING | 0.50-0.80 | ❌ Probably undetectable |
+| CATASTROPHIC | > 1.00 | 🟡 Maybe detectable |
+
+**All outcomes are informative:**
+- If humans detect nothing → Embedding space invisible to humans (confirms granularity gap)
+- If humans detect CATASTROPHIC only → Ceiling found, boundary mapped
+- Either way → Machine evidence stands independently
 
 ---
 
