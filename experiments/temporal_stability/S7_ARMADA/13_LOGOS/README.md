@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-27
+last_reviewed: 2025-12-28
 depends_on:
   - ./run022_commutation_cartography.py
   - ../0_docs/specs/
@@ -118,7 +118,7 @@ See [RUN_022_DESIGN.md](RUN_022_DESIGN.md) for full predictions:
 ### With S7 ARMADA
 - Results flow to `0_results/runs/` and `0_results/temporal_logs/`
 - Compatible with fleet-wide ARMADA deployment
-- Uses standard PFI drift measurement
+- Uses canonical cosine distance drift measurement (see `1_CALIBRATION/lib/drift_calculator.py`)
 
 ### With LOGOS Sync Infrastructure
 - Predictions registered in `sync/from_logos/predictions/`
@@ -158,4 +158,4 @@ The algebra proves the diagram commutes at each step. The experiment tests wheth
 
 **Contact:** Stephen (Nyquist Framework Coordinator)
 **LOGOS Claude:** Formal verification partner
-**Last Updated:** 2025-12-15
+**Last Updated:** 2025-12-28
