@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-24
+last_reviewed: 2025-12-28
 depends_on:
   - B-CRUMBS.md
   - MINIMUM_PUBLISHABLE_CLAIMS.md
