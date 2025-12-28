@@ -5,6 +5,8 @@
 **Purpose:** Establish clear record of contributions, timeline, and intellectual property boundaries
 **Status:** INSURANCE DOCUMENT — Hopefully never needed
 
+> **📐 METHODOLOGY NOTE (December 2025):** This document was created during the Keyword RMS era (Event Horizon = 1.23). Methodology was later unified to cosine distance (EH=0.80) via Run 023d IRON CLAD validation. The claims and timeline documented here remain valid - only the measurement methodology evolved.
+
 ---
 
 ## 1. PREAMBLE

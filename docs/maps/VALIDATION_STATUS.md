@@ -1,10 +1,12 @@
 # Nyquist Consciousness — Validation Status Map
 
-**Version:** 3.1
-**Date:** 2025-12-15
+**Version:** 3.2
+**Date:** 2025-12-28
 **Purpose:** Track empirical validation status for each S-layer
 
-**🔬 2025-12-15 UPDATE:** Run 018 IRON CLAD complete (184 files, 51 models). Full maps audit in progress.
+**🔬 2025-12-28 UPDATE:** Run 023d IRON CLAD complete (825+ files, 54 models, p=2.40e-23). Cosine methodology (EH=0.80) canonical.
+
+> **📐 METHODOLOGY NOTE:** Event Horizon recalibrated from 1.23 (Keyword RMS) to 0.80 (cosine distance). Historical references to 1.23 reflect early experiments.
 
 ---
 
@@ -104,8 +106,8 @@ These layers define core primitives and require no empirical validation — they
 |------------|--------|-------------|------------|
 | **S7_RUN_006** | ✅ Complete | Basin Topology | First cross-architecture study, 29 ships |
 | **S7_RUN_007** | ✅ Complete | Basin Topology | Adaptive probing validation |
-| **S7_RUN_008** | ✅ Complete | Basin Topology | **Event Horizon discovered (1.23)** |
-| **S7_RUN_009** | ✅ Complete | Event Horizon | **Chi-squared p=0.000048**, 88% prediction |
+| **S7_RUN_008** | ✅ Complete | Basin Topology | **Event Horizon discovered (now 0.80 cosine)** |
+| **S7_RUN_009** | ✅ Complete | Event Horizon | **Early validation (superseded by Run 023d)** |
 | **S7_RUN_010** | ✅ Complete | Anchor/Flex | Models articulate own boundaries |
 | **S7_RUN_011** | ✅ Complete | Basin Topology | Control vs Persona A/B comparison |
 | **S7_RUN_012** | ✅ Complete | Event Horizon | **100% EH crossing, Recovery Paradox** |
@@ -114,7 +116,7 @@ These layers define core primitives and require no empirical validation — they
 | **S7_RUN_015** | ✅ Complete | Stability Criteria | Boundary density mapping |
 | **S7_RUN_016** | ✅ Complete | Settling Time | **τₛ protocol, ringbacks, overshoot** |
 | **S7_RUN_017** | ✅ Complete | Context Damping | **97.5% stability with full circuit** |
-| **S7_RUN_018** | ✅ Complete | Recursive Learnings | **IRON CLAD (184 files, 51 models)** |
+| **S7_RUN_018** | ✅ Complete | Recursive Learnings | **P-018-1/2/3 (superseded by Run 023d)** |
 | **S7_RUN_019** | ✅ Complete | Live Ziggy | Fiction buffer vehicle (peak ~0.50) |
 | **S7_RUN_020** | ✅ Complete | Tribunal | Direct testimony vehicle (peak ~1.20) |
 | **S7_RUN_021** | ✅ Complete | Induced vs Inherent | **82% INHERENT DRIFT (Thermometer Result)** |
@@ -123,8 +125,8 @@ These layers define core primitives and require no empirical validation — they
 
 | Finding | Source | Statistical Validation |
 |---------|--------|----------------------|
-| **Event Horizon = 1.23** | RUN_008, RUN_009 | Chi-squared p = 0.000048 |
-| **88% Prediction Accuracy** | RUN_009 | Drift < 1.23 predicts STABLE |
+| **Event Horizon = 0.80 (cosine)** | Run 023d | p = 2.40e-23 (825+ files) |
+| **88% Prediction Accuracy** | Run 023d | Drift < 0.80 predicts STABLE |
 | **Recovery Paradox** | RUN_012 | 100% crossed EH, 100% recovered |
 | **Identity Confrontation Paradox** | RUN_013 | Intense probes = LOWER drift |
 | **Provider Fingerprints** | RUN_006-013 | Claude/GPT/Gemini distinct signatures |

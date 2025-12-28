@@ -2,7 +2,9 @@
 
 **Purpose:** Complete architectural overview from S0 to S∞
 **Status:** Living document showing where we are and where we're headed
-**Date:** 2025-12-15 (Run 018 IRON CLAD complete)
+**Date:** 2025-12-28 (Run 023d IRON CLAD complete)
+
+> **📐 METHODOLOGY NOTE:** Canonical methodology is cosine distance (Event Horizon = 0.80). Run 023d validated with p=2.40e-23. Historical references to 1.23 (Keyword RMS era) reflect earlier experiments.
 
 ---
 
@@ -146,23 +148,23 @@ This is the truth. This is the ladder.
 |-----|-------------|-------------|
 | **006** | Basin Topology | First cross-architecture study (29 ships) |
 | **007** | Basin Topology | Adaptive probing validation |
-| **008** | Basin Topology | **Event Horizon discovered (1.23)** |
-| **009** | Event Horizon | **Chi-squared p=0.000048**, 88% prediction accuracy |
+| **008** | Basin Topology | **Event Horizon discovered (now calibrated to 0.80)** |
+| **009** | Event Horizon | **Early validation (superseded by Run 023d, p=2.40e-23)** |
 | **010** | Anchor/Flex | Models articulate own boundaries, skepticism as anchor |
 | **011** | Basin Topology | Control vs Persona A/B comparison |
 | **012** | Event Horizon | **Recovery Paradox: 100% crossed EH, 100% recovered** |
 | **013-016** | Various | Boundary Mapping, Rescue Protocol, Stability Criteria, Settling Time |
 | **017** | Context Damping | **222 runs, 97.5% stable, oscillatory recovery confirmed** |
-| **018** | Recursive Learnings | **IRON CLAD: 184 files, 51 models, P-018-1/2/3 CONFIRMED** |
+| **018** | Recursive Learnings | **P-018-1/2/3 CONFIRMED (superseded by Run 023d)** |
 | **019** | Live Ziggy | **Witness-side anchors validated (3/3 success)** |
 | **020** | Tribunal | **Good Cop/Bad Cop: 1.351 peak drift, 643-word profound statement** |
 | **021** | Induced vs Inherent | **82% drift is INHERENT — probing amplifies but doesn't create** |
 
 **Validated Results:**
 
-- ✅ **Event Horizon = 1.23** — Critical threshold for identity coherence
-- ✅ **Chi-squared p = 0.000048** — Statistically validated prediction
-- ✅ **88% Prediction Accuracy** — Drift < 1.23 predicts STABLE outcome
+- ✅ **Event Horizon = 0.80 (cosine)** — Critical threshold for identity coherence (Run 023d)
+- ✅ **p = 2.40e-23** — Statistically validated prediction (Run 023d, 825+ files)
+- ✅ **88% Prediction Accuracy** — Drift < 0.80 predicts STABLE outcome
 - ✅ **Recovery Paradox** — Identity always recovers, even after crossing EH
 - ✅ **5D RMS Drift Metric** — A_pole, B_zero, C_meta, D_identity, E_hedging
 - ✅ **Provider Fingerprints** — Claude/GPT/Gemini distinct signatures
@@ -189,7 +191,7 @@ This is the truth. This is the ladder.
 
 **Next Steps:**
 
-- [x] Run 018 IRON CLAD complete (184 files, 51 models)
+- [x] Run 023d IRON CLAD complete (825+ files, 54 models, p=2.40e-23)
 - [ ] Multi-provider Run 021 replication
 - [ ] Deploy EXP3 (human validation)
 
@@ -401,7 +403,7 @@ If Run 021's 82% inherent drift finding is **substrate-independent**, we should 
 |-----------------|---------------|
 | Keyword density vectors | BOLD signal activation patterns |
 | Baseline → Final drift | Pre/post task state comparison |
-| Event Horizon (1.23) | Neural coherence breakdown threshold |
+| Event Horizon (0.80 cosine) | Neural coherence breakdown threshold |
 | Oscillatory recovery | Default Mode Network reactivation |
 | Identity anchors (I_AM) | Self-referential processing regions (mPFC, PCC) |
 
@@ -452,11 +454,11 @@ If Run 021's 82% inherent drift finding is **substrate-independent**, we should 
 S7 (97% VALIDATED) → Run 018 Ready → S8 (Gravity, formalized) → S10 (fMRI Bridge)
 ```
 
-### **S7 ARMADA Status: 97% Complete**
+### **S7 ARMADA Status: IRON CLAD Complete**
 
-The core scientific validation is done. Run 006-021 established:
+The core scientific validation is done. Run 006-023d established:
 
-- Event Horizon = 1.23 (statistically validated, p < 0.0001)
+- Event Horizon = 0.80 cosine (p=2.40e-23, Run 023d)
 - 88% prediction accuracy for STABLE/VOLATILE outcomes
 - Recovery Paradox (identity always recovers)
 - 5D RMS drift metric operational

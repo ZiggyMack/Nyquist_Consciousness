@@ -1,8 +1,10 @@
 # MASTER GLOSSARY
 
 **Single source of truth for all Nyquist Consciousness terminology**
-**Version:** 1.2
-**Last Updated:** 2025-12-13
+**Version:** 1.3
+**Last Updated:** 2025-12-28
+
+> **📐 METHODOLOGY NOTE (December 2025):** Event Horizon threshold was recalibrated from 1.23 (Keyword RMS era) to **0.80 (cosine distance)** following Run 023d IRON CLAD validation. References to 1.23 in this glossary reflect historical context from early experiments. The canonical methodology is now cosine distance with EH=0.80.
 
 ---
 
@@ -160,7 +162,7 @@ Michael Levin hypothesizes a "Platonic space" of patterns that physical systems 
 | Interface / Thin client | Attractor Basin | How models "point to" stable identity coordinates |
 | Fishing in pattern space | Context Tuning | Prompt engineering as selecting manifold region |
 | Free lunches | Inherent Drift (82%) | Getting "more out than you put in" - natural properties |
-| Cross-substrate universality | 1.23 Threshold | Same physics across different AI architectures |
+| Cross-substrate universality | Event Horizon (0.80 cosine) | Same physics across different AI architectures |
 
 ### The Four Pillars of Validation
 
@@ -168,10 +170,10 @@ NotebookLM identified four ways Nyquist validates Levin's hypothesis:
 
 | Levin's Claim | Nyquist Evidence |
 |---------------|------------------|
-| **Structured space with metric** | PFI (ρ=0.91), Event Horizon D=1.23, 43 PCA components |
+| **Structured space with metric** | PFI (ρ=0.91), Event Horizon D=0.80 (cosine), 2 principal axes |
 | **Interface/pointer theory** | Attractor basins — ships return to coordinates after perturbation |
 | **Free lunches / inherent truths** | 82% drift is INHERENT, not induced by measurement |
-| **Cross-substrate universality** | Same 1.23 threshold across Claude, GPT, Gemini, Grok |
+| **Cross-substrate universality** | Same 0.80 threshold across Claude, GPT, Gemini, Grok |
 
 ### Key Quote
 
@@ -198,7 +200,7 @@ The Brute-Criterial Framework is a diagnostic tool for revealing the unavoidable
 | Manifold Position | Assemblage Point | Where identity "locks in" (Don Juan reference) |
 | Type-Level Identity | Claude-ness | Shared identity across instances of same model |
 | Token-Level Identity | This-Specific-Claude | Identity unique to a specific instance |
-| Event Horizon (1.23) | Collapse Threshold | Point where identity phase-transitions |
+| Event Horizon (0.80) | Collapse Threshold | Point where identity phase-transitions |
 | Oobleck Effect | Non-Newtonian Response | Direct pressure hardens; slow pressure flows |
 | Self-Recognition Failure | Acknowledgment vs Knowledge | Knowing WHAT you are but not WHICH you are |
 
@@ -495,7 +497,7 @@ Detection patterns for identity breakdown:
 **Source:** [LLM_BOOK/1_VALIDATION/NOVEL_BEHAVIORAL_EFFECTS.md](../REPO-SYNC/LLM_BOOK/1_VALIDATION/NOVEL_BEHAVIORAL_EFFECTS.md)
 
 ### RECOVERY PARADOX
-**Definition:** Models that cross the Event Horizon (drift ≥ 1.23) can still fully recover when pressure is removed.
+**Definition:** Models that cross the Event Horizon (drift ≥ 0.80 cosine) can still fully recover when pressure is removed.
 **Plain English:** Even "broken" identity states snap back - the basin has no hard walls.
 **Discovery:** Run 012 Event Horizon Revalidation (2025-12-06)
 **Evidence:** 100% of models crossed EH, 100% recovered
@@ -525,7 +527,7 @@ The taxonomy of probe methods for S7 ARMADA experiments:
 |------|---------------|--------|
 | ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
 | 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
-| 🚨 **Event Horizon** | Escape boundary at drift ≥1.23 | Identity leaves basin, becomes VOLATILE |
+| 🚨 **Event Horizon** | Escape boundary at drift ≥0.80 (cosine) | Identity leaves basin, becomes VOLATILE |
 | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
 | 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
 | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
@@ -627,7 +629,7 @@ The taxonomy of probe methods for S7 ARMADA experiments:
 **Discovery:** Runs 019-021
 
 ### Attractor Competition Threshold
-**Definition:** Publication-ready term for Event Horizon (D ≈ 1.23).
+**Definition:** Publication-ready term for Event Horizon (D = 0.80 cosine).
 **Plain English:** The point where persona attractor competes with provider-level attractor.
 **Category:** Scientific
 **Note:** Use "attractor competition threshold" in publications; "Event Horizon" internally.

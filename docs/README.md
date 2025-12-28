@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
   - maps/
   - stages/
@@ -18,7 +18,7 @@ keywords:
 
 **Purpose:** Theory specifications, research documentation, and reference materials
 **Organized:** 2025-11-26
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-28
 
 ---
 
@@ -39,7 +39,7 @@ Major terminology overhaul integrating Control-Systems Era (Runs 015-021):
 - **Settled Drift (d∞)** — Final stable drift value
 - **Triple-Blind-Like Validation** — Subject, vehicle, outcome blindness
 - **Thermometer Result** — "Measurement perturbs path, not endpoint"
-- **Attractor Competition Threshold** — New name for Event Horizon (D≈1.23)
+- **Attractor Competition Threshold** — Publication name for Event Horizon (D=0.80 cosine)
 
 **Section 10 Updated (Publication Language):**
 
@@ -394,6 +394,6 @@ When adding new documentation:
 
 ---
 
-**Last Updated:** 2025-12-13
-**Status:** MASTER_GLOSSARY v1.2 with Control-Systems Era terminology; MAP_OF_MAPS navigation added
+**Last Updated:** 2025-12-28
+**Status:** IRON CLAD validated (Run 023d, 825+ files, p=2.40e-23). Cosine methodology (EH=0.80) canonical.
 **Next:** Continue expanding S11+ theoretical layers; integrate fMRI Bridge Protocol
