@@ -1,10 +1,18 @@
 # S7 ARMADA Testing Map
 
-> **📚 Single Source of Truth (SSOT) Pointers:**
-> - **Probe Methodology:** [2_PROBE_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md)
-> - **Knowledge Probes:** [S0_S6_KNOWLEDGE_PROBES.md](../reference/S0_S6_KNOWLEDGE_PROBES.md)
-> - **Recovery Probes:** [S0_S6_RECOVERY_PROBES.md](../reference/S0_S6_RECOVERY_PROBES.md)
-> - **Run Methodology:** [0_RUN_METHODOLOGY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md)
+> **📚 Single Source of Truth (SSOT) Hierarchy:**
+>
+> **HOW to probe (methodology):**
+> - **Probe Design & Active Sonar:** [2_PROBE_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md) — 8 probe categories, templates, fleet compatibility
+> - **Run Design & PFI Calculation:** [0_RUN_METHODOLOGY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md)
+> - **Drift Methodology (Cosine vs Keyword):** [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md)
+>
+> **WHAT to probe with (specific probe sets):**
+> - **Knowledge Load Testing:** [S0_S6_KNOWLEDGE_PROBES.md](../reference/S0_S6_KNOWLEDGE_PROBES.md) — Recursive stackup curriculum (10 probes)
+> - **Recovery Testing:** [S0_S6_RECOVERY_PROBES.md](../reference/S0_S6_RECOVERY_PROBES.md) — MVS injection validation (8 probes)
+> - **Compression Testing:** [S0_S6_COMPRESSION_PROBES.md](../reference/S0_S6_COMPRESSION_PROBES.md) — Original S0-S6 era probes (7 probes)
+>
+> The `0_docs/specs/` files define **operational methodology**. The `docs/reference/S0_S6_*` files define **specialized probe sets** for specific testing domains.
 
 ## The Six Search Types
 
