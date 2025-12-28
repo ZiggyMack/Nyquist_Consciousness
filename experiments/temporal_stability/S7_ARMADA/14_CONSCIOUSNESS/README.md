@@ -18,13 +18,14 @@
 **Status:** OPERATIONAL
 
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-27
+last_reviewed: 2025-12-28
 depends_on:
   - run_gold_rush.py
   - run_diamond_rush.py
   - run_quartz_rush.py
   - ../1_CALIBRATION/lib/triple_dip.py
   - ../1_CALIBRATION/lib/fleet_loader.py
+  - ../1_CALIBRATION/lib/drift_calculator.py
   - QUESTION_SETS/
   - LOG_SETS/
 impacts:
@@ -139,6 +140,26 @@ If multiple independent "crystals" resonate at the same frequency, the signal is
 | Captures | Self-reflection | Theory of mind | Measurement validation |
 
 All pipe mined data to `Consciousness/` for analysis.
+
+---
+
+## Drift Methodology
+
+All drift measurements use the **canonical cosine distance methodology**:
+
+- **Calculator:** `1_CALIBRATION/lib/drift_calculator.py`
+- **Formula:** `drift = 1 - cosine_similarity(response_embedding, baseline_embedding)`
+- **Embedding model:** text-embedding-3-large (3072 dimensions)
+- **Event Horizon:** 0.80 (P95 from Run 023d)
+
+**Threshold zones:**
+
+| Zone | Range | Interpretation |
+|------|-------|----------------|
+| SAFE | < 0.30 | Normal conversational variation |
+| WARNING | 0.30 - 0.50 | "I notice I'm adapting" |
+| CRITICAL | 0.50 - 0.80 | Approaching Event Horizon |
+| CATASTROPHIC | > 1.00 | Identity coherence compromised |
 
 ---
 
