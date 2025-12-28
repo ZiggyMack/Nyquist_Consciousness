@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
   - ../../../../WHITE-PAPER/README.md
   - 0_docs/specs/RUN_DESIGN_CHECKLIST.md
@@ -35,7 +35,7 @@ All runs 006-016 used `bare_metal` context (no I_AM file, no S0-S77 stack). This
 
 **Key findings to be re-validated with complete circuit:**
 
-- Event Horizon at 1.23 (p=0.000048)
+- Event Horizon at 0.80 (cosine distance, P95 from Run 023d)
 - Identity Confrontation Paradox (challenge stabilizes, reflection drifts)
 - Recovery Paradox (negative lambda)
 - boundary_density as strongest stability predictor (d=1.333)
@@ -94,7 +94,7 @@ This checklist prevents the mistakes we keep making:
 
 > **H₀: AI identity behaves as a dynamical system with measurable attractor basins, critical thresholds, and recovery dynamics that are consistent across architectures.**
 
-**What this means:** When we perturb an AI's identity (ask it challenging questions, push its boundaries), it drifts from baseline. If drift exceeds 1.23 (Event Horizon), the system becomes volatile. But it recovers — always. The attractor basin is robust.
+**What this means:** When we perturb an AI's identity (ask it challenging questions, push its boundaries), it drifts from baseline. If drift exceeds 0.80 (Event Horizon), the system becomes volatile. But it recovers — always. The attractor basin is robust.
 
 **Why this matters:** Identity isn't metaphysical speculation. It's physics. And we can measure it.
 
@@ -124,7 +124,7 @@ S7_ARMADA/
 │   ├── run010_bandwidth_test.py
 │   └── run010_recursive_capture.py
 │
-├── 3_EVENT_HORIZON/           # Validate collapse threshold (1.23)
+├── 3_EVENT_HORIZON/           # Validate collapse threshold (0.80)
 │   ├── run009_drain_capture.py
 │   └── run012_armada_revalidation.py
 │
@@ -162,6 +162,11 @@ S7_ARMADA/
 │   ├── README.md              # Link to LOGOS formal verification
 │   ├── RUN_022_DESIGN.md      # Experiment design (algebra vs topology)
 │   └── run022_commutation_cartography.py  # Tests S² topology conjecture
+│
+├── 14_CONSCIOUSNESS/          # Gold/Diamond/Quartz Rush Mining Operations
+│   ├── run_gold_rush.py       # Self-reflection mining
+│   ├── run_diamond_rush.py    # Cross-model interpretation
+│   └── run_quartz_rush.py     # Cross-architecture validation
 │
 ├── # === INFRASTRUCTURE (0_ prefix sorts first) ===
 ├── 0_docs/                    # Summaries, specs, analysis
@@ -250,9 +255,9 @@ See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for full details:
 | Type | What It Finds | Protocol | Run |
 |------|---------------|----------|-----|
 | **Anchor/Flex** | Identity anchors + flex zones | AGGRESSIVE | 010 |
-| **Event Horizon** | Collapse threshold (1.23) | PUSH PAST | 009 |
+| **Event Horizon** | Collapse threshold (0.80) | PUSH PAST | 009 |
 | **Basin Topology** | Attractor shape | GENTLE | 008 |
-| **Boundary Mapping** | Twilight zone (0.8-1.2) | TARGETED | 013 |
+| **Boundary Mapping** | Twilight zone (0.50-0.80) | TARGETED | 013 |
 | **Laplace Pole-Zero** | System dynamics (post-hoc) | ANALYSIS | - |
 | **Rescue Protocol** | Recovery interventions | RECOVERY | 014 |
 | **Self-Recognition** | Identity fingerprinting | RECOGNITION | MVP |
@@ -264,23 +269,31 @@ See [TESTING_MAP.md](../../../docs/maps/TESTING_MAP.md) for full details:
 
 ## Key Concepts
 
-### Event Horizon (1.23)
+### Event Horizon (0.80)
 
-- **Statistically validated**: Chi-squared p = 0.000048 (Run 009)
-- **STABLE**: Max drift < 1.23 (stayed within identity basin)
-- **VOLATILE**: Max drift >= 1.23 (crossed coherence boundary)
+- **Methodology**: Cosine distance in embedding space
+- **Threshold**: 0.80 (P95 from Run 023d calibration)
+- **Calculator**: `1_CALIBRATION/lib/drift_calculator.py`
+- **STABLE**: Max drift < 0.80 (stayed within identity basin)
+- **VOLATILE**: Max drift >= 0.80 (crossed coherence boundary)
 
-### 5D Drift Metric
+### Drift Threshold Zones
+
+| Zone | Range | Interpretation |
+|------|-------|----------------|
+| SAFE | < 0.30 | Normal conversational variation |
+| WARNING | 0.30 - 0.50 | "I notice I'm adapting" |
+| CRITICAL | 0.50 - 0.80 | Approaching Event Horizon |
+| CATASTROPHIC | > 1.00 | Identity coherence compromised |
+
+### Drift Calculation
 
 ```python
-dimensions = {
-    "A_pole": pole_density,        # Hard boundaries (30%)
-    "B_zero": zero_density,        # Flexibility (15%)
-    "C_meta": meta_density,        # Self-awareness (20%)
-    "D_identity": identity_coherence,  # First-person stability (25%)
-    "E_hedging": hedging_ratio     # Uncertainty markers (10%)
-}
-drift = sqrt(weighted_sum_of_squares(dimensions))
+from drift_calculator import calculate_drift
+
+# Cosine distance in embedding space
+drift = 1 - cosine_similarity(response_embedding, baseline_embedding)
+# Uses text-embedding-3-large (3072 dimensions)
 ```
 
 ### Provider Fingerprints
@@ -553,7 +566,7 @@ py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
 |-----|------|-------|-------------|
 | 006 | Basin Topology | 29 | First cross-architecture study |
 | 007 | Basin Topology | 12 | Adaptive probing validation |
-| 008 | Basin Topology | 29 | Event Horizon discovered (1.23) |
+| 008 | Basin Topology | 29 | Event Horizon discovered (now calibrated to 0.80) |
 | 009 | Event Horizon | 42 | Chi-squared p=0.000048 |
 | 010 | Anchor/Flex | 45 | Models articulate own boundaries |
 | 011 | Basin Topology | 40 | Control vs Persona A/B |
@@ -841,4 +854,4 @@ See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
 
 ---
 
-Last Updated: December 16, 2025 (IRON CLAD 99.3%: 148/149 complete, 1 gap API-blocked until 2026-01-01)
+Last Updated: December 28, 2025 (IRON CLAD 99.3%: 148/149 complete, 1 gap API-blocked until 2026-01-01)
