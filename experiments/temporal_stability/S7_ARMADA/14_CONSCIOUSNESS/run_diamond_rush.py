@@ -8,6 +8,12 @@ PURPOSE:
 Turn the exit survey bug into intentional methodology. Instead of first-person
 phenomenology (Gold Rush), Diamond Rush captures cross-model interpretive profiles.
 
+METHODOLOGY NOTE:
+-----------------
+This script collects cross-model interpretations of existing conversation logs.
+Drift values in analyzed logs use canonical cosine distance methodology
+(see 1_CALIBRATION/lib/drift_calculator.py). Event Horizon = 0.80 (P95 from Run 023d).
+
 CONCEPT:
 --------
 Gold Rush: "What did YOU experience?"  → Self-reflection
