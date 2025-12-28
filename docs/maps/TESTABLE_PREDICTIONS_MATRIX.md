@@ -845,7 +845,25 @@ Cross-architecture agreement is stronger because:
 2. Each architecture has different training — agreement suggests real signal, not training artifact
 3. No human perceptual limits — machines measure what machines emit
 
-**Status:** Cross-architecture drift recovery is untested but proposed (see P-SR-3, P-SR-6).
+**Status:** Cross-architecture drift recovery now has infrastructure: `run_quartz_rush.py`
+
+#### Quartz Rush Predictions (Cross-Architecture Agreement)
+
+| ID | Prediction | Status | Experiment | Confidence |
+|----|------------|--------|------------|------------|
+| **P-QUARTZ-1** | Multiple architectures (Claude, GPT, Gemini, Grok) independently estimate similar drift scores for the same response pairs | ❌ Untested | QUARTZ_RUSH | 🟢 HIGH |
+| **P-QUARTZ-2** | Cross-architecture agreement (Fleiss' κ > 0.60) for CATASTROPHIC drift detection | ❌ Untested | QUARTZ_RUSH | 🟡 MEDIUM |
+| **P-QUARTZ-3** | Agreement decreases for fine-grained drift (WARNING zone harder to agree on than CATASTROPHIC) | ❌ Untested | QUARTZ_RUSH | 🟢 HIGH |
+| **P-QUARTZ-4** | If 4 architectures agree on drift estimate within ±0.15, drift is validated as real signal | ❌ Untested | QUARTZ_RUSH | 🟢 HIGH |
+
+**Why This Matters:**
+
+Cross-architecture agreement is stronger than human validation because:
+1. No single model is "ground truth" — but if 4 independent architectures agree, that's convergent evidence
+2. Each architecture has different training — agreement suggests real signal, not training artifact
+3. No human perceptual limits — machines measure what machines emit
+
+**Location:** [run_quartz_rush.py](../../experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/run_quartz_rush.py)
 
 #### Exploratory Study: Where Does Human Perception End?
 

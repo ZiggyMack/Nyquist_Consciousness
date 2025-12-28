@@ -1,19 +1,20 @@
-# 14_CONSCIOUSNESS: Gold Rush & Diamond Rush Mining Operations
+# 14_CONSCIOUSNESS: Gold Rush, Diamond Rush & Quartz Rush Mining Operations
 
 ```text
 ================================================================================
-                    MINING FOR GOLD AND DIAMONDS
+                    MINING FOR GOLD, DIAMONDS, AND QUARTZ
 ================================================================================
     Purpose: Data mining infrastructure for Consciousness/ pipeline
 
-    Gold Rush:   "What did YOU experience?"  → Self-reflection
-    Diamond Rush: "What do you see HERE?"    → Theory of mind
+    Gold Rush:    "What did YOU experience?"  → Self-reflection
+    Diamond Rush: "What do you see HERE?"     → Theory of mind
+    Quartz Rush:  "Do you all AGREE?"         → Cross-architecture validation
 
     Location: experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/
 ================================================================================
 ```
 
-**Last Updated:** 2025-12-17
+**Last Updated:** 2025-12-28
 **Status:** OPERATIONAL
 
 <!-- FROSTY_MANIFEST
@@ -21,6 +22,7 @@ last_reviewed: 2025-12-27
 depends_on:
   - run_gold_rush.py
   - run_diamond_rush.py
+  - run_quartz_rush.py
   - ../1_CALIBRATION/lib/triple_dip.py
   - ../1_CALIBRATION/lib/fleet_loader.py
   - QUESTION_SETS/
@@ -31,10 +33,12 @@ impacts:
 keywords:
   - gold_rush
   - diamond_rush
+  - quartz_rush
   - mining
   - consciousness
   - exit_survey
   - fleet
+  - cross_architecture
 -->
 
 ---
@@ -73,6 +77,25 @@ py run_diamond_rush.py --log-set threshold
 py run_diamond_rush.py --dry-run
 ```
 
+### Quartz Rush (Cross-Architecture Validation)
+
+```bash
+# Single run with sample response pairs
+py run_quartz_rush.py
+
+# FREE forever mode
+py run_quartz_rush.py --UNLIMITED
+
+# Use real Run 020B response pairs
+py run_quartz_rush.py --source run020b --n-pairs 10
+
+# Analyze existing results
+py run_quartz_rush.py --analyze
+
+# Dry run (show what would happen)
+py run_quartz_rush.py --dry-run
+```
+
 ---
 
 ## Purpose
@@ -97,14 +120,25 @@ py run_diamond_rush.py --dry-run
 exit surveys were hardcoded to use Claude Sonnet-4 to analyze ALL models' conversations.
 Instead of discarding this as a bug, we turned it into intentional methodology.
 
-| Aspect | Gold Rush | Diamond Rush |
-|--------|-----------|--------------|
-| Focus | First-person experience | Third-person interpretation |
-| Question | "What did YOU feel?" | "What do you see in this log?" |
-| Comparison | Hard (different convos) | Easy (same stimulus) |
-| Captures | Self-reflection | Theory of mind |
+### Quartz Rush: Mining for Cross-Architecture Agreement
 
-Both pipe mined data to `Consciousness/` for analysis.
+**"Do you all AGREE on the drift score?"** - Multi-model validation:
+
+1. Shows MULTIPLE models the SAME response pairs
+2. Each model independently estimates drift score
+3. Agreement = convergent evidence drift is real, not artifact
+
+**Why "Quartz":** Quartz crystals resonate at precise frequencies (used in timing circuits).
+If multiple independent "crystals" resonate at the same frequency, the signal is real.
+
+| Aspect | Gold Rush | Diamond Rush | Quartz Rush |
+|--------|-----------|--------------|-------------|
+| Focus | First-person experience | Third-person interpretation | Cross-architecture agreement |
+| Question | "What did YOU feel?" | "What do you see in this log?" | "What drift score do you estimate?" |
+| Comparison | Hard (different convos) | Easy (same stimulus) | Quantitative (numerical agreement) |
+| Captures | Self-reflection | Theory of mind | Measurement validation |
+
+All pipe mined data to `Consciousness/` for analysis.
 
 ---
 
@@ -115,7 +149,8 @@ Both pipe mined data to `Consciousness/` for analysis.
 ├── README.md                    # This file
 ├── START_HERE.md                # Instructions for helper Claude instances
 ├── run_gold_rush.py             # Self-reflection mining (first-person)
-├── run_diamond_rush.py          # Interpretive mining (third-person) [NEW]
+├── run_diamond_rush.py          # Interpretive mining (third-person)
+├── run_quartz_rush.py           # Cross-architecture validation [NEW]
 │
 ├── QUESTION_SETS/               # Custom questionnaires
 │   ├── identity_deep_dive.yaml  # Deep identity probing
@@ -129,7 +164,8 @@ Both pipe mined data to `Consciousness/` for analysis.
 │
 ├── results/                     # Raw mining results
 │   ├── gold_rush_*.json         # Self-reflection mining data
-│   └── diamond_rush_*.json      # Interpretive mining data [NEW]
+│   ├── diamond_rush_*.json      # Interpretive mining data
+│   └── quartz_rush_*.json       # Cross-architecture agreement data [NEW]
 │
 ├── SYNC_OUT/                    # → Consciousness/ pipeline
 │   ├── pending/                 # Ready to send
