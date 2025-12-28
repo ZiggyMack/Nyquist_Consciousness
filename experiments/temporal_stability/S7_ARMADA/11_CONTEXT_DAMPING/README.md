@@ -238,12 +238,14 @@ print(f"Found {len(data['results'])} results")
 
 This experiment generates its own data. Multiple runs are tracked separately:
 
-| Run  | Data Location                      | Data Collected With  | Scripts Now Use      |
+| Run  | Data Location                      | Data Methodology     | IRON CLAD Status     |
 | ---- | ---------------------------------- | -------------------- | -------------------- |
-| 017  | `results/S7_run_017_CURRENT.json`  | Legacy (Keyword RMS) | COSINE (EH=0.80)     |
-| 018  | `results/S7_run_018_CURRENT.json`  | Mixed (transition)   | COSINE (EH=0.80)     |
-| 019  | `results/S7_run_019_CURRENT.json`  | Legacy (Keyword RMS) | COSINE (EH=0.80)     |
-| 020A | `results/S7_run_020A_CURRENT.json` | Tribunal             | COSINE (EH=0.80)     |
-| 020B | `results/S7_run_020B_CURRENT.json` | Cosine (EH=0.80)     | COSINE (EH=0.80)     |
+| 017  | `results/S7_run_017_CURRENT.json`  | **Keyword RMS** (EH=1.23) | ❌ NOT IRON CLAD (wrong methodology) |
+| 018  | `results/S7_run_018_CURRENT.json`  | **Keyword RMS** (EH=1.23) | ❌ NOT IRON CLAD (wrong methodology) |
+| 019  | `results/S7_run_019_CURRENT.json`  | COSINE (EH=0.80)     | ⚠️ Needs verification |
+| 020A | `results/S7_run_020A_CURRENT.json` | ⚠️ Unknown           | ⚠️ Needs verification |
+| 020B | `results/S7_run_020B_CURRENT.json` | **COSINE** (EH=0.80) | ✅ IRON CLAD candidate |
 
-**Note:** All scripts updated to COSINE methodology (Event Horizon = 0.80). Historical data remains as collected.
+**WARNING:** Runs 017 and 018 data were collected with Keyword RMS methodology (Event Horizon = 1.23).
+This data is NOT compatible with COSINE methodology and should NOT be used for IRON CLAD claims.
+Only Run 020B and Run 023 data (in `15_IRON_CLAD_FOUNDATION/`) use pure COSINE methodology.
