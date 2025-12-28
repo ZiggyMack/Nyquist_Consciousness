@@ -8,6 +8,12 @@ PURPOSE:
 Mine massive amounts of AI identity data for the Consciousness/ pipeline.
 Extends CLAL.py baseline with custom question sets.
 
+METHODOLOGY NOTE:
+-----------------
+This script collects raw response data. Drift analysis is performed downstream
+using canonical cosine distance methodology (see 1_CALIBRATION/lib/drift_calculator.py).
+Event Horizon = 0.80 (P95 from Run 023d).
+
 MODES:
 ------
 py run_gold_rush.py                    # Single run, baseline only
