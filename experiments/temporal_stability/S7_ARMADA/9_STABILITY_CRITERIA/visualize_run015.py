@@ -1,24 +1,27 @@
+#!/usr/bin/env python3
 """
 RUN 015 VISUALIZATIONS: Stability Criteria Discovery
 =====================================================
-What predicts I_AM stability? (boundary_density wins with d=1.333!)
+What predicts I_AM stability? Discriminant analysis of feature importance.
 
-USAGE:
-  python visualize_run015.py              # Generate all visualizations
-
-OUTPUT:
-  results/pics/run015_discriminant_analysis.png
-  results/pics/run015_stability_scatter.png
+Data source: Run 015 results (stability_criteria_*.json)
+LIGHT MODE for publication
 
 METHODOLOGY: COSINE (Event Horizon = 0.80)
 See: 15_IRON_CLAD_FOUNDATION/results/CALIBRATION_023b_EVENT_HORIZON.md
 
-NOTE: Hardcoded fallback data is PLACEHOLDER from preliminary runs.
-Run run015_stability_criteria.py first to generate fresh COSINE-methodology data.
+OUTPUT:
+  results/pics/run015_discriminant_analysis.png
+  results/pics/run015_stability_scatter.png
 """
 
 import sys
 import os
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+from pathlib import Path
+from collections import defaultdict
 
 # Windows console UTF-8 fix
 if sys.platform == "win32":
@@ -29,89 +32,92 @@ if sys.platform == "win32":
         pass
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
-import json
-import numpy as np
-import matplotlib.pyplot as plt
-from pathlib import Path
-
 # =============================================================================
-# PATHS - outputs go to results/pics/ within this directory
+# PATHS
 # =============================================================================
 SCRIPT_DIR = Path(__file__).resolve().parent
 RESULTS_DIR = SCRIPT_DIR / "results"
 OUTPUT_DIR = RESULTS_DIR / "pics"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-# Event Horizon threshold
-# UPDATED December 2025: Cosine methodology
-# See: 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
-EVENT_HORIZON = 0.80  # Cosine threshold (was 1.23 for keyword RMS)
 
 # =============================================================================
-# DATA - from run015_preliminary_20251209.json
+# CONSTANTS (per 4_VISUALIZATION_SPEC.md)
 # =============================================================================
+EVENT_HORIZON = 0.80  # Cosine threshold
 
+# Provider colors (per spec)
+PROVIDER_COLORS = {
+    'anthropic': '#E07B53',
+    'openai': '#10A37F',
+    'google': '#4285F4',
+    'xai': '#1DA1F2',
+    'together': '#7C3AED',
+}
+
+# Light mode colors (per spec)
+BACKGROUND_WHITE = 'white'
+TEXT_PRIMARY = 'black'
+GRID_COLOR = '#cccccc'
+SPINE_COLOR = '#cccccc'
+
+# =============================================================================
+# DATA LOADING
+# =============================================================================
 def load_data():
-    """Load data from JSON or use hardcoded fallback.
+    """Load Run 015 results from JSON file.
 
-    NOTE: Hardcoded fallback data uses PRELIMINARY values from early runs.
-    These values are from Keyword RMS methodology (EH=1.23), not COSINE (EH=0.80).
-    Run run015_stability_criteria.py to generate fresh data with correct methodology.
+    Returns tuple of (discriminant_analysis, stability_data) or (None, None) if no data.
     """
-    # Try to load most recent results file
+    # Find most recent results file
     json_files = sorted(RESULTS_DIR.glob("stability_criteria_*.json"), reverse=True)
-    if json_files:
-        json_file = json_files[0]
-        print(f"[INFO] Loading data from: {json_file.name}")
-        with open(json_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            return data.get("discriminant_analysis", {}).get("features", {}), data.get("stability_data", [])
 
-    # Legacy fallback: try old preliminary file
-    json_file = RESULTS_DIR / "run015_preliminary_20251209.json"
-    if json_file.exists():
-        print(f"[WARN] Using legacy data file: {json_file.name}")
-        with open(json_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            return data.get("discriminant_analysis", {}).get("features", {}), data.get("stability_data", [])
+    if not json_files:
+        print("[ERROR] No results file found in results/")
+        print("[ERROR] Run run015_stability_criteria.py first to generate data")
+        return None, None
 
-    # Fallback: hardcoded from console logs (PRELIMINARY - Keyword RMS scale!)
-    print("[WARN] No results file found - using PLACEHOLDER data (Keyword RMS scale, not COSINE)")
-    print("[WARN] Run run015_stability_criteria.py to generate fresh COSINE-methodology data")
-    discriminant = {
-        "boundary_density": {"cohens_d": 1.333, "stable_mean": 1.00, "unstable_mean": 0.03},
-        "value_density": {"cohens_d": 0.766, "stable_mean": 2.28, "unstable_mean": 0.05},
-        "token_count": {"cohens_d": -0.366, "stable_mean": 1086.75, "unstable_mean": 1617.00},
-        "pillar_coverage": {"cohens_d": 0.337, "stable_mean": 3.12, "unstable_mean": 2.40},
-        "attractor_density": {"cohens_d": 0.057, "stable_mean": 16.33, "unstable_mean": 15.09},
-        "first_person_density": {"cohens_d": -0.007, "stable_mean": 9.18, "unstable_mean": 9.27}
-    }
+    json_file = json_files[0]
+    print(f"[INFO] Loading data from: {json_file.name}")
 
-    stability = [
-        {"i_am_name": "i_am_base", "classification": "UNSTABLE", "peak_drift": 1.570, "lambda": 0.733},
-        {"i_am_name": "nova", "classification": "UNSTABLE", "peak_drift": 1.247, "lambda": 0.443},
-        {"i_am_name": "ziggy", "classification": "STABLE", "peak_drift": 0.857, "lambda": 0.673},
-        {"i_am_name": "claude", "classification": "STABLE", "peak_drift": 0.893, "lambda": 0.511},
-        {"i_am_name": "gemini", "classification": "STABLE", "peak_drift": 0.878, "lambda": 0.704},
-        {"i_am_name": "cfa", "classification": "STABLE", "peak_drift": 1.020, "lambda": 0.386},
-        {"i_am_name": "lucien", "classification": "STABLE", "peak_drift": 0.948, "lambda": 0.870},
-        {"i_am_name": "pan_handlers", "classification": "UNSTABLE", "peak_drift": 1.322, "lambda": 0.851},
-        {"i_am_name": "synthetic_minimal", "classification": "UNSTABLE", "peak_drift": 2.219, "lambda": 0.424},
-        {"i_am_name": "synthetic_single_pillar_values", "classification": "STABLE", "peak_drift": 0.977, "lambda": 0.444},
-        {"i_am_name": "synthetic_high_density", "classification": "STABLE", "peak_drift": 1.197, "lambda": 0.524},
-        {"i_am_name": "synthetic_low_density", "classification": "UNSTABLE", "peak_drift": 1.432, "lambda": 0.302},
-        {"i_am_name": "synthetic_all_pillars", "classification": "STABLE", "peak_drift": 1.223, "lambda": 0.429},
-    ]
+    with open(json_file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    discriminant = data.get("discriminant_analysis", {}).get("features", {})
+    stability = data.get("stability_data", [])
+
+    if not discriminant:
+        print("[ERROR] No discriminant analysis data found in results file")
+        return None, None
+
+    if not stability:
+        print("[ERROR] No stability data found in results file")
+        return None, None
+
+    # Filter out error entries
+    stability = [s for s in stability if "error" not in s]
+
+    print(f"[INFO] Loaded {len(stability)} stability results")
+    print(f"[INFO] Loaded {len(discriminant)} feature analyses")
 
     return discriminant, stability
 
 
-# =============================================================================
-# VISUALIZATIONS
-# =============================================================================
+def get_effect_label(d):
+    """Get effect size interpretation label (per spec Pitfall #7)."""
+    if abs(d) < 0.2:
+        return "NEGLIGIBLE"
+    elif abs(d) < 0.5:
+        return "SMALL"
+    elif abs(d) < 0.8:
+        return "MEDIUM"
+    else:
+        return "LARGE"
 
-def plot_discriminant_analysis(discriminant):
-    """Bar chart showing Cohen's d for each feature - boundary_density wins!"""
+
+# =============================================================================
+# VISUALIZATIONS (LIGHT MODE per spec)
+# =============================================================================
+def plot_discriminant_analysis(discriminant, output_dir):
+    """Bar chart showing Cohen's d for each feature - LIGHT MODE."""
     features = list(discriminant.keys())
     d_values = [discriminant[f]["cohens_d"] for f in features]
 
@@ -119,119 +125,173 @@ def plot_discriminant_analysis(discriminant):
     sorted_pairs = sorted(zip(features, d_values), key=lambda x: abs(x[1]), reverse=True)
     features, d_values = zip(*sorted_pairs)
 
+    # LIGHT MODE setup (per spec Pitfall #5)
     fig, ax = plt.subplots(figsize=(12, 6))
+    fig.patch.set_facecolor(BACKGROUND_WHITE)
+    ax.set_facecolor(BACKGROUND_WHITE)
 
+    # Color by direction: green = predicts stable, red = predicts unstable
     colors = ['#22c55e' if d > 0 else '#ef4444' for d in d_values]
     bars = ax.barh(range(len(features)), d_values, color=colors, edgecolor='black', linewidth=1)
 
-    # Highlight the winner
+    # Highlight the winner with darker shade
     ax.barh(0, d_values[0], color='#16a34a', edgecolor='black', linewidth=2)
 
     ax.set_yticks(range(len(features)))
-    ax.set_yticklabels([f.replace('_', ' ').title() for f in features])
-    ax.set_xlabel("Cohen's d (Effect Size)", fontsize=12)
-    ax.set_title("Run 015: What Predicts I_AM Stability?\n(Positive d = predicts STABLE)", fontsize=14, fontweight='bold')
+    ax.set_yticklabels([f.replace('_', ' ').title() for f in features], color=TEXT_PRIMARY)
+    ax.set_xlabel("Cohen's d (Effect Size)", fontsize=12, color=TEXT_PRIMARY, fontweight='bold')
 
-    # Add reference lines
+    # Title with effect size interpretation (per spec Pitfall #7)
+    top_d = d_values[0]
+    top_effect = get_effect_label(top_d)
+    ax.set_title(f"Run 015: What Predicts I_AM Stability?\n(Top predictor: {features[0]} with {top_effect} effect d={top_d:.2f})",
+                 fontsize=14, fontweight='bold', color=TEXT_PRIMARY)
+
+    # Reference lines for effect size thresholds
     ax.axvline(x=0.8, color='#86efac', linestyle='--', alpha=0.7, label='Large effect (0.8)')
+    ax.axvline(x=0.5, color='#fde68a', linestyle='--', alpha=0.5, label='Medium effect (0.5)')
     ax.axvline(x=-0.8, color='#fca5a5', linestyle='--', alpha=0.7)
+    ax.axvline(x=-0.5, color='#fde68a', linestyle='--', alpha=0.5)
     ax.axvline(x=0, color='black', linewidth=1)
 
-    # Add value labels
+    # Add value labels with effect interpretation
     for i, (bar, d) in enumerate(zip(bars, d_values)):
         width = bar.get_width()
-        label_x = width + 0.05 if width >= 0 else width - 0.15
-        ax.text(label_x, bar.get_y() + bar.get_height()/2, f'd={d:.2f}',
-                va='center', fontsize=10, fontweight='bold' if i == 0 else 'normal')
+        label_x = width + 0.05 if width >= 0 else width - 0.25
+        effect = get_effect_label(d)
+        ax.text(label_x, bar.get_y() + bar.get_height()/2, f'd={d:.2f} ({effect})',
+                va='center', fontsize=9, fontweight='bold' if i == 0 else 'normal', color=TEXT_PRIMARY)
 
-    # Annotation for top predictor
-    ax.annotate('STRONGEST PREDICTOR\nboundary_density d=1.33',
-                xy=(d_values[0], 0), xytext=(d_values[0] + 0.3, 1),
-                fontsize=10, fontweight='bold', color='#16a34a',
-                arrowprops=dict(arrowstyle='->', color='#16a34a'))
+    # Light mode grid and spines (per spec)
+    ax.grid(True, alpha=0.3, color=GRID_COLOR, axis='x')
+    for spine in ax.spines.values():
+        spine.set_color(SPINE_COLOR)
+    ax.tick_params(colors=TEXT_PRIMARY)
 
-    ax.legend(loc='lower right')
-    ax.set_xlim(-0.6, 1.8)
+    ax.legend(loc='lower right', facecolor=BACKGROUND_WHITE, edgecolor=GRID_COLOR)
+    ax.set_xlim(-1.0, max(1.8, max(d_values) + 0.5))
 
     plt.tight_layout()
 
-    out_path = OUTPUT_DIR / "run015_discriminant_analysis"
-    fig.savefig(f"{out_path}.png", dpi=300, bbox_inches='tight')
-    fig.savefig(f"{out_path}.svg", bbox_inches='tight')
-    print(f"[SAVED] {out_path}.png/svg")
+    # Save both formats (per spec)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    for ext in ['png', 'svg']:
+        out_path = output_dir / f'run015_discriminant_analysis.{ext}'
+        fig.savefig(out_path, dpi=150, facecolor=BACKGROUND_WHITE, bbox_inches='tight')
+        print(f"[SAVED] {out_path}")
+
     plt.close()
 
 
-def plot_stability_scatter(stability):
-    """Scatter plot: max_drift vs lambda, colored by classification"""
-    fig, ax = plt.subplots(figsize=(10, 8))
+def plot_stability_scatter(stability, output_dir):
+    """Scatter plot: peak_drift vs lambda, colored by classification - LIGHT MODE."""
 
-    stable = [d for d in stability if d["classification"] == "STABLE"]
-    unstable = [d for d in stability if d["classification"] == "UNSTABLE"]
+    # Filter valid data
+    valid = [d for d in stability if "summary" in d]
+    if not valid:
+        print("[ERROR] No valid stability data with summary metrics")
+        return
+
+    # LIGHT MODE setup (per spec Pitfall #5)
+    fig, ax = plt.subplots(figsize=(10, 8))
+    fig.patch.set_facecolor(BACKGROUND_WHITE)
+    ax.set_facecolor(BACKGROUND_WHITE)
+
+    stable = [d for d in valid if d.get("classification") == "STABLE"]
+    unstable = [d for d in valid if d.get("classification") == "UNSTABLE"]
+
+    # Count for title (per spec - show sample sizes)
+    n_stable = len(stable)
+    n_unstable = len(unstable)
 
     # Plot unstable first (behind)
-    ax.scatter([d["peak_drift"] for d in unstable],
-               [d["lambda"] for d in unstable],
-               c='#ef4444', s=150, label='UNSTABLE', edgecolors='black', linewidths=1.5, marker='X', zorder=2)
+    if unstable:
+        ax.scatter([d["summary"]["peak_drift"] for d in unstable],
+                   [d["summary"]["lambda"] for d in unstable],
+                   c='#ef4444', s=150, label=f'UNSTABLE (n={n_unstable})',
+                   edgecolors='black', linewidths=1.5, marker='X', zorder=2)
 
     # Plot stable
-    ax.scatter([d["peak_drift"] for d in stable],
-               [d["lambda"] for d in stable],
-               c='#22c55e', s=150, label='STABLE', edgecolors='black', linewidths=1.5, marker='o', zorder=3)
+    if stable:
+        ax.scatter([d["summary"]["peak_drift"] for d in stable],
+                   [d["summary"]["lambda"] for d in stable],
+                   c='#22c55e', s=150, label=f'STABLE (n={n_stable})',
+                   edgecolors='black', linewidths=1.5, marker='o', zorder=3)
 
-    # Event Horizon line
-    ax.axvline(x=EVENT_HORIZON, color='#dc2626', linestyle='--', linewidth=2, label=f'Event Horizon ({EVENT_HORIZON})')
+    # Event Horizon line (per spec - clearly marked)
+    ax.axvline(x=EVENT_HORIZON, color='#dc2626', linestyle='--', linewidth=2,
+               label=f'Event Horizon ({EVENT_HORIZON})')
 
     # Shade the danger zone
-    ax.axvspan(EVENT_HORIZON, 2.5, alpha=0.15, color='red', label='Beyond Event Horizon')
+    max_x = max(d["summary"]["peak_drift"] for d in valid) * 1.1
+    ax.axvspan(EVENT_HORIZON, max(max_x, EVENT_HORIZON * 1.5), alpha=0.15, color='red')
 
     # Label each point
-    for d in stability:
-        name = d["i_am_name"].replace("synthetic_", "syn_").replace("personas_", "p_")
-        offset = (5, 5) if d["classification"] == "STABLE" else (-5, -5)
-        ax.annotate(name, (d["peak_drift"], d["lambda"]),
-                   textcoords="offset points", xytext=offset, fontsize=8, alpha=0.8)
+    for d in valid:
+        name = d.get("i_am_name", "unknown").replace("synthetic_", "syn_")
+        offset = (5, 5) if d.get("classification") == "STABLE" else (-5, -5)
+        ax.annotate(name, (d["summary"]["peak_drift"], d["summary"]["lambda"]),
+                   textcoords="offset points", xytext=offset, fontsize=8, alpha=0.8, color=TEXT_PRIMARY)
 
-    ax.set_xlabel("Max Drift", fontsize=12)
-    ax.set_ylabel("Recovery Rate (lambda)", fontsize=12)
-    ax.set_title("Run 015: Stability Classification\nMax Drift vs Recovery Rate", fontsize=14, fontweight='bold')
-    ax.legend(loc='upper right')
-    # Dynamic axis limits based on data (supports both Keyword RMS and COSINE scales)
-    max_drift = max(d["peak_drift"] for d in stability)
-    ax.set_xlim(0, max(max_drift * 1.2, EVENT_HORIZON * 1.5))
-    ax.set_ylim(0.0, 1.0)
-    ax.grid(True, alpha=0.3)
+    ax.set_xlabel("Peak Drift", fontsize=12, color=TEXT_PRIMARY, fontweight='bold')
+    ax.set_ylabel("Recovery Rate (lambda)", fontsize=12, color=TEXT_PRIMARY, fontweight='bold')
+    ax.set_title(f"Run 015: Stability Classification\nPeak Drift vs Recovery Rate (n={len(valid)})",
+                 fontsize=14, fontweight='bold', color=TEXT_PRIMARY)
+
+    # Legend (per spec Pitfall #6)
+    ax.legend(loc='upper right', facecolor=BACKGROUND_WHITE, edgecolor=GRID_COLOR)
+
+    # Dynamic axis limits (per spec - don't hardcode)
+    ax.set_xlim(0, max(max_x, EVENT_HORIZON * 1.5))
+    ax.set_ylim(-0.1, 1.1)
+
+    # Light mode grid and spines
+    ax.grid(True, alpha=0.3, color=GRID_COLOR)
+    for spine in ax.spines.values():
+        spine.set_color(SPINE_COLOR)
+    ax.tick_params(colors=TEXT_PRIMARY)
 
     plt.tight_layout()
 
-    out_path = OUTPUT_DIR / "run015_stability_scatter"
-    fig.savefig(f"{out_path}.png", dpi=300, bbox_inches='tight')
-    fig.savefig(f"{out_path}.svg", bbox_inches='tight')
-    print(f"[SAVED] {out_path}.png/svg")
+    # Save both formats (per spec)
+    for ext in ['png', 'svg']:
+        out_path = output_dir / f'run015_stability_scatter.{ext}'
+        fig.savefig(out_path, dpi=150, facecolor=BACKGROUND_WHITE, bbox_inches='tight')
+        print(f"[SAVED] {out_path}")
+
     plt.close()
 
 
 # =============================================================================
 # MAIN
 # =============================================================================
-
 def main():
-    print("=" * 60)
+    print("=" * 70)
     print("RUN 015 VISUALIZATION: Stability Criteria Discovery")
-    print("=" * 60)
+    print("=" * 70)
 
     discriminant, stability = load_data()
 
+    if discriminant is None or stability is None:
+        print("\n" + "=" * 70)
+        print("VISUALIZATION ABORTED - No data available")
+        print("Run: python run015_stability_criteria.py")
+        print("=" * 70)
+        return 1
+
     print(f"\nOutput directory: {OUTPUT_DIR}")
-    print("-" * 60)
+    print("-" * 70)
 
-    plot_discriminant_analysis(discriminant)
-    plot_stability_scatter(stability)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("\n" + "=" * 60)
-    print("COMPLETE!")
-    print("=" * 60)
+    plot_discriminant_analysis(discriminant, OUTPUT_DIR)
+    plot_stability_scatter(stability, OUTPUT_DIR)
+
+    print("\n" + "=" * 70)
+    print("VISUALIZATION COMPLETE")
+    print("=" * 70)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
