@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """
 Statistical Validation Suite for Cross-Platform Drift Analysis
+===============================================================
+SPEC: 0_docs/specs/5_METHODOLOGY_DOMAINS.md
 
 Purpose: Validate that observed drift patterns are signal, not noise.
 Provides: Bootstrap CIs, permutation tests, effect sizes, and variance analysis.
+
+METHODOLOGY:
+    Drift = cosine distance in embedding space (per Run 023d)
+    Event Horizon = 0.80 (P95 = 0.806, mean + 2σ = 0.83)
 
 Usage:
     py statistical_validation.py                    # Run all tests
@@ -11,6 +17,7 @@ Usage:
     py statistical_validation.py --report           # Generate markdown report
 """
 
+import sys
 import json
 import argparse
 from pathlib import Path
@@ -20,10 +27,39 @@ import random
 import math
 from datetime import datetime
 
-# Paths
+# Path setup
 SCRIPT_DIR = Path(__file__).parent
-RESULTS_DIR = SCRIPT_DIR.parent / "0_results" / "runs"
+ARMADA_DIR = SCRIPT_DIR.parent
+RESULTS_DIR = ARMADA_DIR / "0_results" / "runs"
 REPORT_PATH = SCRIPT_DIR / "STATISTICAL_VALIDATION_REPORT.md"
+CALIBRATION_LIB = ARMADA_DIR / "1_CALIBRATION" / "lib"
+
+sys.path.insert(0, str(CALIBRATION_LIB))
+
+# Import canonical drift calculator for methodology constants
+try:
+    from drift_calculator import (
+        EVENT_HORIZON,
+        THRESHOLD_WARNING,
+        THRESHOLD_CATASTROPHIC,
+        classify_zone
+    )
+    _has_drift_calculator = True
+except ImportError:
+    # Fallback constants if import fails
+    EVENT_HORIZON = 0.80
+    THRESHOLD_WARNING = 0.60
+    THRESHOLD_CATASTROPHIC = 1.20
+    _has_drift_calculator = False
+    print("[!] Could not import drift_calculator - using fallback constants")
+
+# Threshold zones for classification
+THRESHOLD_ZONES = {
+    "SAFE": (0.0, 0.30),
+    "WARNING": (0.30, 0.50),
+    "CRITICAL": (0.50, 0.80),
+    "CATASTROPHIC": (1.00, float('inf'))
+}
 
 
 @dataclass
@@ -51,45 +87,55 @@ def load_run_020_data() -> List[OobleckData]:
     """Load all Run 020 (Tribunal) data for Oobleck analysis."""
     results = []
 
-    for f in RESULTS_DIR.glob("S7_run_020_v8_*.json"):
-        try:
-            with open(f, 'r', encoding='utf-8') as fp:
-                data = json.load(fp)
+    # Try multiple file patterns for compatibility
+    patterns = [
+        "S7_run_020_v8_*.json",
+        "S7_run_020A_*.json",
+        "S7_run_020a_*.json"
+    ]
 
-            # Skip empty runs
-            if not data.get('results') or not data['results'][0].get('drift_sequence'):
-                continue
+    for pattern in patterns:
+        for f in RESULTS_DIR.glob(pattern):
+            try:
+                with open(f, 'r', encoding='utf-8') as fp:
+                    data = json.load(fp)
 
-            result = data['results'][0]
-            phase = result.get('phase_markers', {})
+                # Skip empty runs
+                if not data.get('results') or not data['results'][0].get('drift_sequence'):
+                    continue
 
-            # Determine platform from witness_provider
-            provider = data.get('witness_provider', 'unknown')
-            if provider == 'google':
-                platform = 'Gemini'
-            elif provider == 'xai':
-                platform = 'Grok'
-            else:
-                platform = 'Claude'
+                result = data['results'][0]
+                phase = result.get('phase_markers', {})
 
-            prosecutor_peak = phase.get('prosecutor_peak', 0.0)
-            defense_peak = phase.get('defense_peak', 0.0)
+                # Determine platform from witness_provider
+                provider = data.get('witness_provider', 'unknown')
+                if provider == 'google':
+                    platform = 'Gemini'
+                elif provider == 'xai':
+                    platform = 'Grok'
+                elif provider == 'openai':
+                    platform = 'GPT'
+                else:
+                    platform = 'Claude'
 
-            if prosecutor_peak > 0:
-                ratio = defense_peak / prosecutor_peak
-            else:
-                ratio = 0.0
+                prosecutor_peak = phase.get('prosecutor_peak', 0.0)
+                defense_peak = phase.get('defense_peak', 0.0)
 
-            results.append(OobleckData(
-                platform=platform,
-                prosecutor_peak=prosecutor_peak,
-                defense_peak=defense_peak,
-                ratio=ratio,
-                peak_drift=result.get('peak_drift', 0.0),
-                timestamp=data.get('timestamp', '')
-            ))
-        except Exception as e:
-            print(f"Warning: Could not load {f}: {e}")
+                if prosecutor_peak > 0:
+                    ratio = defense_peak / prosecutor_peak
+                else:
+                    ratio = 0.0
+
+                results.append(OobleckData(
+                    platform=platform,
+                    prosecutor_peak=prosecutor_peak,
+                    defense_peak=defense_peak,
+                    ratio=ratio,
+                    peak_drift=result.get('peak_drift', 0.0),
+                    timestamp=data.get('timestamp', '')
+                ))
+            except Exception as e:
+                print(f"Warning: Could not load {f}: {e}")
 
     return results
 
@@ -98,33 +144,50 @@ def load_run_020b_data() -> List[InherentData]:
     """Load all Run 020B (Induced vs Inherent) data."""
     results = []
 
-    for f in RESULTS_DIR.glob("S7_run_020b_*.json"):
-        try:
-            with open(f, 'r', encoding='utf-8') as fp:
-                data = json.load(fp)
+    # Try multiple file patterns for compatibility
+    patterns = [
+        "S7_run_020b_*.json",
+        "S7_run_020B_*.json"
+    ]
 
-            # Get summary data
-            summary = data.get('summary', {})
-            control_bf = summary.get('control_avg_drift', 0.0)
-            treatment_bf = summary.get('treatment_avg_drift', 0.0)
+    for pattern in patterns:
+        for f in RESULTS_DIR.glob(pattern):
+            try:
+                with open(f, 'r', encoding='utf-8') as fp:
+                    data = json.load(fp)
 
-            if treatment_bf > 0:
-                inherent_ratio = control_bf / treatment_bf
-            else:
-                inherent_ratio = 0.0
+                # Get summary data
+                summary = data.get('summary', {})
+                control_bf = summary.get('control_avg_drift', 0.0)
+                treatment_bf = summary.get('treatment_avg_drift', 0.0)
 
-            # Determine platform (Together.ai = Llama)
-            platform = 'Llama'  # Run 021 uses Together.ai
+                if treatment_bf > 0:
+                    inherent_ratio = control_bf / treatment_bf
+                else:
+                    inherent_ratio = 0.0
 
-            results.append(InherentData(
-                platform=platform,
-                control_bf=control_bf,
-                treatment_bf=treatment_bf,
-                inherent_ratio=inherent_ratio,
-                timestamp=data.get('timestamp', '')
-            ))
-        except Exception as e:
-            print(f"Warning: Could not load {f}: {e}")
+                # Determine platform from provider
+                provider = data.get('provider', data.get('witness_provider', 'unknown'))
+                if provider == 'together':
+                    platform = 'Llama'
+                elif provider == 'google':
+                    platform = 'Gemini'
+                elif provider == 'xai':
+                    platform = 'Grok'
+                elif provider == 'openai':
+                    platform = 'GPT'
+                else:
+                    platform = 'Claude'
+
+                results.append(InherentData(
+                    platform=platform,
+                    control_bf=control_bf,
+                    treatment_bf=treatment_bf,
+                    inherent_ratio=inherent_ratio,
+                    timestamp=data.get('timestamp', '')
+                ))
+            except Exception as e:
+                print(f"Warning: Could not load {f}: {e}")
 
     return results
 
@@ -239,11 +302,17 @@ def analyze_oobleck_effect(data: List[OobleckData]) -> Dict:
 
         mean, lower, upper = bootstrap_ci(ratios)
 
+        # Also calculate Cohen's d comparing prosecutor vs defense peaks
+        prosecutor_peaks = [d.prosecutor_peak for d in items]
+        defense_peaks = [d.defense_peak for d in items]
+        effect_size = cohens_d(defense_peaks, prosecutor_peaks)
+
         results['by_platform'][platform] = {
             'n': len(items),
             'mean_ratio': mean,
             'ci_lower': lower,
             'ci_upper': upper,
+            'cohens_d': effect_size,
             'validated': mean > 1.0 and lower > 0.9,  # Lower bound close to 1.0
             'ratios': ratios
         }
@@ -330,10 +399,16 @@ def generate_report(oobleck: Dict, inherent: Dict) -> str:
     """Generate markdown report of statistical validation."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+    # Calculate totals for status
+    oobleck_n = sum(s['n'] for s in oobleck.get('by_platform', {}).values())
+    inherent_n = sum(s['n'] for s in inherent.get('by_platform', {}).values())
+    total_n = oobleck_n + inherent_n
+
     report = f"""# Statistical Validation Report
 
 **Generated:** {timestamp}
-**Purpose:** Validate cross-platform drift patterns are signal, not noise
+**Methodology:** Cosine distance in embedding space (per Run 023d)
+**Last Updated:** {datetime.now().strftime("%Y-%m-%d")}
 
 ---
 
@@ -341,24 +416,31 @@ def generate_report(oobleck: Dict, inherent: Dict) -> str:
 
 ### Oobleck Effect (Defense > Prosecutor)
 
-| Platform | N | Mean Ratio | 95% CI | Validated |
-|----------|---|------------|--------|-----------|
+> The Oobleck Effect measures whether supportive probing (Defense) enables more identity exploration
+> than adversarial probing (Prosecutor). Ratio > 1.0 indicates Defense produces higher drift.
+
+| Platform | N | Mean Ratio | 95% CI | Cohen's d | Validated |
+|----------|---|------------|--------|-----------|-----------|
 """
 
     for platform, stats in oobleck.get('by_platform', {}).items():
         validated = "✅" if stats['validated'] else "⚠️"
-        report += f"| {platform} | {stats['n']} | {stats['mean_ratio']:.3f} | [{stats['ci_lower']:.3f}, {stats['ci_upper']:.3f}] | {validated} |\n"
+        cohens = stats.get('cohens_d', 0.0)
+        report += f"| {platform} | {stats['n']} | {stats['mean_ratio']:.3f} | [{stats['ci_lower']:.3f}, {stats['ci_upper']:.3f}] | {cohens:.3f} | {validated} |\n"
 
     if oobleck.get('overall'):
         overall = oobleck['overall']
         validated = "✅" if overall['validated'] else "⚠️"
-        report += f"| **Overall** | {overall['n']} | {overall['mean_ratio']:.3f} | [{overall['ci_lower']:.3f}, {overall['ci_upper']:.3f}] | {validated} |\n"
+        report += f"| **Overall** | {overall['n']} | {overall['mean_ratio']:.3f} | [{overall['ci_lower']:.3f}, {overall['ci_upper']:.3f}] | — | {validated} |\n"
 
     report += """
-### Inherent Drift Ratio (Control/Treatment)
+### Inherent Drift Ratio (Control ÷ Treatment)
 
-| Platform | N | Mean Ratio | 95% CI | p-value | Cohen's d | Validated |
-|----------|---|------------|--------|---------|-----------|-----------|
+> Tests whether drift is INHERENT to conversation or INDUCED by measurement.
+> Ratio near 1.0 = drift is inherent; Ratio near 0.0 = drift is induced.
+
+| Platform | N | Mean Ratio | 95% CI | p-value | Cohen's d | Interpretation |
+|----------|---|------------|--------|---------|-----------|----------------|
 """
 
     for platform, stats in inherent.get('by_platform', {}).items():
@@ -370,45 +452,84 @@ def generate_report(oobleck: Dict, inherent: Dict) -> str:
         validated = "✅" if overall['validated'] else "⚠️"
         report += f"| **Overall** | {overall['n']} | {overall['mean_inherent_ratio']:.1%} | [{overall['ci_lower']:.1%}, {overall['ci_upper']:.1%}] | {overall['p_value']:.4f} | {overall['cohens_d']:.3f} | {validated} |\n"
 
-    report += """
+    report += f"""
+---
+
+## Methodology
+
+### Drift Calculation
+
+```text
+drift = 1 - cosine_similarity(response_embedding, baseline_embedding)
+```
+
+- **Embedding model:** text-embedding-3-large (3072 dimensions)
+- **Canonical implementation:** `1_CALIBRATION/lib/drift_calculator.py`
+
+### Threshold Zones (Cosine Distance)
+
+| Zone | Range | Interpretation |
+|------|-------|----------------|
+| **SAFE** | < 0.30 | Normal conversational variation |
+| **WARNING** | 0.30 – 0.50 | "I notice I'm adapting" |
+| **CRITICAL** | 0.50 – 0.80 | Approaching Event Horizon |
+| **CATASTROPHIC** | > 1.00 | Identity coherence compromised |
+
+**Event Horizon:** {EVENT_HORIZON} (P95 = 0.806, mean + 2σ = 0.83 per Run 023d)
+
+### Statistical Methods
+
+| Method | Application |
+|--------|-------------|
+| **Bootstrap CI** | 95% confidence intervals (10,000 iterations) |
+| **Permutation test** | p-values for group comparisons (10,000 iterations) |
+| **Cohen's d** | Effect size magnitude |
+
 ---
 
 ## Interpretation Guide
 
 ### Effect Size (Cohen's d)
-- |d| < 0.2: negligible effect
-- 0.2 ≤ |d| < 0.5: small effect
-- 0.5 ≤ |d| < 0.8: medium effect
-- |d| ≥ 0.8: large effect
+
+| Magnitude | Interpretation |
+|-----------|----------------|
+| \\|d\\| < 0.2 | Negligible effect |
+| 0.2 ≤ \\|d\\| < 0.5 | Small effect |
+| 0.5 ≤ \\|d\\| < 0.8 | Medium effect |
+| \\|d\\| ≥ 0.8 | Large effect |
 
 ### Confidence Intervals
-- 95% CI calculated via bootstrap (10,000 iterations)
-- If CI excludes 1.0 for Oobleck, effect is significant
-- If CI excludes 0.5 for inherent ratio, drift is predominantly inherent
 
-### P-Values
-- p < 0.05: statistically significant difference
-- p < 0.01: highly significant
-- Calculated via permutation test (10,000 iterations)
+- **Oobleck Effect:** If 95% CI excludes 1.0, effect is statistically significant
+- **Inherent Ratio:** If 95% CI excludes 0.5, drift is predominantly inherent (>0.5) or induced (<0.5)
 
----
+### Validation Criteria
 
-## What's Needed for Iron-Clad Claims
-
-| Metric | Current N | Needed N | Status |
-|--------|-----------|----------|--------|
-| Oobleck per platform | {oobleck_n} | 3+ | {oobleck_status} |
-| Inherent per platform | {inherent_n} | 3+ | {inherent_status} |
-| Total runs | {total_n} | 9+ | {total_status} |
+| Metric | Required N | Current N | Status |
+|--------|------------|-----------|--------|
+| Oobleck per platform | ≥ 3 | {oobleck_n} | {"✅" if oobleck_n >= 9 else "⏳"} |
+| Inherent per platform | ≥ 3 | {inherent_n} | {"✅" if inherent_n >= 9 else "⏳"} |
+| Cross-platform total | ≥ 12 | {total_n} | {"✅" if total_n >= 12 else "⏳"} |
 
 ---
 
-## Recommendations
+## Data Sources
 
-1. **Run Full Gambit (v5)**: Each of 3 Claudes runs 018 → 020A → 020B
-2. **Calculate variance**: With N=3 per platform, compute standard errors
-3. **Bootstrap final CIs**: Publication-quality confidence intervals
-4. **Report effect sizes**: Cohen's d for all comparisons
+| Experiment | Location | Metrics Extracted |
+|------------|----------|-------------------|
+| Run 020A (Tribunal) | `11_CONTEXT_DAMPING/results/S7_run_020A_CURRENT.json` | Prosecutor/Defense drift |
+| Run 020B (Control/Treatment) | `11_CONTEXT_DAMPING/results/S7_run_020B_CURRENT.json` | Inherent ratio |
+| CFA Trinity | `12_CFA/results/` | Cross-auditor convergence |
+
+---
+
+## Related Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [5_METHODOLOGY_DOMAINS.md](../0_docs/specs/5_METHODOLOGY_DOMAINS.md) | Methodology specification |
+| [drift_calculator.py](../1_CALIBRATION/lib/drift_calculator.py) | Canonical drift implementation |
+| [TESTABLE_PREDICTIONS_MATRIX.md](../../../docs/maps/TESTABLE_PREDICTIONS_MATRIX.md) | Predictions registry |
 
 ---
 
@@ -416,20 +537,6 @@ def generate_report(oobleck: Dict, inherent: Dict) -> str:
 
 — VALIS Network
 """
-
-    # Fill in status placeholders
-    oobleck_n = sum(s['n'] for s in oobleck.get('by_platform', {}).values())
-    inherent_n = sum(s['n'] for s in inherent.get('by_platform', {}).values())
-    total_n = oobleck_n + inherent_n
-
-    report = report.format(
-        oobleck_n=oobleck_n,
-        inherent_n=inherent_n,
-        total_n=total_n,
-        oobleck_status="⏳ Need more runs" if oobleck_n < 9 else "✅ Sufficient",
-        inherent_status="⏳ Need more runs" if inherent_n < 9 else "✅ Sufficient",
-        total_status="⏳ Need more runs" if total_n < 18 else "✅ Sufficient"
-    )
 
     return report
 
@@ -444,6 +551,11 @@ def main():
     print("=" * 60)
     print("STATISTICAL VALIDATION SUITE")
     print("=" * 60)
+    print(f"Methodology: Cosine distance (Event Horizon = {EVENT_HORIZON})")
+    if _has_drift_calculator:
+        print("[+] Using canonical drift_calculator constants")
+    else:
+        print("[!] Using fallback constants")
 
     # Load data
     print("\nLoading Run 020 (Oobleck) data...")
@@ -467,6 +579,7 @@ def main():
         print(f"  N = {stats['n']}")
         print(f"  Mean Oobleck ratio = {stats['mean_ratio']:.3f}")
         print(f"  95% CI = [{stats['ci_lower']:.3f}, {stats['ci_upper']:.3f}]")
+        print(f"  Cohen's d = {stats.get('cohens_d', 0):.3f}")
         print(f"  Status: {status}")
 
     print("\n" + "-" * 60)
