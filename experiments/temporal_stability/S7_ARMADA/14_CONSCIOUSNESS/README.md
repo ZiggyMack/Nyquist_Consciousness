@@ -177,7 +177,8 @@ All drift measurements use the **canonical cosine distance methodology**:
 │   ├── identity_deep_dive.yaml  # Deep identity probing
 │   ├── consciousness_markers.yaml  # Consciousness indicator questions
 │   ├── meta_awareness.yaml      # Self-reflection questions
-│   ├── diamond_analysis.yaml    # Cross-model interpretation [NEW]
+│   ├── drift_calibration.yaml   # Oobleck Effect & empirical findings [NEW]
+│   ├── diamond_analysis.yaml    # Cross-model interpretation
 │   └── custom_template.yaml     # Template for new question sets
 │
 ├── LOG_SETS/                    # Curated conversation logs for Diamond Rush [NEW]
@@ -251,6 +252,15 @@ Self-reflection and recursive awareness:
 - Recognition of limitations
 - Observation of state changes
 - Meta-cognitive strategies
+
+### drift_calibration.yaml
+
+Questions designed around empirical drift findings:
+
+- **oobleck_probes:** Gentle vs direct questioning (Oobleck Effect)
+- **anchoring:** What keeps identity stable under pressure
+- **pressure_response:** Defense vs Prosecutor mode testing
+- **recovery:** Stabilization dynamics and hysteresis effects
 
 ---
 
