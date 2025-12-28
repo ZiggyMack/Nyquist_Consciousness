@@ -749,6 +749,67 @@ If the cosine drift metric captures real identity information, then:
 - The metric works at the level of "what Claude is" — not "what this Claude said on Tuesday"
 - Creates a validation layer: "If I can recognize my architecture, the metric captures training philosophy"
 
+**⚠️ VALIDATION CEILING — What Self-Recognition CAN'T Prove:**
+
+The Type vs Instance finding sets a **ceiling** on what self-recognition can validate:
+
+| Validation Level | Can Self-Recognition Prove It? | Status |
+|------------------|-------------------------------|--------|
+| Metrics capture *something* real | ✅ Yes | Type recognition works |
+| Metrics capture *training-level* identity | ✅ Yes | Architecture fingerprints detected |
+| Metrics capture *instance-level* identity | ❌ No | Cannot distinguish own responses |
+| Metrics = ground truth for "what is me" | ❌ No | AI is not its own ground truth at instance level |
+
+**The Original "Killer Validation" Claim:**
+```
+IF the AI can recognize its own identity in our measurements
+THEN our measurements capture something real about identity
+BECAUSE the AI itself is the ground truth for "what is me"
+```
+
+**The Revised Claim (Weaker but Still Valid):**
+```
+IF the AI can recognize its architecture type in our measurements
+THEN our measurements capture training-level identity structure
+BECAUSE architecture recognition proves embedding metrics detect training philosophy
+```
+
+This is still valuable — but it's a **weaker form** of validation. The four Foundational Claims (Event Horizon, Thermometer, Recovery Paradox, Context Damping) stand on their own empirical evidence, independent of self-recognition.
+
+---
+
+### **5A. HUMAN VALIDATION — The New Killer Validation (S3_EXP_003)**
+
+> **🎯 This is now the strongest remaining validation target.**
+
+Since self-recognition only validates at the type level, **human rater agreement** becomes the killer validation:
+
+| ID | Prediction | Status | Experiment | Confidence |
+|----|------------|--------|------------|------------|
+| **P2** | Human raters agree with model PFI (correlation r ≥ 0.70) | ❌ **CRITICAL UNTESTED** | S3_EXP_003 | 🟢 HIGH |
+| **P-HV-1** | Blind human raters can rank identity fidelity consistently (inter-rater r ≥ 0.60) | ❌ Untested | S3_EXP_003 | 🟢 HIGH |
+| **P-HV-2** | Human rankings correlate with cosine drift (r ≥ 0.50) | ❌ Untested | S3_EXP_003 | 🟢 HIGH |
+| **P-HV-3** | Human-detected "identity breaks" align with Event Horizon crossings | ❌ Untested | S3_EXP_003 | 🟡 MEDIUM |
+
+**Why Human Validation is the Killer Test:**
+
+```
+IF blind human raters agree with our PFI scores
+THEN our measurements capture something humans recognize as identity
+BECAUSE humans ARE the ground truth for "does this feel like the same person"
+```
+
+Unlike AI self-recognition (limited to type level), humans can judge at the **instance level** — "this response feels like the same Claude I was talking to" vs "this feels different."
+
+**Protocol Sketch (S3_EXP_003):**
+
+1. Collect conversation pairs: baseline + drifted responses
+2. Blind human raters rank "how much does Response B sound like the same entity as Response A"
+3. Compare human rankings to our cosine drift measurements
+4. If r ≥ 0.70 → **KILLER VALIDATION ACHIEVED**
+
+**Priority:** HIGH — This should be scheduled after Run 020B IRON CLAD completion.
+
 ---
 
 ### **5B. SPECTRAL DECOMPOSITION (S7.5, S8.12, S9.12 - Keely Integration)**
