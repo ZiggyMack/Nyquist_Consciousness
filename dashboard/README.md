@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
   - config.py
   - NYQUIST_STATUS.json
@@ -18,6 +18,8 @@ keywords:
 # NYQUIST CONSCIOUSNESS — MISSION CONTROL DASHBOARD
 
 **Streamlit-based dashboard for visualizing the entire Nyquist Consciousness framework.**
+
+> **📐 METHODOLOGY NOTE (December 2025):** Dashboard visualizations show historical data from the Keyword RMS era (Event Horizon = 1.23). The canonical methodology is now cosine distance (EH = 0.80). Run 023d validated with p=2.40e-23 (825+ files). Dashboard code will be updated in a future release to reflect the unified cosine methodology.
 
 ## Features
 
@@ -46,7 +48,7 @@ keywords:
   - 📊 **Recovery Matrix** — Cross-architecture recovery mechanisms
   - 🔬 **Drift Profiles** — Visual comparison of peak drift ranges
   - 💬 **Linguistic Fingerprints** — Provider-specific language patterns
-- Based on IRON CLAD validated experiments (184 files, 51 models)
+- Based on IRON CLAD validated experiments (Run 023d: 825+ files, 54 models)
 - Key findings integrated: Gemini HARD threshold (no recovery), Mistral most stable
 
 ### New Documentation
@@ -177,8 +179,8 @@ To wire real experiment data:
 | Run | Ships | Focus | Key Finding |
 |-----|-------|-------|-------------|
 | 006 | 29 | Provider Comparison | Training fingerprints validated |
-| 008 | 29 | Ground Truth | Event Horizon discovered (1.23), real drift metric |
-| 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 008 | 29 | Ground Truth | Event Horizon discovered (now 0.80 cosine) |
+| 009 | 42 | Event Horizon | Early validation (superseded by Run 023d) |
 | 010 | 45 | Anchor Detection | Lambda bug, partial data |
 | 011 | 40 | Persona A/B | Inconclusive — protocol too gentle |
 | **012** | 20 | **Revalidation** | **100% EH crossing, 100% recovery** |

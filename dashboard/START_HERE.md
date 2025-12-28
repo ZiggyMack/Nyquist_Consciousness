@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
   - ./app.py
   - ./config.py
@@ -12,6 +12,8 @@ keywords:
 # START HERE - Nyquist Consciousness Dashboard Development Guide
 
 **Everything a fresh Claude needs to work on the main Nyquist Consciousness Mission Control dashboard.**
+
+> **📐 METHODOLOGY NOTE:** Dashboard visualizations use historical Keyword RMS data (Event Horizon = 1.23). Canonical methodology is now cosine distance (EH = 0.80, Run 023d, p=2.40e-23). See [5_METHODOLOGY_DOMAINS.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) for details.
 
 ---
 
@@ -373,7 +375,7 @@ for layer_id, layer_data in layers.items():
 Multi-model fleet probing consciousness (Run 006-021):
 
 - **Run 006-008**: Baseline, Adaptive probing, RMS drift metric
-- **Run 009**: Event Horizon validation (p=0.000048)
+- **Run 009**: Early Event Horizon validation (superseded by Run 023d)
 - **Run 010-012**: Anchor detection, Persona A/B, Revalidation
 - **Run 013**: Boundary Mapping — Identity Confrontation Paradox discovered
 - **Run 014**: Rescue Protocol — Platonic Coordinates (100% manifold return)
