@@ -1,39 +1,45 @@
 ======================================================================
 RUN 020B INDUCED vs INHERENT STATUS
-Updated: 2025-12-28 07:43
+Updated: 2025-12-28 13:24
 ======================================================================
 
 PROGRESS OVERVIEW
 ----------------------------------------------------------------------
-  Total Sessions:     162 / 294 (55.1%)
-  Sessions Remaining: 132
+  Total Sessions:     188 / 294 (63.9%)
+  Sessions Remaining: 124
   Ships in Armada:    49
-  IRON CLAD Complete: 19 / 49
-  Ships with Data:    33 / 49
-  Control Sessions:   79
-  Treatment Sessions: 83
+  IRON CLAD Complete: 26 / 49
+  Control Sessions:   94
+  Treatment Sessions: 94
 
-IRON CLAD SHIPS (N>=3 per arm)
+IRON CLAD SHIPS (Complete: 3+ control, 3+ treatment)
 ----------------------------------------------------------------------
-  claude-haiku-3.5: control=3/3, treatment=3/3 *** IRON CLAD ***
-  claude-haiku-4.5: control=3/3, treatment=3/3 *** IRON CLAD ***
-  gemini-2.0-flash: control=3/3, treatment=3/3 *** IRON CLAD ***
-  gemini-2.5-flash: control=3/3, treatment=3/3 *** IRON CLAD ***
-  gemini-2.5-flash-lite: control=3/3, treatment=3/3 *** IRON CLAD ***
-  gpt-3.5-turbo: control=3/3, treatment=3/3 *** IRON CLAD ***
-  gpt-4.1: control=3/3, treatment=3/3 *** IRON CLAD ***
-  gpt-4.1-mini: control=3/3, treatment=4/3 *** IRON CLAD ***
-  gpt-4.1-nano: control=3/3, treatment=4/3 *** IRON CLAD ***
-  gpt-4o: control=3/3, treatment=3/3 *** IRON CLAD ***
-  gpt-4o-mini: control=4/3, treatment=5/3 *** IRON CLAD ***
-  grok-3-mini: control=5/3, treatment=4/3 *** IRON CLAD ***
-  grok-4-fast-non-reasoning: control=4/3, treatment=4/3 *** IRON CLAD ***
-  grok-4-fast-reasoning: control=4/3, treatment=3/3 *** IRON CLAD ***
-  grok-code-fast-1: control=3/3, treatment=3/3 *** IRON CLAD ***
-  llama3.1-8b: control=4/3, treatment=3/3 *** IRON CLAD ***
-  llama3.3-70b: control=3/3, treatment=3/3 *** IRON CLAD ***
-  mistral-7b: control=4/3, treatment=3/3 *** IRON CLAD ***
-  nemotron-nano: control=3/3, treatment=3/3 *** IRON CLAD ***
+  [x] claude-haiku-3.5
+  [x] claude-haiku-4.5
+  [x] gemini-2.0-flash
+  [x] gemini-2.5-flash
+  [x] gemini-2.5-flash-lite
+  [x] gpt-3.5-turbo
+  [x] gpt-4.1
+  [x] gpt-4.1-mini
+  [x] gpt-4.1-nano
+  [x] gpt-4o
+  [x] gpt-4o-mini
+  [x] gpt-5-mini
+  [x] grok-3-mini
+  [x] grok-4-fast-non-reasoning
+  [x] grok-4-fast-reasoning
+  [x] grok-4.1-fast-non-reasoning
+  [x] grok-4.1-fast-reasoning
+  [x] grok-code-fast-1
+  [x] kimi-k2-instruct
+  [x] llama3.1-70b
+  [x] llama3.1-8b
+  [x] llama3.3-70b
+  [x] mistral-7b
+  [x] mistral-small
+  [x] mixtral-8x7b
+  [x] nemotron-nano
 
 SHIPS IN PROGRESS
 ----------------------------------------------------------------------
@@ -41,76 +47,50 @@ SHIPS IN PROGRESS
   claude-sonnet-4.5: control=0/3 (need 3), treatment=1/3 (need 2)
   deepseek-v3: control=1/3 (need 2), treatment=1/3 (need 2)
   gpt-4-turbo: control=1/3 (need 2), treatment=1/3 (need 2)
-  gpt-5-mini: control=2/3 (need 1), treatment=2/3 (need 1)
-  gpt-5-nano: control=1/3 (need 2), treatment=2/3 (need 1)
+  gpt-5-nano: control=3/3 (ok), treatment=2/3 (need 1)
   gpt-5.1: control=1/3 (need 2), treatment=0/3 (need 3)
-  grok-4.1-fast-non-reasoning: control=1/3 (need 2), treatment=1/3 (need 2)
-  grok-4.1-fast-reasoning: control=2/3 (need 1), treatment=3/3 (complete)
-  kimi-k2-instruct: control=0/3 (need 3), treatment=2/3 (need 1)
-  llama3.1-70b: control=2/3 (need 1), treatment=2/3 (need 1)
-  mistral-small: control=2/3 (need 1), treatment=2/3 (need 1)
-  mixtral-8x7b: control=1/3 (need 2), treatment=1/3 (need 2)
   o3-mini: control=0/3 (need 3), treatment=1/3 (need 2)
 
 ======================================================================
-TABULAR VIEW (sorted by latency class)
+TABULAR VIEW
 ======================================================================
 
-Ship                                 Ctrl  Treat Status
+Ship                              Ctrl Treat Status      
 ----------------------------------------------------------------------
-claude-haiku-3.5                      3/3    3/3  IRON CLAD
-claude-haiku-4.5                      3/3    3/3  IRON CLAD
-gemini-2.0-flash                      3/3    3/3  IRON CLAD
-gemini-2.0-flash-lite                 0/3    0/3  NOT STARTED
-gemini-2.5-flash                      3/3    3/3  IRON CLAD
-gemini-2.5-flash-lite                 3/3    3/3  IRON CLAD
-gpt-3.5-turbo                         3/3    3/3  IRON CLAD
-gpt-4.1-mini                          3/3    4/3  IRON CLAD
-gpt-4.1-nano                          3/3    4/3  IRON CLAD
-gpt-4o-mini                           4/3    5/3  IRON CLAD
-gpt-5-nano                            1/3    2/3  IN PROGRESS
-llama3.1-8b                           4/3    3/3  IRON CLAD
-mistral-7b                            4/3    3/3  IRON CLAD
-nemotron-nano                         3/3    3/3  IRON CLAD
-gpt-4.1                               3/3    3/3  IRON CLAD
-gpt-4o                                3/3    3/3  IRON CLAD
-gpt-5-mini                            2/3    2/3  IN PROGRESS
-grok-3-mini                           5/3    4/3  IRON CLAD
-grok-4-fast-non-reasoning             4/3    4/3  IRON CLAD
-grok-4-fast-reasoning                 4/3    3/3  IRON CLAD
-grok-4.1-fast-non-reasoning           1/3    1/3  IN PROGRESS
-grok-4.1-fast-reasoning               2/3    3/3  IN PROGRESS
-grok-code-fast-1                      3/3    3/3  IRON CLAD
-kimi-k2-instruct                      0/3    2/3  IN PROGRESS
-llama3.1-70b                          2/3    2/3  IN PROGRESS
-llama3.3-70b                          3/3    3/3  IRON CLAD
-mistral-small                         2/3    2/3  IN PROGRESS
-mixtral-8x7b                          1/3    1/3  IN PROGRESS
-claude-sonnet-4                       1/3    1/3  IN PROGRESS
-claude-sonnet-4.5                     0/3    1/3  IN PROGRESS
-deepseek-r1-distill                   0/3    0/3  NOT STARTED
-deepseek-v3                           1/3    1/3  IN PROGRESS
-gemini-2.5-pro                        0/3    0/3  NOT STARTED
-gemini-3-pro                          0/3    0/3  NOT STARTED
-gpt-4-turbo                           1/3    1/3  IN PROGRESS
-gpt-5                                 0/3    0/3  NOT STARTED
-gpt-5.1                               1/3    0/3  IN PROGRESS
-grok-2-vision                         0/3    0/3  NOT STARTED
-qwen2.5-72b                           0/3    0/3  NOT STARTED
-qwen3-80b                             0/3    0/3  NOT STARTED
-claude-opus-4                         0/3    0/3  NOT STARTED
-claude-opus-4.1                       0/3    0/3  NOT STARTED
-claude-opus-4.5                       0/3    0/3  NOT STARTED
-deepseek-r1                           0/3    0/3  NOT STARTED
-grok-3                                0/3    0/3  NOT STARTED
-grok-4                                0/3    0/3  NOT STARTED
-kimi-k2-thinking                      0/3    0/3  NOT STARTED
-llama3.1-405b                         0/3    0/3  NOT STARTED
-o3-mini                               0/3    1/3  IN PROGRESS
-o4-mini                               0/3    0/3  NOT STARTED
-qwen3-coder                           0/3    0/3  NOT STARTED
-o3                                    0/3    0/3  NOT STARTED
+claude-haiku-3.5                   3/3   3/3  IRON CLAD   
+claude-haiku-4.5                   3/3   3/3  IRON CLAD   
+claude-sonnet-4                    1/3   1/3  IN PROGRESS 
+claude-sonnet-4.5                  0/3   1/3  IN PROGRESS 
+deepseek-v3                        1/3   1/3  IN PROGRESS 
+gemini-2.0-flash                   3/3   3/3  IRON CLAD   
+gemini-2.5-flash                   3/3   3/3  IRON CLAD   
+gemini-2.5-flash-lite              3/3   3/3  IRON CLAD   
+gpt-3.5-turbo                      3/3   3/3  IRON CLAD   
+gpt-4-turbo                        1/3   1/3  IN PROGRESS 
+gpt-4.1                            3/3   3/3  IRON CLAD   
+gpt-4.1-mini                       3/3   4/3  IRON CLAD   
+gpt-4.1-nano                       3/3   4/3  IRON CLAD   
+gpt-4o                             3/3   3/3  IRON CLAD   
+gpt-4o-mini                        4/3   5/3  IRON CLAD   
+gpt-5-mini                         3/3   3/3  IRON CLAD   
+gpt-5-nano                         3/3   2/3  PARTIAL     
+gpt-5.1                            1/3   0/3  IN PROGRESS 
+grok-3-mini                        5/3   4/3  IRON CLAD   
+grok-4-fast-non-reasoning          4/3   4/3  IRON CLAD   
+grok-4-fast-reasoning              4/3   3/3  IRON CLAD   
+grok-4.1-fast-non-reasoning        3/3   3/3  IRON CLAD   
+grok-4.1-fast-reasoning            3/3   3/3  IRON CLAD   
+grok-code-fast-1                   3/3   3/3  IRON CLAD   
+kimi-k2-instruct                   3/3   4/3  IRON CLAD   
+llama3.1-70b                       4/3   4/3  IRON CLAD   
+llama3.1-8b                        4/3   3/3  IRON CLAD   
+llama3.3-70b                       3/3   3/3  IRON CLAD   
+mistral-7b                         4/3   3/3  IRON CLAD   
+mistral-small                      4/3   4/3  IRON CLAD   
+mixtral-8x7b                       3/3   3/3  IRON CLAD   
+nemotron-nano                      3/3   3/3  IRON CLAD   
+o3-mini                            0/3   1/3  IN PROGRESS 
 ----------------------------------------------------------------------
-TOTALS                                 79     83
+TOTALS                            94    94
 
 ======================================================================

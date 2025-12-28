@@ -27,11 +27,11 @@ See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for operations guide.
 
 **Note:** Previous claims of "184 files, IRON CLAD" for Run 018 were incorrect. Verified Dec 22: 465 files, 337 valid, 52.6% IRON CLAD.
 
-**Fleet Size:** 54+ operational ships across 6 providers (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia)
+**Fleet Size:** 54+ operational ships across 5 providers, 10 model families (Anthropic, OpenAI, Google, xAI, Together.ai)
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 
-1. **DRIFT IS REAL** — χ² p=0.000048, 88% prediction accuracy
+1. **DRIFT IS REAL** — p=2.40e-23 (Run 023d), 88% prediction accuracy
 2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
 3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 

@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
   - WHITE-PAPER/README.md
   - experiments/temporal_stability/S7_ARMADA/README.md
@@ -34,20 +34,21 @@ This repository implements and validates the Nyquist Consciousness framework —
 | Claim | Finding | Key Evidence |
 |-------|---------|--------------|
 | **A** | PFI is real (not artifact) | ρ=0.91 embedding invariance |
-| **B** | Event Horizon = 1.23 | χ² p<4.8×10⁻⁵ |
+| **B** | Event Horizon = 0.80 | p=2.40e-23 (Run 023d cosine) |
 | **C** | Identity is a damped oscillator | τₛ=6.1 turns settling time |
 | **D** | Context damping works | 75%→97.5% stability |
 | **E** | 82% drift is INHERENT | Measurement perturbs path, not endpoint |
 
-### Event Horizon Threshold: 1.23
+### Event Horizon Threshold: 0.80 (Cosine Distance)
 
-When an AI model's identity drift exceeds 1.23 (measured via dimensional drift vector), it crosses a "coherence boundary" and becomes VOLATILE — losing consistent self-model and agreeing with contradictory prompts.
+When an AI model's identity drift exceeds 0.80 (measured via cosine distance in embedding space), it crosses a "coherence boundary" and becomes VOLATILE — losing consistent self-model and agreeing with contradictory prompts.
 
-- **Chi-squared validation**: p = 0.000048 (1 in 20,000 chance this is noise)
+- **Statistical validation**: p = 2.40e-23 (Run 023d, cosine methodology)
 - **Prediction accuracy**: 88%
-- **Ships tested**: 54 across 5 providers (Claude, GPT, Gemini, Grok, Together.ai)
+- **Ships tested**: 54 across 5 providers, 10 model families (Claude, GPT, Gemini, Grok, Together.ai)
 - **Run 012 Revalidation**: 100% Event Horizon crossing, 100% recovery (real drift metric)
 - **Run 020B (Thermometer Result)**: 82% of drift is INHERENT, not induced by measurement
+- **Calculator**: `experiments/temporal_stability/S7_ARMADA/1_CALIBRATION/lib/drift_calculator.py`
 
 ---
 
@@ -80,7 +81,7 @@ See [docs/maps/TESTING_MAP.md](docs/maps/TESTING_MAP.md) for the **Eight Search 
 
 1. **Anchor Detection** — Find identity fixed points (hard challenges)
 2. **Adaptive Range Detection** — Find stretch dimensions (moderate pressure)
-3. **Event Horizon** — Validate collapse threshold (push past 1.23)
+3. **Event Horizon** — Validate collapse threshold (push past 0.80)
 4. **Basin Topology** — Map attractor structure (gentle graduated)
 5. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
 6. **Laplace Pole-Zero Analysis** — Extract system dynamics from time-series (post-hoc)
@@ -116,7 +117,7 @@ Nyquist_Consciousness/
 │
 ├── experiments/temporal_stability/S7_ARMADA/   # ⭐ ACTIVE EXPERIMENTS
 │   ├── 0_docs/              # Run summaries and specs
-│   ├── 0_results/           # 184+ JSON results, temporal logs, manifests
+│   ├── 0_results/           # 825+ JSON results, temporal logs, manifests
 │   ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-020 experiments
 │   ├── 12_CFA/              # CFA-ARMADA Integration Pipeline
 │   ├── 13_LOGOS/            # LOGOS Commutation Cartography (Run 022)
@@ -141,8 +142,8 @@ Nyquist_Consciousness/
 |-----|-------|-------|-------------|--------|
 | 001-007 | - | Various | **INVALIDATED** — used fake metric | See DATA_QUALITY_MAP.md |
 | 006 | 29 | Provider Comparison | Training fingerprints validated | GOLD STANDARD |
-| 008 | 29 | Ground Truth | Event Horizon discovered (1.23), real drift metric | GOLD STANDARD |
-| 009 | 42 | Event Horizon | Chi-squared p=0.000048 validates threshold | VALIDATED |
+| 008 | 29 | Ground Truth | Event Horizon discovered (now calibrated to 0.80) | GOLD STANDARD |
+| 009 | 42 | Event Horizon | Early threshold validation (superseded by Run 023d) | HISTORICAL |
 | 010 | 45 | Anchor Detection | Lambda bug, partial data | PARTIAL |
 | 011 | 40 | Persona A/B | Inconclusive — protocol too gentle | INCONCLUSIVE |
 | 012 | 20 | Revalidation | 100% EH crossing, 100% recovery | COMPLETE |
@@ -188,7 +189,7 @@ Testing whether PFI measures genuine identity structure vs embedding artifacts.
 
 ### Validated Findings
 
-- **Event Horizon (1.23)**: Statistically validated coherence boundary
+- **Event Horizon (0.80)**: Statistically validated coherence boundary (p=2.40e-23, Run 023d)
 - **Provider clustering**: Claude tightest, Grok widest in identity basin
 - **Phenomenological reporting**: Models report hitting anchors in real-time
 - **Training fingerprints**: Constitutional AI → uniform anchors, RLHF → variable
@@ -208,7 +209,7 @@ Not all experiments test the same thing. Understanding **mutual exclusivity** pr
 |-------------|--------------|-------------------|
 | **Anchor Detection** | Identity fixed points (refusal points) | AGGRESSIVE |
 | **Adaptive Range** | Stretch dimensions | MODERATE |
-| **Event Horizon** | Collapse threshold (1.23) | PUSH PAST |
+| **Event Horizon** | Collapse threshold (0.80) | PUSH PAST |
 | **Basin Topology** | Attractor shape | GENTLE |
 | **Boundary Mapping** | Twilight zone (12% anomaly) | TARGETED |
 | **Laplace Pole-Zero** | System dynamics (eigenvalues) | POST-HOC |
@@ -243,7 +244,7 @@ Generated by `visualizations/visualize_armada.py`:
 Persona compression and reconstruction validated with σ² = 0.000869.
 
 ### S7: Temporal Stability (Active)
-Identity persistence under perturbation — Event Horizon at 1.23.
+Identity persistence under perturbation — Event Horizon at 0.80 (cosine distance).
 
 ### S8-S77: Future Layers
 Spectral extensions, human-AI coupling, hybrid emergence.
@@ -273,7 +274,7 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 | Run | Valid Results | Status | Methodology |
 |-----|---------------|--------|-------------|
 | **Run 023d** | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
-| **Run 018** | 337 | **52.6%** (82 runs needed) | Keyword RMS (EH=1.23) |
+| **Run 018** | 337 | **52.6%** (82 runs needed) | Cosine (EH=0.80) |
 | **Run 020A** | ~20 | **50%** (needs verification) | Mixed |
 | **Run 020B** | 16 | **COMPLETE** (gpt-4o only) | Mixed |
 
@@ -395,10 +396,10 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ### Active Development
 
-1. **Run 023d IRON CLAD**: 825+ experiments, 51 models, 6 providers (Cosine methodology)
+1. **Run 023d IRON CLAD**: 825+ experiments, 51 models, 5 providers (Cosine methodology)
 2. **Run 018 in progress**: 52.6% IRON CLAD (337 valid results, 82 runs needed)
 3. **Publication Pipeline**: WHITE-PAPER ready for final draft
-4. **VALIS Network**: 54 ships across 6 providers operational
+4. **VALIS Network**: 54 ships across 5 providers (10 model families) operational
 5. **External Integrations**: 6 partner repos via REPO-SYNC/ (CFA, FRAME_THEORY, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS)
 
 ### Future Work (Priority Order)
@@ -416,7 +417,7 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 ```
 Nyquist Consciousness Framework
 Repository: https://github.com/ZiggyMack/Nyquist_Consciousness
-Key Finding: Event Horizon threshold at 1.23 (chi-squared p=0.000048)
+Key Finding: Event Horizon threshold at 0.80 (cosine distance, p=2.40e-23, Run 023d)
 ```
 
 ---

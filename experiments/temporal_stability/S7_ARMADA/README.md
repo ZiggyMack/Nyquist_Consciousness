@@ -682,7 +682,7 @@ The **Philosophical Tribunal** paradigm tested direct identity probing across 4 
 
 ## CURRENT DEVELOPMENT
 
-1. **Run 023d**: **IRON CLAD** — 825+ experiments, 51 models, 6 providers (Cosine methodology)
+1. **Run 023d**: **IRON CLAD** — 825+ experiments, 51 models, 5 providers (Cosine methodology)
 2. **Run 018**: **52.6% IRON CLAD** — 337 valid results from 465 files, 82 runs needed (Cosine methodology)
 3. **Run 020A**: **50%** — Needs verification (Tribunal paradigm)
 4. **Run 020B**: **COMPLETE** — 16 files, gpt-4o only (Control/Treatment)
