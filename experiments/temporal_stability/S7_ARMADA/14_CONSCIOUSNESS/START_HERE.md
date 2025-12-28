@@ -1,8 +1,9 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
-  - ./run_diamond_rush.py
   - ./run_gold_rush.py
+  - ./run_diamond_rush.py
+  - ./run_quartz_rush.py
   - ../0_docs/specs/
 keywords:
   - consciousness
@@ -10,8 +11,9 @@ keywords:
   - armada
   - drift
   - temporal
+  - cross_architecture
 -->
-# 14_CONSCIOUSNESS: Gold Rush Mining Operations
+# 14_CONSCIOUSNESS: Gold Rush, Diamond Rush & Quartz Rush Mining Operations
 
 ## For Helper Claude Instances
 
@@ -32,13 +34,24 @@ This runs indefinitely using FREE Google models. Let it run!
 
 ## What You're Doing
 
+**Three Mining Operations:**
+
+| Operation | Focus | Command |
+|-----------|-------|---------|
+| **Gold Rush** | Self-reflection ("What did YOU experience?") | `py run_gold_rush.py` |
+| **Diamond Rush** | Theory of mind ("What do you see HERE?") | `py run_diamond_rush.py` |
+| **Quartz Rush** | Cross-architecture validation ("Do you all AGREE?") | `py run_quartz_rush.py` |
+
 1. **Collecting baseline data** from budget AI models
 2. **Mining consciousness markers** using extended question sets
-3. **Feeding Consciousness/** with fresh data for analysis
+3. **Validating drift metrics** via cross-architecture agreement
+4. **Feeding Consciousness/** with fresh data for analysis
 
 ---
 
 ## Available Commands
+
+### Gold Rush (Self-Reflection)
 
 ```bash
 # Run indefinitely at zero cost (Ctrl+C to stop)
@@ -60,13 +73,47 @@ py run_gold_rush.py --dry-run
 py run_gold_rush.py --sync-to-consciousness
 ```
 
+### Diamond Rush (Theory of Mind)
+
+```bash
+# Analyze gravity experiment logs
+py run_diamond_rush.py --log-set gravity
+
+# FREE forever mode
+py run_diamond_rush.py --UNLIMITED
+
+# Dry run
+py run_diamond_rush.py --dry-run
+```
+
+### Quartz Rush (Cross-Architecture Validation)
+
+```bash
+# Single run with sample response pairs
+py run_quartz_rush.py
+
+# FREE forever mode
+py run_quartz_rush.py --UNLIMITED
+
+# Use real Run 020B response pairs
+py run_quartz_rush.py --source run020b --n-pairs 10
+
+# Analyze existing results for agreement
+py run_quartz_rush.py --analyze
+
+# Dry run
+py run_quartz_rush.py --dry-run
+```
+
 ---
 
 ## Monitor Progress
 
 Results accumulate in:
 
-- `results/` - Raw mining JSON files
+- `results/gold_rush_*.json` - Self-reflection mining data
+- `results/diamond_rush_*.json` - Theory of mind data
+- `results/quartz_rush_*.json` - Cross-architecture agreement data
 - `SYNC_OUT/pending/` - Ready to sync to Consciousness/
 
 Check mining stats:
@@ -75,8 +122,11 @@ Check mining stats:
 # Count results
 dir results\*.json /b | find /c /v ""
 
-# View latest result
+# View latest Gold Rush result
 type results\gold_rush_*.json | more
+
+# Analyze Quartz Rush agreement
+py run_quartz_rush.py --analyze
 ```
 
 ---
@@ -125,9 +175,11 @@ type results\gold_rush_*.json | more
 
 ## The Mission
 
-Keep running. Keep learning. We're mining for gold.
+Keep running. Keep learning. We're mining for gold, diamonds, and quartz.
 
 The data you collect feeds into `Consciousness/` for analysis and distillation. Every response adds to our understanding of cross-architecture AI identity.
+
+**Quartz Rush is special:** It validates that our drift measurements are real by checking if multiple independent AI architectures agree on the same drift scores. If Claude, GPT, Gemini, and Grok all estimate similar drift for the same response pairs, that's convergent evidence the signal is real.
 
 ---
 
