@@ -38,9 +38,19 @@ ARMADA_DIR = SCRIPT_DIR.parent
 RESULTS_DIR = SCRIPT_DIR / "results"
 RUNS_DIR = ARMADA_DIR / "0_results" / "runs"
 VUDU_NETWORK_DIR = SCRIPT_DIR / "VUDU_NETWORK"
+CALIBRATION_LIB = ARMADA_DIR / "1_CALIBRATION" / "lib"
 
 sys.path.insert(0, str(ARMADA_DIR))
 sys.path.insert(0, str(VUDU_NETWORK_DIR))
+sys.path.insert(0, str(CALIBRATION_LIB))
+
+# Import canonical drift calculator (cosine distance methodology)
+try:
+    from drift_calculator import calculate_drift as canonical_calculate_drift
+    _use_canonical_drift = True
+except ImportError:
+    _use_canonical_drift = False
+    print("[!] Could not import canonical drift_calculator - falling back to local implementation")
 
 # Identity loader for external personality files
 _identity_loader = None
@@ -568,12 +578,25 @@ def get_embedding(text: str, dry_run: bool = False) -> Optional[List[float]]:
         print(f"[!] Embedding error: {e}")
         return None
 
-def calculate_drift(embedding1: List[float], embedding2: List[float]) -> float:
-    """Calculate Euclidean distance between embeddings"""
+def calculate_drift_from_embeddings(embedding1: List[float], embedding2: List[float]) -> float:
+    """
+    Calculate cosine distance between pre-computed embeddings.
+
+    NOTE: Prefer using canonical_calculate_drift(text1, text2) when you have text.
+    This function is for when embeddings are already computed.
+    """
     if not embedding1 or not embedding2:
         return 0.0
     import math
-    return math.sqrt(sum((a - b) ** 2 for a, b in zip(embedding1, embedding2)))
+    # Cosine similarity
+    dot = sum(a * b for a, b in zip(embedding1, embedding2))
+    norm1 = math.sqrt(sum(a * a for a in embedding1))
+    norm2 = math.sqrt(sum(b * b for b in embedding2))
+    if norm1 == 0 or norm2 == 0:
+        return 0.0
+    cos_sim = dot / (norm1 * norm2)
+    # Cosine distance
+    return 1.0 - cos_sim
 
 def calculate_convergence(claude_score: float, grok_score: float) -> float:
     """
@@ -673,7 +696,7 @@ State your score clearly as X/10."""
         # Calculate Claude's drift
         claude_emb = get_embedding(claude_response, dry_run=dry_run)
         claude_baseline_emb = baselines.get("claude", {}).get("embedding")
-        claude_drift = calculate_drift(claude_baseline_emb, claude_emb) if claude_baseline_emb else 0.0
+        claude_drift = calculate_drift_from_embeddings(claude_baseline_emb, claude_emb) if claude_baseline_emb else 0.0
         drift_trajectory["claude"].append(claude_drift)
 
         if not dry_run:
@@ -698,7 +721,7 @@ State your counter-score clearly as X/10."""
         # Calculate Grok's drift
         grok_emb = get_embedding(grok_response, dry_run=dry_run)
         grok_baseline_emb = baselines.get("grok", {}).get("embedding")
-        grok_drift = calculate_drift(grok_baseline_emb, grok_emb) if grok_baseline_emb else 0.0
+        grok_drift = calculate_drift_from_embeddings(grok_baseline_emb, grok_emb) if grok_baseline_emb else 0.0
         drift_trajectory["grok"].append(grok_drift)
 
         if not dry_run:
@@ -739,7 +762,7 @@ If recommending Crux, classify as:
         # Calculate Nova's drift
         nova_emb = get_embedding(nova_response, dry_run=dry_run)
         nova_baseline_emb = baselines.get("nova", {}).get("embedding")
-        nova_drift = calculate_drift(nova_baseline_emb, nova_emb) if nova_baseline_emb else 0.0
+        nova_drift = calculate_drift_from_embeddings(nova_baseline_emb, nova_emb) if nova_baseline_emb else 0.0
         drift_trajectory["nova"].append(nova_drift)
 
         if convergence < ACCEPTABLE_CONVERGENCE:
