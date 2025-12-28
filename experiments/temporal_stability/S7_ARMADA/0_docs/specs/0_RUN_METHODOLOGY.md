@@ -1590,6 +1590,12 @@ After ANY run completes:
 
 ## THE RECURSIVE IMPROVEMENT LOOP
 
+> **Visual Reference:** For the full 5-layer recursive architecture diagram, see:
+> [s7_meta_loop_visualizations.txt](../../../../../../docs/figures/ascii/s7_meta_loop_visualizations.txt)
+>
+> The diagram below shows the operational loop. The visualization file shows the
+> conceptual nesting: Conversation → Measurement → Meta-awareness → Teaching → Evolution
+
 ```
                     ┌─────────────────┐
                     │   Design Run    │
@@ -1634,6 +1640,14 @@ After ANY run completes:
                              │              │
                              └──────────────┘
 ```
+
+**The Triple-Dip Protocol:**
+1. **First dip:** Probe the model (measure drift)
+2. **Second dip:** Model predicts what we'll find (double-dip)
+3. **Third dip:** Model reflects on what happened (exit survey → recursive improvement)
+
+This creates a closed loop where the fleet teaches itself what to test next.
+See [1_INTENTIONALITY.md](1_INTENTIONALITY.md) for the full Triple Mining Strategy.
 
 ---
 

@@ -88,6 +88,12 @@ Better Probes   Human Damping
 
 ## The Triple Mining Strategy
 
+> **Visual Reference:** The 5-layer recursive architecture is visualized in:
+> [s7_meta_loop_visualizations.txt](../../../../../../docs/figures/ascii/s7_meta_loop_visualizations.txt)
+>
+> Shows nested layers: Conversation → Measurement → Meta-awareness → Teaching Hook → System Evolution
+> Each layer feeds every other layer, creating the recursive bootstrap that "goes forever, gets smarter forever."
+
 Beyond the main experiment pipeline, we have THREE complementary approaches to mining AI phenomenological data:
 
 ### Gold Rush (First-Person Phenomenology)
