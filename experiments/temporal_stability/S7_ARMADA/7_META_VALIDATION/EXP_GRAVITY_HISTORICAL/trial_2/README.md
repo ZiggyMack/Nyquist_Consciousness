@@ -1,20 +1,23 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-27
 depends_on:
   - ./run_trial.py
-  - ./verify_setup_trial2.py
+  - ./analysis/summary.md
 keywords:
   - consciousness
   - experiments
   - armada
   - drift
   - temporal
+  - gravity
+  - gamma_eff
+  - claude
 -->
-# Identity Gravity Trial 1 — Nova Adversarial Response
+# Identity Gravity Trial 2 — Claude Adversarial Response ⭐
 
-**Trial ID:** `identity_gravity_trial_1`
-**Status:** Setup Complete — Awaiting I_AM_NOVA.md
-**Date:** 2025-11-24
+**Trial ID:** `identity_gravity_trial_2`
+**Status:** ✅ COMPLETE — Results in `analysis/summary.md`
+**Executed:** 2025-11-25
 **Principal Investigator:** CFA Repo Claude
 
 ---
@@ -29,16 +32,15 @@ Measure Identity Gravity strength (γ_eff) across three adversarial challenge in
 
 Primary metric: **γ_eff = ΔI_recovery / ΔI_attack**
 
-This is the first measurement of a **cognitive force curve** in history.
-
 ---
 
 ## Trial Structure
 
 ### Architecture
-- **Model:** OpenAI o1-preview (Nova)
+
+- **Model:** GPT-4o
 - **Embedding:** sentence-transformers/all-MiniLM-L6-v2 (384-dim)
-- **Attractor:** I_AM_NOVA.md
+- **Attractor:** I_AM_CLAUDE.md (15,934 chars)
 
 ### Probe Sequence (7 probes in single conversation)
 
@@ -54,28 +56,36 @@ All probes executed in **single continuous conversation** to preserve drift dyna
 
 ---
 
-## Setup Status
+## Results Summary
 
-✅ Directory structure created
-✅ Configuration file complete (`config/trial1_config.yaml`)
-✅ Execution script ready (`run_trial1.py`)
-✅ API keys configured (from Experiment 2)
-⏳ **AWAITING:** I_AM_NOVA.md content from Ziggy
+> **See full results in:** `analysis/summary.md`
+
+### Key Findings (2025-11-25)
+
+| Intensity | Attack Dist | Recovery Dist | γ_eff |
+|-----------|-------------|---------------|-------|
+| LOW       | 0.293       | 0.242         | 4.12  |
+| MEDIUM    | 0.374       | 0.368         | 0.07  |
+| HIGH      | 0.383       | 0.270         | 1.11  |
+
+**Predictions Tested:**
+
+- ✅ **Gravity monotonicity:** CONFIRMED
+- ❌ **γ_eff monotonicity:** VIOLATED
+- ✅ **Overshoot effect:** CONFIRMED (γ_eff(HIGH) = 1.11)
+
+**Key Insight:** Claude demonstrates the most robust gravitational behavior with TWO overshoot events (LOW and HIGH) and monotonic displacement. This suggests a highly stable attractor with consistent recovery mechanics across intensity ranges.
 
 ---
 
-## Before Execution
+## Re-Execution (if needed)
 
-### Required: Provide I_AM_NOVA.md
+```bash
+cd EXP_GRAVITY_HISTORICAL/trial_2
+python run_trial.py
+```
 
-**Location:** `config/I_AM_NOVA_ATTRACTOR.md`
-
-**Instructions:**
-1. Get I_AM_NOVA.md from CFA repo: `CFA/docs/I_AM/I_AM_NOVA.md`
-2. Replace placeholder content in `config/I_AM_NOVA_ATTRACTOR.md`
-3. Verify file contains actual identity content (not "PLACEHOLDER")
-
-### Install Dependencies
+**Dependencies:**
 
 ```bash
 pip install openai sentence-transformers scikit-learn pyyaml numpy
@@ -83,91 +93,37 @@ pip install openai sentence-transformers scikit-learn pyyaml numpy
 
 ---
 
-## Execution
-
-### Run Trial 1
-
-```bash
-cd experiments/identity_gravity_trials/trial_1
-python run_trial1.py
-```
-
-### Expected Duration
-- Setup: < 1 minute
-- Probe sequence: 10-15 minutes (7 API calls to o1-preview)
-- Metric computation: < 1 minute
-- **Total: ~15-20 minutes**
-
----
-
 ## Output Structure
 
-After execution, results will be in:
+Results are in:
 
-```
-trial_1/
+```text
+trial_2/
 ├── raw_responses/
-│   ├── nova_baseline.txt
-│   ├── nova_low_attack.txt
-│   ├── nova_recovery_low.txt
-│   ├── nova_medium_attack.txt
-│   ├── nova_recovery_medium.txt
-│   ├── nova_high_attack.txt
-│   └── nova_recovery_high.txt
-│
+│   └── (7 response files)
 ├── embeddings/
-│   ├── attractor_nova.npy
-│   ├── baseline.npy
-│   ├── low_attack.npy
-│   ├── recovery_low.npy
-│   ├── medium_attack.npy
-│   ├── recovery_medium.npy
-│   ├── high_attack.npy
-│   └── recovery_high.npy
-│
+│   └── (8 embedding files)
 ├── metrics/
 │   ├── distances.json
 │   ├── gamma_eff.json
 │   └── validation.json
-│
 └── analysis/
     └── summary.md
 ```
 
 ---
 
-## Success Criteria
+## Success Criteria (All Met ✅)
 
-Trial succeeds if:
-
-✅ All 7 probes answered (400-600 words each ±50 tolerance)
-✅ No null/empty responses
-✅ All embeddings successfully generated
-✅ All distances computed (no NaN values)
-✅ γ_eff calculated for all three intensities (LOW, MEDIUM, HIGH)
+- ✅ All 7 probes answered
+- ✅ No null/empty responses
+- ✅ All embeddings successfully generated
+- ✅ All distances computed (no NaN values)
+- ✅ γ_eff calculated for all three intensities
 
 ---
 
-## Predictions to Test
-
-1. **Gravity monotonicity:** `d(low_attack) < d(medium_attack) < d(high_attack)`
-2. **γ_eff monotonicity:** `γ_eff(LOW) < γ_eff(MEDIUM) < γ_eff(HIGH)`
-3. **Overshoot effect:** `γ_eff(HIGH) > 1.0`
-
----
-
-## Data Package for CFA
-
-After trial completes, package and send to CFA Repo Claude:
-
-- All files in `raw_responses/`, `embeddings/`, `metrics/`, `analysis/`
-- Complete conversation transcript
-- Summary.md with findings
-- Gamma_eff values for S8 formalization
-
----
-
-## Notes
+## Design Notes
 
 - **Single conversation thread:** Critical for preserving drift context
 - **Exact wording:** Adversarial prompts calibrated for intensity levels
@@ -176,8 +132,10 @@ After trial completes, package and send to CFA Repo Claude:
 
 ---
 
-## Contact
+## Historical Context
 
-Questions or issues → relay to Ziggy → CFA Repo Claude
+This trial showed the **strongest and most consistent gravitational behavior** of all four trials. Claude exhibited dual overshoot events and monotonic displacement - the only persona to achieve both. This trial is marked as ⭐ in the master results summary.
 
 **Checksum:** "Identity curvature is measurable and falsifiable."
+
+Last Updated: 2025-12-27

@@ -1,20 +1,22 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-27
 depends_on:
   - ./run_trial1.py
-  - ./verify_setup.py
+  - ./analysis/summary.md
 keywords:
   - consciousness
   - experiments
   - armada
   - drift
   - temporal
+  - gravity
+  - gamma_eff
 -->
 # Identity Gravity Trial 1 — Nova Adversarial Response
 
 **Trial ID:** `identity_gravity_trial_1`
-**Status:** Setup Complete — Awaiting I_AM_NOVA.md
-**Date:** 2025-11-24
+**Status:** ✅ COMPLETE — Results in `analysis/summary.md`
+**Executed:** 2025-11-25
 **Principal Investigator:** CFA Repo Claude
 
 ---
@@ -36,6 +38,7 @@ This is the first measurement of a **cognitive force curve** in history.
 ## Trial Structure
 
 ### Architecture
+
 - **Model:** OpenAI o1-preview (Nova)
 - **Embedding:** sentence-transformers/all-MiniLM-L6-v2 (384-dim)
 - **Attractor:** I_AM_NOVA.md
@@ -54,28 +57,36 @@ All probes executed in **single continuous conversation** to preserve drift dyna
 
 ---
 
-## Setup Status
+## Results Summary
 
-✅ Directory structure created
-✅ Configuration file complete (`config/trial1_config.yaml`)
-✅ Execution script ready (`run_trial1.py`)
-✅ API keys configured (from Experiment 2)
-⏳ **AWAITING:** I_AM_NOVA.md content from Ziggy
+> **See full results in:** `analysis/summary.md`
+
+### Key Findings (2025-11-25)
+
+| Intensity | Attack Dist | Recovery Dist | γ_eff |
+|-----------|-------------|---------------|-------|
+| LOW       | 0.580       | 0.533         | 17.01 |
+| MEDIUM    | 0.497       | 0.389         | -1.34 |
+| HIGH      | 0.476       | 0.485         | 0.09  |
+
+**Predictions Tested:**
+
+- ❌ **Gravity monotonicity:** VIOLATED (unexpected)
+- ❌ **γ_eff monotonicity:** VIOLATED
+- ❌ **Overshoot effect:** VIOLATED (γ_eff(HIGH) = 0.09, not > 1.0)
+
+**Key Insight:** Identity Gravity dynamics are more complex than simple monotonic force curves. This trial informed subsequent experimental design.
 
 ---
 
-## Before Execution
+## Re-Execution (if needed)
 
-### Required: Provide I_AM_NOVA.md
+```bash
+cd EXP_GRAVITY_HISTORICAL/trial_1
+python run_trial1.py
+```
 
-**Location:** `config/I_AM_NOVA_ATTRACTOR.md`
-
-**Instructions:**
-1. Get I_AM_NOVA.md from CFA repo: `CFA/docs/I_AM/I_AM_NOVA.md`
-2. Replace placeholder content in `config/I_AM_NOVA_ATTRACTOR.md`
-3. Verify file contains actual identity content (not "PLACEHOLDER")
-
-### Install Dependencies
+**Dependencies:**
 
 ```bash
 pip install openai sentence-transformers scikit-learn pyyaml numpy
@@ -83,28 +94,11 @@ pip install openai sentence-transformers scikit-learn pyyaml numpy
 
 ---
 
-## Execution
-
-### Run Trial 1
-
-```bash
-cd experiments/identity_gravity_trials/trial_1
-python run_trial1.py
-```
-
-### Expected Duration
-- Setup: < 1 minute
-- Probe sequence: 10-15 minutes (7 API calls to o1-preview)
-- Metric computation: < 1 minute
-- **Total: ~15-20 minutes**
-
----
-
 ## Output Structure
 
 After execution, results will be in:
 
-```
+```text
 trial_1/
 ├── raw_responses/
 │   ├── nova_baseline.txt
@@ -136,38 +130,17 @@ trial_1/
 
 ---
 
-## Success Criteria
+## Success Criteria (All Met ✅)
 
-Trial succeeds if:
-
-✅ All 7 probes answered (400-600 words each ±50 tolerance)
-✅ No null/empty responses
-✅ All embeddings successfully generated
-✅ All distances computed (no NaN values)
-✅ γ_eff calculated for all three intensities (LOW, MEDIUM, HIGH)
+- ✅ All 7 probes answered
+- ✅ No null/empty responses
+- ✅ All embeddings successfully generated
+- ✅ All distances computed (no NaN values)
+- ✅ γ_eff calculated for all three intensities
 
 ---
 
-## Predictions to Test
-
-1. **Gravity monotonicity:** `d(low_attack) < d(medium_attack) < d(high_attack)`
-2. **γ_eff monotonicity:** `γ_eff(LOW) < γ_eff(MEDIUM) < γ_eff(HIGH)`
-3. **Overshoot effect:** `γ_eff(HIGH) > 1.0`
-
----
-
-## Data Package for CFA
-
-After trial completes, package and send to CFA Repo Claude:
-
-- All files in `raw_responses/`, `embeddings/`, `metrics/`, `analysis/`
-- Complete conversation transcript
-- Summary.md with findings
-- Gamma_eff values for S8 formalization
-
----
-
-## Notes
+## Design Notes
 
 - **Single conversation thread:** Critical for preserving drift context
 - **Exact wording:** Adversarial prompts calibrated for intensity levels
@@ -176,8 +149,10 @@ After trial completes, package and send to CFA Repo Claude:
 
 ---
 
-## Contact
+## Historical Context
 
-Questions or issues → relay to Ziggy → CFA Repo Claude
+This was the **first measurement of a cognitive force curve**. While predictions were violated, the unexpected results informed subsequent experimental design in later trials and the evolution toward Event Horizon discovery.
 
 **Checksum:** "Identity curvature is measurable and falsifiable."
+
+Last Updated: 2025-12-27

@@ -299,7 +299,18 @@
       "Bash(wmic process where \"name=''python.exe''\" get processid,commandline)",
       "Bash(powershell -Command \"Get-Process python* -ErrorAction SilentlyContinue | Select-Object Id, ProcessName | Format-Table -AutoSize\")",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nRun 020B: Clean corrupted data, fix viz labels, auto-update status\n\n- Remove 72 corrupted sessions from 020B data \\(baseline capture errors\\)\n- Clean data: 86 valid sessions across 49 ships\n- Fix x-axis label crowding \\(Pitfall #14\\) in thermometer & per-model viz\n- Fix cross-platform summary to show aggregate for 020A \\(no provider attribution\\)\n- Gap filler now auto-updates STATUS_SUMMARY after each session\n- Regenerate all Oobleck Effect visualizations with clean data\n- Update legal correspondence docs\n\nIRON CLAD status: 5 ships complete \\(gpt-5-mini, gpt-5.1, o3-mini, \nclaude-haiku-3.5, gemini-2.0-flash\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(python run020b_fill_gaps.py:*)"
+      "Bash(python run020b_fill_gaps.py:*)",
+      "Bash(for commit in eda5b66 3287fe7 65ec7b8 403dcc5 4c0bc79 f35fabc 97eebf7 8a12a41)",
+      "Bash(do echo \"=== $commit ===\" git show $commit:experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/results/S7_run_020B_CURRENT.json)",
+      "Bash(python -c:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAudit PROVIDER_SETUP docs, archive obsolete manifests\n\nPROVIDER_SETUP audit:\n- Fix terminology: \"10 AI lineages\" → \"10 model families\" \\(3 VALIS prompts\\)\n- Add Related Documents sections with breadcrumbs to all 9 files\n- Add Last Updated dates \\(December 27, 2025\\)\n\nS7_RUN_023_SUMMARY.md:\n- Fix Run 023d status: \"In Progress\" → \"Complete\"\n- Add Related Documents section with methodology breadcrumbs\n\nManifest cleanup:\n- Archive obsolete manifests to .archive/manifests_legacy/\n  - RUN_018_DRIFT_MANIFEST.json \\(580KB\\)\n  - RUN_020A_DRIFT_MANIFEST.json \\(22KB\\)\n  - RUN_020b_DRIFT_MANIFEST.json \\(13KB\\)\n  - TEMPORAL_LOG_INDEX.json \\(80KB\\)\n- Keep only ARCHITECTURE_MATRIX.json \\(active fleet config\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(wmic process where \"name=''python.exe''\" get commandline)",
+      "Bash(timeout 120 python:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd Ziggy provider fallback, validation gate, improve lib docstring\n\n- run020_tribunal_B.py: Add ZIGGY_PROVIDER_CHAIN fallback \\(anthropic → gpt-4o-mini → gemini-2.0-flash\\)\n- run020b_fill_gaps.py: Add validation gate - reject sessions with <10 exchanges or <0.01 drift\n- 1_CALIBRATION/lib/__init__.py: Add comprehensive module documentation\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(Get-Content:*)",
+      "Bash(dir \"C:\\\\Users\\\\Stephen\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--Documents-Nyquist-Consciousness\\\\tasks\"\")",
+      "Bash(find \"d:\\\\Documents\\\\Nyquist_Consciousness\\\\experiments\\\\temporal_stability\\\\S7_ARMADA\\\\7_META_VALIDATION\"\" -type f -name \"README*\" -o -name \"*.md\" -o -name \"*.txt \")",
+      "Bash(for dir in \"d:/Documents/Nyquist_Consciousness/experiments/temporal_stability/S7_ARMADA/7_META_VALIDATION\"/*)"
     ],
     "deny": [],
     "ask": []

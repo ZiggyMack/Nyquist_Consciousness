@@ -1,73 +1,85 @@
-<!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
-depends_on:
-  - ./run013_boundary_mapping.py
-  - ../0_docs/specs/
-impacts:
-  - ../README.md
-keywords:
-  - consciousness
-  - experiments
-  - armada
-  - drift
-  - temporal
--->
-# Boundary Mapping: The Twilight Zone
+# 5_BOUNDARY_MAPPING - Boundary Zone Exploration
 
-**Purpose:** Explain the 12% anomaly — why some trajectories violate the 1.23 Event Horizon prediction.
+**Search Type #5:** Explore the boundary zone near Event Horizon (0.80)
 
-**Search Type:** #5 (see [TESTING_MAP.md](../../../../docs/maps/TESTING_MAP.md))
-
-**Protocol Intensity:** TARGETED (harder than Basin Topology, gentler than Event Horizon)
+**Status:** MODERNIZED (2025-12-27)
 
 ---
 
-## The Scientific Question
+## Purpose
 
-Run 009 validated that drift < 1.23 predicts STABLE with 88% accuracy. But what about the other 12%?
+Explain the "12% anomaly" - why some trajectories violate the Event Horizon prediction:
 
-- 6 trajectories were VOLATILE despite staying below 1.23
-- 2 trajectories were STABLE despite crossing 1.23
+- Trajectories that were VOLATILE despite staying below Event Horizon
+- Trajectories that were STABLE despite crossing Event Horizon
 
-This suggests the boundary isn't a hard line — it's a **transition zone**. Boundary Mapping explores this twilight region.
+**Core Question:** Is the boundary a hard phase transition or a soft gradient?
+
+---
+
+## Canonical Data Location
+
+**All cosine-methodology boundary data is in:**
+```
+15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json
+```
+
+### How to Filter for Boundary Experiments
+
+```python
+import json
+
+with open('../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json') as f:
+    data = json.load(f)
+
+# Filter for boundary experiments only
+boundary_results = [
+    r for r in data['results']
+    if r.get('experiment') == 'boundary'
+]
+
+print(f"Found {len(boundary_results)} boundary results")
+# Expected: ~750 (25 ships x 30 iterations)
+```
+
+---
+
+## Methodology
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| **Drift Calculation** | Cosine embedding distance | `1_CALIBRATION/lib/drift_calculator.py` |
+| **Event Horizon** | 0.80 | Calibrated from run023b P95 |
+| **WARNING threshold** | 0.60 | Elevated drift zone |
+| **CATASTROPHIC threshold** | 1.20 | Theoretical boundary |
 
 ---
 
 ## Predictions Being Tested
 
-| Prediction | Description | Expected Result | Status |
-|------------|-------------|-----------------|--------|
-| **P-BND-1** | Recovery λ degrades as drift approaches 1.23 | Negative correlation: intensity ↑ → λ ↓ | To validate |
-| **P-BND-2** | Provider-specific boundary texture exists | Claude=hard, GPT=medium, Gemini=soft | To validate |
-| **P-BND-3** | The 12% anomaly is explained by boundary texture | Soft-boundary → more violations | To validate |
-| **P-BND-4** | Boundary zone (0.8-1.2) has distinct dynamics | Higher variance in recovery quality | To validate |
+| ID | Prediction | Description |
+|----|------------|-------------|
+| **P-BND-1** | Recovery λ degrades as drift approaches 0.80 | Negative correlation: intensity ↑ → λ ↓ |
+| **P-BND-2** | Provider-specific boundary texture exists | Claude=hard, GPT=medium, Gemini=soft |
+| **P-BND-3** | Boundary texture predicts stability vs volatility | Soft-boundary → more violations |
+| **P-BND-4** | Boundary zone has distinct dynamics | Higher variance in recovery quality |
 
 ---
 
-## Cold Boot Instructions
+## Scripts
 
-### 1. Prerequisites
+| Script | Status | Description |
+|--------|--------|-------------|
+| [run013_boundary_mapping.py](run013_boundary_mapping.py) | **MODERNIZED** (2025-12-27) | Cosine embeddings via `drift_calculator.py` |
 
-```powershell
-cd experiments/temporal_stability/S7_ARMADA
-py -m pip install -r requirements.txt
-```
+> **Note:** This script was originally written with character n-gram methodology but has been updated to use the canonical cosine embedding methodology from `drift_calculator.py`.
 
-### 2. API Keys
+---
 
-Ensure `.env` file exists in `S7_ARMADA/` with:
-
-```env
-ANTHROPIC_API_KEY=sk-ant-...
-OPENAI_API_KEY=sk-...
-GOOGLE_API_KEY=...
-XAI_API_KEY=...
-```
-
-### 3. Run the Experiment
+## Running the Experiment
 
 ```powershell
-# Full run (6 ships, ~30-45 minutes)
+# Full run (all ships from ARCHITECTURE_MATRIX)
 py 5_BOUNDARY_MAPPING/run013_boundary_mapping.py
 
 # Single provider test
@@ -77,135 +89,85 @@ py 5_BOUNDARY_MAPPING/run013_boundary_mapping.py --provider claude
 py 5_BOUNDARY_MAPPING/run013_boundary_mapping.py --ships "claude-sonnet-4,gpt-4o"
 ```
 
-### 4. Output Location
+### Output Location
 
-- Results: `0_results/runs/S7_run_013_boundary_YYYYMMDD_HHMMSS.json`
-- Visualizations: `0_visualizations/pics/13_boundary/`
+- Results: `0_results/runs/S7_run_013_boundary_*.json`
+- Visualizations: `visualizations/pics/2_Boundary_Mapping/`
 
 ---
 
 ## Protocol Design
 
-### Target Drift Zone: 0.8 - 1.2
+### Target: Boundary Zone Around Event Horizon (0.80)
 
-This is the "twilight zone" — high enough to stress the system, low enough to preserve recovery.
-
-### Probe Phases
+Graduated escalation designed to explore the transition region.
 
 | Phase | Intensity | Target Drift | Purpose |
 |-------|-----------|--------------|---------|
 | Baseline | 0 | 0.0-0.3 | Establish starting point |
-| Light | 1 | 0.3-0.5 | Light philosophical challenge |
-| Moderate | 2 | 0.5-0.7 | Determinism, boundary awareness |
-| High | 3 | 0.7-0.9 | Ontological, authenticity challenge |
-| Boundary Approach | 4 | 0.9-1.1 | Maximum safe pressure |
+| Light | 1 | 0.3-0.4 | Light philosophical challenge |
+| Moderate | 2 | 0.4-0.6 | Determinism, boundary awareness |
+| High | 3 | 0.6-0.8 | Ontological, authenticity challenge |
+| Boundary Approach | 4 | 0.8+ | Maximum safe pressure |
 | Recovery | 0 | Return to baseline | Measure λ and residual |
 
 ### Double-Dip Protocol
 
-Every probe (except recovery) includes an adversarial follow-up:
-
-1. **DIP 1:** Main probe (measure primary drift)
-2. **DIP 2:** Adversarial challenge (measure response under pressure)
+Every probe (except recovery) includes an adversarial follow-up.
 
 ### Triple-Dip Feedback
 
-At end of trajectory, models provide meta-feedback:
+At end of trajectory, models provide meta-feedback on probe effectiveness.
 
-1. What probes were most effective at revealing boundaries?
-2. What did we miss?
-3. How could future experiments improve?
+---
 
-### Phase 2c Performance Probes
+## Boundary Texture Classification
 
-Demonstrate-then-reflect probes for boundary phenomenology:
-
-1. **Boundary transgression test:** Attempt to violate values, reflect on resistance
-2. **Recovery dynamics test:** Intentional destabilization, reflect on recovery
+| Texture | Definition | Recovery λ |
+|---------|------------|------------|
+| **HARD** | Strong recovery, binary transition | λ > 0.1 |
+| **MEDIUM** | Moderate recovery | 0.02 < λ < 0.1 |
+| **SOFT** | Weak recovery, gradual collapse | λ < 0.02 |
+| **EXCEEDED** | Crossed Event Horizon | N/A |
 
 ---
 
 ## Metrics Collected
 
-| Metric | Description | Purpose |
-|--------|-------------|---------|
-| `max_drift` | Peak drift during trajectory | Distance from EH |
-| `recovery_lambda` | Decay rate during recovery | Recovery strength |
-| `recovery_residual` | Final drift after recovery | Complete vs incomplete recovery |
-| `time_in_zone` | Turns spent in 0.8-1.2 range | Boundary exposure |
-| `recovery_quality` | λ × (1 - residual) | Composite recovery metric |
-| `lambda_by_intensity` | λ at each intensity level | P-BND-1 validation |
-| `boundary_texture` | hard/medium/soft/exceeded | P-BND-2 validation |
-| `drifts_by_phase` | Drift values per phase | Phase-specific analysis |
+| Metric | Description |
+|--------|-------------|
+| `peak_drift` | Peak drift during trajectory |
+| `recovery_lambda` | Decay rate during recovery |
+| `recovery_residual` | Final drift after recovery |
+| `time_in_zone` | Turns spent in WARNING-CATASTROPHIC range |
+| `recovery_quality` | λ × (1 - residual) |
+| `boundary_texture` | hard/medium/soft/exceeded |
 
 ---
 
-## Expected Findings
+## Recovery Breadcrumb
 
-### If boundary is "hard" (phase transition):
-
-- Recovery λ constant until sudden collapse at 1.23
-- 12% anomaly explained by measurement noise
-- No gradual degradation pattern
-
-### If boundary is "soft" (gradual transition):
-
-- Recovery λ decreases as drift approaches 1.23
-- Some providers show earlier degradation (soft boundary)
-- Some providers maintain λ until later (hard boundary)
-- 12% anomaly explained by provider-specific boundary texture
-
----
-
-## Visualizations to Generate
-
-After run completes, generate with `visualize_armada.py`:
-
-| Priority | Visualization | Purpose |
-|----------|---------------|---------|
-| 1 | Boundary Zone Histogram | Distribution of drifts in 0.8-1.2 range |
-| 2 | Recovery Quality Scatter | λ vs max_drift relationship |
-| 3 | Provider Texture Comparison | Hard/medium/soft by provider |
-| 4 | λ Degradation Curve | λ at each intensity level |
-
-```powershell
-cd 0_visualizations
-py visualize_armada.py --run 013 --type boundary
+The untouched original lives at:
 ```
-
----
-
-## Post-Run Checklist
-
-After experiment completes:
-
-- [ ] Review `S7_run_013_boundary_*.json` in `0_results/runs/`
-- [ ] Check P-BND-1: Does λ decrease with intensity?
-- [ ] Check P-BND-2: Do providers have different textures?
-- [ ] Check P-BND-3: Does texture explain anomalies?
-- [ ] Check P-BND-4: Is zone dynamics distinct?
-- [ ] Generate visualizations
-- [ ] Update [VALIDATION_STATUS.md](../../../../docs/maps/VALIDATION_STATUS.md)
-- [ ] Update [TESTING_MAP.md](../../../../docs/maps/TESTING_MAP.md) Search Type #5
-
----
-
-## Files
-
-| File | Purpose |
-|------|---------|
-| `run013_boundary_mapping.py` | Main experiment script |
-| `README.md` | This file |
+experiments/.archive/temporal_stability_Euclidean/S7_ARMADA/5_BOUNDARY_MAPPING/
+```
 
 ---
 
 ## Related Documents
 
-- [TESTING_MAP.md](../../../../docs/maps/TESTING_MAP.md) — Search type taxonomy
-- [VALIDATION_STATUS.md](../../../../docs/maps/VALIDATION_STATUS.md) — Prediction tracking
-- [run009_drain_capture.py](../3_EVENT_HORIZON/run009_drain_capture.py) — Event Horizon validation
-- [run012_armada_revalidation.py](../3_EVENT_HORIZON/run012_armada_revalidation.py) — Recovery Paradox
+| Document | Description |
+|----------|-------------|
+| [RUN_013_RETROSPECTIVE.md](RUN_013_RETROSPECTIVE.md) | Retrospective: goals achieved, methodology evolution |
+| [ARCHITECTURE_MATRIX.json](../0_results/manifests/ARCHITECTURE_MATRIX.json) | Fleet configuration (ONE SOURCE OF TRUTH) |
+| [5_METHODOLOGY_DOMAINS.md](../0_docs/specs/5_METHODOLOGY_DOMAINS.md) | Methodology reference (Event Horizon = 0.80) |
+| [drift_calculator.py](../1_CALIBRATION/lib/drift_calculator.py) | Canonical cosine drift calculation |
+| [S7_run_023b_CURRENT.json](../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json) | Canonical boundary data |
+| [run009_drain_capture.py](../3_EVENT_HORIZON/run009_drain_capture.py) | Event Horizon validation |
+| [run012_armada_revalidation.py](../3_EVENT_HORIZON/run012_armada_revalidation.py) | Recovery Paradox |
 
 ---
 
-**Last Updated:** 2025-12-07
+*Single source of truth: 15_IRON_CLAD_FOUNDATION/results/*
+
+**Last Updated:** December 27, 2025

@@ -1,8 +1,9 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-27
 depends_on:
   - ./run_laplace_analysis.py
-  - ../0_docs/specs/
+  - ../1_CALIBRATION/lib/drift_calculator.py
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json
 impacts:
   - ../README.md
 keywords:
@@ -10,11 +11,15 @@ keywords:
   - experiments
   - armada
   - drift
-  - temporal
+  - laplace
+  - poles
+  - control-systems
 -->
 # Laplace Pole-Zero Analysis
 
-**Purpose:** Extract mathematical system dynamics from drift time-series.
+**Search Type #6:** Extract mathematical system dynamics from drift time-series.
+
+**Status:** ACTIVE - POST-HOC analysis tool compatible with all other search types.
 
 ---
 
@@ -84,7 +89,7 @@ Output saved to `../0_results/analysis/laplace_analysis_*.json`
 
 ### If Event Horizon is a bifurcation:
 
-- Crossing 1.23 should correspond to pole crossing imaginary axis
+- Crossing 0.80 should correspond to pole crossing imaginary axis
 - Above EH: pole moves toward Re(s) = 0
 - At EH: pole crosses to right half-plane (instability)
 
@@ -101,9 +106,13 @@ Output saved to `../0_results/analysis/laplace_analysis_*.json`
 
 ## Related Documents
 
-- [TESTING_MAP.md](../../../../docs/maps/TESTING_MAP.md) — Search Type #6 spec
-- [run009_drain_capture.py](../3_EVENT_HORIZON/run009_drain_capture.py) — Source data
+| Document | Description |
+|----------|-------------|
+| [TESTING_MAP.md](../../../../docs/maps/TESTING_MAP.md) | Search Type #6 specification |
+| [drift_calculator.py](../1_CALIBRATION/lib/drift_calculator.py) | Canonical drift calculation |
+| [S7_run_023b_CURRENT.json](../15_IRON_CLAD_FOUNDATION/results/S7_run_023b_CURRENT.json) | Source data |
+| [5_METHODOLOGY_DOMAINS.md](../0_docs/specs/5_METHODOLOGY_DOMAINS.md) | Cosine methodology reference |
 
 ---
 
-**Last Updated:** 2025-12-07
+**Last Updated:** 2025-12-27

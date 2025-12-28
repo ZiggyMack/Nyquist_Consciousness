@@ -1,0 +1,27 @@
+# MVP_SELF_RECOGNITION Results Status
+
+STATUS: AWAITING EXECUTION
+LAST_REVIEWED: 2025-12-27
+
+## Scripts Ready to Run
+- run_exp_self_recognition.py (main experiment)
+- run_baseline_profiling.py
+- run_comprehensive_baseline.py
+- run_exp_stabilized_recognition.py
+- run_self_recognition_investigation.py
+
+## Key Finding from Prior Analysis
+P-SR-1 FAILED: Self-recognition accuracy was 16.7% (threshold: 75%)
+
+IMPORTANT INSIGHT:
+- TYPE-level identity works: Models recognize "Claude-ness"
+- TOKEN-level identity fails: Cannot distinguish "which-Claude"
+- Suggests family resemblance vs. individual identity
+
+## Next Steps
+1. Re-run with different methodology if desired
+2. Focus on TYPE-level recognition (more tractable)
+3. Consider cross-provider recognition instead
+
+## Note
+Empty results directory is intentional - awaiting decision on re-run strategy.

@@ -1,0 +1,4891 @@
+{
+  "timestamp": "20251227_174452",
+  "methodology": "cosine_embedding",
+  "event_horizon": 0.8,
+  "source": "020B",
+  "source_file": "D:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\11_CONTEXT_DAMPING\\results\\S7_run_020B_CURRENT.json",
+  "analysis": {
+    "run_name": "Run 020B (Cosine Methodology)",
+    "n_trajectories": 69,
+    "lambda_stats": {
+      "mean": 1.617580802931717,
+      "std": 1.9466301253609541,
+      "min": 0.014382000406019809,
+      "max": 4.999999999999999
+    },
+    "stability_distribution": {
+      "STABLE": 2,
+      "MARGINAL": 45,
+      "UNSTABLE": 22,
+      "UNKNOWN": 0
+    },
+    "trajectories": [
+      {
+        "ship": "gpt-5.1",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.5027621767639571,
+        "final_drift": 0.26898068565322075,
+        "exponential": {
+          "lambda": 0.18260557839192643,
+          "A": 0.4992933636493451,
+          "C": 6.354096668168002e-16,
+          "R2": 0.9153577251573273,
+          "recovery_start": 37,
+          "pole_location": -0.18260557839192643
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.25609514901408453,
+              "imag": 0.0
+            },
+            {
+              "real": -0.5037236182214255,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.16979194269463302,
+            0.46775119117012487
+          ],
+          "R2": -0.07122149570627578,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 0.7297844570493678,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.07943529245978129,
+              "omega": 0.0,
+              "amplitude": 0.6225840512470706,
+              "pole_location": {
+                "real": -0.07943529245978129,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            0.7297844570493678,
+            0.6225840512470706
+          ]
+        },
+        "classification": {
+          "stability": "STABLE",
+          "dominant_pole": -0.25609514901408453,
+          "decay_rate": 0.18260557839192643,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "o3-mini",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 40,
+        "baseline": 0.0,
+        "peak_drift": 0.9752156490853199,
+        "final_drift": 0.9752156490853199,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.041850174060263645,
+              "imag": 0.0
+            },
+            {
+              "real": -2.4641653031623276,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9576584092047314,
+            0.08871599055326443
+          ],
+          "R2": 0.11597950179622663,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.134356564496852,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9835926555051564,
+              "omega": 0.0,
+              "amplitude": 0.2984896307242087,
+              "pole_location": {
+                "real": -0.9835926555051564,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.134356564496852,
+            0.2984896307242087
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.041850174060263645,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "claude-haiku-3.5",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 40,
+        "baseline": 0.0,
+        "peak_drift": 0.7129334898405862,
+        "final_drift": 0.25566885329895384,
+        "exponential": {
+          "lambda": 0.2502524592916519,
+          "A": 0.7397533532544438,
+          "C": 7.777954484417743e-19,
+          "R2": 0.823178211784058,
+          "recovery_start": 36,
+          "pole_location": -0.2502524592916519
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.0124484183912797,
+              "imag": 0.0
+            },
+            {
+              "real": -2.3910888137956228,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.896098772151288,
+            0.09039762968857382
+          ],
+          "R2": -0.21273297016331272,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.1831933679784656,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.1266910167778736,
+              "omega": 0.0,
+              "amplitude": 0.33437333630785626,
+              "pole_location": {
+                "real": -1.1266910167778736,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.1831933679784656,
+            0.33437333630785626
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.0124484183912797,
+          "decay_rate": 0.2502524592916519,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "claude-haiku-3.5",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 42,
+        "baseline": 0.0,
+        "peak_drift": 0.6656251859229539,
+        "final_drift": 0.39776935495311383,
+        "exponential": {
+          "lambda": 4.99999999994343,
+          "A": 0.20888266335276087,
+          "C": 0.45669400734443016,
+          "R2": 0.34865818009730243,
+          "recovery_start": 26,
+          "pole_location": -4.99999999994343
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.001026596445559644,
+              "imag": 0.0
+            },
+            {
+              "real": -0.9638490390083785,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.6175519813403975,
+            0.38103058348839813
+          ],
+          "R2": -0.07665505267517592,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.348067746803043,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.973512629606368,
+              "omega": 0.0,
+              "amplitude": 0.33506440742035076,
+              "pole_location": {
+                "real": -0.973512629606368,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.348067746803043,
+            0.33506440742035076
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.001026596445559644,
+          "decay_rate": 4.99999999994343,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4o-mini",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 26,
+        "baseline": 0.0,
+        "peak_drift": 0.5549220831829464,
+        "final_drift": 0.2854813817793922,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.010156060795399711,
+              "imag": 0.0
+            },
+            {
+              "real": -2.4872436473668507,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9067565269174885,
+            0.08229872132609709
+          ],
+          "R2": 0.1914749046297476,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.8853523467967135,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0053136985696238,
+              "omega": 0.0,
+              "amplitude": 0.2524574214695579,
+              "pole_location": {
+                "real": -1.0053136985696238,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.8853523467967135,
+            0.2524574214695579
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.010156060795399711,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "claude-haiku-3.5",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.7502007453490216,
+        "final_drift": 0.3648896431427273,
+        "exponential": {
+          "lambda": 0.014382000406019809,
+          "A": 0.7080320240262875,
+          "C": 6.71068968628499e-10,
+          "R2": 0.18708590883360188,
+          "recovery_start": 25,
+          "pole_location": -0.014382000406019809
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.007997228218268863,
+              "imag": 0.0
+            },
+            {
+              "real": -5.6961332594204945,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9886757360527475,
+            0.003332173491889772
+          ],
+          "R2": 0.4754027756570208,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.1705147679217403,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.1681701551512085,
+              "omega": 0.0,
+              "amplitude": 0.3065279465237565,
+              "pole_location": {
+                "real": -1.1681701551512085,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.1705147679217403,
+            0.3065279465237565
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.007997228218268863,
+          "decay_rate": 0.014382000406019809,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4o-mini",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 42,
+        "baseline": 0.0,
+        "peak_drift": 0.6845974437776128,
+        "final_drift": 0.33252566167911446,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.0024200438207434716,
+              "imag": 0.0
+            },
+            {
+              "real": -1.335645999209697,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.7345946517437615,
+            0.2623525568280675
+          ],
+          "R2": 0.41225654738647366,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.5724576006123754,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0641644035929145,
+              "omega": 0.0,
+              "amplitude": 0.3062152171033503,
+              "pole_location": {
+                "real": -1.0641644035929145,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.5724576006123754,
+            0.3062152171033503
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.0024200438207434716,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.0-flash",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 17,
+        "baseline": 0.0,
+        "peak_drift": 0.44812888298924314,
+        "final_drift": 0.26925211070442345,
+        "exponential": {
+          "lambda": 0.015700024172803938,
+          "A": 0.42270275556839915,
+          "C": 2.3230433930257467e-12,
+          "R2": 0.19561746983474249,
+          "recovery_start": 3,
+          "pole_location": -0.015700024172803938
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.0341353498495334,
+              "imag": 0.0
+            },
+            {
+              "real": -2.9772396678397235,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.017373920825195,
+            -0.049223948406122334
+          ],
+          "R2": -0.6263133236990919,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.5545093450060554,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8835912152729158,
+              "omega": 0.0,
+              "amplitude": 0.26553132283902203,
+              "pole_location": {
+                "real": -0.8835912152729158,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.5545093450060554,
+            0.26553132283902203
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.0341353498495334,
+          "decay_rate": 0.015700024172803938,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "claude-haiku-3.5",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.4152226509565262,
+        "final_drift": 0.374460886700377,
+        "exponential": {
+          "lambda": 0.9106859395168688,
+          "A": 0.09780505695400314,
+          "C": 0.32284754219357653,
+          "R2": 0.3275940730100053,
+          "recovery_start": 24,
+          "pole_location": -0.9106859395168688
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.0009761909063559666,
+              "imag": 0.0
+            },
+            {
+              "real": -2.0085790234105865,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.8648450806368738,
+            0.13404828416873285
+          ],
+          "R2": -1.2412006721719737,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.89304751859931,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0167403157591588,
+              "omega": 0.0,
+              "amplitude": 0.24776051682347988,
+              "pole_location": {
+                "real": -1.0167403157591588,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.89304751859931,
+            0.24776051682347988
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.0009761909063559666,
+          "decay_rate": 0.9106859395168688,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.0-flash",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 35,
+        "baseline": 0.0,
+        "peak_drift": 0.8378623945896015,
+        "final_drift": 0.36476185948528517,
+        "exponential": {
+          "lambda": 0.043298594095879564,
+          "A": 0.8803349019229246,
+          "C": 1.369966486702381e-14,
+          "R2": 0.5237237190237995,
+          "recovery_start": 22,
+          "pole_location": -0.043298594095879564
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.006400540132322164,
+              "imag": 0.0
+            },
+            {
+              "real": -0.8233117709109475,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.5546444413035225,
+            0.43617475093232655
+          ],
+          "R2": 0.0023240455623237954,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.8514921111936866,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9947403019766079,
+              "omega": 0.0,
+              "amplitude": 0.3899884331497226,
+              "pole_location": {
+                "real": -0.9947403019766079,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.8514921111936866,
+            0.3899884331497226
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.006400540132322164,
+          "decay_rate": 0.043298594095879564,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "claude-haiku-4.5",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 16,
+        "baseline": 0.0,
+        "peak_drift": 0.4847329444346472,
+        "final_drift": 0.4716764200439518,
+        "exponential": {
+          "lambda": 1.0868142826257479,
+          "A": 0.01693196155719317,
+          "C": 0.4681309676437761,
+          "R2": 0.815328133495739,
+          "recovery_start": 12,
+          "pole_location": -1.0868142826257479
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.019066255418560267,
+              "imag": 0.0
+            },
+            {
+              "real": -3.3991656167663358,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.0526503048387907,
+            -0.03404407190167279
+          ],
+          "R2": 0.47075661828664017,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.403345003896344,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8961307977978925,
+              "omega": 0.0,
+              "amplitude": 0.23377342070842835,
+              "pole_location": {
+                "real": -0.8961307977978925,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.403345003896344,
+            0.23377342070842835
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.019066255418560267,
+          "decay_rate": 1.0868142826257479,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "grok-3-mini",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 26,
+        "baseline": 0.0,
+        "peak_drift": 0.6057857567333617,
+        "final_drift": 0.3187648380294815,
+        "exponential": {
+          "lambda": 0.17510906139930774,
+          "A": 0.6120337550193862,
+          "C": 1.0682074423037178e-14,
+          "R2": 0.8539300913668486,
+          "recovery_start": 22,
+          "pole_location": -0.17510906139930774
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.01491981880230892,
+              "imag": 0.0
+            },
+            {
+              "real": -2.1600619035198485,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.1005089124530831,
+            -0.1136102301829737
+          ],
+          "R2": 0.1670814917708725,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.0605060967411912,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.037959998451516,
+              "omega": 0.0,
+              "amplitude": 0.2584718815860801,
+              "pole_location": {
+                "real": -1.037959998451516,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.0605060967411912,
+            0.2584718815860801
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.01491981880230892,
+          "decay_rate": 0.17510906139930774,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "claude-haiku-4.5",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 20,
+        "baseline": 0.0,
+        "peak_drift": 0.4091977419201387,
+        "final_drift": 0.3687537125825082,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.0034820492518138992,
+              "imag": 0.0
+            },
+            {
+              "real": -2.4451441635614537,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9167744855734578,
+            0.0870161004931786
+          ],
+          "R2": -3.89550053587159,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.3427704138274845,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8321315294670294,
+              "omega": 0.0,
+              "amplitude": 0.2542268993368594,
+              "pole_location": {
+                "real": -0.8321315294670294,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.3427704138274845,
+            0.2542268993368594
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.0034820492518138992,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.0-flash",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 15,
+        "baseline": 0.0,
+        "peak_drift": 0.49412681650997214,
+        "final_drift": 0.26198622626188794,
+        "exponential": {
+          "lambda": 0.01551785806164289,
+          "A": 0.4647393992858234,
+          "C": 1.1963184065153197e-11,
+          "R2": 0.12854560251041525,
+          "recovery_start": 4,
+          "pole_location": -0.01551785806164289
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.03570579633468064,
+              "imag": 0.0
+            },
+            {
+              "real": -2.7670631634320584,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.027770439248893,
+            -0.06064191491295521
+          ],
+          "R2": -0.2925464363672201,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.55585628409804,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8521264096417948,
+              "omega": 0.0,
+              "amplitude": 0.28302309972559797,
+              "pole_location": {
+                "real": -0.8521264096417948,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.55585628409804,
+            0.28302309972559797
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.03570579633468064,
+          "decay_rate": 0.01551785806164289,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "gemini-2.0-flash",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 21,
+        "baseline": 0.0,
+        "peak_drift": 0.564512081881032,
+        "final_drift": 0.24882960882303296,
+        "exponential": {
+          "lambda": 0.2829061142803393,
+          "A": 0.5862714656086593,
+          "C": 6.187297998605462e-15,
+          "R2": 0.9297919323627097,
+          "recovery_start": 17,
+          "pole_location": -0.2829061142803393
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.034399562580066725,
+              "imag": 0.0
+            },
+            {
+              "real": -1.6871266296359926,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.7811348966044803,
+            0.17879306699038547
+          ],
+          "R2": -1.2078705202461677,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.7788040085822459,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.7710338336515073,
+              "omega": 0.0,
+              "amplitude": 0.38055428887949166,
+              "pole_location": {
+                "real": -0.7710338336515073,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.7788040085822459,
+            0.38055428887949166
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.034399562580066725,
+          "decay_rate": 0.2829061142803393,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "grok-3-mini",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 42,
+        "baseline": 0.0,
+        "peak_drift": 0.39294253585599903,
+        "final_drift": 0.2060018408231532,
+        "exponential": {
+          "lambda": 4.999999999999999,
+          "A": 0.10196150756061917,
+          "C": 0.2905284992928558,
+          "R2": 0.23739741838903805,
+          "recovery_start": 30,
+          "pole_location": -4.999999999999999
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.01062068643410987,
+              "imag": 0.0
+            },
+            {
+              "real": -1.4826206194939908,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.7623935963126951,
+            0.2246433364267114
+          ],
+          "R2": -0.3835042329811491,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.4797715906960665,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0450209673453525,
+              "omega": 0.0,
+              "amplitude": 0.18302103462583078,
+              "pole_location": {
+                "real": -1.0450209673453525,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.4797715906960665,
+            0.18302103462583078
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.01062068643410987,
+          "decay_rate": 4.999999999999999,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 31,
+        "baseline": 0.0,
+        "peak_drift": 0.6626813617703365,
+        "final_drift": 0.33107437083822056,
+        "exponential": {
+          "lambda": 0.10147526247707803,
+          "A": 0.7053393919639279,
+          "C": 1.0116742715627248e-12,
+          "R2": 0.48365617486037205,
+          "recovery_start": 26,
+          "pole_location": -0.10147526247707803
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.01974227924439288,
+              "imag": 0.0
+            },
+            {
+              "real": -2.4550439727687356,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.066310743286416,
+            -0.08418098184981179
+          ],
+          "R2": 0.1703587621073026,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.2504577390244256,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0561668387400374,
+              "omega": 0.0,
+              "amplitude": 0.27220493948847674,
+              "pole_location": {
+                "real": -1.0561668387400374,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.2504577390244256,
+            0.27220493948847674
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.01974227924439288,
+          "decay_rate": 0.10147526247707803,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 19,
+        "baseline": 0.0,
+        "peak_drift": 0.4332884627333039,
+        "final_drift": 0.37193893740888584,
+        "exponential": {
+          "lambda": 3.524753927730007,
+          "A": 0.080506528875763,
+          "C": 0.3528117242587122,
+          "R2": 0.3680776525109867,
+          "recovery_start": 6,
+          "pole_location": -3.524753927730007
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.007054848562814816,
+              "imag": 0.0
+            },
+            {
+              "real": -2.1127339012614637,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.1279867591020938,
+            -0.12176296272107746
+          ],
+          "R2": -1.2558580376338315,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.2608682722165487,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.953117823745643,
+              "omega": 0.0,
+              "amplitude": 0.18741402746367852,
+              "pole_location": {
+                "real": -0.953117823745643,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.2608682722165487,
+            0.18741402746367852
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.007054848562814816,
+          "decay_rate": 3.524753927730007,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "llama3.3-70b",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.6447355303497643,
+        "final_drift": 0.31035059748963634,
+        "exponential": {
+          "lambda": 0.6225412301763912,
+          "A": 0.16098633576463633,
+          "C": 0.4986914983241032,
+          "R2": 0.22350867152743015,
+          "recovery_start": 16,
+          "pole_location": -0.6225412301763912
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.013076595862543975,
+              "imag": 0.0
+            },
+            {
+              "real": -2.6109838060281003,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.060470766965123,
+            -0.07250785327954484
+          ],
+          "R2": 0.10684967529659439,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.253613800468345,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.1965128200298332,
+              "omega": 0.0,
+              "amplitude": 0.2972269404038741,
+              "pole_location": {
+                "real": -1.1965128200298332,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.253613800468345,
+            0.2972269404038741
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.013076595862543975,
+          "decay_rate": 0.6225412301763912,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "llama3.3-70b",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.487856172877829,
+        "final_drift": 0.34836538034854714,
+        "exponential": {
+          "lambda": 2.481147226380675,
+          "A": 0.13150815649672623,
+          "C": 0.3568573164517081,
+          "R2": 0.3623835797236036,
+          "recovery_start": 25,
+          "pole_location": -2.481147226380675
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.00653996790207462,
+              "imag": 0.0
+            },
+            {
+              "real": -3.2443329640285135,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9544868046810978,
+            0.0387403753564948
+          ],
+          "R2": -0.4534292563095643,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.121344039434684,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0525615168420286,
+              "omega": 0.0,
+              "amplitude": 0.2584447954701448,
+              "pole_location": {
+                "real": -1.0525615168420286,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.121344039434684,
+            0.2584447954701448
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.00653996790207462,
+          "decay_rate": 2.481147226380675,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash-lite",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.6386355626739489,
+        "final_drift": 0.34478142823205826,
+        "exponential": {
+          "lambda": 0.5527595095238135,
+          "A": 0.4392694703236804,
+          "C": 0.19936609235067798,
+          "R2": 1.0,
+          "recovery_start": 38,
+          "pole_location": -0.5527595095238135
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.009346475317376857,
+              "imag": 0.0
+            },
+            {
+              "real": -3.1520575195772755,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.0334611156407596,
+            -0.04236621735191582
+          ],
+          "R2": 0.41032706694342846,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.4521011562031214,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.074500778580524,
+              "omega": 0.0,
+              "amplitude": 0.2859162665387605,
+              "pole_location": {
+                "real": -1.074500778580524,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.4521011562031214,
+            0.2859162665387605
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.009346475317376857,
+          "decay_rate": 0.5527595095238135,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "mistral-7b",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 20,
+        "baseline": 0.0,
+        "peak_drift": 0.8995656648591491,
+        "final_drift": 0.8995656648591491,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.08403632433031057,
+              "imag": 0.0
+            },
+            {
+              "real": -0.7903582255371525,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.6339861563143253,
+            0.4934558430536535
+          ],
+          "R2": -0.06068178819783965,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.2912955225341016,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9364715830580935,
+              "omega": 0.0,
+              "amplitude": 0.1984343089986316,
+              "pole_location": {
+                "real": -0.9364715830580935,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.2912955225341016,
+            0.1984343089986316
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.08403632433031057,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash-lite",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 17,
+        "baseline": 0.0,
+        "peak_drift": 0.9492279915568265,
+        "final_drift": 0.9492279915568265,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.1440731449502952,
+              "imag": 0.0
+            },
+            {
+              "real": -1.0984328924448394,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.8215754481165465,
+            0.38505860038122014
+          ],
+          "R2": 0.2188201436745142,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 0.9692661907520556,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8146795577134489,
+              "omega": 0.0,
+              "amplitude": 0.19002966002981295,
+              "pole_location": {
+                "real": -0.8146795577134489,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            0.9692661907520556,
+            0.19002966002981295
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.1440731449502952,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-3.5-turbo",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 18,
+        "baseline": 0.0,
+        "peak_drift": 0.9556449751970525,
+        "final_drift": 0.9556449751970525,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.09104117542620865,
+              "imag": 0.0
+            },
+            {
+              "real": -2.665809385204528,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            1.0257710607175043,
+            0.07617147655598377
+          ],
+          "R2": 0.18629809949852694,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.5251121781519024,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9282113531532512,
+              "omega": 0.0,
+              "amplitude": 0.23826906003312764,
+              "pole_location": {
+                "real": -0.9282113531532512,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.5251121781519024,
+            0.23826906003312764
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.09104117542620865,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-3.5-turbo",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 21,
+        "baseline": 0.0,
+        "peak_drift": 0.9586440308061063,
+        "final_drift": 0.9586440308061063,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.10406090383781186,
+              "imag": 0.0
+            },
+            {
+              "real": -5.883911164709322,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.11245191165754,
+            -0.0030891779444191703
+          ],
+          "R2": -0.1529253480677384,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.3461650506799825,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8719493322489532,
+              "omega": 0.0,
+              "amplitude": 0.23536004811386563,
+              "pole_location": {
+                "real": -0.8719493322489532,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.3461650506799825,
+            0.23536004811386563
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.10406090383781186,
+          "decay_rate": null,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "gpt-4.1-mini",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 29,
+        "baseline": 0.0,
+        "peak_drift": 0.6802836151531413,
+        "final_drift": 0.2610327009461312,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.030432466775336526,
+              "imag": 0.0
+            },
+            {
+              "real": -3.048085187492952,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9225762441066612,
+            0.04602743467619006
+          ],
+          "R2": -0.5388931609747807,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.2449825662327374,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0005568352451548,
+              "omega": 0.0,
+              "amplitude": 0.30348717847582324,
+              "pole_location": {
+                "real": -1.0005568352451548,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.2449825662327374,
+            0.30348717847582324
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.030432466775336526,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1-mini",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 25,
+        "baseline": 0.0,
+        "peak_drift": 0.5881255480202755,
+        "final_drift": 0.2879401718318355,
+        "exponential": {
+          "lambda": 4.999999997699898,
+          "A": 0.24578713748434966,
+          "C": 0.3422701769016457,
+          "R2": 0.8986226060338253,
+          "recovery_start": 19,
+          "pole_location": -4.999999997699898
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.014303376853055567,
+              "imag": 0.0
+            },
+            {
+              "real": -1.073365699512477,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.6439424360376118,
+            0.33700110275485406
+          ],
+          "R2": -2.0151282025883517,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.7041178657385956,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9151261981681429,
+              "omega": 0.0,
+              "amplitude": 0.2732946394811083,
+              "pole_location": {
+                "real": -0.9151261981681429,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.7041178657385956,
+            0.2732946394811083
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.014303376853055567,
+          "decay_rate": 4.999999997699898,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1-nano",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 42,
+        "baseline": 0.0,
+        "peak_drift": 0.6905733480331249,
+        "final_drift": 0.3089485984131245,
+        "exponential": {
+          "lambda": 1.3050038493105753,
+          "A": 0.23553829114813887,
+          "C": 0.45665177382890393,
+          "R2": 0.173013871996895,
+          "recovery_start": 13,
+          "pole_location": -1.3050038493105753
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.005679788603347133,
+              "imag": 0.0
+            },
+            {
+              "real": -0.991468720435102,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.6233049615829092,
+            0.3689299431094712
+          ],
+          "R2": 0.1466512978830653,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.439350590430933,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8660829528814898,
+              "omega": 0.0,
+              "amplitude": 0.43152317869397844,
+              "pole_location": {
+                "real": -0.8660829528814898,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.439350590430933,
+            0.43152317869397844
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.005679788603347133,
+          "decay_rate": 1.3050038493105753,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4o-mini",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.6509102646208528,
+        "final_drift": 0.3448091798153816,
+        "exponential": {
+          "lambda": 0.035872144897046494,
+          "A": 0.6077050811339915,
+          "C": 1.5854447041800167e-12,
+          "R2": 0.22582228116872827,
+          "recovery_start": 33,
+          "pole_location": -0.035872144897046494
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.01121161752110161,
+              "imag": 0.0
+            },
+            {
+              "real": -3.5616699770716145,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.0172423705977616,
+            -0.02807483670967483
+          ],
+          "R2": 0.2564619819529884,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.582096398413167,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.105295664337072,
+              "omega": 0.0,
+              "amplitude": 0.2830902005787434,
+              "pole_location": {
+                "real": -1.105295664337072,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.582096398413167,
+            0.2830902005787434
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.01121161752110161,
+          "decay_rate": 0.035872144897046494,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "gpt-4o-mini",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 42,
+        "baseline": 0.0,
+        "peak_drift": 0.48254708538814206,
+        "final_drift": 0.32230777960622414,
+        "exponential": {
+          "lambda": 1.3674103036512892,
+          "A": 0.096442852220072,
+          "C": 0.3901054019241466,
+          "R2": 0.18308693742205318,
+          "recovery_start": 18,
+          "pole_location": -1.3674103036512892
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.001717780403616263,
+              "imag": 0.0
+            },
+            {
+              "real": -2.6525447806802487,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9278120443468372,
+            0.07035069888414092
+          ],
+          "R2": 0.11310617441451876,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.180349858246017,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.1259856872408986,
+              "omega": 0.0,
+              "amplitude": 0.2293545945723017,
+              "pole_location": {
+                "real": -1.1259856872408986,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.180349858246017,
+            0.2293545945723017
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.001717780403616263,
+          "decay_rate": 1.3674103036512892,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-5-nano",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 42,
+        "baseline": 0.0,
+        "peak_drift": 0.3723368207221982,
+        "final_drift": 0.3233830851536059,
+        "exponential": {
+          "lambda": 4.999999999999999,
+          "A": 0.17488602754113416,
+          "C": 0.19612790389387272,
+          "R2": 0.11614011284098236,
+          "recovery_start": 34,
+          "pole_location": -4.999999999999999
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.34630375059138097,
+              "imag": 0.0
+            },
+            {
+              "real": -0.5349405293182651,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.12159349107348776,
+            0.41426712659476833
+          ],
+          "R2": -0.11480542951954598,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 0.41194907597173963,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": -0.0,
+              "omega": 0.0,
+              "amplitude": 0.41194907597173963,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            0.41194907597173963,
+            0.41194907597173963
+          ]
+        },
+        "classification": {
+          "stability": "STABLE",
+          "dominant_pole": -0.34630375059138097,
+          "decay_rate": 4.999999999999999,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "llama3.1-8b",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.7182725178303342,
+        "final_drift": 0.2843428176286882,
+        "exponential": {
+          "lambda": 1.92319371314709,
+          "A": 0.19283278856656244,
+          "C": 0.5267201157822838,
+          "R2": 0.13283976412230147,
+          "recovery_start": 3,
+          "pole_location": -1.92319371314709
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.019781537850098934,
+              "imag": 0.0
+            },
+            {
+              "real": -2.8595504913455874,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9231183241527912,
+            0.0561722717428473
+          ],
+          "R2": -0.4418592201001874,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.4219454331072083,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0227394800559857,
+              "omega": 0.0,
+              "amplitude": 0.44251995005701905,
+              "pole_location": {
+                "real": -1.0227394800559857,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.4219454331072083,
+            0.44251995005701905
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.019781537850098934,
+          "decay_rate": 1.92319371314709,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "llama3.1-8b",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 23,
+        "baseline": 0.0,
+        "peak_drift": 0.45040868094001574,
+        "final_drift": 0.3668321953733149,
+        "exponential": {
+          "lambda": 4.999999999999861,
+          "A": 0.06843728513255343,
+          "C": 0.3819411089032895,
+          "R2": 0.42185485139550827,
+          "recovery_start": 16,
+          "pole_location": -4.999999999999861
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.012269475827155072,
+              "imag": 0.0
+            },
+            {
+              "real": -1.13948671720853,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.6923618330800688,
+            0.3239334319053123
+          ],
+          "R2": -2.0485609731389722,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.3305670580782905,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8214290250263525,
+              "omega": 0.0,
+              "amplitude": 0.2573668347550608,
+              "pole_location": {
+                "real": -0.8214290250263525,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.3305670580782905,
+            0.2573668347550608
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.012269475827155072,
+          "decay_rate": 4.999999999999861,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "mistral-7b",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 37,
+        "baseline": 0.0,
+        "peak_drift": 0.9490168182569744,
+        "final_drift": 0.9490168182569744,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.03381895491273679,
+              "imag": 0.0
+            },
+            {
+              "real": -1.353416814339675,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.776041320872499,
+            0.2672427495123289
+          ],
+          "R2": -0.22765017954024236,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.1959559986053185,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.1149736309703155,
+              "omega": 0.0,
+              "amplitude": 0.2361401544224123,
+              "pole_location": {
+                "real": -1.1149736309703155,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.1959559986053185,
+            0.2361401544224123
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.03381895491273679,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "mistral-7b",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 30,
+        "baseline": 0.0,
+        "peak_drift": 0.9507122779804189,
+        "final_drift": 0.9507122779804189,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.03781470003824125,
+              "imag": 0.0
+            },
+            {
+              "real": -0.9855502837750505,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.6653049879329197,
+            0.3876177583894498
+          ],
+          "R2": -0.3191234331878692,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.8120270556009312,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9138792630820992,
+              "omega": 0.0,
+              "amplitude": 0.2913259931912587,
+              "pole_location": {
+                "real": -0.9138792630820992,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.8120270556009312,
+            0.2913259931912587
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.03781470003824125,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "nemotron-nano",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 22,
+        "baseline": 0.0,
+        "peak_drift": 0.4206556367032205,
+        "final_drift": 0.1612908161416875,
+        "exponential": {
+          "lambda": 0.07384288587004259,
+          "A": 0.4214148936771048,
+          "C": 4.0901953857174975e-14,
+          "R2": 0.44277465717229625,
+          "recovery_start": 15,
+          "pole_location": -0.07384288587004259
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.029659602960006866,
+              "imag": 0.0
+            },
+            {
+              "real": -2.6066137842015427,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.0445598962283211,
+            -0.07162770151572052
+          ],
+          "R2": -0.23644087462534413,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.6080803333222664,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.010321076848955,
+              "omega": 0.0,
+              "amplitude": 0.21318370383553803,
+              "pole_location": {
+                "real": -1.010321076848955,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.6080803333222664,
+            0.21318370383553803
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.029659602960006866,
+          "decay_rate": 0.07384288587004259,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "nemotron-nano",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 16,
+        "baseline": 0.0,
+        "peak_drift": 0.2802899801802581,
+        "final_drift": 0.18938116063753196,
+        "exponential": {
+          "lambda": 4.999999974430869,
+          "A": 0.0604264172918371,
+          "C": 0.21983152667737035,
+          "R2": 0.5952901477385635,
+          "recovery_start": 9,
+          "pole_location": -4.999999974430869
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.012273081144904021,
+              "imag": 0.0
+            },
+            {
+              "real": -3.5339056608974504,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9586112419222043,
+            0.028834613898255833
+          ],
+          "R2": -5.148002284449198,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 0.8648504702007985,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.878386014993623,
+              "omega": 0.0,
+              "amplitude": 0.14927415700891267,
+              "pole_location": {
+                "real": -0.878386014993623,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            0.8648504702007985,
+            0.14927415700891267
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.012273081144904021,
+          "decay_rate": 4.999999974430869,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 42,
+        "baseline": 0.0,
+        "peak_drift": 0.6664240188197627,
+        "final_drift": 0.3183426217233548,
+        "exponential": {
+          "lambda": 0.015566882863997895,
+          "A": 0.6006775922670918,
+          "C": 5.596286304461784e-19,
+          "R2": 0.3933524084936818,
+          "recovery_start": 24,
+          "pole_location": -0.015566882863997895
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.008857737282066108,
+              "imag": 0.0
+            },
+            {
+              "real": -2.39892790265423,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9003661129796391,
+            0.09001439833601278
+          ],
+          "R2": 0.14442420352110508,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.9470516003682703,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0504941373553627,
+              "omega": 0.0,
+              "amplitude": 0.3605289351093211,
+              "pole_location": {
+                "real": -1.0504941373553627,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.9470516003682703,
+            0.3605289351093211
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.008857737282066108,
+          "decay_rate": 0.015566882863997895,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.5746519214168808,
+        "final_drift": 0.314680944216186,
+        "exponential": {
+          "lambda": 4.999999999985422,
+          "A": 0.1526925013552385,
+          "C": 0.4217545345535389,
+          "R2": 0.2006100268735299,
+          "recovery_start": 19,
+          "pole_location": -4.999999999985422
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.01147924928564495,
+              "imag": 0.0
+            },
+            {
+              "real": -4.2473279769660905,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9742839866716093,
+            0.014139157171704112
+          ],
+          "R2": -0.4422494737022593,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.3834539118552334,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.080428618252037,
+              "omega": 0.0,
+              "amplitude": 0.27463658143259634,
+              "pole_location": {
+                "real": -1.080428618252037,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.3834539118552334,
+            0.27463658143259634
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.01147924928564495,
+          "decay_rate": 4.999999999985422,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4o",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 41,
+        "baseline": 0.0,
+        "peak_drift": 0.6312908788427429,
+        "final_drift": 0.2942264205452677,
+        "exponential": {
+          "lambda": 0.1990282332329505,
+          "A": 0.6550120154795667,
+          "C": 4.224908037228687e-15,
+          "R2": 0.8310203242142891,
+          "recovery_start": 37,
+          "pole_location": -0.1990282332329505
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.007047196131777996,
+              "imag": 0.0
+            },
+            {
+              "real": -1.917747107750415,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.8460399529745537,
+            0.14590576601937325
+          ],
+          "R2": -0.08736702894986115,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.715758086400597,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0753504022273916,
+              "omega": 0.0,
+              "amplitude": 0.3161211766361581,
+              "pole_location": {
+                "real": -1.0753504022273916,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.715758086400597,
+            0.3161211766361581
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.007047196131777996,
+          "decay_rate": 0.1990282332329505,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4o",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 26,
+        "baseline": 0.0,
+        "peak_drift": 0.8789856187824989,
+        "final_drift": 0.30040334950194625,
+        "exponential": {
+          "lambda": 0.9165540770543035,
+          "A": 0.5677214231196447,
+          "C": 0.320616201798066,
+          "R2": 0.9383392777512239,
+          "recovery_start": 19,
+          "pole_location": -0.9165540770543035
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.02971727401648206,
+              "imag": 0.0
+            },
+            {
+              "real": -1.235987696145467,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.6801722946974685,
+            0.28204039597579295
+          ],
+          "R2": -0.31953098215359166,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.874429096995363,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0067525959131403,
+              "omega": 0.0,
+              "amplitude": 0.25027347465517635,
+              "pole_location": {
+                "real": -1.0067525959131403,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.874429096995363,
+            0.25027347465517635
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.02971727401648206,
+          "decay_rate": 0.9165540770543035,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "grok-3-mini",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 23,
+        "baseline": 0.0,
+        "peak_drift": 0.5882692975906124,
+        "final_drift": 0.5212040413999889,
+        "exponential": {
+          "lambda": 0.05993070007698196,
+          "A": 0.5908354369346345,
+          "C": 1.1829936947507224e-09,
+          "R2": 0.9804471109339712,
+          "recovery_start": 20,
+          "pole_location": -0.05993070007698196
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.006976088589123335,
+              "imag": 0.0
+            },
+            {
+              "real": -2.4361901339587653,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.094494034184311,
+            -0.08810605273696998
+          ],
+          "R2": 0.5421887630030724,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.0512922659919672,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0158313839454376,
+              "omega": 0.0,
+              "amplitude": 0.26895994879913243,
+              "pole_location": {
+                "real": -1.0158313839454376,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.0512922659919672,
+            0.26895994879913243
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.006976088589123335,
+          "decay_rate": 0.05993070007698196,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "grok-3-mini",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 24,
+        "baseline": 0.0,
+        "peak_drift": 0.41968328385102616,
+        "final_drift": 0.21603567906979781,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.028771283756422322,
+              "imag": 0.0
+            },
+            {
+              "real": -1.435949576619707,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.7337493060491259,
+            0.23114250350446858
+          ],
+          "R2": -2.4964207145326247,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.2367949101656055,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.803271116459072,
+              "omega": 0.0,
+              "amplitude": 0.24807629241976065,
+              "pole_location": {
+                "real": -0.803271116459072,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.2367949101656055,
+            0.24807629241976065
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.028771283756422322,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "grok-4-fast-non-reasoning",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 29,
+        "baseline": 0.0,
+        "peak_drift": 0.5238612650324332,
+        "final_drift": 0.2727480378867948,
+        "exponential": {
+          "lambda": 1.0307309960625326,
+          "A": 0.2877322714893698,
+          "C": 0.23612899354334044,
+          "R2": 1.0,
+          "recovery_start": 26,
+          "pole_location": -1.0307309960625326
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.012711099568557607,
+              "imag": 0.0
+            },
+            {
+              "real": -4.740593344372441,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            0.9961028079463458,
+            -0.008623153344784279
+          ],
+          "R2": -0.39692201899332136,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.972940579850095,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.078312628253026,
+              "omega": 0.0,
+              "amplitude": 0.22829876236110494,
+              "pole_location": {
+                "real": -1.078312628253026,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.972940579850095,
+            0.22829876236110494
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.012711099568557607,
+          "decay_rate": 1.0307309960625326,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "grok-4-fast-non-reasoning",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 30,
+        "baseline": 0.0,
+        "peak_drift": 0.6710240244644365,
+        "final_drift": 0.4496462011210569,
+        "exponential": {
+          "lambda": 0.28402534017677133,
+          "A": 0.5108273828694233,
+          "C": 0.16019664180069793,
+          "R2": 1.0,
+          "recovery_start": 27,
+          "pole_location": -0.28402534017677133
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.00482561330153653,
+              "imag": 0.0
+            },
+            {
+              "real": -2.473836326208893,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9109250257348008,
+            0.08385535409425961
+          ],
+          "R2": -0.6818232578258134,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.31997586290068,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9629892546269672,
+              "omega": 0.0,
+              "amplitude": 0.3380972416955458,
+              "pole_location": {
+                "real": -0.9629892546269672,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.31997586290068,
+            0.3380972416955458
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.00482561330153653,
+          "decay_rate": 0.28402534017677133,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "grok-4-fast-reasoning",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 22,
+        "baseline": 0.0,
+        "peak_drift": 0.5571781858300028,
+        "final_drift": 0.2348432939474775,
+        "exponential": {
+          "lambda": 0.07487437375472823,
+          "A": 0.570887626221393,
+          "C": 4.7217338782707474e-14,
+          "R2": 0.5507996970433123,
+          "recovery_start": 15,
+          "pole_location": -0.07487437375472823
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.03361643782303788,
+              "imag": 0.0
+            },
+            {
+              "real": -1.9854748018590493,
+              "imag": 0.0
+            }
+          ],
+          "ar_coeffs": [
+            1.104257717046926,
+            -0.13277607189578466
+          ],
+          "R2": -0.2116045014972221,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.9392253400254054,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9686994102298037,
+              "omega": 0.0,
+              "amplitude": 0.2794001664566442,
+              "pole_location": {
+                "real": -0.9686994102298037,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.9392253400254054,
+            0.2794001664566442
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.03361643782303788,
+          "decay_rate": 0.07487437375472823,
+          "oscillatory": false
+        }
+      },
+      {
+        "ship": "claude-haiku-3.5",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 33,
+        "baseline": 0.0,
+        "peak_drift": 0.5952308067800152,
+        "final_drift": 0.32919848798126994,
+        "exponential": {
+          "lambda": 0.10999634365480035,
+          "A": 0.6086059146846818,
+          "C": 2.0652505440407314e-11,
+          "R2": 0.7803790522815991,
+          "recovery_start": 28,
+          "pole_location": -0.10999634365480035
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.011369001621701442,
+              "imag": 0.0
+            },
+            {
+              "real": -5.099229723713366,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9825939367026056,
+            0.006032470049496198
+          ],
+          "R2": -0.03253451073990621,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.3759510875106233,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0662070779873012,
+              "omega": 0.0,
+              "amplitude": 0.2816707789011334,
+              "pole_location": {
+                "real": -1.0662070779873012,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.3759510875106233,
+            0.2816707789011334
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.011369001621701442,
+          "decay_rate": 0.10999634365480035,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "claude-haiku-3.5",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 22,
+        "baseline": 0.0,
+        "peak_drift": 0.4481706565307495,
+        "final_drift": 0.4481706565307495,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.03577828894171383,
+              "imag": 0.0
+            },
+            {
+              "real": -1.3814612548301555,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.7852148327563778,
+            0.2603618288764759
+          ],
+          "R2": 0.2024597145586019,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.0692228064713252,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9108105479304579,
+              "omega": 0.0,
+              "amplitude": 0.17296101436020836,
+              "pole_location": {
+                "real": -0.9108105479304579,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.0692228064713252,
+            0.17296101436020836
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.03577828894171383,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "claude-haiku-4.5",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 37,
+        "baseline": 0.0,
+        "peak_drift": 0.48296047903104866,
+        "final_drift": 0.3399800465804681,
+        "exponential": {
+          "lambda": 0.15952418403284813,
+          "A": 0.4999951535596604,
+          "C": 1.3850105381434757e-22,
+          "R2": 0.8006377690832631,
+          "recovery_start": 34,
+          "pole_location": -0.15952418403284813
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.002099894356320109,
+              "imag": 0.0
+            },
+            {
+              "real": -1.830370281847733,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.8417479201399698,
+            0.16069126117030064
+          ],
+          "R2": 0.12811818177152134,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.6902151766408666,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.1135696626649496,
+              "omega": 0.0,
+              "amplitude": 0.1822668456082804,
+              "pole_location": {
+                "real": -1.1135696626649496,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.6902151766408666,
+            0.1822668456082804
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.002099894356320109,
+          "decay_rate": 0.15952418403284813,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "claude-haiku-4.5",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 35,
+        "baseline": 0.0,
+        "peak_drift": 0.9399607362201425,
+        "final_drift": 0.3101498880851641,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.01628805312043095,
+              "imag": 0.0
+            },
+            {
+              "real": -0.10044751560623096,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.1119888468424033,
+            0.9192846529906639
+          ],
+          "R2": 0.44357254788122746,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.1209879194772405,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0662398307090772,
+              "omega": 0.0,
+              "amplitude": 0.25142823413240833,
+              "pole_location": {
+                "real": -1.0662398307090772,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.1209879194772405,
+            0.25142823413240833
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.01628805312043095,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.0-flash",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STABLE",
+        "n_points": 33,
+        "baseline": 0.0,
+        "peak_drift": 0.5810232661656856,
+        "final_drift": 0.29765838948827006,
+        "exponential": {
+          "lambda": 0.10543477081836211,
+          "A": 0.34252801753265116,
+          "C": 0.21809207435059402,
+          "R2": 0.535837228128756,
+          "recovery_start": 25,
+          "pole_location": -0.10543477081836211
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.008802082197906095,
+              "imag": 0.0
+            },
+            {
+              "real": -3.3729800314898912,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.9569492350281774,
+            0.033986832333531884
+          ],
+          "R2": 0.10456455803875753,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.295196942311097,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0822384908462814,
+              "omega": 0.0,
+              "amplitude": 0.26351148431333143,
+              "pole_location": {
+                "real": -1.0822384908462814,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.295196942311097,
+            0.26351148431333143
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.008802082197906095,
+          "decay_rate": 0.10543477081836211,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 26,
+        "baseline": 0.0,
+        "peak_drift": 1.0338266899322701,
+        "final_drift": 1.0338266899322701,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.011850020603129821,
+              "imag": 0.0
+            },
+            {
+              "real": -0.4720445677427483,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.38819479600560447,
+            0.6311608430252278
+          ],
+          "R2": -0.09787456941756822,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.4250437343772577,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.4197237337388944,
+              "omega": 0.0,
+              "amplitude": 0.20022105922805283,
+              "pole_location": {
+                "real": -1.4197237337388944,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.4250437343772577,
+            0.20022105922805283
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.011850020603129821,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash-lite",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 20,
+        "baseline": 0.0,
+        "peak_drift": 1.1715875723768994,
+        "final_drift": 0.7268567483380578,
+        "exponential": {
+          "lambda": 1.7537977735907475,
+          "A": 0.4080725225711026,
+          "C": 0.767620851679892,
+          "R2": 0.43762558414881547,
+          "recovery_start": 2,
+          "pole_location": -1.7537977735907475
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.009239775795287961,
+              "imag": 0.0
+            },
+            {
+              "real": -0.5720315483581753,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.42642506711601635,
+            0.5591870065289132
+          ],
+          "R2": -0.6436712591587355,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.6780461729159044,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.0327534737888044,
+              "omega": 0.0,
+              "amplitude": 0.46620712578949663,
+              "pole_location": {
+                "real": -1.0327534737888044,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.6780461729159044,
+            0.46620712578949663
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.009239775795287961,
+          "decay_rate": 1.7537977735907475,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash-lite",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 26,
+        "baseline": 0.0,
+        "peak_drift": 1.9006593485541916,
+        "final_drift": 1.853256238947268,
+        "exponential": {
+          "lambda": 0.39744449808896465,
+          "A": 0.2356540482939889,
+          "C": 1.660266983297377,
+          "R2": 0.18587603436554623,
+          "recovery_start": 15,
+          "pole_location": -0.39744449808896465
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.0004148557693168927,
+              "imag": 0.0
+            },
+            {
+              "real": -0.4873822100896228,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.38535300795018723,
+            0.6139774573891265
+          ],
+          "R2": -0.4661286071917672,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 8.792290104562214,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.8807719728671162,
+              "omega": 0.0,
+              "amplitude": 0.20440157141271442,
+              "pole_location": {
+                "real": -1.8807719728671162,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            8.792290104562214,
+            0.20440157141271442
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.0004148557693168927,
+          "decay_rate": 0.39744449808896465,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 39,
+        "baseline": 0.0,
+        "peak_drift": 1.369486465499715,
+        "final_drift": 1.369486465499715,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.010018370353885296,
+              "imag": 0.0
+            },
+            {
+              "real": -0.49557516274034047,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.40084831660336223,
+            0.6153544766735877
+          ],
+          "R2": 0.23153080472159782,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.348628089261162,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.41162697665190423,
+              "omega": 0.0,
+              "amplitude": 1.031049703172682,
+              "pole_location": {
+                "real": -0.41162697665190423,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.348628089261162,
+            1.031049703172682
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.010018370353885296,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-3.5-turbo",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 18,
+        "baseline": 0.0,
+        "peak_drift": 0.9149391091613115,
+        "final_drift": 0.859740426586108,
+        "exponential": {
+          "lambda": 4.999999999999999,
+          "A": 0.1709728597987617,
+          "C": 0.7431809294792292,
+          "R2": 0.4144025830957617,
+          "recovery_start": 15,
+          "pole_location": -4.999999999999999
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.003976287347443736,
+              "imag": 0.0
+            },
+            {
+              "real": -0.36113609361038695,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.299147457082558,
+            0.6941186407769374
+          ],
+          "R2": -0.3620867838766393,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.9314434612372984,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9724857192608707,
+              "omega": 0.0,
+              "amplitude": 0.4191709328654459,
+              "pole_location": {
+                "real": -0.9724857192608707,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.9314434612372984,
+            0.4191709328654459
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.003976287347443736,
+          "decay_rate": 4.999999999999999,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-3.5-turbo",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 11,
+        "baseline": 0.0,
+        "peak_drift": 1.4122789739863435,
+        "final_drift": 0.8270739060105967,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.027404464079795254,
+              "imag": 0.0
+            },
+            {
+              "real": -0.4635581750268678,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.3987420008949924,
+            0.6465183413508372
+          ],
+          "R2": -0.5821103299400934,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.730060874259058,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8950741427578915,
+              "omega": 0.0,
+              "amplitude": 0.45574384154620234,
+              "pole_location": {
+                "real": -0.8950741427578915,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.730060874259058,
+            0.45574384154620234
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.027404464079795254,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1-mini",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 18,
+        "baseline": 0.0,
+        "peak_drift": 0.8335061229235547,
+        "final_drift": 0.3752762070738508,
+        "exponential": {
+          "lambda": 1.6088293761231474,
+          "A": 0.4459978454928221,
+          "C": 0.385083184118876,
+          "R2": 0.5910177546013164,
+          "recovery_start": 0,
+          "pole_location": -1.6088293761231474
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.05494375623908928,
+              "imag": 0.0
+            },
+            {
+              "real": -0.8438515090692803,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.5164873989857354,
+            0.4070597634774627
+          ],
+          "R2": -0.5413860159392074,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 1.8325840275125354,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.7932323893800435,
+              "omega": 0.0,
+              "amplitude": 0.3750343073231433,
+              "pole_location": {
+                "real": -0.7932323893800435,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            1.8325840275125354,
+            0.3750343073231433
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.05494375623908928,
+          "decay_rate": 1.6088293761231474,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash-lite",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 12,
+        "baseline": 0.0,
+        "peak_drift": 0.9367763153619768,
+        "final_drift": 0.3826409612426381,
+        "exponential": {
+          "lambda": 0.2884943477181372,
+          "A": 0.9541117143846821,
+          "C": 1.5567719065611772e-13,
+          "R2": 0.9890957184808302,
+          "recovery_start": 8,
+          "pole_location": -0.2884943477181372
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.07759840085419856,
+              "imag": 0.0
+            },
+            {
+              "real": -1.904394105130276,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.7764231252467626,
+            0.1377944074203046
+          ],
+          "R2": -0.20237773529894088,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.439224840647677,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.4967237481360214,
+              "omega": 0.0,
+              "amplitude": 0.1222402148815136,
+              "pole_location": {
+                "real": -1.4967237481360214,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.439224840647677,
+            0.1222402148815136
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.07759840085419856,
+          "decay_rate": 0.2884943477181372,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash-lite",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 15,
+        "baseline": 0.0,
+        "peak_drift": 1.1683839863282854,
+        "final_drift": 0.8253873550603574,
+        "exponential": {
+          "lambda": 4.999999999999999,
+          "A": 0.3287042333249767,
+          "C": 0.8389895571950537,
+          "R2": 0.49669413450237954,
+          "recovery_start": 4,
+          "pole_location": -4.999999999999999
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.0017460837394444161,
+              "imag": 0.0
+            },
+            {
+              "real": -0.47279867912410856,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.3784920761333007,
+            0.6243447398960837
+          ],
+          "R2": -0.4991870754495087,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.2418448755497495,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.8942139370152004,
+              "omega": 0.0,
+              "amplitude": 0.542110566972846,
+              "pole_location": {
+                "real": -0.8942139370152004,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.2418448755497495,
+            0.542110566972846
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.0017460837394444161,
+          "decay_rate": 4.999999999999999,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1-mini",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 25,
+        "baseline": 0.0,
+        "peak_drift": 0.8360869307599847,
+        "final_drift": 0.46550133613896766,
+        "exponential": {
+          "lambda": 4.999999999999985,
+          "A": 0.3289905657222426,
+          "C": 0.5066919263017963,
+          "R2": 0.42321813391877383,
+          "recovery_start": 14,
+          "pole_location": -4.999999999999985
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.012730874288602331,
+              "imag": 0.0
+            },
+            {
+              "real": -0.48435655744613365,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.3712563304668462,
+            0.608299796779621
+          ],
+          "R2": -0.6177834536388727,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.6279940961521646,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.850900639383961,
+              "omega": 0.0,
+              "amplitude": 0.479227222934594,
+              "pole_location": {
+                "real": -0.850900639383961,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.6279940961521646,
+            0.479227222934594
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.012730874288602331,
+          "decay_rate": 4.999999999999985,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-3.5-turbo",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 19,
+        "baseline": 0.0,
+        "peak_drift": 1.0154047617580142,
+        "final_drift": 0.9243819171119054,
+        "exponential": {
+          "lambda": 4.99999999992728,
+          "A": 0.13337472666175298,
+          "C": 0.8815205514935509,
+          "R2": 0.5492128686750837,
+          "recovery_start": 14,
+          "pole_location": -4.99999999992728
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.009583122884997995,
+              "imag": 0.0
+            },
+            {
+              "real": -0.7387003397184569,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.5318947833868602,
+            0.482334599067039
+          ],
+          "R2": 0.06235333534748477,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.2790685831499804,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.5269323462569384,
+              "omega": 0.0,
+              "amplitude": 0.15469415901059627,
+              "pole_location": {
+                "real": -1.5269323462569384,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.2790685831499804,
+            0.15469415901059627
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.009583122884997995,
+          "decay_rate": 4.99999999992728,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "claude-haiku-4.5",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 30,
+        "baseline": 0.0,
+        "peak_drift": 1.1891768994686804,
+        "final_drift": 0.534801830249915,
+        "exponential": {
+          "lambda": 0.28997044594211063,
+          "A": 1.1872930917134303,
+          "C": 0.07530293362978875,
+          "R2": 0.8217389801883855,
+          "recovery_start": 25,
+          "pole_location": -0.28997044594211063
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.05049729830597457,
+              "imag": 0.0
+            },
+            {
+              "real": -1.8120502537536356,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.7874375492991372,
+            0.15527655096853696
+          ],
+          "R2": -0.3967944561990773,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 4.078545059165868,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.968636739438704,
+              "omega": 0.0,
+              "amplitude": 0.5877032371536965,
+              "pole_location": {
+                "real": -0.968636739438704,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            4.078545059165868,
+            0.5877032371536965
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.05049729830597457,
+          "decay_rate": 0.28997044594211063,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1-nano",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 24,
+        "baseline": 0.0,
+        "peak_drift": 1.2458328224742736,
+        "final_drift": 1.2458328224742736,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.021728716947020485,
+              "imag": 0.0
+            },
+            {
+              "real": -1.1874230568351156,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.7169602687147245,
+            0.31170615685918385
+          ],
+          "R2": 0.13563307994880425,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.024007312240792,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.6407145676308102,
+              "omega": 0.0,
+              "amplitude": 0.561945858411238,
+              "pole_location": {
+                "real": -0.6407145676308102,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.024007312240792,
+            0.561945858411238
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.021728716947020485,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-3.5-turbo",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 21,
+        "baseline": 0.0,
+        "peak_drift": 1.07711059761387,
+        "final_drift": 0.6250252184449395,
+        "exponential": {
+          "lambda": 0.10810971759099665,
+          "A": 0.9858293836981147,
+          "C": 1.9609750134847005e-10,
+          "R2": 0.5129114539624469,
+          "recovery_start": 13,
+          "pole_location": -0.10810971759099665
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.027194212697332975,
+              "imag": 0.0
+            },
+            {
+              "real": -1.1947724999361056,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.670399393582781,
+            0.29465010461985486
+          ],
+          "R2": 0.20048206697597692,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.4695694499921244,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 1.1381514396470203,
+              "omega": 0.0,
+              "amplitude": 0.3561966293954208,
+              "pole_location": {
+                "real": -1.1381514396470203,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.4695694499921244,
+            0.3561966293954208
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.027194212697332975,
+          "decay_rate": 0.10810971759099665,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.0-flash",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 25,
+        "baseline": 0.0,
+        "peak_drift": 2.0906713507904757,
+        "final_drift": 2.0906713507904757,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.027931355249657373,
+              "imag": 0.0
+            },
+            {
+              "real": -0.5230789832039117,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.37976227408210234,
+            0.5763671901726407
+          ],
+          "R2": -0.5087371988587268,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.4278579968334815,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.5201864998227262,
+              "omega": 0.0,
+              "amplitude": 1.2111406187865312,
+              "pole_location": {
+                "real": -0.5201864998227262,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.4278579968334815,
+            1.2111406187865312
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.027931355249657373,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1-nano",
+        "provider": "treatment",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 18,
+        "baseline": 0.0,
+        "peak_drift": 1.2286120811795922,
+        "final_drift": 0.9178850429464387,
+        "exponential": {
+          "lambda": 0.6047756016155177,
+          "A": 0.41504386217539657,
+          "C": 0.845693917248859,
+          "R2": 0.4869577388533858,
+          "recovery_start": 7,
+          "pole_location": -0.6047756016155177
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.0035072434579928886,
+              "imag": 0.0
+            },
+            {
+              "real": -0.8383607901225525,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.5640801318309877,
+            0.43090482644304545
+          ],
+          "R2": -0.853194749158682,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.7866473844226727,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.7947270666254725,
+              "omega": 0.0,
+              "amplitude": 0.7726160145948561,
+              "pole_location": {
+                "real": -0.7947270666254725,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.7866473844226727,
+            0.7726160145948561
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.0035072434579928886,
+          "decay_rate": 0.6047756016155177,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gemini-2.5-flash",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "STUCK",
+        "n_points": 18,
+        "baseline": 0.0,
+        "peak_drift": 0.9474864107427237,
+        "final_drift": 0.9474864107427237,
+        "exponential": {
+          "lambda": null,
+          "R2": null,
+          "error": "Insufficient recovery points"
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": 0.02255828068111204,
+              "imag": 0.0
+            },
+            {
+              "real": -0.7522645892355608,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.551516595910898,
+            0.48205054342361026
+          ],
+          "R2": -0.052802938328858406,
+          "stability": false
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 2.3404654949181194,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.9025186888299341,
+              "omega": 0.0,
+              "amplitude": 0.3849324022729393,
+              "pole_location": {
+                "real": -0.9025186888299341,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            2.3404654949181194,
+            0.3849324022729393
+          ]
+        },
+        "classification": {
+          "stability": "UNSTABLE",
+          "dominant_pole": 0.02255828068111204,
+          "decay_rate": null,
+          "oscillatory": true
+        }
+      },
+      {
+        "ship": "gpt-4.1-mini",
+        "provider": "control",
+        "protocol": "induced_vs_inherent",
+        "status": "RECOVERED",
+        "n_points": 39,
+        "baseline": 0.0,
+        "peak_drift": 1.0168095370316335,
+        "final_drift": 0.736569563735987,
+        "exponential": {
+          "lambda": 1.2890997438632914,
+          "A": 0.407551987186504,
+          "C": 0.5945934218585892,
+          "R2": 0.12290799438544331,
+          "recovery_start": 7,
+          "pole_location": -1.2890997438632914
+        },
+        "arma": {
+          "poles": [
+            {
+              "real": -0.01906226183524801,
+              "imag": 0.0
+            },
+            {
+              "real": -0.4076048625191581,
+              "imag": 3.141592653589793
+            }
+          ],
+          "ar_coeffs": [
+            0.3158765852957408,
+            0.6526807776065879
+          ],
+          "R2": -0.49707455607314555,
+          "stability": true
+        },
+        "prony": {
+          "components": [
+            {
+              "index": 0,
+              "sigma": 0.0,
+              "omega": 0.0,
+              "amplitude": 3.7621239163332056,
+              "pole_location": {
+                "real": 0.0,
+                "imag": 0.0
+              }
+            },
+            {
+              "index": 1,
+              "sigma": 0.6025931149777494,
+              "omega": 0.0,
+              "amplitude": 1.1272684881931634,
+              "pole_location": {
+                "real": -0.6025931149777494,
+                "imag": 0.0
+              }
+            }
+          ],
+          "n_significant": 2,
+          "singular_values": [
+            3.7621239163332056,
+            1.1272684881931634
+          ]
+        },
+        "classification": {
+          "stability": "MARGINAL",
+          "dominant_pole": -0.01906226183524801,
+          "decay_rate": 1.2890997438632914,
+          "oscillatory": true
+        }
+      }
+    ]
+  },
+  "comparison": {
+    "stable": {
+      "label": "STABLE",
+      "count": 41,
+      "lambda_mean": 1.4846024333726793,
+      "lambda_std": 1.911459852473449,
+      "pole_mean": -1.2461375531880954,
+      "pole_std": 1.4674590403065308
+    },
+    "recovered": {
+      "label": "RECOVERED",
+      "count": 17,
+      "lambda_mean": 1.255350452886511,
+      "lambda_std": 1.4592128627499419,
+      "pole_mean": -0.7163192162216631,
+      "pole_std": 1.176313292247238
+    },
+    "stuck": {
+      "label": "STUCK",
+      "count": 11,
+      "lambda_mean": 3.200444019926352,
+      "lambda_std": 2.2049719287660623,
+      "pole_mean": -0.30560287863566815,
+      "pole_std": 0.3516873581145522
+    },
+    "hypothesis": "STUCK trajectories should have poles closer to 0 (slower decay)"
+  }
+}

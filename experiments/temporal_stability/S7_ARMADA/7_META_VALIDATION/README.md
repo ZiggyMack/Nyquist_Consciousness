@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-27
 depends_on:
   - ../0_docs/specs/
 impacts:
@@ -22,10 +22,10 @@ keywords:
 | Item | Type | Status | Description |
 |------|------|--------|-------------|
 | **EXP_GRAVITY_HISTORICAL/** | Reference Data | Complete | 4 trials of gravity well visualization (pre-Event Horizon) |
-| **EXP_H1_HUMAN_MANIFOLD/** | Reference Study | Complete | Human baseline comparison study |
 | **EXP_PFI_A_DIMENSIONAL/** | Validation | Complete | PFI dimensionality validation (Cohen's d = 0.977) |
-| **MVP_SELF_RECOGNITION/** | MVP | **Complete** | Self-recognition protocol (P-SR-1 FAILED: 16.7%) |
+| **MVP_SELF_RECOGNITION/** | MVP | Scripts Ready | Self-recognition protocol (P-SR-1 FAILED: 16.7%) |
 | **MVP_STATISTICAL_VALIDATION/** | MVP | Partial | Random-walk null model tests |
+| **future_specs/** | Roadmap | Spec Only | Future experiments (S10+ human manifold) |
 
 ---
 

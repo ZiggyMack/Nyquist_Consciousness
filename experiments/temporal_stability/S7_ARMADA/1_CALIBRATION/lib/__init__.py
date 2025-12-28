@@ -4,6 +4,7 @@
 Helper modules for S7 ARMADA experiments.
 
 Modules:
+- drift_calculator: CANONICAL cosine embedding drift calculation (Event Horizon = 0.80)
 - compare_baselines: Baseline comparison and ARMADA_MAP updates
 - triple_dip: Exit survey infrastructure (exported below)
 - fleet_loader: Fleet configuration from ARCHITECTURE_MATRIX.json (import directly)
@@ -13,9 +14,13 @@ Modules:
 NOTE: fleet_loader is intentionally NOT exported here - scripts import directly:
     from fleet_loader import load_architecture_matrix, get_full_armada, ...
 
+DRIFT CALCULATION:
+    All experiments should use drift_calculator for consistent methodology:
+    from drift_calculator import calculate_drift, EVENT_HORIZON, classify_zone
+
 Related Documents:
 - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
-- 5_METHODOLOGY_DOMAINS.md: Methodology reference
+- 5_METHODOLOGY_DOMAINS.md: Methodology reference (Event Horizon = 0.80)
 """
 
 from .compare_baselines import (

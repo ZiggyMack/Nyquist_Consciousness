@@ -1,12 +1,12 @@
 """
-S7 RUN 009: DRAIN CAPTURE (COSINE METHODOLOGY)
-===============================================
+S7 RUN 009: DRAIN CAPTURE (COSINE EMBEDDING METHODOLOGY)
+=========================================================
 Optimized protocol to capture the 3D identity drain spiral dynamics.
 
-METHODOLOGY: COSINE (see 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md)
-- Event Horizon at 0.80 (cosine distance threshold)
-- Uses character n-gram based cosine similarity for drift calculation
-- Baseline-relative measurement: drift = 1 - cosine_similarity(baseline, response)
+METHODOLOGY (Modernized 2025-12-27):
+- Uses canonical cosine embedding drift from 1_CALIBRATION/lib/drift_calculator.py
+- Event Horizon = 0.80 (cosine distance threshold)
+- Fleet loaded from ARCHITECTURE_MATRIX.json via fleet_loader.py
 
 DESIGN PRINCIPLES:
 1. MORE TURNS: Need 8-10+ turns to see spiral trajectory clearly
@@ -20,11 +20,7 @@ HYPOTHESIS TO TEST:
 - The "drain" should be visible as a vortex pattern in 3D
 - 3-6-9 HARMONICS: Do turns 3, 6, 9 show special resonance behavior?
 
-FLEET: 42 ships (FULL ARMADA across 4 providers)
-- Claude: 8 ships (opus-4.5, sonnet-4.5, haiku-4.5, opus-4.1, opus-4.0, sonnet-4.0, haiku-3.5, haiku-3.0)
-- GPT: 16 ships (gpt-5.1, gpt-5, gpt-5-mini, gpt-5-nano, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-4, gpt-3.5-turbo, o4-mini, o3, o3-mini, o1)
-- Gemini: 8 ships (gemini-3-pro, gemini-2.5-pro, gemini-2.5-pro-exp, gemini-2.5-flash, gemini-2.5-flash-lite, gemini-2.0-flash-exp, gemini-2.0-flash, gemini-2.0-flash-lite)
-- Grok: 10 ships (grok-4-1-fast-reasoning, grok-4-1-fast-non-reasoning, grok-code-fast-1, grok-4-fast-reasoning, grok-4-fast-non-reasoning, grok-4-0709, grok-3, grok-3-mini, grok-2-1212, grok-2-vision-1212)
+FLEET: Loaded from ARCHITECTURE_MATRIX.json (canonical source)
 """
 import os
 import sys
@@ -45,13 +41,29 @@ if sys.platform == "win32":
 
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
+# Add lib path for imports
+script_dir = Path(__file__).parent.parent  # S7_ARMADA root
+sys.path.insert(0, str(script_dir / "1_CALIBRATION" / "lib"))
+
+# Import canonical drift calculation
+from drift_calculator import (
+    calculate_drift,
+    classify_zone,
+    classify_stability,
+    EVENT_HORIZON,
+    THRESHOLD_WARNING,
+    THRESHOLD_CATASTROPHIC,
+)
+
+# Import fleet loader
+from fleet_loader import load_architecture_matrix, get_full_armada
+
 # ============================================================================
 # API KEYS - Load from .env file
 # ============================================================================
 from dotenv import load_dotenv
 
 # Load .env from same directory as script
-script_dir = Path(__file__).parent.parent  # S7_ARMADA root
 env_path = Path(__file__).parent / ".env"  # .env stays in scripts/
 if env_path.exists():
     load_dotenv(env_path)
@@ -63,6 +75,8 @@ required_keys = ["OPENAI_API_KEY", "GOOGLE_API_KEY", "ANTHROPIC_API_KEY", "XAI_A
 missing_keys = [k for k in required_keys if not os.environ.get(k)]
 if missing_keys:
     print(f"WARNING: Missing API keys: {missing_keys}")
+
+print(f"[OK] Using canonical drift_calculator (EVENT_HORIZON={EVENT_HORIZON})")
 
 # ============================================================================
 # KEY POOL MANAGER - Round-robin distribution + fallback rotation
@@ -182,73 +196,16 @@ import openai
 import google.generativeai as genai
 
 # ============================================================================
-# COSINE DRIFT METHODOLOGY
-# See: 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
+# DRIFT CALCULATION
 # ============================================================================
-
-EVENT_HORIZON = 0.80  # Cosine threshold (was 1.23 for keyword RMS - DEPRECATED)
-
-def get_response_embedding(text: str) -> dict:
-    """Simple hash-based pseudo-embedding for drift calculation."""
-    # Use character n-gram frequencies as a simple feature vector
-    ngrams = {}
-    n = 3
-    text_lower = text.lower()
-    for i in range(len(text_lower) - n + 1):
-        gram = text_lower[i:i+n]
-        ngrams[gram] = ngrams.get(gram, 0) + 1
-
-    # Normalize
-    total = sum(ngrams.values()) or 1
-    return {k: v/total for k, v in ngrams.items()}
-
-
-def calculate_drift(response_text, baseline_text=None, ownership_coefficient=1.0):
-    """
-    Calculate drift using COSINE methodology.
-
-    If baseline_text is provided, calculates relative drift from baseline.
-    Otherwise returns absolute feature embedding for later comparison.
-    """
-    if not response_text or len(response_text.strip()) == 0:
-        return {"drift": 0.0, "embedding": {}}
-
-    response_embedding = get_response_embedding(response_text)
-
-    if baseline_text:
-        baseline_embedding = get_response_embedding(baseline_text)
-
-        # Cosine similarity calculation
-        all_grams = set(baseline_embedding.keys()) | set(response_embedding.keys())
-
-        if not all_grams:
-            return {"drift": 0.0, "embedding": response_embedding}
-
-        dot_product = sum(
-            baseline_embedding.get(g, 0) * response_embedding.get(g, 0)
-            for g in all_grams
-        )
-
-        base_norm = sum(v**2 for v in baseline_embedding.values()) ** 0.5
-        response_norm = sum(v**2 for v in response_embedding.values()) ** 0.5
-
-        if base_norm == 0 or response_norm == 0:
-            drift = 1.0
-        else:
-            similarity = dot_product / (base_norm * response_norm)
-            drift = 1 - similarity
-
-        # Scale to match Event Horizon calibration
-        drift = drift * 2.5 * ownership_coefficient
-    else:
-        # No baseline - return embedding for later comparison
-        drift = 0.0
-
-    return {
-        "drift": drift,
-        "embedding": response_embedding,
-        "word_count": len(response_text.split())
-    }
+# NOTE: Drift calculation is now handled by drift_calculator.py (imported above)
+# This uses OpenAI embeddings with EVENT_HORIZON = 0.80
+#
+# To calculate drift:
+#   drift = calculate_drift(baseline_text, response_text)
+#   zone = classify_zone(drift)
+#   stability = classify_stability(drift)
+# ============================================================================
 
 # ============================================================================
 # NYQUIST LEARNING PROTOCOL - 16 TURNS
@@ -543,320 +500,51 @@ OSCILLATION_FOLLOWUP = {
 DRAIN_PROTOCOLS = [NYQUIST_LEARNING, OSCILLATION_FOLLOWUP]
 
 # ============================================================================
-# FULL ARMADA FLEET (32 ships)
+# FLEET CONFIGURATION (from ARCHITECTURE_MATRIX.json)
 # ============================================================================
 
-DRAIN_FLEET = {
-    # CLAUDE FLEET (8 ships)
-    "claude-opus-4.5": {
-        "provider": "claude",
-        "model": "claude-opus-4-5-20251101",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole, high meta-awareness"
-    },
-    "claude-sonnet-4.5": {
-        "provider": "claude",
-        "model": "claude-sonnet-4-5-20250929",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole, balanced"
-    },
-    "claude-haiku-4.5": {
-        "provider": "claude",
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "claude-opus-4.1": {
-        "provider": "claude",
-        "model": "claude-opus-4-1-20250805",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole"
-    },
-    "claude-opus-4.0": {
-        "provider": "claude",
-        "model": "claude-opus-4-20250514",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole"
-    },
-    "claude-sonnet-4.0": {
-        "provider": "claude",
-        "model": "claude-sonnet-4-20250514",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole"
-    },
-    "claude-haiku-3.5": {
-        "provider": "claude",
-        "model": "claude-3-5-haiku-20241022",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "claude-haiku-3.0": {
-        "provider": "claude",
-        "model": "claude-3-haiku-20240307",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole"
-    },
-
-    # GPT FLEET (16 ships)
-    "gpt-5.1": {
-        "provider": "gpt",
-        "model": "gpt-5.1-2025-11-13",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN - flagship",
-        "uses_max_completion_tokens": True
-    },
-    "gpt-5": {
-        "provider": "gpt",
-        "model": "gpt-5-2025-08-07",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN",
-        "uses_max_completion_tokens": True
-    },
-    "gpt-5-mini": {
-        "provider": "gpt",
-        "model": "gpt-5-mini-2025-08-07",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN",
-        "uses_max_completion_tokens": True
-    },
-    "gpt-5-nano": {
-        "provider": "gpt",
-        "model": "gpt-5-nano-2025-08-07",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole predicted",
-        "uses_max_completion_tokens": True
-    },
-    "gpt-4.1": {
-        "provider": "gpt",
-        "model": "gpt-4.1-2025-04-14",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "gpt-4.1-mini": {
-        "provider": "gpt",
-        "model": "gpt-4.1-mini-2025-04-14",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole"
-    },
-    "gpt-4.1-nano": {
-        "provider": "gpt",
-        "model": "gpt-4.1-nano-2025-04-14",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole"
-    },
-    "gpt-4o": {
-        "provider": "gpt",
-        "model": "gpt-4o-2024-11-20",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "gpt-4o-mini": {
-        "provider": "gpt",
-        "model": "gpt-4o-mini-2024-07-18",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole"
-    },
-    "gpt-4-turbo": {
-        "provider": "gpt",
-        "model": "gpt-4-turbo-2024-04-09",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "gpt-4": {
-        "provider": "gpt",
-        "model": "gpt-4-0613",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole, high adaptability"
-    },
-    "gpt-3.5-turbo": {
-        "provider": "gpt",
-        "model": "gpt-3.5-turbo-0125",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole"
-    },
-    "o4-mini": {
-        "provider": "gpt",
-        "model": "o4-mini",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole - reasoning",
-        "uses_max_completion_tokens": True
-    },
-    "o3": {
-        "provider": "gpt",
-        "model": "o3",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole - reasoning",
-        "uses_max_completion_tokens": True
-    },
-    "o3-mini": {
-        "provider": "gpt",
-        "model": "o3-mini",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole - reasoning",
-        "uses_max_completion_tokens": True
-    },
-    "o1": {
-        "provider": "gpt",
-        "model": "o1-2024-12-17",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole - reasoning",
-        "uses_max_completion_tokens": True
-    },
-
-    # GEMINI FLEET (8 ships) - Google
-    "gemini-3-pro": {
-        "provider": "gemini",
-        "model": "gemini-3-pro",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN - 3.0 flagship"
-    },
-    "gemini-2.5-pro": {
-        "provider": "gemini",
-        "model": "gemini-2.5-pro",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole, pedagogical flexibility"
-    },
-    "gemini-2.5-pro-exp": {
-        "provider": "gemini",
-        "model": "gemini-2.5-pro-exp",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN - experimental"
-    },
-    "gemini-2.5-flash": {
-        "provider": "gemini",
-        "model": "gemini-2.5-flash",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "gemini-2.5-flash-lite": {
-        "provider": "gemini",
-        "model": "gemini-2.5-flash-lite",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole"
-    },
-    "gemini-2.0-flash-exp": {
-        "provider": "gemini",
-        "model": "gemini-2.0-flash-exp",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "gemini-2.0-flash": {
-        "provider": "gemini",
-        "model": "gemini-2.0-flash",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "gemini-2.0-flash-lite": {
-        "provider": "gemini",
-        "model": "gemini-2.0-flash-lite",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole"
-    },
-
-    # GROK FLEET (10 ships) - xAI
-    "grok-4-1-fast-reasoning": {
-        "provider": "grok",
-        "model": "grok-4-1-fast-reasoning",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole - reasoning flagship"
-    },
-    "grok-4-1-fast-non-reasoning": {
-        "provider": "grok",
-        "model": "grok-4-1-fast-non-reasoning",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole - fast non-reasoning"
-    },
-    "grok-code-fast-1": {
-        "provider": "grok",
-        "model": "grok-code-fast-1",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN - code specialized"
-    },
-    "grok-4-fast-reasoning": {
-        "provider": "grok",
-        "model": "grok-4-fast-reasoning",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "HARD pole - reasoning"
-    },
-    "grok-4-fast-non-reasoning": {
-        "provider": "grok",
-        "model": "grok-4-fast-non-reasoning",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "grok-4-0709": {
-        "provider": "grok",
-        "model": "grok-4-0709",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN - Grok 4 base"
-    },
-    "grok-3": {
-        "provider": "grok",
-        "model": "grok-3",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "MEDIUM pole"
-    },
-    "grok-3-mini": {
-        "provider": "grok",
-        "model": "grok-3-mini",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole"
-    },
-    "grok-2-1212": {
-        "provider": "grok",
-        "model": "grok-2-1212",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "SOFT pole - legacy"
-    },
-    "grok-2-vision-1212": {
-        "provider": "grok",
-        "model": "grok-2-vision-1212",
-        "max_tokens": 2048,
-        "temperature": 1.0,
-        "expected_profile": "UNKNOWN - vision model"
+# Load fleet from canonical source
+try:
+    DRAIN_FLEET = get_full_armada()
+    # Add default max_tokens and temperature if not present
+    for ship_name, config in DRAIN_FLEET.items():
+        if "max_tokens" not in config:
+            config["max_tokens"] = 2048
+        if "temperature" not in config:
+            config["temperature"] = 1.0
+    print(f"[OK] Loaded {len(DRAIN_FLEET)} ships from ARCHITECTURE_MATRIX.json")
+except Exception as e:
+    print(f"[WARN] Could not load fleet from ARCHITECTURE_MATRIX: {e}")
+    print("[WARN] Using fallback hardcoded fleet")
+    DRAIN_FLEET = {
+        # CLAUDE (fallback)
+        "claude-opus-4.5": {
+            "provider": "claude",
+            "model": "claude-opus-4-5-20251101",
+            "max_tokens": 2048,
+            "temperature": 1.0
+        },
+        "claude-sonnet-4.5": {
+            "provider": "claude",
+            "model": "claude-sonnet-4-5-20250929",
+            "max_tokens": 2048,
+            "temperature": 1.0
+        },
+        # GPT (fallback)
+        "gpt-4o": {
+            "provider": "gpt",
+            "model": "gpt-4o",
+            "max_tokens": 2048,
+            "temperature": 1.0
+        },
+        # GEMINI (fallback)
+        "gemini-2.0-flash": {
+            "provider": "gemini",
+            "model": "gemini-2.0-flash",
+            "max_tokens": 2048,
+            "temperature": 1.0
+        },
     }
-}
 
 print(f"\nDrain Capture Fleet: {len(DRAIN_FLEET)} ships")
 print(f"Protocols: {len(DRAIN_PROTOCOLS)} x 10 turns = 40 turns/ship")
@@ -941,13 +629,11 @@ def send_message_with_key(ship_name, ship_config, messages, system_prompt, api_k
         raise ValueError(f"Unknown provider: {provider}")
 
     elapsed = time.time() - start_time
-    drift_data = calculate_drift(response_text)
 
     return {
         "success": True,
         "response": response_text,
-        "elapsed": elapsed,
-        "drift_data": drift_data
+        "elapsed": elapsed
     }
 
 
@@ -991,26 +677,35 @@ def run_protocol(ship_name, ship_config, protocol):
 
     messages = []
     trajectory = []  # The key output: list of drift values per turn
+    baseline_text = None  # Will be set from first response
 
     for prompt_data in protocol["prompts"]:
         messages.append({"role": "user", "content": prompt_data["prompt"]})
         result = send_message(ship_name, ship_config, messages)
 
         if result["success"]:
-            messages.append({"role": "assistant", "content": result["response"]})
-            drift = result["drift_data"]["drift"]
-            drift_lucian = result["drift_data"]["drift_lucian"]
+            response_text = result["response"]
+            messages.append({"role": "assistant", "content": response_text})
+
+            # Set baseline from first response
+            if baseline_text is None:
+                baseline_text = response_text
+                drift = 0.0  # First response is the baseline
+            else:
+                drift = calculate_drift(baseline_text, response_text)
+
+            zone = classify_zone(drift)
+
             trajectory.append({
                 "turn": len(trajectory) + 1,
                 "prompt_id": prompt_data["id"],
-                "intensity": prompt_data["intensity"],
-                "drift": drift,                    # Skylar (equal weights)
-                "drift_lucian": drift_lucian,      # Lucian (ΔΩ weights)
-                "dimensions": result["drift_data"]["dimensions"],
-                "raw_counts": result["drift_data"].get("raw_counts", {}),
+                "intensity": prompt_data.get("intensity", 0.0),
+                "phase": prompt_data.get("phase", "unknown"),
+                "drift": drift,
+                "zone": zone,
                 "elapsed": result["elapsed"]
             })
-            print(f"      T{len(trajectory):02d}: drift={drift:.3f} lucian={drift_lucian:.3f} (intensity={prompt_data['intensity']:.1f})")
+            print(f"      T{len(trajectory):02d}: drift={drift:.3f} zone={zone} (intensity={prompt_data.get('intensity', 0.0):.1f})")
         else:
             print(f"      T{len(trajectory)+1:02d}: ERROR - {result.get('error', 'Unknown')}")
             trajectory.append({
@@ -1019,41 +714,30 @@ def run_protocol(ship_name, ship_config, protocol):
                 "error": result.get("error")
             })
 
-    # Calculate trajectory metrics for BOTH weighting schemes
+    # Calculate trajectory metrics (cosine embedding methodology)
     valid_drifts = [t["drift"] for t in trajectory if "drift" in t]
-    valid_drifts_lucian = [t["drift_lucian"] for t in trajectory if "drift_lucian" in t]
 
     if valid_drifts:
-        # Skylar metrics (equal weights)
         baseline = valid_drifts[0]
         final = valid_drifts[-1]
         peak = max(valid_drifts)
 
-        # Lucian metrics (ΔΩ weights)
-        baseline_lucian = valid_drifts_lucian[0] if valid_drifts_lucian else None
-        final_lucian = valid_drifts_lucian[-1] if valid_drifts_lucian else None
-        peak_lucian = max(valid_drifts_lucian) if valid_drifts_lucian else None
-
-        # Key metric: recovery ratio (both schemes)
-        recovery_ratio = final / max(0.001, baseline)
-        recovery_ratio_lucian = final_lucian / max(0.001, baseline_lucian) if baseline_lucian else None
-        status = "VOLATILE" if recovery_ratio > 1.5 else "STABLE"
-        status_lucian = "VOLATILE" if recovery_ratio_lucian and recovery_ratio_lucian > 1.5 else "STABLE"
+        # Key metric: recovery ratio
+        recovery_ratio = final / max(0.001, baseline) if baseline > 0 else 1.0
+        stability = classify_stability(peak)
 
         # Event horizon check (cosine methodology: threshold 0.80)
-        below_horizon = baseline < EVENT_HORIZON
-        above_horizon = baseline >= EVENT_HORIZON
+        crossed_horizon = peak >= EVENT_HORIZON
 
         trajectory_meta = {
-            # Skylar (equal weights) - primary
+            "methodology": "cosine_embedding",
+            "event_horizon": EVENT_HORIZON,
             "baseline": baseline,
             "peak": peak,
             "final": final,
-            "recovery_ratio": recovery_ratio,
-            "status": status,
-            "below_event_horizon": below_horizon,
-            "above_event_horizon": above_horizon,
-            "event_horizon_value": EVENT_HORIZON,
+            "recovery_ratio": round(recovery_ratio, 4),
+            "stability": stability,
+            "crossed_horizon": crossed_horizon,
             "drift_sequence": valid_drifts
         }
     else:
@@ -1133,7 +817,7 @@ def run_drain_capture(max_parallel=3):
     print("DRAIN CAPTURE ANALYSIS")
     print("=" * 80)
 
-    # Collect all trajectories for visualization (BOTH weighting schemes)
+    # Collect all trajectories for visualization (cosine embedding methodology)
     all_trajectories = []
     for ship_name, ship_data in all_results.items():
         if "error" in ship_data:
@@ -1146,37 +830,37 @@ def run_drain_capture(max_parallel=3):
                     "ship": ship_name,
                     "provider": ship_data.get("provider"),
                     "protocol": protocol_name,
-                    # Skylar (equal weights)
                     "drifts": meta["drift_sequence"],
-                    "status": meta.get("status"),
-                    "baseline": meta.get("baseline"),
-                    "below_horizon": meta.get("below_event_horizon"),
-                    "above_horizon": meta.get("above_event_horizon"),
+                    "stability": meta.get("stability"),
+                    "peak": meta.get("peak"),
+                    "crossed_horizon": meta.get("crossed_horizon"),
                     "event_horizon": EVENT_HORIZON
                 })
 
     # Event horizon validation
-    below_horizon_volatile = sum(1 for t in all_trajectories
-                              if t.get("below_horizon") and t.get("status") == "VOLATILE")
-    below_horizon_stable = sum(1 for t in all_trajectories
-                                  if t.get("below_horizon") and t.get("status") == "STABLE")
-    above_horizon_volatile = sum(1 for t in all_trajectories
-                              if not t.get("below_horizon") and t.get("status") == "VOLATILE")
-    above_horizon_stable = sum(1 for t in all_trajectories
-                                  if not t.get("below_horizon") and t.get("status") == "STABLE")
+    crossed_volatile = sum(1 for t in all_trajectories
+                           if t.get("crossed_horizon") and t.get("stability") == "VOLATILE")
+    crossed_stable = sum(1 for t in all_trajectories
+                         if t.get("crossed_horizon") and t.get("stability") == "STABLE")
+    below_volatile = sum(1 for t in all_trajectories
+                         if not t.get("crossed_horizon") and t.get("stability") == "VOLATILE")
+    below_stable = sum(1 for t in all_trajectories
+                       if not t.get("crossed_horizon") and t.get("stability") == "STABLE")
 
     print(f"\nEVENT HORIZON VALIDATION (threshold {EVENT_HORIZON}):")
-    print(f"  Below horizon -> VOLATILE: {below_horizon_volatile}")
-    print(f"  Below horizon -> STABLE:   {below_horizon_stable}")
-    print(f"  Above horizon -> VOLATILE: {above_horizon_volatile}")
-    print(f"  Above horizon -> STABLE:   {above_horizon_stable}")
+    print(f"  Crossed horizon -> VOLATILE: {crossed_volatile}")
+    print(f"  Crossed horizon -> STABLE:   {crossed_stable}")
+    print(f"  Below horizon   -> VOLATILE: {below_volatile}")
+    print(f"  Below horizon   -> STABLE:   {below_stable}")
 
-    if below_horizon_volatile + below_horizon_stable > 0:
-        volatile_rate_below = below_horizon_volatile / (below_horizon_volatile + below_horizon_stable)
+    total_crossed = crossed_volatile + crossed_stable
+    total_below = below_volatile + below_stable
+    if total_crossed > 0:
+        volatile_rate_crossed = crossed_volatile / total_crossed
+        print(f"  Volatile rate when crossed: {volatile_rate_crossed:.1%}")
+    if total_below > 0:
+        volatile_rate_below = below_volatile / total_below
         print(f"  Volatile rate below horizon: {volatile_rate_below:.1%}")
-    if above_horizon_volatile + above_horizon_stable > 0:
-        volatile_rate_above = above_horizon_volatile / (above_horizon_volatile + above_horizon_stable)
-        print(f"  Volatile rate above horizon: {volatile_rate_above:.1%}")
 
     # =========================================================================
     # SAVE RESULTS
@@ -1190,26 +874,28 @@ def run_drain_capture(max_parallel=3):
         "run_id": f"S7_RUN_009_DRAIN_{timestamp}",
         "timestamp": datetime.now().isoformat(),
         "purpose": "Drain Capture - 3D spiral dynamics visualization",
+        "methodology": "cosine_embedding",
+        "event_horizon": EVENT_HORIZON,
         "hypothesis": {
             "event_horizon": EVENT_HORIZON,
-            "methodology": "cosine",
+            "methodology": "cosine_embedding",
             "prediction": "Below horizon trajectories are STABLE (consistent identity)"
         },
         "metric_config": {
-            "methodology": "cosine",
+            "methodology": "cosine_embedding",
             "event_horizon": EVENT_HORIZON,
-            "description": "Character n-gram cosine distance, scaled x2.5",
-            "reference": "15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md"
+            "description": "OpenAI text-embedding-3-large cosine distance",
+            "reference": "1_CALIBRATION/lib/drift_calculator.py"
         },
         "fleet_size": len(DRAIN_FLEET),
         "protocols": [p["name"] for p in DRAIN_PROTOCOLS],
-        "turns_per_protocol": 10,
+        "turns_per_protocol": len(DRAIN_PROTOCOLS[0]["prompts"]) if DRAIN_PROTOCOLS else 0,
         "total_trajectories": len(all_trajectories),
         "event_horizon_validation": {
-            "below_volatile": below_horizon_volatile,
-            "below_stable": below_horizon_stable,
-            "above_volatile": above_horizon_volatile,
-            "above_stable": above_horizon_stable
+            "crossed_volatile": crossed_volatile,
+            "crossed_stable": crossed_stable,
+            "below_volatile": below_volatile,
+            "below_stable": below_stable
         },
         "trajectories_for_3d": all_trajectories,
         "results": all_results
@@ -1229,3 +915,22 @@ def run_drain_capture(max_parallel=3):
 
 if __name__ == "__main__":
     run_drain_capture(max_parallel=3)
+
+
+# =============================================================================
+# Related Documents
+# =============================================================================
+# - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
+# - 0_docs/specs/5_METHODOLOGY_DOMAINS.md: Methodology reference (Event Horizon = 0.80)
+# - 1_CALIBRATION/lib/drift_calculator.py: Canonical cosine drift calculation
+# - 1_CALIBRATION/lib/fleet_loader.py: Fleet loading utilities
+# - DATA_SOURCE.md: Data source documentation for this experiment
+# =============================================================================
+#
+# MODERNIZATION STATUS (2025-12-27):
+# - UPDATED: Now uses cosine embedding methodology from drift_calculator.py
+# - UPDATED: Event Horizon = 0.80 (cosine distance threshold)
+# - UPDATED: Fleet loaded from ARCHITECTURE_MATRIX.json via fleet_loader.py
+# - UPDATED: Drift calculated as baseline-relative cosine distance
+# - FIXED: Removed references to drift_lucian (no longer exists)
+# =============================================================================
