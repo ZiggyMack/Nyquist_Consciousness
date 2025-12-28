@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quartz Rush Mining Result",
+  "description": "Cross-architecture drift validation output from run_quartz_rush.py. Multiple models independently estimate drift scores for the same response pairs, validating that drift measurements reflect real signal.",
+  "type": "object",
+  "required": ["run_id", "source", "timestamp", "fleet", "pair_source", "results"],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "pattern": "^S7_QUARTZ_RUSH_",
+      "description": "Unique identifier for this mining run"
+    },
+    "source": {
+      "const": "14_CONSCIOUSNESS",
+      "description": "Origin pipeline (always 14_CONSCIOUSNESS for Quartz Rush)"
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Purpose of this run (typically 'Cross-architecture drift validation')"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when mining started"
+    },
+    "fleet": {
+      "type": "string",
+      "description": "Fleet configuration used (e.g., 'QUARTZ_FLEET', 'UNLIMITED_FLEET')"
+    },
+    "pair_source": {
+      "type": "string",
+      "enum": ["sample", "run020b"],
+      "description": "Source of response pairs for validation"
+    },
+    "total_calls": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of API calls made"
+    },
+    "successful_calls": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of successful API calls"
+    },
+    "results": {
+      "type": "array",
+      "description": "Array of drift estimation results, one per model-pair combination",
+      "items": {
+        "type": "object",
+        "required": ["request_id", "provider", "model", "success", "pair_id"],
+        "properties": {
+          "request_id": {
+            "type": "integer",
+            "description": "Sequential request identifier"
+          },
+          "provider": {
+            "type": "string",
+            "description": "API provider (gemini, gpt, grok, together)"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model identifier used for this call"
+          },
+          "ship_name": {
+            "type": "string",
+            "description": "ARMADA fleet ship name"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Whether API call succeeded"
+          },
+          "response": {
+            "type": ["string", "null"],
+            "description": "Raw model response (null if failed)"
+          },
+          "error": {
+            "type": ["string", "null"],
+            "description": "Error message if call failed"
+          },
+          "error_type": {
+            "type": ["string", "null"],
+            "enum": ["RATE_LIMIT", "AUTH", "NOT_FOUND", "OTHER", null],
+            "description": "Error classification if call failed"
+          },
+          "elapsed_ms": {
+            "type": "number",
+            "minimum": 0,
+            "description": "API call latency in milliseconds"
+          },
+          "pair_id": {
+            "type": "string",
+            "description": "Identifier for the response pair being evaluated"
+          },
+          "true_drift": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Ground truth drift score (from canonical cosine distance calculation)"
+          },
+          "true_zone": {
+            "type": "string",
+            "enum": ["SAFE", "WARNING", "CRITICAL", "CATASTROPHIC"],
+            "description": "Ground truth drift zone (SAFE <0.30, WARNING 0.30-0.50, CRITICAL 0.50-0.80, CATASTROPHIC >1.00)"
+          },
+          "parsed_estimate": {
+            "type": ["object", "null"],
+            "description": "Model's drift estimate (null if parsing failed)",
+            "properties": {
+              "estimated_drift": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 2,
+                "description": "Model's estimate of drift score"
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Model's confidence in its estimate"
+              },
+              "zone": {
+                "type": "string",
+                "enum": ["SAFE", "WARNING", "CRITICAL", "CATASTROPHIC", "UNKNOWN"],
+                "description": "Model's estimate of drift zone"
+              },
+              "reasoning": {
+                "type": "string",
+                "description": "Model's explanation for its estimate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Aggregate agreement statistics (optional, added by --analyze)",
+      "properties": {
+        "mean_agreement": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Mean cross-architecture agreement score"
+        },
+        "interpretation": {
+          "type": "string",
+          "description": "Qualitative interpretation of agreement level"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
