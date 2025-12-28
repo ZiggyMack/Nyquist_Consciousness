@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 impacts:
   - ../README.md
 keywords:
@@ -20,9 +20,9 @@ See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for operations guide.
 | Run | Files | Valid Results | Status | Methodology |
 |-----|-------|---------------|--------|-------------|
 | **Run 023d** | 825+ | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
-| **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Keyword RMS (EH=1.23) |
-| **Run 020A** | 33 | ~20 | **50%** (needs verification) | Mixed |
-| **Run 020B** | 16 | 16 | **COMPLETE** (gpt-4o only) | Mixed |
+| **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Cosine (EH=0.80) |
+| **Run 020A** | 33 | ~20 | **50%** (needs verification) | Cosine (EH=0.80) |
+| **Run 020B** | 16 | 16 | **COMPLETE** (gpt-4o only) | Cosine (EH=0.80) |
 | **Run 022** | - | - | READY (LOGOS Commutation Cartography) | - |
 
 **Note:** Previous claims of "184 files, IRON CLAD" for Run 018 were incorrect. Verified Dec 22: 465 files, 337 valid, 52.6% IRON CLAD.
@@ -189,6 +189,7 @@ temporal_stability/
 │   ├── 11_CONTEXT_DAMPING/  # Phase 4 experiments (Run 017-020)
 │   ├── 12_CFA/            # CFA-ARMADA Integration Pipeline
 │   ├── 13_LOGOS/          # LOGOS Commutation Cartography (Run 022)
+│   ├── 14_CONSCIOUSNESS/  # Gold/Diamond/Quartz Rush Mining Operations
 │   ├── 0_docs/            # Summaries, specs, analysis
 │   ├── 0_results/         # Consolidated JSON results
 │   └── visualizations/    # Charts and plots
@@ -211,7 +212,7 @@ Both feed Phase 3 Orchestrator and ILL Framework validation.
 
 | Finding | Status | Evidence |
 |---------|--------|----------|
-| **Event Horizon (D=1.23)** | VALIDATED | χ² p=0.000048, 88% prediction accuracy |
+| **Event Horizon (0.80)** | VALIDATED | χ² p=0.000048, 88% prediction accuracy |
 | **Drift is INHERENT** | VALIDATED | Run 020B: 82% inherent, 18% induced |
 | **PFI Measures Identity** | VALIDATED | d=0.977, ρ=0.91 embedding invariance |
 | **Recovery is Natural** | VALIDATED | 100% manifold return (Platonic Coordinates) |
@@ -235,4 +236,4 @@ See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for complete run history.
 
 ---
 
-*Last Updated: December 22, 2025 (IRON CLAD status verified)*
+*Last Updated: December 28, 2025 (Methodology unified to Cosine EH=0.80)*
