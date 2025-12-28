@@ -194,7 +194,8 @@ All drift measurements use the **canonical cosine distance methodology**:
 │   └── pipeline.md              # Sync protocol documentation
 │
 └── schemas/
-    └── mining_result_schema.json  # Output format specification
+    ├── diamond_rush_result_schema.json  # Diamond Rush output format
+    └── quartz_rush_result_schema.json   # Quartz Rush output format
 ```
 
 ---
