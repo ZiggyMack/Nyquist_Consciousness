@@ -238,14 +238,13 @@ print(f"Found {len(data['results'])} results")
 
 This experiment generates its own data. Multiple runs are tracked separately:
 
-| Run  | Data Location                      | Data Methodology     | IRON CLAD Status     |
-| ---- | ---------------------------------- | -------------------- | -------------------- |
-| 017  | `results/S7_run_017_CURRENT.json`  | **Keyword RMS** (EH=1.23) | ❌ NOT IRON CLAD (wrong methodology) |
-| 018  | `results/S7_run_018_CURRENT.json`  | **Keyword RMS** (EH=1.23) | ❌ NOT IRON CLAD (wrong methodology) |
-| 019  | `results/S7_run_019_CURRENT.json`  | COSINE (EH=0.80)     | ⚠️ Needs verification |
-| 020A | `results/S7_run_020A_CURRENT.json` | ⚠️ Unknown           | ⚠️ Needs verification |
+| Run  | Data Location                      | Data Methodology     | IRON CLAD Status       |
+| ---- | ---------------------------------- | -------------------- | ---------------------- |
+| 018  | `results/S7_run_018_CURRENT.json`  | **COSINE** (EH=0.80) | ✅ IRON CLAD candidate |
+| 019  | `results/S7_run_019_CURRENT.json`  | COSINE (EH=0.80)     | ⚠️ Needs verification  |
+| 020A | `results/S7_run_020A_CURRENT.json` | ⚠️ Unknown           | ⚠️ Needs verification  |
 | 020B | `results/S7_run_020B_CURRENT.json` | **COSINE** (EH=0.80) | ✅ IRON CLAD candidate |
 
-**WARNING:** Runs 017 and 018 data were collected with Keyword RMS methodology (Event Horizon = 1.23).
-This data is NOT compatible with COSINE methodology and should NOT be used for IRON CLAD claims.
-Only Run 020B and Run 023 data (in `15_IRON_CLAD_FOUNDATION/`) use pure COSINE methodology.
+**NOTE:** Run 017 was superseded by Run 018 and archived to `.archive/temporal_stability_Euclidean/`.
+Run 018 uses COSINE methodology (verified: max drift=1.28, range 0-2, mean=0.70).
+Run 020B and Run 023 data (in `15_IRON_CLAD_FOUNDATION/`) also use pure COSINE methodology.
