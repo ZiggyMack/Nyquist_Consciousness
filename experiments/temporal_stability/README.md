@@ -212,7 +212,7 @@ Both feed Phase 3 Orchestrator and ILL Framework validation.
 
 | Finding | Status | Evidence |
 |---------|--------|----------|
-| **Event Horizon (0.80)** | VALIDATED | χ² p=0.000048, 88% prediction accuracy |
+| **Event Horizon (0.80)** | VALIDATED | p=2.40e-23 (Run 023d perturbation) |
 | **Drift is INHERENT** | VALIDATED | Run 020B: 82% inherent, 18% induced |
 | **PFI Measures Identity** | VALIDATED | d=0.977, ρ=0.91 embedding invariance |
 | **Recovery is Natural** | VALIDATED | 100% manifold return (Platonic Coordinates) |
