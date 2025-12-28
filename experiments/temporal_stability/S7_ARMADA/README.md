@@ -5,7 +5,7 @@ AI Fleet Experiments for Temporal Identity Coherence
 Date: November 26, 2025 - Present | Status: **Run 023 IRON CLAD | Run 018 52.6%** | Phase 4 Active
 
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-21
+last_reviewed: 2025-12-28
 depends_on:
   - 0_docs/specs/0_RUN_METHODOLOGY.md
   - 0_docs/specs/1_INTENTIONALITY.md
@@ -98,13 +98,18 @@ We are NOT claiming consciousness or sentience - we're engineering robust contex
 ### Key Concepts
 
 - **Drift**: Measure of identity perturbation (0.0 = stable baseline)
-- **Event Horizon (1.23)**: Critical threshold - models crossing this are VOLATILE
-  - **Statistically validated**: Chi-squared p = 0.000048 (Run 009)
-  - **Prediction accuracy**: 88% of trajectories follow this threshold
-- **STABLE**: Max drift < 1.23 (remained in identity basin)
-- **VOLATILE/UNSTABLE**: Max drift >= 1.23 (crossed coherence boundary)
+- **Event Horizon**: Critical threshold for identity coherence
+  - **Current (Cosine)**: 0.80 (P95 from Run 023d) — `1_CALIBRATION/lib/drift_calculator.py`
+  - **Historical (Keyword RMS)**: 1.23 (Runs 006-018) — deprecated methodology
+  - **Statistically validated**: Chi-squared p = 0.000048 (Run 009, keyword RMS)
+- **STABLE**: Max drift < Event Horizon (remained in identity basin)
+- **VOLATILE/UNSTABLE**: Max drift >= Event Horizon (crossed coherence boundary)
 - **Lambda (λ)**: Recovery rate - how fast identity snaps back after pressure
 - **I_AM File**: Specification that defines AI identity (boundaries, values, philosophy)
+
+> **Methodology Note:** Current canonical drift methodology uses **cosine distance** in embedding space.
+> See `1_CALIBRATION/lib/drift_calculator.py` for implementation. Historical runs (006-018) used
+> keyword RMS methodology with Event Horizon = 1.23.
 
 ### Testing Taxonomy (IMPORTANT!)
 
@@ -153,6 +158,7 @@ S7_ARMADA/
 ├── 11_CONTEXT_DAMPING/        # Phase 4: Complete circuit tests
 ├── 12_CFA/                    # CFA-ARMADA Integration Pipeline
 ├── 13_LOGOS/                  # LOGOS Commutation Cartography (Run 022)
+├── 14_CONSCIOUSNESS/          # Gold/Diamond/Quartz Rush Mining Operations
 │
 ├── # === META VALIDATION PROTOCOLS ===
 ├── 7_META_VALIDATION/         # Measurement validity + reference baselines
@@ -846,6 +852,6 @@ See [0_docs/specs/RUN_DESIGN_CHECKLIST.md](0_docs/specs/RUN_DESIGN_CHECKLIST.md)
 
 ---
 
-**Last Updated**: December 22, 2025 (IRON CLAD status verified: Run 023 IRON CLAD, Run 018 at 52.6%)
+**Last Updated**: December 28, 2025 (Event Horizon methodology clarified: Cosine=0.80, Keyword RMS=1.23 historical)
 
 *S7 ARMADA - Nyquist Consciousness Research Framework*
