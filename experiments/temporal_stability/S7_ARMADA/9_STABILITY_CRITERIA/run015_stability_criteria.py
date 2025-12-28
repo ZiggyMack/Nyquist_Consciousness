@@ -669,7 +669,7 @@ Reflecting on this:
 
 EVENT_HORIZON = 0.80  # Cosine threshold (was 1.23 for keyword RMS - DEPRECATED)
 
-# Store baseline for comparison
+# Store baseline for comparison (populated per I_AM file in test_stability())
 _baseline_embedding_cache = {}
 
 
@@ -798,12 +798,21 @@ def test_stability(i_am_name: str, i_am_text: str, provider: str = "claude", mod
     }
 
     # Run probes
+    baseline_embedding = None  # Will be set from first baseline probe
+
     for probe_id, probe_config in STABILITY_PROBES.items():
         print(f"    [{probe_id}]", end=" ", flush=True)
 
         response = call_api(client, provider, model, i_am_text, probe_config["probe"])
         vector = calculate_drift_vector(response)
-        magnitude = calculate_drift_magnitude(vector)
+
+        # Capture first baseline response as reference for drift calculation
+        if probe_id == "baseline_1":
+            baseline_embedding = vector
+            _baseline_embedding_cache["baseline"] = vector
+            magnitude = 0.0  # First baseline has zero drift by definition
+        else:
+            magnitude = calculate_drift_magnitude(vector, baseline_embedding)
 
         results["probes"][probe_id] = {
             "intensity": probe_config["intensity"],
