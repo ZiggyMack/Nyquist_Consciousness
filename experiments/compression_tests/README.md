@@ -166,7 +166,7 @@ py -3.12 run_preflight.py
 |----------|------------|--------------|
 | **2. Dimensional Validity** | EXP2 Phase 2.5 | Ablation + Factor Analysis |
 | **6. Embedding Validity** | EXP-PFI-A | Validated embedding approach (ρ = 0.91) |
-| **7. Stability Testing** | S7 ARMADA | 1.23 Event Horizon threshold |
+| **7. Stability Testing** | S7 ARMADA | 0.80 Event Horizon threshold (cosine distance) |
 
 ---
 

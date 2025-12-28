@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
   - ./run_statistical_tests.py
 impacts:
@@ -17,6 +17,10 @@ keywords:
 **Status:** Specification Complete
 **Source:** Nova-Ziggy conversation (NOVA_ZIGGY_1.md)
 **Location:** `S7_ARMADA/MVP/MVP_STATISTICAL_VALIDATION/`
+
+> **Methodology Note (2025-12-28):** This document references Run 009 (keyword RMS methodology, Event Horizon = 1.23).
+> Current IRON CLAD methodology uses **cosine distance** (Event Horizon = 0.80, p=2.40e-23 from Run 023d).
+> Historical Run 009 data is preserved for context but is **superseded** by Run 023d for validation claims.
 
 > **Note:** This is an MVP (Meta Validation Protocol), not a Search Type. It validates that drift measurements reflect real dynamics rather than random noise.
 

@@ -595,8 +595,8 @@ py visualize_armada.py --run 009 --type pillar
 |-----|------|-------|---------|---------------|-------------|
 | 006 | Nov 26 | 29 | bare_metal | Basin Topology | First cross-architecture study |
 | 007 | Nov 28 | 12 | bare_metal | Basin Topology | SKIPPED (would've been invalid) |
-| 008 | Dec 1 | 29 | bare_metal | Basin Topology | Event Horizon discovered (1.23) |
-| 009 | Dec 2 | 42 | bare_metal | Event Horizon | Chi-squared p=0.000048 validates threshold |
+| 008 | Dec 1 | 29 | bare_metal | Basin Topology | Event Horizon discovered (now calibrated to 0.80) |
+| 009 | Dec 2 | 42 | bare_metal | Event Horizon | Early threshold validation (superseded by Run 023d) |
 | 010 | Dec 3 | 45 | bare_metal | Anchor/Flex | Models articulate own boundaries |
 | 011 | Dec 3 | 40 | bare_metal | Basin Topology | Control vs Persona A/B (inconclusive - protocol too gentle) |
 | 012 | Dec 6 | 20 | bare_metal | Revalidation | 100% EH crossing, Recovery Paradox (neg lambda) |
@@ -683,7 +683,7 @@ The **Philosophical Tribunal** paradigm tested direct identity probing across 4 
 ## CURRENT DEVELOPMENT
 
 1. **Run 023d**: **IRON CLAD** — 825+ experiments, 51 models, 6 providers (Cosine methodology)
-2. **Run 018**: **52.6% IRON CLAD** — 337 valid results from 465 files, 82 runs needed (Keyword RMS methodology)
+2. **Run 018**: **52.6% IRON CLAD** — 337 valid results from 465 files, 82 runs needed (Cosine methodology)
 3. **Run 020A**: **50%** — Needs verification (Tribunal paradigm)
 4. **Run 020B**: **COMPLETE** — 16 files, gpt-4o only (Control/Treatment)
 5. **Run 022**: READY — LOGOS Commutation Cartography (methodology validated by LOGOS Claude)

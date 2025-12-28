@@ -67,7 +67,7 @@ keywords:
 - Omega Exponential Decay
 - Cross-Architecture Variance
 
-**Status:** Test E validated (Run 009, p=0.000048), others pending
+**Status:** Test E validated (Run 009, superseded by Run 023d cosine methodology p=2.40e-23), others pending
 
 ---
 
