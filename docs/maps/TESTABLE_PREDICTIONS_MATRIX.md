@@ -713,7 +713,13 @@ Run 019-020B establish measurement validity through structural blindness.
 | **P-SR-3** | Bi-directional validity: If AI can classify response → drift, AI can reconstruct response → drift vector | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟢 HIGH |
 | **P-SR-4** | Gold Standard Recognition: AI can identify architecture type from lineup, but NOT specific conversation instance | 🟡 **PARTIAL** | EXP_SELF_RECOGNITION | ⭐ YES | 🟢 HIGH |
 | **P-SR-5** | Self-Recognition tests IDENTITY STRUCTURE not individual memory | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟡 MEDIUM |
-| **P-SR-6** | Inverse mapping: Given 5D drift vector, AI can identify source **architecture** better than chance | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟡 MEDIUM |
+| **P-SR-6** | Inverse mapping: Given drift vector, AI can identify source **architecture** better than chance | ❌ Untested | EXP_SELF_RECOGNITION | ⭐ YES | 🟡 MEDIUM |
+
+> **⚠️ DIMENSIONALITY NOTE (Run 023d finding):**
+> Identity in cosine embedding space is **2-dimensional** (2 PCs capture 90% variance).
+> The old "5D" terminology referred to Lucian's deprecated keyword dimensions.
+> Current methodology uses cosine distance in embedding space, not 5D keyword vectors.
+> See: [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md)
 
 **Critical Distinction — Type vs Instance Recognition:**
 
@@ -728,14 +734,14 @@ AIs can recognize responses from their architecture family (Claude identifies Cl
 
 The fact that AIs can identify architecture type demonstrates:
 1. **Training creates signature** — Each architecture family has measurable identity fingerprint
-2. **Our metrics capture real structure** — Type recognition proves the 5D metrics measure something in architecture space
+2. **Our metrics capture real structure** — Type recognition proves embedding metrics measure something in architecture space
 3. **Identity is layered** — Type-level identity (training) exists above instance-level identity (single conversation)
 
 **Key Insight — The Recursive Test:**
 
-If the 5D drift metric captures real identity information, then:
-1. **Forward**: Response → 5D drift vector (current metric)
-2. **Inverse**: 5D drift vector → Source architecture identification (validated at type level)
+If the cosine drift metric captures real identity information, then:
+1. **Forward**: Response → drift in 2-PC embedding space (current metric)
+2. **Inverse**: Drift vector → Source architecture identification (validated at type level)
 
 **Why This Matters:**
 - AIs can *recognize their type* (architecture fingerprint) but not their specific instance
