@@ -158,13 +158,14 @@ If stability_score > threshold, predict STABLE.
 
 ## Files
 
-| File                           | Purpose                         |
-|--------------------------------|---------------------------------|
-| `README.md`                    | This spec                       |
-| `run015_stability_criteria.py` | Main experiment script          |
-| `visualize_run015.py`          | Visualization generator         |
-| `i_am_variants/`               | Synthetic I_AM files for testing|
-| `results/`                     | Output JSON and analysis        |
+| File                           | Purpose                          |
+| ------------------------------ | -------------------------------- |
+| `README.md`                    | This spec                        |
+| `run015_stability_criteria.py` | Main experiment script           |
+| `visualize_run015.py`          | Visualization generator          |
+| `i_am_variants/`               | Synthetic I_AM files for testing |
+| `results/`                     | Output JSON and analysis         |
+| `Other/`                       | Archived historical documents    |
 
 ---
 

@@ -1,5 +1,11 @@
 # Prompt for Parallel Claude Instances - Run 015 Stability Criteria
 
+> **ARCHIVED**: This document is historical (December 2025). Run 015 is complete.
+>
+> **STALE METHODOLOGY**: Uses Keyword RMS (Event Horizon = 1.23).
+> Current methodology uses COSINE distance (Event Horizon = 0.80).
+> See `../README.md` for current status.
+
 **Copy this entire prompt to give to other Claude instances.**
 
 ---
