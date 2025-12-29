@@ -1,9 +1,11 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-29
 depends_on:
   - ./extract_publication_stats.py
   - ./extract_review_package.py
   - ./generate_pdfs.py
+  - ./sync_visualization_pdfs.py
+  - ./sync_llmbook.py
 impacts:
   - ../README.md
 keywords:
@@ -177,6 +179,7 @@ st.metric("Workshop Status", pub_stats['submissions']['workshop']['status'].uppe
 | `extract_publication_stats.py` | Statistics extraction script |
 | `extract_review_package.py` | Review package extraction script |
 | `sync_visualization_pdfs.py` | Sync S7_ARMADA visualizations to packages |
+| `sync_llmbook.py` | Sync LLM_BOOK content to WHITE-PAPER |
 | `publication_stats.json` | Generated statistics output |
 
 ---
@@ -235,6 +238,41 @@ Version rules are stored in `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json
 
 **Discovered Visualizations:**
 Auto-discovers any directory with `*_Summary.pdf` files.
+
+---
+
+## 5. sync_llmbook.py
+
+Sync NotebookLM outputs from LLM_BOOK to WHITE-PAPER submissions:
+
+```bash
+# Status report (default)
+python sync_llmbook.py
+
+# Sync all categories
+python sync_llmbook.py --sync
+
+# Preview changes
+python sync_llmbook.py --sync --dry-run
+
+# Sync specific category
+python sync_llmbook.py --sync --category popular_science
+
+# Include visuals
+python sync_llmbook.py --sync --include-visuals
+```
+
+**Categories:**
+
+- `academic` → `submissions/arxiv/`
+- `popular_science` → `submissions/popular_science/`
+- `education` → `submissions/education/`
+- `policy` → `submissions/policy/`
+- `funding` → `submissions/funding/`
+- `media` → `submissions/media/`
+
+**Source:** `REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/`
+**Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json`
 
 ---
 

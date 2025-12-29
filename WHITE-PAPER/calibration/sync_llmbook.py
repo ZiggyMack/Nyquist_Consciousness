@@ -34,8 +34,8 @@ from datetime import datetime
 from typing import Dict, List, Tuple, Optional
 
 # === PATH CONSTANTS ===
-REPO_ROOT = Path(__file__).parent.parent  # d:\Documents\Nyquist_Consciousness
-WHITE_PAPER_DIR = Path(__file__).parent   # WHITE-PAPER/
+REPO_ROOT = Path(__file__).parent.parent.parent  # d:\Documents\Nyquist_Consciousness
+WHITE_PAPER_DIR = Path(__file__).parent.parent   # WHITE-PAPER/
 LLM_BOOK_DIR = REPO_ROOT / "REPO-SYNC" / "LLM_BOOK"
 PUBLICATIONS_DIR = LLM_BOOK_DIR / "2_PUBLICATIONS"
 VISUALS_DIR = LLM_BOOK_DIR / "3_VISUALS"
