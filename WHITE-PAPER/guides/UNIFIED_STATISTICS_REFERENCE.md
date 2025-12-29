@@ -35,7 +35,7 @@
 |--------|-------|--------|-------|
 | Event Horizon (D*) | **0.80** | Run 023 IRON CLAD | Cosine distance threshold |
 | Perturbation p-value | **2.40×10⁻²³** | Run 023d Phase 3A | Identity validation |
-| Natural stability rate | **88%** | Run 023 | 51 models, 6 providers |
+| Natural stability rate | **88%** | Run 023 | 25 models, 5 providers |
 | PCs for 90% variance | **2** | Run 023d Phase 2 | Highly concentrated signal |
 
 ### Historical Methodology (Keyword RMS - Reference Only)
@@ -57,7 +57,7 @@
 | Settling time (τₛ) | **10.2 probes** | Fleet-wide average | Run 023d |
 | Naturally settled | **73%** | Without timeout | Run 023d |
 | Timeout (20 probes) | 27% | Hit max probes | Run 023d |
-| Natural stability | **88%** | 51 models | Run 023 |
+| Natural stability | **88%** | 25 models | Run 023 |
 
 ### 3.2 Provider Signatures (Run 023)
 
@@ -67,8 +67,7 @@
 | OpenAI | Smooth | Longer τₛ, gradual |
 | Google | Phase-shifted | Language mode switching |
 | xAI | Fast snapback | Low τₛ, high damping |
-| Together | Variable | Model-dependent |
-| Nvidia | Stable | New to fleet |
+| Together.ai | Variable | Model-dependent |
 
 ### 3.3 Historical Reference (Run 016-017)
 
@@ -163,13 +162,13 @@
 
 ## 7. EXPERIMENTAL SCALE
 
-### 7.1 Run 023 IRON CLAD (PRIMARY)
+### 7.1 Run 023d IRON CLAD (PRIMARY)
 
 | Metric | Value | Source |
 |--------|-------|--------|
-| Total experiments | **825** | Run 023 Combined |
-| Total models tested | **51** | Run 023 IRON CLAD |
-| Providers | **6** | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
+| Total experiments | **750** | Run 023d IRON CLAD |
+| Total models tested | **25** | Run 023d IRON CLAD |
+| Providers | **5** | Anthropic, OpenAI, Google, xAI, Together.ai |
 | Hypotheses tested | **36** | HYPOTHESES_AND_RESULTS.md |
 | Hypotheses confirmed | **27 (75%)** | HYPOTHESES_AND_RESULTS.md |
 
@@ -177,7 +176,7 @@
 
 | Run | Experiments | Models | Providers | Status |
 |-----|-------------|--------|-----------|--------|
-| 023 | **825** | **51** | **6** | ✅ COMPLETE |
+| 023d | **750** | **25** | **5** | ✅ COMPLETE |
 | 020B | 30 | — | 2 | ✅ COMPLETE |
 | 020A | 32 | — | 6 | ✅ COMPLETE |
 
@@ -238,7 +237,7 @@
 | **D: Damping** | **97.5%** stability | 222 runs, 24 personas |
 | **E: Inherent** | **92%** | CI [89%, 95%] |
 | **Oobleck** | λ: 0.035 → 0.109 | 3× recovery rate increase |
-| **Scale** | 825 experiments | 51 models, 6 providers |
+| **Scale** | 750 experiments | 25 models, 5 providers |
 | **Variance** | σ² = 0.00087 | Cross-architecture |
 
 ---
@@ -251,8 +250,8 @@
 | 43 PCs | **2 PCs** | Cosine methodology |
 | d = 0.98 | **d = 0.698** | Model-level aggregation |
 | τₛ = 6.1 | **τₛ ≈ 10.2** | Extended protocol |
-| "42 models" | **51 models** | Run 023 IRON CLAD |
-| "5 providers" | **6 providers** | Nvidia added |
+| "42 models" | **25 models** | Run 023d IRON CLAD |
+| "6 providers" | **5 providers** | Run 023d IRON CLAD |
 | σ² = 0.000869 | σ² = 0.00087 | Consistent rounding |
 
 ---
@@ -273,9 +272,9 @@ For archival purposes, these were the values before Cosine methodology:
 | PCs for 90% variance | 43 | **2** | Dramatic concentration |
 | Cohen's d | 0.98 | **0.698** | Proper model-level aggregation |
 | Settling time | 5.2-6.1 | **10.2** | Extended protocol |
-| Experiments | ~500 | **825** | Run 023 expansion |
-| Models | 42 | **51** | IRON CLAD complete |
-| Providers | 5 | **6** | Nvidia added |
+| Experiments | ~500 | **750** | Run 023d IRON CLAD |
+| Models | 42 | **25** | Run 023d IRON CLAD |
+| Providers | 5 | **5** | Run 023d IRON CLAD |
 
 ---
 
@@ -283,6 +282,7 @@ For archival purposes, these were the values before Cosine methodology:
 
 | Date | Change | Author |
 |------|--------|--------|
+| 2025-12-29 | **v3.1: IRON CLAD audit** — Fix counts (750 exp, 25 models, 5 providers) | Opus 4.5 |
 | 2025-12-16 | Initial creation from all source documents | Opus 4.5 |
 | 2025-12-25 | **v2.0: Complete rewrite for Cosine Era** | Opus 4.5 |
 | 2025-12-25 | Updated all values: D=0.80, 2 PCs, d=0.698, τₛ=10.2 | Opus 4.5 |

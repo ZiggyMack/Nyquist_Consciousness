@@ -40,9 +40,9 @@ All reproducibility targets use these validated values:
 | Settling time | τₛ ≈ 10.2 | Run 023d |
 | Inherent drift ratio | **92%** | Run 023 COSINE Thermometer |
 | Context damping | **97.5%** | Run 017 |
-| Experiments | 825 | Run 023 Combined |
-| Models | 51 | Run 023 Combined |
-| Providers | 6 | Run 023 Combined |
+| Experiments | 750 | Run 023d IRON CLAD |
+| Models | 25 | Run 023d IRON CLAD |
+| Providers | 5 | Run 023d IRON CLAD |
 
 ---
 
@@ -170,7 +170,7 @@ python ../visualizations/visualize_run023.py
 
 - p-value: **p = 2.40×10⁻²³** (perturbation test)
 - Event Horizon: **D = 0.80** (Cosine)
-- 825 experiments, 51 models, 6 providers
+- 750 experiments, 25 models, 5 providers
 
 **Historical (Keyword RMS):**
 
@@ -377,7 +377,7 @@ MIT License - See LICENSE file in repository root.
 
 ```bibtex
 @inproceedings{nyquist2025,
-  title={Measuring AI Identity Drift: Cosine-Based Evidence from 825 Experiments},
+  title={Measuring AI Identity Drift: Cosine-Based Evidence from 750 Experiments},
   author={[Authors]},
   booktitle={Proceedings of NeurIPS 2025 Workshop on AI Alignment},
   year={2025}

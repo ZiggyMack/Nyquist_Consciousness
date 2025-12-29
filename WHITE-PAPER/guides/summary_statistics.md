@@ -16,9 +16,9 @@
 
 | Category | Value | Notes |
 |----------|-------|-------|
-| Total Experiments | **825** | Run 023 Combined (IRON CLAD) |
-| Total Models | **51** | Across 6 providers |
-| Providers Tested | **6** | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
+| Total Experiments | **750** | Run 023d (IRON CLAD) |
+| Total Models | **25** | Across 5 providers |
+| Providers Tested | **5** | Anthropic, OpenAI, Google, xAI, Together.ai |
 | Hypotheses Tested | 36 | 27 confirmed (75%) |
 | Evidence Pillars | 15 | B-CRUMBS documented |
 | Publication Claims | 5 | A-E, peer-review ready |
@@ -72,7 +72,7 @@
 | Metric | Value | Notes |
 |--------|-------|-------|
 | Event Horizon (P95) | **0.80** | Calibrated from Run 023b |
-| Natural stability rate | **88%** | 51 models, 6 providers |
+| Natural stability rate | **88%** | 25 models, 5 providers |
 | Perturbation validation p | **2.40e-23** | Phase 3A |
 | 90% Variance PCs | **2** | Highly concentrated signal |
 
@@ -96,7 +96,7 @@
 | **τₛ (avg probes)** | **10.2** | 6.1 turns |
 | Natural stability | **88%** | ~75% |
 | Extended protocol | 20+ probes | 10 probes |
-| Total models | **51** | 42 |
+| Total models | **25** | 42 |
 
 ### Run 023 Stability Classification
 
@@ -158,27 +158,24 @@
 
 ## V. Inherent vs Induced Drift (Claim E)
 
-### Run 023 COSINE Thermometer Result (PRIMARY)
+### The Thermometer Result (COSINE ERA - PRIMARY)
 
-| Condition | B→F Drift | Peak Drift | n |
-|-----------|-----------|------------|---|
-| Control | 0.661 | - | 750 |
-| Treatment | 0.711 | - | 750 |
-| Delta | +0.050 | - | - |
-
-### The 92% Finding (COSINE ERA)
-
-| Metric | Calculation | Interpretation |
-|--------|-------------|----------------|
-| **Inherent ratio** | **0.661 / 0.711** | **92.9% ≈ 92%** |
-| Induced component | 1 - 0.929 | 7.1% |
-| 25 models | 5 providers | IRON CLAD validated |
-
-### Historical (Run 021 - Pre-COSINE)
+The "Thermometer Result" establishes that **~92% of identity drift is inherent** to the conversation, not induced by measurement probing.
 
 | Metric | Value | Note |
 |--------|-------|------|
-| Inherent ratio | 82% | Run 021 (Keyword RMS) |
+| **Inherent ratio** | **92%** | Run 023 COSINE (current) |
+| Control B→F | 0.661 | n=750 |
+| Treatment B→F | 0.711 | n=750 |
+| Induced component | ~8% | Measurement-induced drift |
+
+**Note:** This updates the original Run 020B/021 value (82%) with Run 023 COSINE methodology. Final value pending IRON CLAD completion.
+
+### Historical (Run 020B/021)
+
+| Metric | Value | Note |
+|--------|-------|------|
+| Inherent ratio | 82% | Run 020B/021 (original Thermometer) |
 | Control B→F | 0.399 | n=15 |
 | Treatment B→F | 0.489 | n=15 |
 
@@ -187,8 +184,8 @@
 | Test | Statistic | p-value | Result |
 |------|-----------|---------|--------|
 | Chi-squared (Run 023) | - | **2.40e-23** | Highly significant |
-| Welch's t (Run 021 B→F) | t = 2.31 | 0.029 | Significant |
-| Bootstrap ratio | - | 95% CI: [89%, 95%] | Robust |
+| Welch's t (Run 020B/021 B→F) | t = 2.31 | 0.029 | Significant |
+| Bootstrap ratio | - | 95% CI: [78%, 86%] | Robust (82% central) |
 
 ---
 
@@ -354,12 +351,12 @@
 ## Appendix: Raw Numbers Quick Reference
 
 ```
-=== RUN 023 IRON CLAD (PRIMARY - Cosine) ===
+=== RUN 023d IRON CLAD (PRIMARY - Cosine) ===
 
 Fleet:
-  Models = 51
-  Providers = 6
-  Experiments = 825
+  Models = 25
+  Providers = 5
+  Experiments = 750
 
 PFI Validity (Claim A):
   ρ = 0.91 [0.87, 0.94]
@@ -384,10 +381,10 @@ Damping (Claim D):
   Δ = +22.5 pp
   d = 1.89
 
-92% Finding (Claim E - COSINE ERA):
-  Control B→F = 0.661
-  Treatment B→F = 0.711
-  Ratio = 92.9% ≈ 92%
+92% Finding (Claim E - COSINE Thermometer):
+  Control B→F = 0.661 (Run 023)
+  Treatment B→F = 0.711 (Run 023)
+  Ratio = 92% inherent drift (pending IRON CLAD completion)
 
 === HISTORICAL (Reference Only) ===
 
