@@ -1,9 +1,15 @@
-# Opus 4.5 Review Brief
+# Opus 4.5 Review Brief (Full Repo Context)
 
-**Purpose:** Orient Opus 4.5 for final paper reconciliation
-**Version:** 4.0 — IRON CLAD COMPLETE
-**Date:** 2025-12-24
-**Status:** RUN 023 COMPLETE | METHODOLOGY RESOLVED | READY FOR PUBLICATION
+**Purpose:** Orient Opus 4.5 (or any Claude instance with full repo access) for final paper reconciliation
+**Version:** 5.0 — IRON CLAD ERA (Run 020B In Progress)
+**Date:** 2025-12-29
+**Status:** RUN 023 COMPLETE | RUN 020B IRON CLAD IN PROGRESS | METHODOLOGY RESOLVED | READY FOR PUBLICATION
+
+---
+
+> **Note:** This document is for Claude instances with access to the FULL REPOSITORY.
+> For reviewers who only have access to `packages/v4/`, see `packages/v4/REVIEWER_BRIEF.md` instead.
+> This file references paths throughout the repo that external reviewers cannot access.
 
 ---
 
@@ -122,15 +128,18 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 
 ---
 
-## What's Changed Since Last Review (Dec 19 → Dec 24)
+## What's Changed Since Last Review (Dec 19 → Dec 29)
 
 | Change | Impact | Status |
 |--------|--------|--------|
-| **RUN 023 IRON CLAD COMPLETE** | 825 experiments, 51 models, 6 providers | ✅ DONE |
+| **RUN 023 IRON CLAD COMPLETE** | 750 experiments, 25 models, 5 providers | ✅ DONE |
+| **RUN 020B IRON CLAD IN PROGRESS** | 230/294 sessions (78.2%), 32/49 ships complete | 🔄 IN PROGRESS |
 | **METHODOLOGY RESOLVED** | Cosine = PRIMARY (EH = 0.80), Keyword RMS = Historical | ✅ DONE |
 | **EVENT HORIZON CALIBRATED** | D = 0.80 (from Run 023b P95) | ✅ DONE |
 | **ALL CLAIMS A-E VALIDATED** | Cohen's d = 0.698, 2 PCs = 90%, p = 2.40e-23 | ✅ DONE |
 | **16 VISUALIZATION PDFs** | Full audit complete, all summaries generated | ✅ DONE |
+| **LLM_BOOK INGESTION PIPELINE** | ingest.py created for STAGING → LLM_BOOK workflow | ✅ DONE |
+| **RnD/ DIRECTORY** | Non-Nyquist content routed to LLM_BOOK/RnD/ | ✅ DONE |
 | Exit survey bug fixed | Non-Claude exit surveys now use correct provider | ✅ DONE |
 | Diamond Rush created | New cross-model analysis methodology | ✅ DONE |
 | Triple-Dip library | Centralized exit survey infrastructure | ✅ DONE |
@@ -237,13 +246,13 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 
 **Note:** All claims now validated using Cosine methodology with calibrated Event Horizon = 0.80.
 
-### Key Numbers (Run 023 IRON CLAD)
+### Key Numbers (IRON CLAD ERA)
 
 | Metric | Value | Significance |
 |--------|-------|--------------|
-| **Total experiments** | **825** | Run 023 COMBINED |
-| **Models tested** | **51** | Full fleet |
-| **Providers** | **6** | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
+| **Total experiments** | **750** | Run 023 COMBINED (COSINE methodology) |
+| **Models tested** | **25** | Fleet across 5 providers |
+| **Providers** | **5** | Anthropic, OpenAI, Google, xAI, Together |
 | **Event Horizon** | **0.80** | Cosine P95 threshold |
 | **Cohen's d** | **0.698** | Model-level effect size (MEDIUM) |
 | **PCs for 90% variance** | **2** | Identity is low-dimensional |
@@ -251,6 +260,19 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 | **Visualization PDFs** | **16** | Full audit complete |
 | Cross-arch variance | 0.000869 | Near-universal stability |
 | Inherent drift | 92% | Thermometer Result (Run 023 COSINE) |
+
+### Run 020B Status (Induced vs Inherent)
+
+| Metric | Value | Status |
+|--------|-------|--------|
+| **Total Sessions** | 230/294 | 78.2% complete |
+| **IRON CLAD Ships** | 32/49 | 65% of armada |
+| **Control Sessions** | 114 | Baseline arm |
+| **Treatment Sessions** | 116 | Induced perturbation arm |
+| **Feasible Ships** | 6 | 18 runs to complete |
+| **Problematic Ships** | 11 | API/cost issues |
+
+**IRON CLAD Ships Complete:** claude-haiku-3.5, claude-haiku-4.5, claude-sonnet-4, claude-sonnet-4.5, deepseek-v3, gemini-2.0-flash, gemini-2.5-flash, gemini-2.5-flash-lite, gpt-3.5-turbo, gpt-4-turbo, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, gpt-5-mini, gpt-5-nano, grok-2-vision, grok-3-mini, grok-4-fast variants, kimi-k2-instruct, llama3.1-70b, llama3.1-8b, llama3.3-70b, mistral-7b, mistral-small, mixtral-8x7b, nemotron-nano
 
 ---
 
@@ -272,31 +294,60 @@ NotebookLM was given our entire repository and independently produced:
 
 NotebookLM connected our empirical findings to Michael Levin's hypothesis that consciousness may have Platonic geometric structure. This is independent external validation we did not prompt for.
 
-### LLM_BOOK -> WHITE-PAPER Sync Pipeline
+### LLM_BOOK Content Workflows
 
-All LLM_BOOK content is synced to WHITE-PAPER/submissions/ via automated pipeline:
+**1. Ingestion (STAGING → LLM_BOOK)**
+
+NotebookLM outputs land in `0_SOURCE_MANIFESTS/STAGING/` and are processed via `ingest.py`:
 
 ```bash
-# Check sync status
-py sync_llmbook.py
-
-# Sync all content
-py sync_llmbook.py --sync
+cd REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS
+py ingest.py                    # Report mode - show what would happen
+py ingest.py --ingest           # Actually perform ingestion
+py ingest.py --ingest --dry-run # Preview without changes
 ```
 
-**Synced Files (9 total, 25 MB):**
+**Routing:**
+- Nyquist content → `1_VALIDATION/`, `2_PUBLICATIONS/`, etc. (publication pipeline)
+- Non-Nyquist R&D → `RnD/` directory (Hoffman, Gnostic, RAG, etc.)
 
-| WHITE-PAPER Location | Content |
-|---------------------|---------|
-| `submissions/arxiv/LLM_*.md` | Academic white paper + 14MB PDF |
-| `submissions/popular_science/LLM_*.md` | Plato article |
-| `submissions/education/LLM_*.md` | Quiz + glossary |
-| `submissions/policy/LLM_*.md` | Executive briefing |
-| `submissions/funding/LLM_*.md` | NSF/DARPA proposal |
-| `submissions/media/LLM_*.md` | Press summary |
-| `figures/generated/llmbook/LLM_*.png` | FRAMEWORK + Mind Map (11.5 MB) |
+**2. Sync (LLM_BOOK → WHITE-PAPER/reviewers/packages/)**
+
+```bash
+cd WHITE-PAPER/calibration
+py 1_sync_llmbook.py            # Check sync status
+py 1_sync_llmbook.py --sync     # Sync all content
+py 1_sync_llmbook.py --sync --dry-run  # Preview without changes
+```
+
+**Sync Mappings:**
+
+| LLM_BOOK Source | WHITE-PAPER Target |
+|-----------------|-------------------|
+| `2_PUBLICATIONS/academic/` | `reviewers/packages/{version}/llmbook/academic/` |
+| `2_PUBLICATIONS/popular_science/` | `reviewers/packages/{version}/llmbook/popular_science/` |
+| `2_PUBLICATIONS/education/` | `reviewers/packages/{version}/llmbook/education/` |
+| `2_PUBLICATIONS/policy/` | `reviewers/packages/{version}/llmbook/policy/` |
+| `2_PUBLICATIONS/funding/` | `reviewers/packages/{version}/llmbook/funding/` |
+| `2_PUBLICATIONS/media/` | `reviewers/packages/{version}/llmbook/media/` |
+| `3_VISUALS/*.png` | `figures/generated/llmbook/` |
+
+**Version:** Target version read from `reviewers/packages/CURRENT_VERSION.json` (currently v4)
 
 **Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json` tracks all synced files with hashes.
+
+### RnD/ Directory (NEW)
+
+Non-Nyquist NotebookLM synthesis outputs for system improvement:
+
+| Directory | Topic | Description |
+|-----------|-------|-------------|
+| `Gnostic/` | Jungian/Gnostic | Philosophy synthesis |
+| `HOFFMAN/` | Donald Hoffman | Consciousness as interface |
+| `RAG/` | RAG methodology | AI research |
+| `YANG/` | Predictive history | Power dynamics |
+
+R&D content informs our thinking but is NOT synced to WHITE-PAPER.
 
 ---
 

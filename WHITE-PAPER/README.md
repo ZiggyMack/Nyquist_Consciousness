@@ -152,6 +152,23 @@ Full submission infrastructure now available:
 
 ---
 
+## Core Directory Purpose
+
+Two directories form the backbone of publication preparation:
+
+| Directory | Question | Purpose | Key Files |
+|-----------|----------|---------|-----------|
+| **guides/** | "What are the facts?" | Reference materials: statistics, figures, reproducibility | `summary_statistics.md`, `MANIFEST.md` |
+| **planning/** | "How do we present them?" | Strategy: methodology framing, claim guardrails, reviewer coordination | `NOVAS_OVERCLAIMING_PREVENTION.md`, `METHODOLOGY_DOMAINS.md` |
+
+- **guides/** always reflects current validated data (COSINE ERA metrics)
+- **planning/** provides presentation strategy and overclaiming prevention
+- **reviewers/packages/v{n}/** preserves historical versions for audit trail
+
+**Source of truth for reviewer sync:** [reviewers/packages/CURRENT_VERSION.json](reviewers/packages/CURRENT_VERSION.json)
+
+---
+
 ## Directory Structure
 
 ```
@@ -165,10 +182,11 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   ├── MINIMUM_PUBLISHABLE_CLAIMS.md # Claims A-E
 │   └── HYPOTHESES_AND_RESULTS.md    # 36 hypotheses
 │
-├── guides/                           # Navigation & reproduction
-│   ├── MANIFEST.md                  # File inventory
-│   ├── REPRODUCIBILITY_README.md    # How to reproduce
-│   └── summary_statistics.md        # Key numbers
+├── guides/                           # "What are the facts?" — Reference materials
+│   ├── MANIFEST.md                  # File inventory (figures, deprecations)
+│   ├── REPRODUCIBILITY_README.md    # How to reproduce experiments
+│   ├── summary_statistics.md        # Consolidated key numbers (COSINE ERA)
+│   └── UNIFIED_STATISTICS_REFERENCE.md  # Detailed statistics by run
 │
 ├── references/                       # Bibliography
 │   ├── references.bib               # BibTeX (55 refs)
@@ -194,26 +212,6 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │       ├── nyquist_pillar_placeholder.png
 │       └── README.md
 │
-├── reviewers/                        # Draft papers + reviews
-│   ├── README.md                    # Phase structure guide
-│   ├── START_HERE.md                # Quick reviewer orientation
-│   ├── Convos/                      # Review phase conversations
-│   │   ├── phase1/                  # Initial drafts (Dec 2025)
-│   │   ├── phase2/                  # Post-figure review
-│   │   ├── phase3/                  # Current drafts + PDFs
-│   │   ├── Phase4/                  # Figure placement + updates
-│   │   └── phase5/                  # Submission venue guide
-│   ├── packages/                    # Extracted review packages
-│   │   ├── content/                 # Text packages by path
-│   │   └── pdf/                     # Generated PDFs (8 files)
-│   ├── Grok/                        # External reviewer feedback
-│   │   └── review_1.md              # Grok's empirical assessment
-│   └── LLM_BOOK_SYNTHESIS/          # NotebookLLM outputs (NEW)
-│       ├── INDEX.md                 # Directory guide
-│       ├── *.md (5 files)           # Academic/technical docs
-│       ├── *.pdf, *.png (3 files)   # Visual materials
-│       └── *.m4a, *.mp4 (2 files)   # Audio/video (~76MB)
-│
 ├── submissions/                      # ★ 8 PUBLICATION PATHS
 │   ├── blueprints/                  # Planning docs for each path
 │   ├── workshop/                    # Path 1: NeurIPS/AAAI (4-8 pages)
@@ -237,11 +235,12 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   ├── 3_generate_pdfs.py           # Generate all publication PDFs
 │   └── extract_publication_stats.py # Dashboard integration
 │
-├── planning/                         # ★ METHODOLOGY & GUARDRAILS
+├── planning/                         # "How do we present them?" — Strategy & framing
 │   ├── METHODOLOGY_DOMAINS.md        # Cosine vs Keyword RMS (dual Event Horizon)
 │   ├── NOVAS_OVERCLAIMING_PREVENTION.md # What NOT to claim (critical!)
 │   ├── PUBLICATION_PIPELINE_MASTER.md  # Source of truth for 8 paths
-│   └── OPUS_REVIEW_BRIEF.md         # Opus 4.5 review orientation
+│   ├── OPUS_REVIEW_BRIEF.md         # Opus 4.5 review orientation
+│   └── README.md                    # Planning directory overview
 │
 ├── reviewers/                        # ★ REVIEW INFRASTRUCTURE
 │   ├── packages/                    # Versioned review packages

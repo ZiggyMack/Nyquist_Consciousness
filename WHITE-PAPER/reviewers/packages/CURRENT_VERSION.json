@@ -2,6 +2,8 @@
   "current_version": "v4",
   "created": "2025-12-29",
   "reason": "92% INHERENT ERA - COSINE methodology validated",
+  "review_status": "reviewed",
+  "_review_status_options": ["pending", "reviewed", "preservation_complete"],
   "methodology": {
     "event_horizon": 0.80,
     "inherent_drift": "92%",
@@ -70,9 +72,27 @@
   ],
 
   "visual_requests": {
-    "_comment": "Reviewer requests for additional visuals. Status: pending/approved/rejected/synced",
+    "_comment": "Reviewer requests for NEW visuals to bring into figures/. Status: pending/approved/rejected/synced",
     "requests": []
   },
 
-  "_note": "This file is read by 0_sync_viz.py to determine target version and visual requests"
+  "preservation_requests": {
+    "_comment": "Reviewer requests to CARRY FORWARD content from previous versions. Status: pending/approved/rejected/copied",
+    "_workflow": "When ingesting new content, check if previous version had valuable items that should persist",
+    "requests": [
+      {
+        "_example": {
+          "source_version": "v3",
+          "source_path": "llmbook/academic/Identity_Geometry_The_82_Percent.pdf",
+          "target_path": "llmbook/academic/",
+          "reason": "Comprehensive synthesis PDF - still valuable despite 82%->92% update",
+          "status": "pending",
+          "requested_by": "Claude",
+          "requested_date": "2025-12-29"
+        }
+      }
+    ]
+  },
+
+  "_note": "This file is read by calibration scripts to determine target version, visual requests, and preservation requests"
 }

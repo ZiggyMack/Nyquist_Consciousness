@@ -95,7 +95,7 @@ keywords:
 | 0 | `0_sync_viz.py` | Sync PDFs + PNGs + reviewer feedback | `py 0_sync_viz.py --sync --sync-pngs` |
 | 1 | `1_sync_llmbook.py` | Sync LLM_BOOK → reviewer packages | `py 1_sync_llmbook.py --sync` |
 | 2 | `2_package_review.py` | Extract reviewer packages | `py 2_package_review.py --all` |
-| 3 | `3_generate_pdfs.py` | Generate publication PDFs | `py 3_generate_pdfs.py` |
+| 3 | `3_generate_pdfs.py` | Extract + generate submission PDFs | `py 3_generate_pdfs.py --from-review` |
 | 4 | `4_publish_stats.py` | Extract dashboard statistics | `py 4_publish_stats.py` |
 
 **Workflow Order:** 0 → 1 → 2 → 3 → 4 (syncs first, stats last)
@@ -295,7 +295,26 @@ Generate publication-ready PDFs from markdown sources using ReportLab.
 
 ```bash
 cd WHITE-PAPER/calibration
+
+# Generate from existing submissions/
 py 3_generate_pdfs.py
+
+# Extract from reviewers/ first, then generate (RECOMMENDED)
+py 3_generate_pdfs.py --from-review
+
+# Preview what would be extracted
+py 3_generate_pdfs.py --from-review --dry-run
+```
+
+**Workflow:**
+
+```text
+reviewers/packages/v4/{path}/submissions/{path}/   <- Reviewers edit here
+                    |
+        py 3_generate_pdfs.py --from-review
+                    |
+                    v
+submissions/{path}/{TYPE}_FINAL.md + .pdf          <- Ready to submit
 ```
 
 **Output:** PDFs generated in their respective `submissions/` subdirectories.
@@ -386,8 +405,8 @@ py 1_sync_llmbook.py --sync
 # 3. Extract all review packages
 py 2_package_review.py --all
 
-# 4. Generate publication PDFs
-py 3_generate_pdfs.py
+# 4. Generate publication PDFs (extract from reviewers/ first)
+py 3_generate_pdfs.py --from-review
 
 # 5. Update dashboard stats
 py 4_publish_stats.py
@@ -404,7 +423,7 @@ py 4_publish_stats.py
 | **Inherent Drift** | 92% | Thermometer Result |
 | **Context Damping** | 97.5% stability | Run 017 |
 | **PFI Correlation** | ρ = 0.91 | Cross-model validation |
-| **Settling Time** | τₛ ≈ 10.2 probes | Damped oscillator fit |
+| **Settling Time** | tau_s ~ 10.2 probes | Damped oscillator fit |
 | **Experiments** | 750 | Run 023d total |
 | **Models** | 25 unique | 5 providers |
 

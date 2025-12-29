@@ -18,15 +18,19 @@ py 1_sync_llmbook.py --sync --include-visuals   # Also sync 3_VISUALS/*.png
 
 CATEGORIES:
 -----------
-- academic: 2_PUBLICATIONS/academic/ → reviewers/packages/v4/llmbook/academic/
-- popular_science: 2_PUBLICATIONS/popular_science/ → reviewers/packages/v4/llmbook/popular_science/
-- education: 2_PUBLICATIONS/education/ → reviewers/packages/v4/llmbook/education/
-- policy: 2_PUBLICATIONS/policy/ → reviewers/packages/v4/llmbook/policy/
-- funding: 2_PUBLICATIONS/funding/ → reviewers/packages/v4/llmbook/funding/
-- media: 2_PUBLICATIONS/media/ → reviewers/packages/v4/llmbook/media/
+- academic: 2_PUBLICATIONS/academic/ → reviewers/packages/{version}/llmbook/academic/
+- popular_science: 2_PUBLICATIONS/popular_science/ → reviewers/packages/{version}/llmbook/popular_science/
+- education: 2_PUBLICATIONS/education/ → reviewers/packages/{version}/llmbook/education/
+- policy: 2_PUBLICATIONS/policy/ → reviewers/packages/{version}/llmbook/policy/
+- funding: 2_PUBLICATIONS/funding/ → reviewers/packages/{version}/llmbook/funding/
+- media: 2_PUBLICATIONS/media/ → reviewers/packages/{version}/llmbook/media/
+
+VERSION:
+--------
+Target version is read from reviewers/packages/CURRENT_VERSION.json (source of truth)
 
 Author: WHITE-PAPER Calibration
-Version: 2.0 (2025-12-29) - Redirect to reviewer packages (not submissions)
+Version: 2.1 (2025-12-29) - Read version from CURRENT_VERSION.json (no more hardcoded v4)
 """
 
 import argparse
@@ -43,52 +47,71 @@ WHITE_PAPER_DIR = Path(__file__).parent.parent   # WHITE-PAPER/
 LLM_BOOK_DIR = REPO_ROOT / "REPO-SYNC" / "LLM_BOOK"
 PUBLICATIONS_DIR = LLM_BOOK_DIR / "2_PUBLICATIONS"
 VISUALS_DIR = LLM_BOOK_DIR / "3_VISUALS"
-LLMBOOK_TARGET_DIR = WHITE_PAPER_DIR / "reviewers" / "packages" / "v4" / "llmbook"
+VERSION_FILE = WHITE_PAPER_DIR / "reviewers" / "packages" / "CURRENT_VERSION.json"
 FIGURES_GENERATED_DIR = WHITE_PAPER_DIR / "figures" / "generated" / "llmbook"
 MANIFEST_PATH = WHITE_PAPER_DIR / "reviewers" / "LLMBOOK_SYNC_MANIFEST.json"
 SYNC_STATUS_PATH = WHITE_PAPER_DIR / "reviewers" / "SYNC_STATUS.md"
 
+
+def get_current_version() -> str:
+    """Read current version from CURRENT_VERSION.json (source of truth)."""
+    if VERSION_FILE.exists():
+        with open(VERSION_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)["current_version"]
+    return "v4"  # Fallback if file doesn't exist
+
+
+def get_llmbook_target_dir() -> Path:
+    """Get target directory based on current version from CURRENT_VERSION.json."""
+    return WHITE_PAPER_DIR / "reviewers" / "packages" / get_current_version() / "llmbook"
+
 # === CATEGORY MAPPINGS ===
-# Source (LLM_BOOK/2_PUBLICATIONS/) → Target (WHITE-PAPER/reviewers/packages/v4/llmbook/)
+# Source (LLM_BOOK/2_PUBLICATIONS/) → Target (WHITE-PAPER/reviewers/packages/{version}/llmbook/)
 # NOTE: NotebookLM outputs go to reviewer packages for feedback, NOT submissions/
-CATEGORY_MAPPINGS = {
-    "academic": {
-        "source": PUBLICATIONS_DIR / "academic",
-        "target": LLMBOOK_TARGET_DIR / "academic",
-        "description": "Academic papers (NotebookLM synthesis)",
-        "extensions": [".md", ".pdf"]
-    },
-    "popular_science": {
-        "source": PUBLICATIONS_DIR / "popular_science",
-        "target": LLMBOOK_TARGET_DIR / "popular_science",
-        "description": "Popular science articles (Atlantic/Wired style)",
-        "extensions": [".md"]
-    },
-    "education": {
-        "source": PUBLICATIONS_DIR / "education",
-        "target": LLMBOOK_TARGET_DIR / "education",
-        "description": "Educational materials (OER/Coursera)",
-        "extensions": [".md"]
-    },
-    "policy": {
-        "source": PUBLICATIONS_DIR / "policy",
-        "target": LLMBOOK_TARGET_DIR / "policy",
-        "description": "Policy briefings (Think tanks)",
-        "extensions": [".md"]
-    },
-    "funding": {
-        "source": PUBLICATIONS_DIR / "funding",
-        "target": LLMBOOK_TARGET_DIR / "funding",
-        "description": "Funding proposals (NSF/DARPA)",
-        "extensions": [".md"]
-    },
-    "media": {
-        "source": PUBLICATIONS_DIR / "media",
-        "target": LLMBOOK_TARGET_DIR / "media",
-        "description": "Media content (Press/TED)",
-        "extensions": [".md"]
+# Target paths are computed dynamically via get_category_mappings() to use current version
+
+
+def get_category_mappings() -> Dict:
+    """Build category mappings with current version from CURRENT_VERSION.json."""
+    target_dir = get_llmbook_target_dir()
+    return {
+        "academic": {
+            "source": PUBLICATIONS_DIR / "academic",
+            "target": target_dir / "academic",
+            "description": "Academic papers (NotebookLM synthesis)",
+            "extensions": [".md", ".pdf"]
+        },
+        "popular_science": {
+            "source": PUBLICATIONS_DIR / "popular_science",
+            "target": target_dir / "popular_science",
+            "description": "Popular science articles (Atlantic/Wired style)",
+            "extensions": [".md"]
+        },
+        "education": {
+            "source": PUBLICATIONS_DIR / "education",
+            "target": target_dir / "education",
+            "description": "Educational materials (OER/Coursera)",
+            "extensions": [".md"]
+        },
+        "policy": {
+            "source": PUBLICATIONS_DIR / "policy",
+            "target": target_dir / "policy",
+            "description": "Policy briefings (Think tanks)",
+            "extensions": [".md"]
+        },
+        "funding": {
+            "source": PUBLICATIONS_DIR / "funding",
+            "target": target_dir / "funding",
+            "description": "Funding proposals (NSF/DARPA)",
+            "extensions": [".md"]
+        },
+        "media": {
+            "source": PUBLICATIONS_DIR / "media",
+            "target": target_dir / "media",
+            "description": "Media content (Press/TED)",
+            "extensions": [".md"]
+        }
     }
-}
 
 # Visual sync mapping
 VISUAL_MAPPING = {
@@ -157,12 +180,13 @@ def discover_source_files(category: Optional[str] = None) -> Dict[str, List[Path
     """
     sources = {}
 
-    categories_to_scan = [category] if category else CATEGORY_MAPPINGS.keys()
+    category_mappings = get_category_mappings()
+    categories_to_scan = [category] if category else category_mappings.keys()
 
     for cat_name in categories_to_scan:
-        if cat_name not in CATEGORY_MAPPINGS:
+        if cat_name not in category_mappings:
             continue
-        mapping = CATEGORY_MAPPINGS[cat_name]
+        mapping = category_mappings[cat_name]
         source_dir = mapping["source"]
         extensions = mapping["extensions"]
 
@@ -274,10 +298,11 @@ def sync_category(category: str, dry_run: bool = True, manifest: Dict = None) ->
 
     results = []
 
-    if category not in CATEGORY_MAPPINGS:
+    category_mappings = get_category_mappings()
+    if category not in category_mappings:
         return [{"error": f"Unknown category: {category}"}]
 
-    mapping = CATEGORY_MAPPINGS[category]
+    mapping = category_mappings[category]
     sources = discover_source_files(category)
 
     for source_file in sources.get(category, []):
@@ -344,7 +369,8 @@ def sync_all(dry_run: bool = True, include_visuals: bool = False,
         }
     }
 
-    categories_to_sync = [category] if category else CATEGORY_MAPPINGS.keys()
+    category_mappings = get_category_mappings()
+    categories_to_sync = [category] if category else category_mappings.keys()
 
     for cat_name in categories_to_sync:
         cat_results = sync_category(cat_name, dry_run, manifest)
@@ -384,7 +410,7 @@ def update_manifest(manifest: Dict, results: Dict) -> None:
 
     for cat_name, cat_results in results.get("categories", {}).items():
         if cat_name not in manifest["categories"]:
-            mapping = CATEGORY_MAPPINGS[cat_name]
+            mapping = get_category_mappings()[cat_name]
             manifest["categories"][cat_name] = {
                 "source_dir": str(mapping["source"].relative_to(REPO_ROOT)),
                 "target_dir": str(mapping["target"].relative_to(REPO_ROOT)),
@@ -490,17 +516,18 @@ def generate_status_report(category: Optional[str] = None) -> str:
         "## Category Status",
     ]
 
-    categories_to_report = [category] if category else CATEGORY_MAPPINGS.keys()
+    category_mappings = get_category_mappings()
+    categories_to_report = [category] if category else category_mappings.keys()
     total_files = 0
     total_synced = 0
     total_pending = 0
     total_size = 0
 
     for cat_name in categories_to_report:
-        if cat_name not in CATEGORY_MAPPINGS:
+        if cat_name not in category_mappings:
             continue
 
-        mapping = CATEGORY_MAPPINGS[cat_name]
+        mapping = category_mappings[cat_name]
         sources = discover_source_files(cat_name)
         source_files = sources.get(cat_name, [])
 
@@ -660,7 +687,7 @@ Examples:
 
     # Scope controls
     parser.add_argument("--category",
-                        choices=list(CATEGORY_MAPPINGS.keys()) + ["all"],
+                        choices=["academic", "popular_science", "education", "policy", "funding", "media", "all"],
                         default=None,
                         help="Category to sync/report on")
     parser.add_argument("--include-visuals", action="store_true",

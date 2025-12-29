@@ -5,10 +5,17 @@
 Uses reportlab for consistent styling with visualization PDFs.
 
 USAGE:
-    py 3_generate_pdfs.py
+    py 3_generate_pdfs.py                # Generate from existing submissions/
+    py 3_generate_pdfs.py --from-review  # First extract from reviewers/, then generate
+    py 3_generate_pdfs.py --dry-run      # Show what would be extracted (with --from-review)
 
 OUTPUT:
     PDFs generated in their respective submissions/ subdirectories.
+
+WORKFLOW:
+    1. Reviewers work in reviewers/packages/v{n}/{path}/submissions/
+    2. When ready to submit, run: py 3_generate_pdfs.py --from-review
+    3. Final PDFs land in submissions/{path}/ ready for actual submission
 
 IRON CLAD METHODOLOGY:
     - Event Horizon = 0.80 (cosine)
@@ -28,6 +35,10 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib.colors import HexColor, black, grey
 import re
 import os
+import sys
+import json
+import shutil
+import argparse
 
 # Paths - script is now in calibration/, submissions is sibling directory
 WHITE_PAPER_DIR = Path(__file__).parent.parent
@@ -686,7 +697,121 @@ def generate_pdf(md_path, output_name=None):
     return output_path
 
 
+def get_current_version():
+    """Read current package version from CURRENT_VERSION.json."""
+    version_file = WHITE_PAPER_DIR / "reviewers" / "packages" / "CURRENT_VERSION.json"
+    if version_file.exists():
+        with open(version_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            return data.get("current_version", "v4")
+    return "v4"  # Fallback
+
+
+def get_reviewers_dir():
+    """Get the current reviewers package directory."""
+    version = get_current_version()
+    return WHITE_PAPER_DIR / "reviewers" / "packages" / version
+
+
+# Mapping: submission path -> (source filename patterns in reviewers/, target filename)
+EXTRACTION_MAP = {
+    "arxiv": [
+        ("NYQUIST_ARXIV_PAPER_FINAL.md", "NYQUIST_ARXIV_PAPER_FINAL.md"),
+    ],
+    "workshop": [
+        ("Nyquist_workshop_paper_FINAL.md", "Nyquist_workshop_paper_FINAL.md"),
+    ],
+    "journal": [
+        ("JOURNAL_PAPER_FINAL.md", "JOURNAL_PAPER_FINAL.md"),
+    ],
+    "funding": [
+        ("FUNDING_FINAL.md", "FUNDING_FINAL.md"),
+    ],
+    "policy": [
+        ("POLICY_FINAL.md", "POLICY_FINAL.md"),
+    ],
+    "media": [
+        ("MEDIA_FINAL.md", "MEDIA_FINAL.md"),
+    ],
+    "education": [
+        ("EDUCATION_FINAL.md", "EDUCATION_FINAL.md"),
+    ],
+    "popular_science": [
+        ("POPULAR_SCIENCE_FINAL.md", "POPULAR_SCIENCE_FINAL.md"),
+    ],
+}
+
+
+def extract_from_review(dry_run=False):
+    """Extract submission files from reviewers/packages/v{n}/ to submissions/."""
+    reviewers_dir = get_reviewers_dir()
+    version = get_current_version()
+
+    print(f"Extracting from reviewers/packages/{version}/ to submissions/")
+    print("=" * 60)
+
+    extracted = 0
+    skipped = 0
+
+    for path_name, files in EXTRACTION_MAP.items():
+        # Source: reviewers/packages/v{n}/{path}/submissions/{path}/
+        source_dir = reviewers_dir / path_name / "submissions" / path_name
+        # Target: submissions/{path}/
+        target_dir = SUBMISSIONS_DIR / path_name
+
+        for source_file, target_file in files:
+            source_path = source_dir / source_file
+            target_path = target_dir / target_file
+
+            if source_path.exists():
+                if dry_run:
+                    print(f"  Would copy: {source_path.relative_to(WHITE_PAPER_DIR)}")
+                    print(f"          -> {target_path.relative_to(WHITE_PAPER_DIR)}")
+                else:
+                    target_dir.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(source_path, target_path)
+                    print(f"  Copied: {path_name}/{target_file}")
+                extracted += 1
+            else:
+                print(f"  Skipped (not found): {path_name}/{source_file}")
+                skipped += 1
+
+    print()
+    if dry_run:
+        print(f"Would extract: {extracted} files")
+    else:
+        print(f"Extracted: {extracted} files")
+    print(f"Skipped: {skipped} files")
+    print()
+
+    return extracted > 0
+
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Generate PDF versions of submission papers from markdown"
+    )
+    parser.add_argument(
+        "--from-review",
+        action="store_true",
+        help="Extract latest from reviewers/packages/v{n}/ before generating PDFs"
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be extracted (only works with --from-review)"
+    )
+    args = parser.parse_args()
+
+    # Extract from review if requested
+    if args.from_review:
+        if args.dry_run:
+            extract_from_review(dry_run=True)
+            print("Dry run - no PDFs generated")
+            sys.exit(0)
+        else:
+            extract_from_review(dry_run=False)
+
     print("Generating submission PDFs...")
     print()
 

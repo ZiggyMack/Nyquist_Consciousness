@@ -1,7 +1,8 @@
 # Reviewer Packages
 
 **Last Updated:** December 29, 2025
-**Status:** v4 packages ready with Run 020B IRON CLAD data audit (221 sessions, 37 ships)
+**Status:** v4 packages ready with Run 020B IRON CLAD in progress (235 sessions, 32 ships complete)
+**Version Source:** `CURRENT_VERSION.json`
 
 ---
 
@@ -9,35 +10,32 @@
 
 ### v4/ (Current - December 29, 2025)
 
-**Run 020B IRON CLAD Data Audit + Updated Visualization PDFs**
+**Run 020B IRON CLAD In Progress + Shared Content Architecture**
 
-Incremental update with 3 regenerated PDFs:
-- **15_Oobleck_Effect_Summary.pdf** — Updated with full IRON CLAD data
-- **run018_Summary.pdf** — Updated trajectory counts (1,549, was 1,145)
-- **run020_Summary.pdf** — Updated with IRON CLAD (226 sessions, 38 ships)
+Major updates:
+- **`.shared/` directory** — Deduplicated content across all 8 publication paths
+- **PACKAGE_INDEX.json** — Maps shared content to paths
+- **16 visualization PDFs** — Full IRON CLAD audit complete
+- **Run 020B Progress:** 235/294 sessions (80%), 32/49 ships IRON CLAD complete
 
-Key data corrections:
-- Run 020B: 226 sessions (was 73), 38 ships (was 7), 100% attribution
-- Run 018: 1,549 trajectories (was 1,145), corrected provider counts
-- Inherent drift ratio: ~92% (Control: 0.650, Treatment: 0.709)
+Key features:
+- Shared content architecture eliminates duplication (~60% size reduction)
+- Reviewers work in `{path}/submissions/{path}/` directories
+- Extract to final submission via `3_generate_pdfs.py --from-review`
 
-**Use this version for current IRON CLAD data references.**
+**Use this version for all current work.**
 
 ### v3/ (December 26, 2025)
 
 **Run 023 IRON CLAD Complete + Full Visualization Suite**
 
-Fresh extraction with:
-- All 8 publication paths
-- **16 visualization PDFs** in `visualization_pdfs/` (Run 023 summaries)
-- NotebookLLM synthesis content in `LLM_SYNTHESIS/` subdirs
-- Updated Claims table (Cosine methodology)
+Historical snapshot with:
+- All 8 publication paths (duplicated content)
+- 16 visualization PDFs
 - **Event Horizon = 0.80** (Cosine, calibrated)
-- **Cohen's d = 0.698** (honest model-level)
-- **92% inherent drift** (Run 023 Thermometer Result)
 - **750 experiments, 25 models, 5 providers**
 
-**Use this version for Run 023 references and full package set.**
+**Superseded by v4. Preserved for reference.**
 
 ### v2/ (Historical - December 24, 2025)
 
@@ -55,49 +53,34 @@ Archived content from before Run 023 completion.
 
 ## Directory Structure
 
-```
+```text
 packages/
 ├── README.md              # This file
+├── CURRENT_VERSION.json   # Source of truth for current version
 ├── v1/                    # Historical (archived)
 ├── v2/                    # Historical (superseded)
-├── v3/                    # ★ CURRENT (Run 023 IRON CLAD)
-│   ├── arxiv/             # Priority - arXiv preprint
-│   │   ├── README.md
-│   │   ├── PACKAGE_MANIFEST.md
-│   │   ├── LLM_SYNTHESIS/     # NotebookLLM synthesis
-│   │   ├── submissions/
-│   │   ├── theory/
-│   │   ├── guides/
-│   │   ├── figures/
-│   │   └── ...
-│   ├── workshop/          # Priority - NeurIPS/AAAI
-│   │   ├── README.md
-│   │   ├── LLM_SYNTHESIS/
-│   │   └── ...
-│   ├── journal/           # Nature MI
-│   ├── popular_science/   # Atlantic/Wired
-│   ├── education/         # OER/Coursera
-│   ├── policy/            # Think tanks
-│   ├── funding/           # NSF/DARPA
-│   ├── media/             # Press/TED
-│   └── visualization_pdfs/    # ★ 16 S7 ARMADA visualization PDFs
-│       ├── README.md
-│       ├── 1_Vortex_Summary.pdf
-│       ├── 2_Boundary_Mapping_Summary.pdf
-│       ├── 3_Stability_Summary.pdf
-│       ├── 4_Rescue_Summary.pdf
-│       ├── 5_Settling_Summary.pdf
-│       ├── 6_Architecture_Summary.pdf
-│       ├── 8_Radar_Oscilloscope_Summary.pdf
-│       ├── 9_FFT_Spectral_Summary.pdf
-│       ├── 10_PFI_Dimensional_Summary.pdf
-│       ├── 11_Unified_Dashboard_Summary.pdf
-│       ├── 12_Metrics_Summary.pdf
-│       ├── 13_Model_Waveforms_Summary.pdf
-│       ├── 14_Ringback_Summary.pdf
-│       ├── 15_Oobleck_Effect_Summary.pdf
-│       ├── run018_Summary.pdf
-│       └── run020_Summary.pdf
+├── v3/                    # Historical (superseded by v4)
+├── v4/                    # ★ CURRENT
+│   ├── START_HERE.md      # Reviewer entry point
+│   ├── REVIEWER_BRIEF.md  # Full orientation
+│   ├── PACKAGE_INDEX.json # Shared content mapping
+│   ├── .shared/           # ★ Deduplicated content library
+│   │   ├── theory/        # Core theoretical documents
+│   │   ├── guides/        # Methodology and statistics
+│   │   ├── planning/      # Review orientation
+│   │   ├── references/    # Bibliography
+│   │   ├── figures/       # Visual assets
+│   │   └── LLM_SYNTHESIS/ # NotebookLM outputs
+│   ├── arxiv/             # arXiv preprint (path-specific)
+│   ├── workshop/          # NeurIPS/AAAI (path-specific)
+│   ├── journal/           # Nature MI (path-specific)
+│   ├── popular_science/   # Atlantic/Wired (path-specific)
+│   ├── education/         # OER/Coursera (path-specific)
+│   ├── policy/            # Think tanks (path-specific)
+│   ├── funding/           # NSF/DARPA (path-specific)
+│   ├── media/             # Press/TED (path-specific)
+│   ├── visualization_pdfs/# 16 S7 ARMADA visualization PDFs
+│   └── feedback/          # Reviewer feedback goes here
 └── pdf/                   # Legacy PDF layer
 ```
 
@@ -105,19 +88,28 @@ packages/
 
 ## Quick Start for Reviewers
 
-### For arXiv Review
+### For Any Review
+
+```text
+v4/START_HERE.md  <- Start here (cold boot reading order)
 ```
-v3/arxiv/README.md  <- Start here
+
+### For arXiv Review
+
+```text
+v4/arxiv/submissions/arxiv/  <- Full preprint draft
 ```
 
 ### For Workshop Review
-```
-v3/workshop/README.md  <- Start here
+
+```text
+v4/workshop/submissions/workshop/  <- Workshop paper
 ```
 
 ### For Visualization Overview
-```
-v3/visualization_pdfs/README.md  <- 16 PDF summaries
+
+```text
+v4/visualization_pdfs/README.md  <- 16 PDF summaries
 ```
 
 ---
@@ -130,27 +122,27 @@ v3/visualization_pdfs/README.md  <- 16 PDF summaries
 
 ---
 
-## Key Metrics (v3)
+## Key Metrics (v4)
 
 | Metric | Value | Source |
-|--------|-------|--------|
+| ------ | ----- | ------ |
 | **Event Horizon** | D = 0.80 | Run 023 COSINE |
 | **Cohen's d** | 0.698 | Run 023 model-level |
 | **Inherent Drift** | 92% | Run 023 Thermometer |
 | **p-value** | 2.40e-23 | Run 023 perturbation |
 | **PCs for 90%** | 2 | Run 023 PCA |
-| **Settling Time** | τₛ ≈ 10.2 | Run 023d |
+| **Settling Time** | tau_s ~ 10.2 | Run 023d |
 | **Fleet Size** | 25 models, 5 providers | Run 023 |
 | **Experiments** | 750 | Run 023 |
 
 ---
 
-## NotebookLLM Integration
+## NotebookLM Integration
 
-Each v3 package includes an `LLM_SYNTHESIS/` subdirectory with relevant NotebookLLM outputs:
+v4 packages include NotebookLM synthesis content in `.shared/LLM_SYNTHESIS/`:
 
 | Path | LLM_SYNTHESIS Contents |
-|------|------------------------|
+| ---- | ---------------------- |
 | arxiv | Full academic paper + Technical report |
 | journal | Full academic paper + Technical report |
 | workshop | Briefing document |
@@ -164,34 +156,39 @@ Each v3 package includes an `LLM_SYNTHESIS/` subdirectory with relevant Notebook
 
 ## Regenerating Packages
 
-To regenerate v3 packages:
+To regenerate v4 packages:
 
 ```bash
 cd WHITE-PAPER/calibration
-py extract_review_package.py --all
+py 2_package_review.py --all
 ```
 
-Output will go to `reviewers/packages/v3/`
+Output will go to `reviewers/packages/v4/`
+
+To extract and generate final submission PDFs:
+
+```bash
+py 3_generate_pdfs.py --from-review  # Extract from reviewers/, generate PDFs
+py 3_generate_pdfs.py                # Generate from existing submissions/
+```
 
 ---
 
-## Package Sizes (v3)
+## Package Architecture (v4)
 
-| Path | Files | Size | Priority |
-|------|-------|------|----------|
-| **arxiv** | 26 | 2.7 MB | HIGH |
-| **workshop** | 16 | 2.5 MB | HIGH |
-| journal | 30 | 2.8 MB | Medium |
-| popular_science | 6 | 67 KB | Low |
-| education | 6 | 60 KB | Low |
-| policy | 5 | 50 KB | Low |
-| funding | 9 | 99 KB | Low |
-| media | 8 | 58 KB | Low |
-| **visualization_pdfs** | 17 | ~15 MB | HIGH |
+v4 uses a **shared content architecture** to eliminate duplication:
 
-**Total:** 123 files across all packages
+| Component | Purpose |
+| --------- | ------- |
+| `.shared/` | Deduplicated content (theory, guides, figures) |
+| `PACKAGE_INDEX.json` | Maps shared files to publication paths |
+| `{path}/submissions/{path}/` | Path-specific content + reviewer working area |
+| `visualization_pdfs/` | 16 IRON CLAD visualization summaries |
+
+**Size reduction:** ~60% compared to v3 (duplicated content eliminated)
 
 ---
 
-*Package infrastructure maintained by extract_review_package.py*
+*Package infrastructure maintained by 2_package_review.py*
+*Submission workflow: 3_generate_pdfs.py --from-review*
 *Run 023 IRON CLAD: 750 experiments, 25 models, 5 providers*
