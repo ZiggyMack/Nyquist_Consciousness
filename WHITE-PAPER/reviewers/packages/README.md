@@ -9,16 +9,19 @@
 
 ### v4/ (Current - December 29, 2025)
 
-**Run 020B IRON CLAD Data Audit + Updated Oobleck Effect**
+**Run 020B IRON CLAD Data Audit + Updated Visualization PDFs**
 
-Incremental update with:
+Incremental update with 3 regenerated PDFs:
 - **15_Oobleck_Effect_Summary.pdf** — Updated with full IRON CLAD data
-- Run 020B: 221 sessions (was 73), 37 ships (was 7), 100% attribution
-- Run 020A: 29 sessions, 14 prosecutor, 8 defense phase data
-- Inherent drift ratio: ~93% (updated from ~92%)
-- Control mean: 0.661, Treatment mean: 0.711
+- **run018_Summary.pdf** — Updated trajectory counts (1,549, was 1,145)
+- **run020_Summary.pdf** — Updated with IRON CLAD (226 sessions, 38 ships)
 
-**Use this version for Oobleck Effect references.**
+Key data corrections:
+- Run 020B: 226 sessions (was 73), 38 ships (was 7), 100% attribution
+- Run 018: 1,549 trajectories (was 1,145), corrected provider counts
+- Inherent drift ratio: ~92% (Control: 0.650, Treatment: 0.709)
+
+**Use this version for current IRON CLAD data references.**
 
 ### v3/ (December 26, 2025)
 

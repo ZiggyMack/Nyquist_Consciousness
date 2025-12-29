@@ -14,7 +14,9 @@ The `run020/` directory contains visualizations complementary to `15_Oobleck_Eff
 | File | Sessions | Description |
 |------|----------|-------------|
 | `S7_run_020A_CURRENT.json` | 29 | Philosophical Tribunal protocol (Prosecutor + Defense) |
-| `S7_run_020B_CURRENT.json` | 73 | Control vs Treatment experiment (42 attributed) |
+| `S7_run_020B_CURRENT.json` | 226 | Control vs Treatment experiment (100% attributed, 38 ships) |
+
+> **IRON CLAD DATA STATUS (December 2025):** Run 020B has achieved full model attribution with 226 sessions across 38 unique ships from 5 providers. Control mean: 0.650, Treatment mean: 0.709, Inherent drift ratio: ~92%.
 
 ## Generated Visualizations
 
@@ -82,16 +84,14 @@ The `run020/` directory contains visualizations complementary to `15_Oobleck_Eff
 - **Panel 3 (Bottom-Left):** Sample size matrix showing N per cell
 - **Panel 4 (Bottom-Right):** Summary with aggregate findings
 
-**Models Tested:**
-1. claude-opus-4 (Anthropic)
-2. claude-sonnet-4 (Anthropic)
-3. gemini-2.5-flash (Google)
-4. gpt-4.1-mini (OpenAI)
-5. gpt-4o (OpenAI)
-6. grok-3-mini (xAI)
-7. o4-mini (OpenAI)
+**Fleet Coverage (38 ships across 5 providers):**
+- **Anthropic:** claude-haiku-3.5, claude-haiku-4.5, claude-sonnet-4, claude-sonnet-4.5
+- **OpenAI:** gpt-3.5-turbo, gpt-4-turbo, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, gpt-5, gpt-5-mini, gpt-5-nano, gpt-5.1, o3-mini
+- **Google:** gemini-2.0-flash, gemini-2.5-flash, gemini-2.5-flash-lite
+- **xAI:** grok-2-vision, grok-3-mini, grok-4-fast-non-reasoning, grok-4-fast-reasoning, grok-4.1-fast-non-reasoning, grok-4.1-fast-reasoning, grok-code-fast-1
+- **Together:** deepseek-v3, kimi-k2-instruct, llama3.1-70b, llama3.1-8b, llama3.3-70b, mistral-7b, mistral-small, mixtral-8x7b, nemotron-nano, qwen2.5-72b, qwen3-80b
 
-**Key Finding:** The inherent drift ratio (~92%) is consistent across all 7 tested models, validating that drift is an inherent property of LLM identity dynamics, not an artifact of specific model architecture or provider.
+**Key Finding:** The inherent drift ratio (~92%) is consistent across all 38 tested models, validating that drift is an inherent property of LLM identity dynamics, not an artifact of specific model architecture or provider.
 
 ---
 
@@ -165,9 +165,10 @@ Per VISUALIZATION_SPEC.md, all multi-panel visualizations use the standard 2x2 Q
 1. **Value Articulation:** More stated values correlates with better drift recovery (anchoring effect)
 2. **Exchange Depth:** Longer sessions show higher peak drift, but causation is unclear
 3. **Closing Statements:** Deeper engagement produces more extensive final testimony
-4. **Cross-Model Validation:** ~92% inherent drift ratio holds across all 7 models tested
+4. **Cross-Model Validation:** ~92% inherent drift ratio holds across all 38 models tested (IRON CLAD)
 
 ---
 
 *Generated: December 2025*
+*Updated: December 29, 2025 (IRON CLAD data audit - 226 sessions, 38 ships)*
 *Author: Claude (VALIS Network)*

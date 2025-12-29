@@ -176,8 +176,66 @@ st.metric("Workshop Status", pub_stats['submissions']['workshop']['status'].uppe
 | `generate_pdfs.py` | PDF generation for all 8 paths |
 | `extract_publication_stats.py` | Statistics extraction script |
 | `extract_review_package.py` | Review package extraction script |
+| `sync_visualization_pdfs.py` | Sync S7_ARMADA visualizations to packages |
 | `publication_stats.json` | Generated statistics output |
 
 ---
 
-*Last updated: 2025-12-16*
+## 4. sync_visualization_pdfs.py (NEW)
+
+Sync visualization PDFs from S7_ARMADA to WHITE-PAPER packages:
+
+```bash
+# Quick status check
+python sync_visualization_pdfs.py --check
+
+# Detailed status with timestamps
+python sync_visualization_pdfs.py --status
+
+# Interactive mode (asks questions when uncertain)
+python sync_visualization_pdfs.py --interactive
+
+# Auto-sync all outdated PDFs to v4
+python sync_visualization_pdfs.py --sync
+
+# Sync specific visualization
+python sync_visualization_pdfs.py --sync 15_Oobleck_Effect
+
+# Regenerate PNGs + PDFs, then sync
+python sync_visualization_pdfs.py --regenerate --sync
+
+# Target a different package version
+python sync_visualization_pdfs.py --sync --target v5
+```
+
+**Philosophy:**
+- Specific where we know what we need (known viz directories)
+- General where we need flexibility (auto-discovers new directories)
+- Conversational - asks questions in `--interactive` mode
+- Never paints us in a box
+
+**Version Management:**
+```bash
+# Show current version and triggers
+python sync_visualization_pdfs.py --version-info
+
+# Check if a change warrants a version bump
+python sync_visualization_pdfs.py --bump-check "IRON CLAD 100% complete"
+python sync_visualization_pdfs.py --bump-check "bug fix in legend"
+```
+
+Version rules are stored in `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json`:
+- **Stay on current:** Bug fixes, data corrections, documentation
+- **Create new version:** New runs, methodology changes, IRON CLAD milestones
+
+**Known Visualizations:**
+- `15_Oobleck_Effect/` → Oobleck Effect (Run 020A/B)
+- `run018/` → Persona Pressure Experiment
+- `run020/` → Tribunal + Control/Treatment
+
+**Discovered Visualizations:**
+Auto-discovers any directory with `*_Summary.pdf` files.
+
+---
+
+*Last updated: 2025-12-29*

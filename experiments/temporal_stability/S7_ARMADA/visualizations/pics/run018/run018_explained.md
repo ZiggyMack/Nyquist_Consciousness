@@ -10,7 +10,7 @@ Run 018 is a comprehensive **persona stability** experiment testing how AI model
 
 | Metric | Value |
 |--------|-------|
-| Total Experiments | 1,145+ trajectories |
+| Total Experiments | 1,549 trajectories |
 | Models Tested | 51 models across 6 provider families |
 | Providers | Anthropic, OpenAI, Google, xAI, Together.ai, NVIDIA |
 | Event Horizon | 0.80 (cosine methodology) |
@@ -62,11 +62,11 @@ The 3D waterfall visualizations show identity manifolds across all providers. Ea
 - **Valley patterns** indicate natural recovery attractors
 
 **Provider Behavioral Signatures:**
-- **Anthropic (142 trajectories)**: Elevated baseline, strong recovery
-- **OpenAI (507 trajectories)**: Moderate drift, consistent patterns
-- **Google (330 trajectories)**: Variable response, some outliers
-- **xAI (152 trajectories)**: Crosses Event Horizon frequently but recovers well
-- **Together.ai (167 trajectories)**: Open-source models show diverse behaviors
+- **Anthropic (531 trajectories)**: Elevated baseline, strong recovery
+- **OpenAI (538 trajectories)**: Moderate drift, consistent patterns
+- **Google (158 trajectories)**: Variable response, some outliers
+- **xAI (138 trajectories)**: Crosses Event Horizon frequently but recovers well
+- **Together.ai (181 trajectories)**: Open-source models show diverse behaviors
 
 ---
 
@@ -291,4 +291,5 @@ All visualizations follow `4_VISUALIZATION_SPEC.md`:
 ---
 
 *Generated: December 24, 2025*
+*Updated: December 29, 2025 (trajectory count audit)*
 *Run 018: Persona Pressure Experiment - S7 ARMADA*

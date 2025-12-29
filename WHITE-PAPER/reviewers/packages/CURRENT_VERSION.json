@@ -1,0 +1,65 @@
+{
+  "current_version": "v4",
+  "created": "2025-12-29",
+  "reason": "Run 020B IRON CLAD data audit + visualization updates",
+
+  "versioning_rules": {
+    "stay_on_current": [
+      "Bug fixes in existing visualizations",
+      "Data corrections within same experiment scope",
+      "Documentation updates",
+      "Adding missing PDFs to current package"
+    ],
+    "create_new_version": [
+      "New experiment runs added (e.g., Run 024)",
+      "Methodology changes (Event Horizon recalibration)",
+      "Significant scope expansion",
+      "Breaking changes to existing claims",
+      "Major data collection milestone (e.g., IRON CLAD 100%)"
+    ]
+  },
+
+  "version_history": [
+    {
+      "version": "v4",
+      "date": "2025-12-29",
+      "trigger": "Run 020B IRON CLAD data audit",
+      "changes": [
+        "15_Oobleck_Effect_Summary.pdf - IRON CLAD update",
+        "run018_Summary.pdf - trajectory count correction",
+        "run020_Summary.pdf - IRON CLAD update (226 sessions, 38 ships)"
+      ]
+    },
+    {
+      "version": "v3",
+      "date": "2025-12-26",
+      "trigger": "Run 023 IRON CLAD complete",
+      "changes": [
+        "Full 16 visualization PDF suite",
+        "8 publication paths",
+        "NotebookLLM synthesis integration"
+      ]
+    },
+    {
+      "version": "v2",
+      "date": "2025-12-24",
+      "trigger": "NotebookLLM integration",
+      "changes": ["Historical - superseded"]
+    },
+    {
+      "version": "v1",
+      "date": "2025-12-20",
+      "trigger": "Initial package",
+      "changes": ["Historical - archived"]
+    }
+  ],
+
+  "next_version_triggers": [
+    "Run 024 completion",
+    "IRON CLAD 100% (all ships at N≥5)",
+    "Human rater validation (EXP3)",
+    "Major methodology revision"
+  ],
+
+  "_note": "This file is read by sync_visualization_pdfs.py to determine target version"
+}
