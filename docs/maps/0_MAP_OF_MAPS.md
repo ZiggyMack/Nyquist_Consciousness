@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-29
 depends_on:
   - 3_VALIDATION_STATUS.md
   - 2_TESTABLE_PREDICTIONS_MATRIX.md
@@ -190,19 +190,20 @@ keywords:
 
 | Resource | Role | Key Contents |
 |----------|------|--------------|
-| **[14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md)** | External Repo Reference | 6 partners, sync directions, governance |
+| **[14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md)** | External Repo Reference | 7 partners, sync directions, governance |
 | **[5_STACKUP_MAP.md](5_STACKUP_MAP.md) § External Integrations** | Integration Hub | Architecture diagram, S-layer mapping |
 
-**The 6 External Repositories:**
+**The 7 External Repositories:**
 
 | Repo | Sync Direction | Purpose |
 |------|----------------|---------|
 | **CFA/** | ◄═══► Bidirectional | Primary collaborator, Omega/Nova integration |
-| **Logos/** | ◄─── Inbound | Formal verification (6 proven theorems, Coq proofs) |
 | **FRAME_THEORY/** | ◄─── Inbound | S10 human cognition substrate |
+| **LATEX/** | ◄─── Inbound | Technical writing toolkit (arXiv, reports) |
 | **LLM_BOOK/** | ───► Outbound | Publication package for distribution |
-| **VUDU_FIDELITY/** | ───► Outbound | Survey sync, EXP3 measurement bridge |
+| **Logos/** | ◄─── Inbound | Formal verification (6 proven theorems, Coq proofs) |
 | **PAN_HANDLERS/** | ◄═══► Bidirectional | Cross-repo orchestration |
+| **VUDU_FIDELITY/** | ───► Outbound | Survey sync, EXP3 measurement bridge |
 
 **The Federation** - External repositories that extend and validate Nyquist findings.
 
@@ -348,7 +349,7 @@ START                                                                    INSIGHT
 ║  ASCII Diagrams........................ 45+ visual aids       ║
 ║  Data Tables........................... 160+ tables           ║
 ║  Cross-References...................... 220+ links            ║
-║  External Repos........................ 6 (federated)         ║
+║  External Repos........................ 7 (federated)         ║
 ║                                                               ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║  VALIDATION COVERAGE                                          ║
@@ -442,7 +443,7 @@ When creating a new map:
 ║   • 46 testable predictions                                                  ║
 ║   • 16 completed experimental runs                                           ║
 ║   • 54 models sailing the identity ocean                                     ║
-║   • 6 federated repositories                                                 ║
+║   • 7 federated repositories                                                 ║
 ║   • 1 vision: S0 → S77                                                       ║
 ║                                                                               ║
 ║   May these maps guide your journey."                                        ║
@@ -460,11 +461,11 @@ When creating a new map:
 - [../MASTER_GLOSSARY.md](../MASTER_GLOSSARY.md) - Term definitions (44k+ characters)
 - [../../START_HERE.md](../../START_HERE.md) - Project entry point
 - [../../REPO-SYNC/FRAME_THEORY/INDEX.md](../../REPO-SYNC/FRAME_THEORY/INDEX.md) - Human cognition integration (S10)
-- [14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md) - External repo integrations (6 partners)
+- [14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md) - External repo integrations (7 partners)
 - [8_TEMPORAL_STABILITY_MAP.md](8_TEMPORAL_STABILITY_MAP.md) - Stability criteria and experiments
 
 ---
 
-*Last Updated: 2025-12-28*
+*Last Updated: 2025-12-29*
 *Maps Count: 18 (numbered) + README.md + update_maps.py*
 *Territory: The Mind*

@@ -1,26 +1,33 @@
 #!/usr/bin/env python3
 """
-digest.py - Curate 1_VALIDATION/ content into LLM_BOOK/ structure
-==================================================================
-Routes ingested NotebookLM outputs from validation staging to appropriate
+digest.py - Curate NotebookLM content from STAGING to LLM_BOOK/ structure
+=========================================================================
+Routes NotebookLM outputs directly from STAGING/_IN folders to appropriate
 LLM_BOOK directories based on file type and content.
+
+ACCUMULATIVE MODEL:
+-------------------
+Reads ALL REVIEW_NOTES_*.md files in 1_VALIDATION/ to understand what's been
+reviewed. Media files route directly from STAGING (source of truth), not from
+1_VALIDATION (which only holds review notes).
 
 WORKFLOW POSITION:
 ------------------
-STAGING/ → ingest.py → 1_VALIDATION/ → digest.py → LLM_BOOK/{2-7}_*/ → 1_sync_llmbook.py → packages/
+STAGING/_IN/ → ingest.py (creates REVIEW_NOTES_*.md) → Claude reviews →
+digest.py (routes from STAGING) → LLM_BOOK/{2-7}_*/ → 1_sync_llmbook.py → packages/
 
 USAGE:
 ------
 py digest.py                    # Report mode - show what would happen
 py digest.py --digest           # Actually perform digestion (copy files)
 py digest.py --digest --dry-run # Preview without changes
-py digest.py --move             # Move instead of copy (clears 1_VALIDATION/)
+py digest.py --batch Nyquist_1  # Only digest specific batch
 
 ROUTING RULES:
 --------------
-By file extension:
+By file extension (routes from STAGING/_IN/):
 - .png, .jpg, .jpeg, .gif, .svg  → 3_VISUALS/
-- .m4a, .mp3, .wav, .mp4         → 7_AUDIO/
+- .m4a, .mp3, .wav, .mp4         → 4_AUDIO/
 
 By filename patterns (for .md/.pdf):
 - 2_PUBLICATIONS/academic/       : "Technical Report", "Empirical", "Analysis", "Framework"
@@ -29,12 +36,9 @@ By filename patterns (for .md/.pdf):
 - 2_PUBLICATIONS/policy/         : "Briefing", "Brief", "Policy"
 - 2_PUBLICATIONS/funding/        : "Proposal", "Project", "Grant"
 - 2_PUBLICATIONS/media/          : "Paradigm", "New Era", "Press", "TED"
-- 4_DEEP_DIVES/                  : Extended analyses (manual placement)
-- 5_FUTURE/                      : Future research (manual placement)
-- 6_EXPERIMENTS/                 : Experiment logs (manual placement)
 
 Author: LLM_BOOK Digestion Pipeline
-Version: 1.1 (2025-12-29) - Added 3_VISUALS, 7_AUDIO routing
+Version: 2.0 (2025-12-29) - Accumulative model, routes from STAGING
 """
 
 import argparse
@@ -48,13 +52,14 @@ from typing import Dict, List, Tuple, Optional
 # === PATH CONSTANTS ===
 SCRIPT_DIR = Path(__file__).parent
 LLM_BOOK_DIR = SCRIPT_DIR.parent  # REPO-SYNC/LLM_BOOK/
+STAGING_DIR = SCRIPT_DIR / "STAGING"  # Source of truth for media files
 VALIDATION_DIR = LLM_BOOK_DIR / "1_VALIDATION"
 PUBLICATIONS_DIR = LLM_BOOK_DIR / "2_PUBLICATIONS"
 VISUALS_DIR = LLM_BOOK_DIR / "3_VISUALS"
-DEEP_DIVES_DIR = LLM_BOOK_DIR / "4_DEEP_DIVES"
-FUTURE_DIR = LLM_BOOK_DIR / "5_FUTURE"
-EXPERIMENTS_DIR = LLM_BOOK_DIR / "6_EXPERIMENTS"
-AUDIO_DIR = LLM_BOOK_DIR / "7_AUDIO"
+AUDIO_DIR = LLM_BOOK_DIR / "4_AUDIO"
+
+# Marker file indicating a batch has been ingested
+INGESTED_MARKER = ".ingested"
 
 # Publication categories (subdirectories of 2_PUBLICATIONS/)
 PUBLICATION_CATEGORIES = [
@@ -69,7 +74,7 @@ PUBLICATION_CATEGORIES = [
 # Top-level content categories (non-publication)
 CONTENT_CATEGORIES = [
     "visuals",    # 3_VISUALS/
-    "audio",      # 7_AUDIO/
+    "audio",      # 4_AUDIO/
 ]
 
 # All categories for reporting
@@ -150,7 +155,7 @@ EXTENSION_ROUTING = {
     ".gif": "visuals",
     ".svg": "visuals",
     ".webp": "visuals",
-    # Audio/video files → 7_AUDIO/
+    # Audio/video files → 4_AUDIO/
     ".m4a": "audio",
     ".mp3": "audio",
     ".wav": "audio",
@@ -161,7 +166,92 @@ EXTENSION_ROUTING = {
 # Files to skip (not content)
 SKIP_PATTERNS = [
     r"^README\.md$",
+    r"^REVIEW_NOTES.*\.md$",  # Review notes stay in 1_VALIDATION/
+    r"^\.ingested$",          # Marker files
 ]
+
+
+def discover_ingested_batches() -> List[str]:
+    """
+    Discover all ingested batch names from STAGING/.
+
+    Returns list of batch names (folder names with .ingested marker).
+    """
+    batches = []
+
+    if not STAGING_DIR.exists():
+        return batches
+
+    for folder in STAGING_DIR.iterdir():
+        if folder.is_dir() and (folder / INGESTED_MARKER).exists():
+            batches.append(folder.name)
+
+    return sorted(batches)
+
+
+def discover_review_notes() -> List[Path]:
+    """
+    Discover all REVIEW_NOTES_*.md files in 1_VALIDATION/.
+
+    Returns list of review notes files (accumulative model).
+    """
+    if not VALIDATION_DIR.exists():
+        return []
+
+    return sorted(VALIDATION_DIR.glob("REVIEW_NOTES_*.md"))
+
+
+def discover_staging_content(batch_name: Optional[str] = None) -> Dict[str, List[Path]]:
+    """
+    Discover all content in STAGING/_IN folders (source of truth).
+
+    Args:
+        batch_name: If specified, only scan that batch folder
+
+    Returns:
+        {
+            "academic": [Path(...), ...],
+            "education": [Path(...), ...],
+            "visuals": [Path(...), ...],
+            "audio": [Path(...), ...],
+            ...
+        }
+    """
+    result = {cat: [] for cat in ALL_CATEGORIES}
+    result["_skip"] = []
+    result["_unknown"] = []
+
+    if not STAGING_DIR.exists():
+        return result
+
+    # Determine which folders to scan
+    if batch_name:
+        folders_to_scan = [STAGING_DIR / batch_name]
+    else:
+        # Scan all ingested batches
+        folders_to_scan = [
+            STAGING_DIR / name for name in discover_ingested_batches()
+        ]
+
+    for folder in folders_to_scan:
+        in_folder = folder / "_IN"
+        if not in_folder.exists():
+            continue
+
+        for item in in_folder.iterdir():
+            if not item.is_file():
+                continue
+
+            category, _ = classify_file(item.name)
+
+            if category in result:
+                result[category].append(item)
+            elif category == "_skip":
+                result["_skip"].append(item)
+            else:
+                result["_unknown"].append(item)
+
+    return result
 
 
 def classify_file(filename: str) -> Tuple[str, Optional[str]]:
@@ -195,40 +285,6 @@ def classify_file(filename: str) -> Tuple[str, Optional[str]]:
     return ("_unknown", None)
 
 
-def discover_validation_content() -> Dict[str, List[Path]]:
-    """
-    Discover all content in 1_VALIDATION/ and classify by category.
-
-    Returns:
-        {
-            "academic": [Path(...), ...],
-            "education": [Path(...), ...],
-            "visuals": [Path(...), ...],
-            "audio": [Path(...), ...],
-            ...
-        }
-    """
-    result = {cat: [] for cat in ALL_CATEGORIES}
-    result["_skip"] = []
-    result["_unknown"] = []
-
-    if not VALIDATION_DIR.exists():
-        return result
-
-    for item in VALIDATION_DIR.rglob("*"):
-        if not item.is_file():
-            continue
-
-        category, _ = classify_file(item.name)
-
-        if category in result:
-            result[category].append(item)
-        elif category == "_skip":
-            result["_skip"].append(item)
-        else:
-            result["_unknown"].append(item)
-
-    return result
 
 
 def get_target_dir(category: str) -> Path:
@@ -274,24 +330,48 @@ def copy_file_to_category(source: Path, category: str, dry_run: bool = True) -> 
     return True
 
 
-def generate_report() -> str:
-    """Generate status report of validation content classification."""
-    content = discover_validation_content()
+def generate_report(batch_name: Optional[str] = None) -> str:
+    """Generate status report of staging content classification."""
+    content = discover_staging_content(batch_name)
+    review_notes = discover_review_notes()
+    ingested_batches = discover_ingested_batches()
 
     lines = [
         "=" * 60,
-        "LLM_BOOK DIGEST STATUS",
+        "LLM_BOOK DIGEST STATUS (Accumulative Model)",
         f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         "=" * 60,
         "",
-        f"Source: {VALIDATION_DIR}",
+        f"Source: {STAGING_DIR}/_IN folders",
+        "",
+        "## Ingested Batches",
+    ]
+
+    if ingested_batches:
+        for batch in ingested_batches:
+            lines.append(f"  - {batch}")
+    else:
+        lines.append("  (none - run ingest.py first)")
+
+    lines.extend([
+        "",
+        "## Review Notes (1_VALIDATION/)",
+    ])
+
+    if review_notes:
+        for rn in review_notes:
+            lines.append(f"  - {rn.name}")
+    else:
+        lines.append("  (none found)")
+
+    lines.extend([
         "",
         "Target directories:",
         f"  2_PUBLICATIONS/ - Text content by audience",
         f"  3_VISUALS/      - Images and diagrams",
-        f"  7_AUDIO/        - Audio and video files",
+        f"  4_AUDIO/        - Audio and video files",
         "",
-    ]
+    ])
 
     total_files = 0
 
@@ -312,7 +392,7 @@ def generate_report() -> str:
     for category in CONTENT_CATEGORIES:
         files = content.get(category, [])
         if files:
-            target_name = "3_VISUALS" if category == "visuals" else "7_AUDIO"
+            target_name = "3_VISUALS" if category == "visuals" else "4_AUDIO"
             lines.append(f"## {target_name}/ ({len(files)} files)")
             for f in files:
                 _, pattern = classify_file(f.name)
@@ -345,101 +425,102 @@ def generate_report() -> str:
         "",
         "To perform digestion: py digest.py --digest",
         "To preview changes:   py digest.py --digest --dry-run",
+        "To digest one batch:  py digest.py --digest --batch Nyquist_1",
         "=" * 60,
     ])
 
     return "\n".join(lines)
 
 
-def perform_digestion(dry_run: bool = True, move: bool = False) -> Dict:
+def perform_digestion(dry_run: bool = True, batch_name: Optional[str] = None) -> Dict:
     """
-    Perform digestion: route files from 1_VALIDATION/ to 2_PUBLICATIONS/{category}/.
+    Perform digestion: route files from STAGING/_IN to LLM_BOOK/{2-7}_*/.
+
+    Accumulative model:
+    - Routes media from STAGING (source of truth), not from 1_VALIDATION
+    - Publication content (.md, .pdf) goes to 2_PUBLICATIONS/{category}/
+    - Visuals (.png, .jpg, etc.) go to 3_VISUALS/
+    - Audio (.m4a, .mp3, .mp4, etc.) goes to 4_AUDIO/
 
     Args:
         dry_run: If True, only preview changes
-        move: If True, move files instead of copying
+        batch_name: If specified, only digest that batch
     """
     results = {
         "timestamp": datetime.now().isoformat(),
         "dry_run": dry_run,
-        "move": move,
+        "batch": batch_name or "all",
         "categories": {},
         "skipped": [],
-        "assets": [],
     }
 
     print("=" * 60)
-    print("LLM_BOOK DIGESTION")
-    print(f"Mode: {'DRY RUN' if dry_run else ('MOVE' if move else 'COPY')}")
+    print("LLM_BOOK DIGESTION (Accumulative Model)")
+    print(f"Mode: {'DRY RUN' if dry_run else 'COPY'}")
+    if batch_name:
+        print(f"Batch: {batch_name}")
     print("=" * 60)
 
-    content = discover_validation_content()
+    content = discover_staging_content(batch_name)
 
     # Ensure target directories exist
     if not dry_run:
         ensure_category_dirs()
 
-    # Process each category
-    for category in CATEGORIES:
+    # Process publication categories
+    for category in PUBLICATION_CATEGORIES:
         files = content.get(category, [])
         if not files:
             continue
 
-        print(f"\n## {category}/ ({len(files)} files)")
+        print(f"\n## 2_PUBLICATIONS/{category}/ ({len(files)} files)")
         results["categories"][category] = {"count": len(files), "files": []}
+
+        target_dir = PUBLICATIONS_DIR / category
 
         for source in files:
             if dry_run:
                 print(f"  [DRY RUN] {source.name}")
-                results["categories"][category]["files"].append(source.name)
             else:
-                target_dir = PUBLICATIONS_DIR / category
                 target_path = target_dir / source.name
+                shutil.copy2(source, target_path)
+                print(f"  [OK] {source.name}")
 
-                if move:
-                    shutil.move(str(source), str(target_path))
-                    print(f"  [MOVED] {source.name}")
-                else:
-                    shutil.copy2(source, target_path)
-                    print(f"  [COPIED] {source.name}")
+            results["categories"][category]["files"].append(source.name)
 
-                results["categories"][category]["files"].append(source.name)
+    # Process visuals
+    visuals = content.get("visuals", [])
+    if visuals:
+        print(f"\n## 3_VISUALS/ ({len(visuals)} files)")
+        results["categories"]["visuals"] = {"count": len(visuals), "files": []}
 
-    # Handle assets - copy to same category as related .md file
-    assets = content.get("_asset", [])
-    if assets:
-        print(f"\n## Assets ({len(assets)} files)")
-        for asset in assets:
-            # Find what category the parent .md files went to
-            parent_dir = asset.parent
-            # Check if any .md file in same dir was classified
-            sibling_mds = list(parent_dir.glob("*.md"))
-            target_category = None
-
-            for md in sibling_mds:
-                if md.name.lower() != "readme.md":
-                    cat, _ = classify_file(md.name)
-                    if cat in CATEGORIES:
-                        target_category = cat
-                        break
-
-            if target_category:
-                if dry_run:
-                    print(f"  [DRY RUN] {asset.name} -> {target_category}/ (follows siblings)")
-                else:
-                    target_dir = PUBLICATIONS_DIR / target_category
-                    target_path = target_dir / asset.name
-
-                    if move:
-                        shutil.move(str(asset), str(target_path))
-                    else:
-                        shutil.copy2(asset, target_path)
-
-                    print(f"  [{'MOVED' if move else 'COPIED'}] {asset.name} -> {target_category}/")
-                results["assets"].append({"file": asset.name, "category": target_category})
+        for source in visuals:
+            if dry_run:
+                print(f"  [DRY RUN] {source.name}")
             else:
-                print(f"  [SKIP] {asset.name} (no category determined)")
-                results["assets"].append({"file": asset.name, "category": None})
+                VISUALS_DIR.mkdir(parents=True, exist_ok=True)
+                target_path = VISUALS_DIR / source.name
+                shutil.copy2(source, target_path)
+                print(f"  [OK] {source.name}")
+
+            results["categories"]["visuals"]["files"].append(source.name)
+
+    # Process audio
+    audio = content.get("audio", [])
+    if audio:
+        print(f"\n## 4_AUDIO/ ({len(audio)} files)")
+        results["categories"]["audio"] = {"count": len(audio), "files": []}
+
+        for source in audio:
+            if dry_run:
+                print(f"  [DRY RUN] {source.name}")
+            else:
+                AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+                target_path = AUDIO_DIR / source.name
+                shutil.copy2(source, target_path)
+                print(f"  [OK] {source.name}")
+
+            results["categories"]["audio"]["files"].append(source.name)
 
     # Report skipped
     skipped = content.get("_skip", [])
@@ -449,16 +530,34 @@ def perform_digestion(dry_run: bool = True, move: bool = False) -> Dict:
             print(f"  - {f.name}")
             results["skipped"].append(f.name)
 
+    # Report unknown
+    unknown = content.get("_unknown", [])
+    if unknown:
+        print(f"\n## Unknown ({len(unknown)} files)")
+        for f in unknown:
+            print(f"  - {f.name}")
+            results["skipped"].append(f.name)
+
     # Summary
-    total_processed = sum(len(results["categories"].get(c, {}).get("files", [])) for c in CATEGORIES)
+    total_processed = sum(
+        len(results["categories"].get(c, {}).get("files", []))
+        for c in ALL_CATEGORIES
+    )
 
     print("\n" + "=" * 60)
     print("SUMMARY")
     print("=" * 60)
-    for category in CATEGORIES:
+
+    for category in ALL_CATEGORIES:
         count = len(results["categories"].get(category, {}).get("files", []))
         if count > 0:
-            print(f"  {category}: {count} files")
+            if category in PUBLICATION_CATEGORIES:
+                print(f"  2_PUBLICATIONS/{category}/: {count} files")
+            elif category == "visuals":
+                print(f"  3_VISUALS/: {count} files")
+            elif category == "audio":
+                print(f"  4_AUDIO/: {count} files")
+
     print(f"  TOTAL: {total_processed} files")
     print(f"  Skipped: {len(results['skipped'])}")
 
@@ -466,22 +565,25 @@ def perform_digestion(dry_run: bool = True, move: bool = False) -> Dict:
         print(f"\n[DRY RUN] Would process {total_processed} files")
         print("Run with --digest (no --dry-run) to apply changes")
     else:
-        action = "moved" if move else "copied"
-        print(f"\n[OK] {action.title()} {total_processed} files to 2_PUBLICATIONS/")
+        print(f"\n[OK] Copied {total_processed} files to LLM_BOOK/")
 
     return results
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Curate 1_VALIDATION/ content into 2_PUBLICATIONS/ categories",
+        description="Curate STAGING/_IN content into LLM_BOOK/ categories (Accumulative Model)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
+Accumulative Model:
+  Routes from STAGING/_IN (source of truth), not from 1_VALIDATION.
+  Review notes stay in 1_VALIDATION/ and are synced separately.
+
 Examples:
-  py digest.py                    # Show classification report
-  py digest.py --digest           # Copy files to categories
-  py digest.py --digest --dry-run # Preview changes
-  py digest.py --digest --move    # Move files (clears source)
+  py digest.py                      # Show classification report
+  py digest.py --digest             # Copy files to categories
+  py digest.py --digest --dry-run   # Preview changes
+  py digest.py --digest --batch Nyquist_1  # Digest specific batch
         """
     )
 
@@ -489,8 +591,8 @@ Examples:
                         help="Perform digestion (default: report only)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview changes without applying")
-    parser.add_argument("--move", action="store_true",
-                        help="Move files instead of copying")
+    parser.add_argument("--batch", type=str, default=None,
+                        help="Only digest specific batch folder")
     parser.add_argument("--json", action="store_true",
                         help="Output as JSON instead of text")
 
@@ -498,12 +600,12 @@ Examples:
 
     if not args.digest:
         # Report mode
-        print(generate_report())
+        print(generate_report(args.batch))
     else:
         # Digestion mode
         results = perform_digestion(
             dry_run=args.dry_run,
-            move=args.move
+            batch_name=args.batch
         )
 
         if args.json:

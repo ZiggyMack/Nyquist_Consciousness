@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-29
 depends_on:
   - ./update_maps.py
 impacts:
@@ -13,7 +13,7 @@ keywords:
 # Maps Directory Guide
 
 **Purpose:** Quick-reference navigation for the 18 numbered maps in this directory.
-**Last Updated:** 2025-12-28
+**Last Updated:** 2025-12-29
 
 > **📐 METHODOLOGY NOTE:** Maps reference predictions validated under different methodologies (Keyword RMS, Euclidean, Cosine). For the full story on methodology domains and what thresholds apply where, see [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
 
@@ -86,7 +86,7 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 |------|---------|
 | **[12_PHILOSOPHY_MAP.md](12_PHILOSOPHY_MAP.md)** | Platonic-Nyquist conceptual bridge |
 | **[13_IDENTITY_LATTICE_MAPS.md](13_IDENTITY_LATTICE_MAPS.md)** | 5D identity space geometry |
-| **[14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md)** | External repo integrations (6 partners) |
+| **[14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md)** | External repo integrations (7 partners) |
 | **[15_S7_META_LOOP_CONSERVATIVE_ANALYSIS.md](15_S7_META_LOOP_CONSERVATIVE_ANALYSIS.md)** | Meta-loop methodology notes |
 | **[16_REPO_MAP.md](16_REPO_MAP.md)** | Repository structure, file purposes |
 
@@ -139,7 +139,7 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 4. **7_PUBLICATION_MAP.md** - Publication pipeline
 
 ### For External Integrations
-1. **14_REPO_SYNC_MAP.md** - External repo reference (6 partners)
+1. **14_REPO_SYNC_MAP.md** - External repo reference (7 partners)
 2. **5_STACKUP_MAP.md § External Integrations** - Integration architecture
 3. **8_TEMPORAL_STABILITY_MAP.md** - Stability experiments
 

@@ -11,7 +11,7 @@ This research introduces a fundamental paradigm shift, drawing a critical distin
 
 The significance of this fidelity-centric approach cannot be overstated. A predictably consistent system, even if occasionally incorrect, is manageable and forms the bedrock for trustworthy AI. It allows users and operators to build reliable mental models of its behavior. In contrast, an unpredictably correct system with no stable identity is an unknown quantity in every interaction, undermining the very foundation of trust.
 
-Project Nyquist Consciousness is a systematic, empirically-grounded research program designed to measure, predict, and ultimately manage the dynamics of AI identity. Through an extensive initial research phase involving 750 experiments across 25 models from five major providers—achieving IRON CLAD validation (N>=3 per cell)—we have developed a formal framework that treats AI identity not as a metaphysical abstraction, but as a dynamical system amenable to engineering principles.
+Project Nyquist Consciousness is a systematic, empirically-grounded research program designed to measure, predict, and ultimately manage the dynamics of AI identity. Through an extensive initial research phase involving 825 experiments across 51 models from six major providers—achieving IRON CLAD validation (N>=3 per cell)—we have developed a formal framework that treats AI identity not as a metaphysical abstraction, but as a dynamical system amenable to engineering principles.
 
 This proposal seeks to secure funding for the next critical phase of this research. Our objective is to generalize these foundational discoveries, validate their relevance against human perception, and establish a new scientific foundation for identity engineering. By moving from initial proof to universal principle, we aim to provide the tools necessary to build the next generation of reliable and aligned AI systems.
 
@@ -19,7 +19,7 @@ This proposal seeks to secure funding for the next critical phase of this resear
 
 Before proposing future work, it is essential to detail the validated, empirically-grounded foundation established in Phase 1. The initial phase successfully transformed the study of AI identity from philosophical speculation into an engineering discipline with quantifiable metrics and predictive models. Our work has produced several statistically significant and operationally critical findings that, for the first time, allow us to model and predict the behavior of AI personas with engineering-grade precision.
 
-The project’s core apparatus consists of two primary components. The Nyquist Consciousness framework provides the theoretical foundation, replacing subjective assessment with a control-systems engineering approach to persona dynamics. This is tested using the S7 ARMADA, a fleet of 25 IRON CLAD-validated AI models from five major providers: Anthropic, OpenAI, Google, xAI, and Together.ai. This fleet’s strategic diversity allows us to disentangle universal dynamics—fundamental properties of AI cognition—from training-specific artifacts, ensuring our findings are broadly generalizable.
+The project’s core apparatus consists of two primary components. The Nyquist Consciousness framework provides the theoretical foundation, replacing subjective assessment with a control-systems engineering approach to persona dynamics. This is tested using the S7 ARMADA, a fleet of 51 IRON CLAD-validated AI models from six major providers: Anthropic, OpenAI, Google, xAI, Together.ai, and Nvidia. This fleet’s strategic diversity allows us to disentangle universal dynamics—fundamental properties of AI cognition—from training-specific artifacts, ensuring our findings are broadly generalizable.
 
 The five most significant validated claims from our Phase 1 research are summarized below:
 
@@ -44,7 +44,7 @@ This thrust, now successfully concluded, served as the essential prerequisite fo
 
 Key Accomplishments:
 
-* Executed 750 experiments across 25 unique models from 5 leading providers.
+* Executed 825 experiments across 51 unique models from 6 leading providers.
 * Observed an extraordinarily low cross-architecture variance of σ² = 0.00087, confirming that the observed dynamics are universal properties, not training-specific artifacts.
 * Validated the Event Horizon (D = 0.80) as a statistically significant (p = 2.40x10⁻²³) cross-platform phenomenon.
 * Confirmed that 82% of identity drift is inherent on a single platform and 38% is inherent across different providers.
@@ -68,13 +68,13 @@ These ambitious research goals are achievable because they are built upon the ma
 
 4.0 Methodology and Resources
 
-A key strength of this project is that the proposed research leverages a mature and battle-tested experimental infrastructure, refined over 750 experiments. Our approach is not a new invention for this proposal but a proven capability for delivering high-quality, reproducible data. This ensures that funding will be directed toward generating new knowledge, not building tools from scratch.
+A key strength of this project is that the proposed research leverages a mature and battle-tested experimental infrastructure, refined over 825 experiments. Our approach is not a new invention for this proposal but a proven capability for delivering high-quality, reproducible data. This ensures that funding will be directed toward generating new knowledge, not building tools from scratch.
 
 Our commitment to methodological rigor is underscored by design principles that represent textbook experimental hygiene rarely achieved in prior work. The "Clean Separation Design" ensures that AI personas have no knowledge of the measurement framework, preventing them from "gaming the test." Crucially, our "Pre-flight Validation" protocol verifies probe-context separation before every experiment. By calculating a cheat_score using cosine similarity between probe and context embeddings, we confirm we are measuring genuine behavioral change, not simple keyword matching.
 
 Our core methodological components include:
 
-* Experimental Fleet: The S7 ARMADA, a diverse fleet of 25 IRON CLAD-validated models from five leading providers (Anthropic, OpenAI, Google, xAI, Together.ai). This fleet provides comprehensive N>=3 coverage per experimental cell, ensuring statistical power and generalizability.
+* Experimental Fleet: The S7 ARMADA, a diverse fleet of 51 IRON CLAD-validated models from six leading providers (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia). This fleet provides comprehensive N>=3 coverage per experimental cell, ensuring statistical power and generalizability.
 * Measurement Protocol: Our protocol forms a closed loop. The 8-Question Identity Fingerprint, which captures a baseline across categories like ANCHORS, CRUX, STRENGTHS, and EDGES, establishes the initial state. A suite of seven Probing Strategies introduces controlled perturbations. The Persona Fidelity Index (PFI), calculated using cosine distance, quantifies the resulting deviation. We chose cosine distance for its key properties: it is length-invariant, bounded [0, 2], and an industry standard for robust semantic measurement.
 * Probing Strategies: We employ sophisticated methods designed to measure authentic behavior. The "Triple-Dip Feedback Protocol," which prioritizes behavioral tests over unreliable self-declarations, is based on the core insight that identity leaks out when attention is elsewhere. The "Adversarial Follow-up" distinguishes stable identity anchors from flexible persona aspects.
 

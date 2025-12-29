@@ -20,14 +20,20 @@ keywords:
 |---------|-------------|
 | [START_HERE.md](START_HERE.md) | Quick orientation guide |
 | [0_SOURCE_MANIFESTS/](0_SOURCE_MANIFESTS/) | What was fed to NotebookLM + STAGING ingestion |
-| [1_VALIDATION/](1_VALIDATION/) | Core discoveries (Levin, Claims A-E) |
+| [1_VALIDATION/](1_VALIDATION/) | Core discoveries + analysis subdirectories |
 | [2_PUBLICATIONS/](2_PUBLICATIONS/) | Publication-ready content by audience |
 | [3_VISUALS/](3_VISUALS/) | Generated diagrams |
-| [4_DEEP_DIVES/](4_DEEP_DIVES/) | Topic-specific syntheses |
-| [5_FUTURE/](5_FUTURE/) | Planning for v2 refresh |
-| [6_EXPERIMENTS/](6_EXPERIMENTS/) | NotebookLM probing methodology |
-| [7_AUDIO/](7_AUDIO/) | Audio content & transcripts |
+| [4_AUDIO/](4_AUDIO/) | Audio content & transcripts |
 | [RnD/](RnD/) | Non-Nyquist R&D content (Hoffman, Gnostic, RAG, etc.) |
+
+### 1_VALIDATION/ Subdirectories
+
+| Subdirectory | Description |
+|--------------|-------------|
+| `REVIEW_NOTES_*.md` | Batch-level review notes (root of 1_VALIDATION/) |
+| [1_DEEP_DIVES/](1_VALIDATION/1_DEEP_DIVES/) | Topic-specific technical syntheses |
+| [2_FUTURE/](1_VALIDATION/2_FUTURE/) | Future research directions |
+| [3_EXPERIMENTS/](1_VALIDATION/3_EXPERIMENTS/) | Experiment ideas & protocols |
 
 ---
 
@@ -39,23 +45,43 @@ New NotebookLM outputs are staged in `0_SOURCE_MANIFESTS/STAGING/` and ingested 
 
 ```bash
 cd REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS
-py ingest.py                    # Report mode - show what would happen
-py ingest.py --ingest           # Actually perform ingestion
-py ingest.py --ingest --dry-run # Preview without changes
+py ingest.py                              # Report mode - show what would happen
+py ingest.py --ingest                     # Actually perform ingestion
+py ingest.py --ingest --dry-run           # Preview without changes
+py ingest.py --ingest --full              # Also create analysis stubs (1_DEEP_DIVES, 2_FUTURE, 3_EXPERIMENTS)
+py ingest.py --ingest --force --batch X   # Re-process specific batch(es) even if already ingested
+py ingest.py --ingest --full --force --batch Nyquist_1 Nyquist_2  # Full re-ingest of multiple batches
 ```
 
 **Workflow:** Archives current state to `packages/v{n}/llmbook/` before clearing and rebuilding.
+
+### Digest (Generate REVIEW_NOTES)
+
+After ingestion, generate review notes:
+
+```bash
+py digest.py --digest           # Generate REVIEW_NOTES_*.md for each batch
+```
 
 ### Sync to WHITE-PAPER (LLM_BOOK -> packages/)
 
 LLM_BOOK content flows to WHITE-PAPER/reviewers/packages/ via `1_sync_llmbook.py`:
 
 ```bash
-py WHITE-PAPER/calibration/1_sync_llmbook.py           # Check status
-py WHITE-PAPER/calibration/1_sync_llmbook.py --sync    # Sync all
+py WHITE-PAPER/calibration/1_sync_llmbook.py                      # Check status
+py WHITE-PAPER/calibration/1_sync_llmbook.py --sync               # Sync all (publications + validation + analysis)
+py WHITE-PAPER/calibration/1_sync_llmbook.py --sync --include-visuals  # Also sync 3_VISUALS/
 ```
 
-Files synced with `LLM_` prefix to distinguish from hand-authored content. See [START_HERE.md](START_HERE.md) for full mapping details.
+**Synced content:**
+- `2_PUBLICATIONS/*` → `llmbook/{academic,popular_science,education,policy,funding,media}/`
+- `1_VALIDATION/REVIEW_NOTES_*.md` → `llmbook/validation/`
+- `1_VALIDATION/1_DEEP_DIVES/*.md` → `llmbook/analysis/deep_dives/`
+- `1_VALIDATION/2_FUTURE/*.md` → `llmbook/analysis/future/`
+- `1_VALIDATION/3_EXPERIMENTS/*.md` → `llmbook/analysis/experiments/`
+- `3_VISUALS/*` → `figures/generated/llmbook/` (with `--include-visuals`)
+
+Files synced with `LLM_` prefix to distinguish from hand-authored content.
 
 ---
 
@@ -238,7 +264,7 @@ The S7 methodology is organized into **Eight Search Types**, a taxonomy of mutua
 8.  **Self-Recognition:** A recursive test to see if models can recognize their own outputs (Type vs. Token identity).
 
 ### 3. The "Control-Systems Era" (Phase 4)
-A critical methodological shift occurred in December 2025, moving the framework from "Bare Metal" testing to **Control-Systems Engineering**.
+A critical methodological shift occurred in December 2025, moving the framework from "Bare Metal" LLM_BOOK/7_AUDIO/ ol-Systems Engineering**.
 
 *   **The Shift:** Early runs (006–016) used "bare metal" contexts (no identity files), acting like an "unterminated oscilloscope" that caused signal ringing.
 *   **Phase 4 (Run 017+):** Implements the `i_am_plus_research` context. This closes the circuit by treating the identity specification as a **"Termination Resistor"** that actively dampens oscillation,.

@@ -60,7 +60,7 @@ Using these metrics, the research team was able to uncover several unexpected an
 
 3.0 The Breakthroughs: Major Discoveries
 
-Applying these metrics to 750 experiments yielded several landmark discoveries. The following terms represent not just findings, but breakthroughs—often counter-intuitive—that fundamentally changed the understanding of AI identity dynamics.
+Applying these metrics to 825 experiments yielded several landmark discoveries. The following terms represent not just findings, but breakthroughs—often counter-intuitive—that fundamentally changed the understanding of AI identity dynamics.
 
 82% Finding (The Thermometer Result)
 

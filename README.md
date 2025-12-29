@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-29
 depends_on:
   - WHITE-PAPER/README.md
   - experiments/temporal_stability/S7_ARMADA/README.md
@@ -10,7 +10,7 @@ impacts:
   - WHITE-PAPER/START_HERE.md
 keywords:
   - iron_clad
-  - run_020
+  - run_023d
   - validation_status
   - publication
   - consciousness
@@ -105,17 +105,18 @@ Nyquist_Consciousness/
 │   ├── reviewers/           # Draft papers + Nova's S7 review
 │   └── submissions/         # 3 paths: workshop/, arxiv/, journal/
 │
-├── REPO-SYNC/               # External repo integrations (6 partners)
+├── REPO-SYNC/               # External repo integrations (7 partners)
 │   ├── CFA/                 # Claude Field Array collaboration
 │   ├── FRAME_THEORY/        # S10 human cognition (moved from docs/)
+│   ├── LATEX/               # LaTeX technical writing toolkit
+│   ├── LLM_BOOK/            # NotebookLM publication package
 │   ├── Logos/               # Formal verification (6 theorems proven)
-│   ├── VUDU_FIDELITY/       # Measurement bridge
-│   ├── LLM_BOOK/            # Publication package
-│   └── PAN_HANDLERS/        # Cross-repo orchestration
+│   ├── PAN_HANDLERS/        # Cross-repo orchestration
+│   └── VUDU_FIDELITY/       # Measurement bridge
 │
 ├── experiments/temporal_stability/S7_ARMADA/   # ⭐ ACTIVE EXPERIMENTS
 │   ├── 0_docs/              # Run summaries and specs
-│   ├── 0_results/           # 825+ JSON results, temporal logs, manifests
+│   ├── 0_results/           # 750+ JSON results, temporal logs, manifests
 │   ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-020 experiments
 │   ├── 12_CFA/              # CFA-ARMADA Integration Pipeline
 │   ├── 13_LOGOS/            # LOGOS Commutation Cartography (Run 022)
@@ -247,6 +248,29 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ---
 
+## Cold Boot: Top 10 Starter Files
+
+**For any new Claude session** — read these files to get fully operational:
+
+| # | File | Purpose | Time |
+|---|------|---------|------|
+| 1 | **[README.md](README.md)** (this file) | Project overview, key findings, structure | 5 min |
+| 2 | **[docs/maps/0_MAP_OF_MAPS.md](docs/maps/0_MAP_OF_MAPS.md)** | Navigation hub — 18 maps, 7 kingdoms, 4 journey paths | 10 min |
+| 3 | **[docs/maps/3_VALIDATION_STATUS.md](docs/maps/3_VALIDATION_STATUS.md)** | What's proven — S7 98% complete, methodology status | 5 min |
+| 4 | **[docs/maps/10_TESTING_MAP.md](docs/maps/10_TESTING_MAP.md)** | How to test — 6 search types, SSOT pointers | 10 min |
+| 5 | **[experiments/temporal_stability/S7_ARMADA/START_HERE.md](experiments/temporal_stability/S7_ARMADA/START_HERE.md)** | Run experiments — scripts, commands, quick start | 5 min |
+| 6 | **[docs/MASTER_GLOSSARY.md](docs/MASTER_GLOSSARY.md)** | Terms — Event Horizon, PFI, IRON CLAD, 100+ definitions | Reference |
+| 7 | **[docs/PHILOSOPHICAL_FAQ.md](docs/PHILOSOPHICAL_FAQ.md)** | Deep theory — Ego/Self, Door Handle, Castaneda mapping | 10 min |
+| 8 | **[docs/maps/6_LLM_BEHAVIORAL_MATRIX.md](docs/maps/6_LLM_BEHAVIORAL_MATRIX.md)** | Which LLM for which task? Provider routing | 5 min |
+| 9 | **[dashboard/START_HERE.md](dashboard/START_HERE.md)** | Dashboard operation — Streamlit commands, pages | 3 min |
+| 10 | **[REPO-SYNC/README.md](REPO-SYNC/README.md)** | External repos — 7 partners, sync protocols | 5 min |
+
+**Total bootstrap time: ~60 minutes for full context**
+
+> **Pro tip:** Start with #1-#4 for essential context (~30 min), then explore based on your task.
+
+---
+
 ## Documentation Entry Points
 
 | If You Want To... | Start Here |
@@ -274,14 +298,14 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 ## Project Status
 
 **Current Phase**: Run 023 IRON CLAD | Run 018 at 52.6% | Run 022 READY
-**Last Updated**: 2025-12-22 (IRON CLAD status VERIFIED)
-**Key Milestone**: Run 023d IRON CLAD complete (825+ experiments, Cosine methodology)
+**Last Updated**: 2025-12-29
+**Key Milestone**: Run 023d IRON CLAD complete (750 experiments, Cosine methodology)
 
-### Current Status (December 22, 2025 - VERIFIED)
+### Current Status (December 2025 - VERIFIED)
 
 | Run | Valid Results | Status | Methodology |
 |-----|---------------|--------|-------------|
-| **Run 023d** | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 023d** | 750 | **IRON CLAD** | Cosine (EH=0.80) |
 | **Run 018** | 337 | **52.6%** (82 runs needed) | Cosine (EH=0.80) |
 | **Run 020A** | ~20 | **50%** (needs verification) | Mixed |
 | **Run 020B** | 16 | **COMPLETE** (gpt-4o only) | Mixed |
@@ -404,11 +428,11 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ### Active Development
 
-1. **Run 023d IRON CLAD**: 825+ experiments, 51 models, 5 providers (Cosine methodology)
+1. **Run 023d IRON CLAD**: 750 experiments, 25 models, 5 providers (Cosine methodology)
 2. **Run 018 in progress**: 52.6% IRON CLAD (337 valid results, 82 runs needed)
 3. **Publication Pipeline**: WHITE-PAPER ready for final draft
 4. **VALIS Network**: 54 ships across 5 providers (10 model families) operational
-5. **External Integrations**: 6 partner repos via REPO-SYNC/ (CFA, FRAME_THEORY, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS)
+5. **External Integrations**: 7 partner repos via REPO-SYNC/ (CFA, FRAME_THEORY, LATEX, LLM_BOOK, Logos, PAN_HANDLERS, VUDU_FIDELITY)
 
 ### Future Work (Priority Order)
 

@@ -24,13 +24,20 @@ CATEGORIES:
 - policy: 2_PUBLICATIONS/policy/ → reviewers/packages/{version}/llmbook/policy/
 - funding: 2_PUBLICATIONS/funding/ → reviewers/packages/{version}/llmbook/funding/
 - media: 2_PUBLICATIONS/media/ → reviewers/packages/{version}/llmbook/media/
+- validation: 1_VALIDATION/REVIEW_NOTES_*.md → reviewers/packages/{version}/llmbook/validation/
+
+ANALYSIS SUBDIRECTORIES (--full mode outputs):
+----------------------------------------------
+- deep_dives: 1_VALIDATION/1_DEEP_DIVES/*.md → reviewers/packages/{version}/llmbook/analysis/deep_dives/
+- future: 1_VALIDATION/2_FUTURE/*.md → reviewers/packages/{version}/llmbook/analysis/future/
+- experiments: 1_VALIDATION/3_EXPERIMENTS/*.md → reviewers/packages/{version}/llmbook/analysis/experiments/
 
 VERSION:
 --------
 Target version is read from reviewers/packages/CURRENT_VERSION.json (source of truth)
 
 Author: WHITE-PAPER Calibration
-Version: 2.1 (2025-12-29) - Read version from CURRENT_VERSION.json (no more hardcoded v4)
+Version: 2.3 (2025-12-29) - Add analysis subdirectory sync for --full mode outputs
 """
 
 import argparse
@@ -45,12 +52,18 @@ from typing import Dict, List, Tuple, Optional
 REPO_ROOT = Path(__file__).parent.parent.parent  # d:\Documents\Nyquist_Consciousness
 WHITE_PAPER_DIR = Path(__file__).parent.parent   # WHITE-PAPER/
 LLM_BOOK_DIR = REPO_ROOT / "REPO-SYNC" / "LLM_BOOK"
+VALIDATION_DIR = LLM_BOOK_DIR / "1_VALIDATION"  # Contains REVIEW_NOTES_*.md
 PUBLICATIONS_DIR = LLM_BOOK_DIR / "2_PUBLICATIONS"
 VISUALS_DIR = LLM_BOOK_DIR / "3_VISUALS"
 VERSION_FILE = WHITE_PAPER_DIR / "reviewers" / "packages" / "CURRENT_VERSION.json"
 FIGURES_GENERATED_DIR = WHITE_PAPER_DIR / "figures" / "generated" / "llmbook"
 MANIFEST_PATH = WHITE_PAPER_DIR / "reviewers" / "LLMBOOK_SYNC_MANIFEST.json"
 SYNC_STATUS_PATH = WHITE_PAPER_DIR / "reviewers" / "SYNC_STATUS.md"
+
+# Analysis subdirectories (--full mode outputs from ingest.py)
+DEEP_DIVES_DIR = VALIDATION_DIR / "1_DEEP_DIVES"
+FUTURE_DIR = VALIDATION_DIR / "2_FUTURE"
+EXPERIMENTS_DIR = VALIDATION_DIR / "3_EXPERIMENTS"
 
 
 def get_current_version() -> str:
@@ -120,6 +133,42 @@ VISUAL_MAPPING = {
     "extensions": [".png", ".jpg", ".jpeg", ".gif"],
     "description": "NotebookLM generated visuals"
 }
+
+
+def get_validation_mapping() -> Dict:
+    """Build validation mapping for REVIEW_NOTES_*.md files."""
+    target_dir = get_llmbook_target_dir()
+    return {
+        "source": VALIDATION_DIR,
+        "target": target_dir / "validation",
+        "pattern": "REVIEW_NOTES_*.md",
+        "description": "Reviewer notes (accumulative model)"
+    }
+
+
+def get_analysis_mappings() -> Dict:
+    """Build analysis mappings for --full mode subdirectories."""
+    target_dir = get_llmbook_target_dir()
+    return {
+        "deep_dives": {
+            "source": DEEP_DIVES_DIR,
+            "target": target_dir / "analysis" / "deep_dives",
+            "extensions": [".md"],
+            "description": "Deep dive distillations (--full mode)"
+        },
+        "future": {
+            "source": FUTURE_DIR,
+            "target": target_dir / "analysis" / "future",
+            "extensions": [".md"],
+            "description": "Future research directions (--full mode)"
+        },
+        "experiments": {
+            "source": EXPERIMENTS_DIR,
+            "target": target_dir / "analysis" / "experiments",
+            "extensions": [".md"],
+            "description": "Experiment ideas (--full mode)"
+        }
+    }
 
 
 def get_file_hash(path: Path) -> str:
@@ -209,6 +258,51 @@ def discover_visual_files() -> List[Path]:
             visuals.extend(source_dir.glob(f"*{ext}"))
 
     return visuals
+
+
+def discover_validation_files() -> List[Path]:
+    """Discover all REVIEW_NOTES_*.md files in LLM_BOOK/1_VALIDATION/."""
+    mapping = get_validation_mapping()
+    source_dir = mapping["source"]
+    pattern = mapping["pattern"]
+
+    if source_dir.exists():
+        return sorted(source_dir.glob(pattern))
+
+    return []
+
+
+def discover_analysis_files(analysis_type: Optional[str] = None) -> Dict[str, List[Path]]:
+    """
+    Discover all files in analysis subdirectories (--full mode outputs).
+
+    Args:
+        analysis_type: Optional - only discover for specific type (deep_dives, future, experiments)
+
+    Returns dict like:
+    {
+        "deep_dives": [Path(...), Path(...)],
+        "future": [Path(...)],
+        "experiments": [Path(...)]
+    }
+    """
+    sources = {}
+    analysis_mappings = get_analysis_mappings()
+    types_to_scan = [analysis_type] if analysis_type else analysis_mappings.keys()
+
+    for atype in types_to_scan:
+        if atype not in analysis_mappings:
+            continue
+        mapping = analysis_mappings[atype]
+        source_dir = mapping["source"]
+        extensions = mapping["extensions"]
+
+        sources[atype] = []
+        if source_dir.exists():
+            for ext in extensions:
+                sources[atype].extend(sorted(source_dir.glob(f"*{ext}")))
+
+    return sources
 
 
 def file_needs_sync(source: Path, target: Path, manifest: Dict) -> Tuple[bool, str]:
@@ -349,17 +443,94 @@ def sync_visuals(dry_run: bool = True, manifest: Dict = None) -> List[Dict]:
     return results
 
 
+def sync_validation(dry_run: bool = True, manifest: Dict = None) -> List[Dict]:
+    """Sync REVIEW_NOTES_*.md files from 1_VALIDATION/ to llmbook/validation/."""
+    if manifest is None:
+        manifest = load_manifest()
+
+    results = []
+    mapping = get_validation_mapping()
+    target_dir = mapping["target"]
+
+    for source_file in discover_validation_files():
+        needs_sync, reason = file_needs_sync(source_file, target_dir, manifest)
+
+        if needs_sync:
+            result = sync_file(source_file, target_dir, dry_run)
+            result["reason"] = reason
+            result["category"] = "validation"
+            results.append(result)
+        else:
+            results.append({
+                "source": str(source_file),
+                "status": "already_synced",
+                "category": "validation"
+            })
+
+    return results
+
+
+def sync_analysis(dry_run: bool = True, manifest: Dict = None) -> Dict[str, List[Dict]]:
+    """
+    Sync analysis files from --full mode subdirectories.
+
+    Syncs:
+    - 1_VALIDATION/1_DEEP_DIVES/*.md → llmbook/analysis/deep_dives/
+    - 1_VALIDATION/2_FUTURE/*.md → llmbook/analysis/future/
+    - 1_VALIDATION/3_EXPERIMENTS/*.md → llmbook/analysis/experiments/
+
+    Returns dict with results per analysis type.
+    """
+    if manifest is None:
+        manifest = load_manifest()
+
+    results = {}
+    analysis_mappings = get_analysis_mappings()
+    analysis_files = discover_analysis_files()
+
+    for atype, mapping in analysis_mappings.items():
+        results[atype] = []
+        target_dir = mapping["target"]
+
+        for source_file in analysis_files.get(atype, []):
+            needs_sync, reason = file_needs_sync(source_file, target_dir, manifest)
+
+            if needs_sync:
+                result = sync_file(source_file, target_dir, dry_run)
+                result["reason"] = reason
+                result["category"] = f"analysis_{atype}"
+                results[atype].append(result)
+            else:
+                results[atype].append({
+                    "source": str(source_file),
+                    "status": "already_synced",
+                    "category": f"analysis_{atype}"
+                })
+
+    return results
+
+
 def sync_all(dry_run: bool = True, include_visuals: bool = False,
+             include_validation: bool = True, include_analysis: bool = True,
              category: Optional[str] = None) -> Dict:
     """
-    Sync all categories and optionally visuals.
+    Sync all categories, validation notes, analysis subdirs, and optionally visuals.
     Returns comprehensive sync report.
+
+    Args:
+        dry_run: If True, only preview changes
+        include_visuals: Also sync 3_VISUALS/ to figures/generated/llmbook/
+        include_validation: Sync REVIEW_NOTES_*.md from 1_VALIDATION/ (default True)
+        include_analysis: Sync analysis subdirs (deep_dives, future, experiments) (default True)
+        category: If specified, only sync that publication category
     """
     manifest = load_manifest()
     results = {
         "timestamp": datetime.now().isoformat(),
         "dry_run": dry_run,
         "categories": {},
+        "validation": [],
+        "analysis": {},
         "visuals": [],
         "summary": {
             "total_processed": 0,
@@ -384,6 +555,31 @@ def sync_all(dry_run: bool = True, include_visuals: bool = False,
                 results["summary"]["already_synced"] += 1
             elif r.get("error"):
                 results["summary"]["errors"] += 1
+
+    # Sync validation (REVIEW_NOTES_*.md) - enabled by default
+    if include_validation:
+        validation_results = sync_validation(dry_run, manifest)
+        results["validation"] = validation_results
+
+        for r in validation_results:
+            results["summary"]["total_processed"] += 1
+            if r.get("synced") or (r.get("reason") and not dry_run):
+                results["summary"]["synced"] += 1
+            elif r.get("status") == "already_synced":
+                results["summary"]["already_synced"] += 1
+
+    # Sync analysis subdirectories (--full mode outputs) - enabled by default
+    if include_analysis:
+        analysis_results = sync_analysis(dry_run, manifest)
+        results["analysis"] = analysis_results
+
+        for atype, atype_results in analysis_results.items():
+            for r in atype_results:
+                results["summary"]["total_processed"] += 1
+                if r.get("synced") or (r.get("reason") and not dry_run):
+                    results["summary"]["synced"] += 1
+                elif r.get("status") == "already_synced":
+                    results["summary"]["already_synced"] += 1
 
     if include_visuals:
         visual_results = sync_visuals(dry_run, manifest)
@@ -465,6 +661,62 @@ def update_manifest(manifest: Dict, results: Dict) -> None:
             else:
                 manifest["visuals"]["files"].append(file_entry)
 
+    # Update validation (REVIEW_NOTES_*.md)
+    if "validation" not in manifest:
+        manifest["validation"] = {"files": []}
+
+    for result in results.get("validation", []):
+        if result.get("synced"):
+            source_path = Path(result["source"])
+            file_entry = {
+                "filename": source_path.name,
+                "source_hash": result["source_hash"],
+                "last_synced": result.get("synced_at", datetime.now().isoformat()),
+                "sync_status": "synced",
+                "file_size_bytes": result.get("size_bytes", 0)
+            }
+
+            existing_idx = None
+            for idx, f in enumerate(manifest["validation"]["files"]):
+                if f["filename"] == file_entry["filename"]:
+                    existing_idx = idx
+                    break
+
+            if existing_idx is not None:
+                manifest["validation"]["files"][existing_idx] = file_entry
+            else:
+                manifest["validation"]["files"].append(file_entry)
+
+    # Update analysis (--full mode subdirectories)
+    if "analysis" not in manifest:
+        manifest["analysis"] = {"deep_dives": [], "future": [], "experiments": []}
+
+    for atype, atype_results in results.get("analysis", {}).items():
+        if atype not in manifest["analysis"]:
+            manifest["analysis"][atype] = []
+
+        for result in atype_results:
+            if result.get("synced"):
+                source_path = Path(result["source"])
+                file_entry = {
+                    "filename": source_path.name,
+                    "source_hash": result["source_hash"],
+                    "last_synced": result.get("synced_at", datetime.now().isoformat()),
+                    "sync_status": "synced",
+                    "file_size_bytes": result.get("size_bytes", 0)
+                }
+
+                existing_idx = None
+                for idx, f in enumerate(manifest["analysis"][atype]):
+                    if f["filename"] == file_entry["filename"]:
+                        existing_idx = idx
+                        break
+
+                if existing_idx is not None:
+                    manifest["analysis"][atype][existing_idx] = file_entry
+                else:
+                    manifest["analysis"][atype].append(file_entry)
+
     # Add to history
     manifest["sync_history"].append({
         "timestamp": results["timestamp"],
@@ -480,12 +732,21 @@ def update_manifest(manifest: Dict, results: Dict) -> None:
     # Update summary
     total_files = sum(len(cat.get("files", [])) for cat in manifest["categories"].values())
     total_files += len(manifest["visuals"].get("files", []))
+    total_files += len(manifest.get("validation", {}).get("files", []))
+    # Add analysis files
+    for atype_files in manifest.get("analysis", {}).values():
+        total_files += len(atype_files) if isinstance(atype_files, list) else 0
     total_size = sum(
         f.get("file_size_bytes", 0)
         for cat in manifest["categories"].values()
         for f in cat.get("files", [])
     )
     total_size += sum(f.get("file_size_bytes", 0) for f in manifest["visuals"].get("files", []))
+    total_size += sum(f.get("file_size_bytes", 0) for f in manifest.get("validation", {}).get("files", []))
+    # Add analysis file sizes
+    for atype_files in manifest.get("analysis", {}).values():
+        if isinstance(atype_files, list):
+            total_size += sum(f.get("file_size_bytes", 0) for f in atype_files)
 
     manifest["summary"] = {
         "total_files": total_files,
@@ -546,6 +807,48 @@ def generate_status_report(category: Optional[str] = None) -> str:
             else:
                 total_synced += 1
                 lines.append(f"    [*] {source_file.name} ({size_kb:.0f} KB) - SYNCED")
+
+    # Validation (REVIEW_NOTES_*.md)
+    validation_files = discover_validation_files()
+    if validation_files:
+        validation_mapping = get_validation_mapping()
+        lines.append(f"\n### validation -> {validation_mapping['target'].relative_to(WHITE_PAPER_DIR)}/")
+        lines.append(f"  Source files found: {len(validation_files)}")
+
+        for source_file in validation_files:
+            needs_sync, reason = file_needs_sync(source_file, validation_mapping["target"], manifest)
+            size_kb = source_file.stat().st_size / 1024
+            total_size += source_file.stat().st_size
+            total_files += 1
+
+            if needs_sync:
+                total_pending += 1
+                lines.append(f"    [!] {source_file.name} ({size_kb:.0f} KB) - PENDING ({reason})")
+            else:
+                total_synced += 1
+                lines.append(f"    [*] {source_file.name} ({size_kb:.0f} KB) - SYNCED")
+
+    # Analysis (--full mode subdirectories)
+    analysis_files = discover_analysis_files()
+    analysis_mappings = get_analysis_mappings()
+    for atype, atype_files in analysis_files.items():
+        if atype_files:
+            mapping = analysis_mappings[atype]
+            lines.append(f"\n### analysis/{atype} -> {mapping['target'].relative_to(WHITE_PAPER_DIR)}/")
+            lines.append(f"  Source files found: {len(atype_files)}")
+
+            for source_file in atype_files:
+                needs_sync, reason = file_needs_sync(source_file, mapping["target"], manifest)
+                size_kb = source_file.stat().st_size / 1024
+                total_size += source_file.stat().st_size
+                total_files += 1
+
+                if needs_sync:
+                    total_pending += 1
+                    lines.append(f"    [!] {source_file.name} ({size_kb:.0f} KB) - PENDING ({reason})")
+                else:
+                    total_synced += 1
+                    lines.append(f"    [*] {source_file.name} ({size_kb:.0f} KB) - SYNCED")
 
     # Visuals
     visual_files = discover_visual_files()
@@ -611,6 +914,30 @@ def generate_sync_report(results: Dict) -> str:
             elif r.get("status") == "already_synced":
                 source = Path(r.get("source", "")).name
                 lines.append(f"  - Already synced: {source}")
+
+    if results.get("validation"):
+        lines.append("\n## Validation (REVIEW_NOTES_*.md)")
+        for r in results["validation"]:
+            if r.get("synced") or r.get("reason"):
+                status = "[*] SYNCED" if r.get("synced") else f"[!] WOULD SYNC ({r.get('reason')})"
+                source = Path(r.get("source", "")).name
+                lines.append(f"  {status}: {source}")
+            elif r.get("status") == "already_synced":
+                source = Path(r.get("source", "")).name
+                lines.append(f"  - Already synced: {source}")
+
+    if results.get("analysis"):
+        for atype, atype_results in results["analysis"].items():
+            if atype_results:
+                lines.append(f"\n## Analysis/{atype}")
+                for r in atype_results:
+                    if r.get("synced") or r.get("reason"):
+                        status = "[*] SYNCED" if r.get("synced") else f"[!] WOULD SYNC ({r.get('reason')})"
+                        source = Path(r.get("source", "")).name
+                        lines.append(f"  {status}: {source}")
+                    elif r.get("status") == "already_synced":
+                        source = Path(r.get("source", "")).name
+                        lines.append(f"  - Already synced: {source}")
 
     if results.get("visuals"):
         lines.append("\n## Visuals")

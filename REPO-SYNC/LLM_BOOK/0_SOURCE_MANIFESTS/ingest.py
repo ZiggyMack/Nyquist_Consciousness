@@ -1,55 +1,49 @@
 #!/usr/bin/env python3
 """
-ingest.py - NotebookLM STAGING → LLM_BOOK Ingestion
-====================================================
+ingest.py - NotebookLM STAGING → LLM_BOOK Ingestion (Accumulative Model)
+=========================================================================
 Processes NotebookLM outputs from STAGING/ into the LLM_BOOK/ structure.
+
+ACCUMULATIVE MODEL:
+-------------------
+By default, ingestion APPENDS to existing content, compounding value over time.
+Each ingestion batch gets its own REVIEW_NOTES_{batch}.md file.
+Use --fresh to clear everything and start over (destructive).
 
 WORKFLOW:
 ---------
-1. Archive current LLM_BOOK/ state via 1_sync_llmbook.py (to packages/{version}/llmbook/)
-2. Clear LLM_BOOK/ content directories (preserve structure)
-3. Ingest from STAGING/ into LLM_BOOK/:
-   - Nyquist content → 1_VALIDATION/{folder}/ (for Claude review)
-   - R&D content → RnD/{topic}/
-4. Claude reviews 1_VALIDATION/ content and provides feedback
-5. digest.py routes reviewed content → 2_PUBLICATIONS/, 3_VISUALS/, 7_AUDIO/
-
-The 1_VALIDATION/ directory serves as a REVIEW CHECKPOINT where Claude can:
-- Assess NotebookLM synthesis quality
-- Verify accuracy against source data
-- Suggest publication category placement
-- Flag issues before content goes to final directories
+1. Discover un-ingested batches in STAGING/ (folders without .ingested marker)
+2. For each Nyquist batch:
+   - Create placeholder REVIEW_NOTES_{batch}.md in 1_VALIDATION/
+   - Mark batch as ingested (create .ingested marker)
+3. For R&D content: append to RnD/{topic}/
+4. Claude reviews and fills in REVIEW_NOTES_{batch}.md
+5. digest.py reads ALL REVIEW_NOTES_*.md and routes content accordingly
 
 USAGE:
 ------
-py ingest.py                    # Report mode - show what would happen
-py ingest.py --ingest           # Lite mode - REVIEW_NOTES.md only
-py ingest.py --ingest --full    # Full mode - also generates DEEP_DIVES, FUTURE, EXPERIMENTS
+py ingest.py                    # Report mode - show staging status
+py ingest.py --ingest           # Append mode (default) - add new batches
+py ingest.py --ingest --full    # Full mode - also create analysis stubs
+py ingest.py --ingest --fresh   # Fresh mode - clear all, then ingest
 py ingest.py --ingest --dry-run # Preview without changes
-py ingest.py --skip-archive     # Skip archiving step (dangerous!)
 
-STAGING STRUCTURE:
-------------------
-STAGING/
-├── Nyquist_1/_IN/   → 1_VALIDATION/Nyquist_1/ (awaits Claude review)
-├── Nyquist_2/_IN/   → 1_VALIDATION/Nyquist_2/ (awaits Claude review)
-├── RAG/             → RnD/RAG/
-├── HOFFMAN/         → RnD/HOFFMAN/
-├── Gnostic-*/       → RnD/Gnostic/
-└── ...              → RnD/{topic}/
+REVIEW NOTES NAMING:
+--------------------
+Each batch gets: REVIEW_NOTES_{batch_name}.md
+- REVIEW_NOTES_Nyquist_1.md
+- REVIEW_NOTES_Nyquist_2.md
+- REVIEW_NOTES_Nyquist_1_2.md  (combined review)
 
 POST-INGESTION:
 ---------------
-After ingestion, ask Claude to review 1_VALIDATION/ content:
-"Please review the content in 1_VALIDATION/ and provide feedback on:
- - Quality of NotebookLM synthesis
- - Suggested publication categories
- - Any accuracy issues or gaps"
+Ask Claude to review new content in 1_VALIDATION/:
+"Please review STAGING/Nyquist_X/_IN/ and create REVIEW_NOTES_Nyquist_X.md"
 
 Then run: py digest.py --digest
 
 Author: LLM_BOOK Ingestion Pipeline
-Version: 2.0 (2025-12-29) - Added review checkpoint documentation
+Version: 3.0 (2025-12-29) - Accumulative model with batch tracking
 """
 
 import argparse
@@ -59,7 +53,7 @@ import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 # === PATH CONSTANTS ===
 SCRIPT_DIR = Path(__file__).parent
@@ -70,26 +64,32 @@ WHITE_PAPER_DIR = REPO_ROOT / "WHITE-PAPER"
 SYNC_SCRIPT = WHITE_PAPER_DIR / "calibration" / "1_sync_llmbook.py"
 VERSION_FILE = WHITE_PAPER_DIR / "reviewers" / "packages" / "CURRENT_VERSION.json"
 
-# LLM_BOOK content directories (cleared on ingestion)
+# Validation directory for review notes
+VALIDATION_DIR = LLM_BOOK_DIR / "1_VALIDATION"
+
+# LLM_BOOK content directories (only cleared with --fresh)
 CONTENT_DIRS = [
-    LLM_BOOK_DIR / "1_VALIDATION",
+    VALIDATION_DIR,
     LLM_BOOK_DIR / "2_PUBLICATIONS",
     LLM_BOOK_DIR / "3_VISUALS",
-    LLM_BOOK_DIR / "7_AUDIO",
+    LLM_BOOK_DIR / "4_AUDIO",
     LLM_BOOK_DIR / "RnD",
 ]
 
 # Validation subdirectories for --full mode analysis
 VALIDATION_ANALYSIS_DIRS = [
-    LLM_BOOK_DIR / "1_VALIDATION" / "1_DEEP_DIVES",
-    LLM_BOOK_DIR / "1_VALIDATION" / "2_FUTURE",
-    LLM_BOOK_DIR / "1_VALIDATION" / "3_EXPERIMENTS",
+    VALIDATION_DIR / "1_DEEP_DIVES",
+    VALIDATION_DIR / "2_FUTURE",
+    VALIDATION_DIR / "3_EXPERIMENTS",
 ]
 
-# Directories to preserve (not cleared)
+# Directories to preserve (never cleared)
 PRESERVE_DIRS = [
     LLM_BOOK_DIR / "0_SOURCE_MANIFESTS",  # Contains STAGING and this script
 ]
+
+# Marker file indicating a batch has been ingested
+INGESTED_MARKER = ".ingested"
 
 
 def get_version_info() -> Dict:
@@ -100,23 +100,6 @@ def get_version_info() -> Dict:
     return {"current_version": "unknown", "review_status": "unknown"}
 
 
-def check_review_status() -> Tuple[str, str, bool]:
-    """
-    Check if current version has been reviewed.
-
-    Returns:
-        (version, status, is_safe) - version string, status string, True if safe to proceed
-    """
-    info = get_version_info()
-    version = info.get("current_version", "unknown")
-    status = info.get("review_status", "pending")
-
-    # Safe to proceed if reviewed or preservation_complete
-    is_safe = status in ["reviewed", "preservation_complete"]
-
-    return version, status, is_safe
-
-
 def is_nyquist_content(folder_name: str) -> bool:
     """Determine if a staging folder contains Nyquist-specific content."""
     nyquist_keywords = ["nyquist", "infinity-nyquist"]
@@ -125,21 +108,31 @@ def is_nyquist_content(folder_name: str) -> bool:
 
 def get_rnd_topic_name(folder_name: str) -> str:
     """Normalize R&D folder names for consistent directory structure."""
-    # Consolidate Gnostic variations
     if folder_name.lower().startswith("gnostic"):
         return "Gnostic"
-    # Keep other names as-is but clean up
     return folder_name.replace("-", "_").replace(" ", "_")
 
 
-def discover_staging_folders() -> Dict[str, List[Path]]:
+def is_batch_ingested(folder: Path) -> bool:
+    """Check if a staging folder has already been ingested."""
+    return (folder / INGESTED_MARKER).exists()
+
+
+def mark_batch_ingested(folder: Path, dry_run: bool = True) -> None:
+    """Mark a staging folder as ingested."""
+    marker = folder / INGESTED_MARKER
+    if not dry_run:
+        marker.write_text(f"Ingested: {datetime.now().isoformat()}\n")
+
+
+def discover_staging_folders() -> Dict[str, List[Tuple[Path, bool]]]:
     """
     Discover all content in STAGING/ and classify by type.
 
     Returns:
         {
-            "nyquist": [Path(...), ...],  # Folders with Nyquist content
-            "rnd": [Path(...), ...]       # R&D folders
+            "nyquist": [(Path, is_ingested), ...],
+            "rnd": [(Path, is_ingested), ...]
         }
     """
     result = {"nyquist": [], "rnd": []}
@@ -151,72 +144,113 @@ def discover_staging_folders() -> Dict[str, List[Path]]:
         if not item.is_dir():
             continue
 
+        ingested = is_batch_ingested(item)
+
         if is_nyquist_content(item.name):
-            result["nyquist"].append(item)
+            result["nyquist"].append((item, ingested))
         else:
-            result["rnd"].append(item)
+            result["rnd"].append((item, ingested))
 
     return result
 
 
-def archive_current_state(dry_run: bool = True) -> bool:
+def get_pending_batches(staging: Dict) -> Dict[str, List[Path]]:
+    """Filter to only un-ingested batches."""
+    return {
+        "nyquist": [p for p, ingested in staging["nyquist"] if not ingested],
+        "rnd": [p for p, ingested in staging["rnd"] if not ingested],
+    }
+
+
+def create_review_notes_template(batch_name: str, source_folder: Path, dry_run: bool = True) -> Path:
     """
-    Archive current LLM_BOOK/ state by calling 1_sync_llmbook.py.
+    Create a review notes template for a batch.
 
-    Returns True if successful, False otherwise.
+    Returns the path to the created file.
     """
-    if not SYNC_SCRIPT.exists():
-        print(f"  [!] Archive script not found: {SYNC_SCRIPT}")
-        return False
+    # List files in the _IN folder
+    in_folder = source_folder / "_IN"
+    files = []
+    if in_folder.exists():
+        files = [f.name for f in in_folder.iterdir() if f.is_file()]
 
-    cmd = ["python", str(SYNC_SCRIPT), "--sync"]
-    if dry_run:
-        cmd.append("--dry-run")
+    # Generate template
+    template = f"""# Review Notes: {batch_name}
 
-    print(f"  Running: {' '.join(cmd)}")
+**Ingestion Date:** {datetime.now().strftime('%Y-%m-%d')}
+**Source:** STAGING/{batch_name}/_IN/
+**Status:** PENDING REVIEW
 
-    if dry_run:
-        print("  [DRY RUN] Would archive current LLM_BOOK/ state")
-        return True
+---
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+## Files to Review
 
-    if result.returncode != 0:
-        print(f"  [!] Archive failed: {result.stderr}")
-        return False
-
-    print("  [OK] Archived current LLM_BOOK/ state")
-    return True
-
-
-def clear_content_directories(dry_run: bool = True) -> None:
-    """Clear LLM_BOOK content directories (preserve structure)."""
-    for content_dir in CONTENT_DIRS:
-        if not content_dir.exists():
-            continue
-
-        # Count files to remove
-        files = list(content_dir.rglob("*"))
-        file_count = sum(1 for f in files if f.is_file())
-
-        if dry_run:
-            print(f"  [DRY RUN] Would clear {content_dir.name}/ ({file_count} files)")
+"""
+    # Add file list
+    for f in sorted(files):
+        ext = Path(f).suffix.lower()
+        if ext == ".md":
+            template += f"### {f}\n- **Category:** `pending`\n- **Accuracy:** PENDING\n- **Verdict:** PENDING\n\n"
+        elif ext in [".png", ".jpg", ".jpeg", ".gif"]:
+            template += f"### {f}\n- **Type:** Visual\n- **Route to:** 3_VISUALS/\n\n"
+        elif ext in [".m4a", ".mp3", ".mp4", ".wav"]:
+            template += f"### {f}\n- **Type:** Audio/Video\n- **Route to:** 7_AUDIO/\n\n"
+        elif ext == ".pdf":
+            template += f"### {f}\n- **Type:** PDF\n- **Route to:** 2_PUBLICATIONS/academic/\n\n"
         else:
-            # Remove all contents but keep the directory
-            for item in content_dir.iterdir():
-                if item.is_file():
-                    item.unlink()
-                elif item.is_dir():
-                    shutil.rmtree(item)
-            print(f"  [OK] Cleared {content_dir.name}/ ({file_count} files)")
+            template += f"### {f}\n- **Type:** Other ({ext})\n- **Route to:** TBD\n\n"
+
+    template += """---
+
+## Review Summary
+
+| File | Category | Verdict | Notes |
+|------|----------|---------|-------|
+| ... | ... | ... | ... |
+
+---
+
+## Claude's Assessment
+
+**Quality:** PENDING
+**Accuracy:** PENDING
+**Recommendation:** PENDING
+
+---
+
+*This file is part of the reviewer feedback loop.*
+*Created by ingest.py on {date}*
+*Review status: PENDING*
+""".format(date=datetime.now().strftime('%Y-%m-%d'))
+
+    # Write file
+    target_path = VALIDATION_DIR / f"REVIEW_NOTES_{batch_name}.md"
+
+    if not dry_run:
+        VALIDATION_DIR.mkdir(parents=True, exist_ok=True)
+        target_path.write_text(template, encoding="utf-8")
+
+    return target_path
+
+
+def create_analysis_stubs(batch_name: str, dry_run: bool = True) -> List[Path]:
+    """Create stub files for --full mode analysis directories."""
+    created = []
+
+    for analysis_dir in VALIDATION_ANALYSIS_DIRS:
+        stub_path = analysis_dir / f"{batch_name}.md"
+
+        if not dry_run:
+            analysis_dir.mkdir(parents=True, exist_ok=True)
+            stub_path.write_text(f"# {analysis_dir.name}: {batch_name}\n\n*Pending --full analysis*\n")
+
+        created.append(stub_path)
+
+    return created
 
 
 def copy_folder_contents(source: Path, target: Path, dry_run: bool = True) -> int:
-    """
-    Copy contents of source folder to target.
-
-    Returns number of files copied.
-    """
+    """Copy contents of source folder to target. Returns file count."""
     if not source.exists():
         return 0
 
@@ -227,58 +261,17 @@ def copy_folder_contents(source: Path, target: Path, dry_run: bool = True) -> in
             rel_path = item.relative_to(source)
             target_path = target / rel_path
 
-            if dry_run:
-                file_count += 1
-            else:
+            if not dry_run:
                 target_path.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(item, target_path)
-                file_count += 1
+
+            file_count += 1
 
     return file_count
 
 
-def ingest_nyquist_content(folders: List[Path], dry_run: bool = True) -> Dict:
-    """
-    Ingest Nyquist-specific content into publication pipeline.
-
-    Nyquist folders typically have:
-    - _IN/ subfolder with NotebookLM outputs
-    - _OUT/ subfolder with what was uploaded
-
-    _IN/ content goes to 1_VALIDATION/ (the synthesis/validation outputs)
-    """
-    result = {"folders": 0, "files": 0, "details": []}
-
-    validation_dir = LLM_BOOK_DIR / "1_VALIDATION"
-
-    for folder in folders:
-        # Look for _IN subfolder (NotebookLM outputs)
-        in_folder = folder / "_IN"
-        if in_folder.exists():
-            target = validation_dir / folder.name
-            file_count = copy_folder_contents(in_folder, target, dry_run)
-            result["folders"] += 1
-            result["files"] += file_count
-            result["details"].append({
-                "source": f"{folder.name}/_IN",
-                "target": f"1_VALIDATION/{folder.name}",
-                "files": file_count
-            })
-
-            if dry_run:
-                print(f"  [DRY RUN] {folder.name}/_IN -> 1_VALIDATION/{folder.name} ({file_count} files)")
-            else:
-                print(f"  [OK] {folder.name}/_IN -> 1_VALIDATION/{folder.name} ({file_count} files)")
-
-    return result
-
-
 def ingest_rnd_content(folders: List[Path], dry_run: bool = True) -> Dict:
-    """
-    Ingest R&D content into RnD/ directory.
-
-    Each R&D folder becomes a subdirectory under RnD/.
-    """
+    """Ingest R&D content into RnD/ directory (append mode)."""
     result = {"folders": 0, "files": 0, "details": []}
 
     rnd_dir = LLM_BOOK_DIR / "RnD"
@@ -287,7 +280,6 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True) -> Dict:
         topic_name = get_rnd_topic_name(folder.name)
         target = rnd_dir / topic_name
 
-        # Copy entire folder contents
         file_count = copy_folder_contents(folder, target, dry_run)
 
         if file_count > 0:
@@ -299,21 +291,62 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True) -> Dict:
                 "files": file_count
             })
 
-            if dry_run:
-                print(f"  [DRY RUN] {folder.name} -> RnD/{topic_name} ({file_count} files)")
-            else:
-                print(f"  [OK] {folder.name} -> RnD/{topic_name} ({file_count} files)")
+            # Mark as ingested
+            mark_batch_ingested(folder, dry_run)
+
+            action = "[DRY RUN]" if dry_run else "[OK]"
+            print(f"  {action} {folder.name} -> RnD/{topic_name} ({file_count} files)")
 
     return result
+
+
+def clear_content_directories(dry_run: bool = True) -> None:
+    """Clear LLM_BOOK content directories (for --fresh mode)."""
+    for content_dir in CONTENT_DIRS:
+        if not content_dir.exists():
+            continue
+
+        files = list(content_dir.rglob("*"))
+        file_count = sum(1 for f in files if f.is_file())
+
+        action = "[DRY RUN]" if dry_run else "[OK]"
+
+        if not dry_run:
+            for item in content_dir.iterdir():
+                if item.is_file():
+                    item.unlink()
+                elif item.is_dir():
+                    shutil.rmtree(item)
+
+        print(f"  {action} Cleared {content_dir.name}/ ({file_count} files)")
+
+
+def clear_ingestion_markers(dry_run: bool = True) -> int:
+    """Clear all .ingested markers (for --fresh mode). Returns count."""
+    count = 0
+
+    if not STAGING_DIR.exists():
+        return 0
+
+    for folder in STAGING_DIR.iterdir():
+        if folder.is_dir():
+            marker = folder / INGESTED_MARKER
+            if marker.exists():
+                if not dry_run:
+                    marker.unlink()
+                count += 1
+
+    return count
 
 
 def generate_report() -> str:
     """Generate status report of STAGING contents."""
     staging = discover_staging_folders()
+    pending = get_pending_batches(staging)
 
     lines = [
         "=" * 60,
-        "LLM_BOOK INGESTION STATUS",
+        "LLM_BOOK INGESTION STATUS (Accumulative Model)",
         f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         "=" * 60,
         "",
@@ -324,13 +357,14 @@ def generate_report() -> str:
     # Nyquist content
     lines.append("## Nyquist Content (-> publication pipeline)")
     if staging["nyquist"]:
-        for folder in staging["nyquist"]:
+        for folder, ingested in staging["nyquist"]:
             in_folder = folder / "_IN"
+            status = "[*] INGESTED" if ingested else "[ ] PENDING"
             if in_folder.exists():
                 file_count = sum(1 for f in in_folder.rglob("*") if f.is_file())
-                lines.append(f"  - {folder.name}/_IN ({file_count} files)")
+                lines.append(f"  {status} {folder.name}/_IN ({file_count} files)")
             else:
-                lines.append(f"  - {folder.name} (no _IN subfolder)")
+                lines.append(f"  {status} {folder.name} (no _IN subfolder)")
     else:
         lines.append("  (none found)")
 
@@ -339,133 +373,204 @@ def generate_report() -> str:
     # R&D content
     lines.append("## R&D Content (-> RnD/ directory)")
     if staging["rnd"]:
-        for folder in staging["rnd"]:
+        for folder, ingested in staging["rnd"]:
+            status = "[*] INGESTED" if ingested else "[ ] PENDING"
             file_count = sum(1 for f in folder.rglob("*") if f.is_file())
             topic = get_rnd_topic_name(folder.name)
-            lines.append(f"  - {folder.name} -> RnD/{topic} ({file_count} files)")
+            lines.append(f"  {status} {folder.name} -> RnD/{topic} ({file_count} files)")
     else:
         lines.append("  (none found)")
+
+    lines.append("")
+
+    # Existing review notes
+    lines.append("## Existing Review Notes")
+    review_notes = list(VALIDATION_DIR.glob("REVIEW_NOTES_*.md"))
+    if review_notes:
+        for rn in sorted(review_notes):
+            lines.append(f"  - {rn.name}")
+    else:
+        lines.append("  (none found)")
+
+    # Summary
+    pending_nyquist = len(pending["nyquist"])
+    pending_rnd = len(pending["rnd"])
 
     lines.extend([
         "",
         "=" * 60,
-        "To perform ingestion: py ingest.py --ingest",
-        "To preview changes:   py ingest.py --ingest --dry-run",
+        f"Pending ingestion: {pending_nyquist} Nyquist + {pending_rnd} R&D batches",
+        "",
+        "Commands:",
+        "  py ingest.py --ingest           # Ingest pending batches (append)",
+        "  py ingest.py --ingest --fresh   # Clear all and re-ingest",
+        "  py ingest.py --ingest --dry-run # Preview changes",
         "=" * 60,
     ])
 
     return "\n".join(lines)
 
 
-def perform_ingestion(dry_run: bool = True, skip_archive: bool = False) -> Dict:
+def perform_ingestion(dry_run: bool = True, fresh: bool = False, full: bool = False,
+                      force: bool = False, batches: List[str] = None) -> Dict:
     """
-    Perform full ingestion workflow.
+    Perform ingestion workflow.
 
-    1. Archive current state
-    2. Clear content directories
-    3. Ingest from STAGING
+    Args:
+        dry_run: Preview without making changes
+        fresh: Clear everything first (destructive)
+        full: Create analysis stubs in 1_DEEP_DIVES, 2_FUTURE, 3_EXPERIMENTS
+        force: Re-process batches even if already ingested
+        batches: Specific batch names to process (None = all pending)
     """
     results = {
         "timestamp": datetime.now().isoformat(),
         "dry_run": dry_run,
-        "archived": False,
-        "cleared": False,
-        "nyquist": {},
+        "fresh": fresh,
+        "full": full,
+        "force": force,
+        "batches_filter": batches,
+        "nyquist": {"batches": [], "review_notes": []},
         "rnd": {},
     }
 
+    mode_str = "DRY RUN" if dry_run else "APPLYING"
+    fresh_str = " (FRESH)" if fresh else " (APPEND)"
+    force_str = " --force" if force else ""
+    batch_str = f" --batch {' '.join(batches)}" if batches else ""
+
     print("=" * 60)
-    print("LLM_BOOK INGESTION")
-    print(f"Mode: {'DRY RUN' if dry_run else 'APPLYING CHANGES'}")
+    print(f"LLM_BOOK INGESTION - {mode_str}{fresh_str}{force_str}{batch_str}")
     print("=" * 60)
 
-    # Pre-flight check: Has current version been reviewed?
-    version, status, is_safe = check_review_status()
-    print(f"\n## Pre-flight Check: Review Status")
-    print(f"  Current version: {version}")
-    print(f"  Review status:   {status}")
-
-    if not is_safe:
-        print("")
-        print("  " + "!" * 56)
-        print("  !  WARNING: Current version has NOT been reviewed!    !")
-        print("  !                                                     !")
-        print("  !  Reviewers may have preservation_requests pending.  !")
-        print("  !  Consider reviewing packages/{version}/ first to    !")
-        print("  !  flag any content that should be carried forward.   !")
-        print("  !                                                     !")
-        print("  !  To dismiss: update review_status in                !")
-        print("  !  CURRENT_VERSION.json to 'reviewed'                 !")
-        print("  " + "!" * 56)
-        print("")
-        results["review_warning"] = True
+    # Fresh mode: clear everything first
+    if fresh:
+        print("\n## Step 1: Clear existing content (--fresh)")
+        clear_content_directories(dry_run)
+        markers_cleared = clear_ingestion_markers(dry_run)
+        print(f"  Cleared {markers_cleared} ingestion markers")
+        results["cleared"] = True
     else:
-        print("  [OK] Version has been reviewed")
-        results["review_warning"] = False
+        print("\n## Step 1: Append mode - preserving existing content")
+        results["cleared"] = False
 
-    # Step 1: Archive current state
-    print("\n## Step 1: Archive current LLM_BOOK/ state")
-    if skip_archive:
-        print("  [SKIPPED] --skip-archive flag set")
-    else:
-        results["archived"] = archive_current_state(dry_run)
-        if not results["archived"] and not dry_run:
-            print("\n[!] Archive failed - aborting ingestion to prevent data loss")
-            return results
-
-    # Step 2: Clear content directories
-    print("\n## Step 2: Clear LLM_BOOK/ content directories")
-    clear_content_directories(dry_run)
-    results["cleared"] = True
-
-    # Step 3: Discover and ingest content
+    # Discover batches
     staging = discover_staging_folders()
 
-    print("\n## Step 3: Ingest Nyquist content")
-    results["nyquist"] = ingest_nyquist_content(staging["nyquist"], dry_run)
+    # Determine which batches to process
+    if fresh:
+        pending = {
+            "nyquist": [p for p, _ in staging["nyquist"]],
+            "rnd": [p for p, _ in staging["rnd"]],
+        }
+    elif force and batches:
+        # Force mode with specific batches: process those regardless of .ingested
+        pending = {
+            "nyquist": [p for p, _ in staging["nyquist"] if p.name in batches],
+            "rnd": [p for p, _ in staging["rnd"] if p.name in batches],
+        }
+    elif force:
+        # Force mode without batch filter: process ALL batches
+        pending = {
+            "nyquist": [p for p, _ in staging["nyquist"]],
+            "rnd": [p for p, _ in staging["rnd"]],
+        }
+    else:
+        # Normal append mode: only pending batches
+        pending = get_pending_batches(staging)
+        if batches:
+            # Filter to specified batches
+            pending = {
+                "nyquist": [p for p in pending["nyquist"] if p.name in batches],
+                "rnd": [p for p in pending["rnd"] if p.name in batches],
+            }
 
-    print("\n## Step 4: Ingest R&D content")
-    results["rnd"] = ingest_rnd_content(staging["rnd"], dry_run)
+    # Ingest Nyquist batches
+    print("\n## Step 2: Process Nyquist batches")
+    if pending["nyquist"]:
+        for folder in pending["nyquist"]:
+            batch_name = folder.name
+
+            # Create review notes template
+            rn_path = create_review_notes_template(batch_name, folder, dry_run)
+            results["nyquist"]["review_notes"].append(str(rn_path))
+
+            action = "[DRY RUN]" if dry_run else "[OK]"
+            print(f"  {action} Created REVIEW_NOTES_{batch_name}.md")
+
+            # Create analysis stubs if --full
+            if full:
+                stubs = create_analysis_stubs(batch_name, dry_run)
+                print(f"  {action} Created {len(stubs)} analysis stubs")
+
+            # Mark as ingested
+            mark_batch_ingested(folder, dry_run)
+            results["nyquist"]["batches"].append(batch_name)
+    else:
+        print("  No pending Nyquist batches")
+
+    # Ingest R&D content
+    print("\n## Step 3: Process R&D content")
+    if pending["rnd"]:
+        results["rnd"] = ingest_rnd_content(pending["rnd"], dry_run)
+    else:
+        print("  No pending R&D batches")
 
     # Summary
     print("\n" + "=" * 60)
     print("SUMMARY")
     print("=" * 60)
-    print(f"  Nyquist folders: {results['nyquist'].get('folders', 0)}")
-    print(f"  Nyquist files:   {results['nyquist'].get('files', 0)}")
-    print(f"  R&D folders:     {results['rnd'].get('folders', 0)}")
-    print(f"  R&D files:       {results['rnd'].get('files', 0)}")
-
-    total_files = results["nyquist"].get("files", 0) + results["rnd"].get("files", 0)
+    print(f"  Nyquist batches processed: {len(results['nyquist']['batches'])}")
+    print(f"  Review notes created:      {len(results['nyquist']['review_notes'])}")
+    print(f"  R&D folders processed:     {results['rnd'].get('folders', 0)}")
+    print(f"  R&D files copied:          {results['rnd'].get('files', 0)}")
 
     if dry_run:
-        print(f"\n[DRY RUN] Would ingest {total_files} files total")
-        print("Run with --ingest (no --dry-run) to apply changes")
+        print("\n[DRY RUN] No changes made. Run without --dry-run to apply.")
     else:
-        print(f"\n[OK] Ingested {total_files} files")
+        print("\n[OK] Ingestion complete!")
+        if results["nyquist"]["batches"]:
+            print("\nNext steps:")
+            for batch in results["nyquist"]["batches"]:
+                print(f"  1. Review STAGING/{batch}/_IN/ content")
+                print(f"  2. Fill in 1_VALIDATION/REVIEW_NOTES_{batch}.md")
+            print("  3. Run: py digest.py --digest")
 
     return results
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="NotebookLM STAGING → LLM_BOOK Ingestion",
+        description="NotebookLM STAGING → LLM_BOOK Ingestion (Accumulative Model)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
+Accumulative Model:
+  By default, ingestion APPENDS to existing content.
+  Each batch gets its own REVIEW_NOTES_{batch}.md file.
+  Use --fresh to clear everything and start over.
+
 Examples:
-  py ingest.py                    # Show status report
-  py ingest.py --ingest           # Perform ingestion
+  py ingest.py                    # Show staging status
+  py ingest.py --ingest           # Ingest pending batches (append)
+  py ingest.py --ingest --full    # Also create analysis stubs
+  py ingest.py --ingest --fresh   # Clear all, then ingest
   py ingest.py --ingest --dry-run # Preview changes
-  py ingest.py --ingest --skip-archive  # Skip archiving (dangerous!)
+  py ingest.py --ingest --full --force --batch Nyquist_1 Nyquist_2  # Re-ingest specific batches
         """
     )
 
     parser.add_argument("--ingest", action="store_true",
                         help="Perform ingestion (default: report only)")
+    parser.add_argument("--fresh", action="store_true",
+                        help="Clear all content before ingesting (destructive!)")
+    parser.add_argument("--full", action="store_true",
+                        help="Create analysis stubs in DEEP_DIVES, FUTURE, EXPERIMENTS")
+    parser.add_argument("--force", action="store_true",
+                        help="Re-process batches even if already ingested")
+    parser.add_argument("--batch", type=str, nargs='+', default=None,
+                        help="Process specific batch folder(s)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview changes without applying")
-    parser.add_argument("--skip-archive", action="store_true",
-                        help="Skip archiving step (dangerous - may lose data!)")
     parser.add_argument("--json", action="store_true",
                         help="Output as JSON instead of text")
 
@@ -478,7 +583,10 @@ Examples:
         # Ingestion mode
         results = perform_ingestion(
             dry_run=args.dry_run,
-            skip_archive=args.skip_archive
+            fresh=args.fresh,
+            full=args.full,
+            force=args.force,
+            batches=args.batch
         )
 
         if args.json:

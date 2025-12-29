@@ -23,12 +23,12 @@ keywords:
 | Want To... | Go To... |
 |------------|----------|
 | Understand the breakthrough | [1_VALIDATION/](1_VALIDATION/) |
+| Read deep dive distillations | [1_VALIDATION/1_DEEP_DIVES/](1_VALIDATION/1_DEEP_DIVES/) |
+| Explore future research directions | [1_VALIDATION/2_FUTURE/](1_VALIDATION/2_FUTURE/) |
+| Find experiment ideas | [1_VALIDATION/3_EXPERIMENTS/](1_VALIDATION/3_EXPERIMENTS/) |
 | Use a publication draft | [2_PUBLICATIONS/](2_PUBLICATIONS/) |
 | See the visuals | [3_VISUALS/](3_VISUALS/) |
-| Deep dive on a topic | [4_DEEP_DIVES/](4_DEEP_DIVES/) |
-| Plan for v2 refresh | [5_FUTURE/](5_FUTURE/) |
-| Design NotebookLM experiments | [6_EXPERIMENTS/](6_EXPERIMENTS/) |
-| Access audio content | [7_AUDIO/](7_AUDIO/) |
+| Access audio content | [4_AUDIO/](4_AUDIO/) |
 | Explore R&D content | [RnD/](RnD/) |
 
 ---
@@ -41,30 +41,61 @@ New NotebookLM outputs are staged in `0_SOURCE_MANIFESTS/STAGING/` and ingested 
 
 ```bash
 cd REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS
-py ingest.py                    # Report mode - show what would happen
-py ingest.py --ingest           # Actually perform ingestion
-py ingest.py --ingest --dry-run # Preview without changes
+
+# Report mode - show STAGING status
+py ingest.py
+
+# Append mode (default): add new batches
+py ingest.py --ingest
+
+# Also create analysis stubs (1_DEEP_DIVES, 2_FUTURE, 3_EXPERIMENTS)
+py ingest.py --ingest --full
+
+# Re-ingest specific batches (ignores .ingested marker)
+py ingest.py --ingest --force --batch Nyquist_1 Nyquist_2
+
+# Destructive: clear all, then ingest
+py ingest.py --ingest --fresh
 ```
 
-**Workflow:** Archives current state to `packages/v{n}/llmbook/` before clearing and rebuilding.
+**Accumulative Model:**
+- Default = APPEND (preserve existing, add new)
+- `--fresh` = DESTRUCTIVE (clear all, start over)
+- `--force` = Re-process even if already ingested
+- `--batch X Y` = Process specific batch(es) only
+- `--full` = Create analysis stubs in 1_VALIDATION subdirectories
+
+### Digest (STAGING -> LLM_BOOK categories)
+
+Routes media files from STAGING to final destinations:
+
+```bash
+py digest.py                           # Report mode
+py digest.py --digest                  # Copy files to categories
+py digest.py --digest --batch Nyquist_1  # Digest specific batch
+```
 
 ### Sync to WHITE-PAPER (LLM_BOOK -> packages/)
 
-LLM_BOOK content syncs to WHITE-PAPER/reviewers/packages/ via automated pipeline:
+LLM_BOOK content syncs to WHITE-PAPER/reviewers/packages/ via automated pipeline (v2.3):
 
 ```bash
-# Check sync status (default - report mode)
 cd WHITE-PAPER/calibration
+
+# Check sync status (default - report mode)
 py 1_sync_llmbook.py
 
-# Sync all content to packages/{version}/llmbook/
+# Sync publications + validation + analysis
 py 1_sync_llmbook.py --sync
 
-# Preview without changes
-py 1_sync_llmbook.py --sync --dry-run
+# Also sync 3_VISUALS/
+py 1_sync_llmbook.py --sync --include-visuals
 
 # Sync specific category only
 py 1_sync_llmbook.py --sync --category popular_science
+
+# Preview without changes
+py 1_sync_llmbook.py --sync --dry-run
 ```
 
 ### Sync Mappings
@@ -77,7 +108,11 @@ py 1_sync_llmbook.py --sync --category popular_science
 | `2_PUBLICATIONS/policy/` | `reviewers/packages/{version}/llmbook/policy/` |
 | `2_PUBLICATIONS/funding/` | `reviewers/packages/{version}/llmbook/funding/` |
 | `2_PUBLICATIONS/media/` | `reviewers/packages/{version}/llmbook/media/` |
-| `3_VISUALS/*.png` | `figures/generated/llmbook/` |
+| `1_VALIDATION/REVIEW_NOTES_*.md` | `reviewers/packages/{version}/llmbook/validation/` |
+| `1_VALIDATION/1_DEEP_DIVES/*.md` | `reviewers/packages/{version}/llmbook/analysis/deep_dives/` |
+| `1_VALIDATION/2_FUTURE/*.md` | `reviewers/packages/{version}/llmbook/analysis/future/` |
+| `1_VALIDATION/3_EXPERIMENTS/*.md` | `reviewers/packages/{version}/llmbook/analysis/experiments/` |
+| `3_VISUALS/*` | `figures/generated/llmbook/` (with --include-visuals) |
 
 **Convention:** Synced files get `LLM_` prefix (e.g., `LLM_Quiz.md`) to distinguish from hand-authored content.
 
@@ -120,8 +155,15 @@ LLM_BOOK/
 │
 ├── 0_SOURCE_MANIFESTS/          # What was fed to NotebookLM + STAGING ingestion
 │   ├── STAGING/                 # NotebookLM outputs awaiting ingestion
-│   └── ingest.py                # Ingestion script (STAGING -> LLM_BOOK)
-├── 1_VALIDATION/                # Core discoveries (Levin, Claims A-E)
+│   ├── ingest.py                # Ingestion script (STAGING -> REVIEW_NOTES)
+│   └── digest.py                # Digest script (STAGING -> LLM_BOOK categories)
+│
+├── 1_VALIDATION/                # Core discoveries + analysis (--full mode outputs)
+│   ├── REVIEW_NOTES_*.md        # Claude review notes per batch
+│   ├── 1_DEEP_DIVES/            # Technical deep dives (--full mode)
+│   ├── 2_FUTURE/                # Future research directions (--full mode)
+│   └── 3_EXPERIMENTS/           # Experiment ideas (--full mode)
+│
 ├── 2_PUBLICATIONS/              # Ready-to-deploy content by audience
 │   ├── academic/                -> packages/{version}/llmbook/academic/
 │   ├── popular_science/         -> packages/{version}/llmbook/popular_science/
@@ -129,12 +171,9 @@ LLM_BOOK/
 │   ├── education/               -> packages/{version}/llmbook/education/
 │   ├── funding/                 -> packages/{version}/llmbook/funding/
 │   └── media/                   -> packages/{version}/llmbook/media/
-├── 3_VISUALS/                   # Generated diagrams -> WHITE-PAPER/figures/generated/llmbook/
-├── 4_DEEP_DIVES/                # Topic-specific syntheses
-├── 5_FUTURE/                    # Planning for v2
-├── 6_EXPERIMENTS/               # NotebookLM probing methodology
-│   └── scenarios/               # Individual experiment configs
-├── 7_AUDIO/                     # Audio content & transcripts
+│
+├── 3_VISUALS/                   # Generated diagrams -> figures/generated/llmbook/
+├── 4_AUDIO/                     # Audio content & transcripts
 └── RnD/                         # Non-Nyquist R&D content (Hoffman, Gnostic, RAG, etc.)
 ```
 
