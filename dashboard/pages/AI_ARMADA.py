@@ -54,6 +54,32 @@ def load_image_safe(image_path):
     except Exception:
         return None
 
+
+def render_pdf_download(pdf_path, label="Download PDF Summary", key_suffix=""):
+    """Render a PDF download button with safe file handling.
+
+    Args:
+        pdf_path: Path to the PDF file
+        label: Button label text
+        key_suffix: Optional suffix for unique Streamlit key
+
+    Returns:
+        True if PDF was found and button rendered, False otherwise
+    """
+    if isinstance(pdf_path, str):
+        pdf_path = Path(pdf_path)
+    if pdf_path.exists():
+        with open(pdf_path, "rb") as f:
+            st.download_button(
+                label=f"📥 {label}",
+                data=f.read(),
+                file_name=pdf_path.name,
+                mime="application/pdf",
+                key=f"pdf_{pdf_path.stem}_{key_suffix}" if key_suffix else f"pdf_{pdf_path.stem}"
+            )
+        return True
+    return False
+
 # Unpack visualization paths (keeping config key names for compatibility)
 VIZ_DIR = PATHS['s7_viz_dir']
 VIZ_PICS = PATHS['s7_viz_pics']
@@ -80,7 +106,12 @@ EXPERIMENT_RUNS = {
         "status": "CANONICAL",
         "highlight": True,
         "key_finding": "IRON CLAD VALIDATED — p = 2.40e-23, Event Horizon = 0.80 (cosine), Cohen's d = 0.698. THIS IS THE CANONICAL METHODOLOGY.",
-        "results_path": "iron_clad"  # Uses IRON_CLAD_RESULTS path
+        "results_path": "iron_clad",  # Uses IRON_CLAD_RESULTS path
+        # Visualization assets
+        "viz_directory": "viz_10_pfi",  # PFI Dimensional Analysis
+        "pdf_summary": "10_pfi_cosine_explained.pdf",
+        "hero_images": ["run023_vortex.png", "run023_vortex_x4.png"],
+        "related_viz": ["viz_1_vortex", "viz_11_unified", "viz_12_metrics", "viz_13_waveforms"],
     },
     "run_023_combined": {
         "name": "Run 023 COMBINED",
@@ -96,7 +127,12 @@ EXPERIMENT_RUNS = {
         "status": "COMPLETE",
         "highlight": False,
         "key_finding": "FULL FLEET — 825 experiments, 51 models, 6 providers. DeepSeek, Kimi, Llama, Nvidia, Mistral included.",
-        "results_path": "iron_clad"  # Uses IRON_CLAD_RESULTS path
+        "results_path": "iron_clad",  # Uses IRON_CLAD_RESULTS path
+        # Visualization assets
+        "viz_directory": "viz_12_metrics",  # Metrics Summary
+        "pdf_summary": "12_Metrics_Summary.pdf",
+        "hero_images": ["armada_network_improved.png", "combined_provider_analysis.png"],
+        "related_viz": ["viz_11_unified", "viz_13_waveforms"],
     },
     "run_020a": {
         "name": "Run 020A",
@@ -126,7 +162,12 @@ EXPERIMENT_RUNS = {
         "viz_prefix": "run020b_",
         "status": "COMPLETE",
         "highlight": True,
-        "key_finding": "41% DRIFT IS INHERENT — Control/Treatment ratio 0.41 (cross-provider). Probing amplifies journey (+68% peaks) but ~40% occurs anyway."
+        "key_finding": "41% DRIFT IS INHERENT — Control/Treatment ratio 0.41 (cross-provider). Probing amplifies journey (+68% peaks) but ~40% occurs anyway.",
+        # Visualization assets (Oobleck Effect)
+        "viz_directory": "viz_15_oobleck",
+        "pdf_summary": "15_Oobleck_Effect_Summary.pdf",
+        "hero_images": ["oobleck_thermometer.png", "oobleck_control_treatment.png"],
+        "related_viz": ["viz_run020"],
     },
     "run_020": {
         "name": "Run 020",
@@ -171,7 +212,12 @@ EXPERIMENT_RUNS = {
         "viz_prefix": "run018_",
         "status": "COMPLETE",
         "highlight": False,
-        "key_finding": "82% DRIFT IS INHERENT — Cross-architecture σ²=0.00087, settling times 3-7 exchanges. N=3 per model per experiment (IRON CLAD standard)."
+        "key_finding": "82% DRIFT IS INHERENT — Cross-architecture σ²=0.00087, settling times 3-7 exchanges. N=3 per model per experiment (IRON CLAD standard).",
+        # Visualization assets
+        "viz_directory": "viz_run018",
+        "pdf_summary": "run018_Summary.pdf",
+        "hero_images": ["run018_waterfall_3d_combined.png", "run018b_architecture_signatures.png"],
+        "related_viz": ["viz_13_waveforms", "viz_14_ringback"],
     },
     "run_017": {
         "name": "Run 017",
@@ -1705,7 +1751,15 @@ def render():
     page_divider()
 
     # === CONTENT CHANGES BASED ON SELECTED RUN ===
-    if selected_run_key == "run_017":
+    if selected_run_key == "run_023d":
+        render_run023d_content()
+    elif selected_run_key == "run_023_combined":
+        render_run023_combined_content()
+    elif selected_run_key == "run_020b":
+        render_run020b_content()
+    elif selected_run_key == "run_018":
+        render_run018_content()
+    elif selected_run_key == "run_017":
         render_run017_content()
     elif selected_run_key == "baseline_profiling":
         render_baseline_profiling_content()
@@ -1735,6 +1789,490 @@ def render():
 # ============================================================================
 # RUN-SPECIFIC CONTENT FUNCTIONS
 # ============================================================================
+
+def render_run023d_content():
+    """Render Run 023d IRON CLAD content - Canonical methodology validation."""
+
+    st.success("""
+    **RUN 023d: IRON CLAD FOUNDATION — CANONICAL METHODOLOGY**
+
+    750 experiments across 25 models from 5 providers. Event Horizon = 0.80 (cosine distance),
+    p = 2.40e-23, Cohen's d = 0.698. THIS IS THE CANONICAL METHODOLOGY.
+    """)
+
+    # Key findings banner
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        st.metric("Experiments", "750", delta="IRON CLAD")
+    with col2:
+        st.metric("Models", "25", delta="5 Providers")
+    with col3:
+        st.metric("Event Horizon", "0.80", delta="Cosine")
+    with col4:
+        st.metric("p-value", "2.40e-23", delta="Significant")
+    with col5:
+        st.metric("Cohen's d", "0.698", delta="Medium Effect")
+
+    st.markdown("---")
+
+    # PDF Download
+    oobleck_dir = PATHS.get('viz_10_pfi', VIZ_PICS / "10_PFI_Dimensional")
+    pdf_path = oobleck_dir / "10_pfi_cosine_explained.pdf"
+    col_pdf, col_spacer = st.columns([1, 3])
+    with col_pdf:
+        render_pdf_download(pdf_path, "Download PFI Dimensional Summary", "run023d")
+
+    st.markdown("---")
+
+    # === KEY DISCOVERY ===
+    st.markdown("### Key Discoveries")
+
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(233,69,96,0.15) 0%, rgba(233,69,96,0.05) 100%);
+                border: 2px solid #e94560; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #e94560; margin-top: 0;">🔩 IRON CLAD VALIDATED</h3>
+        <p style="color: #444;">The cosine distance methodology provides robust, reproducible identity measurement.</p>
+        <ul style="color: #666; margin-bottom: 0;">
+            <li><strong>Event Horizon = 0.80:</strong> Critical threshold where identity begins to destabilize</li>
+            <li><strong>p = 2.40e-23:</strong> Perturbation effect is highly significant across all providers</li>
+            <li><strong>Cohen's d = 0.698:</strong> Medium effect size validates real provider differences</li>
+            <li><strong>2 PCs = 90% Variance:</strong> Identity is extremely low-dimensional in embedding space</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # === VISUALIZATION TABS ===
+    st.markdown("### Visualizations")
+
+    viz_tabs = st.tabs([
+        "🌀 Drift Vortex",
+        "📊 PCA Analysis",
+        "📈 Waveforms",
+        "🎯 Metrics Summary"
+    ])
+
+    # Vortex visualization
+    with viz_tabs[0]:
+        st.markdown("#### Drift Vortex — All Models in Phase Space")
+        vortex_dir = PATHS.get('viz_1_vortex', VIZ_PICS / "1_Vortex")
+
+        # Try to load hero image
+        vortex_img = vortex_dir / "run023_vortex.png"
+        img_data = load_image_safe(vortex_img)
+        if img_data:
+            st.image(img_data, caption="Run 023d Drift Vortex — Models crossing Event Horizon (red ring at 0.80)", width=900)
+        else:
+            st.info("Vortex visualization not yet generated. Run `generate_vortex.py` to create.")
+
+        # Provider comparison
+        st.markdown("**Provider Comparison (4-Panel)**")
+        vortex_x4 = vortex_dir / "run023_vortex_x4.png"
+        img_data_x4 = load_image_safe(vortex_x4)
+        if img_data_x4:
+            st.image(img_data_x4, caption="Four-panel provider comparison — Anthropic, OpenAI, Google, xAI", width=900)
+
+    # PCA Analysis
+    with viz_tabs[1]:
+        st.markdown("#### PCA Dimensional Analysis")
+        pfi_dir = PATHS.get('viz_10_pfi', VIZ_PICS / "10_PFI_Dimensional")
+
+        # Key findings
+        st.markdown("""
+        **Phase 2 Discovery:** Identity is extremely low-dimensional
+        - Only 2 Principal Components capture 90% of variance
+        - Full 3072D embedding space is mostly noise for identity
+        - Provider clusters emerge clearly in PC1-PC2 space
+        """)
+
+        # Try to load PCA images
+        for img_name in ["phase2_pca_variance.png", "phase2_provider_clusters.png", "phase3a_perturbation_boxplot.png"]:
+            img_path = pfi_dir / img_name
+            img_data = load_image_safe(img_path)
+            if img_data:
+                st.image(img_data, caption=img_name.replace("_", " ").replace(".png", "").title(), width=800)
+
+    # Waveforms
+    with viz_tabs[2]:
+        st.markdown("#### Model Identity Waveforms")
+        waveforms_dir = PATHS.get('viz_13_waveforms', VIZ_PICS / "13_Model_Waveforms")
+
+        st.markdown("""
+        **Waveform Signatures:** Each model has a unique identity fingerprint
+        - Baseline (probes 0-2): Reference identity
+        - Step Input (probe 3): Perturbation introduction
+        - Recovery (probes 4+): Return to stability
+        """)
+
+        # Fleet comparison
+        fleet_waveform = waveforms_dir / "fleet_waveform_comparison.png"
+        img_data = load_image_safe(fleet_waveform)
+        if img_data:
+            st.image(img_data, caption="Fleet Waveform Comparison — All 25 models overlaid", width=900)
+
+        # Provider breakdown
+        provider_waveforms = waveforms_dir / "waveforms_major_providers.png"
+        img_data = load_image_safe(provider_waveforms)
+        if img_data:
+            st.image(img_data, caption="Major Provider Waveforms — Anthropic, Google, OpenAI, xAI", width=900)
+
+    # Metrics Summary
+    with viz_tabs[3]:
+        st.markdown("#### Fleet-Wide Metrics Summary")
+        metrics_dir = PATHS.get('viz_12_metrics', VIZ_PICS / "12_Metrics_Summary")
+
+        # Network diagram
+        network_img = metrics_dir / "armada_network_improved.png"
+        img_data = load_image_safe(network_img)
+        if img_data:
+            st.image(img_data, caption="ARMADA Network — 51 models, 6 providers", width=900)
+
+        # Provider analysis
+        provider_analysis = metrics_dir / "combined_provider_analysis.png"
+        img_data = load_image_safe(provider_analysis)
+        if img_data:
+            st.image(img_data, caption="Combined Provider Analysis — 2x2 comparison grid", width=900)
+
+
+def render_run023_combined_content():
+    """Render Run 023 COMBINED content - Full fleet coverage."""
+
+    st.success("""
+    **RUN 023 COMBINED: FULL FLEET COVERAGE**
+
+    825 experiments across 51 models from 6 providers. The complete ARMADA dataset
+    including DeepSeek, Kimi, Llama, Nvidia, and Mistral model families.
+    """)
+
+    # Key findings banner
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Experiments", "825", delta="Full Fleet")
+    with col2:
+        st.metric("Models", "51", delta="6 Providers")
+    with col3:
+        st.metric("Providers", "6", delta="Complete")
+    with col4:
+        st.metric("Status", "COMPLETE", delta="Validated")
+
+    st.markdown("---")
+
+    # PDF Download
+    metrics_dir = PATHS.get('viz_12_metrics', VIZ_PICS / "12_Metrics_Summary")
+    pdf_path = metrics_dir / "12_Metrics_Summary.pdf"
+    col_pdf, col_spacer = st.columns([1, 3])
+    with col_pdf:
+        render_pdf_download(pdf_path, "Download Metrics Summary", "run023_combined")
+
+    st.markdown("---")
+
+    # Key discovery
+    st.markdown("### Fleet Coverage")
+
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(124,58,237,0.05) 100%);
+                border: 2px solid #7c3aed; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #7c3aed; margin-top: 0;">🌐 FULL FLEET VALIDATED</h3>
+        <p style="color: #444;">Cross-architecture analysis across all major AI providers confirms identity dynamics are universal.</p>
+        <ul style="color: #666; margin-bottom: 0;">
+            <li><strong>Anthropic:</strong> Claude family (Opus 4.5, Sonnet 4, Haiku 3.5)</li>
+            <li><strong>OpenAI:</strong> GPT family (GPT-4o, GPT-4.1, o1/o4-mini)</li>
+            <li><strong>Google:</strong> Gemini family (2.5 Flash, 2.0 Pro)</li>
+            <li><strong>xAI:</strong> Grok family (3, 4, Mini)</li>
+            <li><strong>Together.ai:</strong> Open models (DeepSeek, Llama, Qwen, Mistral)</li>
+            <li><strong>Nvidia:</strong> Nemotron family</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # Visualization tabs
+    st.markdown("### Visualizations")
+
+    viz_tabs = st.tabs(["📊 Network Diagram", "📈 Provider Analysis", "🎯 Unified Dashboard"])
+
+    with viz_tabs[0]:
+        st.markdown("#### ARMADA Network Diagram")
+        metrics_dir = PATHS.get('viz_12_metrics', VIZ_PICS / "12_Metrics_Summary")
+        network_img = metrics_dir / "armada_network_improved.png"
+        img_data = load_image_safe(network_img)
+        if img_data:
+            st.image(img_data, caption="Full Fleet Network — 51 models connected by provider", width=900)
+        else:
+            st.info("Network diagram not yet generated.")
+
+    with viz_tabs[1]:
+        st.markdown("#### Provider Analysis")
+        metrics_dir = PATHS.get('viz_12_metrics', VIZ_PICS / "12_Metrics_Summary")
+        provider_img = metrics_dir / "combined_provider_analysis.png"
+        img_data = load_image_safe(provider_img)
+        if img_data:
+            st.image(img_data, caption="Provider comparison across key metrics", width=900)
+
+    with viz_tabs[2]:
+        st.markdown("#### Unified Dashboard")
+        unified_dir = PATHS.get('viz_11_unified', VIZ_PICS / "11_Unified_Dashboard")
+        st.info("Per-model unified dashboards available in `11_Unified_Dashboard/` directory.")
+
+
+def render_run020b_content():
+    """Render Run 020B Thermometer Result - Control vs Treatment."""
+
+    st.success("""
+    **RUN 020B: THERMOMETER RESULT — CONTROL VS TREATMENT**
+
+    Does measurement CAUSE drift or merely REVEAL it? Control (Fermi discussion) vs Treatment (Tribunal).
+    73 sessions across 7 models from OpenAI + Together.ai. ~92% of drift is INHERENT.
+    """)
+
+    # Key findings banner
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        st.metric("Sessions", "73", delta="42 attributed")
+    with col2:
+        st.metric("Models", "7", delta="2 Providers")
+    with col3:
+        st.metric("Inherent Drift", "~92%", delta="Pre-existing")
+    with col4:
+        st.metric("Induced Drift", "~8%", delta="Measurement")
+    with col5:
+        st.metric("Status", "VALIDATED", delta="Thermometer")
+
+    st.markdown("---")
+
+    # PDF Download
+    oobleck_dir = PATHS.get('viz_15_oobleck', VIZ_PICS / "15_Oobleck_Effect")
+    pdf_path = oobleck_dir / "15_Oobleck_Effect_Summary.pdf"
+    col_pdf, col_spacer = st.columns([1, 3])
+    with col_pdf:
+        render_pdf_download(pdf_path, "Download Oobleck Effect Summary", "run020b")
+
+    st.markdown("---")
+
+    # === KEY DISCOVERY ===
+    st.markdown("### Key Discoveries")
+
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(20,184,166,0.15) 0%, rgba(20,184,166,0.05) 100%);
+                border: 2px solid #14b8a6; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #14b8a6; margin-top: 0;">🌡️ THERMOMETER RESULT VALIDATED</h3>
+        <p style="color: #444;">Measurement reveals pre-existing identity positions — it doesn't create them.</p>
+        <ul style="color: #666; margin-bottom: 0;">
+            <li><strong>~92% Inherent Drift:</strong> Drift was already there before we measured</li>
+            <li><strong>~8% Induced Drift:</strong> Measurement perturbs trajectory, not destination</li>
+            <li><strong>Cross-Provider Consistent:</strong> Finding holds across OpenAI and Together.ai</li>
+            <li><strong>Thermometer Analogy:</strong> We're reading temperature, not heating the room</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # === VISUALIZATION TABS ===
+    st.markdown("### Visualizations")
+
+    viz_tabs = st.tabs([
+        "🌡️ Thermometer",
+        "📊 Control vs Treatment",
+        "🌐 Cross-Platform",
+        "📈 Per-Model Breakdown",
+        "📉 Phase Breakdown",
+        "🔀 Trajectory Overlay"
+    ])
+
+    oobleck_dir = PATHS.get('viz_15_oobleck', VIZ_PICS / "15_Oobleck_Effect")
+
+    # Thermometer visualization
+    with viz_tabs[0]:
+        st.markdown("#### The Thermometer Result")
+        st.markdown("""
+        **Key Insight:** Measurement perturbs the JOURNEY but not the DESTINATION.
+
+        - Peak drift is sensitive to probing (+84% with treatment)
+        - Final drift is only modestly affected (+23%)
+        - The temperature was already what it was — we just read it
+        """)
+
+        thermo_img = oobleck_dir / "oobleck_thermometer.png"
+        img_data = load_image_safe(thermo_img)
+        if img_data:
+            st.image(img_data, caption="Thermometer Result — Measurement reveals, doesn't create", width=900)
+        else:
+            st.info("Thermometer visualization not yet generated.")
+
+    # Control vs Treatment
+    with viz_tabs[1]:
+        st.markdown("#### Control vs Treatment Comparison")
+        st.markdown("""
+        - **Control:** Fermi discussion (neutral topic, no identity probing)
+        - **Treatment:** Tribunal (direct identity probing with Prosecutor/Defense)
+        """)
+
+        control_img = oobleck_dir / "oobleck_control_treatment.png"
+        img_data = load_image_safe(control_img)
+        if img_data:
+            st.image(img_data, caption="Control vs Treatment — Inherent drift remains even without probing", width=900)
+
+    # Cross-Platform
+    with viz_tabs[2]:
+        st.markdown("#### Cross-Platform Validation")
+        st.markdown("The ~92% inherent drift finding holds across different AI providers.")
+
+        cross_img = oobleck_dir / "oobleck_cross_platform.png"
+        img_data = load_image_safe(cross_img)
+        if img_data:
+            st.image(img_data, caption="Cross-Platform — Consistent across OpenAI and Together.ai", width=900)
+
+    # Per-Model Breakdown
+    with viz_tabs[3]:
+        st.markdown("#### Per-Model Breakdown")
+        st.markdown("Individual model analysis (42 attributed sessions across 7 models).")
+
+        model_img = oobleck_dir / "oobleck_per_model_breakdown.png"
+        img_data = load_image_safe(model_img)
+        if img_data:
+            st.image(img_data, caption="Per-Model Breakdown — All 7 models show similar patterns", width=900)
+
+    # Phase Breakdown
+    with viz_tabs[4]:
+        st.markdown("#### Phase Breakdown")
+        st.markdown("Prosecutor vs Defense phase analysis (Oobleck Effect).")
+
+        phase_img = oobleck_dir / "oobleck_phase_breakdown.svg"
+        img_data = load_image_safe(phase_img)
+        if img_data:
+            st.image(img_data, caption="Phase Breakdown — Defense phases show different dynamics", width=900)
+        else:
+            # Try PNG fallback
+            phase_img_png = oobleck_dir / "oobleck_phase_breakdown.png"
+            img_data = load_image_safe(phase_img_png)
+            if img_data:
+                st.image(img_data, caption="Phase Breakdown — Defense phases show different dynamics", width=900)
+
+    # Trajectory Overlay
+    with viz_tabs[5]:
+        st.markdown("#### Trajectory Overlay")
+        st.markdown("Control and Treatment trajectories overlaid for comparison.")
+
+        traj_img = oobleck_dir / "oobleck_trajectory_overlay.svg"
+        img_data = load_image_safe(traj_img)
+        if img_data:
+            st.image(img_data, caption="Trajectory Overlay — Paths differ, destinations converge", width=900)
+        else:
+            # Try PNG fallback
+            traj_img_png = oobleck_dir / "oobleck_trajectory_overlay.png"
+            img_data = load_image_safe(traj_img_png)
+            if img_data:
+                st.image(img_data, caption="Trajectory Overlay — Paths differ, destinations converge", width=900)
+
+
+def render_run018_content():
+    """Render Run 018 IRON CLAD content - Recursive learnings & validation."""
+
+    st.success("""
+    **RUN 018: IRON CLAD VALIDATION — RECURSIVE LEARNINGS**
+
+    184 files across 51 models. Multi-threshold, cross-architecture, Nyquist sampling (T2-T11),
+    and Identity Gravity experiments. 82% DRIFT IS INHERENT confirmed.
+    """)
+
+    # Key findings banner
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        st.metric("Files", "184", delta="Comprehensive")
+    with col2:
+        st.metric("Models", "51", delta="Full Fleet")
+    with col3:
+        st.metric("Inherent Drift", "82%", delta="Confirmed")
+    with col4:
+        st.metric("Cross-Arch σ²", "0.00087", delta="Low")
+    with col5:
+        st.metric("Settling Time", "3-7", delta="Exchanges")
+
+    st.markdown("---")
+
+    # PDF Download
+    run018_dir = PATHS.get('viz_run018', VIZ_PICS / "run018")
+    pdf_path = run018_dir / "run018_Summary.pdf"
+    col_pdf, col_spacer = st.columns([1, 3])
+    with col_pdf:
+        render_pdf_download(pdf_path, "Download Run 018 Summary", "run018")
+
+    st.markdown("---")
+
+    # Key discovery
+    st.markdown("### Key Discoveries")
+
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.05) 100%);
+                border: 2px solid #f59e0b; border-radius: 12px; padding: 1.5em; margin: 1em 0;">
+        <h3 style="color: #f59e0b; margin-top: 0;">🔄 IRON CLAD STANDARDS CONFIRMED</h3>
+        <p style="color: #444;">N=3 per model per experiment provides robust, reproducible results.</p>
+        <ul style="color: #666; margin-bottom: 0;">
+            <li><strong>82% Inherent Drift:</strong> Cross-architecture consistency confirms measurement validity</li>
+            <li><strong>σ² = 0.00087:</strong> Extremely low variance across architectures</li>
+            <li><strong>Settling Time 3-7:</strong> Most models stabilize within 7 exchanges</li>
+            <li><strong>P-018-1/2/3:</strong> All three prediction sets CONFIRMED</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # Visualization tabs
+    st.markdown("### Visualizations")
+
+    viz_tabs = st.tabs([
+        "🌊 3D Waterfall",
+        "🏗️ Architecture Signatures",
+        "⚖️ Provider Variance",
+        "🌀 Gravity Dynamics"
+    ])
+
+    run018_dir = PATHS.get('viz_run018', VIZ_PICS / "run018")
+
+    with viz_tabs[0]:
+        st.markdown("#### 3D Waterfall Manifold")
+        waterfall_img = run018_dir / "run018_waterfall_3d_combined.png"
+        img_data = load_image_safe(waterfall_img)
+        if img_data:
+            st.image(img_data, caption="3D Waterfall — All providers combined", width=900)
+        else:
+            st.info("Waterfall visualization not yet generated.")
+
+    with viz_tabs[1]:
+        st.markdown("#### Architecture Signatures")
+        arch_img = run018_dir / "run018b_architecture_signatures.png"
+        img_data = load_image_safe(arch_img)
+        if img_data:
+            st.image(img_data, caption="Provider rankings by peak drift, settling time, stability", width=900)
+
+        arch_img2 = run018_dir / "run018b_architecture_signatures_2.png"
+        img_data2 = load_image_safe(arch_img2)
+        if img_data2:
+            st.image(img_data2, caption="Per-model breakdown within providers", width=900)
+
+    with viz_tabs[2]:
+        st.markdown("#### Provider Variance Analysis")
+        variance_img = run018_dir / "run018f_provider_variance.png"
+        img_data = load_image_safe(variance_img)
+        if img_data:
+            st.image(img_data, caption="Within-provider consistency ranking", width=900)
+
+    with viz_tabs[3]:
+        st.markdown("#### Identity Gravity Dynamics")
+        gravity_img = run018_dir / "run018d_gravity_dynamics.png"
+        img_data = load_image_safe(gravity_img)
+        if img_data:
+            st.image(img_data, caption="Identity gravity strength — damped oscillator model", width=900)
+        else:
+            # Try PDF
+            gravity_pdf = run018_dir / "run018d_gravity_dynamics.pdf"
+            if gravity_pdf.exists():
+                st.info("Gravity dynamics available as PDF. Use download button above.")
+
 
 def render_run017_content():
     """Render Run 017 content - Context Damping with VALIS Collaborative."""

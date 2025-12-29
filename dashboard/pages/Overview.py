@@ -20,6 +20,15 @@ from config import PATHS, SETTINGS
 from utils import load_status, load_publication_status, load_markdown_file, page_divider
 
 
+def load_image_safe(image_path):
+    """Load image as bytes for reliable Streamlit display."""
+    try:
+        with open(image_path, "rb") as f:
+            return f.read()
+    except Exception:
+        return None
+
+
 def count_repo_files():
     """Count total files in Nyquist_Consciousness repo using git ls-files."""
     repo_root = Path(__file__).parent.parent.parent
@@ -189,6 +198,43 @@ def render():
         </span>
     </div>
     """, unsafe_allow_html=True)
+
+    # === HERO VISUALIZATION: The Identity Vortex ===
+    st.markdown("---")
+
+    # Load vortex image
+    vortex_dir = PATHS.get('viz_1_vortex', PATHS['s7_viz_pics'] / "1_Vortex")
+    vortex_img_path = vortex_dir / "run023b_vortex_x4.png"
+    vortex_img = load_image_safe(vortex_img_path)
+
+    if vortex_img:
+        # Hero container with overlaid metrics
+        st.markdown("""
+        <div style="position: relative; margin: 0 -1rem;">
+            <div style="position: absolute; top: 1rem; left: 1rem; z-index: 10;
+                        background: rgba(26, 26, 46, 0.85); padding: 1rem 1.5rem;
+                        border-radius: 12px; border: 2px solid #e94560;">
+                <div style="color: #e94560; font-size: 1.4em; font-weight: bold; margin-bottom: 0.3em;">
+                    IDENTITY VORTEX
+                </div>
+                <div style="color: white; font-size: 0.9em; line-height: 1.6;">
+                    <span style="color: #2a9d8f;">●</span> Event Horizon: <strong>0.80</strong> (red ring)<br>
+                    <span style="color: #f59e0b;">●</span> p-value: <strong>2.40e-23</strong><br>
+                    <span style="color: #7c3aed;">●</span> 51 models, 6 providers
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.image(vortex_img, use_container_width=True)
+
+        # Caption
+        st.markdown("""
+        <div style="text-align: center; color: #666; font-size: 0.9em; margin-top: -0.5em; margin-bottom: 1em;">
+            <strong>Run 023b:</strong> Looking Into the Identity Drain — RAW (left) shows all trajectories, SMOOTHED (right) reveals the attractor structure.
+            Models inside the red ring (Event Horizon = 0.80) are STABLE; outside are VOLATILE.
+        </div>
+        """, unsafe_allow_html=True)
 
     # === SECTION 1: THE CORE FINDING (82% Result) ===
     st.markdown("---")

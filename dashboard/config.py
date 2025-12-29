@@ -68,6 +68,24 @@ PATHS = {
     'compression_dir': REPO_ROOT / "experiments" / "compression_tests",
     'sstack_dir': REPO_ROOT / "experiments" / "compression_tests" / "compression_v2_sstack",
     'preflight_results': REPO_ROOT / "experiments" / "compression_tests" / "compression_v2_sstack" / "preflight_results",
+
+    # Visualization directories (for dashboard integration)
+    'viz_1_vortex': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "1_Vortex",
+    'viz_2_boundary': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "2_Boundary_Mapping",
+    'viz_3_stability': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "3_Stability",
+    'viz_4_rescue': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "4_Rescue",
+    'viz_5_settling': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "5_Settling",
+    'viz_6_architecture': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "6_Architecture",
+    'viz_8_radar': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "8_Radar_Oscilloscope",
+    'viz_9_fft': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "9_FFT_Spectral",
+    'viz_10_pfi': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "10_PFI_Dimensional",
+    'viz_11_unified': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "11_Unified_Dashboard",
+    'viz_12_metrics': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "12_Metrics_Summary",
+    'viz_13_waveforms': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "13_Model_Waveforms",
+    'viz_14_ringback': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "14_Ringback",
+    'viz_15_oobleck': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "15_Oobleck_Effect",
+    'viz_run018': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "run018",
+    'viz_run020': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "run020",
 }
 
 # ========== DASHBOARD SETTINGS ==========

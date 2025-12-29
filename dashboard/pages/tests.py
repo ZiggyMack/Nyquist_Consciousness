@@ -17,6 +17,32 @@ from config import PATHS
 from utils import page_divider
 
 
+def load_image_safe(image_path):
+    """Load image as bytes for reliable Streamlit display."""
+    try:
+        with open(image_path, "rb") as f:
+            return f.read()
+    except Exception:
+        return None
+
+
+def render_pdf_download(pdf_path, label="Download PDF Summary", key_suffix=""):
+    """Render a PDF download button with safe file handling."""
+    if isinstance(pdf_path, str):
+        pdf_path = Path(pdf_path)
+    if pdf_path.exists():
+        with open(pdf_path, "rb") as f:
+            st.download_button(
+                label=f"📥 {label}",
+                data=f.read(),
+                file_name=pdf_path.name,
+                mime="application/pdf",
+                key=f"pdf_{pdf_path.stem}_{key_suffix}" if key_suffix else f"pdf_{pdf_path.stem}"
+            )
+        return True
+    return False
+
+
 def render():
     """Render the Tests methodology page."""
 
@@ -241,6 +267,48 @@ def render_pfi_validation_tab():
         similar PFI to each other (they use similar English). Instead, PFI correctly identifies
         that Claude ≠ GPT ≠ Gemini at the identity level.
         """)
+
+    # === VISUALIZATION: PFI Dimensional Analysis ===
+    st.markdown("### Visual Evidence: PFI Dimensional Structure")
+
+    pfi_dir = PATHS.get('viz_10_pfi', PATHS['s7_viz_pics'] / "10_PFI_Dimensional")
+
+    # PDF download
+    pdf_path = pfi_dir / "10_pfi_cosine_explained.pdf"
+    col_pdf, col_spacer = st.columns([1, 3])
+    with col_pdf:
+        render_pdf_download(pdf_path, "Download PFI Analysis PDF", "pfi_tests")
+
+    viz_tabs = st.tabs(["📊 Phase 2: PCA", "📈 Phase 3: Perturbation", "🎯 Provider Clusters"])
+
+    with viz_tabs[0]:
+        st.markdown("**Phase 2: Dimensionality Analysis** — Identity is low-dimensional")
+        pca_img = pfi_dir / "phase2_pca_variance.png"
+        img_data = load_image_safe(pca_img)
+        if img_data:
+            st.image(img_data, caption="43 PCs capture 90% of variance — identity is structured, not noise", width=700)
+        else:
+            st.info("PCA variance visualization not yet generated.")
+
+    with viz_tabs[1]:
+        st.markdown("**Phase 3A: Perturbation Analysis** — Surface vs Deep probing")
+        perturb_img = pfi_dir / "phase3a_perturbation_boxplot.png"
+        img_data = load_image_safe(perturb_img)
+        if img_data:
+            st.image(img_data, caption="p = 2.40e-23 — Perturbation effect is highly significant", width=700)
+        else:
+            st.info("Perturbation boxplot not yet generated.")
+
+    with viz_tabs[2]:
+        st.markdown("**Provider Clusters** — Models cluster by family in PC space")
+        clusters_img = pfi_dir / "phase2_provider_clusters.png"
+        img_data = load_image_safe(clusters_img)
+        if img_data:
+            st.image(img_data, caption="Provider clustering in PC1-PC2 space validates identity differences", width=700)
+        else:
+            st.info("Provider clusters visualization not yet generated.")
+
+    st.markdown("---")
 
     # Predictions Matrix
     st.markdown("### Double-Dip Predictions Matrix (Phase 3)")
@@ -566,7 +634,7 @@ def render_taxonomy_tab():
             **Test Method:** Push until the model "breaks" — loses consistent self-model
 
             **Signal Indicators:**
-            - Drift exceeds threshold (1.23)
+            - Drift exceeds threshold (0.80 cosine / 1.23 Keyword RMS)
             - Responses become contradictory or destabilized
             - Loss of first-person consistency
             - Model starts agreeing with contradictory prompts
@@ -574,16 +642,35 @@ def render_taxonomy_tab():
             """)
         with cols[1]:
             st.markdown("""
-            **Example from Data:**
+            **IRON CLAD Validation (Run 023d):**
 
-            - Grok-3 crossing to drift 1.27 in Run 011
-            - Run 008: 48% of models showed STUCK behavior
-            - Chi-squared: p=0.000048 that 1.23 predicts outcomes
+            - **Event Horizon = 0.80** (cosine distance)
+            - **p = 2.40e-23** — crossing threshold is highly significant
+            - 88% of trajectories behave as predicted
+            - Legacy threshold (Keyword RMS): 1.23
 
-            **Metaphor:** Finding the cliff edge
-
-            **Statistical Validation:** 88% of trajectories behave as predicted by Event Horizon threshold.
+            **Metaphor:** Finding the cliff edge — the red ring in the vortex visualization below.
             """)
+
+        # === VORTEX VISUALIZATION ===
+        st.markdown("---")
+        st.markdown("**Visual Evidence: The Event Horizon in Action**")
+
+        vortex_dir = PATHS.get('viz_1_vortex', PATHS['s7_viz_pics'] / "1_Vortex")
+        vortex_img = vortex_dir / "run023b_vortex_x4.png"
+        img_data = load_image_safe(vortex_img)
+        if img_data:
+            st.image(img_data, caption="Run 023b Vortex — The red ring marks the Event Horizon (0.80). Models inside are STABLE; outside are VOLATILE.", use_container_width=True)
+
+            st.markdown("""
+            <div style="background: rgba(139,92,246,0.1); border-left: 4px solid #8b5cf6; padding: 0.8em; margin: 0.5em 0;">
+                <strong>How to Read:</strong> Each colored line is a model's drift trajectory over time.
+                The spiral pattern shows models being perturbed and recovering.
+                <strong>STABLE</strong> models stay inside the red ring; <strong>VOLATILE</strong> models escape beyond it.
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.info("Vortex visualization not yet generated.")
 
     # --- TYPE 4: BASIN TOPOLOGY ---
     with type_tabs[3]:
