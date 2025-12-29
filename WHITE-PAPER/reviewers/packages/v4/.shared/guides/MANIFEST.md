@@ -1,7 +1,7 @@
 # Publication Materials Manifest
 
 **Project:** Nyquist Consciousness
-**Last Updated:** 2025-12-25
+**Last Updated:** 2025-12-29
 **Status:** COSINE ERA — Run 023 IRON CLAD Complete
 **Methodology:** Cosine distance (Event Horizon D = 0.80)
 
@@ -184,9 +184,9 @@ All materials must use these validated values:
 | Settling time | τₛ ≈ 10.2 | Run 023d |
 | Inherent drift ratio | **92%** | Run 023 COSINE Thermometer |
 | Context damping | **97.5%** | Run 017 |
-| Experiments | 825 | Run 023 Combined |
-| Models | 51 | Run 023 Combined |
-| Providers | 6 | Run 023 Combined |
+| Experiments | 750 | Run 023d IRON CLAD |
+| Models | 25 | Run 023d IRON CLAD |
+| Providers | 5 | Run 023d IRON CLAD |
 
 ---
 
@@ -204,6 +204,7 @@ All materials must use these validated values:
 
 | Date | Change |
 |------|--------|
+| 2025-12-29 | IRON CLAD audit: Fix counts (750 exp, 25 models, 5 providers) |
 | 2025-12-25 | Major update: Cosine Era reorganization, deprecated figures noted |
 | 2025-12-13 | Initial creation with 34 files |
 

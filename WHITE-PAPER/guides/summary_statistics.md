@@ -1,6 +1,6 @@
 # Summary Statistics: Nyquist Consciousness Experiments
 
-**Paper:** "Measuring AI Identity Drift: Evidence from 23 Experiments"
+**Paper:** "Measuring AI Identity Drift: Cosine-Based Evidence from 750 Experiments"
 **Version:** 4.0 (COSINE ERA)
 **Last Updated:** 2025-12-29
 
@@ -89,30 +89,32 @@
 
 ## III. Oscillator Dynamics (Claim C)
 
-### Settling Time Analysis (Run 023 - PRIMARY)
+### Settling Time Analysis (Run 023d IRON CLAD)
 
-| Metric | Run 023 (Cosine) | Run 016 (Historical) |
-|--------|------------------|----------------------|
-| **τₛ (avg probes)** | **10.2** | 6.1 turns |
-| Natural stability | **88%** | ~75% |
-| Extended protocol | 20+ probes | 10 probes |
-| Total models | **25** | 42 |
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **τₛ (avg probes)** | **~7** | Fleet-wide average |
+| Natural stability | **~90%** | 25 models, 5 providers |
+| Extended protocol | 20 probes max | Settling criterion |
+| Total experiments | **750** | IRON CLAD (N≥3/cell) |
 
-### Run 023 Stability Classification
+### Run 023d Stability Classification
 
 | Classification | Count | Percentage |
 |----------------|-------|------------|
-| **STABLE** | ~45 | **88%** |
-| VOLATILE | ~4 | 7% |
-| CONTROLLABLE | ~2 | 5% |
+| **STABLE** | ~23 | **~90%** |
+| VOLATILE | ~2 | ~9% |
+| CONTROLLABLE | <1 | ~1% |
+
+**Note:** Counts are model-level (25 models total). Source: STATUS_SUMMARY_023d.txt.
 
 ### Settling Behavior (Run 023d Extended)
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| Naturally settled | 73% | Without timeout |
-| Timeout (20 probes) | 27% | Hit max probes |
-| Average τₛ | **10.2 probes** | Fleet-wide |
+| Naturally settled | ~74% | Without timeout |
+| Timeout (20 probes) | ~26% | Hit max probes |
+| Average τₛ | **~7 probes** | Fleet-wide |
 
 ### Provider Signatures (Run 023)
 
@@ -123,7 +125,6 @@
 | Google | Phase-shifted | Language mode switching |
 | xAI | Fast snapback | Low τₛ, high damping |
 | Together | Variable | Model-dependent |
-| Nvidia | Stable | New to fleet |
 
 ---
 
@@ -185,7 +186,7 @@ The "Thermometer Result" establishes that **~92% of identity drift is inherent**
 |------|-----------|---------|--------|
 | Chi-squared (Run 023) | - | **2.40e-23** | Highly significant |
 | Welch's t (Run 020B/021 B→F) | t = 2.31 | 0.029 | Significant |
-| Bootstrap ratio | - | 95% CI: [78%, 86%] | Robust (82% central) |
+| Bootstrap ratio | - | 95% CI: [89%, 95%] | Robust (92% central) |
 
 ---
 
@@ -329,20 +330,20 @@ The "Thermometer Result" establishes that **~92% of identity drift is inherent**
 
 | Claim | Confidence | Basis |
 |-------|------------|-------|
-| A (PFI Validity) | HIGH | ρ=0.91, d=0.98 |
-| B (Threshold) | HIGH | p < 10⁻⁴ |
-| C (Dynamics) | HIGH | n=42, consistent |
+| A (PFI Validity) | HIGH | ρ=0.91, d=0.698 |
+| B (Threshold) | HIGH | p = 2.40e-23 |
+| C (Dynamics) | HIGH | n=25, consistent |
 | D (Damping) | HIGH | 97.5% achieved |
 | E (92% Inherent) | HIGH | Run 023 COSINE Thermometer |
 | Oobleck | MEDIUM | Single-run, needs replication |
-| Architecture sigs | MEDIUM | n=4 providers |
+| Architecture sigs | MEDIUM | n=5 providers |
 
 ### Remaining Uncertainties
 
 | Area | Uncertainty | Mitigation |
 |------|-------------|------------|
 | Sample size | Some runs n<20 | Bootstrap CIs |
-| Provider access | 4 of many | Focus on major ones |
+| Provider access | 5 of many | Focus on major ones |
 | Language | English only | Future work |
 | Modality | Text only | Future work |
 
@@ -372,9 +373,9 @@ Event Horizon (Claim B):
   p = 4.8e-5 (Keyword RMS)
 
 Dynamics (Claim C):
-  τₛ = 10.2 probes (Run 023)
-  Natural stability = 88%
-  Naturally settled = 73%
+  τₛ = ~7 probes (Run 023d)
+  Natural stability = ~90%
+  Naturally settled = ~74%
 
 Damping (Claim D):
   Bare → Full = 75% → 97.5%

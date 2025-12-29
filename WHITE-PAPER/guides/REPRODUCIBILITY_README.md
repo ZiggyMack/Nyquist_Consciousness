@@ -64,7 +64,8 @@ Nyquist_Consciousness/
 │           ├── 7_META_VALIDATION/ # PFI validation experiments
 │           ├── 9_STABILITY_CRITERIA/ # Run 015 scripts
 │           ├── 10_SETTLING_TIME/     # Run 016 scripts
-│           ├── 11_CONTEXT_DAMPING/   # Runs 017-023 scripts
+│           ├── 11_CONTEXT_DAMPING/   # Runs 017-020 scripts
+│           ├── 15_IRON_CLAD_FOUNDATION/ # Run 023d canonical data
 │           └── visualizations/       # Figure generation
 │
 ├── docs/
@@ -362,6 +363,7 @@ python extract_persona_baseline.py --persona nova
 | Document | Purpose |
 |----------|---------|
 | [MANIFEST.md](MANIFEST.md) | Materials inventory |
+| [UNIFIED_STATISTICS_REFERENCE.md](UNIFIED_STATISTICS_REFERENCE.md) | Canonical statistics reference |
 | [../planning/METHODOLOGY_DOMAINS.md](../planning/METHODOLOGY_DOMAINS.md) | Dual Event Horizon |
 | [../START_HERE.md](../START_HERE.md) | Reviewer orientation |
 

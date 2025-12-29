@@ -43,10 +43,17 @@ import argparse
 import shutil
 import hashlib
 import json
+import sys
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Set
 from dataclasses import dataclass, field
+
+# Add parent directories to path for converter imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from guides._convert_to_reviewer import convert_content as convert_guides_content
+from planning._convert_to_reviewer import convert_content as convert_planning_content
+from theory._convert_to_reviewer import convert_content as convert_theory_content
 
 # === PATH CONSTANTS ===
 WHITE_PAPER_ROOT = Path(__file__).parent.parent  # WHITE-PAPER/
@@ -753,6 +760,7 @@ def extract_package(
         return result
 
     # Copy files preserving relative structure
+    # Markdown files from guides/ and planning/ get path conversion for reviewer packages
     for category, files in collected.items():
         for src_file in files:
             # Calculate relative path from WHITE_PAPER_ROOT
@@ -761,7 +769,26 @@ def extract_package(
 
             try:
                 dst_file.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src_file, dst_file)
+
+                # Apply path conversion for markdown files in guides/, planning/, theory/
+                if src_file.suffix.lower() == ".md":
+                    content = src_file.read_text(encoding="utf-8")
+
+                    # Convert paths based on source directory
+                    if category == "guides" or "guides" in str(rel_path):
+                        content = convert_guides_content(content)
+                    elif category == "planning" or "planning" in str(rel_path):
+                        content = convert_planning_content(content)
+                    elif category == "theory" or "theory" in str(rel_path):
+                        content = convert_theory_content(content)
+
+                    dst_file.write_text(content, encoding="utf-8")
+                    # Preserve timestamps
+                    shutil.copystat(src_file, dst_file)
+                else:
+                    # Non-markdown files: direct copy
+                    shutil.copy2(src_file, dst_file)
+
                 result["files_copied"].append(str(rel_path))
             except Exception as e:
                 result["errors"].append(f"Failed to copy {rel_path}: {e}")

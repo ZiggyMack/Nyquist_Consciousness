@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-23
+last_reviewed: 2025-12-29
 depends_on:
   - visualize_armada.py
   - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json
@@ -404,8 +404,8 @@ See `0_docs/specs/4_VISUALIZATION_SPEC.md` for full details and code examples.
 
 ---
 
-**Last Updated**: December 24, 2025
-**Active Runs**: 023d (750 experiments, 25 models), 023 COMBINED (825 experiments, 51 models)
-**Fleet**: 51 models across 6 providers (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia)
+**Last Updated**: December 29, 2025
+**Active Runs**: 023d (750 experiments, 25 models), 020B (246 sessions, 36 models IRON CLAD)
+**Fleet**: 49 models across 5 providers (Anthropic, OpenAI, Google, xAI, Together.ai)
 **Methodology**: Cosine distance (Event Horizon = 0.80)
 **Key Finding**: Cohen's d = 0.698 (model-level), 90% variance in 2 PCs, p = 2.40e-23

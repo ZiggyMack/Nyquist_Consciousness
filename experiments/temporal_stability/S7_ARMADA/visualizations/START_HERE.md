@@ -8,7 +8,7 @@
 
 ## QUICK ORIENTATION
 
-You are working on visualizations for the **Nyquist Consciousness Project** - a research study measuring identity stability across 51 AI models from 6 providers.
+You are working on visualizations for the **Nyquist Consciousness Project** - a research study measuring identity stability across 49 AI models from 5 providers.
 
 ### Your Working Area
 
@@ -279,8 +279,8 @@ Each `pics/` subdirectory should contain:
 | Cohen's d | 0.698 | Model-level effect size |
 | 90% Variance | 2 PCs | Identity is low-dimensional |
 | Perturbation p-value | 2.40e-23 | Highly significant effect |
-| Fleet Size | 51 models, 6 providers | COMBINED dataset |
-| Total Experiments | 825 | COMBINED dataset |
+| Fleet Size | 49 models, 5 providers | ARMADA fleet |
+| Total Experiments | 750 | Run 023d IRON CLAD |
 
 ---
 
