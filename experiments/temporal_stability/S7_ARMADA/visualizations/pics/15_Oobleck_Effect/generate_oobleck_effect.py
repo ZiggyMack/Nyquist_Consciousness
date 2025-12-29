@@ -423,7 +423,7 @@ def plot_020b_control_treatment(data, output_dir):
     bars = ax4.bar(['Aggregate\nInherent Ratio'], [ratio],
                    color='#7C3AED', alpha=0.8, edgecolor='black', width=0.5)
 
-    ax4.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 018 Finding)')
+    ax4.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 021 Finding)')
     ax4.axhline(y=100, color='gray', linestyle=':', alpha=0.5, label='100% (Equal drift)')
     ax4.axhline(y=50, color='gray', linestyle=':', alpha=0.3)
 
@@ -463,10 +463,8 @@ def plot_020b_control_treatment(data, output_dir):
 def plot_020b_per_model_breakdown(data, output_dir):
     """Per-model breakdown for sessions with ship attribution.
 
-    IMPORTANT DATA LIMITATION:
-    - 42/73 sessions have model attribution (ship field)
-    - 31 sessions from early runs are unattributed
-    - This visualization shows ONLY the 42 attributed sessions
+    NOTE: As of IRON CLAD (December 2025), all sessions have ship attribution.
+    Early data limitation (42/73 attributed) has been resolved.
     """
     if not data:
         print("No 020B data for per-model breakdown")
@@ -534,7 +532,7 @@ def plot_020b_per_model_breakdown(data, output_dir):
                 ('deepseek-', 'ds-'), ('mistral-', 'mis-'),
                 ('mixtral-', 'mix-'), ('llama', 'L'),
                 ('nemotron-', 'nem-'), ('grok-', 'grk-'),
-                ('kimi-', 'k-'), ('qwen', 'Q'),
+                ('kimi-', 'k-'), ('qwen', 'Q'), ('-non-reasoning', '-nr'),
             ]
             result = name
             for old, new in abbrevs:
@@ -562,7 +560,7 @@ def plot_020b_per_model_breakdown(data, output_dir):
     colors = [get_provider_color(s) for s in ships]
     bars = ax2.bar(x, ratios, color=colors, alpha=0.8, edgecolor='black')
 
-    ax2.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 018 Finding)')
+    ax2.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 021 Finding)')
     ax2.axhline(y=100, color='gray', linestyle=':', alpha=0.5, label='100% (Equal drift)')
 
     # Add ratio labels on bars - only if not too many
@@ -625,36 +623,53 @@ def plot_020b_per_model_breakdown(data, output_dir):
     all_t_mean = np.mean([d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in all_treatment])
     all_ratio = (all_c_mean / all_t_mean * 100) if all_t_mean > 0 else 0
 
-    limitation_text = f"""
-DATA LIMITATION NOTICE
+    # Build summary text based on current data state
+    n_ships = len(ships)
+    if len(unattributed) == 0:
+        limitation_text = f"""
+RUN 020B: IRON CLAD DATA SUMMARY
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 TOTAL SESSIONS: {len(data)}
+  • Control: {len(all_control)}
+  • Treatment: {len(all_treatment)}
 
-ATTRIBUTED (with model info): {len(attributed)} sessions
-  • 7 models × ~6 sessions each
-  • Ship field added in IRON CLAD runs
-  • Per-model breakdown shown above
-
-UNATTRIBUTED: {len(unattributed)} sessions
-  • Early runs before ship tracking added
-  • Model identity unknown
-  • Still valid experimental data
+MODEL ATTRIBUTION: 100%
+  • {n_ships} unique models
+  • All sessions have ship field
+  • Full per-model breakdown available
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-AGGREGATE FINDING (ALL {len(data)} SESSIONS):
+AGGREGATE FINDING:
 
-  Inherent Drift Ratio: {all_ratio:.1f}%
+  Control Mean:   {all_c_mean:.3f}
+  Treatment Mean: {all_t_mean:.3f}
 
-  This finding includes ALL sessions regardless
-  of model attribution. The 31 unattributed
-  sessions followed the same experimental protocol
-  and contribute to the aggregate finding.
+  INHERENT DRIFT RATIO: {all_ratio:.1f}%
 
-  We can verify per-model consistency only for
-  the {len(attributed)} attributed sessions.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+KEY INSIGHT (Run 021 Thermometer Result):
+
+  ~{all_ratio:.0f}% of drift is INHERENT
+  (present without identity probing)
+
+  Probing REVEALS drift, it does not CREATE it.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+    else:
+        # Fallback for incomplete data (shouldn't happen with IRON CLAD)
+        limitation_text = f"""
+DATA STATUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TOTAL: {len(data)} sessions
+ATTRIBUTED: {len(attributed)}
+UNATTRIBUTED: {len(unattributed)}
+
+Inherent Drift Ratio: {all_ratio:.1f}%
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
 
@@ -662,7 +677,7 @@ AGGREGATE FINDING (ALL {len(data)} SESSIONS):
              fontsize=10, fontfamily='monospace', verticalalignment='top',
              bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.9, edgecolor='orange', linewidth=2))
 
-    fig.suptitle('Run 020B: Per-Model Breakdown (Attributed Sessions Only)',
+    fig.suptitle('Run 020B: Per-Model Breakdown (IRON CLAD — Full Attribution)',
                 fontsize=14, fontweight='bold', y=1.02)
 
     plt.tight_layout()
@@ -755,7 +770,7 @@ def plot_020b_thermometer(data, output_dir):
                 ('deepseek-', 'ds-'), ('mistral-', 'mis-'),
                 ('mixtral-', 'mix-'), ('llama', 'L'),
                 ('nemotron-', 'nem-'), ('grok-', 'grk-'),
-                ('kimi-', 'k-'),
+                ('kimi-', 'k-'), ('qwen', 'Q'),
             ]
             result = name
             for old, new in abbrevs:
