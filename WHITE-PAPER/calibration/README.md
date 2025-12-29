@@ -3,8 +3,8 @@ last_reviewed: 2025-12-29
 depends_on:
   - ./0_sync_viz.py
   - ./1_sync_llmbook.py
-  - ./2_generate_pdfs.py
-  - ./3_package_review.py
+  - ./2_package_review.py
+  - ./3_generate_pdfs.py
   - ./4_publish_stats.py
 impacts:
   - ../README.md
@@ -25,8 +25,8 @@ keywords:
 |---|--------|---------|---------------|
 | 0 | `0_sync_viz.py` | Sync S7_ARMADA visualizations → packages | `py 0_sync_viz.py --sync` |
 | 1 | `1_sync_llmbook.py` | Sync LLM_BOOK content → submissions | `py 1_sync_llmbook.py --sync` |
-| 2 | `2_generate_pdfs.py` | Generate publication PDFs | `py 2_generate_pdfs.py` |
-| 3 | `3_package_review.py` | Extract reviewer packages | `py 3_package_review.py --all` |
+| 2 | `2_package_review.py` | Extract reviewer packages | `py 2_package_review.py --all` |
+| 3 | `3_generate_pdfs.py` | Generate publication PDFs | `py 3_generate_pdfs.py` |
 | 4 | `4_publish_stats.py` | Extract dashboard statistics | `py 4_publish_stats.py` |
 
 **Workflow Order:** 0 → 1 → 2 → 3 → 4 (syncs first, stats last)
@@ -121,55 +121,31 @@ py 1_sync_llmbook.py --sync --include-visuals
 
 ---
 
-## 2. Generate PDFs (`2_generate_pdfs.py`)
-
-Generate publication-ready PDFs for all 8 paths.
-
-```bash
-cd WHITE-PAPER/calibration
-py 2_generate_pdfs.py
-```
-
-**Output:** `WHITE-PAPER/reviewers/packages/pdf/`
-
-| PDF | Size | Target |
-|-----|------|--------|
-| Nyquist_Workshop_Paper.pdf | ~150 KB | NeurIPS/AAAI |
-| Nyquist_arXiv_Paper.pdf | ~300 KB | cs.AI |
-| Nyquist_Journal_Paper.pdf | ~200 KB | Nature MI |
-| Nyquist_Popular_Science.pdf | ~100 KB | Atlantic/Wired |
-| Nyquist_Education_Quiz.pdf | ~150 KB | OER/Coursera |
-| Nyquist_Policy_Briefing.pdf | ~100 KB | Think tanks |
-| Nyquist_Funding_Proposal.pdf | ~150 KB | NSF/DARPA |
-| Nyquist_Media_Press.pdf | ~80 KB | Press/TED |
-
----
-
-## 3. Package Reviews (`3_package_review.py`)
+## 2. Package Reviews (`2_package_review.py`)
 
 Extract path-specific review packages for AI reviewers.
 
 ```bash
 # Show available paths and estimated sizes
-py 3_package_review.py --status
+py 2_package_review.py --status
 
 # Extract single path
-py 3_package_review.py workshop
+py 2_package_review.py workshop
 
 # Extract multiple paths
-py 3_package_review.py workshop arxiv
+py 2_package_review.py workshop arxiv
 
 # Extract ALL paths
-py 3_package_review.py --all
+py 2_package_review.py --all
 
 # Include figures (increases size)
-py 3_package_review.py arxiv --include-figures
+py 2_package_review.py arxiv --include-figures
 
 # Preview without extracting
-py 3_package_review.py workshop --dry-run
+py 2_package_review.py workshop --dry-run
 
 # Custom output location
-py 3_package_review.py workshop --output ./FOR_OPUS
+py 2_package_review.py workshop --output ./FOR_OPUS
 ```
 
 **Output:** `WHITE-PAPER/reviewers/packages/{path}/`
@@ -188,6 +164,39 @@ py 3_package_review.py workshop --output ./FOR_OPUS
 | policy | ~30 KB | ~3 |
 | funding | ~70 KB | ~6 |
 | media | ~35 KB | ~5 |
+
+---
+
+## 3. Generate PDFs (`3_generate_pdfs.py`)
+
+Generate publication-ready PDFs from markdown sources using ReportLab.
+
+```bash
+cd WHITE-PAPER/calibration
+py 3_generate_pdfs.py
+```
+
+**Output:** PDFs generated in their respective `submissions/` subdirectories.
+
+**8 Publication Pipelines:**
+
+| Pipeline | Source | Output |
+|----------|--------|--------|
+| arxiv | `arxiv/NYQUIST_ARXIV_PAPER_FINAL.md` | `NYQUIST_ARXIV_PAPER_FINAL.pdf` |
+| workshop | `workshop/Nyquist_workshop_paper_FINAL.md` | `Nyquist_workshop_paper_FINAL.pdf` |
+| journal | `journal/JOURNAL_PAPER_FINAL.md` | `JOURNAL_PAPER_FINAL.pdf` |
+| funding | `funding/FUNDING_FINAL.md` | `FUNDING_FINAL.pdf` |
+| policy | `policy/POLICY_FINAL.md` | `POLICY_FINAL.pdf` |
+| media | `media/MEDIA_FINAL.md` | `MEDIA_FINAL.pdf` |
+| education | `education/EDUCATION_FINAL.md` | `EDUCATION_FINAL.pdf` |
+| popular_science | `popular_science/POPULAR_SCIENCE_FINAL.md` | `POPULAR_SCIENCE_FINAL.pdf` |
+
+**IRON CLAD Methodology (all values from source markdown):**
+
+- Event Horizon = 0.80 (cosine)
+- p-value = 2.40e-23
+- Settling time = tau_s ~ 10.2 probes
+- 2 PCs for 90% variance
 
 ---
 
@@ -234,8 +243,8 @@ st.metric("Runs Complete", pub_stats['runs']['total'])
 | `README.md` | This file |
 | `0_sync_viz.py` | Sync S7_ARMADA visualizations to packages |
 | `1_sync_llmbook.py` | Sync LLM_BOOK content to WHITE-PAPER |
-| `2_generate_pdfs.py` | PDF generation for all 8 paths |
-| `3_package_review.py` | Review package extraction script |
+| `2_package_review.py` | Review package extraction script |
+| `3_generate_pdfs.py` | PDF generation (ReportLab) |
 | `4_publish_stats.py` | Statistics extraction script |
 | `publication_stats.json` | Generated statistics output |
 
@@ -252,11 +261,11 @@ py 0_sync_viz.py --sync
 # 2. Sync LLM_BOOK content (if updated)
 py 1_sync_llmbook.py --sync
 
-# 3. Generate publication PDFs
-py 2_generate_pdfs.py
+# 3. Extract all review packages
+py 2_package_review.py --all
 
-# 4. Extract all review packages
-py 3_package_review.py --all
+# 4. Generate publication PDFs
+py 3_generate_pdfs.py
 
 # 5. Update dashboard stats
 py 4_publish_stats.py
@@ -265,3 +274,4 @@ py 4_publish_stats.py
 ---
 
 *Last updated: 2025-12-29*
+*IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23*

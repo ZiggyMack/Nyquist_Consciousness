@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 """
-Generate PDF versions of submission papers from markdown.
+3_generate_pdfs.py - Generate PDF versions of submission papers from markdown
+===============================================================================
 Uses reportlab for consistent styling with visualization PDFs.
+
+USAGE:
+    py 3_generate_pdfs.py
+
+OUTPUT:
+    PDFs generated in their respective submissions/ subdirectories.
+
+IRON CLAD METHODOLOGY:
+    - Event Horizon = 0.80 (cosine)
+    - p-value = 2.40e-23
+    - Settling time = tau_s ~ 10.2 probes
+    - 2 PCs for 90% variance
+
+    Values come from the markdown source files - this script is a pure converter.
 """
 
 from pathlib import Path
@@ -14,8 +29,9 @@ from reportlab.lib.colors import HexColor, black, grey
 import re
 import os
 
-# Paths
-SUBMISSIONS_DIR = Path(__file__).parent
+# Paths - script is now in calibration/, submissions is sibling directory
+WHITE_PAPER_DIR = Path(__file__).parent.parent
+SUBMISSIONS_DIR = WHITE_PAPER_DIR / "submissions"
 ARXIV_MD = SUBMISSIONS_DIR / "arxiv" / "NYQUIST_ARXIV_PAPER_FINAL.md"
 WORKSHOP_MD = SUBMISSIONS_DIR / "workshop" / "Nyquist_workshop_paper_FINAL.md"
 JOURNAL_MD = SUBMISSIONS_DIR / "journal" / "JOURNAL_PAPER_FINAL.md"
@@ -138,7 +154,6 @@ caption_style = ParagraphStyle(
 
 # Figure paths - resolve relative paths from markdown to actual locations
 # Note: ../figures/ from submissions/arxiv/ goes to WHITE-PAPER/figures/
-WHITE_PAPER_DIR = SUBMISSIONS_DIR.parent  # WHITE-PAPER/
 FIGURES_DIR = WHITE_PAPER_DIR / "figures"
 FIGURES_GENERATED_DIR = FIGURES_DIR / "generated" / "png"
 FIGURES_RUN018_DIR = FIGURES_DIR / "run018"
