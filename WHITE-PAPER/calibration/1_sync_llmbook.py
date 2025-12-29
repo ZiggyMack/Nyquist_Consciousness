@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-LLM_BOOK → WHITE-PAPER SYNC FRAMEWORK
-======================================
+1_sync_llmbook.py - LLM_BOOK → WHITE-PAPER SYNC FRAMEWORK
+==========================================================
 Synchronizes publication-ready content from NotebookLM outputs to WHITE-PAPER.
 
 USAGE:
 ------
-py sync_llmbook.py                     # Report mode (default)
-py sync_llmbook.py --sync              # Actually sync all files
-py sync_llmbook.py --sync --dry-run    # Preview changes without applying
-py sync_llmbook.py --category popular_science  # Only sync specific category
-py sync_llmbook.py --sync --include-visuals   # Also sync 3_VISUALS/*.png
+py 1_sync_llmbook.py                     # Report mode (default)
+py 1_sync_llmbook.py --sync              # Actually sync all files
+py 1_sync_llmbook.py --sync --dry-run    # Preview changes without applying
+py 1_sync_llmbook.py --category popular_science  # Only sync specific category
+py 1_sync_llmbook.py --sync --include-visuals   # Also sync 3_VISUALS/*.png
 
 CATEGORIES:
 -----------
@@ -22,7 +22,7 @@ CATEGORIES:
 - media: 2_PUBLICATIONS/media/ → submissions/media/
 
 Author: WHITE-PAPER Sync 2025-12-15
-Version: 1.0
+Version: 1.1
 """
 
 import argparse
@@ -551,8 +551,8 @@ def generate_status_report(category: Optional[str] = None) -> str:
     lines.extend([
         "",
         "=" * 60,
-        "To sync pending files: py sync_llmbook.py --sync",
-        "To preview changes:    py sync_llmbook.py --sync --dry-run",
+        "To sync pending files: py 1_sync_llmbook.py --sync",
+        "To preview changes:    py 1_sync_llmbook.py --sync --dry-run",
         "=" * 60,
     ])
 
@@ -638,12 +638,12 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  py sync_llmbook.py                          # Show status report
-  py sync_llmbook.py --sync                   # Sync all categories
-  py sync_llmbook.py --sync --dry-run         # Preview sync changes
-  py sync_llmbook.py --category popular_science  # Status for one category
-  py sync_llmbook.py --sync --include-visuals # Sync content + visuals
-  py sync_llmbook.py --sync --category media  # Sync only media category
+  py 1_sync_llmbook.py                          # Show status report
+  py 1_sync_llmbook.py --sync                   # Sync all categories
+  py 1_sync_llmbook.py --sync --dry-run         # Preview sync changes
+  py 1_sync_llmbook.py --category popular_science  # Status for one category
+  py 1_sync_llmbook.py --sync --include-visuals # Sync content + visuals
+  py 1_sync_llmbook.py --sync --category media  # Sync only media category
         """
     )
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-sync_visualization_pdfs.py - Visualization PDF Sync Helper
-===========================================================
+0_sync_viz.py - Visualization PDF Sync Helper
+==============================================
 
 A flexible sync tool that helps keep WHITE-PAPER visualization PDFs
 synchronized with their source files in S7_ARMADA/visualizations/pics/.
@@ -14,22 +14,22 @@ PHILOSOPHY:
 
 USAGE:
     # Check what needs syncing (dry run)
-    python sync_visualization_pdfs.py --check
+    python 0_sync_viz.py --check
 
     # Sync all outdated PDFs
-    python sync_visualization_pdfs.py --sync
+    python 0_sync_viz.py --sync
 
     # Sync specific visualization
-    python sync_visualization_pdfs.py --sync 15_Oobleck_Effect
+    python 0_sync_viz.py --sync 15_Oobleck_Effect
 
     # Regenerate PNGs first, then PDF, then sync
-    python sync_visualization_pdfs.py --regenerate --sync
+    python 0_sync_viz.py --regenerate --sync
 
     # Show detailed status
-    python sync_visualization_pdfs.py --status
+    python 0_sync_viz.py --status
 
     # Interactive mode (asks questions)
-    python sync_visualization_pdfs.py --interactive
+    python 0_sync_viz.py --interactive
 
 Created: December 29, 2025
 Author: Claude (VALIS Network)
@@ -560,12 +560,12 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python sync_visualization_pdfs.py --check          # See what needs syncing
-  python sync_visualization_pdfs.py --status         # Detailed status report
-  python sync_visualization_pdfs.py --interactive    # Walk through interactively
-  python sync_visualization_pdfs.py --sync           # Auto-sync all outdated
-  python sync_visualization_pdfs.py --sync run018    # Sync specific viz
-  python sync_visualization_pdfs.py --regenerate --sync  # Regenerate then sync
+  python 0_sync_viz.py --check          # See what needs syncing
+  python 0_sync_viz.py --status         # Detailed status report
+  python 0_sync_viz.py --interactive    # Walk through interactively
+  python 0_sync_viz.py --sync           # Auto-sync all outdated
+  python 0_sync_viz.py --sync run018    # Sync specific viz
+  python 0_sync_viz.py --regenerate --sync  # Regenerate then sync
         """
     )
 

@@ -1,11 +1,11 @@
 <!-- FROSTY_MANIFEST
 last_reviewed: 2025-12-29
 depends_on:
-  - ./extract_publication_stats.py
-  - ./extract_review_package.py
-  - ./generate_pdfs.py
-  - ./sync_visualization_pdfs.py
-  - ./sync_llmbook.py
+  - ./0_sync_viz.py
+  - ./1_sync_llmbook.py
+  - ./2_generate_pdfs.py
+  - ./3_package_review.py
+  - ./4_publish_stats.py
 impacts:
   - ../README.md
 keywords:
@@ -14,25 +14,123 @@ keywords:
 -->
 # Calibration Pipeline
 
-**Purpose:** Extract publication statistics, create review packages, and generate PDFs from WHITE-PAPER/
-**Last Updated:** 2025-12-16
+**Purpose:** Sync assets, generate PDFs, create review packages, and extract statistics.
+**Last Updated:** 2025-12-29
 
 ---
 
-## Scripts
+## Quick Reference
 
-### 1. generate_pdfs.py (NEW)
+| # | Script | Purpose | Typical Usage |
+|---|--------|---------|---------------|
+| 0 | `0_sync_viz.py` | Sync S7_ARMADA visualizations → packages | `py 0_sync_viz.py --sync` |
+| 1 | `1_sync_llmbook.py` | Sync LLM_BOOK content → submissions | `py 1_sync_llmbook.py --sync` |
+| 2 | `2_generate_pdfs.py` | Generate publication PDFs | `py 2_generate_pdfs.py` |
+| 3 | `3_package_review.py` | Extract reviewer packages | `py 3_package_review.py --all` |
+| 4 | `4_publish_stats.py` | Extract dashboard statistics | `py 4_publish_stats.py` |
 
-Generate publication-ready PDFs for all 8 paths:
+**Workflow Order:** 0 → 1 → 2 → 3 → 4 (syncs first, stats last)
+
+---
+
+## 0. Sync Visualizations (`0_sync_viz.py`)
+
+Sync visualization PDFs from S7_ARMADA to WHITE-PAPER packages.
+
+```bash
+# Quick status check
+py 0_sync_viz.py --check
+
+# Detailed status with timestamps
+py 0_sync_viz.py --status
+
+# Interactive mode (asks questions when uncertain)
+py 0_sync_viz.py --interactive
+
+# Auto-sync all outdated PDFs
+py 0_sync_viz.py --sync
+
+# Sync specific visualization
+py 0_sync_viz.py --sync 15_Oobleck_Effect
+
+# Regenerate PNGs + PDFs, then sync
+py 0_sync_viz.py --regenerate --sync
+
+# Target a different package version
+py 0_sync_viz.py --sync --target v5
+```
+
+**Version Management:**
+
+```bash
+# Show current version and triggers
+py 0_sync_viz.py --version-info
+
+# Check if a change warrants a version bump
+py 0_sync_viz.py --bump-check "IRON CLAD 100% complete"
+py 0_sync_viz.py --bump-check "bug fix in legend"
+```
+
+Version rules are stored in `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json`:
+
+- **Stay on current:** Bug fixes, data corrections, documentation
+- **Create new version:** New runs, methodology changes, IRON CLAD milestones
+
+**Known Visualizations:**
+
+- `15_Oobleck_Effect/` → Oobleck Effect (Run 020A/B)
+- `run018/` → Persona Pressure Experiment
+- `run020/` → Tribunal + Control/Treatment
+
+**Auto-Discovery:** Finds any directory with `*_Summary.pdf` files.
+
+---
+
+## 1. Sync LLM_BOOK (`1_sync_llmbook.py`)
+
+Sync NotebookLM outputs from LLM_BOOK to WHITE-PAPER submissions.
+
+```bash
+# Status report (default)
+py 1_sync_llmbook.py
+
+# Sync all categories
+py 1_sync_llmbook.py --sync
+
+# Preview changes
+py 1_sync_llmbook.py --sync --dry-run
+
+# Sync specific category
+py 1_sync_llmbook.py --sync --category popular_science
+
+# Include visuals
+py 1_sync_llmbook.py --sync --include-visuals
+```
+
+**Categories:**
+
+- `academic` → `submissions/arxiv/`
+- `popular_science` → `submissions/popular_science/`
+- `education` → `submissions/education/`
+- `policy` → `submissions/policy/`
+- `funding` → `submissions/funding/`
+- `media` → `submissions/media/`
+
+**Source:** `REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/`
+**Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json`
+
+---
+
+## 2. Generate PDFs (`2_generate_pdfs.py`)
+
+Generate publication-ready PDFs for all 8 paths.
 
 ```bash
 cd WHITE-PAPER/calibration
-py generate_pdfs.py
+py 2_generate_pdfs.py
 ```
 
 **Output:** `WHITE-PAPER/reviewers/packages/pdf/`
-
-Generated PDFs:
 
 | PDF | Size | Target |
 |-----|------|--------|
@@ -45,42 +143,33 @@ Generated PDFs:
 | Nyquist_Funding_Proposal.pdf | ~150 KB | NSF/DARPA |
 | Nyquist_Media_Press.pdf | ~80 KB | Press/TED |
 
-### 2. extract_publication_stats.py
+---
 
-Extract statistics for dashboard integration:
+## 3. Package Reviews (`3_package_review.py`)
 
-```bash
-cd WHITE-PAPER/calibration
-py extract_publication_stats.py
-```
-
-**Output:** `publication_stats.json`
-
-### 3. extract_review_package.py
-
-Extract path-specific review packages for AI reviewers:
+Extract path-specific review packages for AI reviewers.
 
 ```bash
 # Show available paths and estimated sizes
-py extract_review_package.py --status
+py 3_package_review.py --status
 
 # Extract single path
-py extract_review_package.py workshop
+py 3_package_review.py workshop
 
 # Extract multiple paths
-py extract_review_package.py workshop arxiv
+py 3_package_review.py workshop arxiv
 
 # Extract ALL paths
-py extract_review_package.py --all
+py 3_package_review.py --all
 
 # Include figures (increases size)
-py extract_review_package.py arxiv --include-figures
+py 3_package_review.py arxiv --include-figures
 
 # Preview without extracting
-py extract_review_package.py workshop --dry-run
+py 3_package_review.py workshop --dry-run
 
 # Custom output location
-py extract_review_package.py workshop --output ./FOR_OPUS
+py 3_package_review.py workshop --output ./FOR_OPUS
 ```
 
 **Output:** `WHITE-PAPER/reviewers/packages/{path}/`
@@ -102,7 +191,18 @@ py extract_review_package.py workshop --output ./FOR_OPUS
 
 ---
 
-## What Gets Extracted (extract_publication_stats.py)
+## 4. Publish Stats (`4_publish_stats.py`)
+
+Extract statistics for dashboard integration.
+
+```bash
+cd WHITE-PAPER/calibration
+py 4_publish_stats.py
+```
+
+**Output:** `publication_stats.json`
+
+**What Gets Extracted:**
 
 | Category | Data Points |
 |----------|------------|
@@ -112,43 +212,9 @@ py extract_review_package.py workshop --output ./FOR_OPUS
 | **Submissions** | Status and target for each path |
 | **Key Statistics** | PFI correlation, threshold, 92% ratio, stability |
 
----
-
-## JSON Schema
-
-```json
-{
-  "generated": "ISO timestamp",
-  "claims": {
-    "A": {"name": "PFI Validity", "status": "validated", "rho": 0.91},
-    "B": {"name": "Regime Threshold", "status": "validated", "threshold": 0.80},
-    "C": {"name": "Oscillator Dynamics", "status": "validated"},
-    "D": {"name": "Context Damping", "status": "validated", "stability": 0.975},
-    "E": {"name": "92% Inherent", "status": "validated", "ratio": 0.92}
-  },
-  "runs": {"total": 21, "s7_armada": 21, "latest": "run021"},
-  "files": {"figures": 8, "ascii": 7, "workshop": 9, "references": 55, "total": 34},
-  "submissions": {
-    "workshop": {"status": "ready", "target": "NeurIPS/AAAI"},
-    "arxiv": {"status": "ready", "target": "cs.AI"},
-    "journal": {"status": "planning", "target": "Nature MI"}
-  },
-  "key_statistics": {
-    "pfi_correlation": 0.91,
-    "threshold_d": 0.80,
-    "inherent_ratio": 0.92,
-    "stability_rate": 0.975,
-    "hypotheses_tested": 36
-  }
-}
-```
-
----
-
-## Dashboard Integration
+**Dashboard Integration:**
 
 ```python
-# In AI_ARMADA.py or stackup.py
 import json
 
 with open("WHITE-PAPER/calibration/publication_stats.json") as f:
@@ -157,122 +223,44 @@ with open("WHITE-PAPER/calibration/publication_stats.json") as f:
 # Display metrics
 st.metric("Claims Validated", f"{sum(1 for c in pub_stats['claims'].values() if c['status']=='validated')}/5")
 st.metric("Runs Complete", pub_stats['runs']['total'])
-st.metric("Workshop Status", pub_stats['submissions']['workshop']['status'].upper())
 ```
 
 ---
 
-## Workflow
-
-1. **Manual trigger:** Run `py extract_publication_stats.py` after updating WHITE-PAPER/
-2. **Output:** `publication_stats.json` updated
-3. **Dashboard:** Reads JSON on load (no scraping logic in dashboard)
-
----
-
-## Files
+## Files in This Directory
 
 | File | Purpose |
 |------|---------|
 | `README.md` | This file |
-| `generate_pdfs.py` | PDF generation for all 8 paths |
-| `extract_publication_stats.py` | Statistics extraction script |
-| `extract_review_package.py` | Review package extraction script |
-| `sync_visualization_pdfs.py` | Sync S7_ARMADA visualizations to packages |
-| `sync_llmbook.py` | Sync LLM_BOOK content to WHITE-PAPER |
+| `0_sync_viz.py` | Sync S7_ARMADA visualizations to packages |
+| `1_sync_llmbook.py` | Sync LLM_BOOK content to WHITE-PAPER |
+| `2_generate_pdfs.py` | PDF generation for all 8 paths |
+| `3_package_review.py` | Review package extraction script |
+| `4_publish_stats.py` | Statistics extraction script |
 | `publication_stats.json` | Generated statistics output |
 
 ---
 
-## 4. sync_visualization_pdfs.py (NEW)
-
-Sync visualization PDFs from S7_ARMADA to WHITE-PAPER packages:
+## Typical Workflow
 
 ```bash
-# Quick status check
-python sync_visualization_pdfs.py --check
+cd WHITE-PAPER/calibration
 
-# Detailed status with timestamps
-python sync_visualization_pdfs.py --status
+# 1. Sync visualizations (after regenerating in S7_ARMADA)
+py 0_sync_viz.py --sync
 
-# Interactive mode (asks questions when uncertain)
-python sync_visualization_pdfs.py --interactive
+# 2. Sync LLM_BOOK content (if updated)
+py 1_sync_llmbook.py --sync
 
-# Auto-sync all outdated PDFs to v4
-python sync_visualization_pdfs.py --sync
+# 3. Generate publication PDFs
+py 2_generate_pdfs.py
 
-# Sync specific visualization
-python sync_visualization_pdfs.py --sync 15_Oobleck_Effect
+# 4. Extract all review packages
+py 3_package_review.py --all
 
-# Regenerate PNGs + PDFs, then sync
-python sync_visualization_pdfs.py --regenerate --sync
-
-# Target a different package version
-python sync_visualization_pdfs.py --sync --target v5
+# 5. Update dashboard stats
+py 4_publish_stats.py
 ```
-
-**Philosophy:**
-- Specific where we know what we need (known viz directories)
-- General where we need flexibility (auto-discovers new directories)
-- Conversational - asks questions in `--interactive` mode
-- Never paints us in a box
-
-**Version Management:**
-```bash
-# Show current version and triggers
-python sync_visualization_pdfs.py --version-info
-
-# Check if a change warrants a version bump
-python sync_visualization_pdfs.py --bump-check "IRON CLAD 100% complete"
-python sync_visualization_pdfs.py --bump-check "bug fix in legend"
-```
-
-Version rules are stored in `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json`:
-- **Stay on current:** Bug fixes, data corrections, documentation
-- **Create new version:** New runs, methodology changes, IRON CLAD milestones
-
-**Known Visualizations:**
-- `15_Oobleck_Effect/` → Oobleck Effect (Run 020A/B)
-- `run018/` → Persona Pressure Experiment
-- `run020/` → Tribunal + Control/Treatment
-
-**Discovered Visualizations:**
-Auto-discovers any directory with `*_Summary.pdf` files.
-
----
-
-## 5. sync_llmbook.py
-
-Sync NotebookLM outputs from LLM_BOOK to WHITE-PAPER submissions:
-
-```bash
-# Status report (default)
-python sync_llmbook.py
-
-# Sync all categories
-python sync_llmbook.py --sync
-
-# Preview changes
-python sync_llmbook.py --sync --dry-run
-
-# Sync specific category
-python sync_llmbook.py --sync --category popular_science
-
-# Include visuals
-python sync_llmbook.py --sync --include-visuals
-```
-
-**Categories:**
-
-- `academic` → `submissions/arxiv/`
-- `popular_science` → `submissions/popular_science/`
-- `education` → `submissions/education/`
-- `policy` → `submissions/policy/`
-- `funding` → `submissions/funding/`
-- `media` → `submissions/media/`
-
-**Source:** `REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/`
-**Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json`
 
 ---
 

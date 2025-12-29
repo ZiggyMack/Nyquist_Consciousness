@@ -1,9 +1,13 @@
 """
-Generate PDFs from Markdown Papers
+2_generate_pdfs.py - Generate PDFs from Markdown Papers
+=========================================================
 Nyquist Consciousness Publication Pipeline
 
 Uses markdown2 + xhtml2pdf for pure-Python PDF generation.
 Alternative to pandoc when not available.
+
+USAGE:
+    py 2_generate_pdfs.py
 """
 
 import os

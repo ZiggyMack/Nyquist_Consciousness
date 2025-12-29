@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-extract_publication_stats.py
+4_publish_stats.py - Publication Statistics Extractor
+=======================================================
 Extracts publication statistics from WHITE-PAPER/ for dashboard integration.
 
 Usage:
-    py extract_publication_stats.py
+    py 4_publish_stats.py
 
 Output:
     publication_stats.json (in same directory)

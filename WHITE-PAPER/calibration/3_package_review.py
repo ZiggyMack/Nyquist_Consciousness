@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-REVIEW PACKAGE EXTRACTOR
-========================
+3_package_review.py - REVIEW PACKAGE EXTRACTOR
+===============================================
 Extracts path-specific review packages from WHITE-PAPER for AI reviewers.
 
 WHITE-PAPER is ~41MB total (figures + PDF dominate). This script extracts
@@ -9,14 +9,14 @@ manageable packages (~100KB-700KB each) for different publication paths.
 
 USAGE:
 ------
-py extract_review_package.py workshop          # Extract single path (with figures)
-py extract_review_package.py workshop arxiv    # Extract multiple paths
-py extract_review_package.py --all             # Extract ALL 8 paths
-py extract_review_package.py arxiv --no-figures        # Exclude figure specs
-py extract_review_package.py arxiv --include-pdf       # Include 14MB PDF in package
-py extract_review_package.py workshop --dry-run        # Preview extraction
-py extract_review_package.py workshop --output ./FOR_OPUS_1  # Custom output
-py extract_review_package.py --extract-pdfs            # Extract PDFs to packages/pdf/
+py 3_package_review.py workshop          # Extract single path (with figures)
+py 3_package_review.py workshop arxiv    # Extract multiple paths
+py 3_package_review.py --all             # Extract ALL 8 paths
+py 3_package_review.py arxiv --no-figures        # Exclude figure specs
+py 3_package_review.py arxiv --include-pdf       # Include 14MB PDF in package
+py 3_package_review.py workshop --dry-run        # Preview extraction
+py 3_package_review.py workshop --output ./FOR_OPUS_1  # Custom output
+py 3_package_review.py --extract-pdfs            # Extract PDFs to packages/pdf/
 
 OUTPUT:
 -------
@@ -887,22 +887,22 @@ def generate_status_report(paths: Optional[List[str]] = None) -> str:
         "",
         "```bash",
         "# Extract single path (with figures)",
-        "py extract_review_package.py workshop",
+        "py 3_package_review.py workshop",
         "",
         "# Extract multiple paths",
-        "py extract_review_package.py workshop arxiv",
+        "py 3_package_review.py workshop arxiv",
         "",
         "# Extract ALL 8 paths",
-        "py extract_review_package.py --all",
+        "py 3_package_review.py --all",
         "",
         "# Exclude figures (smaller packages)",
-        "py extract_review_package.py arxiv --no-figures",
+        "py 3_package_review.py arxiv --no-figures",
         "",
         "# Preview without extracting",
-        "py extract_review_package.py workshop --dry-run",
+        "py 3_package_review.py workshop --dry-run",
         "",
         "# Custom output location",
-        "py extract_review_package.py workshop --output ./FOR_OPUS",
+        "py 3_package_review.py workshop --output ./FOR_OPUS",
         "```",
         "",
         "---",
@@ -1094,7 +1094,7 @@ def generate_pdf_readme(collected: Dict[str, List[Path]]) -> str:
         "To include PDFs in a review package, use:",
         "",
         "```bash",
-        "py extract_review_package.py arxiv --include-pdf",
+        "py 3_package_review.py arxiv --include-pdf",
         "```",
         "",
         "Or send this PDF layer separately alongside the text packages.",
@@ -1249,12 +1249,12 @@ def main():
 Available paths: {', '.join(PUBLICATION_PATHS)}
 
 Examples:
-  py extract_review_package.py workshop          # Extract workshop package (with figures)
-  py extract_review_package.py workshop arxiv    # Extract multiple packages
-  py extract_review_package.py --all             # Extract ALL 8 packages
-  py extract_review_package.py arxiv --no-figures       # Exclude figure specs
-  py extract_review_package.py workshop --dry-run       # Preview only
-  py extract_review_package.py workshop --output ./FOR_OPUS  # Custom output
+  py 3_package_review.py workshop          # Extract workshop package (with figures)
+  py 3_package_review.py workshop arxiv    # Extract multiple packages
+  py 3_package_review.py --all             # Extract ALL 8 packages
+  py 3_package_review.py arxiv --no-figures       # Exclude figure specs
+  py 3_package_review.py workshop --dry-run       # Preview only
+  py 3_package_review.py workshop --output ./FOR_OPUS  # Custom output
 
 Expected package sizes (with figures):
   workshop:        ~120 KB
@@ -1267,8 +1267,8 @@ Expected package sizes (with figures):
   media:           ~35 KB
 
 PDF Layer (separate from text packages):
-  py extract_review_package.py --extract-pdfs    # Extract to packages/pdf/
-  py extract_review_package.py --extract-pdfs --dry-run  # Preview
+  py 3_package_review.py --extract-pdfs    # Extract to packages/pdf/
+  py 3_package_review.py --extract-pdfs --dry-run  # Preview
 
 Output: packages/pdf/arxiv/, packages/pdf/journal/, etc. (~14 MB total)
         """
