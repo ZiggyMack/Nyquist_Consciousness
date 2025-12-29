@@ -47,8 +47,15 @@ def safe_rerun():
 
 
 def load_image_safe(image_path):
-    """Load image as bytes for reliable Streamlit display."""
+    """Load image as bytes for reliable Streamlit display.
+
+    Note: SVG files cannot be loaded this way - Streamlit/PIL cannot identify them.
+    For SVG files, use render_svg_safe() instead or provide a PNG fallback.
+    """
     try:
+        # Skip SVG files - they need special handling
+        if str(image_path).lower().endswith('.svg'):
+            return None
         with open(image_path, "rb") as f:
             return f.read()
     except Exception:
