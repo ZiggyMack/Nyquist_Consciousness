@@ -23,7 +23,8 @@ The 1_VALIDATION/ directory serves as a REVIEW CHECKPOINT where Claude can:
 USAGE:
 ------
 py ingest.py                    # Report mode - show what would happen
-py ingest.py --ingest           # Actually perform ingestion
+py ingest.py --ingest           # Lite mode - REVIEW_NOTES.md only
+py ingest.py --ingest --full    # Full mode - also generates DEEP_DIVES, FUTURE, EXPERIMENTS
 py ingest.py --ingest --dry-run # Preview without changes
 py ingest.py --skip-archive     # Skip archiving step (dangerous!)
 
@@ -74,11 +75,15 @@ CONTENT_DIRS = [
     LLM_BOOK_DIR / "1_VALIDATION",
     LLM_BOOK_DIR / "2_PUBLICATIONS",
     LLM_BOOK_DIR / "3_VISUALS",
-    LLM_BOOK_DIR / "4_DEEP_DIVES",
-    LLM_BOOK_DIR / "5_FUTURE",
-    LLM_BOOK_DIR / "6_EXPERIMENTS",
     LLM_BOOK_DIR / "7_AUDIO",
     LLM_BOOK_DIR / "RnD",
+]
+
+# Validation subdirectories for --full mode analysis
+VALIDATION_ANALYSIS_DIRS = [
+    LLM_BOOK_DIR / "1_VALIDATION" / "1_DEEP_DIVES",
+    LLM_BOOK_DIR / "1_VALIDATION" / "2_FUTURE",
+    LLM_BOOK_DIR / "1_VALIDATION" / "3_EXPERIMENTS",
 ]
 
 # Directories to preserve (not cleared)
