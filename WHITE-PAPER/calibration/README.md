@@ -19,12 +19,77 @@ keywords:
 
 ---
 
+## Complete Feedback Loop Architecture
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              OUTBOUND FLOW                                   │
+│   0_sync_viz.py → packages/v4/ → Reviewers receive materials                │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              INBOUND FLOW                                    │
+│   Reviewers → packages/v4/feedback/{reviewer}/ → feedback files             │
+│                                                                              │
+│   Types of feedback:                                                         │
+│   1. Visual requests ("I need oobleck_thermometer.png in Fig 3")            │
+│   2. Content feedback ("Section 2.1 needs clarification")                   │
+│   3. Placement suggestions ("Move settling_curves to appendix")             │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           PROCESSING FLOW                                    │
+│                                                                              │
+│   TWO SOURCES OF UPDATES (experiment-driven takes precedence):              │
+│                                                                              │
+│   ┌─────────────────────────────┐    ┌─────────────────────────────┐        │
+│   │  EXPERIMENT-DRIVEN          │    │  REVIEWER-DRIVEN            │        │
+│   │  (Authoritative)            │    │  (Feedback)                 │        │
+│   │                             │    │                             │        │
+│   │  • New runs (IRON CLAD)     │    │  • Visual requests          │        │
+│   │  • Updated thresholds       │    │  • Placement suggestions    │        │
+│   │  • Corrected metrics        │    │  • Content clarifications   │        │
+│   │  • Supersedes old data      │    │  • Figure improvements      │        │
+│   └──────────────┬──────────────┘    └──────────────┬──────────────┘        │
+│                  │                                   │                       │
+│                  │    ┌─────────────────────┐       │                       │
+│                  └───►│  CURRENT_VERSION.json│◄──────┘                       │
+│                       │  (visual_requests)  │                               │
+│                       └──────────┬──────────┘                               │
+│                                  │                                          │
+│                                  ▼                                          │
+│                       ┌─────────────────────┐                               │
+│                       │  visual_index.md    │                               │
+│                       │  (per-pipeline map) │                               │
+│                       └──────────┬──────────┘                               │
+│                                  │                                          │
+│                                  ▼                                          │
+│                       ┌─────────────────────┐                               │
+│                       │  figures/           │                               │
+│                       │  (synced PNGs)      │                               │
+│                       └─────────────────────┘                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           GENERATION FLOW                                    │
+│   3_generate_pdfs.py                                                        │
+│     → Reads visual_index.md for per-pipeline figure placement               │
+│     → Incorporates visuals at correct locations                             │
+│     → Produces final PDFs with experiment + reviewer-informed layout        │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## Quick Reference
 
 | # | Script | Purpose | Typical Usage |
 |---|--------|---------|---------------|
-| 0 | `0_sync_viz.py` | Sync S7_ARMADA visualizations → packages | `py 0_sync_viz.py --sync` |
-| 1 | `1_sync_llmbook.py` | Sync LLM_BOOK content → submissions | `py 1_sync_llmbook.py --sync` |
+| 0 | `0_sync_viz.py` | Sync PDFs + PNGs + reviewer feedback | `py 0_sync_viz.py --sync --sync-pngs` |
+| 1 | `1_sync_llmbook.py` | Sync LLM_BOOK → reviewer packages | `py 1_sync_llmbook.py --sync` |
 | 2 | `2_package_review.py` | Extract reviewer packages | `py 2_package_review.py --all` |
 | 3 | `3_generate_pdfs.py` | Generate publication PDFs | `py 3_generate_pdfs.py` |
 | 4 | `4_publish_stats.py` | Extract dashboard statistics | `py 4_publish_stats.py` |
@@ -35,17 +100,13 @@ keywords:
 
 ## 0. Sync Visualizations (`0_sync_viz.py`)
 
-Sync visualization PDFs from S7_ARMADA to WHITE-PAPER packages.
+Comprehensive sync tool for PDFs, PNGs, and reviewer feedback loop.
+
+### PDF Sync (Summary PDFs → packages)
 
 ```bash
 # Quick status check
 py 0_sync_viz.py --check
-
-# Detailed status with timestamps
-py 0_sync_viz.py --status
-
-# Interactive mode (asks questions when uncertain)
-py 0_sync_viz.py --interactive
 
 # Auto-sync all outdated PDFs
 py 0_sync_viz.py --sync
@@ -55,32 +116,73 @@ py 0_sync_viz.py --sync 15_Oobleck_Effect
 
 # Regenerate PNGs + PDFs, then sync
 py 0_sync_viz.py --regenerate --sync
-
-# Target a different package version
-py 0_sync_viz.py --sync --target v5
 ```
 
-**Version Management:**
+### PNG Sync (visual_index.md → figures/publication/)
 
 ```bash
-# Show current version and triggers
-py 0_sync_viz.py --version-info
+# Sync all identified PNGs from visual_index.md
+py 0_sync_viz.py --sync-pngs
 
-# Check if a change warrants a version bump
-py 0_sync_viz.py --bump-check "IRON CLAD 100% complete"
-py 0_sync_viz.py --bump-check "bug fix in legend"
+# Preview what would sync
+py 0_sync_viz.py --sync-pngs --dry-run
+
+# Include approved reviewer requests
+py 0_sync_viz.py --sync-pngs --include-requests
 ```
 
-Version rules are stored in `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json`:
+### Reviewer Feedback Loop
 
-- **Stay on current:** Bug fixes, data corrections, documentation
-- **Create new version:** New runs, methodology changes, IRON CLAD milestones
+Reviewers submit feedback in `packages/v4/feedback/{reviewer}/`. The flow is:
 
-**Known Visualizations:**
+```text
+feedback/{reviewer}/visual_requests.json
+          ↓
+     --process-feedback
+          ↓
+CURRENT_VERSION.json (visual_requests)
+          ↓
+     --approve "name.png"
+          ↓
+     --update-index
+          ↓
+figures/visual_index.md (per-pipeline placement)
+          ↓
+3_generate_pdfs.py (incorporate into final PDFs)
+```
 
-- `15_Oobleck_Effect/` → Oobleck Effect (Run 020A/B)
-- `run018/` → Persona Pressure Experiment
-- `run020/` → Tribunal + Control/Treatment
+```bash
+# Import feedback from all reviewers
+py 0_sync_viz.py --process-feedback
+
+# Show pending visual requests
+py 0_sync_viz.py --requests
+
+# Approve a request
+py 0_sync_viz.py --approve "new_visual.png"
+
+# Add approved visuals to visual_index.md
+py 0_sync_viz.py --update-index
+```
+
+**Feedback directory:** `packages/v4/feedback/{Claude,Grok}/`
+
+- `visual_requests.json` - Structured visual requests with pipeline/placement
+- `content_feedback.md` - General content feedback
+
+### Version Management
+
+```bash
+py 0_sync_viz.py --version-info
+py 0_sync_viz.py --bump-check "IRON CLAD 100% complete"
+```
+
+Version rules in `CURRENT_VERSION.json`:
+
+- **Stay on current:** Bug fixes, data corrections
+- **Create new version:** New runs, methodology changes
+
+**Known Visualizations:** `15_Oobleck_Effect/`, `run018/`, `run020/`
 
 **Auto-Discovery:** Finds any directory with `*_Summary.pdf` files.
 
@@ -88,7 +190,12 @@ Version rules are stored in `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json
 
 ## 1. Sync LLM_BOOK (`1_sync_llmbook.py`)
 
-Sync NotebookLM outputs from LLM_BOOK to WHITE-PAPER submissions.
+Sync NotebookLM synthesis outputs to reviewer packages for feedback.
+
+**NOTE:** This syncs to `reviewers/packages/v4/llmbook/`, NOT `submissions/`.
+The `submissions/` directory contains only curated `*_FINAL.md` papers.
+NotebookLM outputs go to reviewer packages so AI reviewers can evaluate
+how to incorporate them into final publications.
 
 ```bash
 # Status report (default)
@@ -109,12 +216,12 @@ py 1_sync_llmbook.py --sync --include-visuals
 
 **Categories:**
 
-- `academic` → `submissions/arxiv/`
-- `popular_science` → `submissions/popular_science/`
-- `education` → `submissions/education/`
-- `policy` → `submissions/policy/`
-- `funding` → `submissions/funding/`
-- `media` → `submissions/media/`
+- `academic` → `reviewers/packages/v4/llmbook/academic/`
+- `popular_science` → `reviewers/packages/v4/llmbook/popular_science/`
+- `education` → `reviewers/packages/v4/llmbook/education/`
+- `policy` → `reviewers/packages/v4/llmbook/policy/`
+- `funding` → `reviewers/packages/v4/llmbook/funding/`
+- `media` → `reviewers/packages/v4/llmbook/media/`
 
 **Source:** `REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/`
 **Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json`

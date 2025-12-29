@@ -26,8 +26,8 @@ keywords:
 
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
-**Last Updated:** 2025-12-24
-**Status:** RUN 023 IRON CLAD COMPLETE — 750 experiments, 25 models, 5 providers
+**Last Updated:** 2025-12-29
+**Status:** RUN 023d IRON CLAD COMPLETE — 750 experiments, 25 models, 5 providers
 
 ---
 
@@ -229,10 +229,13 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │       ├── DEADLINES.md             # Timeline through 2026
 │       └── VENUE_TEMPLATES/         # Checklists per venue
 │
-├── calibration/                      # Dashboard integration + PDF generation
-│   ├── extract_publication_stats.py # Scrapes WHITE-PAPER/, outputs JSON
-│   ├── generate_pdfs.py             # Generate all 8 PDFs (NEW)
-│   └── publication_stats.json       # Machine-readable stats
+├── calibration/                      # ★ PUBLICATION PIPELINE (5 scripts)
+│   ├── README.md                    # Architecture diagram + workflow
+│   ├── 0_sync_viz.py                # Sync PDFs/PNGs + process feedback
+│   ├── 1_sync_llmbook.py            # Sync LLM_BOOK → packages/v4/llmbook/
+│   ├── 2_package_review.py          # Extract review packages (8 paths)
+│   ├── 3_generate_pdfs.py           # Generate all publication PDFs
+│   └── extract_publication_stats.py # Dashboard integration
 │
 ├── planning/                         # ★ METHODOLOGY & GUARDRAILS
 │   ├── METHODOLOGY_DOMAINS.md        # Cosine vs Keyword RMS (dual Event Horizon)
@@ -240,12 +243,17 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   ├── PUBLICATION_PIPELINE_MASTER.md  # Source of truth for 8 paths
 │   └── OPUS_REVIEW_BRIEF.md         # Opus 4.5 review orientation
 │
-├── reviewers/                        # Multi-AI sync infrastructure
-│   ├── PROTOCOL.md                  # Sync rules (Logos pattern)
-│   ├── SYNC_STATUS.md               # Feedback tracking
-│   ├── to_reviewers/                # Outbound questions/requests
-│   ├── from_reviewers/              # Inbound feedback (opus/nova/gemini)
-│   └── shared/                      # Glossary, paper versions
+├── reviewers/                        # ★ REVIEW INFRASTRUCTURE
+│   ├── packages/                    # Versioned review packages
+│   │   ├── CURRENT_VERSION.json    # Version metadata + visual requests
+│   │   ├── v4/                     # Current package (Run 023d IRON CLAD)
+│   │   │   ├── {8 publication paths}/ # Extracted packages
+│   │   │   └── feedback/           # Reviewer feedback
+│   │   │       ├── Claude/         # Claude feedback files
+│   │   │       └── Grok/           # Grok feedback files
+│   │   └── pdf/                    # Visualization PDFs layer
+│   ├── LLM_BOOK_SYNTHESIS/         # NotebookLM validation outputs
+│   └── Grok/                       # External reviewer feedback
 │
 └── supplementary/                    # Additional materials
 ```
@@ -276,30 +284,52 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 
 NotebookLM independently validated our research and generated publication-ready content for paths 4-8. See [REPO-SYNC/LLM_BOOK/README.md](../REPO-SYNC/LLM_BOOK/README.md) for the validation synthesis.
 
-### Sync Pipeline from LLM_BOOK
+### Calibration Pipeline
 
-Content syncs from `REPO-SYNC/LLM_BOOK/` to `submissions/` via automated pipeline:
+The `calibration/` directory contains numbered scripts that run in sequence:
 
 ```bash
-# Check sync status (report mode)
-py sync_llmbook.py
+cd WHITE-PAPER/calibration
 
-# Sync all LLM_BOOK content to submissions/
-py sync_llmbook.py --sync
+# 0. Sync visualization PDFs/PNGs + process reviewer feedback
+py 0_sync_viz.py --sync-pdfs          # Sync PDFs from S7_ARMADA
+py 0_sync_viz.py --sync-pngs          # Sync PNGs per visual_index.md
+py 0_sync_viz.py --process-feedback   # Import reviewer feedback
 
-# Preview without applying changes
-py sync_llmbook.py --sync --dry-run
+# 1. Sync LLM_BOOK content to reviewer packages
+py 1_sync_llmbook.py --sync           # Sync to packages/v4/llmbook/
 
-# Sync specific category
-py sync_llmbook.py --sync --category popular_science
+# 2. Extract review packages for each publication path
+py 2_package_review.py --all          # Extract all 8 paths
+py 2_package_review.py arxiv --dry-run # Preview single path
 
-# Include visuals (to figures/generated/llmbook/)
-py sync_llmbook.py --sync --include-visuals
+# 3. Generate publication PDFs
+py 3_generate_pdfs.py --all           # Generate all PDFs
 ```
 
-**Last Sync:** December 15, 2025 (9 files, 25 MB)
-**Manifest:** `reviewers/LLMBOOK_SYNC_MANIFEST.json`
-**Convention:** Synced files get `LLM_` prefix (e.g., `LLM_Quiz.md`)
+### Feedback Architecture
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│                    DUAL-SOURCE PROCESSING                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  EXPERIMENT-DRIVEN (Authoritative)    REVIEWER-DRIVEN (Feedback) │
+│  ────────────────────────────────    ─────────────────────────── │
+│  S7_ARMADA/ → 0_sync_viz.py          packages/v4/feedback/       │
+│  LLM_BOOK/  → 1_sync_llmbook.py      → 0_sync_viz.py             │
+│                    │                         │                   │
+│                    └──────────┬──────────────┘                   │
+│                               ▼                                  │
+│                    packages/v4/{path}/                           │
+│                               │                                  │
+│                               ▼                                  │
+│                    3_generate_pdfs.py → Final PDFs               │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Current Version:** v4 (Run 023d IRON CLAD + Oobleck Effect)
+**Feedback Location:** `reviewers/packages/v4/feedback/{Claude,Grok}/`
 
 ---
 
@@ -362,11 +392,16 @@ Output: `generated/png/` and `generated/pdf/` directories with all 9 publication
 
 ## Dashboard Integration
 
-Run the calibration script to extract stats for dashboard:
+Run the calibration scripts to sync and extract stats:
 
 ```bash
 cd WHITE-PAPER/calibration
-py extract_publication_stats.py
+
+# Full pipeline (recommended order)
+py 0_sync_viz.py --sync-pdfs --sync-pngs   # Sync visualizations
+py 1_sync_llmbook.py --sync                 # Sync LLM_BOOK content
+py 2_package_review.py --all                # Extract review packages
+py extract_publication_stats.py             # Extract stats for dashboard
 ```
 
 Output: `publication_stats.json` — machine-readable stats for AI_ARMADA.py

@@ -19,8 +19,8 @@ keywords:
 
 # START HERE: Nyquist Consciousness Publication Package
 
-**Version:** 4.1
-**Date:** 2025-12-24
+**Version:** 5.0
+**Date:** 2025-12-29
 **Updated By:** Claude Opus 4.5
 **Purpose:** Complete guide for AI reviewers to conduct final paper drafting and PDF generation
 
@@ -77,7 +77,7 @@ You are being asked to:
 
 See [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) for full orientation.
 
-### Review Package Extraction (NEW)
+### Review Package Extraction
 
 **If WHITE-PAPER is too large to process directly**, use extracted review packages:
 
@@ -85,15 +85,18 @@ See [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) for full orie
 cd WHITE-PAPER/calibration
 
 # Show available paths and sizes
-py extract_review_package.py --status
+py 2_package_review.py --status
 
 # Extract specific publication path
-py extract_review_package.py workshop    # ~90 KB
-py extract_review_package.py arxiv       # ~360 KB
-py extract_review_package.py --all       # All 8 paths (~1.1 MB)
+py 2_package_review.py workshop           # ~120 KB
+py 2_package_review.py arxiv              # ~500 KB
+py 2_package_review.py --all              # All 8 paths
+
+# Preview without extracting
+py 2_package_review.py arxiv --dry-run
 ```
 
-**Output:** `WHITE-PAPER/reviewers/packages/{path}/`
+**Output:** `WHITE-PAPER/reviewers/packages/v4/{path}/`
 
 Each package includes a `PACKAGE_MANIFEST.md` with reading order and content listing.
 
@@ -153,38 +156,38 @@ This directory contains all materials needed to understand, review, and draft pu
 
 ## Reviewers Directory Structure
 
-Previous drafts are organized by review phase:
+Review packages are organized by version with structured feedback:
 
 ```text
 reviewers/
-├── README.md              # Phase structure guide
-├── START_HERE.md          # Quick reviewer orientation
-├── Convos/                # Review phase conversations
-│   ├── phase1/            # Initial drafts (Dec 2025)
-│   ├── phase2/            # Post-figure review
-│   ├── phase3/            # Current drafts + PDFs
-│   ├── Phase4/            # Figure placement + updates
-│   └── phase5/            # Submission venue guide
-│       └── SUBMISSION_VENUE_GUIDE.md  # Complete venue analysis
+├── packages/                         # Versioned review packages
+│   ├── CURRENT_VERSION.json         # Version metadata + visual requests
+│   ├── v4/                          # Current package (Run 023d IRON CLAD)
+│   │   ├── {8 publication paths}/   # Extracted packages (workshop, arxiv, etc.)
+│   │   ├── feedback/                # Reviewer feedback
+│   │   │   ├── README.md            # Feedback schema
+│   │   │   ├── Claude/              # Claude feedback files
+│   │   │   │   ├── visual_requests.json
+│   │   │   │   └── content_feedback.md
+│   │   │   └── Grok/                # Grok feedback files
+│   │   │       ├── visual_requests.json
+│   │   │       └── content_feedback.md
+│   │   └── visualization_pdfs/      # 16 S7 ARMADA visualization summaries
+│   └── pdf/                         # PDF layer (separate from text packages)
 │
-├── packages/              # Extracted review packages
-│   ├── content/           # Text packages by path
-│   ├── pdf/               # Generated PDFs (8 files, ALL PATHS)
-│   └── visualization_pdfs/  # S7 ARMADA visualization summaries (16 PDFs)
-│       ├── README.md        # Index with descriptions
-│       ├── 1_Vortex_Summary.pdf ... 13_Model_Waveforms_Summary.pdf
-│       ├── 14_Ringback_Summary.pdf (NEW)
-│       ├── 15_Oobleck_Effect_Summary.pdf (NEW)
-│       ├── run018_Summary.pdf (NEW)
-│       └── run020_Summary.pdf (NEW)
+├── LLM_BOOK_SYNTHESIS/              # NotebookLM validation outputs
+│   ├── INDEX.md                     # Directory guide
+│   └── *.md, *.pdf, *.png           # Academic/technical docs
 │
-└── Grok/                  # External reviewer feedback
-    └── review_1.md        # Grok's empirical assessment
+├── Grok/                            # External reviewer feedback
+│   └── review_1.md                  # Grok's empirical assessment
+│
+└── Convos/                          # Historical review phases
+    ├── phase1/ ... phase5/          # Previous draft iterations
 ```
 
-**Visualization PDFs (Run 023)** — 16 comprehensive summaries covering all S7 ARMADA findings. See [reviewers/packages/visualization_pdfs/README.md](reviewers/packages/visualization_pdfs/README.md).
-
-See `reviewers/README.md` for full details on each phase.
+**Current Version:** v4 (Run 023d IRON CLAD + Oobleck Effect)
+**Visualization PDFs:** 16 comprehensive summaries in `packages/v4/visualization_pdfs/`
 
 ### Phase 3 Status — Run 023 IRON CLAD
 
@@ -450,11 +453,11 @@ You are being asked to review this research and draft publication-ready material
 **Phase 3: Methodology & Planning (~30 min)**
 6. [planning/NOVAS_OVERCLAIMING_PREVENTION.md](planning/NOVAS_OVERCLAIMING_PREVENTION.md) — What NOT to claim
 7. [planning/PUBLICATION_PIPELINE_MASTER.md](planning/PUBLICATION_PIPELINE_MASTER.md) — All 8 publication paths
-8. [reviewers/SYNC_STATUS.md](reviewers/SYNC_STATUS.md) — **Master sync file** for reviewer coordination
+8. [calibration/README.md](calibration/README.md) — Calibration pipeline architecture
 
 **Phase 4: Supporting Materials (Optional)**
 9. [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) — Final review orientation
-10. [planning/LLMBOOK_WORKFLOW.md](planning/LLMBOOK_WORKFLOW.md) — How to sync distillations from LLM_BOOK
+10. [reviewers/packages/v4/feedback/README.md](reviewers/packages/v4/feedback/README.md) — Feedback schema
 
 ### Key Terminology
 
@@ -739,35 +742,43 @@ WHITE-PAPER/
 
 ## Refreshing This Package (For Future Updates)
 
-When new visualization PDFs are generated in `experiments/temporal_stability/S7_ARMADA/visualizations/pics/`:
+Use the calibration pipeline to sync and regenerate packages:
 
-**Step 1: Copy PDFs to reviewer packages**
-
-```bash
-# From project root - copy all summary PDFs
-cp experiments/temporal_stability/S7_ARMADA/visualizations/pics/*/*.pdf WHITE-PAPER/reviewers/packages/visualization_pdfs/
-cp experiments/temporal_stability/S7_ARMADA/visualizations/pics/run*/*.pdf WHITE-PAPER/reviewers/packages/visualization_pdfs/
-```
-
-**Step 2: Update documentation**
-
-- Update `reviewers/packages/visualization_pdfs/README.md` with new entries
-- Update this `START_HERE.md` with new dates and PDF counts
-- Update `planning/OPUS_REVIEW_BRIEF.md` if methodology or metrics changed
-
-**Step 3: Sync to LLM_BOOK (if applicable)**
+**Full Pipeline (Recommended Order)**
 
 ```bash
-# Sync LLM_BOOK content to WHITE-PAPER submissions
-py WHITE-PAPER/sync_llmbook.py --sync
+cd WHITE-PAPER/calibration
+
+# 0. Sync visualizations from S7_ARMADA
+py 0_sync_viz.py --sync-pdfs          # Sync PDFs
+py 0_sync_viz.py --sync-pngs          # Sync PNGs per visual_index.md
+py 0_sync_viz.py --process-feedback   # Import reviewer feedback
+
+# 1. Sync LLM_BOOK content
+py 1_sync_llmbook.py --sync           # Sync to packages/v4/llmbook/
+
+# 2. Extract review packages
+py 2_package_review.py --all          # All 8 publication paths
+
+# 3. Generate PDFs (when ready)
+py 3_generate_pdfs.py --all           # Generate final PDFs
 ```
 
-**Step 4: Verify and commit**
+**Quick Status Check**
+
+```bash
+py 0_sync_viz.py --status             # Show sync status
+py 2_package_review.py --status       # Show package sizes
+```
+
+**Verify and Commit**
 
 ```bash
 git add WHITE-PAPER/
-git commit -m "Update reviewer package with new visualization PDFs"
+git commit -m "Update reviewer packages via calibration pipeline"
 ```
+
+See [calibration/README.md](calibration/README.md) for complete architecture.
 
 ---
 

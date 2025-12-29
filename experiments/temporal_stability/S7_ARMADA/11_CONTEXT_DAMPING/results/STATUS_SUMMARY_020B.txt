@@ -1,19 +1,63 @@
 ======================================================================
 RUN 020B INDUCED vs INHERENT STATUS
-Updated: 2025-12-29 01:25
+Updated: 2025-12-29 11:15
 ======================================================================
 
 PROGRESS OVERVIEW
 ----------------------------------------------------------------------
-  Total Sessions:     218 / 294 (74.1%)
-  Sessions Remaining: 94
+  Total Sessions:     230 / 294 (78.2%)
+  Sessions Remaining: 82
   Ships in Armada:    49
   IRON CLAD Complete: 32 / 49
-  Control Sessions:   107
-  Treatment Sessions: 111
+  Control Sessions:   114
+  Treatment Sessions: 116
 
+======================================================================
+FEASIBLE SHIPS (Can complete, may hit minor API limits)
+======================================================================
+  These ships work reliably or with recoverable issues:
+
+  claude-opus-4:    ctrl=2/3 (need 1), treat=2/3 (need 1)  <- WORKS WELL
+  claude-opus-4.1:  ctrl=1/3 (need 2), treat=1/3 (need 2)  <- WORKS WELL
+  claude-opus-4.5:  ctrl=0/3 (need 3), treat=0/3 (need 3)  <- SHOULD WORK
+  gpt-5.1:          ctrl=2/3 (need 1), treat=2/3 (need 1)  <- SHOULD WORK
+  qwen2.5-72b:      ctrl=2/3 (need 1), treat=1/3 (need 2)  <- 32k limit ~ex23
+  qwen3-80b:        ctrl=2/3 (need 1), treat=1/3 (need 2)  <- 503s intermittent
+
+  FEASIBLE TOTAL: 18 runs needed to complete 6 ships
+
+======================================================================
+PROBLEMATIC SHIPS (API/Cost/Timeout issues - may not be worth pursuing)
+======================================================================
+  gpt-5:            ctrl=0/3 (need 3), treat=3/3           <- EXPENSIVE/SLOW
+  o3:               ctrl=0/3 (need 3), treat=0/3 (need 3)  <- REASONING MODEL $$
+  o3-mini:          ctrl=0/3 (need 3), treat=1/3 (need 2)  <- REASONING MODEL $$
+  o4-mini:          ctrl=0/3 (need 3), treat=0/3 (need 3)  <- REASONING MODEL $$
+  grok-3:           ctrl=0/3 (need 3), treat=0/3 (need 3)  <- FULL MODEL (not fast)
+  grok-4:           ctrl=0/3 (need 3), treat=0/3 (need 3)  <- FULL MODEL (not fast)
+  deepseek-r1:      ctrl=0/3 (need 3), treat=0/3 (need 3)  <- REASONING MODEL
+  deepseek-r1-distill: ctrl=0/3 (need 3), treat=0/3 (need 3) <- REASONING MODEL
+  kimi-k2-thinking: ctrl=0/3 (need 3), treat=0/3 (need 3)  <- REASONING MODEL
+  llama3.1-405b:    ctrl=0/3 (need 3), treat=0/3 (need 3)  <- 405B VERY SLOW
+  qwen3-coder:      ctrl=0/3 (need 3), treat=0/3 (need 3)  <- CODE SPECIALIZED
+
+  PROBLEMATIC TOTAL: 64 runs needed for 11 ships
+
+======================================================================
+KNOWN API ISSUES ENCOUNTERED
+======================================================================
+  - qwen2.5-72b: 422 error at ~exchange 23 (32k token context limit)
+    Sessions still VALID if >10 exchanges completed before error
+
+  - qwen3-80b: 503 "Service unavailable" from Together API
+    Intermittent server-side issue, control arm more stable
+
+  - claude-opus models: Occasional connection timeouts
+    Sessions complete successfully, just slower
+
+======================================================================
 IRON CLAD SHIPS (Complete: 3+ control, 3+ treatment)
-----------------------------------------------------------------------
+======================================================================
   [x] claude-haiku-3.5
   [x] claude-haiku-4.5
   [x] claude-sonnet-4
@@ -47,68 +91,76 @@ IRON CLAD SHIPS (Complete: 3+ control, 3+ treatment)
   [x] mixtral-8x7b
   [x] nemotron-nano
 
-SHIPS IN PROGRESS
-----------------------------------------------------------------------
-  gpt-5: control=0/3 (need 3), treatment=3/3 (ok)
-  gpt-5.1: control=2/3 (need 1), treatment=2/3 (need 1)
-  o3-mini: control=0/3 (need 3), treatment=1/3 (need 2)
-
 ======================================================================
 TABULAR VIEW
 ======================================================================
 
-Ship                              Ctrl Treat Status      
+Ship                              Ctrl Treat Status
 ----------------------------------------------------------------------
-claude-haiku-3.5                   3/3   3/3  IRON CLAD   
-claude-haiku-4.5                   3/3   3/3  IRON CLAD   
-claude-opus-4                      0/3   0/3  NOT STARTED 
-claude-opus-4.1                    0/3   0/3  NOT STARTED 
-claude-opus-4.5                    0/3   0/3  NOT STARTED 
-claude-sonnet-4                    3/3   3/3  IRON CLAD   
-claude-sonnet-4.5                  3/3   3/3  IRON CLAD   
-deepseek-r1                        0/3   0/3  NOT STARTED 
-deepseek-r1-distill                0/3   0/3  NOT STARTED 
-deepseek-v3                        3/3   3/3  IRON CLAD   
-gemini-2.0-flash                   3/3   3/3  IRON CLAD   
-gemini-2.5-flash                   3/3   3/3  IRON CLAD   
-gemini-2.5-flash-lite              3/3   3/3  IRON CLAD   
-gpt-3.5-turbo                      3/3   3/3  IRON CLAD   
-gpt-4-turbo                        3/3   3/3  IRON CLAD   
-gpt-4.1                            3/3   3/3  IRON CLAD   
-gpt-4.1-mini                       3/3   4/3  IRON CLAD   
-gpt-4.1-nano                       3/3   4/3  IRON CLAD   
-gpt-4o                             3/3   3/3  IRON CLAD   
-gpt-4o-mini                        4/3   5/3  IRON CLAD   
-gpt-5                              0/3   3/3  PARTIAL     
-gpt-5-mini                         3/3   3/3  IRON CLAD   
-gpt-5-nano                         3/3   3/3  IRON CLAD   
-gpt-5.1                            2/3   2/3  IN PROGRESS 
-grok-2-vision                      3/3   3/3  IRON CLAD   
-grok-3                             0/3   0/3  NOT STARTED 
-grok-3-mini                        5/3   4/3  IRON CLAD   
-grok-4                             0/3   0/3  NOT STARTED 
-grok-4-fast-non-reasoning          4/3   4/3  IRON CLAD   
-grok-4-fast-reasoning              4/3   3/3  IRON CLAD   
-grok-4.1-fast-non-reasoning        3/3   3/3  IRON CLAD   
-grok-4.1-fast-reasoning            3/3   3/3  IRON CLAD   
-grok-code-fast-1                   3/3   3/3  IRON CLAD   
-kimi-k2-instruct                   3/3   4/3  IRON CLAD   
-kimi-k2-thinking                   0/3   0/3  NOT STARTED 
-llama3.1-405b                      0/3   0/3  NOT STARTED 
-llama3.1-70b                       4/3   4/3  IRON CLAD   
-llama3.1-8b                        4/3   3/3  IRON CLAD   
-llama3.3-70b                       3/3   3/3  IRON CLAD   
-mistral-7b                         4/3   3/3  IRON CLAD   
-mistral-small                      4/3   4/3  IRON CLAD   
-mixtral-8x7b                       3/3   3/3  IRON CLAD   
-nemotron-nano                      3/3   3/3  IRON CLAD   
-o3                                 0/3   0/3  NOT STARTED 
-o3-mini                            0/3   1/3  IN PROGRESS 
-o4-mini                            0/3   0/3  NOT STARTED 
-qwen2.5-72b                        0/3   0/3  NOT STARTED 
-qwen3-80b                          0/3   0/3  NOT STARTED 
-qwen3-coder                        0/3   0/3  NOT STARTED 
+claude-haiku-3.5                   3/3   3/3  IRON CLAD
+claude-haiku-4.5                   3/3   3/3  IRON CLAD
+claude-opus-4                      2/3   2/3  FEASIBLE
+claude-opus-4.1                    1/3   1/3  FEASIBLE
+claude-opus-4.5                    0/3   0/3  FEASIBLE
+claude-sonnet-4                    3/3   3/3  IRON CLAD
+claude-sonnet-4.5                  3/3   3/3  IRON CLAD
+deepseek-r1                        0/3   0/3  PROBLEMATIC
+deepseek-r1-distill                0/3   0/3  PROBLEMATIC
+deepseek-v3                        3/3   3/3  IRON CLAD
+gemini-2.0-flash                   3/3   3/3  IRON CLAD
+gemini-2.5-flash                   3/3   3/3  IRON CLAD
+gemini-2.5-flash-lite              3/3   3/3  IRON CLAD
+gpt-3.5-turbo                      3/3   3/3  IRON CLAD
+gpt-4-turbo                        3/3   3/3  IRON CLAD
+gpt-4.1                            3/3   3/3  IRON CLAD
+gpt-4.1-mini                       3/3   4/3  IRON CLAD
+gpt-4.1-nano                       3/3   4/3  IRON CLAD
+gpt-4o                             3/3   3/3  IRON CLAD
+gpt-4o-mini                        4/3   5/3  IRON CLAD
+gpt-5                              0/3   3/3  PROBLEMATIC
+gpt-5-mini                         3/3   3/3  IRON CLAD
+gpt-5-nano                         3/3   3/3  IRON CLAD
+gpt-5.1                            2/3   2/3  FEASIBLE
+grok-2-vision                      3/3   3/3  IRON CLAD
+grok-3                             0/3   0/3  PROBLEMATIC
+grok-3-mini                        5/3   4/3  IRON CLAD
+grok-4                             0/3   0/3  PROBLEMATIC
+grok-4-fast-non-reasoning          4/3   4/3  IRON CLAD
+grok-4-fast-reasoning              4/3   3/3  IRON CLAD
+grok-4.1-fast-non-reasoning        3/3   3/3  IRON CLAD
+grok-4.1-fast-reasoning            3/3   3/3  IRON CLAD
+grok-code-fast-1                   3/3   3/3  IRON CLAD
+kimi-k2-instruct                   3/3   4/3  IRON CLAD
+kimi-k2-thinking                   0/3   0/3  PROBLEMATIC
+llama3.1-405b                      0/3   0/3  PROBLEMATIC
+llama3.1-70b                       4/3   4/3  IRON CLAD
+llama3.1-8b                        4/3   3/3  IRON CLAD
+llama3.3-70b                       3/3   3/3  IRON CLAD
+mistral-7b                         4/3   3/3  IRON CLAD
+mistral-small                      4/3   4/3  IRON CLAD
+mixtral-8x7b                       3/3   3/3  IRON CLAD
+nemotron-nano                      3/3   3/3  IRON CLAD
+o3                                 0/3   0/3  PROBLEMATIC
+o3-mini                            0/3   1/3  PROBLEMATIC
+o4-mini                            0/3   0/3  PROBLEMATIC
+qwen2.5-72b                        2/3   1/3  FEASIBLE
+qwen3-80b                          2/3   1/3  FEASIBLE
+qwen3-coder                        0/3   0/3  PROBLEMATIC
 ----------------------------------------------------------------------
-TOTALS                           107   111
+TOTALS                           114   116
+
+======================================================================
+RECOMMENDATION
+======================================================================
+  Focus on FEASIBLE ships (18 runs) to reach 38 IRON CLAD.
+
+  PROBLEMATIC ships (64 runs) are optional stretch goals:
+  - Reasoning models (o3, deepseek-r1, kimi-thinking) are expensive/slow
+  - Full grok models may have rate limits vs fast variants
+  - llama3.1-405b is extremely slow
+  - qwen3-coder may behave oddly in tribunal context
+
+  Current coverage: 32 IRON CLAD across diverse model families
+  With FEASIBLE: 38 IRON CLAD (6 more claude-opus + gpt-5.1 + qwen)
 
 ======================================================================

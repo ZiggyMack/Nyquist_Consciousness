@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """
-1_sync_llmbook.py - LLM_BOOK → WHITE-PAPER SYNC FRAMEWORK
-==========================================================
-Synchronizes publication-ready content from NotebookLM outputs to WHITE-PAPER.
+1_sync_llmbook.py - LLM_BOOK → REVIEWER PACKAGES SYNC
+=====================================================
+Synchronizes NotebookLM synthesis content to reviewer packages for feedback.
+
+NOTE: This syncs to reviewers/packages/, NOT submissions/. The submissions/
+directory contains only curated *_FINAL.md papers. NotebookLM outputs go to
+reviewer packages so AI reviewers can evaluate how to incorporate them.
 
 USAGE:
 ------
@@ -14,15 +18,15 @@ py 1_sync_llmbook.py --sync --include-visuals   # Also sync 3_VISUALS/*.png
 
 CATEGORIES:
 -----------
-- academic: 2_PUBLICATIONS/academic/ → submissions/arxiv/
-- popular_science: 2_PUBLICATIONS/popular_science/ → submissions/popular_science/
-- education: 2_PUBLICATIONS/education/ → submissions/education/
-- policy: 2_PUBLICATIONS/policy/ → submissions/policy/
-- funding: 2_PUBLICATIONS/funding/ → submissions/funding/
-- media: 2_PUBLICATIONS/media/ → submissions/media/
+- academic: 2_PUBLICATIONS/academic/ → reviewers/packages/v4/llmbook/academic/
+- popular_science: 2_PUBLICATIONS/popular_science/ → reviewers/packages/v4/llmbook/popular_science/
+- education: 2_PUBLICATIONS/education/ → reviewers/packages/v4/llmbook/education/
+- policy: 2_PUBLICATIONS/policy/ → reviewers/packages/v4/llmbook/policy/
+- funding: 2_PUBLICATIONS/funding/ → reviewers/packages/v4/llmbook/funding/
+- media: 2_PUBLICATIONS/media/ → reviewers/packages/v4/llmbook/media/
 
-Author: WHITE-PAPER Sync 2025-12-15
-Version: 1.1
+Author: WHITE-PAPER Calibration
+Version: 2.0 (2025-12-29) - Redirect to reviewer packages (not submissions)
 """
 
 import argparse
@@ -39,47 +43,48 @@ WHITE_PAPER_DIR = Path(__file__).parent.parent   # WHITE-PAPER/
 LLM_BOOK_DIR = REPO_ROOT / "REPO-SYNC" / "LLM_BOOK"
 PUBLICATIONS_DIR = LLM_BOOK_DIR / "2_PUBLICATIONS"
 VISUALS_DIR = LLM_BOOK_DIR / "3_VISUALS"
-SUBMISSIONS_DIR = WHITE_PAPER_DIR / "submissions"
+LLMBOOK_TARGET_DIR = WHITE_PAPER_DIR / "reviewers" / "packages" / "v4" / "llmbook"
 FIGURES_GENERATED_DIR = WHITE_PAPER_DIR / "figures" / "generated" / "llmbook"
 MANIFEST_PATH = WHITE_PAPER_DIR / "reviewers" / "LLMBOOK_SYNC_MANIFEST.json"
 SYNC_STATUS_PATH = WHITE_PAPER_DIR / "reviewers" / "SYNC_STATUS.md"
 
 # === CATEGORY MAPPINGS ===
-# Source (LLM_BOOK/2_PUBLICATIONS/) → Target (WHITE-PAPER/submissions/)
+# Source (LLM_BOOK/2_PUBLICATIONS/) → Target (WHITE-PAPER/reviewers/packages/v4/llmbook/)
+# NOTE: NotebookLM outputs go to reviewer packages for feedback, NOT submissions/
 CATEGORY_MAPPINGS = {
     "academic": {
         "source": PUBLICATIONS_DIR / "academic",
-        "target": SUBMISSIONS_DIR / "arxiv",
+        "target": LLMBOOK_TARGET_DIR / "academic",
         "description": "Academic papers (NotebookLM synthesis)",
         "extensions": [".md", ".pdf"]
     },
     "popular_science": {
         "source": PUBLICATIONS_DIR / "popular_science",
-        "target": SUBMISSIONS_DIR / "popular_science",
+        "target": LLMBOOK_TARGET_DIR / "popular_science",
         "description": "Popular science articles (Atlantic/Wired style)",
         "extensions": [".md"]
     },
     "education": {
         "source": PUBLICATIONS_DIR / "education",
-        "target": SUBMISSIONS_DIR / "education",
+        "target": LLMBOOK_TARGET_DIR / "education",
         "description": "Educational materials (OER/Coursera)",
         "extensions": [".md"]
     },
     "policy": {
         "source": PUBLICATIONS_DIR / "policy",
-        "target": SUBMISSIONS_DIR / "policy",
+        "target": LLMBOOK_TARGET_DIR / "policy",
         "description": "Policy briefings (Think tanks)",
         "extensions": [".md"]
     },
     "funding": {
         "source": PUBLICATIONS_DIR / "funding",
-        "target": SUBMISSIONS_DIR / "funding",
+        "target": LLMBOOK_TARGET_DIR / "funding",
         "description": "Funding proposals (NSF/DARPA)",
         "extensions": [".md"]
     },
     "media": {
         "source": PUBLICATIONS_DIR / "media",
-        "target": SUBMISSIONS_DIR / "media",
+        "target": LLMBOOK_TARGET_DIR / "media",
         "description": "Media content (Press/TED)",
         "extensions": [".md"]
     }

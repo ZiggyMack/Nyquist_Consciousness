@@ -1,38 +1,41 @@
 #!/usr/bin/env python3
 """
-0_sync_viz.py - Visualization PDF Sync Helper
-==============================================
+0_sync_viz.py - Visualization Sync Tool (PDFs + PNGs + Reviewer Feedback)
+=========================================================================
 
-A flexible sync tool that helps keep WHITE-PAPER visualization PDFs
-synchronized with their source files in S7_ARMADA/visualizations/pics/.
+A comprehensive sync tool for WHITE-PAPER visualizations:
+1. Sync PDF summaries from S7_ARMADA to reviewer packages
+2. Sync identified PNGs from visual_index.md to figures/publication/
+3. Process reviewer visual requests (feedback loop)
 
 PHILOSOPHY:
 - Specific where we know what we need
 - General where we need flexibility
 - Conversational - asks questions when uncertain
-- Never paints us into a box
+- Reviewer feedback loop for continuous improvement
 
-USAGE:
-    # Check what needs syncing (dry run)
-    python 0_sync_viz.py --check
+USAGE - PDF SYNC:
+    python 0_sync_viz.py --check              # Check what needs syncing
+    python 0_sync_viz.py --sync               # Sync all outdated PDFs
+    python 0_sync_viz.py --sync 15_Oobleck_Effect  # Sync specific viz
+    python 0_sync_viz.py --regenerate --sync  # Regenerate then sync
+    python 0_sync_viz.py --interactive        # Interactive mode
 
-    # Sync all outdated PDFs
-    python 0_sync_viz.py --sync
+USAGE - PNG SYNC (from visual_index.md):
+    python 0_sync_viz.py --sync-pngs          # Sync identified PNGs
+    python 0_sync_viz.py --sync-pngs --dry-run  # Preview what would sync
+    python 0_sync_viz.py --sync-pngs --include-requests  # Include approved requests
 
-    # Sync specific visualization
-    python 0_sync_viz.py --sync 15_Oobleck_Effect
-
-    # Regenerate PNGs first, then PDF, then sync
-    python 0_sync_viz.py --regenerate --sync
-
-    # Show detailed status
-    python 0_sync_viz.py --status
-
-    # Interactive mode (asks questions)
-    python 0_sync_viz.py --interactive
+USAGE - REVIEWER FEEDBACK LOOP:
+    python 0_sync_viz.py --process-feedback   # Import feedback from packages/v4/feedback/
+    python 0_sync_viz.py --requests           # Show pending visual requests
+    python 0_sync_viz.py --request "name.png" "source_dir" "Reviewer"  # Add request manually
+    python 0_sync_viz.py --approve "name.png" # Approve a request
+    python 0_sync_viz.py --update-index       # Add approved to visual_index.md
 
 Created: December 29, 2025
 Author: Claude (VALIS Network)
+Version: 2.0 - Added PNG sync + reviewer feedback loop
 """
 
 import os
@@ -60,6 +63,9 @@ VIZ_PICS = S7_ARMADA / "visualizations" / "pics"
 WHITE_PAPER = REPO_ROOT / "WHITE-PAPER"
 PACKAGES = WHITE_PAPER / "reviewers" / "packages"
 VERSION_FILE = PACKAGES / "CURRENT_VERSION.json"
+FIGURES_DIR = WHITE_PAPER / "figures"
+VISUAL_INDEX = FIGURES_DIR / "visual_index.md"
+FEEDBACK_DIR = PACKAGES / "v4" / "feedback"  # Reviewer feedback directory
 
 # Known visualization directories that have PDF summaries
 # Format: {dir_name: {"pdf_name": str, "png_generator": str, "pdf_generator": str}}
@@ -353,6 +359,424 @@ def print_status(status: Dict[str, dict], verbose: bool = False):
 
 
 # =============================================================================
+# PNG SYNC - Copy identified PNGs from visual_index.md to figures/
+# =============================================================================
+
+import re
+
+def parse_visual_index() -> Dict[str, List[dict]]:
+    """
+    Parse visual_index.md to extract required PNGs by publication path.
+
+    Returns dict like:
+    {
+        "workshop": [{"name": "oobleck_thermometer.png", "source": "15_Oobleck_Effect/", "claim": "E"}, ...],
+        "arxiv": [...],
+    }
+    """
+    if not VISUAL_INDEX.exists():
+        print(f"[WARN] visual_index.md not found at {VISUAL_INDEX}")
+        return {}
+
+    with open(VISUAL_INDEX, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    visuals = {"workshop": [], "arxiv": [], "appendix": []}
+    current_section = None
+
+    # Pattern to match table rows with visual info: | # | `name.png` | `source/` | desc | claim |
+    table_pattern = re.compile(r'\|\s*\d+\s*\|\s*`([^`]+\.png)`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|')
+    # Simpler pattern for appendix tables: | A# | `name.png` | `source/` | desc |
+    appendix_pattern = re.compile(r'\|\s*A\d+\s*\|\s*`([^`]+\.png)`\s*\|\s*`([^`]+)`\s*\|')
+
+    for line in content.split('\n'):
+        # Track which section we're in
+        if '## Section 1: Workshop Figures' in line:
+            current_section = 'workshop'
+        elif '## Section 2: arXiv Figures' in line:
+            current_section = 'arxiv'
+        elif '### Appendix' in line or 'Supplementary' in line:
+            current_section = 'appendix'
+        elif '## Section 3:' in line or '## Section 4:' in line:
+            current_section = None  # These sections are reference only
+
+        if current_section:
+            # Try main table pattern
+            match = table_pattern.search(line)
+            if match:
+                visuals[current_section].append({
+                    "name": match.group(1),
+                    "source": match.group(2).rstrip('/'),
+                })
+            else:
+                # Try appendix pattern
+                match = appendix_pattern.search(line)
+                if match:
+                    visuals['appendix'].append({
+                        "name": match.group(1),
+                        "source": match.group(2).rstrip('/'),
+                    })
+
+    return visuals
+
+
+def parse_reviewer_requests() -> List[dict]:
+    """
+    Parse visual requests from CURRENT_VERSION.json.
+
+    Requests are stored in the "visual_requests" section:
+    {
+      "visual_requests": {
+        "requests": [
+          {"name": "new_visual.png", "source": "15_Oobleck_Effect", "requested_by": "Grok-4.1", "status": "pending"}
+        ]
+      }
+    }
+
+    Returns list of requests with status pending or approved.
+    """
+    config = load_version_config()
+    requests_data = config.get("visual_requests", {}).get("requests", [])
+
+    # Filter to pending/approved only
+    return [r for r in requests_data if r.get("status") in ("pending", "approved")]
+
+
+def add_visual_request(name: str, source: str, requested_by: str) -> bool:
+    """
+    Add a new visual request to CURRENT_VERSION.json.
+    Returns True if added, False if already exists.
+    """
+    config = load_version_config()
+
+    if "visual_requests" not in config:
+        config["visual_requests"] = {"requests": []}
+
+    requests = config["visual_requests"]["requests"]
+
+    # Check if already exists
+    for r in requests:
+        if r.get("name") == name and r.get("source") == source:
+            print(f"   Request already exists: {name}")
+            return False
+
+    # Add new request
+    requests.append({
+        "name": name,
+        "source": source,
+        "requested_by": requested_by,
+        "status": "pending",
+        "date": datetime.now().strftime("%Y-%m-%d")
+    })
+
+    # Save
+    with open(VERSION_FILE, 'w', encoding='utf-8') as f:
+        json.dump(config, f, indent=2)
+
+    print(f"   Added request: {name} from {source}")
+    return True
+
+
+def approve_visual_request(name: str) -> bool:
+    """Mark a visual request as approved."""
+    config = load_version_config()
+    requests = config.get("visual_requests", {}).get("requests", [])
+
+    for r in requests:
+        if r.get("name") == name and r.get("status") == "pending":
+            r["status"] = "approved"
+            r["approved_date"] = datetime.now().strftime("%Y-%m-%d")
+
+            with open(VERSION_FILE, 'w', encoding='utf-8') as f:
+                json.dump(config, f, indent=2)
+
+            print(f"   Approved: {name}")
+            return True
+
+    print(f"   Not found or not pending: {name}")
+    return False
+
+
+def update_visual_index_with_approved() -> int:
+    """
+    Add approved visual requests to visual_index.md.
+    Returns count of visuals added.
+    """
+    requests = parse_reviewer_requests()
+    approved = [r for r in requests if r.get("status") == "approved"]
+
+    if not approved:
+        print("No approved requests to add to visual_index.md")
+        return 0
+
+    if not VISUAL_INDEX.exists():
+        print(f"[WARN] visual_index.md not found")
+        return 0
+
+    with open(VISUAL_INDEX, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    added = 0
+    additions = []
+
+    for req in approved:
+        # Check if already in visual_index
+        if f"`{req['name']}`" in content:
+            continue
+
+        additions.append(f"| R{added+1} | `{req['name']}` | `{req['source']}/` | Reviewer requested | - |")
+        added += 1
+
+    if additions:
+        # Add to end of Section 2 (arXiv) as reviewer-requested
+        marker = "## Section 3:"
+        if marker in content:
+            insert_section = f"""
+### Reviewer Requested (auto-added)
+
+| # | Visual | Source Path | Shows | Claim |
+|---|--------|-------------|-------|-------|
+{chr(10).join(additions)}
+
+"""
+            content = content.replace(marker, insert_section + marker)
+
+            with open(VISUAL_INDEX, 'w', encoding='utf-8') as f:
+                f.write(content)
+
+            print(f"Added {added} visuals to visual_index.md")
+
+    return added
+
+
+def resolve_png_source(source_dir: str, png_name: str) -> Optional[Path]:
+    """Find the actual path to a PNG file given source directory hint."""
+    # First try direct path in VIZ_PICS
+    direct_path = VIZ_PICS / source_dir / png_name
+    if direct_path.exists():
+        return direct_path
+
+    # Try subdirectories (e.g., phase3b_crossmodel/)
+    source_path = VIZ_PICS / source_dir
+    if source_path.exists():
+        for subdir in source_path.iterdir():
+            if subdir.is_dir():
+                candidate = subdir / png_name
+                if candidate.exists():
+                    return candidate
+
+    # Recursive search in source directory
+    if source_path.exists():
+        matches = list(source_path.rglob(png_name))
+        if matches:
+            return matches[0]
+
+    return None
+
+
+def sync_pngs_to_figures(dry_run: bool = False, include_requests: bool = False) -> Dict[str, int]:
+    """
+    Sync identified PNGs from visual_index.md to WHITE-PAPER/figures/.
+
+    Returns dict with counts: {"synced": N, "skipped": N, "missing": N}
+    """
+    print("\n" + "=" * 70)
+    print("PNG SYNC: visual_index.md → figures/")
+    print("=" * 70)
+
+    visuals = parse_visual_index()
+    all_pngs = []
+
+    # Collect all unique PNGs
+    seen = set()
+    for section, items in visuals.items():
+        for item in items:
+            key = f"{item['source']}/{item['name']}"
+            if key not in seen:
+                seen.add(key)
+                all_pngs.append(item)
+
+    # Add approved reviewer requests
+    if include_requests:
+        requests = parse_reviewer_requests()
+        for req in requests:
+            if req['status'] == 'approved':
+                key = f"{req['source']}/{req['name']}"
+                if key not in seen:
+                    seen.add(key)
+                    all_pngs.append(req)
+                    print(f"   + Including approved request: {req['name']}")
+
+    print(f"\nFound {len(all_pngs)} unique PNGs to sync\n")
+
+    stats = {"synced": 0, "skipped": 0, "missing": 0}
+
+    # Organize target directories by source
+    # e.g., 15_Oobleck_Effect/ → figures/oobleck/
+    # or just flatten to figures/publication/
+    target_dir = FIGURES_DIR / "publication"
+    target_dir.mkdir(parents=True, exist_ok=True)
+
+    for item in all_pngs:
+        source_path = resolve_png_source(item['source'], item['name'])
+
+        if not source_path:
+            print(f"   ❌ {item['name']} - not found in {item['source']}")
+            stats["missing"] += 1
+            continue
+
+        target_path = target_dir / item['name']
+
+        # Check if already synced and up-to-date
+        if target_path.exists():
+            src_mtime = source_path.stat().st_mtime
+            tgt_mtime = target_path.stat().st_mtime
+            if tgt_mtime >= src_mtime:
+                print(f"   ✓ {item['name']} - up to date")
+                stats["skipped"] += 1
+                continue
+
+        # Sync needed
+        if dry_run:
+            print(f"   → {item['name']} - would sync from {source_path.parent.name}/")
+        else:
+            shutil.copy2(source_path, target_path)
+            print(f"   ✓ {item['name']} - synced from {source_path.parent.name}/")
+        stats["synced"] += 1
+
+    print(f"\n{'DRY RUN - ' if dry_run else ''}Summary: {stats['synced']} synced, {stats['skipped']} up-to-date, {stats['missing']} missing")
+
+    return stats
+
+
+def check_reviewer_requests():
+    """Show pending reviewer visual requests from CURRENT_VERSION.json."""
+    requests = parse_reviewer_requests()
+    pending = [r for r in requests if r.get('status') == 'pending']
+    approved = [r for r in requests if r.get('status') == 'approved']
+
+    if not requests:
+        print("\n📋 No reviewer requests in CURRENT_VERSION.json.")
+        print(f"   Run --process-feedback to import from feedback directories.")
+        return
+
+    print("\n" + "=" * 70)
+    print("REVIEWER VISUAL REQUESTS (from CURRENT_VERSION.json)")
+    print("=" * 70)
+
+    if pending:
+        print(f"\n⏳ PENDING ({len(pending)}):")
+        for r in pending:
+            print(f"   - {r.get('name')} from {r.get('source')} (by {r.get('requested_by', 'unknown')})")
+
+    if approved:
+        print(f"\n✅ APPROVED ({len(approved)}):")
+        for r in approved:
+            print(f"   - {r.get('name')} from {r.get('source')}")
+
+    print()
+
+
+def process_feedback() -> Dict[str, int]:
+    """
+    Process reviewer feedback from feedback directories into CURRENT_VERSION.json.
+
+    Reads: packages/v4/feedback/{reviewer}/visual_requests.json
+    Updates: packages/CURRENT_VERSION.json
+
+    Returns dict with counts: {"imported": N, "skipped": N, "errors": N}
+    """
+    print("\n" + "=" * 70)
+    print("PROCESSING REVIEWER FEEDBACK")
+    print("=" * 70)
+
+    stats = {"imported": 0, "skipped": 0, "errors": 0}
+
+    if not FEEDBACK_DIR.exists():
+        print(f"\n[WARN] Feedback directory not found: {FEEDBACK_DIR}")
+        return stats
+
+    # Load current version config
+    config = load_version_config()
+    if "visual_requests" not in config:
+        config["visual_requests"] = {"requests": []}
+
+    existing_requests = config["visual_requests"]["requests"]
+    existing_keys = {(r.get("name"), r.get("source"), r.get("pipeline")) for r in existing_requests}
+
+    # Scan each reviewer directory
+    for reviewer_dir in FEEDBACK_DIR.iterdir():
+        if not reviewer_dir.is_dir() or reviewer_dir.name.startswith('.'):
+            continue
+
+        reviewer_name = reviewer_dir.name
+        requests_file = reviewer_dir / "visual_requests.json"
+
+        if not requests_file.exists():
+            continue
+
+        print(f"\n📁 {reviewer_name}/")
+
+        try:
+            with open(requests_file, 'r', encoding='utf-8') as f:
+                feedback_data = json.load(f)
+
+            requests = feedback_data.get("requests", [])
+            print(f"   Found {len(requests)} requests")
+
+            for req in requests:
+                req_type = req.get("type", "add")
+                visual = req.get("visual")
+                source = req.get("source")
+                pipeline = req.get("pipeline")
+                status = req.get("status", "pending")
+
+                # Skip if already processed
+                key = (visual, source, pipeline)
+                if key in existing_keys:
+                    print(f"   ⏭️  {visual} - already in CURRENT_VERSION.json")
+                    stats["skipped"] += 1
+                    continue
+
+                # Add to CURRENT_VERSION.json
+                new_request = {
+                    "name": visual,
+                    "source": source,
+                    "pipeline": pipeline,
+                    "type": req_type,
+                    "placement": req.get("placement", "main"),
+                    "figure_num": req.get("figure_num"),
+                    "reason": req.get("reason", ""),
+                    "requested_by": reviewer_name,
+                    "status": status,
+                    "date": req.get("date", datetime.now().strftime("%Y-%m-%d")),
+                    "imported_from": f"feedback/{reviewer_name}/visual_requests.json"
+                }
+
+                existing_requests.append(new_request)
+                existing_keys.add(key)
+                print(f"   ✓ {visual} → {pipeline}/{req.get('placement', 'main')}")
+                stats["imported"] += 1
+
+        except json.JSONDecodeError as e:
+            print(f"   [ERROR] Invalid JSON: {e}")
+            stats["errors"] += 1
+        except Exception as e:
+            print(f"   [ERROR] {e}")
+            stats["errors"] += 1
+
+    # Save updated config
+    if stats["imported"] > 0:
+        with open(VERSION_FILE, 'w', encoding='utf-8') as f:
+            json.dump(config, f, indent=2)
+        print(f"\n✅ Updated CURRENT_VERSION.json")
+
+    print(f"\nSummary: {stats['imported']} imported, {stats['skipped']} already present, {stats['errors']} errors")
+
+    return stats
+
+
+# =============================================================================
 # SYNC OPERATIONS
 # =============================================================================
 
@@ -556,16 +980,27 @@ def interactive_sync():
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Sync visualization PDFs to WHITE-PAPER packages",
+        description="Sync visualization PDFs and PNGs to WHITE-PAPER packages",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   python 0_sync_viz.py --check          # See what needs syncing
   python 0_sync_viz.py --status         # Detailed status report
   python 0_sync_viz.py --interactive    # Walk through interactively
-  python 0_sync_viz.py --sync           # Auto-sync all outdated
+  python 0_sync_viz.py --sync           # Auto-sync all outdated PDFs
   python 0_sync_viz.py --sync run018    # Sync specific viz
   python 0_sync_viz.py --regenerate --sync  # Regenerate then sync
+
+PNG Sync (from visual_index.md to figures/publication/):
+  python 0_sync_viz.py --sync-pngs              # Sync identified PNGs
+  python 0_sync_viz.py --sync-pngs --dry-run    # Preview what would sync
+  python 0_sync_viz.py --sync-pngs --include-requests  # Include approved reviewer requests
+
+Reviewer Feedback Loop:
+  python 0_sync_viz.py --requests               # Show pending visual requests
+  python 0_sync_viz.py --request "name.png" "source_dir" "Reviewer Name"  # Add request
+  python 0_sync_viz.py --approve "name.png"     # Approve a request
+  python 0_sync_viz.py --update-index           # Add approved to visual_index.md
         """
     )
 
@@ -587,6 +1022,24 @@ Examples:
                        help="Check if a reason warrants a version bump")
     parser.add_argument("--dry-run", action="store_true",
                        help="Show what would be done without doing it")
+
+    # PNG sync arguments
+    parser.add_argument("--sync-pngs", action="store_true",
+                       help="Sync PNGs from visual_index.md to figures/publication/")
+    parser.add_argument("--include-requests", action="store_true",
+                       help="Include approved reviewer requests when syncing PNGs")
+
+    # Reviewer request arguments
+    parser.add_argument("--requests", action="store_true",
+                       help="Show pending visual requests from reviewers")
+    parser.add_argument("--request", nargs=3, metavar=("PNG", "SOURCE", "REVIEWER"),
+                       help="Add a visual request: --request name.png source_dir reviewer")
+    parser.add_argument("--approve", metavar="PNG",
+                       help="Approve a pending visual request")
+    parser.add_argument("--update-index", action="store_true",
+                       help="Add approved requests to visual_index.md")
+    parser.add_argument("--process-feedback", action="store_true",
+                       help="Import feedback from packages/v4/feedback/ into CURRENT_VERSION.json")
 
     args = parser.parse_args()
 
@@ -623,6 +1076,35 @@ Examples:
     if args.check or args.status:
         status = check_sync_status()
         print_status(status, verbose=args.status)
+        return
+
+    # Handle reviewer request operations
+    if args.requests:
+        check_reviewer_requests()
+        return
+
+    if args.request:
+        png_name, source, reviewer = args.request
+        add_visual_request(png_name, source, reviewer)
+        return
+
+    if args.approve:
+        approve_visual_request(args.approve)
+        return
+
+    if args.update_index:
+        count = update_visual_index_with_approved()
+        if count:
+            print(f"\n✅ Added {count} visuals to visual_index.md")
+        return
+
+    if args.process_feedback:
+        process_feedback()
+        return
+
+    # Handle PNG sync
+    if args.sync_pngs:
+        sync_pngs_to_figures(dry_run=args.dry_run, include_requests=args.include_requests)
         return
 
     if args.sync is not None:

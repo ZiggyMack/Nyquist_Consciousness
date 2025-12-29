@@ -20,7 +20,7 @@ py 2_package_review.py --extract-pdfs            # Extract PDFs to packages/pdf/
 
 OUTPUT:
 -------
-docs/publication/content/{path}/
+WHITE-PAPER/reviewers/packages/v4/{path}/
 ├── README.md                    # Instructions for reviewers
 ├── PACKAGE_MANIFEST.md          # What's included + reading order
 ├── submissions/{path}/          # Core submission materials
@@ -30,14 +30,13 @@ docs/publication/content/{path}/
 └── figures/                     # Figure specs (included by default)
 
 PDF LAYER (separate):
-docs/publication/pdf/
+WHITE-PAPER/reviewers/packages/pdf/
 ├── README.md                    # PDF layer overview
-├── arxiv/                       # arxiv PDFs (~14 MB)
-├── journal/                     # journal PDFs (same as arxiv for now)
-└── {path}/                      # Other paths as PDFs are generated
+├── visualization_pdfs/          # S7_ARMADA visualization summaries
+└── submission_pdfs/             # Generated submission PDFs
 
-Author: WHITE-PAPER Calibration 2025-12-15
-Version: 1.1
+Author: WHITE-PAPER Calibration
+Version: 2.0 (2025-12-29) - IRON CLAD Methodology (Cosine D=0.80)
 """
 
 import argparse
@@ -52,7 +51,7 @@ from dataclasses import dataclass, field
 # === PATH CONSTANTS ===
 WHITE_PAPER_ROOT = Path(__file__).parent.parent  # WHITE-PAPER/
 REPO_ROOT = WHITE_PAPER_ROOT.parent              # Nyquist_Consciousness/
-DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "v3"  # v3 packages (Run 023 IRON CLAD + latest visualizations)
+DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "v4"  # v4 packages (Run 023d IRON CLAD + Oobleck Effect)
 PDF_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "pdf"
 LLM_SYNTHESIS_DIR = WHITE_PAPER_ROOT / "reviewers" / "LLM_BOOK_SYNTHESIS"
 
@@ -204,7 +203,7 @@ POPULAR_SCIENCE_CONTENT = PathContent(
     reviewers=[],
     reading_order=[
         "submissions/popular_science/README.md",
-        "submissions/popular_science/LLM_Ancient_Philosophy_Meets_Modern_AI.md",
+        "submissions/popular_science/POPULAR_SCIENCE_FINAL.md",
         "guides/summary_statistics.md",
     ]
 )
@@ -223,7 +222,7 @@ EDUCATION_CONTENT = PathContent(
     reviewers=[],
     reading_order=[
         "submissions/education/README.md",
-        "submissions/education/LLM_Quiz.md",
+        "submissions/education/EDUCATION_FINAL.md",
         "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
     ]
 )
@@ -242,7 +241,7 @@ POLICY_CONTENT = PathContent(
     reviewers=[],
     reading_order=[
         "submissions/policy/README.md",
-        "submissions/policy/LLM_Briefing.md",
+        "submissions/policy/POLICY_FINAL.md",
         "guides/summary_statistics.md",
     ]
 )
@@ -261,7 +260,7 @@ FUNDING_CONTENT = PathContent(
     reviewers=[],
     reading_order=[
         "submissions/funding/README.md",
-        "submissions/funding/LLM_Project_Nyquist_Consciousness.md",
+        "submissions/funding/FUNDING_FINAL.md",
         "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
     ]
 )
@@ -280,8 +279,8 @@ MEDIA_CONTENT = PathContent(
     reviewers=[],
     reading_order=[
         "submissions/media/README.md",
-        "submissions/media/LLM_Unlocking_AI_Identity.md",
-        "submissions/popular_science/LLM_Ancient_Philosophy_Meets_Modern_AI.md",
+        "submissions/media/MEDIA_FINAL.md",
+        "submissions/popular_science/POPULAR_SCIENCE_FINAL.md",
     ]
 )
 
