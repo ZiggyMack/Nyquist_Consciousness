@@ -268,7 +268,7 @@ def render():
                     <span style="background: #e94560; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.85em;">
                         p = 2.40e-23
                     </span>
-                    <span style="background: #7c3aed; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.85em;">
+                    <span style="background: #f39c12; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.85em;">
                         25 models • 5 providers
                     </span>
                 </div>
