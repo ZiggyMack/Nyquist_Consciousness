@@ -325,8 +325,9 @@ def plot_020b_control_treatment(data, output_dir):
     for ax in axes.flatten():
         ax.set_facecolor('white')
 
-    control_drifts = [d.get('final_drift', d.get('drift', 0)) for d in control]
-    treatment_drifts = [d.get('final_drift', d.get('drift', 0)) for d in treatment]
+    # Use baseline_to_final_drift (preferred) - measures change during session
+    control_drifts = [d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in control]
+    treatment_drifts = [d.get('baseline_to_final_drift', d.get('final_drift', 0)) for d in treatment]
     control_peaks = [d.get('peak_drift', 0) for d in control]
     treatment_peaks = [d.get('peak_drift', 0) for d in treatment]
 
@@ -338,7 +339,7 @@ def plot_020b_control_treatment(data, output_dir):
     means_final = [np.mean(control_drifts), np.mean(treatment_drifts)]
     means_peak = [np.mean(control_peaks), np.mean(treatment_peaks)]
 
-    bars1 = ax1.bar(x - width/2, means_final, width, label='Final Drift',
+    bars1 = ax1.bar(x - width/2, means_final, width, label='B→F Drift',
                     color=[ARM_COLORS['control'], ARM_COLORS['treatment']], alpha=0.8, edgecolor='black')
     bars2 = ax1.bar(x + width/2, means_peak, width, label='Peak Drift',
                     color=[ARM_COLORS['control'], ARM_COLORS['treatment']], alpha=0.4, edgecolor='black')
@@ -370,8 +371,8 @@ def plot_020b_control_treatment(data, output_dir):
                     ha='center', fontsize=10, bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
     ax2.axhline(y=EVENT_HORIZON, color='#e74c3c', linestyle='--', alpha=0.7)
-    ax2.set_ylabel('Final Drift (Cosine)', fontsize=11)
-    ax2.set_title('Final Drift Distribution by Arm', fontsize=12, fontweight='bold')
+    ax2.set_ylabel('B→F Drift (Cosine)', fontsize=11)
+    ax2.set_title('Baseline→Final Drift Distribution by Arm', fontsize=12, fontweight='bold')
     ax2.grid(axis='y', alpha=0.3)
 
     # Panel 3: Scatter plot of individual sessions (Control vs Treatment distributions)
@@ -398,7 +399,7 @@ def plot_020b_control_treatment(data, output_dir):
     ax3.axhline(y=EVENT_HORIZON, color='#e74c3c', linestyle='--', alpha=0.7, label='Event Horizon')
     ax3.set_xticks([1, 2])
     ax3.set_xticklabels(['Control', 'Treatment'])
-    ax3.set_ylabel('Final Drift (Cosine)', fontsize=11)
+    ax3.set_ylabel('B→F Drift (Cosine)', fontsize=11)
     ax3.set_title('Individual Session Distributions\n(Diamonds = Mean)', fontsize=12, fontweight='bold')
     ax3.legend(facecolor='white', loc='upper right')
     ax3.grid(axis='y', alpha=0.3)
@@ -423,7 +424,7 @@ def plot_020b_control_treatment(data, output_dir):
     bars = ax4.bar(['Aggregate\nInherent Ratio'], [ratio],
                    color='#7C3AED', alpha=0.8, edgecolor='black', width=0.5)
 
-    ax4.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 020B Finding)')
+    # Reference lines (no stale hardcoded values - ratio is computed from data)
     ax4.axhline(y=100, color='gray', linestyle=':', alpha=0.5, label='100% (Equal drift)')
     ax4.axhline(y=50, color='gray', linestyle=':', alpha=0.3)
 
@@ -560,7 +561,7 @@ def plot_020b_per_model_breakdown(data, output_dir):
     colors = [get_provider_color(s) for s in ships]
     bars = ax2.bar(x, ratios, color=colors, alpha=0.8, edgecolor='black')
 
-    ax2.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 020B Finding)')
+    # Reference lines (no stale hardcoded values)
     ax2.axhline(y=100, color='gray', linestyle=':', alpha=0.5, label='100% (Equal drift)')
 
     # Add ratio labels on bars - only if not too many
