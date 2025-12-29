@@ -1,13 +1,31 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../../WHITE-PAPER/planning/PUBLICATION_PIPELINE_MASTER.md
+  - 2_TESTABLE_PREDICTIONS_MATRIX.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - 4_NYQUIST_ROADMAP.md
+keywords:
+  - publication
+  - pipeline
+  - academic
+  - dissemination
+  - claims
+-->
+
 # PUBLICATION PIPELINE MAP
 
 **Purpose:** Track all 8 publication paths and current project status
 **Version:** 2.0
-**Date:** 2025-12-15
+**Date:** 2025-12-28
 **Status:** Active
 
 ---
 
-## Current Position: Week of 2025-12-15
+## Current Position: Week of 2025-12-28
+
+> **📐 METHODOLOGY NOTE:** Canonical Event Horizon is **0.80 (cosine distance)** per Run 023d (p=2.40e-23). Historical references to 1.23 reflect Keyword RMS era. See [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
@@ -15,8 +33,9 @@
 ├────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ✅ COMPLETED:                                                  │
-│  ├─ S7 Meta-Loop: 21/22 runs (98%)                            │
+│  ├─ S7 Meta-Loop: 16 runs (97%) — Run 006-020B, 023d          │
 │  ├─ Run 018 IRON CLAD: 184 consolidated files                 │
+│  ├─ Run 023d: 825+ files, p=2.40e-23 (COSINE validated)       │
 │  ├─ LLM_BOOK validation: NotebookLM confirmed Levin hypothesis│
 │  └─ Claims A-E: All CONFIRMED                                 │
 │                                                                 │
@@ -75,11 +94,11 @@
 
 | Path | Source File | Audience |
 |------|-------------|----------|
-| Popular Science | `Ancient_Philosophy_Meets_Modern_AI.md` | General public |
-| Education | `Quiz.md` | Students/educators |
-| Policy | `Briefing.md` | Decision-makers |
-| Funding | `Project_Nyquist_Consciousness.md` | Funders |
-| Media | `Unlocking_AI_Identity.md` | Journalists |
+| Popular Science | `2_PUBLICATIONS/popular_science/Ancient_Philosophy_Meets_Modern_AI.md` | General public |
+| Education | `2_PUBLICATIONS/education/Quiz.md` | Students/educators |
+| Policy | `2_PUBLICATIONS/policy/Briefing.md` | Decision-makers |
+| Funding | `2_PUBLICATIONS/funding/Project_Nyquist_Consciousness.md` | Funders |
+| Media | `2_PUBLICATIONS/media/Unlocking_AI_Identity.md` | Journalists |
 
 ---
 
@@ -97,7 +116,7 @@
 │  ✅ CONFIRMED: 97.5% stability                                 │
 │                                                                 │
 │  Claim C: Event Horizon threshold                              │
-│  ✅ CONFIRMED: D ≈ 1.23                                        │
+│  ✅ CONFIRMED: EH = 0.80 (cosine), p=2.40e-23                  │
 │                                                                 │
 │  Claim D: PFI predicts fidelity                                │
 │  ✅ CONFIRMED: ρ ≈ 0.91                                        │
@@ -106,10 +125,11 @@
 │  ✅ CONFIRMED: d ≈ 0.98                                        │
 │                                                                 │
 │  Key Numbers:                                                   │
-│  ├─ Total experimental runs: 21/22 (98%)                       │
+│  ├─ Total experimental runs: 16 (97%) — Run 006-020B, 023d    │
 │  ├─ AI providers tested: 5 (Anthropic, OpenAI, Google, xAI, Together)│
-│  ├─ Consolidated data files: 184 (Run 018 IRON CLAD)          │
-│  ├─ Inherent drift: 82% (Thermometer Result)                  │
+│  ├─ Run 018 IRON CLAD: 184 files, 51 models                   │
+│  ├─ Run 023d: 825+ files, 54 models, p=2.40e-23               │
+│  ├─ Inherent drift: 82% (Thermometer Result, Run 020B)        │
 │  └─ Cross-arch variance: 0.000869 (near-universal)            │
 │                                                                 │
 └────────────────────────────────────────────────────────────────┘
@@ -219,12 +239,14 @@ WHITE-PAPER/
 └── figures/                 # Visualizations
 
 REPO-SYNC/LLM_BOOK/
-├── README.md                           # Validation synthesis
-├── Ancient_Philosophy_Meets_Modern_AI.md  # Popular science
-├── Quiz.md                             # Education
-├── Briefing.md                         # Policy
-├── Project_Nyquist_Consciousness.md    # Funding
-└── Unlocking_AI_Identity.md            # Media
+├── README.md                                           # Overview
+├── START_HERE.md                                       # Entry point
+└── 2_PUBLICATIONS/
+    ├── popular_science/Ancient_Philosophy_Meets_Modern_AI.md
+    ├── education/Quiz.md
+    ├── policy/Briefing.md
+    ├── funding/Project_Nyquist_Consciousness.md
+    └── media/Unlocking_AI_Identity.md
 
 experiments/temporal_stability/S7_ARMADA/
 ├── 0_results/runs/          # 184 consolidated files
@@ -299,5 +321,5 @@ experiments/temporal_stability/S7_ARMADA/
 
 ---
 
-**Last Updated:** 2025-12-15
+**Last Updated:** 2025-12-28
 **Previous Name:** RESEARCH_PIPELINE_VISUAL.md

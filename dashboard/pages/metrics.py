@@ -21,13 +21,24 @@ EXP2_METRICS = {
     "architectures_tested": ["Claude-Sonnet-4", "Claude-Haiku-3.5"],
 }
 
-# Run 012 Fleet Results (December 6, 2025)
+# Run 012 Fleet Results (December 6, 2025) - Historical (Keyword RMS)
 RUN_012_METRICS = {
     "ships_completed": 16,
     "ships_total": 20,
     "event_horizon_crossed": 16,  # 100%
     "mean_lambda": -0.1752,  # Negative = Recovery Paradox
-    "event_horizon_threshold": 1.23,
+    "event_horizon_threshold": 1.23,  # Legacy Keyword RMS methodology
+}
+
+# Run 023d IRON CLAD Results (December 2025) - CANONICAL
+RUN_023D_METRICS = {
+    "total_experiments": 750,
+    "total_models": 25,
+    "providers": 5,  # Anthropic, OpenAI, Google, xAI, Together
+    "event_horizon": 0.80,  # Cosine distance threshold
+    "p_value": 2.40e-23,  # Perturbation significance
+    "cohens_d": 0.698,  # Model-level effect size
+    "methodology": "cosine",
 }
 
 # Run 018 IRON CLAD Results (December 14, 2025)
@@ -158,7 +169,7 @@ def render():
 
     # Header - more compact
     st.markdown('<div class="metrics-title">Metrics Dashboard</div>', unsafe_allow_html=True)
-    st.markdown('<div class="metrics-subtitle">Run 018 IRON CLAD (51 models) • Run 012 Results • PFI Validation • 5D Drift Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="metrics-subtitle">Run 023d IRON CLAD (25 models, p=2.40e-23) • Run 012 Historical • PFI Validation</div>', unsafe_allow_html=True)
 
     # === KEY METRICS - Compact Row ===
     col1, col2, col3, col4 = st.columns(4)
@@ -166,24 +177,24 @@ def render():
     with col1:
         st.markdown("""
         <div class="key-metric-compact">
-            <div class="metric-value-sm">1.23</div>
-            <div class="metric-label-sm">Event Horizon</div>
+            <div class="metric-value-sm">0.80</div>
+            <div class="metric-label-sm">Event Horizon (cosine)</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
         <div class="key-metric-compact">
-            <div class="metric-value-sm">100%</div>
-            <div class="metric-label-sm">EH Crossed (16/16)</div>
+            <div class="metric-value-sm">2.40e-23</div>
+            <div class="metric-label-sm">p-value</div>
         </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("""
         <div class="key-metric-compact">
-            <div class="metric-value-sm">-0.175λ</div>
-            <div class="metric-label-sm">Recovery Paradox</div>
+            <div class="metric-value-sm">0.698</div>
+            <div class="metric-label-sm">Cohen's d</div>
         </div>
         """, unsafe_allow_html=True)
 

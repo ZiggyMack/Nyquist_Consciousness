@@ -1,4 +1,21 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/4_VISUALIZATION_SPEC.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - Visualization decisions
+keywords:
+  - visualization
+  - charts
+  - phase_portrait
+  - vortex
+  - basin
+-->
+
 # VISUAL_MAP.md - Master Visualization Guide
+
+> **📐 METHODOLOGY NOTE:** Event Horizon values of 1.23 in this document reflect the legacy Keyword RMS methodology. Current canonical methodology uses cosine distance with EH = 0.80. See [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
 
 > **📚 Single Source of Truth (SSOT):**
 > For the complete visualization specification, see:
@@ -64,7 +81,7 @@ VISUALIZATION_EXCLUSIONS = {
 ### Stability Basin Requirements
 - **Baseline Drift:** First drift value in trajectory (`drifts[0]`)
 - **Max Drift:** Maximum drift value in trajectory (`max(drifts)`)
-- **Event Horizon:** 1.23 threshold for STABLE/VOLATILE classification
+- **Event Horizon:** 0.80 (cosine) threshold for STABLE/VOLATILE classification
 
 **NOT suitable when:**
 - Drift values are keyword-based (0-1.0 range) instead of embedding-based
@@ -92,14 +109,24 @@ VISUALIZATION_EXCLUSIONS = {
 
 ```
 visualizations/pics/
-├── 1_phase_portrait/      # drift[N] vs drift[N+1]
-├── 2_vortex/              # Polar spiral trajectories
-├── 3_basin_3d/            # 3D phase space
-├── 4_pillar/              # Provider clustering
-├── 5_stability/           # Baseline vs max drift
-├── 6_fft/                 # Spectral analysis
+├── 1_Vortex/              # Polar spiral trajectories
+├── 2_Boundary_Mapping/    # Boundary exploration
+├── 3_Stability/           # Baseline vs max drift
+├── 4_Rescue/              # Rescue protocol visuals
+├── 5_Settling/            # Settling time analysis
+├── 6_Architecture/        # Architecture comparisons
 ├── 7_interactive/         # HTML exports
-└── 8_pfi_dimensional/     # PFI validation visuals
+├── 8_Radar_Oscilloscope/  # Radar/oscilloscope charts
+├── 9_FFT_Spectral/        # Spectral analysis
+├── 10_PFI_Dimensional/    # PFI validation visuals
+├── 11_Unified_Dashboard/  # Combined dashboards
+├── 12_Metrics_Summary/    # Summary metrics
+├── 13_Model_Waveforms/    # Model waveform analysis
+├── 14_Ringback/           # Ringback analysis
+├── 15_Oobleck_Effect/     # Oobleck effect visuals
+├── 16_Laplace_Analysis/   # Laplace/control systems
+├── run018/                # Run 018 specific visuals
+└── run020/                # Run 020 specific visuals
 ```
 
 ---
@@ -168,7 +195,7 @@ Radar plots work well for multi-dimensional comparison. Current opportunities:
 ### All Points Show as VOLATILE
 **Symptom:** Stability plot shows 100% volatile even below Event Horizon line
 **Cause:** Status is calculated from max_drift, not baseline
-**Resolution:** This is correct behavior. If max_drift > 1.23, trajectory is VOLATILE regardless of current position.
+**Resolution:** This is correct behavior. If max_drift > 0.80 (cosine), trajectory is VOLATILE regardless of current position.
 
 ---
 
@@ -195,14 +222,42 @@ VISUALIZATION_EXCLUSIONS = {
 
 ---
 
-## 8. Related Documentation
+## 8. Visualization Infrastructure
+
+### Master Scripts
+
+| Script | Location | Purpose |
+|--------|----------|---------|
+| **visualize_armada.py** | `S7_ARMADA/visualizations/` | **DIRECTOR** - Orchestrates all visualizations, delegates to specialized generators |
+| **generate_pdf_summaries.py** | `S7_ARMADA/visualizations/` | **MASTER PDF** - 4000+ lines, generates ALL PDF summaries for folders 1-15 |
+| **RnD_Visualization.py** | `S7_ARMADA/visualizations/` | **R&D WING** - Experimental visualization prototypes and new chart development |
+
+> **Note:** Some `pics/` subdirectories (run018, run020, 15_Oobleck_Effect) have local `generate_*.py` scripts. The master `generate_pdf_summaries.py` is the SSOT - run it to regenerate all PDFs.
+
+### Onboarding & Specs
 
 | Document | Location | Purpose |
 |----------|----------|---------|
-| `visualize_armada.py` | `S7_ARMADA/visualizations/` | Main visualization script |
-| `8_pfi_explained.md` | `visualizations/pics/8_pfi_dimensional/` | PFI validation guide |
-| `TEMPORAL_STABILITY_MAP.md` | `docs/maps/` | Temporal stability overview |
-| `ARMADA_MAP.md` | `docs/maps/` | ARMADA experiment index |
+| **START_HERE.md** | `S7_ARMADA/visualizations/` | **CLAUDE ONBOARDING** - Everything a cold-boot Claude needs to work on visualizations |
+| **4_VISUALIZATION_SPEC.md** | `S7_ARMADA/0_docs/specs/` | **SSOT** - 10 documented pitfalls, data structure, layout patterns |
+
+### Related Maps
+
+| Map | Purpose |
+|-----|---------|
+| [8_TEMPORAL_STABILITY_MAP.md](8_TEMPORAL_STABILITY_MAP.md) | Temporal stability overview |
+| [1_ARMADA_MAP.md](1_ARMADA_MAP.md) | ARMADA experiment index |
+| [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) | Drift methodology SSOT |
+
+> **💡 TIP:** For detailed documentation of each visualization folder (1_Vortex through 15_Oobleck_Effect), read `generate_pdf_summaries.py` which contains comprehensive descriptions of each plot type and its interpretation.
+
+### Workflow for New Visualizations
+
+1. **Check pitfalls:** Read `4_VISUALIZATION_SPEC.md` before writing code
+2. **Use templates:** Copy boilerplate from `START_HERE.md`
+3. **Prototype in R&D:** New ideas go to `RnD_Visualization.py` first
+4. **Generate docs:** Run `generate_pdf_summaries.py` to create PDF explanations
+5. **Update map:** Add new visualization type to this file
 
 ---
 

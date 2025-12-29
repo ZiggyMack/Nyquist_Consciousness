@@ -64,7 +64,52 @@ This file contains:
 **After runs complete:**
 1. Run `0_results/consolidate_run_manifest.py` to update manifests
 2. Update `WHITE-PAPER/README.md` with new status
-3. Commit results to git
+3. **Update maps** (see section below)
+4. Commit results to git
+
+---
+
+## Post-Experiment Map Maintenance
+
+**CRITICAL FOR COLD-BOOT CLAUDES:** After ANY experiment completes, update these maps:
+
+| Map | When to Update |
+|-----|----------------|
+| [3_VALIDATION_STATUS.md](../../../docs/maps/3_VALIDATION_STATUS.md) | After EVERY run (update layer validation progress) |
+| [2_TESTABLE_PREDICTIONS_MATRIX.md](../../../docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md) | After EVERY validation (mark predictions confirmed/refuted) |
+| [1_ARMADA_MAP.md](../../../docs/maps/1_ARMADA_MAP.md) | When ships added/retired or calibration runs complete |
+| [4_NYQUIST_ROADMAP.md](../../../docs/maps/4_NYQUIST_ROADMAP.md) | Quarterly or at major milestones |
+
+**Quick checklist after a run:**
+- [ ] Did we validate any predictions? → Update TESTABLE_PREDICTIONS_MATRIX.md
+- [ ] Did we advance any S-layer? → Update VALIDATION_STATUS.md
+- [ ] Did fleet composition change? → Update ARMADA_MAP.md
+- [ ] Is this a major milestone? → Update NYQUIST_ROADMAP.md
+
+**Source of truth for maps:** [0_MAP_OF_MAPS.md](../../../docs/maps/0_MAP_OF_MAPS.md)
+
+### Automated Map Updates Tool
+
+Use `update_maps.py` to check what needs updating after experiments:
+
+```powershell
+cd docs/maps
+
+# See what needs updating (report mode)
+py update_maps.py
+
+# Apply all updates
+py update_maps.py --update
+
+# Check Run 023d IRON CLAD status only
+py update_maps.py --section run023
+```
+
+This tool scans:
+- Run data files (15_IRON_CLAD_FOUNDATION/, 11_CONTEXT_DAMPING/)
+- Run summaries (S7_RUN_*_SUMMARY.md)
+- Visualization stats (188 images, 18 PDFs, 15 folder generators)
+- Publication pipeline status
 
 ---
 

@@ -1,8 +1,28 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md
+  - ../../experiments/temporal_stability/S7_ARMADA/9_STABILITY_CRITERIA/
+  - ../../experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - 2_TESTABLE_PREDICTIONS_MATRIX.md
+keywords:
+  - temporal_stability
+  - settling_time
+  - context_damping
+  - stability_criteria
+  - PLL
+-->
+
 # TEMPORAL_STABILITY_MAP: Identity Stability Criteria
 
 **Purpose:** Central reference for identity stability experiments, metrics, and criteria discovery
-**Version:** 1.0
-**Date:** 2025-12-15
+**Version:** 1.1
+**Date:** 2025-12-28
+
+> **📐 METHODOLOGY NOTE:** Event Horizon has been recalibrated from 1.23 (Keyword RMS era) to 0.80 (cosine distance). Historical references to 1.23 in this document reflect early experiments. For current methodology, see [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
+
 **Status:** Active Research
 
 ---
@@ -73,9 +93,9 @@ stability_score = w1*attractor_density + w2*pillar_coverage + w3*eh_margin + w4*
 
 ## 3. Event Horizon & Recovery
 
-### The 1.23 Threshold
+### The 1.23 Threshold (Historical — Keyword RMS Era)
 
-**Validation:** χ² = 15.96, p < 4.8 × 10⁻⁵ (Run 009)
+**Validation:** χ² = 15.96, p < 4.8 × 10⁻⁵ (Run 009) — *Superseded by Run 023d (p=2.40e-23, cosine)*
 
 | Drift Range | Classification | Behavior |
 |-------------|----------------|----------|
@@ -284,7 +304,10 @@ Like a **Phase-Locked Loop** in electronics, we're creating a feedback system to
 - [11_CONTEXT_DAMPING/](../../experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/) — Run 017 code
 
 ### Findings
-- [S7_CONSOLIDATED_FINDINGS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_CONSOLIDATED_FINDINGS.md) — All S7 results
+
+- [S7_RUN_018_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_018_SUMMARY.md) — IRON CLAD (184 files, 51 models)
+- [S7_RUN_020B_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_020B_SUMMARY.md) — Thermometer Result (82% inherent)
+- [S7_RUN_023_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_023_SUMMARY.md) — Cosine validation (p=2.40e-23)
 
 ---
 

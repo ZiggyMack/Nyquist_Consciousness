@@ -16,6 +16,12 @@ AI ARMADA PAGE — Cross-Architecture Fleet & Temporal Stability Experiments
     -- Lisan Al Gaib
 ================================================================================
 
+METHODOLOGY NOTE:
+- Current (IRON CLAD): Event Horizon = 0.80 (cosine), p = 2.40e-23 (Run 023d)
+- Legacy (Keyword RMS): Event Horizon = 1.23, p = 4.8e-5 (Runs 008-012)
+- Historical references to 1.23 in run data reflect the legacy methodology
+- Run 023d is CANONICAL for IRON CLAD results
+
 Displays the 54-ship cross-architecture armada and identity manifold visualizations
 from temporal stability mapping experiments. Uses glossary-style mode switching
 where selecting a run changes the entire page context.
@@ -52,10 +58,46 @@ def load_image_safe(image_path):
 VIZ_DIR = PATHS['s7_viz_dir']
 VIZ_PICS = PATHS['s7_viz_pics']
 ARMADA_DIR = PATHS['s7_armada_dir']
-RESULTS_DIR = ARMADA_DIR / "results"
+RESULTS_DIR = ARMADA_DIR / "results"  # Legacy path for old runs
+
+# IRON CLAD paths (Run 023 series - canonical)
+IRON_CLAD_RESULTS = PATHS.get('iron_clad_results', ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results")
+CONTEXT_DAMPING_RESULTS = PATHS.get('context_damping_results', ARMADA_DIR / "11_CONTEXT_DAMPING" / "results")
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "run_023d": {
+        "name": "Run 023d IRON CLAD",
+        "subtitle": "CANONICAL — Cosine Methodology",
+        "emoji": "🔩",
+        "color": "#e94560",  # IRON CLAD Red
+        "date": "December 2025",
+        "description": "IRON CLAD FOUNDATION: Canonical methodology validation. Event Horizon = 0.80 (cosine distance), p = 2.40e-23. 750 experiments, 25 models, 5 providers.",
+        "ships": 25,
+        "metric": "Cosine Distance + Cohen's d (0.698)",
+        "result_files": ["S7_run_023d_CURRENT.json"],
+        "viz_prefix": "iron_clad_",
+        "status": "CANONICAL",
+        "highlight": True,
+        "key_finding": "IRON CLAD VALIDATED — p = 2.40e-23, Event Horizon = 0.80 (cosine), Cohen's d = 0.698. THIS IS THE CANONICAL METHODOLOGY.",
+        "results_path": "iron_clad"  # Uses IRON_CLAD_RESULTS path
+    },
+    "run_023_combined": {
+        "name": "Run 023 COMBINED",
+        "subtitle": "Full Fleet (51 models)",
+        "emoji": "🌐",
+        "color": "#7c3aed",  # Purple
+        "date": "December 2025",
+        "description": "COMBINED dataset: 825 experiments across 51 models from 6 providers. Full fleet coverage for cross-architecture analysis.",
+        "ships": 51,
+        "metric": "Full Fleet Coverage",
+        "result_files": ["S7_run_023_COMBINED.json"],
+        "viz_prefix": "combined_",
+        "status": "COMPLETE",
+        "highlight": False,
+        "key_finding": "FULL FLEET — 825 experiments, 51 models, 6 providers. DeepSeek, Kimi, Llama, Nvidia, Mistral included.",
+        "results_path": "iron_clad"  # Uses IRON_CLAD_RESULTS path
+    },
     "run_020a": {
         "name": "Run 020A",
         "subtitle": "Cross-Platform Tribunal",

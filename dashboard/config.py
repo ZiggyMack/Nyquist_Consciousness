@@ -30,8 +30,8 @@ PATHS = {
     # Status and documentation
     'status_file': REPO_ROOT / "NYQUIST_STATUS.json",
     'dashboard_doc': REPO_ROOT / "NYQUIST_DASHBOARD.md",
-    'glossary': REPO_ROOT / "docs" / "GLOSSARY.md",
-    'roadmap': REPO_ROOT / "docs" / "maps" / "NYQUIST_ROADMAP.md",
+    'glossary': REPO_ROOT / "docs" / "MASTER_GLOSSARY.md",
+    'roadmap': REPO_ROOT / "docs" / "maps" / "4_NYQUIST_ROADMAP.md",
 
     # Personas
     'personas_dir': REPO_ROOT / "personas",
@@ -50,6 +50,16 @@ PATHS = {
     's7_viz_dir': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations",
     's7_viz_pics': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics",
 
+    # IRON CLAD Foundation (Run 023 series - canonical)
+    'iron_clad_dir': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "15_IRON_CLAD_FOUNDATION",
+    'iron_clad_results': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "15_IRON_CLAD_FOUNDATION" / "results",
+    'run_023d': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023d_CURRENT.json",
+    'run_023_combined': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023_COMBINED.json",
+
+    # Context Damping (Runs 017-020)
+    'context_damping_dir': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "11_CONTEXT_DAMPING",
+    'context_damping_results': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "11_CONTEXT_DAMPING" / "results",
+
     # Logs
     'logs_dir': REPO_ROOT / "logs",
     'omega_ledger': REPO_ROOT / "logs" / "OMEGA_LEDGER.md",
@@ -65,6 +75,12 @@ PATHS = {
 SETTINGS = {
     # Cache settings
     'cache_ttl': 60,  # seconds
+
+    # IRON CLAD methodology (canonical)
+    'event_horizon': 0.80,  # Cosine distance threshold
+    'methodology': 'cosine',  # Current methodology
+    'canonical_run': '023d',  # Canonical run for all dashboards
+    'p_value': 2.40e-23,  # Perturbation effect significance
 
     # Theme colors (Mr. Brute Ledger aesthetic)
     'colors': {
@@ -96,6 +112,8 @@ def validate_paths():
         'personas_dir',
         'experiments_dir',
         's7_armada_dir',
+        'iron_clad_results',
+        'run_023d',
     ]
 
     missing = []

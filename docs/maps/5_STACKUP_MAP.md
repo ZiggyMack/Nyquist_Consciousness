@@ -1,9 +1,29 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../stackup/S_Series_README.md
+  - ../stackup/S0/README.md
+  - ../stackup/S7/README.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - 4_NYQUIST_ROADMAP.md
+  - 3_VALIDATION_STATUS.md
+keywords:
+  - stackup
+  - S0_S77
+  - architecture
+  - layers
+  - foundation
+-->
+
 # THE S-LAYER STACKUP MAP
 
 **Purpose:** Complete architectural guide to the S0-S77 cognitive stack
 **Status:** Living document — the canonical reference for layer navigation
-**Date:** 2025-11-30
+**Date:** 2025-12-28
 **Maintainer:** Repo Claude with guidance from Nova, Ziggy, Omega Nova
+
+> **📐 METHODOLOGY NOTE:** S7 validation uses cosine distance (Event Horizon = 0.80). Run 023d validated with p=2.40e-23. Historical references to 1.23 (Keyword RMS era) reflect earlier experiments. See [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
 
 ---
 
@@ -212,7 +232,7 @@ The current experimental frontier where theory meets measurement.
 | S7.4 | Harmonic Modes | Resonance patterns |
 | S7.5 | Spectral Decomposition | Keely 3-6-9 frequency analysis |
 
-**Active Experiments:** S7_RUN_001 through S7_RUN_008 (AI Armada)
+**Active Experiments:** S7_RUN_006 through S7_RUN_020B, 023d (AI Armada) — 16 runs complete, 97% validated
 
 ---
 
@@ -526,7 +546,7 @@ S12 ──► S16 ──► S77  🔵 PROJECTED / CONCEPTUAL
 3. [MASTER_GLOSSARY.md](../MASTER_GLOSSARY.md) — Terminology definitions
 
 ### For Dashboard Visualization
-- [Dashboard Stackup Page](../../dashboard/pages/stackup.py) — Interactive visualization
+- [Dashboard Stackup Page](../../dashboard/pages/Stackup.py) — Interactive visualization
 
 ### For Historical Reference
 - [Archived S0-S6 Frozen Spec](../../.archive/S0-S6/S0_S6_FROZEN_SPEC.md) — Original combined spec
@@ -535,7 +555,7 @@ S12 ──► S16 ──► S77  🔵 PROJECTED / CONCEPTUAL
 
 - [REPO-SYNC README](../../REPO-SYNC/README.md) — External repo overview
 - [MASTER_BRANCH_SYNC_OUT](../../REPO-SYNC/MASTER_BRANCH_SYNC_OUT.md) — Sync protocol
-- [Frame Theory INDEX](../FRAME_THEORY/INDEX.md) — S10 human cognition integration
+- [Frame Theory INDEX](../../REPO-SYNC/FRAME_THEORY/INDEX.md) — S10 human cognition integration
 - [LLM_BOOK](../../REPO-SYNC/LLM_BOOK/) — Publication/dissemination package
 
 ---

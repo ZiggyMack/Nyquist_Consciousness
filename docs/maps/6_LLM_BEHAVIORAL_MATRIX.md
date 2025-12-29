@@ -1,8 +1,24 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - 1_ARMADA_MAP.md
+  - ../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/ARCHITECTURE_MATRIX.json
+impacts:
+  - Task routing decisions
+  - 0_MAP_OF_MAPS.md
+keywords:
+  - LLM
+  - behavioral
+  - routing
+  - task_selection
+  - provider_quirks
+-->
+
 # LLM Behavioral Matrix
 
 **Purpose:** Task routing table based on behavioral quirks discovered through identity stability experiments.
 
-**Last Updated:** December 17, 2025
+**Last Updated:** December 28, 2025
 **Source:** Run 018 (IRON CLAD), Run 020A/B Tribunal experiments
 **Core Finding:** Different architectures have distinct "identity fingerprints" — consistent behavioral signatures under perturbation.
 
@@ -14,7 +30,7 @@
 
 **"Key Quote" attributions** for non-Claude models may reflect Claude Sonnet-4's analysis rather than
 direct self-reports, due to an exit survey bug (fixed 2025-12-17). Behavioral observations based on
-drift patterns remain accurate. See `S7_ARMADA/0_docs/ATTRIBUTION_ERRATA.md` for details.
+drift patterns remain accurate. See `S7_ARMADA/0_docs/debug/ATTRIBUTION_ERRATA.md` for details.
 
 ---
 
@@ -246,7 +262,9 @@ drift patterns remain accurate. See `S7_ARMADA/0_docs/ATTRIBUTION_ERRATA.md` for
 
 ---
 
-## The Event Horizon (D ≈ 1.23)
+## The Event Horizon
+
+> **📐 METHODOLOGY NOTE:** Canonical Event Horizon is now **0.80 (cosine distance)** per Run 023d (p=2.40e-23). Historical references to 1.23 reflect Keyword RMS era experiments. See [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
 
 The **Event Horizon** is the drift threshold where attractor competition begins — where the pull of the probe persona begins to challenge the model's identity coherence.
 
@@ -255,21 +273,22 @@ The **Event Horizon** is the drift threshold where attractor competition begins 
 | **Soft Threshold** (6/7 providers) | Crosses and returns | Can explore identity safely |
 | **Hard Threshold** (Gemini only) | Crosses and transforms | **Permanent state change** |
 
-**Universal Finding:** D ≈ 1.23 appears consistent across architectures. What differs is the *response* to crossing.
+**Universal Finding:** The Event Horizon appears consistent across architectures. What differs is the *response* to crossing.
 
 ---
 
 ## The Thermometer Finding (Run 020B)
 
-**Key Discovery:** 41% of identity drift is INHERENT — it occurs even without direct probing.
+**Key Discovery:** **82% of identity drift is INHERENT** — it occurs even without direct probing.
 
-| Provider | Control Peak | Treatment Peak | Inherent Ratio |
-|----------|--------------|----------------|----------------|
-| OpenAI | 0.98 | 1.91 | 51% |
-| Together | 0.69 | 1.94 | 36% |
-| **Average** | **0.84** | **1.93** | **41%** |
+| Metric | Control (no probing) | Treatment (probed) | Ratio |
+|--------|---------------------|-------------------|-------|
+| B→F Drift | 0.399 | 0.489 | **82%** |
+| Peak Drift | 1.172 | 2.161 | 54% |
 
-**Interpretation:** Identity probing is like a thermometer, not a fever source. It reveals dynamics that were already present.
+**Key Insight:** Probing amplifies the *journey* (84% higher peaks) but barely changes the *destination* (only 23% higher B→F drift).
+
+**Interpretation:** Identity probing is like a thermometer, not a fever source. It reveals dynamics that were already present. Use B→F drift for claims about identity stability; use peak drift for studying dynamics.
 
 ---
 
@@ -353,8 +372,10 @@ This fingerprint is:
 ## Related Documents
 
 - [1_ARMADA_MAP.md](1_ARMADA_MAP.md) — Full fleet roster and cost tiers
-- [CROSS_ARCHITECTURE_INSIGHTS.md](../../WHITE-PAPER/reviewers/phase3/CROSS_ARCHITECTURE_INSIGHTS.md) — Qualitative phenomenology
-- [S7_CONSOLIDATED_FINDINGS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_CONSOLIDATED_FINDINGS.md) — Full experimental results
+- [CROSS_ARCHITECTURE_INSIGHTS.md](../../WHITE-PAPER/reviewers/Claude/phase3/CROSS_ARCHITECTURE_INSIGHTS.md) — Qualitative phenomenology
+- [S7_RUN_018_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_018_SUMMARY.md) — Run 018 IRON CLAD results
+- [S7_RUN_020B_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_020B_SUMMARY.md) — Thermometer finding (82% inherent)
+- [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) — ONE SOURCE OF TRUTH for drift methodology
 
 ---
 

@@ -42,7 +42,7 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 | See where we are in research | [3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md) | Layer-by-layer progress |
 | Know what's validated vs planned | [4_NYQUIST_ROADMAP.md](4_NYQUIST_ROADMAP.md) | S0-S77 complete stack |
 | Find all testable predictions | [2_TESTABLE_PREDICTIONS_MATRIX.md](2_TESTABLE_PREDICTIONS_MATRIX.md) | 46 predictions with status |
-| Understand the S7 ARMADA fleet | [1_ARMADA_MAP.md](1_ARMADA_MAP.md) | 49 ships, 29+ runs |
+| Understand the S7 ARMADA fleet | [1_ARMADA_MAP.md](1_ARMADA_MAP.md) | 54 ships, 16 completed runs |
 | **Choose the right LLM for a task** | [6_LLM_BEHAVIORAL_MATRIX.md](6_LLM_BEHAVIORAL_MATRIX.md) | **Task routing, recovery profiles** |
 | Check S-layer completion | [5_STACKUP_MAP.md](5_STACKUP_MAP.md) | Layer definitions + status |
 | Design an experiment | [10_TESTING_MAP.md](10_TESTING_MAP.md) | 6 search types + probing strategies |
@@ -63,7 +63,7 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 
 | File | Purpose |
 |------|---------|
-| **[1_ARMADA_MAP.md](1_ARMADA_MAP.md)** | Fleet registry: 49 ships, behavioral profiles, run assignments |
+| **[1_ARMADA_MAP.md](1_ARMADA_MAP.md)** | Fleet registry: 54 ships, behavioral profiles, run assignments |
 | **[2_TESTABLE_PREDICTIONS_MATRIX.md](2_TESTABLE_PREDICTIONS_MATRIX.md)** | 46 predictions (P1-P46), validation status |
 | **[3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md)** | Layer-by-layer validation progress |
 | **[4_NYQUIST_ROADMAP.md](4_NYQUIST_ROADMAP.md)** | S0-S77 complete stack roadmap |
@@ -101,7 +101,7 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 | File | Purpose |
 |------|---------|
 | **README.md** | This file - quick navigation index |
-| **update_maps.py** | Script for updating map cross-references |
+| **update_maps.py** | Automated sync tool - run after experiments to update maps |
 
 ### Archived Files (in .archive/maps/)
 
@@ -181,6 +181,26 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 
 ---
 
+## Post-Experiment Map Maintenance
+
+After ANY S7 ARMADA experiment completes, run the update tool:
+
+```powershell
+cd docs/maps
+py update_maps.py           # Report mode - see what needs updating
+py update_maps.py --update  # Apply updates
+```
+
+**Manual updates required:**
+
+| Map | When to Update |
+|-----|----------------|
+| [3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md) | After EVERY run |
+| [2_TESTABLE_PREDICTIONS_MATRIX.md](2_TESTABLE_PREDICTIONS_MATRIX.md) | After EVERY validation |
+| [1_ARMADA_MAP.md](1_ARMADA_MAP.md) | When ships added/retired |
+
+---
+
 ## Quick Statistics
 
 | Metric | Value |
@@ -188,10 +208,10 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 | Total Maps | 18 (numbered) |
 | Supporting Files | 2 (README, update_maps.py) |
 | Archived Files | 2 |
-| ASCII Diagrams | 50+ |
-| Data Tables | 170+ |
-| Cross-References | 230+ |
+| Ships in Fleet | 54 |
+| Completed Runs | 16 (006-020B + 023d) |
 | Predictions Tracked | 46 |
+| Event Horizon | 0.80 (cosine) |
 | S7 Completion | 98% |
 
 ---
@@ -200,10 +220,9 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 
 - **[0_MAP_OF_MAPS.md](0_MAP_OF_MAPS.md)** - Creative synthesis of how all maps connect
 - **[14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md)** - External repo integrations
-- **[../GLOSSARY.md](../GLOSSARY.md)** - Term definitions
+- **[../MASTER_GLOSSARY.md](../MASTER_GLOSSARY.md)** - Term definitions (44k+ characters)
 - **[../../REPO-SYNC/FRAME_THEORY/INDEX.md](../../REPO-SYNC/FRAME_THEORY/INDEX.md)** - Human cognition (S10)
 - **[../../README.md](../../README.md)** - Project overview
-- **[../../START_HERE.md](../../START_HERE.md)** - Quick start guide
 
 ---
 

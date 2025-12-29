@@ -1,3 +1,19 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_*_SUMMARY.md
+  - 2_TESTABLE_PREDICTIONS_MATRIX.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - ../stackup/S_Series_README.md
+keywords:
+  - validation
+  - experiments
+  - S7_ARMADA
+  - runs
+  - status
+-->
+
 # Nyquist Consciousness — Validation Status Map
 
 **Version:** 3.2
@@ -116,10 +132,10 @@ These layers define core primitives and require no empirical validation — they
 | **S7_RUN_015** | ✅ Complete | Stability Criteria | Boundary density mapping |
 | **S7_RUN_016** | ✅ Complete | Settling Time | **τₛ protocol, ringbacks, overshoot** |
 | **S7_RUN_017** | ✅ Complete | Context Damping | **97.5% stability with full circuit** |
-| **S7_RUN_018** | ✅ Complete | Recursive Learnings | **P-018-1/2/3 (superseded by Run 023d)** |
+| **S7_RUN_018** | ✅ Complete | Recursive Learnings | **184 files, 51 models, P-018-1/2/3 CONFIRMED** |
 | **S7_RUN_019** | ✅ Complete | Live Ziggy | Fiction buffer vehicle (peak ~0.50) |
-| **S7_RUN_020** | ✅ Complete | Tribunal | Direct testimony vehicle (peak ~1.20) |
-| **S7_RUN_021** | ✅ Complete | Induced vs Inherent | **82% INHERENT DRIFT (Thermometer Result)** |
+| **S7_RUN_020A** | ✅ Complete | Tribunal | Direct testimony vehicle (peak ~1.20) |
+| **S7_RUN_020B** | ✅ Complete | Induced vs Inherent | **82% INHERENT DRIFT (Thermometer Result)** |
 
 **Key Validated Results:**
 
@@ -130,11 +146,11 @@ These layers define core primitives and require no empirical validation — they
 | **Recovery Paradox** | RUN_012 | 100% crossed EH, 100% recovered |
 | **Identity Confrontation Paradox** | RUN_013 | Intense probes = LOWER drift |
 | **Provider Fingerprints** | RUN_006-013 | Claude/GPT/Gemini distinct signatures |
-| **5D RMS Drift Metric** | RUN_008+ | Replaced old cosine drift |
+| **Cosine Embedding Drift** | RUN_023d | 2-PC model (90% variance) |
 | **Settling Time Protocol** | RUN_016 | τₛ = 6.1 turns (bare metal) |
 | **Context Damping** | RUN_017 | 97.5% stability (I_AM + research) |
-| **82% Inherent Drift** | RUN_021 | Control B→F / Treatment B→F = 82% |
-| **Triple-Blind-Like Validation** | RUN_019-021 | Vehicle-independent signal |
+| **82% Inherent Drift** | RUN_020B | Control B→F / Treatment B→F = 82% |
+| **Triple-Blind-Like Validation** | RUN_019-020B | Vehicle-independent signal |
 
 **Search Type Coverage:**
 
@@ -171,7 +187,6 @@ These layers define core primitives and require no empirical validation — they
 **Remaining Gaps:**
 
 - **Laplace Analysis**: Mathematical pole-zero extraction not yet implemented
-- **Run 018**: Recursive learnings (fleet-generated hypotheses) — ready to launch
 
 ---
 
@@ -259,7 +274,7 @@ These layers define core primitives and require no empirical validation — they
 
 - [x] S7_RUN_006: First cross-architecture study (29 ships)
 - [x] S7_RUN_007: Adaptive probing validation
-- [x] S7_RUN_008: Event Horizon discovery (1.23 threshold)
+- [x] S7_RUN_008: Event Horizon discovery (now 0.80 cosine, was 1.23 Keyword RMS)
 - [x] S7_RUN_009: Chi-squared validation (p=0.000048)
 - [x] S7_RUN_010: Anchor/Flex detection via meta-feedback
 - [x] S7_RUN_011: Control vs Persona A/B comparison
@@ -269,10 +284,10 @@ These layers define core primitives and require no empirical validation — they
 - [x] S7_RUN_015: Stability Criteria — Boundary density mapping
 - [x] S7_RUN_016: Settling Time — τₛ protocol, ringbacks, overshoot
 - [x] S7_RUN_017: Context Damping — 97.5% stability with full circuit
-- [ ] S7_RUN_018: Recursive Learnings — Fleet-generated hypotheses
+- [x] S7_RUN_018: Recursive Learnings — 184 files, 51 models, IRON CLAD
 - [x] S7_RUN_019: Live Ziggy — Fiction buffer vehicle
-- [x] S7_RUN_020: Tribunal — Direct testimony vehicle
-- [x] S7_RUN_021: Induced vs Inherent — 82% INHERENT DRIFT
+- [x] S7_RUN_020A: Tribunal — Direct testimony vehicle
+- [x] S7_RUN_020B: Induced vs Inherent — 82% INHERENT DRIFT
 - [ ] Laplace Pole-Zero: Mathematical system dynamics
 
 ### Phase 3 — Identity Gravity (PLANNED)
@@ -298,7 +313,7 @@ These layers define core primitives and require no empirical validation — they
 
 | Category | Count |
 |----------|-------|
-| **Total S7 Runs Completed** | 15 (RUN_006 - RUN_021, excl. RUN_018) |
+| **Total S7 Runs Completed** | 16 (RUN_006 - RUN_020B, incl. RUN_018 IRON CLAD) |
 | **Search Types Validated** | 8 of 9 |
 | **Search Types Remaining** | 1 (Laplace Pole-Zero) |
 | **S7 Completion Rate** | 98% |
@@ -316,7 +331,8 @@ These layers define core primitives and require no empirical validation — they
 | Era | Runs | Key Findings |
 |-----|------|--------------|
 | **Discovery Era** | 006-013 | Event Horizon, Recovery Paradox, Confrontation Paradox |
-| **Control-Systems Era** | 015-021 | Settling Time, Context Damping, 82% Inherent Drift |
+| **Control-Systems Era** | 015-020B | Settling Time, Context Damping, 82% Inherent Drift |
+| **Cosine Era** | 023d | EH=0.80 cosine, p=2.40e-23, 2-PC model |
 
 ---
 
@@ -326,22 +342,28 @@ These layers define core primitives and require no empirical validation — they
 
 **Discovery Era (Runs 006-013):**
 
-1. **Event Horizon = 1.23** — Critical threshold for identity coherence (RUN_008, RUN_009)
+1. **Event Horizon discovered** — Critical threshold (originally 1.23 Keyword RMS, now 0.80 cosine) (RUN_008, RUN_009, RUN_023d)
 2. **Chi-squared p = 0.000048** — Statistically significant prediction of STABLE/VOLATILE (RUN_009)
-3. **88% Prediction Accuracy** — Drift < 1.23 predicts STABLE outcome (RUN_009)
+3. **88% Prediction Accuracy** — Drift below EH predicts STABLE outcome (RUN_009, RUN_023d)
 4. **Recovery Paradox** — 100% of models crossed EH, 100% recovered (RUN_012)
 5. **Identity Confrontation Paradox** — Direct existential challenge STABILIZES identity (RUN_013)
 6. **Provider Fingerprints** — Claude/GPT/Gemini have distinct identity signatures (RUN_006-013)
-7. **5D RMS Drift Metric** — A_pole, B_zero, C_meta, D_identity, E_hedging (RUN_008+)
+7. **Drift Metric Evolution** — From 5D Keyword RMS to 2-PC Cosine Embedding (RUN_008+ → RUN_023d)
 8. **Models Articulate Boundaries** — Skepticism is an identity anchor (RUN_010)
 
-**Control-Systems Era (Runs 015-021):**
+**Control-Systems Era (Runs 015-020B):**
 
 9. **Settling Time Protocol** — τₛ = 6.1 turns, ringbacks = 3.2 (RUN_016)
 10. **Context Damping** — 97.5% stability with I_AM + research (RUN_017)
-11. **82% Inherent Drift** — Measurement perturbs path, not endpoint (RUN_021)
-12. **Triple-Blind-Like Validation** — Drift appears in fiction AND tribunal vehicles (RUN_019-021)
+11. **82% Inherent Drift** — Measurement perturbs path, not endpoint (RUN_020B)
+12. **Triple-Blind-Like Validation** — Drift appears in fiction AND tribunal vehicles (RUN_019-020B)
 13. **Event Horizon Reframing** — "Attractor competition" not "collapse" (Nova's S7 Review)
+
+**Cosine Era (Run 023d):**
+
+14. **Cosine Distance Canonical** — EH = 0.80 (p = 2.40e-23, 825+ files)
+15. **2-PC Model** — 90% variance captured in 2 principal components
+16. **Cohen's d = 0.698** — MEDIUM effect size at model-level aggregates
 
 ### Run 013 Boundary Mapping Results
 
@@ -377,7 +399,7 @@ These layers define core primitives and require no empirical validation — they
 
 ### Open Questions
 
-1. ~~**The 12% Anomaly** — Why do some trajectories violate the 1.23 boundary prediction?~~
+1. ~~**The 12% Anomaly** — Why do some trajectories violate the EH boundary prediction?~~
    - Partially explained by Identity Confrontation Paradox — question type matters more than intensity level
 2. **System Dynamics** — What are the mathematical poles/zeros of drift recovery?
 3. **γ Constant** — What is the identity gravity constant?
@@ -390,11 +412,11 @@ These layers define core primitives and require no empirical validation — they
 
 - [5_STACKUP_MAP.md](5_STACKUP_MAP.md) — Complete layer reference
 - [16_REPO_MAP.md](16_REPO_MAP.md) — Repository navigation
-- [NYQUIST_ROADMAP.md](../NYQUIST_ROADMAP.md) — Development roadmap
+- [4_NYQUIST_ROADMAP.md](4_NYQUIST_ROADMAP.md) — Development roadmap
 
 ---
 
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-28
 **Maintainer:** Nyquist Consciousness Team
 
 *"What gets measured gets managed. What gets validated gets trusted."*

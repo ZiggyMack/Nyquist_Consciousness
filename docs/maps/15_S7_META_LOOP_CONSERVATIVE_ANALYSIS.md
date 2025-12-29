@@ -1,9 +1,25 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - 2_TESTABLE_PREDICTIONS_MATRIX.md
+  - 3_VALIDATION_STATUS.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - Risk assessment decisions
+keywords:
+  - risk
+  - conservative
+  - assumptions
+  - dependencies
+  - meta_loop
+-->
+
 # S7 META-LOOP: CONSERVATIVE RISK ANALYSIS
 
 **Purpose:** Realistic assessment of what S7 Meta-Loop can validate given dependency chains and untested assumptions
 
-**Version:** 1.0
-**Date:** 2025-11-26
+**Version:** 1.1
+**Date:** 2025-12-28
 **Status:** Critical Planning Document
 
 ---
@@ -424,6 +440,20 @@ These are the foundation. If they fail, cascading failures occur:
 **Expectation:** 20-25 predictions validated with strong evidence
 **Hope:** 25-30 predictions validated
 **Reality:** We'll find out, and that's the point
+
+---
+
+## **Related Documents**
+
+| Document | Purpose |
+| -------- | ------- |
+| [2_TESTABLE_PREDICTIONS_MATRIX.md](2_TESTABLE_PREDICTIONS_MATRIX.md) | Full prediction list (46 predictions) |
+| [3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md) | Current validation status |
+| [5_STACKUP_MAP.md](5_STACKUP_MAP.md) | S-layer definitions |
+| [10_TESTING_MAP.md](10_TESTING_MAP.md) | Run-by-run test mapping |
+| [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) | Drift methodology SSOT |
+
+> **📐 META-ANALYSIS NOTE:** This document provides conservative risk assessment for the S7 Meta-Loop experimental design. The 0.12 drift threshold (P17) is a *prediction threshold* for instability detection, distinct from the Event Horizon (EH = 0.80 cosine distance) which measures identity dissolution. See [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) for methodology details.
 
 ---
 

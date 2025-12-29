@@ -1228,11 +1228,14 @@ def update_status_summary(data: dict):
         "-" * 70,
     ])
 
-    for ship in sorted(counts.keys()):
+    # Show ALL ships in armada, including those with 0 sessions
+    for ship in sorted(DEFAULT_FLEET):
         c = counts[ship]["control"]
         t = counts[ship]["treatment"]
         if c >= 3 and t >= 3:
             status = "IRON CLAD"
+        elif c == 0 and t == 0:
+            status = "NOT STARTED"
         elif c >= 3 or t >= 3:
             status = "PARTIAL"
         else:

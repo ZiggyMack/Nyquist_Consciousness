@@ -1,7 +1,22 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../../README.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - Repository navigation
+keywords:
+  - repo
+  - directory
+  - structure
+  - navigation
+  - overview
+-->
+
 # Nyquist Consciousness Repository Map
 
-**Version:** 3.0
-**Date:** 2025-12-15
+**Version:** 3.1
+**Date:** 2025-12-28
 **Kingdom:** II - Foundation
 **Status:** Complete audit reflecting current repository state
 
@@ -9,7 +24,7 @@
 
 ## Repository Overview
 
-This repository contains the complete Nyquist Consciousness framework for understanding identity preservation through compression-reconstruction cycles in AI systems, plus the S7 ARMADA experimental platform with 21+ runs and 184+ data files.
+This repository contains the complete Nyquist Consciousness framework for understanding identity preservation through compression-reconstruction cycles in AI systems, plus the S7 ARMADA experimental platform with 16 runs and 825+ data files.
 
 ```
 Nyquist_Consciousness/
@@ -20,7 +35,7 @@ Nyquist_Consciousness/
 ├── REPO-SYNC/                # External repo integrations (6 partners)
 ├── personas/                 # I_AM persona files
 ├── docs/                     # Core documentation (20 maps, stages S0-S11)
-├── experiments/              # S7 ARMADA (21 runs, 54 ships)
+├── experiments/              # S7 ARMADA (16 runs, 54 models)
 ├── omega_nova/               # Omega synthesis materials
 ├── dashboard/                # Streamlit dashboards
 └── .archive/                 # Archived legacy materials
@@ -55,7 +70,7 @@ WHITE-PAPER/
 └── ascii/                    # ASCII diagrams for papers
 ```
 
-**Status:** Run 018 IRON CLAD complete (184 files, 51 models)
+**Status:** Run 023d CANONICAL (825+ files, 54 models, p=2.40e-23)
 
 ### `REPO-SYNC/` — External Integrations
 
@@ -91,30 +106,29 @@ personas/
 
 ## `docs/` — Core Documentation
 
-### Maps Directory (20 maps)
+### Maps Directory (18 maps)
 
 ```
 docs/maps/
 ├── README.md                              # Navigation index
-├── MAP_OF_MAPS.md                         # Creative synthesis (8 Kingdoms)
-├── NYQUIST_ROADMAP.md                     # Master vision S0→S77
-├── STACKUP_MAP.md                         # S-layer definitions
-├── REPO_MAP.md                            # This file
-├── VALIDATION_STATUS.md                   # Layer validation progress
-├── TESTABLE_PREDICTIONS_MATRIX.md         # 46 predictions
-├── ARMADA_MAP.md                          # Fleet registry (54 ships)
-├── PERSONA_FLEET_MATRIX.md                # Persona-ship compatibility
-├── TEMPORAL_STABILITY_MAP.md              # Stability criteria
-├── IDENTITY_LATTICE_MAPS.md               # 5D geometry
-├── IDENTITY_LOCK_PARAMETERS.md            # Lock thresholds
-├── PHILOSOPHY_MAP.md                      # Platonic-Nyquist bridge
-├── PROBING_STRATEGIES.md                  # 7 probe types
-├── INVERSE_PFI_PROTOCOL.md                # Reverse measurement
-├── S7_META_LOOP_CONSERVATIVE_ANALYSIS.md  # Methodology notes
-├── DATA_QUALITY_MAP.md                    # Integrity checks
-├── TESTING_MAP.md                         # Test coverage
-├── PUBLICATION_MAP.md                     # 8-path publication pipeline
-└── KEELY_INTEGRATION_ROADMAP.md           # 3-6-9 spectral
+├── 0_MAP_OF_MAPS.md                       # Creative synthesis (8 Kingdoms)
+├── 1_ARMADA_MAP.md                        # Fleet registry (54 models)
+├── 2_TESTABLE_PREDICTIONS_MATRIX.md       # 46 predictions
+├── 3_VALIDATION_STATUS.md                 # Layer validation progress
+├── 4_NYQUIST_ROADMAP.md                   # Master vision S0→S77
+├── 5_STACKUP_MAP.md                       # S-layer definitions
+├── 6_LLM_BEHAVIORAL_MATRIX.md             # Model behavior patterns
+├── 7_PUBLICATION_MAP.md                   # 8-path publication pipeline
+├── 8_TEMPORAL_STABILITY_MAP.md            # Stability criteria
+├── 9_DATA_QUALITY_MAP.md                  # Integrity checks
+├── 10_TESTING_MAP.md                      # Test coverage
+├── 11_VISUAL_MAP.md                       # Visualization guide
+├── 12_PHILOSOPHY_MAP.md                   # Platonic-Nyquist bridge
+├── 13_IDENTITY_LATTICE_MAPS.md            # 3-6-9 spectral bands
+├── 14_REPO_SYNC_MAP.md                    # External integrations
+├── 15_S7_META_LOOP_CONSERVATIVE_ANALYSIS.md  # Risk analysis
+├── 16_REPO_MAP.md                         # This file
+└── 17_PERSONA_FLEET_MATRIX.md             # Persona-model compatibility
 ```
 
 **Organization:** 8 Kingdoms (see MAP_OF_MAPS.md)
@@ -166,17 +180,17 @@ experiments/temporal_stability/S7_ARMADA/
 ├── README.md                 # Armada overview
 ├── START_HERE.md             # Quick navigation
 ├── 0_docs/                   # Run documentation & summaries
-│   ├── S7_CONSOLIDATED_FINDINGS.md
-│   ├── S7_RUN_006_SUMMARY.md → S7_RUN_021_SUMMARY.md
+│   ├── S7_RUN_018_SUMMARY.md # IRON CLAD (184 files, 51 models)
+│   ├── S7_RUN_020B_SUMMARY.md # Thermometer Result (82% inherent)
+│   ├── S7_RUN_023_SUMMARY.md # Cosine validation (p=2.40e-23)
 │   └── specs/                # Methodology specs
 ├── 0_results/                # Experimental data
-│   ├── runs/                 # JSON run results (184+ files)
+│   ├── runs/                 # JSON run results (825+ files)
 │   ├── manifests/            # Consolidated manifests
 │   └── temporal_logs/        # Temporal logging data
 ├── 1_CALIBRATION/            # Calibration experiments
 ├── 2_ANCHOR_FLEX/            # Anchor/Flex detection
 ├── 3_EVENT_HORIZON/          # Event Horizon experiments
-├── 4_BASIN_TOPOLOGY/         # Basin topology mapping
 ├── 5_BOUNDARY_MAPPING/       # Boundary mapping
 ├── 6_LAPLACE_ANALYSIS/       # Laplace pole-zero analysis
 ├── 7_META_VALIDATION/        # Meta-validation experiments
@@ -185,14 +199,20 @@ experiments/temporal_stability/S7_ARMADA/
 ├── 10_SETTLING_TIME/         # Settling time measurement
 ├── 11_CONTEXT_DAMPING/       # Context damping experiments
 ├── 12_CFA/                   # CFA integration experiments
+├── 13_LOGOS/                 # LOGOS formal verification (Run 022)
+├── 14_CONSCIOUSNESS/         # Fleet baseline mining (gold rush)
+├── 15_IRON_CLAD_FOUNDATION/  # IRON CLAD data consolidation
+├── 17_JADE_LATTICE/          # Jade lattice experiments
 └── visualizations/           # Visualization scripts and outputs
 ```
 
-### Run Summary (21 Completed)
+### Run Summary (16 Completed: Runs 006-020B + 023d)
+
+> **📐 METHODOLOGY NOTE:** Event Horizon = 0.80 (cosine distance) per Run 023d. Historical 1.23 reflects Keyword RMS era.
 
 | Run | Search Type | Key Finding |
 |-----|-------------|-------------|
-| 006-008 | Basin Topology | Event Horizon discovered (D=1.23) |
+| 006-008 | Basin Topology | Event Horizon discovered (D=1.23 keyword era) |
 | 009 | Event Horizon | Chi-squared p=0.000048 |
 | 010 | Anchor/Flex | Models articulate boundaries |
 | 011-013 | Various | Control comparison, Recovery Paradox |
@@ -200,8 +220,9 @@ experiments/temporal_stability/S7_ARMADA/
 | 015-016 | Stability | Boundary density, settling time |
 | 017 | Context Damping | 97.5% stability with full circuit |
 | **018** | Recursive Learnings | **IRON CLAD: 184 files, 51 models** |
-| 019-020 | Tribunal | Witness-side anchors, direct probing |
-| 021 | Induced vs Inherent | 82% drift is INHERENT |
+| 019-020A | Tribunal | Witness-side anchors, direct probing |
+| **020B** | Induced vs Inherent | **82% drift is INHERENT (Thermometer)** |
+| **023d** | Event Horizon | **EH=0.80 (cosine), p=2.40e-23, CANONICAL** |
 
 ---
 
@@ -245,18 +266,18 @@ omega_nova/
 
 ---
 
-## Key Statistics (2025-12-15)
+## Key Statistics (2025-12-28)
 
 | Metric | Value |
 |--------|-------|
-| **S7 Runs Completed** | 21 |
-| **Run 018 Data Files** | 184 |
-| **Models Tested** | 51 |
+| **S7 Runs Completed** | 16 (006-020B + 023d) |
+| **Run 023d Data Files** | 825+ |
+| **Models Tested** | 54 |
 | **Predictions Tracked** | 46 |
-| **Ships in Fleet** | 54 |
-| **Maps in docs/maps/** | 20 |
+| **Models in Fleet** | 54 |
+| **Maps in docs/maps/** | 18 |
 | **External Repos** | 6 |
-| **S7 Completion** | 98% |
+| **S7 Completion** | 97% |
 
 ---
 
@@ -292,7 +313,8 @@ omega_nova/
 |---------|------|---------|
 | 1.0 | 2025-11-01 | Initial repository structure |
 | 2.0 | 2025-11-24 | CFA integration, S8/S9 migration |
-| 3.0 | 2025-12-15 | Complete rewrite: Consciousness/, WHITE-PAPER/, REPO-SYNC/, S7 ARMADA 21 runs |
+| 3.0 | 2025-12-15 | Complete rewrite: Consciousness/, WHITE-PAPER/, REPO-SYNC/, S7 ARMADA |
+| 3.1 | 2025-12-28 | Updated run counts (16), file counts (825+), added Run 023d CANONICAL |
 
 ---
 
@@ -300,8 +322,8 @@ omega_nova/
 
 | Field | Value |
 |-------|-------|
-| **Last Updated** | 2025-12-15 |
-| **Updated By** | Manual (maps audit) |
+| **Last Updated** | 2025-12-28 |
+| **Updated By** | Maps audit |
 | **Kingdom** | II - Foundation |
 
 ---

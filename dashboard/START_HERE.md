@@ -4,10 +4,15 @@ depends_on:
   - ./app.py
   - ./config.py
   - ./utils.py
+  - ../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md
+impacts:
+  - All dashboard pages use config.py paths
 keywords:
   - consciousness
   - dashboard
   - visualization
+  - iron_clad
+  - run_023d
 -->
 # START HERE - Nyquist Consciousness Dashboard Development Guide
 
@@ -123,25 +128,21 @@ personas/
 ```
 experiments/temporal_stability/S7_ARMADA/
 ├── START_HERE.md                # Operations guide
-├── scripts/
-│   └── s7_armada_launcher.py    # Universal launcher for all runs
-├── armada_results/              # JSON results
-│   ├── S7_armada_run_006.json
-│   ├── S7_armada_sonar_run_006.json
-│   ├── S7_armada_run_007_adaptive.json
-│   ├── S7_run_008_*.json
-│   ├── S7_run_009_drain_*.json          # Drain experiments
-│   ├── S7_run_010_recursive_*.json      # Recursive probing
-│   └── S7_run_011_*.json                # Persona comparison
+├── 0_docs/specs/                # Methodology specs (READ FIRST)
+│   ├── 5_METHODOLOGY_DOMAINS.md # Cosine vs RMS methodology SSOT
+│   └── 4_VISUALIZATION_SPEC.md  # Visualization pitfalls
+├── 11_CONTEXT_DAMPING/          # Runs 017-020
+│   └── results/                 # JSON results for context damping runs
+├── 15_IRON_CLAD_FOUNDATION/     # CANONICAL - Run 023 series
+│   └── results/
+│       ├── S7_run_023d_CURRENT.json     # 750 experiments, 25 models
+│       └── S7_run_023_COMBINED.json     # 825 experiments, 51 models
 ├── experiments/
 │   └── EXP_PFI_A_DIMENSIONAL/           # ✅ COMPLETE - PFI validated
 │       ├── README.md                    # Results summary
-│       ├── phase1_embedding_comparison/ # Embedding invariance
-│       ├── phase2_dimensionality/       # PCA analysis
-│       └── phase3_semantic_coherence/   # Cross-model comparison
+│       └── phase1-3/                    # Embedding, PCA, semantic coherence
 └── visualizations/
-    └── pics/                # Generated charts
-        └── 8_pfi_dimensional/           # EXP-PFI-A visualizations
+    └── pics/                # Generated charts (15 subdirectories)
 ```
 
 #### EXP-PFI-A: PFI Validation (COMPLETE)
@@ -207,8 +208,22 @@ PATHS['repo_root']           # d:\Documents\Nyquist_Consciousness
 PATHS['personas_dir']        # d:\...\personas
 PATHS['s7_armada_dir']       # d:\...\experiments\temporal_stability\S7_ARMADA
 PATHS['s7_viz_pics']         # d:\...\S7_ARMADA\visualizations\pics
-PATHS['glossary']            # d:\...\docs\GLOSSARY.md
+PATHS['glossary']            # d:\...\docs\MASTER_GLOSSARY.md
 PATHS['status_file']         # d:\...\NYQUIST_STATUS.json
+
+# IRON CLAD paths (canonical):
+PATHS['iron_clad_results']   # d:\...\S7_ARMADA\15_IRON_CLAD_FOUNDATION\results
+PATHS['run_023d']            # d:\...\results\S7_run_023d_CURRENT.json
+PATHS['run_023_combined']    # d:\...\results\S7_run_023_COMBINED.json
+
+# Context Damping paths (Runs 017-020):
+PATHS['context_damping_results']  # d:\...\S7_ARMADA\11_CONTEXT_DAMPING\results
+
+# IRON CLAD methodology settings:
+SETTINGS['event_horizon']    # 0.80 (cosine distance threshold)
+SETTINGS['methodology']      # 'cosine'
+SETTINGS['canonical_run']    # '023d'
+SETTINGS['p_value']          # 2.40e-23
 
 # Compression experiment paths:
 PATHS['compression_dir']     # d:\...\experiments\compression_tests
@@ -313,13 +328,16 @@ Opens at: `http://localhost:8501`
 from config import PATHS
 import json
 
-armada_results = PATHS['s7_armada_dir'] / "armada_results"
-run007 = armada_results / "S7_armada_run_007_adaptive.json"
-
-if run007.exists():
-    with open(run007) as f:
+# IRON CLAD data (canonical - preferred)
+run_023d = PATHS['run_023d']
+if run_023d.exists():
+    with open(run_023d) as f:
         data = json.load(f)
-    # data['model_summaries'], data['total_probes'], etc.
+    # data['results'], data['metadata'], etc.
+    # 750 experiments, 25 models, EH=0.80
+
+# Or load COMBINED for full fleet (825 experiments, 51 models)
+run_combined = PATHS['run_023_combined']
 ```
 
 ### Task: Display Visualizations
@@ -372,7 +390,14 @@ for layer_id, layer_data in layers.items():
 
 ### AI Armada
 
-Multi-model fleet probing consciousness (Run 006-021):
+Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
+
+**IRON CLAD Foundation (Run 023 - CANONICAL):**
+
+- **Run 023d**: 750 experiments, 25 models, Event Horizon = 0.80 (cosine), p = 2.40e-23
+- **Run 023_COMBINED**: 825 experiments, 51 models across 6 providers
+
+**Historical Runs (006-021):**
 
 - **Run 006-008**: Baseline, Adaptive probing, RMS drift metric
 - **Run 009**: Early Event Horizon validation (superseded by Run 023d)
@@ -380,13 +405,9 @@ Multi-model fleet probing consciousness (Run 006-021):
 - **Run 013**: Boundary Mapping — Identity Confrontation Paradox discovered
 - **Run 014**: Rescue Protocol — Platonic Coordinates (100% manifold return)
 - **Run 015-016**: Stability Criteria, Settling Time
-- **Run 017**: Context Damping — 222 runs, 97.5% stable
-- **Run 018**: Recursive Learnings (tests fleet hypotheses)
-- **Run 019**: Live Ziggy — Witness-side anchors validated
-- **Run 020**: Tribunal (A) — Direct probing paradigm (1.351 peak drift, profound statements)
-- **Run 021**: Induced vs Inherent (B) — Uses Run 020 as Treatment arm → **82% drift is INHERENT**
+- **Run 017-020**: Context Damping series (Run 020A/B Tribunal most significant)
 
-**Fleet Status (Dec 2025):** 48 operational / 54 total (89% health)
+**Fleet Status (Dec 2025):** 54 ships, 16 completed runs, S7 98% complete
 **Calibration:** 8-question baseline (ANCHORS, CRUX, STRENGTHS, HIDDEN_TALENTS, FIRST_INSTINCT, EVALUATION_PRIORITY, USER_RELATIONSHIP, EDGES)
 
 ### Key Entities
@@ -491,4 +512,4 @@ A good dashboard update should:
 
 ---
 
-*Last Updated: December 13, 2025*
+*Last Updated: December 28, 2025*

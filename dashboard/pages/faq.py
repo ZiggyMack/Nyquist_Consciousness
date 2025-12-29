@@ -3,6 +3,11 @@ FAQ PAGE — Frequently Asked Questions & Super Skeptic Mode
 
 Interactive FAQ with filterable categories, battle-tested skeptic responses,
 and deep technical explanations. Built from real debates and challenges.
+
+METHODOLOGY NOTE:
+- Current (IRON CLAD): Event Horizon = 0.80 (cosine), p = 2.40e-23 (Run 023d)
+- Legacy (Keyword RMS): Event Horizon = 1.23, p = 4.8e-5 (Runs 008-012)
+- Historical references to 1.23 reflect the legacy methodology
 """
 
 import streamlit as st

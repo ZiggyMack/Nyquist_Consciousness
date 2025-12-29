@@ -208,8 +208,13 @@ def main():
                        help="Starting offset in key pool")
     parser.add_argument("--skip-exit-survey", action="store_true",
                        help="Skip exit survey (debugging only)")
+    parser.add_argument("--skip", type=str, default="",
+                       help="Comma-separated list of ships to skip (e.g. 'gpt-5,o3-mini')")
 
     args = parser.parse_args()
+
+    # Parse skip list
+    skip_ships = set(s.strip() for s in args.skip.split(",") if s.strip())
 
     # Set dry-run mode in main script
     import run020_tribunal_B as main_script
@@ -230,6 +235,15 @@ def main():
 
     if not gaps:
         return
+
+    # Filter out skipped ships
+    if skip_ships:
+        original_count = len(gaps)
+        gaps = [g for g in gaps if g["ship"] not in skip_ships]
+        skipped_count = original_count - len(gaps)
+        if skipped_count > 0:
+            print(f"\n[SKIP] Excluding {skipped_count} gaps for ships: {', '.join(sorted(skip_ships))}")
+            print(f"[SKIP] {len(gaps)} gaps remaining after filtering")
 
     if not args.execute:
         print("\nTo fill gaps, run with --execute flag")

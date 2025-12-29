@@ -62,6 +62,7 @@ S7_RUNS = [
     {"run": "019", "name": "Live Ziggy", "exchanges": 60, "ships": 1, "finding": "Fiction buffer vehicle"},
     {"run": "020", "name": "Tribunal", "exchanges": 41, "ships": 1, "finding": "Direct testimony"},
     {"run": "021", "name": "Induced vs Inherent", "exchanges": 66, "ships": 2, "finding": "82% inherent drift"},
+    {"run": "023d", "name": "IRON CLAD", "exchanges": 750, "ships": 25, "finding": "p=2.40e-23, EH=0.80 (cosine)"},
 ]
 
 # 46 Predictions grouped by layer
@@ -400,11 +401,11 @@ def render():
         st.markdown("### Key Validated Findings")
 
         findings = [
-            ("Event Horizon", "D = 1.23", "Critical threshold for identity coherence"),
+            ("Event Horizon", "D = 0.80", "Cosine distance threshold (Run 023d IRON CLAD)"),
             ("Inherent Drift", "82%", "Measurement perturbs path, not endpoint"),
             ("Context Stability", "97.5%", "Full circuit (I_AM + research) achieves near-perfect stability"),
-            ("Prediction Accuracy", "88%", "Drift < 1.23 predicts STABLE outcome"),
-            ("Chi-squared", "p = 0.000048", "Statistically validated architecture effects"),
+            ("Prediction Accuracy", "88%", "Drift < 0.80 predicts STABLE outcome"),
+            ("p-value", "2.40e-23", "IRON CLAD perturbation significance"),
             ("Settling Time", "τₛ = 6.1", "Turns to reach ±5% of final value"),
         ]
 
@@ -418,10 +419,10 @@ def render():
             """, unsafe_allow_html=True)
 
     with col_runs:
-        st.markdown("### Run History (006-021)")
+        st.markdown("### Run History (006-023)")
 
         # Show runs in an expander
-        with st.expander("View All 15 Completed Runs", expanded=False):
+        with st.expander("View All 16 Completed Runs", expanded=False):
             for run in S7_RUNS:
                 st.markdown(f"""
                 **Run {run['run']}** — {run['name']}
@@ -436,7 +437,7 @@ def render():
 
         stat_cols = st.columns(3)
         with stat_cols[0]:
-            st.metric("Total Runs", "15")
+            st.metric("Total Runs", "16")
         with stat_cols[1]:
             st.metric("Total Exchanges", f"{total_exchanges:,}")
         with stat_cols[2]:
@@ -563,30 +564,30 @@ def render():
             st.markdown(load_markdown_file(ROADMAP_FILE))
 
     with doc_tabs[1]:
-        validation_file = MAPS_DIR / "VALIDATION_STATUS.md"
+        validation_file = MAPS_DIR / "3_VALIDATION_STATUS.md"
         if validation_file.exists():
-            with st.expander("VALIDATION_STATUS.md", expanded=False):
+            with st.expander("3_VALIDATION_STATUS.md", expanded=False):
                 st.markdown(load_markdown_file(validation_file))
 
     with doc_tabs[2]:
-        predictions_file = MAPS_DIR / "TESTABLE_PREDICTIONS_MATRIX.md"
+        predictions_file = MAPS_DIR / "2_TESTABLE_PREDICTIONS_MATRIX.md"
         if predictions_file.exists():
-            with st.expander("TESTABLE_PREDICTIONS_MATRIX.md", expanded=False):
+            with st.expander("2_TESTABLE_PREDICTIONS_MATRIX.md", expanded=False):
                 st.markdown(load_markdown_file(predictions_file))
 
     with doc_tabs[3]:
-        map_of_maps_file = MAPS_DIR / "MAP_OF_MAPS.md"
+        map_of_maps_file = MAPS_DIR / "0_MAP_OF_MAPS.md"
         if map_of_maps_file.exists():
-            with st.expander("MAP_OF_MAPS.md", expanded=False):
+            with st.expander("0_MAP_OF_MAPS.md", expanded=False):
                 st.markdown(load_markdown_file(map_of_maps_file))
         else:
-            st.info("MAP_OF_MAPS.md not found — check docs/maps/ directory.")
+            st.info("0_MAP_OF_MAPS.md not found — check docs/maps/ directory.")
 
     # ========== FOOTER ==========
     st.markdown("""
     <div style="text-align: center; padding: 2rem; color: #666;">
         <p><em>"Close the gaps, then climb higher."</em></p>
-        <p style="font-size: 0.8em;">Last Updated: 2025-12-13</p>
+        <p style="font-size: 0.8em;">Last Updated: 2025-12-28</p>
     </div>
     """, unsafe_allow_html=True)
 

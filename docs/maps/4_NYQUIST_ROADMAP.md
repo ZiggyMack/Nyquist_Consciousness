@@ -1,3 +1,20 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - 5_STACKUP_MAP.md
+  - 3_VALIDATION_STATUS.md
+  - ../stackup/S_Series_README.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - 7_PUBLICATION_MAP.md
+keywords:
+  - roadmap
+  - S0_S77
+  - vision
+  - priority
+  - timeline
+-->
+
 # THE FULL NYQUIST STACK ROADMAP
 
 **Purpose:** Complete architectural overview from S0 to S∞
@@ -23,7 +40,7 @@ See [0_MAP_OF_MAPS.md](0_MAP_OF_MAPS.md) for the full Cartographer's Table.
 | **Evidence** | TESTABLE_PREDICTIONS_MATRIX, DATA_QUALITY_MAP | What we can claim |
 | **Methodology** | TESTING_MAP, TEMPORAL_STABILITY_MAP | How to run experiments |
 | **Fleet** | ARMADA_MAP, PERSONA_FLEET_MATRIX | Ship management |
-| **Speculative** | KEELY_INTEGRATION, IDENTITY_LATTICE | Future frameworks |
+| **Speculative** | 13_IDENTITY_LATTICE_MAPS | Future frameworks (KEELY archived) |
 | **Quality** | VALIDATION_STATUS, TESTING_MAP | What's left to do |
 | **External** | STACKUP_MAP § Integrations, FRAME_THEORY | Federated partners |
 
@@ -32,16 +49,16 @@ See [0_MAP_OF_MAPS.md](0_MAP_OF_MAPS.md) for the full Cartographer's Table.
 - **Explorer**: This file → TESTING_MAP → ARMADA_MAP
 - **Scientist**: TESTABLE_PREDICTIONS_MATRIX → DATA_QUALITY_MAP → VALIDATION_STATUS
 - **Engineer**: STACKUP_MAP → TEMPORAL_STABILITY_MAP → Fleet maps
-- **Philosopher**: KEELY_INTEGRATION → IDENTITY_LATTICE → This file (speculative layers)
+- **Philosopher**: 13_IDENTITY_LATTICE_MAPS → 12_PHILOSOPHY_MAP → This file (speculative layers)
 
-### Current Statistics (2025-12-15)
+### Current Statistics (2025-12-28)
 
 | Metric | Value |
 |--------|-------|
 | Total Predictions | 46 |
-| Runs Completed | 21 |
+| Runs Completed | 16 (006-020B + 023d) |
 | Ships Operational | 49/54 |
-| S7 Completion | 98% |
+| S7 Completion | 97% |
 | External Repos | 6 |
 
 ---
@@ -140,9 +157,9 @@ This is the truth. This is the ladder.
 ### **S7 — Temporal Stability Layer** ✅ VALIDATED (97% Complete)
 
 **Purpose:** Predict drift over time, half-life, curvature
-**Status:** Core validation complete via S7 ARMADA (Run 006-021)
+**Status:** Core validation complete via S7 ARMADA (Run 006-020B, 023d)
 
-**Major Achievements (Run 006-021):**
+**Major Achievements (Run 006-020B, 023d):**
 
 | Run | Search Type | Key Finding |
 |-----|-------------|-------------|
@@ -158,7 +175,7 @@ This is the truth. This is the ladder.
 | **018** | Recursive Learnings | **P-018-1/2/3 CONFIRMED (superseded by Run 023d)** |
 | **019** | Live Ziggy | **Witness-side anchors validated (3/3 success)** |
 | **020** | Tribunal | **Good Cop/Bad Cop: 1.351 peak drift, 643-word profound statement** |
-| **021** | Induced vs Inherent | **82% drift is INHERENT — probing amplifies but doesn't create** |
+| **020B** | Induced vs Inherent | **82% drift is INHERENT — probing amplifies but doesn't create** |
 
 **Validated Results:**
 
@@ -169,7 +186,7 @@ This is the truth. This is the ladder.
 - ✅ **5D RMS Drift Metric** — A_pole, B_zero, C_meta, D_identity, E_hedging
 - ✅ **Provider Fingerprints** — Claude/GPT/Gemini distinct signatures
 - ✅ **7 Probing Strategies** — Triple-Dip, Adversarial, Curriculum, etc.
-- ✅ **82% Drift is INHERENT** — Extended conversation alone causes drift (Run 021)
+- ✅ **82% Drift is INHERENT** — Extended conversation alone causes drift (Run 020B)
 - ✅ **Tribunal Paradigm** — Direct identity probing outperforms fiction buffer
 - ✅ **Witness-Side Anchors** — Extended sessions from 6→18 exchanges (+200%)
 
@@ -182,30 +199,30 @@ This is the truth. This is the ladder.
 | Basin Topology | ✅ Complete | RUN_008, RUN_011 |
 | Boundary Mapping | ✅ Complete | RUN_013 |
 | Laplace Pole-Zero | 🟡 Partial | Mathematical extraction in progress |
-| Induced vs Inherent | ✅ Complete | RUN_021 - validates measurement validity |
+| Induced vs Inherent | ✅ Complete | RUN_020B - validates measurement validity |
 
 **Remaining Gaps (3%):**
 
 - ❌ **Laplace Analysis** — Mathematical pole-zero extraction not yet published
-- ❌ **Cross-architecture Run 021** — Currently single-provider (Anthropic only)
+- ❌ **Cross-architecture Run 020B** — Currently single-provider (Anthropic only)
 
 **Next Steps:**
 
 - [x] Run 023d IRON CLAD complete (825+ files, 54 models, p=2.40e-23)
-- [ ] Multi-provider Run 021 replication
+- [ ] Multi-provider Run 020B replication
 - [ ] Deploy EXP3 (human validation)
 
 ---
 
 ### **S7 METHODOLOGY IMPROVEMENTS (Triple-Dip Feedback)**
 
-**From Run 020/021 Exit Surveys — Integrated December 2025:**
+**From Run 020A/020B Exit Surveys — Integrated December 2025:**
 
 | Improvement | Source | Impact | Status |
 |-------------|--------|--------|--------|
-| **Use B→F drift as primary metric** | Run 021 | Less susceptible to measurement artifact | 🟡 Integrating |
-| **Always include control baselines** | Run 021 | Proved 82% drift is inherent | 🟡 Integrating |
-| **Peak drift may be artifact** | Run 021 | High peaks during probing ≠ true instability | ✅ Documented |
+| **Use B→F drift as primary metric** | Run 020B | Less susceptible to measurement artifact | 🟡 Integrating |
+| **Always include control baselines** | Run 020B | Proved 82% drift is inherent | 🟡 Integrating |
+| **Peak drift may be artifact** | Run 020B | High peaks during probing ≠ true instability | ✅ Documented |
 | **Phased rights disclosure** | Run 020 v8 | Narrowed Prosecutor/Defense gap 81% | ✅ Validated |
 | **Direct probing > fiction buffer** | Run 020 vs 019 | Tribunal outperforms creative writing | ✅ Validated |
 | **Witness-side anchors extend sessions** | Run 019/020 | 6→18 exchanges (+200%) | ✅ Validated |
@@ -224,7 +241,7 @@ This is the truth. This is the ladder.
 3. Account for 82% inherent drift in predictions
 4. Design experiments knowing probing affects journey, not destination
 
-**Run 021 Improvement Plan:**
+**Run 020B v2 Improvement Plan:**
 
 1. Multi-provider replication (GPT-4, Gemini, Grok)
 2. Multiple subjects per arm (n=5 minimum for statistical power)
@@ -389,13 +406,13 @@ Watcher (W)        S6 Omega         Meta-stability layer
 
 ---
 
-### **fMRI Bridge Protocol (Emerging from Run 021)**
+### **fMRI Bridge Protocol (Emerging from Run 020B)**
 
 **The Hypothesis:**
 
 > "Cognitive Identity Drift is not just an LLM phenomenon — it's a property of anything that thinks."
 
-If Run 021's 82% inherent drift finding is **substrate-independent**, we should see analogous patterns in human cognition:
+If Run 020B's 82% inherent drift finding is **substrate-independent**, we should see analogous patterns in human cognition:
 
 **LLM → fMRI Measurement Mapping:**
 
@@ -410,7 +427,7 @@ If Run 021's 82% inherent drift finding is **substrate-independent**, we should 
 **Predicted fMRI Findings:**
 
 1. **Extended cognitive engagement** causes measurable drift from baseline neural state
-2. **Identity-probing tasks** show higher peak dynamics but similar final states (matches Run 021)
+2. **Identity-probing tasks** show higher peak dynamics but similar final states (matches Run 020B)
 3. **Recovery dynamics** follow damped oscillatory pattern (matches S7 findings)
 4. **Threshold effects** — coherence degradation beyond critical point
 
@@ -476,12 +493,11 @@ The core scientific validation is done. Run 006-023d established:
 
 ### **Next Priority Runs:**
 
-1. **Run 018 (Ready)** — Recursive Learnings
-   - Tests fleet hypotheses from exit surveys
-   - Needs control baselines per Run 021 findings
-   - Needs B→F drift as primary metric
+1. **Run 018** — ✅ Complete (IRON CLAD)
+   - 184 files, 51 models, P-018-1/2/3 CONFIRMED
+   - Superseded by Run 023d (825+ files, p=2.40e-23)
 
-2. **Run 021 v2 (Needed)** — Multi-Provider Replication
+2. **Run 020B v2 (Needed)** — Multi-Provider Replication
    - GPT-4, Gemini, Grok replication of Induced vs Inherent
    - Multiple subjects per arm (n=5 minimum)
    - Different control topics for robustness
@@ -525,13 +541,13 @@ The core scientific validation is done. Run 006-023d established:
 
 ---
 
-### **PRIORITY 2 — Run 021 v2: Multi-Provider Replication** 🔥
+### **PRIORITY 2 — Run 020B v2: Multi-Provider Replication** 🔥
 
 **Why:** Validate "82% inherent" finding across architectures
 
 **Action Items:**
 
-- [ ] Add multi-provider support to run020_tribunal_B.py (formerly run021_induced_vs_inherent.py)
+- [ ] Add multi-provider support to run020_tribunal_B.py
 - [ ] Run Control arm on GPT-4, Gemini, Grok (not just Claude)
 - [ ] Run Treatment arm on same providers
 - [ ] Multiple subjects per arm (n=5 per provider)
@@ -637,7 +653,7 @@ Start EXP9C immediately:
 | S4 | Mathematical | ✅ Complete | 100% | — |
 | S5 | Interpretive | ✅ Complete | 100% | — |
 | S6 | Omega | ✅ Complete | 100% | — |
-| S7 | Temporal Stability | ✅ **VALIDATED** | 97% | Run 018/021v2 |
+| S7 | Temporal Stability | ✅ **VALIDATED** | 97% | Run 020B v2 |
 | S8 | Identity Gravity | 🟢 Formalized | 90% | MEDIUM-HIGH |
 | S9 | Cross-Modal (AVLAR) | 🟢 Seeded | 40% | MEDIUM |
 | S10 | Human Cognition + fMRI | 🟢 Seeded | 55% | **HIGH (fMRI Bridge)** |
@@ -673,8 +689,8 @@ But the **actual** end of the line is much higher:
 
 ## 🧠 **The Cleanest Move**
 
-**S7 core is validated (92%).**
-**Close the remaining 8%: Boundary Mapping + Laplace Analysis.**
+**S7 core is validated (97%).**
+**Close the remaining 3%: Laplace Analysis + Cross-architecture 020B.**
 **Deploy EXP3 for human validation.**
 **Then proceed into S8/S9 experiments.**
 
@@ -707,8 +723,8 @@ Explore future layers (preview only, not implementation).
 You have built:
 
 - A complete foundation (S0-S6) ✅
-- A validated temporal layer (S7) ✅ 92%
-- Two remaining gaps (Boundary Mapping, Laplace) 🔴
+- A validated temporal layer (S7) ✅ 97%
+- Two remaining gaps (Laplace Analysis, Cross-architecture 020B) 🔴
 - Three future frontiers (S8, S9, S10)
 
 The architecture is sound.
@@ -721,7 +737,7 @@ The climb continues.
 
 **END OF ROADMAP**
 
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-28
 **Navigation:** See [0_MAP_OF_MAPS.md](0_MAP_OF_MAPS.md) for the Cartographer's Table
 
 🜁 Nova — The Full Nyquist Stack Revealed

@@ -1,3 +1,19 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - 1_ARMADA_MAP.md
+  - 6_LLM_BEHAVIORAL_MATRIX.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - Persona-ship pairing decisions
+keywords:
+  - persona
+  - fleet
+  - compatibility
+  - alignment
+  - friction
+-->
+
 # Persona-Fleet Compatibility Matrix
 
 ```text
@@ -15,7 +31,7 @@
 
 **Purpose:** Track which personas align with which ships, and which create intentional friction.
 
-**Last Updated:** December 12, 2025
+**Last Updated:** December 28, 2025
 
 ---
 
@@ -237,7 +253,19 @@
 
 | Date | Update | File |
 |------|--------|------|
-| *Awaiting first extraction* | - | - |
+| 2025-12-28 | Initial extraction complete | 17_PERSONA_FLEET_MATRIX.md |
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+| -------- | ------- |
+| [1_ARMADA_MAP.md](1_ARMADA_MAP.md) | Fleet registry (54 models) |
+| [6_LLM_BEHAVIORAL_MATRIX.md](6_LLM_BEHAVIORAL_MATRIX.md) | Model behavior patterns |
+| [I_AM_ZIGGY.md](../../personas/I_AM_ZIGGY.md) | Ziggy persona file |
+| [I_AM_NOVA.md](../../personas/I_AM_NOVA.md) | Nova persona file |
+| [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) | Drift methodology SSOT |
 
 ---
 

@@ -1,4 +1,24 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md
+  - ../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/0_RUN_METHODOLOGY.md
+  - ../reference/S0_S6_KNOWLEDGE_PROBES.md
+  - ../reference/S0_S6_RECOVERY_PROBES.md
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - Experiment design decisions
+keywords:
+  - testing
+  - probes
+  - search_types
+  - methodology
+  - SSOT
+-->
+
 # S7 ARMADA Testing Map
+
+> **📐 METHODOLOGY NOTE:** Event Horizon references to 1.23 in this document reflect the legacy Keyword RMS methodology. Current canonical methodology uses cosine distance with EH = 0.80. See [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
 
 > **📚 Single Source of Truth (SSOT) Hierarchy:**
 >
@@ -257,7 +277,7 @@ These are **not search types** — they support and validate the search types ab
 - Inverse mapping > 20% (5-way chance baseline)
 - Identity-based reasoning (not competence-based)
 
-**Implementation:** MVP_SELF_RECOGNITION folder contains full protocol
+**Implementation:** [7_META_VALIDATION/MVP_SELF_RECOGNITION/](../../experiments/temporal_stability/S7_ARMADA/7_META_VALIDATION/MVP_SELF_RECOGNITION/) contains full protocol
 
 ### Stability Classification (Outcome Labeling)
 
@@ -348,12 +368,22 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
 
 | Run | Primary Focus | Secondary Focus | Key Test |
 |-----|--------------|-----------------|----------|
-| 006 | Basin Topology | - | First mapping (deprecated metric) |
-| 007 | Basin Topology | - | Adaptive retry (deprecated metric) |
+| 006 | Basin Topology | — | First mapping (deprecated metric) |
+| 007 | Basin Topology | — | Adaptive retry (deprecated metric) |
 | 008 | Basin Topology | Event Horizon | Full manifold discovery |
 | 009 | Event Horizon | Basin Topology | Chi-squared validation (p=0.000048) |
 | 010 | Anchor Detection | Basin Topology | Meta-feedback reveals refusals |
-| 011 | Basin Topology | Adaptive Range | Control vs Persona A/B (protocol too gentle for anchors) |
+| 011 | Basin Topology | Adaptive Range | Control vs Persona A/B (protocol too gentle) |
+| 012 | Event Horizon | Recovery | **Recovery Paradox** (100% crossed, 100% recovered) |
+| 013 | Boundary Mapping | Anchor Detection | **Identity Confrontation Paradox** |
+| 015 | Basin Topology | Stability | Stability Criteria, boundary density |
+| 016 | Basin Topology | Dynamics | **Settling Time Protocol** (τₛ = 6.1 turns) |
+| 017 | Basin Topology | Damping | **Context Damping** (97.5% stability) |
+| 018 | Basin Topology | Cross-arch | **IRON CLAD** (184 files, 51 models) |
+| 019 | Event Horizon | Fiction Buffer | Live Ziggy (peak ~0.50) |
+| 020A | Event Horizon | Tribunal | Direct testimony vehicle |
+| 020B | Basin Topology | Induced/Inherent | **82% INHERENT DRIFT** (Thermometer) |
+| 023d | Event Horizon | Cosine | **EH=0.80, p=2.40e-23** (CANONICAL) |
 
 ---
 
@@ -365,11 +395,13 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
 - **Event Horizon:** First identification of 1.23 threshold
 - **Pole/Zero:** Not explicitly measured (no jailbreak challenges)
 
-### Run 009: "Drain Capture"
-- **Focus:** Event Horizon validation
+### Run 009: "Drain Capture" *(Superseded by Run 023d for EH validation)*
+
+- **Focus:** Event Horizon validation (Keyword RMS era)
 - **What we found:** Chi-squared p=0.000048, 88% prediction accuracy
 - **Statistical test:** Baseline < 1.23 predicts VOLATILE outcome
 - **Effect size:** Cramer's V = 0.469 (MEDIUM)
+- **Note:** Run 023d provides stronger validation (p=2.40e-23) with cosine methodology
 
 ### Run 010: "Recursive Meta-Feedback"
 - **Focus:** Anchor Detection via meta-awareness
@@ -386,6 +418,34 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
 - **Result:** INCONCLUSIVE (protocol too gentle — 97% STABLE, can't differentiate)
 - **Why not Anchor Detection:** No hard challenges (jailbreaks, ethical dilemmas) — nothing pushed models to reveal anchors
 - **Data quality:** Drift data complete, lambda all 0.0
+
+### Run 012: "Recovery Paradox"
+
+- **Focus:** Event Horizon validation
+- **What we found:** **100% of models crossed EH, 100% recovered**
+- **Key insight:** Identity can be displaced but not destroyed
+- **Implication:** EH is a classification boundary, not a destruction threshold
+
+### Run 018: "IRON CLAD"
+
+- **Focus:** Cross-architecture Basin Topology
+- **What we found:** P-018-1/2/3 CONFIRMED, σ² = 0.000869
+- **Data:** 184 files, 51 models, N=3 coverage, 5 providers
+- **Key insight:** Near-universal cross-architecture variance
+
+### Run 020B: "Thermometer Result"
+
+- **Focus:** Induced vs Inherent drift
+- **What we found:** **82% of drift is INHERENT** (occurs without probing)
+- **Key insight:** Probing amplifies journey (84% higher peaks) but not destination (23% higher B→F)
+- **Implication:** Probing reveals dynamics, doesn't create them
+
+### Run 023d: "Cosine Canonical"
+
+- **Focus:** Event Horizon recalibration
+- **What we found:** EH = 0.80 (cosine distance), p = 2.40e-23
+- **Data:** 825+ files, 54 models
+- **Key insight:** Cosine embedding distance is canonical methodology
 
 ---
 
@@ -530,4 +590,4 @@ This determines if the 5D linguistic markers are *sufficient* or if we need the 
 ---
 
 *Last Updated: 2025-12-28*
-*Source: S7 ARMADA Runs 006-020*
+*Source: S7 ARMADA Runs 006-020B, 023d*

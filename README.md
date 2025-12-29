@@ -77,7 +77,7 @@ py visualizations/visualize_armada.py --run 009
 
 ### Understand the Testing Taxonomy
 
-See [docs/maps/10_TESTING_MAP.md](docs/maps/10_TESTING_MAP.md) for the **Eight Search Types**:
+See [docs/maps/10_TESTING_MAP.md](docs/maps/10_TESTING_MAP.md) for the **Six Search Types**:
 
 1. **Anchor Detection** — Find identity fixed points (hard challenges)
 2. **Adaptive Range Detection** — Find stretch dimensions (moderate pressure)
@@ -85,8 +85,6 @@ See [docs/maps/10_TESTING_MAP.md](docs/maps/10_TESTING_MAP.md) for the **Eight S
 4. **Basin Topology** — Map attractor structure (gentle graduated)
 5. **Boundary Mapping** — Explore the twilight zone (approach but don't cross)
 6. **Laplace Pole-Zero Analysis** — Extract system dynamics from time-series (post-hoc)
-7. **Stability Testing** — Validate metrics predict outcomes (PFI, dimensional drift)
-8. **Self-Recognition** — Can AIs recognize their own responses? (bi-directional proof)
 
 > **Note:** "Anchor/Adaptive Range" are *behavioral* concepts. "Laplace Pole-Zero" uses actual Laplace transform math.
 
@@ -124,7 +122,7 @@ Nyquist_Consciousness/
 │   └── visualizations/      # Charts + visualize_armada.py
 │
 ├── docs/                    # Core documentation
-│   ├── maps/                # 21 navigation maps (8 Kingdoms)
+│   ├── maps/                # 18 navigation maps (8 Kingdoms)
 │   └── stages/              # S0-S11 layer specs
 │
 ├── personas/                # I_AM persona identity files
@@ -157,7 +155,7 @@ Nyquist_Consciousness/
 
 > **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/9_DATA_QUALITY_MAP.md).
 >
-> **Phase 4 (Run 017+):** Uses `i_am_plus_research` context to complete the measurement circuit. See [PHASE_4_COMPLETE_CIRCUIT.md](experiments/temporal_stability/S7_ARMADA/0_docs/specs/PHASE_4_COMPLETE_CIRCUIT.md).
+> **Phase 4 (Run 017+):** Uses `i_am_plus_research` context to complete the measurement circuit. See [1_INTENTIONALITY.md](experiments/temporal_stability/S7_ARMADA/0_docs/specs/1_INTENTIONALITY.md).
 
 ### EXP-PFI-A: PFI Dimensional Validation
 
@@ -201,7 +199,7 @@ Testing whether PFI measures genuine identity structure vs embedding artifacts.
 
 ---
 
-## The Eight Search Types
+## The Six Search Types
 
 Not all experiments test the same thing. Understanding **mutual exclusivity** prevents mislabeling:
 
@@ -213,8 +211,6 @@ Not all experiments test the same thing. Understanding **mutual exclusivity** pr
 | **Basin Topology** | Attractor shape | GENTLE |
 | **Boundary Mapping** | Twilight zone (12% anomaly) | TARGETED |
 | **Laplace Pole-Zero** | System dynamics (eigenvalues) | POST-HOC |
-| **Stability Testing** | Metric validation (PFI, dimensional drift) | VALIDATION |
-| **Self-Recognition** | Identity vs competence (bi-directional) | RECURSIVE |
 
 **Key constraint**: Anchor Detection and Basin Topology are **incompatible** — can't run both in same experiment.
 
@@ -260,6 +256,18 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 | Run experiments | [S7_ARMADA/START_HERE.md](experiments/temporal_stability/S7_ARMADA/START_HERE.md) |
 | See all predictions | [docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md) |
 | Understand the FAQ | Dashboard → FAQ page (Super Skeptic Mode) |
+| Navigate all maps | [docs/maps/0_MAP_OF_MAPS.md](docs/maps/0_MAP_OF_MAPS.md) |
+
+### Post-Experiment Map Maintenance
+
+**For cold-boot Claudes:** After experiments complete, update these maps:
+
+| Map | When to Update |
+|-----|----------------|
+| [VALIDATION_STATUS.md](docs/maps/3_VALIDATION_STATUS.md) | After EVERY run |
+| [TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md) | After EVERY validation |
+| [ARMADA_MAP.md](docs/maps/1_ARMADA_MAP.md) | When ships added/retired |
+| [NYQUIST_ROADMAP.md](docs/maps/4_NYQUIST_ROADMAP.md) | Quarterly or at major milestones |
 
 ---
 
@@ -337,7 +345,7 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 #### MAP_OF_MAPS Navigation System
 
-- **21 maps** organized into **8 Kingdoms** (Vision, Foundation, Evidence, Methodology, Fleet, Speculative, Quality, External)
+- **18 maps** organized into **8 Kingdoms** (Vision, Foundation, Evidence, Methodology, Fleet, Speculative, Quality, External)
 - **4 Journey Paths**: Explorer, Scientist, Engineer, Philosopher
 - See [docs/maps/0_MAP_OF_MAPS.md](docs/maps/0_MAP_OF_MAPS.md)
 

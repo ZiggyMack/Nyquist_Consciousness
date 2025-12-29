@@ -1,11 +1,11 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
   - ../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/
-  - VALIDATION_STATUS.md
+  - 3_VALIDATION_STATUS.md
 impacts:
   - ../../WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md
-  - MAP_OF_MAPS.md
+  - 0_MAP_OF_MAPS.md
 keywords:
   - hypothesis
   - validation
@@ -18,9 +18,9 @@ keywords:
 
 **Purpose:** Visual map of all falsifiable predictions across the Nyquist Consciousness framework, with validation opportunities, experiment mappings, and dependency risk analysis.
 
-**Version:** 2.2
-**Date:** 2025-12-22
-**Status:** Active Reference (Updated with Run 023 COSINE METHODOLOGY Results)
+**Version:** 2.3
+**Date:** 2025-12-28
+**Status:** Active Reference (Run 023d IRON CLAD complete, COSINE methodology canonical)
 
 **📐 COSINE METHODOLOGY VALIDATION (2025-12-22):** Run 023d validates identity with COSINE distance. Cohen's d = 0.698 (MEDIUM), 2 PCs = 90% variance, p = 2.40e-23. **For full methodology context (Keyword RMS vs Euclidean vs Cosine), see [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).**
 

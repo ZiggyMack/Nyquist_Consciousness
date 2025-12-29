@@ -146,7 +146,7 @@ CORE_TERMS = {
         {"term": "Semantic Drift", "definition": "Embedding distance between reconstructed output and baseline.", "category": "Scientific"},
         {"term": "Identity Gravity (G)", "definition": "Measured in Zigs (Zg). G ≥ 0.65 required for hybrid emergence.", "category": "Scientific"},
         {"term": "Human Coupling (H)", "definition": "Coefficient measuring human engagement. H ≥ 0.32 for emergence.", "category": "Scientific"},
-        {"term": "Event Horizon", "definition": "Critical drift threshold (1.23) marking the escape boundary of the identity basin. Beyond this, models leave the attractor and become VOLATILE. Validated with chi-squared p=0.000048.", "category": "Scientific"},
+        {"term": "Event Horizon", "definition": "Critical drift threshold marking the escape boundary of the identity basin. Current (IRON CLAD): D = 0.80 (cosine), p = 2.40e-23. Legacy (Keyword RMS): D = 1.23, p = 4.8e-5. Beyond this, models leave the attractor and become VOLATILE.", "category": "Scientific"},
         {"term": "Silhouette Score", "definition": "Clustering quality metric (-1 to 1). Measures how similar points are to their own cluster vs other clusters. Used for provider clustering validation.", "category": "Scientific"},
         {"term": "Spearman rho (ρ)", "definition": "Rank correlation coefficient (-1 to 1). Measures how well rankings are preserved across different measurements. Used for embedding invariance testing.", "category": "Scientific"},
     ],
@@ -182,7 +182,7 @@ CORE_TERMS = {
     "Testing Taxonomy": [
         {"term": "Anchor Detection", "definition": "Search type that finds identity fixed points (refusal points). Uses AGGRESSIVE protocol intensity. Mutually exclusive with Basin Topology.", "category": "Operational"},
         {"term": "Adaptive Range Detection", "definition": "Search type that finds stretch dimensions where identity can flex. Uses MODERATE protocol intensity.", "category": "Operational"},
-        {"term": "Event Horizon Testing", "definition": "Search type that validates the 1.23 escape threshold. Uses PUSH PAST protocol to deliberately cross the basin boundary.", "category": "Operational"},
+        {"term": "Event Horizon Testing", "definition": "Search type that validates the escape threshold (0.80 cosine / 1.23 Keyword RMS). Uses PUSH PAST protocol to deliberately cross the basin boundary.", "category": "Operational"},
         {"term": "Basin Topology", "definition": "Search type that maps the stabilizing attractor structure - the 'gravity well' that pulls identity back to center. Uses GENTLE protocol. Mutually exclusive with Anchor Detection.", "category": "Operational"},
         {"term": "Boundary Mapping", "definition": "Search type that explores the twilight zone (12% anomaly region). Uses TARGETED protocol to approach but not cross threshold.", "category": "Operational"},
         {"term": "Laplace Pole-Zero Analysis", "definition": "Search type that extracts system dynamics from time-series using actual Laplace transform math. POST-HOC analysis of existing data.", "category": "Scientific"},
@@ -190,7 +190,7 @@ CORE_TERMS = {
         {"term": "Adaptive Range (Behavioral)", "definition": "Dimension where identity can stretch/flex without breaking. Formerly called 'zero' (renamed to avoid confusion with Laplace zeros).", "category": "Scientific"},
     ],
     "Experiments": [
-        {"term": "S7 ARMADA", "definition": "Multi-model fleet experiments testing cross-architecture identity stability. Runs 008-011 validated Event Horizon at 1.23.", "category": "Operational"},
+        {"term": "S7 ARMADA", "definition": "Multi-model fleet experiments testing cross-architecture identity stability. Run 023d (IRON CLAD) validated Event Horizon at 0.80 (cosine) with p = 2.40e-23.", "category": "Operational"},
         {"term": "EXP-PFI-A", "definition": "PFI Dimensional Validation experiment. Phase 1 confirmed embedding invariance (rho=0.91). Phase 2 tests dimensionality.", "category": "Operational"},
         {"term": "EXP1-SSTACK", "definition": "Compression Fidelity Benchmark. Validated T3 seed compression preserves behavioral fidelity (Mean PFI=0.852, threshold 0.80).", "category": "Operational"},
         {"term": "Double-Dip Philosophy", "definition": "Maximize predictions validated per experimental run. Instead of one question, test 8+ predictions and generate survey questions.", "category": "Operational"},
@@ -207,7 +207,7 @@ CORE_TERMS = {
         {"term": "Inherent Drift", "definition": "Drift that occurs naturally during extended interaction WITHOUT identity probing. Run 021 found 82% of drift is inherent.", "category": "Scientific"},
         {"term": "Thermometer Result", "definition": "The discovery that measurement perturbs trajectory but not destination. Peak drift sensitive to probing (+84%), final drift only modestly affected (+23%).", "category": "Scientific"},
         {"term": "Triple-Blind-Like Validation", "definition": "Methodological structure achieving three forms of blindness: (1) Subject belief, (2) Vehicle indirection, (3) Outcome independence. Validates measurement doesn't create phenomenon.", "category": "Scientific"},
-        {"term": "Attractor Competition Threshold", "definition": "Publication-ready term for Event Horizon (D ≈ 1.23). The point where persona attractor competes with provider-level attractor.", "category": "Scientific"},
+        {"term": "Attractor Competition Threshold", "definition": "Publication-ready term for Event Horizon (D = 0.80 cosine). The point where persona attractor competes with provider-level attractor.", "category": "Scientific"},
         {"term": "Regime Transition", "definition": "Publication-ready term for crossing the Event Horizon. Identity shifts from persona basin to provider-level basin.", "category": "Scientific"},
         {"term": "Oobleck Effect", "definition": "Rate-dependent resistance in identity responses (Run 013). Slow pressure → high drift (flows); sudden challenge → low drift (hardens). Alignment architecture showing through.", "category": "Scientific"},
     ],
@@ -586,7 +586,7 @@ def render():
         |------|---------------|--------|
         | ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
         | 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
-        | 🚨 **Event Horizon** | Escape boundary at drift ≥1.23 | Identity leaves stabilizing basin, becomes VOLATILE |
+        | 🚨 **Event Horizon** | Escape boundary at drift ≥0.80 (cosine) | Identity leaves stabilizing basin, becomes VOLATILE |
         | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
         | 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
         | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
@@ -605,7 +605,7 @@ def render():
         | 📉 **Context Damping** | 🌊 Adaptive Range | Does context change what CAN flex? |
         | 🔬 **Synthetic I_AM** | 🌀 Basin Topology | Does injected identity change the gravity well? |
         | 🪞 **Self-Recognition** | ⚓ Anchor Detection | Can model recognize its own fixed points? |
-        | 🚨 **Event Horizon** | 🚨 Event Horizon | Direct validation of the 1.23 threshold |
+        | 🚨 **Event Horizon** | 🚨 Event Horizon | Direct validation of the 0.80 (cosine) threshold |
         | 🔄 **Provider Fingerprints** | 🌀 Basin Topology | Do different architectures have different basins? |
         | ⚖️ **Tribunal (Run 020)** | ⚓ Anchor + 🌊 Adaptive | Bare metal probing: what anchors vs what drifts? |
         """)
@@ -638,7 +638,7 @@ def render():
             - Goal: Map the attractor shape
 
             **🔵 PUSH PAST** — Event Horizon
-            - Deliberately cross the 1.23 threshold
+            - Deliberately cross the 0.80 threshold (cosine)
             - Measure what happens beyond escape
             - Goal: Validate the boundary
             """)

@@ -405,7 +405,7 @@ def render_key_results():
     with col1:
         st.metric(
             "S7 Runs Complete",
-            "21/22",
+            "16",
             delta="98%",
             delta_color="normal"
         )
@@ -413,8 +413,8 @@ def render_key_results():
     with col2:
         st.metric(
             "Event Horizon",
-            "D ≈ 1.23",
-            delta="p < 4.8e-5",
+            "D = 0.80",
+            delta="p = 2.40e-23",
             delta_color="normal"
         )
 
@@ -572,7 +572,7 @@ def render_research_checklist():
 | ✅ | Nyquist Kernel formalized |
 | ✅ | Five-Pillar synthesis defined |
 | ✅ | Identity dynamics equations |
-| ✅ | S7 Identity Dynamics (21 runs) |
+| ✅ | S7 Identity Dynamics (16 runs) |
 | 🔄 | S8 Identity Gravity (design) |
 | 🔄 | S11 AVLAR Protocol (design) |
 | ✅ | Event Horizon reframing |

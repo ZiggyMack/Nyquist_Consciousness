@@ -6,6 +6,11 @@ Displays personas from the personas/ directory in two groups:
 - Compressed Personas (*_SEED, *_FULL, *_LITE) - Compressed variants
 
 Also includes the Compression Testing tab for PFI experiments.
+
+METHODOLOGY NOTE:
+- Current (IRON CLAD): Event Horizon = 0.80 (cosine), p = 2.40e-23 (Run 023d)
+- Legacy (Keyword RMS): Event Horizon = 1.23, p = 4.8e-5 (Runs 008-012)
+- Historical references to 1.23 reflect the legacy methodology
 """
 
 import streamlit as st

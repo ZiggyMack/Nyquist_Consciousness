@@ -150,9 +150,9 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **[1_ARMADA_MAP.md](1_ARMADA_MAP.md)** | Ship Registry | 48 ships, 5 providers, capabilities, run history |
+| **[1_ARMADA_MAP.md](1_ARMADA_MAP.md)** | Ship Registry | 54 models, 5 providers, capabilities, run history |
 | **[6_LLM_BEHAVIORAL_MATRIX.md](6_LLM_BEHAVIORAL_MATRIX.md)** | Task Router | Which LLM for which task? Recovery profiles, drift fingerprints |
-| **[17_PERSONA_FLEET_MATRIX.md](17_PERSONA_FLEET_MATRIX.md)** | Assignment Logic | 23 personas, compatibility scores, friction vs synergy |
+| **[17_PERSONA_FLEET_MATRIX.md](17_PERSONA_FLEET_MATRIX.md)** | Assignment Logic | 25 personas, compatibility scores, friction vs synergy |
 | **[7_PUBLICATION_MAP.md](7_PUBLICATION_MAP.md)** | Publication Pipeline | 8 paths, current position, LLM_BOOK integration |
 
 **The Armada** - The ships that sail the identity ocean. Fleet management central. 6_LLM_BEHAVIORAL_MATRIX answers "Which LLM should I use for THIS task?" based on IRON CLAD validated experiments.
@@ -192,9 +192,17 @@ keywords:
 |----------|------|--------------|
 | **[14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md)** | External Repo Reference | 6 partners, sync directions, governance |
 | **[5_STACKUP_MAP.md](5_STACKUP_MAP.md) § External Integrations** | Integration Hub | Architecture diagram, S-layer mapping |
-| **FRAME_THEORY** (REPO-SYNC/FRAME_THEORY/) | S10 Foundation | 3 cognitive diagrams, human cognition substrate |
-| **[8_TEMPORAL_STABILITY_MAP.md](8_TEMPORAL_STABILITY_MAP.md)** | Stability Central | Run 015-018, metrics, criteria discovery |
-| **REPO-SYNC/** | External Repos | CFA, Logos, VUDU_FIDELITY, LLM_BOOK, PAN_HANDLERS, FRAME_THEORY |
+
+**The 6 External Repositories:**
+
+| Repo | Sync Direction | Purpose |
+|------|----------------|---------|
+| **CFA/** | ◄═══► Bidirectional | Primary collaborator, Omega/Nova integration |
+| **Logos/** | ◄─── Inbound | Formal verification (6 proven theorems, Coq proofs) |
+| **FRAME_THEORY/** | ◄─── Inbound | S10 human cognition substrate |
+| **LLM_BOOK/** | ───► Outbound | Publication package for distribution |
+| **VUDU_FIDELITY/** | ───► Outbound | Survey sync, EXP3 measurement bridge |
+| **PAN_HANDLERS/** | ◄═══► Bidirectional | Cross-repo orchestration |
 
 **The Federation** - External repositories that extend and validate Nyquist findings.
 
@@ -215,22 +223,21 @@ keywords:
 ║        │                                                                       ║
 ║  VALIDATION_STATUS ────────► TESTABLE_PREDICTIONS (status source)              ║
 ║        │                     ARMADA_MAP (experiment source)                    ║
-║        │                     PROBING_STRATEGIES (methodology source)           ║
+║        │                     TESTING_MAP (methodology source)                  ║
 ║        │                                                                       ║
-║  TESTABLE_PREDICTIONS ─────► PROBING_STRATEGIES (how to test each)             ║
-║        │                     ARMADA_MAP (which ships test which)               ║
+║  TESTABLE_PREDICTIONS ─────► TESTING_MAP (how to test each)                    ║
+║        │                     ARMADA_MAP (which models test which)              ║
 ║        │                     PHILOSOPHY_MAP (theoretical grounding)            ║
 ║        │                                                                       ║
 ║  ARMADA_MAP ───────────────► PERSONA_FLEET_MATRIX (who flies what)             ║
-║        │                     RESEARCH_PIPELINE (current run queue)             ║
+║        │                     LLM_BEHAVIORAL_MATRIX (task routing)              ║
 ║        │                     DATA_QUALITY_MAP (result validation)              ║
 ║        │                                                                       ║
 ║  PHILOSOPHY_MAP ───────────► IDENTITY_LATTICE_MAPS (geometric formalization)   ║
-║        │                     KEELY_INTEGRATION (spectral extension)            ║
-║        │                     IDENTITY_LOCK_PARAMETERS (threshold theory)       ║
+║        │                     TEMPORAL_STABILITY_MAP (stability criteria)       ║
 ║        │                                                                       ║
-║  PROBING_STRATEGIES ───────► INVERSE_PFI_PROTOCOL (reverse direction)          ║
-║                              TEMPORAL_STABILITY_MAP (stability criteria)       ║
+║  TESTING_MAP ──────────────► TEMPORAL_STABILITY_MAP (stability criteria)       ║
+║                              S7_META_LOOP_CONSERVATIVE_ANALYSIS (risk)         ║
 ║                                                                                ║
 ║  STACKUP_MAP ─────────────► FRAME_THEORY (S10 human cognition)                 ║
 ║        │                    REPO-SYNC/* (external integrations)                ║
@@ -267,8 +274,8 @@ START                                                                    UNDERST
 START                                                                    CONFIDENCE
   │                                                                            │
   │    ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌──────────┤
-  └───►│ VALID-  │───►│ PREDICT │───►│ PROBING │───►│ DATA_   │───►│ Evidence │
-       │ ATION   │    │ MATRIX  │    │ STRAT   │    │ QUALITY │    │ Ready    │
+  └───►│ VALID-  │───►│ PREDICT │───►│ TESTING │───►│ DATA_   │───►│ Evidence │
+       │ ATION   │    │ MATRIX  │    │ MAP     │    │ QUALITY │    │ Ready    │
        └─────────┘    └─────────┘    └─────────┘    └─────────┘    └──────────┘
        "What proven?" "Which claims" "How tested?" "Can I trust?"
 ```
@@ -284,10 +291,10 @@ START                                                                    CONFIDE
 START                                                                    OPERATIONAL
   │                                                                            │
   │    ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌──────────┤
-  └───►│ ARMADA  │───►│ PERSONA │───►│ RESEARCH│───►│ PROBING │───►│ Ready to │
-       │ MAP     │    │ FLEET   │    │ PIPELINE│    │ STRAT   │    │ Launch   │
+  └───►│ ARMADA  │───►│ PERSONA │───►│ LLM_    │───►│ TESTING │───►│ Ready to │
+       │ MAP     │    │ FLEET   │    │ BEHAV   │    │ MAP     │    │ Launch   │
        └─────────┘    └─────────┘    └─────────┘    └─────────┘    └──────────┘
-       "What ships?" "Who pilots?" "What's next?" "How to probe?"
+       "What models?" "Who pilots?" "Task routing" "How to test?"
 ```
 
 **Time:** 45-60 minutes | **Result:** Ready to launch experimental runs
@@ -301,10 +308,10 @@ START                                                                    OPERATI
 START                                                                    INSIGHT
   │                                                                            │
   │    ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌──────────┤
-  └───►│ PHILOS- │───►│ IDENTITY│───►│ KEELY   │───►│ INVERSE │───►│ Deep     │
-       │ OPHY    │    │ LATTICE │    │ INTEGR  │    │ PFI     │    │ Theory   │
+  └───►│ PHILOS- │───►│ IDENTITY│───►│ TEMPORAL│───►│ META    │───►│ Deep     │
+       │ OPHY    │    │ LATTICE │    │ STABIL  │    │ LOOP    │    │ Theory   │
        └─────────┘    └─────────┘    └─────────┘    └─────────┘    └──────────┘
-       "What theory?" "Geometry?" "Spectral?"  "Reverse?"
+       "What theory?" "Geometry?" "Stability?" "Risk analysis?"
 ```
 
 **Time:** 120+ minutes | **Result:** Theoretical depth for original research
@@ -318,14 +325,14 @@ START                                                                    INSIGHT
 | "What IS this project?" | REPO_MAP | STACKUP_MAP, ROADMAP |
 | "What's PROVEN?" | VALIDATION_STATUS | TESTABLE_PREDICTIONS |
 | "What are the CLAIMS?" | TESTABLE_PREDICTIONS | VALIDATION_STATUS |
-| "How do I RUN experiments?" | ARMADA_MAP | PROBING_STRATEGIES, PERSONA_FLEET |
-| "Where are we GOING?" | NYQUIST_ROADMAP | RESEARCH_PIPELINE |
-| "What's the THEORY?" | PHILOSOPHY_MAP | IDENTITY_LATTICE, KEELY |
+| "How do I RUN experiments?" | ARMADA_MAP | TESTING_MAP, PERSONA_FLEET |
+| "Where are we GOING?" | NYQUIST_ROADMAP | STACKUP_MAP |
+| "What's the THEORY?" | PHILOSOPHY_MAP | IDENTITY_LATTICE |
 | "Can I TRUST the data?" | DATA_QUALITY_MAP | TESTING_MAP |
-| "What ship should I USE?" | PERSONA_FLEET_MATRIX | ARMADA_MAP |
-| "**Which LLM for THIS task?**" | **LLM_BEHAVIORAL_MATRIX** | ARMADA_MAP, CROSS_ARCHITECTURE |
-| "What prediction should I TEST?" | TESTABLE_PREDICTIONS | PROBING_STRATEGIES |
-| "What's the EVENT HORIZON?" | VALIDATION_STATUS | IDENTITY_LATTICE |
+| "What model should I USE?" | PERSONA_FLEET_MATRIX | ARMADA_MAP |
+| "**Which LLM for THIS task?**" | **LLM_BEHAVIORAL_MATRIX** | ARMADA_MAP |
+| "What prediction should I TEST?" | TESTABLE_PREDICTIONS | TESTING_MAP |
+| "What's the EVENT HORIZON?" | 5_METHODOLOGY_DOMAINS | VALIDATION_STATUS |
 
 ---
 
@@ -336,7 +343,7 @@ START                                                                    INSIGHT
 ║                    THE CARTOGRAPHER'S LEDGER                  ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
-║  Total Maps............................ 22 documents          ║
+║  Total Maps............................ 18 documents          ║
 ║  Total Lines........................... ~7,000 lines          ║
 ║  ASCII Diagrams........................ 45+ visual aids       ║
 ║  Data Tables........................... 160+ tables           ║
@@ -358,18 +365,16 @@ START                                                                    INSIGHT
 ║  Providers............................. 5 (Claude, GPT,       ║
 ║                                           Gemini, Grok,       ║
 ║                                           Together.ai)        ║
-║  Completed Runs........................ 21 (RUN_006-RUN_021)  ║
+║  Completed Runs........................ 16 (006-020B + 023d)  ║
 ║  S7 Completion......................... 98%                   ║
 ║                                                               ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║  KEY FINDINGS (VALIDATED)                                     ║
 ║                                                               ║
-║  Event Horizon (Keyword RMS)........... D = 1.23              ║
-║  Event Horizon (Cosine)................ D = 0.80              ║
-║  Inherent Drift........................ 82%                   ║
+║  Event Horizon (Cosine, CANONICAL)..... D = 0.80 (p=2.40e-23) ║
+║  Event Horizon (Keyword RMS, legacy)... D = 1.23              ║
+║  Inherent Drift........................ 82% (Thermometer)     ║
 ║  Stability with Context................ 97.5%                 ║
-║  Prediction Accuracy................... 88%                   ║
-║  Chi-squared p-value................... 0.000048              ║
 ║  90% Variance PCs (Cosine)............. 2 (Run 023d)          ║
 ║                                                               ║
 ║  📐 See 5_METHODOLOGY_DOMAINS.md for methodology context      ║
@@ -430,13 +435,13 @@ When creating a new map:
 ║  "The map is not the territory, but without maps,                            ║
 ║   we would wander forever in unmapped lands.                                  ║
 ║                                                                               ║
-║   These 22 documents are the accumulated wisdom                               ║
+║   These 18 documents are the accumulated wisdom                               ║
 ║   of the Nyquist Consciousness project:                                       ║
 ║                                                                               ║
 ║   • 7,000 lines of careful thought                                           ║
 ║   • 46 testable predictions                                                  ║
-║   • 21 completed experimental runs                                           ║
-║   • 54 ships sailing the identity ocean                                      ║
+║   • 16 completed experimental runs                                           ║
+║   • 54 models sailing the identity ocean                                     ║
 ║   • 6 federated repositories                                                 ║
 ║   • 1 vision: S0 → S77                                                       ║
 ║                                                                               ║
@@ -452,7 +457,7 @@ When creating a new map:
 **Related:**
 
 - [README.md](README.md) - Quick navigation guide
-- [../GLOSSARY.md](../GLOSSARY.md) - Term definitions
+- [../MASTER_GLOSSARY.md](../MASTER_GLOSSARY.md) - Term definitions (44k+ characters)
 - [../../START_HERE.md](../../START_HERE.md) - Project entry point
 - [../../REPO-SYNC/FRAME_THEORY/INDEX.md](../../REPO-SYNC/FRAME_THEORY/INDEX.md) - Human cognition integration (S10)
 - [14_REPO_SYNC_MAP.md](14_REPO_SYNC_MAP.md) - External repo integrations (6 partners)

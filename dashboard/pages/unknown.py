@@ -2,6 +2,11 @@
 THE UNKNOWN PAGE — Research Frontier & Unsolved Questions
 ==========================================================
 
+METHODOLOGY NOTE:
+- Current (IRON CLAD): Event Horizon = 0.80 (cosine), p = 2.40e-23 (Run 023d)
+- Legacy (Keyword RMS): Event Horizon = 1.23, p = 4.8e-5 (Runs 008-012)
+- Historical references to 1.23 reflect the legacy methodology
+
 A cathedral of ideas — organized into galleries you can wander through.
 
 GALLERIES:

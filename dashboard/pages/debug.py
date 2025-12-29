@@ -4,6 +4,11 @@ DEBUG PAGE - Lab Bench & Run Evolution Tracker
 Keeps track of what was actually tested vs documented.
 Tracks metric evolution, probe types, and data vs summary discrepancies.
 Essential for maintaining clarity as we iterate through experimental phases.
+
+METHODOLOGY NOTE:
+- Current (IRON CLAD): Event Horizon = 0.80 (cosine), p = 2.40e-23 (Run 023d)
+- Legacy (Keyword RMS): Event Horizon = 1.23, p = 4.8e-5 (Runs 008-012)
+- Historical references to 1.23 reflect the legacy methodology
 """
 
 import streamlit as st

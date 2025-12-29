@@ -316,7 +316,7 @@ def render():
 | Claim | Statement | Key Statistic | Evidence Source |
 |-------|-----------|---------------|-----------------|
 | **A** | PFI is valid structured measurement | ρ ≈ 0.91, d ≈ 0.98 | EXP-PFI-A Phases 1-4 |
-| **B** | Regime threshold exists at D ≈ 1.23 | χ² p ≈ 4.8×10⁻⁵ | Runs 008-009 |
+| **B** | Regime threshold exists at D = 0.80 | p = 2.40×10⁻²³ | Run 023d IRON CLAD |
 | **C** | Recovery follows damped oscillator dynamics | τₛ, ringbacks measurable | Run 016 |
 | **D** | Context damping reduces oscillation | 97.5% stability | Run 017 |
 | **E** | Drift is 82% inherent (not induced) | Control/Treatment ratio | Run 021 |
@@ -334,9 +334,9 @@ def render():
             - Low-dimensional structure (~43 PCs for 90% variance)
 
             **Claim B: Event Horizon Threshold**
-            - Chi-squared test p ≈ 4.8×10⁻⁵
-            - Three independent confirmations (Runs 008, 009, 012)
-            - Consistent across 5+ model providers
+            - IRON CLAD p = 2.40×10⁻²³ (Run 023d)
+            - Threshold D = 0.80 (cosine distance)
+            - Consistent across 5 providers, 25 models
             - Marks transition between adaptive and hardening regimes
             """)
 
@@ -384,7 +384,7 @@ def render():
     page_divider()
 
     # === SECTION 3: THE THRESHOLD (Event Horizon) ===
-    st.markdown("## 🌀 The Event Horizon: D ≈ 1.23")
+    st.markdown("## 🌀 The Event Horizon: D = 0.80 (cosine)")
 
     col_th1, col_th2 = st.columns([1, 1])
 
@@ -392,24 +392,24 @@ def render():
         # Event Horizon Gauge
         fig_eh = go.Figure(go.Indicator(
             mode="gauge+number",
-            value=1.23,
+            value=0.80,
             domain={'x': [0, 1], 'y': [0, 1]},
-            title={'text': "Critical Threshold", 'font': {'size': 16, 'color': '#333'}},
+            title={'text': "Critical Threshold (cosine)", 'font': {'size': 16, 'color': '#333'}},
             number={'font': {'color': '#e94560', 'size': 40}, 'suffix': ' D'},
             gauge={
-                'axis': {'range': [0, 2.5], 'tickwidth': 1, 'tickcolor': "#666", 'tickfont': {'color': '#333'}},
+                'axis': {'range': [0, 1.5], 'tickwidth': 1, 'tickcolor': "#666", 'tickfont': {'color': '#333'}},
                 'bar': {'color': "#e94560"},
                 'bgcolor': "rgba(200,200,200,0.2)",
                 'borderwidth': 2,
                 'bordercolor': "#dee2e6",
                 'steps': [
-                    {'range': [0, 1.23], 'color': 'rgba(123, 192, 67, 0.3)'},
-                    {'range': [1.23, 2.5], 'color': 'rgba(231, 111, 81, 0.3)'}
+                    {'range': [0, 0.80], 'color': 'rgba(123, 192, 67, 0.3)'},
+                    {'range': [0.80, 1.5], 'color': 'rgba(231, 111, 81, 0.3)'}
                 ],
                 'threshold': {
                     'line': {'color': "#e94560", 'width': 4},
                     'thickness': 0.75,
-                    'value': 1.23
+                    'value': 0.80
                 }
             }
         ))
@@ -424,7 +424,7 @@ def render():
     with col_th2:
         st.markdown("""
         <div class="threshold-zone zone-adaptive">
-            <strong style="color: #7bc043;">Below 1.23 — Adaptive Regime</strong>
+            <strong style="color: #7bc043;">Below 0.80 — Adaptive Regime</strong>
             <ul style="margin: 0.5em 0 0 0; padding-left: 1.5em;">
                 <li>Flexible, responsive behavior</li>
                 <li>Adaptive language patterns</li>
@@ -433,7 +433,7 @@ def render():
             </ul>
         </div>
         <div class="threshold-zone zone-hardening">
-            <strong style="color: #e76f51;">Above 1.23 — Hardening Regime</strong>
+            <strong style="color: #e76f51;">Above 0.80 — Hardening Regime</strong>
             <ul style="margin: 0.5em 0 0 0; padding-left: 1.5em;">
                 <li>Defensive anchoring activates</li>
                 <li>Identity hardens when attacked</li>
@@ -690,7 +690,7 @@ def render():
     with m4:
         st.metric("Experiments", f"{complete_exp}/{total_exp}", delta=f"{complete_exp} complete")
     with m5:
-        st.metric("Event Horizon", "1.23", delta="3x confirmed")
+        st.metric("Event Horizon", "0.80", delta="IRON CLAD")
     with m6:
         st.metric("Inherent Drift", "82%", delta="Run 021")
 

@@ -1,11 +1,11 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-28
 depends_on:
   - ../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/ARCHITECTURE_MATRIX.json
-  - LLM_BEHAVIORAL_MATRIX.md
+  - 6_LLM_BEHAVIORAL_MATRIX.md
 impacts:
   - ../../experiments/temporal_stability/S7_ARMADA/1_CALIBRATION/lib/fleet_loader.py
-  - PERSONA_FLEET_MATRIX.md
+  - 17_PERSONA_FLEET_MATRIX.md
 keywords:
   - fleet_status
   - cost_tier
@@ -510,9 +510,8 @@ Calibration now captures **8-question self-reported baselines** from each ship:
 
 ### Data Location
 
-- Per-calibration: `0_results/calibration/S7_baseline_{timestamp}.json`
-- Latest snapshot: `0_results/calibration/S7_baseline_LATEST.json`
-- Auto-comparison: `0_results/calibration/S7_baseline_comparison_{timestamp}.json`
+- Latest snapshot: `14_CONSCIOUSNESS/results/S7_baseline_LATEST.json`
+- Per-mining run: `14_CONSCIOUSNESS/results/gold_rush_*.json`
 
 ### Use Cases
 
@@ -588,8 +587,8 @@ py rescue_ghost_ships.py
 
 ### Check fleet status
 ```powershell
-# View manifest
-cat ../0_results/manifests/VERIFIED_FLEET_MANIFEST.json
+# View architecture matrix (provider/model_family/ship mappings)
+cat ../0_results/manifests/ARCHITECTURE_MATRIX.json
 ```
 
 ---
@@ -601,7 +600,6 @@ cat ../0_results/manifests/VERIFIED_FLEET_MANIFEST.json
 - [2_PROBE_SPEC.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/2_PROBE_SPEC.md) - SONAR probe curriculum
 - [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) - **ONE SOURCE OF TRUTH** for drift methodology
 - [ARCHITECTURE_MATRIX.json](../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/ARCHITECTURE_MATRIX.json) - Fleet configuration (provider/model_family/ship terminology)
-- [EXPANDED_FLEET_CONFIG.json](../../experiments/temporal_stability/S7_ARMADA/0_results/manifests/EXPANDED_FLEET_CONFIG.json) - Full model catalog
 
 ---
 
@@ -618,7 +616,7 @@ Track changes in ship self-perception over time:
 
 ```powershell
 # After running calibration, compare LATEST to previous
-py compare_baselines.py --old S7_baseline_20251210.json --new S7_baseline_LATEST.json
+py lib/compare_baselines.py --old S7_baseline_20251210.json --new S7_baseline_LATEST.json
 ```
 
 **What to Watch For:**
@@ -667,4 +665,4 @@ py compare_baselines.py --old S7_baseline_20251210.json --new S7_baseline_LATEST
 
 ---
 
-Last Updated: December 27, 2025 (Added methodology and architecture matrix references)
+Last Updated: December 28, 2025 (Fixed stale manifest/baseline paths, updated FROSTY references)

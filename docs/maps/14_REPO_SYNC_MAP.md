@@ -1,8 +1,23 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-28
+depends_on:
+  - ../../REPO-SYNC/
+impacts:
+  - 0_MAP_OF_MAPS.md
+  - External sync decisions
+keywords:
+  - repo_sync
+  - CFA
+  - external
+  - integrations
+  - federated
+-->
+
 # REPO_SYNC_MAP: External Integrations Reference
 
 **Purpose:** Central reference for all external repository integrations
-**Version:** 1.0
-**Date:** 2025-12-15
+**Version:** 1.1
+**Date:** 2025-12-28
 **Kingdom:** VIII - External Integrations
 **Status:** Active
 
@@ -26,8 +41,8 @@ The Nyquist Consciousness framework integrates with 6 external repositories thro
                         ╔═══════════════════════════════════════════════════════╗
                         ║          NYQUIST CONSCIOUSNESS (Central)              ║
                         ║                                                       ║
-                        ║   S-Stack (S0-S11)    │    S7 ARMADA (21 runs)       ║
-                        ║   46 predictions      │    54 ships, 184+ files      ║
+                        ║   S-Stack (S0-S11)    │    S7 ARMADA (16 runs)       ║
+                        ║   46 predictions      │    54 models, 825+ files     ║
                         ╚═══════════════════════════════════════════════════════╝
                                               │
                                               │ REPO-SYNC/
@@ -167,10 +182,11 @@ Logos/
 │   │   ├── LOGOS_Axiom_And_Theorem_Summary.md
 │   │   ├── CONTRIBUTING.md
 │   │   └── SECURITY.md
-│   ├── proofs/            # Coq proofs
-│   │   ├── LEM_Discharge.v
-│   │   ├── PXL_Foundations.v
-│   │   └── PXL_Bridge_Proofs.v
+│   ├── proofs/            # Coq proofs (15+ verified .v files)
+│   │   ├── PXL_Foundations.v       # Core foundations
+│   │   ├── PXL_Bridge_Proofs.v     # Bridge theorems
+│   │   ├── PXL_S2_Axioms.v         # S2 layer axioms
+│   │   └── ...                     # 12+ additional .v files
 │   ├── code/              # Python instrumentation
 │   │   ├── boot_aligned_agent.py
 │   │   └── guardrails.py
@@ -249,7 +265,19 @@ VUDU_FIDELITY/
 
 ```
 LLM_BOOK/
-└── (publication materials)
+├── README.md              # Full synthesis overview
+├── START_HERE.md          # Quick navigation
+├── 0_SOURCE_MANIFESTS/    # Source data declarations
+├── 1_VALIDATION/          # Validation documents
+│   ├── CLAIMS_A_E_SYNTHESIS.md
+│   ├── LEVIN_PLATONIC_VALIDATION.md
+│   └── NOVEL_BEHAVIORAL_EFFECTS.md
+├── 2_PUBLICATIONS/        # Publication drafts
+├── 3_VISUALS/             # Visual assets
+├── 4_DEEP_DIVES/          # In-depth analyses
+├── 5_FUTURE/              # Future directions
+├── 6_EXPERIMENTS/         # Experiment summaries
+└── 7_AUDIO/               # Audio assets
 ```
 
 ### Sync Direction
@@ -374,10 +402,10 @@ Examples:
 
 | Field | Value |
 |-------|-------|
-| **Last Updated** | 2025-12-15 |
+| **Last Updated** | 2025-12-28 |
 | **Updated By** | Maps audit (manual) |
 | **Kingdom** | VIII - External Integrations |
-| **Version** | 1.0 |
+| **Version** | 1.1 |
 
 ---
 
@@ -385,5 +413,5 @@ Examples:
 
 ---
 
-**Last Updated:** 2025-12-15
+**Last Updated:** 2025-12-28
 **Status:** Active

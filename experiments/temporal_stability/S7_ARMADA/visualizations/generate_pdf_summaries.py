@@ -2,6 +2,28 @@
 """
 Generate PDF summary documents for visualization folders.
 Each PDF explains the plots in that folder for white paper reviewers.
+
+IRON CLAD PDF SUMMARY NAVIGATION
+================================
+This is the MASTER PDF generator for folders 1-15 in pics/.
+For run-specific PDF summaries, see these additional generators:
+
+    pics/15_Oobleck_Effect/generate_pdf_summary.py  -> Run 020A/B Oobleck Effect analysis
+    pics/run018/generate_pdf_summary.py             -> Run 018 dedicated analysis
+    pics/run020/generate_pdf_summary.py             -> Run 020 value/exchange/closing analysis
+
+Together, these 4 scripts generate ALL PDF summaries for IRON CLAD visualizations.
+Run this master script first, then the run-specific ones as needed.
+
+Data Sources:
+    - Run 023d: 15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json (750 experiments)
+    - Run 018/020: 11_CONTEXT_DAMPING/results/S7_run_018_CURRENT.json, S7_run_020A/B_CURRENT.json
+
+See also:
+    - visualize_armada.py         -> DIRECTOR for image generation
+    - RnD_Visualization.py        -> R&D wing for experimental prototypes
+    - START_HERE.md               -> Claude onboarding guide
+    - 0_docs/specs/4_VISUALIZATION_SPEC.md -> Visualization pitfalls and patterns
 """
 
 from pathlib import Path
