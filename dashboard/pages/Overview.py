@@ -212,39 +212,7 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    # === HERO VISUALIZATION: The Identity Vortex (compact) ===
-    hero_vortex_path = vortex_dir / "run023b_vortex.png"
-    hero_vortex_img = load_image_safe(hero_vortex_path)
-
-    if hero_vortex_img:
-        # Two-column layout: metrics on left, smaller vortex on right
-        vortex_col1, vortex_col2 = st.columns([1, 2])
-
-        with vortex_col1:
-            st.markdown("""
-            <div style="background: rgba(26, 26, 46, 0.95); padding: 1.2rem;
-                        border-radius: 12px; border: 2px solid #e94560; height: 100%;">
-                <div style="color: #e94560; font-size: 1.2em; font-weight: bold; margin-bottom: 0.5em;">
-                    🌀 IDENTITY VORTEX
-                </div>
-                <div style="color: white; font-size: 0.85em; line-height: 1.8;">
-                    <span style="color: #2a9d8f;">●</span> Event Horizon: <strong>0.80</strong><br>
-                    <span style="color: #f59e0b;">●</span> p-value: <strong>2.40e-23</strong><br>
-                    <span style="color: #7c3aed;">●</span> 25 models, 5 providers<br>
-                    <span style="color: #ec4899;">●</span> 750 experiments
-                </div>
-                <div style="color: #888; font-size: 0.75em; margin-top: 0.8em; border-top: 1px solid #444; padding-top: 0.5em;">
-                    Models inside red ring = STABLE<br>
-                    Outside = VOLATILE
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with vortex_col2:
-            st.image(hero_vortex_img, use_container_width=True, caption="Run 023b: Identity basin trajectories")
-
-    # === SECTION 1: THE CORE FINDING (82% Result) ===
-    st.markdown("---")
+    # === SECTION 1: THE CORE FINDING (82% Result) — MOVED BEFORE VORTEX ===
     st.markdown("## 🎯 The Core Finding")
 
     col_hero1, col_hero2 = st.columns([1, 2])
@@ -275,6 +243,43 @@ def render():
     we're *revealing* dynamics that occur naturally in extended conversation. The thermometer doesn't create
     the heat; it measures what's already there.
     """)
+
+    # === HERO VISUALIZATION: The Identity Vortex (compact, roadmap-styled) ===
+    hero_vortex_path = vortex_dir / "run023b_vortex.png"
+    hero_vortex_img = load_image_safe(hero_vortex_path)
+
+    if hero_vortex_img:
+        st.markdown("---")
+        # Three-column layout: spacer, vortex card, spacer (keeps it centered and smaller)
+        _, vortex_center, _ = st.columns([1, 3, 1])
+
+        with vortex_center:
+            # Roadmap-style card container
+            st.markdown("""
+            <div style="background: #e3f2fd; border-radius: 12px; padding: 1.5rem;
+                        border: 2px solid #f39c12; margin-bottom: 1rem;">
+                <div style="color: #f39c12; font-size: 1.3em; font-weight: bold; margin-bottom: 0.8em; text-align: center;">
+                    🌀 IDENTITY VORTEX — Run 023b
+                </div>
+                <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 0.5em; margin-bottom: 1em;">
+                    <span style="background: #2a9d8f; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.85em;">
+                        Event Horizon: 0.80
+                    </span>
+                    <span style="background: #e94560; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.85em;">
+                        p = 2.40e-23
+                    </span>
+                    <span style="background: #264653; color: white; padding: 0.3em 0.8em; border-radius: 15px; font-size: 0.85em;">
+                        25 models • 5 providers
+                    </span>
+                </div>
+                <div style="color: #555; font-size: 0.85em; text-align: center;">
+                    Models inside red ring = <strong>STABLE</strong> | Outside = <strong>VOLATILE</strong>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Smaller image below the card
+            st.image(hero_vortex_img, use_container_width=True, caption="Identity basin trajectories across 750 experiments")
 
     # === SYNAPSES: The Encoded Mind ===
     st.markdown("---")
