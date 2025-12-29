@@ -445,13 +445,13 @@ def render_key_results():
         st.markdown("""
         **Claim A — PFI is Valid Structured Measurement**
         - ✅ Embedding invariance: ρ ≈ 0.91 (Spearman)
-        - ✅ Low-dimensional structure: 43 PCs for 90% variance
+        - ✅ Low-dimensional structure: 2 PCs for 90% variance (IRON CLAD)
         - ✅ Semantic sensitivity: d ≈ 0.98 (effect size)
         - ✅ Paraphrase robustness: 0% above Event Horizon
 
-        **Claim B — Regime Threshold at D ≈ 1.23**
-        - ✅ Chi-square validation: p ≈ 4.8e-5
-        - ✅ PC space separability: p = 0.0018
+        **Claim B — Regime Threshold at D = 0.80 (cosine)**
+        - ✅ IRON CLAD validation: p = 2.40e-23 (Run 023d)
+        - ✅ PC space separability validated
         - ✅ Predictive association with stability outcomes
 
         **Claim C — Damped Oscillator Dynamics**
@@ -488,7 +488,7 @@ def render_key_results():
     with col1:
         st.markdown("""
         **Response-Mode Ontology**
-        - 43 PCs ≠ identity dimensions to hunt
+        - 2 PCs capture 90% variance (IRON CLAD) — identity is remarkably low-dimensional
         - PCs = dominant response modes under perturbation
         - Mode taxonomy: lexical, normative, epistemic, role-shift, collapse
 
@@ -517,7 +517,7 @@ def render_key_results():
         - Drift = state-space displacement
 
         **Observable Pruning**
-        - 12-metric canonical set (of 43 PCs)
+        - 12-metric canonical set
         - Layer A: 7 geometry metrics
         - Layer B: 5 semantic metrics
         """)

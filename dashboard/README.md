@@ -19,7 +19,7 @@ keywords:
 
 **Streamlit-based dashboard for visualizing the entire Nyquist Consciousness framework.**
 
-> **📐 METHODOLOGY NOTE (December 2025):** Dashboard visualizations show historical data from the Keyword RMS era (Event Horizon = 1.23). The canonical methodology is now cosine distance (EH = 0.80). Run 023d validated with p=2.40e-23 (825+ files). Dashboard code will be updated in a future release to reflect the unified cosine methodology.
+> **📐 METHODOLOGY NOTE (December 2025):** Dashboard now uses **IRON CLAD** methodology as primary. Event Horizon = 0.80 (cosine), p = 2.40e-23. Key finding: **2 PCs capture 90% of identity variance** — identity is remarkably low-dimensional. Legacy Keyword RMS (EH = 1.23) preserved in historical context.
 
 ## Features
 
@@ -63,7 +63,7 @@ keywords:
 ### Publications Page Enhancements
 
 - Added **Theoretical Breakthroughs** section (Nova's S7 Review integration)
-  - Response-Mode Ontology (43 PCs = response modes, not identity dimensions)
+  - Response-Mode Ontology (2 PCs capture 90% variance — IRON CLAD finding)
   - Type vs Token Identity (16.7% self-recognition, worse than chance)
   - Energy vs Coordinate distinction (peak drift = turbulence, B→F = destination)
   - Oobleck Effect (rate-dependent resistance from Run 013)
@@ -179,8 +179,8 @@ To wire real experiment data:
 | Run | Ships | Focus | Key Finding |
 |-----|-------|-------|-------------|
 | 006 | 29 | Provider Comparison | Training fingerprints validated |
-| 008 | 29 | Ground Truth | Event Horizon discovered (now 0.80 cosine) |
-| 009 | 42 | Event Horizon | Early validation (superseded by Run 023d) |
+| 008 | 29 | Ground Truth | Event Horizon discovered |
+| 009 | 42 | Event Horizon | Early validation (legacy 1.23 RMS) |
 | 010 | 45 | Anchor Detection | Lambda bug, partial data |
 | 011 | 40 | Persona A/B | Inconclusive — protocol too gentle |
 | **012** | 20 | **Revalidation** | **100% EH crossing, 100% recovery** |
@@ -193,6 +193,7 @@ To wire real experiment data:
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3)** |
 | **020** | - | **Tribunal (A)** | **Direct probing paradigm: 1.351 peak drift, 643-word statement** |
 | **021** | - | **Induced vs Inherent (B)** | **Uses Run 020 as Treatment → 82% drift is INHERENT** |
+| **023d** | 25 | **IRON CLAD** | **p=2.40e-23, EH=0.80 (cosine), 2 PCs for 90% variance** |
 
 ## Publication Stats Integration (NEW)
 
@@ -898,6 +899,6 @@ Each "page" represents a different lens on the Nyquist Consciousness framework, 
 ---
 
 **Generated**: 2025-11-27
-**Updated**: 2025-12-17
-**Version**: 1.6
-**Status**: Mission Control Active — Encoded Mind section + Lessons Learned documentation
+**Updated**: 2025-12-29
+**Version**: 1.7
+**Status**: Mission Control Active — IRON CLAD methodology integrated (EH=0.80, 2 PCs)

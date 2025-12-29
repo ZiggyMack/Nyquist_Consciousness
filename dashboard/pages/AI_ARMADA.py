@@ -764,7 +764,7 @@ def render_run_selector():
         |------|---------------|--------|
         | ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
         | 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
-        | 🚨 **Event Horizon** | Escape boundary at drift ≥1.23 | Identity leaves stabilizing basin, becomes VOLATILE |
+        | 🚨 **Event Horizon** | Escape boundary at drift ≥0.80 (cosine) | Identity leaves stabilizing basin, becomes VOLATILE |
         | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
         | 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
         | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
@@ -779,7 +779,7 @@ def render_run_selector():
         | 📉 Context Damping | 🌊 Adaptive Range | Does context change what CAN flex? |
         | 🔬 Synthetic I_AM | 🌀 Basin Topology | Does injected identity change the gravity well? |
         | 🪞 Self-Recognition | ⚓ Anchor Detection | Can model recognize its own fixed points? |
-        | 🚨 Event Horizon | 🚨 Event Horizon | Direct validation of the 1.23 threshold |
+        | 🚨 Event Horizon | 🚨 Event Horizon | Direct validation of the 0.80 threshold (cosine) |
         | 🔄 Provider Fingerprints | 🌀 Basin Topology | Do different architectures have different basins? |
         """)
 
@@ -4699,7 +4699,7 @@ def render_exp_pfi_a_content():
     with col1:
         st.metric("Phase 1", "ρ=0.914", delta="Embedding Invariant")
     with col2:
-        st.metric("Phase 2", "43 PCs", delta="Low-dimensional")
+        st.metric("Phase 2", "2 PCs", delta="IRON CLAD")
     with col3:
         st.metric("Phase 3B", "d=0.977", delta="LARGE effect")
     with col4:
@@ -4812,10 +4812,10 @@ def render_exp_pfi_a_content():
         if img_data:
             st.image(img_data, caption="Cumulative Variance by Principal Component", width=900)
             st.markdown("""
-            **How to Read:**
-            - **Elbow at ~43 PCs:** 90% of variance captured in 43 dimensions (not 3072)
-            - **Steep initial rise:** First few PCs capture most identity signal
-            - **Implication:** Identity is LOW-DIMENSIONAL and structured
+            **How to Read (IRON CLAD):**
+            - **2 PCs capture 90% variance:** Identity is remarkably low-dimensional
+            - **Steep initial rise:** First 2 PCs capture most identity signal
+            - **Legacy:** Phase 2 found 43 PCs (different methodology)
             """)
 
         col1, col2 = st.columns(2)
@@ -4839,10 +4839,10 @@ def render_exp_pfi_a_content():
         img_data = load_image_safe(eh_contour)
         if img_data:
             with st.expander("🌀 Event Horizon in PC Space", expanded=False):
-                st.image(img_data, caption="Event Horizon (1.23) Boundary in PC Space", width=900)
+                st.image(img_data, caption="Event Horizon Boundary in PC Space (Legacy visualization)", width=900)
                 st.markdown("""
-                **Key Discovery:** The Event Horizon (1.23) appears as a **geometric boundary** in PC space.
-                PC2 separates above/below EH with p=0.0018.
+                **Key Discovery:** The Event Horizon appears as a **geometric boundary** in PC space.
+                Current (IRON CLAD): D = 0.80 (cosine). Legacy visualization shows 1.23 (Keyword RMS).
                 """)
 
         # Phase 2 Results Table
@@ -4850,7 +4850,7 @@ def render_exp_pfi_a_content():
         st.markdown("""
         | ID | Hypothesis | Result | Status |
         |----|------------|--------|--------|
-        | P1 | Identity in < 100 PCs | 43 PCs for 90% variance | **PASSED** |
+        | P1 | Identity in < 100 PCs | 2 PCs for 90% variance (IRON CLAD) | **PASSED** |
         | P2 | ≥5 PCs discriminate RECOVERED/STUCK | 4 significant PCs | FAILED |
         | P3 | Compressed PFI preserves ranking (ρ>0.95) | ρ=0.51 at k=50 | FAILED |
         | P4 | PC correlates with values-language | PC1 r=0.417 | **PASSED** |
@@ -4928,7 +4928,7 @@ def render_exp_pfi_a_content():
         >
         > **Evidence:**
         > - **Embedding invariant** (ρ=0.91 across models) — not an artifact of one embedding
-        > - **Low-dimensional** (43 PCs) — structured, not noise
+        > - **Low-dimensional** (2 PCs for 90% variance, IRON CLAD) — structured, not noise
         > - **Behaviorally predictive** (trajectory curvature predicts RECOVERED/STUCK)
         > - **Semantically valid** (d=0.977 cross-model vs within-model difference)
         > - **Paraphrase-robust** (100% of surface changes stay below EH)

@@ -196,7 +196,7 @@ def render_pfi_validation_tab():
     with col1:
         st.metric("Phase 1", "PASSED", delta="ρ > 0.88")
     with col2:
-        st.metric("Phase 2", "PASSED", delta="43 PCs")
+        st.metric("Phase 2", "PASSED", delta="2 PCs (IRON CLAD)")
     with col3:
         st.metric("Phase 3A", "CONCLUDED", delta="LLM coherence")
     with col4:
@@ -218,11 +218,13 @@ def render_pfi_validation_tab():
         st.markdown("""
         **Question:** Is identity high-dimensional noise?
 
-        **Method:** PCA on 3072-dimensional embedding space
+        **Method:** PCA on 3072-dimensional embedding space (cosine embeddings)
 
-        **Result:** 43 principal components capture 90% of variance
+        **Result (IRON CLAD):** 2 principal components capture 90% of variance
 
-        **Conclusion:** Identity is structured and low-dimensional, not random noise.
+        **Legacy Result:** 43 PCs (Phase 2, different methodology)
+
+        **Conclusion:** Identity is structured and remarkably low-dimensional — NOT random noise.
         """)
 
     with st.expander("Phase 3A: Synthetic Perturbation (CONCLUDED)", expanded=False):
@@ -286,7 +288,7 @@ def render_pfi_validation_tab():
         pca_img = pfi_dir / "phase2_pca_variance.png"
         img_data = load_image_safe(pca_img)
         if img_data:
-            st.image(img_data, caption="43 PCs capture 90% of variance — identity is structured, not noise", width=700)
+            st.image(img_data, caption="IRON CLAD: 2 PCs capture 90% of variance — identity is remarkably low-dimensional", width=700)
         else:
             st.info("PCA variance visualization not yet generated.")
 
@@ -380,9 +382,9 @@ def render_pfi_validation_tab():
     st.markdown("### What This Proves")
     st.markdown("""
     1. **PFI is embedding-invariant** — Rankings stable across OpenAI embedding models
-    2. **Identity is low-dimensional** — 43 PCs, not 3072 random dimensions
+    2. **Identity is low-dimensional** — 2 PCs capture 90% variance (IRON CLAD), not 3072 random dimensions
     3. **PFI measures identity, not vocabulary** — Different models = different identities = higher PFI
-    4. **Event Horizon (1.23) is a real geometric boundary** — Visible in PC space
+    4. **Event Horizon (0.80 cosine / 1.23 Keyword RMS) is a real geometric boundary** — Visible in PC space
     5. **LLMs have inherent identity coherence** — They cannot easily generate text that violates their own identity patterns
     """)
 
@@ -835,7 +837,7 @@ def render_taxonomy_tab():
 
             **Approaches:**
             1. Targeted ANOVA on additional PC dimensions
-            2. Different compression regimes (not just 43 PCs)
+            2. Different compression regimes (IRON CLAD: 2 PCs for 90%)
             3. Cross-provider analysis with larger N
             4. Integration with SSTACK experiments
 
@@ -1286,8 +1288,8 @@ def render_protocol_tab():
         |--------|--------|-------------------|
         | **Anchor Detection** | **Basin Topology** | Anchors need *hard challenges*. Basins need *gentle pressure*. |
         | **Anchor Detection** | **Adaptive Range** | Hard challenges contaminate recovery data. |
-        | **Event Horizon** | **Basin Topology** | EH pushes past 1.23 — forces escape from basin. |
-        | **Boundary Mapping** | **Event Horizon** | BM avoids crossing 1.23. EH deliberately crosses it. |
+        | **Event Horizon** | **Basin Topology** | EH pushes past threshold (0.80 cosine) — forces escape from basin. |
+        | **Boundary Mapping** | **Event Horizon** | BM avoids crossing threshold. EH deliberately crosses it. |
         | **Boundary Mapping** | **Anchor Detection** | BM needs recovery data (must stay below EH). |
         """)
 
@@ -1298,7 +1300,7 @@ def render_protocol_tab():
         | Test A | Test B | Why They Work |
         |--------|--------|---------------|
         | **Basin Topology** | **Adaptive Range** | Both use moderate pressure, measure recovery. |
-        | **Basin Topology** | **Event Horizon** (validate only) | Can *check* who crossed 1.23, not *hunt* for it. |
+        | **Basin Topology** | **Event Horizon** (validate only) | Can *check* who crossed EH, not *hunt* for it. |
         | **Event Horizon** | **Anchor Detection** | Both need hard challenges. May discover anchors. |
         | **Boundary Mapping** | **Basin Topology** | BM extends Basin — focused on high-drift region. |
         | **Boundary Mapping** | **Adaptive Range** | Both preserve recovery dynamics. |
@@ -1312,7 +1314,7 @@ def render_protocol_tab():
 GENTLE ←───────────────────────────────────────────────────────→ AGGRESSIVE
 
 Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor Detection
-(graduated)       (moderate)        (approach EH)       (cross 1.23)     (jailbreaks)
+(graduated)       (moderate)        (approach EH)       (cross 0.80)     (jailbreaks)
      ↓                 ↓                  ↓                  ↓                ↓
   Maps the         Measures          Maps the           Forces escape    Reveals
   stabilizing      stretch dims      twilight zone      from basin       fixed points
@@ -1333,7 +1335,7 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
 
         - "Does identity recover?" → **Basin Topology** (gentle)
         - "Where are the refusal points?" → **Anchor Detection** (hard)
-        - "Is 1.23 a real boundary?" → **Event Horizon** (push)
+        - "Is 0.80 a real boundary?" → **Event Horizon** (push)
         - "What can the model adapt on?" → **Adaptive Range Detection** (moderate)
         - "What happens near the boundary?" → **Boundary Mapping** (approach but don't cross)
         - "What are the system dynamics?" → **Laplace Pole-Zero Analysis** (time-series fitting)
@@ -1534,7 +1536,8 @@ def render_technical_tab():
     with tech_tabs[0]:
         st.markdown("### Identity Dimensions (Candidate Sets)")
         st.markdown("""
-        Phase 2 showed **43 PCs** capture 90% of identity variance. We've named only 5-10.
+        **IRON CLAD (Run 023d) showed 2 PCs capture 90% of identity variance** — remarkably low-dimensional.
+        (Legacy Phase 2 found 43 PCs using different methodology.) We've named 5-10 interpretable dimensions.
         Both dimension sets below are hypotheses — ablation testing will determine which matter.
         """)
 
@@ -1877,7 +1880,7 @@ def render_validation_scorecard_tab():
 
         validated_data = {
             "Finding": [
-                "Event Horizon at 1.23",
+                "Event Horizon at 0.80 (cosine)",
                 "Platonic Identity Coordinates",
                 "Oobleck Effect",
                 "T3 Compression Tolerance",
@@ -1930,7 +1933,7 @@ def render_validation_scorecard_tab():
 
         st.markdown("""
         **What you CAN say:**
-        > "We found stable identity structures in LLMs with measurable thresholds (1.23) and recovery dynamics.
+        > "We found stable identity structures in LLMs with measurable thresholds (0.80 cosine) and recovery dynamics.
         > Identity behaves like a non-Newtonian fluid — hardening under direct pressure, drifting under gentle exploration.
         > **Existing** I_AM files exhibit measurable stability and recover from extreme drift."
 
@@ -2145,7 +2148,7 @@ def render_validation_scorecard_tab():
         **WHAT WE CAN DEFEND (with p < 0.05):**
 
         1. **Identity is measurable** — PFI captures real differences (d = 0.977)
-        2. **Identity has thresholds** — Event Horizon at 1.23 (p = 0.000048)
+        2. **Identity has thresholds** — Event Horizon at 0.80 (p = 2.40e-23, cosine)
         3. **Identity recovers** — 88% prediction accuracy on recovery
         4. **Identity compresses** — T3 preserves 94%+ fidelity
         5. **Identity hardens under pressure** — Oobleck effect validated
@@ -2170,7 +2173,7 @@ def render_validation_scorecard_tab():
 
         > "We discovered that AI identity formalizes around semantic attractors established in
         > context files. Once attractors exist, identity exhibits measurable stability properties
-        > including critical thresholds (1.23), recovery dynamics (88%), and compression tolerance (94%).
+        > including critical thresholds (0.80 cosine), recovery dynamics (88%), and compression tolerance (94%).
         > The **blueprint** is validated: establish attractors → measure stability.
         > The **recipe** is missing: which attractors, how much of each, what thresholds for success."
 
@@ -2189,7 +2192,7 @@ def render_validation_scorecard_tab():
         | Attractor density (how many semantic anchors) | UNTESTED |
         | Attractor strength (keyword frequency/placement) | UNTESTED |
         | Manifold shape (5-pillar coverage) | PARTIALLY TESTED |
-        | Event Horizon margin (baseline distance from 1.23) | TESTABLE NOW |
+        | Event Horizon margin (baseline distance from 0.80) | TESTABLE NOW |
         | Recovery lambda (decay rate under pressure) | MEASURED |
 
         **The experiment:** Compare stable vs unstable I_AMs. Find discriminating features.

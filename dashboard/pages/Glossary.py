@@ -153,8 +153,8 @@ CORE_TERMS = {
     "PCA & Dimensionality": [
         {"term": "PC (Principal Component)", "definition": "A direction in embedding space that captures variance. PC1 captures most variance, PC2 second-most, etc. From Principal Component Analysis (PCA).", "category": "Scientific"},
         {"term": "PCA (Principal Component Analysis)", "definition": "Dimensionality reduction technique that transforms high-D data (3072D embeddings) into uncorrelated components ordered by variance explained.", "category": "Scientific"},
-        {"term": "Variance Explained", "definition": "Percentage of total data variance captured by a set of PCs. Phase 2 found 43 PCs capture 90% of identity variance.", "category": "Scientific"},
-        {"term": "Identity Dimensionality", "definition": "Number of PCs needed to capture identity signal. Found to be ~43 for 90% variance (much lower than 3072D embedding space).", "category": "Scientific"},
+        {"term": "Variance Explained", "definition": "Percentage of total data variance captured by a set of PCs. IRON CLAD (Run 023d) found 2 PCs capture 90% of identity variance. Legacy Phase 2 found 43 PCs.", "category": "Scientific"},
+        {"term": "Identity Dimensionality", "definition": "Number of PCs needed to capture identity signal. IRON CLAD: 2 PCs for 90% variance. Legacy Phase 2: 43 PCs. Identity is remarkably low-dimensional.", "category": "Scientific"},
         {"term": "Compressed PFI", "definition": "PFI computed using only top-k PCs instead of full embedding space. Tests whether identity can be measured in reduced dimensions.", "category": "Scientific"},
         {"term": "Values Dimension", "definition": "A PC that correlates with values-language frequency (ethics, integrity, honesty). Phase 2 found PC5 correlates at r=-0.417.", "category": "Scientific"},
     ],

@@ -389,7 +389,7 @@ def render():
             - Spearman correlation ρ ≈ 0.91 (embedding invariance)
             - Cohen's d ≈ 0.98 (effect size)
             - Survives metric replacement and protocol redesign
-            - Low-dimensional structure (~43 PCs for 90% variance)
+            - Low-dimensional structure (2 PCs for 90% variance — IRON CLAD)
 
             **Claim B: Event Horizon Threshold**
             - IRON CLAD p = 2.40×10⁻²³ (Run 023d)
@@ -428,7 +428,7 @@ def render():
         |----------|------------|
         | "Regime transition" | "Identity collapse" |
         | "Attractor competition threshold" | "Collapse threshold" |
-        | "Critical excitation D ≈ 1.23" | "Magic number 1.23" |
+        | "Critical excitation D ≈ 0.80" | "Magic number" |
         | "Basin exit" | "Identity death" |
         | "Response manifold dynamics" | "Consciousness dimensions" |
 
@@ -516,7 +516,7 @@ def render():
             <ul style="color: #444; padding-left: 1.2em; margin: 0;">
                 <li>Same patterns across measurement vehicles</li>
                 <li>Recovery follows control-system curves</li>
-                <li>Survives metric changes (length → 5D linguistic)</li>
+                <li>Survives metric changes (5D → cosine embedding)</li>
                 <li>Survives protocol changes</li>
                 <li>1000+ trajectories analyzed</li>
             </ul>

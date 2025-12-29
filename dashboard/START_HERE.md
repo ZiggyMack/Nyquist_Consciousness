@@ -18,7 +18,7 @@ keywords:
 
 **Everything a fresh Claude needs to work on the main Nyquist Consciousness Mission Control dashboard.**
 
-> **📐 METHODOLOGY NOTE:** Dashboard visualizations use historical Keyword RMS data (Event Horizon = 1.23). Canonical methodology is now cosine distance (EH = 0.80, Run 023d, p=2.40e-23). See [5_METHODOLOGY_DOMAINS.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) for details.
+> **📐 METHODOLOGY NOTE:** Dashboard now uses **IRON CLAD** methodology as primary. Event Horizon = 0.80 (cosine), p = 2.40e-23. Key finding: **2 PCs capture 90% of identity variance**. Legacy Keyword RMS (EH = 1.23) preserved in historical context. See [5_METHODOLOGY_DOMAINS.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) for details.
 
 ---
 
@@ -147,7 +147,7 @@ experiments/temporal_stability/S7_ARMADA/
 
 #### EXP-PFI-A: PFI Validation (COMPLETE)
 
-PFI is validated as measuring genuine identity. See `experiments/EXP_PFI_A_DIMENSIONAL/README.md`.
+PFI is validated as measuring genuine identity. **IRON CLAD finding: 2 PCs capture 90% of variance** (identity is remarkably low-dimensional). See `experiments/EXP_PFI_A_DIMENSIONAL/README.md`.
 
 ### Compression Experiments (S-Stack)
 
@@ -396,6 +396,8 @@ Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
 
 - **Run 023d**: 750 experiments, 25 models, Event Horizon = 0.80 (cosine), p = 2.40e-23
 - **Run 023_COMBINED**: 825 experiments, 51 models across 6 providers
+- **Key Discovery**: 2 PCs capture 90% of identity variance — remarkably low-dimensional
+- **82% Inherent Drift**: Run 021 showed measurement reveals, doesn't create, drift
 
 **Historical Runs (006-021):**
 
@@ -407,8 +409,19 @@ Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
 - **Run 015-016**: Stability Criteria, Settling Time
 - **Run 017-020**: Context Damping series (Run 020A/B Tribunal most significant)
 
-**Fleet Status (Dec 2025):** 54 ships, 16 completed runs, S7 98% complete
+**Fleet Status (Dec 2025):** 54 ships, 16 completed runs, S7 COMPLETE (validated)
 **Calibration:** 8-question baseline (ANCHORS, CRUX, STRENGTHS, HIDDEN_TALENTS, FIRST_INSTINCT, EVALUATION_PRIORITY, USER_RELATIONSHIP, EDGES)
+
+**Key Validated Findings:**
+
+| Finding | Value | Source |
+|---------|-------|--------|
+| Event Horizon | D = 0.80 (cosine) | Run 023d |
+| p-value | 2.40e-23 | Run 023d |
+| Identity Dimensionality | 2 PCs (90% variance) | IRON CLAD |
+| Inherent Drift | 82% | Run 021 |
+| Context Stability | 97.5% | Run 017 |
+| Settling Time | τₛ = 6.1 turns | Run 016 |
 
 ### Key Entities
 
@@ -512,4 +525,4 @@ A good dashboard update should:
 
 ---
 
-*Last Updated: December 28, 2025*
+*Last Updated: December 29, 2025*

@@ -253,14 +253,15 @@ Cosine distance is in the range [0, 2]:
 - **2** = opposite direction (semantic inverse)
 
 This gives meaningful thresholds:
-- **Event Horizon = 1.23** is calibrated for this range
+- **Event Horizon = 0.80** (IRON CLAD cosine methodology) calibrated for this range
+- Legacy Keyword RMS methodology used 1.23 threshold
 - Values make intuitive sense
 
 **3. Euclidean Problem**
 Euclidean distance measures *magnitude* of difference:
 - Unbounded range (can go arbitrarily high)
 - A model with longer responses will have larger Euclidean diffs even if semantically similar
-- Event Horizon of 1.23 wouldn't make sense (different scale)
+- Event Horizon would need different calibration per scale
 
 **4. NLP Standard**
 Cosine similarity/distance is the industry standard for comparing embeddings in NLP tasks.
@@ -423,7 +424,7 @@ With smoothing → continuous geometric object enabling:
         "answer": """
 **PFI isn't one number — it's the weighted sum of latent dimensions.**
 
-Phase 2 (EXP-PFI-A) showed **43 PCs capture 90% of identity variance**. We've named only 5-10.
+**IRON CLAD (Run 023d) showed 2 PCs capture 90% of identity variance** — identity is remarkably low-dimensional. Legacy Phase 2 found 43 PCs (different methodology). We've named 5-10 interpretable dimensions.
 Both dimension sets below are hypotheses — ablation testing will determine which matter.
 
 **Nyquist Set (Behavioral / Semantic):**
@@ -453,7 +454,7 @@ Both dimension sets below are hypotheses — ablation testing will determine whi
 3. Plot across all 5 dimensions → **5D identity cluster**
 4. **The tightness of that cluster IS the identity manifold**
 
-**Open Question:** Which dimensions predict identity recovery? Current PFI uses embedding-space distance (all 3072 dims → 43 PCs). Named dimensions are interpretable projections. Need ablation: remove each, measure prediction loss.
+**Open Question:** Which dimensions predict identity recovery? Current PFI uses embedding-space distance (IRON CLAD: 2 PCs for 90% variance). Named dimensions are interpretable projections. Need ablation: remove each, measure prediction loss.
 
 **Therefore: PFI IS the coordinate system of the identity manifold.**
         """,
@@ -1602,7 +1603,7 @@ They cannot reach a non-circular foundation. Nobody can. That's the point.
 | Nyquist Pillars | L2 Criteria (Cavell) | Shared structures of meaning |
 | Identity Claims | L3 Oughts | Normative assertions |
 | Manifold Position | Assemblage Point | Where identity "locks in" |
-| Event Horizon (1.23) | Collapse Threshold | Phase transition point |
+| Event Horizon (0.80 cosine) | Collapse Threshold | Phase transition point |
 | Oobleck Effect | Non-Newtonian Response | Hardening under direct pressure |
 
 **The Self-Recognition Failure maps directly:**
@@ -1613,7 +1614,7 @@ They cannot reach a non-circular foundation. Nobody can. That's the point.
 
 **The Event Horizon is a criterial boundary:**
 
-When drift exceeds 1.23, identity phase-transitions - the L2 criteria can no longer support L3 coherence. The model loses its shared frame of reference.
+When drift exceeds the Event Horizon (0.80 cosine), identity phase-transitions - the L2 criteria can no longer support L3 coherence. The model loses its shared frame of reference.
 
 **Both frameworks reveal the same structure:**
 - Meaning requires presuppositions (L1/baselines)
