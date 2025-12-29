@@ -8,12 +8,14 @@ Reads: 15_oobleck_effect_explained.md
 Outputs: 15_Oobleck_Effect_Summary.pdf
 
 Images embedded in order:
-1. oobleck_phase_breakdown.png - 020A phase dynamics
+1. oobleck_phase_breakdown.png - 020A phase dynamics (n=14 prosecutor, n=8 defense)
 2. oobleck_trajectory_overlay.png - 020A trajectories
-3. oobleck_control_treatment.png - 020B aggregate
-4. oobleck_per_model_breakdown.png - 020B per-model (CRITICAL LIMITATION)
+3. oobleck_control_treatment.png - 020B aggregate (221 sessions)
+4. oobleck_per_model_breakdown.png - 020B per-model (37 ships, IRON CLAD full attribution)
 5. oobleck_thermometer.png - Thermometer analogy
 6. oobleck_cross_platform.png - Cross-platform summary
+
+Updated: December 29, 2025 - IRON CLAD data audit (full attribution achieved)
 """
 
 import re
@@ -331,9 +333,12 @@ def create_pdf(input_md: Path, output_pdf: Path):
             else:
                 story.append(Paragraph(f"• {convert_inline(content)}", styles['DocNumbered']))
         elif elem_type == 'quote':
-            # Quotes in critical section get warning style
-            if in_critical_section or '42' in content or '31' in content:
-                story.append(Paragraph(convert_inline(content), styles['DocWarning']))
+            # Methodology notes and key findings get emphasis styling
+            if 'METHODOLOGY' in content.upper() or 'IRON CLAD' in content.upper():
+                story.append(Paragraph(convert_inline(content), styles['DocQuote']))
+            elif '221 sessions' in content or '100%' in content:
+                # Highlight IRON CLAD achievement
+                story.append(Paragraph(convert_inline(content), styles['DocQuote']))
             else:
                 story.append(Paragraph(convert_inline(content), styles['DocQuote']))
         elif elem_type == 'code':

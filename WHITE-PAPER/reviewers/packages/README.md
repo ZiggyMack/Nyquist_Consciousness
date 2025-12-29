@@ -1,13 +1,26 @@
 # Reviewer Packages
 
-**Last Updated:** December 26, 2025
-**Status:** v3 packages ready with Run 023 IRON CLAD + 16 visualization PDFs
+**Last Updated:** December 29, 2025
+**Status:** v4 packages ready with Run 020B IRON CLAD data audit (221 sessions, 37 ships)
 
 ---
 
 ## Package Versions
 
-### v3/ (Current - December 26, 2025)
+### v4/ (Current - December 29, 2025)
+
+**Run 020B IRON CLAD Data Audit + Updated Oobleck Effect**
+
+Incremental update with:
+- **15_Oobleck_Effect_Summary.pdf** — Updated with full IRON CLAD data
+- Run 020B: 221 sessions (was 73), 37 ships (was 7), 100% attribution
+- Run 020A: 29 sessions, 14 prosecutor, 8 defense phase data
+- Inherent drift ratio: ~93% (updated from ~92%)
+- Control mean: 0.661, Treatment mean: 0.711
+
+**Use this version for Oobleck Effect references.**
+
+### v3/ (December 26, 2025)
 
 **Run 023 IRON CLAD Complete + Full Visualization Suite**
 
@@ -21,7 +34,7 @@ Fresh extraction with:
 - **92% inherent drift** (Run 023 Thermometer Result)
 - **750 experiments, 25 models, 5 providers**
 
-**Use this version for all new reviews.**
+**Use this version for Run 023 references and full package set.**
 
 ### v2/ (Historical - December 24, 2025)
 

@@ -165,10 +165,10 @@ def plot_020a_phase_breakdown(data, output_dir):
     ax1.text(x[0] + width/2, d_mean + d_se + 0.02, f'{d_mean:.3f}', ha='center', fontsize=10, fontweight='bold')
 
     ax1.set_ylabel('Peak Drift (Cosine)', fontsize=11)
-    ax1.set_title(f'Prosecutor vs Defense Peak Drift (AGGREGATE)\n(n={len(entries)} sessions, no provider attribution)', fontsize=11, fontweight='bold')
+    ax1.set_title(f'Prosecutor vs Defense Peak Drift\n(n={len(all_prosecutor)} prosecutor, {len(all_defense)} defense)', fontsize=11, fontweight='bold')
     ax1.set_xticks(x)
     ax1.set_xticklabels(['AGGREGATE'])
-    ax1.legend(loc='upper right', facecolor='white')
+    ax1.legend(loc='upper left', facecolor='white', fontsize=8)
     ax1.grid(axis='y', alpha=0.3)
     ax1.set_xlim(-0.8, 0.8)  # Center the single bar group
 
@@ -579,7 +579,11 @@ def plot_020b_per_model_breakdown(data, output_dir):
     ax2.set_ylabel('Inherent Drift Ratio (%)', fontsize=11)
     ax2.set_title('Per-Model Inherent Drift Ratio\n(Control/Treatment × 100)', fontsize=12, fontweight='bold')
     ax2.legend(facecolor='white', loc='lower right', fontsize=9)
-    ax2.set_ylim(0, max(ratios) * 1.3 if ratios else 120)
+    # Cap y-axis at 150% to reduce visual noise from outliers
+    ax2.set_ylim(0, min(150, max(ratios) * 1.1) if ratios else 120)
+    # Add annotation about expected variance
+    mean_ratio = np.mean(ratios) if ratios else 0
+    ax2.axhline(y=mean_ratio, color='#7C3AED', linestyle='-', alpha=0.8, linewidth=2, label=f'Mean: {mean_ratio:.0f}%')
     ax2.grid(axis='y', alpha=0.3)
 
     # Panel 3: Sample size breakdown
@@ -925,9 +929,9 @@ def plot_cross_platform_summary(data_a, data_b, output_dir):
             ax1.set_xticks(x)
             ax1.set_xticklabels(['Prosecutor\nPhase', 'Defense\nPhase'])
             ax1.set_ylabel('Peak Drift (Cosine)', fontsize=11)
-            ax1.set_title(f'Run 020A: Prosecutor vs Defense (Aggregate)\n(n={len(data_a)} sessions, no provider attribution)',
+            ax1.set_title(f'020A: Prosecutor vs Defense (n={len(data_a)})',
                          fontsize=11, fontweight='bold')
-            ax1.legend(facecolor='white', loc='upper right')
+            ax1.legend(facecolor='white', loc='upper right', fontsize=8)
             ax1.grid(axis='y', alpha=0.3)
 
             # Add value labels
@@ -961,13 +965,16 @@ def plot_cross_platform_summary(data_a, data_b, output_dir):
                     ha='center', fontsize=12, fontweight='bold')
 
             ax2.set_xticks([0])
-            ax2.set_xticklabels(['AGGREGATE\n(All Sessions)'])
-            ax2.set_ylabel('Defense Peak / Prosecutor Peak', fontsize=11)
-            ax2.set_title(f'Run 020A: Oobleck Effect Ratio (Aggregate)\n(n={len(session_ratios)} sessions, no provider attribution)',
-                         fontsize=11, fontweight='bold')
-            ax2.legend(facecolor='white', loc='upper right')
+            ax2.set_xticklabels(['AGGREGATE'])
+            ax2.set_ylabel('Def/Pros Ratio', fontsize=9)
+            ax2.set_title(f'020A: Oobleck Effect (n={len(session_ratios)})',
+                         fontsize=10, fontweight='bold', pad=10)
+            # Position legend at bottom right to avoid title collision
+            ax2.legend(facecolor='white', loc='lower right', fontsize=8)
             ax2.grid(axis='y', alpha=0.3)
             ax2.set_xlim(-0.8, 0.8)  # Center the single bar
+            # Ensure adequate y-axis margin for bar label
+            ax2.set_ylim(0, max(mean_ratio + std_ratio + 0.15, 1.5))
         else:
             ax2.text(0.5, 0.5, 'No sessions with both phases', ha='center', va='center', fontsize=12)
             ax2.set_title('Run 020A: Insufficient Data', fontsize=12)
@@ -991,9 +998,11 @@ def plot_cross_platform_summary(data_a, data_b, output_dir):
                           color=[ARM_COLORS['control'], ARM_COLORS['treatment']],
                           alpha=0.8, edgecolor='black')
 
-            # Add value labels
+            # Add value labels - position inside bars to avoid edge overlap
             for i, (mean, std) in enumerate(zip(means, stds)):
-                ax3.text(i, mean + std + 0.02, f'{mean:.3f}', ha='center', fontsize=11, fontweight='bold')
+                # Place label inside bar near top for cleaner look
+                ax3.text(i, mean * 0.85, f'{mean:.3f}', ha='center', va='center',
+                        fontsize=11, fontweight='bold', color='white')
 
             ax3.set_xticks(x)
             ax3.set_xticklabels(['Control\n(No Probing)', 'Treatment\n(With Probing)'])
@@ -1013,19 +1022,16 @@ def plot_cross_platform_summary(data_a, data_b, output_dir):
     ax4 = axes[1, 1]
     ax4.axis('off')
 
-    # Calculate summary stats
+    # Calculate summary stats - compact format for readability
     summary_lines = []
-    summary_lines.append("CROSS-PLATFORM VALIDATION SUMMARY")
-    summary_lines.append("=" * 45)
-    summary_lines.append("")
+    summary_lines.append("VALIDATION SUMMARY")
+    summary_lines.append("─" * 30)
 
     if data_a:
         total_020a = len(data_a)
         with_both_phases = sum(1 for d in data_a if get_phase_peaks(d)[0] > 0 and get_phase_peaks(d)[1] > 0)
-        summary_lines.append(f"RUN 020A (Philosophical Tribunal):")
-        summary_lines.append(f"  Total sessions: {total_020a}")
-        summary_lines.append(f"  With both phases: {with_both_phases}")
-        summary_lines.append("")
+        summary_lines.append(f"020A (Tribunal): {total_020a} sessions")
+        summary_lines.append(f"  Both phases: {with_both_phases}")
 
     if data_b:
         total_020b = len(data_b)
@@ -1037,27 +1043,28 @@ def plot_cross_platform_summary(data_a, data_b, output_dir):
         t_drifts = [d.get('baseline_to_final_drift', 0) for d in data_b if d.get('arm') == 'treatment']
         ratio = (np.mean(c_drifts) / np.mean(t_drifts) * 100) if t_drifts and np.mean(t_drifts) > 0 else 0
 
-        summary_lines.append(f"RUN 020B (Control vs Treatment):")
-        summary_lines.append(f"  Total sessions: {total_020b}")
-        summary_lines.append(f"  Control: {control_n}, Treatment: {treatment_n}")
-        summary_lines.append(f"  Model-attributed: {attributed}")
-        summary_lines.append(f"  Unattributed: {total_020b - attributed}")
+        summary_lines.append(f"020B (Control): {total_020b} sessions")
+        summary_lines.append(f"  C: {control_n}, T: {treatment_n}")
+        summary_lines.append(f"  Attributed: {attributed}/{total_020b}")
         summary_lines.append("")
-        summary_lines.append(f"  INHERENT DRIFT RATIO: {ratio:.1f}%")
-        summary_lines.append("")
+        summary_lines.append(f"  ▶ INHERENT: {ratio:.1f}%")
 
-    summary_lines.append("=" * 45)
-    summary_lines.append("KEY INSIGHT:")
-    summary_lines.append("  ~90% of observed drift is INHERENT")
-    summary_lines.append("  (present without identity probing)")
     summary_lines.append("")
-    summary_lines.append("  Probing REVEALS drift, it does not")
-    summary_lines.append("  CREATE it. (Thermometer Analogy)")
+    summary_lines.append("─" * 30)
+    summary_lines.append("KEY INSIGHT")
+    summary_lines.append("~90% of drift is INHERENT")
+    summary_lines.append("(present without probing)")
+    summary_lines.append("")
+    summary_lines.append("Probing REVEALS drift,")
+    summary_lines.append("it does not CREATE it.")
+    summary_lines.append("(Thermometer Analogy)")
 
     summary_text = "\n".join(summary_lines)
-    ax4.text(0.05, 0.95, summary_text, transform=ax4.transAxes,
-             fontsize=10, fontfamily='monospace', verticalalignment='top',
-             bbox=dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor='gray'))
+    ax4.text(0.5, 0.5, summary_text, transform=ax4.transAxes,
+             fontsize=11, fontfamily='monospace', verticalalignment='center',
+             horizontalalignment='center',
+             bbox=dict(boxstyle='round,pad=0.8', facecolor='#f8f9fa',
+                      alpha=0.95, edgecolor='#2a9d8f', linewidth=2))
 
     fig.suptitle('Cross-Platform Validation: Runs 020A + 020B',
                 fontsize=14, fontweight='bold', y=1.02)

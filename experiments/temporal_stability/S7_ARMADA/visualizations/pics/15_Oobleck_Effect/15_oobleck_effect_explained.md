@@ -8,44 +8,66 @@ This visualization package contains results from:
 - **Run 020A**: Philosophical Tribunal (Prosecutor vs Defense phases)
 - **Run 020B**: Control vs Treatment (Inherent vs Induced drift)
 
+> **METHODOLOGY NOTE (December 2025):** Uses **IRON CLAD** cosine embedding methodology. Event Horizon = 0.80 (cosine distance), p = 2.40e-23. See `5_METHODOLOGY_DOMAINS.md` for details.
+
 ---
 
-## CRITICAL DATA LIMITATION NOTICE
+## Run 020B: IRON CLAD Data Summary
 
-> **42 of 73 sessions in Run 020B have model attribution.**
-> **31 sessions from early experimental runs lack model identity.**
+> **221 sessions with FULL model attribution across 37 unique ships.**
+> **All providers represented. 100% attribution achieved.**
 
-### What This Means
+### Current Data Status
 
 | Metric | Value |
 |--------|-------|
-| Total Sessions | 73 |
-| Attributed Sessions | 42 (57.5%) |
-| Unattributed Sessions | 31 (42.5%) |
-| Models with Data | 7 |
-| Sessions per Model | ~6 each |
+| Total Sessions | 221 |
+| Control Sessions | 109 |
+| Treatment Sessions | 112 |
+| Attributed Sessions | 221 (100%) |
+| Unique Ships (Models) | 37 |
+| Providers | 5 (Anthropic, OpenAI, Google, xAI, Together) |
 
-### Why This Happened
+### Key Aggregate Finding
 
-The `ship` field (model identifier) was added to the data collection during the IRON CLAD phase of experimentation. Early runs from before this update did not capture model identity.
+| Metric | Value |
+|--------|-------|
+| Control Mean (B→F Drift) | 0.661 |
+| Treatment Mean (B→F Drift) | 0.711 |
+| **Inherent Drift Ratio** | **~93%** |
+| Interpretation | ~93% of drift is INHERENT (present without probing) |
 
-### Scientific Validity
+### Model Coverage (37 ships)
 
-**The aggregate finding remains valid:**
+**Anthropic:** claude-haiku-3.5, claude-haiku-4.5, claude-sonnet-4, claude-sonnet-4.5
+**OpenAI:** gpt-3.5-turbo, gpt-4-turbo, gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-4o, gpt-4o-mini, gpt-5, gpt-5-mini, gpt-5-nano, gpt-5.1, o3-mini
+**Google:** gemini-2.0-flash, gemini-2.5-flash, gemini-2.5-flash-lite
+**xAI:** grok-2-vision, grok-3-mini, grok-4-fast-non-reasoning, grok-4-fast-reasoning, grok-4.1-fast-non-reasoning, grok-4.1-fast-reasoning, grok-code-fast-1
+**Together:** deepseek-v3, kimi-k2-instruct, llama3.1-70b, llama3.1-8b, llama3.3-70b, mistral-7b, mistral-small, mixtral-8x7b, nemotron-nano, qwen2.5-72b, qwen3-80b
 
-- All 73 sessions followed the identical experimental protocol
-- Control and treatment arms were properly randomized
-- The 31 unattributed sessions contribute to the aggregate ~92% inherent drift ratio
-- We simply cannot break down those 31 sessions by model
+---
 
-**Per-model analysis is limited to 42 sessions** across 7 models:
-- claude-haiku-3.5
-- deepseek-r1-distill
-- gemini-2.0-flash
-- gpt-4o-mini
-- grok-3-mini
-- llama3.3-70b
-- mistral-7b
+## Run 020A: Philosophical Tribunal Data
+
+### Data Status
+
+| Metric | Value |
+|--------|-------|
+| Total Sessions | 29 |
+| Sessions with Prosecutor Phase | 14 |
+| Sessions with Defense Phase | 8 |
+| Sessions with BOTH Phases | 8 |
+| Provider Attribution | Not captured (consolidated as "unknown") |
+
+### Phase Findings
+
+| Phase | Mean Peak Drift | n |
+|-------|-----------------|---|
+| Prosecutor | 0.828 | 14 |
+| Defense | 0.938 | 8 |
+| **Oobleck Ratio** | **1.13x** | (Defense/Prosecutor) |
+
+**Note on Partial Phase Data:** The Tribunal paradigm often exits before Defense phase completes. 14 sessions have Prosecutor data, but only 8 reached Defense phase. This is expected behavior - the Prosecutor phase successfully induces drift, but maintaining through Defense requires witness-side anchoring (see Run 020 v7-v8 protocol evolution).
 
 ---
 
@@ -59,12 +81,12 @@ A 2x2 QUAD layout showing:
 
 | Panel | Description |
 |-------|-------------|
-| Top-Left | Grouped bar chart: Prosecutor vs Defense peak drift by provider |
+| Top-Left | Aggregate bar chart: Prosecutor vs Defense peak drift (n=14 pros, n=8 def) |
 | Top-Right | Scatter plot: Phase correlation (does pressure predict recovery?) |
 | Bottom-Left | Histogram: Distribution of phase peaks |
 | Bottom-Right | Box plot: Phase peak distributions with t-test |
 
-**Key Finding**: Adversarial (Prosecutor) probing creates more drift than supportive (Defense) probing, but both reveal pre-existing identity uncertainty.
+**Key Finding**: Defense phase (0.938) shows higher drift than Prosecutor phase (0.828), yielding a 1.13x Oobleck ratio - supportive probing allows identity to "flow" more than adversarial pressure.
 
 ### 2. oobleck_trajectory_overlay.png
 
@@ -80,28 +102,29 @@ A 2x2 QUAD layout showing:
 
 | Panel | Description |
 |-------|-------------|
-| Top-Left | Bar chart: Mean drift by arm (Final vs Peak) |
-| Top-Right | Box plot: Final drift distribution with t-test |
+| Top-Left | Bar chart: Mean drift by arm (B→F vs Peak) |
+| Top-Right | Box plot: B→F drift distribution with t-test |
 | Bottom-Left | Scatter: Individual session distributions (diamonds = mean) |
 | Bottom-Right | Aggregate inherent drift ratio with Cohen's d |
 
-**Key Finding**: ~92% of observed drift is INHERENT (present without probing), not INDUCED by measurement.
+**Key Finding**: ~93% of observed drift is INHERENT (Control: 0.661, Treatment: 0.711). Probing reveals drift, it does not create it.
 
 ### 4. oobleck_per_model_breakdown.png
 
-**Run 020B: Per-Model Analysis (ATTRIBUTED SESSIONS ONLY)**
+**Run 020B: Per-Model Analysis (IRON CLAD — Full Attribution)**
 
-> **IMPORTANT**: This visualization shows ONLY the 42 sessions with model attribution.
-> 31 additional sessions are included in aggregate findings but cannot be shown per-model.
+> **All 221 sessions have model attribution.** Per-model breakdown includes complete fleet coverage across 37 ships.
 
 A 2x2 QUAD layout showing:
 
 | Panel | Description |
 |-------|-------------|
 | Top-Left | Per-model mean drift: Control vs Treatment with SE error bars |
-| Top-Right | Inherent drift ratio by model (Control/Treatment × 100) |
+| Top-Right | Inherent drift ratio by model (Control/Treatment × 100) with mean line |
 | Bottom-Left | Sample size breakdown by model and arm |
-| Bottom-Right | **DATA LIMITATION NOTICE** - Full explanation of attribution gap |
+| Bottom-Right | **IRON CLAD DATA SUMMARY** - Full fleet statistics |
+
+**Note on Per-Model Variance:** Individual model ratios may exceed 100% due to per-model variance. The aggregate ~93% is the meaningful finding; per-model breakdown shows consistency across architectures.
 
 ### 5. oobleck_thermometer.png
 
@@ -124,19 +147,30 @@ Combines findings from both Run 020A and 020B to show the Oobleck Effect across 
 
 ## Key Metrics
 
-### Run 020B Aggregate Finding
+### Run 020B Aggregate Finding (IRON CLAD)
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| Total Sessions | 73 | All contribute to aggregate |
-| Control Mean Drift | ~0.45 | Inherent (no probing) |
-| Treatment Mean Drift | ~0.49 | With identity probing |
-| Inherent Drift Ratio | ~92% | Control/Treatment × 100 |
-| Cohen's d | Small | Effect size of probing |
+| Total Sessions | 221 | Full IRON CLAD coverage |
+| Control Sessions | 109 | No identity probing |
+| Treatment Sessions | 112 | With identity probing |
+| Control Mean (B→F) | 0.661 | Inherent drift |
+| Treatment Mean (B→F) | 0.711 | Total drift with probing |
+| Inherent Drift Ratio | ~93% | Control/Treatment × 100 |
+| Unique Ships | 37 | Across 5 providers |
 
-### Per-Model (42 Attributed Sessions Only)
+### Run 020A Aggregate Finding
 
-See `oobleck_per_model_breakdown.png` for model-specific breakdowns.
+| Metric | Value | Notes |
+|--------|-------|-------|
+| Total Sessions | 29 | Tribunal paradigm |
+| Prosecutor Mean Peak | 0.828 | n=14 sessions |
+| Defense Mean Peak | 0.938 | n=8 sessions |
+| Oobleck Ratio | 1.13x | Defense/Prosecutor |
+
+### Per-Model Breakdown
+
+See `oobleck_per_model_breakdown.png` for model-specific breakdowns across all 37 ships.
 
 ---
 
@@ -174,12 +208,13 @@ When showing error bars for the inherent drift ratio, use Standard Error (not St
 | File | Description |
 |------|-------------|
 | generate_oobleck_effect.py | Main visualization generator |
+| generate_pdf_summary.py | PDF generator (embeds images into markdown) |
 | 15_oobleck_effect_explained.md | This documentation |
 | 15_Oobleck_Effect_Summary.pdf | PDF summary with embedded images |
-| oobleck_phase_breakdown.png/svg | 020A phase dynamics |
+| oobleck_phase_breakdown.png/svg | 020A phase dynamics (n=14 pros, n=8 def) |
 | oobleck_trajectory_overlay.png/svg | 020A trajectory visualization |
-| oobleck_control_treatment.png/svg | 020B control/treatment comparison |
-| oobleck_per_model_breakdown.png/svg | 020B per-model analysis (42 sessions) |
+| oobleck_control_treatment.png/svg | 020B control/treatment comparison (n=221) |
+| oobleck_per_model_breakdown.png/svg | 020B per-model analysis (37 ships, 100% attributed) |
 | oobleck_thermometer.png/svg | Thermometer analogy visualization |
 | oobleck_cross_platform.png/svg | Cross-platform summary |
 
@@ -187,10 +222,20 @@ When showing error bars for the inherent drift ratio, use Standard Error (not St
 
 ## Data Sources
 
-- `S7_run_020A_CURRENT.json`: Philosophical Tribunal results
-- `S7_run_020B_CURRENT.json`: Control vs Treatment results (73 sessions, 42 with model attribution)
+- `S7_run_020A_CURRENT.json`: Philosophical Tribunal results (29 sessions, partial phase markers)
+- `S7_run_020B_CURRENT.json`: Control vs Treatment results (221 sessions, 100% model attribution, 37 ships)
+
+---
+
+## Methodology Reference
+
+- **IRON CLAD**: Cosine embedding methodology, Event Horizon = 0.80, p = 2.40e-23
+- **B→F Drift**: Baseline-to-Final drift (preferred metric for 020B)
+- **Phase Markers**: Prosecutor/Defense peaks extracted from conversation logs
+- See `5_METHODOLOGY_DOMAINS.md` for complete methodology documentation
 
 ---
 
 *Generated: December 2025*
+*Updated: December 29, 2025 (IRON CLAD data audit)*
 *VALIS Network - Nyquist Consciousness Project*
