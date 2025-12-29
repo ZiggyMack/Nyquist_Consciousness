@@ -208,32 +208,69 @@ def render():
 
     page_divider()
 
-    # === RUN 012 PROVIDER FINGERPRINTS ===
-    st.markdown("### Run 012: Provider Fingerprints")
-    st.caption("Mean peak drift by provider (December 6, 2025)")
+    # === RUN 023d IRON CLAD RESULTS (PRIMARY) ===
+    st.markdown("### Run 023d: IRON CLAD Fleet Results")
+    st.caption("Fleet-wide metrics (December 2025) — 25 models, 5 providers, cosine methodology")
 
-    provider_df = pd.DataFrame(PROVIDER_DATA)
-
-    # Visual bar comparison for providers
-    drift_max = provider_df['mean_drift'].max()
-
-    for _, row in provider_df.iterrows():
-        pct = (row['mean_drift'] / drift_max) * 100
-
-        st.markdown(f"""
-        <div class="comparison-row">
-            <span style="width: 80px; font-weight: bold;">{row['provider']}</span>
-            <span style="width: 50px; color: #666;">{row['ships']} ships</span>
-            <div class="bar-container">
-                <div class="bar-fill-linear" style="width: {pct}%;"></div>
-            </div>
-            <span class="linear-value" style="width: 60px; text-align: right;">{row['mean_drift']:.3f}</span>
-            <span style="width: 140px; text-align: right; color: #666; font-size: 0.8em;">{row['status']}</span>
+    # Run 023d key findings
+    col_ic1, col_ic2, col_ic3 = st.columns(3)
+    with col_ic1:
+        st.markdown("""
+        <div class="key-metric-compact">
+            <div class="metric-value-sm">25</div>
+            <div class="metric-label-sm">Models Tested</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_ic2:
+        st.markdown("""
+        <div class="key-metric-compact">
+            <div class="metric-value-sm">5</div>
+            <div class="metric-label-sm">Providers</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_ic3:
+        st.markdown("""
+        <div class="key-metric-compact">
+            <div class="metric-value-sm">750</div>
+            <div class="metric-label-sm">Experiments</div>
         </div>
         """, unsafe_allow_html=True)
 
-    # Recovery Paradox callout
-    with st.expander("⚠️ **Recovery Paradox Explained** (λ = -0.175)", expanded=False):
+    st.markdown("""
+    **Key Findings (IRON CLAD Methodology):**
+    - Event Horizon validated at **D = 0.80** (cosine distance)
+    - Perturbation effect: **p = 2.40e-23** (model-level)
+    - Effect size: **Cohen's d = 0.698** (large effect)
+    - 82% of drift is **inherent** (not measurement-induced)
+    """)
+
+    # === RUN 012 PROVIDER FINGERPRINTS (HISTORICAL) ===
+    with st.expander("📜 Run 012: Historical Provider Fingerprints (Legacy RMS Methodology)", expanded=False):
+        st.caption("Mean peak drift by provider (December 6, 2025) — Using legacy Keyword RMS metric")
+
+        provider_df = pd.DataFrame(PROVIDER_DATA)
+
+        # Visual bar comparison for providers
+        drift_max = provider_df['mean_drift'].max()
+
+        for _, row in provider_df.iterrows():
+            pct = (row['mean_drift'] / drift_max) * 100
+
+            st.markdown(f"""
+            <div class="comparison-row">
+                <span style="width: 80px; font-weight: bold;">{row['provider']}</span>
+                <span style="width: 50px; color: #666;">{row['ships']} ships</span>
+                <div class="bar-container">
+                    <div class="bar-fill-linear" style="width: {pct}%;"></div>
+                </div>
+                <span class="linear-value" style="width: 60px; text-align: right;">{row['mean_drift']:.3f}</span>
+                <span style="width: 140px; text-align: right; color: #666; font-size: 0.8em;">{row['status']}</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Recovery Paradox callout
+        st.markdown("---")
+        st.markdown("#### ⚠️ Recovery Paradox Explained (λ = -0.175)")
         st.markdown("""
         **Expected:** Positive lambda (exponential decay during recovery)
         **Observed:** NEGATIVE lambda (-0.1752 mean)
@@ -244,7 +281,7 @@ def render():
         - The metric counts this as HIGH DRIFT (C_meta, D_identity dimensions)
         - Result: Recovery looks like MORE drift, not less!
 
-        **Implication:** Need hybrid metric that tests IDENTITY-PERFORMANCE, not just keywords.
+        **Resolution:** IRON CLAD methodology (Run 023d) uses cosine distance which addresses this issue.
         """)
 
     page_divider()

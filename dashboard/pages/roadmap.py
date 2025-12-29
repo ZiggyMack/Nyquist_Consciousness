@@ -490,13 +490,13 @@ def render():
     with action_cols[0]:
         st.markdown("""
         <div class="priority-action">
-            <h4 style="color: #c0392b; margin-top: 0;">PRIORITY 1</h4>
-            <p style="font-weight: bold; color: #333;">CFA Trinity Audit</p>
+            <h4 style="color: #22c55e; margin-top: 0;">PRIORITY 1</h4>
+            <p style="font-weight: bold; color: #333;">Human Rater Validation (EXP3)</p>
             <p style="color: #555; font-size: 0.85em;">
-                Multi-auditor validation: Claude (PRO) vs Grok (ANTI) vs Nova (Fairness).
-                7 metrics, convergence loops, Crux declarations. Dry runs PASSED.
+                S7 ARMADA complete (16 runs, p=2.40e-23). Now need human validation
+                of fleet exit surveys. Domain survey design ready.
             </p>
-            <p style="color: #22c55e; font-size: 0.8em; font-weight: bold;">Status: READY TO RUN</p>
+            <p style="color: #22c55e; font-size: 0.8em; font-weight: bold;">Status: S7 ✅ COMPLETE, EXP3 PENDING</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -504,12 +504,12 @@ def render():
         st.markdown("""
         <div class="priority-action">
             <h4 style="color: #e67e22; margin-top: 0;">PRIORITY 2</h4>
-            <p style="font-weight: bold; color: #333;">Run 018 + EXP3</p>
+            <p style="font-weight: bold; color: #333;">arXiv Preprint</p>
             <p style="color: #555; font-size: 0.85em;">
-                Recursive learnings from fleet exit surveys. Human validation
-                with updated control-systems domain survey.
+                Draft S7 findings paper with IRON CLAD methodology.
+                Include 82% inherent drift discovery and Event Horizon validation.
             </p>
-            <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Cost: $50-100</p>
+            <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Timeline: Q1 2025</p>
         </div>
         """, unsafe_allow_html=True)
 

@@ -15,6 +15,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import re
 import subprocess
+import base64
 from pathlib import Path
 from config import PATHS, SETTINGS
 from utils import load_status, load_publication_status, load_markdown_file, page_divider
@@ -25,6 +26,15 @@ def load_image_safe(image_path):
     try:
         with open(image_path, "rb") as f:
             return f.read()
+    except Exception:
+        return None
+
+
+def load_image_base64(image_path):
+    """Load image and return as base64 encoded string for CSS backgrounds."""
+    try:
+        with open(image_path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
     except Exception:
         return None
 
@@ -116,9 +126,43 @@ def render():
     """Render the Overview page - The Observatory."""
     status = load_status()
 
+    # === BACKGROUND WALLPAPER: Identity Vortex x4 ===
+    vortex_dir = PATHS.get('viz_1_vortex', PATHS['s7_viz_pics'] / "1_Vortex")
+    bg_img_path = vortex_dir / "run023b_vortex_x4.png"
+    bg_base64 = load_image_base64(bg_img_path)
+
     # === CUSTOM CSS FOR OBSERVATORY STYLING ===
-    st.markdown("""
+    background_css = ""
+    if bg_base64:
+        background_css = f"""
+        /* Vortex x4 background wallpaper */
+        .stApp {{
+            background-image: url('data:image/png;base64,{bg_base64}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }}
+        .stApp::before {{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.92);
+            z-index: 0;
+            pointer-events: none;
+        }}
+        .main .block-container {{
+            position: relative;
+            z-index: 1;
+        }}
+        """
+
+    st.markdown(f"""
     <style>
+    {background_css}
     .claim-card {
         background: linear-gradient(135deg, rgba(42,157,143,0.08) 0%, rgba(42,157,143,0.02) 100%);
         border: 2px solid #2a9d8f;
@@ -202,12 +246,12 @@ def render():
     # === HERO VISUALIZATION: The Identity Vortex ===
     st.markdown("---")
 
-    # Load vortex image
-    vortex_dir = PATHS.get('viz_1_vortex', PATHS['s7_viz_pics'] / "1_Vortex")
-    vortex_img_path = vortex_dir / "run023b_vortex_x4.png"
-    vortex_img = load_image_safe(vortex_img_path)
+    # Load vortex image (single vortex - not x4)
+    # Note: vortex_dir already defined above for background
+    hero_vortex_path = vortex_dir / "run023b_vortex.png"
+    hero_vortex_img = load_image_safe(hero_vortex_path)
 
-    if vortex_img:
+    if hero_vortex_img:
         # Hero container with overlaid metrics
         st.markdown("""
         <div style="position: relative; margin: 0 -1rem;">
@@ -226,12 +270,12 @@ def render():
         </div>
         """, unsafe_allow_html=True)
 
-        st.image(vortex_img, use_container_width=True)
+        st.image(hero_vortex_img, use_container_width=True)
 
         # Caption
         st.markdown("""
         <div style="text-align: center; color: #666; font-size: 0.9em; margin-top: -0.5em; margin-bottom: 1em;">
-            <strong>Run 023b:</strong> Looking Into the Identity Drain — RAW (left) shows all trajectories, SMOOTHED (right) reveals the attractor structure.
+            <strong>Run 023b:</strong> The Identity Vortex — All model trajectories spiraling around the attractor basin.
             Models inside the red ring (Event Horizon = 0.80) are STABLE; outside are VOLATILE.
         </div>
         """, unsafe_allow_html=True)

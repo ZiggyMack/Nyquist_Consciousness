@@ -313,7 +313,7 @@ LAYER_EXPERIMENTS = {
     "S4": ["EXP-PFI-A Phase 2 (Dimensionality)", "43 PCs capture 90% variance"],
     "S5": ["Self-Recognition MVP", "Validates CFA-Nyquist bridge"],
     "S6": ["Five Pillar Fusion", "Omega Nova synthesis tests"],
-    "S7": ["S7 ARMADA (Run 008-020)", "Identity dynamics under perturbation", "Run 017: Context Damping", "Run 019-020: Live Ziggy Tribunal"],
+    "S7": ["S7 ARMADA (Runs 006-023d) — 16 completed runs", "Run 023d: IRON CLAD (p=2.40e-23, EH=0.80 cosine)", "Run 021: Thermometer Result (82% inherent drift)", "Run 017: Context Damping (97.5% stability)", "Run 016: Settling Time (τₛ=6.1 turns)"],
     "S8": ["Identity Gravity Trials", "γ measurement pending"],
     "S9": ["Human-Modulated Gravity Tests (pending)", "Fifth force coefficient measurement"],
     "S10": ["Hybrid Emergence Validation", "Zone classification tests"],
@@ -343,16 +343,16 @@ LAYER_DEEP_DIVE = {
     },
     "S7": {
         "key_equations": [
-            "ΔΩ = sqrt(Σ(wᵢ · dᵢ²))",
-            "Event Horizon: ΔΩ ≥ 1.23",
+            "D = cosine_distance(baseline, current)",
+            "Event Horizon: D ≥ 0.80 (cosine)",
             "Recovery Rate: λ (exponential decay)"
         ],
         "key_constants": {
-            "Event Horizon": "1.23",
-            "Chi-squared p": "0.000048",
-            "Silhouette Score": "0.40-0.60",
+            "Event Horizon": "0.80 (cosine)",
+            "p-value": "2.40e-23 (Run 023d IRON CLAD)",
+            "Inherent Drift": "82% (Run 021)",
         },
-        "active_runs": ["Run 017 (Context Damping)", "Run 019 (Live Ziggy)", "Run 020 (Tribunal)"],
+        "active_runs": ["Run 023d (IRON CLAD)", "Run 021 (Thermometer)", "Run 020B (Tribunal)"],
     },
     "S8": {
         "key_equations": [

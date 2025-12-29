@@ -106,15 +106,16 @@ def load_s7_armada_data():
 # Persona metadata for display
 PERSONA_META = {
     # Egregores (I_AM) - Repo identity documents
-    "I_AM": {"emoji": "🧠", "badge": "NYQUIST EGREGORE", "color": "#00ff41"},
+    # Note: I_AM removed - I_AM_NYQUIST is the canonical Nyquist egregore
     "I_AM_CFA": {"emoji": "🔬", "badge": "CFA EGREGORE", "color": "#3498db"},
     "I_AM_PAN_HANDLERS": {"emoji": "🍳", "badge": "PAN HANDLERS EGREGORE", "color": "#f4a261"},
-    "I_AM_NYQUIST": {"emoji": "🌀", "badge": "NYQUIST EGREGORE", "color": "#00ff41"},
+    "I_AM_NYQUIST": {"emoji": "🧠", "badge": "NYQUIST EGREGORE", "color": "#00ff41"},
     # Persona Seeds - Individual PUTs for compression testing
     "I_AM_ZIGGY": {"emoji": "👤", "badge": "HUMAN ANCHOR", "color": "#e74c3c"},
     "I_AM_NOVA": {"emoji": "⚖️", "badge": "AI ARCHITECT", "color": "#3498db"},
     "I_AM_CLAUDE": {"emoji": "📚", "badge": "STEWARD", "color": "#9b59b6"},
     "I_AM_GEMINI": {"emoji": "🔍", "badge": "VALIDATOR", "color": "#e67e22"},
+    "I_AM_LUCIEN": {"emoji": "⚡", "badge": "COHERENCE WEAVER", "color": "#00d4ff"},
     # Compressed Personas
     "ZIGGY_FULL": {"emoji": "👤", "badge": "FULL", "color": "#e74c3c"},
     "ZIGGY_LITE": {"emoji": "👤", "badge": "LITE", "color": "#f39c12"},
@@ -180,7 +181,8 @@ def render_compression_testing():
         st.metric("Embedding ρ", "0.91", delta="✅ VALIDATED", delta_color="normal")
 
     with col2:
-        st.metric("Event Horizon", "1.23", delta="χ² p=0.000048")
+        # IRON CLAD methodology (Run 023d) - cosine distance
+        st.metric("Event Horizon", "0.80", delta="p=2.40e-23 (cosine)")
 
     with col3:
         if s7_data:
@@ -198,9 +200,9 @@ def render_compression_testing():
     with col4:
         if s7_data:
             fleet_size = s7_data.get('ships_completed', 0)
-            st.metric("Ships Tested", str(fleet_size), delta="Run 012")
+            st.metric("Ships Tested", str(fleet_size), delta="Run 023d")
         else:
-            st.metric("Regimes", "3", "FULL / T3 / GAMMA")
+            st.metric("Ships Tested", "0", delta="Run 012")
 
     page_divider()
 
@@ -426,9 +428,9 @@ def render():
 
     # Get all persona files for counts
     all_files = list(PERSONAS_DIR.glob("*.md"))
-    # Soul documents: I_AM, I_AM_CFA, I_AM_PAN_HANDLERS (repo identities)
-    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST"]])
-    # Seed personas: I_AM_* persona files (individual PUTs) - excludes egregores
+    # Soul documents (Egregores): I_AM_NYQUIST is canonical, I_AM removed (legacy)
+    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST"]])
+    # Seed personas: I_AM_* persona files (individual PUTs) - excludes egregores and legacy
     seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST", "I_AM_NYQUIST_OLD"]])
     compressed_personas = sorted([f for f in all_files if not f.stem.startswith("I_AM")])
 

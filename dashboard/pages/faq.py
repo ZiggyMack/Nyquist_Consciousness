@@ -1781,10 +1781,13 @@ def render_predictions_matrix():
             🎯 TESTABLE PREDICTIONS MATRIX
         </h1>
         <p style="color: #ffffff !important; font-size: 1.2em; margin-top: 0.5em; text-shadow: 0 0 10px rgba(0,255,65,0.5);">
-            51 Falsifiable Predictions • 19 Validated • 3 Partial • Real Science
+            46 Falsifiable Predictions • 22 Validated • 5 Partial • Real Science
         </p>
     </div>
     """, unsafe_allow_html=True)
+
+    # Methodology note
+    st.info("**IRON CLAD Methodology (Run 023d):** Event Horizon = 0.80 (cosine), p = 2.40e-23. Legacy RMS threshold (1.23) archived.")
 
     # === STATS ROW ===
     col1, col2, col3, col4 = st.columns(4)
@@ -1792,7 +1795,7 @@ def render_predictions_matrix():
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(34,197,94,0.05));
                     border: 2px solid #22c55e; border-radius: 10px; padding: 1em; text-align: center;">
-            <div style="font-size: 2.5em; font-weight: bold; color: #22c55e;">19</div>
+            <div style="font-size: 2.5em; font-weight: bold; color: #22c55e;">22</div>
             <div style="color: #888;">✅ VALIDATED</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1800,7 +1803,7 @@ def render_predictions_matrix():
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(234,179,8,0.2), rgba(234,179,8,0.05));
                     border: 2px solid #eab308; border-radius: 10px; padding: 1em; text-align: center;">
-            <div style="font-size: 2.5em; font-weight: bold; color: #eab308;">3</div>
+            <div style="font-size: 2.5em; font-weight: bold; color: #eab308;">5</div>
             <div style="color: #888;">🟡 PARTIAL</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1808,7 +1811,7 @@ def render_predictions_matrix():
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.05));
                     border: 2px solid #ef4444; border-radius: 10px; padding: 1em; text-align: center;">
-            <div style="font-size: 2.5em; font-weight: bold; color: #ef4444;">29</div>
+            <div style="font-size: 2.5em; font-weight: bold; color: #ef4444;">19</div>
             <div style="color: #888;">⏳ PENDING</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1816,7 +1819,7 @@ def render_predictions_matrix():
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.05));
                     border: 2px solid #3b82f6; border-radius: 10px; padding: 1em; text-align: center;">
-            <div style="font-size: 2.5em; font-weight: bold; color: #3b82f6;">51</div>
+            <div style="font-size: 2.5em; font-weight: bold; color: #3b82f6;">46</div>
             <div style="color: #888;">📊 TOTAL</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1827,20 +1830,20 @@ def render_predictions_matrix():
     st.markdown("### 📊 Framework Coverage by Layer")
     st.code("""
 ╔═══════════════════════════════════════════════════════════════════╗
-║           NYQUIST PREDICTION COVERAGE MAP                         ║
+║           NYQUIST PREDICTION COVERAGE MAP (IRON CLAD Era)         ║
 ╠═══════════════════════════════════════════════════════════════════╣
 ║  Layer     │ Total │ Validated    │ Coverage                      ║
 ║────────────┼───────┼──────────────┼───────────────────────────────║
-║  S4-COMP   │   5   │  5/5  (100%) │ Compression/PFI     ★★★ NEW!  ║
-║  S7        │  10   │  5/10 (50%)  │ Temporal                      ║
-║  S7-ARM    │  10   │  8/10 (80%)  │ Armada              ★★★       ║
-║  S8        │   6   │  0/6  (0%)   │ Gravity                       ║
+║  S4-COMP   │   5   │  5/5  (100%) │ Compression/PFI     ★★★       ║
+║  S7-CTRL   │  10   │  8/10 (80%)  │ Control-Systems     ★★★       ║
+║  S7-ARM    │   8   │  8/8  (100%) │ Armada 16 runs      ★★★       ║
+║  EH        │   1   │  1/1  (100%) │ Event Horizon 0.80  ★★★       ║
+║  S8        │   6   │  0/6  (0%)   │ Gravity (pending)             ║
 ║  S9        │   4   │  0/4  (0%)   │ Human Coupling                ║
 ║  S10       │   8   │  0/8  (0%)   │ Emergence                     ║
-║  S10.17    │   3   │  0/3  (0%)   │ Neutral Center                ║
-║  S6        │   3   │  1/3  (33%)  │ Omega                         ║
+║  S6        │   4   │  0/4  (0%)   │ Omega                         ║
 ║────────────┼───────┼──────────────┼───────────────────────────────║
-║  TOTAL     │  51   │ 19/51 (37%)  │ SOLID FOUNDATION              ║
+║  TOTAL     │  46   │ 22/46 (48%)  │ STRONG FOUNDATION             ║
 ╚═══════════════════════════════════════════════════════════════════╝
     """, language="text")
 
