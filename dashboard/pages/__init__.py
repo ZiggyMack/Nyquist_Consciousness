@@ -8,7 +8,7 @@ Explicitly import all page modules to ensure they are available.
 # Import all page modules using relative imports
 # Using actual filenames on disk (case-sensitive for Linux)
 from . import Overview
-from . import personas
+from . import Personas
 from . import Stackup
 from . import AI_ARMADA
 from . import tests
@@ -26,7 +26,7 @@ from . import debug
 # Export all page modules
 __all__ = [
     'Overview',
-    'personas',
+    'Personas',
     'Stackup',
     'AI_ARMADA',
     'tests',

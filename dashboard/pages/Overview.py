@@ -126,43 +126,12 @@ def render():
     """Render the Overview page - The Observatory."""
     status = load_status()
 
-    # === BACKGROUND WALLPAPER: Identity Vortex x4 ===
+    # === VORTEX IMAGE PATH ===
     vortex_dir = PATHS.get('viz_1_vortex', PATHS['s7_viz_pics'] / "1_Vortex")
-    bg_img_path = vortex_dir / "run023b_vortex_x4.png"
-    bg_base64 = load_image_base64(bg_img_path)
 
     # === CUSTOM CSS FOR OBSERVATORY STYLING ===
-    background_css = ""
-    if bg_base64:
-        background_css = f"""
-        /* Vortex x4 background wallpaper */
-        .stApp {{
-            background-image: url('data:image/png;base64,{bg_base64}');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-        }}
-        .stApp::before {{
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.92);
-            z-index: 0;
-            pointer-events: none;
-        }}
-        .main .block-container {{
-            position: relative;
-            z-index: 1;
-        }}
-        """
-
-    st.markdown(f"""
+    st.markdown("""
     <style>
-    {background_css}
     .claim-card {
         background: linear-gradient(135deg, rgba(42,157,143,0.08) 0%, rgba(42,157,143,0.02) 100%);
         border: 2px solid #2a9d8f;
@@ -243,42 +212,36 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    # === HERO VISUALIZATION: The Identity Vortex ===
-    st.markdown("---")
-
-    # Load vortex image (single vortex - not x4)
-    # Note: vortex_dir already defined above for background
+    # === HERO VISUALIZATION: The Identity Vortex (compact) ===
     hero_vortex_path = vortex_dir / "run023b_vortex.png"
     hero_vortex_img = load_image_safe(hero_vortex_path)
 
     if hero_vortex_img:
-        # Hero container with overlaid metrics
-        st.markdown("""
-        <div style="position: relative; margin: 0 -1rem;">
-            <div style="position: absolute; top: 1rem; left: 1rem; z-index: 10;
-                        background: rgba(26, 26, 46, 0.85); padding: 1rem 1.5rem;
-                        border-radius: 12px; border: 2px solid #e94560;">
-                <div style="color: #e94560; font-size: 1.4em; font-weight: bold; margin-bottom: 0.3em;">
-                    IDENTITY VORTEX
+        # Two-column layout: metrics on left, smaller vortex on right
+        vortex_col1, vortex_col2 = st.columns([1, 2])
+
+        with vortex_col1:
+            st.markdown("""
+            <div style="background: rgba(26, 26, 46, 0.95); padding: 1.2rem;
+                        border-radius: 12px; border: 2px solid #e94560; height: 100%;">
+                <div style="color: #e94560; font-size: 1.2em; font-weight: bold; margin-bottom: 0.5em;">
+                    🌀 IDENTITY VORTEX
                 </div>
-                <div style="color: white; font-size: 0.9em; line-height: 1.6;">
-                    <span style="color: #2a9d8f;">●</span> Event Horizon: <strong>0.80</strong> (red ring)<br>
+                <div style="color: white; font-size: 0.85em; line-height: 1.8;">
+                    <span style="color: #2a9d8f;">●</span> Event Horizon: <strong>0.80</strong><br>
                     <span style="color: #f59e0b;">●</span> p-value: <strong>2.40e-23</strong><br>
-                    <span style="color: #7c3aed;">●</span> 51 models, 6 providers
+                    <span style="color: #7c3aed;">●</span> 25 models, 5 providers<br>
+                    <span style="color: #ec4899;">●</span> 750 experiments
+                </div>
+                <div style="color: #888; font-size: 0.75em; margin-top: 0.8em; border-top: 1px solid #444; padding-top: 0.5em;">
+                    Models inside red ring = STABLE<br>
+                    Outside = VOLATILE
                 </div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
-        st.image(hero_vortex_img, use_container_width=True)
-
-        # Caption
-        st.markdown("""
-        <div style="text-align: center; color: #666; font-size: 0.9em; margin-top: -0.5em; margin-bottom: 1em;">
-            <strong>Run 023b:</strong> The Identity Vortex — All model trajectories spiraling around the attractor basin.
-            Models inside the red ring (Event Horizon = 0.80) are STABLE; outside are VOLATILE.
-        </div>
-        """, unsafe_allow_html=True)
+        with vortex_col2:
+            st.image(hero_vortex_img, use_container_width=True, caption="Run 023b: Identity basin trajectories")
 
     # === SECTION 1: THE CORE FINDING (82% Result) ===
     st.markdown("---")

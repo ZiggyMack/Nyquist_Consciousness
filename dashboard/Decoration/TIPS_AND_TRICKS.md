@@ -361,6 +361,122 @@ go.Indicator(
 
 ---
 
+## F-String CSS Brace Escaping
+
+### The Problem
+
+When using f-strings for CSS in `st.markdown()`, CSS braces `{` and `}` conflict with Python's f-string syntax.
+
+**Symptom:**
+```
+NameError: name 'background' is not defined
+```
+
+**Cause:** CSS like `.claim-card { background: ...}` is parsed as a Python variable reference.
+
+### The Fix
+
+Double all CSS braces inside f-strings:
+
+```python
+# BAD - causes NameError
+st.markdown(f"""
+<style>
+.my-class {
+    background: red;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# GOOD - braces escaped
+st.markdown(f"""
+<style>
+.my-class {{
+    background: red;
+}}
+</style>
+""", unsafe_allow_html=True)
+```
+
+### When You Need F-Strings for CSS
+
+If you're injecting a variable into CSS (like a base64 image), you need f-strings. Escape ALL other braces:
+
+```python
+background_css = f"""
+.stApp {{
+    background-image: url('data:image/png;base64,{bg_base64}');
+}}
+"""
+```
+
+### Alternative: Concatenation
+
+Avoid f-strings entirely by building the string:
+
+```python
+css = "<style>" + background_css + """
+.my-class {
+    background: red;
+}
+</style>"""
+st.markdown(css, unsafe_allow_html=True)
+```
+
+---
+
+## Module Import Case Sensitivity (Multipage Apps)
+
+### The Problem
+
+Streamlit multipage apps require all imports in `pages/__init__.py` and `app.py` to **exactly match** the filename case on disk.
+
+**Symptom:**
+```
+ImportError: cannot import name 'personas' from partially initialized module 'pages'
+(most likely due to a circular import)
+```
+
+**Cause:** File is `Personas.py` (capital P) but import says `from . import personas` (lowercase p).
+
+### Why This Happens
+
+- Windows filesystem is case-insensitive, so `Personas.py` and `personas.py` are the "same file"
+- Python's import system IS case-sensitive, tracking them as separate modules
+- When imports don't match, Python thinks it's a circular import
+
+### The Fix
+
+1. Check actual filename case: `ls -la dashboard/pages/`
+2. Update `pages/__init__.py` to match exactly:
+```python
+# If file is Personas.py (capital P):
+from . import Personas  # NOT: from . import personas
+
+__all__ = [
+    'Personas',  # NOT: 'personas'
+]
+```
+
+3. Update `app.py` imports to match:
+```python
+from pages import Overview, Personas, Stackup  # Match exact case
+```
+
+4. Clear Python cache after fixing:
+```bash
+rm -rf dashboard/pages/__pycache__ dashboard/__pycache__
+```
+
+### Prevention
+
+When creating new page files, use consistent naming convention:
+- **Recommended:** `PascalCase.py` for pages (e.g., `Overview.py`, `Personas.py`)
+- **Also OK:** `lowercase.py` for all pages
+- **Avoid:** Mixed conventions in same project
+
+---
+
 ## Lessons Learned
 
 1. **Streamlit's default is dark theme** - You're fighting upstream
