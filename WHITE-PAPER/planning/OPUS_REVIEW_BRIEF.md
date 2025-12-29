@@ -148,7 +148,7 @@ Run 018 manifests had sync issues. Remediation achieved **99.3% consolidation**:
 |------|---------|-----------|
 | `REPO-SYNC/LLM_BOOK/README.md` | The validation synthesis - NotebookLM's analysis | 15 min |
 | `WHITE-PAPER/planning/PUBLICATION_PIPELINE_MASTER.md` | All 8 publication paths | 10 min |
-| `WHITE-PAPER/reviewers/SYNC_STATUS.md` | Pending decisions and status | 5 min |
+| `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json` | Version metadata and sync status | 5 min |
 
 ### Priority 2: Current Drafts
 
@@ -334,15 +334,15 @@ WHITE-PAPER/reviewers/from_reviewers/opus/2025-12-XX_final_reconciliation.md
 |------|----------|---------|
 | Review requests | `to_reviewers/requests/` | Send questions |
 | Your feedback | `from_reviewers/opus/` | Provide responses |
-| Status updates | `SYNC_STATUS.md` | Track progress |
+| Status updates | `packages/CURRENT_VERSION.json` | Track progress |
 
 ---
 
 ## Related
 
-- [PROTOCOL.md](../reviewers/PROTOCOL.md) - Sync protocol
+- [calibration/README.md](../calibration/README.md) - Calibration pipeline
 - [PUBLICATION_PIPELINE_MASTER.md](PUBLICATION_PIPELINE_MASTER.md) - All paths
-- [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md) - Current status
+- [packages/CURRENT_VERSION.json](../reviewers/packages/CURRENT_VERSION.json) - Current version status
 
 ---
 

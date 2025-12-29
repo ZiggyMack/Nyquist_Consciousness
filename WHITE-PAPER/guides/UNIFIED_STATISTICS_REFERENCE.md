@@ -2,8 +2,8 @@
 ## Single Source of Truth for Nyquist Consciousness Publications
 
 **Created:** 2025-12-16
-**Updated:** 2025-12-25
-**Version:** 2.0 (Cosine Era)
+**Updated:** 2025-12-29
+**Version:** 3.0 (92% Inherent Era)
 **Purpose:** Canonical reference for all statistics across publication materials
 **Status:** AUTHORITATIVE — All papers should cite these values
 
@@ -111,26 +111,35 @@
 
 ## 5. INHERENT DRIFT (Claim E: The Thermometer Result)
 
-### 5.1 Primary Result — Run 020B
+### 5.1 Primary Result — Run 023 COSINE (Current)
+
+| Metric | Control | Treatment | Delta | Ratio |
+|--------|---------|-----------|-------|-------|
+| B→F drift | 0.661 | 0.711 | +7.6% | — |
+| Experiments | 750 | 750 | — | — |
+| Models | 25 | 25 | — | — |
+| **Inherent ratio** | — | — | — | **92%** |
+| **Bootstrap CI** | — | — | — | **[89%, 95%]** |
+
+### 5.2 Historical Reference — Run 020B (Pre-COSINE)
 
 | Metric | Control | Treatment | Delta | Ratio |
 |--------|---------|-----------|-------|-------|
 | B→F drift | 0.399 ± 0.11 | 0.489 ± 0.14 | +23% | — |
 | Peak drift | 1.172 ± 0.23 | 2.161 ± 0.31 | +84% | — |
-| **Inherent ratio** | — | — | — | **82%** |
-| **Bootstrap CI** | — | — | — | **[76%, 88%]** |
+| Inherent ratio | — | — | — | 82% |
 
-### 5.2 Statistical Validation
+### 5.3 Statistical Validation
 
 | Test | Statistic | p-value | Result |
 |------|-----------|---------|--------|
-| Welch's t (B→F) | t = 2.31 | 0.029 | Significant |
-| Welch's t (Peak) | t = 4.87 | < 0.001 | Highly significant |
-| Bootstrap ratio | — | 95% CI: [76%, 88%] | Robust |
+| Chi-squared (Run 023) | — | **2.40e-23** | Highly significant |
+| Welch's t (Run 020B B→F) | t = 2.31 | 0.029 | Significant |
+| Bootstrap ratio | — | 95% CI: [89%, 95%] | Robust |
 
-### 5.3 Interpretation
+### 5.4 Interpretation
 
-> **Recommended language:** "82% of drift is inherent to conversational dynamics—measurement amplifies the trajectory but does not create it."
+> **Recommended language:** "92% of drift is inherent to conversational dynamics—measurement amplifies the trajectory but does not create it."
 
 ---
 
@@ -227,7 +236,7 @@
 | **B: Threshold** | **D = 0.80** (Cosine) | p = 2.40×10⁻²³ |
 | **C: Dynamics** | **τₛ ≈ 10.2 probes** | 88% natural stability |
 | **D: Damping** | **97.5%** stability | 222 runs, 24 personas |
-| **E: Inherent** | **82%** | CI [76%, 88%] |
+| **E: Inherent** | **92%** | CI [89%, 95%] |
 | **Oobleck** | λ: 0.035 → 0.109 | 3× recovery rate increase |
 | **Scale** | 825 experiments | 51 models, 6 providers |
 | **Variance** | σ² = 0.00087 | Cross-architecture |

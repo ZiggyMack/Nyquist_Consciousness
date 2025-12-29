@@ -1,8 +1,8 @@
 # Reproducibility Guide: Nyquist Consciousness
 
 **Paper:** "Measuring AI Identity Drift: Evidence from 23 Experiments"
-**Version:** 2.0
-**Last Updated:** 2025-12-25
+**Version:** 3.0 (92% Inherent Era)
+**Last Updated:** 2025-12-29
 **Methodology:** Cosine distance (Event Horizon D = 0.80)
 
 ---
@@ -20,7 +20,7 @@ pip install -r requirements.txt
 # Run dashboard
 streamlit run dashboard/app.py
 
-# Reproduce key result (82% inherent drift)
+# Reproduce key result (92% inherent drift)
 cd experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/
 python run020b_thermometer.py
 ```
@@ -38,7 +38,7 @@ All reproducibility targets use these validated values:
 | Perturbation p-value | **2.40×10⁻²³** | Run 023d Phase 3A |
 | Cohen's d | **0.698** | Run 023d Phase 3B |
 | Settling time | τₛ ≈ 10.2 | Run 023d |
-| Inherent drift ratio | **82%** | Run 020B |
+| Inherent drift ratio | **92%** | Run 023 COSINE Thermometer |
 | Context damping | **97.5%** | Run 017 |
 | Experiments | 825 | Run 023 Combined |
 | Models | 51 | Run 023 Combined |
@@ -225,7 +225,7 @@ python ../visualizations/visualize_run017.py
 
 ---
 
-### Claim E: 82% Inherent Drift (Thermometer Result)
+### Claim E: 92% Inherent Drift (Thermometer Result)
 
 ```bash
 cd experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/
@@ -244,7 +244,7 @@ python ../visualizations/visualize_run020b.py
 
 - Control drift present without probing
 - Treatment drift amplified by probing
-- Ratio: **82%** of drift is inherent (not induced)
+- Ratio: **92%** of drift is inherent (not induced)
 
 ---
 

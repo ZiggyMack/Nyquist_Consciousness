@@ -1,18 +1,19 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-25
+last_reviewed: 2025-12-29
 impacts:
   - ../README.md
 keywords:
   - consciousness
   - cosine_era
+  - 92_percent_inherent
   - publication
 -->
 # WHITE-PAPER/planning/
 
 Publication planning workspace for Nyquist Consciousness.
 
-**Last Updated:** 2025-12-25
-**Status:** COSINE ERA — Run 023 IRON CLAD Complete (825 experiments, 51 models, 6 providers)
+**Last Updated:** 2025-12-29
+**Status:** 92% INHERENT ERA — Run 023d IRON CLAD Complete (750 experiments, 25 models, 5 providers)
 
 ## Purpose
 
@@ -30,7 +31,7 @@ This directory contains planning documents, methodology guidance, and integratio
 
 ## Master Sync Reference
 
-**Source of truth for reviewer sync:** [../reviewers/SYNC_STATUS.md](../reviewers/SYNC_STATUS.md)
+**Source of truth for reviewer sync:** [../reviewers/packages/CURRENT_VERSION.json](../reviewers/packages/CURRENT_VERSION.json)
 
 ## Event Horizon Thresholds
 
@@ -80,4 +81,4 @@ When writing publication material, use these terms:
 ---
 
 Created: 2025-12-13
-Updated: 2025-12-25
+Updated: 2025-12-29

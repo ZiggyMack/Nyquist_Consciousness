@@ -42,7 +42,7 @@ Empirical visualizations from S7_ARMADA with correct data.
 | File | Source | Description |
 |------|--------|-------------|
 | `figures/run023/context_damping_summary.png` | Run 017 | 97.5% stability results |
-| `figures/run023/oobleck_thermometer.png` | Run 020B | 82% inherent drift |
+| `figures/run023/oobleck_thermometer.png` | Run 023 | 92% inherent drift |
 | `figures/run023/oobleck_control_treatment.png` | Run 020B | Control vs Treatment |
 | `figures/run023/pc_scatter.png` | Run 023d | PCA visualization |
 | `figures/run023/provider_clusters.png` | Run 023d | Provider clustering |
@@ -182,7 +182,7 @@ All materials must use these validated values:
 | Perturbation p-value | **2.40×10⁻²³** | Run 023d Phase 3A |
 | Cohen's d | **0.698** | Run 023d Phase 3B |
 | Settling time | τₛ ≈ 10.2 | Run 023d |
-| Inherent drift ratio | **82%** | Run 020B |
+| Inherent drift ratio | **92%** | Run 023 COSINE Thermometer |
 | Context damping | **97.5%** | Run 017 |
 | Experiments | 825 | Run 023 Combined |
 | Models | 51 | Run 023 Combined |

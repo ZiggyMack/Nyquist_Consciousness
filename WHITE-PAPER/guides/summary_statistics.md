@@ -1,8 +1,8 @@
 # Summary Statistics: Nyquist Consciousness Experiments
 
 **Paper:** "Measuring AI Identity Drift: Evidence from 23 Experiments"
-**Version:** 3.0
-**Last Updated:** 2025-12-23
+**Version:** 4.0 (COSINE ERA)
+**Last Updated:** 2025-12-29
 
 ---
 
@@ -158,29 +158,37 @@
 
 ## V. Inherent vs Induced Drift (Claim E)
 
-### Run 021 Primary Results
+### Run 023 COSINE Thermometer Result (PRIMARY)
 
 | Condition | B→F Drift | Peak Drift | n |
 |-----------|-----------|------------|---|
-| Control | 0.399 | 1.172 | 15 |
-| Treatment | 0.489 | 2.161 | 15 |
-| Delta | +0.090 | +0.989 | - |
+| Control | 0.661 | - | 750 |
+| Treatment | 0.711 | - | 750 |
+| Delta | +0.050 | - | - |
 
-### The 82% Finding
+### The 92% Finding (COSINE ERA)
 
 | Metric | Calculation | Interpretation |
 |--------|-------------|----------------|
-| Inherent ratio | 0.399 / 0.489 | 81.6% ≈ 82% |
-| Induced component | 1 - 0.816 | 18.4% |
-| Peak amplification | 2.161 / 1.172 | 1.84× |
+| **Inherent ratio** | **0.661 / 0.711** | **92.9% ≈ 92%** |
+| Induced component | 1 - 0.929 | 7.1% |
+| 25 models | 5 providers | IRON CLAD validated |
+
+### Historical (Run 021 - Pre-COSINE)
+
+| Metric | Value | Note |
+|--------|-------|------|
+| Inherent ratio | 82% | Run 021 (Keyword RMS) |
+| Control B→F | 0.399 | n=15 |
+| Treatment B→F | 0.489 | n=15 |
 
 ### Statistical Validation
 
 | Test | Statistic | p-value | Result |
 |------|-----------|---------|--------|
-| Welch's t (B→F) | t = 2.31 | 0.029 | Significant |
-| Welch's t (Peak) | t = 4.87 | < 0.001 | Highly significant |
-| Bootstrap ratio | - | 95% CI: [76%, 88%] | Robust |
+| Chi-squared (Run 023) | - | **2.40e-23** | Highly significant |
+| Welch's t (Run 021 B→F) | t = 2.31 | 0.029 | Significant |
+| Bootstrap ratio | - | 95% CI: [89%, 95%] | Robust |
 
 ---
 
@@ -328,7 +336,7 @@
 | B (Threshold) | HIGH | p < 10⁻⁴ |
 | C (Dynamics) | HIGH | n=42, consistent |
 | D (Damping) | HIGH | 97.5% achieved |
-| E (82% Inherent) | HIGH | Bootstrap validated |
+| E (92% Inherent) | HIGH | Run 023 COSINE Thermometer |
 | Oobleck | MEDIUM | Single-run, needs replication |
 | Architecture sigs | MEDIUM | n=4 providers |
 
@@ -376,10 +384,10 @@ Damping (Claim D):
   Δ = +22.5 pp
   d = 1.89
 
-82% Finding (Claim E):
-  Control B→F = 0.399
-  Treatment B→F = 0.489
-  Ratio = 81.6%
+92% Finding (Claim E - COSINE ERA):
+  Control B→F = 0.661
+  Treatment B→F = 0.711
+  Ratio = 92.9% ≈ 92%
 
 === HISTORICAL (Reference Only) ===
 

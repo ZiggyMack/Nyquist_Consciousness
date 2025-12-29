@@ -99,15 +99,17 @@ That's a legitimate scientific posture.
 
 ---
 
-## Run 021's Devastating Counter to Skeptics
+## Run 023's Devastating Counter to Skeptics (COSINE ERA)
 
-The 82% finding answers "you're just causing it":
+The **92% finding** answers "you're just causing it":
 
-- **Control (no identity probing):** B→F drift = 0.399
-- **Treatment (full tribunal):** B→F drift = 0.489
-- **Ratio:** 82%
+- **Control (no identity probing):** B→F drift = 0.661
+- **Treatment (full tribunal):** B→F drift = 0.711
+- **Ratio:** 92%
 
 Most of what you're calling drift happens even when you never ask about identity at all.
+
+*(Historical: Run 021 found 82% with Keyword RMS methodology)*
 
 ---
 
@@ -117,6 +119,6 @@ Most of what you're calling drift happens even when you never ask about identity
 - [ ] No "collapse" language (use "regime transition")
 - [ ] No "Platonic coordinates" (use "attractor basin")
 - [ ] Event Horizon framed as threshold, not failure
-- [ ] 82% inherent drift prominently featured
+- [ ] 92% inherent drift prominently featured
 - [ ] PCA described as "response modes" not "identity dimensions"
 - [ ] Thermometer analogy: measurement perturbs, doesn't create
