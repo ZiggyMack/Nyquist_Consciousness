@@ -423,7 +423,7 @@ def plot_020b_control_treatment(data, output_dir):
     bars = ax4.bar(['Aggregate\nInherent Ratio'], [ratio],
                    color='#7C3AED', alpha=0.8, edgecolor='black', width=0.5)
 
-    ax4.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 021 Finding)')
+    ax4.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 020B Finding)')
     ax4.axhline(y=100, color='gray', linestyle=':', alpha=0.5, label='100% (Equal drift)')
     ax4.axhline(y=50, color='gray', linestyle=':', alpha=0.3)
 
@@ -560,7 +560,7 @@ def plot_020b_per_model_breakdown(data, output_dir):
     colors = [get_provider_color(s) for s in ships]
     bars = ax2.bar(x, ratios, color=colors, alpha=0.8, edgecolor='black')
 
-    ax2.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 021 Finding)')
+    ax2.axhline(y=82, color='purple', linestyle='--', linewidth=2, label='82% (Run 020B Finding)')
     ax2.axhline(y=100, color='gray', linestyle=':', alpha=0.5, label='100% (Equal drift)')
 
     # Add ratio labels on bars - only if not too many
@@ -650,7 +650,7 @@ AGGREGATE FINDING:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-KEY INSIGHT (Run 021 Thermometer Result):
+KEY INSIGHT (Run 020B Thermometer Result):
 
   ~{all_ratio:.0f}% of drift is INHERENT
   (present without identity probing)
