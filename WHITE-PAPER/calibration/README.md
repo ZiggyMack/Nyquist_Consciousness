@@ -8,14 +8,18 @@ depends_on:
   - ./4_publish_stats.py
 impacts:
   - ../README.md
+  - ../START_HERE.md
 keywords:
   - consciousness
   - calibration
+  - iron_clad
+  - cosine_methodology
 -->
 # Calibration Pipeline
 
 **Purpose:** Sync assets, generate PDFs, create review packages, and extract statistics.
 **Last Updated:** 2025-12-29
+**Methodology:** IRON CLAD COSINE ERA (Event Horizon = 0.80, p = 2.40e-23, 92% Inherent Drift)
 
 ---
 
@@ -255,22 +259,33 @@ py 2_package_review.py workshop --dry-run
 py 2_package_review.py workshop --output ./FOR_OPUS
 ```
 
-**Output:** `WHITE-PAPER/reviewers/packages/{path}/`
+**Output:** `WHITE-PAPER/reviewers/packages/v4/{path}/`
 
-**Available Paths:** workshop, arxiv, journal, popular_science, education, policy, funding, media
+**Available Paths (8 Publication Pipelines):**
+
+| # | Path | Target Venue | Status |
+|---|------|--------------|--------|
+| 1 | workshop | NeurIPS/AAAI | READY |
+| 2 | arxiv | cs.AI Preprint | READY |
+| 3 | journal | Nature MI | Draft (awaits human validation) |
+| 4 | popular_science | Atlantic/Wired | READY (LLM_BOOK) |
+| 5 | education | OER/Coursera | READY (LLM_BOOK) |
+| 6 | policy | Think tanks | READY (LLM_BOOK) |
+| 7 | funding | NSF/DARPA | READY (LLM_BOOK) |
+| 8 | media | Press/TED | READY (LLM_BOOK) |
 
 **Expected Sizes (text-only):**
 
-| Path | Size | Files |
-|------|------|-------|
-| workshop | ~90 KB | ~13 |
-| arxiv | ~360 KB | ~17 |
-| journal | ~530 KB | ~29 |
-| popular_science | ~30 KB | ~4 |
-| education | ~40 KB | ~4 |
-| policy | ~30 KB | ~3 |
-| funding | ~70 KB | ~6 |
-| media | ~35 KB | ~5 |
+| Path | Size | Files | Notes |
+|------|------|-------|-------|
+| workshop | ~90 KB | ~13 | Core claims + validation |
+| arxiv | ~360 KB | ~17 | Full methodology + results |
+| journal | ~530 KB | ~29 | Complete with supplements |
+| popular_science | ~30 KB | ~4 | Accessible narrative |
+| education | ~40 KB | ~4 | Teaching modules |
+| policy | ~30 KB | ~3 | Brief for decision-makers |
+| funding | ~70 KB | ~6 | Proposal framework |
+| media | ~35 KB | ~5 | Press-ready excerpts |
 
 ---
 
@@ -326,7 +341,7 @@ py 4_publish_stats.py
 | **Runs** | Total count, S7 count, latest run |
 | **Files** | Figures, ASCII, workshop, references, total |
 | **Submissions** | Status and target for each path |
-| **Key Statistics** | PFI correlation, threshold, 92% ratio, stability |
+| **Key Statistics** | PFI correlation (ρ=0.91), threshold (D=0.80), 92% inherent ratio, stability (97.5%) |
 
 **Dashboard Integration:**
 
@@ -380,5 +395,20 @@ py 4_publish_stats.py
 
 ---
 
+## Key Metrics (COSINE ERA)
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| **Event Horizon** | D = 0.80 (cosine) | Run 023d IRON CLAD |
+| **P-value** | 2.40e-23 | Chi-squared validation |
+| **Inherent Drift** | 92% | Thermometer Result |
+| **Context Damping** | 97.5% stability | Run 017 |
+| **PFI Correlation** | ρ = 0.91 | Cross-model validation |
+| **Settling Time** | τₛ ≈ 10.2 probes | Damped oscillator fit |
+| **Experiments** | 750 | Run 023d total |
+| **Models** | 25 unique | 5 providers |
+
+---
+
 *Last updated: 2025-12-29*
-*IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23*
+*IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23, 92% Inherent Drift*
