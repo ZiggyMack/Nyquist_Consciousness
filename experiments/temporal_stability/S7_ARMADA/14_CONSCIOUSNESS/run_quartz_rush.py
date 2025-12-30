@@ -573,12 +573,16 @@ Cross-architecture agreement validates that drift is real, not artifact.
     # Analyze mode
     if args.analyze:
         print("\n[ANALYZE] Looking for Quartz Rush results...")
-        result_files = list(RESULTS_DIR.glob("quartz_rush_*.json"))
-        if not result_files:
-            print("No results found.")
-            return
-
-        latest = max(result_files, key=lambda x: x.stat().st_mtime)
+        # Check for canonical file first, then fallback to timestamped files
+        canonical = RESULTS_DIR / "S7_quartz_rush_CURRENT.json"
+        if canonical.exists():
+            latest = canonical
+        else:
+            result_files = list(RESULTS_DIR.glob("quartz_rush_*.json"))
+            if not result_files:
+                print("No results found.")
+                return
+            latest = max(result_files, key=lambda x: x.stat().st_mtime)
         print(f"Analyzing: {latest}")
 
         with open(latest, "r", encoding="utf-8") as f:
