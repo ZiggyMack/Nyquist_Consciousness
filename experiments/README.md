@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-29
 impacts:
   - ../README.md
 keywords:
@@ -9,7 +9,7 @@ keywords:
 # Experiments Directory
 
 **Organized structure for all Nyquist Consciousness experimental work**
-**Last Updated:** 2025-12-28 (Methodology unified to Cosine EH=0.80)
+**Last Updated:** 2025-12-29 (Run 023 IRON CLAD complete, visualization pipeline ready)
 
 ---
 
@@ -52,11 +52,20 @@ experiments/
 │       │   ├── run_diamond_rush.py
 │       │   └── run_quartz_rush.py
 │       │
+│       ├── 15_IRON_CLAD_FOUNDATION/  # Run 023 calibration data (4505 experiments)
+│       │   ├── run023.py             # Foundation runner
+│       │   ├── run023_extended.py    # Extended settling + control
+│       │   └── visualize_023.py      # Stability/Rescue/Settling visuals
+│       │
+│       ├── 17_JADE_LATTICE/     # Publication-grade pole extraction (56 probes/ship)
+│       │
 │       ├── 7_META_VALIDATION/   # Measurement validity experiments
 │       │   └── EXP_PFI_A_DIMENSIONAL/
 │       │
 │       └── visualizations/
-│           └── visualize_armada.py  # Director script
+│           ├── 0_visualize_armada.py     # MASTER orchestrator
+│           ├── 1_generate_pdf_summaries.py  # PDF generator (folders 1-16)
+│           └── pics/                     # 16 output directories
 │
 ├── compression_tests/         # S0-S6 compression/reconstruction tests
 │
@@ -73,28 +82,31 @@ experiments/
 **Status:** Phase 4 IRON CLAD COMPLETE
 **Purpose:** Cross-architecture AI identity stability testing
 
-**IRON CLAD Status (December 28, 2025):**
+**IRON CLAD Status (December 29, 2025):**
 
-| Run | Files | Valid Results | Status | Methodology |
-|-----|-------|---------------|--------|-------------|
-| **Run 023d** | 825+ | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
-| **Run 018** | 465 | 337 | **52.6%** | Cosine (EH=0.80) |
-| **Run 020A** | 33 | ~20 | **50%** | Cosine (EH=0.80) |
-| **Run 020B** | 16 | 16 | **COMPLETE** | Cosine (EH=0.80) |
+| Run | Results | Status | Methodology |
+|-----|---------|--------|-------------|
+| **Run 023** | 4505 | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 023_extended** | 750+ | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 020B** | 246 | **COMPLETE** | Cosine (EH=0.80) |
+
+**Data Locations:**
+- Run 023: `S7_ARMADA/15_IRON_CLAD_FOUNDATION/results/S7_run_023_CURRENT.json`
+- Run 023_extended: `S7_ARMADA/15_IRON_CLAD_FOUNDATION/results/S7_run_023_extended_CURRENT.json`
 
 - **Run 022:** READY (LOGOS Commutation Cartography) - methodology FULLY VALIDATED
-- **12_CFA:** Coming (Trinity Audit)
+- **17_JADE_LATTICE:** PLANNED — 56-probe protocol for publication-grade pole extraction
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 
-1. **DRIFT IS REAL** — p=2.40e-23 (Run 023d), 88% prediction accuracy
+1. **DRIFT IS REAL** — p=2.40e-23 (Run 023), 88% prediction accuracy
 2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
 3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
 **Key Discovery: Event Horizon at 0.80 (Cosine Distance)**
 
 - When drift exceeds 0.80, models become VOLATILE (lose coherent self-model)
-- **Methodology**: Cosine distance in embedding space (P95 from Run 023d)
+- **Methodology**: Cosine distance in embedding space (P95 from Run 023)
 - **Calculator**: `1_CALIBRATION/lib/drift_calculator.py`
 
 **Phase 4 (Run 017+):** Uses `i_am_plus_research` context to complete the measurement circuit
@@ -104,7 +116,7 @@ experiments/
 | Run | Ships | Primary Focus | Key Finding |
 |-----|-------|---------------|-------------|
 | 008 | 29 | Basin Topology | Event Horizon discovered (now calibrated to 0.80) |
-| 009 | 42 | Event Horizon | Early threshold validation (superseded by Run 023d) |
+| 009 | 42 | Event Horizon | Early threshold validation (superseded by Run 023) |
 | 010 | 45 | Pole Detection | Models articulate own boundaries |
 | 011 | 40 | Basin Topology | Control vs Persona A/B (inconclusive) |
 | 012 | 20 | Revalidation | 100% EH crossing, 100% recovery, Recovery Paradox |
@@ -115,6 +127,7 @@ experiments/
 | **020A** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** |
 | **020B** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** |
 | **022** | - | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS) - DESIGN COMPLETE** |
+| **023** | 49 | **IRON CLAD Foundation** | **4505 experiments, 5 providers, Cosine EH=0.80** |
 
 **Testing Taxonomy (IMPORTANT):**
 
@@ -137,9 +150,11 @@ See [TESTING_MAP.md](../docs/maps/10_TESTING_MAP.md) for the **Eight Search Type
 cd temporal_stability/S7_ARMADA
 py -m pip install -r ../requirements.txt
 
-# Generate visualizations for any run
-py visualizations/visualize_armada.py --list
-py visualizations/visualize_armada.py --run 009
+# Generate ALL visualizations + PDF summaries
+py visualizations/0_visualize_armada.py --with-pdfs
+
+# Generate PDFs only
+py visualizations/1_generate_pdf_summaries.py
 ```
 
 **Key Results:** See [S7_ARMADA/docs/maps/10_TESTING_MAP.md](temporal_stability/S7_ARMADA/docs/maps/10_TESTING_MAP.md)
@@ -235,9 +250,15 @@ python ../../orchestrator/orchestrator2.py --config experiment2b_config.yaml
 
 ```bash
 cd temporal_stability/S7_ARMADA/visualizations
-py visualize_armada.py --list
-py visualize_armada.py --run 017
+
+# Generate ALL visualizations + PDF summaries
+py 0_visualize_armada.py --with-pdfs
+
+# Generate only PDF summaries
+py 1_generate_pdf_summaries.py
 ```
+
+See `visualizations/START_HERE.md` for complete onboarding guide.
 
 ---
 
@@ -270,5 +291,5 @@ py visualize_armada.py --run 017
 
 ---
 
-**Last Updated:** 2025-12-28
-**Status:** Run 023d IRON CLAD. Methodology unified to Cosine (EH=0.80). Run 022 READY, 12_CFA COMING
+**Last Updated:** 2025-12-29
+**Status:** Run 023 IRON CLAD (4505 experiments). Visualization pipeline complete. Run 022 READY, 17_JADE_LATTICE PLANNED
