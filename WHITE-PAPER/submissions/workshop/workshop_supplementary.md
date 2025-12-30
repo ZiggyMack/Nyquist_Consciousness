@@ -80,13 +80,13 @@ py visualizations/visualize_armada.py --run NNN --type vortex
 
 ## How to Reproduce Key Results
 
-### The 82% Finding (Run 021)
+### The ~93% Finding (Run 020B IRON CLAD)
 
 ```bash
 cd experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/
-python run021_induced_vs_inherent.py --condition control
-python run021_induced_vs_inherent.py --condition treatment
-python ../visualizations/visualize_run021.py
+python run020b_induced_vs_inherent.py --condition control
+python run020b_induced_vs_inherent.py --condition treatment
+python ../visualizations/visualize_run020b.py
 ```
 
 ### Context Damping (Run 017)

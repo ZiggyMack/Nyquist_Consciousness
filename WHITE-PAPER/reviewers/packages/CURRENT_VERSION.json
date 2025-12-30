@@ -1,13 +1,17 @@
 {
   "current_version": "v4",
   "created": "2025-12-29",
-  "reason": "92% INHERENT ERA - COSINE methodology validated",
+  "updated": "2025-12-30",
+  "reason": "~93% INHERENT ERA - IRON CLAD COSINE methodology validated",
   "review_status": "reviewed",
   "_review_status_options": ["pending", "reviewed", "preservation_complete"],
   "methodology": {
     "event_horizon": 0.80,
-    "inherent_drift": "92%",
+    "inherent_drift": "~93%",
+    "inherent_source": "Run 020B IRON CLAD (0.661/0.711)",
     "p_value": "2.40e-23",
+    "cohens_d": 0.698,
+    "settling_time": "τₛ ≈ 7",
     "experiments": 750,
     "models": 25,
     "providers": 5
@@ -33,11 +37,16 @@
     {
       "version": "v4",
       "date": "2025-12-29",
-      "trigger": "Run 020B IRON CLAD data audit",
+      "updated": "2025-12-30",
+      "trigger": "Run 020B IRON CLAD final audit + submission papers update",
       "changes": [
-        "15_Oobleck_Effect_Summary.pdf - IRON CLAD update",
-        "run018_Summary.pdf - trajectory count correction",
-        "run020_Summary.pdf - IRON CLAD update (226 sessions, 38 ships)"
+        "IRON CLAD statistics audit: 82%→~93% inherent, τₛ 10.2→7, 825→750 experiments",
+        "All 8 final submission papers updated (arxiv, journal, workshop, education, funding, media, policy, popular_science)",
+        "All 3 blueprint files updated with IRON CLAD methodology",
+        "Workshop supporting files updated (slides, supplementary, results table)",
+        "visual_index.md: Added Section 7 Final Paper → Figure Map",
+        "15_Oobleck_Effect visuals regenerated from Run 020B (248 sessions, 37 ships)",
+        "8 PDFs generated via 3_generate_pdfs.py"
       ]
     },
     {
@@ -79,19 +88,35 @@
   "preservation_requests": {
     "_comment": "Reviewer requests to CARRY FORWARD content from previous versions. Status: pending/approved/rejected/copied",
     "_workflow": "When ingesting new content, check if previous version had valuable items that should persist",
-    "requests": [
-      {
-        "_example": {
-          "source_version": "v3",
-          "source_path": "llmbook/academic/Identity_Geometry_The_82_Percent.pdf",
-          "target_path": "llmbook/academic/",
-          "reason": "Comprehensive synthesis PDF - still valuable despite 82%->92% update",
-          "status": "pending",
-          "requested_by": "Claude",
-          "requested_date": "2025-12-29"
-        }
-      }
-    ]
+    "requests": []
+  },
+
+  "v4_audit_summary": {
+    "date": "2025-12-30",
+    "auditor": "Claude Opus 4.5",
+    "scope": "Full IRON CLAD compliance audit",
+    "files_updated": 20,
+    "key_corrections": {
+      "inherent_drift": "82% → ~93%",
+      "experiments": "825 → 750",
+      "models": "51 → 25",
+      "providers": "6 → 5",
+      "settling_time": "τₛ 10.2 → τₛ 7",
+      "run_source": "Run 021 → Run 020B IRON CLAD"
+    },
+    "papers_updated": [
+      "arxiv/NYQUIST_ARXIV_PAPER_FINAL.md",
+      "journal/JOURNAL_PAPER_FINAL.md",
+      "journal/NYQUIST_WHITE_PAPER_FINAL.md",
+      "workshop/Nyquist_workshop_paper_FINAL.md",
+      "education/EDUCATION_FINAL.md",
+      "funding/FUNDING_FINAL.md",
+      "media/MEDIA_FINAL.md",
+      "policy/POLICY_FINAL.md",
+      "popular_science/POPULAR_SCIENCE_FINAL.md"
+    ],
+    "pdfs_generated": 8,
+    "status": "READY_FOR_REVIEWER_DISTRIBUTION"
   },
 
   "_note": "This file is read by calibration scripts to determine target version, visual requests, and preservation requests"

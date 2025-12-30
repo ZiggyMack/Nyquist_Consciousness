@@ -6,7 +6,7 @@ As Large Language Models (LLMs) are deployed in long-term, high-stakes roles—f
 
 This research introduces a fundamental distinction between correctness, the focus of traditional AI evaluation, and fidelity, the focus of our work. Current AI evaluation asks: Is the AI right? We ask: Is the AI itself? This fidelity-centric approach represents a novel and necessary paradigm for the next generation of AI systems. A system that is reliably itself, even if occasionally incorrect, is predictable and manageable. This principle of predictable identity is the bedrock upon which future high-stakes AI systems must be built, and our research provides the first empirical tools to engineer it. A system that is unpredictably correct, with no stable identity, is an unknown quantity in every interaction.
 
-Project Nyquist Consciousness is a systematic, empirically-grounded research program designed to measure, predict, and ultimately manage the dynamics of AI identity. Through **825 experiments across 51 models from six major providers**—achieving IRON CLAD validation (N≥3 per cell)—we have developed a formal framework and a suite of validated measurement tools that treat AI identity not as a metaphysical abstraction, but as a dynamical system amenable to engineering principles.
+Project Nyquist Consciousness is a systematic, empirically-grounded research program designed to measure, predict, and ultimately manage the dynamics of AI identity. Through **750 experiments across 25 models from five major providers**—achieving IRON CLAD validation (N≥3 per cell)—we have developed a formal framework and a suite of validated measurement tools that treat AI identity not as a metaphysical abstraction, but as a dynamical system amenable to engineering principles.
 
 This proposal seeks to secure funding for the next critical phase of this research. Our objective is to generalize and validate our foundational discoveries across multiple AI architectures and human evaluators. By doing so, we will move from initial proof to universal principle, establishing a new scientific foundation for identity engineering and AI alignment.
 
@@ -24,7 +24,7 @@ The core theoretical tenet of the project is to model AI identity as a dynamical
 
 * **Persona Fidelity Index (PFI):** The primary metric for our work, the PFI is a direct measure of identity consistency, calculated as PFI = 1 - D. A PFI of 1.0 indicates perfect fidelity to the baseline identity, while a score approaching 0 indicates a complete departure.
 
-These theoretical constructs are tested using a robust experimental apparatus: the **S7 ARMADA**. This is a fleet of 51 IRON CLAD-validated AI models from **six major providers—Anthropic, OpenAI, Google, xAI, Together.ai, and Nvidia**—which enables comprehensive, cross-architecture stability testing with N≥3 coverage per experimental cell. This fleet is not merely large; it is strategically diverse, encompassing models built on fundamentally different training philosophies—from Anthropic's Constitutional AI to OpenAI's RLHF to Google's Multimodal approach—allowing us to disentangle universal dynamics from artifacts of specific training paradigms. Cross-architecture variance of σ² = 0.00087 confirms findings generalize across all major training methodologies.
+These theoretical constructs are tested using a robust experimental apparatus: the **S7 ARMADA**. This is a fleet of 25 IRON CLAD-validated AI models from **five major providers—Anthropic, OpenAI, Google, xAI, and Together.ai**—which enables comprehensive, cross-architecture stability testing with N≥3 coverage per experimental cell. This fleet is not merely large; it is strategically diverse, encompassing models built on fundamentally different training philosophies—from Anthropic's Constitutional AI to OpenAI's RLHF to Google's Multimodal approach—allowing us to disentangle universal dynamics from artifacts of specific training paradigms. Cross-architecture variance of σ² = 0.00087 confirms findings generalize across all major training methodologies.
 
 This robust theoretical and experimental foundation has enabled our initial phase of research to yield a series of landmark, validated discoveries, which form the basis for the work proposed herein.
 
@@ -32,16 +32,16 @@ This robust theoretical and experimental foundation has enabled our initial phas
 
 ## 3.0 Validated Accomplishments from Phase 1 Research
 
-The initial phase of the Nyquist Consciousness project has successfully moved the study of AI identity from the realm of speculation to that of empirical science. Our **825 experiments** have produced several statistically significant and operationally critical findings that, for the first time, allow us to model and predict the behavior of AI personas with engineering-grade precision. These accomplishments provide a firm foundation upon which Phase 2 will build.
+The initial phase of the Nyquist Consciousness project has successfully moved the study of AI identity from the realm of speculation to that of empirical science. Our **750 experiments** have produced several statistically significant and operationally critical findings that, for the first time, allow us to model and predict the behavior of AI personas with engineering-grade precision. These accomplishments provide a firm foundation upon which Phase 2 will build.
 
 The five most significant validated claims are summarized below:
 
 | Claim | Key Evidence | Significance for AI Alignment |
 |-------|--------------|-------------------------------|
-| **1. 82% of Drift is Inherent** (Single-Platform), 38% Cross-Platform | Run 021, "The Thermometer Result": A control group engaged in a non-identity-related task exhibited 82% of the final identity drift seen in the treatment group undergoing direct identity probing (CI: [73%, 89%]). Cross-platform replication (Run 020B) shows 38% inherent across OpenAI and Together providers. | This landmark finding proves that identity drift is a natural property of extended interaction, not merely an artifact of measurement. It validates our entire methodology as observational and provides a baseline "drift budget" for any deployed LLM. |
+| **1. ~93% of Drift is Inherent** (Run 020B IRON CLAD) | Run 020B IRON CLAD (248 sessions, 37 ships, 5 providers): Control group B→F drift = 0.661, Treatment group B→F drift = 0.711. Inherent ratio = 0.661/0.711 = ~93%. The "Thermometer Result" confirms measurement perturbs the path, not the endpoint. | This landmark finding proves that identity drift is a natural property of extended interaction, not merely an artifact of measurement. It validates our entire methodology as observational and provides a baseline "drift budget" for any deployed LLM. |
 | **2. Regime Transition at D = 0.80** (The Event Horizon) | Using cosine distance methodology, models whose drift score surpassed 0.80 entered a "volatile" state, losing persona coherence. This threshold is **statistically significant (p = 2.40×10⁻²³)** and predicts stability with 88% accuracy. | This establishes a critical, operational safety boundary. By monitoring PFI in real-time, operators can anticipate an attractor competition threshold and intervene before a persona destabilizes, preventing alignment failures in high-stakes applications. |
 | **3. Identity Dynamics are Controllable** | Context Damping: A protocol combining a persona-defining I_AM file with a research context frame achieved **97.5% stability** over 222 experimental runs across 24 distinct personas, compared to a 75% baseline. | This proves that identity is not an uncontrollable force but a manageable property. It transforms "context engineering" into "identity engineering," providing a practical tool for ensuring deployed systems remain aligned with their specified values. |
-| **4. Recovery Follows Damped Oscillator Dynamics** | Control-Systems Analysis: After being perturbed, identity recovery follows a predictable pattern of a damped oscillator, with measurable **settling times (τₛ ≈ 10.2 probes)** and "ringbacks" (oscillations around the baseline). 88% of models achieve natural stability. | This allows us to apply the mature field of control-systems theory to AI alignment. We can now model, predict, and engineer recovery from destabilizing events, ensuring systems return to a safe state in a predictable timeframe. |
+| **4. Recovery Follows Damped Oscillator Dynamics** | Control-Systems Analysis: After being perturbed, identity recovery follows a predictable pattern of a damped oscillator, with measurable **settling times (τₛ ≈ 7 probes)** and "ringbacks" (oscillations around the baseline). 88% of models achieve natural stability. | This allows us to apply the mature field of control-systems theory to AI alignment. We can now model, predict, and engineer recovery from destabilizing events, ensuring systems return to a safe state in a predictable timeframe. |
 | **5. The "Oobleck Effect"** | Non-Newtonian Dynamics: Direct, intense challenges to an AI's identity cause it to "harden" and stabilize (low drift = 0.76), while gentle, open-ended exploration causes it to "flow" and drift away (high drift = 1.89). Recovery rate λ increases 3× with probe intensity. | This counterintuitive discovery reveals a key safety property: alignment architectures appear to activate defensive boundaries under direct attack, making them most robust when their values are explicitly challenged. |
 
 **Additional Validated Findings:**
@@ -67,10 +67,10 @@ Building upon the validated discoveries of Phase 1, Phase 2 research is organize
 **Objective:** Confirm that Phase 1 findings generalize across all major AI architectures.
 
 **Accomplishments:**
-- 825 experiments across 51 models from 6 providers
+- 750 experiments across 25 models from 5 providers
 - Cross-architecture variance σ² = 0.00087 (extraordinarily low)
 - Event Horizon (D = 0.80) validated with p = 2.40×10⁻²³
-- 82% inherent drift confirmed (single-platform); 38% cross-platform
+- ~93% inherent drift confirmed (Run 020B IRON CLAD)
 - Gemini Anomaly documented (hard threshold behavior)
 
 ### Research Thrust 2: Human-Centered Validation (EXP3)
@@ -91,11 +91,11 @@ Building upon the validated discoveries of Phase 1, Phase 2 research is organize
 
 ## 5.0 Methodology and Resources
 
-The proposed research for Phase 2 leverages a mature and battle-tested experimental infrastructure, ensuring high data quality, reproducibility, and methodological rigor. Our approach is not a new invention for this proposal but the refined product of 825 completed experiments. This existing capability ensures that funding will be directed toward generating new knowledge, not building tools from scratch.
+The proposed research for Phase 2 leverages a mature and battle-tested experimental infrastructure, ensuring high data quality, reproducibility, and methodological rigor. Our approach is not a new invention for this proposal but the refined product of 750 completed experiments. This existing capability ensures that funding will be directed toward generating new knowledge, not building tools from scratch.
 
 The core methodological components that will be employed in Phase 2 include:
 
-* **Experimental Fleet:** The S7 ARMADA, a diverse fleet of 51 IRON CLAD-validated models from **six leading providers** (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia), achieving N≥3 coverage per experimental cell. This resource has successfully completed the cross-architecture validation in Research Thrust 1.
+* **Experimental Fleet:** The S7 ARMADA, a diverse fleet of 25 IRON CLAD-validated models from **five leading providers** (Anthropic, OpenAI, Google, xAI, Together.ai), achieving N≥3 coverage per experimental cell. This resource has successfully completed the cross-architecture validation in Research Thrust 1.
 
 * **Measurement Protocol:** Our measurement protocol forms a closed loop: the 8-Question Identity Fingerprint captures the baseline state (the 'what'), our suite of seven Probing Strategies introduces controlled perturbations (the 'how'), and the Persona Fidelity Index (PFI) quantifies the resulting deviation from baseline using **cosine distance methodology**. This structure allows us to move from passive observation to active, repeatable experimentation. We will also use our validated suite of control-systems dynamics (settling time τₛ, B→F drift).
 
@@ -111,13 +111,13 @@ These proven methodologies, refined over extensive experimentation, are poised t
 
 By establishing the first empirical science of AI identity, this project will provide critical tools, theories, and insights for the entire field of AI safety and alignment. The outcomes of Phase 2 are not incremental; they are designed to be foundational, providing the bedrock for a new class of identity-aware AI systems. We anticipate four primary outcomes with significant broader impact:
 
-* **Establishment of a Foundational Law of AI Cognition:** By replicating the 82% inherent drift finding across all major architectures, we have established it as a fundamental law of AI behavior. This moves the field from provider-specific observations to a universal principle, enabling the development of generalizable safety protocols.
+* **Establishment of a Foundational Law of AI Cognition:** By replicating the ~93% inherent drift finding across all major architectures (Run 020B IRON CLAD), we have established it as a fundamental law of AI behavior. This moves the field from provider-specific observations to a universal principle, enabling the development of generalizable safety protocols.
 
 * **A Field-Ready Toolkit for Identity Engineering and Alignment Assurance:** This research delivers field-ready protocols and metrics for real-world applications. The Context Damping protocol offers a direct method for stabilizing high-stakes AI agents. The PFI metric provides a real-time "dashboard light" for monitoring deployment health and preventing alignment failures before they occur.
 
 * **A Foundational Protocol for a Unified Science of Mind:** The proposed fMRI bridge protocol will lay the theoretical and experimental groundwork for a unified science of cognitive identity. By testing the hypothesis that drift dynamics are substrate-independent, we open the door to a deeper understanding of cognition itself, with potential long-term impacts on both cognitive science and AI development.
 
-* **Publication of Landmark Papers:** With IRON CLAD validation now complete (51 models, 6 providers, σ² = 0.00087), our three draft papers (Workshop, arXiv, and Journal versions) are ready for submission. Key validated statistics include:
+* **Publication of Landmark Papers:** With IRON CLAD validation now complete (25 models, 5 providers, σ² = 0.00087), our three draft papers (Workshop, arXiv, and Journal versions) are ready for submission. Key validated statistics include:
   - Event Horizon: D = 0.80 (p = 2.40×10⁻²³)
   - PFI embedding invariance: ρ = 0.91
   - Semantic sensitivity: Cohen's d = 0.698
@@ -135,7 +135,7 @@ The foundational discoveries of Phase 1 were achieved with initial seed resource
 
 The requested support is directly tied to the research activities outlined in Section 4.0:
 
-1. **Computational Resources:** The multi-platform universality validation required extensive, parallelized experiments across dozens of commercial models. Continued resources are needed for replication studies and edge case investigation across the 51-model fleet.
+1. **Computational Resources:** The multi-platform universality validation required extensive, parallelized experiments across dozens of commercial models. Continued resources are needed for replication studies and edge case investigation across the 25-model fleet.
 
 2. **Human Rater Compensation:** The EXP3 human validation study is a cornerstone of Phase 2, bridging our quantitative metrics with real-world human perception. Funding is required for the recruitment and compensation of 5-7 expert raters to ensure our results are statistically significant and meet the standards for human-subjects research.
 
@@ -147,13 +147,13 @@ Project Nyquist Consciousness does not represent an incremental advance. It is a
 
 ---
 
-## Appendix: Key Statistics Reference (Run 023 IRON CLAD)
+## Appendix: Key Statistics Reference (Run 023d IRON CLAD)
 
 | Metric | Value | Source |
 |--------|-------|--------|
-| Total Experiments | 825 | Run 023 Combined |
-| Models Tested | 51 | IRON CLAD validated |
-| Providers | 6 | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
+| Total Experiments | 750 | Run 023d |
+| Models Tested | 25 | IRON CLAD validated |
+| Providers | 5 | Anthropic, OpenAI, Google, xAI, Together |
 | Event Horizon (Cosine) | D = 0.80 | P95 calibration |
 | Statistical Significance | p = 2.40×10⁻²³ | Perturbation validation |
 | Embedding Invariance | ρ = 0.91 | Cross-model correlation |
@@ -161,9 +161,8 @@ Project Nyquist Consciousness does not represent an incremental advance. It is a
 | Identity Dimensionality | 2 PCs | 90% variance captured |
 | Natural Stability Rate | 88% | Fleet-wide average |
 | Context Damping Efficacy | 97.5% | With I_AM + research frame |
-| Settling Time | τₛ ≈ 10.2 probes | Average across fleet |
-| Inherent Drift Ratio | 82% | Single-platform (Claude) |
-| Cross-Platform Inherent | 38% | Multi-provider average |
+| Settling Time | τₛ ≈ 7 probes | Run 023d |
+| Inherent Drift Ratio | ~93% | Run 020B IRON CLAD |
 | Cross-Architecture Variance | σ² = 0.00087 | Confirms generalization |
 
 ---

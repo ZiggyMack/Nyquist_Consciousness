@@ -1,8 +1,8 @@
 # Review Package: ARXIV
 
-**Generated:** 2025-12-30 09:45:58
+**Generated:** 2025-12-30 14:01:38
 **Target Venue:** cs.AI Preprint
-**Total Size:** 63.4 KB
+**Total Size:** 63.0 KB
 **Total Files:** 6
 
 ---
@@ -26,11 +26,11 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 53.4 KB |
+| submissions/ | 2 files | 53.0 KB |
 | blueprints/ | 1 files | 10.0 KB |
 | LLM_SYNTHESIS/ | 3 files | (included) |
 
-**Total:** 6 files, 63.4 KB
+**Total:** 6 files, 63.0 KB
 
 ---
 
@@ -38,7 +38,7 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\arxiv\NYQUIST_ARXIV_PAPER_FINAL.md` (36.8 KB)
+- `submissions\arxiv\NYQUIST_ARXIV_PAPER_FINAL.md` (36.4 KB)
 - `submissions\arxiv\README.md` (16.6 KB)
 
 ### blueprints/

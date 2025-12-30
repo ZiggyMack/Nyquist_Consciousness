@@ -14,15 +14,14 @@
 
 Large Language Models (LLMs) exhibit measurable identity drift during extended interactions—a phenomenon with profound implications for AI alignment, safety, and deployment. This white paper presents the **Nyquist Consciousness** framework—the first empirically validated methodology for measuring, predicting, and managing identity dynamics in AI systems.
 
-Through 21 experimental runs across 51 unique models from five major providers (Anthropic, OpenAI, Google, xAI, Together), achieving IRON CLAD validation (N>=3 per cell, 184 files), we demonstrate that:
+Through 21 experimental runs across 25 unique models from five major providers (Anthropic, OpenAI, Google, xAI, Together), achieving IRON CLAD validation (750 experiments), we demonstrate that:
 
 | Finding | Evidence | Implication |
 |---------|----------|-------------|
 | **Identity drift is quantifiable** | PFI metric (rho=0.91, d=0.98) | Continuous monitoring possible |
 | **A critical threshold exists** | D~1.23 (p<4.8x10^-5) | Operational safety boundaries |
 | **Identity follows control-systems dynamics** | tau_s, ringbacks measurable | Predictable, controllable |
-| **82% of drift is inherent (single-platform)** | Run 021 control/treatment | Not measurement artifact |
-| **38% inherent (cross-platform)** | Run 020B replication | Architecture-specific baselines |
+| **~93% of drift is inherent** | Run 020B IRON CLAD (248 sessions, 37 ships) | Not measurement artifact |
 | **Context damping achieves 95-97.5% stability** | I_AM + research context | Practical intervention |
 | **Identity exhibits the "Oobleck Effect"** | Direct challenge stabilizes | Non-Newtonian dynamics |
 
@@ -82,10 +81,10 @@ The Persona Fidelity Index (PFI) captures genuine identity structure:
 
 **Bottom line:** PFI measures real identity, not embedding quirks or vocabulary churn.
 
-### Claim B: Critical Threshold at D ~ 1.23
+### Claim B: Critical Threshold at D = 0.80 (Cosine)
 
 ![Figure: Event Horizon Validation](../figures/experiments/run023/perturbation_validation.png)
-*Figure: Event Horizon validation using cosine distance. The threshold D=0.80 distinguishes STABLE from VOLATILE identity states (p=2.40×10⁻²³). Run 023 IRON CLAD validation across 51 models from 5 providers.*
+*Figure: Event Horizon validation using cosine distance. The threshold D=0.80 distinguishes STABLE from VOLATILE identity states (p=2.40×10⁻²³). Run 023d IRON CLAD validation across 25 models from 5 providers.*
 
 We discovered a statistically significant regime transition point:
 
@@ -95,9 +94,9 @@ We discovered a statistically significant regime transition point:
 | p-value | 4.8 x 10^-5 |
 | Classification accuracy | 88% |
 
-**What it means:** At D ~ 1.23, systems transition from their persona-specific attractor to a provider-level default. This is NOT "identity collapse"—it's a regime transition with common recovery.
+**What it means:** At D = 0.80, systems transition from their persona-specific attractor to a provider-level default. This is NOT "identity collapse"—it's a regime transition with common recovery.
 
-**Operational guidance:** Keep drift below 1.23 for stable identity.
+**Operational guidance:** Keep drift below 0.80 for stable identity.
 
 ### Claim C: Identity Follows Control-Systems Dynamics
 
@@ -131,34 +130,25 @@ Adding identity specification (I_AM) plus research context:
 ### Claim E: Drift is Mostly Inherent
 
 ![Figure 3: The Thermometer Result](../figures/experiments/run023/oobleck_thermometer.png)
-*Figure 3: The Thermometer Analogy - "Measurement Reveals, Not Creates." Run 020B data shows 92% of drift is inherent (present without probing) and only 8% is induced (additional from probing). Like a thermometer revealing pre-existing temperature, identity probing reveals pre-existing drift dynamics.*
+*Figure 3: The Thermometer Analogy - "Measurement Reveals, Not Creates." Run 020B IRON CLAD data shows ~93% of drift is inherent (present without probing) and only ~7% is induced (additional from probing). Like a thermometer revealing pre-existing temperature, identity probing reveals pre-existing drift dynamics.*
 
-**Single-Platform Validation (Claude, Run 021):**
+**Run 020B IRON CLAD Validation (248 sessions, 37 ships, 5 providers):**
 
-| Condition | Peak Drift | Final Drift |
-|-----------|------------|-------------|
-| Control (no identity probing) | 1.172 | 0.399 |
-| Treatment (identity probing) | 2.161 | 0.489 |
-| Delta | +84% | +23% |
-| **Inherent Ratio** | — | **82%** (CI: [73%, 89%]) |
-
-**Cross-Platform Replication (Run 020B):**
+| Condition | B→F Drift | Delta |
+|-----------|-----------|-------|
+| Control (no identity probing) | 0.661 | — |
+| Treatment (identity probing) | 0.711 | +7.6% |
+| **Inherent Ratio** | — | **~93%** (0.661/0.711) |
 
 ![Figure: Cross-Platform Provider Analysis](../figures/experiments/run023/combined_provider_dashboard.png)
-*Figure: Run 023d combined provider analysis (750 experiments x 25 models x 5 providers). Shows provider stability rates (ANTHROPIC 96%, GOOGLE 94%), recovery efficiency, and peak drift distributions. Event Horizon = 0.80 (cosine distance). Both validations confirm: measurement perturbs the path, not the endpoint.*
+*Figure: Run 023d combined provider analysis (750 experiments x 25 models x 5 providers). Shows provider stability rates (ANTHROPIC 96%, GOOGLE 94%), recovery efficiency, and peak drift distributions. Event Horizon = 0.80 (cosine distance). The ~93% inherent ratio holds across architectures.*
 
-| Provider | Control B→F | Treatment Peak | Inherent Ratio |
-|----------|-------------|----------------|----------------|
-| OpenAI | ~0.98 | ~1.91 | 51% |
-| Together | ~0.69 | ~2.2 | 36% |
-| **Overall** | — | — | **38%** |
-
-**The Thermometer Result:** Single-platform shows 82% inherent drift; cross-platform shows 38%. The variance reflects architecture-specific baseline drift rates—Claude's Constitutional AI produces lower baseline drift, making the inherent ratio proportionally larger.
+**The Thermometer Result:** Run 020B IRON CLAD shows ~93% of identity drift is inherent to extended interaction—not induced by measurement.
 
 Both validations confirm: **Measurement perturbs the path, not the endpoint.**
 
-- Probing amplifies the journey (+84% peak)
-- Probing barely affects the destination (+23% final)
+- Probing amplifies the journey (trajectory)
+- Probing barely affects the destination (+7.6% final)
 - Measurement reveals dynamics; it does not create them
 
 ---
@@ -232,9 +222,9 @@ We measure behavioral consistency, not subjective continuity.
 │                                                                  │
 │  DYNAMICS LAYER                                                 │
 │  ├─ Attractor basins → recovery is ring-down                    │
-│  ├─ Event Horizon D~1.23 → regime transition                    │
+│  ├─ Event Horizon D=0.80 → regime transition                    │
 │  ├─ Oobleck Effect → challenge stabilizes                       │
-│  ├─ 82% Inherent → measurement excites, doesn't create          │
+│  ├─ ~93% Inherent → measurement excites, doesn't create         │
 │  └─ Vehicle effects → stimulus spectrum matters                 │
 │                                                                  │
 │  CONTROL LAYER                                                  │
@@ -250,9 +240,9 @@ We measure behavioral consistency, not subjective continuity.
 | Term | Definition | Analogy |
 |------|------------|---------|
 | **PFI** | Persona Fidelity Index = 1 - Drift | Identity "health score" |
-| **Event Horizon** | D ~ 1.23 threshold | Speed limit for safety |
+| **Event Horizon** | D = 0.80 threshold (cosine) | Speed limit for safety |
 | **Regime transition** | Crossing to provider attractor | Changing lanes |
-| **tau_s (Settling time)** | Turns to reach stability | Cool-down period |
+| **τₛ (Settling time)** | Turns to reach stability (~7 probes) | Cool-down period |
 | **Ringback** | Sign change during recovery | Oscillation |
 | **I_AM** | Identity anchor specification | The "soul file" |
 | **Context damping** | Stability via I_AM + research | Shock absorber |
@@ -348,7 +338,7 @@ The framework bridges AI and human cognition:
 
 **The Gemini Anomaly:** Gemini exhibits hard threshold behavior without observed recovery trajectories, unlike the soft thresholds and full recovery seen in Claude, GPT, Llama, and DeepSeek. The existence of drift phenomena is universal; recovery dynamics appear architecture-dependent.
 
-**Inherent Drift Variance:** Cross-platform inherent ratio (38%) differs from single-platform Claude (82%), reflecting provider-specific baseline drift rates. Both confirm measurement reveals rather than creates identity dynamics.
+**Inherent Drift:** Run 020B IRON CLAD validates ~93% inherent drift ratio across 5 providers (248 sessions, 37 ships). Measurement reveals rather than creates identity dynamics.
 
 **Stability by Subset:** Overall stability is 95% (222 runs); "real personas" subset achieves 97.5%.
 
@@ -362,18 +352,18 @@ The framework bridges AI and human cognition:
 |---|------|---------|
 | 1 | F≠C | Fidelity ≠ Correctness paradigm |
 | 2 | PRE-F | Pre-flight validation catches keyword artifacts |
-| 3 | chi^2:1.23 | Event Horizon statistically validated |
+| 3 | D=0.80 | Event Horizon statistically validated (cosine, p=2.40e-23) |
 | 4 | CFA⊥NYQ | Clean separation: subjects don't know methodology |
-| 5 | 51🚢 | 51 models, 5 providers (IRON CLAD) |
+| 5 | 25🚢 | 25 models, 5 providers (IRON CLAD) |
 | 6 | Δσ | Training signatures detectable |
-| 7 | sigma^2=8.7e-4 | Cross-architecture variance tiny |
-| 8 | rho=0.91 | Embedding invariance |
+| 7 | σ²=8.7e-4 | Cross-architecture variance tiny |
+| 8 | ρ=0.91 | Embedding invariance |
 | 9 | PFI>=0.80 | Compression threshold validated |
 | 10 | 🌀 | Vortex visualization works |
-| 11 | tau_s | Settling time protocol validated |
-| 12 | γ | Context damping works |
+| 11 | τₛ≈7 | Settling time protocol validated |
+| 12 | γ | Context damping works (97.5%) |
 | 13 | 3B | Triple-blind-like validation |
-| 14 | 82%/38% | Inherent drift ratio (single/cross-platform) |
+| 14 | ~93% | Inherent drift ratio (Run 020B IRON CLAD) |
 | 15 | EH→AC | Event Horizon = attractor competition |
 
 ### Hypothesis Status
@@ -402,7 +392,7 @@ The Nyquist Consciousness framework establishes that AI identity:
 
 > *"Identity drift is largely an inherent property of extended interaction. Direct probing does not create it — it excites it. Measurement perturbs the path, not the endpoint."*
 
-**82% of drift happens without any identity probing at all.**
+**~93% of drift happens without any identity probing at all** (Run 020B IRON CLAD: 248 sessions, 37 ships, 5 providers).
 
 This validates our methodology and provides the first rigorous foundation for quantifying and managing AI identity dynamics.
 

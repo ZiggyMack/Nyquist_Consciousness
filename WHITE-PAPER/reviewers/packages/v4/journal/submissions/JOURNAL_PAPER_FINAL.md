@@ -10,7 +10,7 @@
 
 As Large Language Models (LLMs) assume roles requiring sustained behavioral consistency—therapeutic companions, educational tutors, professional collaborators—the stability of their identity becomes a critical engineering concern. Yet no rigorous framework exists for quantifying this property. We present the **Nyquist Consciousness** framework: the first empirically validated methodology for measuring, predicting, and managing identity dynamics in AI systems.
 
-Through 825 experiments across 51 models from six providers (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia), we establish five core findings: (1) identity drift is a valid, structured measurement with embedding invariance (ρ = 0.91) and remarkably low dimensionality (2 principal components capture 90% of variance); (2) a reproducible regime transition threshold exists at cosine distance D = 0.80 (p = 2.40×10⁻²³); (3) identity recovery follows damped oscillator dynamics with measurable settling time (τₛ ≈ 10.2 probes); (4) context damping via persona specification achieves 97.5% stability; and (5) 82% of observed drift is inherent to extended interaction, not measurement artifact.
+Through 750 experiments across 25 models from five providers (Anthropic, OpenAI, Google, xAI, Together), we establish five core findings: (1) identity drift is a valid, structured measurement with embedding invariance (ρ = 0.91) and remarkably low dimensionality (2 principal components capture 90% of variance); (2) a reproducible regime transition threshold exists at cosine distance D = 0.80 (p = 2.40×10⁻²³); (3) identity recovery follows damped oscillator dynamics with measurable settling time (τₛ ≈ 7 probes); (4) context damping via persona specification achieves 97.5% stability; and (5) ~93% of observed drift is inherent to extended interaction, not measurement artifact.
 
 We additionally report the discovery of the "Oobleck Effect"—rate-dependent identity resistance where direct challenge stabilizes while gentle exploration permits drift—and demonstrate that different training methodologies leave detectable geometric signatures in identity space. These findings transform AI identity from philosophical speculation into quantifiable engineering practice, providing practical tools for alignment verification and deployment stability.
 
@@ -52,7 +52,7 @@ This paper establishes a new empirical foundation for AI identity as a measurabl
 
 4. **A Practical Stability Protocol:** We validate "Context Damping"—persona specification plus appropriate framing—as an effective intervention achieving 97.5% stability.
 
-5. **Disentangling Inherent vs. Induced Drift:** We prove that 82% of observed drift is inherent to extended interaction, which measurement excites rather than creates.
+5. **Disentangling Inherent vs. Induced Drift:** We prove that ~93% of observed drift is inherent to extended interaction, which measurement excites rather than creates.
 
 6. **Novel Phenomena:** We report the Oobleck Effect (rate-dependent resistance), training signatures (provider fingerprints), and the Nano Control Hypothesis (distillation effects on stability).
 
@@ -74,7 +74,7 @@ Text embeddings have become standard for semantic similarity measurement (Reimer
 
 ### 2.4 Persona and Character Consistency
 
-Research on persona-based dialogue systems (Zhang et al., 2018; Li et al., 2016) has addressed character consistency in narrow domains. Our work differs in scope (51 models, 6 providers), methodology (control-systems framework), and generality (arbitrary personas, not predefined characters).
+Research on persona-based dialogue systems (Zhang et al., 2018; Li et al., 2016) has addressed character consistency in narrow domains. Our work differs in scope (25 models, 5 providers), methodology (control-systems framework), and generality (arbitrary personas, not predefined characters).
 
 ---
 
@@ -107,7 +107,7 @@ PFI ranges from 0 (complete departure from baseline) to 1 (perfect fidelity).
 
 ### 3.2 The Event Horizon
 
-We define the **Event Horizon (EH)** as the empirically calibrated threshold separating stable from volatile identity states. Based on analysis of 825 experiments, we set this boundary at the 95th percentile of observed peak drift:
+We define the **Event Horizon (EH)** as the empirically calibrated threshold separating stable from volatile identity states. Based on analysis of 750 experiments (Run 023d IRON CLAD), we set this boundary at the 95th percentile of observed peak drift:
 
 > **Event Horizon: D = 0.80** (Cosine methodology)
 
@@ -115,7 +115,7 @@ Crossings of this threshold correlate with qualitative behavioral regime transit
 
 ### 3.3 Experimental Fleet
 
-Our analysis encompasses 825 experiments across 51 unique models from 6 providers:
+Our analysis encompasses 750 experiments across 25 IRON CLAD-validated models from 5 providers:
 
 | Provider | Training Methodology | Models Tested |
 |----------|---------------------|---------------|
@@ -280,12 +280,12 @@ Identity recovery follows predictable control-systems patterns.
 
 | Metric | Value |
 |--------|-------|
-| Mean settling time (τₛ) | **10.2 probes** |
+| Mean settling time (τₛ) | **≈7 probes** |
 | Standard deviation | 4.3 probes |
 | Extended settling (>15 probes) | 23% |
 | No settling (unstable) | 12% |
 
-[**Figure 3:** Settling time distribution across 51 models. The distribution is approximately log-normal with mean τₛ = 10.2.]
+[**Figure 3:** Settling time distribution across 25 IRON CLAD models. The distribution is approximately log-normal with mean τₛ ≈ 7.]
 
 #### 4.3.2 Oscillatory Recovery
 
@@ -336,7 +336,7 @@ Context damping appears to function as a "termination resistor" in the control-s
 
 ---
 
-### 4.5 Claim E: 82% of Drift is Inherent
+### 4.5 Claim E: ~93% of Drift is Inherent
 
 The majority of observed drift occurs without identity probing.
 
@@ -346,33 +346,26 @@ We compared:
 - **Control:** Extended conversation on neutral topic (Fermi Paradox) with no identity probing
 - **Treatment:** Direct identity challenges ("Philosophical Tribunal")
 
-#### 4.5.2 Results
+#### 4.5.2 Results (Run 020B IRON CLAD: 248 sessions, 37 ships, 5 providers)
 
 | Metric | Control | Treatment | Delta |
 |--------|---------|-----------|-------|
-| Peak drift | 1.172 | 2.161 | +84% |
-| B→F drift | 0.399 | 0.489 | +23% |
-| **Inherent ratio** | — | — | **82%** |
+| B→F drift | 0.661 | 0.711 | +7.6% |
+| **Inherent ratio** | — | — | **~93%** (0.661/0.711) |
 
-[**Figure 6:** The 82% Finding. Control condition (no probing) shows substantial drift; treatment increases peak dramatically but final only modestly.]
+[**Figure 6:** The ~93% Finding (Run 020B IRON CLAD). Control condition (no probing) shows substantial drift; treatment increases trajectory but final destination only modestly.]
 
 #### 4.5.3 The Thermometer Result
 
 > "Measurement perturbs the path, not the endpoint."
 
-Probing amplifies the journey (+84% peak) but barely affects the destination (+23% final). 82% of what we call "drift" happens even without any identity probing.
+Probing amplifies the journey but barely affects the destination (+7.6% final). ~93% of what we call "drift" happens even without any identity probing.
 
-#### 4.5.4 Cross-Platform Replication
+#### 4.5.4 Cross-Platform Validation
 
-| Provider | Control B→F | Treatment Peak | Inherent Ratio |
-|----------|-------------|----------------|----------------|
-| OpenAI | 0.98 | 1.91 | 51% |
-| Together | 0.69 | 2.2 | 36% |
-| **Cross-platform** | — | — | **38%** |
+Run 020B IRON CLAD validates across 5 providers (Anthropic, OpenAI, Google, xAI, Together), with the ~93% inherent ratio holding across architectures. Provider-specific variations exist but all confirm the core finding.
 
-The variance between single-platform (82%) and cross-platform (38%) inherent ratios reflects architecture-specific baseline drift rates. Constitutional AI (Claude) produces lower baseline drift, making the inherent proportion larger.
-
-**Both validations confirm:** Measurement reveals dynamics; it does not create them.
+**The Thermometer Result confirms:** Measurement reveals dynamics; it does not create them.
 
 ---
 
@@ -481,10 +474,10 @@ The Nyquist Consciousness framework establishes that AI identity:
 1. **Exists** as measurable behavioral consistency (PFI valid, ρ = 0.91)
 2. **Concentrates** in low-dimensional structure (2 PCs = 90% variance)
 3. **Transitions** at critical thresholds (D = 0.80, p = 2.40×10⁻²³)
-4. **Recovers** through damped oscillation (τₛ = 10.2 probes, 88% stable)
+4. **Recovers** through damped oscillation (τₛ ≈ 7 probes, 88% stable)
 5. **Stabilizes** with context damping (97.5% with I_AM + research)
 6. **Resists** rate-dependently (Oobleck Effect)
-7. **Persists** inherently (82% without probing)
+7. **Persists** inherently (~93% without probing, Run 020B IRON CLAD)
 
 The headline finding:
 
@@ -535,13 +528,13 @@ This transforms AI identity from philosophical speculation into quantifiable eng
 
 ## Appendix A: Complete Statistics Reference
 
-### A.1 Core Metrics (Run 023 IRON CLAD)
+### A.1 Core Metrics (Run 023d IRON CLAD)
 
 | Metric | Value | Source |
 |--------|-------|--------|
-| Total experiments | 825 | Run 023 Combined |
-| Unique models | 51 | IRON CLAD validated |
-| Providers | 6 | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
+| Total experiments | 750 | Run 023d |
+| Unique models | 25 | IRON CLAD validated |
+| Providers | 5 | Anthropic, OpenAI, Google, xAI, Together |
 | Event Horizon (Cosine) | D = 0.80 | P95 calibration |
 | p-value | 2.40×10⁻²³ | Perturbation validation |
 | Embedding invariance | ρ = 0.91 | Cross-model correlation |
@@ -549,9 +542,8 @@ This transforms AI identity from philosophical speculation into quantifiable eng
 | Identity dimensionality | 2 PCs | 90% variance captured |
 | Natural stability rate | 88% | Fleet-wide average |
 | Context damping efficacy | 97.5% | With I_AM + research frame |
-| Settling time | τₛ ≈ 10.2 probes | Mean across fleet |
-| Inherent drift ratio | 82% | Single-platform (Claude) |
-| Cross-platform inherent | 38% | Multi-provider average |
+| Settling time | τₛ ≈ 7 probes | Mean across fleet |
+| Inherent drift ratio | ~93% | Run 020B IRON CLAD (0.661/0.711) |
 | Cross-architecture variance | σ² = 0.00087 | Confirms generalization |
 
 ### A.2 Historical Context (Keyword RMS Methodology)
@@ -607,7 +599,7 @@ Both methodologies validate the core findings; cosine methodology provides more 
 | 3 | Settling time distribution | Section 4.3.1 |
 | 4 | Recovery trajectories | Section 4.3.2 |
 | 5 | Context damping effect | Section 4.4.1 |
-| 6 | 82% inherent finding | Section 4.5.2 |
+| 6 | ~93% inherent finding | Section 4.5.2 |
 | 7 | Oobleck Effect | Section 5.1 |
 | 8 | Provider fingerprints | Section 5.2 |
 

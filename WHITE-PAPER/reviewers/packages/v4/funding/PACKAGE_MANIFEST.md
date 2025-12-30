@@ -1,8 +1,8 @@
 # Review Package: FUNDING
 
-**Generated:** 2025-12-30 09:45:58
+**Generated:** 2025-12-30 14:01:38
 **Target Venue:** NSF / DARPA / Open Philanthropy
-**Total Size:** 23.7 KB
+**Total Size:** 23.5 KB
 **Total Files:** 4
 
 ---
@@ -26,10 +26,10 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 23.7 KB |
+| submissions/ | 2 files | 23.5 KB |
 | LLM_SYNTHESIS/ | 2 files | (included) |
 
-**Total:** 4 files, 23.7 KB
+**Total:** 4 files, 23.5 KB
 
 ---
 
@@ -37,7 +37,7 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\funding\FUNDING_FINAL.md` (19.2 KB)
+- `submissions\funding\FUNDING_FINAL.md` (19.0 KB)
 - `submissions\funding\README.md` (4.6 KB)
 
 ### LLM_SYNTHESIS/

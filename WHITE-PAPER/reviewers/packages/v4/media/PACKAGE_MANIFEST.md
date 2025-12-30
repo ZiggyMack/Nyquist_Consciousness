@@ -1,8 +1,8 @@
 # Review Package: MEDIA
 
-**Generated:** 2025-12-30 09:45:58
+**Generated:** 2025-12-30 14:01:38
 **Target Venue:** Press / Podcasts / TED
-**Total Size:** 13.4 KB
+**Total Size:** 13.3 KB
 **Total Files:** 3
 
 ---
@@ -26,10 +26,10 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 13.4 KB |
+| submissions/ | 2 files | 13.3 KB |
 | LLM_SYNTHESIS/ | 1 files | (included) |
 
-**Total:** 3 files, 13.4 KB
+**Total:** 3 files, 13.3 KB
 
 ---
 

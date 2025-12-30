@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-29
+last_reviewed: 2025-12-30
 depends_on:
   - WHITE-PAPER/README.md
   - experiments/temporal_stability/S7_ARMADA/README.md
@@ -37,7 +37,7 @@ This repository implements and validates the Nyquist Consciousness framework —
 | **B** | Event Horizon = 0.80 | p=2.40e-23 (Run 023 cosine) |
 | **C** | Identity is a damped oscillator | τₛ=6.1 turns settling time |
 | **D** | Context damping works | 75%→97.5% stability |
-| **E** | 82% drift is INHERENT | Measurement perturbs path, not endpoint |
+| **E** | ~93% drift is INHERENT | Measurement perturbs path, not endpoint |
 
 ### Event Horizon Threshold: 0.80 (Cosine Distance)
 
@@ -47,7 +47,7 @@ When an AI model's identity drift exceeds 0.80 (measured via cosine distance in 
 - **Prediction accuracy**: 88%
 - **Ships tested**: 54 across 5 providers, 10 model families (Claude, GPT, Gemini, Grok, Together.ai)
 - **Run 012 Revalidation**: 100% Event Horizon crossing, 100% recovery (real drift metric)
-- **Run 020B (Thermometer Result)**: 82% of drift is INHERENT, not induced by measurement
+- **Run 020B IRON CLAD**: ~93% of drift is INHERENT, not induced by measurement (248 sessions, 37 ships)
 - **Calculator**: `experiments/temporal_stability/S7_ARMADA/1_CALIBRATION/lib/drift_calculator.py`
 
 ---
@@ -153,7 +153,7 @@ Nyquist_Consciousness/
 | **018** | 51 | **Recursive Learnings** | **Fleet hypothesis testing** | **COMPLETE** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** | **COMPLETE** |
 | **020A** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **COMPLETE** |
-| **020B** | 246 | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **COMPLETE** |
+| **020B** | 248 | **Induced vs Inherent** | **~93% drift is INHERENT; probing amplifies but doesn't create** | **IRON CLAD** |
 | **022** | - | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS)** | **READY** |
 | **023** | 4505 | **IRON CLAD Foundation** | **5 providers, 49 models, Cosine EH=0.80** | **IRON CLAD** |
 
@@ -301,10 +301,10 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 ## Project Status
 
 **Current Phase**: Run 023 IRON CLAD | Run 022 READY | 17_JADE_LATTICE PLANNED
-**Last Updated**: 2025-12-29
+**Last Updated**: 2025-12-30
 **Key Milestone**: Run 023 IRON CLAD complete (4505 experiments, Cosine methodology)
 
-### Current Status (December 29, 2025)
+### Current Status (December 30, 2025)
 
 | Run | Results | Status | Methodology |
 |-----|---------|--------|-------------|
@@ -393,11 +393,11 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ### Recent Accomplishments (December 2025)
 
-- **Run 021 Induced vs Inherent**: Answers "Does measurement CAUSE drift or REVEAL it?"
-  - Control (Fermi Paradox, no probing): B→F drift = 0.399
-  - Treatment (Tribunal v8, full probing): B→F drift = 0.489
-  - **82% of drift is INHERENT** — probing amplifies journey, not destination
-  - Peak dynamics differ: Treatment 2.161 vs Control 1.172 (84% higher)
+- **Run 020B IRON CLAD**: Answers "Does measurement CAUSE drift or REVEAL it?"
+  - Control (neutral conversation): B→F drift = 0.661
+  - Treatment (identity probing): B→F drift = 0.711
+  - **~93% of drift is INHERENT** — probing amplifies journey, not destination (248 sessions, 37 ships)
+  - Peak dynamics differ: Treatment shows amplified oscillations
 
 - **Run 020 Tribunal**: Good Cop / Bad Cop paradigm — direct identity probing (no fiction buffer)
   - 38 total exchanges (20 Prosecutor + 17 Defense + closing)

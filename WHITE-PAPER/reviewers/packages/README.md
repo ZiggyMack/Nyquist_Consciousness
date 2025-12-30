@@ -1,7 +1,7 @@
 # Reviewer Packages
 
-**Last Updated:** December 29, 2025
-**Status:** v4 packages ready with Run 020B IRON CLAD in progress (235 sessions, 32 ships complete)
+**Last Updated:** December 30, 2025
+**Status:** v4 packages ready with Run 020B IRON CLAD complete (248 sessions, 37 ships)
 **Version Source:** `CURRENT_VERSION.json`
 
 ---
@@ -10,17 +10,17 @@
 
 ### v4/ (Current - December 29, 2025)
 
-**Run 020B IRON CLAD In Progress + Shared Content Architecture**
+**Run 020B IRON CLAD Complete + Shared Content Architecture**
 
 Major updates:
 - **`.shared/` directory** — Deduplicated content across all 8 publication paths
 - **PACKAGE_INDEX.json** — Maps shared content to paths
 - **16 visualization PDFs** — Full IRON CLAD audit complete
-- **Run 020B Progress:** 235/294 sessions (80%), 32/49 ships IRON CLAD complete
+- **Run 020B Complete:** 248 sessions, 37 IRON CLAD ships, ~93% inherent drift
 
 Key features:
 - Shared content architecture eliminates duplication (~60% size reduction)
-- Reviewers work in `{path}/submissions/{path}/` directories
+- Reviewers work in `{path}/submissions/` directories (flat structure)
 - Extract to final submission via `3_generate_pdfs.py --from-review`
 
 **Use this version for all current work.**
@@ -81,7 +81,16 @@ packages/
 │   ├── media/             # Press/TED (path-specific)
 │   ├── visualization_pdfs/# 16 S7 ARMADA visualization PDFs
 │   └── feedback/          # Reviewer feedback goes here
-└── pdf/                   # Legacy PDF layer
+└── pdf/                   # ★ Submission PDFs (flat structure for easy distribution)
+    ├── NYQUIST_ARXIV_PAPER_FINAL.pdf
+    ├── JOURNAL_PAPER_FINAL.pdf
+    ├── Nyquist_workshop_paper_FINAL.pdf
+    ├── EDUCATION_FINAL.pdf
+    ├── FUNDING_FINAL.pdf
+    ├── MEDIA_FINAL.pdf
+    ├── POLICY_FINAL.pdf
+    ├── POPULAR_SCIENCE_FINAL.pdf
+    └── README.md
 ```
 
 ---
@@ -97,13 +106,13 @@ v4/START_HERE.md  <- Start here (cold boot reading order)
 ### For arXiv Review
 
 ```text
-v4/arxiv/submissions/arxiv/  <- Full preprint draft
+v4/arxiv/submissions/  <- Full preprint draft
 ```
 
 ### For Workshop Review
 
 ```text
-v4/workshop/submissions/workshop/  <- Workshop paper
+v4/workshop/submissions/  <- Workshop paper
 ```
 
 ### For Visualization Overview
@@ -117,7 +126,7 @@ v4/visualization_pdfs/README.md  <- 16 PDF summaries
 ## THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology)
 
 1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
-2. **WE DON'T CAUSE IT** — 92% inherent drift ratio (Run 023 COSINE Thermometer Result)
+2. **WE DON'T CAUSE IT** — ~93% inherent drift ratio (Run 020B IRON CLAD)
 3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (model-level aggregates), 2 PCs = 90% variance
 
 ---
@@ -126,14 +135,14 @@ v4/visualization_pdfs/README.md  <- 16 PDF summaries
 
 | Metric | Value | Source |
 | ------ | ----- | ------ |
-| **Event Horizon** | D = 0.80 | Run 023 COSINE |
-| **Cohen's d** | 0.698 | Run 023 model-level |
-| **Inherent Drift** | 92% | Run 023 Thermometer |
-| **p-value** | 2.40e-23 | Run 023 perturbation |
-| **PCs for 90%** | 2 | Run 023 PCA |
-| **Settling Time** | tau_s ~ 10.2 | Run 023d |
-| **Fleet Size** | 25 models, 5 providers | Run 023 |
-| **Experiments** | 750 | Run 023 |
+| **Event Horizon** | D = 0.80 | Run 023b calibration |
+| **Cohen's d** | 0.698 | Run 023d model-level |
+| **Inherent Drift** | ~93% | Run 020B IRON CLAD |
+| **p-value** | 2.40e-23 | Run 023d perturbation |
+| **PCs for 90%** | 2 | Run 023d PCA |
+| **Settling Time** | τₛ ≈ 7 probes | Run 023d |
+| **Fleet Size** | 25 models, 5 providers | Run 023d |
+| **Experiments** | 750 | Run 023d |
 
 ---
 
@@ -165,11 +174,19 @@ py 2_package_review.py --all
 
 Output will go to `reviewers/packages/v4/`
 
+**Note:** `--all` automatically copies submission PDFs to `packages/pdf/` for easy distribution.
+
 To extract and generate final submission PDFs:
 
 ```bash
 py 3_generate_pdfs.py --from-review  # Extract from reviewers/, generate PDFs
 py 3_generate_pdfs.py                # Generate from existing submissions/
+```
+
+To copy submission PDFs to flat folder (standalone):
+
+```bash
+py 2_package_review.py --submission-pdfs
 ```
 
 ---
@@ -182,7 +199,7 @@ v4 uses a **shared content architecture** to eliminate duplication:
 | --------- | ------- |
 | `.shared/` | Deduplicated content (theory, guides, figures) |
 | `PACKAGE_INDEX.json` | Maps shared files to publication paths |
-| `{path}/submissions/{path}/` | Path-specific content + reviewer working area |
+| `{path}/submissions/` | Path-specific content + reviewer working area |
 | `visualization_pdfs/` | 16 IRON CLAD visualization summaries |
 
 **Size reduction:** ~60% compared to v3 (duplicated content eliminated)
@@ -191,4 +208,4 @@ v4 uses a **shared content architecture** to eliminate duplication:
 
 *Package infrastructure maintained by 2_package_review.py*
 *Submission workflow: 3_generate_pdfs.py --from-review*
-*Run 023 IRON CLAD: 750 experiments, 25 models, 5 providers*
+*IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23, ~93% inherent drift*

@@ -65,8 +65,8 @@
 ### Slide 5: Claim B - Critical Threshold (1 min)
 
 **Content:**
-- D ~ 1.23 regime transition
-- p = 4.8x10^-5 (1 in 20,000 chance of noise)
+- D = 0.80 regime transition (cosine methodology)
+- p = 2.40×10⁻²³ (statistically significant)
 - 88% classification accuracy
 
 **Key message:**
@@ -90,12 +90,13 @@
 
 ---
 
-### Slide 7: Claim E - The 82% Finding (1.5 min)
+### Slide 7: Claim E - The ~93% Finding (1.5 min)
 
 **Content:**
-- Control (no probing): B→F = 0.399
-- Treatment (probing): B→F = 0.489
-- 82% ratio: most drift is inherent
+- Run 020B IRON CLAD: 248 sessions, 37 ships, 5 providers
+- Control (no probing): B→F = 0.661
+- Treatment (probing): B→F = 0.711
+- ~93% ratio: most drift is inherent (0.661/0.711)
 
 **Key message:**
 > "Measurement perturbs the path, not the endpoint. The drift was already there."
@@ -168,7 +169,7 @@
 
 1. "Fidelity, not correctness"
 2. "Is the AI itself?"
-3. "The 82% finding: measurement reveals, doesn't create"
+3. "The ~93% finding: measurement reveals, doesn't create"
 4. "Identity hardens under pressure"
 5. "97.5% stability is achievable"
 
@@ -179,17 +180,17 @@
    - Embedding invariance rho = 0.91
 
 2. **"Isn't drift just expected model behavior?"**
-   - Yes, that's the point! 82% is inherent
+   - Yes, that's the point! ~93% is inherent (Run 020B IRON CLAD)
    - But we can predict and control it
 
-3. **"Why 1.23 specifically?"**
-   - Chi-square validated threshold
+3. **"Why 0.80 specifically?"**
+   - Cosine distance methodology, p = 2.40e-23
    - Not magic - emergent from data
 
 4. **"What's the practical application?"**
    - Deploy PFI monitoring in production
    - Use I_AM specs for persona-critical applications
-   - Set alerts at D > 1.0
+   - Set alerts at D > 0.80 (Event Horizon)
 
 ### Backup Slides (if needed)
 

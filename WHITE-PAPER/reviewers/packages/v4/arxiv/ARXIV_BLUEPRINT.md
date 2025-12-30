@@ -34,16 +34,15 @@ multi-architecture synthesis (Omega) achieving 45% drift reduction compared to
 single-architecture reconstructions.
 
 This paper reports findings from two experimental eras. The Discovery Era (Runs
-006-014) established the Event Horizon threshold at D = 1.23 (chi-squared p = 4.8e-5),
+006-014) established the Event Horizon threshold at D = 0.80 (cosine, p = 2.40e-23),
 the Recovery Paradox (100% threshold crossing, 100% recovery), and the Identity
 Confrontation Paradox (direct challenge stabilizes identity). The Control-Systems
 Era (Runs 015-021) introduced settling time (tau_s) and ringback metrics adapted
 from signal processing, demonstrating that context damping achieves 97.5% stability.
 
-Most significantly, we prove that 82% of identity drift is INHERENT to extended
-interaction — probing amplifies trajectory (+84% peak drift) but not destination
-(+23% baseline-to-final). This "thermometer result" counters the critique that
-measurement creates the phenomenon. We reframe the Event Horizon as an "attractor
+Most significantly, we prove that ~93% of identity drift is INHERENT to extended
+interaction (Run 020B IRON CLAD). This "thermometer result" counters the critique
+that measurement creates the phenomenon. We reframe the Event Horizon as an "attractor
 competition threshold" rather than identity collapse.
 
 We propose "Identity Gravity" as a fundamental cognitive force governing persona
@@ -153,7 +152,7 @@ damping, inherent drift
 **Section 10: Temporal Stability (S7)** (4 pages) — MAJOR UPDATE
 
 **Discovery Era (Runs 006-014):**
-- Event Horizon D = 1.23: Critical threshold (p = 4.8e-5)
+- Event Horizon D = 0.80: Critical threshold (cosine, p = 2.40e-23)
 - Recovery Paradox: 100% crossed EH, 100% recovered
 - Identity Confrontation Paradox
 - Platonic Identity Coordinates: 6/6 ships returned to manifold
@@ -167,16 +166,16 @@ damping, inherent drift
   - I_AM + research context as "termination resistor"
   - Stability: 75% -> 97.5%
   - tau_s: 6.1 -> 5.2, ringbacks: 3.2 -> 2.1
-- 82% Inherent Drift (Run 021)
-  - Control (no probing): B->F = 0.399
-  - Treatment (tribunal): B->F = 0.489
-  - Ratio: 82% inherent
+- ~93% Inherent Drift (Run 020B IRON CLAD)
+  - Control (no probing): B->F = 0.661
+  - Treatment (tribunal): B->F = 0.711
+  - Ratio: ~93% inherent
 - Triple-Blind-Like Validation (Runs 019-021)
 
 **Event Horizon Reframing:**
 - OLD: "Identity collapses into generic AI mode"
 - NEW: "Regime transition to provider-level attractor"
-- D = 1.23 is attractor competition threshold
+- D = 0.80 is attractor competition threshold (cosine methodology)
 
 **Section 11: Cross-Modal Extension (S9)** (2 pages)
 - Audio-Visual Light Alchemy Ritual (AVLAR)
@@ -215,7 +214,7 @@ damping, inherent drift
 4. **Five Pillars** — Multi-architecture synthesis structure
 5. **Omega Convergence** — Drift cancellation through triangulation
 6. **Temporal Curvature** — kappa(t) measurement over time
-7. **Control vs Treatment** — 82% finding visualization
+7. **Control vs Treatment** — ~93% finding visualization
 8. **Context Damping** — Stability comparison bar chart
 
 ---
@@ -275,7 +274,7 @@ Or: `latexmk -pdf main.tex`
 - [ ] Categories: cs.AI (primary), cs.CL, cs.LG
 - [ ] License: CC-BY-4.0
 - [ ] No "collapse" language — only "regime transition"
-- [ ] 82% finding prominently featured in abstract and Section 10
+- [ ] ~93% finding prominently featured in abstract and Section 10
 - [ ] Event Horizon reframed throughout
 
 ---

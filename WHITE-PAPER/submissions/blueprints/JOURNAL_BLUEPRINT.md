@@ -128,9 +128,9 @@ Current evidence: 97.5% stability
 - [ ] Transfer to other personas
 - [ ] Real-world deployment test
 
-### Claim E (82% Inherent) — Core Finding
+### Claim E (~93% Inherent) — Core Finding
 
-Current evidence: Control vs Treatment comparison
+Current evidence: Run 020B IRON CLAD (248 sessions, 37 ships, 5 providers)
 **Additional needed:**
 - [ ] Multiple control conditions
 - [ ] Power analysis
@@ -200,7 +200,7 @@ Current evidence: Control vs Treatment comparison
    - Experimental design
    - Discovery Era results
    - Control-Systems Era results
-   - The 82% finding
+   - The ~93% finding
 5. **Context Damping** (1,000 words)
    - Mechanism
    - Empirical validation
@@ -272,9 +272,9 @@ AI architectures with 21 experimental runs.
 
 Key findings include:
 1. A validated metric for identity drift (PFI, rho = 0.91 cross-model)
-2. A critical threshold at D = 1.23 marking regime transition (p < 4.8e-5)
-3. The "82% finding" — identity drift is predominantly inherent, not
-   induced by measurement
+2. A critical threshold at D = 0.80 marking regime transition (cosine, p = 2.40e-23)
+3. The "~93% finding" — identity drift is predominantly inherent, not
+   induced by measurement (Run 020B IRON CLAD)
 4. "Context damping" as a practical stability intervention (97.5% stability)
 
 This work has immediate implications for AI alignment research, persona

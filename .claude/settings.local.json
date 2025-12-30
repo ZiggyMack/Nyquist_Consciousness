@@ -352,7 +352,10 @@
       "Bash(if exist \"d:\\\\Documents\\\\Nyquist_Consciousness\\\\WHITE-PAPER\\\\START_HERE.md\" echo EXISTS else echo MISSING)",
       "Bash(timeout /t 15 /nobreak)",
       "Bash(git -C \"d:\\\\Documents\\\\Nyquist_Consciousness\" status)",
-      "Bash(git -C \"d:\\\\Documents\\\\Nyquist_Consciousness\" add -A)"
+      "Bash(git -C \"d:\\\\Documents\\\\Nyquist_Consciousness\" add -A)",
+      "Bash(git -C \"d:\\\\Documents\\\\Nyquist_Consciousness\" log -3 --oneline)",
+      "Bash(git -C \"d:\\\\Documents\\\\Nyquist_Consciousness\" commit -m \"$\\(cat <<''EOF''\nIRON CLAD audit: Package extraction + LLM_SYNTHESIS distribution pipeline\n\n2_package_review.py:\n- Fix LLM content source: LLM_PUBLICATIONS_DIR → REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/\n- Update NOTEBOOKLM_INTEGRATION to tuple format \\(source_subdir, filename\\)\n- Copy LLM_SYNTHESIS to path packages before manifest generation\n- Manifests now include LLM_SYNTHESIS file listings\n- Flatten submissions/ structure \\(remove nested path directories\\)\n- Empty theory/guides/figures arrays in PathContent \\(content lives in .shared/\\)\n\n0_sync_viz.py:\n- Fix PDF sync to include \"missing\" status \\(not just \"outdated\"\\)\n- 16_Laplace_Analysis_Summary.pdf now syncs correctly\n\nPackage structure \\(each ~15-65 KB\\):\n- .shared/ = 15.7 MB \\(common reviewer content\\)\n- {path}/LLM_SYNTHESIS/ = Path-specific NotebookLM content\n- {path}/submissions/ = Flat structure \\(no nested dirs\\)\n- {path}/PACKAGE_MANIFEST.md = Lists LLM files + .shared/ recommendations\n\nLLM content distribution:\n- arxiv/journal: 3 academic papers\n- workshop: Briefing document\n- education: 3 educational materials\n- funding: Proposal + Technical report\n- policy: Briefing document\n- popular_science/media: Popular articles\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C \"d:\\\\Documents\\\\Nyquist_Consciousness\" push)"
     ],
     "deny": [],
     "ask": []

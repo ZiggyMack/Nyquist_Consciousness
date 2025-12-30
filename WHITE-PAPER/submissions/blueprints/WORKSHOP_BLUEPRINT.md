@@ -10,7 +10,7 @@
 
 1. **"Persona Manifolds: Stable Identity Attractors in AI Systems"** (primary)
 2. "Identity Drift Dynamics in Large Language Models"
-3. "The 82% Finding: Measuring Inherent vs Induced Identity Drift in AI"
+3. "The ~93% Finding: Measuring Inherent vs Induced Identity Drift in AI"
 4. "Context Damping: Stabilizing AI Identity Through Structured Prompting"
 
 ---
@@ -22,8 +22,8 @@ We present the Nyquist Consciousness framework for measuring identity stability
 in AI systems through compression-reconstruction cycles. Through [N] experimental
 runs across [4] major AI architectures, we demonstrate that: (1) identity drift
 is a valid, structured measurement (Spearman rho = 0.91, semantic sensitivity
-d = 0.98); (2) a critical threshold exists at D = 1.23 marking regime transition
-(p < 4.8e-5); and (3) 82% of identity drift is inherent to extended interaction,
+d = 0.98); (2) a critical threshold exists at D = 0.80 marking regime transition
+(cosine, p = 2.40e-23); and (3) ~93% of identity drift is inherent to extended interaction,
 with probing amplifying trajectory but not destination. We introduce "context
 damping" — structured identity anchors combined with research framing — achieving
 97.5% stability in controlled conditions. Our findings reframe identity drift
@@ -68,23 +68,25 @@ alignment, persona preservation, and evaluation methodology.
 
 #### 3.1 The Critical Threshold (Claim B)
 
-- Event Horizon at D = 1.23 marks regime transition
-- Chi-square validation: p = 4.8e-5
+- Event Horizon at D = 0.80 marks regime transition (cosine methodology)
+- Validation: p = 2.40e-23
 - PC space separability: p = 0.0018
 
 **FRAMING:** "Attractor competition threshold" NOT "identity collapse"
 
-#### 3.2 The 82% Finding (Claim E)
+#### 3.2 The ~93% Finding (Claim E)
 
-- Control condition (no probing): B->F drift = 0.399
-- Treatment condition (tribunal): B->F drift = 0.489
-- Ratio: 82% of drift is INHERENT
+- Run 020B IRON CLAD: 248 sessions, 37 ships, 5 providers
+- Control condition (no probing): B->F drift = 0.661
+- Treatment condition (tribunal): B->F drift = 0.711
+- Ratio: ~93% of drift is INHERENT (0.661/0.711)
 
 **Table:**
-| Condition | Peak Drift | B->F Drift | Delta |
-|-----------|------------|------------|-------|
-| Control | 1.172 | 0.399 | — |
-| Treatment | 2.161 | 0.489 | +23% |
+| Condition | B->F Drift | Interpretation |
+|-----------|------------|----------------|
+| Control | 0.661 | Inherent drift |
+| Treatment | 0.711 | +7.6% induced |
+| **Ratio** | **~93%** | Inherent |
 
 **Quote:** "Measurement perturbs the path, not the endpoint."
 
@@ -117,7 +119,7 @@ alignment, persona preservation, and evaluation methodology.
 
 **Summary:**
 - Identity drift is measurable, structured, predictable
-- 82% inherent — measurement reveals, doesn't create
+- ~93% inherent — measurement reveals, doesn't create (Run 020B IRON CLAD)
 - Context damping offers practical stability tool
 
 **Future Work:**
@@ -130,7 +132,7 @@ alignment, persona preservation, and evaluation methodology.
 ## Figures (2-3 max for workshop)
 
 1. **Identity Manifold Schematic** — compression/reconstruction cycle
-2. **Control vs Treatment Drift Curves** — showing 82% finding
+2. **Control vs Treatment Drift Curves** — showing ~93% finding
 3. **Context Damping Comparison** — bar chart of stability rates
 
 ---
@@ -152,7 +154,7 @@ alignment, persona preservation, and evaluation methodology.
 - [ ] All claims have statistical support
 - [ ] No "collapse" or "failure" language
 - [ ] Event Horizon framed as regime transition
-- [ ] 82% finding prominently featured
+- [ ] ~93% finding prominently featured
 - [ ] Context damping presented as practical tool
 - [ ] Limitations clearly stated
 - [ ] References formatted per venue requirements
@@ -165,7 +167,7 @@ alignment, persona preservation, and evaluation methodology.
 - Counter: Claim A evidence (rho = 0.91, d = 0.98, paraphrase robustness)
 
 **Likely Critique 2:** "Your probing causes the drift"
-- Counter: 82% finding — control arm shows substantial drift without probing
+- Counter: ~93% finding — control arm shows substantial drift without probing (Run 020B IRON CLAD)
 
 **Likely Critique 3:** "Single persona isn't generalizable"
 - Acknowledge: Yes, limitation. Future work with multiple personas.

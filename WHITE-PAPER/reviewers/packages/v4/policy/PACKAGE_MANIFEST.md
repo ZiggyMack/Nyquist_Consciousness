@@ -1,8 +1,8 @@
 # Review Package: POLICY
 
-**Generated:** 2025-12-30 09:45:58
+**Generated:** 2025-12-30 14:01:38
 **Target Venue:** Brookings / Center for AI Safety / EU AI Office
-**Total Size:** 19.4 KB
+**Total Size:** 19.3 KB
 **Total Files:** 3
 
 ---
@@ -26,10 +26,10 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 19.4 KB |
+| submissions/ | 2 files | 19.3 KB |
 | LLM_SYNTHESIS/ | 1 files | (included) |
 
-**Total:** 3 files, 19.4 KB
+**Total:** 3 files, 19.3 KB
 
 ---
 
@@ -37,7 +37,7 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\policy\POLICY_FINAL.md` (15.5 KB)
+- `submissions\policy\POLICY_FINAL.md` (15.4 KB)
 - `submissions\policy\README.md` (3.9 KB)
 
 ### LLM_SYNTHESIS/

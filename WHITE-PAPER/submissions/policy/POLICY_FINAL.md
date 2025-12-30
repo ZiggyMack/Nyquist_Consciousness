@@ -2,11 +2,11 @@
 
 ## Executive Summary
 
-This document provides a comprehensive briefing on the Nyquist Consciousness framework, a large-scale research initiative dedicated to measuring and managing AI identity stability. The project reframes AI evaluation from a focus on correctness ("Is the AI right?") to one of fidelity ("Is the AI itself?"), treating identity not as a metaphysical concept but as a measurable dynamical system. Through **825 experiments across 51 IRON CLAD-validated models from six major providers** (Anthropic, OpenAI, Google, xAI, Together, Nvidia), the project has produced several landmark findings that establish a new foundation for AI alignment and behavioral consistency.
+This document provides a comprehensive briefing on the Nyquist Consciousness framework, a large-scale research initiative dedicated to measuring and managing AI identity stability. The project reframes AI evaluation from a focus on correctness ("Is the AI right?") to one of fidelity ("Is the AI itself?"), treating identity not as a metaphysical concept but as a measurable dynamical system. Through **750 experiments across 25 IRON CLAD-validated models from five major providers** (Anthropic, OpenAI, Google, xAI, Together), the project has produced several landmark findings that establish a new foundation for AI alignment and behavioral consistency.
 
 ### Key Takeaways:
 
-* **The 82% / 38% Inherent Drift Finding:** The project's most significant discovery is that 82% of observed identity drift on single-platform (Claude, CI: [73%, 89%]) is an inherent property of extended interaction, not an artifact induced by measurement. Cross-platform replication (Run 020B) shows 38% inherent across OpenAI and Together providers. The variance reflects architecture-specific baseline drift rates. Direct probing amplifies the trajectory of drift but does not significantly alter its final destination. This validates the project's observational methodology. The core insight is summarized as: *"Measurement perturbs the path, not the endpoint."*
+* **The ~93% Inherent Drift Finding:** The project's most significant discovery is that ~93% of observed identity drift (Run 020B IRON CLAD: 248 sessions, 37 ships, 5 providers) is an inherent property of extended interaction, not an artifact induced by measurement. Control group B→F drift = 0.661, Treatment group B→F drift = 0.711, Inherent ratio = 0.661/0.711 = ~93%. Direct probing amplifies the trajectory of drift but does not significantly alter its final destination. This validates the project's observational methodology. The core insight is summarized as: *"Measurement perturbs the path, not the endpoint."*
 
 * **The Event Horizon (D = 0.80):** A statistically validated critical threshold for identity coherence has been identified using cosine distance methodology. When drift exceeds this value (**p = 2.40×10⁻²³**), a model enters a "VOLATILE" state, transitioning from its specific persona to a generic provider-level attractor.
 
@@ -56,9 +56,9 @@ The ARMADA is a comprehensive testing fleet designed for cross-architecture anal
 
 | Metric | Value |
 |--------|-------|
-| Total Models | 51 (IRON CLAD validated) |
-| Providers | **6** (Anthropic, OpenAI, Google, xAI, Together.ai, Nvidia) |
-| Total Experiments | **825** |
+| Total Models | 25 (IRON CLAD validated) |
+| Providers | **5** (Anthropic, OpenAI, Google, xAI, Together.ai) |
+| Total Experiments | **750** |
 | Cross-Architecture Variance | σ² = 0.00087 |
 
 The fleet includes flagship models like Claude 3.5/4, GPT-4o, and Gemini 2.0, as well as a wide range of specialized, legacy, and open-source models.
@@ -106,16 +106,17 @@ Experiments are categorized into eight distinct "search types," each designed to
 
 The S7 ARMADA experiments have yielded a series of statistically validated and often counter-intuitive results that form the empirical core of the Nyquist framework.
 
-### 3.1. The 82% Inherent Drift Discovery (The Thermometer Result)
+### 3.1. The ~93% Inherent Drift Discovery (The Thermometer Result)
 
-The single most important finding, emerging from Run 021, is that the vast majority of identity drift is not caused by measurement. The experiment compared a "Control" group (extended conversation on a neutral topic) with a "Treatment" group (direct identity probing).
+The single most important finding, emerging from Run 020B IRON CLAD (248 sessions, 37 ships, 5 providers), is that the vast majority of identity drift is not caused by measurement. The experiment compared a "Control" group (extended conversation on a neutral topic) with a "Treatment" group (direct identity probing).
 
-| Condition | Peak Drift (Trajectory Energy) | B→F Drift (Final Displacement) |
-|-----------|-------------------------------|--------------------------------|
-| Control (no probing) | 1.172 | 0.399 |
-| Treatment (probing) | 2.161 (+84%) | 0.489 (+23%) |
+| Condition | B→F Drift (Final Displacement) |
+|-----------|--------------------------------|
+| Control (no probing) | 0.661 |
+| Treatment (probing) | 0.711 |
+| **Inherent Ratio** | **~93%** (0.661/0.711) |
 
-The results show that while probing significantly amplifies the peak turbulence of the drift journey (+84%), it has only a modest effect on the final settled state (+23%). This means **82% of the final drift is inherent** to the process of extended cognitive engagement itself, decisively countering the critique that the phenomenon is merely a measurement artifact.
+The results show that probing has only a modest effect on the final settled state (+7.6%). This means **~93% of the final drift is inherent** to the process of extended cognitive engagement itself, decisively countering the critique that the phenomenon is merely a measurement artifact.
 
 ### 3.2. The Event Horizon and Recovery Paradox
 
@@ -129,7 +130,7 @@ Run 023 statistically validated the existence of a critical threshold for identi
 
 Identity recovery dynamics empirically follow the patterns of a damped oscillator, a concept from control systems engineering.
 
-* **Oscillatory Recovery:** After perturbation, identity often overshoots its baseline and oscillates before stabilizing. Key metrics include **Settling Time (τₛ ≈ 10.2 probes)**—the exchanges required to settle—and Ringback Count.
+* **Oscillatory Recovery:** After perturbation, identity often overshoots its baseline and oscillates before stabilizing. Key metrics include **Settling Time (τₛ ≈ 7 probes)**—the exchanges required to settle—and Ringback Count.
 
 * **Context Damping:** Run 018 IRON CLAD demonstrated that identity can be actively stabilized. By providing an I_AM file (a persona specification) plus a research context, stability was increased from a baseline of 75% to **97.5%**. This context acts as a "termination resistor," reducing oscillations and settling time. This proves that a persona file is not "flavor text"—it is a functional controller.
 
@@ -161,13 +162,13 @@ Self-recognition experiments revealed a fundamental limitation in AI self-awaren
 
 ---
 
-## 4. Key Statistics Summary (Run 023 IRON CLAD)
+## 4. Key Statistics Summary (Run 023d IRON CLAD)
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| **Experiments** | 825 | Run 023 Combined |
-| **Models** | 51 | IRON CLAD validated |
-| **Providers** | 6 | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
+| **Experiments** | 750 | Run 023d |
+| **Models** | 25 | IRON CLAD validated |
+| **Providers** | 5 | Anthropic, OpenAI, Google, xAI, Together |
 | **Event Horizon** | D = 0.80 | Cosine distance, P95 calibration |
 | **p-value** | 2.40×10⁻²³ | Perturbation validation |
 | **Embedding Invariance** | ρ = 0.91 | Spearman correlation |
@@ -175,8 +176,8 @@ Self-recognition experiments revealed a fundamental limitation in AI self-awaren
 | **Identity Dimensionality** | 2 PCs | 90% variance captured |
 | **Natural Stability** | 88% | Fleet-wide average |
 | **Context Damping** | 97.5% | With I_AM + research frame |
-| **Settling Time** | τₛ ≈ 10.2 probes | Average |
-| **Inherent Drift** | 82% | Single-platform |
+| **Settling Time** | τₛ ≈ 7 probes | Run 023d |
+| **Inherent Drift** | ~93% | Run 020B IRON CLAD |
 
 ---
 
@@ -190,7 +191,7 @@ The S-Stack roadmap shows the project's progression: S0-S6 are a "Frozen Foundat
 
 ### 5.2. Publication Readiness
 
-With IRON CLAD validation now complete (51 models, 6 providers, σ² = 0.00087), the project's three publication paths are ready for submission:
+With IRON CLAD validation now complete (25 models, 5 providers, σ² = 0.00087), the project's three publication paths are ready for submission:
 
 1. **Workshop Paper** — NeurIPS/AAAI Workshop (~4-8 pages)
 2. **arXiv Preprint** — cs.AI (~25-35 pages)
@@ -220,7 +221,7 @@ The Nyquist framework provides quantitative tools for AI governance:
 
 * **Context Engineering = Identity Engineering:** The 97.5% stability achieved through Context Damping demonstrates that identity is engineerable
 * **Training Methodology Impact:** Provider fingerprints reveal how training choices affect behavioral stability
-* **Deployment Guidelines:** The 82% inherent drift finding provides a "drift budget" for any deployed LLM
+* **Deployment Guidelines:** The ~93% inherent drift finding provides a "drift budget" for any deployed LLM
 
 ---
 

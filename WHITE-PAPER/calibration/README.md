@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-29
+last_reviewed: 2025-12-30
 depends_on:
   - ./0_sync_viz.py
   - ./1_sync_llmbook.py
@@ -18,8 +18,8 @@ keywords:
 # Calibration Pipeline
 
 **Purpose:** Sync assets, generate PDFs, create review packages, and extract statistics.
-**Last Updated:** 2025-12-29
-**Methodology:** IRON CLAD COSINE ERA (Event Horizon = 0.80, p = 2.40e-23, 92% Inherent Drift)
+**Last Updated:** 2025-12-30
+**Methodology:** IRON CLAD COSINE ERA (Event Horizon = 0.80, p = 2.40e-23, ~93% Inherent Drift)
 
 ---
 
@@ -250,8 +250,11 @@ py 2_package_review.py workshop
 # Extract multiple paths (auto-syncs .shared/ first)
 py 2_package_review.py workshop arxiv
 
-# Extract ALL paths (auto-syncs .shared/ first) ← RECOMMENDED
+# Extract ALL paths (auto-syncs .shared/ first + copies PDFs) ← RECOMMENDED
 py 2_package_review.py --all
+
+# Copy submission PDFs to flat folder (packages/pdf/)
+py 2_package_review.py --submission-pdfs
 
 # Sync ONLY .shared/ (no path packages)
 py 2_package_review.py --sync-shared
@@ -265,6 +268,19 @@ py 2_package_review.py workshop --dry-run
 # Custom output location
 py 2_package_review.py workshop --output ./FOR_OPUS
 ```
+
+### Submission PDF Extraction
+
+When using `--all`, submission PDFs are automatically copied to `packages/pdf/` for easy distribution:
+
+```bash
+# Auto-runs with --all, or run manually:
+py 2_package_review.py --submission-pdfs
+```
+
+**Output:** `reviewers/packages/pdf/{FILENAME}.pdf` (flat structure)
+
+All 9 submission PDFs (~30 MB) from `submissions/{path}/` are copied to a single folder.
 
 **Template Source:** `planning/reviewer_templates/` → `.shared/`
 
@@ -348,7 +364,7 @@ submissions/{path}/{TYPE}_FINAL.md + .pdf          <- Ready to submit
 
 - Event Horizon = 0.80 (cosine)
 - p-value = 2.40e-23
-- Settling time = tau_s ~ 10.2 probes
+- Settling time = τₛ ≈ 7 probes
 - 2 PCs for 90% variance
 
 ---
@@ -372,7 +388,7 @@ py 4_publish_stats.py
 | **Runs** | Total count, S7 count, latest run |
 | **Files** | Figures, ASCII, workshop, references, total |
 | **Submissions** | Status and target for each path |
-| **Key Statistics** | PFI correlation (ρ=0.91), threshold (D=0.80), 92% inherent ratio, stability (97.5%) |
+| **Key Statistics** | PFI correlation (ρ=0.91), threshold (D=0.80), ~93% inherent ratio, stability (97.5%) |
 
 **Dashboard Integration:**
 
@@ -441,5 +457,5 @@ py 4_publish_stats.py
 
 ---
 
-*Last updated: 2025-12-29*
-*IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23, 92% Inherent Drift*
+*Last updated: 2025-12-30*
+*IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23, ~93% Inherent Drift*

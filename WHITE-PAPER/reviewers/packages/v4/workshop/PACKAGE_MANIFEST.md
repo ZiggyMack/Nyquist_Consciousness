@@ -1,8 +1,8 @@
 # Review Package: WORKSHOP
 
-**Generated:** 2025-12-30 09:45:58
+**Generated:** 2025-12-30 14:01:38
 **Target Venue:** NeurIPS/AAAI Workshop
-**Total Size:** 56.3 KB
+**Total Size:** 56.2 KB
 **Total Files:** 9
 
 ---
@@ -26,11 +26,11 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 7 files | 50.2 KB |
-| blueprints/ | 1 files | 6.0 KB |
+| submissions/ | 7 files | 50.0 KB |
+| blueprints/ | 1 files | 6.2 KB |
 | LLM_SYNTHESIS/ | 1 files | (included) |
 
-**Total:** 9 files, 56.3 KB
+**Total:** 9 files, 56.2 KB
 
 ---
 
@@ -38,17 +38,17 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\workshop\Nyquist_workshop_paper_FINAL.md` (16.6 KB)
+- `submissions\workshop\Nyquist_workshop_paper_FINAL.md` (16.1 KB)
 - `submissions\workshop\poster_layout.md` (10.9 KB)
 - `submissions\workshop\README.md` (6.4 KB)
 - `submissions\workshop\table_workshop_protocol.md` (4.7 KB)
-- `submissions\workshop\table_workshop_results.md` (2.1 KB)
-- `submissions\workshop\workshop_slides_outline.md` (4.9 KB)
+- `submissions\workshop\table_workshop_results.md` (2.2 KB)
+- `submissions\workshop\workshop_slides_outline.md` (5.0 KB)
 - `submissions\workshop\workshop_supplementary.md` (4.6 KB)
 
 ### blueprints/
 
-- `submissions\blueprints\WORKSHOP_BLUEPRINT.md` (6.0 KB)
+- `submissions\blueprints\WORKSHOP_BLUEPRINT.md` (6.2 KB)
 
 ### LLM_SYNTHESIS/
 
