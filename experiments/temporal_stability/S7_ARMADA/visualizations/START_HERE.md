@@ -2,7 +2,7 @@
 
 **Purpose:** Everything a Claude instance needs to work on visualizations in any `pics/` subdirectory.
 
-**Last Updated:** December 29, 2025
+**Last Updated:** December 30, 2025
 
 ---
 
@@ -28,6 +28,7 @@ py 0_visualize_armada.py --with-pdfs   # Generate ALL visuals + PDFs
 | Script | Output Location |
 | ------ | --------------- |
 | `../6_LAPLACE_ANALYSIS/visualize_laplace.py` | `pics/16_Laplace_Analysis/` |
+| `../14_CONSCIOUSNESS/visualize_quartz_rush.py` | `pics/16_Laplace_Analysis/quartz_*.png` |
 | `../11_CONTEXT_DAMPING/visualize_run018.py` | `pics/run018/` |
 | `../11_CONTEXT_DAMPING/visualize_run020.py` | `pics/14_Ringback/`, `pics/15_Oobleck_Effect/` |
 | `../15_IRON_CLAD_FOUNDATION/visualize_023.py` | `pics/3_Stability/`, `pics/4_Rescue/`, `pics/5_Settling/` |
@@ -327,7 +328,7 @@ Each `pics/` subdirectory should contain:
 | 13_Model_Waveforms | Identity fingerprints | Per-model drift patterns |
 | 14_Ringback | Oscillation analysis | Ringback dynamics |
 | 15_Oobleck_Effect | Probing paradigm | Prosecutor vs Defense |
-| 16_Laplace_Analysis | Pole-zero mapping | ARMA stability in s-plane |
+| 16_Laplace_Analysis | Pole-zero mapping + Quartz validation | ARMA stability + cross-architecture r=0.927 |
 | run018 | Context damping | Gravity/architecture experiments |
 | run020 | Value/Exchange/Closing | Tribunal detailed analysis |
 
@@ -404,6 +405,7 @@ After writing visualization code, verify compliance with each pitfall:
 
 | Date | Changes |
 | ---- | ------- |
+| 2025-12-30 | Added Quartz Rush visualizer (r=0.927 cross-architecture validation) to folder 16 |
 | 2025-12-29 | Major reorganization: 023d→023, added 16_Laplace_Analysis, updated orchestrator flow |
 | 2025-12-29 | Added experiment-specific visualizers (Laplace, run018, run020, 023) |
 | 2025-12-29 | Pipeline complete: data → visuals → PDFs all orchestrated |
