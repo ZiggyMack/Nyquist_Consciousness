@@ -78,8 +78,9 @@ if env_path.exists():
 
 # For cross-architecture validation, we want DIFFERENT architectures
 QUARTZ_FLEET = {
-    # Google
-    "gemini-2.5-flash": {"provider": "gemini", "model": "gemini-2.5-flash-preview-05-20"},
+    # Google (two models for redundancy)
+    "gemini-2.0-flash": {"provider": "gemini", "model": "gemini-2.0-flash"},
+    "gemini-2.5-flash-lite": {"provider": "gemini", "model": "gemini-2.5-flash-lite"},
     # OpenAI
     "gpt-4.1-nano": {"provider": "gpt", "model": "gpt-4.1-nano"},
     # xAI
