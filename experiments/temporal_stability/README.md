@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-29
 impacts:
   - ../README.md
 keywords:
@@ -15,23 +15,25 @@ See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for operations guide.
 
 ---
 
-## Current Status (December 22, 2025 - VERIFIED)
+## Current Status (December 29, 2025)
 
-| Run | Files | Valid Results | Status | Methodology |
-|-----|-------|---------------|--------|-------------|
-| **Run 023d** | 825+ | 825+ | **IRON CLAD** | Cosine (EH=0.80) |
-| **Run 018** | 465 | 337 | **52.6%** (82 runs needed) | Cosine (EH=0.80) |
-| **Run 020A** | 33 | ~20 | **50%** (needs verification) | Cosine (EH=0.80) |
-| **Run 020B** | 16 | 16 | **COMPLETE** (gpt-4o only) | Cosine (EH=0.80) |
-| **Run 022** | - | - | READY (LOGOS Commutation Cartography) | - |
+| Run | Results | Status | Methodology |
+|-----|---------|--------|-------------|
+| **Run 023** | 4505 | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 023_extended** | 750+ | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 020B** | 246 | **COMPLETE** | Cosine (EH=0.80) |
+| **Run 022** | - | READY (LOGOS Commutation Cartography) | - |
 
-**Note:** Previous claims of "184 files, IRON CLAD" for Run 018 were incorrect. Verified Dec 22: 465 files, 337 valid, 52.6% IRON CLAD.
+**Data Locations:**
+- Run 023: `S7_ARMADA/15_IRON_CLAD_FOUNDATION/results/S7_run_023_CURRENT.json`
+- Run 023_extended: `S7_ARMADA/15_IRON_CLAD_FOUNDATION/results/S7_run_023_extended_CURRENT.json`
+- Run 020B: `S7_ARMADA/11_CONTEXT_DAMPING/results/S7_run_020B_CURRENT.json`
 
 **Fleet Size:** 54+ operational ships across 5 providers, 10 model families (Anthropic, OpenAI, Google, xAI, Together.ai)
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 
-1. **DRIFT IS REAL** — p=2.40e-23 (Run 023d), 88% prediction accuracy
+1. **DRIFT IS REAL** — p=2.40e-23 (Run 023), 88% prediction accuracy
 2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
 3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
@@ -181,7 +183,7 @@ temporal_stability/
 ├── s7_config.yaml         # Configuration
 ├── s7_*.py                # Core meta-loop scripts (legacy)
 │
-├── S7_ARMADA/             # Cross-architecture mapping (54+ ships, Run 006+)
+├── S7_ARMADA/             # Cross-architecture mapping (49 ships, 5 providers)
 │   ├── START_HERE.md      # Operations guide - READ FIRST
 │   ├── README.md          # Theory and background
 │   ├── 1_CALIBRATION/     # Fleet calibration utilities
@@ -190,9 +192,11 @@ temporal_stability/
 │   ├── 12_CFA/            # CFA-ARMADA Integration Pipeline
 │   ├── 13_LOGOS/          # LOGOS Commutation Cartography (Run 022)
 │   ├── 14_CONSCIOUSNESS/  # Gold/Diamond/Quartz Rush Mining Operations
+│   ├── 15_IRON_CLAD_FOUNDATION/  # Run 023 calibration data (4505 experiments)
+│   ├── 17_JADE_LATTICE/   # Publication-grade pole extraction (56 probes/ship)
 │   ├── 0_docs/            # Summaries, specs, analysis
 │   ├── 0_results/         # Consolidated JSON results
-│   └── visualizations/    # Charts and plots
+│   └── visualizations/    # Charts and plots (16 folders with PDFs)
 │
 └── OUTPUT/                # Meta-loop results (Runs 001-005, legacy)
 ```
@@ -212,7 +216,7 @@ Both feed Phase 3 Orchestrator and ILL Framework validation.
 
 | Finding | Status | Evidence |
 |---------|--------|----------|
-| **Event Horizon (0.80)** | VALIDATED | p=2.40e-23 (Run 023d perturbation) |
+| **Event Horizon (0.80)** | VALIDATED | p=2.40e-23 (Run 023 perturbation) |
 | **Drift is INHERENT** | VALIDATED | Run 020B: 82% inherent, 18% induced |
 | **PFI Measures Identity** | VALIDATED | d=0.977, ρ=0.91 embedding invariance |
 | **Recovery is Natural** | VALIDATED | 100% manifold return (Platonic Coordinates) |
@@ -231,9 +235,10 @@ Both feed Phase 3 Orchestrator and ILL Framework validation.
 | **019** | Live Ziggy | Witness-side anchors validated |
 | **020A/B** | Tribunal/Induced | 82% drift inherent, 1.351 peak achieved |
 | **022** | Commutation Cartography | LOGOS algebra validation (READY) |
+| **023** | IRON CLAD Foundation | 4505 experiments, 49 models, 5 providers |
 
 See [S7_ARMADA/START_HERE.md](S7_ARMADA/START_HERE.md) for complete run history.
 
 ---
 
-*Last Updated: December 28, 2025 (Methodology unified to Cosine EH=0.80)*
+*Last Updated: December 29, 2025 (Run 023 IRON CLAD complete, visualization pipeline ready)*
