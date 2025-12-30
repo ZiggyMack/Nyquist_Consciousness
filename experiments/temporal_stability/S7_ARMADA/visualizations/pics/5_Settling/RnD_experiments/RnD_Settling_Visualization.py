@@ -37,7 +37,7 @@ from scipy.fft import fft, fftfreq
 # ============================================================================
 
 DATA_FILE = Path(__file__).parent.parent.parent.parent.parent / \
-    "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023d_CURRENT.json"
+    "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023_extended_CURRENT.json"
 
 OUTPUT_DIR = Path(__file__).parent  # Same folder as this script
 

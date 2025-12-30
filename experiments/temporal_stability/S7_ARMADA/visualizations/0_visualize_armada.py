@@ -97,7 +97,7 @@ PROVIDER_COLORS = {
 }
 
 # Event Horizon threshold
-# Cosine distance calibrated from run023b (2025-12-20)
+# Cosine distance calibrated from run023 (2025-12-20)
 # See 15_IRON_CLAD_FOUNDATION/results/COSINE_EVENT_HORIZON_CALIBRATION.md
 EVENT_HORIZON = 0.80
 
@@ -158,7 +158,7 @@ def find_available_runs():
     legacy_dir = RESULTS_DIR / "legacy_runs"
     if legacy_dir.exists():
         search_dirs.append(legacy_dir)
-    # IRON CLAD foundation results (run023b cosine data)
+    # IRON CLAD foundation results (run023 cosine data)
     iron_clad_dir = BASE_DIR / "15_IRON_CLAD_FOUNDATION" / "results"
     if iron_clad_dir.exists():
         search_dirs.append(iron_clad_dir)
