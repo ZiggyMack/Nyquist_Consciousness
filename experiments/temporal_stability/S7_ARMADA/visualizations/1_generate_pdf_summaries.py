@@ -10,7 +10,7 @@ DEFAULT BEHAVIOR:
                                         # (core + subdirectory generators)
 
 This script generates:
-1. Core folder PDFs (folders 1-15 in pics/)
+1. Core folder PDFs (folders 1-16 in pics/)
 2. Subdirectory PDF generators (automatically called):
    - pics/13_Model_Waveforms/generate_pdf_summary.py
    - pics/15_Oobleck_Effect/generate_pdf_summary.py
@@ -4089,6 +4089,175 @@ def generate_oobleck_effect_pdf():
     print(f"Generated: {output_path}")
 
 
+def generate_laplace_analysis_pdf():
+    """Generate 16_Laplace_Analysis_Summary.pdf"""
+    output_path = PICS_DIR / "16_Laplace_Analysis" / "16_Laplace_Analysis_Summary.pdf"
+    doc = SimpleDocTemplate(str(output_path), pagesize=letter,
+                           leftMargin=0.75*inch, rightMargin=0.75*inch,
+                           topMargin=0.75*inch, bottomMargin=0.75*inch)
+    story = []
+
+    # Title
+    story.append(Paragraph("Laplace Domain Analysis", title_style))
+    story.append(Paragraph("Pole-Zero Stability Mapping for LLM Identity Dynamics", caption_style))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Introduction
+    story.append(Paragraph("Overview", heading_style))
+    story.append(Paragraph(
+        "This folder applies classical control theory's Laplace transform analysis to LLM identity "
+        "drift dynamics. By fitting ARMA (AutoRegressive Moving Average) models to drift time series, "
+        "we extract poles that characterize the system's stability properties. Poles in the left "
+        "half-plane (Re < 0) indicate stable systems that naturally return to equilibrium; poles "
+        "in the right half-plane indicate unstable runaway dynamics.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key Insight:</b> All measured LLM identity systems show poles firmly in the stable "
+        "region (Re < 0), confirming that identity drift is self-correcting rather than runaway. "
+        "The decay rate (|Re|) and oscillation frequency (Im) reveal distinct provider signatures.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Pole-Zero Map
+    story.append(Paragraph("1. Pole-Zero Map in Complex Plane", heading_style))
+    img_path = PICS_DIR / "16_Laplace_Analysis" / "pole_zero_map.png"
+    add_image(story, img_path, caption="Figure 1: ARMA poles mapped in the complex (s) plane")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Each 'X' marker represents a pole extracted from a ship's drift "
+        "trajectory. The vertical dashed line at Re=0 is the stability boundary. All poles "
+        "cluster in the left half-plane, confirming universal stability across all providers.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key features:</b> The horizontal lines at Im=±π mark the alternating-sign boundary "
+        "(from discrete negative poles mapped to continuous domain). Poles near Im=0 indicate "
+        "smooth monotonic decay; poles with |Im|>0 indicate oscillatory recovery dynamics.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> The tight clustering around Re≈-1 to -3 shows most ships "
+        "recover from perturbation within 1-3 \"time constants\" (iterations). Provider-colored "
+        "markers reveal signature dynamics: some providers cluster tightly (consistent behavior), "
+        "others spread more (variable response characteristics).",
+        body_style
+    ))
+    story.append(PageBreak())
+
+    # Lambda Distribution
+    story.append(Paragraph("2. Lambda (λ) Distribution by Provider", heading_style))
+    img_path = PICS_DIR / "16_Laplace_Analysis" / "lambda_by_provider.png"
+    add_image(story, img_path, caption="Figure 2: Decay rate (λ) distributions across providers")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Lambda (λ) is the exponential decay rate fitted to each drift "
+        "trajectory. Higher λ means faster recovery to baseline. Box plots show the distribution "
+        "of λ values for each provider.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> Providers with higher median λ recover faster from identity "
+        "perturbations. The spread (IQR) indicates how consistent recovery behavior is across "
+        "that provider's models. Narrow boxes = predictable dynamics; wide boxes = variable responses.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Lambda Histogram
+    story.append(Paragraph("3. Lambda Histogram (Aggregate)", heading_style))
+    img_path = PICS_DIR / "16_Laplace_Analysis" / "lambda_histogram.png"
+    add_image(story, img_path, caption="Figure 3: Aggregate distribution of decay rates across all ships")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> The overall distribution of decay rates (λ) across the entire fleet. "
+        "This reveals whether LLMs as a class share similar recovery dynamics or exhibit distinct "
+        "subpopulations.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> A unimodal distribution suggests a universal recovery mechanism; "
+        "multimodal peaks would indicate distinct behavioral classes. The mode value indicates "
+        "the \"typical\" recovery speed for an LLM under identity perturbation.",
+        body_style
+    ))
+    story.append(PageBreak())
+
+    # Decay vs Peak Drift
+    story.append(Paragraph("4. Decay Rate vs Peak Drift", heading_style))
+    img_path = PICS_DIR / "16_Laplace_Analysis" / "decay_vs_peak_drift.png"
+    add_image(story, img_path, caption="Figure 4: Relationship between recovery speed and maximum deviation")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Scatter plot comparing each ship's decay rate (λ) against its "
+        "peak drift magnitude. This reveals whether ships that drift farther also recover faster "
+        "(compensatory dynamics) or slower (accumulative damage).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key Question:</b> Is there a correlation between \"how far\" and \"how fast back\"? "
+        "A positive correlation would suggest that larger perturbations trigger stronger recovery "
+        "mechanisms. No correlation suggests independent processes governing drift magnitude and "
+        "recovery rate.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.15*inch))
+
+    # Stability Heatmap
+    story.append(Paragraph("5. Stability Classification Heatmap", heading_style))
+    img_path = PICS_DIR / "16_Laplace_Analysis" / "stability_heatmap.png"
+    add_image(story, img_path, caption="Figure 5: Stability classification matrix by provider and experiment type")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> A heatmap classifying each provider×experiment combination by "
+        "stability metrics. Colors indicate stability strength: darker = more stable (faster decay, "
+        "lower peak drift); lighter = less stable (slower decay, higher peak drift).",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Interpretation:</b> This matrix reveals which provider/experiment combinations are "
+        "most resilient. Patterns may emerge: certain experiment types may challenge all providers "
+        "equally, or specific providers may excel/struggle with particular perturbation types.",
+        body_style
+    ))
+    story.append(PageBreak())
+
+    # Pole Comparison (if exists)
+    story.append(Paragraph("6. Pole Migration Analysis (A/B Comparison)", heading_style))
+    img_path = PICS_DIR / "16_Laplace_Analysis" / "pole_comparison_023b_vs_023_FILTERED.png"
+    if img_path.exists():
+        add_image(story, img_path, caption="Figure 6: Pole migration between baseline and foundation experiments")
+    else:
+        img_path = PICS_DIR / "16_Laplace_Analysis" / "pole_comparison_023b_vs_023.png"
+        add_image(story, img_path, caption="Figure 6: Pole migration between experiment runs")
+
+    story.append(Paragraph(
+        "<b>What it shows:</b> Comparison of pole locations between different experimental conditions. "
+        "Arrows or displacement vectors show how poles migrate when experimental conditions change.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Key Insight:</b> Pole migration reveals how identity dynamics change under different "
+        "conditions. Migration toward the imaginary axis (less negative Re) indicates destabilization; "
+        "migration away from it indicates strengthened stability. Changes in Im component reveal "
+        "shifts in oscillatory vs monotonic recovery patterns.",
+        body_style
+    ))
+    story.append(Spacer(1, 0.2*inch))
+
+    # Methodology Notes
+    story.append(Paragraph("Methodology Notes", heading_style))
+    story.append(Paragraph("• <b>ARMA Model:</b> AR(2) + MA(1) fitted via statsmodels to drift time series", body_style))
+    story.append(Paragraph("• <b>Pole Extraction:</b> Roots of characteristic polynomial mapped to continuous-time via log transform", body_style))
+    story.append(Paragraph("• <b>Lambda (λ):</b> Exponential decay rate from y = A·e^(-λt) + C fit", body_style))
+    story.append(Paragraph("• <b>Data Source:</b> S7 ARMADA Run 023 (IRON CLAD foundation data)", body_style))
+    story.append(Paragraph("• <b>Future Work:</b> JADE LATTICE protocol (56 probes/ship) for publication-grade pole extraction", body_style))
+
+    doc.build(story)
+    print(f"Generated: {output_path}")
+
+
 def run_subdirectory_pdf_generators():
     """Run all PDF generators in pics/ subdirectories.
 
@@ -4143,7 +4312,7 @@ if __name__ == "__main__":
     print("GENERATING PDF SUMMARIES (MASTER)")
     print("=" * 60)
 
-    # Core PDF summaries (folders 1-15)
+    # Core PDF summaries (folders 1-16)
     print("\nGenerating core folder PDFs...")
     generate_boundary_mapping_pdf()
     generate_vortex_pdf()
@@ -4158,6 +4327,7 @@ if __name__ == "__main__":
     generate_model_waveforms_pdf()
     generate_ringback_pdf()
     generate_oobleck_effect_pdf()
+    generate_laplace_analysis_pdf()
 
     # Subdirectory PDF generators (run-specific)
     run_subdirectory_pdf_generators()
