@@ -2,7 +2,7 @@
 
 **Purpose:** Everything a Claude instance needs to work on visualizations in any `pics/` subdirectory.
 
-**Last Updated:** December 24, 2025
+**Last Updated:** December 29, 2025
 
 ---
 
@@ -10,11 +10,26 @@
 
 You are working on visualizations for the **Nyquist Consciousness Project** - a research study measuring identity stability across 49 AI models from 5 providers.
 
+### Scripts Hierarchy
+
+| Script | Purpose |
+|--------|---------|
+| `0_visualize_armada.py` | **MASTER** - Main visualization orchestrator |
+| `1_generate_pdf_summaries.py` | PDF documentation generator |
+| `2_RnD_Visualization.py` | Experimental R&D visualizations |
+| `3_unified_dimensional_view.py` | 5D drift dimensional analysis |
+| `4_plot_armada_network.py` | Fleet topology network graph |
+
 ### Your Working Area
 
 ```
 S7_ARMADA/
 ├── visualizations/
+│   ├── 0_visualize_armada.py   # MASTER orchestrator
+│   ├── 1_generate_pdf_summaries.py
+│   ├── 2_RnD_Visualization.py
+│   ├── 3_unified_dimensional_view.py
+│   ├── 4_plot_armada_network.py
 │   ├── pics/                    # YOUR WORK GOES HERE
 │   │   ├── 1_Vortex/           # Drift spiral dynamics
 │   │   ├── 2_Boundary_Mapping/ # Phase portraits + 3D basins
@@ -233,8 +248,17 @@ plt.close()
 # Check available versions
 py --list
 
-# Run a generator script
-py -3.12 generate_something.py
+# DEFAULT: Generate ALL visualizations (core + subdirectory generators)
+py -3.12 0_visualize_armada.py
+
+# Generate ALL visualizations + PDF summaries
+py -3.12 0_visualize_armada.py --with-pdfs
+
+# Skip subdirectory generators (faster, core viz only)
+py -3.12 0_visualize_armada.py --no-subdirs
+
+# Generate ALL PDF summaries
+py -3.12 1_generate_pdf_summaries.py
 ```
 
 ---

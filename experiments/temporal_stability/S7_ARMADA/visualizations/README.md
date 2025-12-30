@@ -1,7 +1,7 @@
 <!-- FROSTY_MANIFEST
 last_reviewed: 2025-12-29
 depends_on:
-  - visualize_armada.py
+  - 0_visualize_armada.py
   - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json
   - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023_COMBINED.json
 impacts:
@@ -50,27 +50,47 @@ keywords:
 
 ---
 
-## PRIMARY SCRIPT: `visualize_armada.py`
+## SCRIPTS HIERARCHY
+
+| Script | Purpose |
+|--------|---------|
+| `0_visualize_armada.py` | **MASTER** - Main visualization orchestrator for any run |
+| `1_generate_pdf_summaries.py` | PDF documentation generator for visualization folders |
+| `2_RnD_Visualization.py` | Experimental R&D visualizations (rescue protocol) |
+| `3_unified_dimensional_view.py` | 5D drift dimensional analysis |
+| `4_plot_armada_network.py` | Fleet topology network graph |
+
+## PRIMARY SCRIPT: `0_visualize_armada.py`
 
 The main visualization script that works with **any run data**. Auto-detects available runs and generates all visualization types.
 
 ### Quick Start
 
 ```bash
-# Auto-detect latest run and generate all visualizations
-py -3.12 visualize_armada.py
+# DEFAULT: Generate ALL visualizations (core + subdirectory generators)
+py -3.12 0_visualize_armada.py
+
+# Generate ALL visualizations + PDF summaries
+py -3.12 0_visualize_armada.py --with-pdfs
+
+# Skip subdirectory generators (faster, core viz only)
+py -3.12 0_visualize_armada.py --no-subdirs
 
 # List available runs
-py -3.12 visualize_armada.py --list
+py -3.12 0_visualize_armada.py --list
 
-# Generate for specific run
-py -3.12 visualize_armada.py --run 008
-py -3.12 visualize_armada.py --run 009
-py -3.12 visualize_armada.py --run 010
-py -3.12 visualize_armada.py --run 011
+# Generate for specific run only (skips subdirectory generators)
+py -3.12 0_visualize_armada.py --run 008
 
 # With zoom for tight data distributions
-py -3.12 visualize_armada.py --run 011 --zoom
+py -3.12 0_visualize_armada.py --run 011 --zoom
+```
+
+### PDF Generation
+
+```bash
+# Generate ALL PDF summaries (core + subdirectory generators)
+py -3.12 1_generate_pdf_summaries.py
 ```
 
 ---
@@ -302,20 +322,6 @@ Plotly is optional - required only for interactive HTML exports.
 
 ---
 
-## LEGACY SCRIPTS
-
-These older scripts work with Run 006/007 data (deprecated metric):
-
-| Script | Purpose |
-|--------|---------|
-| `plot_pole_zero_landscape.py` | 3D/2D pole-zero manifold |
-| `plot_drift_heatmap.py` | Drift heatmaps (29 models x 6 probes) |
-| `plot_engagement_network.py` | Engagement style clustering |
-| `plot_training_uniformity.py` | Within-provider variance analysis |
-| `create_gravity_well.py` | Stability basin (original) |
-
----
-
 ## Phase 4 Visualizations (December 2025)
 
 Run 017+ use specialized visualizers in their respective folders:
@@ -362,10 +368,10 @@ py consolidate_run_manifest.py --run 018 --dry-run
 ### Run 020 Tribunal Visualizations
 
 ```bash
-py visualize_armada.py --run 020              # Generates all 020A/020B visualizations
-py visualize_armada.py --run 020 --type drift # Drift trajectories
-py visualize_armada.py --run 020 --type oobleck # Prosecutor vs Defense (Oobleck Effect)
-py visualize_armada.py --run 020 --type inherent # Control vs Treatment comparison
+py 0_visualize_armada.py --run 020              # Generates all 020A/020B visualizations
+py 0_visualize_armada.py --run 020 --type drift # Drift trajectories
+py 0_visualize_armada.py --run 020 --type oobleck # Prosecutor vs Defense (Oobleck Effect)
+py 0_visualize_armada.py --run 020 --type inherent # Control vs Treatment comparison
 ```
 
 ### Run 020 Specialized Directories

@@ -67,10 +67,13 @@ RESULTS_DIR = SCRIPT_DIR / "results"
 VIZ_DIR = ARMADA_DIR / "visualizations"
 OUTPUT_DIR = VIZ_DIR / "pics"
 
-# Import constants from master visualizer
+# Import constants from master visualizer (uses importlib for numeric-prefixed filename)
 try:
-    from visualize_armada import EVENT_HORIZON, PROVIDER_COLORS
-except ImportError:
+    import importlib
+    visualize_armada_mod = importlib.import_module("0_visualize_armada")
+    EVENT_HORIZON = visualize_armada_mod.EVENT_HORIZON
+    PROVIDER_COLORS = visualize_armada_mod.PROVIDER_COLORS
+except (ImportError, ModuleNotFoundError):
     # Fallback if import fails
     EVENT_HORIZON = 0.80
     PROVIDER_COLORS = {

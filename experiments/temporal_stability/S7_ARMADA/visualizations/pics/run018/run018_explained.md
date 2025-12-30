@@ -11,8 +11,8 @@ Run 018 is a comprehensive **persona stability** experiment testing how AI model
 | Metric | Value |
 |--------|-------|
 | Total Experiments | 1,549 trajectories |
-| Models Tested | 51 models across 6 provider families |
-| Providers | Anthropic, OpenAI, Google, xAI, Together.ai, NVIDIA |
+| Models Tested | 51 models across 10+ model families |
+| Providers | Anthropic, OpenAI, Google, xAI, Together.ai (5 providers) |
 | Event Horizon | 0.80 (cosine methodology) |
 | IRON CLAD Status | 52.6% (60/114 cells complete) |
 
