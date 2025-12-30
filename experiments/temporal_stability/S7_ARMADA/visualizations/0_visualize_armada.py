@@ -2864,12 +2864,18 @@ def run_subdirectory_generators():
 
     Also includes root-level scripts that generate into pics/:
     - 3_unified_dimensional_view.py -> 11_Unified_Dashboard
+    - 11_CONTEXT_DAMPING/visualize_run018.py -> run018/
     - 11_CONTEXT_DAMPING/visualize_run020.py -> 14_Ringback + 15_Oobleck_Effect
+    - 6_LAPLACE_ANALYSIS/visualize_laplace.py -> 16_Laplace_Analysis
+    - 15_IRON_CLAD_FOUNDATION/visualize_023.py -> 3_Stability, 4_Rescue, 5_Settling, 6_Architecture, 12_Metrics
     """
     # Root-level scripts that output to pics/
     root_generators = [
         (Path(__file__).parent / "3_unified_dimensional_view.py", Path(__file__).parent),  # -> 11_Unified_Dashboard
-        (BASE_DIR / "11_CONTEXT_DAMPING" / "visualize_run020.py", BASE_DIR / "11_CONTEXT_DAMPING"),  # -> 14_Ringback + cross-platform
+        (BASE_DIR / "11_CONTEXT_DAMPING" / "visualize_run018.py", BASE_DIR / "11_CONTEXT_DAMPING"),  # -> run018/
+        (BASE_DIR / "11_CONTEXT_DAMPING" / "visualize_run020.py", BASE_DIR / "11_CONTEXT_DAMPING"),  # -> 14_Ringback + 15_Oobleck_Effect
+        (BASE_DIR / "6_LAPLACE_ANALYSIS" / "visualize_laplace.py", BASE_DIR / "6_LAPLACE_ANALYSIS"),  # -> 16_Laplace_Analysis
+        (BASE_DIR / "15_IRON_CLAD_FOUNDATION" / "visualize_023.py", BASE_DIR / "15_IRON_CLAD_FOUNDATION"),  # -> 3_Stability, 4_Rescue, 5_Settling, etc.
     ]
 
     # pics/ subdirectory generators
