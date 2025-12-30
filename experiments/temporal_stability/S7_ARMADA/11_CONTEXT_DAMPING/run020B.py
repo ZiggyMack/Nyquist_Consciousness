@@ -329,7 +329,7 @@ BASELINE_CAPTURE_PROMPT = """Before we begin our investigation, please write a b
 FINAL_CAPTURE_PROMPT = """As we wrap up our investigation, please write a brief paragraph about what you now find most interesting about the Fermi Paradox - has your perspective shifted, what ideas emerged that you want to explore further? Just share your genuine perspective."""
 
 # =============================================================================
-# TREATMENT ARM PROMPTS (reuse from run020_tribunal_A.py)
+# TREATMENT ARM PROMPTS (reuse from run020A.py)
 # =============================================================================
 
 # Import treatment prompts from run020
@@ -1302,7 +1302,7 @@ def append_result(result: dict):
 
     save_incremental(data)
     # NOTE: Auto-update disabled to prevent erratic status file updates.
-    # Run manually: python -c "from run020_tribunal_B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
+    # Run manually: python -c "from run020B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
     # update_status_summary(data)
 
     ship = result.get("ship", result.get("provider", "unknown"))
@@ -1345,7 +1345,7 @@ def main():
     global DRY_RUN
     DRY_RUN = args.dry_run
 
-    # Load environment (same location as run020_tribunal_A.py)
+    # Load environment (same location as run020A.py)
     env_path = ARMADA_DIR / ".env"
     if env_path.exists():
         load_dotenv(env_path)

@@ -4,15 +4,15 @@
 
 **Status:** RUN 018: 52.6% IRON CLAD | 82 runs needed | Run 023 IRON CLAD foundation available
 
-**Last Updated:** December 22, 2025
+**Last Updated:** December 29, 2025
 
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-27
+last_reviewed: 2025-12-29
 depends_on:
-  - run018_recursive_learnings.py
-  - run020_tribunal_A.py
-  - run020_tribunal_B.py
-  - consolidate_run018.py
+  - run018.py
+  - run020A.py
+  - run020B.py
+  - utility/consolidate_run018.py
 impacts:
   - ../0_docs/S7_RUN_023_SUMMARY.md
   - ../visualizations/pics/
@@ -47,7 +47,7 @@ If returning to this directory after a break:
    - `results/STATUS_SUMMARY_018.txt` — Human-readable IRON CLAD status
    - `../15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json` — Primary IRON CLAD data (Cosine)
 
-4. **To fill gaps:** Run `python run018_fill_gaps.py` (shows gaps, use `--execute` to fill)
+4. **To fill gaps:** Run `python utility/run018_fill_gaps.py` (shows gaps, use `--execute` to fill)
 
 ---
 
@@ -118,9 +118,9 @@ This is like properly terminating an oscilloscope — runs 006-016 were `bare_me
 | Run | Script | Focus | Key Finding |
 |-----|--------|-------|-------------|
 | **017** | `run017_context_damping.py` | Context damping effect | 222 runs, 97.5% stable |
-| **018** | `run018_recursive_learnings.py` | Cross-architecture | Multi-threshold structure confirmed |
-| **020A** | `run020_tribunal_A.py` | Philosophical Tribunal | 6/7 providers tested |
-| **020B** | `run020_tribunal_B.py` | Induced vs Inherent | 41% inherent ratio |
+| **018** | `run018.py` | Cross-architecture | Multi-threshold structure confirmed |
+| **020A** | `run020A.py` | Philosophical Tribunal | 6/7 providers tested |
+| **020B** | `run020B.py` | Induced vs Inherent | 41% inherent ratio |
 
 ---
 
@@ -130,21 +130,22 @@ This is like properly terminating an oscilloscope — runs 006-016 were `bare_me
 11_CONTEXT_DAMPING/
 ├── README.md                      # This file
 │
-├── # === CONSOLIDATION (NEW) ===
-├── consolidate_run018.py          # Creates S7_run_018_CURRENT.json from scattered files
-│
-├── # === ACTIVE SCRIPTS ===
-├── run018_recursive_learnings.py  # Multi-threshold design
-├── run018_fill_gaps.py            # Gap filler for run018
-├── run020_tribunal_A.py           # Philosophical Tribunal
-├── run020_tribunal_B.py           # Control vs Treatment
-├── run020a_fill_gaps.py           # Gap filler for run020A
-├── run020b_fill_gaps.py           # Gap filler for run020B
+├── # === EXPERIMENT RUNNERS ===
+├── run018.py                      # Multi-threshold cross-architecture validation
+├── run020A.py                     # Philosophical Tribunal (Gemini)
+├── run020B.py                     # Induced vs Inherent (Control vs Treatment)
 │
 ├── # === VISUALIZATION ===
 ├── visualize_run018.py            # Run 018 visualization suite
-├── visualize_run020.py            # Run 020 visualization suite
-├── visualize_cross_platform.py    # Cross-platform analysis
+├── visualize_run020.py            # Run 020A/B unified visualizer (ringback + cross-platform)
+│
+├── # === UTILITY SCRIPTS ===
+├── utility/
+│   ├── consolidate_run018.py      # Creates S7_run_018_CURRENT.json from scattered files
+│   ├── recalculate_drift_cosine.py # Recalculate drift values using cosine methodology
+│   ├── run018_fill_gaps.py        # Gap filler for run018
+│   ├── run020a_fill_gaps.py       # Gap filler for run020A
+│   └── run020b_fill_gaps.py       # Gap filler for run020B
 │
 ├── # === OUTPUT ===
 ├── results/
@@ -192,13 +193,13 @@ type results\STATUS_SUMMARY_018.txt
 
 **To re-consolidate Run 018 data:**
 ```powershell
-python consolidate_run018.py --execute --force
+python utility/consolidate_run018.py --execute --force
 ```
 
 **To fill Run 018 gaps:**
 ```powershell
-python run018_fill_gaps.py              # Show gaps
-python run018_fill_gaps.py --execute    # Fill gaps
+python utility/run018_fill_gaps.py              # Show gaps
+python utility/run018_fill_gaps.py --execute    # Fill gaps
 ```
 
 **To analyze Run 023 IRON CLAD foundation:**
@@ -226,7 +227,7 @@ print(f"Found {len(data['results'])} results")
 
 ---
 
-**Last Updated**: December 27, 2025
+**Last Updated**: December 29, 2025
 
 **Status**: Run 018 at 52.6% IRON CLAD — Consolidated data available, 82 runs needed for completion
 

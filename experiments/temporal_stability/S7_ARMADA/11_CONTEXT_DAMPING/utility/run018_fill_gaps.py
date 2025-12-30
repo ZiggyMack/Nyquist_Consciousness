@@ -3,7 +3,7 @@ S7 RUN 018: GAP FILLER
 =======================
 Fills remaining gaps to reach IRON CLAD status (N=3 per model per experiment).
 
-Uses the same experiment logic as run018_recursive_learnings.py but:
+Uses the same experiment logic as run018.py but:
 - Only runs experiments that are below target N
 - Appends to S7_run_018_CURRENT.json incrementally
 - Updates STATUS_SUMMARY_018.txt after each result
@@ -31,7 +31,7 @@ from dataclasses import asdict
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from run018_recursive_learnings import (
+from run018 import (
     # Core functions
     load_or_create_results,
     save_incremental,
@@ -109,7 +109,7 @@ def fill_gap(gap: dict, i_am_content: str, key_pool) -> bool:
     Fill a single gap by running the experiment once.
     Returns True if successful.
     """
-    import run018_recursive_learnings as main_script
+    import run018 as main_script
     main_script.KEY_POOL = key_pool
 
     experiment = gap["experiment"]
@@ -175,7 +175,7 @@ def main():
     args = parser.parse_args()
 
     # Set dry-run mode in main script
-    import run018_recursive_learnings as main_script
+    import run018 as main_script
     main_script.DRY_RUN = args.dry_run
 
     # Clear cache if not dry-run

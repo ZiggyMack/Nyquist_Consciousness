@@ -40,8 +40,8 @@ if env_path.exists():
     print(f"Loaded API keys from: {env_path}")
 
 # NOW import after environment is loaded
-import run020_tribunal_B as main_script
-from run020_tribunal_B import (
+import run020B as main_script
+from run020B import (
     run_control_arm,
     run_exit_survey,
     append_result,

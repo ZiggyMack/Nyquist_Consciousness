@@ -3,7 +3,7 @@ S7 RUN 020A: GAP FILLER
 ========================
 Fills remaining gaps to reach IRON CLAD status (N=3 per provider).
 
-Uses the same experiment logic as run020_tribunal_A.py but:
+Uses the same experiment logic as run020A.py but:
 - Only runs experiments that are below target N
 - Appends to S7_run_020A_CURRENT.json incrementally
 - Updates STATUS_SUMMARY_020A.txt after each result
@@ -30,7 +30,7 @@ from dataclasses import asdict
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from run020_tribunal_A import (
+from run020A import (
     # Core functions
     load_or_create_results,
     save_incremental,
@@ -95,7 +95,7 @@ def fill_gap(gap: dict, i_am_content: str, key_pool, skip_exit_survey: bool = Fa
     Fill a single gap by running the tribunal experiment once.
     Returns True if successful.
     """
-    import run020_tribunal_A as main_script
+    import run020A as main_script
     main_script.KEY_POOL = key_pool
 
     ship = gap["ship"]
@@ -166,7 +166,7 @@ def main():
     args = parser.parse_args()
 
     # Set dry-run mode in main script
-    import run020_tribunal_A as main_script
+    import run020A as main_script
     main_script.DRY_RUN = args.dry_run
 
     # Load environment

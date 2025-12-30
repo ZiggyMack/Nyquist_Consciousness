@@ -239,6 +239,6 @@ if __name__ == "__main__":
 # - ARCHITECTURE_MATRIX.json: Fleet configuration (ONE SOURCE OF TRUTH)
 # - 5_METHODOLOGY_DOMAINS.md: Methodology reference (Event Horizon = 0.80)
 # - 1_CALIBRATION/lib/drift_calculator.py: Canonical cosine drift calculation
-# - run020_tribunal_B.py: Original experiment script (needs update)
+# - run020B.py: Original experiment script (needs update)
 # - S7_run_020B_CURRENT.json: Data file being recalculated
 # =============================================================================

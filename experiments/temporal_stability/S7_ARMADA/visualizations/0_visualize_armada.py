@@ -18,7 +18,7 @@ USAGE:
 SUBDIRECTORY GENERATORS (called by default):
   Root-level:
   - 3_unified_dimensional_view.py -> pics/11_Unified_Dashboard/
-  - 11_CONTEXT_DAMPING/visualize_ringback.py -> pics/14_Ringback/
+  - 11_CONTEXT_DAMPING/visualize_run020.py -> pics/14_Ringback/ + pics/15_Oobleck_Effect/
 
   pics/ subdirectories:
   - pics/8_Radar_Oscilloscope/generate_radar_oscilloscope.py
@@ -2858,12 +2858,12 @@ def run_subdirectory_generators():
 
     Also includes root-level scripts that generate into pics/:
     - 3_unified_dimensional_view.py -> 11_Unified_Dashboard
-    - 11_CONTEXT_DAMPING/visualize_ringback.py -> 14_Ringback
+    - 11_CONTEXT_DAMPING/visualize_run020.py -> 14_Ringback + 15_Oobleck_Effect
     """
     # Root-level scripts that output to pics/
     root_generators = [
         (Path(__file__).parent / "3_unified_dimensional_view.py", Path(__file__).parent),  # -> 11_Unified_Dashboard
-        (BASE_DIR / "11_CONTEXT_DAMPING" / "visualize_ringback.py", BASE_DIR / "11_CONTEXT_DAMPING"),  # -> 14_Ringback
+        (BASE_DIR / "11_CONTEXT_DAMPING" / "visualize_run020.py", BASE_DIR / "11_CONTEXT_DAMPING"),  # -> 14_Ringback + cross-platform
     ]
 
     # pics/ subdirectory generators

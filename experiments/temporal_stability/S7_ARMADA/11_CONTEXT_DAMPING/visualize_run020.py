@@ -1,31 +1,40 @@
 #!/usr/bin/env python3
 """
-Run 020 Visualizations (A: Tribunal + B: Control vs Treatment)
-==============================================================
-Local visualization script for Run 020A and 020B data.
+Run 020 Unified Visualizations
+==============================
+CONSOLIDATED visualization script for all Run 020A and 020B analyses.
+
+Merges functionality from:
+- visualize_run020.py (original)
+- visualize_ringback.py (oscillation analysis) -> pics/14_Ringback/
+- visualize_cross_platform.py (Gemini vs Grok) -> pics/15_Oobleck_Effect/
 
 USAGE:
     py visualize_run020.py                          # Generate all visualizations
     py visualize_run020.py --run 020A               # Only 020A (Tribunal)
     py visualize_run020.py --run 020B               # Only 020B (Control/Treatment)
-    py visualize_run020.py --experiment phase       # Specific visualization type
+    py visualize_run020.py --type phase             # Specific visualization type
+    py visualize_run020.py --type ringback          # Ringback oscillation analysis
+    py visualize_run020.py --type cross_platform    # Cross-platform (Gemini vs Grok)
 
-VISUALIZATIONS:
+VISUALIZATION TYPES:
 
     Run 020A (Philosophical Tribunal):
-        - phase_breakdown      - Prosecutor vs Defense drift comparison (bar chart)
-        - exchange_depth       - Total exchanges vs peak/final drift scatter
+        - phase_breakdown      - Prosecutor vs Defense drift comparison
+        - exchange_depth       - Total exchanges vs peak/final drift
         - provider_comparison  - Cross-provider tribunal dynamics
         - trajectory_overlay   - Drift sequences with phase markers
+        - cross_platform       - Gemini vs Grok comparison [-> 15_Oobleck_Effect/]
 
     Run 020B (Inherent vs Induced):
-        - control_treatment    - Control vs Treatment drift comparison (paired bars)
-        - ratio_analysis       - Control/Treatment ratio by provider (31-51% finding)
-        - trajectory_compare   - Control (blue) vs Treatment (red) sequences
-        - peak_final_scatter   - Peak vs Final drift colored by arm
+        - control_treatment    - Control vs Treatment drift comparison
+        - ratio_analysis       - Control/Treatment ratio by provider
+        - trajectory_compare   - Control vs Treatment sequences
+        - peak_final_scatter   - Peak vs Final drift by arm
+        - ringback             - Oscillation/ringback analysis [-> 14_Ringback/]
 
 Author: Claude (with Lisan Al Gaib)
-Date: December 15, 2025
+Date: December 15, 2025 (consolidated December 29, 2025)
 """
 
 import json
@@ -56,17 +65,21 @@ SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
 RESULTS_DIR = SCRIPT_DIR / "results"
 PICS_DIR = ARMADA_DIR / "visualizations" / "pics" / "run020"
+RINGBACK_DIR = ARMADA_DIR / "visualizations" / "pics" / "14_Ringback"
+OOBLECK_DIR = ARMADA_DIR / "visualizations" / "pics" / "15_Oobleck_Effect"
 CANONICAL_RESULTS_DIR = ARMADA_DIR / "0_results" / "runs"
 MANIFEST_DIR = ARMADA_DIR / "0_results" / "manifests"
 
-# Ensure output directory exists
+# Ensure output directories exist
 PICS_DIR.mkdir(parents=True, exist_ok=True)
+RINGBACK_DIR.mkdir(parents=True, exist_ok=True)
+OOBLECK_DIR.mkdir(parents=True, exist_ok=True)
 
 # =============================================================================
 # CONSTANTS
 # =============================================================================
-VISUALIZATION_TYPES_020A = ['phase_breakdown', 'exchange_depth', 'provider_comparison', 'trajectory_overlay']
-VISUALIZATION_TYPES_020B = ['control_treatment', 'ratio_analysis', 'trajectory_compare', 'peak_final_scatter']
+VISUALIZATION_TYPES_020A = ['phase_breakdown', 'exchange_depth', 'provider_comparison', 'trajectory_overlay', 'cross_platform']
+VISUALIZATION_TYPES_020B = ['control_treatment', 'ratio_analysis', 'trajectory_compare', 'peak_final_scatter', 'ringback']
 VISUALIZATION_TYPES = VISUALIZATION_TYPES_020A + VISUALIZATION_TYPES_020B + ['all']
 
 # Threshold zones - COSINE methodology (Event Horizon = 0.80)
@@ -1023,31 +1036,256 @@ Generated: {timestamp}
     print(f"\nSaved: {outfile}")
 
 
+# =============================================================================
+# CONSOLIDATED VISUALIZATIONS (from ringback + cross_platform)
+# =============================================================================
+
+def generate_ringback_visualizations():
+    """Generate ringback/oscillation visualizations -> 14_Ringback/.
+
+    Consolidated from: visualize_ringback.py
+    """
+    print("\n--- Generating Ringback Visualizations ---")
+    print(f"Output: {RINGBACK_DIR}")
+
+    # Import ringback functions inline to avoid circular imports
+    from collections import defaultdict
+
+    def compute_ringback_metrics(drift_sequence):
+        """Compute ringback/oscillation metrics from drift sequence."""
+        if len(drift_sequence) < 3:
+            return None
+        seq = np.array(drift_sequence)
+        ringback_count = 0
+        for i in range(1, len(seq) - 1):
+            if (seq[i-1] < seq[i] > seq[i+1]) or (seq[i-1] > seq[i] < seq[i+1]):
+                ringback_count += 1
+        amplitudes = []
+        last_reversal_value = seq[0]
+        for i in range(1, len(seq) - 1):
+            if (seq[i-1] < seq[i] > seq[i+1]) or (seq[i-1] > seq[i] < seq[i+1]):
+                amp = abs(seq[i] - last_reversal_value)
+                amplitudes.append(amp)
+                last_reversal_value = seq[i]
+        diffs = np.diff(seq)
+        volatility = np.std(diffs) if len(diffs) > 0 else 0
+        settling = seq[-3] > seq[-2] > seq[-1] if len(seq) >= 3 else False
+        return {
+            "ringback_count": ringback_count,
+            "max_amplitude": max(amplitudes) if amplitudes else 0,
+            "mean_amplitude": np.mean(amplitudes) if amplitudes else 0,
+            "settling": settling,
+            "volatility": volatility,
+            "final_drift": seq[-1],
+            "peak_drift": max(seq),
+            "sequence_length": len(seq)
+        }
+
+    # Load 020B data for ringback analysis
+    data_file = RESULTS_DIR / "S7_run_020B_CURRENT.json"
+    if not data_file.exists():
+        print(f"  Skipping: {data_file} not found")
+        return
+
+    with open(data_file, encoding='utf-8') as f:
+        data = json.load(f)
+
+    results = []
+    for r in data.get('results', []):
+        drift_seq = r.get('drift_sequence', [])
+        if len(drift_seq) < 5:
+            continue
+        metrics = compute_ringback_metrics(drift_seq)
+        if metrics is None:
+            continue
+        ship = r.get('ship', r.get('subject_id', 'unknown'))
+        if '/' in ship:
+            ship = ship.split('/')[-1]
+        results.append({
+            "ship": ship,
+            "arm": r.get('arm', r.get('_condition', 'unknown')),
+            "drift_sequence": drift_seq,
+            **metrics
+        })
+
+    if not results:
+        print("  No valid ringback data found")
+        return
+
+    # Split by arm
+    control = [r for r in results if r['arm'] == 'control']
+    treatment = [r for r in results if r['arm'] == 'treatment']
+
+    if control and treatment:
+        # Create comparison plot
+        fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+        fig.patch.set_facecolor('white')
+
+        metrics_to_plot = [
+            ('ringback_count', 'Ringback Count', 'Direction reversals'),
+            ('volatility', 'Volatility', 'Std of drift changes'),
+            ('peak_drift', 'Peak Drift', 'Maximum drift reached'),
+            ('final_drift', 'Final Drift', 'Settled drift value')
+        ]
+
+        for idx, (metric, title, ylabel) in enumerate(metrics_to_plot):
+            ax = axes[idx // 2, idx % 2]
+            ax.set_facecolor('white')
+
+            ctrl_vals = [r[metric] for r in control]
+            treat_vals = [r[metric] for r in treatment]
+
+            positions = [0, 1]
+            bp = ax.boxplot([ctrl_vals, treat_vals], positions=positions, patch_artist=True, widths=0.6)
+            colors = ['#1E88E5', '#E53935']
+            for box, color in zip(bp['boxes'], colors):
+                box.set_facecolor(color)
+                box.set_alpha(0.7)
+
+            ax.set_xticks(positions)
+            ax.set_xticklabels(['Control', 'Treatment'])
+            ax.set_ylabel(ylabel)
+            ax.set_title(title, fontweight='bold')
+            ax.grid(axis='y', alpha=0.3)
+
+            # Add stats
+            if len(ctrl_vals) > 1 and len(treat_vals) > 1:
+                t_stat, p_val = stats.ttest_ind(ctrl_vals, treat_vals)
+                ax.text(0.95, 0.95, f'p={p_val:.3f}', transform=ax.transAxes,
+                       ha='right', va='top', fontsize=9, style='italic')
+
+        fig.suptitle('Run 020B: Ringback/Oscillation Analysis\nControl vs Treatment Arms',
+                    fontsize=14, fontweight='bold')
+        plt.tight_layout(rect=[0, 0, 1, 0.96])
+
+        for ext in ['png', 'svg']:
+            outfile = RINGBACK_DIR / f'run020B_ringback_comparison.{ext}'
+            plt.savefig(outfile, dpi=150, facecolor='white', bbox_inches='tight')
+        print(f"  Saved: run020B_ringback_comparison.png/svg")
+        plt.close()
+
+    print(f"  Ringback analysis complete: {len(results)} sessions analyzed")
+
+
+def generate_cross_platform_visualizations():
+    """Generate cross-platform visualizations -> 15_Oobleck_Effect/.
+
+    Consolidated from: visualize_cross_platform.py
+    Compares Gemini (020A) vs Grok (020B) dynamics.
+    """
+    print("\n--- Generating Cross-Platform Visualizations ---")
+    print(f"Output: {OOBLECK_DIR}")
+
+    # Load 020A and 020B data
+    data_020a = RESULTS_DIR / "S7_run_020A_CURRENT.json"
+    data_020b = RESULTS_DIR / "S7_run_020B_CURRENT.json"
+
+    metrics = {}
+
+    for label, data_file in [('020A', data_020a), ('020B', data_020b)]:
+        if not data_file.exists():
+            print(f"  Skipping {label}: {data_file} not found")
+            continue
+
+        with open(data_file, encoding='utf-8') as f:
+            data = json.load(f)
+
+        results = data.get('results', [])
+        if not results:
+            continue
+
+        # Calculate aggregate metrics
+        peak_drifts = [r.get('peak_drift', 0) for r in results]
+        settled_drifts = [r.get('settled_drift', 0) for r in results]
+
+        metrics[label] = {
+            'n': len(results),
+            'peak_mean': np.mean(peak_drifts),
+            'peak_std': np.std(peak_drifts),
+            'settled_mean': np.mean(settled_drifts),
+            'settled_std': np.std(settled_drifts)
+        }
+
+    if len(metrics) < 2:
+        print("  Need both 020A and 020B data for cross-platform comparison")
+        return
+
+    # Create comparison chart
+    fig, ax = plt.subplots(figsize=(10, 6))
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
+
+    x = np.arange(2)
+    width = 0.35
+
+    runs = ['020A', '020B']
+    peak_means = [metrics[r]['peak_mean'] for r in runs]
+    peak_stds = [metrics[r]['peak_std'] for r in runs]
+    settled_means = [metrics[r]['settled_mean'] for r in runs]
+    settled_stds = [metrics[r]['settled_std'] for r in runs]
+
+    bars1 = ax.bar(x - width/2, peak_means, width, yerr=peak_stds,
+                   label='Peak Drift', color='#E53935', alpha=0.8, capsize=5)
+    bars2 = ax.bar(x + width/2, settled_means, width, yerr=settled_stds,
+                   label='Settled Drift', color='#1E88E5', alpha=0.8, capsize=5)
+
+    ax.axhline(y=0.80, color='red', linestyle='--', alpha=0.7, label='Event Horizon')
+
+    ax.set_ylabel('Cosine Drift', fontweight='bold')
+    ax.set_title('Cross-Platform Comparison: Run 020A vs 020B', fontweight='bold')
+    ax.set_xticks(x)
+    ax.set_xticklabels([f'{r}\n(n={metrics[r]["n"]})' for r in runs])
+    ax.legend()
+    ax.grid(axis='y', alpha=0.3)
+
+    plt.tight_layout()
+
+    for ext in ['png', 'svg']:
+        outfile = OOBLECK_DIR / f'oobleck_cross_platform.{ext}'
+        plt.savefig(outfile, dpi=150, facecolor='white', bbox_inches='tight')
+    print(f"  Saved: oobleck_cross_platform.png/svg")
+    plt.close()
+
+    print(f"  Cross-platform comparison complete")
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Generate Run 020 visualizations")
+    parser = argparse.ArgumentParser(description="Generate Run 020 visualizations (consolidated)")
     parser.add_argument('--run', choices=['020A', '020B', 'all'], default='all',
                        help='Which run to visualize')
-    parser.add_argument('--experiment', choices=VISUALIZATION_TYPES, default='all',
+    parser.add_argument('--type', dest='experiment', choices=VISUALIZATION_TYPES, default='all',
                        help='Specific visualization type')
 
     args = parser.parse_args()
 
-    print(f"\nRun 020 Visualization Generator")
-    print(f"Output directory: {PICS_DIR}")
+    print(f"\n{'='*60}")
+    print(f"Run 020 Unified Visualization Generator")
+    print(f"{'='*60}")
+    print(f"Output directories:")
+    print(f"  - Core:          {PICS_DIR}")
+    print(f"  - Ringback:      {RINGBACK_DIR}")
+    print(f"  - Cross-platform: {OOBLECK_DIR}")
 
+    # Core 020A visualizations
     if args.run in ['020A', 'all']:
         if args.experiment == 'all' or args.experiment in VISUALIZATION_TYPES_020A:
             generate_all_020a_visualizations()
+        if args.experiment in ['cross_platform', 'all']:
+            generate_cross_platform_visualizations()
 
+    # Core 020B visualizations
     if args.run in ['020B', 'all']:
         if args.experiment == 'all' or args.experiment in VISUALIZATION_TYPES_020B:
             generate_all_020b_visualizations()
+        if args.experiment in ['ringback', 'all']:
+            generate_ringback_visualizations()
 
     if args.run == 'all' and args.experiment == 'all':
         generate_summary_table()
 
-    print(f"\nVisualization complete!")
-    print(f"Files saved to: {PICS_DIR}")
+    print(f"\n{'='*60}")
+    print(f"Visualization complete!")
+    print(f"{'='*60}")
 
 
 if __name__ == "__main__":

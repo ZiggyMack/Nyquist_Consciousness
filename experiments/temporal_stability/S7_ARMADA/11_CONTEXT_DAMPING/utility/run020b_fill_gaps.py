@@ -3,14 +3,14 @@ S7 RUN 020B: GAP FILLER
 ========================
 Fills remaining gaps to reach IRON CLAD status (N=3 per ship per arm).
 
-Uses the same experiment logic as run020_tribunal_B.py but:
+Uses the same experiment logic as run020B.py but:
 - Only runs experiments that are below target N
 - Appends to S7_run_020B_CURRENT.json incrementally
 - Tracks BOTH control and treatment arms per ship
 
 NOTE: STATUS_SUMMARY_020B.txt is NOT updated automatically to avoid race
 conditions. Regenerate it manually after gap filling with:
-  python -c "from run020_tribunal_B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
+  python -c "from run020B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
 
 Usage:
   py run020b_fill_gaps.py                    # Show gaps, don't run
@@ -36,7 +36,7 @@ from dataclasses import asdict
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from run020_tribunal_B import (
+from run020B import (
     # Core functions
     load_or_create_results,
     save_incremental,
@@ -122,7 +122,7 @@ def fill_gap(gap: dict, key_pool, skip_exit_survey: bool = False) -> bool:
     Fill a single gap by running the appropriate experiment arm once.
     Returns True if successful.
     """
-    import run020_tribunal_B as main_script
+    import run020B as main_script
     main_script.KEY_POOL = key_pool
 
     ship = gap["ship"]
@@ -180,7 +180,7 @@ def fill_gap(gap: dict, key_pool, skip_exit_survey: bool = False) -> bool:
 
         # NOTE: Status summary is NOT updated here to avoid race conditions
         # and file corruption. Regenerate manually with:
-        #   python -c "from run020_tribunal_B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
+        #   python -c "from run020B import update_status_summary, load_or_create_results; update_status_summary(load_or_create_results())"
 
         print(f"  [SUCCESS] {ship}/{arm} completed")
         return True
@@ -217,7 +217,7 @@ def main():
     skip_ships = set(s.strip() for s in args.skip.split(",") if s.strip())
 
     # Set dry-run mode in main script
-    import run020_tribunal_B as main_script
+    import run020B as main_script
     main_script.DRY_RUN = args.dry_run
 
     # Load environment

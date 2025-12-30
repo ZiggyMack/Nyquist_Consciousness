@@ -1959,9 +1959,9 @@ Fleet Options (--providers):
     all, armada (= armada-lite)
 
 Examples:
-  py run018_recursive_learnings.py -e architecture --providers patrol-lite
-  py run018_recursive_learnings.py -e threshold --providers anthropic,openai
-  py run018_recursive_learnings.py -e all --providers armada-lite --dry-run
+  py run018.py -e architecture --providers patrol-lite
+  py run018.py -e threshold --providers anthropic,openai
+  py run018.py -e all --providers armada-lite --dry-run
         """
     )
     parser.add_argument("--experiment", "-e", type=str, default="all",
