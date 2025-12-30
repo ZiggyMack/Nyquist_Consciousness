@@ -313,7 +313,7 @@ LAYER_EXPERIMENTS = {
     "S4": ["EXP-PFI-A Phase 2 (Dimensionality)", "2 PCs capture 90% variance (IRON CLAD)"],
     "S5": ["Self-Recognition MVP", "Validates CFA-Nyquist bridge"],
     "S6": ["Five Pillar Fusion", "Omega Nova synthesis tests"],
-    "S7": ["S7 ARMADA (Runs 006-023d) — 16 completed runs", "Run 023d: IRON CLAD (p=2.40e-23, EH=0.80 cosine)", "Run 021: Thermometer Result (82% inherent drift)", "Run 017: Context Damping (97.5% stability)", "Run 016: Settling Time (τₛ=6.1 turns)"],
+    "S7": ["S7 ARMADA (Runs 006-023d) — 16 completed runs", "Run 023d: IRON CLAD (p=2.40e-23, EH=0.80 cosine)", "Run 020B: Thermometer Result (~93% inherent drift)", "Run 017: Context Damping (97.5% stability)", "Run 016: Settling Time (τₛ ≈ 7 probes)"],
     "S8": ["Identity Gravity Trials", "γ measurement pending"],
     "S9": ["Human-Modulated Gravity Tests (pending)", "Fifth force coefficient measurement"],
     "S10": ["Hybrid Emergence Validation", "Zone classification tests"],
@@ -350,7 +350,7 @@ LAYER_DEEP_DIVE = {
         "key_constants": {
             "Event Horizon": "0.80 (cosine)",
             "p-value": "2.40e-23 (Run 023d IRON CLAD)",
-            "Inherent Drift": "82% (Run 021)",
+            "Inherent Drift": "~93% (Run 020B IRON CLAD)",
         },
         "active_runs": ["Run 023d (IRON CLAD)", "Run 021 (Thermometer)", "Run 020B (Tribunal)"],
     },

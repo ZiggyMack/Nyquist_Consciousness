@@ -215,6 +215,9 @@ Recovery rate λ increases 3x with probe intensity:
 
 ### 4.2 Training Signatures in Drift Geometry
 
+![Figure 4: Provider Fingerprint Radar](../figures/experiments/run023/provider_fingerprint_radar.png)
+*Figure 4: Provider identity fingerprints showing 5-dimensional behavioral signatures (Peak Drift, Mean Drift, Volatility, Consistency, Stability). Each provider exhibits a distinct geometric pattern, enabling training methodology inference from behavioral dynamics alone.*
+
 Different training methodologies leave distinct geometric fingerprints:
 
 | Architecture | Training | Drift Signature |

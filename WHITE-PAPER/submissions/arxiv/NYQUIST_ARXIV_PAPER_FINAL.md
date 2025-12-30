@@ -18,7 +18,7 @@
 
 ## 1. Introduction
 
-![Figure 1: Identity Manifold](../figures/generated/png/fig1_identity_manifold.png)
+![Figure 1: Identity Manifold](../figures/conceptual/pics/fig1_identity_manifold_CONCEPTUAL.png)
 *Figure 1: Identity exists as a low-dimensional attractor in high-dimensional embedding space. Compression finds coordinates (C), reconstruction returns to the basin (R), and drift (D) measures deviation from the original manifold.*
 
 The stability of behavioral characteristics in Large Language Models (LLMs) during extended interactions represents a fundamental challenge for deployment in critical applications. While existing evaluation frameworks focus on output quality metrics—accuracy, helpfulness, safety, and value alignment—they fail to address a more fundamental question: **does the system maintain consistent identity across interactions?**
@@ -188,7 +188,7 @@ This enables prediction of:
 
 ### 3.6 Experimental Design
 
-![Figure 2: Experimental Pipeline](../figures/generated/png/fig3_pipeline.png)
+![Figure 2: Experimental Pipeline](../figures/conceptual/pics/fig3_pipeline_CONCEPTUAL.png)
 *Figure 2: The S3→S6 experimental pipeline. S3 (Empirical Validation) generates cross-architecture data; S4 (Mathematical Formalism) provides operators; S5 (Interpretive Layer) identifies fragility hierarchy; S6 (Omega Synthesis) achieves drift cancellation through multi-architecture triangulation.*
 
 We conducted 21 distinct experimental runs across two eras, culminating in IRON CLAD validation (N>=3 per experimental cell):
@@ -252,6 +252,9 @@ Consistent across text-embedding-3-large/small/ada. Not a single-embedding artif
 | Raw dimensions | 3072 | 3072 |
 | **90% variance PCs** | **2** | 43 |
 | 95% variance PCs | ~3 | 67 |
+
+![Figure: Variance Curve - 2 PCs = 90%](../figures/experiments/run023/variance_curve.png)
+*Figure: Cumulative explained variance showing 2 principal components capture 90% of identity variance in cosine methodology (vs 43 PCs in legacy Euclidean). This dramatic dimensionality reduction demonstrates identity operates on a remarkably concentrated manifold.*
 
 Identity operates on a remarkably low-dimensional manifold. The dramatic reduction (43→2 PCs) reflects cosine distance's focus on directional similarity, isolating the core identity signal.
 

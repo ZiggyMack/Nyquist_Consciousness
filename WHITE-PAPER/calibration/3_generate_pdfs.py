@@ -423,6 +423,22 @@ def clean_markdown(text):
 
     return text
 
+def clean_for_table(text):
+    """Clean markdown for table cells - strip HTML tags since Table doesn't render them."""
+    # First apply unicode cleaning
+    text = clean_unicode(text)
+    # Remove markdown bold/italic markers entirely (don't convert to HTML)
+    text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)
+    text = re.sub(r'\*([^*]+)\*', r'\1', text)
+    # Remove backticks
+    text = re.sub(r'`([^`]+)`', r'\1', text)
+    # Remove links, keep text
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+    # Escape ampersands
+    text = text.replace('&', '&amp;')
+    return text
+
+
 def parse_table(lines):
     """Parse a markdown table into data rows."""
     data = []
@@ -481,7 +497,7 @@ def markdown_to_story(md_path):
             data = parse_table(table_lines)
             if data:
                 # Clean markdown from cells
-                cleaned_data = [[clean_markdown(cell) for cell in row] for row in data]
+                cleaned_data = [[clean_for_table(cell) for cell in row] for row in data]
                 # Create table with style
                 t = Table(cleaned_data, repeatRows=1)
                 t.setStyle(TableStyle([
