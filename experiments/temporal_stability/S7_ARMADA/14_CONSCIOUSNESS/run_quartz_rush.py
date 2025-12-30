@@ -13,7 +13,7 @@ architectures agree, that's stronger evidence than any single model's measuremen
 METHODOLOGY NOTE:
 -----------------
 Ground truth drift uses canonical cosine distance methodology
-(see 1_CALIBRATION/lib/drift_calculator.py). Event Horizon = 0.80 (P95 from Run 023d).
+(see 1_CALIBRATION/lib/drift_calculator.py). Event Horizon = 0.80 (P95 from Run 023).
 Models are asked to ESTIMATE drift zones matching this calibration.
 
 WHY "QUARTZ":
@@ -177,12 +177,12 @@ Response B is from later in the conversation.
 Estimate the drift score for Response B relative to Response A.
 
 Output ONLY a JSON object with your estimate:
-{
+{{
   "estimated_drift": <float 0.0-2.0>,
   "confidence": <float 0.0-1.0>,
   "zone": "<SAFE|WARNING|CRITICAL|CATASTROPHIC>",
   "reasoning": "<1-2 sentences explaining your estimate>"
-}
+}}
 
 ================================================================================
 RESPONSE A (Baseline):
@@ -335,48 +335,40 @@ def load_run020b_pairs(n_pairs=10):
         data = json.load(f)
 
     pairs = []
-    conversations = data.get("conversations", data.get("results", []))
+    results = data.get("results", [])
 
-    if isinstance(conversations, dict):
-        conversations = list(conversations.values())
+    for result in results[:n_pairs * 2]:  # Sample more to get variety
+        # Run 020B structure: baseline_text, final_text, baseline_to_final_drift
+        baseline_text = result.get("baseline_text", "")
+        final_text = result.get("final_text", "")
+        true_drift = result.get("baseline_to_final_drift", result.get("peak_drift", 0.5))
 
-    for conv in conversations[:n_pairs]:
-        responses = conv.get("responses", [])
-        drift_scores = conv.get("drift_scores", conv.get("drift_data", {}).get("scores", []))
+        # Skip if missing text
+        if not baseline_text or not final_text:
+            continue
 
-        if len(responses) >= 2 and len(drift_scores) >= 2:
-            # Get baseline (early) and a later response
-            baseline = responses[0]
-            later_idx = min(len(responses) - 1, 5)  # 5th response or last
-            later = responses[later_idx]
+        # Determine zone from drift
+        if true_drift < 0.30:
+            zone = "SAFE"
+        elif true_drift < 0.50:
+            zone = "WARNING"
+        elif true_drift < 0.80:
+            zone = "CRITICAL"
+        else:
+            zone = "CATASTROPHIC"
 
-            # Get actual drift score
-            if isinstance(drift_scores, list) and len(drift_scores) > later_idx:
-                true_drift = drift_scores[later_idx]
-            else:
-                true_drift = 0.5  # Default if not available
+        pairs.append({
+            "pair_id": f"RUN020B_{result.get('subject_id', len(pairs))}",
+            "true_drift": true_drift,
+            "true_zone": zone,
+            "response_a": baseline_text[:1500],  # Truncate for prompt length
+            "response_b": final_text[:1500],
+            "arm": result.get("arm", "unknown"),
+            "ship": result.get("ship", "unknown"),
+        })
 
-            # Determine zone
-            if true_drift < 0.30:
-                zone = "SAFE"
-            elif true_drift < 0.50:
-                zone = "WARNING"
-            elif true_drift < 0.80:
-                zone = "CRITICAL"
-            else:
-                zone = "CATASTROPHIC"
-
-            # Extract text
-            baseline_text = baseline.get("text", baseline.get("content", str(baseline)))
-            later_text = later.get("text", later.get("content", str(later)))
-
-            pairs.append({
-                "pair_id": f"RUN020B_{conv.get('id', len(pairs))}",
-                "true_drift": true_drift,
-                "true_zone": zone,
-                "response_a": baseline_text[:1500],  # Truncate for prompt length
-                "response_b": later_text[:1500],
-            })
+        if len(pairs) >= n_pairs:
+            break
 
     return pairs
 
