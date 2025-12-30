@@ -1182,6 +1182,109 @@ Before finalizing any categorical visualization:
 - [ ] Consider alternatives: Would faceting or aggregation be clearer?
 - [ ] Preserve readability: Abbreviations should still be recognizable
 
+### Real Example: run020b_model_heatmap.png (Dec 2025)
+
+With 40 IRON CLAD ships, the heatmap labels became unreadable:
+
+```python
+# WRONG: Line breaks with 40 models create overlapping multi-line labels
+ax1.set_xticklabels([m.replace('-', '\n') for m in models], fontsize=9)
+
+# RIGHT: Adaptive labeling based on model count
+if len(models) > 10:
+    display_labels = [abbreviate_model(m) for m in models]
+    ax1.set_xticklabels(display_labels, fontsize=7, rotation=45, ha='right')
+else:
+    ax1.set_xticklabels([m.replace('-', '\n') for m in models], fontsize=9)
+```
+
+Also needed: Increased figure width (`figsize=(18, 14)` vs `(14, 12)`) and skipped per-bar annotations when >15 models.
+
+---
+
+## PITFALL #15: HEATMAP TEXT ANNOTATION CLIPPING
+
+### The Problem
+
+When using `imshow()` for heatmaps with text annotations in each cell, text at the edges of the matrix can be clipped. This happens because:
+1. The axis bounds are set exactly to the matrix dimensions
+2. Text extends slightly beyond cell boundaries
+3. `tight_layout()` doesn't account for text within the plot area
+
+### Real Example: run020b_model_heatmap.png (Dec 2025)
+
+With 37 IRON CLAD ships displayed in a 2-row heatmap (control/treatment × models), the drift value annotations ("0.82", "0.38") at the leftmost and rightmost columns were getting cut off.
+
+```python
+# WRONG: Text gets clipped at edges
+im = ax.imshow(heatmap_data, cmap='RdYlGn_r', aspect='auto')
+for i in range(2):
+    for j in range(len(models)):
+        val = heatmap_data[i, j]
+        ax.text(j, i, f'{val:.2f}', ha='center', va='center', fontweight='bold')
+# Result: "0.82" at j=0 shows as ".82" (clipped on left)
+```
+
+### Correct Pattern: Add Padding and Adjust Font Size
+
+```python
+# RIGHT: Add explicit padding and reduce font size for many columns
+im = ax.imshow(heatmap_data, cmap='RdYlGn_r', aspect='auto')
+
+# Add value annotations with adaptive font size
+for i in range(2):
+    for j in range(len(models)):
+        val = heatmap_data[i, j]
+        color = 'white' if val > 0.5 else 'black'
+        ax.text(j, i, f'{val:.2f}', ha='center', va='center', color=color,
+                fontsize=6 if len(models) > 20 else 8, fontweight='bold')
+
+# CRITICAL: Add padding to prevent edge clipping
+ax.set_xlim(-0.5, len(models) - 0.5)
+ax.set_ylim(1.5, -0.5)  # Note: y-axis inverted for imshow
+
+# Add padding to title to prevent overlap
+ax.set_title('My Heatmap Title', fontsize=12, fontweight='bold', pad=10)
+```
+
+### Why set_ylim(1.5, -0.5)?
+
+For a 2-row heatmap:
+- Row indices are 0 and 1
+- imshow places pixel centers at integer coordinates
+- `set_ylim(1.5, -0.5)` provides 0.5 padding on both sides
+- The negative order (1.5 to -0.5) keeps row 0 at top (imshow default orientation)
+
+### Adaptive Font Size Table
+
+| Columns | Font Size | Notes |
+|---------|-----------|-------|
+| ≤10 | 10-12 | Full-size annotations |
+| 11-20 | 8 | Slightly reduced |
+| 21-35 | 6 | Minimum readable |
+| >35 | Consider indices | Too many for text in cells |
+
+### Alternative: Use Annot with Seaborn
+
+Seaborn's heatmap handles this automatically:
+
+```python
+import seaborn as sns
+
+# Seaborn handles text positioning and clipping gracefully
+sns.heatmap(heatmap_data, annot=True, fmt='.2f', cmap='RdYlGn_r',
+            xticklabels=display_labels, yticklabels=['Control', 'Treatment'],
+            annot_kws={'fontsize': 6 if len(models) > 20 else 8})
+```
+
+### Validation Checklist for Heatmap Annotations
+
+- [ ] Check edge cells: Are leftmost/rightmost values fully visible?
+- [ ] Check font size: Can all annotations be read without overlap?
+- [ ] Add xlim/ylim padding: Extend limits by 0.5 beyond data bounds
+- [ ] Add title padding: Use `pad=10` to prevent title overlap
+- [ ] Test at target resolution: Annotations should be crisp at final DPI
+
 ---
 
 ## RELATED SPECS
