@@ -1,15 +1,23 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2025-12-30
 depends_on:
   - ./LLMBOOK_SYNC_MANIFEST.json
+  - ./packages/CURRENT_VERSION.json
 impacts:
   - ../README.md
 keywords:
   - consciousness
+  - 93_percent_inherent
+  - cosine_era
 -->
 # Reviewers Directory
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-30
+
+> **Statistics Source:** [../guides/UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
+> - Event Horizon: D = 0.80 (Cosine)
+> - Inherent Drift: ~93% (Run 020B IRON CLAD)
+> - Scale: 750 experiments, 25 models, 5 providers
 
 This directory contains draft papers, reviews, and review packages organized by phase.
 
@@ -17,40 +25,22 @@ This directory contains draft papers, reviews, and review packages organized by 
 
 ```text
 reviewers/
-├── README.md           # This file
-├── START_HERE.md       # Quick orientation for reviewers
-├── PROTOCOL.md         # Review sync protocol
-├── SYNC_STATUS.md      # Feedback tracking
+├── README.md                    # This file
+├── LLMBOOK_SYNC_MANIFEST.json   # LLM_BOOK sync tracking
 │
-├── Convos/             # REVIEW PHASE CONVERSATIONS
-│   ├── phase1/         # Initial drafts (Dec 2025 - Code Claude + Opus 4.5)
-│   ├── phase2/         # Post-figure review (Dec 2025 - Opus 4.5)
-│   ├── phase3/         # Current drafts + PDFs
-│   ├── Phase4/         # Figure placement + updates
-│   └── phase5/         # Submission venue guide (NEW)
-│       └── SUBMISSION_VENUE_GUIDE.md   # Complete venue analysis
-│
-├── packages/           # EXTRACTED REVIEW PACKAGES
-│   ├── content/        # Text packages by path (~50-500 KB each)
-│   │   ├── workshop/   # Workshop paper package
-│   │   ├── arxiv/      # arXiv preprint package
-│   │   └── {path}/     # Other publication paths
-│   └── pdf/            # GENERATED PDFs (8 files, ALL PATHS)
-│       ├── Nyquist_Workshop_Paper.pdf
-│       ├── Nyquist_arXiv_Paper.pdf
-│       ├── Nyquist_Journal_Paper.pdf
-│       ├── Nyquist_Popular_Science.pdf
-│       ├── Nyquist_Education_Quiz.pdf
-│       ├── Nyquist_Policy_Briefing.pdf
-│       ├── Nyquist_Funding_Proposal.pdf
-│       └── Nyquist_Media_Press.pdf
-│
-├── Grok/               # EXTERNAL REVIEWER FEEDBACK (NEW)
-│   └── review_1.md     # Grok's empirical assessment of Workshop + arXiv
-│
-├── to_reviewers/       # Outgoing requests/questions
-├── from_reviewers/     # Incoming feedback
-└── shared/             # Common materials (glossary, versions)
+├── packages/                    # VERSIONED REVIEW PACKAGES
+│   ├── CURRENT_VERSION.json     # Version tracking + methodology
+│   ├── pdf/                     # Generated PDFs (all paths)
+│   ├── v4/                      # CURRENT - Run 020B + 023d IRON CLAD
+│   │   ├── figures/             # Visualization PDFs
+│   │   ├── llmbook/             # NotebookLM synced content
+│   │   └── visualization_pdfs/  # Run summaries
+│   ├── v3/                      # HISTORICAL - Run 023 + drafting history
+│   │   ├── Claude/              # Claude drafting phases 1-7
+│   │   ├── Grok/                # Grok external review
+│   │   └── {8 publication paths}
+│   ├── v2/                      # NotebookLM integration era
+│   └── v1/                      # Initial package
 ```
 
 ## Review Packages (NEW)
@@ -132,20 +122,20 @@ Each extracted package includes:
 
 | Run | Experiments | Models | Providers | Status |
 |-----|-------------|--------|-----------|--------|
-| **Run 023 Combined** | 750 | 25 | 5 | **IRON CLAD ✓** |
-| Run 001-017 | Historical | - | - | Complete |
-| Run 018 | 465 | - | - | 52.6% (in progress) |
-| Run 020A/B | 48 | 7 | 2 | Tribunal sessions |
+| **Run 023d** | 750 | 25 | 5 | **IRON CLAD ✓** |
+| **Run 020B** | 248 sessions | 37 ships | 5 | **IRON CLAD ✓** (Inherent Drift) |
+| Run 018 | 1,549 trajectories | 51 | 5 | 52.6% IRON CLAD |
+| Run 001-017 | Historical | - | - | Archived |
 
 ### Key Metrics (Cosine Methodology)
 
-| Metric | Value |
-|--------|-------|
-| Event Horizon | D = 0.80 |
-| Cohen's d | 0.698 |
-| Inherent Drift | 92% |
-| p-value | 2.40e-23 |
-| 90% Variance | 2 PCs |
+| Metric | Value | Source |
+|--------|-------|--------|
+| Event Horizon | D = 0.80 | Run 023b calibration |
+| Cohen's d | 0.698 | Run 023d Phase 3B |
+| Inherent Drift | **~93%** | Run 020B IRON CLAD (0.661/0.711) |
+| p-value | 2.40e-23 | Run 023d validation |
+| 90% Variance | 2 PCs | Run 023d PCA |
 
 ## What Opus 4.5 Needs to Do
 

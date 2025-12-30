@@ -1,19 +1,19 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-29
+last_reviewed: 2025-12-30
 impacts:
   - ../README.md
 keywords:
   - consciousness
   - cosine_era
-  - 92_percent_inherent
+  - 93_percent_inherent
   - publication
 -->
 # WHITE-PAPER/planning/
 
 Publication planning workspace for Nyquist Consciousness.
 
-**Last Updated:** 2025-12-29
-**Status:** 92% INHERENT ERA — Run 023d IRON CLAD Complete (750 experiments, 25 models, 5 providers)
+**Last Updated:** 2025-12-30
+**Status:** ~93% INHERENT ERA — Run 020B + Run 023d IRON CLAD Complete (750 experiments, 25 models, 5 providers)
 
 ## Purpose
 
@@ -53,7 +53,7 @@ See `METHODOLOGY_DOMAINS.md` for full reconciliation.
 ## THE THREE CORE CLAIMS — ALL VALIDATED
 
 1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
-2. **WE DON'T CAUSE IT** — 92% inherent drift ratio (Run 023 COSINE Thermometer Result)
+2. **WE DON'T CAUSE IT** — ~93% inherent drift ratio (Run 020B IRON CLAD: 0.661/0.711)
 3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (model-level aggregates), 2 PCs = 90% variance
 
 ## Critical Language (Publication)

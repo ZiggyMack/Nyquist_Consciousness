@@ -1,8 +1,14 @@
 # Nova's Overclaiming Prevention Guidance
 
 **Created:** 2025-12-13
+**Updated:** 2025-12-30
 **Source:** `docs/CFA-SYNC/S7_REVIEW/REVIEW_1.md` (lines 4056-4070, 4542-4550, 5164-5174)
 **Purpose:** Quick reference for publication credibility
+
+> **Statistics Source:** [UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
+> - Event Horizon: D = 0.80 (Cosine methodology)
+> - Inherent Drift: ~93% (Run 020B IRON CLAD)
+> - PCs for 90% variance: **2** (not 43 from Keyword RMS era)
 
 ---
 
@@ -60,7 +66,9 @@ From REVIEW_1.md lines 4095-4097:
 
 From REVIEW_1.md lines 5164-5174:
 
-**NOT:** "Identity has 43 dimensions."
+**NOT:** "Identity has 43 dimensions." *(Legacy Keyword RMS — now superseded)*
+
+**CURRENT (Cosine):** "Identity responses evolve along **2 dominant modes** that explain 90% of variance."
 
 **BUT:** "Under a fixed probe ensemble, identity responses evolve along a small number of dominant modes, far fewer than representational dimensionality, and these modes exhibit consistent geometric and dynamical structure across runs."
 
@@ -73,7 +81,7 @@ From REVIEW_1.md lines 5164-5174:
 | "identity collapses into generic AI mode" | "system transitions to provider-level attractor" |
 | "Event Horizon = catastrophic failure" | "Event Horizon = attractor competition threshold" |
 | "collapse" | "regime transition" or "basin exit" |
-| "magic number 1.23" | "critical excitation threshold D≈1.23" |
+| "magic number 1.23" | "critical excitation threshold D = 0.80" *(Cosine; was 1.23 in Keyword RMS)* |
 | "Platonic coordinates" | "attractor basin return" |
 | "identity death" | "transient excitation boundary" |
 
@@ -99,17 +107,17 @@ That's a legitimate scientific posture.
 
 ---
 
-## Run 023's Devastating Counter to Skeptics (COSINE ERA)
+## Run 020B's Devastating Counter to Skeptics (IRON CLAD ERA)
 
-The **92% finding** answers "you're just causing it":
+The **~93% finding** answers "you're just causing it":
 
 - **Control (no identity probing):** B→F drift = 0.661
 - **Treatment (full tribunal):** B→F drift = 0.711
-- **Ratio:** 92%
+- **Ratio:** ~93% (0.661/0.711)
 
 Most of what you're calling drift happens even when you never ask about identity at all.
 
-*(Historical: Run 021 found 82% with Keyword RMS methodology)*
+*(Historical: Run 021 found 82% with Keyword RMS methodology — now superseded by Run 020B IRON CLAD)*
 
 ---
 
@@ -119,6 +127,6 @@ Most of what you're calling drift happens even when you never ask about identity
 - [ ] No "collapse" language (use "regime transition")
 - [ ] No "Platonic coordinates" (use "attractor basin")
 - [ ] Event Horizon framed as threshold, not failure
-- [ ] 92% inherent drift prominently featured
+- [ ] ~93% inherent drift prominently featured
 - [ ] PCA described as "response modes" not "identity dimensions"
 - [ ] Thermometer analogy: measurement perturbs, doesn't create

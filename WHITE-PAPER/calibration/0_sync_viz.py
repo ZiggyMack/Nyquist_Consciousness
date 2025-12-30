@@ -70,6 +70,12 @@ FEEDBACK_DIR = PACKAGES / "v4" / "feedback"  # Reviewer feedback directory
 # Known visualization directories that have PDF summaries
 # Format: {dir_name: {"pdf_name": str, "png_generator": str, "pdf_generator": str}}
 KNOWN_VIZ_DIRS = {
+    "10_PFI_Dimensional": {
+        "pdf_name": "10_PFI_Dimensional_Summary.pdf",
+        "png_generator": "generate_pfi_dimensional.py",
+        "pdf_generator": "md_to_pdf.py",  # Converts explained.md to Summary.pdf
+        "data_sources": ["S7_run_023d_CURRENT.json"],
+    },
     "15_Oobleck_Effect": {
         "pdf_name": "15_Oobleck_Effect_Summary.pdf",
         "png_generator": "generate_oobleck_effect.py",

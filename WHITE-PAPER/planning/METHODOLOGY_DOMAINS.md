@@ -1,7 +1,12 @@
 # METHODOLOGY DOMAINS: Pointer to Source of Truth
 
 **Status:** POINTER DOCUMENT
-**Last Updated:** December 26, 2025
+**Last Updated:** December 30, 2025
+
+> **Statistics Source:** [UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
+> - Event Horizon: D = 0.80 (Cosine methodology)
+> - Inherent Drift: ~93% (Run 020B IRON CLAD)
+> - PCs for 90% variance: 2
 
 ---
 
@@ -21,7 +26,7 @@ This document chronicles:
 
 ## Quick Reference: IRON CLAD COSINE Values
 
-From Run 023 (current methodology):
+From Run 023d + Run 020B (current methodology):
 
 | Metric | Value | Source |
 |--------|-------|--------|
@@ -29,10 +34,10 @@ From Run 023 (current methodology):
 | Cohen's d | 0.698 | Run 023d Phase 3B (model-level aggregate) |
 | p-value | 2.40×10⁻²³ | Run 023d perturbation validation |
 | PCs for 90% variance | 2 | Run 023d Phase 2 PCA |
-| Inherent drift ratio | 92% | Run 023 control vs treatment |
-| Settling time (τₛ) | 9.9-10.2 turns | Run 023d |
+| Inherent drift ratio | ~93% | Run 020B IRON CLAD (0.661/0.711) |
+| Settling time (τₛ) | τₛ ≈ 7 probes | Run 023d |
 | Stability with context | 97.5% | Run 023 full circuit |
-| Experiments | 750 | Run 023 total |
+| Experiments | 750 | Run 023d total |
 | Models | 25 | 5 providers |
 
 ---

@@ -148,14 +148,14 @@ This records:
 - Category mappings
 - Sync history (last 20 operations)
 
-### Update SYNC_STATUS.md
+### Update CURRENT_VERSION.json
 
 After major syncs, optionally update:
 ```
-WHITE-PAPER/reviewers/SYNC_STATUS.md
+WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json
 ```
 
-Add entry to Communication Log section.
+Add entry to version_history section if methodology changed.
 
 ---
 
@@ -188,7 +188,7 @@ Add entry to Communication Log section.
 | Document | Purpose |
 |----------|---------|
 | [PUBLICATION_PIPELINE_MASTER.md](PUBLICATION_PIPELINE_MASTER.md) | All 8 publication paths |
-| [../reviewers/SYNC_STATUS.md](../reviewers/SYNC_STATUS.md) | Master sync tracking |
+| [../reviewers/packages/CURRENT_VERSION.json](../reviewers/packages/CURRENT_VERSION.json) | Master version tracking |
 | [../sync_llmbook.py](../sync_llmbook.py) | Sync script source |
 | [../reviewers/LLMBOOK_SYNC_MANIFEST.json](../reviewers/LLMBOOK_SYNC_MANIFEST.json) | Sync manifest |
 

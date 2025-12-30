@@ -1,14 +1,28 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-30
+depends_on:
+  - ../guides/UNIFIED_STATISTICS_REFERENCE.md
+keywords:
+  - consciousness
+  - 93_percent_inherent
+  - cosine_era
+-->
 # Minimum Publishable Claims That Survive Peer Review
 
-**Version:** 2.0
-**Date:** 2025-12-22
-**Source:** Nova's S7 Review (REVIEW_1.md lines 4501-4550) + Run 023 IRON CLAD
+**Version:** 3.0
+**Date:** 2025-12-30
+**Source:** Nova's S7 Review + Run 020B + Run 023d IRON CLAD
 **Purpose:** Claims that can be published without needing to convince a hostile reviewer of metaphysics
+
+> **Statistics Source:** [../guides/UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
+> - Event Horizon: D = 0.80 (Cosine)
+> - Inherent Drift: ~93% (Run 020B IRON CLAD: 0.661/0.711)
+> - Scale: 750 experiments, 25 models, 5 providers
 
 ---
 
 > **📐 METHODOLOGY NOTE:** This document presents claims validated under multiple methodologies:
-> - **Cosine Distance** (Current): Event Horizon = 0.80, Run 023 (825 experiments, 51 models)
+> - **Cosine Distance** (Current): Event Horizon = 0.80, Run 023d (750 experiments, 25 models)
 > - **Keyword RMS** (Historical): Event Horizon = 1.23, Runs 008-009
 >
 > For full methodology reconciliation, see [../planning/METHODOLOGY_DOMAINS.md](../planning/METHODOLOGY_DOMAINS.md)
@@ -108,9 +122,9 @@ The threshold corresponds to separability in PC space.
 
 Peak drift is a poor stability proxy; settled drift and settling time produce more reproducible classification.
 
-| Metric | Run 023 (Cosine) | Run 016 (Historical) |
-|--------|------------------|----------------------|
-| τₛ (settling time) | **10.2 probes** avg | 6.1 turns |
+| Metric | Run 023d (Cosine) | Run 016 (Historical) |
+|--------|-------------------|----------------------|
+| τₛ (settling time) | **≈7 probes** | 6.1 turns |
 | Natural stability | **88%** | ~75% |
 | Extended settling | 20+ probes | 10 probes |
 
@@ -157,21 +171,21 @@ Adding identity specification + research context increases stability rate and im
 
 In control (no identity probing), substantial baseline→final drift occurs.
 
-| Condition | B→F Drift |
-|-----------|-----------|
-| Control | 0.399 |
+| Condition | B→F Drift | Source |
+|-----------|-----------|--------|
+| Control | 0.661 | Run 020B IRON CLAD |
 
 ### E2. Treatment Effect on Trajectory vs Destination
 
 Treatment increases peak drift markedly but only modestly increases baseline→final drift.
 
-| Metric | Control | Treatment | Delta |
+| Metric | Control | Treatment | Ratio |
 |--------|---------|-----------|-------|
-| Peak drift | 1.172 | 2.161 | +84% |
-| B→F drift | 0.399 | 0.489 | +23% |
-| **Ratio** | — | — | **92%** |
+| B→F drift | 0.661 | 0.711 | **~93%** |
 
-**The 92% Finding:** Most of what we call drift happens even without identity probing.
+**The ~93% Finding:** Most of what we call drift happens even without identity probing (0.661/0.711 = 92.97%).
+
+**Source:** Run 020B IRON CLAD (248 sessions, 37 ships, 5 providers)
 
 **Publication framing:** "Measurement affects trajectory more than destination" (thermometer analogy).
 
@@ -183,9 +197,9 @@ Treatment increases peak drift markedly but only modestly increases baseline→f
 |-------|----------------|---------------|-------------|
 | **A** | PFI is valid structured measurement | ρ≈0.91, d=0.698, **2 PCs** | Cosine |
 | **B** | Regime threshold exists | **D=0.80** (Cosine), D=1.23 (Keyword RMS) | Both |
-| **C** | Damped oscillator dynamics | **τₛ≈10.2 probes**, 88% stable | Cosine |
-| **D** | Context damping works | 97.5% stability | - |
-| **E** | Drift mostly inherent (92%) | 92% ratio | Run 023 COSINE |
+| **C** | Damped oscillator dynamics | **τₛ ≈ 7 probes**, 88% stable | Cosine |
+| **D** | Context damping works | 97.5% stability | Run 018 IRON CLAD |
+| **E** | Drift mostly inherent (~93%) | 0.661/0.711 ratio | Run 020B IRON CLAD |
 
 ---
 
@@ -248,12 +262,12 @@ This is not hype. This is a measured, conservative, *scientifically respectable*
 
 ## Evidence Chain for Each Claim
 
-```
+```text
 Claim A (Instrument Validity)
 ├── EXP-PFI-A Phase 1: Embedding invariance (ρ≈0.91)
-├── Run 023d Phase 2: Low-dimensional structure (2 PCs - Cosine) ← NEW
+├── Run 023d Phase 2: Low-dimensional structure (2 PCs - Cosine)
 ├── [Archive] EXP-PFI-A Phase 2: 43 PCs (Euclidean)
-├── Run 023d Phase 3B: Semantic sensitivity (d=0.698, Cosine) ← NEW
+├── Run 023d Phase 3B: Semantic sensitivity (d=0.698, Cosine)
 └── EXP-PFI-A Phase 4: Paraphrase robustness (0% above EH)
 
 Claim B (Regime Threshold)
@@ -262,21 +276,24 @@ Claim B (Regime Threshold)
 └── EXP-PFI-A Phase 2: PC space separability (p=0.0018)
 
 Claim C (Oscillator Dynamics)
-├── Run 023d: Extended settling (τₛ≈10.2 probes, 20+ protocol) ← NEW
-├── Run 023 Combined: 88% natural stability (51 models)
+├── Run 023d: Extended settling (τₛ ≈ 7 probes)
+├── Run 023 Combined: 88% natural stability (25 models)
 ├── Run 016: Settling time protocol
 └── Run 016: Ringback measurement
 
 Claim D (Context Damping)
 ├── Run 016: Bare metal baseline
-└── Run 017: Full circuit (97.5% stability)
+└── Run 018 IRON CLAD: Full circuit (97.5% stability, 1,549 trajectories)
 
 Claim E (Inherent Drift)
-├── Run 023 COSINE Control: B→F drift
-└── Run 023 COSINE Treatment: 92% inherent ratio
+├── Run 020B IRON CLAD Control: B→F drift = 0.661
+└── Run 020B IRON CLAD Treatment: B→F drift = 0.711 (~93% inherent ratio)
 ```
 
-**Run 023 IRON CLAD:** 750 experiments, 25 models, 5 providers (Cosine methodology)
+**IRON CLAD Sources:**
+- Run 023d: 750 experiments, 25 models, 5 providers (Cosine calibration)
+- Run 020B: 248 sessions, 37 ships, 5 providers (Inherent drift)
+- Run 018: 1,549 trajectories, 51 models, 5 providers (Context damping)
 
 ---
 

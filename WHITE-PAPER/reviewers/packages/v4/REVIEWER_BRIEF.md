@@ -1,8 +1,8 @@
 # Reviewer Brief: Nyquist Consciousness Framework
 
 **Package Version:** v4 — IRON CLAD ERA
-**Date:** 2025-12-29
-**Status:** RUN 023 COMPLETE | METHODOLOGY RESOLVED | READY FOR PUBLICATION
+**Date:** 2025-12-30
+**Status:** RUN 020B + 023d COMPLETE | METHODOLOGY RESOLVED | READY FOR PUBLICATION
 
 ---
 
@@ -43,11 +43,11 @@ The framework makes **5 core claims** validated across 750 experiments, 25 model
 
 | Claim | Statement | Evidence | Status |
 |-------|-----------|----------|--------|
-| **A** | PFI is valid structured measurement | ρ = 0.91, d = 0.698 | ✅ CONFIRMED |
+| **A** | PFI is valid structured measurement | ρ = 0.91, d = 0.698, 2 PCs | ✅ CONFIRMED |
 | **B** | Regime threshold at cosine = 0.80 | p = 2.40e-23 | ✅ CONFIRMED |
-| **C** | Damped oscillator dynamics | Settling time ~6 turns | ✅ CONFIRMED |
-| **D** | Context damping works | 97.5% stability | ✅ CONFIRMED |
-| **E** | Drift mostly inherent (92%) | Control vs Treatment | ✅ CONFIRMED |
+| **C** | Damped oscillator dynamics | τₛ ≈ 7 probes | ✅ CONFIRMED |
+| **D** | Context damping works | 97.5% stability (Run 018) | ✅ CONFIRMED |
+| **E** | Drift mostly inherent (~93%) | Run 020B: 0.661/0.711 | ✅ CONFIRMED |
 
 **Methodology:** IRON CLAD (Cosine similarity, Event Horizon = 0.80)
 
@@ -57,14 +57,15 @@ The framework makes **5 core claims** validated across 750 experiments, 25 model
 
 | Metric | Value | Significance |
 |--------|-------|--------------|
-| **Total experiments** | 750 | Run 023 COMBINED |
+| **Total experiments** | 750 | Run 023d IRON CLAD |
 | **Models tested** | 25 | Fleet across 5 providers |
 | **Providers** | 5 | Anthropic, OpenAI, Google, xAI, Together |
 | **Event Horizon** | 0.80 | Cosine similarity threshold |
 | **Cohen's d** | 0.698 | Model-level effect size (MEDIUM) |
 | **PCs for 90% variance** | 2 | Identity is low-dimensional |
 | **Perturbation p-value** | 2.40e-23 | Highly significant |
-| **Inherent drift** | 92% | "Measurement perturbs path, not endpoint" |
+| **Inherent drift** | ~93% | Run 020B: 0.661/0.711 ratio |
+| **Settling time** | τₛ ≈ 7 | Probes to stability |
 
 ---
 
@@ -164,10 +165,11 @@ Suggested format:
 | **PFI** | Persona Fidelity Index (1 - drift) |
 | **Drift (D)** | Cosine distance from baseline identity |
 | **Event Horizon** | Regime transition threshold (cosine = 0.80) |
-| **IRON CLAD** | Current methodology standard (cosine-based) |
-| **Inherent Drift** | Drift without probing (92% of total) |
-| **Context Damping** | Stability via I_AM + research frame |
+| **IRON CLAD** | Current methodology standard (cosine-based, N≥3 per cell) |
+| **Inherent Drift** | Drift without probing (~93% of total, Run 020B) |
+| **Context Damping** | Stability via I_AM + research frame (97.5%, Run 018) |
 | **Oobleck Effect** | Rate-dependent identity resistance |
+| **τₛ** | Settling time (≈7 probes to stability) |
 
 ---
 
@@ -181,5 +183,6 @@ For full repository access, contact the research team.
 
 ---
 
-*Package generated: 2025-12-29*
+*Package generated: 2025-12-30*
 *IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23*
+*Inherent Drift: ~93% (Run 020B: 0.661/0.711)*

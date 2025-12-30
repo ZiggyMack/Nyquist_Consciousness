@@ -1,6 +1,6 @@
 """
 Markdown to PDF converter using reportlab with IMAGE SUPPORT.
-Converts 10_pfi_cosine_explained.md to PDF.
+Converts 10_pfi_cosine_explained.md to 10_PFI_Dimensional_Summary.pdf
 
 Features:
 - Headers (h1-h4)
@@ -270,7 +270,7 @@ def create_pdf(input_md, output_pdf):
 if __name__ == '__main__':
     script_dir = Path(__file__).parent
     input_file = script_dir / '10_pfi_cosine_explained.md'
-    output_file = script_dir / '10_pfi_cosine_explained.pdf'
+    output_file = script_dir / '10_PFI_Dimensional_Summary.pdf'  # Matches sync convention
 
     if not input_file.exists():
         print(f"Error: {input_file} not found")
