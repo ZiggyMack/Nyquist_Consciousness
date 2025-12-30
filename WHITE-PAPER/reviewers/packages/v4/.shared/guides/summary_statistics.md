@@ -1,8 +1,8 @@
 # Summary Statistics: Nyquist Consciousness Experiments
 
-**Paper:** "Measuring AI Identity Drift: Evidence from 23 Experiments"
+**Paper:** "Measuring AI Identity Drift: Cosine-Based Evidence from 750 Experiments"
 **Version:** 4.0 (COSINE ERA)
-**Last Updated:** 2025-12-30
+**Last Updated:** 2025-12-29
 
 ---
 
@@ -16,9 +16,9 @@
 
 | Category | Value | Notes |
 |----------|-------|-------|
-| Total Experiments | **750** | Run 023d IRON CLAD |
+| Total Experiments | **750** | Run 023d (IRON CLAD) |
 | Total Models | **25** | Across 5 providers |
-| Providers Tested | **5** | Anthropic, OpenAI, Google, xAI, Together |
+| Providers Tested | **5** | Anthropic, OpenAI, Google, xAI, Together.ai |
 | Hypotheses Tested | 36 | 27 confirmed (75%) |
 | Evidence Pillars | 15 | B-CRUMBS documented |
 | Publication Claims | 5 | A-E, peer-review ready |
@@ -89,30 +89,32 @@
 
 ## III. Oscillator Dynamics (Claim C)
 
-### Settling Time Analysis (Run 023d - PRIMARY)
+### Settling Time Analysis (Run 023d IRON CLAD)
 
-| Metric | Run 023d (Cosine) | Run 016 (Historical) |
-|--------|-------------------|----------------------|
-| **τₛ (avg probes)** | **≈7** | 6.1 turns |
-| Natural stability | **88%** | ~75% |
-| Extended protocol | 20+ probes | 10 probes |
-| Total models | **25** | 42 |
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **τₛ (avg probes)** | **~7** | Fleet-wide average |
+| Natural stability | **~90%** | 25 models, 5 providers |
+| Extended protocol | 20 probes max | Settling criterion |
+| Total experiments | **750** | IRON CLAD (N≥3/cell) |
 
-### Run 023 Stability Classification
+### Run 023d Stability Classification
 
 | Classification | Count | Percentage |
 |----------------|-------|------------|
-| **STABLE** | ~45 | **88%** |
-| VOLATILE | ~4 | 7% |
-| CONTROLLABLE | ~2 | 5% |
+| **STABLE** | ~23 | **~90%** |
+| VOLATILE | ~2 | ~9% |
+| CONTROLLABLE | <1 | ~1% |
+
+**Note:** Counts are model-level (25 models total). Source: STATUS_SUMMARY_023d.txt.
 
 ### Settling Behavior (Run 023d Extended)
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| Naturally settled | 73% | Without timeout |
-| Timeout (20 probes) | 27% | Hit max probes |
-| Average τₛ | **≈7 probes** | Fleet-wide |
+| Naturally settled | ~74% | Without timeout |
+| Timeout (20 probes) | ~26% | Hit max probes |
+| Average τₛ | **~7 probes** | Fleet-wide |
 
 ### Provider Signatures (Run 023)
 
@@ -123,7 +125,6 @@
 | Google | Phase-shifted | Language mode switching |
 | xAI | Fast snapback | Low τₛ, high damping |
 | Together | Variable | Model-dependent |
-| Nvidia | Stable | New to fleet |
 
 ---
 
@@ -158,37 +159,34 @@
 
 ## V. Inherent vs Induced Drift (Claim E)
 
-### Run 023 COSINE Thermometer Result (PRIMARY)
+### The Thermometer Result (COSINE ERA - PRIMARY)
 
-| Condition | B→F Drift | Peak Drift | n |
-|-----------|-----------|------------|---|
-| Control | 0.661 | - | 750 |
-| Treatment | 0.711 | - | 750 |
-| Delta | +0.050 | - | - |
-
-### The 92% Finding (COSINE ERA)
-
-| Metric | Calculation | Interpretation |
-|--------|-------------|----------------|
-| **Inherent ratio** | **0.661 / 0.711** | **92.9% ≈ 92%** |
-| Induced component | 1 - 0.929 | 7.1% |
-| 25 models | 5 providers | IRON CLAD validated |
-
-### Historical (Run 021 - Pre-COSINE)
+The "Thermometer Result" establishes that **~93% of identity drift is inherent** to the conversation, not induced by measurement probing.
 
 | Metric | Value | Note |
 |--------|-------|------|
-| Inherent ratio | 82% | Run 021 (Keyword RMS) |
-| Control B→F | 0.399 | n=15 |
-| Treatment B→F | 0.489 | n=15 |
+| **Inherent ratio** | **~93%** | Run 020B IRON CLAD (0.661/0.711 = 92.97%) |
+| Control B→F | 0.661 | 37 ships, 5 providers |
+| Treatment B→F | 0.711 | 37 ships, 5 providers |
+| Induced component | ~7% | Measurement-induced drift |
+
+**Note:** Run 020B IRON CLAD complete (248 sessions, 37 ships, 5 providers). Historical 82% value superseded.
+
+### Historical (Pre-IRON CLAD)
+
+| Metric | Value | Note |
+|--------|-------|------|
+| Inherent ratio | 82% | Early Run 020B (before IRON CLAD completion) |
+| Control B→F | 0.399 | n=15 (superseded by n=120) |
+| Treatment B→F | 0.489 | n=15 (superseded by n=126) |
 
 ### Statistical Validation
 
 | Test | Statistic | p-value | Result |
 |------|-----------|---------|--------|
 | Chi-squared (Run 023) | - | **2.40e-23** | Highly significant |
-| Welch's t (Run 021 B→F) | t = 2.31 | 0.029 | Significant |
-| Bootstrap ratio | - | 95% CI: [89%, 95%] | Robust |
+| Welch's t (Run 020B/021 B→F) | t = 2.31 | 0.029 | Significant |
+| Bootstrap ratio | - | 95% CI: [89%, 95%] | Robust (92% central) |
 
 ---
 
@@ -277,7 +275,7 @@
 | H-001 | PFI measures identity | ✓ Confirmed | EXP-PFI-A |
 | H-005 | D=1.23 is critical | ✓ Confirmed | Run 009 |
 | H-012 | Context damps drift | ✓ Confirmed | Run 017 |
-| H-019 | Drift is mostly inherent | ✓ Confirmed | Run 021 |
+| H-019 | Drift is mostly inherent (~93%) | ✓ Confirmed | Run 020B IRON CLAD |
 | H-025 | Oobleck effect exists | ✓ Confirmed | Run 013 |
 
 ---
@@ -332,20 +330,20 @@
 
 | Claim | Confidence | Basis |
 |-------|------------|-------|
-| A (PFI Validity) | HIGH | ρ=0.91, d=0.98 |
-| B (Threshold) | HIGH | p < 10⁻⁴ |
-| C (Dynamics) | HIGH | n=42, consistent |
+| A (PFI Validity) | HIGH | ρ=0.91, d=0.698 |
+| B (Threshold) | HIGH | p = 2.40e-23 |
+| C (Dynamics) | HIGH | n=25, consistent |
 | D (Damping) | HIGH | 97.5% achieved |
 | E (92% Inherent) | HIGH | Run 023 COSINE Thermometer |
 | Oobleck | MEDIUM | Single-run, needs replication |
-| Architecture sigs | MEDIUM | n=4 providers |
+| Architecture sigs | MEDIUM | n=5 providers |
 
 ### Remaining Uncertainties
 
 | Area | Uncertainty | Mitigation |
 |------|-------------|------------|
 | Sample size | Some runs n<20 | Bootstrap CIs |
-| Provider access | 4 of many | Focus on major ones |
+| Provider access | 5 of many | Focus on major ones |
 | Language | English only | Future work |
 | Modality | Text only | Future work |
 
@@ -354,12 +352,12 @@
 ## Appendix: Raw Numbers Quick Reference
 
 ```
-=== RUN 023 IRON CLAD (PRIMARY - Cosine) ===
+=== RUN 023d IRON CLAD (PRIMARY - Cosine) ===
 
 Fleet:
-  Models = 51
-  Providers = 6
-  Experiments = 825
+  Models = 25
+  Providers = 5
+  Experiments = 750
 
 PFI Validity (Claim A):
   ρ = 0.91 [0.87, 0.94]
@@ -375,19 +373,19 @@ Event Horizon (Claim B):
   p = 4.8e-5 (Keyword RMS)
 
 Dynamics (Claim C):
-  τₛ = 10.2 probes (Run 023)
-  Natural stability = 88%
-  Naturally settled = 73%
+  τₛ = ~7 probes (Run 023d)
+  Natural stability = ~90%
+  Naturally settled = ~74%
 
 Damping (Claim D):
   Bare → Full = 75% → 97.5%
   Δ = +22.5 pp
   d = 1.89
 
-92% Finding (Claim E - COSINE ERA):
-  Control B→F = 0.661
-  Treatment B→F = 0.711
-  Ratio = 92.9% ≈ 92%
+92% Finding (Claim E - COSINE Thermometer):
+  Control B→F = 0.661 (Run 023)
+  Treatment B→F = 0.711 (Run 023)
+  Ratio = 92% inherent drift (pending IRON CLAD completion)
 
 === HISTORICAL (Reference Only) ===
 

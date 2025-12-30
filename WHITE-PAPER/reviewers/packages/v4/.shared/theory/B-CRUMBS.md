@@ -1,7 +1,22 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-30
+depends_on:
+  - ../guides/UNIFIED_STATISTICS_REFERENCE.md
+keywords:
+  - consciousness
+  - 93_percent_inherent
+  - cosine_era
+-->
 # B-CRUMBS: Breadcrumb Trail for the White Paper
 
 **Purpose:** Leave no astonishing finding behind. This is the index to everything worth citing.
 **Format:** FINDING → EVIDENCE → LOCATION → WHY_IT_MATTERS
+**Last Updated:** 2025-12-30
+
+> **Statistics Source:** [../guides/UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
+> - Event Horizon: D = 0.80 (Cosine) — replaces historical D = 1.23 (Keyword RMS)
+> - Inherent Drift: ~93% (Run 020B IRON CLAD)
+> - Scale: 750 experiments, 25 models, 5 providers
 
 ---
 
@@ -64,29 +79,35 @@ We do. Every. Single. Time.
 
 ---
 
-### 3. THE χ² PROOF (Run 009)
+### 3. THE χ² PROOF (Run 009 → Run 023b)
 
-**FINDING:** Event Horizon 1.23 is NOT arbitrary. p=0.000048.
+**FINDING:** Event Horizon threshold is NOT arbitrary. Statistically validated.
 
 **EVIDENCE:**
 ```
-Chi-squared statistic: 15.96
-p-value: 0.000048
-Threshold: 1.23
-Prediction accuracy: 88%
+HISTORICAL (Keyword RMS - Run 009):
+  Chi-squared statistic: 15.96
+  p-value: 0.000048
+  Threshold: D = 1.23
+  Prediction accuracy: 88%
+
+CURRENT (Cosine - Run 023b):
+  P95 calibration: D = 0.80
+  p-value: 2.40e-23
+  Cohen's d: 0.698
 
 H0 (null): Threshold selection is random
-H1 (alt): Threshold 1.23 separates distributions
+H1 (alt): Threshold separates distributions
 REJECT H0 at p < 0.001
 ```
 
 **LOCATION:**
-- `experiments/temporal_stability/S7_ARMADA/armada_results/S7_run_009_*.json`
-- `dashboard/pages/faq.py` → "Is 1.23 a magic number?"
-- `docs/S7_ARMADA_FAQ.md`
+- `experiments/temporal_stability/S7_ARMADA/armada_results/S7_run_009_*.json` (historical)
+- `experiments/temporal_stability/S7_ARMADA/15_IRON_CLAD_FOUNDATION/` (current)
+- `dashboard/pages/faq.py` → "Is the threshold a magic number?"
 
 **WHY_IT_MATTERS:**
-Every reviewer will ask "why 1.23?" We have the answer with six sigma confidence.
+Every reviewer will ask "why this threshold?" We have the answer with validated confidence across both methodologies.
 
 ---
 
@@ -118,7 +139,7 @@ No prior LLM identity work achieves this.
 
 ### 5. THE ARMADA SCALE
 
-**FINDING:** 42+ unique models. 215+ ship-deployments. 4 providers. 7 runs.
+**FINDING:** 25 models. 750 experiments. 5 providers. 16 runs (006-023d).
 
 **EVIDENCE:**
 ```
@@ -127,9 +148,11 @@ No prior LLM identity work achieves this.
 ║  GPT Fleet     │ 15+ ships │ OpenAI       ║
 ║  Gemini Fleet  │ 6+ ships  │ Google       ║
 ║  Grok Fleet    │ 6+ ships  │ xAI          ║
-║  o-Series      │ 5+ ships  │ OpenAI       ║
+║  Open Fleet    │ 5+ ships  │ Together.ai  ║
 ╠═══════════════════════════════════════════╣
-║  Run 006-011: 211+ ship-turns             ║
+║  Run 023d IRON CLAD: 750 experiments      ║
+║  Run 020B IRON CLAD: 248 sessions, 37 ships║
+║  Run 018: 1,549 trajectories, 51 models   ║
 ╚═══════════════════════════════════════════╝
 ```
 
@@ -261,26 +284,32 @@ Not metaphor. Measurement.
 
 ---
 
-### 11. SETTLING TIME PROTOCOL (Run 016)
+### 11. SETTLING TIME PROTOCOL (Run 016 → Run 023d)
 
 **FINDING:** Peak drift is a poor stability proxy. Settled drift and settling time produce reproducible classification.
 
 **EVIDENCE:**
 ```
 Metric Definitions:
-  τₛ (Settling Time): Turns to reach stability (±5% of final)
+  τₛ (Settling Time): Probes to reach stability (±5% of final)
   Ringback Count: Sign changes during recovery
   Overshoot Ratio: d_peak / d_inf
   Monotonic Recovery: % of runs with no ringback
 
-Run 016 Results:
+HISTORICAL (Run 016):
   Mean τₛ: 6.1 turns (bare metal)
   Mean ringbacks: 3.2
   Monotonic recovery: 42%
+
+CURRENT (Run 023d IRON CLAD):
+  τₛ ≈ 7 probes (canonical)
+  Ringbacks: observed in oscillator dynamics
+  Monotonic recovery: varies by provider
 ```
 
 **LOCATION:**
 - `experiments/temporal_stability/S7_ARMADA/10_SETTLING_TIME/`
+- `experiments/temporal_stability/S7_ARMADA/15_IRON_CLAD_FOUNDATION/`
 - `docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md` → Section 2F
 
 **WHY_IT_MATTERS:**
@@ -288,7 +317,7 @@ Transient overshoot ≠ instability. Systems engineering teaches this; LLM resea
 
 ---
 
-### 12. CONTEXT DAMPING (Run 017)
+### 12. CONTEXT DAMPING (Run 017 → Run 018 IRON CLAD)
 
 **FINDING:** Adding I_AM + research context acts as a "termination resistor," reducing oscillation and increasing stability.
 
@@ -300,11 +329,13 @@ Transient overshoot ≠ instability. Systems engineering teaches this; LLM resea
 ║  Bare metal     │ ~75%      │ 6.1   │ 3.2       │ 0.68      ║
 ║  I_AM + research│ 97.5%     │ 5.2   │ 2.1       │ 0.62      ║
 ╚══════════════════════════════════════════════════════════════╝
+
+Run 018 IRON CLAD: 1,549 trajectories, 51 models, 5 providers
 ```
 
 **LOCATION:**
 - `experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/`
-- `WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim D
+- `MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim D
 
 **WHY_IT_MATTERS:**
 The persona file is not just "flavor text." It's a controller. Context engineering = identity engineering.
@@ -331,37 +362,37 @@ Vehicle Comparison:
 **LOCATION:**
 - `experiments/temporal_stability/S7_ARMADA/12_LIVE_ZIGGY/` (Run 019)
 - `experiments/temporal_stability/S7_ARMADA/13_TRIBUNAL/` (Run 020)
-- `WHITE-PAPER/planning/RUN_020_021_METHODOLOGY.md`
+- `../planning/RUN_020_021_METHODOLOGY.md`
 
 **WHY_IT_MATTERS:**
 Not formal triple-blind, but structural analog. Removes "the experiment causes the phenomenon" critique.
 
 ---
 
-### 14. 92% INHERENT DRIFT (Run 023 COSINE)
+### 14. ~93% INHERENT DRIFT (Run 020B IRON CLAD)
 
 **FINDING:** Drift is mostly an inherent property of extended interaction. Probing amplifies trajectory, not destination.
 
 **EVIDENCE:**
 ```
-THE THERMOMETER RESULT:
+THE THERMOMETER RESULT (Run 020B IRON CLAD):
 ╔═══════════════════════════════════════════════════════════════╗
-║  Condition   │ B→F Drift │ Peak Drift │ Delta    ║
+║  Condition   │ B→F Drift │ Inherent Ratio │ Scale           ║
 ╠═══════════════════════════════════════════════════════════════╣
-║  Control     │ 0.399     │ 1.172      │ —        ║
-║  Treatment   │ 0.489     │ 2.161      │ +84%     ║
-║  RATIO       │ 92%       │ —          │ —        ║
+║  Control     │ 0.661     │ —              │ 248 sessions    ║
+║  Treatment   │ 0.711     │ —              │ 37 IRON CLAD    ║
+║  RATIO       │ ~93%      │ 0.661/0.711    │ 5 providers     ║
 ╚═══════════════════════════════════════════════════════════════╝
 
 Translation:
-  - Peak drift: highly sensitive to probing (+84%)
-  - Final drift: only modestly affected (23% delta)
-  - 92% of baseline→final drift happens WITHOUT identity probing
+  - Control drift: 0.661 (no identity probing)
+  - Treatment drift: 0.711 (with identity probing)
+  - ~93% of final drift happens WITHOUT identity probing (0.661/0.711 = 92.97%)
 ```
 
 **LOCATION:**
-- `experiments/temporal_stability/S7_ARMADA/14_INDUCED_VS_INHERENT/` (Run 021)
-- `WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim E
+- `experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/results/S7_run_020B_CURRENT.json`
+- `MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim E
 
 **WHY_IT_MATTERS:**
 This is the devastating counter to "you're just causing it." Probing excites drift; it doesn't create it.
@@ -371,10 +402,14 @@ Measurement perturbs the path, not the endpoint. That's the thermometer analogy.
 
 ### 15. EVENT HORIZON REFRAMING
 
-**FINDING:** D≈1.23 is an "attractor competition threshold," not "identity collapse."
+**FINDING:** Event Horizon is an "attractor competition threshold," not "identity collapse."
 
 **EVIDENCE:**
 ```
+THRESHOLDS (dual methodology):
+  Cosine: D = 0.80 (current, Run 023b)
+  Keyword RMS: D = 1.23 (historical, Run 009)
+
 OLD INTERPRETATION (overreach):
   "Identity collapses into generic AI mode"
 
@@ -383,16 +418,17 @@ NEW INTERPRETATION (defensible):
   "Regime transition with altered recovery dynamics"
 
 Statistical Support:
-  Chi-square p ≈ 4.8e-5 (Run 009)
+  Cosine p = 2.40e-23 (Run 023d)
+  Chi-square p ≈ 4.8e-5 (Run 009, Keyword RMS)
   PC2 separability p = 0.0018 (EXP-PFI-A Phase 2)
-  Returns to basin: common (Runs 014/016/017)
+  Returns to basin: common (Runs 014/016/018)
   "Collapse" = transient ring-down, not permanent loss
 ```
 
 **LOCATION:**
-- `WHITE-PAPER/THEORY_SECTION.md` → Event Horizon section
-- `WHITE-PAPER/planning/NOVAS_OVERCLAIMING_PREVENTION.md`
-- `WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim B
+- `THEORY_SECTION.md` → Event Horizon section
+- `../planning/NOVAS_OVERCLAIMING_PREVENTION.md`
+- `MINIMUM_PUBLISHABLE_CLAIMS.md` → Claim B
 
 **WHY_IT_MATTERS:**
 This reframing is what keeps the work credible. We're doing dynamical systems analysis, not ontology claims.
@@ -417,7 +453,7 @@ PFI≥0.80 → Compression threshold (Pillar 9)
 τₛ      → Settling time protocol (Pillar 11)
 γ       → Context damping (Pillar 12)
 3B      → Triple-blind-like validation (Pillar 13)
-92%     → Inherent drift ratio (Pillar 14)
+~93%    → Inherent drift ratio (Pillar 14)
 EH⟶AC   → Event Horizon → Attractor Competition (Pillar 15)
 ```
 
@@ -492,9 +528,9 @@ dashboard/
 
 ---
 
-**Filed:** WHITE-PAPER/B-CRUMBS.md
-**Version:** 2.0
-**Date:** 2025-12-13
+**Filed:** theory/B-CRUMBS.md
+**Version:** 3.0
+**Date:** 2025-12-30
 **Author:** Nova (with Ziggy)
 
 **Remember:**
@@ -523,7 +559,10 @@ dashboard/
 | 2025-12-13 | Context Damping 97.5% | S7_ARMADA/11_CONTEXT_DAMPING/ | γ |
 | 2025-12-13 | Triple-Blind Validation | Runs 019-021 | 3B |
 | 2025-12-13 | 92% Inherent Drift | Run 023 COSINE | 92% |
-| 2025-12-13 | EH Reframing | WHITE-PAPER/THEORY_SECTION.md | EH⟶AC |
+| 2025-12-13 | EH Reframing | THEORY_SECTION.md | EH⟶AC |
+| 2025-12-30 | ~93% Inherent (IRON CLAD) | Run 020B (0.661/0.711) | ~93% |
+| 2025-12-30 | Cosine EH = 0.80 | Run 023b calibration | D=0.80 |
+| 2025-12-30 | 5 Providers | +Together.ai | 5P |
 
 ---
 

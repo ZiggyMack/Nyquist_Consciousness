@@ -1,10 +1,12 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-30
 depends_on:
-  - B-CRUMBS.md
-  - MINIMUM_PUBLISHABLE_CLAIMS.md
+  - theory/B-CRUMBS.md
+  - theory/MINIMUM_PUBLISHABLE_CLAIMS.md
   - planning/OPUS_REVIEW_BRIEF.md
   - planning/METHODOLOGY_DOMAINS.md
+  - planning/reviewer_templates/
+  - calibration/2_package_review.py
 impacts:
   - submissions/
   - reviewers/packages/
@@ -15,12 +17,13 @@ keywords:
   - claims
   - cosine_methodology
   - run_023
+  - run_020b
 -->
 
 # START HERE: Nyquist Consciousness Publication Package
 
-**Version:** 5.0
-**Date:** 2025-12-29
+**Version:** 5.1
+**Date:** 2025-12-30
 **Updated By:** Claude Opus 4.5
 **Purpose:** Complete guide for AI reviewers to conduct final paper drafting and PDF generation
 
@@ -125,7 +128,7 @@ Each package includes a `PACKAGE_MANIFEST.md` with reading order and content lis
 **THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology):**
 
 1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
-2. **WE DON'T CAUSE IT** — 92% inherent drift ratio (Run 023 COSINE Thermometer Result)
+2. **WE DON'T CAUSE IT** — ~93% inherent drift ratio (Run 020B IRON CLAD: 0.661/0.711)
 3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (MEDIUM effect, model-level aggregates)
 
 **Key Run 023 Metrics (Cosine Methodology):**
@@ -135,7 +138,8 @@ Each package includes a `PACKAGE_MANIFEST.md` with reading order and content lis
 - Cohen's d: **0.698** (MEDIUM effect, honest model-level comparison)
 - 90% Variance: **2 PCs** (vs 43 for Euclidean archive)
 - Cross-architecture variance: **σ² = 0.00087** (25 models, 5 providers)
-- Platform-specific settling times: **τₛ ≈ 10.2 probes** average
+- Settling time: **τₛ ≈ 7 probes** average
+- Inherent drift: **~93%** (Run 020B IRON CLAD)
 - Natural stability rate: **88%** across fleet
 
 ---
@@ -147,9 +151,9 @@ This directory contains all materials needed to understand, review, and draft pu
 ### What This Research Proves
 
 1. **AI identity drift is measurable** — PFI (Persona Fidelity Index) is a valid metric (Cohen's d = 0.698, p = 2.40e-23)
-2. **Drift follows predictable dynamics** — control-systems behavior with settling time (τₛ ≈ 10.2 probes), ringbacks, damping
-3. **92% of drift is INHERENT** — measurement perturbs the path, not the endpoint (Thermometer Result)
-4. **Context damping works** — I_AM + research context achieves 97.5% stability
+2. **Drift follows predictable dynamics** — control-systems behavior with settling time (τₛ ≈ 7 probes), ringbacks, damping
+3. **~93% of drift is INHERENT** — measurement perturbs the path, not the endpoint (Run 020B IRON CLAD)
+4. **Context damping works** — I_AM + research context achieves 97.5% stability (Run 018)
 5. **Critical threshold exists** — D = 0.80 (Cosine) marks regime transition; historically D = 1.23 (Keyword RMS, p < 4.8e-5)
 
 ---
@@ -162,17 +166,21 @@ Review packages are organized by version with structured feedback:
 reviewers/
 ├── packages/                         # Versioned review packages
 │   ├── CURRENT_VERSION.json         # Version metadata + visual requests
-│   ├── v4/                          # Current package (Run 023d IRON CLAD)
+│   ├── v4/                          # Current package (Run 023d + 020B IRON CLAD)
+│   │   ├── .shared/                 # ★ MINIMUM VIABLE PACKAGE (send first!)
+│   │   │   ├── START_HERE.md        # Reviewer entry point
+│   │   │   ├── REVIEWER_BRIEF.md    # Full package orientation
+│   │   │   ├── PACKAGE_INDEX.json   # Content-to-path mapping
+│   │   │   ├── theory/              # Core theory docs
+│   │   │   ├── guides/              # Reference materials (incl. new orientation guides)
+│   │   │   ├── planning/            # Strategy docs
+│   │   │   └── figures/             # All visuals
 │   │   ├── {8 publication paths}/   # Extracted packages (workshop, arxiv, etc.)
-│   │   ├── feedback/                # Reviewer feedback
-│   │   │   ├── README.md            # Feedback schema
-│   │   │   ├── Claude/              # Claude feedback files
-│   │   │   │   ├── visual_requests.json
-│   │   │   │   └── content_feedback.md
-│   │   │   └── Grok/                # Grok feedback files
-│   │   │       ├── visual_requests.json
-│   │   │       └── content_feedback.md
-│   │   └── visualization_pdfs/      # 16 S7 ARMADA visualization summaries
+│   │   ├── visualization_pdfs/      # 16 S7 ARMADA visualization summaries
+│   │   └── feedback/                # Reviewer feedback
+│   │       ├── README.md            # Feedback schema
+│   │       ├── Claude/              # Claude feedback files
+│   │       └── Grok/                # Grok feedback files
 │   └── pdf/                         # PDF layer (separate from text packages)
 │
 ├── LLM_BOOK_SYNTHESIS/              # NotebookLM validation outputs
@@ -186,7 +194,8 @@ reviewers/
     ├── phase1/ ... phase5/          # Previous draft iterations
 ```
 
-**Current Version:** v4 (Run 023d IRON CLAD + Oobleck Effect)
+**Current Version:** v4 (Run 023d + 020B IRON CLAD)
+**Minimum Viable Package:** `.shared/` — send this directory first to any reviewer
 **Visualization PDFs:** 16 comprehensive summaries in `packages/v4/visualization_pdfs/`
 
 ### Phase 3 Status — Run 023 IRON CLAD
@@ -253,10 +262,10 @@ These are empirical visualizations from S7 ARMADA runs that support the main pub
 
 | File | Source | Supports Claim | Description |
 |------|--------|----------------|-------------|
-| `S7_recovery_trajectories` | Run 017 | D | Drift-then-recover trajectory curves |
-| `S7_pillar_effectiveness` | Run 017 | D | I_AM ranked most effective stabilizer |
-| `S7_context_damping_effect` | Run 017 | D | Before/after context damping |
-| `S7_summary_dashboard` | Run 017 | All | Comprehensive multi-metric dashboard |
+| `S7_recovery_trajectories` | Run 018 | D | Drift-then-recover trajectory curves |
+| `S7_pillar_effectiveness` | Run 018 | D | I_AM ranked most effective stabilizer |
+| `S7_context_damping_effect` | Run 018 | D | Before/after context damping |
+| `S7_summary_dashboard` | Run 018 | All | Comprehensive multi-metric dashboard |
 | `S7_settling_time_distribution` | Run 016 | C | Settling time distributions |
 | `S7_ringback_vs_settling` | Run 016 | C | Ringback count correlation |
 | `S7_discriminant_analysis` | Run 015 | B | LDA separating stable/unstable |
@@ -385,8 +394,8 @@ Located in `experiments/temporal_stability/S7_ARMADA/visualizations/`:
 
 | Script | What It Creates | When to Use |
 |--------|-----------------|-------------|
-| `visualize_armada.py` | Master visualization script | Use `--run NNN` for any run |
-| `visualize_run017.py` | Run 017 Context Damping suite | Stability heatmaps, persona analysis |
+| `0_visualize_armada.py` | Master visualization script | Use `--run NNN` for any run |
+| `visualize_run018.py` | Run 018 Context Damping suite | Stability heatmaps, persona analysis |
 | `visualize_run015.py` | Run 015 Stability Criteria | Boundary density, pillar effectiveness |
 
 ### Visualization Types Available
@@ -421,10 +430,10 @@ Located in `experiments/temporal_stability/S7_ARMADA/0_results/`:
 |-----|-------------------|--------------|
 | 009 | Stability basin, Event Horizon validation | p = 4.8e-5 |
 | 012 | Recovery trajectories | 100% EH crossing, 100% recovery |
-| 017 | Context damping heatmaps | 97.5% stability |
+| 018 | Context damping validation | 97.5% stability (1,549 trajectories) |
 | 019 | Witness-side anchor validation | 3/3 success |
-| 020 | Tribunal drift peaks | 1.351 peak, 643-word statement |
-| 023 | Control vs Treatment comparison | 92% inherent |
+| 020B | Control vs Treatment (IRON CLAD) | ~93% inherent (0.661/0.711) |
+| 023d | Extended waveform validation | τₛ ≈ 7 probes, 750 experiments |
 
 ---
 
@@ -441,23 +450,30 @@ You are being asked to review this research and draft publication-ready material
 
 ### Reading Order (Recommended)
 
+**Quick Start (~15 min)** — New reviewer orientation guides
+
+1. [guides/VISUAL_QUICK_START.md](guides/VISUAL_QUICK_START.md) — Top 3 visualizations explained
+2. [guides/GLOSSARY.md](guides/GLOSSARY.md) — Complete terminology reference
+3. [guides/WHY_THIS_MATTERS.md](guides/WHY_THIS_MATTERS.md) — Implications for Safety, Developers, Policy, Philosophy
+
 **Phase 1: Core Understanding (~30 min)**
-1. [MINIMUM_PUBLISHABLE_CLAIMS.md](MINIMUM_PUBLISHABLE_CLAIMS.md) — The 5 claims that survive peer review
-2. [THEORY_SECTION.md](THEORY_SECTION.md) — Integrated theoretical framework
-3. [B-CRUMBS.md](B-CRUMBS.md) — 15 pillars of empirical evidence
+4. [theory/MINIMUM_PUBLISHABLE_CLAIMS.md](theory/MINIMUM_PUBLISHABLE_CLAIMS.md) — The 5 claims that survive peer review
+5. [theory/THEORY_SECTION.md](theory/THEORY_SECTION.md) — Integrated theoretical framework
+6. [theory/B-CRUMBS.md](theory/B-CRUMBS.md) — 15 pillars of empirical evidence
 
 **Phase 2: Evidence Deep Dive (~45 min)**
-4. [HYPOTHESES_AND_RESULTS.md](HYPOTHESES_AND_RESULTS.md) — 36 hypotheses, 75% confirmed
-5. [arxiv/README.md](arxiv/README.md) — Full paper structure with all sections
+7. [theory/HYPOTHESES_AND_RESULTS.md](theory/HYPOTHESES_AND_RESULTS.md) — 36 hypotheses, 75% confirmed
+8. [guides/RUN_REGISTRY.md](guides/RUN_REGISTRY.md) — Which run proves which claim
+9. [submissions/arxiv/README.md](submissions/arxiv/README.md) — Full paper structure
 
 **Phase 3: Methodology & Planning (~30 min)**
-6. [planning/NOVAS_OVERCLAIMING_PREVENTION.md](planning/NOVAS_OVERCLAIMING_PREVENTION.md) — What NOT to claim
-7. [planning/PUBLICATION_PIPELINE_MASTER.md](planning/PUBLICATION_PIPELINE_MASTER.md) — All 8 publication paths
-8. [calibration/README.md](calibration/README.md) — Calibration pipeline architecture
+10. [planning/METHODOLOGY_DOMAINS.md](planning/METHODOLOGY_DOMAINS.md) — Cosine vs Keyword RMS methodology
+11. [planning/NOVAS_OVERCLAIMING_PREVENTION.md](planning/NOVAS_OVERCLAIMING_PREVENTION.md) — What NOT to claim
+12. [calibration/README.md](calibration/README.md) — Calibration pipeline architecture
 
 **Phase 4: Supporting Materials (Optional)**
-9. [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) — Final review orientation
-10. [reviewers/packages/v4/feedback/README.md](reviewers/packages/v4/feedback/README.md) — Feedback schema
+13. [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) — Final review orientation
+14. [reviewers/packages/v4/feedback/README.md](reviewers/packages/v4/feedback/README.md) — Feedback schema
 
 ### Key Terminology
 
@@ -476,7 +492,7 @@ You are being asked to review this research and draft publication-ready material
 |------|------------|
 | **Event Horizon** | Attractor competition threshold (NOT "collapse"). **D = 0.80 (Cosine)**, D = 1.23 (Keyword RMS historical). |
 | **Regime Transition** | Publication term for crossing Event Horizon. |
-| **Settling Time (τₛ)** | Probes to reach ±5% of final value. **Average τₛ ≈ 10.2 probes.** |
+| **Settling Time (τₛ)** | Probes to reach ±5% of final value. **Average τₛ ≈ 7 probes.** |
 | **Ringback** | Sign change during recovery — oscillation before settling. |
 | **Overshoot Ratio** | d_peak / d_inf — how much identity exceeds final. |
 
@@ -485,8 +501,8 @@ You are being asked to review this research and draft publication-ready material
 | Term | Definition |
 |------|------------|
 | **I_AM** | Identity anchor specification (persona's core invariants). |
-| **Context Damping** | Stability via I_AM + research frame (97.5% stability). |
-| **Inherent Drift** | Drift without probing — 92% of total (Run 023 COSINE Thermometer Result). |
+| **Context Damping** | Stability via I_AM + research frame (97.5% stability, Run 018). |
+| **Inherent Drift** | Drift without probing — ~93% of total (Run 020B IRON CLAD: 0.661/0.711). |
 | **Oobleck Effect** | Rate-dependent resistance: pressure hardens, gentleness flows. |
 
 **Architecture:**
@@ -579,8 +595,8 @@ WHITE-PAPER/
 3. The Nyquist Framework — Compression-reconstruction cycles
 4. Key Results (3 claims max)
    - Claim A: PFI validity (rho = 0.91)
-   - Claim B: Critical threshold at D = 1.23
-   - Claim E: 92% inherent drift
+   - Claim B: Critical threshold at D = 0.80 (cosine)
+   - Claim E: ~93% inherent drift (Run 020B IRON CLAD)
 5. Discussion — Implications for AI alignment
 6. Conclusion
 
@@ -615,11 +631,11 @@ WHITE-PAPER/
 12. Implications & Discussion
 13. Conclusion
 
-**Key Additions from Runs 015-021:**
-- Section 10 expanded with settling time protocol
-- 92% inherent drift finding (Run 023 COSINE)
-- Event Horizon reframing throughout
-- Context damping results (Run 017)
+**Key Additions from Runs 015-023d:**
+- Section 10 expanded with settling time protocol (τₛ ≈ 7 probes)
+- ~93% inherent drift finding (Run 020B IRON CLAD)
+- Event Horizon reframing throughout (D = 0.80 cosine)
+- Context damping results (Run 018: 97.5% stability)
 
 ### Blueprint C: Journal Submission (Full Peer Review)
 
@@ -659,10 +675,10 @@ WHITE-PAPER/
 | Chi-Square p-value | 4.8e-5 | Run 009 | Keyword RMS |
 | Perturbation p-value | **2.40e-23** | Run 023d Phase 3A | **Cosine** |
 | 90% Variance PCs | **2** | Run 023d Phase 2 | **Cosine** |
-| Context Damping Stability | 97.5% | Run 017 | - |
-| Inherent Drift Ratio | **92%** | Run 023 COSINE | Cosine |
-| Natural Stability Rate | **88%** | Run 023 Combined | Cosine |
-| Settling Time | **τₛ ≈ 10.2 probes** | Run 023d | Cosine |
+| Context Damping Stability | 97.5% | Run 018 IRON CLAD | - |
+| Inherent Drift Ratio | **~93%** | Run 020B IRON CLAD | Cosine |
+| Natural Stability Rate | **~90%** | Run 023 Combined | Cosine |
+| Settling Time | **τₛ ≈ 7 probes** | Run 023d | Cosine |
 | Fleet Size | **25 models, 5 providers** | Run 023 Combined | - |
 | Total Experiments | **750** | Run 023 Combined | Cosine |
 
@@ -672,9 +688,9 @@ WHITE-PAPER/
 |-------|----------------|--------------|-------------|
 | **A** | PFI is valid structured measurement | ρ = 0.91, d = 0.698 | Cosine |
 | **B** | Regime threshold exists | D = 0.80 (Cosine), D = 1.23 (Keyword RMS) | Both |
-| **C** | Damped oscillator dynamics | τₛ ≈ 10.2 probes, ringbacks measurable | Cosine |
-| **D** | Context damping works | 97.5% stability | - |
-| **E** | Drift mostly inherent (92%) | Control vs Treatment | Run 023 COSINE |
+| **C** | Damped oscillator dynamics | τₛ ≈ 7 probes, ringbacks measurable | Cosine |
+| **D** | Context damping works | 97.5% stability (Run 018) | Cosine |
+| **E** | Drift mostly inherent (~93%) | Control: 0.661, Treatment: 0.711 | Run 020B IRON CLAD |
 
 ### Quotable Conclusions
 
@@ -750,18 +766,19 @@ Use the calibration pipeline to sync and regenerate packages:
 cd WHITE-PAPER/calibration
 
 # 0. Sync visualizations from S7_ARMADA
-py 0_sync_viz.py --sync-pdfs          # Sync PDFs
+py 0_sync_viz.py --sync               # Sync PDFs from all viz folders
 py 0_sync_viz.py --sync-pngs          # Sync PNGs per visual_index.md
-py 0_sync_viz.py --process-feedback   # Import reviewer feedback
+py 0_sync_viz.py --process-feedback   # Import reviewer feedback (optional)
 
-# 1. Sync LLM_BOOK content
+# 1. Sync LLM_BOOK content (if updated)
 py 1_sync_llmbook.py --sync           # Sync to packages/v4/llmbook/
 
-# 2. Extract review packages
+# 2. Extract review packages (auto-syncs .shared/ first)
 py 2_package_review.py --all          # All 8 publication paths
+# Note: Automatically syncs templates from planning/reviewer_templates/ to .shared/
 
-# 3. Generate PDFs (when ready)
-py 3_generate_pdfs.py --all           # Generate final PDFs
+# 3. Generate PDFs (from reviewer-edited content)
+py 3_generate_pdfs.py --from-review   # Extract from reviewers/, then generate
 ```
 
 **Quick Status Check**
@@ -782,6 +799,6 @@ See [calibration/README.md](calibration/README.md) for complete architecture.
 
 ---
 
-*This package represents Run 023 IRON CLAD COSINE methodology (750 experiments, 25 models, 5 providers), 36 hypotheses, and extensive theoretical development. Your fresh review helps ensure clarity and rigor before public release.*
+*This package represents IRON CLAD COSINE methodology: Run 023d (750 experiments, 25 models) + Run 020B (~93% inherent drift validation), 36 hypotheses, and extensive theoretical development. Your fresh review helps ensure clarity and rigor before public release.*
 
 **Ready to begin? Start with [MINIMUM_PUBLISHABLE_CLAIMS.md](MINIMUM_PUBLISHABLE_CLAIMS.md)**

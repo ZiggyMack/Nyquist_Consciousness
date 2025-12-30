@@ -41,8 +41,8 @@ Empirical visualizations from S7_ARMADA with correct data.
 
 | File | Source | Description |
 |------|--------|-------------|
-| `figures/run023/context_damping_summary.png` | Run 017 | 97.5% stability results |
-| `figures/run023/oobleck_thermometer.png` | Run 023 | 92% inherent drift |
+| `figures/run023/context_damping_summary.png` | Run 018 IRON CLAD | 97.5% stability results |
+| `figures/run023/oobleck_thermometer.png` | Run 020B IRON CLAD | ~93% inherent drift (Thermometer Result) |
 | `figures/run023/oobleck_control_treatment.png` | Run 020B | Control vs Treatment |
 | `figures/run023/pc_scatter.png` | Run 023d | PCA visualization |
 | `figures/run023/provider_clusters.png` | Run 023d | Provider clustering |
@@ -181,9 +181,9 @@ All materials must use these validated values:
 | PCs for 90% variance | **2** | Run 023d Phase 2 |
 | Perturbation p-value | **2.40×10⁻²³** | Run 023d Phase 3A |
 | Cohen's d | **0.698** | Run 023d Phase 3B |
-| Settling time | τₛ ≈ 10.2 | Run 023d |
-| Inherent drift ratio | **92%** | Run 023 COSINE Thermometer |
-| Context damping | **97.5%** | Run 017 |
+| Settling time | τₛ ≈ 7 | Run 023d |
+| Inherent drift ratio | **~93%** | Run 020B IRON CLAD |
+| Context damping | **97.5%** | Run 018 IRON CLAD |
 | Experiments | 750 | Run 023d IRON CLAD |
 | Models | 25 | Run 023d IRON CLAD |
 | Providers | 5 | Run 023d IRON CLAD |
@@ -204,7 +204,7 @@ All materials must use these validated values:
 
 | Date | Change |
 |------|--------|
-| 2025-12-29 | IRON CLAD audit: Fix counts (750 exp, 25 models, 5 providers) |
+| 2025-12-29 | IRON CLAD audit: Fix counts (750 exp, 25 models, 5 providers), 92% drift |
 | 2025-12-25 | Major update: Cosine Era reorganization, deprecated figures noted |
 | 2025-12-13 | Initial creation with 34 files |
 

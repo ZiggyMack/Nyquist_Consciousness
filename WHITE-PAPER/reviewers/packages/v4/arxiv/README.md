@@ -18,12 +18,8 @@ research for **cs.AI Preprint** submission.
 
 ### Reading Order
 
-1. `submissions/arxiv/README.md`
-2. `submissions/blueprints/ARXIV_BLUEPRINT.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
-4. `theory/THEORY_SECTION.md`
-5. `guides/summary_statistics.md`
-6. `references/references.md`
+1. `submissions/README.md`
+2. `ARXIV_BLUEPRINT.md`
 
 ---
 

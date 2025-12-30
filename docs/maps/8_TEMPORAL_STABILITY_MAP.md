@@ -306,7 +306,7 @@ Like a **Phase-Locked Loop** in electronics, we're creating a feedback system to
 ### Findings
 
 - [S7_RUN_018_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_018_SUMMARY.md) — IRON CLAD (184 files, 51 models)
-- [S7_RUN_020B_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_020B_SUMMARY.md) — Thermometer Result (82% inherent)
+- [S7_RUN_020B_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_020B_SUMMARY.md) — Thermometer Result (~93% inherent)
 - [S7_RUN_023_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_023_SUMMARY.md) — Cosine validation (p=2.40e-23)
 
 ---

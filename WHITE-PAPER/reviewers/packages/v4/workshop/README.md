@@ -18,10 +18,8 @@ research for **NeurIPS/AAAI Workshop** submission.
 
 ### Reading Order
 
-1. `submissions/workshop/README.md`
-2. `submissions/blueprints/WORKSHOP_BLUEPRINT.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
-4. `guides/summary_statistics.md`
+1. `submissions/README.md`
+2. `WORKSHOP_BLUEPRINT.md`
 
 ---
 

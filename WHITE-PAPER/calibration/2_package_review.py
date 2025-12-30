@@ -23,8 +23,8 @@ OUTPUT:
 WHITE-PAPER/reviewers/packages/v4/{path}/
 ├── README.md                    # Instructions for reviewers
 ├── PACKAGE_MANIFEST.md          # What's included + reading order
-├── submissions/{path}/          # Core submission materials
-├── blueprints/                  # Blueprint for this path
+├── {PATH}_BLUEPRINT.md          # Blueprint for this path (at root)
+├── submissions/                 # Core submission materials (FLAT - no nested path dir)
 ├── theory/                      # Theory docs (varies by path)
 ├── guides/                      # Guides (varies by path)
 └── figures/                     # Figure specs (included by default)
@@ -60,7 +60,8 @@ WHITE_PAPER_ROOT = Path(__file__).parent.parent  # WHITE-PAPER/
 REPO_ROOT = WHITE_PAPER_ROOT.parent              # Nyquist_Consciousness/
 DEFAULT_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "v4"  # v4 packages (Run 023d IRON CLAD + Oobleck Effect)
 PDF_OUTPUT_DIR = WHITE_PAPER_ROOT / "reviewers" / "packages" / "pdf"
-LLM_SYNTHESIS_DIR = WHITE_PAPER_ROOT / "reviewers" / "LLM_BOOK_SYNTHESIS"
+# LLM content source: REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/ (organized by publication type)
+LLM_PUBLICATIONS_DIR = REPO_ROOT / "REPO-SYNC" / "LLM_BOOK" / "2_PUBLICATIONS"
 
 # === PUBLICATION PATHS (8 total) ===
 PUBLICATION_PATHS = [
@@ -74,43 +75,88 @@ PUBLICATION_PATHS = [
     "media",         # Dissemination: Press/TED
 ]
 
+# Path to PACKAGE_INDEX.json template (SSOT for shared content mapping)
+PACKAGE_INDEX_TEMPLATE = WHITE_PAPER_ROOT / "planning" / "reviewer_templates" / "PACKAGE_INDEX.json"
+
+
+def get_shared_content_for_path(path_name: str) -> Dict[str, List[Dict[str, str]]]:
+    """
+    Read PACKAGE_INDEX.json and return the .shared/ content relevant for a specific path.
+    Returns dict organized by category: {category: [{file: description}, ...]}
+    """
+    if not PACKAGE_INDEX_TEMPLATE.exists():
+        return {}
+
+    try:
+        with open(PACKAGE_INDEX_TEMPLATE, 'r', encoding='utf-8') as f:
+            index = json.load(f)
+    except (json.JSONDecodeError, IOError):
+        return {}
+
+    shared_content = index.get("shared_content", {})
+    result = {}
+
+    for category, files in shared_content.items():
+        category_files = []
+        for filename, file_info in files.items():
+            # Handle both dict format and array format for paths
+            if isinstance(file_info, dict):
+                paths = file_info.get("paths", [])
+                description = file_info.get("description", "")
+                if path_name in paths:
+                    category_files.append({
+                        "file": filename,
+                        "description": description
+                    })
+        if category_files:
+            result[category] = category_files
+
+    return result
+
+
 # === NOTEBOOKLM INTEGRATION ===
-# Map which LLM_BOOK_SYNTHESIS files go to which publication paths
+# Map publication paths → source subdirectories in LLM_BOOK/2_PUBLICATIONS/
+# Format: path_name: [(source_subdir, filename), ...]
+#
+# Source subdirectories in LLM_BOOK/2_PUBLICATIONS/:
+#   academic/    - for arxiv, journal, workshop
+#   education/   - for education path
+#   funding/     - for funding path
+#   media/       - for media path
+#   policy/      - for policy path
+#   popular_science/ - for popular_science path
+#
 NOTEBOOKLM_INTEGRATION = {
     "arxiv": [
-        "README.md",  # Master synthesis (173KB)
-        "INDEX.md",   # Content guide
-        "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md",
-        "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
-        "Decoding Ai Identity Drift.png",    # Infographic
-        "NotebookLM Mind Map (1).png",       # Concept map
+        ("academic", "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md"),
+        ("academic", "Technical Report - Comparative Analysis of AI Provider Identity Stability.md"),
+        ("academic", "The Nyquist Consciousness Framework - An Empirical Analysis of AI Identity Dynamics.md"),
     ],
     "journal": [
-        "README.md",  # Master synthesis (173KB)
-        "INDEX.md",   # Content guide
-        "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md",
-        "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
-        "Decoding Ai Identity Drift.png",    # Infographic
-        "NotebookLM Mind Map (1).png",       # Concept map
+        ("academic", "Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md"),
+        ("academic", "Technical Report - Comparative Analysis of AI Provider Identity Stability.md"),
+        ("academic", "The Nyquist Consciousness Framework - An Empirical Analysis of AI Identity Dynamics.md"),
     ],
     "workshop": [
-        "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md",
+        ("policy", "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md"),
     ],
     "popular_science": [
-        "Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md",
+        ("popular_science", "Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md"),
     ],
     "education": [
-        "Decoding AI Identity - A Visual Guide to Model Waveforms.md",
+        ("education", "Decoding AI Identity - A Visual Guide to Model Waveforms.md"),
+        ("education", "The Five Discoveries of Nyquist Consciousness - A Student's Guide to AI Identity.md"),
+        ("education", "A Learner's Glossary - Key Terms in Nyquist Consciousness Research.md"),
     ],
     "policy": [
-        "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md",
+        ("policy", "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md"),
     ],
     "funding": [
-        "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md",
-        "Technical Report - Comparative Analysis of AI Provider Identity Stability.md",
+        ("funding", "Project Nyquist Consciousness - A Proposal for the Next Phase of Research into AI Identity Dynamics and Control.md"),
+        ("academic", "Technical Report - Comparative Analysis of AI Provider Identity Stability.md"),
     ],
     "media": [
-        "Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md",
+        ("media", "The Nyquist Consciousness Framework - A New Paradigm for Measuring and Engineering AI Identity.md"),
     ],
 }
 
@@ -140,17 +186,18 @@ WORKSHOP_CONTENT = PathContent(
     target_venue="NeurIPS/AAAI Workshop",
     submissions=["workshop/"],
     blueprints=["WORKSHOP_BLUEPRINT.md"],
-    theory=["MINIMUM_PUBLISHABLE_CLAIMS.md"],
-    guides=["summary_statistics.md"],
+    # All shared content (theory, guides, figures, references, planning) lives in .shared/
+    # Path packages only contain path-specific submissions + blueprint
+    theory=[],
+    guides=[],
     references=[],
-    figures=["ascii/ascii_workshop_*.md", "visual_index.md"],
-    planning=["OPUS_REVIEW_BRIEF.md", "NOVAS_OVERCLAIMING_PREVENTION.md", "METHODOLOGY_DOMAINS.md"],
-    reviewers=["phase1/Nyquist_workshop_paper*.md", "phase2/Workshop_paper*.md"],
+    figures=[],
+    planning=[],
+    reviewers=[],
     reading_order=[
-        "submissions/workshop/README.md",
-        "submissions/blueprints/WORKSHOP_BLUEPRINT.md",
-        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
-        "guides/summary_statistics.md",
+        "submissions/README.md",
+        "WORKSHOP_BLUEPRINT.md",
+        # Reviewers should use .shared/ for: theory/, guides/, figures/, references/
     ]
 )
 
@@ -160,19 +207,18 @@ ARXIV_CONTENT = PathContent(
     target_venue="cs.AI Preprint",
     submissions=["arxiv/"],
     blueprints=["ARXIV_BLUEPRINT.md"],
-    theory=["*.md"],  # All theory docs
-    guides=["*.md"],  # All guides
-    references=["references.md", "references.bib"],
-    figures=["conceptual/", "ascii/", "experiments/", "visual_index.md"],  # Organized: conceptual (theory figs), ascii (workshop), experiments/run023 (latest)
-    planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md", "NOVAS_OVERCLAIMING_PREVENTION.md", "METHODOLOGY_DOMAINS.md"],
-    reviewers=["phase1/NOVA_S7_REVIEW.md", "phase3/*.md"],
+    # All shared content (theory, guides, figures, references, planning) lives in .shared/
+    # Path packages only contain path-specific submissions + blueprint
+    theory=[],
+    guides=[],
+    references=[],
+    figures=[],
+    planning=[],
+    reviewers=[],
     reading_order=[
-        "submissions/arxiv/README.md",
-        "submissions/blueprints/ARXIV_BLUEPRINT.md",
-        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
-        "theory/THEORY_SECTION.md",
-        "guides/summary_statistics.md",
-        "references/references.md",
+        "submissions/README.md",
+        "ARXIV_BLUEPRINT.md",
+        # Reviewers should use .shared/ for: theory/, guides/, figures/, references/
     ]
 )
 
@@ -180,19 +226,20 @@ JOURNAL_CONTENT = PathContent(
     name="journal",
     description="Journal paper package (Nature MI, comprehensive)",
     target_venue="Nature Machine Intelligence",
-    submissions=["journal/", "arxiv/"],  # Build on arxiv
-    blueprints=["JOURNAL_BLUEPRINT.md", "ARXIV_BLUEPRINT.md"],
-    theory=["*.md"],
-    guides=["*.md"],
-    references=["references.md", "references.bib"],
-    figures=["conceptual/", "ascii/", "experiments/", "visual_index.md"],  # Organized: conceptual (theory figs), ascii (workshop), experiments/run023 (latest)
-    planning=["OPUS_REVIEW_BRIEF.md", "PUBLICATION_PIPELINE_MASTER.md", "NOVAS_OVERCLAIMING_PREVENTION.md", "METHODOLOGY_DOMAINS.md"],
-    reviewers=["phase1/*.md", "phase2/*.md", "phase3/*.md"],
+    submissions=["journal/"],  # Just journal content (arxiv has its own package)
+    blueprints=["JOURNAL_BLUEPRINT.md"],
+    # All shared content (theory, guides, figures, references, planning) lives in .shared/
+    # Path packages only contain path-specific submissions + blueprint
+    theory=[],
+    guides=[],
+    references=[],
+    figures=[],
+    planning=[],
+    reviewers=[],
     reading_order=[
-        "submissions/journal/README.md",
-        "submissions/blueprints/JOURNAL_BLUEPRINT.md",
-        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
-        "theory/THEORY_SECTION.md",
+        "submissions/README.md",
+        "JOURNAL_BLUEPRINT.md",
+        # Reviewers should use .shared/ for: theory/, guides/, figures/, references/
     ]
 )
 
@@ -202,16 +249,16 @@ POPULAR_SCIENCE_CONTENT = PathContent(
     target_venue="The Atlantic / Wired / Scientific American",
     submissions=["popular_science/"],
     blueprints=[],
+    # All shared content lives in .shared/
     theory=[],
-    guides=["summary_statistics.md"],
+    guides=[],
     references=[],
     figures=[],
-    planning=["OPUS_REVIEW_BRIEF.md", "NOVAS_OVERCLAIMING_PREVENTION.md"],
+    planning=[],
     reviewers=[],
     reading_order=[
-        "submissions/popular_science/README.md",
-        "submissions/popular_science/POPULAR_SCIENCE_FINAL.md",
-        "guides/summary_statistics.md",
+        "submissions/README.md",
+        "submissions/POPULAR_SCIENCE_FINAL.md",
     ]
 )
 
@@ -221,16 +268,16 @@ EDUCATION_CONTENT = PathContent(
     target_venue="Open Educational Resources / Coursera",
     submissions=["education/"],
     blueprints=[],
-    theory=["MINIMUM_PUBLISHABLE_CLAIMS.md"],
-    guides=["summary_statistics.md"],
+    # All shared content lives in .shared/
+    theory=[],
+    guides=[],
     references=[],
     figures=[],
-    planning=["NOVAS_OVERCLAIMING_PREVENTION.md"],
+    planning=[],
     reviewers=[],
     reading_order=[
-        "submissions/education/README.md",
-        "submissions/education/EDUCATION_FINAL.md",
-        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
+        "submissions/README.md",
+        "submissions/EDUCATION_FINAL.md",
     ]
 )
 
@@ -240,16 +287,16 @@ POLICY_CONTENT = PathContent(
     target_venue="Brookings / Center for AI Safety / EU AI Office",
     submissions=["policy/"],
     blueprints=[],
+    # All shared content lives in .shared/
     theory=[],
-    guides=["summary_statistics.md"],
+    guides=[],
     references=[],
     figures=[],
-    planning=["NOVAS_OVERCLAIMING_PREVENTION.md"],
+    planning=[],
     reviewers=[],
     reading_order=[
-        "submissions/policy/README.md",
-        "submissions/policy/POLICY_FINAL.md",
-        "guides/summary_statistics.md",
+        "submissions/README.md",
+        "submissions/POLICY_FINAL.md",
     ]
 )
 
@@ -259,16 +306,16 @@ FUNDING_CONTENT = PathContent(
     target_venue="NSF / DARPA / Open Philanthropy",
     submissions=["funding/"],
     blueprints=[],
-    theory=["MINIMUM_PUBLISHABLE_CLAIMS.md", "B-CRUMBS.md"],
-    guides=["summary_statistics.md", "REPRODUCIBILITY_README.md"],
+    # All shared content lives in .shared/
+    theory=[],
+    guides=[],
     references=[],
     figures=[],
-    planning=["NOVAS_OVERCLAIMING_PREVENTION.md", "METHODOLOGY_DOMAINS.md"],
+    planning=[],
     reviewers=[],
     reading_order=[
-        "submissions/funding/README.md",
-        "submissions/funding/FUNDING_FINAL.md",
-        "theory/MINIMUM_PUBLISHABLE_CLAIMS.md",
+        "submissions/README.md",
+        "submissions/FUNDING_FINAL.md",
     ]
 )
 
@@ -276,18 +323,18 @@ MEDIA_CONTENT = PathContent(
     name="media",
     description="Media/press package (Press releases, podcasts)",
     target_venue="Press / Podcasts / TED",
-    submissions=["media/", "popular_science/"],
+    submissions=["media/"],  # Just media content (popular_science has its own package)
     blueprints=[],
+    # All shared content lives in .shared/
     theory=[],
-    guides=["summary_statistics.md"],
+    guides=[],
     references=[],
     figures=[],
-    planning=["NOVAS_OVERCLAIMING_PREVENTION.md"],
+    planning=[],
     reviewers=[],
     reading_order=[
-        "submissions/media/README.md",
-        "submissions/media/MEDIA_FINAL.md",
-        "submissions/popular_science/POPULAR_SCIENCE_FINAL.md",
+        "submissions/README.md",
+        "submissions/MEDIA_FINAL.md",
     ]
 )
 
@@ -439,11 +486,13 @@ def generate_manifest(
     collected: Dict[str, List[Path]],
     output_dir: Path,
     include_figures: bool,
-    include_pdf: bool
+    include_pdf: bool,
+    llm_files_copied: List[str] = None
 ) -> str:
     """Generate PACKAGE_MANIFEST.md content."""
 
-    total_files = sum(len(files) for files in collected.values())
+    llm_files_copied = llm_files_copied or []
+    total_files = sum(len(files) for files in collected.values()) + len(llm_files_copied)
     total_size = sum(calculate_total_size(files) for files in collected.values())
 
     lines = [
@@ -486,6 +535,10 @@ def generate_manifest(
             size = format_size(calculate_total_size(files))
             lines.append(f"| {category}/ | {len(files)} files | {size} |")
 
+    # Add LLM_SYNTHESIS row if files were copied
+    if llm_files_copied:
+        lines.append(f"| LLM_SYNTHESIS/ | {len(llm_files_copied)} files | (included) |")
+
     lines.extend([
         "",
         f"**Total:** {total_files} files, {format_size(total_size)}",
@@ -505,6 +558,41 @@ def generate_manifest(
                 size = format_size(f.stat().st_size)
                 lines.append(f"- `{rel_path}` ({size})")
             lines.append("")
+
+    # Add LLM_SYNTHESIS listing if files were copied
+    if llm_files_copied:
+        lines.append("### LLM_SYNTHESIS/")
+        lines.append("")
+        lines.append("*NotebookLM-generated content for this publication path:*")
+        lines.append("")
+        for filename in llm_files_copied:
+            lines.append(f"- `LLM_SYNTHESIS/{filename}`")
+        lines.append("")
+
+    # Add recommended .shared/ content section
+    shared_content = get_shared_content_for_path(path_content.name)
+    if shared_content:
+        lines.extend([
+            "---",
+            "",
+            "## Recommended .shared/ Content",
+            "",
+            "This path should also reference the following files from `.shared/`:",
+            "",
+        ])
+
+        for category, files in sorted(shared_content.items()):
+            lines.append(f"### .shared/{category}/")
+            lines.append("")
+            for file_info in files:
+                lines.append(f"- **{file_info['file']}** — {file_info['description']}")
+            lines.append("")
+
+        lines.extend([
+            "*These files live in `.shared/` to avoid duplication across paths.*",
+            "*See `.shared/PACKAGE_INDEX.json` for complete content mapping.*",
+            "",
+        ])
 
     lines.extend([
         "---",
@@ -765,6 +853,22 @@ def extract_package(
         for src_file in files:
             # Calculate relative path from WHITE_PAPER_ROOT
             rel_path = src_file.relative_to(WHITE_PAPER_ROOT)
+
+            # FLATTEN submissions: remove path-specific subdirectory
+            # e.g., submissions/journal/README.md → submissions/README.md
+            if category == "submissions":
+                parts = rel_path.parts
+                if len(parts) >= 2 and parts[0] == "submissions":
+                    # Remove the path-specific dir (e.g., "journal", "arxiv")
+                    # submissions/journal/README.md → submissions/README.md
+                    new_parts = ("submissions",) + parts[2:]
+                    rel_path = Path(*new_parts)
+
+            # FLATTEN blueprints: put at package root, not in blueprints/ subdirectory
+            # e.g., submissions/blueprints/JOURNAL_BLUEPRINT.md → JOURNAL_BLUEPRINT.md
+            if category == "blueprints":
+                rel_path = Path(rel_path.name)
+
             dst_file = output_dir / rel_path
 
             try:
@@ -802,9 +906,19 @@ def extract_package(
     except Exception as e:
         result["errors"].append(f"Failed to write README: {e}")
 
-    # Generate and write manifest
+    # Copy NotebookLM synthesis files BEFORE generating manifest
+    llm_files_copied = []
+    if not dry_run:
+        llm_result = copy_notebooklm_synthesis(path_name, output_dir)
+        if llm_result.get("files_copied"):
+            llm_files_copied = llm_result["files_copied"]
+            result["llm_synthesis_copied"] = llm_files_copied
+        if llm_result.get("errors"):
+            result["errors"].extend(llm_result["errors"])
+
+    # Generate and write manifest (includes LLM_SYNTHESIS files)
     manifest_content = generate_manifest(
-        path_content, collected, output_dir, include_figures, include_pdf
+        path_content, collected, output_dir, include_figures, include_pdf, llm_files_copied
     )
     manifest_path = output_dir / "PACKAGE_MANIFEST.md"
     try:
@@ -815,20 +929,15 @@ def extract_package(
 
     result["message"] = f"Extracted {total_files} files ({format_size(total_size)}) to {output_dir}"
 
-    # Copy NotebookLLM synthesis files if available
-    if not dry_run:
-        llm_result = copy_notebooklm_synthesis(path_name, output_dir)
-        if llm_result.get("files_copied"):
-            result["llm_synthesis_copied"] = llm_result["files_copied"]
-        if llm_result.get("errors"):
-            result["errors"].extend(llm_result["errors"])
-
     return result
 
 
 def copy_notebooklm_synthesis(path_name: str, output_dir: Path) -> Dict:
     """
-    Copy relevant NotebookLLM synthesis files to the package's LLM_SYNTHESIS/ directory.
+    Copy relevant NotebookLM synthesis files to the package's LLM_SYNTHESIS/ directory.
+
+    Files are sourced from REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/{subdir}/
+    Each entry in NOTEBOOKLM_INTEGRATION is a tuple: (source_subdir, filename)
 
     Args:
         path_name: Publication path (e.g., "arxiv", "workshop")
@@ -842,6 +951,11 @@ def copy_notebooklm_synthesis(path_name: str, output_dir: Path) -> Dict:
     if path_name not in NOTEBOOKLM_INTEGRATION:
         return result
 
+    # Check if source directory exists
+    if not LLM_PUBLICATIONS_DIR.exists():
+        result["errors"].append(f"LLM publications directory not found: {LLM_PUBLICATIONS_DIR}")
+        return result
+
     synthesis_dir = output_dir / "LLM_SYNTHESIS"
 
     try:
@@ -850,8 +964,9 @@ def copy_notebooklm_synthesis(path_name: str, output_dir: Path) -> Dict:
         result["errors"].append(f"Failed to create LLM_SYNTHESIS dir: {e}")
         return result
 
-    for filename in NOTEBOOKLM_INTEGRATION[path_name]:
-        src_file = LLM_SYNTHESIS_DIR / filename
+    for source_subdir, filename in NOTEBOOKLM_INTEGRATION[path_name]:
+        # Source: REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/{source_subdir}/{filename}
+        src_file = LLM_PUBLICATIONS_DIR / source_subdir / filename
         if src_file.exists():
             dst_file = synthesis_dir / filename
             try:
@@ -860,7 +975,7 @@ def copy_notebooklm_synthesis(path_name: str, output_dir: Path) -> Dict:
             except Exception as e:
                 result["errors"].append(f"Failed to copy {filename}: {e}")
         else:
-            result["errors"].append(f"LLM synthesis file not found: {filename}")
+            result["errors"].append(f"LLM synthesis file not found: {src_file}")
 
     return result
 
@@ -999,6 +1114,334 @@ def generate_extraction_report(results: List[Dict]) -> str:
     if any(r.get("dry_run") for r in results):
         lines.append("")
         lines.append("Dry run complete. Remove --dry-run to actually extract.")
+
+    return "\n".join(lines)
+
+
+# === SHARED CONTENT SYNC ===
+
+SHARED_OUTPUT_DIR = DEFAULT_OUTPUT_DIR / ".shared"
+REVIEWER_TEMPLATES_DIR = WHITE_PAPER_ROOT / "planning" / "reviewer_templates"
+
+# Define what goes into .shared/ (union of all path content)
+SHARED_CONTENT_SPEC = {
+    "theory": ["*.md"],  # All theory docs
+    "guides": ["*.md"],  # All guides
+    "planning": ["*.md"],  # All planning docs
+    "references": ["references.md", "references.bib"],
+    "figures": ["conceptual/", "ascii/", "experiments/", "visual_index.md"],
+}
+
+# Core template files that go in .shared/ root
+CORE_TEMPLATES = [
+    "START_HERE.md",
+    "REVIEWER_BRIEF.md",
+    "PACKAGE_INDEX.json",
+]
+
+
+def check_template_staleness() -> Dict:
+    """
+    Compare templates in planning/reviewer_templates/ against .shared/.
+    Returns staleness report.
+    """
+    report = {
+        "stale_files": [],
+        "missing_in_shared": [],
+        "missing_templates": [],
+        "up_to_date": [],
+    }
+
+    for template_file in CORE_TEMPLATES:
+        template_path = REVIEWER_TEMPLATES_DIR / template_file
+        shared_path = SHARED_OUTPUT_DIR / template_file
+
+        if not template_path.exists():
+            report["missing_templates"].append(template_file)
+            continue
+
+        if not shared_path.exists():
+            report["missing_in_shared"].append(template_file)
+            continue
+
+        # Compare modification times
+        template_mtime = template_path.stat().st_mtime
+        shared_mtime = shared_path.stat().st_mtime
+
+        if template_mtime > shared_mtime:
+            report["stale_files"].append({
+                "file": template_file,
+                "template_mtime": datetime.fromtimestamp(template_mtime).isoformat(),
+                "shared_mtime": datetime.fromtimestamp(shared_mtime).isoformat(),
+            })
+        else:
+            report["up_to_date"].append(template_file)
+
+    return report
+
+
+def merge_package_index(template_index: Dict, existing_index: Dict) -> Dict:
+    """
+    Merge PACKAGE_INDEX.json intelligently:
+    - Increment version
+    - Preserve existing path mappings
+    - Add new entries from template
+    - Update _meta with new timestamp
+    """
+    merged = existing_index.copy()
+
+    # Update metadata
+    if "_meta" in template_index:
+        old_version = existing_index.get("_meta", {}).get("version", "1.0")
+        try:
+            # Try to increment version
+            parts = old_version.split(".")
+            parts[-1] = str(int(parts[-1]) + 1)
+            new_version = ".".join(parts)
+        except (ValueError, IndexError):
+            new_version = old_version
+
+        merged["_meta"] = template_index["_meta"].copy()
+        merged["_meta"]["version"] = new_version
+        merged["_meta"]["updated"] = datetime.now().strftime("%Y-%m-%d")
+
+    # Merge shared_content (add new entries, don't remove old)
+    if "shared_content" in template_index:
+        if "shared_content" not in merged:
+            merged["shared_content"] = {}
+        for category, entries in template_index["shared_content"].items():
+            if category not in merged["shared_content"]:
+                merged["shared_content"][category] = entries
+            else:
+                # Merge entries
+                if isinstance(entries, dict):
+                    for key, value in entries.items():
+                        if key not in merged["shared_content"][category]:
+                            merged["shared_content"][category][key] = value
+
+    # Preserve other sections from existing
+    for key in existing_index:
+        if key not in merged:
+            merged[key] = existing_index[key]
+
+    return merged
+
+
+def sync_shared_content(dry_run: bool = False, force: bool = False) -> Dict:
+    """
+    Sync shared content to .shared/ directory.
+
+    This creates a self-contained minimum viable package that can be
+    given to any reviewer first.
+
+    Args:
+        dry_run: Preview without writing files
+        force: Overwrite even if .shared/ files are newer than templates
+
+    Returns:
+        Dict with sync results
+    """
+    result = {
+        "mode": "sync_shared",
+        "output_dir": str(SHARED_OUTPUT_DIR),
+        "dry_run": dry_run,
+        "files_copied": [],
+        "templates_copied": [],
+        "errors": [],
+        "categories": {},
+        "staleness_report": None,
+    }
+
+    # Check template staleness first
+    staleness = check_template_staleness()
+    result["staleness_report"] = staleness
+
+    if not dry_run:
+        SHARED_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # === SYNC CORE TEMPLATES FROM planning/reviewer_templates/ ===
+    result["categories"]["templates"] = {"count": 0, "files": []}
+
+    for template_file in CORE_TEMPLATES:
+        template_path = REVIEWER_TEMPLATES_DIR / template_file
+        shared_path = SHARED_OUTPUT_DIR / template_file
+
+        if not template_path.exists():
+            result["errors"].append(f"Template missing: {template_file}")
+            continue
+
+        result["categories"]["templates"]["count"] += 1
+        result["categories"]["templates"]["files"].append(template_file)
+
+        if not dry_run:
+            try:
+                if template_file == "PACKAGE_INDEX.json":
+                    # Special handling for PACKAGE_INDEX.json - merge if exists
+                    template_content = json.loads(template_path.read_text(encoding="utf-8"))
+
+                    if shared_path.exists():
+                        existing_content = json.loads(shared_path.read_text(encoding="utf-8"))
+                        merged = merge_package_index(template_content, existing_content)
+                        shared_path.write_text(json.dumps(merged, indent=2), encoding="utf-8")
+                        result["templates_copied"].append(f"{template_file} (merged)")
+                    else:
+                        shared_path.write_text(json.dumps(template_content, indent=2), encoding="utf-8")
+                        result["templates_copied"].append(template_file)
+                else:
+                    # Direct copy for markdown files
+                    shutil.copy2(template_path, shared_path)
+                    result["templates_copied"].append(template_file)
+            except Exception as e:
+                result["errors"].append(f"Failed to copy template {template_file}: {e}")
+
+    # === SYNC CATEGORY CONTENT ===
+    for category, patterns in SHARED_CONTENT_SPEC.items():
+        source_dir = WHITE_PAPER_ROOT / category
+        files = resolve_patterns(source_dir, patterns)
+
+        result["categories"][category] = {
+            "count": len(files),
+            "size_bytes": calculate_total_size(files),
+            "files": [f.name for f in files]
+        }
+
+        if not dry_run:
+            dest_dir = SHARED_OUTPUT_DIR / category
+            dest_dir.mkdir(parents=True, exist_ok=True)
+
+            for src_file in files:
+                # Preserve subdirectory structure within category
+                rel_to_source = src_file.relative_to(source_dir)
+                dst_file = dest_dir / rel_to_source
+
+                try:
+                    dst_file.parent.mkdir(parents=True, exist_ok=True)
+
+                    # Apply path conversion for markdown files
+                    if src_file.suffix.lower() == ".md":
+                        content = src_file.read_text(encoding="utf-8")
+                        if category == "guides":
+                            content = convert_guides_content(content)
+                        elif category == "planning":
+                            content = convert_planning_content(content)
+                        elif category == "theory":
+                            content = convert_theory_content(content)
+                        dst_file.write_text(content, encoding="utf-8")
+                        shutil.copystat(src_file, dst_file)
+                    else:
+                        shutil.copy2(src_file, dst_file)
+
+                    result["files_copied"].append(f"{category}/{rel_to_source}")
+                except Exception as e:
+                    result["errors"].append(f"Failed to copy {category}/{rel_to_source}: {e}")
+
+    # === SYNC LLM_SYNTHESIS CONTENT (shared/common files for .shared/) ===
+    # Copy academic LLM content to .shared/LLM_SYNTHESIS/ as reference material
+    # Path-specific content is copied during individual package extraction
+    if LLM_PUBLICATIONS_DIR.exists():
+        result["categories"]["LLM_SYNTHESIS"] = {"count": 0, "files": []}
+        dest_llm_dir = SHARED_OUTPUT_DIR / "LLM_SYNTHESIS"
+
+        if not dry_run:
+            dest_llm_dir.mkdir(parents=True, exist_ok=True)
+
+        # Copy all academic LLM publications to .shared/ as reference
+        academic_dir = LLM_PUBLICATIONS_DIR / "academic"
+        if academic_dir.exists():
+            for src_file in academic_dir.iterdir():
+                if src_file.is_file():
+                    result["categories"]["LLM_SYNTHESIS"]["count"] += 1
+                    result["categories"]["LLM_SYNTHESIS"]["files"].append(src_file.name)
+
+                    if not dry_run:
+                        try:
+                            shutil.copy2(src_file, dest_llm_dir / src_file.name)
+                            result["files_copied"].append(f"LLM_SYNTHESIS/{src_file.name}")
+                        except Exception as e:
+                            result["errors"].append(f"Failed to copy LLM_SYNTHESIS/{src_file.name}: {e}")
+
+    # Calculate totals
+    total_files = sum(cat.get("count", 0) for cat in result["categories"].values())
+    total_size = sum(cat.get("size_bytes", 0) for cat in result["categories"].values())
+
+    result["statistics"] = {
+        "total_files": total_files,
+        "total_size_bytes": total_size,
+        "total_size_human": format_size(total_size),
+    }
+
+    result["message"] = f"{'Would sync' if dry_run else 'Synced'} {len(result['files_copied']) + len(result['templates_copied'])} files to {SHARED_OUTPUT_DIR}"
+
+    return result
+
+
+def generate_shared_sync_report(result: Dict) -> str:
+    """Generate a report of shared content sync."""
+
+    lines = [
+        "=" * 70,
+        ".SHARED/ CONTENT SYNC REPORT",
+        f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        "=" * 70,
+        "",
+        f"Output:  {result['output_dir']}",
+    ]
+
+    if result.get("statistics"):
+        stats = result["statistics"]
+        lines.append(f"Files:   {stats['total_files']}")
+        lines.append(f"Size:    {stats['total_size_human']}")
+
+    # Show template status
+    if result.get("templates_copied"):
+        lines.extend(["", "## Core Templates (from planning/reviewer_templates/)", ""])
+        for t in result["templates_copied"]:
+            lines.append(f"  - {t}")
+
+    # Show staleness report
+    staleness = result.get("staleness_report", {})
+    if staleness:
+        if staleness.get("stale_files"):
+            lines.extend(["", "## WARNING: Stale Files in .shared/", ""])
+            for sf in staleness["stale_files"]:
+                lines.append(f"  - {sf['file']}: template newer ({sf['template_mtime'][:10]})")
+        if staleness.get("missing_in_shared"):
+            lines.extend(["", "## Missing in .shared/ (will be created)", ""])
+            for mf in staleness["missing_in_shared"]:
+                lines.append(f"  - {mf}")
+        if staleness.get("missing_templates"):
+            lines.extend(["", "## ERROR: Missing templates in planning/reviewer_templates/", ""])
+            for mt in staleness["missing_templates"]:
+                lines.append(f"  - {mt}")
+
+    lines.extend(["", "## By Category", "", "| Category | Files | Size |", "|----------|-------|------|"])
+
+    for category, info in result.get("categories", {}).items():
+        count = info.get("count", 0)
+        size = format_size(info.get("size_bytes", 0))
+        lines.append(f"| {category}/ | {count} | {size} |")
+
+    lines.append("")
+
+    if result["dry_run"]:
+        lines.append("Status: DRY RUN (no files written)")
+    else:
+        total_synced = len(result.get('files_copied', [])) + len(result.get('templates_copied', []))
+        lines.append(f"Status: SYNCED ({total_synced} files)")
+
+    if result.get("errors"):
+        lines.extend(["", f"Errors: {len(result['errors'])}"])
+        for err in result["errors"][:5]:
+            lines.append(f"  - {err}")
+
+    lines.extend([
+        "",
+        "---",
+        "",
+        ".shared/ is now a self-contained minimum viable package.",
+        "Templates source: planning/reviewer_templates/",
+        "Send this directory first to any reviewer.",
+    ])
 
     return "\n".join(lines)
 
@@ -1296,7 +1739,13 @@ PDF Layer (separate from text packages):
   py 2_package_review.py --extract-pdfs    # Extract to packages/pdf/
   py 2_package_review.py --extract-pdfs --dry-run  # Preview
 
+Shared Content (.shared/ self-contained core):
+  NOTE: .shared/ auto-syncs when extracting packages (--all or specific paths)
+  py 2_package_review.py --sync-shared     # Sync ONLY .shared/ (no packages)
+  py 2_package_review.py --all --no-sync-shared  # Skip auto-sync
+
 Output: packages/pdf/arxiv/, packages/pdf/journal/, etc. (~14 MB total)
+        packages/v4/.shared/ (self-contained reviewer core package)
         """
     )
 
@@ -1313,6 +1762,10 @@ Output: packages/pdf/arxiv/, packages/pdf/journal/, etc. (~14 MB total)
                         help="Include PDF files in text packages (adds ~14MB for arxiv)")
     parser.add_argument("--extract-pdfs", action="store_true",
                         help="Extract PDFs to separate layer: packages/pdf/")
+    parser.add_argument("--sync-shared", action="store_true",
+                        help="Sync shared content to .shared/ (self-contained core package)")
+    parser.add_argument("--no-sync-shared", action="store_true",
+                        help="Skip automatic .shared/ sync when extracting packages")
 
     # Output options
     parser.add_argument("--output", type=Path, default=None,
@@ -1331,6 +1784,15 @@ Output: packages/pdf/arxiv/, packages/pdf/journal/, etc. (~14 MB total)
     # Handle --status mode
     if args.status:
         print(generate_status_report())
+        return
+
+    # Handle --sync-shared mode
+    if args.sync_shared:
+        result = sync_shared_content(dry_run=args.dry_run)
+        if args.json:
+            print(json.dumps(result, indent=2))
+        else:
+            print(generate_shared_sync_report(result))
         return
 
     # Handle --extract-pdfs mode
@@ -1352,6 +1814,19 @@ Output: packages/pdf/arxiv/, packages/pdf/journal/, etc. (~14 MB total)
         print(generate_status_report())
         return
 
+    # AUTO-SYNC .shared/ before extracting packages (unless --no-sync-shared)
+    shared_result = None
+    if not args.no_sync_shared:
+        print("=" * 60)
+        print("STEP 1: Syncing .shared/ (core reviewer package)")
+        print("=" * 60)
+        shared_result = sync_shared_content(dry_run=args.dry_run)
+        print(generate_shared_sync_report(shared_result))
+        print()
+        print("=" * 60)
+        print("STEP 2: Extracting path-specific packages")
+        print("=" * 60)
+
     # Extract packages (figures included by default, --no-figures to exclude)
     include_figures = not args.no_figures
     results = []
@@ -1367,7 +1842,11 @@ Output: packages/pdf/arxiv/, packages/pdf/journal/, etc. (~14 MB total)
 
     # Output results
     if args.json:
-        print(json.dumps(results, indent=2))
+        combined = {
+            "shared_sync": shared_result,
+            "packages": results
+        }
+        print(json.dumps(combined, indent=2))
     else:
         print(generate_extraction_report(results))
 

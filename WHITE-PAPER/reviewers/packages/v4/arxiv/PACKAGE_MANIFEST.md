@@ -1,9 +1,9 @@
 # Review Package: ARXIV
 
-**Generated:** 2025-12-29 13:42:53
+**Generated:** 2025-12-30 09:45:58
 **Target Venue:** cs.AI Preprint
-**Total Size:** 15.8 MB
-**Total Files:** 51
+**Total Size:** 63.4 KB
+**Total Files:** 6
 
 ---
 
@@ -17,12 +17,8 @@ arXiv preprint package (25-35 pages, full methodology)
 
 Start with these files in order:
 
-1. `submissions/arxiv/README.md`
-2. `submissions/blueprints/ARXIV_BLUEPRINT.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
-4. `theory/THEORY_SECTION.md`
-5. `guides/summary_statistics.md`
-6. `references/references.md`
+1. `submissions/README.md`
+2. `ARXIV_BLUEPRINT.md`
 
 ---
 
@@ -32,13 +28,9 @@ Start with these files in order:
 |----------|-------|------|
 | submissions/ | 2 files | 53.4 KB |
 | blueprints/ | 1 files | 10.0 KB |
-| theory/ | 4 files | 58.0 KB |
-| guides/ | 4 files | 40.7 KB |
-| references/ | 2 files | 21.3 KB |
-| figures/ | 34 files | 15.5 MB |
-| planning/ | 4 files | 41.4 KB |
+| LLM_SYNTHESIS/ | 3 files | (included) |
 
-**Total:** 51 files, 15.8 MB
+**Total:** 6 files, 63.4 KB
 
 ---
 
@@ -53,68 +45,67 @@ Start with these files in order:
 
 - `submissions\blueprints\ARXIV_BLUEPRINT.md` (10.0 KB)
 
-### theory/
+### LLM_SYNTHESIS/
 
-- `theory\B-CRUMBS.md` (16.4 KB)
-- `theory\HYPOTHESES_AND_RESULTS.md` (18.8 KB)
-- `theory\MINIMUM_PUBLISHABLE_CLAIMS.md` (10.1 KB)
-- `theory\THEORY_SECTION.md` (12.7 KB)
+*NotebookLM-generated content for this publication path:*
 
-### guides/
+- `LLM_SYNTHESIS/Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md`
+- `LLM_SYNTHESIS/Technical Report - Comparative Analysis of AI Provider Identity Stability.md`
+- `LLM_SYNTHESIS/The Nyquist Consciousness Framework - An Empirical Analysis of AI Identity Dynamics.md`
 
-- `guides\MANIFEST.md` (7.7 KB)
-- `guides\REPRODUCIBILITY_README.md` (10.2 KB)
-- `guides\summary_statistics.md` (11.8 KB)
-- `guides\UNIFIED_STATISTICS_REFERENCE.md` (11.0 KB)
+---
 
-### references/
+## Recommended .shared/ Content
 
-- `references\references.bib` (14.4 KB)
-- `references\references.md` (6.9 KB)
+This path should also reference the following files from `.shared/`:
 
-### figures/
+### .shared/LLM_SYNTHESIS/
 
-- `figures\ascii\ascii_compression.md` (11.7 KB)
-- `figures\ascii\ascii_evidence_chain.md` (5.9 KB)
-- `figures\ascii\ascii_framework.md` (9.7 KB)
-- `figures\ascii\ascii_triple_blind.md` (15.4 KB)
-- `figures\ascii\ascii_vortex.md` (8.1 KB)
-- `figures\ascii\ascii_workshop_abstract.md` (10.0 KB)
-- `figures\ascii\ascii_workshop_contributions.md` (10.0 KB)
-- `figures\conceptual\fig1_identity_manifold.py` (5.4 KB)
-- `figures\conceptual\fig2_drift_field.py` (6.5 KB)
-- `figures\conceptual\fig3_pipeline.py` (6.0 KB)
-- `figures\conceptual\fig4_five_pillars.py` (5.8 KB)
-- `figures\conceptual\meta\fig1_identity_manifold_Cosine.md` (4.9 KB)
-- `figures\conceptual\meta\fig1_identity_manifold_Euclidean.md` (4.3 KB)
-- `figures\conceptual\meta\fig3_pipeline_Euclidean.md` (8.4 KB)
-- `figures\conceptual\meta\fig4_five_pillars_Euclidean.md` (5.9 KB)
-- `figures\conceptual\pics\fig1_identity_manifold_CONCEPTUAL.png` (897.9 KB)
-- `figures\conceptual\pics\fig2_drift_field_CONCEPTUAL.png` (504.8 KB)
-- `figures\conceptual\pics\fig3_pipeline_CONCEPTUAL.png` (525.1 KB)
-- `figures\conceptual\pics\fig4_five_pillars_CONCEPTUAL.png` (401.3 KB)
-- `figures\experiments\run023\3d_attractor_basin.png` (1.8 MB)
-- `figures\experiments\run023\combined_provider_dashboard.png` (195.0 KB)
-- `figures\experiments\run023\context_damping_summary.png` (216.7 KB)
-- `figures\experiments\run023\oobleck_control_treatment.png` (258.9 KB)
-- `figures\experiments\run023\oobleck_thermometer.png` (135.7 KB)
-- `figures\experiments\run023\pc_scatter.png` (223.4 KB)
-- `figures\experiments\run023\perturbation_validation.png` (66.9 KB)
-- `figures\experiments\run023\phase_portrait.png` (4.0 MB)
-- `figures\experiments\run023\provider_clusters.png` (238.4 KB)
-- `figures\experiments\run023\provider_comparison.png` (65.3 KB)
-- `figures\experiments\run023\provider_fingerprint_radar.png` (353.6 KB)
-- `figures\experiments\run023\stability_basin.png` (450.4 KB)
-- `figures\experiments\run023\variance_curve.png` (75.7 KB)
-- `figures\experiments\run023\vortex_identity_drain.png` (5.1 MB)
-- `figures\visual_index.md` (7.8 KB)
+- **README.md** — NotebookLM synthesis master file
+- **INDEX.md** — NotebookLM content index
+- **Technical Report - Comparative Analysis of AI Provider Identity Stability.md** — Provider comparison technical report
+- **Decoding Ai Identity Drift.png** — Infographic from NotebookLM
+- **NotebookLM Mind Map (1).png** — Concept map from NotebookLM
 
-### planning/
+### .shared/figures/
 
-- `planning\METHODOLOGY_DOMAINS.md` (1.9 KB)
-- `planning\NOVAS_OVERCLAIMING_PREVENTION.md` (3.7 KB)
-- `planning\OPUS_REVIEW_BRIEF.md` (29.4 KB)
-- `planning\PUBLICATION_PIPELINE_MASTER.md` (6.3 KB)
+- **visual_index.md** — Index of all figures
+- **ascii/** — ASCII art figures for text-based rendering
+- **conceptual/** — Conceptual figures (Python generators + PNGs)
+- **experiments/run023/** — Run 023 experimental figures
+
+### .shared/guides/
+
+- **summary_statistics.md** — Key statistics and methodology summary
+- **MANIFEST.md** — Package manifest template
+- **UNIFIED_STATISTICS_REFERENCE.md** — Complete statistics reference
+- **REPRODUCIBILITY_README.md** — Reproducibility instructions
+- **WHY_THIS_MATTERS.md** — Implications for Safety, Developers, Policy, Philosophy audiences
+- **VISUAL_QUICK_START.md** — Top 3 visualizations explained (Thermometer, Event Horizon, Oobleck)
+- **GLOSSARY.md** — Complete terminology reference
+- **RUN_REGISTRY.md** — Which run proves which claim - IRON CLAD citation guide
+
+### .shared/planning/
+
+- **OPUS_REVIEW_BRIEF.md** — Reviewer orientation (full repo context)
+- **NOVAS_OVERCLAIMING_PREVENTION.md** — Claim validation guidelines
+- **METHODOLOGY_DOMAINS.md** — Three methodology evolution (Keyword/Euclidean/Cosine)
+- **PUBLICATION_PIPELINE_MASTER.md** — 8-path publication strategy
+
+### .shared/references/
+
+- **references.md** — Bibliography in markdown
+- **references.bib** — BibTeX bibliography
+
+### .shared/theory/
+
+- **MINIMUM_PUBLISHABLE_CLAIMS.md** — The 5 core validated claims
+- **THEORY_SECTION.md** — Full theoretical framework
+- **HYPOTHESES_AND_RESULTS.md** — Hypotheses mapped to experimental results
+- **B-CRUMBS.md** — Breadcrumb methodology documentation
+
+*These files live in `.shared/` to avoid duplication across paths.*
+*See `.shared/PACKAGE_INDEX.json` for complete content mapping.*
 
 ---
 

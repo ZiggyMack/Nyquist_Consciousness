@@ -140,7 +140,7 @@ Recovery commonly shows ringback and damping behavior.
 
 **Publication framing:** Systems/controls result — step response + settling criteria.
 
-**Run 023 context:** Extended 20-probe settling protocol (Run 023d) reveals natural settling behavior across 51 models. 88% achieve stable classification without intervention.
+**Run 023 context:** Extended 20-probe settling protocol (Run 023d) reveals natural settling behavior across 25 models. 88% achieve stable classification without intervention.
 
 ---
 
@@ -153,7 +153,7 @@ Adding identity specification + research context increases stability rate and im
 | Condition | Stability Rate | Source |
 |-----------|----------------|--------|
 | Bare metal | Lower | Run 016 baseline |
-| I_AM + research | ~97.5% | Run 017 |
+| I_AM + research | ~97.5% | Run 018 IRON CLAD |
 
 | Metric | Bare Metal → With Context |
 |--------|---------------------------|
@@ -283,7 +283,7 @@ Claim C (Oscillator Dynamics)
 
 Claim D (Context Damping)
 ├── Run 016: Bare metal baseline
-└── Run 018 IRON CLAD: Full circuit (97.5% stability, 1,549 trajectories)
+└── Run 018 IRON CLAD: 1,549 trajectories, 51 models, 5 providers
 
 Claim E (Inherent Drift)
 ├── Run 020B IRON CLAD Control: B→F drift = 0.661

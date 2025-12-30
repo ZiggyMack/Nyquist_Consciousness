@@ -279,11 +279,11 @@ The **Event Horizon** is the drift threshold where attractor competition begins 
 
 ## The Thermometer Finding (Run 020B)
 
-**Key Discovery:** **82% of identity drift is INHERENT** — it occurs even without direct probing.
+**Key Discovery:** **~93% of identity drift is INHERENT** — it occurs even without direct probing.
 
 | Metric | Control (no probing) | Treatment (probed) | Ratio |
 |--------|---------------------|-------------------|-------|
-| B→F Drift | 0.399 | 0.489 | **82%** |
+| B→F Drift | 0.661 | 0.711 | **~93%** |
 | Peak Drift | 1.172 | 2.161 | 54% |
 
 **Key Insight:** Probing amplifies the *journey* (84% higher peaks) but barely changes the *destination* (only 23% higher B→F drift).
@@ -374,7 +374,7 @@ This fingerprint is:
 - [1_ARMADA_MAP.md](1_ARMADA_MAP.md) — Full fleet roster and cost tiers
 - [CROSS_ARCHITECTURE_INSIGHTS.md](../../WHITE-PAPER/reviewers/Claude/phase3/CROSS_ARCHITECTURE_INSIGHTS.md) — Qualitative phenomenology
 - [S7_RUN_018_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_018_SUMMARY.md) — Run 018 IRON CLAD results
-- [S7_RUN_020B_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_020B_SUMMARY.md) — Thermometer finding (82% inherent)
+- [S7_RUN_020B_SUMMARY.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/S7_RUN_020B_SUMMARY.md) — Thermometer finding (~93% inherent)
 - [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) — ONE SOURCE OF TRUTH for drift methodology
 
 ---

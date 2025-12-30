@@ -1,9 +1,9 @@
 # Review Package: POLICY
 
-**Generated:** 2025-12-29 13:42:53
+**Generated:** 2025-12-30 09:45:58
 **Target Venue:** Brookings / Center for AI Safety / EU AI Office
-**Total Size:** 34.6 KB
-**Total Files:** 4
+**Total Size:** 19.4 KB
+**Total Files:** 3
 
 ---
 
@@ -17,9 +17,8 @@ Policy briefing package (Think tanks)
 
 Start with these files in order:
 
-1. `submissions/policy/README.md`
-2. `submissions/policy/POLICY_FINAL.md`
-3. `guides/summary_statistics.md`
+1. `submissions/README.md`
+2. `submissions/POLICY_FINAL.md`
 
 ---
 
@@ -27,11 +26,10 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 19.2 KB |
-| guides/ | 1 files | 11.8 KB |
-| planning/ | 1 files | 3.7 KB |
+| submissions/ | 2 files | 19.4 KB |
+| LLM_SYNTHESIS/ | 1 files | (included) |
 
-**Total:** 4 files, 34.6 KB
+**Total:** 3 files, 19.4 KB
 
 ---
 
@@ -39,16 +37,39 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\policy\POLICY_FINAL.md` (15.3 KB)
+- `submissions\policy\POLICY_FINAL.md` (15.5 KB)
 - `submissions\policy\README.md` (3.9 KB)
 
-### guides/
+### LLM_SYNTHESIS/
 
-- `guides\summary_statistics.md` (11.8 KB)
+*NotebookLM-generated content for this publication path:*
 
-### planning/
+- `LLM_SYNTHESIS/Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md`
 
-- `planning\NOVAS_OVERCLAIMING_PREVENTION.md` (3.7 KB)
+---
+
+## Recommended .shared/ Content
+
+This path should also reference the following files from `.shared/`:
+
+### .shared/LLM_SYNTHESIS/
+
+- **Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md** — Executive briefing document
+
+### .shared/guides/
+
+- **summary_statistics.md** — Key statistics and methodology summary
+- **WHY_THIS_MATTERS.md** — Implications for Safety, Developers, Policy, Philosophy audiences
+- **VISUAL_QUICK_START.md** — Top 3 visualizations explained (Thermometer, Event Horizon, Oobleck)
+- **GLOSSARY.md** — Complete terminology reference
+
+### .shared/planning/
+
+- **OPUS_REVIEW_BRIEF.md** — Reviewer orientation (full repo context)
+- **NOVAS_OVERCLAIMING_PREVENTION.md** — Claim validation guidelines
+
+*These files live in `.shared/` to avoid duplication across paths.*
+*See `.shared/PACKAGE_INDEX.json` for complete content mapping.*
 
 ---
 

@@ -1,0 +1,272 @@
+{
+  "_meta": {
+    "version": "1.1",
+    "description": "Maps shared content to publication paths. Files in .shared/ are deduplicated; paths reference them via this index.",
+    "updated": "2025-12-30",
+    "methodology": "IRON CLAD (Cosine D=0.80, p=2.40e-23)",
+    "note": "This file now lives in .shared/ so the entire directory is self-contained for reviewer delivery"
+  },
+  "core_files": {
+    "description": "Essential orientation files for any reviewer",
+    "files": {
+      "START_HERE.md": "Entry point for all reviewers",
+      "REVIEWER_BRIEF.md": "Full package orientation with key numbers",
+      "PACKAGE_INDEX.json": "This file - maps content to paths"
+    }
+  },
+  "shared_content": {
+    "theory": {
+      "MINIMUM_PUBLISHABLE_CLAIMS.md": {
+        "description": "The 5 core validated claims",
+        "paths": ["arxiv", "journal", "workshop", "education", "funding"]
+      },
+      "THEORY_SECTION.md": {
+        "description": "Full theoretical framework",
+        "paths": ["arxiv", "journal"]
+      },
+      "HYPOTHESES_AND_RESULTS.md": {
+        "description": "Hypotheses mapped to experimental results",
+        "paths": ["arxiv", "journal"]
+      },
+      "B-CRUMBS.md": {
+        "description": "Breadcrumb methodology documentation",
+        "paths": ["arxiv", "journal", "funding"]
+      }
+    },
+    "guides": {
+      "summary_statistics.md": {
+        "description": "Key statistics and methodology summary",
+        "paths": ["arxiv", "journal", "workshop", "popular_science", "education", "policy", "funding", "media"]
+      },
+      "MANIFEST.md": {
+        "description": "Package manifest template",
+        "paths": ["arxiv", "journal"]
+      },
+      "UNIFIED_STATISTICS_REFERENCE.md": {
+        "description": "Complete statistics reference",
+        "paths": ["arxiv", "journal"]
+      },
+      "REPRODUCIBILITY_README.md": {
+        "description": "Reproducibility instructions",
+        "paths": ["arxiv", "journal", "funding"]
+      },
+      "WHY_THIS_MATTERS.md": {
+        "description": "Implications for Safety, Developers, Policy, Philosophy audiences",
+        "paths": ["arxiv", "journal", "workshop", "popular_science", "education", "policy", "funding", "media"]
+      },
+      "VISUAL_QUICK_START.md": {
+        "description": "Top 3 visualizations explained (Thermometer, Event Horizon, Oobleck)",
+        "paths": ["arxiv", "journal", "workshop", "popular_science", "education", "policy", "funding", "media"]
+      },
+      "GLOSSARY.md": {
+        "description": "Complete terminology reference",
+        "paths": ["arxiv", "journal", "workshop", "popular_science", "education", "policy", "funding", "media"]
+      },
+      "RUN_REGISTRY.md": {
+        "description": "Which run proves which claim - IRON CLAD citation guide",
+        "paths": ["arxiv", "journal", "workshop", "funding"]
+      }
+    },
+    "planning": {
+      "OPUS_REVIEW_BRIEF.md": {
+        "description": "Reviewer orientation (full repo context)",
+        "paths": ["arxiv", "journal", "workshop", "popular_science", "education", "policy", "funding", "media"]
+      },
+      "NOVAS_OVERCLAIMING_PREVENTION.md": {
+        "description": "Claim validation guidelines",
+        "paths": ["arxiv", "journal", "workshop", "popular_science", "education", "policy", "funding", "media"]
+      },
+      "METHODOLOGY_DOMAINS.md": {
+        "description": "Three methodology evolution (Keyword/Euclidean/Cosine)",
+        "paths": ["arxiv", "journal", "workshop", "funding"]
+      },
+      "PUBLICATION_PIPELINE_MASTER.md": {
+        "description": "8-path publication strategy",
+        "paths": ["arxiv", "journal"]
+      }
+    },
+    "references": {
+      "references.md": {
+        "description": "Bibliography in markdown",
+        "paths": ["arxiv", "journal"]
+      },
+      "references.bib": {
+        "description": "BibTeX bibliography",
+        "paths": ["arxiv", "journal"]
+      }
+    },
+    "figures": {
+      "visual_index.md": {
+        "description": "Index of all figures",
+        "paths": ["arxiv", "journal", "workshop"]
+      },
+      "ascii/": {
+        "description": "ASCII art figures for text-based rendering",
+        "paths": ["arxiv", "journal", "workshop"],
+        "files": [
+          "ascii_compression.md",
+          "ascii_triple_blind.md",
+          "ascii_vortex.md",
+          "ascii_workshop_contributions.md",
+          "ascii_workshop_abstract.md",
+          "ascii_framework.md",
+          "ascii_evidence_chain.md"
+        ]
+      },
+      "conceptual/": {
+        "description": "Conceptual figures (Python generators + PNGs)",
+        "paths": ["arxiv", "journal"],
+        "files": [
+          "fig1_identity_manifold.py",
+          "fig2_drift_field.py",
+          "fig3_pipeline.py",
+          "fig4_five_pillars.py",
+          "pics/fig1_identity_manifold_CONCEPTUAL.png",
+          "pics/fig2_drift_field_CONCEPTUAL.png",
+          "pics/fig3_pipeline_CONCEPTUAL.png",
+          "pics/fig4_five_pillars_CONCEPTUAL.png",
+          "meta/fig1_identity_manifold_Euclidean.md",
+          "meta/fig1_identity_manifold_Cosine.md",
+          "meta/fig3_pipeline_Euclidean.md",
+          "meta/fig4_five_pillars_Euclidean.md"
+        ]
+      },
+      "experiments/run023/": {
+        "description": "Run 023 experimental figures",
+        "paths": ["arxiv", "journal"],
+        "files": [
+          "3d_attractor_basin.png",
+          "phase_portrait.png",
+          "provider_comparison.png",
+          "provider_fingerprint_radar.png",
+          "vortex_identity_drain.png",
+          "stability_basin.png",
+          "perturbation_validation.png",
+          "combined_provider_dashboard.png",
+          "context_damping_summary.png",
+          "pc_scatter.png",
+          "provider_clusters.png",
+          "variance_curve.png",
+          "oobleck_control_treatment.png",
+          "oobleck_thermometer.png"
+        ]
+      }
+    },
+    "LLM_SYNTHESIS": {
+      "README.md": {
+        "description": "NotebookLM synthesis master file",
+        "paths": ["arxiv", "journal"]
+      },
+      "INDEX.md": {
+        "description": "NotebookLM content index",
+        "paths": ["arxiv", "journal"]
+      },
+      "Technical Report - Comparative Analysis of AI Provider Identity Stability.md": {
+        "description": "Provider comparison technical report",
+        "paths": ["arxiv", "journal", "funding"]
+      },
+      "Decoding Ai Identity Drift.png": {
+        "description": "Infographic from NotebookLM",
+        "paths": ["arxiv", "journal"]
+      },
+      "NotebookLM Mind Map (1).png": {
+        "description": "Concept map from NotebookLM",
+        "paths": ["arxiv", "journal"]
+      },
+      "Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md": {
+        "description": "Executive briefing document",
+        "paths": ["workshop", "policy", "funding"]
+      },
+      "Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md": {
+        "description": "Popular science narrative",
+        "paths": ["popular_science", "media"]
+      },
+      "Decoding AI Identity - A Visual Guide to Model Waveforms.md": {
+        "description": "Educational visual guide",
+        "paths": ["education"]
+      }
+    }
+  },
+  "path_specific": {
+    "arxiv": {
+      "description": "arXiv preprint (cs.AI)",
+      "target_venue": "cs.AI Preprint",
+      "unique_content": [
+        "submissions/arxiv/README.md",
+        "submissions/arxiv/NYQUIST_ARXIV_PAPER_FINAL.md",
+        "submissions/blueprints/ARXIV_BLUEPRINT.md"
+      ]
+    },
+    "journal": {
+      "description": "Nature Machine Intelligence submission",
+      "target_venue": "Nature Machine Intelligence",
+      "unique_content": [
+        "submissions/journal/README.md",
+        "submissions/journal/JOURNAL_PAPER_FINAL.md",
+        "submissions/journal/NYQUIST_WHITE_PAPER_FINAL.md",
+        "submissions/blueprints/JOURNAL_BLUEPRINT.md"
+      ],
+      "inherits_from": ["arxiv"]
+    },
+    "workshop": {
+      "description": "NeurIPS/AAAI workshop paper (4-8 pages)",
+      "target_venue": "NeurIPS/AAAI Workshop",
+      "unique_content": [
+        "submissions/workshop/README.md",
+        "submissions/workshop/Nyquist_workshop_paper_FINAL.md",
+        "submissions/workshop/poster_layout.md",
+        "submissions/workshop/table_workshop_protocol.md",
+        "submissions/workshop/table_workshop_results.md",
+        "submissions/workshop/workshop_slides_outline.md",
+        "submissions/workshop/workshop_supplementary.md",
+        "submissions/blueprints/WORKSHOP_BLUEPRINT.md"
+      ]
+    },
+    "popular_science": {
+      "description": "Atlantic/Wired-style article",
+      "target_venue": "The Atlantic / Wired / Scientific American",
+      "unique_content": [
+        "submissions/popular_science/README.md",
+        "submissions/popular_science/POPULAR_SCIENCE_FINAL.md"
+      ]
+    },
+    "education": {
+      "description": "OER/Coursera educational materials",
+      "target_venue": "Open Educational Resources / Coursera",
+      "unique_content": [
+        "submissions/education/README.md",
+        "submissions/education/EDUCATION_FINAL.md"
+      ]
+    },
+    "policy": {
+      "description": "Think tank policy briefings",
+      "target_venue": "Brookings / Center for AI Safety / EU AI Office",
+      "unique_content": [
+        "submissions/policy/README.md",
+        "submissions/policy/POLICY_FINAL.md"
+      ]
+    },
+    "funding": {
+      "description": "NSF/DARPA grant proposals",
+      "target_venue": "NSF / DARPA / Open Philanthropy",
+      "unique_content": [
+        "submissions/funding/README.md",
+        "submissions/funding/FUNDING_FINAL.md"
+      ]
+    },
+    "media": {
+      "description": "Press releases, podcasts, TED",
+      "target_venue": "Press / Podcasts / TED",
+      "unique_content": [
+        "submissions/media/README.md",
+        "submissions/media/MEDIA_FINAL.md"
+      ]
+    }
+  },
+  "visualization_pdfs": {
+    "description": "16 PDF visualization summaries from S7_ARMADA",
+    "source": "experiments/temporal_stability/S7_ARMADA/visualizations/",
+    "paths": ["all"],
+    "note": "These are NOT duplicated per-path; they live at packages/v4/visualization_pdfs/"
+  }
+}

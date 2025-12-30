@@ -37,9 +37,9 @@ All reproducibility targets use these validated values:
 | PCs for 90% variance | **2** | Run 023d Phase 2 |
 | Perturbation p-value | **2.40×10⁻²³** | Run 023d Phase 3A |
 | Cohen's d | **0.698** | Run 023d Phase 3B |
-| Settling time | τₛ ≈ 10.2 | Run 023d |
-| Inherent drift ratio | **92%** | Run 023 COSINE Thermometer |
-| Context damping | **97.5%** | Run 017 |
+| Settling time | τₛ ≈ 7 | Run 023d |
+| Inherent drift ratio | **~93%** | Run 020B IRON CLAD |
+| Context damping | **97.5%** | Run 018 IRON CLAD |
 | Experiments | 750 | Run 023d IRON CLAD |
 | Models | 25 | Run 023d IRON CLAD |
 | Providers | 5 | Run 023d IRON CLAD |
@@ -64,7 +64,8 @@ Nyquist_Consciousness/
 │           ├── 7_META_VALIDATION/ # PFI validation experiments
 │           ├── 9_STABILITY_CRITERIA/ # Run 015 scripts
 │           ├── 10_SETTLING_TIME/     # Run 016 scripts
-│           ├── 11_CONTEXT_DAMPING/   # Runs 017-023 scripts
+│           ├── 11_CONTEXT_DAMPING/   # Runs 017-020 scripts
+│           ├── 15_IRON_CLAD_FOUNDATION/ # Run 023d canonical data
 │           └── visualizations/       # Figure generation
 │
 ├── docs/

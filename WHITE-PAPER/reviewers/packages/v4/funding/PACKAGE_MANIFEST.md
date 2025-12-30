@@ -1,9 +1,9 @@
 # Review Package: FUNDING
 
-**Generated:** 2025-12-29 13:42:53
+**Generated:** 2025-12-30 09:45:58
 **Target Venue:** NSF / DARPA / Open Philanthropy
-**Total Size:** 77.6 KB
-**Total Files:** 8
+**Total Size:** 23.7 KB
+**Total Files:** 4
 
 ---
 
@@ -17,9 +17,8 @@ Funding proposal package (NSF/DARPA)
 
 Start with these files in order:
 
-1. `submissions/funding/README.md`
-2. `submissions/funding/FUNDING_FINAL.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
+1. `submissions/README.md`
+2. `submissions/FUNDING_FINAL.md`
 
 ---
 
@@ -27,12 +26,10 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 23.4 KB |
-| theory/ | 2 files | 26.5 KB |
-| guides/ | 2 files | 22.0 KB |
-| planning/ | 2 files | 5.6 KB |
+| submissions/ | 2 files | 23.7 KB |
+| LLM_SYNTHESIS/ | 2 files | (included) |
 
-**Total:** 8 files, 77.6 KB
+**Total:** 4 files, 23.7 KB
 
 ---
 
@@ -40,23 +37,49 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\funding\FUNDING_FINAL.md` (19.0 KB)
-- `submissions\funding\README.md` (4.4 KB)
+- `submissions\funding\FUNDING_FINAL.md` (19.2 KB)
+- `submissions\funding\README.md` (4.6 KB)
 
-### theory/
+### LLM_SYNTHESIS/
 
-- `theory\B-CRUMBS.md` (16.4 KB)
-- `theory\MINIMUM_PUBLISHABLE_CLAIMS.md` (10.1 KB)
+*NotebookLM-generated content for this publication path:*
 
-### guides/
+- `LLM_SYNTHESIS/Project Nyquist Consciousness - A Proposal for the Next Phase of Research into AI Identity Dynamics and Control.md`
+- `LLM_SYNTHESIS/Technical Report - Comparative Analysis of AI Provider Identity Stability.md`
 
-- `guides\REPRODUCIBILITY_README.md` (10.2 KB)
-- `guides\summary_statistics.md` (11.8 KB)
+---
 
-### planning/
+## Recommended .shared/ Content
 
-- `planning\METHODOLOGY_DOMAINS.md` (1.9 KB)
-- `planning\NOVAS_OVERCLAIMING_PREVENTION.md` (3.7 KB)
+This path should also reference the following files from `.shared/`:
+
+### .shared/LLM_SYNTHESIS/
+
+- **Technical Report - Comparative Analysis of AI Provider Identity Stability.md** — Provider comparison technical report
+- **Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md** — Executive briefing document
+
+### .shared/guides/
+
+- **summary_statistics.md** — Key statistics and methodology summary
+- **REPRODUCIBILITY_README.md** — Reproducibility instructions
+- **WHY_THIS_MATTERS.md** — Implications for Safety, Developers, Policy, Philosophy audiences
+- **VISUAL_QUICK_START.md** — Top 3 visualizations explained (Thermometer, Event Horizon, Oobleck)
+- **GLOSSARY.md** — Complete terminology reference
+- **RUN_REGISTRY.md** — Which run proves which claim - IRON CLAD citation guide
+
+### .shared/planning/
+
+- **OPUS_REVIEW_BRIEF.md** — Reviewer orientation (full repo context)
+- **NOVAS_OVERCLAIMING_PREVENTION.md** — Claim validation guidelines
+- **METHODOLOGY_DOMAINS.md** — Three methodology evolution (Keyword/Euclidean/Cosine)
+
+### .shared/theory/
+
+- **MINIMUM_PUBLISHABLE_CLAIMS.md** — The 5 core validated claims
+- **B-CRUMBS.md** — Breadcrumb methodology documentation
+
+*These files live in `.shared/` to avoid duplication across paths.*
+*See `.shared/PACKAGE_INDEX.json` for complete content mapping.*
 
 ---
 

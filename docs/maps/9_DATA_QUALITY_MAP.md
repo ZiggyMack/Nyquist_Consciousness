@@ -65,7 +65,7 @@ keywords:
 | **018** | IRON CLAD | 100% | **184 files, 51 models, P-018-1/2/3 CONFIRMED** | — |
 | 019 | VALIDATED | 90% | Live Ziggy fiction buffer | Peak ~0.50 only |
 | **020A** | GOLD | 100% | Tribunal paradigm | — |
-| **020B** | GOLD | 100% | **82% Inherent Drift (Thermometer Result)** | — |
+| **020B** | GOLD | 100% | **~93% Inherent Drift (Thermometer Result)** | — |
 
 ### Cosine Era (Run 023d) — CANONICAL
 
@@ -280,13 +280,13 @@ drift = min(0.30, response_length / 5000)
 
 **Why Critical:**
 
-- Proves **82% of drift is INHERENT** (occurs without probing)
+- Proves **~93% of drift is INHERENT** (occurs without probing)
 - Control vs Treatment design isolates measurement artifact
 - Validates that probing reveals dynamics, doesn't create them
 
 **Key Validated Findings:**
 
-- B→F Drift: Control 0.399 / Treatment 0.489 = **82% ratio**
+- B→F Drift: Control 0.661 / Treatment 0.711 = **~93% ratio**
 - Peak Drift: Control 1.172 / Treatment 2.161 = 54% ratio
 - Probing amplifies journey (84% higher peaks) but not destination (23% higher B→F)
 

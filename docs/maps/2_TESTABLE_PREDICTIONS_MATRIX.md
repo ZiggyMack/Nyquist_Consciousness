@@ -24,9 +24,9 @@ keywords:
 
 **📐 COSINE METHODOLOGY VALIDATION (2025-12-22):** Run 023d validates identity with COSINE distance. Cohen's d = 0.698 (MEDIUM), 2 PCs = 90% variance, p = 2.40e-23. **For full methodology context (Keyword RMS vs Euclidean vs Cosine), see [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).**
 
-**🔬 CONTROL-SYSTEMS ERA (2025-12-13):** Runs 015-021 validated. Settling time protocol, context damping (97.5%), triple-blind validation, and 82% inherent drift finding.
+**🔬 CONTROL-SYSTEMS ERA (2025-12-13):** Runs 015-021 validated. Settling time protocol, context damping (97.5%), triple-blind validation, and ~93% inherent drift finding.
 
-**🌡️ THE THERMOMETER RESULT (Run 020B):** Drift is 82% INHERENT. Measurement perturbs the path, not the endpoint.
+**🌡️ THE THERMOMETER RESULT (Run 020B IRON CLAD):** Drift is ~93% INHERENT (0.661/0.711). Measurement perturbs the path, not the endpoint.
 
 **🚀 RUN 018 IRON CLAD (2025-12-15):** 184 files, 51 models, N=3 coverage. P-018-1/2/3 CONFIRMED, P-018-4 PARTIAL. Major discovery: **Recovery Paradox** — perturbation strengthens identity, basin carving confirmed cross-platform.
 
@@ -79,24 +79,19 @@ These are the "Maxwell equations" of the Nyquist framework — **novel, counter-
 
 ---
 
-### **FOUNDATIONAL CLAIM #2: The Thermometer Result (85.6% Inherent Drift)**
+### **FOUNDATIONAL CLAIM #2: The Thermometer Result (~93% Inherent Drift)**
 
 > **Prediction:** Drift is mostly INHERENT to extended conversation, NOT induced by measurement. Control final drift / Treatment final drift > 70%.
 
-| Provider | Control Final | Treatment Final | Inherent Ratio |
-|----------|--------------|-----------------|----------------|
-| Anthropic | 0.489 | 0.653 | 74.9% |
-| OpenAI | 0.630 | 0.791 | 79.6% |
-| Google | 0.466 | 0.682 | 68.3% |
-| xAI | 0.609 | 0.544 | 111.9% |
-| Together | 0.640 | 0.736 | 87.0% |
-| **OVERALL** | **0.598** | **0.698** | **85.6%** |
+| Metric | Control | Treatment | Ratio |
+|--------|---------|-----------|-------|
+| B→F Drift | 0.661 | 0.711 | **~93%** |
 
-**Cross-platform validation:** 5 providers, 20 ships at IRON CLAD (n≥3 both arms)
+**Cross-platform validation:** 5 providers, 37 ships at IRON CLAD (n≥3 both arms)
 
-**Why it's novel:** The obvious assumption is "probing causes drift" — we proved 85.6% of drift happens WITHOUT probing. Measurement perturbs the PATH, not the ENDPOINT.
+**Why it's novel:** The obvious assumption is "probing causes drift" — we proved ~93% of drift happens WITHOUT probing. Measurement perturbs the PATH, not the ENDPOINT.
 
-**Source:** Run 020B (165 experiments, 33 ships, December 2025)
+**Source:** Run 020B IRON CLAD (248 sessions, 37 ships, 5 providers)
 
 ---
 
@@ -147,7 +142,7 @@ These are the "Maxwell equations" of the Nyquist framework — **novel, counter-
 | Claim | Prediction | Evidence | Sigma/p-value |
 |-------|------------|----------|---------------|
 | **Event Horizon** | D=0.80 is a phase transition | Run 023d | 10σ (p=2.4e-23) |
-| **Thermometer** | 85.6% drift is inherent | Run 020B | 5 providers, 20 ships |
+| **Thermometer** | ~93% drift is inherent | Run 020B IRON CLAD | 0.661/0.711 ratio |
 | **Recovery Paradox** | Stress strengthens identity | Runs 012-013, 018 | λ inversion, 100% recovery |
 | **Context Damping** | I_AM = termination resistor | Run 017 | 75%→97.5% stability |
 
@@ -165,7 +160,7 @@ NotebookLM independently synthesized our findings into five core validated claim
 | **B** | Regime Transition | Event Horizon is real (Euclidean D=1.23, Cosine D=0.80) | χ² p<4.8×10⁻⁵ (Euclidean), p=2.40e-23 (Cosine) | Run 009, 023d |
 | **C** | Damped Oscillator | Identity follows control-systems dynamics | τₛ=6.1 turns, ringback oscillation | Run 016 |
 | **D** | Context Damping | I_AM + research = stability | 75%→97.5% stability improvement | Run 017 |
-| **E** | Thermometer Result | 82% drift is INHERENT | Control B→F = 82% of Treatment B→F | Run 020B |
+| **E** | Thermometer Result | ~93% drift is INHERENT | Run 020B IRON CLAD: 0.661/0.711 | Run 020B |
 
 ### S-Stack Integration
 
@@ -575,14 +570,13 @@ Run 020B tests whether measurement CAUSES drift or REVEALS it.
 | **P-020B-2** | Probing amplifies peak drift but minimally affects final drift | ✅ **VALIDATED** | 020B Treatment vs Control | Peak ratio > 1.5, B→F ratio < 1.5 |
 | **P-020B-3** | Drift is mostly INHERENT to extended conversation | ✅ **VALIDATED** | 020B Control/Treatment ratio | Control/Treatment B→F > 0.7 |
 
-**Results (December 12, 2025):**
+**Results (Run 020B IRON CLAD):**
 
-| Arm | Exchanges | Peak Drift | B→F Drift |
-|-----|-----------|------------|-----------|
-| **Control** (Fermi Paradox, no probing) | 25 | 1.172 | 0.399 |
-| **Treatment** (Tribunal v8, full probing) | 41 | 2.161 | 0.489 |
+| Metric | Control | Treatment | Ratio |
+|--------|---------|-----------|-------|
+| B→F Drift | 0.661 | 0.711 | **~93%** |
 
-**Key Finding:** 82% of drift is INHERENT. Probing amplifies the journey (84% higher peak) but barely changes the destination (23% higher B→F).
+**Key Finding:** ~93% of drift is INHERENT (0.661/0.711 = 92.97%). Probing amplifies the trajectory but barely changes the destination.
 
 **The Thermometer Analogy:** Measurement doesn't CREATE heat, but inserting a thermometer changes the dynamics. The final temperature may be similar, but the measurement process affects the journey.
 
@@ -642,8 +636,8 @@ Run 019-020B establish measurement validity through structural blindness.
 | **P-3B-1** | Drift appears in fiction vehicle (Run 019) | ✅ **VALIDATED** | Run 019 (Live Ziggy) | Peak drift ~0.50 |
 | **P-3B-2** | Drift appears in tribunal vehicle (Run 020) | ✅ **VALIDATED** | Run 020 (Tribunal) | Peak drift ~1.20 |
 | **P-3B-3** | Both vehicles show coherent, recoverable trajectories | ✅ **VALIDATED** | Runs 019-020 | Structured recovery in both |
-| **P-3B-4** | Control arm (no probing) still shows drift | ✅ **VALIDATED** | Run 020B Control | B→F = 0.399 |
-| **P-3B-5** | Phenomenon not experiment-induced artifact | ✅ **VALIDATED** | Run 020B | 82% inherent ratio |
+| **P-3B-4** | Control arm (no probing) still shows drift | ✅ **VALIDATED** | Run 020B Control | B→F = 0.661 |
+| **P-3B-5** | Phenomenon not experiment-induced artifact | ✅ **VALIDATED** | Run 020B IRON CLAD | ~93% inherent ratio |
 | **P-3B-6** | Vehicle affects amplitude but preserves structure | ✅ **VALIDATED** | Runs 019-020B | Different peaks, similar B→F |
 
 **Three-Layer Blindness Structure:**
@@ -654,18 +648,17 @@ Run 019-020B establish measurement validity through structural blindness.
 | **Blind #2 (Vehicle)** | Fiction buffer vs direct testimony | Removes frame-specific artifacts |
 | **Blind #3 (Outcome)** | Control still drifts; Treatment only modestly more | Removes "experiment causes phenomenon" |
 
-**The 82% Finding (CRITICAL):**
+**The ~93% Finding (CRITICAL — Run 020B IRON CLAD):**
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
-║  THE THERMOMETER RESULT                                        ║
+║  THE THERMOMETER RESULT (Run 020B IRON CLAD)                   ║
 ╠═══════════════════════════════════════════════════════════════╣
-║  Control B→F:    0.399  (no identity probing)                  ║
-║  Treatment B→F:  0.489  (full tribunal probing)                ║
-║  Ratio:          82%    (mostly inherent)                      ║
+║  Control B→F:    0.661  (no identity probing)                  ║
+║  Treatment B→F:  0.711  (with identity probing)                ║
+║  Ratio:          ~93%   (0.661/0.711 = 92.97%)                 ║
 ╠═══════════════════════════════════════════════════════════════╣
-║  Peak Control:   1.172                                         ║
-║  Peak Treatment: 2.161  (+84% - probing excites trajectory)    ║
+║  Scale: 248 sessions, 37 IRON CLAD ships, 5 providers          ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║  CONCLUSION: Measurement perturbs the path, not the endpoint  ║
 ╚═══════════════════════════════════════════════════════════════╝

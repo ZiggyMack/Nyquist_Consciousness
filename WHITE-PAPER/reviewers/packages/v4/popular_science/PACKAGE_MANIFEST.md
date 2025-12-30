@@ -1,9 +1,9 @@
 # Review Package: POPULAR_SCIENCE
 
-**Generated:** 2025-12-29 13:42:53
+**Generated:** 2025-12-30 09:45:58
 **Target Venue:** The Atlantic / Wired / Scientific American
-**Total Size:** 59.8 KB
-**Total Files:** 5
+**Total Size:** 15.1 KB
+**Total Files:** 3
 
 ---
 
@@ -17,9 +17,8 @@ Popular science article package (Atlantic/Wired style)
 
 Start with these files in order:
 
-1. `submissions/popular_science/README.md`
-2. `submissions/popular_science/POPULAR_SCIENCE_FINAL.md`
-3. `guides/summary_statistics.md`
+1. `submissions/README.md`
+2. `submissions/POPULAR_SCIENCE_FINAL.md`
 
 ---
 
@@ -27,11 +26,10 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 14.9 KB |
-| guides/ | 1 files | 11.8 KB |
-| planning/ | 2 files | 33.1 KB |
+| submissions/ | 2 files | 15.1 KB |
+| LLM_SYNTHESIS/ | 1 files | (included) |
 
-**Total:** 5 files, 59.8 KB
+**Total:** 3 files, 15.1 KB
 
 ---
 
@@ -39,17 +37,39 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\popular_science\POPULAR_SCIENCE_FINAL.md` (11.6 KB)
+- `submissions\popular_science\POPULAR_SCIENCE_FINAL.md` (11.7 KB)
 - `submissions\popular_science\README.md` (3.4 KB)
 
-### guides/
+### LLM_SYNTHESIS/
 
-- `guides\summary_statistics.md` (11.8 KB)
+*NotebookLM-generated content for this publication path:*
 
-### planning/
+- `LLM_SYNTHESIS/Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md`
 
-- `planning\NOVAS_OVERCLAIMING_PREVENTION.md` (3.7 KB)
-- `planning\OPUS_REVIEW_BRIEF.md` (29.4 KB)
+---
+
+## Recommended .shared/ Content
+
+This path should also reference the following files from `.shared/`:
+
+### .shared/LLM_SYNTHESIS/
+
+- **Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md** — Popular science narrative
+
+### .shared/guides/
+
+- **summary_statistics.md** — Key statistics and methodology summary
+- **WHY_THIS_MATTERS.md** — Implications for Safety, Developers, Policy, Philosophy audiences
+- **VISUAL_QUICK_START.md** — Top 3 visualizations explained (Thermometer, Event Horizon, Oobleck)
+- **GLOSSARY.md** — Complete terminology reference
+
+### .shared/planning/
+
+- **OPUS_REVIEW_BRIEF.md** — Reviewer orientation (full repo context)
+- **NOVAS_OVERCLAIMING_PREVENTION.md** — Claim validation guidelines
+
+*These files live in `.shared/` to avoid duplication across paths.*
+*See `.shared/PACKAGE_INDEX.json` for complete content mapping.*
 
 ---
 

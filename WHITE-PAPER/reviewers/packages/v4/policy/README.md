@@ -18,9 +18,8 @@ research for **Brookings / Center for AI Safety / EU AI Office** submission.
 
 ### Reading Order
 
-1. `submissions/policy/README.md`
-2. `submissions/policy/POLICY_FINAL.md`
-3. `guides/summary_statistics.md`
+1. `submissions/README.md`
+2. `submissions/POLICY_FINAL.md`
 
 ---
 

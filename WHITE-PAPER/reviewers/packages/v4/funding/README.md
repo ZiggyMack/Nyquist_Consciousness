@@ -18,9 +18,8 @@ research for **NSF / DARPA / Open Philanthropy** submission.
 
 ### Reading Order
 
-1. `submissions/funding/README.md`
-2. `submissions/funding/FUNDING_FINAL.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
+1. `submissions/README.md`
+2. `submissions/FUNDING_FINAL.md`
 
 ---
 

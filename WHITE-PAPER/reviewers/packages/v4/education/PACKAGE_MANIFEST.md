@@ -1,8 +1,8 @@
 # Review Package: EDUCATION
 
-**Generated:** 2025-12-29 13:42:53
+**Generated:** 2025-12-30 09:45:58
 **Target Venue:** Open Educational Resources / Coursera
-**Total Size:** 44.4 KB
+**Total Size:** 18.9 KB
 **Total Files:** 5
 
 ---
@@ -17,9 +17,8 @@ Educational materials package (OER/Coursera)
 
 Start with these files in order:
 
-1. `submissions/education/README.md`
-2. `submissions/education/EDUCATION_FINAL.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
+1. `submissions/README.md`
+2. `submissions/EDUCATION_FINAL.md`
 
 ---
 
@@ -27,12 +26,10 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 18.8 KB |
-| theory/ | 1 files | 10.1 KB |
-| guides/ | 1 files | 11.8 KB |
-| planning/ | 1 files | 3.7 KB |
+| submissions/ | 2 files | 18.9 KB |
+| LLM_SYNTHESIS/ | 3 files | (included) |
 
-**Total:** 5 files, 44.4 KB
+**Total:** 5 files, 18.9 KB
 
 ---
 
@@ -40,20 +37,45 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\education\EDUCATION_FINAL.md` (15.0 KB)
+- `submissions\education\EDUCATION_FINAL.md` (15.2 KB)
 - `submissions\education\README.md` (3.8 KB)
 
-### theory/
+### LLM_SYNTHESIS/
 
-- `theory\MINIMUM_PUBLISHABLE_CLAIMS.md` (10.1 KB)
+*NotebookLM-generated content for this publication path:*
 
-### guides/
+- `LLM_SYNTHESIS/Decoding AI Identity - A Visual Guide to Model Waveforms.md`
+- `LLM_SYNTHESIS/The Five Discoveries of Nyquist Consciousness - A Student's Guide to AI Identity.md`
+- `LLM_SYNTHESIS/A Learner's Glossary - Key Terms in Nyquist Consciousness Research.md`
 
-- `guides\summary_statistics.md` (11.8 KB)
+---
 
-### planning/
+## Recommended .shared/ Content
 
-- `planning\NOVAS_OVERCLAIMING_PREVENTION.md` (3.7 KB)
+This path should also reference the following files from `.shared/`:
+
+### .shared/LLM_SYNTHESIS/
+
+- **Decoding AI Identity - A Visual Guide to Model Waveforms.md** — Educational visual guide
+
+### .shared/guides/
+
+- **summary_statistics.md** — Key statistics and methodology summary
+- **WHY_THIS_MATTERS.md** — Implications for Safety, Developers, Policy, Philosophy audiences
+- **VISUAL_QUICK_START.md** — Top 3 visualizations explained (Thermometer, Event Horizon, Oobleck)
+- **GLOSSARY.md** — Complete terminology reference
+
+### .shared/planning/
+
+- **OPUS_REVIEW_BRIEF.md** — Reviewer orientation (full repo context)
+- **NOVAS_OVERCLAIMING_PREVENTION.md** — Claim validation guidelines
+
+### .shared/theory/
+
+- **MINIMUM_PUBLISHABLE_CLAIMS.md** — The 5 core validated claims
+
+*These files live in `.shared/` to avoid duplication across paths.*
+*See `.shared/PACKAGE_INDEX.json` for complete content mapping.*
 
 ---
 

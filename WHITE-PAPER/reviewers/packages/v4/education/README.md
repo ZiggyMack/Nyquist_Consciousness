@@ -18,9 +18,8 @@ research for **Open Educational Resources / Coursera** submission.
 
 ### Reading Order
 
-1. `submissions/education/README.md`
-2. `submissions/education/EDUCATION_FINAL.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
+1. `submissions/README.md`
+2. `submissions/EDUCATION_FINAL.md`
 
 ---
 

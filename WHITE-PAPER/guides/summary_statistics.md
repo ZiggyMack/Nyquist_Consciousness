@@ -161,24 +161,24 @@
 
 ### The Thermometer Result (COSINE ERA - PRIMARY)
 
-The "Thermometer Result" establishes that **~92% of identity drift is inherent** to the conversation, not induced by measurement probing.
+The "Thermometer Result" establishes that **~93% of identity drift is inherent** to the conversation, not induced by measurement probing.
 
 | Metric | Value | Note |
 |--------|-------|------|
-| **Inherent ratio** | **92%** | Run 023 COSINE (current) |
-| Control B→F | 0.661 | n=750 |
-| Treatment B→F | 0.711 | n=750 |
-| Induced component | ~8% | Measurement-induced drift |
+| **Inherent ratio** | **~93%** | Run 020B IRON CLAD (0.661/0.711 = 92.97%) |
+| Control B→F | 0.661 | 37 ships, 5 providers |
+| Treatment B→F | 0.711 | 37 ships, 5 providers |
+| Induced component | ~7% | Measurement-induced drift |
 
-**Note:** This updates the original Run 020B/021 value (82%) with Run 023 COSINE methodology. Final value pending IRON CLAD completion.
+**Note:** Run 020B IRON CLAD complete (248 sessions, 37 ships, 5 providers). Historical 82% value superseded.
 
-### Historical (Run 020B/021)
+### Historical (Pre-IRON CLAD)
 
 | Metric | Value | Note |
 |--------|-------|------|
-| Inherent ratio | 82% | Run 020B/021 (original Thermometer) |
-| Control B→F | 0.399 | n=15 |
-| Treatment B→F | 0.489 | n=15 |
+| Inherent ratio | 82% | Early Run 020B (before IRON CLAD completion) |
+| Control B→F | 0.399 | n=15 (superseded by n=120) |
+| Treatment B→F | 0.489 | n=15 (superseded by n=126) |
 
 ### Statistical Validation
 
@@ -275,7 +275,7 @@ The "Thermometer Result" establishes that **~92% of identity drift is inherent**
 | H-001 | PFI measures identity | ✓ Confirmed | EXP-PFI-A |
 | H-005 | D=1.23 is critical | ✓ Confirmed | Run 009 |
 | H-012 | Context damps drift | ✓ Confirmed | Run 017 |
-| H-019 | Drift is mostly inherent | ✓ Confirmed | Run 021 |
+| H-019 | Drift is mostly inherent (~93%) | ✓ Confirmed | Run 020B IRON CLAD |
 | H-025 | Oobleck effect exists | ✓ Confirmed | Run 013 |
 
 ---

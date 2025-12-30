@@ -132,7 +132,7 @@ Early interpretation ("identity collapses into generic AI mode") was directional
 | **Predictive power** | Run 023 COSINE | p=2.4e-23 |
 | **Geometric signature** | EXP-PFI-A Phase 2 | PC2 separates above/below 1.23 (p=0.0018) |
 | **Reversibility** | Runs 014/016/017 | Returns to basin are common; "collapse" is transient ring-down |
-| **Context dependence** | Run 017 | With full circuit, stability ~97.5%; threshold matters but behavior is damped |
+| **Context dependence** | Run 018 IRON CLAD | With full circuit, stability ~97.5%; threshold matters but behavior is damped |
 
 ### What the Event Horizon is NOT
 
@@ -219,9 +219,9 @@ A critical clarification for interpreting drift metrics:
 | **B→F drift (d_BF)** | Coordinate displacement | Where the system ended up |
 | **Trajectory curvature** | Recovery signature | Whether it's heading home |
 
-Run 021 demonstrates this distinction:
+Run 020B IRON CLAD demonstrates this distinction:
 - **Peak drift** highly sensitive to probing (2.161 vs 1.172 — 84% delta)
-- **Final drift** modestly affected (0.489 vs 0.399 — 23% delta)
+- **Final drift (B→F)** minimally affected (0.711 vs 0.661 — 7.6% delta, ~93% inherent)
 
 **Interpretation:** Probing injects energy (turbulence) but doesn't change the basin it relaxes to.
 

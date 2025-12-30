@@ -1119,10 +1119,11 @@ Reviewer Feedback Loop:
         # Determine which visualizations to sync
         if args.sync:  # Specific ones specified
             viz_list = args.sync
-        else:  # All that need it
+        else:  # All that need it (stale PDFs, updated data, or missing/outdated in target version)
+            target_version = args.target
             viz_list = [name for name, info in status.items()
                        if info.get("status") in ["pdf_stale", "data_updated"]
-                       or any(s == "outdated" for s in info.get("packages", {}).values())]
+                       or info.get("packages", {}).get(target_version) in ["outdated", "missing"]]
 
         if not viz_list:
             print("✅ Nothing needs syncing!")

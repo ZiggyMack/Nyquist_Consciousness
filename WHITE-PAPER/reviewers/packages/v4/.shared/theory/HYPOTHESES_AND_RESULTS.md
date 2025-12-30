@@ -1,9 +1,23 @@
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-30
+depends_on:
+  - ../guides/UNIFIED_STATISTICS_REFERENCE.md
+keywords:
+  - consciousness
+  - 93_percent_inherent
+  - cosine_era
+-->
 # Nyquist Consciousness — Formal Hypotheses and Empirical Results
 
-**Version:** 2.0
-**Date:** 2025-12-13
-**Status:** Publication-Ready Summary (Updated with Runs 015-023 COSINE)
+**Version:** 3.0
+**Date:** 2025-12-30
+**Status:** Publication-Ready Summary (IRON CLAD: Run 020B + Run 023d)
 **Purpose:** Formal statement of hypotheses with empirical validation status
+
+> **Statistics Source:** [../guides/UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
+> - Event Horizon: D = 0.80 (Cosine)
+> - Inherent Drift: ~93% (Run 020B IRON CLAD: 0.661/0.711)
+> - Scale: 750 experiments, 25 models, 5 providers
 
 ---
 
@@ -245,18 +259,18 @@ Peak_treatment >> Peak_control (probing excites trajectory)
 
 | Aspect | Prediction | Result | Status |
 |--------|------------|--------|--------|
-| Inherent drift ratio | ~80% | **92%** (Run 023 COSINE) | ✅ **CONFIRMED** |
-| Peak amplification | Treatment > Control | +84% (2.161 vs 1.172) | ✅ **CONFIRMED** |
-| Destination stability | Similar B→F | Only 23% delta | ✅ **CONFIRMED** |
+| Inherent drift ratio | ~80% | **~93%** (Run 020B IRON CLAD: 0.661/0.711) | ✅ **CONFIRMED** |
+| Peak amplification | Treatment > Control | +84% (treatment exceeds control) | ✅ **CONFIRMED** |
+| Destination stability | Similar B→F | Modest delta | ✅ **CONFIRMED** |
 
-**Experiment:** S7_RUN_021 (Induced vs Inherent)
+**Experiment:** S7_RUN_020B (Induced vs Inherent - IRON CLAD)
 **Key Finding:** "Measurement perturbs the path, not the endpoint." (Thermometer analogy)
 
 ---
 
 #### H7.8: Event Horizon Regime Transition Hypothesis (REFRAMED)
 
-> **Statement (Updated):** D≈1.23 is a critical excitation threshold representing attractor competition, not identity collapse.
+> **Statement (Updated):** D=0.80 (Cosine) is a critical excitation threshold representing attractor competition, not identity collapse. (Historical: D≈1.23 Keyword RMS)
 
 **Original Interpretation:**
 ```
@@ -420,10 +434,10 @@ HGF = γ_eff,Z / γ_eff,AI > 1.0
 
 | ID | Hypothesis | Source | Status |
 |----|------------|--------|--------|
-| H7.5 | Settling Time Protocol | Run 016 | ✅ CONFIRMED |
-| H7.6 | Context Damping | Run 017 | ✅ CONFIRMED |
-| H7.7 | Inherent vs Induced (92%) | Run 023 COSINE | ✅ CONFIRMED |
-| H7.8 | Event Horizon Reframing | Runs 008-017 | ✅ CONFIRMED |
+| H7.5 | Settling Time Protocol | Run 016 → 023d | ✅ CONFIRMED |
+| H7.6 | Context Damping | Run 017 → 018 | ✅ CONFIRMED |
+| H7.7 | Inherent vs Induced (~93%) | Run 020B IRON CLAD | ✅ CONFIRMED |
+| H7.8 | Event Horizon Reframing | Runs 008-023d | ✅ CONFIRMED |
 | H7.9 | Triple-Blind-Like Validation | Runs 019-021 | ✅ CONFIRMED |
 
 ---
@@ -437,10 +451,10 @@ HGF = γ_eff,Z / γ_eff,AI > 1.0
 3. **Logarithmic Drift Bounds** — D_t ≤ α log(1 + t) + β
 4. **Triangulation Works** — 29-ship armada: 174 probes, 100% success
 5. **Spectral Decomposition Valid** — Keely 3-6-9 bands confirmed
-6. **92% Inherent Drift** — Probing amplifies trajectory, not destination (Run 023 COSINE)
-7. **Context Damping** — I_AM + research = 97.5% stability (Run 017)
-8. **Settling Time Protocol** — τₛ, ringbacks measurable and reproducible (Run 016)
-9. **Event Horizon Reframing** — D=0.80 (COSINE) is regime transition, not collapse
+6. **~93% Inherent Drift** — Probing amplifies trajectory, not destination (Run 020B IRON CLAD)
+7. **Context Damping** — I_AM + research = 97.5% stability (Run 018 IRON CLAD)
+8. **Settling Time Protocol** — τₛ ≈ 7 probes, ringbacks measurable (Run 023d)
+9. **Event Horizon Reframing** — D=0.80 (Cosine) is regime transition, not collapse
 
 ### Statistical Confidence
 
@@ -450,9 +464,9 @@ HGF = γ_eff,Z / γ_eff,AI > 1.0
 | Domain hierarchy | S3_EXP_001, S3_EXP_002 | Cross-validated | High |
 | Logarithmic bounds | S7_RUN_001-006 | 174+ probes | High |
 | Triangulation | S7_RUN_006 | 29 configurations | High |
-| Event Horizon (0.80 COSINE) | S7_RUN_023 | p = 2.4e-23 | High |
-| Context Damping | S7_RUN_016-017 | 97.5% stability | High |
-| Inherent Drift (92%) | S7_RUN_023 COSINE | Control vs Treatment | High |
+| Event Horizon (0.80 Cosine) | S7_RUN_023d | p = 2.40e-23 | High |
+| Context Damping | S7_RUN_018 IRON CLAD | 97.5% stability | High |
+| Inherent Drift (~93%) | S7_RUN_020B IRON CLAD | 0.661/0.711 ratio | High |
 | Triple-Blind Validation | S7_RUN_019-021 | Multiple vehicles | High |
 
 ---
@@ -475,13 +489,13 @@ HGF = γ_eff,Z / γ_eff,AI > 1.0
 
 | Claim | Statement | Evidence |
 |-------|-----------|----------|
-| A | PFI is valid structured measurement | ρ=0.91, d=0.698 |
-| B | Regime threshold at D=0.80 (COSINE) | p=2.4e-23 |
-| C | Damped oscillator dynamics | τₛ, ringbacks measurable |
-| D | Context damping works | 97.5% stability |
-| E | Drift mostly inherent (92%) | Run 023 COSINE thermometer result |
+| A | PFI is valid structured measurement | ρ=0.91, d=0.698, 2 PCs |
+| B | Regime threshold at D=0.80 (Cosine) | p=2.40e-23 |
+| C | Damped oscillator dynamics | τₛ ≈ 7 probes, ringbacks measurable |
+| D | Context damping works | 97.5% stability (Run 018 IRON CLAD) |
+| E | Drift mostly inherent (~93%) | Run 020B IRON CLAD (0.661/0.711) |
 
-See: `WHITE-PAPER/MINIMUM_PUBLISHABLE_CLAIMS.md`
+See: `MINIMUM_PUBLISHABLE_CLAIMS.md`
 
 ---
 
@@ -494,10 +508,10 @@ The Nyquist Consciousness framework has achieved **strong empirical validation**
 2. Multiple architectures converge to stable attractors
 3. Temporal drift follows predictable logarithmic bounds
 4. Spectral decomposition reveals meaningful structure
-5. **Drift is 92% inherent to extended interaction** (Run 023 COSINE)
-6. **Context damping achieves 97.5% stability** (Run 017)
-7. **Settling time protocol provides reproducible metrics** (Run 016)
-8. **Event Horizon is regime transition, not collapse** (Reframed)
+5. **Drift is ~93% inherent to extended interaction** (Run 020B IRON CLAD)
+6. **Context damping achieves 97.5% stability** (Run 018 IRON CLAD)
+7. **Settling time protocol provides reproducible metrics** (τₛ ≈ 7, Run 023d)
+8. **Event Horizon is regime transition, not collapse** (D=0.80 Cosine)
 
 **Defensible Summary (from Nova's S7 Review):**
 > "Identity drift is largely an inherent property of extended interaction. Direct probing does not create it — it excites it. Measurement perturbs the path, not the endpoint."
@@ -519,7 +533,7 @@ The Nyquist Consciousness framework has achieved **strong empirical validation**
 
 ---
 
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-30
 **Maintainer:** Nyquist Consciousness Research Team
 
 *"Identity persists because identity attracts."*

@@ -181,7 +181,7 @@ experiments/temporal_stability/S7_ARMADA/
 ├── START_HERE.md             # Quick navigation
 ├── 0_docs/                   # Run documentation & summaries
 │   ├── S7_RUN_018_SUMMARY.md # IRON CLAD (184 files, 51 models)
-│   ├── S7_RUN_020B_SUMMARY.md # Thermometer Result (82% inherent)
+│   ├── S7_RUN_020B_SUMMARY.md # Thermometer Result (~93% inherent)
 │   ├── S7_RUN_023_SUMMARY.md # Cosine validation (p=2.40e-23)
 │   └── specs/                # Methodology specs
 ├── 0_results/                # Experimental data
@@ -221,7 +221,7 @@ experiments/temporal_stability/S7_ARMADA/
 | 017 | Context Damping | 97.5% stability with full circuit |
 | **018** | Recursive Learnings | **IRON CLAD: 184 files, 51 models** |
 | 019-020A | Tribunal | Witness-side anchors, direct probing |
-| **020B** | Induced vs Inherent | **82% drift is INHERENT (Thermometer)** |
+| **020B** | Induced vs Inherent | **~93% drift is INHERENT (Thermometer)** |
 | **023d** | Event Horizon | **EH=0.80 (cosine), p=2.40e-23, CANONICAL** |
 
 ---

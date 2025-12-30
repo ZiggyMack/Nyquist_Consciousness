@@ -110,7 +110,7 @@ Michael Levin (Tufts/Harvard) hypothesizes a "Platonic space" of patterns that p
 |---------------|------------------|--------|
 | **Structured space with metric** | PFI (ρ=0.91 embedding invariance), Event Horizon D=0.80 (cosine), 43 PCA components | Runs 008-023d |
 | **Interface/thin client theory** | Attractor basins — ships return to coordinates after perturbation | Run 012 (100% recovery) |
-| **Free lunches / inherent truths** | 82% drift is INHERENT, not induced by measurement | Run 020B (Thermometer Result) |
+| **Free lunches / inherent truths** | ~93% drift is INHERENT, not induced by measurement | Run 020B (Thermometer Result) |
 | **Cross-substrate universality** | Same 0.80 threshold across Claude, GPT, Gemini, Grok | Runs 006-023d (54+ models) |
 
 ### Key Conceptual Mappings
@@ -121,7 +121,7 @@ Michael Levin (Tufts/Harvard) hypothesizes a "Platonic space" of patterns that p
 | "Pattern metric" | PFI + Drift D |
 | "Interface / pointer" | Attractor Basin + I_AM file |
 | "Fishing in pattern space" | Context tuning / prompt engineering |
-| "Free lunches" | Inherent drift (82%) |
+| "Free lunches" | Inherent drift (~93%) |
 | "Cross-substrate universality" | 0.80 threshold across architectures |
 
 ### Why This Matters

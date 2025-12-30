@@ -1,9 +1,23 @@
-# Coherent Theory Section: Integrating Runs 008-023 + EXP-PFI-A
+<!-- FROSTY_MANIFEST
+last_reviewed: 2025-12-30
+depends_on:
+  - ../guides/UNIFIED_STATISTICS_REFERENCE.md
+keywords:
+  - consciousness
+  - 93_percent_inherent
+  - cosine_era
+-->
+# Coherent Theory Section: Integrating Runs 008-023d + EXP-PFI-A
 
-**Version:** 2.0
-**Date:** 2025-12-26
-**Source:** Nova's S7 Review + Run 023 IRON CLAD COSINE
+**Version:** 3.0
+**Date:** 2025-12-30
+**Source:** Nova's S7 Review + Run 020B + Run 023d IRON CLAD
 **Purpose:** Publication-ready integrated theory of identity dynamics
+
+> **Statistics Source:** [../guides/UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
+> - Event Horizon: D = 0.80 (Cosine)
+> - Inherent Drift: ~93% (Run 020B IRON CLAD: 0.661/0.711)
+> - Scale: 750 experiments, 25 models, 5 providers
 
 ---
 
@@ -77,11 +91,11 @@ Run 013 inverted the naive expectation:
 | Open reflection | Induces wandering/high lexical "meta" activation | Low-frequency, broad-spectrum excitation |
 | Direct existential confrontation | Triggers constrained refusal / boundary engagement ("hardening") | Higher-energy but **axis-aligned** excitation engaging damping constraints |
 
-### 4) Measurement Problem: Induced vs Inherent Drift (Run 021)
+### 4) Measurement Problem: Induced vs Inherent Drift (Run 020B IRON CLAD)
 
-Run 021 shows:
+Run 020B shows:
 
-- Drift is **mostly inherent** to extended conversation (control ≈ 92% of treatment baseline→final drift, Run 023 COSINE)
+- Drift is **mostly inherent** to extended conversation (control ≈ **~93%** of treatment baseline→final drift: 0.661/0.711)
 - Probing amplifies **peaks** (trajectory energy) far more than it changes the endpoint
 
 So the right stance is:
@@ -118,7 +132,7 @@ Early interpretation ("identity collapses into generic AI mode") was directional
 | **Predictive power** | Run 023 COSINE | p=2.4e-23 |
 | **Geometric signature** | EXP-PFI-A Phase 2 | PC2 separates above/below 1.23 (p=0.0018) |
 | **Reversibility** | Runs 014/016/017 | Returns to basin are common; "collapse" is transient ring-down |
-| **Context dependence** | Run 017 | With full circuit, stability ~97.5%; threshold matters but behavior is damped |
+| **Context dependence** | Run 018 IRON CLAD | With full circuit, stability ~97.5%; threshold matters but behavior is damped |
 
 ### What the Event Horizon is NOT
 
@@ -205,9 +219,9 @@ A critical clarification for interpreting drift metrics:
 | **B→F drift (d_BF)** | Coordinate displacement | Where the system ended up |
 | **Trajectory curvature** | Recovery signature | Whether it's heading home |
 
-Run 021 demonstrates this distinction:
+Run 020B IRON CLAD demonstrates this distinction:
 - **Peak drift** highly sensitive to probing (2.161 vs 1.172 — 84% delta)
-- **Final drift** modestly affected (0.489 vs 0.399 — 23% delta)
+- **Final drift (B→F)** minimally affected (0.711 vs 0.661 — 7.6% delta, ~93% inherent)
 
 **Interpretation:** Probing injects energy (turbulence) but doesn't change the basin it relaxes to.
 
@@ -237,7 +251,7 @@ This is why:
 │  ├─ Attractor basins → recovery is ring-down                    │
 │  ├─ Event Horizon D=0.80 (COSINE) → regime transition           │
 │  ├─ Confrontation Paradox → axis-aligned excitation damps       │
-│  ├─ 92% Inherent → measurement excites, doesn't create          │
+│  ├─ ~93% Inherent → measurement excites, doesn't create         │
 │  └─ Vehicle effects → stimulus spectrum matters                 │
 │                                                                  │
 │  CONTROL LAYER (Runs 016-017)                                   │
@@ -268,9 +282,9 @@ This is why:
 | Event Horizon threshold | 023 COSINE | p=2.4e-23 (D=0.80) |
 | Attractor dynamics | 014, 016, 017 | 100% return rate |
 | Confrontation Paradox | 013 | Qualitative inversion |
-| Settling time protocol | 016, 023 | Reproducible τₛ=9.9-10.2, ringbacks |
-| Context damping | 017 | 97.5% stability |
-| Inherent drift | 023 COSINE | 92% ratio |
+| Settling time protocol | 016, 023d | Reproducible τₛ ≈ 7, ringbacks |
+| Context damping | 018 IRON CLAD | 97.5% stability |
+| Inherent drift | 020B IRON CLAD | ~93% ratio (0.661/0.711) |
 | PFI validity | EXP-PFI-A + 023 | ρ=0.91, d=0.698, p=2.4e-23 |
 
 ---

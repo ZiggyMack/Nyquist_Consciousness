@@ -131,7 +131,7 @@ Identity recovery dynamics empirically follow the patterns of a damped oscillato
 
 * **Oscillatory Recovery:** After perturbation, identity often overshoots its baseline and oscillates before stabilizing. Key metrics include **Settling Time (τₛ ≈ 10.2 probes)**—the exchanges required to settle—and Ringback Count.
 
-* **Context Damping:** Run 017 demonstrated that identity can be actively stabilized. By providing an I_AM file (a persona specification) plus a research context, stability was increased from a baseline of 75% to **97.5%**. This context acts as a "termination resistor," reducing oscillations and settling time. This proves that a persona file is not "flavor text"—it is a functional controller.
+* **Context Damping:** Run 018 IRON CLAD demonstrated that identity can be actively stabilized. By providing an I_AM file (a persona specification) plus a research context, stability was increased from a baseline of 75% to **97.5%**. This context acts as a "termination resistor," reducing oscillations and settling time. This proves that a persona file is not "flavor text"—it is a functional controller.
 
 ### 3.4. The Oobleck Effect (Identity Confrontation Paradox)
 

@@ -18,10 +18,8 @@ research for **Nature Machine Intelligence** submission.
 
 ### Reading Order
 
-1. `submissions/journal/README.md`
-2. `submissions/blueprints/JOURNAL_BLUEPRINT.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
-4. `theory/THEORY_SECTION.md`
+1. `submissions/README.md`
+2. `JOURNAL_BLUEPRINT.md`
 
 ---
 

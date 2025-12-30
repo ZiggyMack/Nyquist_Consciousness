@@ -32,13 +32,22 @@ reviewers/
 │   ├── CURRENT_VERSION.json     # Version tracking + methodology
 │   ├── pdf/                     # Generated PDFs (all paths)
 │   ├── v4/                      # CURRENT - Run 020B + 023d IRON CLAD
-│   │   ├── figures/             # Visualization PDFs
+│   │   ├── .shared/             # ★ MINIMUM VIABLE PACKAGE (send first!)
+│   │   │   ├── START_HERE.md    # Reviewer entry point
+│   │   │   ├── REVIEWER_BRIEF.md # Full orientation
+│   │   │   ├── PACKAGE_INDEX.json # Content mapping
+│   │   │   ├── theory/          # Core theory docs
+│   │   │   ├── guides/          # Reference materials
+│   │   │   ├── planning/        # Strategy docs
+│   │   │   └── figures/         # All visuals
+│   │   ├── {8 publication paths}/ # Extracted packages
+│   │   ├── figures/             # Visualization PNGs
 │   │   ├── llmbook/             # NotebookLM synced content
-│   │   └── visualization_pdfs/  # Run summaries
+│   │   ├── visualization_pdfs/  # 16 PDF run summaries
+│   │   └── feedback/            # Reviewer feedback
+│   │       ├── Claude/          # Claude feedback files
+│   │       └── Grok/            # Grok feedback files
 │   ├── v3/                      # HISTORICAL - Run 023 + drafting history
-│   │   ├── Claude/              # Claude drafting phases 1-7
-│   │   ├── Grok/                # Grok external review
-│   │   └── {8 publication paths}
 │   ├── v2/                      # NotebookLM integration era
 │   └── v1/                      # Initial package
 ```
@@ -54,21 +63,29 @@ reviewers/
 ```bash
 cd WHITE-PAPER/calibration
 
-# Show available paths
-py extract_review_package.py --status
+# Show available paths and sizes
+py 2_package_review.py --status
 
-# Extract single path
-py extract_review_package.py workshop
+# Extract single path (auto-syncs .shared/ first)
+py 2_package_review.py workshop
 
-# Extract multiple paths
-py extract_review_package.py workshop arxiv
+# Extract multiple paths (auto-syncs .shared/ first)
+py 2_package_review.py workshop arxiv
 
-# Extract ALL paths
-py extract_review_package.py --all
+# Extract ALL paths (auto-syncs .shared/ first) ← RECOMMENDED
+py 2_package_review.py --all
 
-# Include figures (increases size significantly)
-py extract_review_package.py arxiv --include-figures
+# Sync ONLY .shared/ (no path packages)
+py 2_package_review.py --sync-shared
+
+# Skip auto-sync if needed
+py 2_package_review.py --all --no-sync-shared
 ```
+
+**Template Source:** `planning/reviewer_templates/` → `.shared/`
+
+- Templates auto-sync when extracting any path
+- PACKAGE_INDEX.json version increments on each sync
 
 ### Available Paths
 
@@ -156,17 +173,18 @@ Each extracted package includes:
 
 ## LLM_BOOK Sync Pipeline
 
-LLM_BOOK content (NotebookLM-generated publications) syncs to `../submissions/` directories.
+LLM_BOOK content (NotebookLM-generated publications) syncs to `packages/v4/llmbook/` for reviewer access.
 
 **When LLM_BOOK is updated, run sync to propagate changes:**
 
 ```bash
-cd WHITE-PAPER
-py sync_llmbook.py --sync
+cd WHITE-PAPER/calibration
+py 1_sync_llmbook.py --sync           # Sync to packages/v4/llmbook/
+py 1_sync_llmbook.py --sync --dry-run # Preview changes
 ```
 
 **Manifest:** `LLMBOOK_SYNC_MANIFEST.json` (this directory)
-**Convention:** Synced files have `LLM_` prefix (e.g., `LLM_Quiz.md`)
+**Destination:** `packages/v4/llmbook/{category}/` (NOT submissions/)
 
 ---
 
@@ -174,7 +192,13 @@ py sync_llmbook.py --sync
 
 If you're reviewing the research (not generating papers):
 
-1. Start with `phase1/FINAL_VALIDATION_CHECKLIST.md`
-2. Read `phase1/NOVA_S7_REVIEW.md` for methodology critique
-3. Review `phase2/review_circulation_package.md` for package structure
-4. See `START_HERE.md` (parent directory) for full reading order
+1. Start with `packages/v4/.shared/START_HERE.md` — Reviewer entry point
+2. Read `packages/v4/.shared/REVIEWER_BRIEF.md` — Full orientation with key numbers
+3. Review `../guides/VISUAL_QUICK_START.md` — Top 3 visualizations explained
+4. See `../START_HERE.md` (parent directory) for full reading order
+
+**Historical phases** (v3/ and earlier) are archived but available for reference.
+
+---
+
+*IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23, ~93% inherent drift*

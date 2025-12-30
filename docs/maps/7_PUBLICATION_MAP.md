@@ -129,7 +129,7 @@ keywords:
 │  ├─ AI providers tested: 5 (Anthropic, OpenAI, Google, xAI, Together)│
 │  ├─ Run 018 IRON CLAD: 184 files, 51 models                   │
 │  ├─ Run 023d: 825+ files, 54 models, p=2.40e-23               │
-│  ├─ Inherent drift: 82% (Thermometer Result, Run 020B)        │
+│  ├─ Inherent drift: ~93% (Thermometer Result, Run 020B)       │
 │  └─ Cross-arch variance: 0.000869 (near-universal)            │
 │                                                                 │
 └────────────────────────────────────────────────────────────────┘

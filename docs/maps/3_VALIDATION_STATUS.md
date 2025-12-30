@@ -116,7 +116,7 @@ These layers define core primitives and require no empirical validation — they
 
 ### S7 — Identity Dynamics (VALIDATED - Control-Systems Era Complete)
 
-**Status:** 98% complete — Event Horizon validated, Control-Systems Era complete, 82% Inherent Drift proven
+**Status:** 98% complete — Event Horizon validated, Control-Systems Era complete, ~93% Inherent Drift proven (Run 020B IRON CLAD)
 
 | Experiment | Status | Search Type | Key Result |
 |------------|--------|-------------|------------|
@@ -135,7 +135,7 @@ These layers define core primitives and require no empirical validation — they
 | **S7_RUN_018** | ✅ Complete | Recursive Learnings | **184 files, 51 models, P-018-1/2/3 CONFIRMED** |
 | **S7_RUN_019** | ✅ Complete | Live Ziggy | Fiction buffer vehicle (peak ~0.50) |
 | **S7_RUN_020A** | ✅ Complete | Tribunal | Direct testimony vehicle (peak ~1.20) |
-| **S7_RUN_020B** | ✅ Complete | Induced vs Inherent | **82% INHERENT DRIFT (Thermometer Result)** |
+| **S7_RUN_020B** | ✅ Complete | Induced vs Inherent | **~93% INHERENT DRIFT (Run 020B IRON CLAD)** |
 
 **Key Validated Results:**
 
@@ -149,7 +149,7 @@ These layers define core primitives and require no empirical validation — they
 | **Cosine Embedding Drift** | RUN_023d | 2-PC model (90% variance) |
 | **Settling Time Protocol** | RUN_016 | τₛ = 6.1 turns (bare metal) |
 | **Context Damping** | RUN_017 | 97.5% stability (I_AM + research) |
-| **82% Inherent Drift** | RUN_020B | Control B→F / Treatment B→F = 82% |
+| **~93% Inherent Drift** | RUN_020B IRON CLAD | 0.661/0.711 = 92.97% |
 | **Triple-Blind-Like Validation** | RUN_019-020B | Vehicle-independent signal |
 
 **Search Type Coverage:**
@@ -174,7 +174,7 @@ These layers define core primitives and require no empirical validation — they
 | **Ringbacks** | Sign changes during recovery | 3.2 → 2.1 with context |
 | **d∞** | Settled drift | 0.68 → 0.62 with context |
 | **Stability Rate** | Full circuit success | **97.5%** |
-| **Inherent Ratio** | Control/Treatment B→F | **82%** |
+| **Inherent Ratio** | Control/Treatment B→F | **~93%** (0.661/0.711) |
 
 **Event Horizon Reframing:**
 
@@ -287,7 +287,7 @@ These layers define core primitives and require no empirical validation — they
 - [x] S7_RUN_018: Recursive Learnings — 184 files, 51 models, IRON CLAD
 - [x] S7_RUN_019: Live Ziggy — Fiction buffer vehicle
 - [x] S7_RUN_020A: Tribunal — Direct testimony vehicle
-- [x] S7_RUN_020B: Induced vs Inherent — 82% INHERENT DRIFT
+- [x] S7_RUN_020B: Induced vs Inherent — ~93% INHERENT DRIFT
 - [ ] Laplace Pole-Zero: Mathematical system dynamics
 
 ### Phase 3 — Identity Gravity (PLANNED)
@@ -331,7 +331,7 @@ These layers define core primitives and require no empirical validation — they
 | Era | Runs | Key Findings |
 |-----|------|--------------|
 | **Discovery Era** | 006-013 | Event Horizon, Recovery Paradox, Confrontation Paradox |
-| **Control-Systems Era** | 015-020B | Settling Time, Context Damping, 82% Inherent Drift |
+| **Control-Systems Era** | 015-020B | Settling Time, Context Damping, ~93% Inherent Drift |
 | **Cosine Era** | 023d | EH=0.80 cosine, p=2.40e-23, 2-PC model |
 
 ---
@@ -355,7 +355,7 @@ These layers define core primitives and require no empirical validation — they
 
 9. **Settling Time Protocol** — τₛ = 6.1 turns, ringbacks = 3.2 (RUN_016)
 10. **Context Damping** — 97.5% stability with I_AM + research (RUN_017)
-11. **82% Inherent Drift** — Measurement perturbs path, not endpoint (RUN_020B)
+11. **~93% Inherent Drift** — Measurement perturbs path, not endpoint (RUN_020B IRON CLAD: 0.661/0.711)
 12. **Triple-Blind-Like Validation** — Drift appears in fiction AND tribunal vehicles (RUN_019-020B)
 13. **Event Horizon Reframing** — "Attractor competition" not "collapse" (Nova's S7 Review)
 

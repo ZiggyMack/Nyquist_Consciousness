@@ -18,9 +18,8 @@ research for **Press / Podcasts / TED** submission.
 
 ### Reading Order
 
-1. `submissions/media/README.md`
-2. `submissions/media/MEDIA_FINAL.md`
-3. `submissions/popular_science/POPULAR_SCIENCE_FINAL.md`
+1. `submissions/README.md`
+2. `submissions/MEDIA_FINAL.md`
 
 ---
 

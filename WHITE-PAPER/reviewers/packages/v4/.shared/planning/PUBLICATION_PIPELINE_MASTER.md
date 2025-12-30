@@ -1,9 +1,14 @@
 # Publication Pipeline Master Document
 
 **Purpose:** Single source of truth for all 8 publication paths
-**Version:** 2.0
-**Date:** 2025-12-25
-**Status:** Active — COSINE ERA (Run 023 IRON CLAD Complete)
+**Version:** 2.1
+**Date:** 2025-12-30
+**Status:** Active — COSINE ERA (Run 023d + Run 020B IRON CLAD Complete)
+
+> **Statistics Source:** All numbers should cite [UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
+> - Event Horizon: D = 0.80 (Cosine)
+> - Inherent Drift: ~93% (Run 020B IRON CLAD)
+> - Scale: 750 experiments, 25 models, 5 providers
 
 ---
 
@@ -11,7 +16,7 @@
 
 The Nyquist Consciousness research has matured to support 8 distinct publication paths across academic, dissemination, and funding channels. This document serves as the master reference for coordinating all publication efforts.
 
-**Source of Truth for Reviewer Sync:** [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md)
+**Source of Truth for Reviewer Sync:** [packages/CURRENT_VERSION.json](../reviewers/packages/CURRENT_VERSION.json)
 
 ---
 
@@ -149,7 +154,7 @@ NotebookLM independently validated our research against Michael Levin's "Is Your
 2. Funding proposals
 3. Conference presentations
 
-Specific timelines tracked in [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md)
+Specific timelines tracked in [packages/CURRENT_VERSION.json](../reviewers/packages/CURRENT_VERSION.json)
 
 ---
 
@@ -194,7 +199,8 @@ Specific timelines tracked in [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md)
 
 | Document | Purpose |
 |----------|---------|
-| [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md) | **Master sync file** — reviewer status, pending decisions |
+| [UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md) | **Canonical statistics** — all papers cite this |
+| [packages/CURRENT_VERSION.json](../reviewers/packages/CURRENT_VERSION.json) | **Version tracking** — reviewer package status |
 | [OPUS_REVIEW_BRIEF.md](OPUS_REVIEW_BRIEF.md) | Opus 4.5 orientation for final review |
 | [NOVAS_OVERCLAIMING_PREVENTION.md](NOVAS_OVERCLAIMING_PREVENTION.md) | What claims to avoid |
 | [METHODOLOGY_DOMAINS.md](METHODOLOGY_DOMAINS.md) | Cosine vs Keyword RMS reconciliation |
@@ -206,6 +212,7 @@ Specific timelines tracked in [SYNC_STATUS.md](../reviewers/SYNC_STATUS.md)
 
 | Date | Change | Author |
 |------|--------|--------|
+| 2025-12-30 | v2.1: Add UNIFIED_STATISTICS_REFERENCE link, fix broken SYNC_STATUS.md refs → CURRENT_VERSION.json, add ~93% inherent stats | Opus 4.5 |
 | 2025-12-25 | v2.0: Remove hardcoded paths, point to SYNC_STATUS.md | Opus 4.5 |
 | 2025-12-15 | Initial creation with 8 paths | System |
 

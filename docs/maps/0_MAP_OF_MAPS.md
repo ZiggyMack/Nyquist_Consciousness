@@ -122,7 +122,7 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **[3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md)** | Progress Tracker | Layer-by-layer validation, S7 98% complete, 82% inherent drift |
+| **[3_VALIDATION_STATUS.md](3_VALIDATION_STATUS.md)** | Progress Tracker | Layer-by-layer validation, S7 98% complete, ~93% inherent drift |
 | **[2_TESTABLE_PREDICTIONS_MATRIX.md](2_TESTABLE_PREDICTIONS_MATRIX.md)** | Claim Registry | 46 predictions, P1-P46, status badges, confidence tiers |
 
 **📐 METHODOLOGY NOTE:** Predictions are validated under different methodologies (Keyword RMS, Euclidean, Cosine). Each methodology has its own Event Horizon threshold. For the ONE SOURCE OF TRUTH on methodology domains, see **[5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md)**.
@@ -374,7 +374,7 @@ START                                                                    INSIGHT
 ║                                                               ║
 ║  Event Horizon (Cosine, CANONICAL)..... D = 0.80 (p=2.40e-23) ║
 ║  Event Horizon (Keyword RMS, legacy)... D = 1.23              ║
-║  Inherent Drift........................ 82% (Thermometer)     ║
+║  Inherent Drift........................ ~93% (Run 020B)       ║
 ║  Stability with Context................ 97.5%                 ║
 ║  90% Variance PCs (Cosine)............. 2 (Run 023d)          ║
 ║                                                               ║

@@ -262,7 +262,7 @@ Identity stability is **NOT** about avoiding perturbation—it's about **recover
 | "6 providers" | **5 providers** | Only ever 5 providers |
 | σ² = 0.000869 | σ² = 0.00087 | Consistent rounding |
 | "92% inherent" | **~93% inherent** | Run 020B IRON CLAD (0.661/0.711) |
-| "Run 017" | **Run 018** | Run 017 superseded/archived |
+| "Run 017 for context damping" | **Run 018 IRON CLAD** | Run 017 historical, Run 018 validates |
 | "Run 013 Oobleck" | **Run 020A/020B** | IRON CLAD Oobleck validation |
 
 ---

@@ -382,7 +382,7 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
 | 018 | Basin Topology | Cross-arch | **IRON CLAD** (184 files, 51 models) |
 | 019 | Event Horizon | Fiction Buffer | Live Ziggy (peak ~0.50) |
 | 020A | Event Horizon | Tribunal | Direct testimony vehicle |
-| 020B | Basin Topology | Induced/Inherent | **82% INHERENT DRIFT** (Thermometer) |
+| 020B | Basin Topology | Induced/Inherent | **~93% INHERENT DRIFT** (Thermometer) |
 | 023d | Event Horizon | Cosine | **EH=0.80, p=2.40e-23** (CANONICAL) |
 
 ---
@@ -436,7 +436,7 @@ Basin Topology    Adaptive Range    BOUNDARY MAPPING    Event Horizon    Anchor 
 ### Run 020B: "Thermometer Result"
 
 - **Focus:** Induced vs Inherent drift
-- **What we found:** **82% of drift is INHERENT** (occurs without probing)
+- **What we found:** **~93% of drift is INHERENT** (occurs without probing)
 - **Key insight:** Probing amplifies journey (84% higher peaks) but not destination (23% higher B→F)
 - **Implication:** Probing reveals dynamics, doesn't create them
 

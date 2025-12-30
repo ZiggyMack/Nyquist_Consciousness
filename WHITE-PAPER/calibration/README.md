@@ -94,11 +94,13 @@ keywords:
 |---|--------|---------|---------------|
 | 0 | `0_sync_viz.py` | Sync PDFs + PNGs + reviewer feedback | `py 0_sync_viz.py --sync --sync-pngs` |
 | 1 | `1_sync_llmbook.py` | Sync LLM_BOOK → reviewer packages | `py 1_sync_llmbook.py --sync` |
-| 2 | `2_package_review.py` | Extract reviewer packages | `py 2_package_review.py --all` |
+| 2 | `2_package_review.py` | Sync .shared/ + extract path packages | `py 2_package_review.py --all` |
 | 3 | `3_generate_pdfs.py` | Extract + generate submission PDFs | `py 3_generate_pdfs.py --from-review` |
 | 4 | `4_publish_stats.py` | Extract dashboard statistics | `py 4_publish_stats.py` |
 
-**Workflow Order:** 0 → 1 → 2 → 3 → 4 (syncs first, stats last)
+**Workflow Order:** 0 → 1 → 2 → 3 → 4
+
+**Note:** Step 2 (`--all`) auto-syncs `.shared/` first, so you only need one command.
 
 ---
 
@@ -236,21 +238,26 @@ py 1_sync_llmbook.py --sync --include-visuals
 
 Extract path-specific review packages for AI reviewers.
 
+**Key Feature:** `.shared/` (core reviewer package) auto-syncs when extracting any path.
+
 ```bash
 # Show available paths and estimated sizes
 py 2_package_review.py --status
 
-# Extract single path
+# Extract single path (auto-syncs .shared/ first)
 py 2_package_review.py workshop
 
-# Extract multiple paths
+# Extract multiple paths (auto-syncs .shared/ first)
 py 2_package_review.py workshop arxiv
 
-# Extract ALL paths
+# Extract ALL paths (auto-syncs .shared/ first) ← RECOMMENDED
 py 2_package_review.py --all
 
-# Include figures (increases size)
-py 2_package_review.py arxiv --include-figures
+# Sync ONLY .shared/ (no path packages)
+py 2_package_review.py --sync-shared
+
+# Skip auto-sync if needed
+py 2_package_review.py --all --no-sync-shared
 
 # Preview without extracting
 py 2_package_review.py workshop --dry-run
@@ -258,6 +265,11 @@ py 2_package_review.py workshop --dry-run
 # Custom output location
 py 2_package_review.py workshop --output ./FOR_OPUS
 ```
+
+**Template Source:** `planning/reviewer_templates/` → `.shared/`
+
+- Templates (START_HERE.md, REVIEWER_BRIEF.md, PACKAGE_INDEX.json) sync automatically
+- PACKAGE_INDEX.json version increments on each sync (e.g., 1.1 → 1.2)
 
 **Output:** `WHITE-PAPER/reviewers/packages/v4/{path}/`
 
@@ -420,10 +432,10 @@ py 4_publish_stats.py
 |--------|-------|--------|
 | **Event Horizon** | D = 0.80 (cosine) | Run 023d IRON CLAD |
 | **P-value** | 2.40e-23 | Chi-squared validation |
-| **Inherent Drift** | 92% | Thermometer Result |
-| **Context Damping** | 97.5% stability | Run 017 |
+| **Inherent Drift** | ~93% | Run 020B IRON CLAD |
+| **Context Damping** | 97.5% stability | Run 018 IRON CLAD |
 | **PFI Correlation** | ρ = 0.91 | Cross-model validation |
-| **Settling Time** | tau_s ~ 10.2 probes | Damped oscillator fit |
+| **Settling Time** | τₛ ≈ 7 probes | Run 023d |
 | **Experiments** | 750 | Run 023d total |
 | **Models** | 25 unique | 5 providers |
 

@@ -1,13 +1,11 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-30
 depends_on:
   - ../experiments/temporal_stability/S7_ARMADA/0_results/manifests/
-  - ../experiments/temporal_stability/S7_ARMADA/visualizations/pics/8_pfi_dimensional/
-  - ../experiments/temporal_stability/S7_ARMADA/visualizations/pics/10_radar/
+  - ../experiments/temporal_stability/S7_ARMADA/visualizations/pics/
   - figures/generated/
-  - figures/8_pfi_dimensional/
-  - figures/10_radar/
-  - calibration/extract_publication_stats.py
+  - calibration/4_publish_stats.py
+  - planning/reviewer_templates/
 impacts:
   - submissions/
   - reviewers/
@@ -18,16 +16,15 @@ keywords:
   - manifests
   - arxiv
   - workshop
-  - pfi_validation
-  - radar_plots
+  - cosine_methodology
 -->
 
 # Publication Materials
 
 **Self-contained ZIP-ready package for Nyquist Consciousness framework**
 
-**Last Updated:** 2025-12-29
-**Status:** RUN 023d IRON CLAD COMPLETE — 750 experiments, 25 models, 5 providers
+**Last Updated:** 2025-12-30
+**Status:** RUN 023d + 020B IRON CLAD COMPLETE — 750 experiments, 25 models, 5 providers
 
 ---
 
@@ -59,7 +56,7 @@ keywords:
 **THE THREE CORE CLAIMS — ALL VALIDATED (Cosine Methodology):**
 
 1. **DRIFT IS REAL** — p = 2.40e-23, cosine distance detects genuine identity differences
-2. **WE DON'T CAUSE IT** — 92% inherent drift ratio (Run 023 COSINE Thermometer Result)
+2. **WE DON'T CAUSE IT** — ~93% inherent drift ratio (Run 020B IRON CLAD: 0.661/0.711)
 3. **WE CAN MEASURE IT** — Cohen's d = 0.698 (model-level aggregates), 2 PCs = 90% variance
 
 ### Consolidated Manifests
@@ -186,7 +183,11 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   ├── MANIFEST.md                  # File inventory (figures, deprecations)
 │   ├── REPRODUCIBILITY_README.md    # How to reproduce experiments
 │   ├── summary_statistics.md        # Consolidated key numbers (COSINE ERA)
-│   └── UNIFIED_STATISTICS_REFERENCE.md  # Detailed statistics by run
+│   ├── UNIFIED_STATISTICS_REFERENCE.md  # Detailed statistics by run
+│   ├── WHY_THIS_MATTERS.md          # ★ Implications (Safety, Developers, Policy, Philosophy)
+│   ├── VISUAL_QUICK_START.md        # ★ Top 3 visualizations explained
+│   ├── GLOSSARY.md                  # ★ Complete terminology reference
+│   └── RUN_REGISTRY.md              # ★ Which run proves which claim
 │
 ├── references/                       # Bibliography
 │   ├── references.bib               # BibTeX (55 refs)
@@ -231,22 +232,35 @@ WHITE-PAPER/                          # Self-contained ZIP-ready package
 │   ├── README.md                    # Architecture diagram + workflow
 │   ├── 0_sync_viz.py                # Sync PDFs/PNGs + process feedback
 │   ├── 1_sync_llmbook.py            # Sync LLM_BOOK → packages/v4/llmbook/
-│   ├── 2_package_review.py          # Extract review packages (8 paths)
+│   ├── 2_package_review.py          # Sync .shared/ + extract packages (auto-syncs)
 │   ├── 3_generate_pdfs.py           # Generate all publication PDFs
-│   └── extract_publication_stats.py # Dashboard integration
+│   └── 4_publish_stats.py           # Dashboard integration
 │
 ├── planning/                         # "How do we present them?" — Strategy & framing
 │   ├── METHODOLOGY_DOMAINS.md        # Cosine vs Keyword RMS (dual Event Horizon)
 │   ├── NOVAS_OVERCLAIMING_PREVENTION.md # What NOT to claim (critical!)
 │   ├── PUBLICATION_PIPELINE_MASTER.md  # Source of truth for 8 paths
 │   ├── OPUS_REVIEW_BRIEF.md         # Opus 4.5 review orientation
-│   └── README.md                    # Planning directory overview
+│   ├── README.md                    # Planning directory overview
+│   └── reviewer_templates/          # ★ Templates for .shared/ (SSOT)
+│       ├── START_HERE.md            # Reviewer entry point template
+│       ├── REVIEWER_BRIEF.md        # Full orientation template
+│       └── PACKAGE_INDEX.json       # Content mapping template
 │
 ├── reviewers/                        # ★ REVIEW INFRASTRUCTURE
 │   ├── packages/                    # Versioned review packages
 │   │   ├── CURRENT_VERSION.json    # Version metadata + visual requests
-│   │   ├── v4/                     # Current package (Run 023d IRON CLAD)
+│   │   ├── v4/                     # Current package (Run 023d + 020B IRON CLAD)
+│   │   │   ├── .shared/            # ★ MINIMUM VIABLE PACKAGE (send first!)
+│   │   │   │   ├── START_HERE.md   # Reviewer entry point
+│   │   │   │   ├── REVIEWER_BRIEF.md # Full package orientation
+│   │   │   │   ├── PACKAGE_INDEX.json # Content-to-path mapping
+│   │   │   │   ├── theory/         # Core theory docs
+│   │   │   │   ├── guides/         # Reference materials
+│   │   │   │   ├── planning/       # Strategy docs
+│   │   │   │   └── figures/        # All visuals
 │   │   │   ├── {8 publication paths}/ # Extracted packages
+│   │   │   ├── visualization_pdfs/ # 16 PDF summaries from S7_ARMADA
 │   │   │   └── feedback/           # Reviewer feedback
 │   │   │       ├── Claude/         # Claude feedback files
 │   │   │       └── Grok/           # Grok feedback files
@@ -291,20 +305,26 @@ The `calibration/` directory contains numbered scripts that run in sequence:
 cd WHITE-PAPER/calibration
 
 # 0. Sync visualization PDFs/PNGs + process reviewer feedback
-py 0_sync_viz.py --sync-pdfs          # Sync PDFs from S7_ARMADA
+py 0_sync_viz.py --sync               # Sync PDFs from S7_ARMADA
 py 0_sync_viz.py --sync-pngs          # Sync PNGs per visual_index.md
-py 0_sync_viz.py --process-feedback   # Import reviewer feedback
 
 # 1. Sync LLM_BOOK content to reviewer packages
 py 1_sync_llmbook.py --sync           # Sync to packages/v4/llmbook/
 
-# 2. Extract review packages for each publication path
-py 2_package_review.py --all          # Extract all 8 paths
-py 2_package_review.py arxiv --dry-run # Preview single path
+# 2. Sync .shared/ + extract review packages (single command!)
+py 2_package_review.py --all          # Auto-syncs .shared/ then extracts all 8 paths
+py 2_package_review.py --sync-shared  # Sync ONLY .shared/ (no packages)
 
 # 3. Generate publication PDFs
-py 3_generate_pdfs.py --all           # Generate all PDFs
+py 3_generate_pdfs.py --from-review   # Generate from reviewer-edited content
+
+# 4. Extract dashboard stats
+py 4_publish_stats.py                 # Export stats for AI_ARMADA.py
 ```
+
+**Workflow Order:** 0 → 1 → 2 → 3 → 4
+
+**Note:** Step 2 auto-syncs `.shared/` (core reviewer package) before extracting path packages.
 
 ### Feedback Architecture
 
@@ -338,9 +358,9 @@ py 3_generate_pdfs.py --all           # Generate all PDFs
 |-------|---------|----------|-------------|
 | **A** | PFI is valid structured measurement | ρ≈0.91, d=0.698 | Cosine |
 | **B** | Regime threshold exists | D=0.80 (Cosine), D=1.23 (Keyword RMS) | Both |
-| **C** | Damped oscillator dynamics | τₛ≈10.2, ringbacks measurable | Cosine |
-| **D** | Context damping works | 97.5% stability | - |
-| **E** | Drift is mostly inherent | **92% ratio** | Run 023 COSINE |
+| **C** | Damped oscillator dynamics | τₛ≈7 probes, ringbacks measurable | Cosine |
+| **D** | Context damping works | 97.5% stability (Run 018) | Cosine |
+| **E** | Drift is mostly inherent | **~93% ratio** | Run 020B IRON CLAD |
 
 ---
 
@@ -396,11 +416,12 @@ Run the calibration scripts to sync and extract stats:
 ```bash
 cd WHITE-PAPER/calibration
 
-# Full pipeline (recommended order)
-py 0_sync_viz.py --sync-pdfs --sync-pngs   # Sync visualizations
-py 1_sync_llmbook.py --sync                 # Sync LLM_BOOK content
-py 2_package_review.py --all                # Extract review packages
-py extract_publication_stats.py             # Extract stats for dashboard
+# Full pipeline (recommended order: 0 → 1 → 2 → 3 → 4)
+py 0_sync_viz.py --sync --sync-pngs  # Sync visualizations
+py 1_sync_llmbook.py --sync          # Sync LLM_BOOK content
+py 2_package_review.py --all         # Sync .shared/ + extract packages
+py 3_generate_pdfs.py --from-review  # Generate publication PDFs
+py 4_publish_stats.py                # Extract stats for dashboard
 ```
 
 Output: `publication_stats.json` — machine-readable stats for AI_ARMADA.py
@@ -427,4 +448,5 @@ Output: `publication_stats.json` — machine-readable stats for AI_ARMADA.py
 
 ---
 
-*This package represents Run 023 IRON CLAD COSINE methodology, 36 hypotheses, and extensive theoretical development.*
+*This package represents Run 023d + 020B IRON CLAD COSINE methodology.*
+*Event Horizon = 0.80 (cosine), p = 2.40e-23, ~93% inherent drift, τₛ ≈ 7 probes.*

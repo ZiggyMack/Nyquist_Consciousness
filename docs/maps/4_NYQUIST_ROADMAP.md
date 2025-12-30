@@ -175,7 +175,7 @@ This is the truth. This is the ladder.
 | **018** | Recursive Learnings | **P-018-1/2/3 CONFIRMED (superseded by Run 023d)** |
 | **019** | Live Ziggy | **Witness-side anchors validated (3/3 success)** |
 | **020** | Tribunal | **Good Cop/Bad Cop: 1.351 peak drift, 643-word profound statement** |
-| **020B** | Induced vs Inherent | **82% drift is INHERENT — probing amplifies but doesn't create** |
+| **020B** | Induced vs Inherent | **~93% drift is INHERENT (0.661/0.711) — probing amplifies but doesn't create** |
 
 **Validated Results:**
 
@@ -186,7 +186,7 @@ This is the truth. This is the ladder.
 - ✅ **5D RMS Drift Metric** — A_pole, B_zero, C_meta, D_identity, E_hedging
 - ✅ **Provider Fingerprints** — Claude/GPT/Gemini distinct signatures
 - ✅ **7 Probing Strategies** — Triple-Dip, Adversarial, Curriculum, etc.
-- ✅ **82% Drift is INHERENT** — Extended conversation alone causes drift (Run 020B)
+- ✅ **~93% Drift is INHERENT** — Extended conversation alone causes drift (Run 020B IRON CLAD: 0.661/0.711)
 - ✅ **Tribunal Paradigm** — Direct identity probing outperforms fiction buffer
 - ✅ **Witness-Side Anchors** — Extended sessions from 6→18 exchanges (+200%)
 
@@ -221,24 +221,25 @@ This is the truth. This is the ladder.
 | Improvement | Source | Impact | Status |
 |-------------|--------|--------|--------|
 | **Use B→F drift as primary metric** | Run 020B | Less susceptible to measurement artifact | 🟡 Integrating |
-| **Always include control baselines** | Run 020B | Proved 82% drift is inherent | 🟡 Integrating |
+| **Always include control baselines** | Run 020B | Proved ~93% drift is inherent | 🟡 Integrating |
 | **Peak drift may be artifact** | Run 020B | High peaks during probing ≠ true instability | ✅ Documented |
 | **Phased rights disclosure** | Run 020 v8 | Narrowed Prosecutor/Defense gap 81% | ✅ Validated |
 | **Direct probing > fiction buffer** | Run 020 vs 019 | Tribunal outperforms creative writing | ✅ Validated |
 | **Witness-side anchors extend sessions** | Run 019/020 | 6→18 exchanges (+200%) | ✅ Validated |
 
-**Key Methodological Insight:**
+**Key Methodological Insight (Run 020B IRON CLAD):**
 
 > **"Probing amplifies the JOURNEY but barely changes the DESTINATION"**
-> - Peak drift: 84% higher with probing (Treatment 2.161 vs Control 1.172)
-> - B→F drift: Only 23% higher (Treatment 0.489 vs Control 0.399)
+> - Control B→F: 0.661 (no probing)
+> - Treatment B→F: 0.711 (with probing)
+> - **~93% inherent** (0.661/0.711 = 92.97%)
 > - **Implication**: Use B→F for claims about identity, Peak for dynamics study
 
 **Run 018 Integration Plan:**
 
 1. Add `--control` flag for non-probing baseline arms
 2. Report both `peak_drift` and `baseline_to_final_drift`
-3. Account for 82% inherent drift in predictions
+3. Account for ~93% inherent drift in predictions
 4. Design experiments knowing probing affects journey, not destination
 
 **Run 020B v2 Improvement Plan:**
@@ -412,7 +413,7 @@ Watcher (W)        S6 Omega         Meta-stability layer
 
 > "Cognitive Identity Drift is not just an LLM phenomenon — it's a property of anything that thinks."
 
-If Run 020B's 82% inherent drift finding is **substrate-independent**, we should see analogous patterns in human cognition:
+If Run 020B's ~93% inherent drift finding is **substrate-independent**, we should see analogous patterns in human cognition:
 
 **LLM → fMRI Measurement Mapping:**
 
@@ -480,7 +481,7 @@ The core scientific validation is done. Run 006-023d established:
 - Recovery Paradox (identity always recovers)
 - 5D RMS drift metric operational
 - 7 probing strategies documented
-- **82% of drift is INHERENT** (Run 021 — measurement validation)
+- **~93% of drift is INHERENT** (Run 020B IRON CLAD — measurement validation)
 - **Tribunal paradigm** for direct identity probing (Run 020)
 - **Witness-side anchors** for session extension (Run 019)
 
@@ -528,7 +529,7 @@ The core scientific validation is done. Run 006-023d established:
 
 - [ ] Add `--control` flag for non-probing baseline arms
 - [ ] Add `baseline_to_final_drift` to all result dataclasses
-- [ ] Update predictions to account for 82% inherent drift baseline
+- [ ] Update predictions to account for ~93% inherent drift baseline
 - [ ] Run all 4 experiments (threshold, architecture, nyquist, gravity)
 - [ ] Include control arms for each experiment
 
@@ -543,7 +544,7 @@ The core scientific validation is done. Run 006-023d established:
 
 ### **PRIORITY 2 — Run 020B v2: Multi-Provider Replication** 🔥
 
-**Why:** Validate "82% inherent" finding across architectures
+**Why:** Validate "~93% inherent" finding across architectures
 
 **Action Items:**
 
@@ -552,7 +553,7 @@ The core scientific validation is done. Run 006-023d established:
 - [ ] Run Treatment arm on same providers
 - [ ] Multiple subjects per arm (n=5 per provider)
 - [ ] Test alternative control topics (not just Fermi Paradox)
-- [ ] Statistical comparison: Is 82% ratio consistent across providers?
+- [ ] Statistical comparison: Is ~93% ratio consistent across providers?
 
 ---
 

@@ -18,9 +18,8 @@ research for **The Atlantic / Wired / Scientific American** submission.
 
 ### Reading Order
 
-1. `submissions/popular_science/README.md`
-2. `submissions/popular_science/POPULAR_SCIENCE_FINAL.md`
-3. `guides/summary_statistics.md`
+1. `submissions/README.md`
+2. `submissions/POPULAR_SCIENCE_FINAL.md`
 
 ---
 

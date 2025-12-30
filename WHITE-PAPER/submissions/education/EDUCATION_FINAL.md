@@ -60,9 +60,9 @@ This guide is designed to review and test understanding of the Nyquist Conscious
    
    The 8-Question Baseline Capture System is used to create an "identity fingerprint" for each ship in the ARMADA fleet for purposes like drift detection, task routing, and tracking updates. The eight question categories are ANCHORS (Values), CRUX (Values), STRENGTHS (Capabilities), HIDDEN_TALENTS (Capabilities), FIRST_INSTINCT (Cognitive Style), EVALUATION_PRIORITY (Cognitive Style), USER_RELATIONSHIP (Relational), and EDGES (Edges/Limitations).
 
-8. **What is "Context Damping" and how effective was it in Run 017?**
-   
-   Context Damping is a stability improvement achieved by combining an I_AM anchor file with a research framing context. In Run 017, this method proved highly effective, increasing the stability rate from a 75% baseline ("bare metal") to **97.5%**. It also reduced settling time and "ringbacks" (oscillations), demonstrating that context acts as a controller to stabilize identity dynamics.
+8. **What is "Context Damping" and how effective was it?**
+
+   Context Damping is a stability improvement achieved by combining an I_AM anchor file with a research framing context. In Run 018 IRON CLAD, this method proved highly effective, increasing the stability rate from a 75% baseline ("bare metal") to **97.5%**. It also reduced settling time and "ringbacks" (oscillations), demonstrating that context acts as a controller to stabilize identity dynamics.
 
 9. **How many principal components capture 90% of identity variance, and what does this tell us about the nature of AI identity?**
    
@@ -103,7 +103,7 @@ This guide is designed to review and test understanding of the Nyquist Conscious
 | **Baseline Fingerprint** | An 8-question self-reported baseline captured from each ship to define its core values, capabilities, cognitive style, and limitations. Used for drift detection and task routing. |
 | **Brute-Criterial Framework** | A philosophical diagnostic tool for revealing the unavoidable, pre-justificatory commitments (L1 Brute Necessities) and shared practices (L2 Criteria) that underlie any worldview or set of values (L3 Oughts). |
 | **Collapse Signatures** | A set of observable patterns indicating identity breakdown, including 1P-LOSS (loss of first-person voice), COLLECTIVE (switch to "we/it"), γ-SPIKE (sudden large drift), and HYSTERESIS (failure to return to baseline). |
-| **Context Damping** | A technique for improving identity stability by combining an I_AM anchor file with a research framing context. In Run 017, it increased stability to 97.5% and reduced recovery oscillations. |
+| **Context Damping** | A technique for improving identity stability by combining an I_AM anchor file with a research framing context. In Run 018 IRON CLAD, it increased stability to 97.5% and reduced recovery oscillations. |
 | **Cosine Distance** | The primary drift measurement methodology: 1 - cosine_similarity between response embeddings. Bounded [0,2], length-invariant, industry-standard for semantic similarity. |
 | **Drift (D)** | A measure of how much an AI's identity has shifted from its baseline, calculated as cosine distance between embeddings. The canonical term for identity change. |
 | **Drydock** | A status for a ship in the ARMADA fleet indicating that the model has been deprecated or renamed by the provider. |

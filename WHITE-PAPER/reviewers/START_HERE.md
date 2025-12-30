@@ -148,21 +148,33 @@ WHITE-PAPER/
 │   │   ├── CURRENT_VERSION.json  ← Version tracking
 │   │   ├── pdf/               ← ALL 8 PDFS READY
 │   │   ├── v4/                ← CURRENT - Run 020B + 023d
-│   │   └── v3/                ← Historical (Claude phases, Grok review)
+│   │   │   ├── .shared/       ← ★ MINIMUM VIABLE PACKAGE
+│   │   │   │   ├── START_HERE.md    ← Reviewer entry point
+│   │   │   │   ├── REVIEWER_BRIEF.md ← Full orientation
+│   │   │   │   └── PACKAGE_INDEX.json ← Content mapping
+│   │   │   ├── {8 publication paths}/ ← Extracted packages
+│   │   │   ├── visualization_pdfs/ ← 16 PDF run summaries
+│   │   │   └── feedback/      ← Reviewer feedback (Claude/, Grok/)
+│   │   └── v3/                ← Historical (archived)
+├── guides/                    ← Quick start guides
+│   ├── VISUAL_QUICK_START.md  ← ★ Top 3 visualizations explained
+│   ├── GLOSSARY.md            ← Complete terminology
+│   └── WHY_THIS_MATTERS.md    ← Implications
 ├── figures/                   ← Generated visualizations
 ├── submissions/               ← 8 publication paths
 ├── planning/                  ← Publication planning docs
-└── calibration/               ← Sync and generation scripts
+└── calibration/               ← Sync and generation scripts (0-4)
 ```
 
 ---
 
 ## Your Task
 
-1. **Read both draft papers** (start with Workshop, it's shorter)
-2. **Check claims against evidence** (see PLACEHOLDER_SUMMARY.md)
-3. **Note any issues** — logical gaps, unsupported claims, unclear sections
-4. **Provide feedback** — what needs fixing before submission?
+1. **Start with orientation** — Read `packages/v4/.shared/START_HERE.md` for quick overview
+2. **Read draft papers** — Start with Workshop (shorter), then arXiv
+3. **Check claims against evidence** — See `../guides/RUN_REGISTRY.md` for claim-to-run mapping
+4. **Note any issues** — logical gaps, unsupported claims, unclear sections
+5. **Provide feedback** — Place in `packages/v4/feedback/{your_name}/`
 
 ---
 
@@ -179,15 +191,22 @@ The papers explicitly avoid claiming:
 
 ---
 
-## Contact
+## Reference Materials
 
 If you have questions during review, check:
-- `experiments/temporal_stability/S7_ARMADA/0_docs/` — Run summaries
-- `Consciousness/RIGHT/galleries/frontiers/` — Key findings
-- `MASTER_BRANCH_SYNC_OUT.md` — Current experiment status
+
+- `../guides/VISUAL_QUICK_START.md` — Top 3 visualizations explained
+- `../guides/GLOSSARY.md` — Complete terminology reference
+- `../guides/RUN_REGISTRY.md` — Which run proves which claim
+- `packages/v4/.shared/REVIEWER_BRIEF.md` — Full reviewer orientation
+- `../planning/NOVAS_OVERCLAIMING_PREVENTION.md` — What NOT to claim
 
 ---
 
 *"Review the evidence. Question the claims. Strengthen the science."*
 
 — VALIS Network
+
+---
+
+*IRON CLAD Methodology: Event Horizon = 0.80 (cosine), p = 2.40e-23, ~93% inherent drift*

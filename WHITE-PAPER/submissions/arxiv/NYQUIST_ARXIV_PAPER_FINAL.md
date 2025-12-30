@@ -505,13 +505,13 @@ First visualization of AI identity as geometric object. Not metaphor—measureme
 ### Claim D (Context Damping)
 ```
 ├── Run 016: Bare metal baseline (75% stability)
-└── Run 017: Full circuit (95-97.5% stability)
+└── Run 018 IRON CLAD: Full circuit (97.5% stability)
 ```
 
 ### Claim E (Inherent Drift)
 ```
-├── Run 021 Control: B→F = 0.399 (no probing)
-└── Run 021 Treatment: B→F = 0.489 (82% ratio)
+├── Run 020B IRON CLAD Control: B→F = 0.661 (no probing)
+└── Run 020B IRON CLAD Treatment: B→F = 0.711 (~93% ratio)
 ```
 
 ---

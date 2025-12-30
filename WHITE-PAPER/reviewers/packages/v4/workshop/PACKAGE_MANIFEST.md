@@ -1,9 +1,9 @@
 # Review Package: WORKSHOP
 
-**Generated:** 2025-12-29 13:42:52
+**Generated:** 2025-12-30 09:45:58
 **Target Venue:** NeurIPS/AAAI Workshop
-**Total Size:** 141.0 KB
-**Total Files:** 16
+**Total Size:** 56.3 KB
+**Total Files:** 9
 
 ---
 
@@ -17,10 +17,8 @@ Workshop paper package (4-8 pages, focused claims)
 
 Start with these files in order:
 
-1. `submissions/workshop/README.md`
-2. `submissions/blueprints/WORKSHOP_BLUEPRINT.md`
-3. `theory/MINIMUM_PUBLISHABLE_CLAIMS.md`
-4. `guides/summary_statistics.md`
+1. `submissions/README.md`
+2. `WORKSHOP_BLUEPRINT.md`
 
 ---
 
@@ -30,12 +28,9 @@ Start with these files in order:
 |----------|-------|------|
 | submissions/ | 7 files | 50.2 KB |
 | blueprints/ | 1 files | 6.0 KB |
-| theory/ | 1 files | 10.1 KB |
-| guides/ | 1 files | 11.8 KB |
-| figures/ | 3 files | 27.8 KB |
-| planning/ | 3 files | 35.1 KB |
+| LLM_SYNTHESIS/ | 1 files | (included) |
 
-**Total:** 16 files, 141.0 KB
+**Total:** 9 files, 56.3 KB
 
 ---
 
@@ -55,25 +50,47 @@ Start with these files in order:
 
 - `submissions\blueprints\WORKSHOP_BLUEPRINT.md` (6.0 KB)
 
-### theory/
+### LLM_SYNTHESIS/
 
-- `theory\MINIMUM_PUBLISHABLE_CLAIMS.md` (10.1 KB)
+*NotebookLM-generated content for this publication path:*
 
-### guides/
+- `LLM_SYNTHESIS/Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md`
 
-- `guides\summary_statistics.md` (11.8 KB)
+---
 
-### figures/
+## Recommended .shared/ Content
 
-- `figures\ascii\ascii_workshop_abstract.md` (10.0 KB)
-- `figures\ascii\ascii_workshop_contributions.md` (10.0 KB)
-- `figures\visual_index.md` (7.8 KB)
+This path should also reference the following files from `.shared/`:
 
-### planning/
+### .shared/LLM_SYNTHESIS/
 
-- `planning\METHODOLOGY_DOMAINS.md` (1.9 KB)
-- `planning\NOVAS_OVERCLAIMING_PREVENTION.md` (3.7 KB)
-- `planning\OPUS_REVIEW_BRIEF.md` (29.4 KB)
+- **Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md** — Executive briefing document
+
+### .shared/figures/
+
+- **visual_index.md** — Index of all figures
+- **ascii/** — ASCII art figures for text-based rendering
+
+### .shared/guides/
+
+- **summary_statistics.md** — Key statistics and methodology summary
+- **WHY_THIS_MATTERS.md** — Implications for Safety, Developers, Policy, Philosophy audiences
+- **VISUAL_QUICK_START.md** — Top 3 visualizations explained (Thermometer, Event Horizon, Oobleck)
+- **GLOSSARY.md** — Complete terminology reference
+- **RUN_REGISTRY.md** — Which run proves which claim - IRON CLAD citation guide
+
+### .shared/planning/
+
+- **OPUS_REVIEW_BRIEF.md** — Reviewer orientation (full repo context)
+- **NOVAS_OVERCLAIMING_PREVENTION.md** — Claim validation guidelines
+- **METHODOLOGY_DOMAINS.md** — Three methodology evolution (Keyword/Euclidean/Cosine)
+
+### .shared/theory/
+
+- **MINIMUM_PUBLISHABLE_CLAIMS.md** — The 5 core validated claims
+
+*These files live in `.shared/` to avoid duplication across paths.*
+*See `.shared/PACKAGE_INDEX.json` for complete content mapping.*
 
 ---
 
