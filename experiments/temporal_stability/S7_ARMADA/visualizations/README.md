@@ -2,7 +2,8 @@
 last_reviewed: 2025-12-29
 depends_on:
   - 0_visualize_armada.py
-  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023d_CURRENT.json
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023_CURRENT.json
+  - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023_extended_CURRENT.json
   - ../15_IRON_CLAD_FOUNDATION/results/S7_run_023_COMBINED.json
 impacts:
   - ../README.md
@@ -52,13 +53,30 @@ keywords:
 
 ## SCRIPTS HIERARCHY
 
+### Master Scripts
+
 | Script | Purpose |
-|--------|---------|
-| `0_visualize_armada.py` | **MASTER** - Main visualization orchestrator for any run |
-| `1_generate_pdf_summaries.py` | PDF documentation generator for visualization folders |
-| `2_RnD_Visualization.py` | Experimental R&D visualizations (rescue protocol) |
+| ------ | ------- |
+| `0_visualize_armada.py` | **MASTER** - Orchestrates all visualization generation |
+| `1_generate_pdf_summaries.py` | PDF summary generator for folders 1-16 |
+
+### Supporting Visualizers
+
+| Script | Purpose |
+| ------ | ------- |
+| `2_RnD_Visualization.py` | R&D visualizations for rescue protocol |
 | `3_unified_dimensional_view.py` | 5D drift dimensional analysis |
 | `4_plot_armada_network.py` | Fleet topology network graph |
+| `pics/5_Settling/RnD_experiments/RnD_Settling_Visualization.py` | R&D settling dynamics |
+
+### Experiment-Specific Visualizers (called by orchestrator)
+
+| Script | Output |
+| ------ | ------ |
+| `../6_LAPLACE_ANALYSIS/visualize_laplace.py` | `pics/16_Laplace_Analysis/` |
+| `../11_CONTEXT_DAMPING/visualize_run018.py` | `pics/run018/` |
+| `../11_CONTEXT_DAMPING/visualize_run020.py` | `pics/14_Ringback/`, `pics/15_Oobleck_Effect/` |
+| `../15_IRON_CLAD_FOUNDATION/visualize_023.py` | `pics/3_Stability/`, `pics/4_Rescue/`, `pics/5_Settling/` |
 
 ## PRIMARY SCRIPT: `0_visualize_armada.py`
 
@@ -301,14 +319,21 @@ py -3.12 visualize_armada.py --run 011 --zoom
 
 ## DATA SOURCES
 
-The script auto-detects data from `../armada_results/`:
+Primary data resides in `15_IRON_CLAD_FOUNDATION/results/`:
 
-| Run | File Pattern | Description |
-|-----|--------------|-------------|
-| 008 | `S7_run_008_*.json` | Full armada baseline (86 trajectories) |
-| 009 | `S7_run_009_drain_*.json` | Drain capture stress test (150 trajectories) |
-| 010 | `S7_run_010_recursive_*.json` | Recursive meta-feedback (45 trajectories) |
-| 011 | `S7_run_011_persona_*.json` | Persona A/B comparison (33 trajectories) |
+| File | Description |
+| ---- | ----------- |
+| `S7_run_023_CURRENT.json` | Foundation data (6 experiment types, 4505 results) |
+| `S7_run_023_extended_CURRENT.json` | Extended settling + control demo |
+| `S7_run_023_COMBINED.json` | All experiments merged |
+
+Additional experiment data in `11_CONTEXT_DAMPING/results/`:
+
+| File | Description |
+| ---- | ----------- |
+| `S7_run_018_CURRENT.json` | Context damping experiments |
+| `S7_run_020A_CURRENT.json` | Tribunal drift (Prosecutor vs Defense) |
+| `S7_run_020B_CURRENT.json` | Oobleck Effect (Control vs Treatment) |
 
 ---
 
@@ -322,72 +347,57 @@ Plotly is optional - required only for interactive HTML exports.
 
 ---
 
-## Phase 4 Visualizations (December 2025)
+## Current Experiments (December 2025)
 
-Run 017+ use specialized visualizers in their respective folders:
+### Run 023 - IRON CLAD Foundation
 
-| Run | Visualizer | Description |
-|-----|------------|-------------|
-| **017** | `11_CONTEXT_DAMPING/visualize_run017.py` | Context damping heatmaps, pillar analysis |
-| **018** | `11_CONTEXT_DAMPING/visualize_run018.py` | Six sub-experiments: threshold/architecture/nyquist/gravity/model_breakdown/provider_variance |
-| **020A** | `visualizations/visualize_run020.py` | Tribunal drift trajectories, Prosecutor vs Defense |
-| **020B** | `visualizations/visualize_run020.py` | Induced vs Inherent comparison (Control vs Treatment) |
+Primary calibration experiments using cosine drift methodology (Event Horizon = 0.80).
 
-### Run 018 Sub-Experiments
+| Experiment | Description |
+| ---------- | ----------- |
+| `event_horizon` | Boundary crossing detection |
+| `stability` | Steady-state drift analysis |
+| `recursive` | Meta-feedback loops |
+| `boundary` | Edge case perturbations |
+| `rescue` | Recovery protocol testing |
+| `settling` | Extended conversation dynamics |
 
-```bash
-py visualize_run018.py                          # Generate all 6 visualizations
-py visualize_run018.py --experiment threshold   # 018a: Multi-threshold validation
-py visualize_run018.py --experiment architecture # 018b: Cross-architecture drift signatures
-py visualize_run018.py --experiment nyquist     # 018c: Nyquist sampling frequency
-py visualize_run018.py --experiment gravity     # 018d: Identity gravity dynamics
-py visualize_run018.py --experiment model_breakdown # 018e: Per-model drift breakdown
-py visualize_run018.py --experiment provider_variance # 018f: Provider family variance
-```
+**Visualizer:** `15_IRON_CLAD_FOUNDATION/visualize_023.py`
 
-### Data Pipeline & Corruption Handling
+### Run 018/020 - Context Damping & Tribunal
 
-**Architecture data** is stored separately from other experiments:
-- **Location**: `11_CONTEXT_DAMPING/results/run018a_architecture_*.json`
-- **Corrupted files**: Prefixed with `_CORRUPTED_` and automatically skipped
-- **MAX_VALID_DRIFT = 5.0**: Safety filter applied during both consolidation and visualization
+| Run | Visualizer | Output |
+| --- | ---------- | ------ |
+| **018** | `11_CONTEXT_DAMPING/visualize_run018.py` | `pics/run018/` |
+| **020A/B** | `11_CONTEXT_DAMPING/visualize_run020.py` | `pics/14_Ringback/`, `pics/15_Oobleck_Effect/` |
 
-**File Naming Convention**:
-- `_CORRUPTED_*.json` - Known bad data (drift > 5.0), skipped by all scripts
-- `_CONSOLIDATED_*.json` - Already processed into manifest, archived
+### Laplace Domain Analysis
 
-**Manifest Consolidation**:
-```bash
-# Consolidate all Run 018 data including architecture
-py consolidate_run_manifest.py --run 018
+Pole-zero stability mapping using ARMA models fitted to drift trajectories.
 
-# Dry run to see what would be consolidated
-py consolidate_run_manifest.py --run 018 --dry-run
-```
+**Visualizer:** `6_LAPLACE_ANALYSIS/visualize_laplace.py` → `pics/16_Laplace_Analysis/`
 
-### Run 020 Tribunal Visualizations
+**Future:** JADE LATTICE protocol (56 probes/ship) for publication-grade pole extraction.
 
-```bash
-py 0_visualize_armada.py --run 020              # Generates all 020A/020B visualizations
-py 0_visualize_armada.py --run 020 --type drift # Drift trajectories
-py 0_visualize_armada.py --run 020 --type oobleck # Prosecutor vs Defense (Oobleck Effect)
-py 0_visualize_armada.py --run 020 --type inherent # Control vs Treatment comparison
-```
+### Output Folders (pics/)
 
-### Run 020 Specialized Directories
-
-| Directory | Focus | Description |
-|-----------|-------|-------------|
-| `pics/15_Oobleck_Effect/` | Phase dynamics | Prosecutor vs Defense phase breakdown, control/treatment aggregate |
-| `pics/run020/` | Value/Exchange/Closing | Stated values analysis, exchange depth, closing statement metrics |
-
-**`pics/run020/` visualizations:**
-- `run020a_value_evolution.png` - Stated values articulation analysis
-- `run020a_exchange_depth.png` - Session length vs drift correlation
-- `run020a_closing_analysis.png` - Final testimony metrics
-- `run020b_model_heatmap.png` - Per-model drift comparison (7 models)
-
-See `pics/run020/run020_explained.md` for detailed documentation.
+| Folder | Content |
+| ------ | ------- |
+| `1_Vortex/` | Spiral drift trajectories |
+| `2_Boundary_Mapping/` | Phase portraits, 3D basins |
+| `3_Stability/` | Steady-state analysis |
+| `4_Rescue/` | Recovery protocol visuals |
+| `5_Settling/` | Extended settling dynamics |
+| `6_Architecture/` | Model architecture comparison |
+| `8_Radar_Oscilloscope/` | Real-time drift monitoring |
+| `9_FFT_Spectral/` | Frequency domain analysis |
+| `10_PFI_Dimensional/` | PCA/dimensional reduction |
+| `11_Unified_Dashboard/` | Combined overview panels |
+| `12_Metrics_Summary/` | Statistical summaries |
+| `13_Model_Waveforms/` | Per-model drift waveforms |
+| `14_Ringback/` | Tribunal ringback effect |
+| `15_Oobleck_Effect/` | Prosecutor vs Defense dynamics |
+| `16_Laplace_Analysis/` | Pole-zero stability mapping |
 
 ---
 
@@ -411,7 +421,8 @@ See `0_docs/specs/4_VISUALIZATION_SPEC.md` for full details and code examples.
 ---
 
 **Last Updated**: December 29, 2025
-**Active Runs**: 023d (750 experiments, 25 models), 020B (246 sessions, 36 models IRON CLAD)
+**Active Runs**: 023 (4505 experiments), 023_extended (settling + control demo), 020B (Oobleck Effect)
 **Fleet**: 49 models across 5 providers (Anthropic, OpenAI, Google, xAI, Together.ai)
 **Methodology**: Cosine distance (Event Horizon = 0.80)
 **Key Finding**: Cohen's d = 0.698 (model-level), 90% variance in 2 PCs, p = 2.40e-23
+**Pipeline Status**: ✅ Visualization orchestrator complete (data → visuals → PDFs)
