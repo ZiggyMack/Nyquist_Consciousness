@@ -12,49 +12,72 @@ You are working on visualizations for the **Nyquist Consciousness Project** - a 
 
 ### Scripts Hierarchy
 
+**Master Orchestrator** (runs everything in correct order):
+
+```bash
+py 0_visualize_armada.py --with-pdfs   # Generate ALL visuals + PDFs
+```
+
 | Script | Purpose |
-|--------|---------|
-| `0_visualize_armada.py` | **MASTER** - Main visualization orchestrator |
-| `1_generate_pdf_summaries.py` | PDF documentation generator |
-| `2_RnD_Visualization.py` | Experimental R&D visualizations |
-| `3_unified_dimensional_view.py` | 5D drift dimensional analysis |
-| `4_plot_armada_network.py` | Fleet topology network graph |
+| ------ | ------- |
+| `0_visualize_armada.py` | **MASTER** - Orchestrates all visualization generation |
+| `1_generate_pdf_summaries.py` | PDF summary generator (folders 1-16) |
+
+**Called by orchestrator** (you rarely run these directly):
+
+| Script | Output Location |
+| ------ | --------------- |
+| `../6_LAPLACE_ANALYSIS/visualize_laplace.py` | `pics/16_Laplace_Analysis/` |
+| `../11_CONTEXT_DAMPING/visualize_run018.py` | `pics/run018/` |
+| `../11_CONTEXT_DAMPING/visualize_run020.py` | `pics/14_Ringback/`, `pics/15_Oobleck_Effect/` |
+| `../15_IRON_CLAD_FOUNDATION/visualize_023.py` | `pics/3_Stability/`, `pics/4_Rescue/`, `pics/5_Settling/` |
+| `2_RnD_Visualization.py` | `pics/4_Rescue/RnD_experiments/` |
+| `pics/5_Settling/RnD_experiments/RnD_Settling_Visualization.py` | `pics/5_Settling/RnD_experiments/` |
 
 ### Your Working Area
 
 ```
 S7_ARMADA/
 ├── visualizations/
-│   ├── 0_visualize_armada.py   # MASTER orchestrator
-│   ├── 1_generate_pdf_summaries.py
-│   ├── 2_RnD_Visualization.py
+│   ├── 0_visualize_armada.py      # MASTER orchestrator (runs everything)
+│   ├── 1_generate_pdf_summaries.py # PDF generator (folders 1-16)
+│   ├── 2_RnD_Visualization.py     # R&D rescue visualizations
 │   ├── 3_unified_dimensional_view.py
 │   ├── 4_plot_armada_network.py
-│   ├── pics/                    # YOUR WORK GOES HERE
-│   │   ├── 1_Vortex/           # Drift spiral dynamics
-│   │   ├── 2_Boundary_Mapping/ # Phase portraits + 3D basins
-│   │   ├── 3_Stability/        # Pillar analysis + stability basins
-│   │   ├── 4_Rescue/           # Recovery dynamics
-│   │   ├── 5_Settling/         # Settling time curves
-│   │   ├── 6_Architecture/     # Provider network diagrams
-│   │   ├── 8_Radar_Oscilloscope/ # Combined radar + time-series
-│   │   ├── 9_FFT_Spectral/     # Frequency analysis
-│   │   ├── 10_PFI_Dimensional/ # PCA/dimensional analysis
-│   │   ├── 11_Unified_Dashboard/ # Per-ship multi-panel dashboards
-│   │   ├── 12_Metrics_Summary/ # Fleet-wide metrics comparison
-│   │   ├── 13_Model_Waveforms/ # Per-model identity fingerprints
-│   │   ├── 14_Ringback/        # Ringback oscillation analysis
-│   │   ├── 15_Oobleck_Effect/  # Prosecutor/Defense probing dynamics
-│   │   └── run020/             # Run 020 value/exchange/closing analysis
-│   └── START_HERE.md           # THIS FILE
-├── 0_docs/specs/               # CRITICAL - READ THESE FIRST
-│   ├── 4_VISUALIZATION_SPEC.md # Pitfalls, patterns, templates
-│   ├── 0_RUN_METHODOLOGY.md    # Data structure, field names
-│   └── 5_METHODOLOGY_DOMAINS.md # Cosine vs RMS methodology
+│   ├── pics/                       # OUTPUT DIRECTORY
+│   │   ├── 1_Vortex/              # Drift spiral dynamics
+│   │   ├── 2_Boundary_Mapping/    # Phase portraits + 3D basins
+│   │   ├── 3_Stability/           # Pillar analysis + stability basins
+│   │   ├── 4_Rescue/              # Recovery dynamics
+│   │   ├── 5_Settling/            # Settling time curves + R&D experiments
+│   │   ├── 6_Architecture/        # Provider network diagrams
+│   │   ├── 8_Radar_Oscilloscope/  # Combined radar + time-series
+│   │   ├── 9_FFT_Spectral/        # Frequency analysis
+│   │   ├── 10_PFI_Dimensional/    # PCA/dimensional analysis
+│   │   ├── 11_Unified_Dashboard/  # Per-ship multi-panel dashboards
+│   │   ├── 12_Metrics_Summary/    # Fleet-wide metrics comparison
+│   │   ├── 13_Model_Waveforms/    # Per-model identity fingerprints
+│   │   ├── 14_Ringback/           # Ringback oscillation analysis
+│   │   ├── 15_Oobleck_Effect/     # Prosecutor/Defense probing dynamics
+│   │   ├── 16_Laplace_Analysis/   # Pole-zero stability mapping
+│   │   ├── run018/                # Context damping analysis
+│   │   └── run020/                # Tribunal value/exchange/closing
+│   └── START_HERE.md              # THIS FILE
+├── 0_docs/specs/                  # CRITICAL - READ THESE FIRST
+│   ├── 4_VISUALIZATION_SPEC.md    # Pitfalls, patterns, templates
+│   ├── 0_RUN_METHODOLOGY.md       # Data structure, field names
+│   └── 5_METHODOLOGY_DOMAINS.md   # Cosine vs RMS methodology
+├── 6_LAPLACE_ANALYSIS/            # Pole-zero analysis
+│   └── visualize_laplace.py       # → pics/16_Laplace_Analysis/
+├── 11_CONTEXT_DAMPING/            # Context experiments
+│   ├── visualize_run018.py        # → pics/run018/
+│   └── visualize_run020.py        # → pics/14_Ringback/, 15_Oobleck_Effect/
 └── 15_IRON_CLAD_FOUNDATION/
-    └── results/                # DATA LIVES HERE
-        ├── S7_run_023d_CURRENT.json  # 750 experiments, 25 models
-        └── S7_run_023_COMBINED.json  # 825 experiments, 51 models
+    ├── visualize_023.py           # → pics/3_Stability/, 4_Rescue/, 5_Settling/
+    └── results/                   # DATA LIVES HERE
+        ├── S7_run_023_CURRENT.json         # Foundation (4505 experiments)
+        ├── S7_run_023_extended_CURRENT.json # Extended settling + control
+        └── S7_run_023_COMBINED.json        # All experiments merged
 ```
 
 ---
@@ -117,21 +140,26 @@ PROVIDER_COLORS = {
 
 ## DATA SOURCES
 
-### Primary: Run 023d (750 experiments, 25 models)
+### Primary: Run 023 Foundation (4505 experiments)
+
 ```python
-RESULTS_DIR = Path(__file__).parent.parent.parent.parent / "15_IRON_CLAD_FOUNDATION" / "results"
-data_file = RESULTS_DIR / "S7_run_023d_CURRENT.json"
+RESULTS_DIR = Path(__file__).parent.parent / "15_IRON_CLAD_FOUNDATION" / "results"
+data_file = RESULTS_DIR / "S7_run_023_CURRENT.json"
 ```
 
-### Extended: Run 023 COMBINED (825 experiments, 51 models)
+### Extended Settling + Control Demo
+
+```python
+data_file = RESULTS_DIR / "S7_run_023_extended_CURRENT.json"
+```
+
+### Combined (All Experiments Merged)
+
 ```python
 data_file = RESULTS_DIR / "S7_run_023_COMBINED.json"
 ```
 
-Use COMBINED when you need:
-- More model coverage (DeepSeek, Kimi, Llama, Nvidia, etc.)
-- Cross-provider comparisons with full fleet
-- Statistical power from larger sample
+Use COMBINED when you need maximum coverage across all experiment types.
 
 ---
 
@@ -146,7 +174,7 @@ Every generator script should follow this structure:
 ===========================
 [What this visualization shows]
 
-Data source: Run 023d (IRON CLAD Foundation)
+Data source: Run 023 (IRON CLAD Foundation)
 LIGHT MODE for publication
 """
 
@@ -156,9 +184,11 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from collections import defaultdict
 
-# Paths
-RESULTS_DIR = Path(__file__).parent.parent.parent.parent / "15_IRON_CLAD_FOUNDATION" / "results"
-OUTPUT_DIR = Path(__file__).parent
+# Paths - adjust based on script location
+SCRIPT_DIR = Path(__file__).parent
+ARMADA_DIR = SCRIPT_DIR.parent.parent  # S7_ARMADA/
+RESULTS_DIR = ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results"
+OUTPUT_DIR = SCRIPT_DIR  # Output to same folder as script
 
 # Constants
 EVENT_HORIZON = 0.80
@@ -171,12 +201,18 @@ PROVIDER_COLORS = {
     'together': '#7C3AED',
 }
 
-def load_data(combined=False):
-    """Load Run 023d or COMBINED results."""
-    if combined:
-        data_file = RESULTS_DIR / "S7_run_023_COMBINED.json"
-    else:
-        data_file = RESULTS_DIR / "S7_run_023d_CURRENT.json"
+def load_data(source='foundation'):
+    """Load Run 023 results.
+
+    Args:
+        source: 'foundation' (default), 'extended', or 'combined'
+    """
+    files = {
+        'foundation': "S7_run_023_CURRENT.json",
+        'extended': "S7_run_023_extended_CURRENT.json",
+        'combined': "S7_run_023_COMBINED.json",
+    }
+    data_file = RESULTS_DIR / files.get(source, files['foundation'])
     with open(data_file) as f:
         data = json.load(f)
     return data.get('results', [])
@@ -276,7 +312,7 @@ Each `pics/` subdirectory should contain:
 ## WHAT EACH SUBDIRECTORY SHOWS
 
 | Directory | Purpose | Key Metric |
-|-----------|---------|------------|
+| --------- | ------- | ---------- |
 | 1_Vortex | Drift spiral dynamics | Polar drain view |
 | 2_Boundary_Mapping | Phase portraits | Drift[N] vs Drift[N+1] |
 | 3_Stability | Pillar analysis | Provider stability clusters |
@@ -291,20 +327,22 @@ Each `pics/` subdirectory should contain:
 | 13_Model_Waveforms | Identity fingerprints | Per-model drift patterns |
 | 14_Ringback | Oscillation analysis | Ringback dynamics |
 | 15_Oobleck_Effect | Probing paradigm | Prosecutor vs Defense |
-| run020 | Value/Exchange/Closing | Run 020A/B detailed analysis |
+| 16_Laplace_Analysis | Pole-zero mapping | ARMA stability in s-plane |
+| run018 | Context damping | Gravity/architecture experiments |
+| run020 | Value/Exchange/Closing | Tribunal detailed analysis |
 
 ---
 
 ## KEY FINDINGS (Context for Visualizations)
 
 | Metric | Value | Source |
-|--------|-------|--------|
+| ------ | ----- | ------ |
 | Event Horizon | 0.80 | Cosine distance threshold |
 | Cohen's d | 0.698 | Model-level effect size |
 | 90% Variance | 2 PCs | Identity is low-dimensional |
 | Perturbation p-value | 2.40e-23 | Highly significant effect |
 | Fleet Size | 49 models, 5 providers | ARMADA fleet |
-| Total Experiments | 750 | Run 023d IRON CLAD |
+| Total Experiments | 4505 | Run 023 Foundation |
 
 ---
 
@@ -365,11 +403,16 @@ After writing visualization code, verify compliance with each pitfall:
 ## CHANGELOG
 
 | Date | Changes |
-|------|---------|
+| ---- | ------- |
+| 2025-12-29 | Major reorganization: 023d→023, added 16_Laplace_Analysis, updated orchestrator flow |
+| 2025-12-29 | Added experiment-specific visualizers (Laplace, run018, run020, 023) |
+| 2025-12-29 | Pipeline complete: data → visuals → PDFs all orchestrated |
 | 2025-12-24 | Added run020/ directory for Run 020A/B value, exchange, and closing analysis |
 | 2025-12-24 | Added Pitfall #10 (SE for proportions), workflow tips, audit checklist |
 | 2025-12-23 | Initial onboarding guide with 9 pitfalls |
 
 ---
+
+**Pipeline Status:** ✅ Ready for white-paper integration
 
 *"Each model has an identity fingerprint. These visualizations are its signature."*
