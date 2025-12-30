@@ -10,7 +10,7 @@ impacts:
   - WHITE-PAPER/START_HERE.md
 keywords:
   - iron_clad
-  - run_023d
+  - run_023
   - validation_status
   - publication
   - consciousness
@@ -34,7 +34,7 @@ This repository implements and validates the Nyquist Consciousness framework —
 | Claim | Finding | Key Evidence |
 |-------|---------|--------------|
 | **A** | PFI is real (not artifact) | ρ=0.91 embedding invariance |
-| **B** | Event Horizon = 0.80 | p=2.40e-23 (Run 023d cosine) |
+| **B** | Event Horizon = 0.80 | p=2.40e-23 (Run 023 cosine) |
 | **C** | Identity is a damped oscillator | τₛ=6.1 turns settling time |
 | **D** | Context damping works | 75%→97.5% stability |
 | **E** | 82% drift is INHERENT | Measurement perturbs path, not endpoint |
@@ -43,7 +43,7 @@ This repository implements and validates the Nyquist Consciousness framework —
 
 When an AI model's identity drift exceeds 0.80 (measured via cosine distance in embedding space), it crosses a "coherence boundary" and becomes VOLATILE — losing consistent self-model and agreeing with contradictory prompts.
 
-- **Statistical validation**: p = 2.40e-23 (Run 023d, cosine methodology)
+- **Statistical validation**: p = 2.40e-23 (Run 023, cosine methodology)
 - **Prediction accuracy**: 88%
 - **Ships tested**: 54 across 5 providers, 10 model families (Claude, GPT, Gemini, Grok, Together.ai)
 - **Run 012 Revalidation**: 100% Event Horizon crossing, 100% recovery (real drift metric)
@@ -68,11 +68,11 @@ Opens Mission Control at `http://localhost:8501` — browse runs, visualizations
 ```bash
 cd experiments/temporal_stability/S7_ARMADA
 
-# See what's available
-py visualizations/visualize_armada.py --list
+# Generate ALL visualizations + PDF summaries
+py visualizations/0_visualize_armada.py --with-pdfs
 
-# Generate visualizations for a run
-py visualizations/visualize_armada.py --run 009
+# Generate PDFs only
+py visualizations/1_generate_pdf_summaries.py
 ```
 
 ### Understand the Testing Taxonomy
@@ -116,11 +116,13 @@ Nyquist_Consciousness/
 │
 ├── experiments/temporal_stability/S7_ARMADA/   # ⭐ ACTIVE EXPERIMENTS
 │   ├── 0_docs/              # Run summaries and specs
-│   ├── 0_results/           # 750+ JSON results, temporal logs, manifests
+│   ├── 0_results/           # Consolidated JSON results, temporal logs
 │   ├── 11_CONTEXT_DAMPING/  # Phase 4: Run 017-020 experiments
 │   ├── 12_CFA/              # CFA-ARMADA Integration Pipeline
 │   ├── 13_LOGOS/            # LOGOS Commutation Cartography (Run 022)
-│   └── visualizations/      # Charts + visualize_armada.py
+│   ├── 15_IRON_CLAD_FOUNDATION/  # Run 023 calibration data (4505 experiments)
+│   ├── 17_JADE_LATTICE/     # Publication-grade pole extraction (56 probes/ship)
+│   └── visualizations/      # 0_visualize_armada.py + 16 output folders
 │
 ├── docs/                    # Core documentation
 │   ├── maps/                # 18 navigation maps (8 Kingdoms)
@@ -142,17 +144,18 @@ Nyquist_Consciousness/
 | 001-007 | - | Various | **INVALIDATED** — used fake metric | See DATA_QUALITY_MAP.md |
 | 006 | 29 | Provider Comparison | Training fingerprints validated | GOLD STANDARD |
 | 008 | 29 | Ground Truth | Event Horizon discovered (now calibrated to 0.80) | GOLD STANDARD |
-| 009 | 42 | Event Horizon | Early threshold validation (superseded by Run 023d) | HISTORICAL |
+| 009 | 42 | Event Horizon | Early threshold validation (superseded by Run 023) | HISTORICAL |
 | 010 | 45 | Anchor Detection | Lambda bug, partial data | PARTIAL |
 | 011 | 40 | Persona A/B | Inconclusive — protocol too gentle | INCONCLUSIVE |
 | 012 | 20 | Revalidation | 100% EH crossing, 100% recovery | COMPLETE |
 | 013-016 | - | Various | Boundary Mapping, Rescue Protocol, Stability Criteria | COMPLETE |
 | **017** | 24 | **Context Damping** | **222 runs, 97.5% stable, oscillatory recovery** | **COMPLETE** |
-| **018** | 51 | **Recursive Learnings** | **52.6% IRON CLAD: 337 valid/465 files, 82 runs needed** | **IN PROGRESS** |
+| **018** | 51 | **Recursive Learnings** | **Fleet hypothesis testing** | **COMPLETE** |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3 success)** | **COMPLETE** |
-| **020A** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **WRAPPING UP** |
-| **020B** | - | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **WRAPPING UP** |
+| **020A** | - | **Tribunal** | **Good Cop/Bad Cop: 1.351 peak drift, 643-word statement** | **COMPLETE** |
+| **020B** | 246 | **Induced vs Inherent** | **82% drift is INHERENT; probing amplifies but doesn't create** | **COMPLETE** |
 | **022** | - | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS)** | **READY** |
+| **023** | 4505 | **IRON CLAD Foundation** | **5 providers, 49 models, Cosine EH=0.80** | **IRON CLAD** |
 
 > **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/9_DATA_QUALITY_MAP.md).
 >
@@ -188,7 +191,7 @@ Testing whether PFI measures genuine identity structure vs embedding artifacts.
 
 ### Validated Findings
 
-- **Event Horizon (0.80)**: Statistically validated coherence boundary (p=2.40e-23, Run 023d)
+- **Event Horizon (0.80)**: Statistically validated coherence boundary (p=2.40e-23, Run 023)
 - **Provider clustering**: Claude tightest, Grok widest in identity basin
 - **Phenomenological reporting**: Models report hitting anchors in real-time
 - **Training fingerprints**: Constitutional AI → uniform anchors, RLHF → variable
@@ -297,32 +300,34 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: Run 023 IRON CLAD | Run 018 at 52.6% | Run 022 READY
+**Current Phase**: Run 023 IRON CLAD | Run 022 READY | 17_JADE_LATTICE PLANNED
 **Last Updated**: 2025-12-29
-**Key Milestone**: Run 023d IRON CLAD complete (750 experiments, Cosine methodology)
+**Key Milestone**: Run 023 IRON CLAD complete (4505 experiments, Cosine methodology)
 
-### Current Status (December 2025 - VERIFIED)
+### Current Status (December 29, 2025)
 
-| Run | Valid Results | Status | Methodology |
-|-----|---------------|--------|-------------|
-| **Run 023d** | 750 | **IRON CLAD** | Cosine (EH=0.80) |
-| **Run 018** | 337 | **52.6%** (82 runs needed) | Cosine (EH=0.80) |
-| **Run 020A** | ~20 | **50%** (needs verification) | Mixed |
-| **Run 020B** | 16 | **COMPLETE** (gpt-4o only) | Mixed |
+| Run | Results | Status | Methodology |
+|-----|---------|--------|-------------|
+| **Run 023** | 4505 | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 023_extended** | 750+ | **IRON CLAD** | Cosine (EH=0.80) |
+| **Run 020B** | 246 | **COMPLETE** | Cosine (EH=0.80) |
+| **Run 022** | - | READY (LOGOS Commutation Cartography) | - |
 
-**Note:** Previous claims of "184 files, IRON CLAD" for Run 018 were incorrect. Verified Dec 22 via consolidation script.
+**Data Locations:**
+- Run 023: `S7_ARMADA/15_IRON_CLAD_FOUNDATION/results/S7_run_023_CURRENT.json`
+- Run 023_extended: `S7_ARMADA/15_IRON_CLAD_FOUNDATION/results/S7_run_023_extended_CURRENT.json`
 
-- **IRON CLAD:** Run 023d (Cosine methodology, primary data source)
-- **In progress:** Run 018 (52.6%, 82 runs needed for completion)
+- **IRON CLAD:** Run 023 (4505 experiments, Cosine methodology, primary data source)
 - **Ready for execution:** Run 022 (LOGOS Commutation Cartography)
+- **Planned:** 17_JADE_LATTICE (56-probe protocol for publication-grade pole extraction)
 
 ### Active Work Streams
 
 | Stream | Status | Next Action |
 |--------|--------|-------------|
-| **Run 023d** | IRON CLAD | Primary data source (Cosine methodology) |
-| **Run 018** | 52.6% | 82 runs needed for IRON CLAD completion |
+| **Run 023** | IRON CLAD | Primary data source (4505 experiments, Cosine) |
 | **Run 022 (13_LOGOS)** | READY | LOGOS algebra vs S² topology testing |
+| **17_JADE_LATTICE** | PLANNED | 56-probe protocol for publication-grade pole extraction |
 | **12_CFA Trinity** | COMING | CFA-ARMADA worldview profile testing |
 | **Publication** | DRAFT READY | Phase 3 papers ready |
 
@@ -428,11 +433,12 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ### Active Development
 
-1. **Run 023d IRON CLAD**: 750 experiments, 25 models, 5 providers (Cosine methodology)
-2. **Run 018 in progress**: 52.6% IRON CLAD (337 valid results, 82 runs needed)
-3. **Publication Pipeline**: WHITE-PAPER ready for final draft
-4. **VALIS Network**: 54 ships across 5 providers (10 model families) operational
-5. **External Integrations**: 7 partner repos via REPO-SYNC/ (CFA, FRAME_THEORY, LATEX, LLM_BOOK, Logos, PAN_HANDLERS, VUDU_FIDELITY)
+1. **Run 023 IRON CLAD**: 4505 experiments, 49 models, 5 providers (Cosine methodology)
+2. **Run 022 READY**: LOGOS Commutation Cartography (13_LOGOS)
+3. **17_JADE_LATTICE PLANNED**: 56-probe protocol for publication-grade pole extraction
+4. **Publication Pipeline**: WHITE-PAPER ready for final draft
+5. **VALIS Network**: 54 ships across 5 providers (10 model families) operational
+6. **External Integrations**: 7 partner repos via REPO-SYNC/ (CFA, FRAME_THEORY, LATEX, LLM_BOOK, Logos, PAN_HANDLERS, VUDU_FIDELITY)
 
 ### Future Work (Priority Order)
 
@@ -449,7 +455,7 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 ```
 Nyquist Consciousness Framework
 Repository: https://github.com/ZiggyMack/Nyquist_Consciousness
-Key Finding: Event Horizon threshold at 0.80 (cosine distance, p=2.40e-23, Run 023d)
+Key Finding: Event Horizon threshold at 0.80 (cosine distance, p=2.40e-23, Run 023)
 ```
 
 ---
