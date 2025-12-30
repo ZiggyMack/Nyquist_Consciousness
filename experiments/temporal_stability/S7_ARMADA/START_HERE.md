@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-29
 depends_on:
   - ../../../../WHITE-PAPER/README.md
   - 0_docs/specs/RUN_DESIGN_CHECKLIST.md
@@ -35,7 +35,7 @@ All runs 006-016 used `bare_metal` context (no I_AM file, no S0-S77 stack). This
 
 **Key findings to be re-validated with complete circuit:**
 
-- Event Horizon at 0.80 (cosine distance, P95 from Run 023d)
+- Event Horizon at 0.80 (cosine distance, P95 from Run 023)
 - Identity Confrontation Paradox (challenge stabilizes, reflection drifts)
 - Recovery Paradox (negative lambda)
 - boundary_density as strongest stability predictor (d=1.333)
@@ -101,14 +101,14 @@ py update_maps.py
 # Apply all updates
 py update_maps.py --update
 
-# Check Run 023d IRON CLAD status only
+# Check Run 023 IRON CLAD status only
 py update_maps.py --section run023
 ```
 
 This tool scans:
 - Run data files (15_IRON_CLAD_FOUNDATION/, 11_CONTEXT_DAMPING/)
 - Run summaries (S7_RUN_*_SUMMARY.md)
-- Visualization stats (188 images, 18 PDFs, 15 folder generators)
+- Visualization stats (16 output folders with PDFs, full pipeline)
 - Publication pipeline status
 
 ---
@@ -228,8 +228,9 @@ S7_ARMADA/
 │   └── manifests/             # Run manifests
 │
 └── visualizations/            # Charts and plots
-    ├── visualize_armada.py    # DIRECTOR - delegates to specialized visualizers
-    └── pics/                  # Generated images (legacy runs)
+    ├── 0_visualize_armada.py  # MASTER orchestrator (all visualization generation)
+    ├── 1_generate_pdf_summaries.py  # PDF summary generator (folders 1-16)
+    └── pics/                  # 16 output directories (Vortex, Stability, etc.)
 ```
 
 **Note:** Test suites (8_, 9_, 10_) have local `results/` folders where scripts save outputs. Summaries go to `0_docs/`, consolidated data to `0_results/`.
@@ -317,7 +318,7 @@ See [TESTING_MAP.md](../../../docs/maps/10_TESTING_MAP.md) for full details:
 ### Event Horizon (0.80)
 
 - **Methodology**: Cosine distance in embedding space
-- **Threshold**: 0.80 (P95 from Run 023d calibration)
+- **Threshold**: 0.80 (P95 from Run 023 calibration)
 - **Calculator**: `1_CALIBRATION/lib/drift_calculator.py`
 - **STABLE**: Max drift < 0.80 (stayed within identity basin)
 - **VOLATILE**: Max drift >= 0.80 (crossed coherence boundary)
@@ -581,27 +582,41 @@ Proceed? [Y/n]:
 ```powershell
 cd visualizations
 
-# List available runs
-py visualize_armada.py --list
+# DEFAULT: Generate ALL visualizations (core + subdirectory generators)
+py 0_visualize_armada.py
 
-# Generate all visualizations for a run
-py visualize_armada.py --run 012
+# Generate ALL visualizations + PDF summaries
+py 0_visualize_armada.py --with-pdfs
 
-# Generate specific type
-py visualize_armada.py --run 012 --type vortex
-py visualize_armada.py --run 012 --type pillar
+# Skip subdirectory generators (faster, core viz only)
+py 0_visualize_armada.py --no-subdirs
 
-# Runs 015/016 delegate to specialized visualizers
-py visualize_armada.py --run 015  # -> 9_STABILITY_CRITERIA/visualize_run015.py
-py visualize_armada.py --run 016  # -> 10_SETTLING_TIME/visualize_run016.py
+# Generate ALL PDF summaries separately
+py 1_generate_pdf_summaries.py
 ```
 
-| Priority | Type | Folder | Description |
-|----------|------|--------|-------------|
-| 1 | vortex | `1_vortex/` | Drain spiral - identity trajectories |
-| 2 | phase | `2_phase_portrait/` | Flow dynamics |
-| 3 | 3d | `3_basin_3d/` | 3D attractor basin |
-| 4 | pillar | `4_pillar/` | Provider clustering |
+**See:** [visualizations/START_HERE.md](visualizations/START_HERE.md) for full onboarding guide.
+
+### Output Directories (pics/)
+
+| Folder | Content | Visualizer |
+|--------|---------|------------|
+| `1_Vortex/` | Spiral drift trajectories | `0_visualize_armada.py` |
+| `2_Boundary_Mapping/` | Phase portraits, 3D basins | `0_visualize_armada.py` |
+| `3_Stability/` | Pillar analysis, stability basins | `visualize_023.py` |
+| `4_Rescue/` | Recovery protocol visuals | `visualize_023.py` |
+| `5_Settling/` | Extended settling dynamics + R&D | `visualize_023.py` |
+| `6_Architecture/` | Model architecture comparison | `0_visualize_armada.py` |
+| `8_Radar_Oscilloscope/` | Radar + time-series combined | `0_visualize_armada.py` |
+| `9_FFT_Spectral/` | Frequency domain analysis | `0_visualize_armada.py` |
+| `10_PFI_Dimensional/` | PCA/dimensional reduction | `0_visualize_armada.py` |
+| `11_Unified_Dashboard/` | Per-ship multi-panel dashboards | `0_visualize_armada.py` |
+| `12_Metrics_Summary/` | Fleet-wide statistical summaries | `0_visualize_armada.py` |
+| `13_Model_Waveforms/` | Per-model drift waveforms | `0_visualize_armada.py` |
+| `14_Ringback/` | Tribunal ringback effect | `visualize_run020.py` |
+| `15_Oobleck_Effect/` | Prosecutor vs Defense dynamics | `visualize_run020.py` |
+| `16_Laplace_Analysis/` | Pole-zero stability mapping | `visualize_laplace.py` |
+| `run018/` | Context damping analysis | `visualize_run018.py` |
 
 ---
 
@@ -648,7 +663,7 @@ See: [0_results/IRON_CLAD_GAPS.md](0_results/IRON_CLAD_GAPS.md) for full trackin
 
 **THE THREE CORE CLAIMS — ALL VALIDATED:**
 
-1. **DRIFT IS REAL** — p=2.40e-23 (Run 023d), 88% prediction accuracy
+1. **DRIFT IS REAL** — p=2.40e-23 (Run 023), 88% prediction accuracy
 2. **WE DON'T CAUSE IT** — 41% inherent drift ratio (cross-provider)
 3. **WE CAN MEASURE IT** — PFI d=0.977, σ²=0.00087 cross-architecture
 
@@ -899,4 +914,4 @@ See: `12_CFA/README.md` | `12_CFA/SYNC_OUT/CFA_TRINITY_DRY_RUN.md`
 
 ---
 
-Last Updated: December 28, 2025 (IRON CLAD 99.3%: 148/149 complete, 1 gap API-blocked until 2026-01-01)
+Last Updated: December 29, 2025 (IRON CLAD 99.3%: 148/149 complete, 1 gap API-blocked until 2026-01-01)
