@@ -23,7 +23,7 @@ SUBDIRECTORY GENERATORS (called by default):
   pics/ subdirectories:
   - pics/8_Radar_Oscilloscope/generate_radar_oscilloscope.py
   - pics/9_FFT_Spectral/generate_fft_spectral.py
-  - pics/9_FFT_Spectral/generate_pole_zero.py
+  - pics/9_FFT_Spectral/generate_perturbation_response.py
   - pics/10_PFI_Dimensional/generate_pfi_dimensional.py
   - pics/12_Metrics_Summary/generate_context_damping.py
   - pics/12_Metrics_Summary/generate_manifold_edge.py
@@ -2874,7 +2874,7 @@ def run_subdirectory_generators():
         # Specialized analysis generators
         OUTPUT_DIR / "8_Radar_Oscilloscope" / "generate_radar_oscilloscope.py",
         OUTPUT_DIR / "9_FFT_Spectral" / "generate_fft_spectral.py",
-        OUTPUT_DIR / "9_FFT_Spectral" / "generate_pole_zero.py",
+        OUTPUT_DIR / "9_FFT_Spectral" / "generate_perturbation_response.py",
         OUTPUT_DIR / "10_PFI_Dimensional" / "generate_pfi_dimensional.py",
         OUTPUT_DIR / "12_Metrics_Summary" / "generate_context_damping.py",
         OUTPUT_DIR / "12_Metrics_Summary" / "generate_manifold_edge.py",

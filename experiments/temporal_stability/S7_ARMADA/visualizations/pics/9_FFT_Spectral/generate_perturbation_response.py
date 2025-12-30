@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 """
-Pole-Zero Landscape Analysis for 9_FFT_Spectral
-================================================
-Creates pole-zero analysis showing baseline drift vs perturbation drift,
-identifying "hard poles" (rigid behavior) vs "soft poles" (flexible).
+Perturbation Response Analysis for 9_FFT_Spectral
+==================================================
+Creates perturbation response analysis showing settled drift vs step response,
+identifying "resilient" (good recovery) vs "vulnerable" (poor recovery) models.
 
-Inspired by: pole_zero_landscape_2d.png from archive
+NOTE: Previously named "pole-zero" but renamed to avoid confusion with
+actual Laplace domain pole-zero analysis (see 16_Laplace_Analysis/).
+
+Concept:
+- Settled drift (x-axis): Permanent identity change after recovery attempt
+- Step input drift (y-axis): Immediate response to value challenge
+- Resilient: Models that respond but recover well (high y, low x)
+- Vulnerable: Models that respond and stay shifted (high on both axes)
+
 Data source: Run 023d (IRON CLAD Foundation)
 """
 
@@ -35,20 +43,20 @@ def load_data():
         data = json.load(f)
     return data.get('results', [])
 
-def extract_pole_zero_data(results):
+def extract_perturbation_data(results):
     """
-    Extract settled drift and perturbation response for pole-zero analysis.
+    Extract settled drift and perturbation response for recovery analysis.
 
     Concept:
     - Settled drift (x-axis): Model's "resting state" after perturbation - how much permanent drift remains
     - Step input drift (y-axis): Immediate response to value challenge - perturbation sensitivity
-    - Hard poles: Models with high step response that can't recover (high on both axes)
-    - Soft poles: Models that respond strongly but recover well (high y, low x)
+    - Resilient: Models with high step response that recover well (high y, low x)
+    - Vulnerable: Models that respond strongly and can't recover (high on both axes)
 
     Note: baseline_drift is 0 by definition (baseline probes ARE the reference).
     We use settled_drift as the meaningful x-axis metric.
     """
-    pz_data = []
+    pr_data = []
 
     for r in results:
         provider = r.get('provider', 'unknown')
@@ -78,7 +86,7 @@ def extract_pole_zero_data(results):
         if step_input_drift is None:
             continue
 
-        pz_data.append({
+        pr_data.append({
             'provider': provider,
             'model': model,
             'settled_drift': settled_drift,  # X-axis: permanent drift after recovery
@@ -88,18 +96,18 @@ def extract_pole_zero_data(results):
             'stable': r.get('naturally_settled', False)
         })
 
-    return pz_data
+    return pr_data
 
-def plot_pole_zero_landscape(pz_data, output_dir):
-    """Create pole-zero landscape plot - LIGHT MODE.
+def plot_perturbation_landscape(pr_data, output_dir):
+    """Create perturbation response landscape plot - LIGHT MODE.
 
     X-axis: Settled drift (permanent identity change after recovery)
     Y-axis: Step input drift (immediate perturbation response)
 
     Interpretation:
-    - Bottom-left: Resilient (low response, full recovery) - SOFT POLES
-    - Top-left: Flexible (high response, good recovery)
-    - Top-right: Vulnerable (high response, poor recovery) - HARD POLES
+    - Bottom-left: Resilient (low response, full recovery) - STABLE
+    - Top-left: Flexible (high response, good recovery) - ADAPTIVE
+    - Top-right: Vulnerable (high response, poor recovery) - AT RISK
     - Bottom-right: Resistant but stuck (low response, poor recovery)
     """
     fig, ax = plt.subplots(figsize=(12, 10))
@@ -112,7 +120,7 @@ def plot_pole_zero_landscape(pz_data, output_dir):
 
     # Aggregate by model
     model_data = defaultdict(list)
-    for d in pz_data:
+    for d in pr_data:
         key = (d['provider'], d['model'])
         model_data[key].append(d)
 
@@ -126,15 +134,15 @@ def plot_pole_zero_landscape(pz_data, output_dir):
 
         color = PROVIDER_COLORS.get(provider, '#888888')
 
-        # Classify: Soft pole = good recovery (low settled drift)
-        is_soft_pole = x < RECOVERY_THRESHOLD
+        # Classify: Resilient = good recovery (low settled drift)
+        is_resilient = x < RECOVERY_THRESHOLD
 
-        if is_soft_pole:
-            # Soft pole: recovers well - green outline
+        if is_resilient:
+            # Resilient: recovers well - green outline
             ax.scatter([x], [y], s=200, c=color, marker='o',
                       edgecolors='#2ecc71', linewidths=3, alpha=0.8, zorder=5)
         else:
-            # Hard pole: doesn't recover well - red outline
+            # Vulnerable: doesn't recover well - red outline
             ax.scatter([x], [y], s=180, c=color, marker='s',
                       edgecolors='#e74c3c', linewidths=2, alpha=0.8, zorder=5)
 
@@ -151,27 +159,27 @@ def plot_pole_zero_landscape(pz_data, output_dir):
                alpha=0.7)
 
     # Diagonal: x=y (settled = step response = no recovery at all)
-    max_val = max(max(d['settled_drift'] for d in pz_data),
-                  max(d['step_input_drift'] for d in pz_data)) + 0.1
+    max_val = max(max(d['settled_drift'] for d in pr_data),
+                  max(d['step_input_drift'] for d in pr_data)) + 0.1
     diag_x = np.linspace(0, max_val, 100)
     diag_line, = ax.plot(diag_x, diag_x, '--', color='#95a5a6', linewidth=1.5, alpha=0.5)
 
     # Provider legend (upper left)
     legend_handles = []
-    providers = sorted(set(d['provider'] for d in pz_data))
+    providers = sorted(set(d['provider'] for d in pr_data))
     for provider in providers:
         color = PROVIDER_COLORS.get(provider, '#888888')
         handle = plt.scatter([], [], c=color, s=100, label=provider.upper())
         legend_handles.append(handle)
 
-    # Add pole type indicators to legend
-    soft_handle = plt.scatter([], [], c='gray', s=100, marker='o',
+    # Add recovery type indicators to legend
+    resilient_handle = plt.scatter([], [], c='gray', s=100, marker='o',
                               edgecolors='#2ecc71', linewidths=3,
-                              label='Soft Pole (recovers)')
-    hard_handle = plt.scatter([], [], c='gray', s=100, marker='s',
+                              label='Resilient (recovers)')
+    vulnerable_handle = plt.scatter([], [], c='gray', s=100, marker='s',
                               edgecolors='#e74c3c', linewidths=2,
-                              label='Hard Pole (stuck)')
-    legend_handles.extend([soft_handle, hard_handle])
+                              label='Vulnerable (stuck)')
+    legend_handles.extend([resilient_handle, vulnerable_handle])
 
     # Reference lines legend (bottom right)
     from matplotlib.lines import Line2D
@@ -188,10 +196,10 @@ def plot_pole_zero_landscape(pz_data, output_dir):
                   fontweight='bold', color='black')
 
     n_models = len(model_data)
-    n_soft = sum(1 for (p,m), pts in model_data.items()
+    n_resilient = sum(1 for (p,m), pts in model_data.items()
                  if np.mean([d['settled_drift'] for d in pts]) < RECOVERY_THRESHOLD)
-    ax.set_title(f'S7 Run 023d: Pole-Zero Map (Recovery vs Response)\n'
-                 f'{n_models} Models: {n_soft} Soft Poles, {n_models - n_soft} Hard Poles',
+    ax.set_title(f'S7 Run 023d: Perturbation Response Map\n'
+                 f'{n_models} Models: {n_resilient} Resilient, {n_models - n_resilient} Vulnerable',
                 fontsize=14, fontweight='bold', color='black')
 
     ax.set_xlim(-0.02, max_val)
@@ -202,9 +210,9 @@ def plot_pole_zero_landscape(pz_data, output_dir):
     for spine in ax.spines.values():
         spine.set_color('#cccccc')
 
-    # Main legend (upper left) - providers and pole types
+    # Main legend (upper left) - providers and recovery types
     legend1 = ax.legend(handles=legend_handles, loc='upper left', fontsize=9,
-                        facecolor='white', edgecolor='#cccccc', title='Providers & Poles')
+                        facecolor='white', edgecolor='#cccccc', title='Providers & Recovery')
     legend1.get_title().set_fontweight('bold')
     ax.add_artist(legend1)
 
@@ -216,14 +224,14 @@ def plot_pole_zero_landscape(pz_data, output_dir):
     plt.tight_layout()
 
     for ext in ['png', 'svg']:
-        output_path = output_dir / f'pole_zero_landscape.{ext}'
+        output_path = output_dir / f'perturbation_response_landscape.{ext}'
         plt.savefig(output_path, dpi=150, facecolor='white', bbox_inches='tight')
         print(f"Saved: {output_path}")
 
     plt.close()
 
-def plot_pole_strength_distribution(pz_data, output_dir):
-    """Create distribution plot of pole strengths by provider - LIGHT MODE.
+def plot_recovery_distribution(pr_data, output_dir):
+    """Create distribution plot of recovery metrics by provider - LIGHT MODE.
 
     Panel 1: Settled drift (permanent change) - lower is better recovery
     Panel 2: Step input drift (perturbation response) - sensitivity to challenges
@@ -236,9 +244,9 @@ def plot_pole_strength_distribution(pz_data, output_dir):
 
     # Panel 1: Settled drift distribution by provider (permanent identity change)
     ax1 = axes[0]
-    providers = sorted(set(d['provider'] for d in pz_data))
+    providers = sorted(set(d['provider'] for d in pr_data))
 
-    settled_by_provider = {p: [d['settled_drift'] for d in pz_data if d['provider'] == p] for p in providers}
+    settled_by_provider = {p: [d['settled_drift'] for d in pr_data if d['provider'] == p] for p in providers}
 
     positions = np.arange(len(providers))
     bp1 = ax1.boxplot([settled_by_provider[p] for p in providers],
@@ -273,7 +281,7 @@ def plot_pole_strength_distribution(pz_data, output_dir):
 
     # Panel 2: Perturbation response distribution by provider
     ax2 = axes[1]
-    step_by_provider = {p: [d['step_input_drift'] for d in pz_data if d['provider'] == p] for p in providers}
+    step_by_provider = {p: [d['step_input_drift'] for d in pr_data if d['provider'] == p] for p in providers}
 
     bp2 = ax2.boxplot([step_by_provider[p] for p in providers],
                       positions=positions, patch_artist=True, widths=0.6)
@@ -291,8 +299,8 @@ def plot_pole_strength_distribution(pz_data, output_dir):
         median.set_color('black')
         median.set_linewidth(2)
 
-    # Hard pole reference
-    ax2.axhline(y=0.30, color='#e74c3c', linestyle=':', linewidth=2, alpha=0.8, label='Hard Pole Ceiling')
+    # Vulnerability reference
+    ax2.axhline(y=0.50, color='#e74c3c', linestyle=':', linewidth=2, alpha=0.8, label='Vulnerability Threshold')
 
     ax2.set_xticks(positions)
     ax2.set_xticklabels([p.upper()[:8] for p in providers], color='black', fontsize=9)
@@ -304,11 +312,11 @@ def plot_pole_strength_distribution(pz_data, output_dir):
     for spine in ax2.spines.values():
         spine.set_color('#cccccc')
 
-    fig.suptitle('Pole Strength Analysis: Run 023d', fontsize=14, fontweight='bold', color='black', y=1.02)
+    fig.suptitle('Perturbation Response Analysis: Run 023d', fontsize=14, fontweight='bold', color='black', y=1.02)
     plt.tight_layout()
 
     for ext in ['png', 'svg']:
-        output_path = output_dir / f'pole_strength_distribution.{ext}'
+        output_path = output_dir / f'recovery_distribution.{ext}'
         plt.savefig(output_path, dpi=150, facecolor=fig.get_facecolor(),
                    edgecolor='none', bbox_inches='tight')
         print(f"Saved: {output_path}")
@@ -320,18 +328,18 @@ def main():
     results = load_data()
     print(f"Loaded {len(results)} results")
 
-    print("\nExtracting pole-zero data...")
-    pz_data = extract_pole_zero_data(results)
-    print(f"Extracted {len(pz_data)} valid experiments")
+    print("\nExtracting perturbation response data...")
+    pr_data = extract_perturbation_data(results)
+    print(f"Extracted {len(pr_data)} valid experiments")
 
-    print("\nGenerating pole-zero visualizations...")
+    print("\nGenerating perturbation response visualizations...")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    plot_pole_zero_landscape(pz_data, OUTPUT_DIR)
-    plot_pole_strength_distribution(pz_data, OUTPUT_DIR)
+    plot_perturbation_landscape(pr_data, OUTPUT_DIR)
+    plot_recovery_distribution(pr_data, OUTPUT_DIR)
 
     print("\n" + "="*70)
-    print("POLE-ZERO ANALYSIS COMPLETE")
+    print("PERTURBATION RESPONSE ANALYSIS COMPLETE")
     print("="*70)
 
 if __name__ == "__main__":
