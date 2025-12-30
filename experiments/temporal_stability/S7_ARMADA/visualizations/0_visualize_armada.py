@@ -33,7 +33,12 @@ SUBDIRECTORY GENERATORS (called by default):
   - pics/15_Oobleck_Effect/generate_oobleck_effect.py
   - pics/run020/generate_run020_visualizations.py
 
+R&D VISUALIZATION SCRIPTS (run before PDFs):
+  - 2_RnD_Visualization.py (4_Rescue R&D visuals)
+  - pics/5_Settling/RnD_experiments/RnD_Settling_Visualization.py (5_Settling R&D visuals)
+
 PDF GENERATORS (with --with-pdfs):
+  - 1_generate_pdf_summaries.py (master PDF generator for all folders)
   - pics/10_PFI_Dimensional/md_to_pdf.py
   - pics/13_Model_Waveforms/generate_pdf_summary.py
   - pics/15_Oobleck_Effect/generate_pdf_summary.py
@@ -74,7 +79,8 @@ except ImportError:
 # =============================================================================
 BASE_DIR = Path(__file__).resolve().parent.parent
 RESULTS_DIR = BASE_DIR / "0_results" / "runs"
-OUTPUT_DIR = Path(__file__).resolve().parent / "pics"
+VIZ_DIR = Path(__file__).resolve().parent  # visualizations/ folder
+OUTPUT_DIR = VIZ_DIR / "pics"
 
 # Provider colors (expanded for full fleet)
 PROVIDER_COLORS = {
@@ -2948,9 +2954,55 @@ def run_subdirectory_generators():
     return success_count
 
 
+def run_rnd_visualizations():
+    """Run R&D visualization scripts that generate images used by PDF summaries."""
+    rnd_scripts = [
+        # 4_Rescue R&D visuals
+        VIZ_DIR / "2_RnD_Visualization.py",
+        # 5_Settling R&D visuals
+        OUTPUT_DIR / "5_Settling" / "RnD_experiments" / "RnD_Settling_Visualization.py",
+    ]
+
+    print("\n" + "=" * 70)
+    print("RUNNING R&D VISUALIZATION SCRIPTS (pre-PDF dependencies)")
+    print("=" * 70)
+
+    success_count = 0
+    for script_path in rnd_scripts:
+        if script_path.exists():
+            print(f"\n  Running: {script_path.name}")
+            try:
+                result = subprocess.run(
+                    [sys.executable, str(script_path)],
+                    cwd=str(script_path.parent),
+                    capture_output=True,
+                    text=True,
+                    timeout=300  # 5 min timeout for R&D scripts
+                )
+                if result.returncode == 0:
+                    print(f"    ✓ Success")
+                    success_count += 1
+                else:
+                    print(f"    ✗ Failed (exit code {result.returncode})")
+                    if result.stderr:
+                        print(f"    Error: {result.stderr[:200]}")
+            except subprocess.TimeoutExpired:
+                print(f"    ✗ Timeout (>5 min)")
+            except Exception as e:
+                print(f"    ✗ Error: {e}")
+        else:
+            print(f"\n  Skipped (not found): {script_path.name}")
+
+    print(f"\nR&D scripts: {success_count}/{len(rnd_scripts)} completed")
+    return success_count
+
+
 def run_pdf_generators():
     """Run all PDF summary generators in pics/ subdirectories."""
     pdf_generators = [
+        # Master PDF generator (generates PDFs for multiple folders)
+        VIZ_DIR / "1_generate_pdf_summaries.py",
+        # Folder-specific generators
         OUTPUT_DIR / "10_PFI_Dimensional" / "md_to_pdf.py",
         OUTPUT_DIR / "13_Model_Waveforms" / "generate_pdf_summary.py",
         OUTPUT_DIR / "15_Oobleck_Effect" / "generate_pdf_summary.py",
@@ -3207,8 +3259,10 @@ def main():
     if not args.no_subdirs and not args.run and not args.type:
         run_subdirectory_generators()
 
-    # Run PDF generators if requested
+    # Run R&D visualizations and PDF generators if requested
     if args.with_pdfs:
+        # R&D scripts must run BEFORE PDFs (they generate images the PDFs reference)
+        run_rnd_visualizations()
         run_pdf_generators()
 
     print("\n" + "-" * 70)
@@ -3217,6 +3271,7 @@ def main():
     if not args.no_subdirs and not args.run and not args.type:
         print("Subdirectory generators: EXECUTED")
     if args.with_pdfs:
+        print("R&D visualizations: GENERATED")
         print("PDF summaries: GENERATED")
     print("=" * 70)
 

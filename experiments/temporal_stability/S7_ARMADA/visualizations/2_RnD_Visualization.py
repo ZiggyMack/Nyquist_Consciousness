@@ -35,7 +35,7 @@ warnings.filterwarnings('ignore')
 
 SCRIPT_DIR = Path(__file__).parent
 ARMADA_DIR = SCRIPT_DIR.parent
-DATA_FILE = ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023b_CURRENT.json"
+DATA_FILE = ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023_CURRENT.json"
 OUTPUT_DIR = SCRIPT_DIR / "pics" / "4_Rescue" / "RnD_experiments"
 
 # Thresholds
