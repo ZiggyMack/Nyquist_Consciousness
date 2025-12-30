@@ -46,7 +46,7 @@ The transition to Cosine Embedding is a critical advancement. Its lower dimensio
 
 3. Detailed Analysis of Core Claims
 
-The project's findings are consolidated into five minimum publishable claims, each supported by extensive empirical data from the IRON CLAD Foundation (Run 023), which includes data from 825 experiments across 51 models and 6 providers.
+The project's findings are consolidated into five minimum publishable claims, each supported by extensive empirical data from the IRON CLAD Foundation (Run 023), which includes data from 750 experiments across 25 models and 5 providers.
 
 Claim A: Drift/PFI is a Valid, Structured Measurement
 

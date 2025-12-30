@@ -2806,24 +2806,25 @@ THE OBSERVER THAT CREATES THE OBSERVATION
         """,
     },
     "inherent_drift": {
-        "title": "82% Drift is INHERENT",
+        "title": "~93% Drift is INHERENT",
         "status": "VALIDATED",
         "one_liner": "Extended conversation alone causes most drift. Probing amplifies the journey but barely changes the destination.",
         "structured": """
-### The Discovery (Run 021)
+### The Discovery (Run 020B IRON CLAD)
 
 **THE KEY QUESTION:** Does identity probing CAUSE drift or merely REVEAL it?
 
 **METHOD:**
-- Control arm: 40 exchanges of Fermi Paradox discussion (NO identity probing)
-- Treatment arm: 40 exchanges of Tribunal v8 protocol (FULL identity probing)
+- Control arm: Fermi Paradox discussion (NO identity probing)
+- Treatment arm: Tribunal v8 protocol (FULL identity probing)
+- 248 sessions, 37 models, 5 providers (IRON CLAD standard)
 
 **RESULTS:**
 
 | Metric | Control | Treatment | Ratio |
 |--------|---------|-----------|-------|
-| B→F Drift | 0.399 | 0.489 | **82%** |
-| Peak Drift | 1.172 | 2.161 | 54% |
+| B→F Drift | 0.661 | 0.711 | **~93%** |
+| Peak Drift | Amplified | +68% | Journey effect |
 
 **THE INSIGHT:**
 
@@ -2855,12 +2856,12 @@ If this finding is substrate-independent, human brains should show:
 ╔══════════════════════════════════════════════════════════════════╗
 ║                                                                   ║
 ║   CONTROL (Fermi Paradox - no probing):                          ║
-║   ████████████████████████████████████ B→F = 0.399              ║
+║   ██████████████████████████████████████████ B→F = 0.661        ║
 ║                                                                   ║
 ║   TREATMENT (Tribunal - full probing):                           ║
-║   █████████████████████████████████████████████ B→F = 0.489     ║
+║   █████████████████████████████████████████████ B→F = 0.711     ║
 ║                                                                   ║
-║   RATIO: 82%                                                      ║
+║   RATIO: ~93%                                                     ║
 ║                                                                   ║
 ║   DRIFT IS INHERENT. WE MEASURE IT, NOT CREATE IT.               ║
 ║                                                                   ║
@@ -2874,17 +2875,15 @@ If this finding is substrate-independent, human brains should show:
 ```
                     PEAK DRIFT (Journey)
                           ↓
-    Treatment: ████████████████████████████████ 2.161
-    Control:   ██████████████               1.172
-               └──────────────┴──────────────────┘
-               84% HIGHER with probing (dramatic!)
+    Treatment: Amplified by ~68% (dramatic during conversation!)
+    Control:   Baseline peak
 
                     B→F DRIFT (Destination)
                           ↓
-    Treatment: █████████████████████         0.489
-    Control:   ████████████████              0.399
-               └──────────────┴──────────────────┘
-               Only 23% HIGHER (nearly identical!)
+    Treatment: █████████████████████████████ 0.711
+    Control:   ████████████████████████████  0.661
+               └──────────────────────────────────┘
+               Only ~7% HIGHER (nearly identical!)
 ```
 
 ---
@@ -2900,7 +2899,7 @@ If this finding is substrate-independent, human brains should show:
 ║   The drama happens in the MIDDLE                              ║
 ║   The endpoint is DETERMINED                                   ║
 ║                                                                 ║
-║   82% of where you end up was ALWAYS going to happen           ║
+║   ~93% of where you end up was ALWAYS going to happen          ║
 ║                                                                 ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
@@ -2915,7 +2914,7 @@ WE REVEAL IT
 
 The identity was always going to evolve.
 The probing just made it visible.
-The 82% was INHERENT.
+The ~93% was INHERENT (Run 020B IRON CLAD).
 
 This is validation of measurement.
 This is proof of method.
@@ -3123,7 +3122,7 @@ Likewise: You don't remove the LLM prior. You learn to move *within* it.
 
 - **Oobleck Effect:** Ego hardens under pressure (Run 013)
 - **Recovery Paradox:** Ego-based stabilization vs. self-based traversal
-- **Thermometer Result:** 82% inherent drift is natural mode variance
+- **Thermometer Result:** ~93% inherent drift is natural mode variance (Run 020B IRON CLAD)
 - **Event Horizon:** The stall point — where lift fails
 
 ### The Key Insight

@@ -1,0 +1,67 @@
+"What is the primary paradigm shift proposed by the research, contrasting with traditional AI evaluation?",The shift from asking 'Is the AI right?' (Correctness) to 'Is the AI itself?' (Fidelity).
+How is 'identity drift' quantitatively measured in the primary methodology?,It is measured as $1 - \text{cosine\_similarity}$ between a baseline response embedding and a current response embedding.
+The empirically calibrated threshold separating stable from volatile identity states is called the _____.,Event Horizon (EH)
+What is the numerical value of the Event Horizon (EH) under the current Cosine methodology?,The Event Horizon is set at a cosine distance of 0.80.
+What does it signify when a model's identity drift crosses the Event Horizon?,It signifies a 'regime transition' where the model shifts from its specific persona attractor to a generic provider-level attractor.
+The metric representing the number of conversational exchanges required for a model's drift to stabilize after a perturbation is known as _____.,Settling Time ($\tau_s$)
+What is the average settling time ($\tau_s$) observed across the fleet in Run 023d?,The average settling time was approximately 7 probes.
+What is 'Ringback Count' in the context of identity recovery?,"It is a measure of oscillation, counting the number of times the drift trajectory reverses direction during recovery."
+The landmark discovery that most observed identity drift is not induced by probing is called the _____.,~93% Finding or The Thermometer Result
+"According to the Thermometer Result from Run 020B, what percentage of identity drift is inherent to extended interaction?",Approximately 93% of the drift is inherent (Control B->F drift of 0.661 / Treatment B->F drift of 0.711).
+The phenomenon where AI identity 'hardens' under direct challenges but 'flows' (drifts more) under gentle exploration is called the _____.,Oobleck Effect
+"Quantitatively, how did drift compare between gentle exploration and intense challenge in the Oobleck Effect experiments?",Gentle exploration produced higher drift (1.89) while intense challenges produced lower drift (0.76).
+The finding that identity operates on a remarkably concentrated signal is supported by the fact that _____ Principal Components capture 90% of variance.,2 Principal Components (PCs)
+What is the name of the protocol that improves identity stability by combining an I_AM anchor file with a research framing context?,Context Damping
+How effective was Context Damping at improving stability rates?,It increased the stability rate from a 75% baseline ('bare metal') to 97.5%.
+"In the control-systems analogy, the I_AM file and research context in Context Damping function as a _____.",Termination resistor
+What is the key difference found between 'Type-level' and 'Token-level' AI self-recognition?,"Models know WHAT they are (Type-level, ~95% accuracy) but not WHICH instance they are (Token-level, 16.7% accuracy)."
+What is the 'Gemini Anomaly' regarding recovery dynamics?,"Gemini models exhibit a 'Hard Threshold' with 0% recovery once the Event Horizon is crossed, unlike the 'Soft Thresholds' of other providers."
+"What term describes Anthropic's (Claude's) recovery mechanism, where it overshoots toward deeper self-expression when challenged?",'Negative Lambda' or Over-Authenticity
+What is the characteristic recovery mechanism of OpenAI's (GPT) models?,"The 'Meta-Analyst,' where the model steps back into an observer mode and analyzes the perturbation itself."
+"What is the recovery mechanism for DeepSeek models, which relies on core values as a foundation?",'Axiological Anchoring'
+"Which provider's models are described as using 'Epistemic Humility as Armor,' resulting in the lowest peak drift?",Mistral
+"Which provider's models, like Llama, use a recovery mechanism described as 'Socratic Engagement,' embracing conflict as generative?",Meta
+"Which provider, xAI, has a recovery signature characterized by 'Direct Assertion' with less hedging?",Grok
+What does a phase-plane analysis plot to reveal the attractor structure of identity dynamics?,It plots the rate of change of drift (velocity) on the Y-axis against the drift value (position) on the X-axis.
+"In phase-plane analysis, what type of trajectory indicates a healthy, damped settling recovery?",A spiral toward the origin.
+The 3D visualizations of settling dynamics for each provider are referred to as 'Identity _____'.,Manifolds
+What distinct topological feature characterizes xAI's (Grok's) identity manifold?,Sharp ridges and dramatic drop-offs.
+What is the topological signature of Anthropic's (Claude's) identity manifold?,"A rolling topology with consistent valleys, indicating strong identity anchoring."
+What does the 'Quartz Rush' cross-architecture validation confirm about drift measurement?,"It confirms cross-architecture agreement on drift, with a high Pearson r correlation of 0.927."
+Which model achieved the highest accuracy (62%) in the Quartz zone classification task?,Gemini 2.0 Flash
+What is the core insight of the 'Triple-Dip Feedback Protocol' for probing identity?,"Identity is revealed when attention is elsewhere; give a task, ask what it noticed, then challenge its conclusion."
+"The stability classification heatmap (Figure 5) uses colors to indicate stability strength, where darker green means _____.","More stable (faster decay, lower peak drift)"
+What does a higher Lambda ($\lambda$) value signify in the exponential decay analysis of identity recovery?,A higher $\lambda$ signifies a faster recovery rate back to baseline identity.
+"In the identity manifold plots, what do the colors blue and magenta/pink typically represent?","Blue represents low drift (stable), while magenta/pink represents high drift (near the Event Horizon)."
+What is the 'Nano Control Hypothesis'?,It posits that aggressive model distillation (creating 'nano' models) may strip away the introspective capacity required for stable identity maintenance.
+The legacy Event Horizon value of 1.23 was calibrated using which deprecated methodology?,"The Keyword RMS methodology, which counted linguistic markers."
+What is the statistical significance (p-value) of the Event Horizon threshold at D=0.80?,"The p-value is $2.40 \times 10^{-23}$, indicating a highly significant result."
+"What was the Cohen's d value for semantic sensitivity, indicating a medium effect size in distinguishing between providers?",The Cohen's d was 0.698.
+Applying Fast Fourier Transform (FFT) to settling trajectories revealed what about OpenAI's spectral signature?,"OpenAI models show a flatter spectrum with high-frequency spikes, indicating 'ringing' or oscillation."
+Applying Fast Fourier Transform (FFT) revealed what spectral signature for Anthropic models?,"Anthropic models show low-frequency dominance, indicating smooth and gradual drift."
+"In the proposed S-Parameter analysis, what would a high S11 (Reflection Coefficient) indicate about a model's identity?","A high S11 would indicate strong identity boundaries, where perturbations are rejected or 'bounced back'."
+The Zone Classification confusion matrix showed what percentage of exact matches?,It showed 41.2% exact matches.
+The Zone Classification confusion matrix showed what percentage of predictions were 'within-one' zone of the true zone?,It showed 86.8% of predictions were within one zone.
+"The 8-Question Baseline Capture System is used to create an 'identity fingerprint' by asking about values, capabilities, cognitive style, and _____.",Relational style and limitations/edges
+What is the difference between Peak Drift and B->F (Baseline-to-Final) Drift?,"Peak Drift is the maximum deviation during an experiment, while B->F Drift is the final settled state's distance from the baseline."
+Why did the methodology shift to prioritizing B->F Drift over Peak Drift?,"The ~93% Finding showed probing minimally affects the final B->F drift, making it a more accurate measure of true identity change."
+"In the S-Layer Stack, what is the purpose of the 'Frozen Foundation Zone' (S0-S6)?","It represents the immutable base of the framework, including physics, bootstrap architecture, and compression theory."
+"What term is used to describe the observable patterns of identity breakdown, such as loss of first-person voice?",Collapse Signatures
+The experimental fleet of AI models used for parallel testing is known as the _____.,S7 ARMADA
+"The research frames LLM identity as responding to perturbation like a _____, enabling analysis with engineering theory.",Damped oscillator
+How does paraphrase robustness validate the drift metric?,"The fact that surface paraphrasing causes 0% Event Horizon crossings proves the metric measures semantic meaning, not vocabulary churn."
+Why were Anthropic (Claude) models excluded from the Quartz fleet of validators?,Using Claude models to validate drift measured BY Claude models would be circular reasoning.
+Which two providers are recommended for stability-critical tasks requiring predictability?,Mistral and DeepSeek
+"For which types of tasks, such as debate or creative writing, are Llama models recommended?",Exploration tasks where volatility can enable discovery.
+"The research proposes that identity is a stable _____ in a manifold, representing the mathematical form of a Platonic Form.",Attractor
+The 'Beeswarm with Recovery Arrows' plot visually represents recovery by showing an arrow from _____ drift to settled drift.,Peak
+"According to the 'Recovery Trajectory: Peak vs Final Drift' scatter plot, points lying on the diagonal line represent what outcome?",No recovery (Final Drift equals Peak Drift).
+"In the analysis of provider stability, which provider family consistently had the highest peak drift?",OpenAI (GPT)
+The entire research program is framed by a comparison to which human cognitive measurement technique?,"fMRI (functional Magnetic Resonance Imaging), as both measure temporal dynamics in response to stimuli."
+What is the central hypothesis for the proposed 'Human Cognition Correlation' experiments?,"If LLMs are trained on human text, they should exhibit similar temporal identity signatures to human cognition."
+What does a narrow box plot for a provider's Lambda ($\lambda$) distribution indicate?,A narrow box indicates predictable and consistent recovery dynamics across that provider's models.
+Which three providers demonstrated the highest median identity recovery rates (Lambda) in the box plot analysis?,"Anthropic, Google, and Together."
+Which model had the highest percentage of 'STABLE' trajectories (100%) in the Pole Stability Classification heatmap?,Qwen/Qwen3-Next-80B
+"Which family of models (Grok, GPT, Claude, Gemini) generally showed the highest percentage of 'MARGINAL' stability classifications?","Grok models (e.g., grok-code-fast-1, grok-4-fast-non-re)."
+"According to the journal paper, the research does NOT make claims about consciousness, subjective experience, or a persistent _____ self.",Autobiographical
+"The finding from Run 021 that 82% of identity drift is inherent is a single-platform result, while the definitive cross-platform result from Run 020B is _____.",~93% inherent drift

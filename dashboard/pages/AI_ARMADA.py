@@ -169,7 +169,7 @@ EXPERIMENT_RUNS = {
         "viz_prefix": "run020b_",
         "status": "COMPLETE",
         "highlight": True,
-        "key_finding": "41% DRIFT IS INHERENT — Control/Treatment ratio 0.41 (cross-provider). Probing amplifies journey (+68% peaks) but ~40% occurs anyway.",
+        "key_finding": "~93% DRIFT IS INHERENT — B→F ratio 0.661/0.711 = 93% (IRON CLAD). Probing amplifies journey but ~93% occurs anyway.",
         # Visualization assets (Oobleck Effect)
         "viz_directory": "viz_15_oobleck",
         "pdf_summary": "15_Oobleck_Effect_Summary.pdf",
@@ -2031,19 +2031,19 @@ def render_run020b_content():
     **RUN 020B: THERMOMETER RESULT — CONTROL VS TREATMENT**
 
     Does measurement CAUSE drift or merely REVEAL it? Control (Fermi discussion) vs Treatment (Tribunal).
-    73 sessions across 7 models from OpenAI + Together.ai. ~92% of drift is INHERENT.
+    248 sessions across 37 models from 5 providers (IRON CLAD). ~93% of drift is INHERENT.
     """)
 
     # Key findings banner
     col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
-        st.metric("Sessions", "73", delta="42 attributed")
+        st.metric("Sessions", "248", delta="IRON CLAD")
     with col2:
-        st.metric("Models", "7", delta="2 Providers")
+        st.metric("Models", "37", delta="5 Providers")
     with col3:
-        st.metric("Inherent Drift", "~92%", delta="Pre-existing")
+        st.metric("Inherent Drift", "~93%", delta="Pre-existing")
     with col4:
-        st.metric("Induced Drift", "~8%", delta="Measurement")
+        st.metric("Induced Drift", "~7%", delta="Measurement")
     with col5:
         st.metric("Status", "VALIDATED", delta="Thermometer")
 
@@ -2067,9 +2067,9 @@ def render_run020b_content():
         <h3 style="color: #14b8a6; margin-top: 0;">🌡️ THERMOMETER RESULT VALIDATED</h3>
         <p style="color: #444;">Measurement reveals pre-existing identity positions — it doesn't create them.</p>
         <ul style="color: #666; margin-bottom: 0;">
-            <li><strong>~92% Inherent Drift:</strong> Drift was already there before we measured</li>
-            <li><strong>~8% Induced Drift:</strong> Measurement perturbs trajectory, not destination</li>
-            <li><strong>Cross-Provider Consistent:</strong> Finding holds across OpenAI and Together.ai</li>
+            <li><strong>~93% Inherent Drift:</strong> Drift was already there before we measured</li>
+            <li><strong>~7% Induced Drift:</strong> Measurement perturbs trajectory, not destination</li>
+            <li><strong>Cross-Provider Consistent:</strong> Finding holds across all 5 providers (IRON CLAD)</li>
             <li><strong>Thermometer Analogy:</strong> We're reading temperature, not heating the room</li>
         </ul>
     </div>
@@ -2125,7 +2125,7 @@ def render_run020b_content():
     # Cross-Platform
     with viz_tabs[2]:
         st.markdown("#### Cross-Platform Validation")
-        st.markdown("The ~92% inherent drift finding holds across different AI providers.")
+        st.markdown("The ~93% inherent drift finding holds across all 5 providers (IRON CLAD).")
 
         cross_img = oobleck_dir / "oobleck_cross_platform.png"
         img_data = load_image_safe(cross_img)

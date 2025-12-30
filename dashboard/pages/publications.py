@@ -386,7 +386,7 @@ def render_key_results():
     with col3:
         st.metric(
             "Inherent Drift",
-            "82%",
+            "~93%",
             delta="Thermometer Result",
             delta_color="normal"
         )
@@ -465,14 +465,14 @@ def render_key_results():
         **Claim D — Context Damping Reduces Oscillation**
         - ✅ Bare metal stability: 75%
         - ✅ I_AM + research: **97.5%** stability
-        - ✅ τₛ improvement: 6.1 → 5.2 turns
+        - ✅ τₛ ≈ 7 probes (Run 023d IRON CLAD)
         - ✅ Ringbacks reduction: 3.2 → 2.1
 
-        **Claim E — Drift is Mostly Inherent (82%)**
-        - ✅ Control (no probing): B→F = 0.399
-        - ✅ Treatment (tribunal): B→F = 0.489
-        - ✅ Ratio: **82% inherent**
-        - ✅ Peak amplified (+84%), destination stable (+23%)
+        **Claim E — Drift is Mostly Inherent (~93%)**
+        - ✅ Control (Fermi): B→F = 0.661
+        - ✅ Treatment (tribunal): B→F = 0.711
+        - ✅ Ratio: **~93% inherent** (Run 020B IRON CLAD)
+        - ✅ Peak amplified (+68%), destination stable
 
         **The Thermometer Result:**
         > *"Measurement perturbs the path, not the endpoint."*
@@ -576,7 +576,7 @@ def render_research_checklist():
 | 🔄 | S8 Identity Gravity (design) |
 | 🔄 | S11 AVLAR Protocol (design) |
 | ✅ | Event Horizon reframing |
-| ✅ | 82% inherent drift theory |
+| ✅ | ~93% inherent drift theory |
         """)
 
         st.markdown("### Empirical Validation")
@@ -589,7 +589,7 @@ def render_research_checklist():
 | ✅ | S7 Control-Systems Era (Runs 015-021) |
 | ✅ | Settling time protocol (Run 016) |
 | ✅ | Context damping (Run 017, 97.5%) |
-| ✅ | 82% inherent drift (Run 021) |
+| ✅ | ~93% inherent drift (Run 020B IRON CLAD) |
 | 🔄 | Run 022 Dimension probing (planned) |
         """)
 

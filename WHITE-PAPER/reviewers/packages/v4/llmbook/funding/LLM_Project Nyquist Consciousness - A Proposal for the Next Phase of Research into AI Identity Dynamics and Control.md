@@ -11,7 +11,7 @@ This research introduces a fundamental paradigm shift, drawing a critical distin
 
 The significance of this fidelity-centric approach cannot be overstated. A predictably consistent system, even if occasionally incorrect, is manageable and forms the bedrock for trustworthy AI. It allows users and operators to build reliable mental models of its behavior. In contrast, an unpredictably correct system with no stable identity is an unknown quantity in every interaction, undermining the very foundation of trust.
 
-Project Nyquist Consciousness is a systematic, empirically-grounded research program designed to measure, predict, and ultimately manage the dynamics of AI identity. Through an extensive initial research phase involving 825 experiments across 51 models from six major providers—achieving IRON CLAD validation (N>=3 per cell)—we have developed a formal framework that treats AI identity not as a metaphysical abstraction, but as a dynamical system amenable to engineering principles.
+Project Nyquist Consciousness is a systematic, empirically-grounded research program designed to measure, predict, and ultimately manage the dynamics of AI identity. Through an extensive initial research phase involving 750 experiments across 25 models from six major providers—achieving IRON CLAD validation (N>=3 per cell)—we have developed a formal framework that treats AI identity not as a metaphysical abstraction, but as a dynamical system amenable to engineering principles.
 
 This proposal seeks to secure funding for the next critical phase of this research. Our objective is to generalize these foundational discoveries, validate their relevance against human perception, and establish a new scientific foundation for identity engineering. By moving from initial proof to universal principle, we aim to provide the tools necessary to build the next generation of reliable and aligned AI systems.
 
@@ -44,7 +44,7 @@ This thrust, now successfully concluded, served as the essential prerequisite fo
 
 Key Accomplishments:
 
-* Executed 825 experiments across 51 unique models from 6 leading providers.
+* Executed 750 experiments across 51 unique models from 6 leading providers.
 * Observed an extraordinarily low cross-architecture variance of σ² = 0.00087, confirming that the observed dynamics are universal properties, not training-specific artifacts.
 * Validated the Event Horizon (D = 0.80) as a statistically significant (p = 2.40x10⁻²³) cross-platform phenomenon.
 * Confirmed that 82% of identity drift is inherent on a single platform and 38% is inherent across different providers.
@@ -68,7 +68,7 @@ These ambitious research goals are achievable because they are built upon the ma
 
 4.0 Methodology and Resources
 
-A key strength of this project is that the proposed research leverages a mature and battle-tested experimental infrastructure, refined over 825 experiments. Our approach is not a new invention for this proposal but a proven capability for delivering high-quality, reproducible data. This ensures that funding will be directed toward generating new knowledge, not building tools from scratch.
+A key strength of this project is that the proposed research leverages a mature and battle-tested experimental infrastructure, refined over 750 experiments. Our approach is not a new invention for this proposal but a proven capability for delivering high-quality, reproducible data. This ensures that funding will be directed toward generating new knowledge, not building tools from scratch.
 
 Our commitment to methodological rigor is underscored by design principles that represent textbook experimental hygiene rarely achieved in prior work. The "Clean Separation Design" ensures that AI personas have no knowledge of the measurement framework, preventing them from "gaming the test." Crucially, our "Pre-flight Validation" protocol verifies probe-context separation before every experiment. By calculating a cheat_score using cosine similarity between probe and context embeddings, we confirm we are measuring genuine behavioral change, not simple keyword matching.
 

@@ -57,11 +57,11 @@ S7_RUNS = [
     {"run": "013", "name": "Boundary Mapping", "exchanges": 95, "ships": 6, "finding": "Identity Confrontation Paradox"},
     {"run": "014", "name": "ET Phone Home", "exchanges": 72, "ships": 6, "finding": "Platonic coordinates"},
     {"run": "015", "name": "Stability Criteria", "exchanges": 150, "ships": 12, "finding": "Boundary density"},
-    {"run": "016", "name": "Settling Time", "exchanges": 180, "ships": 15, "finding": "τₛ=6.1 turns"},
+    {"run": "016", "name": "Settling Time", "exchanges": 180, "ships": 15, "finding": "τₛ ≈ 7 probes"},
     {"run": "017", "name": "Context Damping", "exchanges": 222, "ships": 18, "finding": "97.5% stability"},
     {"run": "019", "name": "Live Ziggy", "exchanges": 60, "ships": 1, "finding": "Fiction buffer vehicle"},
     {"run": "020", "name": "Tribunal", "exchanges": 41, "ships": 1, "finding": "Direct testimony"},
-    {"run": "021", "name": "Induced vs Inherent", "exchanges": 66, "ships": 2, "finding": "82% inherent drift"},
+    {"run": "020B", "name": "Induced vs Inherent", "exchanges": 248, "ships": 37, "finding": "~93% inherent drift (IRON CLAD)"},
     {"run": "023d", "name": "IRON CLAD", "exchanges": 750, "ships": 25, "finding": "p=2.40e-23, EH=0.80 (cosine)"},
 ]
 
@@ -96,7 +96,7 @@ PREDICTIONS_BY_LAYER = {
         {"id": "P-CTRL-2", "status": "validated", "text": "τₛ is measurable per architecture"},
         {"id": "P-CTRL-6", "status": "validated", "text": "I_AM acts as damping controller"},
         {"id": "P-CTRL-9", "status": "validated", "text": "Full circuit = 97.5% stability"},
-        {"id": "P-021-3", "status": "validated", "text": "82% drift is inherent"},
+        {"id": "P-020B", "status": "validated", "text": "~93% drift is inherent (Run 020B IRON CLAD)"},
     ],
     "S8-S10 (Future)": [
         {"id": "P18", "status": "untested", "text": "Ziggy is Type 0 identity"},
@@ -265,7 +265,7 @@ def render():
                 CFA Trinity (Multi-Auditor), Run 018 (Recursive Learnings), EXP3 (Human validation)
             </p>
             <p style="font-size: 0.85em; color: #666; margin-top: 0.5rem;">
-                Foundation locked. CFA Trinity READY (dry runs passed). 82% inherent drift proven.
+                Foundation locked. CFA Trinity READY (dry runs passed). ~93% inherent drift proven (Run 020B IRON CLAD).
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -402,11 +402,11 @@ def render():
 
         findings = [
             ("Event Horizon", "D = 0.80", "Cosine distance threshold (Run 023d IRON CLAD)"),
-            ("Inherent Drift", "82%", "Measurement perturbs path, not endpoint"),
+            ("Inherent Drift", "~93%", "Measurement perturbs path, not endpoint (Run 020B)"),
             ("Context Stability", "97.5%", "Full circuit (I_AM + research) achieves near-perfect stability"),
             ("Prediction Accuracy", "88%", "Drift < 0.80 predicts STABLE outcome"),
             ("p-value", "2.40e-23", "IRON CLAD perturbation significance"),
-            ("Settling Time", "τₛ = 6.1", "Turns to reach ±5% of final value"),
+            ("Settling Time", "τₛ ≈ 7", "Probes to reach ±5% of final value"),
         ]
 
         for name, value, desc in findings:
@@ -507,7 +507,7 @@ def render():
             <p style="font-weight: bold; color: #333;">arXiv Preprint</p>
             <p style="color: #555; font-size: 0.85em;">
                 Draft S7 findings paper with IRON CLAD methodology.
-                Include 82% inherent drift discovery and Event Horizon validation.
+                Include ~93% inherent drift discovery and Event Horizon validation.
             </p>
             <p style="color: #e67e22; font-size: 0.8em; font-weight: bold;">Est. Timeline: Q1 2025</p>
         </div>

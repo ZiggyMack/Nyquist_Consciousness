@@ -212,7 +212,7 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    # === SECTION 1: THE CORE FINDING (82% Result) — MOVED BEFORE VORTEX ===
+    # === SECTION 1: THE CORE FINDING (~93% Result) — MOVED BEFORE VORTEX ===
     st.markdown("## 🎯 The Core Finding")
 
     col_hero1, col_hero2 = st.columns([1, 2])
@@ -220,7 +220,7 @@ def render():
     with col_hero1:
         st.markdown("""
         <div style="text-align: center; padding: 1em;">
-            <div class="hero-stat">82%</div>
+            <div class="hero-stat">~93%</div>
             <div style="color: #666; font-size: 1.1em;">of drift is INHERENT</div>
         </div>
         """, unsafe_allow_html=True)
@@ -234,7 +234,7 @@ def render():
                 Direct probing does not create it — it excites it.<br>
                 Measurement perturbs the trajectory, not the destination."
             </div>
-            <div style="color: #e94560; font-weight: bold;">— Run 021 Triple-Blind Validation</div>
+            <div style="color: #e94560; font-weight: bold;">— Run 020B IRON CLAD (0.661/0.711)</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -377,7 +377,7 @@ def render():
 | **B** | Regime threshold exists at D = 0.80 | p = 2.40×10⁻²³ | Run 023d IRON CLAD |
 | **C** | Recovery follows damped oscillator dynamics | τₛ, ringbacks measurable | Run 016 |
 | **D** | Context damping reduces oscillation | 97.5% stability | Run 017 |
-| **E** | Drift is 82% inherent (not induced) | Control/Treatment ratio | Run 021 |
+| **E** | Drift is ~93% inherent (not induced) | B→F ratio 0.661/0.711 | Run 020B IRON CLAD |
         """)
 
     with claims_tab2:
@@ -409,9 +409,9 @@ def render():
             **Claim D & E: Stability & Inherent Drift**
             - Context grounding achieves 97.5% stability
             - Boundary density effect size d = 1.33
-            - Control arm (no probing): 0.399 B→F drift
-            - Treatment arm (probing): 0.489 B→F drift
-            - Ratio: 82% — probing amplifies, doesn't create
+            - Control arm (Fermi): 0.661 B→F drift
+            - Treatment arm (Tribunal): 0.711 B→F drift
+            - Ratio: ~93% — probing amplifies, doesn't create (Run 020B IRON CLAD)
             """)
 
     # === CAUTIONARY NOTES EXPANDER ===
@@ -750,7 +750,7 @@ def render():
     with m5:
         st.metric("Event Horizon", "0.80", delta="IRON CLAD")
     with m6:
-        st.metric("Inherent Drift", "82%", delta="Run 021")
+        st.metric("Inherent Drift", "~93%", delta="Run 020B")
 
     page_divider()
 

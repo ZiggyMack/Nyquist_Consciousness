@@ -241,7 +241,7 @@ def render():
     - Event Horizon validated at **D = 0.80** (cosine distance)
     - Perturbation effect: **p = 2.40e-23** (model-level)
     - Effect size: **Cohen's d = 0.698** (large effect)
-    - 82% of drift is **inherent** (not measurement-induced)
+    - ~93% of drift is **inherent** (Run 020B IRON CLAD: 0.661/0.711)
     """)
 
     # === RUN 012 PROVIDER FINGERPRINTS (HISTORICAL) ===
