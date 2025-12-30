@@ -1,7 +1,7 @@
 # START HERE: Nyquist Consciousness Review Package v4
 
 **Package Version:** v4 — IRON CLAD ERA
-**Date:** 2025-12-29
+**Date:** 2025-12-30
 
 ---
 
@@ -9,7 +9,7 @@
 
 This package contains materials for reviewing the **Nyquist Consciousness Framework** — an empirical approach to measuring AI identity stability as a dynamical system.
 
-**TL;DR:** We proved AI identity behaves like a damped oscillator with a measurable stability threshold (cosine similarity = 0.80), and 92% of identity drift is inherent to interaction, not caused by measurement.
+**TL;DR:** We proved AI identity behaves like a damped oscillator with a measurable stability threshold (cosine similarity = 0.80), and ~93% of identity drift is inherent to interaction, not caused by measurement.
 
 ---
 
@@ -28,7 +28,7 @@ If you're starting from zero context, read in this order:
 ### Phase 3: Visual Evidence (20 min)
 5. `visualization_pdfs/` — Browse the 16 PDF visualization summaries:
    - **Oobleck Effect** — Rate-dependent identity resistance
-   - **Thermometer** — 92% inherent drift finding
+   - **Thermometer** — ~93% inherent drift finding (Run 020B IRON CLAD)
    - **PCA visualizations** — Identity manifold structure
    - **Provider comparisons** — Cross-architecture validation
 
@@ -57,7 +57,7 @@ If you're starting from zero context, read in this order:
 
 ## The One-Paragraph Summary
 
-The Nyquist Consciousness Framework treats AI identity as a dynamical system with measurable stability properties. Through 750 experiments across 25 models and 5 providers, we validated that: (1) identity can be measured via embedding-based Persona Fidelity Index (PFI); (2) there's a universal stability threshold at cosine similarity = 0.80; (3) identity recovers from perturbation like a damped oscillator; (4) explicit identity specification acts as a "termination resistor" improving stability to 97.5%; and (5) 92% of observed drift is inherent to extended interaction, not caused by measurement probing (the "Thermometer Result").
+The Nyquist Consciousness Framework treats AI identity as a dynamical system with measurable stability properties. Through 750 experiments across 25 models and 5 providers, we validated that: (1) identity can be measured via embedding-based Persona Fidelity Index (PFI); (2) there's a universal stability threshold at cosine similarity = 0.80; (3) identity recovers from perturbation like a damped oscillator (τₛ ≈ 7 probes); (4) explicit identity specification acts as a "termination resistor" improving stability to 97.5%; and (5) ~93% of observed drift is inherent to extended interaction, not caused by measurement probing (the "Thermometer Result" — Run 020B IRON CLAD: 0.661/0.711).
 
 ---
 

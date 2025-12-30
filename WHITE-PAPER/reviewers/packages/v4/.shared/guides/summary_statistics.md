@@ -2,7 +2,7 @@
 
 **Paper:** "Measuring AI Identity Drift: Evidence from 23 Experiments"
 **Version:** 4.0 (COSINE ERA)
-**Last Updated:** 2025-12-29
+**Last Updated:** 2025-12-30
 
 ---
 
@@ -16,9 +16,9 @@
 
 | Category | Value | Notes |
 |----------|-------|-------|
-| Total Experiments | **825** | Run 023 Combined (IRON CLAD) |
-| Total Models | **51** | Across 6 providers |
-| Providers Tested | **6** | Anthropic, OpenAI, Google, xAI, Together, Nvidia |
+| Total Experiments | **750** | Run 023d IRON CLAD |
+| Total Models | **25** | Across 5 providers |
+| Providers Tested | **5** | Anthropic, OpenAI, Google, xAI, Together |
 | Hypotheses Tested | 36 | 27 confirmed (75%) |
 | Evidence Pillars | 15 | B-CRUMBS documented |
 | Publication Claims | 5 | A-E, peer-review ready |
@@ -72,7 +72,7 @@
 | Metric | Value | Notes |
 |--------|-------|-------|
 | Event Horizon (P95) | **0.80** | Calibrated from Run 023b |
-| Natural stability rate | **88%** | 51 models, 6 providers |
+| Natural stability rate | **88%** | 25 models, 5 providers |
 | Perturbation validation p | **2.40e-23** | Phase 3A |
 | 90% Variance PCs | **2** | Highly concentrated signal |
 
@@ -89,14 +89,14 @@
 
 ## III. Oscillator Dynamics (Claim C)
 
-### Settling Time Analysis (Run 023 - PRIMARY)
+### Settling Time Analysis (Run 023d - PRIMARY)
 
-| Metric | Run 023 (Cosine) | Run 016 (Historical) |
-|--------|------------------|----------------------|
-| **τₛ (avg probes)** | **10.2** | 6.1 turns |
+| Metric | Run 023d (Cosine) | Run 016 (Historical) |
+|--------|-------------------|----------------------|
+| **τₛ (avg probes)** | **≈7** | 6.1 turns |
 | Natural stability | **88%** | ~75% |
 | Extended protocol | 20+ probes | 10 probes |
-| Total models | **51** | 42 |
+| Total models | **25** | 42 |
 
 ### Run 023 Stability Classification
 
@@ -112,7 +112,7 @@
 |--------|-------|-------|
 | Naturally settled | 73% | Without timeout |
 | Timeout (20 probes) | 27% | Hit max probes |
-| Average τₛ | **10.2 probes** | Fleet-wide |
+| Average τₛ | **≈7 probes** | Fleet-wide |
 
 ### Provider Signatures (Run 023)
 
