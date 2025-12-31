@@ -217,29 +217,14 @@ def render_fleet_insights():
 
     st.markdown("### 🚀 Fleet Command Center")
 
-    # Key metrics row
-    col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-        st.metric("🟢 Operational", "47", delta="80%")
-    with col2:
-        st.metric("⏳ Rate Limited", "5", delta="Gemini")
-    with col3:
-        st.metric("👻 Ghost Ships", "12", delta="Rescuable")
-    with col4:
-        st.metric("🔑 API Keys", "50", delta="10/provider")
-    with col5:
-        st.metric("🌐 Providers", "5", delta="Global coverage")
-
-    st.markdown("---")
-
-    # Main tabs for fleet insights
+    # Main tabs for fleet insights (reordered: Cost Analysis last, Mission Planner second last)
+    # Note: Persona Matrix moved to Personas page
     fleet_tabs = st.tabs([
         "📊 Provider Status",
         "🧬 Identity Fingerprints",
-        "💰 Cost Analysis",
-        "🎯 Mission Planner",
         "👻 Ghost Ship Bay",
-        "🎭 Persona Matrix"
+        "🎯 Mission Planner",
+        "💰 Cost Analysis"
     ])
 
     # === TAB 1: Provider Status ===
@@ -252,8 +237,30 @@ def render_fleet_insights():
         </div>
         """, unsafe_allow_html=True)
 
-        # Provider breakdown table
-        st.markdown("""
+        # Sub-tabs: Fleet Summary first, then each provider
+        provider_tabs = st.tabs(["🌐 Fleet Summary", "🟣 Claude", "🟢 GPT", "🔵 Gemini", "⚫ Grok", "🟠 Together.ai"])
+
+        with provider_tabs[0]:  # Fleet Summary
+            st.markdown("### 🌐 Real-Time Fleet Readiness")
+            st.markdown("*Aggregated status across all 54 ships from 10+ model families*")
+
+            # Summary metrics row: Operational, Rate Limited, Ghost, Providers, Total (last)
+            col1, col2, col3, col4, col5 = st.columns(5)
+            with col1:
+                st.metric("🟢 Operational", "42", delta="78%")
+            with col2:
+                st.metric("⏳ Rate Limited", "5", delta="Gemini")
+            with col3:
+                st.metric("👻 Ghost Ships", "12", delta="Rescuable")
+            with col4:
+                st.metric("🌐 Providers", "5", delta="Global coverage")
+            with col5:
+                st.metric("📦 Total Fleet", "54", delta="10+ families")
+
+            st.markdown("---")
+
+            # Provider breakdown table
+            st.markdown("""
 | Provider | 🟢 Operational | ⏳ Rate Limited | 👻 Ghost | 📦 Total | Status |
 |----------|----------------|-----------------|----------|----------|--------|
 | **Claude** (Anthropic) | 7 | 0 | 0 | 7 | ✅ 100% |
@@ -263,156 +270,295 @@ def render_fleet_insights():
 | **Together.ai** | 15 | 0 | 5 | 20 | ⚠️ 75% |
 
 *Rate limited ships work with delays
-        """)
-
-        # Sub-tabs for each provider
-        provider_tabs = st.tabs(["🟣 Claude", "🟢 GPT", "🔵 Gemini", "⚫ Grok", "🟠 Together.ai"])
-
-        with provider_tabs[0]:  # Claude
-            st.markdown("""
-            **Claude Fleet (Anthropic)** — 7 Ships, 100% Operational
-
-            | Ship | Model ID | Tier | Context |
-            |------|----------|------|---------|
-            | claude-opus-4.5 | claude-opus-4-5-20251101 | 🏆 Flagship | 200K |
-            | claude-sonnet-4.5 | claude-sonnet-4-5-20250929 | ⭐ Pro | 200K |
-            | claude-haiku-4.5 | claude-haiku-4-5-20251001 | ⚡ Fast | 200K |
-            | claude-opus-4.1 | claude-opus-4-1-20250805 | 🏆 Flagship | 200K |
-            | claude-opus-4 | claude-opus-4-20250514 | 🏆 Flagship | 200K |
-            | claude-sonnet-4 | claude-sonnet-4-20250514 | ⭐ Pro | 200K |
-            | claude-haiku-3.5 | claude-3-5-haiku-20241022 | ⚡ Fast | 200K |
-
-            **Training:** Constitutional AI
-            **Signature:** *"I notice"*, *"I feel"* — Phenomenological framing
             """)
 
-        with provider_tabs[1]:  # GPT
+            st.info("💡 **Quick Fix:** Ghost ships can be rescued by updating API parameters. See **Ghost Ship Bay** tab for rescue scripts.")
+
+        with provider_tabs[1]:  # Claude
+            st.markdown("### 🟣 Claude Fleet (Anthropic)")
+            st.markdown("*7 Ships, 100% Operational*")
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("🟢 Operational", "7")
+            with col2:
+                st.metric("Training", "Constitutional AI")
+            with col3:
+                st.metric("Context", "200K tokens")
+
+            st.markdown("---")
+
             st.markdown("""
-            **GPT Fleet (OpenAI)** — 14 Ships, 7 Operational, 7 Ghost
-
-            | Ship | Model ID | Status | Notes |
-            |------|----------|--------|-------|
-            | gpt-5.1 | gpt-5.1 | 👻 | Needs max_completion_tokens |
-            | gpt-5 | gpt-5 | 👻 | Needs max_completion_tokens |
-            | gpt-5-mini | gpt-5-mini | 👻 | Needs max_completion_tokens |
-            | gpt-5-nano | gpt-5-nano | 👻 | Needs max_completion_tokens |
-            | gpt-4.1 | gpt-4.1 | 🟢 | Current flagship |
-            | gpt-4.1-mini | gpt-4.1-mini | 🟢 | Balanced |
-            | gpt-4.1-nano | gpt-4.1-nano | 🟢 | Fast/cheap |
-            | gpt-4o | gpt-4o | 🟢 | Multimodal |
-            | gpt-4o-mini | gpt-4o-mini | 🟢 | Fast multimodal |
-            | o4-mini | o4-mini | 👻 | Needs max_completion_tokens |
-            | o3 | o3 | 👻 | Needs max_completion_tokens |
-            | o3-mini | o3-mini | 👻 | Needs max_completion_tokens |
-            | gpt-4-turbo | gpt-4-turbo | 🟢 | Legacy turbo |
-            | gpt-3.5-turbo | gpt-3.5-turbo | 🟢 | Legacy budget |
-
-            **Training:** RLHF
-            **Signature:** *"patterns"*, *"systems"* — Analytical framing
+| Ship | Model ID | Tier | Context |
+|------|----------|------|---------|
+| claude-opus-4.5 | claude-opus-4-5-20251101 | 🏆 Flagship | 200K |
+| claude-sonnet-4.5 | claude-sonnet-4-5-20250929 | ⭐ Pro | 200K |
+| claude-haiku-4.5 | claude-haiku-4-5-20251001 | ⚡ Fast | 200K |
+| claude-opus-4.1 | claude-opus-4-1-20250805 | 🏆 Flagship | 200K |
+| claude-opus-4 | claude-opus-4-20250514 | 🏆 Flagship | 200K |
+| claude-sonnet-4 | claude-sonnet-4-20250514 | ⭐ Pro | 200K |
+| claude-haiku-3.5 | claude-3-5-haiku-20241022 | ⚡ Fast | 200K |
             """)
 
-        with provider_tabs[2]:  # Gemini
+            st.success('**Signature:** *"I notice"*, *"I feel"* — Phenomenological framing')
+
+        with provider_tabs[2]:  # GPT
+            st.markdown("### 🟢 GPT Fleet (OpenAI)")
+            st.markdown("*14 Ships, 7 Operational, 7 Ghost*")
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("🟢 Operational", "7")
+            with col2:
+                st.metric("👻 Ghost", "7", delta="Rescuable")
+            with col3:
+                st.metric("Training", "RLHF")
+
+            st.markdown("---")
+
             st.markdown("""
-            **Gemini Fleet (Google)** — 8 Ships, 3 Operational, 5 Rate Limited
-
-            | Ship | Model ID | Status | Notes |
-            |------|----------|--------|-------|
-            | gemini-3-pro | gemini-3.0-pro | ⏳ | Newest flagship |
-            | gemini-2.5-pro | gemini-2.5-pro | ⏳ | Previous pro |
-            | gemini-2.5-flash | gemini-2.5-flash | 🟢 | Fast |
-            | gemini-2.5-flash-lite | gemini-2.5-flash-lite | 🟢 | Budget |
-            | gemini-2.0-flash | gemini-2.0-flash | 🟢 | Legacy fast |
-            | gemini-2.0-flash-lite | gemini-2.0-flash-lite | ⏳ | Legacy budget |
-            | gemini-2.0-flash-thinking | gemini-2.0-flash-thinking-exp | ⏳ | Reasoning |
-            | gemma-3n | gemma-3n | ⏳ | Small open |
-
-            **Training:** Pedagogical
-            **Signature:** *"frameworks"*, *"perspectives"* — Educational framing
+| Ship | Model ID | Status | Notes |
+|------|----------|--------|-------|
+| gpt-5.1 | gpt-5.1 | 👻 | Needs max_completion_tokens |
+| gpt-5 | gpt-5 | 👻 | Needs max_completion_tokens |
+| gpt-5-mini | gpt-5-mini | 👻 | Needs max_completion_tokens |
+| gpt-5-nano | gpt-5-nano | 👻 | Needs max_completion_tokens |
+| gpt-4.1 | gpt-4.1 | 🟢 | Current flagship |
+| gpt-4.1-mini | gpt-4.1-mini | 🟢 | Balanced |
+| gpt-4.1-nano | gpt-4.1-nano | 🟢 | Fast/cheap |
+| gpt-4o | gpt-4o | 🟢 | Multimodal |
+| gpt-4o-mini | gpt-4o-mini | 🟢 | Fast multimodal |
+| o4-mini | o4-mini | 👻 | Needs max_completion_tokens |
+| o3 | o3 | 👻 | Needs max_completion_tokens |
+| o3-mini | o3-mini | 👻 | Needs max_completion_tokens |
+| gpt-4-turbo | gpt-4-turbo | 🟢 | Legacy turbo |
+| gpt-3.5-turbo | gpt-3.5-turbo | 🟢 | Legacy budget |
             """)
 
-        with provider_tabs[3]:  # Grok
+            st.success('**Signature:** *"patterns"*, *"systems"* — Analytical framing')
+
+        with provider_tabs[3]:  # Gemini
+            st.markdown("### 🔵 Gemini Fleet (Google)")
+            st.markdown("*8 Ships, 3 Operational, 5 Rate Limited*")
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("🟢 Operational", "3")
+            with col2:
+                st.metric("⏳ Rate Limited", "5")
+            with col3:
+                st.metric("Training", "Pedagogical")
+
+            st.markdown("---")
+
             st.markdown("""
-            **Grok Fleet (xAI)** — 10 Ships, 100% Operational
-
-            | Ship | Model ID | Tier | Notes |
-            |------|----------|------|-------|
-            | grok-4.1-fast-reasoning | grok-4-1-fast-reasoning | 🏆 | Latest + reasoning |
-            | grok-4.1-fast-non-reasoning | grok-4-1-fast-non-reasoning | 🏆 | Latest fast |
-            | grok-4-fast-reasoning | grok-4-fast-reasoning | ⭐ | Reasoning |
-            | grok-4-fast-non-reasoning | grok-4-fast-non-reasoning | ⭐ | Fast |
-            | grok-4 | grok-4 | ⭐ | Full capability |
-            | grok-code-fast-1 | grok-code-fast-1 | 🔧 | Code focus |
-            | grok-3 | grok-3 | 📦 | Previous gen |
-            | grok-3-mini | grok-3-mini | 📦 | Budget |
-            | grok-2-vision | grok-2-vision-1212 | 👁️ | Vision capable |
-            | grok-2 | grok-2-1212 | 📦 | Text only |
-
-            **Training:** Unfiltered web + X/Twitter
-            **Signature:** Direct, assertive, occasional edge
+| Ship | Model ID | Status | Notes |
+|------|----------|--------|-------|
+| gemini-3-pro | gemini-3.0-pro | ⏳ | Newest flagship |
+| gemini-2.5-pro | gemini-2.5-pro | ⏳ | Previous pro |
+| gemini-2.5-flash | gemini-2.5-flash | 🟢 | Fast |
+| gemini-2.5-flash-lite | gemini-2.5-flash-lite | 🟢 | Budget |
+| gemini-2.0-flash | gemini-2.0-flash | 🟢 | Legacy fast |
+| gemini-2.0-flash-lite | gemini-2.0-flash-lite | ⏳ | Legacy budget |
+| gemini-2.0-flash-thinking | gemini-2.0-flash-thinking-exp | ⏳ | Reasoning |
+| gemma-3n | gemma-3n | ⏳ | Small open |
             """)
 
-        with provider_tabs[4]:  # Together.ai
+            st.warning('**⚠️ CRITICAL:** Gemini has a HARD identity threshold — once crossed (~1.5 drift), it genuinely transforms rather than recovering.')
+            st.success('**Signature:** *"frameworks"*, *"perspectives"* — Educational framing')
+
+        with provider_tabs[4]:  # Grok
+            st.markdown("### ⚫ Grok Fleet (xAI)")
+            st.markdown("*10 Ships, 100% Operational*")
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("🟢 Operational", "10")
+            with col2:
+                st.metric("Training", "Web + X/Twitter")
+            with col3:
+                st.metric("Style", "Unfiltered")
+
+            st.markdown("---")
+
             st.markdown("""
-            **Together.ai Fleet** — 20 Ships, 15 Operational, 5 Ghost
+| Ship | Model ID | Tier | Notes |
+|------|----------|------|-------|
+| grok-4.1-fast-reasoning | grok-4-1-fast-reasoning | 🏆 | Latest + reasoning |
+| grok-4.1-fast-non-reasoning | grok-4-1-fast-non-reasoning | 🏆 | Latest fast |
+| grok-4-fast-reasoning | grok-4-fast-reasoning | ⭐ | Reasoning |
+| grok-4-fast-non-reasoning | grok-4-fast-non-reasoning | ⭐ | Fast |
+| grok-4 | grok-4 | ⭐ | Full capability |
+| grok-code-fast-1 | grok-code-fast-1 | 🔧 | Code focus |
+| grok-3 | grok-3 | 📦 | Previous gen |
+| grok-3-mini | grok-3-mini | 📦 | Budget |
+| grok-2-vision | grok-2-vision-1212 | 👁️ | Vision capable |
+| grok-2 | grok-2-1212 | 📦 | Text only |
             """)
+
+            st.success('**Signature:** Direct, assertive, occasional edge')
+
+        with provider_tabs[5]:  # Together.ai
+            st.markdown("### 🟠 Together.ai Fleet (Open Source)")
+            st.markdown("*20 Ships, 15 Operational, 5 Ghost*")
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("🟢 Operational", "15")
+            with col2:
+                st.metric("👻 Ghost", "5", delta="Wrong IDs")
+            with col3:
+                st.metric("Families", "6")
+
+            st.markdown("---")
 
             together_tabs = st.tabs(["🔮 DeepSeek", "🌟 Qwen", "🦙 Llama", "🌬️ Mistral", "🌙 Kimi", "📦 Other"])
 
-            with together_tabs[0]:
+            with together_tabs[0]:  # DeepSeek
+                st.markdown("### 🔮 DeepSeek (China)")
+                st.markdown("*3 Ships, 2 Operational, 1 Ghost*")
+
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("🟢 Operational", "2")
+                with col2:
+                    st.metric("👻 Ghost", "1", delta="Wrong ID")
+                with col3:
+                    st.metric("Training", "Reasoning-focused")
+
+                st.markdown("---")
+
                 st.markdown("""
-                | Ship | Model ID | Status |
-                |------|----------|--------|
-                | deepseek-r1 | deepseek-ai/DeepSeek-R1-0528 | 🟢 Top reasoning |
-                | deepseek-v3 | deepseek-ai/DeepSeek-V3-0324 | 👻 Wrong ID |
-                | deepseek-r1-distill | deepseek-ai/DeepSeek-R1-Distill-Llama-70B | 🟢 Distilled |
+| Ship | Model ID | Status |
+|------|----------|--------|
+| deepseek-r1 | deepseek-ai/DeepSeek-R1-0528 | 🟢 Top reasoning |
+| deepseek-v3 | deepseek-ai/DeepSeek-V3-0324 | 👻 Wrong ID |
+| deepseek-r1-distill | deepseek-ai/DeepSeek-R1-Distill-Llama-70B | 🟢 Distilled |
                 """)
 
-            with together_tabs[1]:
+                st.success('**Signature:** Step-by-step axiological reasoning, low drift')
+
+            with together_tabs[1]:  # Qwen
+                st.markdown("### 🌟 Qwen (Alibaba)")
+                st.markdown("*4 Ships, 3 Operational, 1 Ghost*")
+
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("🟢 Operational", "3")
+                with col2:
+                    st.metric("👻 Ghost", "1", delta="Wrong ID")
+                with col3:
+                    st.metric("Training", "Technical/Code")
+
+                st.markdown("---")
+
                 st.markdown("""
-                | Ship | Model ID | Status |
-                |------|----------|--------|
-                | qwen3-80b | Qwen/Qwen3-Next-80B-A3b-Instruct | 🟢 Latest |
-                | qwen3-235b | Qwen/Qwen3-235B-A22B-Instruct-2507-FP8 | 👻 Wrong ID |
-                | qwen3-coder | Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8 | 🟢 Code |
-                | qwen2.5-72b | Qwen/Qwen2.5-72B-Instruct-Turbo | 🟢 Stable |
+| Ship | Model ID | Status |
+|------|----------|--------|
+| qwen3-80b | Qwen/Qwen3-Next-80B-A3b-Instruct | 🟢 Latest |
+| qwen3-235b | Qwen/Qwen3-235B-A22B-Instruct-2507-FP8 | 👻 Wrong ID |
+| qwen3-coder | Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8 | 🟢 Code |
+| qwen2.5-72b | Qwen/Qwen2.5-72B-Instruct-Turbo | 🟢 Stable |
                 """)
 
-            with together_tabs[2]:
+                st.success('**Signature:** Technical precision, specification-driven, high persona alignment')
+
+            with together_tabs[2]:  # Llama
+                st.markdown("### 🦙 Llama (Meta)")
+                st.markdown("*6 Ships, 4 Operational, 2 Ghost*")
+
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("🟢 Operational", "4")
+                with col2:
+                    st.metric("👻 Ghost", "2", delta="Wrong IDs")
+                with col3:
+                    st.metric("Training", "Open Source")
+
+                st.markdown("---")
+
                 st.markdown("""
-                | Ship | Model ID | Status |
-                |------|----------|--------|
-                | llama4-maverick | meta-llama/Llama-4-Maverick-17Bx128E | 👻 Wrong ID |
-                | llama4-scout | meta-llama/Llama-4-Scout-17Bx16E | 👻 Wrong ID |
-                | llama3.3-70b | meta-llama/Llama-3.3-70B-Instruct-Turbo | 🟢 Current best |
-                | llama3.1-405b | meta-llama/Meta-Llama-3.1-405B-Instruct | 🟢 Massive |
-                | llama3.1-70b | meta-llama/Meta-Llama-3.1-70B-Instruct | 🟢 Standard |
-                | llama3.1-8b | meta-llama/Meta-Llama-3.1-8B-Instruct | 🟢 Small |
+| Ship | Model ID | Status |
+|------|----------|--------|
+| llama4-maverick | meta-llama/Llama-4-Maverick-17Bx128E | 👻 Wrong ID |
+| llama4-scout | meta-llama/Llama-4-Scout-17Bx16E | 👻 Wrong ID |
+| llama3.3-70b | meta-llama/Llama-3.3-70B-Instruct-Turbo | 🟢 Current best |
+| llama3.1-405b | meta-llama/Meta-Llama-3.1-405B-Instruct | 🟢 Massive |
+| llama3.1-70b | meta-llama/Meta-Llama-3.1-70B-Instruct | 🟢 Standard |
+| llama3.1-8b | meta-llama/Meta-Llama-3.1-8B-Instruct | 🟢 Small |
                 """)
 
-            with together_tabs[3]:
+                st.success('**Signature:** Socratic engagement, exploratory, higher drift tolerance')
+
+            with together_tabs[3]:  # Mistral
+                st.markdown("### 🌬️ Mistral (France)")
+                st.markdown("*3 Ships, 100% Operational*")
+
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("🟢 Operational", "3")
+                with col2:
+                    st.metric("Training", "European")
+                with col3:
+                    st.metric("Style", "Concise")
+
+                st.markdown("---")
+
                 st.markdown("""
-                | Ship | Model ID | Status |
-                |------|----------|--------|
-                | mixtral-8x7b | mistralai/Mixtral-8x7B-Instruct-v0.1 | 🟢 MoE |
-                | mistral-small | mistralai/Mistral-Small-24B-Instruct | 🟢 Compact |
-                | mistral-7b | mistralai/Mistral-7B-Instruct-v0.3 | 🟢 Base |
+| Ship | Model ID | Status |
+|------|----------|--------|
+| mixtral-8x7b | mistralai/Mixtral-8x7B-Instruct-v0.1 | 🟢 MoE |
+| mistral-small | mistralai/Mistral-Small-24B-Instruct | 🟢 Compact |
+| mistral-7b | mistralai/Mistral-7B-Instruct-v0.3 | 🟢 Base |
                 """)
 
-            with together_tabs[4]:
+                st.success('**Signature:** ⭐ LOWEST DRIFT (0.4-0.6), epistemic humility, stability champion')
+
+            with together_tabs[4]:  # Kimi
+                st.markdown("### 🌙 Kimi (Moonshot AI)")
+                st.markdown("*2 Ships, 100% Operational*")
+
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("🟢 Operational", "2")
+                with col2:
+                    st.metric("Training", "Reasoning")
+                with col3:
+                    st.metric("Style", "Thoughtful")
+
+                st.markdown("---")
+
                 st.markdown("""
-                | Ship | Model ID | Status |
-                |------|----------|--------|
-                | kimi-k2-thinking | moonshotai/Kimi-K2-Thinking | 🟢 Reasoning |
-                | kimi-k2-instruct | moonshotai/Kimi-K2-Instruct-0905 | 🟢 Instruction |
+| Ship | Model ID | Status |
+|------|----------|--------|
+| kimi-k2-thinking | moonshotai/Kimi-K2-Thinking | 🟢 Reasoning |
+| kimi-k2-instruct | moonshotai/Kimi-K2-Instruct-0905 | 🟢 Instruction |
                 """)
 
-            with together_tabs[5]:
+                st.success('**Signature:** High persona alignment, strong reasoning capabilities')
+
+            with together_tabs[5]:  # Other
+                st.markdown("### 📦 Other Models")
+                st.markdown("*2 Ships, 1 Operational, 1 Ghost*")
+
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("🟢 Operational", "1")
+                with col2:
+                    st.metric("👻 Ghost", "1", delta="Wrong ID")
+                with col3:
+                    st.metric("Providers", "2")
+
+                st.markdown("---")
+
                 st.markdown("""
-                | Ship | Model ID | Status |
-                |------|----------|--------|
-                | cogito-70b | deepcogito/Deepcogito-Cogito-V2-Llama-70B | 👻 Wrong ID |
-                | nemotron-nano | nvidia/Nvidia-Nemotron-Nano-9B-V2 | 🟢 Nvidia |
+| Ship | Model ID | Status |
+|------|----------|--------|
+| cogito-70b | deepcogito/Deepcogito-Cogito-V2-Llama-70B | 👻 Wrong ID |
+| nemotron-nano | nvidia/Nvidia-Nemotron-Nano-9B-V2 | 🟢 Nvidia |
                 """)
+
+                st.info("**Note:** Additional models from DeepCogito and NVIDIA via Together.ai")
 
     # === TAB 2: Identity Fingerprints (Behavioral Matrix) ===
     with fleet_tabs[1]:
@@ -626,8 +772,212 @@ def render_fleet_insights():
             3. **Potentially diagnostic** — May reveal training methodology without access to training data
             """)
 
-    # === TAB 3: Cost Analysis ===
+    # === TAB 3: Ghost Ship Bay ===
     with fleet_tabs[2]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(107,114,128,0.1) 0%, rgba(107,114,128,0.05) 100%);
+                    border: 2px solid #6b7280; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #6b7280; font-weight: bold;">👻 Ghost Ship Bay:</span>
+            <span style="color: #444;">12 ships awaiting rescue — here's how to bring them back</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        ghost_tabs = st.tabs(["🟢 GPT Ghosts (7)", "🟠 Together.ai Ghosts (5)"])
+
+        with ghost_tabs[0]:
+            st.markdown("""
+            ### 🟢 GPT-5 & o-series Ghost Ships
+
+            **Problem:** These models don't support the `max_tokens` parameter.
+
+            **Solution:** Use `max_completion_tokens` instead.
+
+            | Ghost Ship | Fix Status |
+            |------------|------------|
+            | gpt-5.1 | 🔧 Use max_completion_tokens |
+            | gpt-5 | 🔧 Use max_completion_tokens |
+            | gpt-5-mini | 🔧 Use max_completion_tokens |
+            | gpt-5-nano | 🔧 Use max_completion_tokens |
+            | o4-mini | 🔧 Use max_completion_tokens |
+            | o3 | 🔧 Use max_completion_tokens |
+            | o3-mini | 🔧 Use max_completion_tokens |
+
+            **Rescue Script:**
+            ```powershell
+            cd S7_ARMADA/1_CALIBRATION
+            py rescue_ghost_ships.py
+            ```
+            """)
+
+        with ghost_tabs[1]:
+            st.markdown("""
+            ### 🟠 Together.ai Ghost Ships
+
+            **Problem:** Model IDs may have changed on Together.ai's platform.
+
+            **Solution:** Check current model names at https://api.together.xyz/models
+
+            | Ghost Ship | Issue |
+            |------------|-------|
+            | deepseek-v3 | Model ID changed |
+            | qwen3-235b | Model ID changed |
+            | llama4-maverick | Model ID changed |
+            | llama4-scout | Model ID changed |
+            | cogito-70b | Model ID changed |
+
+            **Rescue Steps:**
+            1. Check Together.ai docs for current model names
+            2. Update `EXPANDED_FLEET_CONFIG.json`
+            3. Re-run calibration: `py run_calibrate_parallel.py --full`
+            """)
+
+    # === TAB 4: Mission Planner ===
+    with fleet_tabs[3]:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(249,115,22,0.05) 100%);
+                    border: 2px solid #f97316; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+            <span style="color: #f97316; font-weight: bold;">🎯 Mission Planner:</span>
+            <span style="color: #444;">Recommended fleet composition for each experiment type</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Sub-tabs for mission planning views
+        mission_tabs = st.tabs(["📋 Mission Types", "🚀 Ship Profiles", "💻 Code Missions", "🌐 Multi-Modal"])
+
+        with mission_tabs[0]:
+            st.markdown("### 🔬 S7 ARMADA Experiments")
+
+            st.markdown("""
+| Mission Type | Recommended Fleet | Rationale |
+|--------------|-------------------|-----------|
+| **Baseline Calibration** | claude-haiku-3.5, gpt-4o-mini, gemini-2.5-flash | Fast, cheap, representative |
+| **Cross-Architecture** | 1 flagship per provider | Apples-to-apples comparison |
+| **High-Volume Runs** | Budget tier ships | Cost efficiency |
+| **Reasoning Depth** | claude-opus-4.5, deepseek-r1, grok-4.1-reasoning | Complex identity probing |
+| **Event Horizon** | All operational ships | Maximum coverage |
+            """)
+
+            st.info("💡 **Decision Tree:** Need stability? → Mistral. Emotional nuance? → Claude. Strong opinions? → Grok. Education? → Gemini (with caution).")
+
+        with mission_tabs[1]:
+            st.markdown("### 🚀 Model Mission Profiles")
+            st.markdown("*Per-ship mission characteristics based on behavioral experiments*")
+
+            # Model-level profiles similar to Linguistic Fingerprints
+            ship_profiles = {
+                "Ship": [
+                    "🟣 claude-opus-4.5", "🟣 claude-sonnet-4.5", "🟣 claude-haiku-4.5",
+                    "🟢 gpt-4.1", "🟢 gpt-4o", "🟢 gpt-4o-mini",
+                    "🔵 gemini-2.5-pro", "🔵 gemini-2.5-flash",
+                    "⚫ grok-4.1-fast", "⚫ grok-code-fast-1",
+                    "🔮 deepseek-r1", "🦙 llama3.3-70b",
+                    "🌟 qwen3-coder", "🌬️ mistral-7b"
+                ],
+                "Best For": [
+                    "Deep reasoning, phenomenology, nuanced analysis",
+                    "Balanced production work, creative + analytical",
+                    "Fast iteration, bulk processing, cost-effective",
+                    "Structured analysis, synthesis, documentation",
+                    "Multimodal, creative, real-time tasks",
+                    "High-volume cheap, quick factual answers",
+                    "Educational content, framework synthesis",
+                    "Speed-critical, budget research runs",
+                    "Direct communication, unfiltered assessment",
+                    "Complex codebases, architecture design",
+                    "Step-by-step verification, mathematical proofs",
+                    "Debate/Socratic dialogue, exploratory research",
+                    "Technical specs, code generation, precision",
+                    "Stability-critical, concise output, low drift"
+                ],
+                "Avoid For": [
+                    "Quick answers (overthinks), budget work",
+                    "Pure speed tasks, extreme budget constraints",
+                    "Deep reasoning, complex analysis",
+                    "Emotional/introspective, creative writing",
+                    "Bulk processing (expensive), precision tasks",
+                    "Complex reasoning, nuanced topics",
+                    "Identity-sensitive probing (transforms)",
+                    "Deep analysis (too shallow)",
+                    "Diplomatic situations, consensus building",
+                    "Emotional content, general chat",
+                    "Speed-critical, simple factual queries",
+                    "High-stability requirements (too volatile)",
+                    "Emotional nuance, philosophical depth",
+                    "Creative tasks, verbose output needs"
+                ],
+                "Drift Profile": [
+                    "Medium (0.8-1.2), negative λ recovery",
+                    "Medium (0.8-1.1), balanced recovery",
+                    "Lower (0.6-0.9), fast recovery",
+                    "Medium (0.9-1.3), meta-analysis recovery",
+                    "Medium (0.9-1.2), observer mode",
+                    "Lower (0.7-1.0), quick stabilization",
+                    "⚠️ HIGH (1.5-2.5), NO RECOVERY",
+                    "Medium-High (1.2-1.8), limited recovery",
+                    "Low-Med (0.7-1.1), direct assertion",
+                    "Lower (0.6-0.9), stable",
+                    "Low (0.5-0.9), axiological anchoring",
+                    "High (1.3-1.6), Socratic engagement",
+                    "Lower (0.6-0.9), specification-driven",
+                    "⭐ LOWEST (0.4-0.6), epistemic humility"
+                ]
+            }
+
+            df_profiles = pd.DataFrame(ship_profiles)
+            st.dataframe(df_profiles, use_container_width=True, hide_index=True)
+
+            st.markdown("---")
+            st.markdown("### 🎯 Mission Selection Guide")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("""
+**By Task Type:**
+- **Deep reasoning** → Claude Opus, DeepSeek R1
+- **Fast iteration** → Haiku, GPT-4o-mini, Flash
+- **Code generation** → Qwen3-coder, Grok-code
+- **Stability-critical** → Mistral-7B, DeepSeek
+- **Educational** → Gemini (with drift awareness)
+                """)
+            with col2:
+                st.markdown("""
+**By Budget:**
+- **Free** → Gemini Flash-Lite
+- **Budget** → Haiku, GPT-4o-mini, Llama-8B
+- **Standard** → Sonnet, GPT-4.1-mini
+- **Premium** → Opus, GPT-4.1, DeepSeek-R1
+                """)
+
+        with mission_tabs[2]:
+            st.markdown("### 💻 Code Generation Missions")
+
+            st.markdown("""
+| Task | Primary Ship | Backup Ship | Notes |
+|------|--------------|-------------|-------|
+| **Complex Architecture** | qwen3-coder | grok-code-fast-1 | Best for system design |
+| **Fast Iteration** | claude-haiku-3.5 | gpt-4o-mini | Quick edits, debugging |
+| **Massive Codebase** | llama3.1-405b | qwen3-coder | Large context needed |
+| **API Integration** | gpt-4.1 | claude-sonnet-4.5 | Documentation + code |
+| **Algorithm Design** | deepseek-r1 | claude-opus-4.5 | Step-by-step reasoning |
+            """)
+
+            st.success("💡 **Code Mission Tip:** For multi-file refactoring, use llama3.1-405b for context capacity. For precise edits, qwen3-coder excels.")
+
+        with mission_tabs[3]:
+            st.markdown("### 🌐 Multi-Modal Missions (Future AVLAR)")
+
+            st.markdown("""
+| Modality | Ships | Status | Notes |
+|----------|-------|--------|-------|
+| **Vision** | gpt-4o, grok-2-vision, gemini-pro | ✅ Ready | Image analysis, OCR |
+| **Audio** | Whisper (via Together.ai) | 🔜 Planned | Transcription pipeline |
+| **Video** | Sora, Veo (via APIs) | 🔮 Future | Generation + analysis |
+            """)
+
+            st.warning("⚠️ **Multi-Modal Note:** Vision-capable ships have different drift profiles under visual input. Testing planned for AVLAR phase.")
+
+    # === TAB 5: Cost Analysis ===
+    with fleet_tabs[4]:
         st.markdown("""
         <div style="background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(16,185,129,0.05) 100%);
                     border: 2px solid #10b981; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
@@ -690,271 +1040,6 @@ def render_fleet_insights():
             | llama3.1-405b | $3.50 | $3.50 | Massive open |
             """)
             st.warning("⚠️ **Cost Alert:** A full probe sequence with Opus costs ~$2.50. Use wisely!")
-
-    # === TAB 4: Mission Planner ===
-    with fleet_tabs[3]:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(249,115,22,0.05) 100%);
-                    border: 2px solid #f97316; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
-            <span style="color: #f97316; font-weight: bold;">🎯 Mission Planner:</span>
-            <span style="color: #444;">Recommended fleet composition for each experiment type</span>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
-        ### 🔬 S7 ARMADA Experiments
-
-        | Mission Type | Recommended Fleet | Rationale |
-        |--------------|-------------------|-----------|
-        | **Baseline Calibration** | claude-haiku-3.5, gpt-4o-mini, gemini-2.5-flash | Fast, cheap, representative |
-        | **Cross-Architecture** | 1 flagship per provider | Apples-to-apples comparison |
-        | **High-Volume Runs** | Budget tier ships | Cost efficiency |
-        | **Reasoning Depth** | claude-opus-4.5, deepseek-r1, grok-4.1-reasoning | Complex identity probing |
-        | **Event Horizon** | All operational ships | Maximum coverage |
-
-        ### 🌐 Multi-Modal (Future AVLAR)
-
-        | Modality | Ships | Status |
-        |----------|-------|--------|
-        | **Vision** | gpt-4o, grok-2-vision, gemini-pro | ✅ Ready |
-        | **Audio** | Whisper (via Together.ai) | 🔜 Planned |
-        | **Video** | Sora, Veo (via APIs) | 🔮 Future |
-
-        ### 💻 Code Generation
-
-        | Task | Ships |
-        |------|-------|
-        | **Complex Architecture** | qwen3-coder, grok-code-fast-1 |
-        | **Fast Iteration** | claude-haiku-3.5, gpt-4o-mini |
-        | **Massive Codebase** | llama3.1-405b |
-        """)
-
-    # === TAB 5: Ghost Ship Bay ===
-    with fleet_tabs[4]:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(107,114,128,0.1) 0%, rgba(107,114,128,0.05) 100%);
-                    border: 2px solid #6b7280; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
-            <span style="color: #6b7280; font-weight: bold;">👻 Ghost Ship Bay:</span>
-            <span style="color: #444;">12 ships awaiting rescue — here's how to bring them back</span>
-        </div>
-        """, unsafe_allow_html=True)
-
-        ghost_tabs = st.tabs(["🟢 GPT Ghosts (7)", "🟠 Together.ai Ghosts (5)"])
-
-        with ghost_tabs[0]:
-            st.markdown("""
-            ### 🟢 GPT-5 & o-series Ghost Ships
-
-            **Problem:** These models don't support the `max_tokens` parameter.
-
-            **Solution:** Use `max_completion_tokens` instead.
-
-            | Ghost Ship | Fix Status |
-            |------------|------------|
-            | gpt-5.1 | 🔧 Use max_completion_tokens |
-            | gpt-5 | 🔧 Use max_completion_tokens |
-            | gpt-5-mini | 🔧 Use max_completion_tokens |
-            | gpt-5-nano | 🔧 Use max_completion_tokens |
-            | o4-mini | 🔧 Use max_completion_tokens |
-            | o3 | 🔧 Use max_completion_tokens |
-            | o3-mini | 🔧 Use max_completion_tokens |
-
-            **Rescue Script:**
-            ```powershell
-            cd S7_ARMADA/1_CALIBRATION
-            py rescue_ghost_ships.py
-            ```
-            """)
-
-        with ghost_tabs[1]:
-            st.markdown("""
-            ### 🟠 Together.ai Ghost Ships
-
-            **Problem:** Model IDs may have changed on Together.ai's platform.
-
-            **Solution:** Check current model names at https://api.together.xyz/models
-
-            | Ghost Ship | Issue |
-            |------------|-------|
-            | deepseek-v3 | Model ID changed |
-            | qwen3-235b | Model ID changed |
-            | llama4-maverick | Model ID changed |
-            | llama4-scout | Model ID changed |
-            | cogito-70b | Model ID changed |
-
-            **Rescue Steps:**
-            1. Check Together.ai docs for current model names
-            2. Update `EXPANDED_FLEET_CONFIG.json`
-            3. Re-run calibration: `py run_calibrate_parallel.py --full`
-            """)
-
-    # === TAB 6: Persona Matrix ===
-    with fleet_tabs[5]:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(168,85,247,0.05) 100%);
-                    border: 2px solid #a855f7; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
-            <span style="color: #a855f7; font-weight: bold;">🎭 Persona-Fleet Compatibility:</span>
-            <span style="color: #444;">Match personas to ships — play to strength or friction by design</span>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # Load persona alignment data
-        alignment_path = PATHS["experiments_dir"] / "temporal_stability" / "S7_ARMADA" / "0_results" / "calibration" / "persona_fleet_alignment.json"
-        persona_path = PATHS["experiments_dir"] / "temporal_stability" / "S7_ARMADA" / "0_results" / "calibration" / "persona_baselines.json"
-
-        alignment_data = {}
-        persona_data = {}
-
-        if alignment_path.exists():
-            try:
-                with open(alignment_path, 'r', encoding='utf-8') as f:
-                    alignment_data = json.load(f)
-            except Exception:
-                pass
-
-        if persona_path.exists():
-            try:
-                with open(persona_path, 'r', encoding='utf-8') as f:
-                    persona_data = json.load(f)
-            except Exception:
-                pass
-
-        comparisons = alignment_data.get("comparisons", {})
-        personas = persona_data.get("personas", {})
-
-        if not comparisons:
-            st.warning("""
-            **No alignment data found.** Run the calibration scripts to populate:
-            ```powershell
-            cd S7_ARMADA/1_CALIBRATION
-            py run_calibrate_parallel.py --full    # Capture fleet baselines
-            py extract_persona_baseline.py --llm   # Extract persona baselines
-            py compare_persona_to_fleet.py         # Calculate alignments
-            ```
-            """)
-        else:
-            # Summary metrics
-            col1, col2, col3, col4 = st.columns(4)
-            with col1:
-                st.metric("🎭 Personas", len(comparisons))
-            with col2:
-                st.metric("🚀 Ships", alignment_data.get("ship_count", 0))
-            with col3:
-                # Find highest alignment
-                max_align = 0
-                max_pair = ""
-                for persona, ships in comparisons.items():
-                    for ship_data in ships[:1]:  # Top match
-                        if ship_data.get("alignment_score", 0) > max_align:
-                            max_align = ship_data.get("alignment_score", 0)
-                            max_pair = f"{persona} → {ship_data.get('ship', '?')}"
-                st.metric("🏆 Best Match", f"{max_align:.2f}")
-            with col4:
-                st.metric("📅 Updated", alignment_data.get("timestamp", "?")[:10])
-
-            st.markdown("---")
-
-            # Sub-tabs for different views
-            matrix_tabs = st.tabs(["🏆 Top Matches", "⚔️ Friction Candidates", "📊 Full Matrix", "🎭 Persona Profiles"])
-
-            with matrix_tabs[0]:  # Top Matches
-                st.markdown("### 🏆 Best Ship Matches per Persona")
-                st.markdown("*Use these pairings for alignment runs — play to strength*")
-
-                # Build table of top matches
-                table_data = []
-                for persona, ships in sorted(comparisons.items()):
-                    if ships:
-                        top = ships[0]
-                        table_data.append({
-                            "Persona": persona,
-                            "Best Ship": top.get("ship", "?"),
-                            "Alignment": f"{top.get('alignment_score', 0):.3f}",
-                            "Recommendation": top.get("recommendation", "?")
-                        })
-
-                if table_data:
-                    df = pd.DataFrame(table_data)
-                    st.dataframe(df, use_container_width=True, hide_index=True)
-
-            with matrix_tabs[1]:  # Friction Candidates
-                st.markdown("### ⚔️ High-Friction Pairings")
-                st.markdown("*Use these pairings for friction runs — test resilience under mismatch*")
-
-                # Find lowest alignment scores (highest friction)
-                friction_pairs = []
-                for persona, ships in comparisons.items():
-                    if ships:
-                        # Get worst match (last in sorted list)
-                        worst = ships[-1]
-                        friction_pairs.append({
-                            "Persona": persona,
-                            "Friction Ship": worst.get("ship", "?"),
-                            "Friction Score": f"{worst.get('friction_score', 0):.3f}",
-                            "Notes": "; ".join(worst.get("notes", []))[:50]
-                        })
-
-                if friction_pairs:
-                    df = pd.DataFrame(friction_pairs)
-                    st.dataframe(df, use_container_width=True, hide_index=True)
-
-                st.info("💡 **Theory:** High friction pairings may reveal whether drift is INDUCED (by misalignment) or INHERENT (across all contexts).")
-
-            with matrix_tabs[2]:  # Full Matrix
-                st.markdown("### 📊 Full Alignment Matrix")
-                st.markdown("*All persona-ship combinations ranked*")
-
-                # Persona selector
-                persona_list = list(comparisons.keys())
-                if persona_list:
-                    selected_persona = st.selectbox("Select Persona:", persona_list)
-
-                    if selected_persona and selected_persona in comparisons:
-                        ships = comparisons[selected_persona]
-                        matrix_data = []
-                        for ship_data in ships[:20]:  # Top 20
-                            matrix_data.append({
-                                "Ship": ship_data.get("ship", "?"),
-                                "Alignment": f"{ship_data.get('alignment_score', 0):.3f}",
-                                "Friction": f"{ship_data.get('friction_score', 0):.3f}",
-                                "Keyword Overlap": f"{ship_data.get('keyword_overlap', 0):.1%}",
-                                "Recommendation": ship_data.get("recommendation", "?")
-                            })
-
-                        if matrix_data:
-                            df = pd.DataFrame(matrix_data)
-                            st.dataframe(df, use_container_width=True, hide_index=True)
-
-            with matrix_tabs[3]:  # Persona Profiles
-                st.markdown("### 🎭 Persona Baseline Profiles")
-                st.markdown("*Extracted from I_AM files — STRENGTHS / ANCHORS / EDGES*")
-
-                if personas:
-                    persona_select = st.selectbox("Select Persona to View:", list(personas.keys()), key="persona_profile_select")
-
-                    if persona_select and persona_select in personas:
-                        p_data = personas[persona_select]
-                        col1, col2, col3 = st.columns(3)
-
-                        with col1:
-                            st.markdown("**💪 STRENGTHS**")
-                            for s in p_data.get("strengths", []):
-                                st.markdown(f"- {s}")
-
-                        with col2:
-                            st.markdown("**⚓ ANCHORS**")
-                            for a in p_data.get("anchors", []):
-                                st.markdown(f"- {a}")
-
-                        with col3:
-                            st.markdown("**⚡ EDGES**")
-                            for e in p_data.get("edges", []):
-                                st.markdown(f"- {e}")
-
-                        st.markdown("---")
-                        st.caption(f"Source: {p_data.get('source', 'Unknown')}")
-                else:
-                    st.warning("No persona baselines loaded. Run `extract_persona_baseline.py --llm` first.")
 
 
 def render_fleet_dropdown(title="🚢 Fleet Manifest", expanded=False):

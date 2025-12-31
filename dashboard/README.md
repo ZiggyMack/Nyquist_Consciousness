@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-31
 depends_on:
   - config.py
   - NYQUIST_STATUS.json
@@ -8,6 +8,8 @@ impacts:
   - pages/Overview.py
   - pages/AI_ARMADA.py
   - pages/Publications.py
+  - pages/experiments.py
+  - pages/personas.py
 keywords:
   - streamlit
   - ledger_aesthetic
@@ -25,19 +27,43 @@ keywords:
 
 - **Overview** - At-a-glance stack status, freeze info, experiments
 - **Personas** - Browse all persona files with previews
-  - **Compression Testing Tab** - PFI experiments, pre-flight validation, Identity Matrix
-- **Tests** - Experiment framework with S7 protocol, compression results, Run mapping
+  - **Compression Testing Tab** - PFI experiments, pre-flight validation
+  - **Identity Matrix Tab** - Deep dive into identity physics
+  - **Persona-Fleet Matrix Tab** - Match personas to ships (NEW: moved from AI_ARMADA)
+- **Experiments** - Complete run glossary with all 16 experiments (006-023d), Visualization Gallery, methodology details
+- **AI Armada** - Fleet Command Center (54 ships, 5 providers, 10+ model families)
+  - Provider Status (Fleet Summary + per-provider breakdowns including Together.ai model families)
+  - Identity Fingerprints (Task Router, Recovery Matrix, Drift Profiles, Linguistic Fingerprints)
+  - Ghost Ship Bay (rescue scripts for API parameter issues)
+  - Mission Planner (recommended fleet composition)
+  - Cost Analysis (budget tiers)
 - **Stack (S0–S11)** - Individual wings for each layer with specs
-- **S7 Armada Visualizations** - Identity manifold graphs from Run 006-021
 - **Metrics & Comparisons** - PFI, σ², cross-architecture analysis
 - **Omega & Temporal** - Omega sessions and S7 temporal stability
 - **Cross-Modal / AVLAR** - S11 audio-visual ritual protocol
 - **FAQ** - Common questions + Super Skeptic Mode with adversarial challenges
 - **Roadmap** - Live S# stack progression
-- **Glossary** - Searchable terminology
-- **Publications** - Workshop, arXiv, journal status, theoretical breakthroughs, publication language guidance
 - **Glossary** - Searchable terminology with Control-Systems Era terms
+- **Publications** - Workshop, arXiv, journal status, theoretical breakthroughs, publication language guidance
 - **Unknown** - "Cathedral of Ideas" galleries (VALIDATED/FOUNDATIONS/SPECULATIVE/FRONTIERS)
+
+## 2025-12-31 Updates
+
+### Dashboard Reorganization
+
+- **Renamed `tests.py` → `experiments.py`** — One-stop shop for all experiment data
+  - Complete Run Glossary (Runs 006-023d) with era classification (IRON CLAD, LEGACY, DEPRECATED)
+  - Visualization Gallery with all 16 run categories
+  - Historical breadcrumbs ("Superseded by Run 008")
+- **AI ARMADA Slimmed** — Focus on Fleet Command, run content moved to Experiments
+  - Provider Status with per-provider banners (all 5 providers)
+  - Together.ai model families now have individual banners (DeepSeek, Qwen, Llama, Mistral, Kimi, Other)
+- **Persona Matrix moved** from AI_ARMADA to Personas page
+  - New "Persona-Fleet Matrix" tab after Identity Matrix
+  - Pastel-colored button cards for persona selection
+- **Fleet Summary metrics reordered**: Operational → Rate Limited → Ghost Ships → Providers → Total Fleet
+
+---
 
 ## 2025-12-15 Updates
 
@@ -899,6 +925,6 @@ Each "page" represents a different lens on the Nyquist Consciousness framework, 
 ---
 
 **Generated**: 2025-11-27
-**Updated**: 2025-12-29
-**Version**: 1.7
+**Updated**: 2025-12-31
+**Version**: 1.8
 **Status**: Mission Control Active — IRON CLAD methodology integrated (EH=0.80, 2 PCs)
