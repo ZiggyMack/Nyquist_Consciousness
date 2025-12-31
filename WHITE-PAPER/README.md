@@ -419,8 +419,8 @@ cd WHITE-PAPER/calibration
 # Full pipeline (recommended order: 0 → 1 → 2 → 3 → 4)
 py 0_sync_viz.py --sync --sync-pngs  # Sync visualizations
 py 1_sync_llmbook.py --sync          # Sync LLM_BOOK content
-py 2_package_review.py --all         # Sync .shared/ + extract packages
-py 3_generate_pdfs.py --from-review  # Generate publication PDFs
+py 2_generate_pdfs.py                # Generate publication PDFs
+py 3_package_review.py --all         # Sync .shared/ + extract packages
 py 4_publish_stats.py                # Extract stats for dashboard
 ```
 

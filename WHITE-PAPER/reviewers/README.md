@@ -64,22 +64,22 @@ reviewers/
 cd WHITE-PAPER/calibration
 
 # Show available paths and sizes
-py 2_package_review.py --status
+py 3_package_review.py --status
 
 # Extract single path (auto-syncs .shared/ first)
-py 2_package_review.py workshop
+py 3_package_review.py workshop
 
 # Extract multiple paths (auto-syncs .shared/ first)
-py 2_package_review.py workshop arxiv
+py 3_package_review.py workshop arxiv
 
 # Extract ALL paths (auto-syncs .shared/ first) ← RECOMMENDED
-py 2_package_review.py --all
+py 3_package_review.py --all
 
 # Sync ONLY .shared/ (no path packages)
-py 2_package_review.py --sync-shared
+py 3_package_review.py --sync-shared
 
 # Skip auto-sync if needed
-py 2_package_review.py --all --no-sync-shared
+py 3_package_review.py --all --no-sync-shared
 ```
 
 **Template Source:** `planning/reviewer_templates/` → `.shared/`

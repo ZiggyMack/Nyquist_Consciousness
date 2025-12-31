@@ -341,8 +341,9 @@ WHITE-PAPER/
 ├── calibration/                      # The pipeline that makes it real
 │   ├── 0_sync_viz.py                # Sync PDFs/PNGs + process feedback
 │   ├── 1_sync_llmbook.py            # Sync LLM_BOOK → packages/
-│   ├── 2_package_review.py          # Extract review packages (8 paths)
-│   └── 3_generate_pdfs.py           # Generate final PDFs
+│   ├── 2_generate_pdfs.py           # Generate final PDFs from markdown
+│   ├── 3_package_review.py          # Extract review packages (8 paths)
+│   └── 4_publish_stats.py           # Publication stats & blueprints
 │
 ├── submissions/                      # 8 PUBLICATION PATHS
 │   ├── workshop/                    # NeurIPS/AAAI (4-8 pages)

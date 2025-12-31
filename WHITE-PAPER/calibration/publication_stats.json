@@ -1,6 +1,25 @@
 {
-  "generated": "2025-12-26T07:41:15.279867",
+  "generated": "2025-12-31T11:13:57.328976",
   "white_paper_path": "D:\\Documents\\Nyquist_Consciousness\\WHITE-PAPER",
+  "iron_clad": {
+    "event_horizon": 0.8,
+    "inherent_drift_ratio": 0.93,
+    "experiments": 750,
+    "models": 25,
+    "providers": 5,
+    "p_value": 2.4e-23,
+    "cohens_d": 0.698,
+    "spearman_rho": 0.91,
+    "pcs_90_variance": 2,
+    "settling_times": {
+      "claude": "4-6",
+      "gpt": "3-5",
+      "deepseek": "2-4",
+      "llama": "5-7",
+      "mistral": "1-2",
+      "gemini": "\u221e (no recovery)"
+    }
+  },
   "claims": {
     "A": {
       "name": "PFI Validity",
@@ -13,7 +32,7 @@
     "B": {
       "name": "Regime Threshold",
       "status": "validated",
-      "description": "Critical threshold at D=0.80 (cosine)",
+      "description": "Critical threshold at D=0.8 (cosine)",
       "threshold": 0.8,
       "p_value": 2.4e-23
     },
@@ -31,10 +50,10 @@
       "stability": 0.975
     },
     "E": {
-      "name": "92% Inherent",
+      "name": "93% Inherent",
       "status": "validated",
       "description": "Drift is mostly inherent, not induced",
-      "ratio": 0.92
+      "ratio": 0.93
     }
   },
   "runs": {
@@ -52,6 +71,7 @@
     "workshop": 7,
     "references": 55,
     "theory_docs": 4,
+    "llm_book_docs": 14,
     "total_generated": 34
   },
   "submissions": {
@@ -94,18 +114,6 @@
       "directory": "submissions/journal/"
     }
   },
-  "key_statistics": {
-    "pfi_correlation": 0.91,
-    "pfi_effect_size": 0.698,
-    "threshold_d": 0.8,
-    "threshold_p": 2.4e-23,
-    "inherent_ratio": 0.92,
-    "stability_rate": 0.975,
-    "pcs_for_90_variance": 2,
-    "experiments": 750,
-    "providers_tested": 5,
-    "models_tested": 25
-  },
   "structure": {
     "theory": true,
     "guides": true,
@@ -113,6 +121,8 @@
     "figures": true,
     "reviewers": true,
     "submissions": true,
-    "calibration": true
+    "calibration": true,
+    "llm_book": true,
+    "consciousness": true
   }
 }

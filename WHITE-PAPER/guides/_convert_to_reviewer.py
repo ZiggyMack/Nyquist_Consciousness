@@ -4,11 +4,11 @@ _convert_to_reviewer.py - GUIDES PATH TRANSLATOR
 =================================================
 Converts repo-facing paths to reviewer-package paths in markdown files.
 
-Called by 2_package_review.py when extracting review packages.
+Called by 3_package_review.py when extracting review packages.
 
 USAGE:
 ------
-# As module (from 2_package_review.py)
+# As module (from 3_package_review.py)
 from guides._convert_to_reviewer import convert_content
 
 converted = convert_content(markdown_text)

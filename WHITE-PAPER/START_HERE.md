@@ -6,7 +6,7 @@ depends_on:
   - planning/OPUS_REVIEW_BRIEF.md
   - planning/METHODOLOGY_DOMAINS.md
   - planning/reviewer_templates/
-  - calibration/2_package_review.py
+  - calibration/3_package_review.py
 impacts:
   - submissions/
   - reviewers/packages/
@@ -88,15 +88,15 @@ See [planning/OPUS_REVIEW_BRIEF.md](planning/OPUS_REVIEW_BRIEF.md) for full orie
 cd WHITE-PAPER/calibration
 
 # Show available paths and sizes
-py 2_package_review.py --status
+py 3_package_review.py --status
 
 # Extract specific publication path
-py 2_package_review.py workshop           # ~120 KB
-py 2_package_review.py arxiv              # ~500 KB
-py 2_package_review.py --all              # All 8 paths
+py 3_package_review.py workshop           # ~120 KB
+py 3_package_review.py arxiv              # ~500 KB
+py 3_package_review.py --all              # All 8 paths
 
 # Preview without extracting
-py 2_package_review.py arxiv --dry-run
+py 3_package_review.py arxiv --dry-run
 ```
 
 **Output:** `WHITE-PAPER/reviewers/packages/v4/{path}/`
@@ -773,19 +773,20 @@ py 0_sync_viz.py --process-feedback   # Import reviewer feedback (optional)
 # 1. Sync LLM_BOOK content (if updated)
 py 1_sync_llmbook.py --sync           # Sync to packages/v4/llmbook/
 
-# 2. Extract review packages (auto-syncs .shared/ first)
-py 2_package_review.py --all          # All 8 publication paths
-# Note: Automatically syncs templates from planning/reviewer_templates/ to .shared/
+# 2. Generate PDFs (from markdown sources)
+py 2_generate_pdfs.py                 # Generate all submission PDFs
+py 2_generate_pdfs.py --from-review   # Extract from reviewers/, then generate
 
-# 3. Generate PDFs (from reviewer-edited content)
-py 3_generate_pdfs.py --from-review   # Extract from reviewers/, then generate
+# 3. Extract review packages (auto-syncs .shared/ first)
+py 3_package_review.py --all          # All 8 publication paths
+# Note: Automatically syncs templates from planning/reviewer_templates/ to .shared/
 ```
 
 **Quick Status Check**
 
 ```bash
 py 0_sync_viz.py --status             # Show sync status
-py 2_package_review.py --status       # Show package sizes
+py 3_package_review.py --status       # Show package sizes
 ```
 
 **Verify and Commit**
