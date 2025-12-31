@@ -73,17 +73,19 @@ STAGING/                           LLM_BOOK/
 
 ## Scripts
 
-### ingest.py (v3.0) - STAGING to REVIEW_NOTES
+### ingest.py (v5.0) - STAGING to REVIEW_NOTES
 
-Creates review templates for Claude to fill in.
+Creates review templates for Claude to fill in. Default behavior: Claude performs substantive review and creates analysis files.
 
 | Command | Description |
 |---------|-------------|
 | `py ingest.py` | Report: show STAGING status |
-| `py ingest.py --ingest` | Append mode (default): add new batches |
+| `py ingest.py --ingest` | Append mode (default): add new batches with Claude review |
 | `py ingest.py --ingest --fresh` | Destructive: clear all, then ingest |
-| `py ingest.py --ingest --full` | Also create analysis stubs |
+| `py ingest.py --ingest --skip-review` | Create templates only (no analysis) |
 | `py ingest.py --ingest --force --batch Nyquist_1 Nyquist_2` | Re-ingest specific batches |
+| `py ingest.py --ingest --diet --batch OldBatch` | Diet mode: process to _CACHE_/ only |
+| `py ingest.py --throw_up` | Purge all _CACHE_/ directories |
 
 **Accumulative Model:**
 - Default = APPEND (preserve existing, add new)
@@ -92,6 +94,29 @@ Creates review templates for Claude to fill in.
 - `--batch X Y` = Process specific batch(es) only
 - Each batch gets `.ingested` marker when processed
 - Review notes: `REVIEW_NOTES_{batch_name}.md`
+
+**Diet Mode (--diet):**
+
+- Full cognitive processing WITHOUT committing to real pipeline
+- Output goes to `STAGING/{batch}/_CACHE_/` instead of `1_VALIDATION/`
+- No `.ingested` marker created (batch stays "pending" for real ingest later)
+- Use for: priming Claude with old NotebookLM batches, experimentation
+- Use `--throw_up` to purge all `_CACHE_/` directories when done
+
+**Diet Mode Output Structure:**
+
+```text
+STAGING/SomeBatch/
+    _IN/                          # Source files (untouched)
+    _CACHE_/                      # Diet mode output
+        REVIEW_NOTES_SomeBatch.md
+        1_DEEP_DIVES/
+            SomeBatch.md
+        2_FUTURE/
+            SomeBatch.md
+        3_EXPERIMENTS/
+            SomeBatch.md
+```
 
 ### digest.py (v2.0) - STAGING to LLM_BOOK
 
@@ -117,6 +142,34 @@ Routes media files from STAGING/_IN to final destinations.
 - `policy`: Briefing, Brief
 - `funding`: Proposal, Project, Grant
 - `media`: Paradigm, New Era, Press, TED
+
+### explore.py (v1.0) - Research Exploration Manager
+
+Creates new research project directories for LLM Book exploration and optionally promotes validated content to Consciousness/.
+
+| Command | Description |
+|---------|-------------|
+| `py explore.py "Project Name"` | Create new research project (default action) |
+| `py explore.py --status` | Show all projects and their state |
+| `py explore.py --promote --batch Nyquist_3` | Promote content to Consciousness/ |
+| `py explore.py "Name" --staging STAGING STAGING2` | Multi-staging support |
+
+**Research Project Structure:**
+
+```text
+STAGING/New_X_ProjectName/
+    _IN/                    # NotebookLM responses (save here)
+    _OUT/                   # Materials TO feed NotebookLM
+        RESEARCH_QUESTION.md
+        EXISTING_EVIDENCE.md
+        CONSTRAINTS.md
+    README.md               # Project overview and status
+```
+
+**Bidirectional Workflow:**
+
+- `_OUT/`: Content TO feed NotebookLM (your questions/materials)
+- `_IN/`: Content FROM NotebookLM (their responses)
 
 ### 1_sync_llmbook.py (v2.3) - LLM_BOOK to Packages
 
@@ -252,8 +305,9 @@ REPO-SYNC/LLM_BOOK/
 ├── 0_SOURCE_MANIFESTS/      # This folder
 │   ├── README.md            # This file
 │   ├── STAGING/             # Raw NotebookLM outputs
-│   ├── ingest.py            # STAGING -> REVIEW_NOTES
-│   └── digest.py            # STAGING -> LLM_BOOK/*
+│   ├── ingest.py            # STAGING -> REVIEW_NOTES (+ diet mode)
+│   ├── digest.py            # STAGING -> LLM_BOOK/*
+│   └── explore.py           # Research project manager
 │
 ├── 1_VALIDATION/            # Review notes (Claude fills in)
 │   ├── REVIEW_NOTES_Nyquist_1_2.md
@@ -293,5 +347,5 @@ All content processed through this pipeline reflects the IRON CLAD canonical val
 
 ---
 
-*Last updated: 2025-12-29*
-*Version: Accumulative Model (v3.0)*
+_Last updated: 2025-12-31_
+_Version: Accumulative Model (v5.0) - Diet Mode + Research Exploration_

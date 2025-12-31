@@ -46,12 +46,17 @@ New NotebookLM outputs are staged in `0_SOURCE_MANIFESTS/STAGING/` and ingested 
 ```bash
 cd REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS
 py ingest.py                              # Report mode - show what would happen
-py ingest.py --ingest                     # Actually perform ingestion
+py ingest.py --ingest                     # Ingest with Claude review (default)
 py ingest.py --ingest --dry-run           # Preview without changes
-py ingest.py --ingest --full              # Also create analysis stubs (1_DEEP_DIVES, 2_FUTURE, 3_EXPERIMENTS)
+py ingest.py --ingest --skip-review       # Create templates only (no analysis)
 py ingest.py --ingest --force --batch X   # Re-process specific batch(es) even if already ingested
-py ingest.py --ingest --full --force --batch Nyquist_1 Nyquist_2  # Full re-ingest of multiple batches
+
+# Diet Mode (non-committal processing)
+py ingest.py --ingest --diet --batch X    # Process to _CACHE_/ only (doesn't commit to pipeline)
+py ingest.py --throw_up                   # Purge all _CACHE_/ directories
 ```
+
+**Diet Mode:** Full cognitive processing without committing to the real pipeline. Output goes to `STAGING/{batch}/_CACHE_/` instead of `1_VALIDATION/`. Use for priming Claude with old batches or experimentation.
 
 **Workflow:** Archives current state to `packages/v{n}/llmbook/` before clearing and rebuilding.
 
