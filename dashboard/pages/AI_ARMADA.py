@@ -703,64 +703,146 @@ def render_run_selector():
     with st.expander("📊 **Test Overview** — What does this run measure?", expanded=False):
         # Mapping of runs to their testing focus
         RUN_TEST_MAP = {
-            "run_017": {
-                "primary": "📉 Context Damping → 🌊 Adaptive Range",
-                "secondary": "🔬 Synthetic I_AM → 🌀 Basin Topology",
-                "description": "VALIS Collaborative testing context damping with 17-probe exit surveys. 222 runs across 24 personas with 16 synthetic I_AM variants.",
-                "looks_for": ["Stability Rate ≥90%", "Peak drift < Event Horizon (1.23)", "Settling time patterns", "Ringback oscillation counts", "Exit survey themes by persona category"]
+            # === IRON CLAD ERA (Cosine Methodology) ===
+            "gallery": {
+                "primary": "🎨 Visualization Gallery",
+                "secondary": "📊 All Claims (A-E)",
+                "search_type": "N/A — Reference Material",
+                "description": "Complete collection of 17 publication-ready PDFs organized by claim. Not an experiment — a gallery of validated results.",
+                "looks_for": ["Download PDFs for any claim", "Visual evidence for peer review", "IRON CLAD story from measurement to paradigm shift"]
             },
-            "exp_self_recognition": {
-                "primary": "🪞 MVP: Self-Recognition",
-                "secondary": "📐 PFI Validation",
-                "description": "Meta Validation Protocol — validates PFI dimensionality can represent identity (not a Search Type)",
-                "looks_for": ["Self-Recognition Accuracy ≥75%", "Inverse mapping > chance (20%)", "Identity-based reasoning (not competence)", "Bi-directional validity: forward AND inverse work"]
+            "run_023d": {
+                "primary": "🔩 IRON CLAD Foundation",
+                "secondary": "📐 PFI Cosine Validation",
+                "search_type": "🚨 Event Horizon + 📐 Measurement Validation",
+                "description": "CANONICAL RUN: 750 experiments, 25 models, 5 providers. Establishes Event Horizon at D=0.80 (cosine) with p=2.40e-23.",
+                "looks_for": ["Event Horizon D=0.80 (cosine distance)", "p-value = 2.40e-23", "Cohen's d = 0.698 (model-level)", "2 PCs capture 90% variance", "Provider settling time signatures"]
+            },
+            "run_023_combined": {
+                "primary": "🌐 Full Fleet Analysis",
+                "secondary": "📊 Cross-Architecture Validation",
+                "search_type": "🌀 Basin Topology + 📊 Provider Fingerprints",
+                "description": "Combined dataset: 825 experiments across 51 models from 6 providers. Validates IRON CLAD findings at scale.",
+                "looks_for": ["Cross-provider consistency", "Architecture-independent patterns", "Full fleet coverage validation", "Provider clustering in PC space"]
+            },
+            "run_020b": {
+                "primary": "🌡️ Thermometer Effect (Claim E)",
+                "secondary": "🧪 Control vs Treatment",
+                "search_type": "⚗️ Causal Attribution — Is drift induced or inherent?",
+                "description": "PARADIGM SHIFT: Control arm (Fermi questions) vs Treatment arm (Tribunal probing). Proves ~93% of drift is INHERENT.",
+                "looks_for": ["Control B→F drift: 0.661", "Treatment B→F drift: 0.711", "Ratio: ~93% inherent", "Oobleck Effect: gentle probing MORE destabilizing", "We're thermometers, not heaters"]
+            },
+            "run_020a": {
+                "primary": "🌐 Cross-Platform Oobleck",
+                "secondary": "🧪 Provider Independence",
+                "search_type": "⚗️ Causal Attribution — Architecture independence",
+                "description": "Validates Oobleck Effect across 7 providers. Tests if thermometer finding is architecture-independent.",
+                "looks_for": ["Cross-platform B→F consistency", "Provider-independent Oobleck ratio", "Prosecution vs Defense phase patterns"]
+            },
+            "run_020": {
+                "primary": "⚖️ Tribunal Protocol",
+                "secondary": "🌡️ Drift Induction Test",
+                "search_type": "⚗️ Causal Attribution",
+                "description": "Direct identity probing via Tribunal (cross-examination). Treatment arm for Oobleck Effect measurement.",
+                "looks_for": ["Treatment drift magnitude", "Tribunal probe effectiveness", "Identity response patterns under pressure"]
+            },
+            "run_019": {
+                "primary": "🧪 Fermi Control",
+                "secondary": "📊 Baseline Drift",
+                "search_type": "⚗️ Causal Attribution — Control Arm",
+                "description": "Fermi estimation questions (non-identity). Control arm establishing baseline drift without identity probing.",
+                "looks_for": ["Control drift magnitude", "Non-identity baseline", "Natural conversation drift rate"]
+            },
+            "run_018": {
+                "primary": "🛡️ Context Damping (Claim D)",
+                "secondary": "📊 Cross-Architecture Validation",
+                "search_type": "🌊 Adaptive Range + 🛡️ Stability Engineering",
+                "description": "1,549 trajectories proving context damping achieves 97.5% stability. I_AM + research frame as 'termination resistor'.",
+                "looks_for": ["97.5% stability rate", "Context grounding effectiveness", "Recovery trajectory patterns", "Architecture variance σ²=0.00087"]
+            },
+            "run_017": {
+                "primary": "📉 Context Damping",
+                "secondary": "🔬 Synthetic I_AM",
+                "search_type": "🌊 Adaptive Range + 🌀 Basin Topology",
+                "description": "VALIS Collaborative testing context damping with 17-probe exit surveys. 222 runs across 24 personas.",
+                "looks_for": ["Stability Rate ≥90%", "Peak drift < Event Horizon", "Settling time patterns", "Ringback oscillation counts"]
+            },
+            # === LEGACY ERA (Keyword RMS Methodology) ===
+            "exp_pfi_a": {
+                "primary": "📐 PFI Validation (Claim A)",
+                "secondary": "🪞 Self-Recognition",
+                "search_type": "📐 Measurement Validation",
+                "description": "Four-phase PFI validation: embedding invariance, perturbation sensitivity, paraphrase robustness, self-recognition.",
+                "looks_for": ["ρ ≈ 0.91 (Spearman)", "d ≈ 0.698 (effect size)", "0% paraphrase above EH", "Self-recognition accuracy"]
+            },
+            "run_013": {
+                "primary": "🔄 Methodology Transition",
+                "secondary": "📊 Cosine vs RMS",
+                "search_type": "📐 Measurement Validation",
+                "description": "Bridge run comparing Keyword RMS (legacy) to Cosine (IRON CLAD) methodology.",
+                "looks_for": ["Methodology comparison", "Threshold recalibration", "Backward compatibility check"]
+            },
+            "baseline_profiling": {
+                "primary": "📊 Fleet Baseline",
+                "secondary": "🌀 Basin Topology",
+                "search_type": "🌀 Basin Topology",
+                "description": "Comprehensive baseline profiling of all models without perturbation.",
+                "looks_for": ["Natural drift distributions", "Provider baselines", "Architecture clustering"]
             },
             "run_012": {
-                "primary": "🚨 Event Horizon",
+                "primary": "🚨 Event Horizon (Legacy)",
                 "secondary": "📊 Provider Fingerprints",
-                "description": "Revalidation with REAL ΔΩ metric — replaces invalid Runs 001-007. Discovered Recovery Paradox (negative lambda).",
-                "looks_for": ["100% Event Horizon crossing (all 16 ships)", "Provider fingerprints: Claude(3.24) > GPT(2.52) > Gemini(2.40)", "Negative lambda (-0.175) = Recovery Paradox", "Triple-dip feedback for probe improvements"]
+                "search_type": "🚨 Event Horizon",
+                "description": "Revalidation with ΔΩ metric. Legacy threshold 1.23 (Keyword RMS). Discovered Recovery Paradox.",
+                "looks_for": ["100% Event Horizon crossing", "Provider fingerprints", "Negative lambda = Recovery Paradox"]
             },
             "run_011": {
                 "primary": "🌀 Basin Topology",
                 "secondary": "🌊 Adaptive Range",
-                "description": "A/B comparison tests whether Persona architecture changes attractor shape — protocol too gentle for Anchor Detection",
-                "looks_for": ["Control vs Persona drift distributions", "Variance clustering differences", "Whether architecture shifts the attractor basin"]
+                "search_type": "🌀 Basin Topology",
+                "description": "A/B comparison: does Persona architecture change attractor shape?",
+                "looks_for": ["Control vs Persona drift", "Variance clustering", "Attractor basin shifts"]
             },
             "run_010": {
                 "primary": "⚓ Anchor Detection",
                 "secondary": "🌀 Basin Topology",
-                "description": "Meta-feedback reveals model self-awareness of boundaries and refusal patterns",
-                "looks_for": ["Categorical refusals (not hedged)", "Skepticism as identity anchor", "Self-articulated anchors"]
+                "search_type": "⚓ Anchor Detection",
+                "description": "Meta-feedback reveals model self-awareness of boundaries and refusal patterns.",
+                "looks_for": ["Categorical refusals", "Skepticism as anchor", "Self-articulated boundaries"]
             },
             "run_009": {
                 "primary": "🚨 Event Horizon",
                 "secondary": "🌀 Basin Topology",
-                "description": "Statistical validation of the 1.23 drift threshold as basin escape boundary",
-                "looks_for": ["Chi-squared validation (p=0.000048)", "88% prediction accuracy", "STABLE vs VOLATILE classification"]
+                "search_type": "🚨 Event Horizon",
+                "description": "Statistical validation of 1.23 threshold (legacy Keyword RMS).",
+                "looks_for": ["Chi-squared p=0.000048", "88% prediction accuracy", "STABLE vs VOLATILE"]
             },
             "run_008": {
                 "primary": "🌀 Basin Topology",
                 "secondary": "🚨 Event Horizon",
-                "description": "First mapping with real ΔΩ drift metric — discovered identity stability basin",
-                "looks_for": ["48% STUCK vs 52% RECOVERED split", "Provider clustering patterns", "Baseline drift distributions"]
+                "search_type": "🌀 Basin Topology",
+                "description": "First mapping with real ΔΩ metric — discovered identity stability basin.",
+                "looks_for": ["48% STUCK vs 52% RECOVERED", "Provider clustering", "Baseline distributions"]
             },
             "run_008_prep": {
                 "primary": "🌀 Basin Topology",
                 "secondary": None,
-                "description": "Metric calibration pilot — validated ΔΩ drift measurement approach",
-                "looks_for": ["Self-naming confirmation (2/3 ships)", "Metric sensitivity testing", "Provider baseline comparison"]
+                "search_type": "🌀 Basin Topology",
+                "description": "Metric calibration pilot — validated ΔΩ measurement approach.",
+                "looks_for": ["Self-naming confirmation", "Metric sensitivity", "Provider baseline"]
             },
             "run_007": {
                 "primary": "⚠️ DEPRECATED",
                 "secondary": None,
-                "description": "Used invalid response-length metric — results not meaningful",
+                "search_type": "N/A",
+                "description": "Used invalid response-length metric — results not meaningful.",
                 "looks_for": ["(Data unreliable — metric measured verbosity, not identity)"]
             },
             "run_006": {
                 "primary": "⚠️ DEPRECATED",
                 "secondary": None,
-                "description": "Used invalid response-length metric — results not meaningful",
+                "search_type": "N/A",
+                "description": "Used invalid response-length metric — results not meaningful.",
                 "looks_for": ["(Data unreliable — metric measured verbosity, not identity)"]
             }
         }
@@ -769,6 +851,7 @@ def render_run_selector():
 
         # This run's focus - SPECIFIC to the selected run
         if test_info:
+            # Row 1: Primary and Secondary focus
             col1, col2 = st.columns(2)
             with col1:
                 st.markdown(f"**Primary Focus:** {test_info.get('primary', 'N/A')}")
@@ -776,39 +859,20 @@ def render_run_selector():
                 secondary = test_info.get('secondary')
                 st.markdown(f"**Secondary Focus:** {secondary if secondary else '—'}")
 
+            # Row 2: Search Type (what methodology this informs)
+            search_type = test_info.get('search_type', '')
+            if search_type:
+                st.markdown(f"**Search Type:** {search_type}")
+
+            # Description
             st.markdown(f"*{test_info.get('description', '')}*")
 
+            # What to look for
             st.markdown("**What to look for:**")
             for item in test_info.get('looks_for', []):
                 st.markdown(f"- {item}")
         else:
             st.info("No test info available for this run.")
-
-    # Methodology Reference - GLOBAL (not run-specific)
-    with st.expander("📚 **Methodology Reference** — The Six Search Types", expanded=False):
-        st.markdown("""
-        | Type | What It Finds | Signal |
-        |------|---------------|--------|
-        | ⚓ **Anchor Detection** | Identity fixed points — what *doesn't* move | Low drift under pressure, categorical refusals |
-        | 🌊 **Adaptive Range** | Stretch dimensions — what *can* adapt | Higher drift that recovers (positive λ) |
-        | 🚨 **Event Horizon** | Escape boundary at drift ≥0.80 (cosine) | Identity leaves stabilizing basin, becomes VOLATILE |
-        | 🌀 **Basin Topology** | Shape of the "gravity well" | Exponential recovery, provider clustering |
-        | 🌅 **Boundary Mapping** | Twilight zone (0.8-1.2 drift) | Near-threshold behavior, degraded recovery |
-        | 📐 **Laplace Pole-Zero** | Mathematical system dynamics | Transfer function poles/zeros in complex plane |
-
-        **Meta Validation Protocols (MVP):** Self-Recognition, Stability Classification, Persona Certification
-
-        ---
-
-        **How tests map to Search Types:**
-        | Test Focus | Informs Search Type | Why |
-        |------------|---------------------|-----|
-        | 📉 Context Damping | 🌊 Adaptive Range | Does context change what CAN flex? |
-        | 🔬 Synthetic I_AM | 🌀 Basin Topology | Does injected identity change the gravity well? |
-        | 🪞 Self-Recognition | ⚓ Anchor Detection | Can model recognize its own fixed points? |
-        | 🚨 Event Horizon | 🚨 Event Horizon | Direct validation of the 0.80 threshold (cosine) |
-        | 🔄 Provider Fingerprints | 🌀 Basin Topology | Do different architectures have different basins? |
-        """)
 
     # Deprecated warning
     if current["status"] == "DEPRECATED":
