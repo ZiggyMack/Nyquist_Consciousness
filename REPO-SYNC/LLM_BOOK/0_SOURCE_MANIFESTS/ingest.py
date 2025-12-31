@@ -532,14 +532,35 @@ def generate_reviewed_notes(batch_name: str, source_folder: Path, review: Dict, 
     return target_path
 
 
-def copy_folder_contents(source: Path, target: Path, dry_run: bool = True) -> int:
-    """Copy contents of source folder to target. Returns file count."""
+def copy_folder_contents(source: Path, target: Path, dry_run: bool = True,
+                          exclude_patterns: List[str] = None) -> int:
+    """
+    Copy contents of source folder to target. Returns file count.
+
+    Args:
+        source: Source folder to copy from
+        target: Target folder to copy to
+        dry_run: Preview without making changes
+        exclude_patterns: List of folder/file names to exclude (e.g., ["_CACHE_", ".ingested"])
+    """
     if not source.exists():
         return 0
+
+    if exclude_patterns is None:
+        exclude_patterns = [CACHE_DIR_NAME, INGESTED_MARKER]
 
     file_count = 0
 
     for item in source.rglob("*"):
+        # Skip excluded patterns
+        skip = False
+        for pattern in exclude_patterns:
+            if pattern in item.parts:
+                skip = True
+                break
+        if skip:
+            continue
+
         if item.is_file():
             rel_path = item.relative_to(source)
             target_path = target / rel_path
@@ -553,32 +574,57 @@ def copy_folder_contents(source: Path, target: Path, dry_run: bool = True) -> in
     return file_count
 
 
-def ingest_rnd_content(folders: List[Path], dry_run: bool = True) -> Dict:
-    """Ingest R&D content into RnD/ directory (append mode)."""
-    result = {"folders": 0, "files": 0, "details": []}
+def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = False) -> Dict:
+    """
+    Ingest R&D content into RnD/ directory (append mode).
+
+    Args:
+        folders: List of source folders to process
+        dry_run: Preview without making changes
+        diet: If True, write to _CACHE_/ instead of RnD/ (non-committal)
+    """
+    result = {"folders": 0, "files": 0, "details": [], "diet": diet}
 
     rnd_dir = LLM_BOOK_DIR / "RnD"
 
     for folder in folders:
         topic_name = get_rnd_topic_name(folder.name)
-        target = rnd_dir / topic_name
+
+        if diet:
+            # Diet mode: write to _CACHE_/RnD/{topic_name} inside the batch folder
+            cache_dir = folder / CACHE_DIR_NAME / "RnD" / topic_name
+            target = cache_dir
+        else:
+            # Normal mode: write to LLM_BOOK/RnD/{topic_name}
+            target = rnd_dir / topic_name
+
+        # Ensure target directory exists before copying
+        if not dry_run:
+            target.mkdir(parents=True, exist_ok=True)
 
         file_count = copy_folder_contents(folder, target, dry_run)
 
         if file_count > 0:
             result["folders"] += 1
             result["files"] += file_count
+
+            target_display = f"_CACHE_/RnD/{topic_name}" if diet else f"RnD/{topic_name}"
             result["details"].append({
                 "source": folder.name,
-                "target": f"RnD/{topic_name}",
+                "target": target_display,
                 "files": file_count
             })
 
-            # Mark as ingested
-            mark_batch_ingested(folder, dry_run)
+            # Mark as ingested (skip in diet mode)
+            if not diet:
+                mark_batch_ingested(folder, dry_run)
 
             action = "[DRY RUN]" if dry_run else "[OK]"
-            print(f"  {action} {folder.name} -> RnD/{topic_name} ({file_count} files)")
+            diet_tag = " -> _CACHE_/" if diet else ""
+            print(f"  {action} {folder.name} -> {target_display} ({file_count} files){diet_tag}")
+
+            if diet:
+                print(f"      (Diet mode: .ingested marker NOT created)")
 
     return result
 
@@ -868,7 +914,7 @@ def perform_ingestion(dry_run: bool = True, fresh: bool = False,
     # Ingest R&D content
     print("\n## Step 3: Process R&D content")
     if pending["rnd"]:
-        results["rnd"] = ingest_rnd_content(pending["rnd"], dry_run)
+        results["rnd"] = ingest_rnd_content(pending["rnd"], dry_run, diet=diet)
     else:
         print("  No pending R&D batches")
 
