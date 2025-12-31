@@ -549,22 +549,14 @@ def render():
 
     page_divider()
 
-    # === TABS: Personas vs Compression Testing ===
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["🎭 Personas", "🧬 Compression Testing", "📐 PFI Dimensions", "🧠 Identity Matrix", "🚢 Persona-Fleet Matrix"])
+    # === TABS: Personas + Persona-Fleet Matrix ===
+    # NOTE: Compression Testing, PFI Dimensions, and Identity Matrix moved to Experiments page
+    tab1, tab2 = st.tabs(["🎭 Personas", "🚢 Persona-Fleet Matrix"])
 
     with tab1:
         render_personas_content(all_files, soul_docs, seed_personas, compressed_personas, seed_files)
 
     with tab2:
-        render_compression_testing()
-
-    with tab3:
-        render_pfi_dimensions()
-
-    with tab4:
-        render_identity_matrix()
-
-    with tab5:
         render_persona_fleet_matrix()
 
 
