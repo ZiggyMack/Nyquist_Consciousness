@@ -699,6 +699,65 @@ def render_run_selector():
     </div>
     """, unsafe_allow_html=True)
 
+    # Total Research Effort - Bragging rights section
+    with st.expander("🏆 **Total Research Effort** — The Full Picture", expanded=False):
+        st.markdown("""
+        *What we ACTUALLY ran vs. what we claim for publication (conservative IRON CLAD subset)*
+        """)
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("### 📊 Publication Claims (IRON CLAD)")
+            st.markdown("""
+            | Metric | Conservative Value |
+            |--------|-------------------|
+            | Experiments | **750** |
+            | Models | **25** |
+            | Providers | **5** |
+            | Methodology | Cosine Distance |
+            | Event Horizon | D = 0.80 |
+            | p-value | 2.40e-23 |
+
+            *These are the defensible numbers we publish.*
+            """)
+
+        with col2:
+            st.markdown("### 🚀 Total Research Effort")
+            st.markdown("""
+            | Metric | Actual Value |
+            |--------|-------------|
+            | Total Experiments | **4,500+** |
+            | Total Sessions | **6,000+** |
+            | Models Tested | **51+** |
+            | Providers | **6** (incl. Together.ai) |
+            | S7 Runs | **23** |
+            | Trajectories Analyzed | **10,000+** |
+
+            *The real scope of our exploration.*
+            """)
+
+        st.markdown("---")
+
+        st.markdown("""
+        **Why the difference?**
+
+        IRON CLAD methodology requires:
+        - **N=3 runs per model** per experiment for statistical validity
+        - **Cosine distance** (not legacy Keyword RMS)
+        - **Control arm** validation for causal claims
+        - **Cross-architecture** replication
+
+        Many early experiments used different methodologies (Keyword RMS) or didn't have N=3 coverage.
+        We publish the conservative subset; the full dataset informed our understanding.
+
+        **The journey:**
+        - Runs 001-007: Metric discovery (deprecated - verbosity proxy)
+        - Runs 008-012: Legacy era (Keyword RMS, threshold 1.23)
+        - Runs 013-016: Methodology transition
+        - Runs 017-023: IRON CLAD era (Cosine, threshold 0.80)
+        """)
+
     # Test Overview Dropdown - What each run tests
     with st.expander("📊 **Test Overview** — What does this run measure?", expanded=False):
         # Mapping of runs to their testing focus
