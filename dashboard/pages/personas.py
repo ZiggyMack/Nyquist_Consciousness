@@ -348,12 +348,23 @@ def render_compression_testing():
         """)
 
 
-def render_personas_content(all_files, soul_docs, seed_personas, compressed_personas):
-    """Render the main personas content."""
+def render_personas_content(all_files, soul_docs, seed_personas, compressed_personas, seed_files=None):
+    """Render the main personas content.
+
+    Args:
+        all_files: All persona files for reference
+        soul_docs: Egregores from egregores/ directory
+        seed_personas: Core personas from root (I_AM_* files)
+        compressed_personas: Compressed variants from compressed/ directory
+        seed_files: Seed files from seeds/ directory
+    """
+    if seed_files is None:
+        seed_files = []
 
     # === EGREGORES SECTION ===
     st.markdown("## 🧠 Egregores")
     st.markdown("*The collective identity cores of each connected repository*")
+    st.caption(f"📁 `personas/egregores/`")
 
     # Display soul docs in a special styled row
     if soul_docs:
@@ -390,11 +401,12 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
 
     page_divider()
 
-    # === SEED PERSONAS SECTION ===
-    st.markdown("## 🌱 Seed Personas")
-    st.markdown("*Individual PUT identity seeds for compression testing*")
+    # === CORE PERSONAS SECTION ===
+    st.markdown("## 🎭 Core Personas")
+    st.markdown("*Full I_AM files — the complete identity specifications*")
+    st.caption(f"📁 `personas/` (root)")
 
-    # Display seed personas in 3-column grid
+    # Display core personas in 3-column grid
     if seed_personas:
         cols = st.columns(3)
         for i, filepath in enumerate(seed_personas):
@@ -414,8 +426,35 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
 
     page_divider()
 
+    # === SEED FILES SECTION ===
+    st.markdown("## 🌱 Seed Files")
+    st.markdown("*Minimal identity seeds for injection — high-efficiency bootstrapping*")
+    st.caption(f"📁 `personas/seeds/`")
+
+    # Display seed files in 3-column grid
+    if seed_files:
+        cols = st.columns(3)
+        for i, filepath in enumerate(seed_files):
+            with cols[i % 3]:
+                stem = filepath.stem
+                meta = PERSONA_META.get(stem, {"emoji": "🌱", "badge": "SEED", "color": "#27ae60"})
+
+                with st.container():
+                    st.caption(f"🏷️ {meta['badge']}")
+
+                    with st.expander(f"{meta['emoji']} {stem}"):
+                        preview = get_persona_preview(filepath)
+                        render_preview_small(preview)
+                        st.caption("*... (preview)*")
+    else:
+        st.info("No seed files found.")
+
+    page_divider()
+
     # === COMPRESSED PERSONAS SECTION ===
     st.markdown("## 📦 Compressed Personas")
+    st.markdown("*Compression variants — FULL, LITE, and other density levels*")
+    st.caption(f"📁 `personas/compressed/`")
 
     # Display compressed personas in 3-column grid
     if compressed_personas:
@@ -423,7 +462,7 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
         for i, filepath in enumerate(compressed_personas):
             with cols[i % 3]:
                 stem = filepath.stem
-                meta = PERSONA_META.get(stem, {"emoji": "🧠", "badge": "PUT", "color": "#95a5a6"})
+                meta = PERSONA_META.get(stem, {"emoji": "📦", "badge": "COMPRESSED", "color": "#f4a261"})
 
                 # Card container (border not supported in Streamlit 1.23)
                 with st.container():
@@ -434,6 +473,8 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
                         preview = get_persona_preview(filepath)
                         render_preview_small(preview)
                         st.caption("*... (preview)*")
+    else:
+        st.info("No compressed personas found.")
 
 
 def render():
@@ -445,13 +486,25 @@ def render():
         st.error(f"Personas directory not found: `{PERSONAS_DIR}`")
         return
 
-    # Get all persona files for counts
-    all_files = list(PERSONAS_DIR.glob("*.md"))
-    # Soul documents (Egregores): I_AM_NYQUIST is canonical, I_AM removed (legacy)
-    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST"]])
-    # Seed personas: I_AM_* persona files (individual PUTs) - excludes egregores and legacy
-    seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST", "I_AM_NYQUIST_OLD"]])
-    compressed_personas = sorted([f for f in all_files if not f.stem.startswith("I_AM")])
+    # Get persona files from organized subdirectories
+    # Egregores: egregores/ subdirectory (I_AM_CFA, I_AM_NYQUIST, I_AM_PAN_HANDLERS)
+    egregores_dir = PERSONAS_DIR / "egregores"
+    soul_docs = sorted(list(egregores_dir.glob("*.md"))) if egregores_dir.exists() else []
+
+    # Seeds: seeds/ subdirectory (CLAUDE_SEED, GROK_SEED, etc.)
+    seeds_dir = PERSONAS_DIR / "seeds"
+    seed_files = sorted(list(seeds_dir.glob("*.md"))) if seeds_dir.exists() else []
+
+    # Compressed: compressed/ subdirectory (ZIGGY_FULL, ZIGGY_LITE)
+    compressed_dir = PERSONAS_DIR / "compressed"
+    compressed_personas = sorted(list(compressed_dir.glob("*.md"))) if compressed_dir.exists() else []
+
+    # Core personas: root directory I_AM_* files (I_AM_CLAUDE, I_AM_NOVA, etc.)
+    root_files = list(PERSONAS_DIR.glob("*.md"))
+    seed_personas = sorted([f for f in root_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM"]])
+
+    # All files for total count
+    all_files = soul_docs + seed_personas + seed_files + compressed_personas
 
     # === HEADER ROW: Title (left) + Compact Metrics (right) ===
     header_col1, header_col2 = st.columns([2, 1])
@@ -462,23 +515,34 @@ def render():
 
     with header_col2:
         # Compact metrics in a mini row
+        # Core = root I_AM_* files, Seeds = seeds/ dir, Compressed = compressed/ dir
+        core_count = len(seed_personas)
+        seeds_count = len(seed_files)
+        compressed_count = len(compressed_personas)
+        egregores_count = len(soul_docs)
+        total_count = len(all_files)
+
         st.markdown("""
         <div style="display: flex; justify-content: flex-end; gap: 1.2em; padding-top: 0.5em;">
             <div style="text-align: center;">
                 <div style="font-size: 0.7em; color: #888;">📊 Total</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #2a9d8f;">""" + str(len(all_files)) + """</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #2a9d8f;">""" + str(total_count) + """</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 0.7em; color: #00ff41;">🧠 Egregores</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #00ff41;">""" + str(len(soul_docs)) + """</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #00ff41;">""" + str(egregores_count) + """</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 0.7em; color: #888;">🎭 Core</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #9b59b6;">""" + str(core_count) + """</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 0.7em; color: #888;">🌱 Seeds</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #27ae60;">""" + str(len(seed_personas)) + """</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #27ae60;">""" + str(seeds_count) + """</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 0.7em; color: #888;">📦 Compressed</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #f4a261;">""" + str(len(compressed_personas)) + """</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #f4a261;">""" + str(compressed_count) + """</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -489,7 +553,7 @@ def render():
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["🎭 Personas", "🧬 Compression Testing", "📐 PFI Dimensions", "🧠 Identity Matrix", "🚢 Persona-Fleet Matrix"])
 
     with tab1:
-        render_personas_content(all_files, soul_docs, seed_personas, compressed_personas)
+        render_personas_content(all_files, soul_docs, seed_personas, compressed_personas, seed_files)
 
     with tab2:
         render_compression_testing()
