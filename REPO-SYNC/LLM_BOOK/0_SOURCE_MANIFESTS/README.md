@@ -143,16 +143,27 @@ Routes media files from STAGING/_IN to final destinations.
 - `funding`: Proposal, Project, Grant
 - `media`: Paradigm, New Era, Press, TED
 
-### explore.py (v1.0) - Research Exploration Manager
+### chew.py (v2.0) - Research Exploration & Routing Manager
 
-Creates new research project directories for LLM Book exploration and optionally promotes validated content to Consciousness/.
+The "mastication" stage of the digestive pipeline: `ingest.py → digest.py → chew.py`
+
+Creates new research project directories, promotes content to Consciousness/, and provides cross-lab routing intelligence for the Pan Handlers Civilization Engine.
 
 | Command | Description |
 |---------|-------------|
-| `py explore.py "Project Name"` | Create new research project (default action) |
-| `py explore.py --status` | Show all projects and their state |
-| `py explore.py --promote --batch Nyquist_3` | Promote content to Consciousness/ |
-| `py explore.py "Name" --staging STAGING STAGING2` | Multi-staging support |
+| `py chew.py "Project Name"` | Create new research project (default action) |
+| `py chew.py --status` | Show all projects and their state |
+| `py chew.py --promote --batch Nyquist_3` | Promote content to Consciousness/ |
+| `py chew.py "Name" --staging STAGING STAGING2` | Multi-staging support |
+
+**Routing Commands:**
+
+| Command | Description |
+|---------|-------------|
+| `py chew.py --route HOFFMAN` | Show where HOFFMAN content should go |
+| `py chew.py --route --all` | Show full routing map |
+| `py chew.py --labs` | List all Pan Handler labs |
+| `py chew.py --lab cfa` | Show details for specific lab |
 
 **Research Project Structure:**
 
@@ -170,6 +181,13 @@ STAGING/New_X_ProjectName/
 
 - `_OUT/`: Content TO feed NotebookLM (your questions/materials)
 - `_IN/`: Content FROM NotebookLM (their responses)
+
+**Pan Handler Routing:**
+
+Routes research insights to appropriate Pan Handler labs based on:
+
+- Explicit topic mappings in `PAN_HANDLERS/1_Maps/research_to_labs.json`
+- Pattern-based rules in `PAN_HANDLERS/1_Maps/llm_book_routing.json`
 
 ### 1_sync_llmbook.py (v2.3) - LLM_BOOK to Packages
 
@@ -307,7 +325,7 @@ REPO-SYNC/LLM_BOOK/
 │   ├── STAGING/             # Raw NotebookLM outputs
 │   ├── ingest.py            # STAGING -> REVIEW_NOTES (+ diet mode)
 │   ├── digest.py            # STAGING -> LLM_BOOK/*
-│   └── explore.py           # Research project manager
+│   └── chew.py              # Research + routing manager
 │
 ├── 1_VALIDATION/            # Review notes (Claude fills in)
 │   ├── REVIEW_NOTES_Nyquist_1_2.md

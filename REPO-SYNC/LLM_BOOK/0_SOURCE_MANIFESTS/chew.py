@@ -1,34 +1,37 @@
 #!/usr/bin/env python3
 """
-explore.py - LLM Book Research Exploration Manager
-===================================================
+chew.py - LLM Book Research Exploration & Routing Manager
+==========================================================
 
-Primary function: Create research project directories for LLM Book exploration.
-Secondary function: Promote validated content to Consciousness/ (requires explicit flag).
+The "mastication" stage of the digestive pipeline:
+  ingest.py → digest.py → chew.py
+
+Primary functions:
+1. Create research project directories for LLM Book exploration
+2. Promote validated content to Consciousness/
+3. Route insights to Pan Handler labs (cross-lab awareness)
+4. Display routing maps and lab information
 
 USAGE:
 ------
-py explore.py "EEG Analog Study"           # Create New_X project (DEFAULT)
-py explore.py --create "EEG Analog Study"  # Explicit create (same as above)
-py explore.py --status                     # Show status of all projects
-py explore.py --promote --batch Nyquist_3  # Promote to Consciousness/ (explicit only)
+py chew.py "EEG Analog Study"           # Create New_X project (DEFAULT)
+py chew.py --status                     # Show status of all projects
+py chew.py --promote --batch Nyquist_3  # Promote to Consciousness/
 
-MULTI-STAGING SUPPORT:
-----------------------
-py explore.py "Project Name" --staging STAGING STAGING2  # Create in multiple locations
-
-RESEARCH PROJECT STRUCTURE:
----------------------------
-New_X_ProjectName/
-    _IN/           # Content FROM NotebookLM (their responses)
-    _OUT/          # Content TO NotebookLM (our questions/materials)
-    README.md      # Project overview and status
+ROUTING COMMANDS:
+-----------------
+py chew.py --route HOFFMAN              # Show where HOFFMAN content should go
+py chew.py --route --all                # Show full routing map
+py chew.py --labs                       # List all Pan Handler labs
+py chew.py --lab cfa                    # Show details for specific lab
 
 Author: LLM_BOOK Research Pipeline
-Version: 1.1 (2025-12-31) - Creation as default, multi-staging support
+Version: 2.0 (2025-12-31) - Added routing + Pan Handler awareness
 """
 
 import argparse
+import json
+import re
 import shutil
 from pathlib import Path
 from datetime import datetime
@@ -39,9 +42,15 @@ from typing import Dict, List, Optional
 SCRIPT_DIR = Path(__file__).parent
 DEFAULT_STAGING_DIR = SCRIPT_DIR / "STAGING"
 LLM_BOOK_DIR = SCRIPT_DIR.parent  # REPO-SYNC/LLM_BOOK/
-REPO_ROOT = LLM_BOOK_DIR.parent.parent  # d:\Documents\Nyquist_Consciousness
+REPO_SYNC_DIR = LLM_BOOK_DIR.parent  # REPO-SYNC/
+REPO_ROOT = REPO_SYNC_DIR.parent  # d:\Documents\Nyquist_Consciousness
 CONSCIOUSNESS_DIR = REPO_ROOT / "Consciousness"
 LLM_BOOK_DISTILL = CONSCIOUSNESS_DIR / "RIGHT" / "distillations" / "llm_book"
+
+# Pan Handlers paths
+PAN_HANDLERS_DIR = REPO_SYNC_DIR / "PAN_HANDLERS"
+MODULES_DIR = PAN_HANDLERS_DIR / "0_Config" / "modules"
+MAPS_DIR = PAN_HANDLERS_DIR / "1_Maps"
 
 # Publication categories in LLM_BOOK
 PUBLICATIONS_DIR = LLM_BOOK_DIR / "2_PUBLICATIONS"
@@ -433,6 +442,161 @@ def promote_to_consciousness(batch_name: str, dry_run: bool = True,
     return result
 
 
+# === ROUTING FUNCTIONS ===
+
+def load_routing_maps() -> Dict:
+    """Load routing configuration from 1_Maps/."""
+    result = {"research_to_labs": {}, "routing_rules": []}
+
+    research_map = MAPS_DIR / "research_to_labs.json"
+    routing_rules = MAPS_DIR / "llm_book_routing.json"
+
+    if research_map.exists():
+        with open(research_map, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            result["research_to_labs"] = data.get("mappings", {})
+
+    if routing_rules.exists():
+        with open(routing_rules, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            result["routing_rules"] = data.get("routing_rules", [])
+
+    return result
+
+
+def load_lab_config(lab_id: str) -> Optional[Dict]:
+    """Load configuration for a specific lab."""
+    lab_file = MODULES_DIR / f"{lab_id}.json"
+    if lab_file.exists():
+        with open(lab_file, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
+
+
+def get_all_labs() -> List[Dict]:
+    """Get summary info for all Pan Handler labs."""
+    labs = []
+    if MODULES_DIR.exists():
+        for f in sorted(MODULES_DIR.glob("*.json")):
+            try:
+                with open(f, "r", encoding="utf-8") as fp:
+                    data = json.load(fp)
+                    labs.append({
+                        "id": f.stem,
+                        "name": data.get("display_name", f.stem),
+                        "status": data.get("status", "Unknown"),
+                        "role": data.get("role", "")[:60] + "..." if len(data.get("role", "")) > 60 else data.get("role", "")
+                    })
+            except json.JSONDecodeError:
+                pass
+    return labs
+
+
+def show_routing(batch_name: Optional[str] = None, show_all: bool = False):
+    """Display routing information for a batch or all mappings."""
+    maps = load_routing_maps()
+
+    print("=" * 60)
+    print("LLM BOOK ROUTING MAP")
+    print("=" * 60)
+
+    if batch_name:
+        # Show routing for specific batch
+        mapping = maps["research_to_labs"].get(batch_name)
+        if mapping:
+            print(f"\n## Routing for: {batch_name}")
+            print("-" * 40)
+            print(f"  Primary destinations: {', '.join(mapping['primary'])}")
+            if mapping.get('secondary'):
+                print(f"  Secondary: {', '.join(mapping['secondary'])}")
+            print(f"  Rationale: {mapping['rationale']}")
+        else:
+            print(f"\n  No explicit routing for '{batch_name}'")
+            print("  Checking pattern-based rules...")
+
+            # Try pattern matching
+            matches = []
+            for rule in maps["routing_rules"]:
+                pattern = rule.get("pattern", "")
+                if re.search(pattern, batch_name, re.IGNORECASE):
+                    matches.append(rule)
+
+            if matches:
+                print("\n  Pattern matches:")
+                for m in matches:
+                    print(f"    [{m['priority']}] {m['id']}: → {', '.join(m['destinations'])}")
+            else:
+                print("  No pattern matches found.")
+
+    elif show_all:
+        # Show all mappings
+        print("\n## Explicit Topic -> Lab Mappings")
+        print("-" * 40)
+        for topic, mapping in sorted(maps["research_to_labs"].items()):
+            primary = ', '.join(mapping['primary'])
+            print(f"  {topic:25} -> {primary}")
+
+        print("\n## Pattern-Based Routing Rules")
+        print("-" * 40)
+        for rule in maps["routing_rules"]:
+            dests = ', '.join(rule['destinations'])
+            print(f"  [{rule['priority']:6}] {rule['id']:20} -> {dests}")
+
+    else:
+        print("\nUsage:")
+        print("  py chew.py --route BATCH_NAME    # Show routing for specific batch")
+        print("  py chew.py --route --all         # Show all routing mappings")
+
+
+def show_labs(lab_id: Optional[str] = None):
+    """Display Pan Handler labs information."""
+    print("=" * 60)
+    print("PAN HANDLERS CIVILIZATION ENGINE")
+    print("=" * 60)
+
+    if lab_id:
+        # Show specific lab details
+        config = load_lab_config(lab_id)
+        if config:
+            print(f"\n## {config.get('display_name', lab_id)}")
+            print("-" * 40)
+            print(f"  Status: {config.get('status', 'Unknown')}")
+            print(f"  Role: {config.get('role', 'N/A')}")
+
+            if config.get('tags'):
+                print(f"  Tags: {', '.join(config['tags'][:5])}")
+
+            if config.get('projects'):
+                print(f"\n  Projects ({len(config['projects'])}):")
+                for p in config['projects'][:5]:
+                    print(f"    - [{p.get('status', '?')}] {p.get('title', 'Untitled')}")
+
+            # Show what feeds this lab
+            maps = load_routing_maps()
+            feeds = []
+            for topic, mapping in maps["research_to_labs"].items():
+                if lab_id in mapping.get('primary', []) or lab_id in mapping.get('secondary', []):
+                    feeds.append(topic)
+            if feeds:
+                print(f"\n  Fed by R&D topics: {', '.join(feeds)}")
+        else:
+            print(f"\n  Lab '{lab_id}' not found.")
+            print("  Available labs:")
+            for lab in get_all_labs():
+                print(f"    - {lab['id']}")
+    else:
+        # Show all labs
+        labs = get_all_labs()
+        print(f"\n## Active Labs ({len(labs)})")
+        print("-" * 40)
+
+        for lab in labs:
+            status_icon = "[*]" if lab['status'] == "Active" else "[ ]"
+            print(f"  {status_icon} {lab['id']:25} {lab['status']:12} {lab['name']}")
+
+        print("\n  Use --lab <id> to see details for a specific lab")
+
+
 def show_status(staging_dirs: Optional[List[Path]] = None):
     """Display status of all projects and batches."""
     projects = get_all_projects(staging_dirs)
@@ -474,22 +638,30 @@ def show_status(staging_dirs: Optional[List[Path]] = None):
     print("\n" + "=" * 60)
     print("COMMANDS")
     print("=" * 60)
-    print("  py explore.py --create \"Project Name\"   # Create new research project")
-    print("  py explore.py --promote --batch X        # Promote to Consciousness/")
-    print("  py explore.py --status                   # This view")
+    print("  py chew.py \"Project Name\"        # Create new research project")
+    print("  py chew.py --promote --batch X   # Promote to Consciousness/")
+    print("  py chew.py --status              # This view")
+    print("  py chew.py --route BATCH         # Show routing for batch")
+    print("  py chew.py --labs                # List Pan Handler labs")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="LLM Book Research Exploration Manager",
+        description="LLM Book Research Exploration & Routing Manager",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  py explore.py "EEG Analog Study"           # Create new project (DEFAULT)
-  py explore.py --create "EEG Analog Study"  # Explicit create (same)
-  py explore.py --status                     # Show all projects
-  py explore.py --promote --batch Nyquist_3  # Promote to Consciousness/ (explicit)
-  py explore.py "Project" --staging STAGING STAGING2  # Multi-staging
+  py chew.py "EEG Analog Study"           # Create new project (DEFAULT)
+  py chew.py --create "EEG Analog Study"  # Explicit create (same)
+  py chew.py --status                     # Show all projects
+  py chew.py --promote --batch Nyquist_3  # Promote to Consciousness/ (explicit)
+  py chew.py "Project" --staging STAGING STAGING2  # Multi-staging
+
+Routing Commands:
+  py chew.py --route HOFFMAN              # Show where HOFFMAN content should go
+  py chew.py --route --all                # Show full routing map
+  py chew.py --labs                       # List all Pan Handler labs
+  py chew.py --lab cfa                    # Show details for specific lab
         """
     )
 
@@ -511,6 +683,16 @@ Examples:
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview changes without applying")
 
+    # Routing commands
+    parser.add_argument("--route", type=str, nargs="?", const="", metavar="BATCH",
+                        help="Show routing for batch (use --all for full map)")
+    parser.add_argument("--all", action="store_true",
+                        help="Show all routing mappings (use with --route)")
+    parser.add_argument("--labs", action="store_true",
+                        help="List all Pan Handler labs")
+    parser.add_argument("--lab", type=str, metavar="ID",
+                        help="Show details for specific lab")
+
     args = parser.parse_args()
 
     # Resolve staging directories
@@ -519,7 +701,21 @@ Examples:
     # Determine project name (positional or --create)
     project_name = args.name or args.create
 
-    if args.status:
+    # Handle routing commands first
+    if args.route is not None:
+        # --route was specified (with or without value)
+        batch_name = args.route if args.route else None
+        show_routing(batch_name=batch_name, show_all=args.all)
+
+    elif args.labs:
+        # List all labs
+        show_labs()
+
+    elif args.lab:
+        # Show specific lab
+        show_labs(lab_id=args.lab)
+
+    elif args.status:
         # Show status
         show_status(staging_dirs)
 
@@ -527,7 +723,7 @@ Examples:
         # Explicit promotion required
         if not args.batch:
             print("ERROR: --batch required for promotion")
-            print("Usage: py explore.py --promote --batch Nyquist_3")
+            print("Usage: py chew.py --promote --batch Nyquist_3")
             return
         promote_to_consciousness(args.batch, dry_run=args.dry_run, category=args.category)
         if args.dry_run:
