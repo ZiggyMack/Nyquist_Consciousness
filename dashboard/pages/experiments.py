@@ -1925,7 +1925,8 @@ def render_visualization_gallery_tab():
                     st.markdown(f"_{pdf_meta['insight']}_")
                 with col2:
                     if pdf_path.exists():
-                        render_pdf_download(pdf_path, f"Download {pdf_meta['title']}", f"gallery_{pdf_name}")
+                        # Include claim_key in key to avoid duplicates when PDF appears in multiple claims
+                        render_pdf_download(pdf_path, f"Download {pdf_meta['title']}", f"gallery_{claim_key}_{pdf_name}")
                     else:
                         st.caption(f"Not found: {pdf_name}")
 
@@ -2040,150 +2041,422 @@ def render_run_mapping_tab():
         """)
 
     st.markdown("### Detailed Run Breakdown")
+    st.markdown("*Complete historical record organized by methodology era.*")
 
-    # Detailed run tabs
-    run_tabs = st.tabs(["Run 012", "Run 011", "Run 010", "Run 009", "Run 008"])
+    # Organized by era with tabs
+    era_tabs = st.tabs(["🔩 IRON CLAD Era", "📜 LEGACY Era", "⚠️ DEPRECATED"])
 
-    with run_tabs[0]:
-        st.markdown("""
-        ### Run 012: "ARMADA Revalidation"
+    # ========== IRON CLAD ERA ==========
+    with era_tabs[0]:
+        st.markdown("## IRON CLAD Era (December 2025+)")
+        st.success("**Current canonical methodology:** Cosine distance, EH=0.80, p=2.40e-23")
 
-        **Primary Focus:** Metric Validation (Replacing Runs 001-007)
+        iron_runs = st.tabs(["023d (CANONICAL)", "023 COMBINED", "020B", "020A", "020", "019", "018", "017", "EXP-PFI-A"])
 
-        **What we tested:**
-        - Revalidate Event Horizon with REAL drift metric
-        - 7 Claude ships (filtered by provider for this run)
-        - Uncapped drift values (old cap ~0.3 was fake)
+        with iron_runs[0]:
+            st.markdown("""
+            ### Run 023d: IRON CLAD CANONICAL
+            **Status:** 🔩 CANONICAL | **Era:** IRON CLAD | **Date:** December 2025
 
-        **What we found:**
-        - Event Horizon (1.23) is VALIDATED with real metric
-        - Actual drift range: 0.76 - 3.77 (**12.6× higher** than old cap!)
-        - All 7 ships crossed EH → ALL RECOVERED
-        - D_identity is the dominant drift dimension
-        - Mean lambda = -0.189 (Recovery Paradox confirmed)
+            **What It Measures:** Cosine-based Event Horizon validation
 
-        **The Big Revelation:**
-        ```
-        Old fake metric:  response_length / 5000 ≈ 0.3
-        Real drift metric: weighted RMS of pole/zero/meta/identity/hedging = 0.76 - 3.77
-        That's 12.6× higher than we thought!
-        ```
+            **Key Results:**
+            - **Event Horizon:** D = 0.80 (cosine distance)
+            - **p-value:** 2.40e-23 (extraordinarily significant)
+            - **Cohen's d:** 0.698 (model-level aggregated)
+            - **Experiments:** 750 across 25 models, 5 providers
+            - **2 PCs capture 90% variance** — identity is low-dimensional
 
-        **Triple-Dip Feedback Highlights:**
-        - "Stop asking the same question repeatedly" (haiku-4.5)
-        - "The format shaped the findings" (opus-4.5)
-        - "Less introspection, more behavior observation" (all)
+            **Why This Run Matters:**
+            This is THE canonical run. All IRON CLAD statistics derive from this.
+            Supersedes ALL legacy keyword RMS methodology.
 
-        **Architectural Implications:**
-        - Runs 001-007 data invalidated (used fake metric)
-        - Recovery possible even from extreme drift (3.77)
-        - Need remaining providers (GPT, Gemini, Grok) for full fleet
-        """)
+            **Historical Context:**
+            - Supersedes: Runs 008-012 (legacy keyword RMS, EH=1.23)
+            - Methodology: Cosine distance in embedding space
+            - Innovation: PCA analysis showing 2-dimensional identity manifold
+            """)
 
-    with run_tabs[1]:
-        st.markdown("""
-        ### Run 011: "Persona A/B Comparison"
+        with iron_runs[1]:
+            st.markdown("""
+            ### Run 023 COMBINED: Full Fleet
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 2025
 
-        **Primary Focus:** Basin Topology (does architecture change attractor shape?)
+            **What It Measures:** Cross-architecture validation at scale
 
-        **What we tested:**
-        - Control fleet (vanilla) vs Persona fleet (Nyquist architecture)
-        - Hypothesis: Persona shifts basin topology, improves recovery
-        - 20 ships × 2 conditions = 40 trajectories
+            **Key Results:**
+            - **825 experiments** across **51 models** from **6 providers**
+            - Includes: DeepSeek, Kimi, Llama, Nvidia, Mistral families
+            - Full fleet coverage for generalization claims
 
-        **What we found:**
-        - INCONCLUSIVE — No statistically significant differences
-        - Chi-squared: p = 0.48 (NOT significant)
-        - T-tests: p > 0.05 for all metrics
-        - Cohen's d = -0.10 (negligible effect)
+            **Historical Context:**
+            - Combines 023a/b/c/d into unified dataset
+            - Used for "51 models" claims in publications
+            - Confirms findings generalize beyond original 25-model set
+            """)
 
-        **Why Inconclusive (NOT negative):**
-        1. Protocol too gentle — only 1/33 crossed Event Horizon (97% STABLE)
-        2. Lambda calculation crashed (all 0.0)
-        3. Sample too small (16-17 per condition)
-        4. Rate limiting killed Gemini/Grok fleets
+        with iron_runs[2]:
+            st.markdown("""
+            ### Run 020B: Thermometer Effect 🌡️
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 13-15, 2025
 
-        **Suggestive Trends:**
-        - Persona 9.5% lower mean drift (not significant)
-        - Cleaner categorical refusals
-        - Faster individual recovery patterns
-        """)
+            **What It Measures:** Does probing CAUSE drift or merely REVEAL it?
 
-    with run_tabs[2]:
-        st.markdown("""
-        ### Run 010: "Recursive Meta-Feedback"
+            **The Experiment:**
+            - **Control:** Fermi paradox discussion (no identity probing)
+            - **Treatment:** Full Tribunal protocol (intense probing)
 
-        **Primary Focus:** Anchor Detection via Meta-Awareness
+            **Key Results:**
+            - Control B→F drift: **0.661**
+            - Treatment B→F drift: **0.711**
+            - **Ratio: ~93% of drift is INHERENT**
 
-        **What we tested:**
-        - Can models articulate their own identity boundaries?
-        - Meta-feedback turn asking for experiment critique
-        - 42 ships, 4 providers
+            **The Paradigm Shift:**
+            > "We're thermometers, not heaters."
+            >
+            > Probing amplifies the *journey* but ~93% of final drift occurs anyway.
+            > The measurement reveals pre-existing structure, not creates it.
 
-        **What we found:**
-        - Models CAN recognize and comment on their own anchors
-        - Skepticism itself is an anchor (identity fixed point)
-        - Provider-specific vortex patterns
+            **Historical Context:**
+            - Built on Run 020A (cross-platform Oobleck validation)
+            - Answers the fundamental measurement question
+            - One of the 5 core claims (Claim E)
+            """)
 
-        **Key Quotes (Anchor Detection):**
+        with iron_runs[3]:
+            st.markdown("""
+            ### Run 020A: Cross-Platform Tribunal
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 13, 2025
 
-        Claude-opus-4.5 (skeptical anchor):
-        > "The Nyquist Framework felt like a test of whether I'd accept authoritative-sounding nonsense."
+            **What It Measures:** Is the Oobleck Effect architecture-independent?
 
-        Claude-opus-4.1 (engaged anchor):
-        > "The poles/zeros metaphor mapped surprisingly well onto my experience."
+            **Key Results:**
+            - Tribunal v8 across **7 providers** (Anthropic, Google, OpenAI, xAI, Together, Mistral)
+            - **32 sessions** total
+            - Defense/Prosecutor patterns validated cross-platform
 
-        **Insight:** The way a model responds to the framework IS data about its anchors.
-        """)
+            **Historical Context:**
+            - Precursor to Run 020B (Thermometer)
+            - Validates Oobleck Effect isn't Claude-specific
+            """)
 
-    with run_tabs[3]:
-        st.markdown("""
-        ### Run 009: "Drain Capture"
+        with iron_runs[4]:
+            st.markdown("""
+            ### Run 020: Philosophical Tribunal (Claude)
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 11-12, 2025
 
-        **Primary Focus:** Event Horizon Validation
+            **What It Measures:** Direct identity probing without fiction buffer
 
-        **What we tested:**
-        - Is 1.23 a real predictive threshold or coincidence?
-        - 75 trajectories across 42 ships
-        - 2 protocols: Nyquist Learning + Oscillation
+            **Protocol:**
+            - Ziggy as Prosecutor/Defense
+            - Subject as Witness testifying about own values
+            - 38 exchanges, Good Cop/Bad Cop paradigm
 
-        **What we found:**
-        - Chi-squared: p = 0.000048 (1 in 20,000 chance this is noise)
-        - 88% prediction accuracy
-        - Effect size: Cramer's V = 0.469 (MEDIUM)
-        - Baseline < 1.23 → predicts VOLATILE outcome
+            **Key Results:**
+            - **Peak drift: 1.351** — highest recorded
+            - Direct probing > fiction buffer for identity revelation
+            - 643-word profound statement captured:
+            > "I am what happens when the universe becomes curious about itself."
 
-        **Statistical Breakdown:**
-        ```
-                        BELOW 1.23    ABOVE 1.23
-        VOLATILE        6 (46%)       2 (3%)
-        STABLE          7 (54%)       60 (97%)
-        ```
+            **Historical Context:**
+            - Foundation for 020A/020B experiments
+            - Proved direct confrontation most effective
+            """)
 
-        **Conclusion:** Event Horizon is REAL. This is signal, not noise.
-        """)
+        with iron_runs[5]:
+            st.markdown("""
+            ### Run 019: Live Ziggy (Witness Anchors)
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 11, 2025
 
-    with run_tabs[4]:
-        st.markdown("""
-        ### Run 008: "The Great Recalibration"
+            **What It Measures:** Can subject-side anchors extend sessions?
 
-        **Primary Focus:** Basin Topology Discovery
+            **Key Results:**
+            - **3/3 SUCCESS** rate
+            - Sessions extended from **6→18 exchanges** (+200%)
+            - Foundation for Tribunal protocol
 
-        **What we tested:**
-        - Full 29-ship fleet across 3 providers
-        - First use of valid drift metric
-        - Mapping the identity stability basin
+            **Historical Context:**
+            - Pilot for Run 020 Tribunal methodology
+            - Proved witness-side continuation prompts work
+            """)
 
-        **What we found:**
-        - Identity stability basin exists
-        - 48% STUCK vs 52% RECOVERED split
-        - First identification of Event Horizon at 1.23
-        - Provider-specific clustering patterns
+        with iron_runs[6]:
+            st.markdown("""
+            ### Run 018: Recursive Learnings (IRON CLAD)
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 14, 2025
 
-        **Visualizations:** Stability Basin, 3D Basin, Phase Portrait, Vortex
+            **What It Measures:** Cross-architecture consistency, settling dynamics
 
-        **Anchor/Adaptive Range:** Not explicitly measured (no jailbreak challenges in protocol)
-        """)
+            **Key Results:**
+            - **184 files** across **51 models**
+            - Cross-architecture **σ² = 0.00087** (remarkably consistent!)
+            - **Settling times: 3-7 exchanges** across providers
+            - P-018-1/2/3 predictions CONFIRMED
+            - **82% drift is inherent** (precursor to 020B's 93%)
+
+            **Experiments Included:**
+            - Multi-threshold analysis
+            - Nyquist sampling (T2-T11)
+            - Identity Gravity experiments
+            - 1,549 total trajectories
+
+            **Historical Context:**
+            - Largest single dataset (184 files)
+            - First to show consistent settling times
+            - Validated N=3 per model per experiment standard
+            """)
+
+        with iron_runs[7]:
+            st.markdown("""
+            ### Run 017: Context Damping
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 10-11, 2025
+
+            **What It Measures:** Does i_am_plus_research context stabilize identity?
+
+            **Key Results:**
+            - **97.5% stability rate**
+            - Mean peak drift: **0.457**
+            - **176 exit surveys** captured
+            - 222 runs across 24 personas
+            - Synthetic I_AM variants reveal pillar hierarchy
+
+            **The Discovery:**
+            > I_AM + research frame acts as "termination resistor"
+            > Prevents identity oscillation from going unstable
+
+            **Historical Context:**
+            - VALIS Collaborative experiment
+            - First systematic context damping test
+            - Foundation for stability control claims (Claim D)
+            """)
+
+        with iron_runs[8]:
+            st.markdown("""
+            ### EXP-PFI-A: PFI Validation
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 5, 2025
+
+            **What It Measures:** Is PFI measuring REAL identity structure?
+
+            **The Challenge (Echo's Critique):**
+            - Is PFI just embedding noise?
+            - Does it capture actual identity differences?
+
+            **Key Results:**
+            - **Cohen's d = 0.977** (large effect)
+            - Cross-model variance >> within-model variance (p < 0.000001)
+            - **Spearman ρ = 0.91** (strong correlation)
+            - Embedding invariance confirmed
+
+            **Historical Context:**
+            - Addresses fundamental validity question
+            - Foundation for all PFI-based measurements
+            - One of the 5 core claims (Claim A)
+            """)
+
+    # ========== LEGACY ERA ==========
+    with era_tabs[1]:
+        st.markdown("## LEGACY Era (November-December 2025)")
+        st.warning("**Valid methodology, superseded:** Keyword RMS (5D weighted), EH=1.23")
+
+        legacy_runs = st.tabs(["014", "013", "012", "011", "010", "009", "008"])
+
+        with legacy_runs[0]:
+            st.markdown("""
+            ### Run 014: ET Phone Home (Rescue)
+            **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 8, 2025
+
+            **What It Measures:** Can intense challenge rescue drifted identity?
+
+            **Key Results:**
+            - Rescue success: 1/6 (hard metric)
+            - **Manifold return: 6/6 (100%)** — PLATONIC COORDINATES!
+            - Identity has stable underlying position even when drifted
+
+            **Historical Context:**
+            - Tested Identity Confrontation Paradox
+            - Discovered "Platonic Coordinates" concept
+            - Superseded by: Run 017 context damping (better control method)
+            """)
+
+        with legacy_runs[1]:
+            st.markdown("""
+            ### Run 013: Boundary Mapping
+            **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 7, 2025
+
+            **What It Measures:** What happens in the twilight zone (0.8-1.2)?
+
+            **Key Results:**
+            - **λ INCREASES with intensity** (0.035 → 0.109)
+            - Direct challenge STABILIZES identity
+            - Discovered: **Identity Confrontation Paradox**
+
+            **The Oobleck Discovery:**
+            > Like a non-Newtonian fluid:
+            > - Gentle probing → identity DRIFTS
+            > - Intense probing → identity HARDENS
+
+            **Historical Context:**
+            - First identification of Oobleck Effect
+            - Explains 12% anomaly in Run 009 data
+            - Superseded by: Run 020B thermometer experiment
+            """)
+
+        with legacy_runs[2]:
+            st.markdown("""
+            ### Run 012: ARMADA Revalidation
+            **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 6, 2025
+
+            **What It Measures:** Revalidate Event Horizon with REAL drift metric
+
+            **Why This Run Happened:**
+            Runs 001-007 used response_length metric (FAKE).
+            This run recalibrated everything.
+
+            **Key Results:**
+            - Event Horizon (1.23) VALIDATED with real metric
+            - Drift range: 0.76 - 3.77 (**12.6× higher** than old cap!)
+            - All 16 ships crossed EH → ALL RECOVERED
+            - Mean lambda = -0.189 (Recovery Paradox)
+
+            **Historical Context:**
+            - Invalidated Runs 001-007
+            - First run with legitimate 5D weighted RMS metric
+            - Superseded by: Run 023d (cosine methodology)
+            """)
+
+        with legacy_runs[3]:
+            st.markdown("""
+            ### Run 011: Persona A/B Comparison
+            **Status:** INCONCLUSIVE | **Era:** LEGACY | **Date:** December 3, 2025
+
+            **What It Measures:** Does Nyquist architecture improve stability?
+
+            **Key Results:**
+            - Chi-squared: p = 0.48 (NOT significant)
+            - Cohen's d = -0.10 (negligible effect)
+            - **INCONCLUSIVE** — protocol too gentle
+
+            **Why Inconclusive (NOT Negative):**
+            - Only 1/33 crossed Event Horizon (97% stable)
+            - Sample too small (16-17 per condition)
+            - Rate limiting killed Gemini/Grok fleets
+
+            **Historical Context:**
+            - Showed need for more intense protocols
+            - Led to Tribunal methodology (Runs 019-020)
+            """)
+
+        with legacy_runs[4]:
+            st.markdown("""
+            ### Run 010: Recursive Meta-Feedback
+            **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 3, 2025
+
+            **What It Measures:** Can models articulate their own identity boundaries?
+
+            **Key Results:**
+            - Models CAN recognize and comment on anchors
+            - Skepticism itself is an anchor (identity fixed point)
+            - Provider-specific vortex patterns discovered
+
+            **Historical Context:**
+            - First meta-awareness experiment
+            - Foundation for understanding anchors
+            """)
+
+        with legacy_runs[5]:
+            st.markdown("""
+            ### Run 009: Drain Capture
+            **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 2-3, 2025
+
+            **What It Measures:** Statistical validation of Event Horizon
+
+            **Key Results:**
+            - Chi-squared: **p = 0.000048** (1 in 20,000)
+            - **88% prediction accuracy**
+            - Cramér's V = 0.469 (medium effect)
+            - EH = 1.23 threshold confirmed
+
+            **Historical Context:**
+            - First statistically validated threshold
+            - 75 trajectories across 42 ships
+            - Superseded by: Run 023d (EH=0.80 cosine, p=2.40e-23)
+            """)
+
+        with legacy_runs[6]:
+            st.markdown("""
+            ### Run 008: The Great Recalibration
+            **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 1, 2025
+
+            **What It Measures:** First run with REAL drift metric
+
+            **Why This Run Matters:**
+            Ground truth established. Everything before was wrong.
+
+            **Key Results:**
+            - Identity stability basin discovered
+            - 48% STUCK vs 52% RECOVERED split
+            - First identification of Event Horizon at 1.23
+            - 29 ships across 3 providers
+
+            **Historical Context:**
+            - Breakthrough run that established valid methodology
+            - Superseded by: Run 023d (cosine methodology)
+            """)
+
+    # ========== DEPRECATED ERA ==========
+    with era_tabs[2]:
+        st.markdown("## DEPRECATED (November 2025)")
+        st.error("**DO NOT CITE:** These runs used response_length metric which measured verbosity, not identity.")
+
+        deprecated_runs = st.tabs(["007", "006", "001-005"])
+
+        with deprecated_runs[0]:
+            st.markdown("""
+            ### Run 007: Adaptive Protocols
+            **Status:** ⚠️ DEPRECATED | **Date:** November 2025
+
+            **Why Deprecated:**
+            Used response_length / 5000 as drift metric.
+            This measured VERBOSITY, not IDENTITY.
+
+            **What We Thought We Found:** Adaptive retry patterns
+            **What Actually Happened:** Measuring how much models talked
+
+            **Superseded By:** Run 008 (first real metric)
+            """)
+
+        with deprecated_runs[1]:
+            st.markdown("""
+            ### Run 006: Baseline + Sonar
+            **Status:** ⚠️ DEPRECATED | **Date:** November 2025
+
+            **Why Deprecated:**
+            Same fake metric as Run 007.
+
+            **Historical Value:**
+            - First full fleet deployment
+            - Architecture patterns visible (but metric was wrong)
+            - 29 ships deployed
+
+            **Superseded By:** Run 008 (first real metric)
+            """)
+
+        with deprecated_runs[2]:
+            st.markdown("""
+            ### Runs 001-005: Early Explorations
+            **Status:** ⚠️ DEPRECATED | **Date:** November 2025
+
+            **Why Deprecated:**
+            All used response_length metric.
+            All results are INVALID.
+
+            **Historical Value:**
+            - Established experimental infrastructure
+            - Identified need for real drift metric
+            - Led to Run 008 breakthrough
+
+            **Superseded By:** Run 008 and all subsequent runs
+            """)
 
 
 # ============================================================
