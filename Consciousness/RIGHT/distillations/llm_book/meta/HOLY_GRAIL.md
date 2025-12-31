@@ -138,6 +138,7 @@ chat_questions:
 - Human reads file, decides strategy
 - Uses WORKFLOW_SPEC.md and PROMPT_ENGINEERING.md as guides
 - Manually crafts prompts
+- Promotion to Consciousness/ via `py 0_chew.py --promote BATCH`
 
 ### v0.2 - Claude-Assisted Strategy
 - User gives Claude a file path

@@ -375,14 +375,21 @@ If meets criteria → Consciousness/RIGHT/distillations/llm_book/
 If doesn't → Stays in LLM_BOOK as reference
 ```
 
-### Script Reference
+### Script Reference (Unified Pipeline)
 
-| Script | Location | Purpose |
-|--------|----------|---------|
-| `ingest.py` | `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/` | Validates raw exports |
-| `digest.py` | `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/` | Routes by type |
+All operations use the unified `0_chew.py` entry point:
 
-These scripts manage the **LLM_BOOK inbox** - they do NOT automatically promote to Consciousness/.
+| Command | Purpose |
+|---------|---------|
+| `py 0_chew.py BATCH` | Ingest + digest batch (auto-detects Nyquist vs R&D) |
+| `py 0_chew.py BATCH --new` | Fresh mode: clear + ingest + digest |
+| `py 0_chew.py BATCH --diet` | Diet mode: process to `_CACHE_/` only |
+| `py 0_chew.py --promote BATCH` | Promote validated content to Consciousness/ |
+| `py 0_chew.py --status` | Show pipeline status |
+
+**Location**: `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/`
+
+These scripts manage the **LLM_BOOK inbox**. Use `--promote` to copy validated content to Consciousness/.
 
 ---
 
@@ -446,13 +453,13 @@ NotebookLM responses should be named:
 - `YYYY-MM-DD_topic_response.md` (e.g., `2025-01-15_methodology_proposal.md`)
 - Keep audio/video in original format with date prefix (e.g., `2025-01-15_podcast.m4a`)
 
-### Script Reference
+### Research Project Commands
 
-| Script | Command | Purpose |
-|--------|---------|---------|
-| `explore.py` | `--create "Name"` | Create new research project with _IN/_OUT structure |
-| `explore.py` | `--status` | Show all projects and their current state |
-| `explore.py` | `--promote --batch X` | Move validated content to Consciousness/ |
+| Command | Purpose |
+|---------|---------|
+| `py 0_chew.py --baka "Name"` | Create new research project with _IN/_OUT structure |
+| `py 0_chew.py --status` | Show pipeline status and all projects |
+| `py 0_chew.py --promote BATCH` | Promote validated content to Consciousness/ |
 
 ### When to Use Research Projects vs. Standard Batches
 
