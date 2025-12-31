@@ -323,3 +323,161 @@ Correct any errors found.
 ---
 
 **The key principle**: NotebookLM is a distillation engine. Follow this workflow systematically to extract maximum value from each session.
+
+---
+
+## 10. REPO-SYNC/LLM_BOOK vs Consciousness/ Integration
+
+### Two Separate Concerns
+
+**REPO-SYNC/LLM_BOOK** and **Consciousness/RIGHT/distillations/llm_book/** serve DIFFERENT purposes:
+
+| Location | Purpose | Content Type |
+|----------|---------|--------------|
+| `REPO-SYNC/LLM_BOOK/` | **Inbox/Archive** - Raw NotebookLM exports, validated | ALL exports from NotebookLM sessions |
+| `Consciousness/.../llm_book/` | **Curated Library** - Strategic distillations | Only outputs that follow HOLY_GRAIL methodology |
+
+### The Key Distinction
+
+**DO NOT** bulk-copy from LLM_BOOK to Consciousness/. Instead:
+
+1. LLM_BOOK digestion validates raw exports (ingest → review → digest)
+2. HOLY_GRAIL methodology determines WHICH outputs deserve promotion
+3. Only strategically valuable content enters Consciousness/
+
+### When to Promote to Consciousness/
+
+Content should enter `Consciousness/RIGHT/distillations/llm_book/` ONLY when:
+
+- [ ] It was generated following WORKFLOW_SPEC phases 1-5
+- [ ] It used structured prompts from Section 4 (not auto-generated)
+- [ ] It passed the Sanity Check Prompt (Section 5.3)
+- [ ] It addresses a specific audience with intentional framing
+- [ ] It represents a novel synthesis (not just reformatted data)
+
+### What Stays in LLM_BOOK Only
+
+The following should remain in `REPO-SYNC/LLM_BOOK/` as archive:
+
+- Auto-generated slide decks (bulk PDF exports)
+- Infographics without clear audience purpose
+- Experimental outputs from testing prompts
+- Duplicate/variant content
+
+### The Promotion Flow
+
+```
+REPO-SYNC/LLM_BOOK/2_PUBLICATIONS/
+    ↓
+Review against HOLY_GRAIL criteria
+    ↓
+If meets criteria → Consciousness/RIGHT/distillations/llm_book/
+If doesn't → Stays in LLM_BOOK as reference
+```
+
+### Script Reference (Unified Pipeline)
+
+All operations use the unified `0_chew.py` entry point:
+
+| Command | Purpose |
+|---------|---------|
+| `py 0_chew.py BATCH` | Ingest + digest batch (auto-detects Nyquist vs R&D) |
+| `py 0_chew.py BATCH --new` | Fresh mode: clear + ingest + digest |
+| `py 0_chew.py BATCH --diet` | Diet mode: process to `_CACHE_/` only |
+| `py 0_chew.py --promote BATCH` | Promote validated content to Consciousness/ |
+| `py 0_chew.py --status` | Show pipeline status |
+
+**Location**: `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/`
+
+These scripts manage the **LLM_BOOK inbox**. Use `--promote` to copy validated content to Consciousness/.
+
+---
+
+## 11. Research Exploration Projects (New_X)
+
+### The Bidirectional Model
+
+LLM Book is not just an inbox for NotebookLM outputs. It can also be a **research design partner** - helping us develop experiments before we run them.
+
+| Direction | Purpose | Folder |
+|-----------|---------|--------|
+| **_IN** | Content FROM NotebookLM (their synthesis/responses) | `New_X/_IN/` |
+| **_OUT** | Content TO NotebookLM (our questions/materials) | `New_X/_OUT/` |
+
+### Directory Structure
+
+For new research that uses LLM Book as a DESIGN partner (not just synthesis):
+
+```
+0_SOURCE_MANIFESTS/STAGING/
+    New_1_EEG_Analog/
+        _IN/           # NotebookLM outputs (their responses)
+        _OUT/          # Materials TO feed NotebookLM (our questions)
+        README.md      # Project overview and status
+    New_2_S_Parameters/
+        _IN/
+        _OUT/
+        README.md
+    New_3_Human_Validation/
+        _IN/
+        _OUT/
+        README.md
+```
+
+### Workflow for Research Projects
+
+1. **Create project folder** with `explore.py --create "Project Name"`
+2. **Populate _OUT/** with:
+   - Research questions (specific, testable)
+   - Relevant existing data/papers
+   - Constraints and resources
+3. **Upload _OUT/ contents to NotebookLM** and ask design questions
+4. **Save responses to _IN/** with date-prefixed filenames
+5. **Iterate** - refine questions based on responses
+6. **Graduate** - when methodology is clear, move to actual experiment
+
+### The _OUT/ Standard Contents
+
+Every research project _OUT/ should contain:
+
+| File | Purpose |
+|------|---------|
+| `RESEARCH_QUESTION.md` | Core hypothesis and specific questions |
+| `EXISTING_EVIDENCE.md` | What we already know (from prior experiments) |
+| `CONSTRAINTS.md` | Resources, access, limitations |
+| Optional PDFs/data | Relevant supporting materials |
+
+### The _IN/ Naming Convention
+
+NotebookLM responses should be named:
+- `YYYY-MM-DD_topic_response.md` (e.g., `2025-01-15_methodology_proposal.md`)
+- Keep audio/video in original format with date prefix (e.g., `2025-01-15_podcast.m4a`)
+
+### Research Project Commands
+
+| Command | Purpose |
+|---------|---------|
+| `py 0_chew.py --baka "Name"` | Create new research project with _IN/_OUT structure |
+| `py 0_chew.py --status` | Show pipeline status and all projects |
+| `py 0_chew.py --promote BATCH` | Promote validated content to Consciousness/ |
+
+### When to Use Research Projects vs. Standard Batches
+
+| Situation | Use |
+|-----------|-----|
+| Completed work to be distilled | Standard batch (`Nyquist_X/_IN/`) |
+| Future experiment to be designed | Research project (`New_X/_IN/`, `_OUT/`) |
+| Raw NotebookLM outputs | Standard batch |
+| Iterative research dialogue | Research project |
+
+### Current Research Projects
+
+| ID | Name | Status | Phase 2 Thrust |
+|----|------|--------|----------------|
+| New_1 | EEG-Analog Spectral Analysis | ACTIVE | S12: Spectral bands |
+| New_2 | S-Parameter Analysis | ACTIVE | S11: RF engineering |
+| New_3 | Human-Centered Validation | ACTIVE | EXP3: Cognitive correlation |
+
+---
+
+**The key principle**: LLM Book is now bidirectional - it helps us distill completed research AND design future experiments.

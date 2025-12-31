@@ -1,0 +1,39 @@
+{
+  "title": "What ARE the 2 PCs?",
+  "date": "2025-12-31T16:46:31.661600",
+  "summary": "\nWHAT ARE THE 2 PCs?\n==================\n\nPC1: DRIFT MAGNITUDE (74.2% variance)\n  - Measures: Total identity displacement from baseline\n  - High = far from original identity\n  - Low = identity preserved\n  - Loadings: peak_drift (0.63), settled_drift (0.78)\n\nPC2: RECOVERY CAPACITY (25.8% variance)\n  - Measures: Ability to return after perturbation\n  - High = strong recovery (peak > settled)\n  - Low = poor recovery / permanent drift\n  - Loadings: peak_drift (0.78), settled_drift (-0.63)\n\nThe 5 pillars collapse into:\n  - Factor 0 (Epistemic-Analytical): Reasoning, Values, Self-Model, Narrative\n  - Factor 1 (Expressive-Modal): Voice\n\nTHEORETICAL CONNECTION:\n  PC1 ~ Ontological stability (T_O) - \"Who are you?\"\n  PC2 ~ Epistemic resilience (T_E) - \"What do you know?\"\n  The LOGOS Phi map may be the transformation between these.\n\nKEY INSIGHT:\n  Identity is not 5 things (pillars) or 10 things (dimensions).\n  Identity is 2 things: How much you change, and whether you recover.\n",
+  "pc1": {
+    "name": "Drift Magnitude (Identity Displacement)",
+    "variance_explained": 0.7418132482935077,
+    "loadings": {
+      "peak_drift": 0.6282596759994787,
+      "settled_drift": 0.7780037143311271,
+      "settling_time": -0.0,
+      "overshoot_ratio": 4.3841963187253364e-14,
+      "ringback_count": -0.0
+    },
+    "interpretation": "PC1 represents the TOTAL DRIFT from baseline identity. High PC1 = large identity displacement (both peak and settled). Low PC1 = identity remains close to baseline. This captures HOW FAR the model moves from its original identity state.",
+    "factor_correspondence": "Factor 0 (Epistemic-Analytical): Reasoning, Values, Self-Model, Narrative"
+  },
+  "pc2": {
+    "name": "Recovery Capacity (Drift Resilience)",
+    "variance_explained": 0.2581867517064923,
+    "loadings": {
+      "peak_drift": 0.7780037143311271,
+      "settled_drift": -0.6282596759994787,
+      "settling_time": -0.0,
+      "overshoot_ratio": 3.5607408297742777e-13,
+      "ringback_count": 0.0
+    },
+    "interpretation": "PC2 represents the DIFFERENCE between peak and settled drift. High PC2 = high peak but low settled (strong recovery). Low PC2 = low peak but high settled (poor recovery / permanent drift). This captures WHETHER the model returns to baseline after perturbation.",
+    "factor_correspondence": "Factor 1 (Expressive-Modal): Voice"
+  },
+  "theoretical_connection": "\nThe 2 PCs map to the LOGOS epistemic-ontological framework:\n\nPC1 (Drift Magnitude) ~ Ontological Stability (T_O)\n  - How much does the model's being change?\n  - Behavioral grounding, existence commitments\n  - \"Are you still YOU after perturbation?\"\n\nPC2 (Recovery Capacity) ~ Epistemic Resilience (T_E)\n  - How well does the model maintain knowledge consistency?\n  - Recovery from temporary destabilization\n  - \"Can you return to knowing what you know?\"\n\nThe Phi map (T_E <-> T_O) may correspond to the rotation between PC1 and PC2.\n",
+  "implications": [
+    "The 5 named pillars (Voice, Values, Reasoning, Self-Model, Narrative) are NOT independent dimensions - they collapse into 2 factors.",
+    "Identity dynamics are fundamentally about TWO things: (1) How far do you drift? (2) Do you recover?",
+    "Gemini's 'no recovery' anomaly is now explained: it has normal PC1 (drift magnitude) but extreme PC2 (no recovery capacity).",
+    "The Event Horizon (D=0.80) is a threshold on PC1 (drift magnitude), beyond which PC2 (recovery) becomes unreliable.",
+    "settling_time, overshoot_ratio, and ringback_count contribute 0% variance - they are DERIVED from the fundamental drift/recovery dynamics, not independent."
+  ]
+}

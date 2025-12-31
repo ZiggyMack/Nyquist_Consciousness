@@ -11,7 +11,7 @@ import streamlit as st
 import pandas as pd
 from pathlib import Path
 from config import PATHS
-from utils import load_markdown_file, load_publication_status, page_divider
+from utils import load_markdown_file, load_publication_status, load_publication_stats, get_iron_clad_stats, page_divider
 
 REPO_ROOT = PATHS['repo_root']
 
@@ -428,9 +428,9 @@ def render_key_results():
 
     with col4:
         st.metric(
-            "Semantic Sensitivity",
-            "d ≈ 0.98",
-            delta="Effect Size",
+            "Effect Size",
+            "d ≈ 0.698",
+            delta="Model-Level Cohen's d",
             delta_color="normal"
         )
 
@@ -446,7 +446,7 @@ def render_key_results():
         **Claim A — PFI is Valid Structured Measurement**
         - ✅ Embedding invariance: ρ ≈ 0.91 (Spearman)
         - ✅ Low-dimensional structure: 2 PCs for 90% variance (IRON CLAD)
-        - ✅ Semantic sensitivity: d ≈ 0.98 (effect size)
+        - ✅ Perturbation effect size: d ≈ 0.698 (model-level)
         - ✅ Paraphrase robustness: 0% above Event Horizon
 
         **Claim B — Regime Threshold at D = 0.80 (cosine)**
@@ -455,7 +455,7 @@ def render_key_results():
         - ✅ Predictive association with stability outcomes
 
         **Claim C — Damped Oscillator Dynamics**
-        - ✅ Settling time (τₛ) measurable
+        - ✅ Settling time τₛ ≈ 7 probes average
         - ✅ Ringback count quantifiable
         - ✅ Overshoot ratio: d_peak / d_inf
         """)

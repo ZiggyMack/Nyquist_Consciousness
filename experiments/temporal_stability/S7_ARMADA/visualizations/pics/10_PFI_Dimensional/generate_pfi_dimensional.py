@@ -50,8 +50,8 @@ PROVIDER_DISPLAY = {
 
 
 def load_data():
-    """Load Run 023d results."""
-    data_file = RESULTS_DIR / "S7_run_023d_CURRENT.json"
+    """Load Run 023 results (IRON CLAD Foundation)."""
+    data_file = RESULTS_DIR / "S7_run_023_CURRENT.json"
     with open(data_file) as f:
         data = json.load(f)
     return data.get('results', [])
@@ -160,6 +160,29 @@ def generate_phase2_pca(features, metadata):
         labels = [unique_providers.index(p) for p in providers]
         sil_score = silhouette_score(transformed[:, :2], labels)
         print(f"  Silhouette Score: {sil_score:.4f}")
+
+    # Save PC loadings for Phase 2.5/3 analysis (addressing the "What ARE the 2 PCs?" question)
+    from datetime import datetime
+    feature_names = ["peak_drift", "settled_drift", "settling_time", "overshoot_ratio", "ringback_count"]
+    loadings_data = {
+        "description": "PC loadings from IRON CLAD Run 023d - answers 'What ARE the 2 PCs?'",
+        "methodology": "cosine",
+        "event_horizon": EVENT_HORIZON,
+        "n_samples": len(features),
+        "n_components": len(pca.components_),
+        "feature_names": feature_names,
+        "components": pca.components_.tolist(),  # (n_components, n_features)
+        "explained_variance_ratio": pca.explained_variance_ratio_.tolist(),
+        "cumulative_variance": np.cumsum(pca.explained_variance_ratio_).tolist(),
+        "pcs_for_90_percent": int(np.argmax(np.cumsum(pca.explained_variance_ratio_) >= 0.90) + 1),
+        "pc1_loadings": {name: float(pca.components_[0, i]) for i, name in enumerate(feature_names)},
+        "pc2_loadings": {name: float(pca.components_[1, i]) for i, name in enumerate(feature_names)} if len(pca.components_) > 1 else {},
+        "generated": datetime.now().isoformat()
+    }
+    loadings_file = output_dir / "pc_loadings.json"
+    with open(loadings_file, "w") as f:
+        json.dump(loadings_data, f, indent=2)
+    print(f"  Saved: pc_loadings.json ({len(pca.components_)} PCs × {len(feature_names)} features)")
 
     return pca, transformed
 

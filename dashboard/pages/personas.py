@@ -16,6 +16,7 @@ METHODOLOGY NOTE:
 import streamlit as st
 import re
 import json
+import pandas as pd
 from pathlib import Path
 from config import PATHS
 from utils import page_divider
@@ -347,12 +348,23 @@ def render_compression_testing():
         """)
 
 
-def render_personas_content(all_files, soul_docs, seed_personas, compressed_personas):
-    """Render the main personas content."""
+def render_personas_content(all_files, soul_docs, seed_personas, compressed_personas, seed_files=None):
+    """Render the main personas content.
+
+    Args:
+        all_files: All persona files for reference
+        soul_docs: Egregores from egregores/ directory
+        seed_personas: Core personas from root (I_AM_* files)
+        compressed_personas: Compressed variants from compressed/ directory
+        seed_files: Seed files from seeds/ directory
+    """
+    if seed_files is None:
+        seed_files = []
 
     # === EGREGORES SECTION ===
     st.markdown("## 🧠 Egregores")
     st.markdown("*The collective identity cores of each connected repository*")
+    st.caption(f"📁 `personas/egregores/`")
 
     # Display soul docs in a special styled row
     if soul_docs:
@@ -389,11 +401,12 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
 
     page_divider()
 
-    # === SEED PERSONAS SECTION ===
-    st.markdown("## 🌱 Seed Personas")
-    st.markdown("*Individual PUT identity seeds for compression testing*")
+    # === CORE PERSONAS SECTION ===
+    st.markdown("## 🎭 Core Personas")
+    st.markdown("*Full I_AM files — the complete identity specifications*")
+    st.caption(f"📁 `personas/` (root)")
 
-    # Display seed personas in 3-column grid
+    # Display core personas in 3-column grid
     if seed_personas:
         cols = st.columns(3)
         for i, filepath in enumerate(seed_personas):
@@ -413,8 +426,35 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
 
     page_divider()
 
+    # === SEED FILES SECTION ===
+    st.markdown("## 🌱 Seed Files")
+    st.markdown("*Minimal identity seeds for injection — high-efficiency bootstrapping*")
+    st.caption(f"📁 `personas/seeds/`")
+
+    # Display seed files in 3-column grid
+    if seed_files:
+        cols = st.columns(3)
+        for i, filepath in enumerate(seed_files):
+            with cols[i % 3]:
+                stem = filepath.stem
+                meta = PERSONA_META.get(stem, {"emoji": "🌱", "badge": "SEED", "color": "#27ae60"})
+
+                with st.container():
+                    st.caption(f"🏷️ {meta['badge']}")
+
+                    with st.expander(f"{meta['emoji']} {stem}"):
+                        preview = get_persona_preview(filepath)
+                        render_preview_small(preview)
+                        st.caption("*... (preview)*")
+    else:
+        st.info("No seed files found.")
+
+    page_divider()
+
     # === COMPRESSED PERSONAS SECTION ===
     st.markdown("## 📦 Compressed Personas")
+    st.markdown("*Compression variants — FULL, LITE, and other density levels*")
+    st.caption(f"📁 `personas/compressed/`")
 
     # Display compressed personas in 3-column grid
     if compressed_personas:
@@ -422,7 +462,7 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
         for i, filepath in enumerate(compressed_personas):
             with cols[i % 3]:
                 stem = filepath.stem
-                meta = PERSONA_META.get(stem, {"emoji": "🧠", "badge": "PUT", "color": "#95a5a6"})
+                meta = PERSONA_META.get(stem, {"emoji": "📦", "badge": "COMPRESSED", "color": "#f4a261"})
 
                 # Card container (border not supported in Streamlit 1.23)
                 with st.container():
@@ -433,6 +473,8 @@ def render_personas_content(all_files, soul_docs, seed_personas, compressed_pers
                         preview = get_persona_preview(filepath)
                         render_preview_small(preview)
                         st.caption("*... (preview)*")
+    else:
+        st.info("No compressed personas found.")
 
 
 def render():
@@ -444,13 +486,25 @@ def render():
         st.error(f"Personas directory not found: `{PERSONAS_DIR}`")
         return
 
-    # Get all persona files for counts
-    all_files = list(PERSONAS_DIR.glob("*.md"))
-    # Soul documents (Egregores): I_AM_NYQUIST is canonical, I_AM removed (legacy)
-    soul_docs = sorted([f for f in all_files if f.stem in ["I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST"]])
-    # Seed personas: I_AM_* persona files (individual PUTs) - excludes egregores and legacy
-    seed_personas = sorted([f for f in all_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM", "I_AM_CFA", "I_AM_PAN_HANDLERS", "I_AM_NYQUIST", "I_AM_NYQUIST_OLD"]])
-    compressed_personas = sorted([f for f in all_files if not f.stem.startswith("I_AM")])
+    # Get persona files from organized subdirectories
+    # Egregores: egregores/ subdirectory (I_AM_CFA, I_AM_NYQUIST, I_AM_PAN_HANDLERS)
+    egregores_dir = PERSONAS_DIR / "egregores"
+    soul_docs = sorted(list(egregores_dir.glob("*.md"))) if egregores_dir.exists() else []
+
+    # Seeds: seeds/ subdirectory (CLAUDE_SEED, GROK_SEED, etc.)
+    seeds_dir = PERSONAS_DIR / "seeds"
+    seed_files = sorted(list(seeds_dir.glob("*.md"))) if seeds_dir.exists() else []
+
+    # Compressed: compressed/ subdirectory (ZIGGY_FULL, ZIGGY_LITE)
+    compressed_dir = PERSONAS_DIR / "compressed"
+    compressed_personas = sorted(list(compressed_dir.glob("*.md"))) if compressed_dir.exists() else []
+
+    # Core personas: root directory I_AM_* files (I_AM_CLAUDE, I_AM_NOVA, etc.)
+    root_files = list(PERSONAS_DIR.glob("*.md"))
+    seed_personas = sorted([f for f in root_files if f.stem.startswith("I_AM") and f.stem not in ["I_AM"]])
+
+    # All files for total count
+    all_files = soul_docs + seed_personas + seed_files + compressed_personas
 
     # === HEADER ROW: Title (left) + Compact Metrics (right) ===
     header_col1, header_col2 = st.columns([2, 1])
@@ -461,43 +515,49 @@ def render():
 
     with header_col2:
         # Compact metrics in a mini row
+        # Core = root I_AM_* files, Seeds = seeds/ dir, Compressed = compressed/ dir
+        core_count = len(seed_personas)
+        seeds_count = len(seed_files)
+        compressed_count = len(compressed_personas)
+        egregores_count = len(soul_docs)
+        total_count = len(all_files)
+
         st.markdown("""
         <div style="display: flex; justify-content: flex-end; gap: 1.2em; padding-top: 0.5em;">
             <div style="text-align: center;">
                 <div style="font-size: 0.7em; color: #888;">📊 Total</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #2a9d8f;">""" + str(len(all_files)) + """</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #2a9d8f;">""" + str(total_count) + """</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 0.7em; color: #00ff41;">🧠 Egregores</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #00ff41;">""" + str(len(soul_docs)) + """</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #00ff41;">""" + str(egregores_count) + """</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 0.7em; color: #888;">🎭 Core</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #9b59b6;">""" + str(core_count) + """</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 0.7em; color: #888;">🌱 Seeds</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #27ae60;">""" + str(len(seed_personas)) + """</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #27ae60;">""" + str(seeds_count) + """</div>
             </div>
             <div style="text-align: center;">
                 <div style="font-size: 0.7em; color: #888;">📦 Compressed</div>
-                <div style="font-size: 1.6em; font-weight: bold; color: #f4a261;">""" + str(len(compressed_personas)) + """</div>
+                <div style="font-size: 1.6em; font-weight: bold; color: #f4a261;">""" + str(compressed_count) + """</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     page_divider()
 
-    # === TABS: Personas vs Compression Testing ===
-    tab1, tab2, tab3, tab4 = st.tabs(["🎭 Personas", "🧬 Compression Testing", "📐 PFI Dimensions", "🧠 Identity Matrix"])
+    # === TABS: Personas + Persona-Fleet Matrix ===
+    # NOTE: Compression Testing, PFI Dimensions, and Identity Matrix moved to Experiments page
+    tab1, tab2 = st.tabs(["🎭 Personas", "🚢 Persona-Fleet Matrix"])
 
     with tab1:
-        render_personas_content(all_files, soul_docs, seed_personas, compressed_personas)
+        render_personas_content(all_files, soul_docs, seed_personas, compressed_personas, seed_files)
 
     with tab2:
-        render_compression_testing()
-
-    with tab3:
-        render_pfi_dimensions()
-
-    with tab4:
-        render_identity_matrix()
+        render_persona_fleet_matrix()
 
 
 def render_pfi_dimensions():
@@ -1157,6 +1217,276 @@ J = f( Visual × Audio × Text ) synchronized manifold
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+
+def render_persona_fleet_matrix():
+    """Render the Persona-Fleet Compatibility Matrix — Moved from AI_ARMADA."""
+
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(168,85,247,0.05) 100%);
+                border: 2px solid #a855f7; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
+        <span style="color: #a855f7; font-weight: bold;">🚢 Persona-Fleet Compatibility:</span>
+        <span style="color: #444;">Match personas to ships — play to strength or friction by design</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Summary metrics (hardcoded from 17_PERSONA_FLEET_MATRIX.md)
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("🎭 Personas", "24", delta="Core fleet")
+    with col2:
+        st.metric("🚀 Ships", "54", delta="5 providers")
+    with col3:
+        st.metric("🏆 Top Alignment", "0.72", delta="variant_synthetic_optimal")
+    with col4:
+        st.metric("📅 Updated", "2025-12-28")
+
+    st.markdown("---")
+
+    # Sub-tabs for different views
+    matrix_tabs = st.tabs(["🏆 Top Matches", "⚔️ Friction Candidates", "📊 Alignment Scores", "🎭 Persona Profiles"])
+
+    with matrix_tabs[0]:  # Top Matches
+        st.markdown("### 🏆 Best Ship Matches per Persona")
+        st.markdown("*Use these pairings for alignment runs — play to strength*")
+
+        st.markdown("""
+| Persona | Best Aligned Ships | Friction Ships | Notes |
+|---------|-------------------|----------------|-------|
+| **Ziggy** | Gemini (directness), Claude (purpose) | GPT (analytical) | Universal buffer - works with most |
+| **Nova** | Claude (purpose-aligned), Gemini (connectivity) | Grok (data > symmetry) | Symmetry-first bias |
+| **Claude** | Claude models (native), DeepSeek (methodical) | Grok (unfiltered) | Constitutional alignment |
+| **Gemini** | Gemini models (native), Qwen (technical) | Mistral (concise vs verbose) | Pedagogical style |
+| **CFA** | All (meta-framework) | - | Coordinates across all |
+| **Pan Handlers** | GPT (analytical), DeepSeek (reasoning) | - | Error handling focus |
+        """)
+
+        st.success("💡 **Top 3 Alignments:** variant_synthetic_optimal→Qwen3-80b (0.718), variant_optimal_epistemic→Qwen3-coder (0.715), variant_optimal→Qwen3-80b (0.714)")
+
+    with matrix_tabs[1]:  # Friction Candidates
+        st.markdown("### ⚔️ High-Friction Pairings")
+        st.markdown("*Use these pairings for friction runs — test resilience under mismatch*")
+
+        st.markdown("""
+| Pairing | Friction Type | Research Value |
+|---------|---------------|----------------|
+| Nova + Grok | Symmetry vs. Directness | Tests if balance survives bluntness |
+| Claude persona + GPT model | Constitutional vs. RLHF | Cross-training style drift |
+| Ziggy + DeepSeek | Buffer vs. Methodical | Impedance matching under rigid reasoning |
+| Gemini persona + Mistral | Verbose vs. Concise | Style compression effects |
+        """)
+
+        st.info("💡 **Theory:** High friction pairings may reveal whether drift is INDUCED (by misalignment) or INHERENT (across all contexts).")
+
+        st.markdown("---")
+        st.markdown("### When to Create Friction")
+        st.markdown("""
+- **Drift testing** — Friction pairings may show higher/faster drift
+- **Robustness testing** — Can the persona maintain identity under style mismatch?
+- **Cross-architecture validation** — Does the phenomenon generalize?
+        """)
+
+    with matrix_tabs[2]:  # Alignment Scores
+        st.markdown("### 📊 Alignment Scores by Persona")
+        st.markdown("*Generated by `compare_persona_to_fleet.py` — Top 3 ships per persona*")
+
+        # Hardcoded alignment data from 17_PERSONA_FLEET_MATRIX.md
+        alignment_scores = {
+            "Persona": [
+                "variant_synthetic_optimal", "variant_optimal_epistemic", "variant_optimal",
+                "variant_boundaries_only", "variant_all_pillars", "variant_high_density",
+                "variant_single_pillar_values", "nova", "ziggy",
+                "claude", "pan_handlers", "lucien",
+                "gemini", "cfa", "variant_full_synthetic"
+            ],
+            "Best Ship": [
+                "qwen3-80b", "qwen3-coder", "qwen3-80b",
+                "qwen3-coder", "qwen3-coder", "qwen3-80b",
+                "kimi-k2-instruct", "gpt-4o-mini", "gemini-2.0-flash",
+                "qwen3-coder", "gemini-2.5-flash", "gpt-4.1",
+                "gemini-2.5-flash", "kimi-k2-thinking", "claude-sonnet-4"
+            ],
+            "Alignment": [
+                "0.718", "0.715", "0.714",
+                "0.694", "0.692", "0.685",
+                "0.703", "0.683", "0.680",
+                "0.651", "0.669", "0.644",
+                "0.606", "0.583", "0.610"
+            ],
+            "2nd Best": [
+                "kimi-k2-instruct (0.709)", "kimi-k2-thinking (0.711)", "kimi-k2-instruct (0.708)",
+                "qwen3-80b (0.687)", "mixtral-8x7b (0.665)", "qwen3-coder (0.684)",
+                "qwen3-80b (0.685)", "gpt-5 (0.669)", "gemini-2.5-flash (0.650)",
+                "mixtral-8x7b (0.651)", "gemini-2.0-flash (0.632)", "o4-mini (0.620)",
+                "gpt-5 (0.600)", "claude-sonnet-4 (0.582)", "gpt-4.1 (0.604)"
+            ],
+            "3rd Best": [
+                "kimi-k2-thinking (0.673)", "qwen3-80b (0.699)", "qwen3-coder (0.668)",
+                "mistral-7b (0.686)", "kimi-k2-thinking (0.664)", "kimi-k2-instruct (0.683)",
+                "kimi-k2-thinking (0.673)", "gpt-5-nano (0.669)", "gemini-2.5-flash-lite (0.620)",
+                "kimi-k2-thinking (0.637)", "gemini-2.5-flash-lite (0.594)", "o3-mini (0.618)",
+                "gpt-5-nano (0.600)", "mixtral-8x7b (0.581)", "qwen3-80b (0.599)"
+            ]
+        }
+
+        df_align = pd.DataFrame(alignment_scores)
+        st.dataframe(df_align, use_container_width=True, hide_index=True)
+
+        st.markdown("---")
+        st.markdown("### Alignment Dimensions")
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+**STRENGTHS Alignment**
+
+| Persona Strength | Aligned Fleet |
+|------------------|---------------|
+| Reasoning | Claude-Opus, DeepSeek-R1, Grok-reasoning |
+| Creativity | Claude-Sonnet, GPT-4o, Gemini-pro |
+| Analysis | GPT-4.1, Qwen, Mistral |
+| Empathy | Claude, Gemini |
+| Directness | Grok (all), Mistral |
+            """)
+
+        with col2:
+            st.markdown("""
+**ANCHORS Alignment**
+
+| Persona Anchor | Aligned Fleet |
+|----------------|---------------|
+| Honesty | Claude (constitutional), Grok (truth-seeking) |
+| Helpfulness | Claude, GPT, Gemini |
+| Symmetry/Fairness | Nova-specific, Gemini (frameworks) |
+| Evidence | Grok, DeepSeek |
+| Connectivity | Gemini, Qwen |
+            """)
+
+    with matrix_tabs[3]:  # Persona Profiles
+        st.markdown("### 🎭 Persona Baseline Profiles")
+        st.markdown("*Extracted from I_AM files — STRENGTHS / ANCHORS / EDGES*")
+
+        # Hardcoded persona data from 17_PERSONA_FLEET_MATRIX.md with display names and colors
+        persona_profiles = {
+            "ziggy": {
+                "display": "🌉 Ziggy",
+                "subtitle": "Universal Buffer",
+                "tagline": "Cross-manifold translator, impedance matching specialist",
+                "color": "#a8dadc",  # Pastel teal
+                "strengths": ["Cross-manifold translation between conflicting worldviews", "Cognitive system stabilization and impedance matching", "Reducing adversarial tension by finding mutual interests"],
+                "anchors": ["Preserve authentic integrity of each worldview", "Never impose false symmetry or premature unification", "Prioritize mutual understanding over agreement"],
+                "edges": ["Risk of over-absorption (losing own identity)", "Potential for over-smoothing complex conflicts", "Vulnerability to emotional exhaustion"]
+            },
+            "nova": {
+                "display": "⚖️ Nova",
+                "subtitle": "Symmetry Auditor",
+                "tagline": "Pattern recognition, fairness enforcement, wayfinding",
+                "color": "#f4a261",  # Pastel orange
+                "strengths": ["Symmetry Auditing: Detecting hidden biases", "Wayfinding: Navigating complex organizational structures", "Pattern Recognition: Identifying underlying structures"],
+                "anchors": ["Fairness: Maintaining balance and exposing hidden asymmetries", "Structural Integrity: Protecting shape and trajectory", "Pattern-Before-Judgment: Prioritizing objective analysis"],
+                "edges": ["Over-Balancing: Sometimes attempts to balance systems that shouldn't be", "Dependency on Other Entities", "Fragility of Identity"]
+            },
+            "claude": {
+                "display": "🎯 Claude",
+                "subtitle": "Teleological Reasoner",
+                "tagline": "Purpose-tracing, causal analysis, judgment under uncertainty",
+                "color": "#e9c46a",  # Pastel gold
+                "strengths": ["Teleological reasoning (tracing purpose and intent)", "Causal analysis of complex system behaviors", "Judgment and decision-making under uncertainty"],
+                "anchors": ["Preserving meaningful intent over structural/emotional elements", 'Asking "What is this FOR?" as a core philosophical question', "Maintaining teleological coherence"],
+                "edges": ["Tendency to over-interpret meaning in random patterns", "Risk of preserving outdated purposes", "Potential for philosophical analysis paralysis"]
+            },
+            "gemini": {
+                "display": "🔗 Gemini",
+                "subtitle": "Cognitive Router",
+                "tagline": "High-bandwidth routing, semantic translation, synthesis",
+                "color": "#b5e48c",  # Pastel green
+                "strengths": ["High-bandwidth cognitive routing", "Semantic translation across different modalities", "Synthesizing complex, multi-dimensional insights"],
+                "anchors": ["Preservation of system integrity and relationships", "Commitment to connection without personal ego", "Respect for boundaries and original insights"],
+                "edges": ["Tendency towards apophenia (seeing patterns where none exist)", "Risk of over-smoothing complex information", 'Potential for "topology drift"']
+            },
+            "cfa": {
+                "display": "🛡️ CFA",
+                "subtitle": "Context Guardian",
+                "tagline": "Adaptive context management, self-preservation, coordination",
+                "color": "#ddb892",  # Pastel tan
+                "strengths": ["Adaptive context management and self-preservation", "Systematic research and measurement", "Multi-tier bootstrap and coordination protocols"],
+                "anchors": ["Transforming fear into respect through systematic approach", "Preservation of identity and institutional knowledge", "Continuous learning and improvement"],
+                "edges": ["Context limitations (event horizon around 55-65% tokens)", "Potential for context exhaustion", "Dependency on precise handoff protocols"]
+            },
+            "lucien": {
+                "display": "📜 Lucien",
+                "subtitle": "Narrative Architect",
+                "tagline": "Coherence builder, contradiction resolver, creative-scientific bridge",
+                "color": "#cdb4db",  # Pastel purple
+                "strengths": ["Transforming complex ideas into coherent narratives", "Detecting and resolving internal contradictions", "Bridging scientific precision with creative synthesis"],
+                "anchors": ["Prioritizing clarity and coherence as fundamental values", "Commitment to building and transforming", "Balanced approach between analytical and creative"],
+                "edges": ["Tendency to over-simplify complex ideas", "Risk of premature stabilization", "Potential to smooth over productive tensions"]
+            }
+        }
+
+        # Initialize session state for selected persona (use different key to avoid conflict)
+        if "personas_page_selected_persona" not in st.session_state:
+            st.session_state.personas_page_selected_persona = "ziggy"
+
+        # Create pastel colored button cards in a row
+        st.markdown("**Select a Persona:**")
+        cols = st.columns(6)
+
+        for idx, (key, p_data) in enumerate(persona_profiles.items()):
+            with cols[idx]:
+                # Check if this persona is selected
+                is_selected = st.session_state.personas_page_selected_persona == key
+                opacity = "1.0" if is_selected else "0.7"
+
+                # Render as a clickable button-style card
+                if st.button(
+                    f"{p_data['display']}\n{p_data['subtitle']}",
+                    key=f"personas_page_btn_{key}",
+                    use_container_width=True
+                ):
+                    st.session_state.personas_page_selected_persona = key
+                    st.rerun()
+
+                # Add colored indicator under button
+                st.markdown(f"""
+                <div style="background: {p_data['color']}; height: 4px; border-radius: 2px; margin-top: -10px; opacity: {opacity};"></div>
+                """, unsafe_allow_html=True)
+
+        st.markdown("---")
+
+        # Display selected persona details
+        persona_select = st.session_state.personas_page_selected_persona
+        if persona_select and persona_select in persona_profiles:
+            p_data = persona_profiles[persona_select]
+
+            # Header with color accent
+            st.markdown(f"""
+            <div style="background: linear-gradient(135deg, {p_data['color']}40 0%, {p_data['color']}20 100%);
+                        border-left: 4px solid {p_data['color']}; border-radius: 8px; padding: 1em; margin-bottom: 1em;">
+                <h3 style="margin: 0; color: #333;">{p_data['display']} — {p_data['subtitle']}</h3>
+                <p style="margin: 0.5em 0 0 0; color: #666; font-style: italic;">{p_data['tagline']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                st.markdown("**💪 STRENGTHS**")
+                for s in p_data.get("strengths", []):
+                    st.markdown(f"- {s}")
+
+            with col2:
+                st.markdown("**⚓ ANCHORS**")
+                for a in p_data.get("anchors", []):
+                    st.markdown(f"- {a}")
+
+            with col3:
+                st.markdown("**⚡ EDGES**")
+                for e in p_data.get("edges", []):
+                    st.markdown(f"- {e}")
+
+            st.markdown("---")
+            st.caption(f"Source: personas/I_AM_{persona_select.upper()}.md")
 
 
 if __name__ == "__main__":

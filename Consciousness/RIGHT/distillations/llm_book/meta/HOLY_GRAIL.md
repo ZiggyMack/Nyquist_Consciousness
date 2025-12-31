@@ -138,6 +138,7 @@ chat_questions:
 - Human reads file, decides strategy
 - Uses WORKFLOW_SPEC.md and PROMPT_ENGINEERING.md as guides
 - Manually crafts prompts
+- Promotion to Consciousness/ via `py 0_chew.py --promote BATCH`
 
 ### v0.2 - Claude-Assisted Strategy
 - User gives Claude a file path
@@ -322,3 +323,83 @@ Correct any errors found.
 **The holy grail**: "Here's a file" → "Here's exactly how to distill it"
 
 When we achieve this, any future Claude can pick up exactly where we left off and drive NotebookLM with the same effectiveness.
+
+---
+
+## Research Design Mode (Type E)
+
+Beyond synthesis, NotebookLM can help DESIGN experiments. This is a fundamental shift from treating LLM Book as a one-way inbox to a bidirectional research partnership.
+
+### The Fifth Distillation Mode
+
+| Mode | Goal | Input | Output |
+|------|------|-------|--------|
+| **Type A: Conceptual Translator** | Explain to non-experts | Qualitative descriptions | Explainer essays, analogies |
+| **Type B: Signal Analyst** | Validate claims | Statistical tables, p-values | Technical reports, audits |
+| **Type C: Tactical Router** | Apply to decisions | Comparative matrices | Decision trees, playbooks |
+| **Type D: Adversarial Auditor** | Find weaknesses | Method limitations | Peer review simulations |
+| **Type E: Research Designer** | Generate hypotheses and designs | Research questions + existing data | Methodology proposals, success criteria |
+
+### When to Use Research Design Mode
+
+Use Type E when:
+- You have a research QUESTION but not a METHOD
+- You want to brainstorm experimental approaches
+- You need to operationalize abstract concepts
+- You're designing Phase 2 or follow-up experiments
+
+### The Research Design Prompt Structure
+
+```
+We're designing an experiment to test [HYPOTHESIS].
+
+Existing data we have:
+- [List relevant findings from prior experiments]
+- [Key statistics and constraints]
+
+Our constraints:
+- [Resources, access, time limitations]
+- [Available infrastructure]
+
+Please propose:
+1. Specific experimental design (variables, controls, N-size)
+2. Success criteria (what would confirm/disconfirm?)
+3. Potential confounds to control for
+4. Data analysis approach
+5. Ethical considerations (if applicable)
+```
+
+### Example: Designing the EEG-Analog Study
+
+**Input to NotebookLM:**
+```
+We want to test if LLM drift time-series contain spectral patterns like human EEG.
+
+Existing data:
+- Settling time τₛ ≈ 7 probes
+- Ringback patterns differ by provider (OpenAI: 8.8, Anthropic: 2.1)
+- Recovery follows damped oscillator dynamics
+
+Constraints:
+- Drift measured per-probe (low sampling rate)
+- No access to internal model states
+
+Please propose methodology for spectral analysis...
+```
+
+**Output from NotebookLM:**
+NotebookLM proposes FFT parameters, band definitions, statistical tests, and identifies the need for higher-resolution sampling.
+
+### Research Design Directory Structure
+
+For projects using Type E mode, use the `New_X/` structure in STAGING/:
+
+```
+0_SOURCE_MANIFESTS/STAGING/
+    New_1_EEG_Analog/
+        _IN/           # NotebookLM outputs (their responses)
+        _OUT/          # Materials TO feed NotebookLM (our questions)
+        README.md      # Project overview and status
+```
+
+See WORKFLOW_SPEC.md Section 11 for the full workflow.

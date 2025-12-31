@@ -1,0 +1,91 @@
+{
+  "description": "Pattern-based routing rules for LLM Book distillations to Pan Handler labs",
+  "version": "1.0",
+  "last_updated": "2025-12-31",
+  "routing_rules": [
+    {
+      "id": "nyquist_core",
+      "pattern": "consciousness|identity|drift|PFI|embedding|persona|fidelity",
+      "destinations": ["nyquist_consciousness"],
+      "priority": "high",
+      "description": "Core Nyquist research topics"
+    },
+    {
+      "id": "cfa_epistemic",
+      "pattern": "epistem|coherence|faith|agency|alignment|validation",
+      "destinations": ["cfa"],
+      "priority": "high",
+      "description": "Epistemic and alignment topics"
+    },
+    {
+      "id": "abi_investigation",
+      "pattern": "investigation|pattern|forensic|evidence|timeline|case",
+      "destinations": ["abi"],
+      "priority": "medium",
+      "description": "Investigative intelligence topics"
+    },
+    {
+      "id": "gene_biomedical",
+      "pattern": "gene|therapy|CRISPR|molecular|biology|DNA|RNA",
+      "destinations": ["gene-lab"],
+      "priority": "medium",
+      "description": "Biomedical research topics"
+    },
+    {
+      "id": "justice_liberation",
+      "pattern": "justice|prison|slavery|dignity|carceral|reform|liberation",
+      "destinations": ["justice-lab"],
+      "priority": "medium",
+      "description": "Justice and liberation topics"
+    },
+    {
+      "id": "avlar_creative",
+      "pattern": "ritual|art|symbolic|cross-modal|visual|audio|mythic|gnostic",
+      "destinations": ["avlar-studio"],
+      "priority": "medium",
+      "description": "Cross-modal and ritual art topics"
+    },
+    {
+      "id": "voting_civic",
+      "pattern": "voting|election|democracy|civic|ballot|transparent",
+      "destinations": ["voting-lab"],
+      "priority": "medium",
+      "description": "Civic infrastructure topics"
+    },
+    {
+      "id": "ndo_data",
+      "pattern": "observatory|data|sensor|perception|telemetry|metrics",
+      "destinations": ["ndo"],
+      "priority": "medium",
+      "description": "Data observatory topics"
+    },
+    {
+      "id": "dcia_strategic",
+      "pattern": "strategic|intelligence|geopolitical|risk|forecast",
+      "destinations": ["dcia"],
+      "priority": "low",
+      "description": "Strategic intelligence topics"
+    },
+    {
+      "id": "hoffman_consciousness",
+      "pattern": "hoffman|conscious realism|markov|trace logic|spacetime|headset",
+      "destinations": ["cfa", "New_3_Human_Validation"],
+      "priority": "high",
+      "description": "Donald Hoffman's Conscious Realism framework"
+    },
+    {
+      "id": "spectral_eeg",
+      "pattern": "spectral|FFT|frequency|EEG|oscillation|wavelength",
+      "destinations": ["New_1_EEG_Analog"],
+      "priority": "medium",
+      "description": "Spectral analysis topics"
+    },
+    {
+      "id": "rf_sparameters",
+      "pattern": "S-parameter|impedance|reflection|transmission|RF|S11|S21",
+      "destinations": ["New_2_S_Parameters"],
+      "priority": "medium",
+      "description": "RF engineering framework topics"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ from . import Overview
 from . import personas
 from . import Stackup
 from . import AI_ARMADA
-from . import tests
+from . import experiments  # Renamed from tests - one-stop shop for all experiment data
 from . import metrics
 from . import omega
 from . import avlar
@@ -29,7 +29,7 @@ __all__ = [
     'personas',
     'Stackup',
     'AI_ARMADA',
-    'tests',
+    'experiments',  # Renamed from tests
     'metrics',
     'omega',
     'avlar',

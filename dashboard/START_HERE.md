@@ -1,5 +1,5 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-28
+last_reviewed: 2025-12-31
 depends_on:
   - ./app.py
   - ./config.py
@@ -80,16 +80,16 @@ dashboard/
 │
 └── pages/                   # Page modules
     ├── __init__.py
-    ├── overview.py          # Home/Overview
-    ├── personas.py          # Persona browser + Compression Testing tab + Identity Matrix
-    ├── tests.py             # Experiment framework + Compression results summary
-    ├── stackup.py           # S0-S77 stack view
-    ├── AI_ARMADA.py         # S7 Armada experiments
+    ├── Overview.py          # Home/Overview
+    ├── personas.py          # Persona browser + Compression Testing + Identity Matrix + Persona-Fleet Matrix
+    ├── experiments.py       # Experiment framework + Run Glossary + Visualization Gallery
+    ├── Stackup.py           # S0-S77 stack view
+    ├── AI_ARMADA.py         # Fleet Command Center (54 ships, 5 providers)
     ├── metrics.py           # Metrics & comparisons
     ├── omega.py             # OMEGA NOVA sessions
     ├── avlar.py             # AVLAR protocol
     ├── roadmap.py           # Research roadmap
-    ├── glossary.py          # Terminology
+    ├── Glossary.py          # Terminology
     ├── publications.py      # Publication tracker
     ├── matrix.py            # Matrix portal (links to Pan Handlers)
     ├── faq.py               # FAQ + Super Skeptic Mode
@@ -457,10 +457,11 @@ Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
 | `config.py` | ALL paths and settings |
 | `app.py` | Main entry, CSS, routing |
 | `utils.py` | Helper functions |
-| `pages/AI_ARMADA.py` | Armada visualizations |
-| `pages/stackup.py` | S# layer display |
+| `pages/AI_ARMADA.py` | Fleet Command (54 ships, 5 providers, 10+ families) |
+| `pages/experiments.py` | Run Glossary + Visualization Gallery |
+| `pages/personas.py` | Persona browser + Persona-Fleet Matrix |
+| `pages/Stackup.py` | S# layer display |
 | `pages/faq.py` | FAQ + Super Skeptic Mode |
-| `pages/tests.py` | Experiment framework + Compression |
 | `pages/unknown.py` | Research Frontier |
 | `NYQUIST_STATUS.json` | Live status data |
 
@@ -525,4 +526,4 @@ A good dashboard update should:
 
 ---
 
-*Last Updated: December 29, 2025*
+*Last Updated: December 31, 2025*
