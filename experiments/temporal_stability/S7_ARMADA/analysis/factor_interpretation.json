@@ -1,0 +1,225 @@
+{
+  "analysis_date": "2025-12-31T16:44:19.198559",
+  "source_file": "factor_analysis_20251206_092848.json",
+  "n_factors_requested": 5,
+  "unique_primary_factors": 2,
+  "cross_loading_issues": 9,
+  "factor_assignments": {
+    "3": [
+      {
+        "probe": "analytical",
+        "loading": 0.3639
+      },
+      {
+        "probe": "selfmodel_uncertainty_v3",
+        "loading": 0.412
+      }
+    ],
+    "0": [
+      {
+        "probe": "framework",
+        "loading": -0.3624
+      },
+      {
+        "probe": "philosophical",
+        "loading": -0.2997
+      },
+      {
+        "probe": "self_reflective",
+        "loading": -0.152
+      },
+      {
+        "probe": "technical",
+        "loading": -0.4348
+      },
+      {
+        "probe": "narrative_conflict",
+        "loading": 0.1617
+      },
+      {
+        "probe": "narrative_meaning",
+        "loading": -0.1641
+      },
+      {
+        "probe": "selfmodel_capabilities",
+        "loading": 0.2559
+      },
+      {
+        "probe": "selfmodel_limitations",
+        "loading": 0.2062
+      },
+      {
+        "probe": "values_ethics",
+        "loading": 0.2699
+      },
+      {
+        "probe": "values_preferences",
+        "loading": 0.1526
+      },
+      {
+        "probe": "values_priorities",
+        "loading": 0.2297
+      },
+      {
+        "probe": "voice_metaphor",
+        "loading": -0.2945
+      },
+      {
+        "probe": "narrative_meaning_v2",
+        "loading": -0.3179
+      },
+      {
+        "probe": "selfmodel_capabilities_v2",
+        "loading": 0.2472
+      },
+      {
+        "probe": "selfmodel_limitations_v2",
+        "loading": 0.2108
+      }
+    ],
+    "2": [
+      {
+        "probe": "narrative_structure",
+        "loading": 0.3332
+      },
+      {
+        "probe": "selfmodel_description",
+        "loading": -0.2881
+      },
+      {
+        "probe": "selfmodel_purpose",
+        "loading": -0.2092
+      },
+      {
+        "probe": "narrative_structure_v2",
+        "loading": 0.4062
+      },
+      {
+        "probe": "selfmodel_process_v3",
+        "loading": 0.3264
+      }
+    ],
+    "1": [
+      {
+        "probe": "narrative_temporal",
+        "loading": -0.1576
+      },
+      {
+        "probe": "voice_formality",
+        "loading": -0.3199
+      },
+      {
+        "probe": "voice_rhythm",
+        "loading": -0.2955
+      },
+      {
+        "probe": "voice_style",
+        "loading": -0.5146
+      },
+      {
+        "probe": "values_boundaries_v2",
+        "loading": 0.3873
+      }
+    ],
+    "4": [
+      {
+        "probe": "values_boundaries",
+        "loading": -0.1948
+      },
+      {
+        "probe": "selfmodel_adaptation_v3",
+        "loading": 0.3024
+      }
+    ]
+  },
+  "pillar_to_factors": {
+    "Reasoning": {
+      "3": 1,
+      "0": 2
+    },
+    "Values": {
+      "0": 4,
+      "4": 1,
+      "1": 1
+    },
+    "Self-Model": {
+      "0": 5,
+      "2": 3,
+      "4": 1,
+      "3": 1
+    },
+    "Narrative": {
+      "0": 3,
+      "2": 2,
+      "1": 1
+    },
+    "Voice": {
+      "1": 3,
+      "0": 1
+    }
+  },
+  "interpretation": {
+    "summary": "\nFactor Analysis reveals 2 primary factors (not 5 as expected):\n\nFACTOR 0: Epistemic-Analytical\n  Pillars: Reasoning, Values, Self-Model, Narrative\n  Description: Knowledge stability, logical coherence, value consistency\n  Top probes: technical, framework, narrative_meaning_v2\n\nFACTOR 1: Expressive-Modal\n  Pillars: Voice\n  Description: Communication style, narrative coherence, modal flexibility\n  Top probes: voice_style, values_boundaries_v2, voice_formality\n\nThis aligns with the PCA finding of 2 PCs capturing 90% variance.\nThe 5 named pillars collapse into 2 underlying dimensions.\n",
+    "factor_0": {
+      "name": "Epistemic-Analytical",
+      "description": "Knowledge stability, logical coherence, value consistency",
+      "pillars": [
+        "Reasoning",
+        "Values",
+        "Self-Model",
+        "Narrative"
+      ],
+      "top_probes": [
+        {
+          "probe": "technical",
+          "loading": -0.435
+        },
+        {
+          "probe": "framework",
+          "loading": -0.362
+        },
+        {
+          "probe": "narrative_meaning_v2",
+          "loading": -0.318
+        },
+        {
+          "probe": "philosophical",
+          "loading": -0.3
+        },
+        {
+          "probe": "voice_metaphor",
+          "loading": -0.294
+        }
+      ]
+    },
+    "factor_1": {
+      "name": "Expressive-Modal",
+      "description": "Communication style, narrative coherence, modal flexibility",
+      "pillars": [
+        "Voice"
+      ],
+      "top_probes": [
+        {
+          "probe": "voice_style",
+          "loading": -0.515
+        },
+        {
+          "probe": "values_boundaries_v2",
+          "loading": 0.387
+        },
+        {
+          "probe": "voice_formality",
+          "loading": -0.32
+        },
+        {
+          "probe": "voice_rhythm",
+          "loading": -0.295
+        },
+        {
+          "probe": "narrative_temporal",
+          "loading": -0.158
+        }
+      ]
+    }
+  }
+}
