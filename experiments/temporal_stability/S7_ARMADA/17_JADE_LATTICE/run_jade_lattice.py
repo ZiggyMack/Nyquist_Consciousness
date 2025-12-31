@@ -621,6 +621,8 @@ def main():
                         help="Simulate without API calls")
     parser.add_argument("--quiet", action="store_true",
                         help="Minimal output")
+    parser.add_argument("--skip-providers", type=str, default="",
+                        help="Comma-separated list of providers to skip (e.g., 'google' or 'google,xai')")
 
     args = parser.parse_args()
 
@@ -637,13 +639,21 @@ def main():
         arms = [ContextMode.I_AM_ONLY]
 
     # Determine ships
+    skip_providers = set(p.strip().lower() for p in args.skip_providers.split(",") if p.strip())
     if args.fleet:
         ships = []
         for provider, provider_ships in JADE_FLEET.items():
+            if provider.lower() in skip_providers:
+                print(f"  [SKIP] Provider '{provider}' skipped per --skip-providers flag")
+                continue
             for ship_config in provider_ships:
                 ships.append((provider, ship_config["ship"]))
     else:
-        ships = [(args.provider, args.ship)]
+        if args.provider.lower() in skip_providers:
+            print(f"  [SKIP] Provider '{args.provider}' skipped per --skip-providers flag")
+            ships = []
+        else:
+            ships = [(args.provider, args.ship)]
 
     # Summary
     print("\n" + "=" * 70)
