@@ -1,11 +1,13 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-29
+last_reviewed: 2025-12-31
 impacts:
   - ../README.md
 keywords:
   - consciousness
   - IRON CLAD
   - COSINE ERA
+  - 0_chew
+  - pipeline
 -->
 # LLM_BOOK: NotebookLM Validation Hub
 
@@ -39,34 +41,42 @@ keywords:
 
 ## Content Workflows
 
-### Ingestion (STAGING -> LLM_BOOK)
+### Unified Pipeline (0_chew.py Entry Point)
 
-New NotebookLM outputs are staged in `0_SOURCE_MANIFESTS/STAGING/` and ingested via:
+**Everything starts with chewing.** The pipeline uses a digestive metaphor:
+
+```text
+0_chew.py (mastication) → 1_ingest.py (swallow) → 2_digest.py (route)
+```
+
+All operations run from `0_SOURCE_MANIFESTS/`:
 
 ```bash
 cd REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS
-py ingest.py                              # Report mode - show what would happen
-py ingest.py --ingest                     # Ingest with Claude review (default)
-py ingest.py --ingest --dry-run           # Preview without changes
-py ingest.py --ingest --skip-review       # Create templates only (no analysis)
-py ingest.py --ingest --force --batch X   # Re-process specific batch(es) even if already ingested
 
-# Diet Mode (non-committal processing)
-py ingest.py --ingest --diet --batch X    # Process to _CACHE_/ only (doesn't commit to pipeline)
-py ingest.py --throw_up                   # Purge all _CACHE_/ directories
+# Check pipeline status (default)
+py 0_chew.py
+
+# Process a batch (auto-detects Nyquist vs R&D)
+py 0_chew.py Nyquist_3                 # Ingest + digest
+py 0_chew.py Nyquist_3 --new           # Fresh: clear + process
+py 0_chew.py HOFFMAN --diet            # Diet: process to _CACHE_/ only
+
+# Project management
+py 0_chew.py --baka "EEG Study"        # Create research project
+py 0_chew.py --promote HOFFMAN         # Promote to Consciousness/
+py 0_chew.py --reset                   # Purge all _CACHE_/ directories
+
+# Routing intelligence
+py 0_chew.py --route HOFFMAN           # Where should this go?
+py 0_chew.py --labs                    # List Pan Handler labs
 ```
 
 **Diet Mode:** Full cognitive processing without committing to the real pipeline. Output goes to `STAGING/{batch}/_CACHE_/` instead of `1_VALIDATION/`. Use for priming Claude with old batches or experimentation.
 
-**Workflow:** Archives current state to `packages/v{n}/llmbook/` before clearing and rebuilding.
-
-### Digest (Generate REVIEW_NOTES)
-
-After ingestion, generate review notes:
-
-```bash
-py digest.py --digest           # Generate REVIEW_NOTES_*.md for each batch
-```
+**Content Type Auto-Detection:**
+- Names containing `nyquist`, `infinity-nyquist`, `white-paper` → IRON CLAD validation
+- Everything else → R&D exploratory processing (open-ended)
 
 ### Sync to WHITE-PAPER (LLM_BOOK -> packages/)
 
