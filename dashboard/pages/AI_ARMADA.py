@@ -1882,6 +1882,13 @@ def render():
         </div>
         """, unsafe_allow_html=True)
 
+    # Link to Experiments page for detailed run data
+    st.info("""
+    🔬 **Looking for detailed experiment results?**
+    Visit the **Experiments** page (sidebar) for the full run glossary, visualization gallery,
+    methodology education, and comprehensive run-by-run breakdowns.
+    """)
+
     page_divider()
 
     # === FLEET INSIGHTS (from ARMADA_MAP.md) ===
