@@ -574,21 +574,246 @@ def copy_folder_contents(source: Path, target: Path, dry_run: bool = True,
     return file_count
 
 
-def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = False) -> Dict:
+# === R&D COGNITIVE PROCESSING ===
+# Parallel to Nyquist processing but with exploratory focus (no IRON CLAD constraints)
+
+RND_ANALYSIS_DIRS = ["INSIGHTS", "CONNECTIONS", "EXPERIMENTS"]
+
+
+def create_rnd_review_notes(batch_name: str, source_folder: Path, dry_run: bool = True,
+                             diet: bool = False) -> Path:
     """
-    Ingest R&D content into RnD/ directory (append mode).
+    Create R&D review notes template (open-ended, exploratory).
+
+    Unlike Nyquist reviews, these focus on:
+    - Novel insights and discoveries
+    - Cross-domain connections
+    - Pan Handler routing suggestions
+    """
+    # List files in root or _IN folder
+    in_folder = source_folder / "_IN"
+    if in_folder.exists():
+        files = [f.name for f in in_folder.iterdir() if f.is_file()]
+    else:
+        files = [f.name for f in source_folder.iterdir()
+                 if f.is_file() and not f.name.startswith(".")]
+
+    template = f"""# R&D Review: {batch_name}
+
+**Ingestion Date:** {datetime.now().strftime('%Y-%m-%d')}
+**Source:** STAGING/{batch_name}/
+**Type:** Exploratory Research
+**Status:** PENDING REVIEW
+
+---
+
+## Source Files
+
+"""
+    for f in sorted(files):
+        ext = Path(f).suffix.lower()
+        template += f"- `{f}` ({ext})\n"
+
+    template += """
+
+---
+
+## Source Summary
+
+[What is this content about? Main themes and topics.]
+
+---
+
+## Key Insights
+
+[Novel ideas, surprising findings, interesting patterns discovered.]
+
+---
+
+## Cross-Domain Connections
+
+[How does this relate to other Pan Handler labs?]
+[Potential synergies with existing research?]
+
+- **CFA (Epistemics):**
+- **ABI (Investigation):**
+- **AVLAR Studio (Ritual Art):**
+- **NDO (Data Observatory):**
+- **Other Labs:**
+
+---
+
+## Experimental Ideas
+
+[What experiments could test these ideas?]
+[What questions does this raise?]
+
+1.
+2.
+3.
+
+---
+
+## Routing Suggestions
+
+Based on content analysis:
+
+**Primary Destination(s):**
+-
+
+**Secondary/Supporting:**
+-
+
+**Rationale:**
+
+
+---
+
+## Quality Assessment
+
+| Dimension | Rating | Notes |
+|-----------|--------|-------|
+| Novelty | [High/Medium/Low] | |
+| Actionability | [High/Medium/Low] | |
+| Integration Potential | [High/Medium/Low] | |
+
+---
+
+*Created by 1_ingest.py on {date}*
+*R&D Review (exploratory, no IRON CLAD constraints)*
+""".format(date=datetime.now().strftime('%Y-%m-%d'))
+
+    # Determine target path
+    if diet:
+        cache_dir = source_folder / CACHE_DIR_NAME
+        target_path = cache_dir / f"REVIEW_NOTES_{batch_name}.md"
+        if not dry_run:
+            cache_dir.mkdir(parents=True, exist_ok=True)
+            target_path.write_text(template, encoding="utf-8")
+    else:
+        rnd_dir = LLM_BOOK_DIR / "RnD" / get_rnd_topic_name(batch_name)
+        target_path = rnd_dir / f"REVIEW_NOTES_{batch_name}.md"
+        if not dry_run:
+            rnd_dir.mkdir(parents=True, exist_ok=True)
+            target_path.write_text(template, encoding="utf-8")
+
+    return target_path
+
+
+def create_rnd_analysis_stubs(batch_name: str, source_folder: Path, dry_run: bool = True,
+                               diet: bool = False) -> List[Path]:
+    """
+    Create R&D analysis stub files (INSIGHTS, CONNECTIONS, EXPERIMENTS).
+
+    Different from Nyquist stubs - focused on exploration rather than validation.
+    """
+    created = []
+    topic_name = get_rnd_topic_name(batch_name)
+
+    stubs = {
+        "INSIGHTS": f"""# INSIGHTS: {batch_name}
+
+## Novel Ideas
+
+[What new ideas emerged from this content?]
+
+## Surprising Findings
+
+[What was unexpected or counter-intuitive?]
+
+## Patterns Discovered
+
+[What recurring themes or patterns appeared?]
+
+---
+
+*R&D Exploratory Analysis*
+""",
+        "CONNECTIONS": f"""# CONNECTIONS: {batch_name}
+
+## Pan Handler Lab Links
+
+| Lab | Connection | Potential Value |
+|-----|------------|-----------------|
+| CFA | | |
+| ABI | | |
+| AVLAR | | |
+| NDO | | |
+
+## Cross-Domain Synergies
+
+[What other fields or domains could benefit?]
+
+## Integration Opportunities
+
+[How could this inform or improve existing work?]
+
+---
+
+*R&D Exploratory Analysis*
+""",
+        "EXPERIMENTS": f"""# EXPERIMENTS: {batch_name}
+
+## Testable Hypotheses
+
+1.
+2.
+3.
+
+## Proposed Experiments
+
+### Experiment 1: [Name]
+- **Question:**
+- **Method:**
+- **Expected Outcome:**
+
+## Open Questions
+
+[What remains unknown that experiments could address?]
+
+---
+
+*R&D Exploratory Analysis*
+"""
+    }
+
+    for subdir_name, content in stubs.items():
+        if diet:
+            cache_dir = source_folder / CACHE_DIR_NAME / subdir_name
+            stub_path = cache_dir / f"{batch_name}.md"
+            if not dry_run:
+                cache_dir.mkdir(parents=True, exist_ok=True)
+                stub_path.write_text(content, encoding="utf-8")
+        else:
+            rnd_dir = LLM_BOOK_DIR / "RnD" / topic_name / subdir_name
+            stub_path = rnd_dir / f"{batch_name}.md"
+            if not dry_run:
+                rnd_dir.mkdir(parents=True, exist_ok=True)
+                stub_path.write_text(content, encoding="utf-8")
+
+        created.append(stub_path)
+
+    return created
+
+
+def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = False,
+                       skip_review: bool = False) -> Dict:
+    """
+    Ingest R&D content into RnD/ directory WITH cognitive processing.
 
     Args:
         folders: List of source folders to process
         dry_run: Preview without making changes
         diet: If True, write to _CACHE_/ instead of RnD/ (non-committal)
+        skip_review: If True, create templates only without analysis
     """
-    result = {"folders": 0, "files": 0, "details": [], "diet": diet}
+    result = {"folders": 0, "files": 0, "details": [], "diet": diet, "review_notes": []}
 
     rnd_dir = LLM_BOOK_DIR / "RnD"
 
     for folder in folders:
         topic_name = get_rnd_topic_name(folder.name)
+        batch_name = folder.name
 
         if diet:
             # Diet mode: write to _CACHE_/RnD/{topic_name} inside the batch folder
@@ -615,15 +840,25 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = F
                 "files": file_count
             })
 
-            # Mark as ingested (skip in diet mode)
-            if not diet:
-                mark_batch_ingested(folder, dry_run)
-
             action = "[DRY RUN]" if dry_run else "[OK]"
             diet_tag = " -> _CACHE_/" if diet else ""
             print(f"  {action} {folder.name} -> {target_display} ({file_count} files){diet_tag}")
 
-            if diet:
+            # Create R&D cognitive processing outputs
+            rn_path = create_rnd_review_notes(batch_name, folder, dry_run, diet=diet)
+            result["review_notes"].append(str(rn_path))
+            print(f"  {action} Created REVIEW_NOTES_{batch_name}.md (R&D exploratory){diet_tag}")
+
+            # Create analysis stubs
+            stubs = create_rnd_analysis_stubs(batch_name, folder, dry_run, diet=diet)
+            print(f"  {action} Created R&D analysis files{diet_tag}:")
+            for stub in stubs:
+                print(f"      - {stub.parent.name}/{stub.name}")
+
+            # Mark as ingested (skip in diet mode)
+            if not diet:
+                mark_batch_ingested(folder, dry_run)
+            else:
                 print(f"      (Diet mode: .ingested marker NOT created)")
 
     return result

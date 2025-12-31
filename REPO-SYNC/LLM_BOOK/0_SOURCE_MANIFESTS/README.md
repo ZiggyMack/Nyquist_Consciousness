@@ -1,21 +1,24 @@
-# LLM_BOOK Ingestion Pipeline
+# LLM_BOOK Digestive Pipeline
 
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-29
+last_reviewed: 2025-12-31
 depends_on:
-  - ingest.py
-  - digest.py
+  - 0_chew.py
+  - 1_ingest.py
+  - 2_digest.py
   - ../../../WHITE-PAPER/calibration/1_sync_llmbook.py
 impacts:
   - ../1_VALIDATION/
   - ../2_PUBLICATIONS/
+  - ../RnD/
   - ../../../WHITE-PAPER/reviewers/packages/v4/llmbook/
 keywords:
   - NotebookLM
   - ingestion
   - digest
+  - chew
   - STAGING
-  - accumulative
+  - pipeline
   - REVIEW_NOTES
 -->
 
@@ -29,21 +32,23 @@ keywords:
 
 ## Quick Start
 
+Everything starts with `0_chew.py`:
+
 ```bash
-# 1. Check what's in STAGING
-py ingest.py
+# Check pipeline status
+py 0_chew.py
 
-# 2. Ingest new batches (creates REVIEW_NOTES templates)
-py ingest.py --ingest
+# Process a batch (auto-detects Nyquist vs R&D)
+py 0_chew.py Nyquist_3
 
-# 3. Claude reviews and fills in REVIEW_NOTES_*.md
+# Diet mode: process to _CACHE_/ only (for review before committing)
+py 0_chew.py HOFFMAN --diet
 
-# 4. Digest media from STAGING to LLM_BOOK/
-py digest.py --digest
+# Create new research project
+py 0_chew.py --baka "EEG Analog Study"
 
-# 5. Sync to reviewer packages
-cd ../../WHITE-PAPER/calibration
-py 1_sync_llmbook.py --sync --include-visuals
+# See routing for a topic
+py 0_chew.py --route HOFFMAN
 ```
 
 ---
@@ -51,84 +56,100 @@ py 1_sync_llmbook.py --sync --include-visuals
 ## Pipeline Architecture
 
 ```
+0_chew.py (unified entry point)
+     │
+     ├── BATCH              → 1_ingest.py → 2_digest.py
+     ├── BATCH --new        → 1_ingest.py --fresh → 2_digest.py
+     ├── BATCH --diet       → 1_ingest.py --diet (→ _CACHE_/)
+     ├── --baka "Name"      → Create New_X/ research project
+     ├── --promote BATCH    → Copy to Consciousness/
+     ├── --reset            → Purge all _CACHE_/ directories
+     ├── --route TOPIC      → Show Pan Handler routing
+     └── --labs             → List Pan Handler labs
+```
+
+**Flow:**
+
+```
 STAGING/                           LLM_BOOK/
   Nyquist_1/_IN/  ─┐              ├── 1_VALIDATION/
-  Nyquist_2/_IN/  ─┼─ ingest.py ──┤     └── REVIEW_NOTES_*.md
-  RAG/_IN/        ─┤              │
-  HOFFMAN/_IN/    ─┘              ├── 2_PUBLICATIONS/{category}/
+  Nyquist_2/_IN/  ─┼─ 1_ingest ───┤     ├── REVIEW_NOTES_*.md
+  HOFFMAN/        ─┤              │     ├── 1_DEEP_DIVES/
+  RAG/            ─┘              │     ├── 2_FUTURE/
+                                  │     └── 3_EXPERIMENTS/
+                  2_digest ───────┤
+                                  ├── 2_PUBLICATIONS/{category}/
                                   ├── 3_VISUALS/
-                  digest.py ──────┤
                                   ├── 4_AUDIO/
                                   └── RnD/
-
-                                         │
-                                         ▼
-                              1_sync_llmbook.py
-                                         │
-                                         ▼
-                        WHITE-PAPER/reviewers/packages/v4/llmbook/
+                                        ├── {topic}/
+                                        │   ├── REVIEW_NOTES_{batch}.md
+                                        │   ├── INSIGHTS/
+                                        │   ├── CONNECTIONS/
+                                        │   └── EXPERIMENTS/
 ```
 
 ---
 
 ## Scripts
 
-### ingest.py (v5.0) - STAGING to REVIEW_NOTES
+### 0_chew.py (v3.0) - Unified Entry Point
 
-Creates review templates for Claude to fill in. Default behavior: Claude performs substantive review and creates analysis files.
+The single command for all pipeline operations. Everything starts with "chewing."
 
-| Command | Description |
-|---------|-------------|
-| `py ingest.py` | Report: show STAGING status |
-| `py ingest.py --ingest` | Append mode (default): add new batches with Claude review |
-| `py ingest.py --ingest --fresh` | Destructive: clear all, then ingest |
-| `py ingest.py --ingest --skip-review` | Create templates only (no analysis) |
-| `py ingest.py --ingest --force --batch Nyquist_1 Nyquist_2` | Re-ingest specific batches |
-| `py ingest.py --ingest --diet --batch OldBatch` | Diet mode: process to _CACHE_/ only |
-| `py ingest.py --throw_up` | Purge all _CACHE_/ directories |
-
-**Accumulative Model:**
-- Default = APPEND (preserve existing, add new)
-- `--fresh` = DESTRUCTIVE (clear all, start over)
-- `--force` = Re-process even if already ingested
-- `--batch X Y` = Process specific batch(es) only
-- Each batch gets `.ingested` marker when processed
-- Review notes: `REVIEW_NOTES_{batch_name}.md`
-
-**Diet Mode (--diet):**
-
-- Full cognitive processing WITHOUT committing to real pipeline
-- Output goes to `STAGING/{batch}/_CACHE_/` instead of `1_VALIDATION/`
-- No `.ingested` marker created (batch stays "pending" for real ingest later)
-- Use for: priming Claude with old NotebookLM batches, experimentation
-- Use `--throw_up` to purge all `_CACHE_/` directories when done
-
-**Diet Mode Output Structure:**
-
-```text
-STAGING/SomeBatch/
-    _IN/                          # Source files (untouched)
-    _CACHE_/                      # Diet mode output
-        REVIEW_NOTES_SomeBatch.md
-        1_DEEP_DIVES/
-            SomeBatch.md
-        2_FUTURE/
-            SomeBatch.md
-        3_EXPERIMENTS/
-            SomeBatch.md
-```
-
-### digest.py (v2.0) - STAGING to LLM_BOOK
-
-Routes media files from STAGING/_IN to final destinations.
+**Pipeline Operations:**
 
 | Command | Description |
 |---------|-------------|
-| `py digest.py` | Report: show what would route |
-| `py digest.py --digest` | Copy files to categories |
-| `py digest.py --digest --batch Nyquist_1` | Digest specific batch |
+| `py 0_chew.py BATCH` | Ingest + digest (append mode, auto-detects type) |
+| `py 0_chew.py BATCH --new` | Fresh mode: clear + ingest + digest |
+| `py 0_chew.py BATCH --diet` | Diet mode: process to `_CACHE_/` only |
+
+**Project Management:**
+
+| Command | Description |
+|---------|-------------|
+| `py 0_chew.py --baka "Name"` | Create new research project (R&D exploratory) |
+| `py 0_chew.py --promote BATCH` | Promote to Consciousness/ |
+| `py 0_chew.py --reset` | Purge all `_CACHE_/` directories |
+| `py 0_chew.py --status` | Show full pipeline status |
+
+**Routing Intelligence:**
+
+| Command | Description |
+|---------|-------------|
+| `py 0_chew.py --route TOPIC` | Show where topic should go |
+| `py 0_chew.py --route --all` | Show full routing map |
+| `py 0_chew.py --labs` | List all Pan Handler labs |
+| `py 0_chew.py --lab ID` | Show specific lab details |
+
+**Content Type Auto-Detection:**
+
+- Names containing `nyquist`, `infinity-nyquist`, or `white-paper` → IRON CLAD validation
+- Everything else → R&D exploratory processing
+
+### 1_ingest.py (v6.0) - STAGING to Cognitive Processing
+
+Called by `0_chew.py`. Creates review notes and analysis stubs.
+
+**Nyquist Content:**
+
+- IRON CLAD validation (D=0.80, ~93%, p=2.40e-23, 750/25/5)
+- `REVIEW_NOTES_{batch}.md` with quality grades
+- `1_DEEP_DIVES/`, `2_FUTURE/`, `3_EXPERIMENTS/`
+
+**R&D Content:**
+
+- Open-ended exploratory processing (no IRON CLAD constraints)
+- `REVIEW_NOTES_{batch}.md` with insights focus
+- `INSIGHTS/`, `CONNECTIONS/`, `EXPERIMENTS/`
+
+### 2_digest.py (v2.0) - File Routing
+
+Called by `0_chew.py`. Routes files to final destinations.
 
 **Routing Rules:**
+
 | Extension | Destination |
 |-----------|-------------|
 | .png, .jpg, .gif, .svg | 3_VISUALS/ |
@@ -136,6 +157,7 @@ Routes media files from STAGING/_IN to final destinations.
 | .md, .pdf | 2_PUBLICATIONS/{category}/ |
 
 **Classification (for .md/.pdf):**
+
 - `academic`: Technical Report, Empirical, Framework
 - `popular_science`: Engineer's Toolkit, Charting
 - `education`: Guide, Student, Learner, Glossary
@@ -143,176 +165,83 @@ Routes media files from STAGING/_IN to final destinations.
 - `funding`: Proposal, Project, Grant
 - `media`: Paradigm, New Era, Press, TED
 
-### chew.py (v2.0) - Research Exploration & Routing Manager
+---
 
-The "mastication" stage of the digestive pipeline: `ingest.py → digest.py → chew.py`
+## Diet Mode
 
-Creates new research project directories, promotes content to Consciousness/, and provides cross-lab routing intelligence for the Pan Handlers Civilization Engine.
+Process content without committing to the pipeline:
 
-| Command | Description |
-|---------|-------------|
-| `py chew.py "Project Name"` | Create new research project (default action) |
-| `py chew.py --status` | Show all projects and their state |
-| `py chew.py --promote --batch Nyquist_3` | Promote content to Consciousness/ |
-| `py chew.py "Name" --staging STAGING STAGING2` | Multi-staging support |
+```bash
+py 0_chew.py HOFFMAN --diet
+```
 
-**Routing Commands:**
-
-| Command | Description |
-|---------|-------------|
-| `py chew.py --route HOFFMAN` | Show where HOFFMAN content should go |
-| `py chew.py --route --all` | Show full routing map |
-| `py chew.py --labs` | List all Pan Handler labs |
-| `py chew.py --lab cfa` | Show details for specific lab |
-
-**Research Project Structure:**
+Output goes to `_CACHE_/` inside the batch folder:
 
 ```text
-STAGING/New_X_ProjectName/
-    _IN/                    # NotebookLM responses (save here)
-    _OUT/                   # Materials TO feed NotebookLM
+STAGING/HOFFMAN/
+    _IN/                          # Source files (untouched)
+    _CACHE_/                      # Diet mode output
+        RnD/HOFFMAN/
+            REVIEW_NOTES_HOFFMAN.md
+            INSIGHTS/
+                HOFFMAN.md
+            CONNECTIONS/
+                HOFFMAN.md
+            EXPERIMENTS/
+                HOFFMAN.md
+```
+
+To purge all caches:
+
+```bash
+py 0_chew.py --reset
+```
+
+---
+
+## Research Projects (--baka)
+
+Create exploratory research projects:
+
+```bash
+py 0_chew.py --baka "EEG Analog Study"
+```
+
+Creates:
+
+```text
+STAGING/New_4_EEG_Analog_Study/
+    _IN/                    # NotebookLM responses
+    _OUT/                   # Materials FOR NotebookLM
         RESEARCH_QUESTION.md
         EXISTING_EVIDENCE.md
         CONSTRAINTS.md
-    README.md               # Project overview and status
+    README.md               # Project overview
 ```
 
-**Bidirectional Workflow:**
-
-- `_OUT/`: Content TO feed NotebookLM (your questions/materials)
-- `_IN/`: Content FROM NotebookLM (their responses)
-
-**Pan Handler Routing:**
-
-Routes research insights to appropriate Pan Handler labs based on:
-
-- Explicit topic mappings in `PAN_HANDLERS/1_Maps/research_to_labs.json`
-- Pattern-based rules in `PAN_HANDLERS/1_Maps/llm_book_routing.json`
-
-### 1_sync_llmbook.py (v2.3) - LLM_BOOK to Packages
-
-Syncs to `WHITE-PAPER/reviewers/packages/v4/llmbook/`.
-
-| Command | Description |
-|---------|-------------|
-| `py 1_sync_llmbook.py` | Report: show sync status |
-| `py 1_sync_llmbook.py --sync` | Sync publications + validation + analysis |
-| `py 1_sync_llmbook.py --sync --include-visuals` | Also sync 3_VISUALS/ |
-
-**What Gets Synced:**
-- `2_PUBLICATIONS/*` -> `llmbook/{category}/` (with `LLM_` prefix)
-- `1_VALIDATION/REVIEW_NOTES_*.md` -> `llmbook/validation/`
-- `1_VALIDATION/1_DEEP_DIVES/*.md` -> `llmbook/analysis/deep_dives/`
-- `1_VALIDATION/2_FUTURE/*.md` -> `llmbook/analysis/future/`
-- `1_VALIDATION/3_EXPERIMENTS/*.md` -> `llmbook/analysis/experiments/`
-- `3_VISUALS/` -> `figures/generated/llmbook/` (optional)
+All `--baka` projects use R&D exploratory structure (not IRON CLAD constrained).
 
 ---
 
-## STAGING Structure
+## Pan Handler Routing
 
-Each NotebookLM session gets its own folder:
+Route insights to appropriate labs:
 
-```
-STAGING/
-├── Nyquist_1/           # First Nyquist upload
-│   ├── _IN/             # Raw outputs from NotebookLM
-│   │   ├── *.md         # Generated articles
-│   │   ├── *.pdf        # Generated PDFs
-│   │   ├── *.png        # Mind maps, diagrams
-│   │   └── *.m4a        # Audio summaries
-│   └── .ingested        # Marker: batch processed
-│
-├── Nyquist_2/           # Second Nyquist upload (IRON CLAD)
-│   └── _IN/
-│
-├── RAG/                 # R&D: RAG experiments
-├── HOFFMAN/             # R&D: Hoffman interface theory
-├── Gnostic-1/           # R&D: Gnostic philosophy
-└── YANG/                # R&D: Yang balance concepts
+```bash
+py 0_chew.py --route HOFFMAN
+# Output: Primary: New_3_Human_Validation, cfa | Secondary: avlar-studio
+
+py 0_chew.py --labs
+# Lists all 9 Pan Handler labs
+
+py 0_chew.py --lab cfa
+# Shows CFA details + what R&D topics feed it
 ```
 
-**Nyquist batches** -> Publication pipeline (1_VALIDATION -> 2_PUBLICATIONS)
-**R&D batches** -> RnD/ directory (system improvement research)
+Configuration files:
 
----
-
-## NotebookLM Upload Protocol
-
-### Tier 1: Core Framework (Required)
-- [ ] WHITE-PAPER/README.md
-- [ ] WHITE-PAPER/START_HERE.md
-- [ ] docs/MASTER_GLOSSARY.md
-- [ ] docs/maps/5_STACKUP_MAP.md
-- [ ] docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md
-- [ ] docs/maps/12_PHILOSOPHY_MAP.md
-
-### Tier 2: S7 ARMADA Evidence (Required)
-- [ ] experiments/.../S7_ARMADA/README.md
-- [ ] experiments/.../S7_ARMADA/START_HERE.md
-- [ ] Key run summaries (018, 020B, 021, 023d)
-- [ ] STATUS_SUMMARY files from active runs
-
-### Tier 3: Identity Files (Recommended)
-- [ ] personas/I_AM_NOVA.md
-- [ ] personas/I_AM_ZIGGY.md
-- [ ] personas/I_AM_NYQUIST.md
-
-### Tier 4: Publication Materials (For Validation)
-- [ ] Latest arxiv/workshop drafts
-- [ ] WHITE-PAPER/theory/MINIMUM_PUBLISHABLE_CLAIMS.md
-
-### Size Limits
-- **Maximum files:** 50
-- **Total size:** <100MB
-- **Per-file:** <10MB documents, <20MB PDFs
-
----
-
-## Upload History
-
-### v1: Initial Upload (~December 2025)
-**Files:** 21 sources (mostly stale)
-**Result:** Despite incomplete data, NotebookLM:
-- Synthesized Levin/Platonic connection independently
-- Generated 7 audience-specific publications
-- Validated Claims A-E from scattered sources
-- Created 6MB visual synthesis
-
-### v2: IRON CLAD Upload (December 2025)
-**Files:** Complete S7 results (Run 018-023d)
-**Content:**
-- 750 experiments, 25 models, 5 providers
-- Event Horizon = 0.80 (cosine), p = 2.40e-23
-- Full temporal stability validation
-
----
-
-## Post-Upload Prompts
-
-### General Synthesis
-```
-Discuss what these sources say about [TOPIC], in the larger
-context of Nyquist Consciousness Framework (S0-S7).
-```
-
-### Validation Request
-```
-Based on these sources, validate or challenge [CLAIM].
-Cite specific evidence from the documents.
-```
-
-### Publication Generation
-```
-Generate a [TYPE: popular science article / policy brief / quiz]
-based on these sources for [AUDIENCE].
-```
-
-### Cross-Connection
-```
-Identify connections between the Nyquist Consciousness framework
-and [EXTERNAL THEORY: Levin bioelectrics / Platonic Forms].
-```
+- `PAN_HANDLERS/1_Maps/research_to_labs.json` - Explicit topic mappings
+- `PAN_HANDLERS/1_Maps/llm_book_routing.json` - Pattern-based rules
 
 ---
 
@@ -323,15 +252,15 @@ REPO-SYNC/LLM_BOOK/
 ├── 0_SOURCE_MANIFESTS/      # This folder
 │   ├── README.md            # This file
 │   ├── STAGING/             # Raw NotebookLM outputs
-│   ├── ingest.py            # STAGING -> REVIEW_NOTES (+ diet mode)
-│   ├── digest.py            # STAGING -> LLM_BOOK/*
-│   └── chew.py              # Research + routing manager
+│   ├── 0_chew.py            # Unified entry point
+│   ├── 1_ingest.py          # Cognitive processing
+│   └── 2_digest.py          # File routing
 │
-├── 1_VALIDATION/            # Review notes (Claude fills in)
-│   ├── REVIEW_NOTES_Nyquist_1_2.md
-│   ├── 1_DEEP_DIVES/        # Extended analysis (--full)
-│   ├── 2_FUTURE/            # Future research (--full)
-│   └── 3_EXPERIMENTS/       # Experiment ideas (--full)
+├── 1_VALIDATION/            # Nyquist review notes
+│   ├── REVIEW_NOTES_*.md
+│   ├── 1_DEEP_DIVES/
+│   ├── 2_FUTURE/
+│   └── 3_EXPERIMENTS/
 │
 ├── 2_PUBLICATIONS/          # Routed content
 │   ├── academic/
@@ -343,9 +272,13 @@ REPO-SYNC/LLM_BOOK/
 │
 ├── 3_VISUALS/               # Mind maps, diagrams
 ├── 4_AUDIO/                 # Audio/video summaries
-└── RnD/                     # Non-Nyquist R&D content
-    ├── RAG/
+└── RnD/                     # R&D exploratory content
     ├── HOFFMAN/
+    │   ├── REVIEW_NOTES_HOFFMAN.md
+    │   ├── INSIGHTS/
+    │   ├── CONNECTIONS/
+    │   └── EXPERIMENTS/
+    ├── RAG/
     └── Gnostic/
 ```
 
@@ -353,7 +286,7 @@ REPO-SYNC/LLM_BOOK/
 
 ## IRON CLAD Methodology
 
-All content processed through this pipeline reflects the IRON CLAD canonical values:
+Nyquist content validates against canonical values:
 
 | Metric | Value |
 |--------|-------|
@@ -366,4 +299,4 @@ All content processed through this pipeline reflects the IRON CLAD canonical val
 ---
 
 _Last updated: 2025-12-31_
-_Version: Accumulative Model (v5.0) - Diet Mode + Research Exploration_
+_Version: Unified Pipeline (v3.0) - 0_chew.py Entry Point_

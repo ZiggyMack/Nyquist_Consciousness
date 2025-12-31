@@ -1,9 +1,11 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-29
+last_reviewed: 2025-12-31
 keywords:
   - consciousness
   - IRON CLAD
   - COSINE ERA
+  - 0_chew
+  - pipeline
 -->
 # LLM_BOOK: NotebookLM Validation Hub
 
@@ -35,45 +37,64 @@ keywords:
 
 ## Content Workflows
 
-### Ingestion (STAGING -> LLM_BOOK)
+### Unified Pipeline (0_chew.py Entry Point)
 
-New NotebookLM outputs are staged in `0_SOURCE_MANIFESTS/STAGING/` and ingested via:
+**Everything starts with chewing.** The pipeline uses a digestive metaphor:
+
+```text
+0_chew.py (mastication) → 1_ingest.py (swallow) → 2_digest.py (route)
+```
+
+All operations run from `0_SOURCE_MANIFESTS/`:
 
 ```bash
 cd REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS
 
-# Report mode - show STAGING status
-py ingest.py
+# Check pipeline status (default)
+py 0_chew.py
 
-# Append mode (default): add new batches
-py ingest.py --ingest
+# Process a batch (auto-detects Nyquist vs R&D)
+py 0_chew.py Nyquist_3                 # Ingest + digest
 
-# Also create analysis stubs (1_DEEP_DIVES, 2_FUTURE, 3_EXPERIMENTS)
-py ingest.py --ingest --full
+# Mode flags
+py 0_chew.py Nyquist_3 --new           # Fresh: clear + process
+py 0_chew.py HOFFMAN --diet            # Diet: process to _CACHE_/ only
 
-# Re-ingest specific batches (ignores .ingested marker)
-py ingest.py --ingest --force --batch Nyquist_1 Nyquist_2
+# Project management
+py 0_chew.py --baka "EEG Study"        # Create research project
+py 0_chew.py --promote HOFFMAN         # Promote to Consciousness/
+py 0_chew.py --reset                   # Purge all _CACHE_/ directories
 
-# Destructive: clear all, then ingest
-py ingest.py --ingest --fresh
+# Routing intelligence
+py 0_chew.py --route HOFFMAN           # Where should this go?
+py 0_chew.py --labs                    # List Pan Handler labs
 ```
 
-**Accumulative Model:**
-- Default = APPEND (preserve existing, add new)
-- `--fresh` = DESTRUCTIVE (clear all, start over)
-- `--force` = Re-process even if already ingested
-- `--batch X Y` = Process specific batch(es) only
-- `--full` = Create analysis stubs in 1_VALIDATION subdirectories
+### Content Type Auto-Detection
 
-### Digest (STAGING -> LLM_BOOK categories)
+| Batch Name Contains | Content Type | Processing |
+|---------------------|--------------|------------|
+| `nyquist`, `infinity-nyquist`, `white-paper` | Nyquist | IRON CLAD validation |
+| Anything else | R&D | Exploratory (open-ended) |
 
-Routes media files from STAGING to final destinations:
+### Nyquist vs R&D Processing
+
+| Aspect | Nyquist Content | R&D Content |
+|--------|-----------------|-------------|
+| Validation | IRON CLAD (D=0.80, ~93%, p=2.40e-23) | Open-ended exploration |
+| Analysis Dirs | `1_DEEP_DIVES/`, `2_FUTURE/`, `3_EXPERIMENTS/` | `INSIGHTS/`, `CONNECTIONS/`, `EXPERIMENTS/` |
+| Quality Focus | Statistical rigor | Novelty & cross-domain links |
+| Destination | `1_VALIDATION/` + `2_PUBLICATIONS/` | `RnD/{topic}/` |
+
+### Diet Mode
+
+Process content without committing to the pipeline:
 
 ```bash
-py digest.py                           # Report mode
-py digest.py --digest                  # Copy files to categories
-py digest.py --digest --batch Nyquist_1  # Digest specific batch
+py 0_chew.py HOFFMAN --diet
 ```
+
+Output goes to `_CACHE_/` inside the batch folder for review before full processing.
 
 ### Sync to WHITE-PAPER (LLM_BOOK -> packages/)
 
@@ -153,16 +174,18 @@ LLM_BOOK/
 ├── README.md                    # Master synthesis (62KB) - The full miracle
 ├── START_HERE.md                # This file - Quick orientation
 │
-├── 0_SOURCE_MANIFESTS/          # What was fed to NotebookLM + STAGING ingestion
+├── 0_SOURCE_MANIFESTS/          # Pipeline scripts + STAGING
+│   ├── 0_chew.py                # Unified entry point (mastication)
+│   ├── 1_ingest.py              # Cognitive processing (swallow)
+│   ├── 2_digest.py              # File routing (route)
 │   ├── STAGING/                 # NotebookLM outputs awaiting ingestion
-│   ├── ingest.py                # Ingestion script (STAGING -> REVIEW_NOTES)
-│   └── digest.py                # Digest script (STAGING -> LLM_BOOK categories)
+│   └── README.md                # Pipeline documentation
 │
-├── 1_VALIDATION/                # Core discoveries + analysis (--full mode outputs)
-│   ├── REVIEW_NOTES_*.md        # Claude review notes per batch
-│   ├── 1_DEEP_DIVES/            # Technical deep dives (--full mode)
-│   ├── 2_FUTURE/                # Future research directions (--full mode)
-│   └── 3_EXPERIMENTS/           # Experiment ideas (--full mode)
+├── 1_VALIDATION/                # Nyquist review notes + analysis
+│   ├── REVIEW_NOTES_*.md        # Quality-graded review notes
+│   ├── 1_DEEP_DIVES/            # Technical deep dives
+│   ├── 2_FUTURE/                # Future research directions
+│   └── 3_EXPERIMENTS/           # Experiment ideas
 │
 ├── 2_PUBLICATIONS/              # Ready-to-deploy content by audience
 │   ├── academic/                -> packages/{version}/llmbook/academic/
@@ -174,7 +197,12 @@ LLM_BOOK/
 │
 ├── 3_VISUALS/                   # Generated diagrams -> figures/generated/llmbook/
 ├── 4_AUDIO/                     # Audio content & transcripts
-└── RnD/                         # Non-Nyquist R&D content (Hoffman, Gnostic, RAG, etc.)
+└── RnD/                         # R&D exploratory content
+    └── {topic}/                 # e.g., HOFFMAN/, Gnostic/, RAG/
+        ├── REVIEW_NOTES_{topic}.md
+        ├── INSIGHTS/            # Novel ideas discovered
+        ├── CONNECTIONS/         # Cross-domain links
+        └── EXPERIMENTS/         # Experimental ideas
 ```
 
 ---
@@ -196,6 +224,7 @@ LLM_BOOK/
 
 ## See Also
 
+- [0_SOURCE_MANIFESTS/README.md](0_SOURCE_MANIFESTS/README.md) - Pipeline documentation (0_chew.py entry point)
 - [WHITE-PAPER/README.md](../../WHITE-PAPER/README.md) - Publication package overview
 - [WHITE-PAPER/calibration/1_sync_llmbook.py](../../WHITE-PAPER/calibration/1_sync_llmbook.py) - Sync script
 - [WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json](../../WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json) - Version tracking
