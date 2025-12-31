@@ -99,6 +99,26 @@ CONTEXT_DAMPING_RESULTS = PATHS.get('context_damping_results', ARMADA_DIR / "11_
 
 # Available experiment runs - glossary-style metadata (ordered by recency, latest first)
 EXPERIMENT_RUNS = {
+    "gallery": {
+        "name": "IRON CLAD Visualization Gallery",
+        "subtitle": "All 17 PDFs Organized by Claim",
+        "emoji": "🎨",
+        "color": "#9b59b6",  # Purple
+        "date": "December 2025",
+        "description": "Complete visual evidence supporting Claims A-E. 17 publication-ready PDFs covering measurement validity, dynamics, damping, and the paradigm-shifting ~93% inherent drift finding.",
+        "ships": 25,
+        "metric": "17 PDFs",
+        "result_files": [],
+        "viz_prefix": "gallery_",
+        "status": "GALLERY",
+        "highlight": True,
+        "key_finding": "Full IRON CLAD story told through visualizations — from Event Horizon (D=0.80) to Thermometer Effect (~93% inherent).",
+        "results_path": None,
+        "viz_directory": "visualization_pdfs",
+        "pdf_summary": None,
+        "hero_images": [],
+        "related_viz": ["viz_1_vortex", "viz_10_pfi", "viz_12_metrics", "viz_15_oobleck"],
+    },
     "run_023d": {
         "name": "Run 023d IRON CLAD",
         "subtitle": "CANONICAL — Cosine Methodology",
@@ -1758,7 +1778,9 @@ def render():
     page_divider()
 
     # === CONTENT CHANGES BASED ON SELECTED RUN ===
-    if selected_run_key == "run_023d":
+    if selected_run_key == "gallery":
+        render_visualization_gallery_content()
+    elif selected_run_key == "run_023d":
         render_run023d_content()
     elif selected_run_key == "run_023_combined":
         render_run023_combined_content()
@@ -1791,6 +1813,149 @@ def render():
     elif selected_run_key == "run_006":
         render_run006_content()
 
+
+
+# ============================================================================
+# VISUALIZATION GALLERY
+# ============================================================================
+
+def render_visualization_gallery_content():
+    """Render the IRON CLAD Visualization Gallery - all 17 PDFs organized by claim."""
+
+    st.success("""
+    **IRON CLAD VISUALIZATION GALLERY — Complete Visual Evidence**
+
+    17 publication-ready PDFs covering all five validated claims (A-E).
+    Download any visualization to explore the full IRON CLAD story.
+    """)
+
+    # Key stats banner
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        st.metric("Total PDFs", "17", delta="All Claims")
+    with col2:
+        st.metric("Event Horizon", "D=0.80", delta="Claim B")
+    with col3:
+        st.metric("Inherent Drift", "~93%", delta="Claim E")
+    with col4:
+        st.metric("Settling Time", "τₛ≈7", delta="Claim C")
+    with col5:
+        st.metric("Stability", "97.5%", delta="Claim D")
+
+    st.markdown("---")
+
+    # Get the visualization PDFs directory
+    viz_pdfs_dir = PATHS.get('visualization_pdfs')
+    if not viz_pdfs_dir or not viz_pdfs_dir.exists():
+        st.error(f"Visualization PDFs directory not found: {viz_pdfs_dir}")
+        return
+
+    # PDF metadata with headlines organized by claim
+    pdf_data = {
+        "A": {
+            "title": "Claim A: Measurement Framework",
+            "theme": "PFI is valid structured measurement (ρ=0.91, d=0.698)",
+            "pdfs": [
+                ("6_Architecture_Summary.pdf", "PFI validated across 25 models and 5 providers"),
+                ("10_PFI_Dimensional_Summary.pdf", "Just 2 PCs capture 90% of identity variance"),
+                ("12_Metrics_Summary.pdf", "Core statistics: ρ=0.91, d=0.698, p=2.40e-23"),
+            ]
+        },
+        "B": {
+            "title": "Claim B: Event Horizon Threshold",
+            "theme": "Regime threshold exists at D=0.80 (p=2.40e-23)",
+            "pdfs": [
+                ("2_Boundary_Mapping_Summary.pdf", "D=0.80 marks the bifurcation point between identity regimes"),
+            ]
+        },
+        "C": {
+            "title": "Claim C: Oscillator Dynamics",
+            "theme": "Recovery follows damped oscillator dynamics (τₛ≈7)",
+            "pdfs": [
+                ("1_Vortex_Summary.pdf", "Identity spirals toward provider-specific attractor basins"),
+                ("5_Settling_Summary.pdf", "τₛ ≈ 7 probes to reach ±5% of final identity state"),
+                ("8_Radar_Oscilloscope_Summary.pdf", "Real-time oscillator dynamics visible in radar view"),
+                ("9_FFT_Spectral_Summary.pdf", "Dominant frequency patterns reveal settling harmonics"),
+                ("13_Model_Waveforms_Summary.pdf", "Each provider has a signature waveform fingerprint"),
+                ("14_Ringback_Summary.pdf", "Overshoot before settling — classic control-systems behavior"),
+                ("16_Laplace_Analysis_Summary.pdf", "Transfer function analysis confirms 2nd-order dynamics"),
+            ]
+        },
+        "D": {
+            "title": "Claim D: Context Damping",
+            "theme": "Context grounding achieves 97.5% stability",
+            "pdfs": [
+                ("3_Stability_Summary.pdf", "88% natural stability rate across the fleet"),
+                ("4_Rescue_Summary.pdf", "Recovery trajectories show predictable return patterns"),
+                ("run018_Summary.pdf", "1,549 trajectories prove context damping (97.5% stability)"),
+            ]
+        },
+        "E": {
+            "title": "Claim E: Paradigm Shift",
+            "theme": "~93% of drift is INHERENT — thermometer, not heater",
+            "pdfs": [
+                ("15_Oobleck_Effect_Summary.pdf", "~93% of drift is INHERENT — paradigm shift"),
+                ("run020_Summary.pdf", "Control: 0.661, Treatment: 0.711 — probing adds only 7%"),
+            ]
+        },
+        "ALL": {
+            "title": "Unified View",
+            "theme": "Complete IRON CLAD story in one dashboard",
+            "pdfs": [
+                ("11_Unified_Dashboard_Summary.pdf", "All metrics in one view — the complete IRON CLAD story"),
+            ]
+        },
+    }
+
+    # Create tabs for each claim
+    tabs = st.tabs(["📐 Claim A", "🎯 Claim B", "🌀 Claim C", "🛡️ Claim D", "🌡️ Claim E", "🎛️ Unified"])
+
+    for tab, claim_key in zip(tabs, ["A", "B", "C", "D", "E", "ALL"]):
+        with tab:
+            claim_data = pdf_data[claim_key]
+
+            # Claim header
+            st.markdown(f"### {claim_data['title']}")
+            st.info(f"**Theme:** {claim_data['theme']}")
+
+            # Display each PDF with download button
+            for pdf_name, headline in claim_data['pdfs']:
+                pdf_path = viz_pdfs_dir / pdf_name
+
+                col_info, col_download = st.columns([3, 1])
+
+                with col_info:
+                    if pdf_path.exists():
+                        size_mb = pdf_path.stat().st_size / (1024 * 1024)
+                        st.markdown(f"**{pdf_name}** ({size_mb:.1f} MB)")
+                    else:
+                        st.markdown(f"**{pdf_name}** *(not found)*")
+                    st.caption(f"💡 {headline}")
+
+                with col_download:
+                    if pdf_path.exists():
+                        render_pdf_download(pdf_path, label="Download", key_suffix=f"gallery_{claim_key}_{pdf_name}")
+                    else:
+                        st.warning("Missing")
+
+                st.markdown("---")
+
+    # Quick reference table at bottom
+    with st.expander("📊 IRON CLAD Statistics Quick Reference", expanded=False):
+        st.markdown("""
+| Metric | Value | Source |
+|--------|-------|--------|
+| Event Horizon | **D = 0.80** (cosine) | Run 023d |
+| Inherent Drift | **~93%** | Run 020B (0.661/0.711) |
+| p-value | **2.40e-23** | Run 023d |
+| Cohen's d | **0.698** | Model-level |
+| Settling Time | **τₛ ≈ 7 probes** | Run 023d |
+| Context Damping | **97.5% stability** | Run 018 |
+| PFI Correlation | **ρ = 0.91** | Cross-model |
+| 90% Variance | **2 PCs** | Cosine methodology |
+| Experiments | **750** | Run 023 |
+| Models | **25** | 5 providers |
+        """)
 
 
 # ============================================================================

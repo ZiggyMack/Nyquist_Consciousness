@@ -86,6 +86,11 @@ PATHS = {
     'viz_15_oobleck': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "15_Oobleck_Effect",
     'viz_run018': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "run018",
     'viz_run020': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "visualizations" / "pics" / "run020",
+
+    # WHITE-PAPER Publication Assets
+    'white_paper': REPO_ROOT / "WHITE-PAPER",
+    'publication_stats': REPO_ROOT / "WHITE-PAPER" / "calibration" / "publication_stats.json",
+    'visualization_pdfs': REPO_ROOT / "WHITE-PAPER" / "reviewers" / "packages" / "v4" / "visualization_pdfs",
 }
 
 # ========== DASHBOARD SETTINGS ==========

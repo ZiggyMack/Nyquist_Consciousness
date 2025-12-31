@@ -18,7 +18,7 @@ import subprocess
 import base64
 from pathlib import Path
 from config import PATHS, SETTINGS
-from utils import load_status, load_publication_status, load_markdown_file, page_divider
+from utils import load_status, load_publication_status, load_publication_stats, get_iron_clad_stats, load_markdown_file, page_divider
 
 
 def load_image_safe(image_path):
@@ -633,10 +633,10 @@ def render():
         st.markdown("""
 | Claim | Statement | Key Statistic | Evidence Source |
 |-------|-----------|---------------|-----------------|
-| **A** | PFI is valid structured measurement | ρ ≈ 0.91, d ≈ 0.98 | EXP-PFI-A Phases 1-4 |
+| **A** | PFI is valid structured measurement | ρ ≈ 0.91, d ≈ 0.698 | EXP-PFI-A Phases 1-4 |
 | **B** | Regime threshold exists at D = 0.80 | p = 2.40×10⁻²³ | Run 023d IRON CLAD |
-| **C** | Recovery follows damped oscillator dynamics | τₛ, ringbacks measurable | Run 016 |
-| **D** | Context damping reduces oscillation | 97.5% stability | Run 017 |
+| **C** | Recovery follows damped oscillator dynamics | τₛ ≈ 7, ringbacks measurable | Run 023d |
+| **D** | Context damping reduces oscillation | 97.5% stability | Run 018 |
 | **E** | Drift is ~93% inherent (not induced) | B→F ratio 0.661/0.711 | Run 020B IRON CLAD |
         """)
 
@@ -647,7 +647,7 @@ def render():
             st.markdown("""
             **Claim A: Measurement Validity**
             - Spearman correlation ρ ≈ 0.91 (embedding invariance)
-            - Cohen's d ≈ 0.98 (effect size)
+            - Cohen's d ≈ 0.698 (model-level effect size)
             - Survives metric replacement and protocol redesign
             - Low-dimensional structure (2 PCs for 90% variance — IRON CLAD)
 
@@ -661,14 +661,13 @@ def render():
         with col_ev2:
             st.markdown("""
             **Claim C: Damped Oscillator Dynamics**
-            - Settling time (τₛ) measurable: 4-8 turns
+            - Settling time τₛ ≈ 7 probes average
             - Ringback count quantifiable: 0-5 oscillations
             - Overshoot ratio predictable
             - Matches control-systems theory predictions
 
             **Claim D & E: Stability & Inherent Drift**
             - Context grounding achieves 97.5% stability
-            - Boundary density effect size d = 1.33
             - Control arm (Fermi): 0.661 B→F drift
             - Treatment arm (Tribunal): 0.711 B→F drift
             - Ratio: ~93% — probing amplifies, doesn't create (Run 020B IRON CLAD)
