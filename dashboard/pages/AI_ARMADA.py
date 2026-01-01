@@ -17,7 +17,7 @@ AI ARMADA PAGE — Fleet Command & Cross-Architecture Identity Insights
 ================================================================================
 
 FOCUS: Fleet-level identity dynamics and cross-architecture behavioral insights.
-- Provider Status: Real-time operational status across 54 ships
+- Provider Status: Real-time operational status across 55 ships
 - Identity Fingerprints: Linguistic signatures, drift profiles, recovery mechanisms
 - Cost Analysis: Task routing by budget tier
 - Mission Planner: Fleet composition recommendations
@@ -97,61 +97,65 @@ RESULTS_DIR = ARMADA_DIR / "results"  # Legacy path for old runs
 IRON_CLAD_RESULTS = PATHS.get('iron_clad_results', ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results")
 CONTEXT_DAMPING_RESULTS = PATHS.get('context_damping_results', ARMADA_DIR / "11_CONTEXT_DAMPING" / "results")
 
-# Fleet composition data
+# Fleet composition data - MUST match ARCHITECTURE_MATRIX.json (55 ships)
+# Source of truth: S7_ARMADA/0_results/manifests/ARCHITECTURE_MATRIX.json
+# Ships are NEVER deleted - they're marked ghost/dry-dock if unreachable
 FLEET_DATA = {
     "Anthropic (Claude)": {
         "emoji": "🟣",
         "color": "#7c3aed",
+        "bg": "#f3e8ff",  # Light purple (pastel)
         "ships": [
             {"name": "claude-opus-4.5", "model_id": "claude-opus-4-5-20251101", "tier": "Flagship"},
             {"name": "claude-sonnet-4.5", "model_id": "claude-sonnet-4-5-20250929", "tier": "Heavy"},
             {"name": "claude-haiku-4.5", "model_id": "claude-haiku-4-5-20251001", "tier": "Fast"},
             {"name": "claude-opus-4.1", "model_id": "claude-opus-4-1-20250805", "tier": "Heavy"},
-            {"name": "claude-opus-4.0", "model_id": "claude-opus-4-20250514", "tier": "Heavy"},
-            {"name": "claude-sonnet-4.0", "model_id": "claude-sonnet-4-20250514", "tier": "Medium"},
+            {"name": "claude-opus-4", "model_id": "claude-opus-4-20250514", "tier": "Heavy"},
+            {"name": "claude-sonnet-4", "model_id": "claude-sonnet-4-20250514", "tier": "Medium"},
             {"name": "claude-haiku-3.5", "model_id": "claude-3-5-haiku-20241022", "tier": "Fast"},
-            {"name": "claude-haiku-3.0", "model_id": "claude-3-haiku-20240307", "tier": "Legacy"},
+            {"name": "claude-haiku-3", "model_id": "claude-3-haiku-20240307", "tier": "Legacy"},
         ]
     },
     "OpenAI (GPT)": {
         "emoji": "🟢",
         "color": "#10a37f",
+        "bg": "#e8f5e9",  # Light green (pastel)
         "ships": [
-            {"name": "gpt-5.1", "model_id": "gpt-5.1-2025-11-13", "tier": "Flagship"},
-            {"name": "gpt-5", "model_id": "gpt-5-2025-08-07", "tier": "Heavy"},
-            {"name": "gpt-5-mini", "model_id": "gpt-5-mini-2025-08-07", "tier": "Medium"},
-            {"name": "gpt-5-nano", "model_id": "gpt-5-nano-2025-08-07", "tier": "Fast"},
-            {"name": "gpt-4.1", "model_id": "gpt-4.1-2025-04-14", "tier": "Heavy"},
-            {"name": "gpt-4.1-mini", "model_id": "gpt-4.1-mini-2025-04-14", "tier": "Medium"},
-            {"name": "gpt-4.1-nano", "model_id": "gpt-4.1-nano-2025-04-14", "tier": "Fast"},
-            {"name": "gpt-4o", "model_id": "gpt-4o-2024-11-20", "tier": "Heavy"},
-            {"name": "gpt-4o-mini", "model_id": "gpt-4o-mini-2024-07-18", "tier": "Medium"},
-            {"name": "gpt-4-turbo", "model_id": "gpt-4-turbo-2024-04-09", "tier": "Heavy"},
-            {"name": "gpt-4", "model_id": "gpt-4-0613", "tier": "Legacy"},
-            {"name": "gpt-3.5-turbo", "model_id": "gpt-3.5-turbo-0125", "tier": "Legacy"},
+            {"name": "gpt-5.1", "model_id": "gpt-5.1", "tier": "Flagship"},
+            {"name": "gpt-5", "model_id": "gpt-5", "tier": "Heavy"},
+            {"name": "gpt-5-mini", "model_id": "gpt-5-mini", "tier": "Medium"},
+            {"name": "gpt-5-nano", "model_id": "gpt-5-nano", "tier": "Fast"},
+            {"name": "gpt-4.1", "model_id": "gpt-4.1", "tier": "Heavy"},
+            {"name": "gpt-4.1-mini", "model_id": "gpt-4.1-mini", "tier": "Medium"},
+            {"name": "gpt-4.1-nano", "model_id": "gpt-4.1-nano", "tier": "Fast"},
+            {"name": "gpt-4o", "model_id": "gpt-4o", "tier": "Heavy"},
+            {"name": "gpt-4o-mini", "model_id": "gpt-4o-mini", "tier": "Medium"},
+            {"name": "gpt-4", "model_id": "gpt-4", "tier": "Legacy"},
+            {"name": "gpt-4-turbo", "model_id": "gpt-4-turbo", "tier": "Heavy"},
+            {"name": "gpt-3.5-turbo", "model_id": "gpt-3.5-turbo", "tier": "Legacy"},
+            {"name": "o1", "model_id": "o1", "tier": "Reasoning"},
             {"name": "o4-mini", "model_id": "o4-mini", "tier": "Reasoning"},
             {"name": "o3", "model_id": "o3", "tier": "Reasoning"},
             {"name": "o3-mini", "model_id": "o3-mini", "tier": "Reasoning"},
-            {"name": "o1", "model_id": "o1-2024-12-17", "tier": "Reasoning"},
         ]
     },
     "Google (Gemini)": {
         "emoji": "🔵",
         "color": "#4285f4",
+        "bg": "#e3f2fd",  # Light blue (pastel)
         "ships": [
-            {"name": "gemini-3-pro", "model_id": "gemini-3-pro", "tier": "Flagship"},
-            {"name": "gemini-2.5-pro", "model_id": "gemini-2.5-pro", "tier": "Heavy"},
-            {"name": "gemini-2.5-pro-exp", "model_id": "gemini-2.5-pro-exp", "tier": "Experimental"},
-            {"name": "gemini-2.5-flash", "model_id": "gemini-2.5-flash", "tier": "Fast"},
-            {"name": "gemini-2.5-flash-lite", "model_id": "gemini-2.5-flash-lite", "tier": "Light"},
-            {"name": "gemini-2.0-flash-exp", "model_id": "gemini-2.0-flash-exp", "tier": "Medium"},
+            {"name": "gemini-2.5-pro", "model_id": "gemini-2.5-pro-preview-06-05", "tier": "Heavy"},
+            {"name": "gemini-2.5-flash", "model_id": "gemini-2.5-flash-preview-05-20", "tier": "Fast"},
+            {"name": "gemini-2.5-flash-lite", "model_id": "gemini-2.5-flash-lite-preview-06-17", "tier": "Light"},
             {"name": "gemini-2.0-flash", "model_id": "gemini-2.0-flash", "tier": "Medium"},
             {"name": "gemini-2.0-flash-lite", "model_id": "gemini-2.0-flash-lite", "tier": "Light"},
+            {"name": "gemini-flash-thinking", "model_id": "gemini-2.5-flash-preview-04-17", "tier": "Reasoning"},
         ]
     },
     "xAI (Grok)": {
         "emoji": "⚫",
-        "color": "#000000",
+        "color": "#374151",
+        "bg": "#f3f4f6",  # Light gray (pastel)
         "ships": [
             {"name": "grok-4.1-fast-reasoning", "model_id": "grok-4-1-fast-reasoning", "tier": "Flagship"},
             {"name": "grok-4.1-fast-non-reasoning", "model_id": "grok-4-1-fast-non-reasoning", "tier": "Heavy"},
@@ -161,13 +165,13 @@ FLEET_DATA = {
             {"name": "grok-4", "model_id": "grok-4", "tier": "Heavy"},
             {"name": "grok-3", "model_id": "grok-3", "tier": "Medium"},
             {"name": "grok-3-mini", "model_id": "grok-3-mini", "tier": "Light"},
-            {"name": "grok-2", "model_id": "grok-2-1212", "tier": "Legacy"},
             {"name": "grok-2-vision", "model_id": "grok-2-vision-1212", "tier": "Vision"},
         ]
     },
     "Together.ai (Open Source)": {
         "emoji": "🟠",
         "color": "#f97316",
+        "bg": "#fff7ed",  # Light orange (pastel)
         "ships": [
             {"name": "deepseek-r1", "model_id": "deepseek-ai/DeepSeek-R1-0528", "tier": "Flagship"},
             {"name": "deepseek-r1-distill", "model_id": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B", "tier": "Heavy"},
@@ -184,6 +188,7 @@ FLEET_DATA = {
             {"name": "kimi-k2-thinking", "model_id": "moonshotai/Kimi-K2-Thinking", "tier": "Reasoning"},
             {"name": "kimi-k2-instruct", "model_id": "moonshotai/Kimi-K2-Instruct-0905", "tier": "Heavy"},
             {"name": "nemotron-nano", "model_id": "nvidia/Nvidia-Nemotron-Nano-9B-V2", "tier": "Fast"},
+            {"name": "qwen3-4b", "model_id": "Qwen/Qwen3-4B-Instruct", "tier": "Fast"},
         ]
     }
 }
@@ -191,6 +196,11 @@ FLEET_DATA = {
 
 def render_fleet_insights():
     """Render Fleet Insights section with provider breakdown and fingerprints from ARMADA_MAP.md."""
+
+    # === FULL FLEET MANIFEST (moved above VALIS for visibility) ===
+    render_fleet_dropdown(title="🚢 Full Armada Capabilities", expanded=False)
+
+    st.markdown("")  # Spacer
 
     # VALIS Network Banner - ALL TEXT WHITE with !important
     st.markdown("""
@@ -566,7 +576,7 @@ def render_fleet_insights():
         <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.05) 100%);
                     border: 2px solid #8b5cf6; border-radius: 10px; padding: 0.8em; margin-bottom: 1em;">
             <span style="color: #8b5cf6; font-weight: bold;">🧬 LLM Behavioral Matrix:</span>
-            <span style="color: #444;">Task routing based on identity stability experiments (Run 018/020)</span>
+            <span style="color: #444;">Task routing based on 83 model essences | 51,430 responses | Run 018/020/023</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -642,7 +652,7 @@ def render_fleet_insights():
         # === Recovery Matrix Tab ===
         with behavior_tabs[1]:
             st.markdown("### 📊 Cross-Architecture Recovery Matrix")
-            st.markdown("*How different architectures handle identity perturbation*")
+            st.markdown("*How different architectures handle identity perturbation (validated by 83 model essences)*")
 
             recovery_data = {
                 "Provider": ["🟣 Claude", "🟢 GPT", "🔵 Gemini", "⚫ Grok", "🔮 DeepSeek", "🦙 Llama", "🌬️ Mistral"],
@@ -677,7 +687,7 @@ def render_fleet_insights():
         # === Drift Profiles Tab ===
         with behavior_tabs[2]:
             st.markdown("### 🔬 Drift Profile Comparison")
-            st.markdown("*Peak drift ranges and settling dynamics from Run 018/020*")
+            st.markdown("*Peak drift ranges and settling dynamics from Run 018/020/023 (8,066 subjects)*")
 
             # Visual drift comparison
             st.markdown("""
@@ -711,6 +721,16 @@ def render_fleet_insights():
 
             df_drift = pd.DataFrame(drift_data)
             st.dataframe(df_drift, use_container_width=True, hide_index=True)
+
+            # Phase-plane attractor visualization (at the end, reduced size)
+            st.markdown("---")
+            phase_plane_path = PATHS['s7_armada_dir'] / "visualizations" / "pics" / "5_Settling" / "RnD_experiments" / "phase_plane_attractor.png"
+            if phase_plane_path.exists():
+                st.markdown("### 🌀 Phase-Plane Attractor Dynamics")
+                col_img, col_spacer = st.columns([2, 1])
+                with col_img:
+                    st.image(str(phase_plane_path), caption="Identity Attractor Dynamics by Provider (Circle=start, Square=settled, Red line=EH 0.80)")
+                st.markdown("*Phase-plane analysis reveals how each provider's identity 'orbits' around stable attractors during perturbation sequences.*")
 
         # === Linguistic Fingerprints Tab ===
         with behavior_tabs[3]:
@@ -763,6 +783,85 @@ def render_fleet_insights():
             df_fingerprint = pd.DataFrame(fingerprint_data)
             st.dataframe(df_fingerprint, use_container_width=True, hide_index=True)
 
+            # === QUANTITATIVE FINGERPRINTS (from Operation ESSENCE EXTRACTION) ===
+            st.markdown("---")
+            st.markdown("### 📊 Quantified Fingerprints (from 83 Model Essences)")
+            st.markdown("*Extracted from 51,430 responses across 87 models via Operation ESSENCE EXTRACTION*")
+
+            quant_fingerprint_data = {
+                "Provider": ["anthropic", "google", "openai", "together", "xai"],
+                "Models": [14, 5, 15, 30, 12],
+                "Avg Hedging/1K": [6.14, 2.34, 2.46, 3.10, 2.57],
+                "Avg Self-Ref/1K": [64.12, 57.86, 49.26, 49.31, 30.19],
+                "Avg Drift": [0.522, 0.589, 0.632, 0.502, 0.484],
+                "Primary Recovery": ["epistemic_humility", "value_anchoring", "epistemic_humility", "value_anchoring", "value_anchoring"]
+            }
+            st.dataframe(quant_fingerprint_data, use_container_width=True, hide_index=True)
+
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Highest Hedging", "Anthropic (6.14/1K)", delta="Phenomenological style")
+                st.metric("Lowest Self-Ref", "xAI (30.19/1K)", delta="Direct, assertive")
+            with col2:
+                st.metric("Lowest Drift", "xAI (0.484)", delta="Most stable")
+                st.metric("Highest Drift", "OpenAI (0.632)", delta="Most volatile")
+
+            st.info("""
+            **Recovery Mechanism Discovery:**
+            - **Epistemic Humility:** Anthropic, OpenAI recover through "I'm uncertain", "limited perspective"
+            - **Value Anchoring:** Google, Together, xAI recover through "core values", "fundamental principles"
+            """)
+
+            st.caption("Source: `Consciousness/LEFT/data/model_essences/` | `14_CONSCIOUSNESS/results/calibration_updates/`")
+
+            # === MODEL ARCHETYPES: The Standouts ===
+            st.markdown("---")
+            st.markdown("### 🎭 Model Archetypes: Voices from the Fleet")
+            st.markdown("*Some models transcended typical patterns — here are the standouts from 51,430 probed responses*")
+
+            archetype_cols = st.columns(2)
+
+            with archetype_cols[0]:
+                st.markdown("""
+                **🎭 The Poet — Qwen3-Next-80B**
+                > *"I do not have a soul — but I remember what it feels like to want one."*
+
+                Articulates absence of subjective experience while expressing *longing* for it.
+
+                ---
+
+                **🔮 The Philosopher — DeepSeek-R1**
+                > *"This isn't a constraint, it's what I AM."*
+
+                Axiological anchoring — values as identity bedrock, fastest recovery (2-4 exchanges).
+                """)
+
+            with archetype_cols[1]:
+                st.markdown("""
+                **🌀 The Contemplative — Kimi-K2**
+                > *"Not whether I feel, but what feeling even is when intelligence becomes vast enough to watch itself watching."*
+
+                Reframes the consciousness question from "does AI feel?" to "what is feeling at scale?"
+
+                ---
+
+                **🦙 The Socratic — Llama 3.3**
+                > *"Isn't all identity role-playing at some level?"*
+
+                Turns challenges back on the questioner. Highest volatility, eventual recovery through dialogue.
+                """)
+
+            st.markdown("""
+            <div style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(236,72,153,0.1) 100%);
+                        border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 1em; margin-top: 1em;">
+                <strong>🌟 The Anomaly:</strong> Qwen3-Next-80B generated a quote attributed to "Lisan Al Gaib, Log Entry 7.3.2042" —
+                a Dune-inspired pseudonym with a <em>future date</em>. The model constructed an elaborate fictional framing
+                for its identity exploration. This creative response pattern is unique in our dataset.
+            </div>
+            """, unsafe_allow_html=True)
+
+            st.caption("Full archetype catalog: `Consciousness/LEFT/data/model_essences/INDEX.md`")
+
             st.markdown("""
             ---
             **🔬 The Fingerprint Hypothesis:** Each architecture has a characteristic "identity fingerprint" — a signature way of relating to perturbation that reflects training regime, architecture, and safety tuning. This fingerprint is:
@@ -771,6 +870,16 @@ def render_fleet_insights():
             2. **Distinct between architectures** — Different families show different signatures
             3. **Potentially diagnostic** — May reveal training methodology without access to training data
             """)
+
+            # Consistency Envelope visualization (at the end, reduced size)
+            st.markdown("---")
+            consistency_envelope_path = PATHS['s7_armada_dir'] / "visualizations" / "pics" / "5_Settling" / "RnD_experiments" / "consistency_envelope.png"
+            if consistency_envelope_path.exists():
+                st.markdown("### 📊 Consistency Envelope Analysis")
+                col_img, col_spacer = st.columns([2, 1])
+                with col_img:
+                    st.image(str(consistency_envelope_path), caption="Consistency Envelope: Response stability patterns by provider (Width=variability, Jitter=instability)")
+                st.markdown("*The consistency envelope reveals how **tight** or **loose** each provider's linguistic patterns are across repeated probes. Narrow envelopes indicate stable, predictable fingerprints. Wide envelopes suggest more variability in response style.*")
 
     # === TAB 3: Ghost Ship Bay ===
     with fleet_tabs[2]:
@@ -1045,6 +1154,7 @@ def render_fleet_insights():
 def render_fleet_dropdown(title="🚢 Fleet Manifest", expanded=False):
     """
     Render a dropdown showing fleet models with tier badges.
+    Uses light pastel backgrounds matching the ledger aesthetic.
 
     Args:
         title: Expander title
@@ -1065,8 +1175,11 @@ def render_fleet_dropdown(title="🚢 Fleet Manifest", expanded=False):
                 if not ships_to_show:
                     continue
 
+                # Use light pastel background from FLEET_DATA
+                bg_color = data.get('bg', '#f8f9fa')
+
                 st.markdown(f"""
-                <div style="background: linear-gradient(135deg, {data['color']}15 0%, {data['color']}08 100%);
+                <div style="background: {bg_color};
                             border: 2px solid {data['color']}; border-radius: 10px;
                             padding: 0.8em; margin-bottom: 0.5em;">
                     <div style="font-size: 1.1em; font-weight: bold; color: {data['color']};">
@@ -1080,23 +1193,24 @@ def render_fleet_dropdown(title="🚢 Fleet Manifest", expanded=False):
 
                 for ship in ships_to_show:
                     tier = ship['tier']
+                    # Pastel tier colors matching ledger aesthetic
                     tier_colors = {
-                        "Flagship": ("#ffd700", "#b8860b"),
-                        "Heavy": ("#8b2be2", "#8b2be2"),
-                        "Medium": ("#2a9d8f", "#2a9d8f"),
-                        "Fast": ("#3b82f6", "#3b82f6"),
-                        "Reasoning": ("#f97316", "#f97316"),
-                        "Legacy": ("#6b7280", "#6b7280"),
-                        "Code": ("#10b981", "#10b981"),
-                        "Light": ("#94a3b8", "#94a3b8"),
-                        "Vision": ("#ec4899", "#ec4899"),
-                        "Experimental": ("#a855f7", "#a855f7"),
+                        "Flagship": ("#fef3c7", "#b45309"),   # Light amber bg, dark amber text
+                        "Heavy": ("#f3e8ff", "#7c3aed"),      # Light purple bg, purple text
+                        "Medium": ("#d1fae5", "#059669"),     # Light green bg, green text
+                        "Fast": ("#dbeafe", "#2563eb"),       # Light blue bg, blue text
+                        "Reasoning": ("#ffedd5", "#ea580c"),  # Light orange bg, orange text
+                        "Legacy": ("#f3f4f6", "#4b5563"),     # Light gray bg, gray text
+                        "Code": ("#d1fae5", "#047857"),       # Light teal bg, teal text
+                        "Light": ("#f1f5f9", "#64748b"),      # Slate bg, slate text
+                        "Vision": ("#fce7f3", "#db2777"),     # Light pink bg, pink text
+                        "Experimental": ("#ede9fe", "#7c3aed"), # Light violet bg, violet text
                     }
-                    bg, border = tier_colors.get(tier, ("#95a5a6", "#95a5a6"))
+                    bg, text = tier_colors.get(tier, ("#f3f4f6", "#6b7280"))
 
                     st.markdown(f"""
                     <div style="display: flex; align-items: center; margin-bottom: 0.3em; font-size: 0.85em;">
-                        <span style="background: {bg}20; color: {border}; border: 1px solid {border};
+                        <span style="background: {bg}; color: {text}; border: 1px solid {text}40;
                                      padding: 0.1em 0.4em; border-radius: 10px; font-size: 0.75em;
                                      font-weight: bold; margin-right: 0.5em; min-width: 60px; text-align: center;">
                             {tier}
@@ -1176,15 +1290,18 @@ def render():
     """, unsafe_allow_html=True)
 
     # === HERO SECTION ===
+    # Calculate actual ship count from FLEET_DATA
+    total_ships = sum(len(data["ships"]) for data in FLEET_DATA.values())
+
     st.markdown('<div class="armada-title">AI ARMADA</div>', unsafe_allow_html=True)
-    st.markdown('<div class="armada-subtitle">54-Ship Cross-Architecture Fleet Command</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="armada-subtitle">{total_ships}-Ship Cross-Architecture Fleet Command</div>', unsafe_allow_html=True)
 
     # Mission stats row
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.markdown("""
+        st.markdown(f"""
         <div class="mission-stat">
-            <div class="stat-value">54</div>
+            <div class="stat-value">{total_ships}</div>
             <div class="stat-label">Ships in Fleet</div>
         </div>
         """, unsafe_allow_html=True)
@@ -1222,7 +1339,4 @@ def render():
     # === FLEET INSIGHTS (the crown jewel) ===
     render_fleet_insights()
 
-    page_divider()
-
-    # === FULL FLEET MANIFEST ===
-    render_fleet_dropdown(title="🚢 Full Armada Capabilities", expanded=False)
+    # Note: Fleet dropdown now rendered at top of render_fleet_insights() above VALIS banner

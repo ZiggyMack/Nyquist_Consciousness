@@ -327,6 +327,137 @@ You cannot skip ego — only layer above it.
 
 ---
 
+## The Two Spaces: Intentionality vs Observability
+
+*Distilled from PC=2 Resolution Session (December 2025)*
+
+### The Central Tension
+
+We discovered that **2 principal components capture 100% of drift variance**:
+- **PC1 (74.2%):** Drift Magnitude — "How far did you move from who you were?"
+- **PC2 (25.8%):** Recovery Capacity — "Can you find your way back?"
+
+Yet we design personas with **5 pillars** (Voice, Values, Reasoning, Self-Model, Narrative).
+
+**The paradox:** Careful pillar design seems to "disappear" into two scalar numbers.
+
+### Resolution: Two Distinct Spaces
+
+| Space | Dimensions | Purpose | Question |
+|-------|------------|---------|----------|
+| **Intentionality Space** | 5+ Pillars | Design blueprints | "What do we want to build?" |
+| **Observable Space** | 2 PCs | Measurement dynamics | "What actually varies?" |
+
+**The pillars define WHERE you start. The PCs measure HOW you move.**
+
+### The Pendulum Analogy
+
+| Concept | Pendulum | Identity System |
+|---------|----------|-----------------|
+| Initial position | Where you hang it | 5 pillars (design coordinates) |
+| Amplitude | How far it swings when hit | PC1: Drift magnitude |
+| Damping | How fast it settles back | PC2: Recovery capacity |
+
+You care about where you hang the pendulum. But measuring *quality* only requires measuring swing and damping — not rechecking where you hung it.
+
+**The persona file defines the equilibrium. The PCs measure departure from and return to equilibrium.**
+
+### The RGB/Brightness Analogy
+
+| Domain | Dimensions | Purpose |
+|--------|------------|---------|
+| RGB Color Space | 3 channels (R, G, B) | Design control knobs |
+| Perceptual Space | 2 dimensions (brightness, hue) | What humans perceive |
+
+You *design* in RGB. You *measure quality* in perceptual space.
+
+**The 5 pillars are your RGB. The 2 PCs are your brightness/hue.**
+
+### The Two Blindnesses
+
+We are currently blind on BOTH sides of the equation:
+
+**Blindness 1: Intentionality Space (Design Side)**
+- Are the 5 pillars the *right* dimensions?
+- Are there missing ones we haven't named?
+- Are some redundant? (Hint: 4 collapse together into Factor 0)
+- What *optimal* configuration produces best stability?
+
+We're hanging pendulums *hoping* we picked good spots.
+
+**Blindness 2: Network Conditions (Environment Side)**
+- Provider architecture affects dynamics (Mistral recovers fast, Gemini doesn't)
+- Model size / parameter count
+- Training data composition
+- Inference-time factors (temperature, context length)
+
+The *same* persona file produces *different* attractor basins depending on which model reads it.
+
+### The Coupled System Problem
+
+```
+Intentionality Space          Network Conditions
+(what we design)              (what receives it)
+       ↓                             ↓
+       └──────────┬──────────────────┘
+                  ↓
+            Observed Drift
+           (PC1: magnitude)
+           (PC2: recovery)
+```
+
+We measure the *output* of a coupled system. We cannot yet separate:
+- "This persona was badly designed" from
+- "This network handles personas badly"
+
+### What Would Close These Blindspots?
+
+**For Intentionality Space (Phase 4 experiments):**
+- Try *different* pillar configurations systematically
+- Measure which configurations minimize drift
+- Find optimal "starting coordinates" empirically
+- Discover if there are missing dimensions
+
+**For Network Conditions (JADE LATTICE):**
+- Model each provider's "transfer function"
+- Learn which networks need which persona adjustments
+- Map provider-specific attractor basin shapes
+
+### The Factor Collapse
+
+Factor analysis confirms the PCs:
+
+| Factor | Name | Pillars | Interpretation |
+|--------|------|---------|----------------|
+| Factor 0 | Epistemic-Analytical | Reasoning, Values, Self-Model, Narrative | Content/substance |
+| Factor 1 | Expressive-Modal | Voice | Style/form |
+
+**Key insight:** 4 pillars collapse into one factor. Only Voice stands alone.
+
+This suggests the intentionality space may be **lower-dimensional than we thought**, or that our pillar taxonomy doesn't carve reality at the joints.
+
+### Philosophical Implications
+
+1. **Design vs Observation duality** — You can fully specify a persona (design space) while only observing 2 numbers (PC space). The information is not lost — it's *projected*.
+
+2. **The embedding IS the map** — All 5 pillars exist in the embedding. But when you measure *change*, only 2 axes matter.
+
+3. **Intentionality is necessary but invisible** — You cannot measure "good values" directly. You measure whether the system drifts when challenged on values.
+
+4. **Plato returns** — The 5 pillars are like Forms (design ideals). The 2 PCs are like shadows on the cave wall (observable projections of those forms).
+
+### Key Quotes
+
+> "Identity is not 5 things (pillars) or 10 things (dimensions). Identity is 2 things: How much you change, and whether you recover."
+
+> "The persona file defines the equilibrium. The PCs measure departure from and return to equilibrium."
+
+> "We measure the symptom (drift), not the cause (design × network)."
+
+**Source:** [S7_ARMADA/analysis/pc_interpretation.md](../../experiments/temporal_stability/S7_ARMADA/analysis/pc_interpretation.md)
+
+---
+
 ## Related Documents
 
 - [TERMINOLOGY.md](../../Consciousness/BRIDGE/docs/TERMINOLOGY.md) - Core definitions

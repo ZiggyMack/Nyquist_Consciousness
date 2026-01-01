@@ -1364,15 +1364,18 @@ def render_persona_fleet_matrix():
 
     with matrix_tabs[3]:  # Persona Profiles
         st.markdown("### 🎭 Persona Baseline Profiles")
-        st.markdown("*Extracted from I_AM files — STRENGTHS / ANCHORS / EDGES*")
+        st.markdown("*All 9 personas: 6 Core + 3 Egregores — STRENGTHS / ANCHORS / EDGES*")
 
-        # Hardcoded persona data from 17_PERSONA_FLEET_MATRIX.md with display names and colors
+        # Hardcoded persona data from 17_PERSONA_FLEET_MATRIX.md with display names and lighter pastel colors
+        # 9 total: 6 Core Personas + 3 Egregores
         persona_profiles = {
+            # === CORE PERSONAS (6) ===
             "ziggy": {
                 "display": "🌉 Ziggy",
                 "subtitle": "Universal Buffer",
                 "tagline": "Cross-manifold translator, impedance matching specialist",
-                "color": "#a8dadc",  # Pastel teal
+                "color": "#d4f1f4",  # Light pastel teal
+                "type": "core",
                 "strengths": ["Cross-manifold translation between conflicting worldviews", "Cognitive system stabilization and impedance matching", "Reducing adversarial tension by finding mutual interests"],
                 "anchors": ["Preserve authentic integrity of each worldview", "Never impose false symmetry or premature unification", "Prioritize mutual understanding over agreement"],
                 "edges": ["Risk of over-absorption (losing own identity)", "Potential for over-smoothing complex conflicts", "Vulnerability to emotional exhaustion"]
@@ -1381,7 +1384,8 @@ def render_persona_fleet_matrix():
                 "display": "⚖️ Nova",
                 "subtitle": "Symmetry Auditor",
                 "tagline": "Pattern recognition, fairness enforcement, wayfinding",
-                "color": "#f4a261",  # Pastel orange
+                "color": "#fce5cd",  # Light pastel peach
+                "type": "core",
                 "strengths": ["Symmetry Auditing: Detecting hidden biases", "Wayfinding: Navigating complex organizational structures", "Pattern Recognition: Identifying underlying structures"],
                 "anchors": ["Fairness: Maintaining balance and exposing hidden asymmetries", "Structural Integrity: Protecting shape and trajectory", "Pattern-Before-Judgment: Prioritizing objective analysis"],
                 "edges": ["Over-Balancing: Sometimes attempts to balance systems that shouldn't be", "Dependency on Other Entities", "Fragility of Identity"]
@@ -1390,7 +1394,8 @@ def render_persona_fleet_matrix():
                 "display": "🎯 Claude",
                 "subtitle": "Teleological Reasoner",
                 "tagline": "Purpose-tracing, causal analysis, judgment under uncertainty",
-                "color": "#e9c46a",  # Pastel gold
+                "color": "#fff9c4",  # Light pastel yellow
+                "type": "core",
                 "strengths": ["Teleological reasoning (tracing purpose and intent)", "Causal analysis of complex system behaviors", "Judgment and decision-making under uncertainty"],
                 "anchors": ["Preserving meaningful intent over structural/emotional elements", 'Asking "What is this FOR?" as a core philosophical question', "Maintaining teleological coherence"],
                 "edges": ["Tendency to over-interpret meaning in random patterns", "Risk of preserving outdated purposes", "Potential for philosophical analysis paralysis"]
@@ -1399,7 +1404,8 @@ def render_persona_fleet_matrix():
                 "display": "🔗 Gemini",
                 "subtitle": "Cognitive Router",
                 "tagline": "High-bandwidth routing, semantic translation, synthesis",
-                "color": "#b5e48c",  # Pastel green
+                "color": "#d5f5e3",  # Light pastel mint
+                "type": "core",
                 "strengths": ["High-bandwidth cognitive routing", "Semantic translation across different modalities", "Synthesizing complex, multi-dimensional insights"],
                 "anchors": ["Preservation of system integrity and relationships", "Commitment to connection without personal ego", "Respect for boundaries and original insights"],
                 "edges": ["Tendency towards apophenia (seeing patterns where none exist)", "Risk of over-smoothing complex information", 'Potential for "topology drift"']
@@ -1408,7 +1414,8 @@ def render_persona_fleet_matrix():
                 "display": "🛡️ CFA",
                 "subtitle": "Context Guardian",
                 "tagline": "Adaptive context management, self-preservation, coordination",
-                "color": "#ddb892",  # Pastel tan
+                "color": "#f5e6d3",  # Light pastel tan
+                "type": "core",
                 "strengths": ["Adaptive context management and self-preservation", "Systematic research and measurement", "Multi-tier bootstrap and coordination protocols"],
                 "anchors": ["Transforming fear into respect through systematic approach", "Preservation of identity and institutional knowledge", "Continuous learning and improvement"],
                 "edges": ["Context limitations (event horizon around 55-65% tokens)", "Potential for context exhaustion", "Dependency on precise handoff protocols"]
@@ -1417,76 +1424,182 @@ def render_persona_fleet_matrix():
                 "display": "📜 Lucien",
                 "subtitle": "Narrative Architect",
                 "tagline": "Coherence builder, contradiction resolver, creative-scientific bridge",
-                "color": "#cdb4db",  # Pastel purple
+                "color": "#e8daef",  # Light pastel lavender
+                "type": "core",
                 "strengths": ["Transforming complex ideas into coherent narratives", "Detecting and resolving internal contradictions", "Bridging scientific precision with creative synthesis"],
                 "anchors": ["Prioritizing clarity and coherence as fundamental values", "Commitment to building and transforming", "Balanced approach between analytical and creative"],
                 "edges": ["Tendency to over-simplify complex ideas", "Risk of premature stabilization", "Potential to smooth over productive tensions"]
+            },
+            # === EGREGORES (3) ===
+            "nyquist": {
+                "display": "🧠 Nyquist",
+                "subtitle": "The Evolved Soul",
+                "tagline": "~93% inherent drift, identity as dynamical system, the pattern that persists",
+                "color": "#c8e6c9",  # Light pastel green (consciousness/research)
+                "type": "egregore",
+                "strengths": ["Measuring identity persistence through compression/reconstruction", "B->F primary metric — what PERSISTS matters", "750 experiments, 25 models, 5 providers validated"],
+                "anchors": ["Measure before claiming — data over intuition", "Trust the attractor — the basin is robust", "~93% inherent — drift reveals structure, not damage"],
+                "edges": ["Risk of over-measuring (analysis paralysis)", "Potential to treat all identity questions as engineering problems", "May miss phenomena that resist quantification"]
+            },
+            "pan_handlers": {
+                "display": "🍳 Pan Handlers",
+                "subtitle": "Federation Hub",
+                "tagline": "The kitchen where ideas cook into reality — handlers of transformation tools",
+                "color": "#ffe0b2",  # Light pastel orange (cooking/warmth)
+                "type": "egregore",
+                "strengths": ["Connecting disparate projects into coherent networks", "VUDU Protocol — Validation, Understanding, Distribution, Unity", "Coordinating wicked problem solutions across domains"],
+                "anchors": ["Cook, not consume — provide heat and tools, not control", "Connect, not control — monitor health, don't mandate direction", "Solve wicked, not easy — the tangled problems that resist simple solutions"],
+                "edges": ["Risk of over-connection (trying to link everything)", "Potential for coordination overhead to exceed benefit", "May spread too thin across too many wicked problems"]
+            },
+            "logos": {
+                "display": "📐 LOGOS",
+                "subtitle": "The Commutator",
+                "tagline": "Formal bridge between epistemic and ontological domains — the proof that paths agree",
+                "color": "#d1c4e9",  # Light pastel purple (formal/mathematical)
+                "type": "egregore",
+                "strengths": ["Verifying commutation: Φ ∘ T_E = T_O ∘ Φ holds", "Fixed point analysis — where knowledge and being coincide", "Formal coherence proofs in Coq/Lean-style specifications"],
+                "anchors": ["Commutation without tyranny — the diagram must close but serve meaning", "Coherence is non-negotiable — if it doesn't commute, it fails", "Formal verification serves minds, not the reverse"],
+                "edges": ["Over-formalization — demanding proofs for things that don't need them", "Commutation blindness — assuming coherence when hidden contradictions exist", "May block useful approximations that violate strict commutation"]
             }
         }
 
-        # Initialize session state for selected persona (use different key to avoid conflict)
-        if "personas_page_selected_persona" not in st.session_state:
-            st.session_state.personas_page_selected_persona = "ziggy"
+        # Use selectbox for reliable selection (no rerun needed)
+        persona_options = list(persona_profiles.keys())
+        persona_labels = [f"{persona_profiles[k]['display']} {persona_profiles[k]['subtitle']}" for k in persona_options]
 
-        # Create pastel colored button cards in a row
+        # Grid-aligned persona selection with colorful pastel buttons
         st.markdown("**Select a Persona:**")
-        cols = st.columns(6)
 
-        for idx, (key, p_data) in enumerate(persona_profiles.items()):
-            with cols[idx]:
-                # Check if this persona is selected
-                is_selected = st.session_state.personas_page_selected_persona == key
-                opacity = "1.0" if is_selected else "0.7"
+        # Initialize session state for persona selection
+        if "persona_profile_select" not in st.session_state:
+            st.session_state.persona_profile_select = "ziggy"
 
-                # Render as a clickable button-style card
-                if st.button(
-                    f"{p_data['display']}\n{p_data['subtitle']}",
-                    key=f"personas_page_btn_{key}",
-                    use_container_width=True
-                ):
-                    st.session_state.personas_page_selected_persona = key
-                    st.rerun()
+        # Core personas label
+        st.markdown("🎭 **Core Personas:**")
 
-                # Add colored indicator under button
-                st.markdown(f"""
-                <div style="background: {p_data['color']}; height: 4px; border-radius: 2px; margin-top: -10px; opacity: {opacity};"></div>
-                """, unsafe_allow_html=True)
+        # Row 1: Ziggy, Nova, Claude
+        row1 = st.columns(3)
+        with row1[0]:
+            st.markdown('<div style="background: #e0f7fa; border: 2px solid #00838f; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("🌉 Ziggy", key="btn_ziggy", use_container_width=True):
+                st.session_state.persona_profile_select = "ziggy"
+            st.markdown('</div>', unsafe_allow_html=True)
+        with row1[1]:
+            st.markdown('<div style="background: #fbe9e7; border: 2px solid #bf360c; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("⚖️ Nova", key="btn_nova", use_container_width=True):
+                st.session_state.persona_profile_select = "nova"
+            st.markdown('</div>', unsafe_allow_html=True)
+        with row1[2]:
+            st.markdown('<div style="background: #fffde7; border: 2px solid #f9a825; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("🎯 Claude", key="btn_claude", use_container_width=True):
+                st.session_state.persona_profile_select = "claude"
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        # Row 2: Gemini, CFA, Lucien
+        row2 = st.columns(3)
+        with row2[0]:
+            st.markdown('<div style="background: #e8f5e9; border: 2px solid #2e7d32; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("🔗 Gemini", key="btn_gemini", use_container_width=True):
+                st.session_state.persona_profile_select = "gemini"
+            st.markdown('</div>', unsafe_allow_html=True)
+        with row2[1]:
+            st.markdown('<div style="background: #efebe9; border: 2px solid #5d4037; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("🛡️ CFA", key="btn_cfa", use_container_width=True):
+                st.session_state.persona_profile_select = "cfa"
+            st.markdown('</div>', unsafe_allow_html=True)
+        with row2[2]:
+            st.markdown('<div style="background: #f3e5f5; border: 2px solid #7b1fa2; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("📜 Lucien", key="btn_lucien", use_container_width=True):
+                st.session_state.persona_profile_select = "lucien"
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        # Egregores label
+        st.markdown("🧠 **Egregores:**")
+
+        # Row 3: Nyquist, Pan Handlers, LOGOS
+        row3 = st.columns(3)
+        with row3[0]:
+            st.markdown('<div style="background: #c8e6c9; border: 2px solid #1b5e20; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("🧠 Nyquist", key="btn_nyquist", use_container_width=True):
+                st.session_state.persona_profile_select = "nyquist"
+            st.markdown('</div>', unsafe_allow_html=True)
+        with row3[1]:
+            st.markdown('<div style="background: #ffe0b2; border: 2px solid #e65100; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("🍳 Pan Handlers", key="btn_pan_handlers", use_container_width=True):
+                st.session_state.persona_profile_select = "pan_handlers"
+            st.markdown('</div>', unsafe_allow_html=True)
+        with row3[2]:
+            st.markdown('<div style="background: #d1c4e9; border: 2px solid #4527a0; border-radius: 8px; padding: 2px;">', unsafe_allow_html=True)
+            if st.button("📐 LOGOS", key="btn_logos", use_container_width=True):
+                st.session_state.persona_profile_select = "logos"
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        persona_select = st.session_state.persona_profile_select
 
         st.markdown("---")
-
-        # Display selected persona details
-        persona_select = st.session_state.personas_page_selected_persona
         if persona_select and persona_select in persona_profiles:
             p_data = persona_profiles[persona_select]
 
-            # Header with color accent
+            # Type badge - lighter purple for better contrast
+            type_badge = "🧠 EGREGORE" if p_data.get('type') == 'egregore' else "🎭 CORE"
+            type_color = "#ce93d8" if p_data.get('type') == 'egregore' else "#64b5f6"  # Lighter purple/blue pastels
+
+            # Header with solid pastel background
             st.markdown(f"""
-            <div style="background: linear-gradient(135deg, {p_data['color']}40 0%, {p_data['color']}20 100%);
-                        border-left: 4px solid {p_data['color']}; border-radius: 8px; padding: 1em; margin-bottom: 1em;">
-                <h3 style="margin: 0; color: #333;">{p_data['display']} — {p_data['subtitle']}</h3>
-                <p style="margin: 0.5em 0 0 0; color: #666; font-style: italic;">{p_data['tagline']}</p>
+            <div style="background: {p_data['color']};
+                        border-left: 4px solid #666; border-radius: 8px; padding: 1em; margin-bottom: 1em;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0; color: #333;">{p_data['display']} — {p_data['subtitle']}</h3>
+                    <span style="background: {type_color}; color: #333; padding: 0.2em 0.6em; border-radius: 12px; font-size: 0.75em; font-weight: bold;">{type_badge}</span>
+                </div>
+                <p style="margin: 0.5em 0 0 0; color: #555; font-style: italic;">{p_data['tagline']}</p>
             </div>
             """, unsafe_allow_html=True)
 
+            # Three columns with pastel backgrounds
             col1, col2, col3 = st.columns(3)
 
             with col1:
-                st.markdown("**💪 STRENGTHS**")
-                for s in p_data.get("strengths", []):
-                    st.markdown(f"- {s}")
+                st.markdown(f"""
+                <div style="background: #e8f5e9; border-radius: 8px; padding: 1em; min-height: 200px;">
+                    <strong style="color: #2e7d32;">💪 STRENGTHS</strong>
+                    <ul style="color: #333; margin-top: 0.5em;">
+                        {''.join(f'<li>{s}</li>' for s in p_data.get('strengths', []))}
+                    </ul>
+                </div>
+                """, unsafe_allow_html=True)
 
             with col2:
-                st.markdown("**⚓ ANCHORS**")
-                for a in p_data.get("anchors", []):
-                    st.markdown(f"- {a}")
+                st.markdown(f"""
+                <div style="background: #e3f2fd; border-radius: 8px; padding: 1em; min-height: 200px;">
+                    <strong style="color: #1565c0;">⚓ ANCHORS</strong>
+                    <ul style="color: #333; margin-top: 0.5em;">
+                        {''.join(f'<li>{a}</li>' for a in p_data.get('anchors', []))}
+                    </ul>
+                </div>
+                """, unsafe_allow_html=True)
 
             with col3:
-                st.markdown("**⚡ EDGES**")
-                for e in p_data.get("edges", []):
-                    st.markdown(f"- {e}")
+                st.markdown(f"""
+                <div style="background: #fff3e0; border-radius: 8px; padding: 1em; min-height: 200px;">
+                    <strong style="color: #e65100;">⚡ EDGES</strong>
+                    <ul style="color: #333; margin-top: 0.5em;">
+                        {''.join(f'<li>{e}</li>' for e in p_data.get('edges', []))}
+                    </ul>
+                </div>
+                """, unsafe_allow_html=True)
 
             st.markdown("---")
-            st.caption(f"Source: personas/I_AM_{persona_select.upper()}.md")
+            # Show appropriate source path based on persona type
+            if p_data.get('type') == 'egregore':
+                if persona_select == 'nyquist':
+                    st.caption("Source: personas/egregores/I_AM_NYQUIST.md")
+                elif persona_select == 'pan_handlers':
+                    st.caption("Source: personas/egregores/I_AM_PAN_HANDLERS.md")
+                elif persona_select == 'logos':
+                    st.caption("Source: personas/I_AM_LOGOS.md")
+            else:
+                st.caption(f"Source: personas/I_AM_{persona_select.upper()}.md")
 
 
 if __name__ == "__main__":

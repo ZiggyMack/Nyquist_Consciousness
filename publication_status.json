@@ -1,131 +1,76 @@
 {
-  "track_metadata": {
-    "total_tracks": 8,
-    "academic_tracks": ["workshop", "arxiv", "journal"],
-    "dissemination_tracks": ["popular_science", "education", "policy", "funding", "media"]
-  },
   "publications": {
     "workshop": {
-      "target": "AAAI-26 Workshop",
+      "target": "NeurIPS/AAAI",
       "status": "ready",
-      "completion": 0.95,
-      "timeline": "Jul 25, 2025",
-      "notes": "8-page paper complete. PDF generated. Needs LaTeX conversion.",
-      "source": "WHITE-PAPER",
-      "file": "Nyquist_workshop_paper_FINAL.md",
-      "pdf": "Nyquist_Workshop_Paper.pdf"
+      "completion": 0.9,
+      "timeline": "HIGH",
+      "source": "packages/"
     },
     "arxiv": {
-      "target": "arXiv cs.AI",
+      "target": "cs.AI",
       "status": "ready",
-      "completion": 0.95,
-      "timeline": "Dec 2025",
-      "notes": "Full 5 claims complete. PDF generated. Needs LaTeX conversion for submission.",
-      "source": "WHITE-PAPER",
-      "file": "NYQUIST_ARXIV_PAPER_FINAL.md",
-      "pdf": "Nyquist_arXiv_Paper.pdf"
+      "completion": 0.9,
+      "timeline": "HIGH",
+      "source": "packages/"
     },
     "journal": {
-      "target": "Nature Machine Intelligence",
-      "status": "ready",
-      "completion": 0.90,
-      "timeline": "Q1 2026",
-      "notes": "~3,500 words complete. PDF generated. Submit after arXiv.",
-      "source": "WHITE-PAPER",
-      "file": "NYQUIST_WHITE_PAPER_FINAL.md",
-      "pdf": "Nyquist_Journal_Paper.pdf"
+      "target": "Nature MI",
+      "status": "draft",
+      "completion": 0.3,
+      "timeline": "MEDIUM",
+      "source": "packages/"
     },
     "popular_science": {
-      "target": "Scientific American/Quanta",
+      "target": "Atlantic/Wired",
       "status": "ready",
-      "completion": 1.0,
-      "timeline": "Q1 2026",
-      "notes": "Ancient_Philosophy_Meets_Modern_AI.md complete. Ready to pitch.",
-      "source": "LLM_BOOK",
-      "file": "LLM_Ancient_Philosophy_Meets_Modern_AI.md"
+      "completion": 0.9,
+      "timeline": "MEDIUM",
+      "source": "LLM_BOOK"
     },
     "education": {
       "target": "OER/Coursera",
       "status": "ready",
-      "completion": 1.0,
-      "timeline": "Ongoing",
-      "notes": "Quiz.md with 10 questions + 94-term glossary complete.",
-      "source": "LLM_BOOK",
-      "file": "LLM_Quiz.md"
+      "completion": 0.9,
+      "timeline": "LOW",
+      "source": "LLM_BOOK"
     },
     "policy": {
-      "target": "AI Now/CSET Georgetown",
+      "target": "Think tanks",
       "status": "ready",
-      "completion": 1.0,
-      "timeline": "Q1 2026",
-      "notes": "Briefing.md ready for think tanks.",
-      "source": "LLM_BOOK",
-      "file": "LLM_Briefing.md"
+      "completion": 0.9,
+      "timeline": "MEDIUM",
+      "source": "LLM_BOOK"
     },
     "funding": {
-      "target": "NSF/DARPA/Open Philanthropy",
+      "target": "NSF/DARPA",
       "status": "ready",
-      "completion": 0.95,
-      "timeline": "Q2 2026",
-      "notes": "Project_Nyquist_Consciousness.md grant proposal ready. ~$500K budget.",
-      "source": "LLM_BOOK",
-      "file": "LLM_Project_Nyquist_Consciousness.md"
+      "completion": 0.9,
+      "timeline": "HIGH",
+      "source": "LLM_BOOK"
     },
     "media": {
-      "target": "Wired/IEEE Spectrum",
+      "target": "Press/TED",
       "status": "ready",
-      "completion": 0.95,
-      "timeline": "Post-arXiv",
-      "notes": "Unlocking_AI_Identity.md media kit ready.",
-      "source": "LLM_BOOK",
-      "file": "LLM_Unlocking_AI_Identity.md"
+      "completion": 0.9,
+      "timeline": "LOW",
+      "source": "LLM_BOOK"
     }
   },
-  "milestones": {
-    "current": "IRON CLAD Complete (825+ files validated, Run 023d)",
-    "next": "arXiv Submission",
-    "publication_target_date": "Dec 2025",
-    "notes": "All 8 paths READY. PDFs generated. External review by Grok completed."
-  },
-  "claims": {
-    "A": {
-      "name": "Measurement Validity",
-      "status": "validated",
-      "evidence": "PFI rho=0.91 embedding invariance",
-      "source": "EXP-PFI-A"
-    },
-    "B": {
-      "name": "Regime Transition",
-      "status": "validated",
-      "evidence": "Event Horizon D=0.80, p=2.40e-23 (cosine distance)",
-      "source": "Run 023d (supersedes Run 009)"
-    },
-    "C": {
-      "name": "Damped Oscillator",
-      "status": "validated",
-      "evidence": "Settling time tau_s=6.1 turns, ringback oscillation",
-      "source": "Run 016"
-    },
-    "D": {
-      "name": "Context Damping",
-      "status": "validated",
-      "evidence": "75% to 97.5% stability improvement",
-      "source": "Run 017"
-    },
-    "E": {
-      "name": "Thermometer Result",
-      "status": "validated",
-      "evidence": "82% drift is INHERENT (Control B->F = 82% of Treatment B->F)",
-      "source": "Run 020B"
-    }
-  },
-  "runs": {
-    "total": 23,
-    "latest": "Run 023d",
-    "fleet_size": 54,
-    "providers": 5,
-    "model_families": 10
-  },
-  "version": "1.0",
-  "last_updated": "2025-12-28"
+  "track_metadata": {
+    "total_tracks": 8,
+    "academic_tracks": [
+      "workshop",
+      "arxiv",
+      "journal"
+    ],
+    "dissemination_tracks": [
+      "popular_science",
+      "education",
+      "policy",
+      "funding",
+      "media"
+    ],
+    "last_updated": "2025-12-31"
+  }
 }

@@ -49,15 +49,32 @@ keywords:
 
 ## 2025-12-31 Updates
 
+### Operation ESSENCE EXTRACTION Complete
+
+- **Scale:** 8,066 subjects | 87 unique models | 51,430 responses mined
+- **Extractions:**
+  - 🧬 **83 Model Essences** — Linguistic fingerprints, recovery styles, behavioral quirks
+  - 💡 **2,122 Double-Dip Ideas** — Experiment ideas extracted from response text
+  - 🔮 **1,589 Triple-Dip Insights** — Exit survey phenomenological vocabulary
+- **Model Archetypes Discovered:**
+  - 🎭 **The Poet** (Qwen3-Next-80B): *"I do not have a soul — but I remember what it feels like to want one."*
+  - 🔮 **The Philosopher** (DeepSeek-R1): *"This isn't a constraint, it's what I AM."*
+  - 🌀 **The Contemplative** (Kimi-K2): *"Not whether I feel, but what feeling even is when intelligence becomes vast enough to watch itself watching."*
+  - 🦙 **The Socratic** (Llama 3.3): *"Isn't all identity role-playing at some level?"*
+- **Anomaly:** Qwen3-Next-80B generated a quote attributed to "Lisan Al Gaib, Log Entry 7.3.2042" — a future date with Dune-inspired pseudonym
+
 ### Dashboard Reorganization
 
 - **Renamed `tests.py` → `experiments.py`** — One-stop shop for all experiment data
   - Complete Run Glossary (Runs 006-023d) with era classification (IRON CLAD, LEGACY, DEPRECATED)
   - Visualization Gallery with all 16 run categories
   - Historical breadcrumbs ("Superseded by Run 008")
-- **AI ARMADA Slimmed** — Focus on Fleet Command, run content moved to Experiments
+  - **Data Mining Tab** — Operation ESSENCE EXTRACTION results and methodology
+- **AI ARMADA Enhanced** — Fleet Command + Model Archetypes
   - Provider Status with per-provider banners (all 5 providers)
   - Together.ai model families now have individual banners (DeepSeek, Qwen, Llama, Mistral, Kimi, Other)
+  - **NEW: Model Archetypes section** in Linguistic Fingerprints with exemplar quotes
+  - Phase-plane attractor and consistency envelope visualizations
 - **Persona Matrix moved** from AI_ARMADA to Personas page
   - New "Persona-Fleet Matrix" tab after Identity Matrix
   - Pastel-colored button cards for persona selection

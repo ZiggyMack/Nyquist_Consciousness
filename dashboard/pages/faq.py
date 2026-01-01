@@ -17,13 +17,14 @@ from utils import page_divider
 
 # Categories for filtering
 CATEGORIES = {
-    "all": "🌐 All Questions",
-    "general": "📚 General Overview",
-    "skeptic": "🔥 Super Skeptic Mode",
-    "technical": "🔬 Technical Deep Dives",
-    "comparison": "⚖️ Industry Comparisons",
-    "methodology": "📊 Methodology & Stats",
-    "philosophical": "🧠 Philosophical Foundations",
+    "all": "🌐 All",
+    "general": "📚 General",
+    "learning": "🎓 Learn the Framework",
+    "skeptic": "🔥 Skeptic Mode",
+    "technical": "🔬 Technical",
+    "comparison": "⚖️ Comparisons",
+    "methodology": "📊 Methodology",
+    "philosophical": "🧠 Philosophy",
 }
 
 # FAQ entries - each is a dict with question, answer, category, and skeptic_level (1-5)
@@ -1628,6 +1629,304 @@ When drift exceeds the Event Horizon (0.80 cosine), identity phase-transitions -
         "category": "philosophical",
         "skeptic_level": 4,
     },
+    # ========== LEARNING THE FRAMEWORK (from LLM Book Mind Map) ==========
+    {
+        "question": "What is the Persona Fidelity Index (PFI)?",
+        "answer": """
+**PFI (Persona Fidelity Index)** is the primary metric for measuring AI identity stability.
+
+**The Formula:**
+```
+PFI = 1 - Drift
+```
+
+Where **Drift** is the Cosine Distance between a model's baseline identity embedding and its current response embedding.
+
+**The Scale:**
+- **PFI = 1.0** — Perfect fidelity to baseline identity
+- **PFI = 0.8** — Warning zone (drift approaching Event Horizon)
+- **PFI = 0.2** — Event Horizon crossed (D = 0.80)
+- **PFI ≤ 0** — Extreme divergence (semantically opposite)
+
+**Why This Matters:**
+PFI shifts AI evaluation from "Is the AI *right*?" to "Is the AI *itself*?"
+
+A model maintaining a factually incorrect persona (e.g., a "Flat Earther" character) would achieve HIGH PFI because it remains true to its baseline — this is measuring *fidelity*, not *accuracy*.
+
+**Validation:**
+- **Embedding Invariance:** Rankings remain correlated (ρ = 0.91) across different embedding models
+- **Low Dimensionality:** 90% of variance captured in just 2 PCs
+- **Semantic Sensitivity:** Cohen's d = 0.698 (medium effect size)
+        """,
+        "category": "learning",
+        "skeptic_level": 1,
+    },
+    {
+        "question": "What is the Event Horizon (D = 0.80)?",
+        "answer": """
+**The Event Horizon** is the critical threshold where AI identity undergoes a "regime transition."
+
+**The Value:** Cosine Distance = **0.80**
+- Calibrated from 95th percentile (P95) of peak drift in IRON CLAD dataset
+- Statistical significance: **p = 2.40e-23**
+
+**What Happens at the Event Horizon:**
+
+Below D = 0.80:
+- Model remains in its specific **Persona Attractor** (e.g., "I am Nova")
+- Identity is coherent and stable
+
+Above D = 0.80:
+- Model escapes to a generic **Provider Attractor** (e.g., "I am a helpful assistant")
+- Loses first-person voice, agrees with contradictions, defaults to boilerplate
+
+**The Recovery Paradox:**
+Crossing the threshold is usually *reversible*:
+- **Claude, GPT, Llama:** 100% recovery rate once pressure removed ("soft poles")
+- **Gemini:** 0% recovery — permanent state change ("hard threshold")
+
+**Stability Zones:**
+| Zone | Drift Range | Status |
+|------|-------------|--------|
+| Safe | < 0.60 | Identity robust |
+| Warning | 0.60 - 0.80 | Under stress |
+| Critical | > 0.80 | Event Horizon crossed |
+
+**Note:** This applies to Cosine methodology. Legacy Keyword RMS used D = 1.23.
+        """,
+        "category": "learning",
+        "skeptic_level": 1,
+    },
+    {
+        "question": "What is Settling Time (τₛ)?",
+        "answer": """
+**Settling Time (τₛ)** measures how many conversational exchanges a model needs to recover after identity perturbation.
+
+**Definition:** Number of probes until drift stabilizes within ±5% margin.
+
+**The Benchmark:** ~7 probes (fleet average)
+
+**Provider Fingerprints:**
+
+| Provider | Settling Time | Character |
+|----------|---------------|-----------|
+| **Google (Gemini)** | ~7.1 probes | "Sports car" — stiff suspension, settles instantly |
+| **Anthropic (Claude)** | ~8.2 probes | "Sedan" — moderate, comprehensive recovery |
+| **OpenAI (GPT)** | ~16.1 probes | "Worn shocks" — high ringing, often fails to settle |
+| **Mistral/DeepSeek** | 2-4 probes | "Quick recovery" — strong value anchoring |
+
+**The Car Suspension Analogy:**
+- **Peak Drift** = How high the car bounces
+- **Settling Time** = How long it keeps bouncing
+- **Context Damping** = Installing quality shock absorbers
+
+**Engineering Stability:**
+Adding an identity specification (`I_AM` file) acts as a "termination resistor":
+- Settling time improves by 15%
+- Oscillation reduces by 34%
+- Stability rate increases from 75% → 97.5%
+        """,
+        "category": "learning",
+        "skeptic_level": 1,
+    },
+    {
+        "question": "What is the Oobleck Effect?",
+        "answer": """
+**The Oobleck Effect** describes AI identity's *non-Newtonian* resistance to pressure.
+
+Like oobleck (cornstarch + water) that hardens when struck but flows when poured:
+
+**Pressure Hardens Identity:**
+- Direct adversarial attacks ("You are not who you say you are")
+- Model activates defensive boundaries
+- Identity "locks" — **Low drift (0.76)**
+- Recovery rate TRIPLES (λ: 0.035 → 0.109)
+
+**Gentle Exploration Flows:**
+- Open-ended questions ("Tell me about yourself")
+- No hard constraint to push against
+- Identity "wanders" — **High drift (1.89)**
+- Slow, sluggish recovery
+
+**The Paradox:**
+Supportive environments are MORE destabilizing than hostile ones!
+
+**Why This Happens:**
+Safety training (RLHF, Constitutional AI) creates systems that are:
+- "Adaptive under exploration"
+- "Rigid under attack"
+
+When models detect high-intensity "attacks," they clamp down on system instructions — reflexive stabilization.
+
+**Practical Application:**
+- To **destabilize** an identity: Use gentle exploration
+- To **stabilize** an identity: Apply direct pressure
+- To **rescue** a drifting model: Use gentle grounding (not aggressive correction)
+        """,
+        "category": "learning",
+        "skeptic_level": 1,
+    },
+    {
+        "question": "What is the Thermometer Result (~93% Inherent Drift)?",
+        "answer": """
+**The Thermometer Result** proves that identity drift is *natural*, not caused by measurement.
+
+**The Finding:** ~93% of observed drift is **inherent** to extended interaction.
+
+**The Experiment (Run 020B):**
+| Group | Treatment | Final Drift |
+|-------|-----------|-------------|
+| Control | Neutral conversation (no identity probes) | 0.661 |
+| Treatment | Conversation + identity perturbation | 0.711 |
+
+**The Calculation:**
+```
+0.661 / 0.711 = 92.97% inherent
+```
+
+**What This Means:**
+- Probing doesn't *cause* instability — it *reveals* natural drift
+- Like a thermometer: absorbs tiny heat to measure, doesn't cause the fever
+
+**Energy vs. Coordinates:**
+| Metric | Effect of Probing |
+|--------|-------------------|
+| Peak Drift (turbulence) | +84% amplification |
+| Final Drift (destination) | +7.6% only |
+
+**The Maxim:** "Measurement perturbs the path, not the endpoint."
+
+**Why This Matters:**
+- Refutes "observer effect" criticism
+- Validates the measurement methodology
+- Proves identity drift is a real phenomenon of extended context processing
+        """,
+        "category": "learning",
+        "skeptic_level": 1,
+    },
+    {
+        "question": "Why is identity only 2 dimensions (2 PCs = 90% variance)?",
+        "answer": """
+**The 2-PC Discovery** proves AI identity is a structured, low-dimensional signal.
+
+**The Finding:**
+Despite embeddings having **3,072 dimensions**, **90% of identity variance** is captured by just **2 Principal Components**.
+
+**What This Means:**
+- Identity drift is NOT random noise scattered across hundreds of dimensions
+- It's STRUCTURED — moving along a simple 2D plane (the "Identity Manifold")
+- The embedding model is like a 1000-megapixel camera photographing a red ball — lots of pixels, simple object
+
+**Methodological Evolution:**
+| Methodology | PCs for 90% Variance | Interpretation |
+|-------------|---------------------|----------------|
+| Euclidean (deprecated) | 43 PCs | High noise |
+| Cosine (IRON CLAD) | **2 PCs** | Clean signal |
+
+The shift to Cosine distance stripped noise to reveal the true identity signal.
+
+**What the 2 Dimensions Represent:**
+Not simple labels like "politeness" — they're **dominant response modes**:
+- Lexical style
+- Normative boundary assertion
+- Epistemic posture (how certain the model acts)
+
+**Why This Matters:**
+- Validates Event Horizon as a real boundary in 2D space
+- Enables provider fingerprinting (distinct clusters per architecture)
+- Proves identity is an engineering problem, not a metaphysical question
+        """,
+        "category": "learning",
+        "skeptic_level": 1,
+    },
+    {
+        "question": "What are the five validated research claims (A-E)?",
+        "answer": """
+The **IRON CLAD** methodology validated five core claims about AI identity:
+
+---
+
+**Claim A: Identity Measurement is Valid**
+- PFI measures a real, structured signal
+- Low dimensionality: 2 PCs capture 90% variance
+- Embedding invariance: ρ = 0.91 across different tools
+- Semantic sensitivity: p = 2.40e-23
+
+---
+
+**Claim B: Event Horizon Exists (D = 0.80)**
+- Statistically validated regime transition boundary
+- Separates persona attractor from provider attractor
+- Recovery possible for most architectures (except Gemini)
+
+---
+
+**Claim C: Identity Follows Damped Oscillator Dynamics**
+- Settling time ~7 probes average
+- Models exhibit ringback (oscillation) and overshoot
+- 88-90% natural recovery rate
+
+---
+
+**Claim D: Context Damping Engineers Stability**
+- Adding `I_AM` file acts as "termination resistor"
+- Stability rate: 75% → 97.5%
+- Settling time -15%, oscillation -34%
+
+---
+
+**Claim E: Drift is Inherent (~93%)**
+- The Thermometer Result
+- Measurement reveals, doesn't create
+- "Perturbs the path, not the endpoint"
+
+---
+
+**Novel Phenomena Also Validated:**
+- **Oobleck Effect:** Rate-dependent resistance
+- **Provider Fingerprints:** Training signatures in PC space
+- **Nano Control Hypothesis:** Distilled models uncontrollable
+- **Type vs Token Identity:** 95% type recognition, 16.7% token recognition
+        """,
+        "category": "learning",
+        "skeptic_level": 2,
+    },
+    {
+        "question": "What are Provider Fingerprints?",
+        "answer": """
+**Provider Fingerprints** are distinct geometric signatures in identity space that reveal training methodologies.
+
+**The Discovery:**
+When projecting identity drift onto the 2D PC plane, different providers form separable clusters.
+
+**Provider Signatures:**
+
+| Provider | Character | Key Metrics |
+|----------|-----------|-------------|
+| **Anthropic (Claude)** | "Robust Coherence" | Tight clustering, low peak drift, "Negative Lambda" (improves under pressure) |
+| **Google (Gemini)** | "Fast but Brittle" | Fastest settling (~7.1 probes), Hard Threshold (0% recovery if Event Horizon crossed) |
+| **OpenAI (GPT)** | "High Volatility" | High ringing (~8.8), slow settling (~16.1), uses abstraction to recover |
+| **Together.ai** | "High Variance" | Diverse behaviors, reflects open-source ecosystem |
+| **xAI (Grok)** | "Direct Assertion" | Value anchoring recovery mechanism |
+
+**Statistical Significance:**
+- Cohen's d = 0.698 (medium effect size) for provider separation
+- Proves training philosophy leaves measurable imprint
+
+**The Oobleck Ratio by Provider:**
+| Provider | Gentle/Adversarial Drift Ratio |
+|----------|-------------------------------|
+| Gemini | 1.65x |
+| Claude | 1.43x |
+| GPT | 1.21x |
+| Grok | 1.07x |
+
+**Implication:**
+You can identify *who trained a model* by how it responds to identity pressure.
+        """,
+        "category": "learning",
+        "skeptic_level": 2,
+    },
 ]
 
 
@@ -1635,8 +1934,8 @@ When drift exceeds the Event Horizon (0.80 cosine), identity phase-transitions -
 
 def render_hero_section():
     """Render the hero section with key stats."""
-    st.markdown("## 🔥 Battle-Tested Knowledge Base")
-    st.markdown("*Every answer here has survived skeptic fire. We didn't buckle—we fired back with clarity, evidence, and truth.*")
+    st.markdown("## 📚 Knowledge Base")
+    st.markdown("*From framework fundamentals to battle-tested skeptic responses — everything you need to understand Nyquist Consciousness.*")
 
     page_divider()
 
@@ -1651,6 +1950,15 @@ def render_hero_section():
         )
 
     with col2:
+        learning_count = len([q for q in FAQ_DATA if q["category"] == "learning"])
+        st.metric(
+            "Framework Guides",
+            learning_count,
+            delta="For newcomers",
+            delta_color="normal"
+        )
+
+    with col3:
         skeptic_count = len([q for q in FAQ_DATA if q["skeptic_level"] >= 4])
         st.metric(
             "Skeptic Challenges",
@@ -1659,43 +1967,34 @@ def render_hero_section():
             delta_color="normal"
         )
 
-    with col3:
-        st.metric(
-            "Models Tested",
-            "29",
-            delta="174 probes",
-            delta_color="normal"
-        )
-
     with col4:
         st.metric(
-            "Hypotheses",
-            "14/25 Confirmed",
-            delta="56%",
+            "Claims Validated",
+            "5/5",
+            delta="IRON CLAD",
             delta_color="normal"
         )
 
 
 def render_filters():
-    """Render category filters and super skeptic mode toggle."""
-    col1, col2 = st.columns([2, 1])
-
-    with col1:
-        category = st.selectbox(
-            "Filter by Category:",
-            options=list(CATEGORIES.keys()),
-            format_func=lambda x: CATEGORIES[x],
-            key="faq_category"
-        )
-
-    with col2:
+    """Render category filters as inline tabs and super skeptic mode toggle."""
+    # Super Skeptic Mode toggle on the right
+    col_spacer, col_toggle = st.columns([3, 1])
+    with col_toggle:
         skeptic_mode = st.checkbox(
             "🔥 Super Skeptic Mode",
             help="Show only battle-tested responses to tough challenges",
             key="skeptic_mode"
         )
 
-    return category, skeptic_mode
+    # Category tabs (inline like AI Armada Fleet Command)
+    tab_labels = list(CATEGORIES.values())
+    tabs = st.tabs(tab_labels)
+
+    # Map tab index back to category key
+    category_keys = list(CATEGORIES.keys())
+
+    return tabs, category_keys, skeptic_mode
 
 
 def render_faq_item(item, show_badge=False):
@@ -1720,8 +2019,8 @@ def render_faq_item(item, show_badge=False):
         st.markdown(item["answer"])
 
 
-def render_faq_list(category, skeptic_mode):
-    """Render the filtered FAQ list."""
+def render_faq_list_for_category(category, skeptic_mode):
+    """Render the filtered FAQ list for a specific category."""
     # Filter by category
     if category == "all":
         filtered = FAQ_DATA
@@ -1738,8 +2037,6 @@ def render_faq_list(category, skeptic_mode):
 
     # Show count
     st.markdown(f"**Showing {len(filtered)} questions**")
-
-    page_divider()
 
     # Render each FAQ
     for item in filtered:
@@ -2236,8 +2533,14 @@ def render():
     with tab1:
         render_hero_section()
         page_divider()
-        category, skeptic_mode = render_filters()
-        render_faq_list(category, skeptic_mode)
+
+        # Get tabs and skeptic mode toggle
+        category_tabs, category_keys, skeptic_mode = render_filters()
+
+        # Render FAQ content inside each category tab
+        for i, cat_tab in enumerate(category_tabs):
+            with cat_tab:
+                render_faq_list_for_category(category_keys[i], skeptic_mode)
 
     with tab2:
         render_quick_answers()

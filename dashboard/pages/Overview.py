@@ -633,7 +633,7 @@ def render():
         st.markdown("""
 | Claim | Statement | Key Statistic | Evidence Source |
 |-------|-----------|---------------|-----------------|
-| **A** | PFI is valid structured measurement | ρ ≈ 0.91, d ≈ 0.698 | EXP-PFI-A Phases 1-4 |
+| **A** | PFI is valid structured measurement | ρ ≈ 0.91, d ≈ 0.698 | Run 011-V Phases 1-4 |
 | **B** | Regime threshold exists at D = 0.80 | p = 2.40×10⁻²³ | Run 023d IRON CLAD |
 | **C** | Recovery follows damped oscillator dynamics | τₛ ≈ 7, ringbacks measurable | Run 023d |
 | **D** | Context damping reduces oscillation | 97.5% stability | Run 018 |

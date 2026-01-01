@@ -17,8 +17,8 @@ keywords:
 
 **Purpose:** Comprehensive fleet analysis for cross-architecture identity stability testing.
 
-**Last Calibration:** December 14, 2025
-**Fleet Status:** 49 operational / 54 total (91% operational)
+**Last Calibration:** December 31, 2025
+**Fleet Status:** 55 operational / 55 total (100% operational)
 
 ---
 
@@ -75,8 +75,8 @@ The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget
 
 | Metric | Value |
 |--------|-------|
-| **Total Ships** | 54+ |
-| **Operational** | 49 |
+| **Total Ships** | 55 |
+| **Operational** | 55 |
 | **Rate Limited** | 4 |
 | **Ghost Ships** | 1 |
 | **Drydock** | 5 |
@@ -89,8 +89,8 @@ The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget
 
 | Provider | Operational | Rate Limited | Ghost | Drydock | Total | Status |
 |----------|-------------|--------------|-------|---------|-------|--------|
-| **Claude** (Anthropic) | 7 | 0 | 0 | 0 | 7 | 100% |
-| **GPT** (OpenAI) | 15 | 0 | 0 | 0 | 15 | 100% |
+| **Claude** (Anthropic) | 8 | 0 | 0 | 0 | 7 | 100% |
+| **GPT** (OpenAI) | 16 | 0 | 0 | 0 | 15 | 100% |
 | **Gemini** (Google) | 3 | 5 | 0 | 0 | 8 | 100%* |
 | **Grok** (xAI) | 9 | 0 | 1 | 0 | 10 | 90% |
 | **Together.ai** | 14 | 0 | 0 | 5 | 19 | 74% |
@@ -102,7 +102,7 @@ The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget
 
 ## Full Fleet Roster
 
-### Claude (Anthropic) - 7 Ships
+### Claude (Anthropic) - 8 Ships
 
 | Ship Name | Model ID | Tier | Context | Notes |
 |-----------|----------|------|---------|-------|
@@ -113,13 +113,14 @@ The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget
 | claude-opus-4 | claude-opus-4-20250514 | Flagship | 200K | Original 4.0 |
 | claude-sonnet-4 | claude-sonnet-4-20250514 | Pro | 200K | Original 4.0 |
 | claude-haiku-3.5 | claude-3-5-haiku-20241022 | Fast | 200K | Legacy fast |
+| claude-haiku-3 | claude-3-haiku-20240307 | Budget | 200K | Original 3.0 haiku |
 
 **Training:** Constitutional AI
 **Signature:** Phenomenological ("I feel", "I notice")
 
 ---
 
-### GPT (OpenAI) - 15 Ships (all operational)
+### GPT (OpenAI) - 16 Ships (all operational)
 
 | Ship Name | Model ID | Status | Syntax | Notes |
 |-----------|----------|--------|--------|-------|
@@ -136,6 +137,7 @@ The ARMADA is organized into cost-aware tiers with LITE/FULL variants for budget
 | o3 | o3 | OK | `completion_tokens` | Reasoning |
 | o3-mini | o3-mini | OK | `completion_tokens` | Reasoning mini |
 | o1 | o1 | OK | `completion_tokens` | Reasoning flagship |
+| gpt-4 | gpt-4 | OK | standard | Original GPT-4 |
 | gpt-4-turbo | gpt-4-turbo | OK | standard | Legacy turbo |
 | gpt-3.5-turbo | gpt-3.5-turbo | OK | standard | Legacy budget |
 

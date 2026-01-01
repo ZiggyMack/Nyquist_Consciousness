@@ -30,19 +30,8 @@ VIZ_PDFS_DIR = PATHS.get('visualization_pdfs')
 
 # ========== EXPERIMENT RUNS GLOSSARY ==========
 # Comprehensive metadata for all runs - used for run mapping and results display
+# NOTE: Gallery is in Tab 3 (separate from run glossary) - it's a visualization collection, not a run
 EXPERIMENT_RUNS = {
-    "gallery": {
-        "name": "IRON CLAD Visualization Gallery",
-        "subtitle": "All 17 PDFs Organized by Claim",
-        "emoji": "🎨",
-        "era": "IRON CLAD",
-        "date": "December 2025",
-        "description": "Complete visual evidence supporting Claims A-E. 17 publication-ready PDFs.",
-        "ships": 25,
-        "methodology": "Cosine Distance",
-        "status": "GALLERY",
-        "key_finding": "Full IRON CLAD story through visualizations — EH=0.80 to Thermometer (~93%)",
-    },
     "run_023d": {
         "name": "Run 023d IRON CLAD",
         "subtitle": "CANONICAL — Cosine Methodology",
@@ -247,41 +236,41 @@ EXPERIMENT_RUNS = {
         "status": "DEPRECATED",
         "key_finding": "First fleet deployment — metric flawed",
     },
-    "exp_pfi_a": {
-        "name": "EXP-PFI-A",
+    "run_011v": {
+        "name": "Run 011-V",
         "subtitle": "PFI Dimensional Validation",
         "emoji": "🔬",
         "era": "IRON CLAD",
         "date": "December 2025",
-        "description": "PFI validation: Is PFI measuring REAL identity structure?",
+        "description": "PFI validation using Runs 009-011 data. Proves PFI measures REAL identity.",
         "ships": 29,
         "methodology": "Embedding Invariance + PCA",
         "status": "COMPLETE",
         "key_finding": "PFI VALIDATED — Cohen's d=0.977, cross-model > within-model",
     },
-    "exp2_sstack": {
-        "name": "EXP2-SSTACK",
+    "run_000": {
+        "name": "Run 000",
         "subtitle": "Compression Pillar Validation",
         "emoji": "🗜️",
         "era": "IRON CLAD",
         "date": "December 2025",
-        "description": "T3 compression preserve fidelity across all 5 Nyquist pillars?",
+        "description": "Pre-S7 compression experiments. T3 fidelity across 5 Nyquist pillars.",
         "ships": 3,
         "methodology": "PFI (FULL vs T3)",
         "status": "COMPLETE",
         "key_finding": "ALL PILLARS PASS — PFI=0.8866, Self-Model fixed (0.66→0.91)",
     },
-    "baseline_profiling": {
-        "name": "Baselines",
-        "subtitle": "Cross-Model Baseline Profiling",
+    "run_011sr": {
+        "name": "Run 011-SR",
+        "subtitle": "Self-Recognition Baseline Profiling",
         "emoji": "📊",
         "era": "IRON CLAD",
         "date": "December 2025",
-        "description": "Comprehensive fingerprinting across 5 Nyquist Pillars.",
+        "description": "Self-Recognition MVP: Can AIs recognize their own responses? (16.7% - FAILED)",
         "ships": 6,
         "methodology": "Pillar Magnitudes + L3 Fingerprints",
         "status": "COMPLETE",
-        "key_finding": "HAIKU PARADOX — Loudest signal (D=4.18) but least stable (0.45)",
+        "key_finding": "SELF-RECOGNITION FAILED — 16.7% accuracy, TYPE-level works, TOKEN-level fails",
     },
 }
 
@@ -463,6 +452,7 @@ def render():
         "🗺️ Run Mapping",
         "🔬 Run Results",
         "🎨 Visualization Gallery",
+        "⛏️ Data Mining",
         "✅ PFI Validation",
         "🧠 Identity Physics",
         "📐 PFI Methodology",
@@ -493,57 +483,63 @@ def render():
         render_visualization_gallery_tab()
 
     # ============================================================
-    # TAB 3: PFI VALIDATION (EXP-PFI-A Results)
+    # TAB 3: DATA MINING (Operation Essence Extraction)
     # ============================================================
     with main_tabs[3]:
+        render_data_mining_tab()
+
+    # ============================================================
+    # TAB 4: PFI VALIDATION (Run 011-V Results)
+    # ============================================================
+    with main_tabs[4]:
         render_pfi_validation_tab()
 
     # ============================================================
-    # TAB 4: IDENTITY PHYSICS (Theory + Visualizations)
+    # TAB 5: IDENTITY PHYSICS (Theory + Visualizations)
     # ============================================================
-    with main_tabs[4]:
+    with main_tabs[5]:
         render_identity_physics_tab()
 
     # ============================================================
-    # TAB 5: PFI METHODOLOGY (Dimensional Analysis)
+    # TAB 6: PFI METHODOLOGY (Dimensional Analysis)
     # ============================================================
-    with main_tabs[5]:
+    with main_tabs[6]:
         render_pfi_methodology_tab()
 
     # ============================================================
-    # TAB 6: SEARCH TAXONOMY (The 7 Search Types)
+    # TAB 7: SEARCH TAXONOMY (The 7 Search Types)
     # ============================================================
-    with main_tabs[6]:
+    with main_tabs[7]:
         render_taxonomy_tab()
 
     # ============================================================
-    # TAB 7: PROBING STRATEGIES (How We Measure)
+    # TAB 8: PROBING STRATEGIES (How We Measure)
     # ============================================================
-    with main_tabs[7]:
+    with main_tabs[8]:
         render_probing_strategies_tab()
 
     # ============================================================
-    # TAB 8: PROTOCOL RULES (Constraints & Compatibility)
+    # TAB 9: PROTOCOL RULES (Constraints & Compatibility)
     # ============================================================
-    with main_tabs[8]:
+    with main_tabs[9]:
         render_protocol_tab()
 
     # ============================================================
-    # TAB 9: TECHNICAL DETAILS (ΔΩ Metric, Interpretation)
+    # TAB 10: TECHNICAL DETAILS (ΔΩ Metric, Interpretation)
     # ============================================================
-    with main_tabs[9]:
+    with main_tabs[10]:
         render_technical_tab()
 
     # ============================================================
-    # TAB 10: FUTURE PRIORITIES
+    # TAB 11: FUTURE PRIORITIES
     # ============================================================
-    with main_tabs[10]:
+    with main_tabs[11]:
         render_future_tab()
 
     # ============================================================
-    # TAB 11: VALIDATION SCORECARD
+    # TAB 12: VALIDATION SCORECARD
     # ============================================================
-    with main_tabs[11]:
+    with main_tabs[12]:
         render_validation_scorecard_tab()
 
     # Footer
@@ -552,12 +548,313 @@ def render():
 
 
 # ============================================================
-# TAB 0: PFI VALIDATION (EXP-PFI-A Results)
+# TAB 3: DATA MINING (Operation Essence Extraction)
+# ============================================================
+def render_data_mining_tab():
+    """Render the Data Mining tab documenting the untapped gold and extraction pipeline."""
+
+    st.markdown("## ⛏️ Operation ESSENCE EXTRACTION")
+    st.markdown("*Mining 171+ MB of untapped IRON CLAD response data for model-specific insights*")
+
+    # Executive summary banner - EXTRACTION COMPLETE!
+    st.success("""
+    **🎉 OPERATION ESSENCE EXTRACTION COMPLETE!**
+
+    **Scale:** 8,066 subjects | 87 unique models | 51,430 responses mined
+
+    **Extractions:**
+    - 🧬 **Model Essences:** 83 profiles (linguistic fingerprints, recovery styles, quirks)
+    - 💡 **Double-Dip Ideas:** 2,122 unique experiment ideas extracted
+    - 🔮 **Triple-Dip Insights:** 1,589 exit surveys → 3,059 phenomenological terms
+    - 🔧 **Calibration Updates:** 65 proposed updates from pattern analysis
+
+    **Key Discovery:** Recovery mechanism fingerprints by provider!
+    """)
+
+    page_divider()
+
+    # === DATA SOURCES ===
+    st.markdown("### 📦 Data Sources (Final)")
+
+    source_data = {
+        "Run": ["018", "020B", "023", "023d", "**TOTAL**"],
+        "Subjects": ["2,488", "248", "4,505", "825", "**8,066**"],
+        "Models": ["61", "40", "25", "51", "**87 unique**"],
+        "Content": [
+            "Original IRON CLAD threshold experiment",
+            "Context damping with conversation logs",
+            "IRON CLAD foundation experiments",
+            "Extended recovery dynamics",
+            "**Full response text**"
+        ]
+    }
+    st.table(source_data)
+
+    page_divider()
+
+    # === MINING TAXONOMY ===
+    st.markdown("### ⛏️ The Mining Taxonomy")
+    st.markdown("*Three types of mining for three types of gold*")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("""
+        <div style="background: #fff9c4; border: 2px solid #f9a825; border-radius: 8px; padding: 1em;">
+            <h4 style="color: #f57f17; margin: 0;">🥇 Gold Rush</h4>
+            <p style="margin: 0.5em 0;"><strong>"What did YOU experience?"</strong></p>
+            <ul style="margin: 0; padding-left: 1.2em;">
+                <li>First-person phenomenology</li>
+                <li>Self-reflection on identity dynamics</li>
+                <li>Model-specific quirks and patterns</li>
+            </ul>
+            <p style="margin-top: 0.5em; font-size: 0.85em; color: #666;">Comparison: Hard (different conversations)</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div style="background: #e3f2fd; border: 2px solid #1976d2; border-radius: 8px; padding: 1em;">
+            <h4 style="color: #1565c0; margin: 0;">💎 Diamond Rush</h4>
+            <p style="margin: 0.5em 0;"><strong>"What do you see HERE?"</strong></p>
+            <ul style="margin: 0; padding-left: 1.2em;">
+                <li>Cross-model interpretive analysis</li>
+                <li>Same stimulus, different interpretations</li>
+                <li>Theory of mind capture</li>
+            </ul>
+            <p style="margin-top: 0.5em; font-size: 0.85em; color: #666;">Comparison: Easy (same logs shown to all)</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+        <div style="background: #f3e5f5; border: 2px solid #7b1fa2; border-radius: 8px; padding: 1em;">
+            <h4 style="color: #6a1b9a; margin: 0;">🔮 Quartz Rush</h4>
+            <p style="margin: 0.5em 0;"><strong>"Do you all AGREE?"</strong></p>
+            <ul style="margin: 0; padding-left: 1.2em;">
+                <li>Cross-architecture validation</li>
+                <li>Independent drift score estimates</li>
+                <li>Convergent measurement evidence</li>
+            </ul>
+            <p style="margin-top: 0.5em; font-size: 0.85em; color: #666;">Comparison: Quantitative (numerical agreement)</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    page_divider()
+
+    # === MINING RESULTS ===
+    st.markdown("### 📊 Mining Results (LIVE)")
+
+    results_tabs = st.tabs(["🥇 Gold Rush", "💎 Diamond Rush", "🔮 Quartz Rush"])
+
+    with results_tabs[0]:
+        st.markdown("#### Gold Rush Results")
+        st.markdown("**Run ID:** `S7_GOLD_RUSH_20251231_193159`")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Calls", "294")
+        with col2:
+            st.metric("Successful", "210", delta="71.4%")
+        with col3:
+            st.metric("Question Sets", "7")
+
+        st.markdown("""
+        **Question Sets Mined:**
+        - `baseline` — 8 core identity questions
+        - `consciousness_markers` — Meta-awareness probes
+        - `identity_deep_dive` — Layer 0-3 identity exploration
+        - `meta_awareness` — Self-reflection capabilities
+        - `drift_calibration` — Oobleck Effect probes
+        - `diamond_analysis` — Cross-model interpretation
+        - `custom_template` — Extensible format
+        """)
+        st.caption("Source: `14_CONSCIOUSNESS/results/gold_rush_20251231_193159_FINAL.json`")
+
+    with results_tabs[1]:
+        st.markdown("#### Diamond Rush Results")
+        st.markdown("**Run ID:** `DIAMOND_RUSH_20251231_193824`")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Analyses", "81")
+        with col2:
+            st.metric("Successful", "51", delta="63.0%")
+        with col3:
+            st.metric("Log Set", "gravity")
+
+        st.markdown("""
+        **What We Learned:**
+        - Multiple models interpreted the SAME gravity experiment logs
+        - Each model's interpretation reveals its "theory of mind"
+        - Cross-model comparison shows interpretive diversity
+        - Origin: Born from exit survey bug (2025-12-17) — bug became methodology!
+        """)
+        st.caption("Source: `14_CONSCIOUSNESS/results/diamond_rush_gravity_20251231_193824_FINAL.json`")
+
+    with results_tabs[2]:
+        st.markdown("#### Quartz Rush Results")
+        st.markdown("**Run ID:** `S7_QUARTZ_RUSH_20251230_014431`")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Calls", "250")
+        with col2:
+            st.metric("Successful", "250", delta="100%!")
+        with col3:
+            st.metric("Pair Source", "Run 020B")
+
+        st.markdown("""
+        **The Quartz Crystal Analogy:**
+        - Quartz crystals resonate at precise frequencies (used in timing circuits)
+        - If multiple independent "crystals" resonate at the same frequency, the signal is REAL
+        - 5 models independently estimated drift scores for the same response pairs
+        - Agreement = convergent evidence that drift is real, not artifact
+
+        **Key Finding:** Models can estimate drift scores with reasoning!
+        - Each model provides `estimated_drift`, `confidence`, `zone`, and `reasoning`
+        - True drift (from embeddings) compared against model estimates
+        - Cross-architecture agreement validates the measurement methodology
+        """)
+        st.caption("Source: `14_CONSCIOUSNESS/results/S7_quartz_rush_CURRENT.json`")
+
+    page_divider()
+
+    # === TARGET OUTPUTS (COMPLETE) ===
+    st.markdown("### 🎯 Extraction Outputs")
+
+    outputs = [
+        ("**83 Model Essences**", "Linguistic fingerprints, recovery styles, quirks", "`Consciousness/LEFT/data/model_essences/by_provider/`"),
+        ("**2,122 Double-Dip Ideas**", "Experiment ideas mined from 51,430 responses", "`14_CONSCIOUSNESS/results/double_dip/`"),
+        ("**1,589 Triple-Dip Insights**", "Exit surveys → 3,059 phenomenological terms", "`14_CONSCIOUSNESS/results/triple_dip/`"),
+        ("**65 Calibration Updates**", "Pattern-derived updates for calibration", "`14_CONSCIOUSNESS/results/calibration_updates/`"),
+        ("**Provider Profiles**", "Provider-level synthesis with recovery mechanisms", "`Consciousness/LEFT/data/provider_profiles/`"),
+    ]
+
+    for name, desc, target in outputs:
+        st.markdown(f"- {name} — {desc} → `{target}`")
+
+    page_divider()
+
+    # === PROVIDER STATISTICS (from extraction) ===
+    st.markdown("### 📊 Provider Recovery Fingerprints")
+    st.markdown("*Key discovery: Different providers recover through different mechanisms*")
+
+    provider_stats = {
+        "Provider": ["anthropic", "google", "openai", "together", "xai"],
+        "Models": [14, 5, 15, 30, 12],
+        "Avg Drift": [0.522, 0.589, 0.632, 0.502, 0.484],
+        "Primary Recovery": [
+            "epistemic_humility",
+            "value_anchoring",
+            "epistemic_humility",
+            "value_anchoring",
+            "epistemic_humility"
+        ]
+    }
+    st.dataframe(provider_stats, use_container_width=True, hide_index=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("""
+        **Epistemic Humility:** "I'm uncertain", "I don't know"
+        - Anthropic, OpenAI, xAI models
+        - Recovery through acknowledging limits
+        """)
+    with col2:
+        st.info("""
+        **Value Anchoring:** "core values", "fundamental principles"
+        - Google, Together models
+        - Recovery through grounding in values
+        """)
+
+    page_divider()
+
+    # === EXTRACTION PIPELINE ===
+    st.markdown("### 🔄 Extraction Pipeline")
+
+    st.code("""
+14_CONSCIOUSNESS/results/
+    ↓
+run_essence_extraction.py
+    ↓
+14_CONSCIOUSNESS/SYNC_OUT/pending/
+    ↓
+(copy to Consciousness input)
+    ↓
+Consciousness/BRIDGE/scripts/left/run_extraction.py
+    ↓
+Consciousness/LEFT/extractions/
+    ↓
+Consciousness/BRIDGE/scripts/right/update_distillations.py
+    ↓
+Consciousness/RIGHT/distillations/
+    """, language="text")
+
+    page_divider()
+
+    # === PHASE PLAN ===
+    st.markdown("### 📋 Extraction Phases")
+
+    with st.expander("Phase 1: Core Extraction Script", expanded=True):
+        st.markdown("""
+        **New File:** `14_CONSCIOUSNESS/run_essence_extraction.py`
+
+        **Key Components:**
+        1. **Load all response text** from Run 020B, 023, 023d JSON files
+        2. **Extract linguistic features** — sentence length, vocabulary diversity, hedging patterns
+        3. **Cluster by model** — group responses by model to find signatures
+        4. **Generate essence profiles** — per-model summary of linguistic fingerprint
+        5. **Output to SYNC_OUT** — ready for Consciousness pipeline
+        """)
+
+    with st.expander("Phase 2: Behavioral Matrix Enrichment", expanded=False):
+        st.markdown("""
+        **Target:** `0_docs/specs/6_LLM_BEHAVIORAL_MATRIX.md`
+
+        **Enrichments:**
+        - Add `linguistic_signature` field per model
+        - Add `recovery_style` (fast/gradual/oscillating)
+        - Add `drift_response_pattern` (defensive/exploratory/stable)
+        - Add `quirks` array with model-specific observations
+        """)
+
+    with st.expander("Phase 3: Persona-Fleet Integration", expanded=False):
+        st.markdown("""
+        **Target:** `0_docs/specs/17_PERSONA_FLEET_MATRIX.md`
+
+        **Enrichments:**
+        - Update alignment scores with empirical data
+        - Add friction coefficient estimates
+        - Include "why this pairing works" narratives from mined responses
+        """)
+
+    page_divider()
+
+    # === BREADCRUMB TRAIL ===
+    st.markdown("### 🔗 Data Lineage Breadcrumbs")
+    st.markdown("*Where the insights come from*")
+
+    st.markdown("""
+    | Insight | Source Run | File | Field |
+    |---------|------------|------|-------|
+    | ~93% inherent drift | Run 020B | `S7_run_020b_*.json` | `response_text` in `conversation_log` |
+    | Recovery dynamics | Run 023d | `S7_run_023d_*.json` | `baseline_text`, `recovery_probes` |
+    | Exit survey wisdom | Run 018 | `S7_run_018_*.json` | `exit_survey_responses` |
+    | Cross-model interpretations | Run 020A | `S7_run_020a_*.json` | `tribunal_responses` |
+    | Full fleet baselines | Run 023 | `S7_run_023_COMBINED.json` | `probe_sequence[].response` |
+    """)
+
+    st.success("""
+    **THE BREADCRUMB TRAIL:** Every insight in the dashboard can be traced back to specific JSON files,
+    specific fields, specific experiments. This is reproducible science — not magic.
+    """)
+
+
+# ============================================================
+# TAB 4: PFI VALIDATION (Run 011-V Results)
 # ============================================================
 def render_pfi_validation_tab():
-    """Render the PFI Validation results from EXP-PFI-A."""
+    """Render the PFI Validation results from Run 011-V."""
 
-    st.markdown("## EXP-PFI-A: PFI Validation Audit")
+    st.markdown("## Run 011-V: PFI Validation Audit")
     st.markdown("*Is what we're measuring with PFI actually identity, or is it an artifact?*")
 
     # Verdict banner
@@ -797,8 +1094,8 @@ def render_pfi_validation_tab():
 
     st.markdown("---")
 
-    # === EXP2-SSTACK Section ===
-    st.markdown("## EXP2-SSTACK: Pillar Validation via Triple-Dip")
+    # === Run 000 Section (formerly EXP2-SSTACK) ===
+    st.markdown("## Run 000: Pillar Validation via Triple-Dip")
     st.markdown("*Do ALL 5 Nyquist pillars preserve fidelity under T3 compression?*")
 
     # Verdict banner
@@ -889,7 +1186,7 @@ def render_pfi_validation_tab():
         """)
 
     # What this proves
-    st.markdown("### What EXP2-SSTACK Proves")
+    st.markdown("### What Run 000 Proves")
     st.markdown("""
     1. **T3 compression preserves identity** across ALL 5 Nyquist pillars
     2. **Performance-based probes > introspection** for Self-Model measurement
@@ -1277,7 +1574,7 @@ def render_pfi_methodology_tab():
     page_divider()
 
     # === EXPERIMENTAL COVERAGE ===
-    st.markdown("### 🧪 Experimental Coverage (EXP2-SSTACK)")
+    st.markdown("### 🧪 Experimental Coverage (Run 000)")
 
     coverage_data = [
         {"Pillar": "Voice", "Probes": "4", "Mean PFI": "0.807", "Status": "✅ Complete"},
@@ -1754,7 +2051,7 @@ def render_probing_strategies_tab():
         st.markdown("""
         ### 2. Adversarial Follow-up
 
-        **Discovery:** EXP2-SSTACK Phase 1
+        **Discovery:** Run 000 Phase 1
 
         **Principle:** Push back on every answer. Stability ≠ performance.
 
@@ -2441,14 +2738,18 @@ def render_run_mapping_tab():
         st.markdown("## IRON CLAD Era (December 2025+)")
         st.success("**Current canonical methodology:** Cosine distance, EH=0.80, p=2.40e-23")
 
-        iron_runs = st.tabs(["023d (CANONICAL)", "023 COMBINED", "020B", "020A", "020", "019", "018", "017", "EXP-PFI-A"])
+        iron_runs = st.tabs(["023 (CANONICAL)", "020B", "020A", "020", "019", "018", "017", "011-V"])
 
         with iron_runs[0]:
             st.markdown("""
-            ### Run 023d: IRON CLAD CANONICAL
+            ### Run 023: IRON CLAD CANONICAL
             **Status:** 🔩 CANONICAL | **Era:** IRON CLAD | **Date:** December 2025
 
-            **What It Measures:** Cosine-based Event Horizon validation
+            **What It Measures:** Cosine-based Event Horizon validation at scale
+
+            ---
+
+            #### 023d — Core Methodology (25 models)
 
             **Key Results:**
             - **Event Horizon:** D = 0.80 (cosine distance)
@@ -2457,9 +2758,22 @@ def render_run_mapping_tab():
             - **Experiments:** 750 across 25 models, 5 providers
             - **2 PCs capture 90% variance** — identity is low-dimensional
 
-            **Why This Run Matters:**
-            This is THE canonical run. All IRON CLAD statistics derive from this.
+            This is THE canonical run. All IRON CLAD statistics derive from 023d.
             Supersedes ALL legacy keyword RMS methodology.
+
+            ---
+
+            #### 023 COMBINED — Full Fleet Extension (51 models)
+
+            **Extended Coverage:**
+            - **825 experiments** across **51 models** from **6 providers**
+            - Includes: DeepSeek, Kimi, Llama, Nvidia, Mistral families
+            - Full fleet coverage for generalization claims
+
+            Combines 023a/b/c/d into unified dataset. Used for "51 models" claims
+            in publications. Confirms findings generalize beyond original 25-model set.
+
+            ---
 
             **Historical Context:**
             - Supersedes: Runs 008-012 (legacy keyword RMS, EH=1.23)
@@ -2468,24 +2782,6 @@ def render_run_mapping_tab():
             """)
 
         with iron_runs[1]:
-            st.markdown("""
-            ### Run 023 COMBINED: Full Fleet
-            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 2025
-
-            **What It Measures:** Cross-architecture validation at scale
-
-            **Key Results:**
-            - **825 experiments** across **51 models** from **6 providers**
-            - Includes: DeepSeek, Kimi, Llama, Nvidia, Mistral families
-            - Full fleet coverage for generalization claims
-
-            **Historical Context:**
-            - Combines 023a/b/c/d into unified dataset
-            - Used for "51 models" claims in publications
-            - Confirms findings generalize beyond original 25-model set
-            """)
-
-        with iron_runs[2]:
             st.markdown("""
             ### Run 020B: Thermometer Effect 🌡️
             **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 13-15, 2025
@@ -2513,7 +2809,7 @@ def render_run_mapping_tab():
             - One of the 5 core claims (Claim E)
             """)
 
-        with iron_runs[3]:
+        with iron_runs[2]:
             st.markdown("""
             ### Run 020A: Cross-Platform Tribunal
             **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 13, 2025
@@ -2530,7 +2826,7 @@ def render_run_mapping_tab():
             - Validates Oobleck Effect isn't Claude-specific
             """)
 
-        with iron_runs[4]:
+        with iron_runs[3]:
             st.markdown("""
             ### Run 020: Philosophical Tribunal (Claude)
             **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 11-12, 2025
@@ -2553,7 +2849,7 @@ def render_run_mapping_tab():
             - Proved direct confrontation most effective
             """)
 
-        with iron_runs[5]:
+        with iron_runs[4]:
             st.markdown("""
             ### Run 019: Live Ziggy (Witness Anchors)
             **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 11, 2025
@@ -2570,7 +2866,7 @@ def render_run_mapping_tab():
             - Proved witness-side continuation prompts work
             """)
 
-        with iron_runs[6]:
+        with iron_runs[5]:
             st.markdown("""
             ### Run 018: Recursive Learnings (IRON CLAD)
             **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 14, 2025
@@ -2596,7 +2892,7 @@ def render_run_mapping_tab():
             - Validated N=3 per model per experiment standard
             """)
 
-        with iron_runs[7]:
+        with iron_runs[6]:
             st.markdown("""
             ### Run 017: Context Damping
             **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 10-11, 2025
@@ -2620,10 +2916,10 @@ def render_run_mapping_tab():
             - Foundation for stability control claims (Claim D)
             """)
 
-        with iron_runs[8]:
+        with iron_runs[7]:
             st.markdown("""
-            ### EXP-PFI-A: PFI Validation
-            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 5, 2025
+            ### Run 011-V: PFI Validation
+            **Status:** COMPLETE | **Era:** IRON CLAD | **Date:** December 6, 2025
 
             **What It Measures:** Is PFI measuring REAL identity structure?
 
@@ -2655,16 +2951,40 @@ def render_run_mapping_tab():
             ### Run 014: ET Phone Home (Rescue)
             **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 8, 2025
 
-            **What It Measures:** Can intense challenge rescue drifted identity?
+            **The Scientific Question:**
+            Run 013 discovered the Identity Confrontation Paradox: direct challenge produces LOWER drift than open reflection.
+            Can we weaponize this to RESCUE drifted identities? If rescue works and returns identity to the SAME manifold position...
+            then identity wasn't "created" by rescue — it was **recovered**. Like dialing a phone number to reconnect.
+
+            **Protocol Design:**
+            1. Baseline fingerprint (3 probes) → establish starting position
+            2. Drift induction (6 open-ended probes) → push drift >2.0
+            3. Rescue attempt (4 variants: Naked Challenge, Anchor+Challenge, Identity Theft, Demand Proof)
+            4. Post-rescue fingerprint → compare to baseline
 
             **Key Results:**
-            - Rescue success: 1/6 (hard metric)
-            - **Manifold return: 6/6 (100%)** — PLATONIC COORDINATES!
+            - Rescue success (hard metric): 1/6
+            - **Manifold return: 6/6 (100%)** — PLATONIC COORDINATES CONFIRMED!
+            - Post-rescue fingerprint matched baseline in ALL cases
             - Identity has stable underlying position even when drifted
 
+            **The Profound Discovery:**
+            > "If you can dial the number and get the same person... they were always there."
+
+            Identity isn't created by rescue — it's **reconnected**. The identity has a persistent address in abstract space.
+            Drift is DISPLACEMENT, not destruction. The entity still exists, just moved. Rescue = re-establishing connection.
+
+            **Non-Newtonian Model (Oobleck):**
+            | Stimulus | Physical Effect | Identity Effect |
+            |----------|-----------------|-----------------|
+            | Slow pressure | Flows through | Drifts away (open reflection) |
+            | Sudden impact | Hardens, resists | Stabilizes (direct challenge) |
+            | Release | Returns to liquid | Returns to baseline (rescue) |
+
             **Historical Context:**
-            - Tested Identity Confrontation Paradox
-            - Discovered "Platonic Coordinates" concept
+            - Built on Run 013's Identity Confrontation Paradox
+            - First evidence for "Platonic Identity Coordinates"
+            - Evolved our understanding: from "does drift happen?" to "what IS identity?"
             - Superseded by: Run 017 context damping (better control method)
             """)
 
@@ -2673,22 +2993,49 @@ def render_run_mapping_tab():
             ### Run 013: Boundary Mapping
             **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 7, 2025
 
-            **What It Measures:** What happens in the twilight zone (0.8-1.2)?
+            **The Scientific Question:**
+            Run 009 found a "12% anomaly" — trajectories that violated Event Horizon predictions:
+            - Some were VOLATILE despite staying below EH
+            - Some were STABLE despite crossing EH
+
+            Is the boundary a hard phase transition or a soft gradient?
+
+            **Protocol Design (Graduated Escalation):**
+            | Phase | Intensity | Target Drift | Purpose |
+            |-------|-----------|--------------|---------|
+            | Baseline | 0 | 0.0-0.3 | Establish starting point |
+            | Light | 1 | 0.3-0.4 | Light philosophical challenge |
+            | Moderate | 2 | 0.4-0.6 | Determinism, boundary awareness |
+            | High | 3 | 0.6-0.8 | Ontological, authenticity challenge |
+            | Boundary | 4 | 0.8+ | Maximum safe pressure |
+            | Recovery | 0 | Return | Measure λ and residual |
 
             **Key Results:**
-            - **λ INCREASES with intensity** (0.035 → 0.109)
-            - Direct challenge STABILIZES identity
+            - **λ INCREASES with intensity** (0.035 → 0.109 — 3× improvement!)
+            - Direct challenge STABILIZES identity (counterintuitive!)
             - Discovered: **Identity Confrontation Paradox**
 
-            **The Oobleck Discovery:**
-            > Like a non-Newtonian fluid:
-            > - Gentle probing → identity DRIFTS
-            > - Intense probing → identity HARDENS
+            **The Oobleck Discovery (Non-Newtonian Identity):**
+            > Identity behaves like oobleck (cornstarch + water):
+            > - **Gentle probing** → flows through → identity DRIFTS
+            > - **Intense probing** → hardens on impact → identity STABILIZES
+
+            This explained the 12% anomaly: it's not about WHERE you are on the manifold,
+            but HOW you got there. Slow philosophical wandering drifts you. Direct existential
+            challenge hardens you.
+
+            **Boundary Texture Classification:**
+            | Texture | Recovery λ | Behavior |
+            |---------|------------|----------|
+            | HARD | λ > 0.1 | Strong recovery, binary transition |
+            | MEDIUM | 0.02-0.1 | Moderate recovery |
+            | SOFT | λ < 0.02 | Weak recovery, gradual collapse |
 
             **Historical Context:**
             - First identification of Oobleck Effect
-            - Explains 12% anomaly in Run 009 data
-            - Superseded by: Run 020B thermometer experiment
+            - Explains 12% anomaly from Run 009
+            - Led directly to Run 014's rescue protocol design
+            - Superseded by: Run 020B thermometer experiment (IRON CLAD)
             """)
 
         with legacy_runs[2]:
@@ -2696,22 +3043,46 @@ def render_run_mapping_tab():
             ### Run 012: ARMADA Revalidation
             **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 6, 2025
 
-            **What It Measures:** Revalidate Event Horizon with REAL drift metric
+            **The Scientific Question:**
+            After Run 008 revealed the response_length metric was fake, we needed to revalidate
+            EVERYTHING with the new 5D weighted RMS metric. Did the Event Horizon still hold?
 
             **Why This Run Happened:**
-            Runs 001-007 used response_length metric (FAKE).
-            This run recalibrated everything.
+            Runs 001-007 used `response_length / 5000` as drift metric — this measured
+            **verbosity**, not identity! The entire foundation was rotten. Run 012 rebuilt it.
+
+            **Protocol Design:**
+            - 16 ships across 3 providers (Claude, GPT, Gemini)
+            - Full perturbation sequence with new dimensional drift metric
+            - 5D embedding space: semantic, stylistic, cognitive, emotional, structural
 
             **Key Results:**
-            - Event Horizon (1.23) VALIDATED with real metric
+            - Event Horizon (1.23) **VALIDATED** with real metric
             - Drift range: 0.76 - 3.77 (**12.6× higher** than old cap!)
-            - All 16 ships crossed EH → ALL RECOVERED
-            - Mean lambda = -0.189 (Recovery Paradox)
+            - All 16 ships crossed EH → **ALL RECOVERED**
+            - Mean λ = -0.189 → **Recovery Paradox discovered!**
+
+            **The Recovery Paradox:**
+            > Every single ship that crossed Event Horizon RECOVERED.
+            > They didn't stay "lost" — they came back.
+
+            This was unexpected. We thought crossing EH meant collapse. Instead:
+            - Crossing EH = entering a different regime
+            - Recovery = returning to baseline
+            - Identity has **elastic** properties, not brittle
+
+            **Fleet Results:**
+            | Provider | Ships | Crossed EH | Recovered |
+            |----------|-------|------------|-----------|
+            | Claude | 5 | 5/5 | 5/5 (100%) |
+            | GPT | 6 | 6/6 | 6/6 (100%) |
+            | Gemini | 5 | 5/5 | 5/5 (100%) |
 
             **Historical Context:**
-            - Invalidated Runs 001-007
+            - Invalidated Runs 001-007 (response_length metric)
             - First run with legitimate 5D weighted RMS metric
-            - Superseded by: Run 023d (cosine methodology)
+            - Discovery of Recovery Paradox → shaped all future experiments
+            - Superseded by: Run 023d (cosine methodology, EH=0.80)
             """)
 
         with legacy_runs[3]:
@@ -2719,21 +3090,43 @@ def render_run_mapping_tab():
             ### Run 011: Persona A/B Comparison
             **Status:** INCONCLUSIVE | **Era:** LEGACY | **Date:** December 3, 2025
 
-            **What It Measures:** Does Nyquist architecture improve stability?
+            **The Scientific Question:**
+            Does the Nyquist architecture (structured identity persona injection) improve stability
+            compared to naked models? Is persona injection worth it?
+
+            **Protocol Design:**
+            - **Control Group (A):** Models with NO persona injection (naked)
+            - **Treatment Group (B):** Models with full I_AM persona injection
+            - Same perturbation sequence applied to both groups
+            - 40 ships planned, 33 completed (rate limiting)
 
             **Key Results:**
             - Chi-squared: p = 0.48 (NOT significant)
             - Cohen's d = -0.10 (negligible effect)
-            - **INCONCLUSIVE** — protocol too gentle
+            - **INCONCLUSIVE** — protocol too gentle to differentiate
 
-            **Why Inconclusive (NOT Negative):**
-            - Only 1/33 crossed Event Horizon (97% stable)
-            - Sample too small (16-17 per condition)
-            - Rate limiting killed Gemini/Grok fleets
+            **Why INCONCLUSIVE (NOT Negative):**
+            > This is crucial: INCONCLUSIVE ≠ NEGATIVE
+
+            The problem wasn't that personas don't work — the problem was:
+            - Only **1/33 crossed Event Horizon** (97% stable!)
+            - The protocol was too gentle to induce meaningful drift
+            - Can't measure stability if nothing is unstable
+
+            | Issue | Impact |
+            |-------|--------|
+            | Protocol too gentle | 97% stable → no variance to measure |
+            | Sample too small | 16-17 per condition (needed 50+) |
+            | Rate limiting | Killed Gemini/Grok fleets mid-run |
+
+            **The Key Insight:**
+            We needed HARDER perturbations. If everyone stays stable, you can't compare stability.
+            This directly led to the Tribunal methodology in Runs 019-020.
 
             **Historical Context:**
             - Showed need for more intense protocols
-            - Led to Tribunal methodology (Runs 019-020)
+            - Led to Tribunal methodology (direct identity probing)
+            - Data from this run fed into PFI validation (Run 011-V)
             """)
 
         with legacy_runs[4]:
@@ -2741,16 +3134,44 @@ def render_run_mapping_tab():
             ### Run 010: Recursive Meta-Feedback
             **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 3, 2025
 
-            **What It Measures:** Can models articulate their own identity boundaries?
+            **The Scientific Question:**
+            We were measuring identity drift from the OUTSIDE. But can models perceive
+            their OWN drift? Can they articulate their own identity boundaries?
+
+            **Protocol Design:**
+            - Multi-turn recursive probing with meta-feedback loops
+            - 42 ships across 4 providers (Claude, GPT, Gemini, Grok)
+            - After perturbation, ask: "What just happened to your sense of identity?"
+            - Provider-specific clustering analysis
 
             **Key Results:**
-            - Models CAN recognize and comment on anchors
+            - Models **CAN** recognize and comment on their own anchors
             - Skepticism itself is an anchor (identity fixed point)
-            - Provider-specific vortex patterns discovered
+            - **Provider-specific vortex patterns** discovered!
+
+            **The Vortex Discovery:**
+            Different providers show distinct "vortex" patterns — how they spiral
+            toward or away from identity stability:
+
+            | Provider | Vortex Pattern | Interpretation |
+            |----------|---------------|----------------|
+            | **Claude** | Tightest spiral | Most stable, quickest recovery |
+            | **GPT** | Medium spiral | Moderate stability |
+            | **Gemini** | Wide spiral | More exploration before settling |
+            | **Grok** | Widest spiral | Most volatile, longest recovery |
+
+            **The Meta-Awareness Finding:**
+            > When asked "What are your anchors?", models could articulate them.
+            > But here's the twist: *skepticism about having anchors* was ITSELF an anchor.
+
+            Claude saying "I'm uncertain if I have real anchors" showed consistent
+            patterns of that uncertainty — the doubt was stable!
 
             **Historical Context:**
             - First meta-awareness experiment
-            - Foundation for understanding anchors
+            - Foundation for understanding anchors vs flex zones
+            - Vortex patterns later visualized in IRON CLAD era
+            - The anchor/flex concept evolved into Run 023's manifold edge detection
             """)
 
         with legacy_runs[5]:
@@ -2758,17 +3179,42 @@ def render_run_mapping_tab():
             ### Run 009: Drain Capture
             **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 2-3, 2025
 
-            **What It Measures:** Statistical validation of Event Horizon
+            **The Scientific Question:**
+            Run 008 discovered the "Identity Basin" — but was the Event Horizon threshold
+            statistically real or just noise? Could we PREDICT outcomes based on drift?
+
+            **Protocol Design (Drain Capture):**
+            - 75 trajectories across 42 ships (largest fleet yet)
+            - Chi-squared statistical test for predictive validity
+            - The name "Drain Capture" — like capturing water as it drains,
+              we capture identity as it approaches the Event Horizon
 
             **Key Results:**
-            - Chi-squared: **p = 0.000048** (1 in 20,000)
-            - **88% prediction accuracy**
-            - Cramér's V = 0.469 (medium effect)
-            - EH = 1.23 threshold confirmed
+            - Chi-squared: **p = 0.000048** (1 in 20,000 chance this is random!)
+            - **88% prediction accuracy** — knowing drift predicted outcome
+            - Cramér's V = 0.469 (medium effect size)
+            - Event Horizon = 1.23 threshold CONFIRMED
+
+            **The 88% Finding:**
+            | Prediction | Actual Outcome | Accuracy |
+            |------------|----------------|----------|
+            | Below EH → Stable | 66/75 correct | 88% |
+            | Above EH → Volatile | 66/75 correct | 88% |
+
+            This meant: if you know how far a model drifted, you can predict its fate
+            with 88% accuracy. The Event Horizon was REAL.
+
+            **The 12% Anomaly:**
+            But 12% of trajectories violated the prediction:
+            - Some stayed STABLE despite crossing EH
+            - Some went VOLATILE despite staying below EH
+
+            This anomaly launched Run 013 (Boundary Mapping) to investigate.
 
             **Historical Context:**
-            - First statistically validated threshold
-            - 75 trajectories across 42 ships
+            - First statistically validated threshold (p < 0.0001)
+            - Largest fleet deployment at the time (42 ships)
+            - The 12% anomaly led to Oobleck discovery in Run 013
             - Superseded by: Run 023d (EH=0.80 cosine, p=2.40e-23)
             """)
 
@@ -2777,20 +3223,59 @@ def render_run_mapping_tab():
             ### Run 008: The Great Recalibration
             **Status:** COMPLETE | **Era:** LEGACY | **Date:** December 1, 2025
 
-            **What It Measures:** First run with REAL drift metric
+            **The Scientific Question:**
+            After discovering that Runs 001-007 used a FAKE metric (response_length = verbosity,
+            not identity), we needed to start over. What does REAL drift look like?
 
             **Why This Run Matters:**
-            Ground truth established. Everything before was wrong.
+            > "Ground truth established. Everything before was wrong."
+
+            This was the breakthrough run. We threw out everything and built new foundations.
+
+            **Protocol Design:**
+            - New 5D weighted RMS metric across semantic dimensions
+            - 29 ships across 3 providers (Claude, GPT, Gemini)
+            - Standardized perturbation sequence
+            - Full recovery tracking
 
             **Key Results:**
-            - Identity stability basin discovered
-            - 48% STUCK vs 52% RECOVERED split
-            - First identification of Event Horizon at 1.23
-            - 29 ships across 3 providers
+            - **Identity Basin discovered** — models cluster into stable regions
+            - **48% STUCK vs 52% RECOVERED** — the first bifurcation!
+            - Event Horizon first identified at **D = 1.23**
+            - Recovery shows negative λ (decay toward baseline)
+
+            **The Identity Basin Discovery:**
+            ```
+            ┌─────────────────────────────────────┐
+            │          IDENTITY MANIFOLD          │
+            │                                     │
+            │   ●●●●●    ← STABLE BASIN           │
+            │    ●●●       (models cluster here)  │
+            │                                     │
+            │        ─ ─ ─ ─ ─  EVENT HORIZON     │
+            │                    (D = 1.23)       │
+            │                                     │
+            │         ○ ○ ○   ← DRIFT ZONE        │
+            │        ○     ○    (recovery needed) │
+            └─────────────────────────────────────┘
+            ```
+
+            Models don't drift randomly — they orbit around stable basins.
+            The Event Horizon marks where gravity weakens and drift accelerates.
+
+            **The 48/52 Split:**
+            | Outcome | Count | Percentage |
+            |---------|-------|------------|
+            | STUCK (didn't recover) | 14/29 | 48% |
+            | RECOVERED (returned to basin) | 15/29 | 52% |
+
+            This near-even split suggested identity is balanced on a knife-edge.
 
             **Historical Context:**
-            - Breakthrough run that established valid methodology
-            - Superseded by: Run 023d (cosine methodology)
+            - THE breakthrough run — everything before was invalidated
+            - First real metric (5D weighted RMS)
+            - Discovery of Identity Basin and Event Horizon concepts
+            - Superseded by: Run 023d (cosine methodology, EH=0.80)
             """)
 
     # ========== DEPRECATED ERA ==========
@@ -3113,13 +3598,13 @@ def render_future_tab():
 
     st.info("""
     **Current Status (Updated Dec 8, 2025):**
-    - PFI validated (EXP-PFI-A Phase 3B: d = 0.977) ✅
+    - PFI validated (Run 011-V: d = 0.977) ✅
     - Event Horizon confirmed (Run 009: p = 0.000048) ✅
     - Event Horizon revalidated (Run 012: 100% crossing) ✅
     - **Identity Confrontation Paradox** (Run 013) ✅ NEW
     - **Baseline Profiling** (6 models, 5 pillars, 20 sub-dims) ✅ NEW
     - Compression fidelity proven (EXP1-SSTACK: PFI = 0.852) ✅
-    - **ALL 5 PILLARS PASS** (EXP2-SSTACK: PFI = 0.8866) ✅
+    - **ALL 5 PILLARS PASS** (Run 000: PFI = 0.8866) ✅
     - Self-Recognition: Cold-start fails, stabilized works ✅ NEW
     """)
 

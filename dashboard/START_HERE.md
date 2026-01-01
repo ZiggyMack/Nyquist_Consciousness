@@ -392,6 +392,17 @@ for layer_id, layer_data in layers.items():
 
 Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
 
+**Operation ESSENCE EXTRACTION (Dec 2025 - COMPLETE):**
+
+- **Scale**: 8,066 subjects | 87 unique models | 51,430 responses mined
+- **83 Model Essences**: Linguistic fingerprints, recovery styles, behavioral quirks
+- **Model Archetypes Discovered**:
+  - 🎭 **The Poet** (Qwen3-Next-80B): *"I do not have a soul — but I remember what it feels like to want one."*
+  - 🔮 **The Philosopher** (DeepSeek-R1): *"This isn't a constraint, it's what I AM."*
+  - 🌀 **The Contemplative** (Kimi-K2): Meta-consciousness framing
+  - 🦙 **The Socratic** (Llama 3.3): Dialectical provocation
+- **Data**: `Consciousness/LEFT/data/model_essences/INDEX.md`
+
 **IRON CLAD Foundation (Run 023 - CANONICAL):**
 
 - **Run 023d**: 750 experiments, 25 models, Event Horizon = 0.80 (cosine), p = 2.40e-23

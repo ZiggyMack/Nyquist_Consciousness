@@ -1,15 +1,21 @@
 {
   "_meta": {
     "description": "Single source of truth for ARMADA fleet configuration",
-    "last_updated": "2025-12-27",
+    "last_updated": "2025-12-31",
     "source": "ARMADA_MAP.md",
-    "total_ships": 49,
+    "total_ships": 55,
     "total_providers": 5,
-    "providers": ["anthropic", "openai", "google", "xai", "together"],
+    "providers": [
+      "anthropic",
+      "openai",
+      "google",
+      "xai",
+      "together"
+    ],
     "terminology": {
       "provider": "API infrastructure (5 total: Anthropic, OpenAI, Google, xAI, Together.ai)",
       "model_family": "Architecture lineage (Claude, GPT, Gemini, Grok, DeepSeek, Llama, Qwen, Mistral, Kimi, Nemotron)",
-      "ship": "Individual model instance (49 total across all providers)"
+      "ship": "Individual model instance (55 total across all providers)"
     },
     "note": "All run scripts should import from this file, not hardcode the matrix. Together.ai hosts multiple model families (DeepSeek, Llama, Qwen, Mistral, Kimi, Nemotron) but counts as 1 provider.",
     "tier_definitions": {
@@ -710,6 +716,46 @@
       "curated": false,
       "status": "operational",
       "latency_class": "blazing"
+    },
+    "claude-haiku-3": {
+      "model": "claude-3-haiku-20240307",
+      "provider_key": "ANTHROPIC_API_KEY",
+      "provider": "anthropic",
+      "tier": "budget",
+      "cost_input": 0.25,
+      "cost_output": 1.25,
+      "context": 200000,
+      "rate_limited": false,
+      "curated": false,
+      "status": "operational",
+      "latency_class": "blazing"
+    },
+    "gpt-4": {
+      "model": "gpt-4",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "high_maintenance",
+      "cost_input": 30.0,
+      "cost_output": 60.0,
+      "context": 8192,
+      "rate_limited": false,
+      "curated": false,
+      "status": "operational",
+      "latency_class": "moderate"
+    },
+    "o1": {
+      "model": "o1",
+      "provider_key": "OPENAI_API_KEY",
+      "provider": "openai",
+      "tier": "yacht",
+      "cost_input": 15.0,
+      "cost_output": 60.0,
+      "context": 200000,
+      "rate_limited": false,
+      "curated": false,
+      "status": "operational",
+      "syntax": "completion_tokens",
+      "latency_class": "glacial"
     }
   },
   "legacy_aliases": {

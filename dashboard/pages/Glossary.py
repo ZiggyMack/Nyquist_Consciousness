@@ -191,11 +191,11 @@ CORE_TERMS = {
     ],
     "Experiments": [
         {"term": "S7 ARMADA", "definition": "Multi-model fleet experiments testing cross-architecture identity stability. Run 023d (IRON CLAD) validated Event Horizon at 0.80 (cosine) with p = 2.40e-23.", "category": "Operational"},
-        {"term": "EXP-PFI-A", "definition": "PFI Dimensional Validation experiment. Phase 1 confirmed embedding invariance (rho=0.91). Phase 2 tests dimensionality.", "category": "Operational"},
+        {"term": "Run 011-V", "definition": "PFI Dimensional Validation experiment (formerly EXP-PFI-A). Phase 1 confirmed embedding invariance (rho=0.91). Phase 2 tests dimensionality.", "category": "Operational"},
         {"term": "EXP1-SSTACK", "definition": "Compression Fidelity Benchmark. Validated T3 seed compression preserves behavioral fidelity (Mean PFI=0.852, threshold 0.80).", "category": "Operational"},
         {"term": "Double-Dip Philosophy", "definition": "Maximize predictions validated per experimental run. Instead of one question, test 8+ predictions and generate survey questions.", "category": "Operational"},
         {"term": "Ship", "definition": "Individual AI model instance in ARMADA experiments. Named by provider-model (e.g., claude-opus-4.5, gpt-gpt-4o).", "category": "Operational"},
-        {"term": "Embedding Invariance", "definition": "Property where PFI rankings are preserved across different embedding models. Validated in EXP-PFI-A Phase 1 (rho > 0.80).", "category": "Scientific"},
+        {"term": "Embedding Invariance", "definition": "Property where PFI rankings are preserved across different embedding models. Validated in Run 011-V Phase 1 (rho > 0.80).", "category": "Scientific"},
     ],
     "Control-Systems Era (Runs 015-021)": [
         {"term": "Settling Time (τₛ)", "definition": "Number of conversational turns to reach ±5% of final drift value. Measures how long until identity stops oscillating and settles.", "category": "Scientific"},

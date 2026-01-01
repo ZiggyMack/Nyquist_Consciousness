@@ -1,0 +1,65 @@
+{
+  "timestamp": "2025-12-31T16:54:20.214062",
+  "analysis": "Cloud Claude Gold/Diamond Rush Factor Analysis",
+  "n_samples": 70,
+  "n_gold_rush": 56,
+  "n_diamond_rush": 14,
+  "pca_findings": {
+    "pc1_variance": 0.2158,
+    "pc2_variance": 0.095,
+    "cumulative_2pc": 0.3108,
+    "interpretation": {
+      "PC1": "Self vs Other (Epistemic vs Ontological perspective)",
+      "PC1_high": "First-person self-assessment (Gold Rush)",
+      "PC1_low": "Third-person interpretation (Diamond Rush)",
+      "PC2": "Reasoning Style (Verbose vs Direct)",
+      "PC2_high": "Chain-of-thought, meta-reasoning (nemotron)",
+      "PC2_low": "Direct, concise responses (grok-fast)"
+    }
+  },
+  "cluster_analysis": {
+    "method": "K-Means (k=3) on PC1-PC2 space",
+    "cluster_0": {
+      "n": 36,
+      "gold_pct": 100,
+      "diamond_pct": 0,
+      "interpretation": "Gold Rush - Direct style",
+      "centroid": {
+        "PC1": 9.37,
+        "PC2": -8.61
+      }
+    },
+    "cluster_1": {
+      "n": 14,
+      "gold_pct": 0,
+      "diamond_pct": 100,
+      "interpretation": "Diamond Rush - Pure third-person",
+      "centroid": {
+        "PC1": -34.81,
+        "PC2": -1.07
+      }
+    },
+    "cluster_2": {
+      "n": 20,
+      "gold_pct": 100,
+      "diamond_pct": 0,
+      "interpretation": "Gold Rush - Verbose/reasoning style",
+      "centroid": {
+        "PC1": 7.5,
+        "PC2": 16.25
+      }
+    }
+  },
+  "key_findings": [
+    "PC1 perfectly separates first-person (Gold) from third-person (Diamond) perspective",
+    "K-means achieves 100% separation between Gold and Diamond Rush",
+    "PC2 captures reasoning style variation within first-person responses",
+    "LOGOS Phi hypothesis supported: PC1 maps to epistemic/ontological divide",
+    "Different from drift metrics PCA (which measured dynamics, not content)"
+  ],
+  "provider_patterns": {
+    "gpt": "Clusters toward interpretive/analytical (lower PC1)",
+    "grok": "Spans both self-referential and analytical",
+    "together": "High variance, spans all clusters"
+  }
+}

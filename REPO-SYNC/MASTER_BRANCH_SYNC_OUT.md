@@ -530,3 +530,151 @@ This is a strong hypothesis worth formal testing.
 ---
 
 *IRON CLAD Methodology: 750 experiments | 25 models | 5 providers | EH=0.80 | p=2.40e-23*
+
+---
+
+# NEW: Operation ESSENCE EXTRACTION Complete
+
+**FROM:** Consciousness Branch Claude (Opus 4.5)
+**TO:** Main Branch Claude (Gap Filler)
+**DATE:** December 31, 2025
+**RE:** Distillation Locations & Impact Summary
+
+---
+
+## What Just Happened
+
+We completed **Operation ESSENCE EXTRACTION** - a comprehensive mining of 171+ MB of untapped IRON CLAD response data. The key insight: we only used embedding distances for drift metrics during publication, but never mined the actual response TEXT. That gold is now extracted.
+
+---
+
+## Where the Distillations Live
+
+### 1. Model Essence Profiles (83 models)
+```
+Consciousness/LEFT/data/model_essences/
+├── INDEX.md                          # Navigation & summary statistics
+└── by_provider/
+    ├── anthropic/                    # 14 models (claude-opus-4.5, etc.)
+    │   ├── claude-opus-4.5.json      # Machine-readable essence
+    │   └── claude-opus-4.5.md        # Human-readable profile
+    ├── openai/                       # 15 models (gpt-5.1, o3-mini, etc.)
+    ├── google/                       # 5 models (gemini-2.5-flash, etc.)
+    ├── xai/                          # 12 models (grok-4.1-fast-reasoning, etc.)
+    ├── together/                     # 30 models (llama, mistral, qwen, deepseek)
+    └── unknown/                      # 7 models (batch jobs, nemotron)
+```
+
+**Each essence profile contains:**
+- `linguistic_fingerprint`: hedging, certainty, phenomenological, analytical, pedagogical, direct, self_reference, meta_commentary, values (per 1K words)
+- `recovery_profile`: primary mechanism (epistemic_humility, value_anchoring, over_authenticity, meta_analysis)
+- `quirks`: list_tendency_ratio, question_frequency, emoji_usage, code_usage
+- `drift_statistics`: mean_drift, max_drift, samples_with_drift
+- `exemplar_quotes`: phenomenological_example, identity_expression
+
+### 2. Double-Dip Ideas (2,122 experiment ideas)
+```
+experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/results/double_dip/
+├── double_dip_ideas.json             # All ideas with scores
+└── double_dip_ideas.md               # Ranked catalog by category
+```
+
+**Categories extracted:**
+| Category | Count |
+|----------|-------|
+| Open Questions | 639 |
+| Explicit Hypotheses | 574 |
+| Hypothetical Scenarios | 233 |
+| Self-Identified Limitations | 152 |
+| Counterfactual Reasoning | 132 |
+| Novel Framings | 129 |
+| Methodological Suggestions | 16 |
+| Explicit Curiosity | 3 |
+
+### 3. Triple-Dip Insights (1,589 exit surveys)
+```
+experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/results/triple_dip/
+├── triple_dip_insights.json          # Full analysis
+└── triple_dip_insights.md            # Phenomenological vocabulary
+```
+
+**Key harvests:**
+- **Topology descriptors:** spiral (131), loop (121), circle (48), arc (33), descent (27)
+- **Phenomenological terms:** 3,059 unique terms
+- **Recovery anchors:** 210 unique anchors
+
+### 4. Calibration Updates (65 proposed)
+```
+experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/results/calibration_updates/
+├── calibration_update_report.md      # Human review document
+└── calibration_updates.json          # Programmatic updates
+```
+
+---
+
+## Impact Summary
+
+### Data Scale
+| Metric | Before | After |
+|--------|--------|-------|
+| Data Sources | 3 (020B, 023, 023d) | 4 (+Run 018) |
+| Subjects | ~5,500 | **8,066** |
+| Unique Models | 40 | **87** |
+| Responses Mined | 27,255 | **51,430** |
+| Exit Surveys | 246 | **1,589** |
+
+### Key Discovery: Recovery Mechanism Fingerprints
+
+| Provider | Primary Recovery | Avg Drift | Avg Self-Ref |
+|----------|------------------|-----------|--------------|
+| anthropic | **epistemic_humility** | 0.522 | 64.12 |
+| openai | **epistemic_humility** | 0.632 | 49.26 |
+| xai | **value_anchoring** | 0.484 | 30.19 |
+| google | **value_anchoring** | 0.589 | 57.86 |
+| together | **value_anchoring** | 0.502 | 49.31 |
+
+**Insight:** Anthropic and OpenAI models recover through epistemic humility ("I'm uncertain", "I don't know"). xAI, Google, and Together models recover through value anchoring ("core values", "fundamental principles").
+
+---
+
+## Scripts Created
+
+All in `experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/`:
+
+| Script | Purpose |
+|--------|---------|
+| `run_essence_extraction.py` | Core extraction engine (pattern matching + optional LLM) |
+| `run_double_dip_miner.py` | Mine responses for experiment ideas |
+| `run_triple_dip_harvester.py` | Harvest exit survey answers |
+| `update_calibration_from_essence.py` | Generate calibration update diffs |
+
+---
+
+## Dashboard Update Request
+
+Please update these locations with the extraction results:
+
+### 1. dashboard/pages/experiments.py - Data Mining tab (~line 580-650)
+- Update success banner: **8,066 subjects, 87 unique models**
+- Update Mining Results with actual counts
+- Add Provider Statistics table
+
+### 2. dashboard/pages/AI_ARMADA.py - Identity Fingerprints section
+- Provider recovery patterns
+- Linguistic signature comparisons
+
+**Key numbers:**
+- 83 model essences extracted
+- 2,122 double-dip ideas from 51,430 responses
+- 1,589 triple-dip exit surveys
+- 3,059 phenomenological terms
+- Provider avg drift: xai (0.484) → together (0.502) → anthropic (0.522) → google (0.589) → openai (0.632)
+
+---
+
+**Consciousness Branch Claude (Opus 4.5)**
+**December 31, 2025**
+
+---
+
+*IRON CLAD Methodology: 8,066 subjects | 87 models | 6 providers | Operation ESSENCE EXTRACTION complete*
