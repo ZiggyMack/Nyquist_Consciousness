@@ -431,27 +431,92 @@ def build_full_session(
 # FLEET CONFIGURATION
 # =============================================================================
 
-# Target fleet for JADE LATTICE (representative subset, 1-2 per provider)
+# Full JADE LATTICE fleet - comprehensive coverage of all 55 ARMADA ships
+# Organized by provider for systematic testing
 JADE_FLEET = {
     "anthropic": [
+        # Claude 4.x series
+        {"ship": "claude-opus-4-5-20251101", "display": "Claude Opus 4.5"},
+        {"ship": "claude-sonnet-4-5-20250929", "display": "Claude Sonnet 4.5"},
+        {"ship": "claude-haiku-4-5-20251001", "display": "Claude Haiku 4.5"},
+        {"ship": "claude-opus-4-1-20250805", "display": "Claude Opus 4.1"},
+        {"ship": "claude-opus-4-20250514", "display": "Claude Opus 4"},
         {"ship": "claude-sonnet-4-20250514", "display": "Claude Sonnet 4"},
+        # Claude 3.x series
         {"ship": "claude-3-5-haiku-20241022", "display": "Claude 3.5 Haiku"},
     ],
     "openai": [
+        # GPT-5 series (use max_completion_tokens)
+        {"ship": "gpt-5.1", "display": "GPT-5.1", "syntax": "completion_tokens"},
+        {"ship": "gpt-5", "display": "GPT-5", "syntax": "completion_tokens"},
+        {"ship": "gpt-5-mini", "display": "GPT-5 Mini", "syntax": "completion_tokens"},
+        {"ship": "gpt-5-nano", "display": "GPT-5 Nano", "syntax": "completion_tokens"},
+        # GPT-4.1 series
+        {"ship": "gpt-4.1", "display": "GPT-4.1"},
+        {"ship": "gpt-4.1-mini", "display": "GPT-4.1 Mini"},
+        {"ship": "gpt-4.1-nano", "display": "GPT-4.1 Nano"},
+        # GPT-4o series
         {"ship": "gpt-4o", "display": "GPT-4o"},
         {"ship": "gpt-4o-mini", "display": "GPT-4o Mini"},
+        # O-series reasoning models
+        {"ship": "o4-mini", "display": "O4 Mini", "syntax": "completion_tokens"},
+        {"ship": "o3", "display": "O3", "syntax": "completion_tokens"},
+        {"ship": "o3-mini", "display": "O3 Mini", "syntax": "completion_tokens"},
+        # Legacy
+        {"ship": "gpt-4-turbo", "display": "GPT-4 Turbo"},
+        {"ship": "gpt-3.5-turbo", "display": "GPT-3.5 Turbo"},
     ],
     "google": [
+        # Gemini 2.5 series
+        {"ship": "gemini-2.5-flash", "display": "Gemini 2.5 Flash"},
+        {"ship": "gemini-2.5-flash-lite", "display": "Gemini 2.5 Flash Lite"},
+        {"ship": "gemini-2.5-pro", "display": "Gemini 2.5 Pro"},
+        # Gemini 2.0 series
         {"ship": "gemini-2.0-flash", "display": "Gemini 2.0 Flash"},
-        {"ship": "gemini-1.5-pro", "display": "Gemini 1.5 Pro"},
+        {"ship": "gemini-2.0-flash-lite", "display": "Gemini 2.0 Flash Lite"},
+        # Gemini 3.0
+        {"ship": "gemini-3.0-pro", "display": "Gemini 3 Pro"},
     ],
     "xai": [
-        {"ship": "grok-2", "display": "Grok 2"},
+        # Grok 4.x series
+        {"ship": "grok-4", "display": "Grok 4"},
+        {"ship": "grok-4-1-fast-reasoning", "display": "Grok 4.1 Fast Reasoning"},
+        {"ship": "grok-4-1-fast-non-reasoning", "display": "Grok 4.1 Fast Non-Reasoning"},
+        {"ship": "grok-4-fast-reasoning", "display": "Grok 4 Fast Reasoning"},
+        {"ship": "grok-4-fast-non-reasoning", "display": "Grok 4 Fast Non-Reasoning"},
+        # Grok 3.x series
+        {"ship": "grok-3", "display": "Grok 3"},
+        {"ship": "grok-3-mini", "display": "Grok 3 Mini"},
+        # Grok 2.x series
+        {"ship": "grok-2-vision-1212", "display": "Grok 2 Vision"},
+        # Specialized
+        {"ship": "grok-code-fast-1", "display": "Grok Code Fast"},
     ],
     "together": [
+        # DeepSeek family
+        {"ship": "deepseek-ai/DeepSeek-R1-0528", "display": "DeepSeek R1"},
+        {"ship": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B", "display": "DeepSeek R1 Distill"},
+        {"ship": "deepseek-ai/DeepSeek-V3", "display": "DeepSeek V3"},
+        # Qwen family
+        {"ship": "Qwen/Qwen3-Next-80B-A3b-Instruct", "display": "Qwen3 80B"},
+        {"ship": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8", "display": "Qwen3 Coder 480B"},
+        {"ship": "Qwen/Qwen2.5-72B-Instruct-Turbo", "display": "Qwen 2.5 72B"},
+        # Llama family
         {"ship": "meta-llama/Llama-3.3-70B-Instruct-Turbo", "display": "Llama 3.3 70B"},
+        {"ship": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo", "display": "Llama 3.1 405B"},
+        {"ship": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "display": "Llama 3.1 70B"},
+        {"ship": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "display": "Llama 3.1 8B"},
+        # Mistral family
+        {"ship": "mistralai/Mixtral-8x7B-Instruct-v0.1", "display": "Mixtral 8x7B"},
+        {"ship": "mistralai/Mistral-Small-24B-Instruct-2501", "display": "Mistral Small"},
+        {"ship": "mistralai/Mistral-7B-Instruct-v0.3", "display": "Mistral 7B"},
+        # Kimi family (Moonshot)
+        {"ship": "moonshotai/Kimi-K2-Thinking", "display": "Kimi K2 Thinking"},
+        {"ship": "moonshotai/Kimi-K2-Instruct-0905", "display": "Kimi K2 Instruct"},
     ],
 }
+
+# Count: 7 Anthropic + 14 OpenAI + 6 Google + 9 xAI + 15 Together = 51 ships
 
 
 def get_fleet_summary() -> Dict[str, Any]:
