@@ -59,6 +59,11 @@ Diet mode allows full cognitive processing WITHOUT committing to the real pipeli
 Output goes to _CACHE_/ inside the batch folder instead of 1_VALIDATION/.
 Use --throw_up to purge all _CACHE_/ directories.
 
+IMPORTANT: Diet mode IGNORES .ingested status - you can diet-chew any batch,
+whether it's been ingested before or not. This is intentional - diet mode is
+for non-committal preview/priming, and already-ingested content is still valid
+for that purpose.
+
 py ingest.py --ingest --diet --batch SomeOldBatch  # Process to _CACHE_/
 py ingest.py --throw_up                             # Purge all _CACHE_/ directories
 
@@ -816,33 +821,42 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = F
         batch_name = folder.name
 
         if diet:
-            # Diet mode: write to _CACHE_/RnD/{topic_name} inside the batch folder
-            cache_dir = folder / CACHE_DIR_NAME / "RnD" / topic_name
-            target = cache_dir
+            # Diet mode: DON'T copy source files (they're already in STAGING)
+            # Just create analysis structure in _CACHE_/
+            cache_dir = folder / CACHE_DIR_NAME
+            if not dry_run:
+                cache_dir.mkdir(parents=True, exist_ok=True)
+
+            # Count source files for reporting (but don't copy them)
+            source_files = [f for f in folder.iterdir()
+                           if f.is_file() and f.suffix in ('.md', '.txt', '.pdf', '.png', '.jpg')]
+            file_count = len(source_files)
+
+            action = "[DRY RUN]" if dry_run else "[OK]"
+            print(f"  {action} {folder.name} -> _CACHE_/ (analysis only, {file_count} source files in place)")
         else:
-            # Normal mode: write to LLM_BOOK/RnD/{topic_name}
+            # Normal mode: copy to LLM_BOOK/RnD/{topic_name}
             target = rnd_dir / topic_name
 
-        # Ensure target directory exists before copying
-        if not dry_run:
-            target.mkdir(parents=True, exist_ok=True)
+            # Ensure target directory exists before copying
+            if not dry_run:
+                target.mkdir(parents=True, exist_ok=True)
 
-        file_count = copy_folder_contents(folder, target, dry_run)
+            file_count = copy_folder_contents(folder, target, dry_run)
+
+            action = "[DRY RUN]" if dry_run else "[OK]"
+            print(f"  {action} {folder.name} -> RnD/{topic_name} ({file_count} files)")
 
         if file_count > 0:
             result["folders"] += 1
             result["files"] += file_count
 
-            target_display = f"_CACHE_/RnD/{topic_name}" if diet else f"RnD/{topic_name}"
+            target_display = "_CACHE_/ (analysis)" if diet else f"RnD/{topic_name}"
             result["details"].append({
                 "source": folder.name,
                 "target": target_display,
                 "files": file_count
             })
-
-            action = "[DRY RUN]" if dry_run else "[OK]"
-            diet_tag = " -> _CACHE_/" if diet else ""
-            print(f"  {action} {folder.name} -> {target_display} ({file_count} files){diet_tag}")
 
             # Create R&D cognitive processing outputs
             rn_path = create_rnd_review_notes(batch_name, folder, dry_run, diet=diet)
@@ -1068,7 +1082,20 @@ def perform_ingestion(dry_run: bool = True, fresh: bool = False,
     staging = discover_staging_folders()
 
     # Determine which batches to process
-    if fresh and batches:
+    # Diet mode ALWAYS ignores .ingested status (it's non-committal preview)
+    if diet and batches:
+        # Diet mode with batch filter: process specified batches regardless of .ingested
+        pending = {
+            "nyquist": [p for p, _ in staging["nyquist"] if p.name in batches],
+            "rnd": [p for p, _ in staging["rnd"] if p.name in batches],
+        }
+    elif diet:
+        # Diet mode without filter: process ALL batches regardless of .ingested
+        pending = {
+            "nyquist": [p for p, _ in staging["nyquist"]],
+            "rnd": [p for p, _ in staging["rnd"]],
+        }
+    elif fresh and batches:
         # Fresh mode with batch filter: only process specified batches
         pending = {
             "nyquist": [p for p, _ in staging["nyquist"] if p.name in batches],

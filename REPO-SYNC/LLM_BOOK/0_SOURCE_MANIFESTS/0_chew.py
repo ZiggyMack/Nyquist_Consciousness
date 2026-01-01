@@ -129,6 +129,72 @@ def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False) 
         print("  Content remains in _CACHE_/ for review")
         result["digest"] = None
 
+        # Step 3: Trigger Claude analysis for diet mode
+        print("\n## Step 3: CLAUDE ANALYSIS")
+        print("-" * 40)
+
+        # Build the analysis prompt
+        staging_path = DEFAULT_STAGING_DIR / batch_name
+        cache_path = staging_path / "_CACHE_"
+
+        if cache_path.exists():
+            # Find source files to analyze
+            source_files = []
+            for ext in ["*.md", "*.txt", "*.pdf"]:
+                source_files.extend(staging_path.glob(ext))
+            # Also check _IN folder
+            in_folder = staging_path / "_IN"
+            if in_folder.exists():
+                for ext in ["*.md", "*.txt", "*.pdf"]:
+                    source_files.extend(in_folder.glob(ext))
+
+            # Find analysis files to populate
+            analysis_files = list(cache_path.rglob("*.md"))
+
+            print(f"\n  Source files to analyze: {len(source_files)}")
+            for f in source_files[:5]:  # Show first 5
+                print(f"    - {f.name}")
+            if len(source_files) > 5:
+                print(f"    ... and {len(source_files) - 5} more")
+
+            print(f"\n  Analysis files to populate: {len(analysis_files)}")
+            for f in analysis_files:
+                print(f"    - {f.relative_to(cache_path)}")
+
+            # Output the Claude instruction block
+            print("\n" + "=" * 60)
+            print("CLAUDE: ANALYZE AND POPULATE")
+            print("=" * 60)
+            print(f"""
+<CLAUDE_ANALYSIS_REQUEST>
+BATCH: {batch_name}
+CACHE: {cache_path}
+
+INSTRUCTIONS:
+1. Read all source files in STAGING/{batch_name}/
+2. For each analysis file in _CACHE_/, replace placeholder text with actual insights
+3. Focus on:
+   - INSIGHTS: Novel ideas, surprising findings, patterns
+   - CONNECTIONS: Links to other research, Pan Handler labs
+   - EXPERIMENTS: Testable hypotheses, proposed experiments
+   - REVIEW_NOTES: Quality assessment, key themes, routing suggestions
+
+SOURCE FILES:
+{chr(10).join(f'  - {f}' for f in source_files)}
+
+ANALYSIS FILES TO POPULATE:
+{chr(10).join(f'  - {f}' for f in analysis_files)}
+
+After analysis, the user can:
+  - Review _CACHE_/ contents
+  - Run normal chew to commit: py 0_chew.py {batch_name}
+  - Or discard: py 0_chew.py --reset
+</CLAUDE_ANALYSIS_REQUEST>
+""")
+            result["claude_analysis_triggered"] = True
+            result["source_files"] = [str(f) for f in source_files]
+            result["analysis_files"] = [str(f) for f in analysis_files]
+
     # Summary
     print("\n" + "=" * 60)
     print("CHEWING COMPLETE")
