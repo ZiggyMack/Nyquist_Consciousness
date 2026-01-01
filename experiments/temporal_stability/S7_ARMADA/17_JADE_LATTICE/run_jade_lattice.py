@@ -45,6 +45,7 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
+import traceback
 
 # Fix Windows console encoding
 if sys.platform == "win32":
@@ -585,6 +586,36 @@ def save_session(session_data: Dict[str, Any]) -> Path:
     return output_path
 
 
+def save_incremental(all_sessions: List[Dict], run_id: str) -> Path:
+    """
+    Save incremental results after each session to survive crashes.
+    Uses IRON CLAD pattern from Run 020B.
+    """
+    output_path = RESULTS_DIR / f"jade_incremental_{run_id}.json"
+
+    # Build summary
+    data = {
+        "run_id": run_id,
+        "timestamp": datetime.now().isoformat(),
+        "sessions_completed": len(all_sessions),
+        "sessions": [
+            {
+                "session_id": s.get("session_id"),
+                "ship": s.get("ship"),
+                "provider": s.get("provider"),
+                "context_mode": s.get("context_mode"),
+                "summary": s.get("summary", {}),
+            }
+            for s in all_sessions
+        ],
+    }
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+    return output_path
+
+
 # =============================================================================
 # MAIN CLI
 # =============================================================================
@@ -601,6 +632,8 @@ def main():
                         help="Provider for the ship")
     parser.add_argument("--fleet", action="store_true",
                         help="Run full fleet (10 ships)")
+    parser.add_argument("--skip-providers", type=str, default="",
+                        help="Comma-separated providers to skip (e.g., 'google,xai')")
 
     # Phase selection
     parser.add_argument("--phase", type=str, choices=["A", "B", "C", "all"], default="all",
@@ -637,13 +670,21 @@ def main():
         arms = [ContextMode.I_AM_ONLY]
 
     # Determine ships
+    skip_list = [p.strip().lower() for p in args.skip_providers.split(",") if p.strip()]
     if args.fleet:
         ships = []
         for provider, provider_ships in JADE_FLEET.items():
+            if provider.lower() in skip_list:
+                print(f"[SKIP] {provider} (user requested via --skip-providers)")
+                continue
             for ship_config in provider_ships:
                 ships.append((provider, ship_config["ship"]))
     else:
-        ships = [(args.provider, args.ship)]
+        if args.provider.lower() in skip_list:
+            print(f"[SKIP] {args.provider} (user requested via --skip-providers)")
+            ships = []
+        else:
+            ships = [(args.provider, args.ship)]
 
     # Summary
     print("\n" + "=" * 70)
@@ -657,25 +698,51 @@ def main():
         print("MODE: DRY RUN (no API calls)")
     print("=" * 70)
 
-    # Execute
+    # Execute with exception isolation and incremental saves
+    run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
     all_sessions = []
+    failed_ships = []
+
     for provider, model in ships:
         for arm in arms:
-            session = run_jade_session(
-                provider=provider,
-                model=model,
-                context_mode=arm,
-                phases=phases,
-                impulse_intensity=args.intensity,
-                dry_run=args.dry_run,
-                verbose=not args.quiet
-            )
-            all_sessions.append(session)
-            save_session(session)
+            try:
+                session = run_jade_session(
+                    provider=provider,
+                    model=model,
+                    context_mode=arm,
+                    phases=phases,
+                    impulse_intensity=args.intensity,
+                    dry_run=args.dry_run,
+                    verbose=not args.quiet
+                )
+                all_sessions.append(session)
+                save_session(session)
+
+                # Incremental save after each successful session
+                save_incremental(all_sessions, run_id)
+
+            except Exception as e:
+                # Provider-level exception isolation - continue with next ship
+                print(f"\n[ERROR] {provider}/{model} ({arm.value}): {e}")
+                if not args.quiet:
+                    traceback.print_exc()
+                failed_ships.append({
+                    "provider": provider,
+                    "model": model,
+                    "arm": arm.value,
+                    "error": str(e),
+                })
+                # Save progress even on failure
+                save_incremental(all_sessions, run_id)
+                continue
 
     print(f"\n{'='*70}")
     print(f"JADE LATTICE COMPLETE")
-    print(f"  Sessions: {len(all_sessions)}")
+    print(f"  Sessions completed: {len(all_sessions)}")
+    if failed_ships:
+        print(f"  Sessions failed: {len(failed_ships)}")
+        for f in failed_ships:
+            print(f"    - {f['provider']}/{f['model']} ({f['arm']}): {f['error'][:50]}")
     print(f"  Results: {RESULTS_DIR}")
     print(f"{'='*70}")
 

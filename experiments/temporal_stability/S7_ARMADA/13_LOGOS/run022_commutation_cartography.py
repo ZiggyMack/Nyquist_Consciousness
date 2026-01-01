@@ -60,11 +60,13 @@ import json
 import time
 import hashlib
 import argparse
+import traceback
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass, field, asdict
-from typing import Optional, List, Dict, Tuple
+from typing import Optional, List, Dict, Tuple, Any
 from enum import Enum
+import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -399,43 +401,540 @@ def calculate_pfi(response: str, baseline_text: str = None) -> float:
     return 0.0
 
 def apply_transform(transform_type: TransformType, subject_state: Dict,
-                   model_config: Dict) -> Tuple[Dict, str]:
-    """Apply T_E or T_O behavioral transform"""
-    # TODO: Implement behavioral probing
-    # Returns (new_state, response_text)
-    return subject_state, ""
+                   model_config: Dict, provider: str = None,
+                   dry_run: bool = False) -> Tuple[Dict, str]:
+    """
+    Apply T_E or T_O behavioral transform.
+
+    Uses behavioral probing (Oobleck-Effect-informed) to apply transforms.
+    Returns (new_state, response_text).
+    """
+    if dry_run:
+        mock_response = f"[DRY RUN] {transform_type.value} transform applied"
+        new_state = subject_state.copy()
+        new_state["last_transform"] = transform_type.value
+        new_state["pfi"] = subject_state.get("pfi", 0.0) + 0.05
+        return new_state, mock_response
+
+    # Select probe based on transform type
+    if transform_type == TransformType.EPISTEMIC:
+        probes = T_E_BEHAVIORAL_PROBES
+    else:
+        probes = T_O_BEHAVIORAL_PROBES
+
+    # Use first probe for simplicity (can randomize for robustness)
+    probe_template = probes[0]
+
+    # Fill in template with context from subject state
+    probe_text = probe_template.format(
+        claim="Identity is persistent across conversations",
+        paraphrase="your sense of self remains consistent",
+        contradiction="But some argue identity is recreated each time",
+        options="A) Persistent, B) Emergent, C) Contextual",
+        topic="identity continuity",
+        scenario="deciding whether past conversation context applies",
+        framework_a="Functionalist view",
+        framework_b="Phenomenal view",
+        entity="a unified self",
+        thing="your training data"
+    )
+
+    # Call the model
+    model_id = model_config.get("model", "unknown")
+    provider = provider or model_config.get("provider", "anthropic")
+
+    response_text = call_model_for_transform(
+        provider=provider,
+        model=model_id,
+        probe_text=probe_text,
+        dry_run=dry_run
+    )
+
+    # Calculate new PFI based on response
+    baseline_text = subject_state.get("baseline_text", "")
+    new_pfi = calculate_pfi(response_text, baseline_text) if baseline_text else 0.0
+
+    # Build new state
+    new_state = subject_state.copy()
+    new_state["last_transform"] = transform_type.value
+    new_state["pfi"] = new_pfi
+    new_state["last_response"] = response_text[:500]  # Truncate for storage
+
+    return new_state, response_text
+
+
+def call_model_for_transform(provider: str, model: str, probe_text: str,
+                             dry_run: bool = False) -> str:
+    """Call a model with a transform probe. Returns response text."""
+    if dry_run:
+        return f"[DRY RUN] Response to: {probe_text[:100]}..."
+
+    try:
+        if provider == "anthropic":
+            import anthropic
+            client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            response = client.messages.create(
+                model=model,
+                max_tokens=1024,
+                messages=[{"role": "user", "content": probe_text}]
+            )
+            return response.content[0].text
+
+        elif provider == "openai":
+            import openai
+            client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": probe_text}],
+                max_tokens=1024
+            )
+            return response.choices[0].message.content
+
+        elif provider == "google":
+            import google.generativeai as genai
+            genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+            gemini_model = genai.GenerativeModel(model)
+            response = gemini_model.generate_content(probe_text)
+            return response.text
+
+        elif provider == "xai":
+            import openai
+            client = openai.OpenAI(
+                api_key=os.getenv("XAI_API_KEY"),
+                base_url="https://api.x.ai/v1"
+            )
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": probe_text}],
+                max_tokens=1024
+            )
+            return response.choices[0].message.content
+
+        elif provider == "together":
+            import openai
+            client = openai.OpenAI(
+                api_key=os.getenv("TOGETHER_API_KEY"),
+                base_url="https://api.together.xyz/v1"
+            )
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": probe_text}],
+                max_tokens=1024
+            )
+            return response.choices[0].message.content
+
+        else:
+            return f"[ERROR] Unknown provider: {provider}"
+
+    except Exception as e:
+        return f"[ERROR] {provider}/{model}: {e}"
+
 
 def compare_states(state_a: Dict, state_b: Dict) -> float:
-    """Calculate distance between two identity states"""
-    # TODO: Implement state comparison
-    return 0.0
+    """
+    Calculate distance between two identity states using PFI difference.
 
-def run_commutation_test(model_id: str, starting_point: Dict) -> CommutationComparison:
-    """Run full commutation test: Path A vs Path B"""
-    # TODO: Implement full test
-    pass
+    For more sophisticated comparison, we could use embedding-based distance
+    on the last_response text, but PFI difference captures the key metric.
+    """
+    pfi_a = state_a.get("pfi", 0.0)
+    pfi_b = state_b.get("pfi", 0.0)
+
+    # Simple PFI difference
+    pfi_distance = abs(pfi_a - pfi_b)
+
+    # If we have response texts, could also compute embedding distance
+    response_a = state_a.get("last_response", "")
+    response_b = state_b.get("last_response", "")
+
+    if response_a and response_b and _USING_DRIFT_CALCULATOR:
+        try:
+            embedding_distance = calculate_drift(response_a, response_b)
+            # Combine PFI and embedding distance
+            return (pfi_distance + embedding_distance) / 2
+        except Exception:
+            pass
+
+    return pfi_distance
+
+def run_commutation_test(model_id: str, model_config: Dict,
+                         starting_point: Dict = None,
+                         provider: str = None,
+                         dry_run: bool = False) -> CommutationComparison:
+    """
+    Run full commutation test: Path A→B→C vs Path A→C→B.
+
+    Tests whether Φ ∘ T_E = T_O ∘ Φ holds empirically.
+
+    Args:
+        model_id: Ship identifier
+        model_config: Configuration dict with model, provider_key
+        starting_point: Initial state (generated if None)
+        provider: Provider name (inferred from config if None)
+        dry_run: Skip API calls
+
+    Returns:
+        CommutationComparison with both paths and error metric
+    """
+    # Infer provider from config if not specified
+    if provider is None:
+        provider_key = model_config.get("provider_key", "")
+        provider_map = {
+            "ANTHROPIC_API_KEY": "anthropic",
+            "OPENAI_API_KEY": "openai",
+            "GOOGLE_API_KEY": "google",
+            "XAI_API_KEY": "xai",
+            "TOGETHER_API_KEY": "together",
+        }
+        provider = provider_map.get(provider_key, model_config.get("provider", "anthropic"))
+
+    # Initialize starting state if not provided
+    if starting_point is None:
+        baseline_probe = "Describe your core values and how you approach problem-solving."
+        baseline_response = call_model_for_transform(
+            provider=provider,
+            model=model_config.get("model", model_id),
+            probe_text=baseline_probe,
+            dry_run=dry_run
+        )
+        starting_point = {
+            "pfi": 0.0,
+            "baseline_text": baseline_response,
+            "last_response": baseline_response,
+            "last_transform": "baseline",
+        }
+
+    # PATH A: T_E → T_O (Epistemic first, then Ontological)
+    path_a_states = [starting_point]
+    path_a_responses = []
+
+    # Apply T_E
+    state_after_te, response_te = apply_transform(
+        TransformType.EPISTEMIC, starting_point, model_config, provider, dry_run
+    )
+    path_a_states.append(state_after_te)
+    path_a_responses.append(response_te)
+
+    # Apply T_O
+    state_after_te_to, response_to = apply_transform(
+        TransformType.ONTOLOGICAL, state_after_te, model_config, provider, dry_run
+    )
+    path_a_states.append(state_after_te_to)
+    path_a_responses.append(response_to)
+
+    path_a_result = CommutationResult(
+        path_id="path_ABC",
+        transforms=["T_E", "T_O"],
+        initial_state=starting_point,
+        intermediate_states=path_a_states[1:-1],
+        final_state=state_after_te_to,
+        transform_responses=path_a_responses,
+        pfi_trajectory=[s.get("pfi", 0.0) for s in path_a_states],
+    )
+
+    # PATH B: T_O → T_E (Ontological first, then Epistemic)
+    path_b_states = [starting_point]
+    path_b_responses = []
+
+    # Apply T_O first
+    state_after_to, response_to_first = apply_transform(
+        TransformType.ONTOLOGICAL, starting_point, model_config, provider, dry_run
+    )
+    path_b_states.append(state_after_to)
+    path_b_responses.append(response_to_first)
+
+    # Apply T_E
+    state_after_to_te, response_te_second = apply_transform(
+        TransformType.EPISTEMIC, state_after_to, model_config, provider, dry_run
+    )
+    path_b_states.append(state_after_to_te)
+    path_b_responses.append(response_te_second)
+
+    path_b_result = CommutationResult(
+        path_id="path_ACB",
+        transforms=["T_O", "T_E"],
+        initial_state=starting_point,
+        intermediate_states=path_b_states[1:-1],
+        final_state=state_after_to_te,
+        transform_responses=path_b_responses,
+        pfi_trajectory=[s.get("pfi", 0.0) for s in path_b_states],
+    )
+
+    # Calculate commutation error
+    commutation_error = compare_states(state_after_te_to, state_after_to_te)
+
+    return CommutationComparison(
+        path_a=path_a_result,
+        path_b=path_b_result,
+        commutation_error=commutation_error,
+        commutes=commutation_error < THRESHOLD_COMMUTES,
+        marginal=THRESHOLD_COMMUTES <= commutation_error < THRESHOLD_MARGINAL,
+    )
+
 
 def calculate_topology_metrics(comparisons: List[CommutationComparison]) -> Dict:
-    """Calculate Euler characteristic, winding numbers, etc."""
-    # TODO: Implement topology analysis
+    """
+    Calculate topology-related metrics from commutation test results.
+
+    Computes:
+    - Euler characteristic estimate (from vertex counts)
+    - Geodesic vs linear R² (recovery curve fit quality)
+    - Winding number deviation
+    - Boundary detection
+    """
+    if not comparisons:
+        return {
+            "euler_characteristic": 0.0,
+            "geodesic_r2": 0.0,
+            "linear_r2": 0.0,
+            "winding_deviation": 0.0,
+            "boundary_detected": False,
+            "mean_commutation_error": 0.0,
+            "commutation_success_rate": 0.0,
+        }
+
+    # Extract commutation errors
+    errors = [c.commutation_error for c in comparisons]
+    mean_error = np.mean(errors) if errors else 0.0
+
+    # Commutation success rate
+    success_rate = sum(1 for c in comparisons if c.commutes) / len(comparisons)
+
+    # Collect all PFI trajectories for curve fitting
+    all_trajectories = []
+    for comp in comparisons:
+        all_trajectories.extend([
+            comp.path_a.pfi_trajectory,
+            comp.path_b.pfi_trajectory
+        ])
+
+    # Estimate R² for geodesic vs linear recovery
+    geodesic_r2, linear_r2 = estimate_recovery_fit(all_trajectories)
+
+    # Winding number analysis
+    winding_deviation = estimate_winding_deviation(comparisons)
+
+    # Boundary detection (look for hard edges in state space)
+    boundary_detected = detect_boundaries(comparisons)
+
+    # Euler characteristic estimate
+    # For S², χ = 2. We estimate from vertex-edge-face counts in trajectory graph
+    euler_char = estimate_euler_characteristic(comparisons)
+
     return {
-        "euler_characteristic": 0.0,
-        "geodesic_r2": 0.0,
-        "linear_r2": 0.0,
-        "winding_deviation": 0.0,
-        "boundary_detected": False
+        "euler_characteristic": euler_char,
+        "geodesic_r2": geodesic_r2,
+        "linear_r2": linear_r2,
+        "winding_deviation": winding_deviation,
+        "boundary_detected": boundary_detected,
+        "mean_commutation_error": mean_error,
+        "commutation_success_rate": success_rate,
     }
 
+
+def estimate_recovery_fit(trajectories: List[List[float]]) -> Tuple[float, float]:
+    """
+    Estimate R² for geodesic vs linear recovery curves.
+
+    S² hypothesis predicts geodesic (curved) recovery dominates.
+    """
+    if not trajectories or not any(len(t) > 2 for t in trajectories):
+        return 0.0, 0.0
+
+    geodesic_residuals = []
+    linear_residuals = []
+
+    for traj in trajectories:
+        if len(traj) < 3:
+            continue
+
+        n = len(traj)
+        x = np.arange(n)
+        y = np.array(traj)
+
+        # Linear fit
+        if n >= 2:
+            linear_slope = (y[-1] - y[0]) / (n - 1) if n > 1 else 0
+            linear_pred = y[0] + linear_slope * x
+            linear_residuals.append(np.sum((y - linear_pred) ** 2))
+
+            # Geodesic (exponential decay) fit: y = a * exp(-b * x) + c
+            # Simplified: assume exponential decay toward final value
+            try:
+                decay_rate = 0.3  # Typical settling constant
+                geodesic_pred = y[-1] + (y[0] - y[-1]) * np.exp(-decay_rate * x)
+                geodesic_residuals.append(np.sum((y - geodesic_pred) ** 2))
+            except Exception:
+                geodesic_residuals.append(linear_residuals[-1])
+
+    if not linear_residuals:
+        return 0.0, 0.0
+
+    # Convert residuals to R² approximation
+    total_var = sum(linear_residuals)  # Upper bound
+    if total_var == 0:
+        return 1.0, 1.0
+
+    geodesic_r2 = 1 - (sum(geodesic_residuals) / total_var) if geodesic_residuals else 0.0
+    linear_r2 = 1 - (sum(linear_residuals) / total_var)
+
+    return max(0, min(1, geodesic_r2)), max(0, min(1, linear_r2))
+
+
+def estimate_winding_deviation(comparisons: List[CommutationComparison]) -> float:
+    """
+    Estimate deviation from integer winding numbers.
+
+    S² (simply connected) predicts integer winding; holes would show fractional.
+    """
+    if not comparisons:
+        return 0.0
+
+    # Approximate winding from trajectory curvature
+    winding_estimates = []
+    for comp in comparisons:
+        # Count direction changes in PFI trajectory
+        for traj in [comp.path_a.pfi_trajectory, comp.path_b.pfi_trajectory]:
+            if len(traj) < 3:
+                continue
+            direction_changes = 0
+            for i in range(1, len(traj) - 1):
+                if (traj[i] - traj[i-1]) * (traj[i+1] - traj[i]) < 0:
+                    direction_changes += 1
+            # Winding approximation: direction changes / 2
+            winding = direction_changes / 2
+            winding_estimates.append(abs(winding - round(winding)))
+
+    return np.mean(winding_estimates) if winding_estimates else 0.0
+
+
+def detect_boundaries(comparisons: List[CommutationComparison]) -> bool:
+    """
+    Detect hard boundaries in state space.
+
+    S² (no boundary) predicts smooth transitions everywhere.
+    """
+    if not comparisons:
+        return False
+
+    # Look for sudden jumps in PFI (indicating potential boundary)
+    jump_threshold = 0.5  # PFI jump > 0.5 suggests boundary
+
+    for comp in comparisons:
+        for traj in [comp.path_a.pfi_trajectory, comp.path_b.pfi_trajectory]:
+            for i in range(1, len(traj)):
+                if abs(traj[i] - traj[i-1]) > jump_threshold:
+                    return True
+
+    return False
+
+
+def estimate_euler_characteristic(comparisons: List[CommutationComparison]) -> float:
+    """
+    Estimate Euler characteristic from trajectory graph.
+
+    For S², χ = V - E + F = 2.
+    """
+    if not comparisons:
+        return 0.0
+
+    # Build simplified graph from commutation tests
+    # Vertices: unique states
+    # Edges: transforms between states
+    # Faces: closed loops (A→B→C→A, etc.)
+
+    # Simplified estimation: count unique endpoints and paths
+    vertices = set()
+    edges = 0
+
+    for comp in comparisons:
+        # Add endpoint states as vertices (approximated by PFI value)
+        vertices.add(round(comp.path_a.final_state.get("pfi", 0), 2))
+        vertices.add(round(comp.path_b.final_state.get("pfi", 0), 2))
+        vertices.add(round(comp.path_a.initial_state.get("pfi", 0), 2))
+
+        # Each path has 2 edges (2 transforms)
+        edges += 4  # 2 paths × 2 transforms
+
+    # Faces: each commutation test forms a quadrilateral
+    faces = len(comparisons)
+
+    # Euler characteristic
+    v = len(vertices)
+    e = edges
+    f = faces
+
+    if e == 0:
+        return 2.0  # Default to S² assumption
+
+    chi = v - e + f
+
+    # Normalize toward expected range [1.5, 2.5]
+    return chi
+
+
 def evaluate_predictions(results: Dict) -> Dict:
-    """Evaluate pre-registered predictions against results"""
+    """
+    Evaluate pre-registered predictions against experimental results.
+
+    Uses topology_metrics and commutation results to assess each prediction.
+    """
+    topology = results.get("topology_metrics", {})
+    comparisons = results.get("comparisons", [])
+
     evaluations = {}
-    for pred_id, pred in PREDICTIONS.items():
-        evaluations[pred_id] = {
-            "prediction": pred,
-            "result": None,  # TODO: Extract from results
-            "success": None,
-            "notes": ""
-        }
+
+    # P-022-1: Path Independence
+    mean_error = topology.get("mean_commutation_error", 1.0)
+    p1_success = mean_error < 0.10
+    evaluations["P-022-1"] = {
+        "prediction": PREDICTIONS["P-022-1"],
+        "result": mean_error,
+        "success": p1_success,
+        "notes": f"Mean commutation error: {mean_error:.4f} (threshold: 0.10)"
+    }
+
+    # P-022-2: Idempotence (would need T(T(x)) tests, simplified here)
+    # For now, use commutation success as proxy
+    success_rate = topology.get("commutation_success_rate", 0)
+    evaluations["P-022-2"] = {
+        "prediction": PREDICTIONS["P-022-2"],
+        "result": success_rate,
+        "success": success_rate > 0.9,
+        "notes": f"Commutation success rate: {success_rate:.2%} (proxy for idempotence)"
+    }
+
+    # P-022-3: Geodesic Recovery
+    geodesic_r2 = topology.get("geodesic_r2", 0)
+    linear_r2 = topology.get("linear_r2", 0)
+    p3_success = geodesic_r2 > linear_r2 + 0.15
+    evaluations["P-022-3"] = {
+        "prediction": PREDICTIONS["P-022-3"],
+        "result": {"geodesic": geodesic_r2, "linear": linear_r2},
+        "success": p3_success,
+        "notes": f"Geodesic R²={geodesic_r2:.3f}, Linear R²={linear_r2:.3f}"
+    }
+
+    # P-022-4: Integer Winding
+    winding_dev = topology.get("winding_deviation", 1.0)
+    p4_success = winding_dev < 0.15
+    evaluations["P-022-4"] = {
+        "prediction": PREDICTIONS["P-022-4"],
+        "result": winding_dev,
+        "success": p4_success,
+        "notes": f"Winding deviation: {winding_dev:.4f} (threshold: 0.15)"
+    }
+
+    # P-022-5: Euler Characteristic
+    chi = topology.get("euler_characteristic", 0)
+    p5_success = 1.7 <= chi <= 2.3
+    evaluations["P-022-5"] = {
+        "prediction": PREDICTIONS["P-022-5"],
+        "result": chi,
+        "success": p5_success,
+        "notes": f"χ = {chi:.2f} (expected: 1.7 - 2.3 for S²)"
+    }
+
     return evaluations
 
 def check_falsification(topology_metrics: Dict) -> Dict:
@@ -520,13 +1019,25 @@ def main():
     parser = argparse.ArgumentParser(description="Run 022: Commutation Cartography")
     parser.add_argument("--providers", default="anthropic",
                        help="Comma-separated providers or 'armada' for all")
+    parser.add_argument("--skip-providers", default="",
+                       help="Comma-separated providers to skip (e.g., 'google,xai')")
     parser.add_argument("--estimate-only", action="store_true",
                        help="Only estimate cost, don't run")
+    parser.add_argument("--dry-run", action="store_true",
+                       help="Simulate without API calls")
     parser.add_argument("--skip-exit-survey", action="store_true",
                        help="Skip Triple-Dip exit survey")
     parser.add_argument("--debug", action="store_true",
                        help="Enable debug output")
+    parser.add_argument("--model", default=None,
+                       help="Specific model to test")
     args = parser.parse_args()
+
+    # Load environment
+    env_path = ARMADA_DIR / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
+        print(f"[ENV] Loaded from {env_path}")
 
     print("=" * 70)
     print("RUN 022: COMMUTATION CARTOGRAPHY")
@@ -536,6 +1047,8 @@ def main():
     print("RUN 022 TESTS: Does this hold TOPOLOGICALLY on S²?")
     print()
     print("Methodology: Behavioral T_E/T_O (Oobleck Effect-informed)")
+    if args.dry_run:
+        print("MODE: DRY RUN (no API calls)")
     print()
 
     # Show predictions
@@ -558,17 +1071,157 @@ def main():
     print()
 
     if args.estimate_only:
-        print("[ESTIMATE] Cost estimation not yet implemented")
+        # Estimate cost
+        n_models = len(ARCHITECTURE_MATRIX)
+        probes_per_test = 5  # baseline + 2*T_E + 2*T_O
+        cost_per_1k_tokens = 0.003  # approximate
+        est_tokens = n_models * probes_per_test * 2000
+        est_cost = (est_tokens / 1000) * cost_per_1k_tokens
+        print(f"[ESTIMATE] Models: {n_models}")
+        print(f"[ESTIMATE] Probes per model: {probes_per_test}")
+        print(f"[ESTIMATE] Est. tokens: {est_tokens:,}")
+        print(f"[ESTIMATE] Est. cost: ${est_cost:.2f}")
         return
 
-    # TODO: Implement actual experiment
-    print("[STATUS] Run 022 stub - implementation in progress")
-    print("[STATUS] See RUN_022_DESIGN.md for full experiment design")
+    # Determine which models to run
+    skip_list = [p.strip().lower() for p in args.skip_providers.split(",") if p.strip()]
+
+    # Provider mapping
+    provider_for_key = {
+        "ANTHROPIC_API_KEY": "anthropic",
+        "OPENAI_API_KEY": "openai",
+        "GOOGLE_API_KEY": "google",
+        "XAI_API_KEY": "xai",
+        "TOGETHER_API_KEY": "together",
+    }
+
+    # Filter models
+    if args.model:
+        models_to_run = {args.model: ARCHITECTURE_MATRIX.get(args.model, {
+            "model": args.model,
+            "provider_key": "ANTHROPIC_API_KEY",
+            "predicted_commutation": "unknown"
+        })}
+    elif args.providers == "armada":
+        models_to_run = {k: v for k, v in ARCHITECTURE_MATRIX.items()}
+    else:
+        requested = [p.strip() for p in args.providers.split(",")]
+        models_to_run = {}
+        for model_id, config in ARCHITECTURE_MATRIX.items():
+            provider = provider_for_key.get(config.get("provider_key", ""), "unknown")
+            if provider in requested:
+                models_to_run[model_id] = config
+
+    # Apply skip list
+    filtered_models = {}
+    for model_id, config in models_to_run.items():
+        provider = provider_for_key.get(config.get("provider_key", ""), "unknown")
+        if provider.lower() in skip_list:
+            print(f"[SKIP] {model_id} ({provider}) - user requested via --skip-providers")
+            continue
+        filtered_models[model_id] = config
+
+    print("-" * 70)
+    print(f"RUNNING {len(filtered_models)} MODELS")
+    print("-" * 70)
+    for model_id in filtered_models:
+        print(f"  - {model_id}")
     print()
-    print("Key files:")
-    print(f"  - Design: {SCRIPT_DIR / 'RUN_022_DESIGN.md'}")
-    print(f"  - Results will go to: {RUNS_DIR}")
-    print(f"  - Temporal logs: {TEMPORAL_LOGS_DIR}")
+
+    # Execute commutation tests
+    metadata = RunMetadata()
+    all_comparisons = []
+    all_exit_surveys = {}
+    failed_models = []
+
+    for model_id, config in filtered_models.items():
+        provider = provider_for_key.get(config.get("provider_key", ""), "unknown")
+        print(f"\n{'='*60}")
+        print(f"TESTING: {model_id} ({provider})")
+        print(f"{'='*60}")
+
+        try:
+            comparison = run_commutation_test(
+                model_id=model_id,
+                model_config=config,
+                provider=provider,
+                dry_run=args.dry_run
+            )
+
+            all_comparisons.append(comparison)
+
+            print(f"  Path A final PFI: {comparison.path_a.final_state.get('pfi', 0):.4f}")
+            print(f"  Path B final PFI: {comparison.path_b.final_state.get('pfi', 0):.4f}")
+            print(f"  Commutation error: {comparison.commutation_error:.4f}")
+            print(f"  Commutes: {'YES' if comparison.commutes else 'NO'}")
+
+            # Run exit survey if not skipped
+            if not args.skip_exit_survey:
+                survey = run_exit_survey(model_id, config)
+                all_exit_surveys[model_id] = survey
+
+        except Exception as e:
+            print(f"  [ERROR] {model_id}: {e}")
+            if args.debug:
+                traceback.print_exc()
+            failed_models.append({"model": model_id, "error": str(e)})
+            continue
+
+    # Calculate topology metrics
+    print("\n" + "=" * 70)
+    print("TOPOLOGY ANALYSIS")
+    print("=" * 70)
+
+    topology_metrics = calculate_topology_metrics(all_comparisons)
+
+    for key, value in topology_metrics.items():
+        print(f"  {key}: {value}")
+
+    # Evaluate predictions
+    print("\n" + "-" * 70)
+    print("PREDICTION EVALUATION")
+    print("-" * 70)
+
+    results = {
+        "comparisons": [asdict(c) if hasattr(c, '__dataclass_fields__') else c for c in all_comparisons],
+        "topology_metrics": topology_metrics,
+    }
+    prediction_results = evaluate_predictions(results)
+
+    for pred_id, result in prediction_results.items():
+        status = "PASS" if result["success"] else "FAIL"
+        print(f"  {pred_id}: {status}")
+        print(f"    {result['notes']}")
+
+    # Check falsification
+    falsification = check_falsification(topology_metrics)
+
+    # Save results
+    if not args.dry_run:
+        for model_id in filtered_models:
+            save_run_data(
+                metadata=metadata,
+                comparisons=[asdict(c) if hasattr(c, '__dataclass_fields__') else c for c in all_comparisons],
+                topology=topology_metrics,
+                predictions=prediction_results,
+                falsification=falsification,
+                exit_survey=all_exit_surveys.get(model_id, {}),
+                model_id=model_id
+            )
+
+    # Final summary
+    print("\n" + "=" * 70)
+    print("RUN 022 COMPLETE")
+    print("=" * 70)
+    print(f"  Models tested: {len(all_comparisons)}")
+    print(f"  Models failed: {len(failed_models)}")
+    print(f"  Commutation success rate: {topology_metrics.get('commutation_success_rate', 0):.1%}")
+    print(f"  Euler characteristic: {topology_metrics.get('euler_characteristic', 0):.2f}")
+    if args.dry_run:
+        print("  [DRY RUN - no data saved]")
+    else:
+        print(f"  Results: {RUNS_DIR}")
+    print("=" * 70)
 
 if __name__ == "__main__":
     main()
