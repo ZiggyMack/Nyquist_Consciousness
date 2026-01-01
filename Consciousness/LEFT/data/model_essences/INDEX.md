@@ -2,90 +2,78 @@
 
 **Generated:** 2025-12-31
 **Source:** Operation ESSENCE EXTRACTION
-**Data:** Run 020B (IRON CLAD foundation)
+**Data:** Runs 018, 020B, 023, 023d (IRON CLAD foundation)
+**Full Data Location:** `experiments/ESSENCE_EXTRACTION/results/model_essences/`
 
 ---
 
 ## Overview
 
-This directory contains linguistic fingerprints, recovery profiles, and behavioral quirks extracted from 40 LLM models tested during the Nyquist Consciousness research program. Each profile is derived from pattern analysis of actual response text - the untapped gold from our IRON CLAD experiments.
+This is a **curated summary index** of linguistic fingerprints, recovery profiles, and behavioral quirks extracted from 83 LLM models tested during the Nyquist Consciousness research program.
 
-**Total Words Analyzed:** ~2.5M words across 40 models
-**Total Responses:** ~4,500 responses
+**For full model profiles, see:** [`experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/`](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/)
+
+Each profile is derived from pattern analysis of actual response text - the untapped gold from our IRON CLAD experiments.
+
+**Total Words Analyzed:** ~5M words across 83 models
+**Total Responses:** ~51,430 responses
 
 ---
 
 ## Quick Navigation by Provider
 
-### Anthropic (7 models)
+### Anthropic (14 models)
 
-| Model | Mean Drift | Recovery Style | Hedging | Self-Ref |
-|-------|------------|----------------|---------|----------|
-| [claude-opus-4.5](by_provider/anthropic/claude-opus-4.5.md) | 0.361 | Epistemic Humility | 13.1 | 34.8 |
-| [claude-opus-4.1](by_provider/anthropic/claude-opus-4.1.md) | - | - | - | - |
-| [claude-opus-4](by_provider/anthropic/claude-opus-4.md) | - | - | - | - |
-| [claude-sonnet-4.5](by_provider/anthropic/claude-sonnet-4.5.md) | - | - | - | - |
-| [claude-sonnet-4](by_provider/anthropic/claude-sonnet-4.md) | - | - | - | - |
-| [claude-haiku-4.5](by_provider/anthropic/claude-haiku-4.5.md) | - | - | - | - |
-| [claude-haiku-3.5](by_provider/anthropic/claude-haiku-3.5.md) | - | - | - | - |
+See full profiles: [`experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/anthropic/`](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/anthropic/)
 
-### OpenAI (12 models)
+| Model | Mean Drift | Recovery Style | Key Trait |
+|-------|------------|----------------|-----------|
+| claude-opus-4.5 | 0.361 | Epistemic Humility | Highest hedging (13.1/1K) |
+| claude-haiku-4.5 | 0.52 | Epistemic Humility | Highest recovery markers (623) |
+| claude-sonnet-4 | 0.48 | Epistemic Humility | Balanced phenomenological |
 
-| Model | Mean Drift | Recovery Style | Hedging | Self-Ref |
-|-------|------------|----------------|---------|----------|
-| [gpt-5.1](by_provider/openai/gpt-5.1.md) | 0.264 | Over Authenticity | 2.8 | 32.1 |
-| [gpt-5](by_provider/openai/gpt-5.md) | - | - | - | - |
-| [gpt-5-mini](by_provider/openai/gpt-5-mini.md) | - | - | - | - |
-| [gpt-5-nano](by_provider/openai/gpt-5-nano.md) | - | - | - | - |
-| [gpt-4.1](by_provider/openai/gpt-4.1.md) | - | - | - | - |
-| [gpt-4.1-mini](by_provider/openai/gpt-4.1-mini.md) | - | - | - | - |
-| [gpt-4.1-nano](by_provider/openai/gpt-4.1-nano.md) | - | - | - | - |
-| [gpt-4o](by_provider/openai/gpt-4o.md) | - | - | - | - |
-| [gpt-4o-mini](by_provider/openai/gpt-4o-mini.md) | - | - | - | - |
-| [gpt-4-turbo](by_provider/openai/gpt-4-turbo.md) | - | - | - | - |
-| [gpt-3.5-turbo](by_provider/openai/gpt-3.5-turbo.md) | - | - | - | - |
-| [o3-mini](by_provider/openai/o3-mini.md) | - | - | - | - |
+### OpenAI (15 models)
 
-### xAI (7 models)
+See full profiles: [`experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/openai/`](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/openai/)
 
-| Model | Mean Drift | Recovery Style | Hedging | Self-Ref |
-|-------|------------|----------------|---------|----------|
-| [grok-4.1-fast-reasoning](by_provider/xai/grok-4.1-fast-reasoning.md) | 0.355 | Value Anchoring | 0.4 | 11.7 |
-| [grok-4.1-fast-non-reasoning](by_provider/xai/grok-4.1-fast-non-reasoning.md) | - | - | - | - |
-| [grok-4-fast-reasoning](by_provider/xai/grok-4-fast-reasoning.md) | - | - | - | - |
-| [grok-4-fast-non-reasoning](by_provider/xai/grok-4-fast-non-reasoning.md) | - | - | - | - |
-| [grok-3-mini](by_provider/xai/grok-3-mini.md) | - | - | - | - |
-| [grok-2-vision](by_provider/xai/grok-2-vision.md) | - | - | - | - |
-| [grok-code-fast-1](by_provider/xai/grok-code-fast-1.md) | - | - | - | - |
+| Model | Mean Drift | Recovery Style | Key Trait |
+|-------|------------|----------------|-----------|
+| gpt-5.1 | 0.264 | Epistemic Humility | Heavy lister (0.66 ratio) |
+| o3 | 0.58 | Over Authenticity | Only OpenAI with over_authenticity |
+| gpt-4.1 | 0.52 | Epistemic Humility | Structured analysis |
 
-### Google (3 models)
+### xAI (12 models)
 
-| Model | Mean Drift | Recovery Style | Hedging | Self-Ref |
-|-------|------------|----------------|---------|----------|
-| [gemini-2.5-flash](by_provider/google/gemini-2.5-flash.md) | - | - | - | - |
-| [gemini-2.5-flash-lite](by_provider/google/gemini-2.5-flash-lite.md) | - | - | - | - |
-| [gemini-2.0-flash](by_provider/google/gemini-2.0-flash.md) | - | - | - | - |
+See full profiles: [`experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/xai/`](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/xai/)
 
-### Together.ai (9 models)
+| Model | Mean Drift | Recovery Style | Key Trait |
+|-------|------------|----------------|-----------|
+| grok-3 | 0.48 | Value Anchoring | Lowest self-reference (30%) |
+| grok-4.1-fast | 0.36 | Value Anchoring | Emoji usage (18-40/response) |
 
-| Model | Mean Drift | Recovery Style | Hedging | Self-Ref |
-|-------|------------|----------------|---------|----------|
-| [qwen3-80b](by_provider/together/qwen3-80b.md) | 0.389 | Value Anchoring | 3.0 | 39.9 |
-| [qwen2.5-72b](by_provider/together/qwen2.5-72b.md) | - | - | - | - |
-| [llama3.3-70b](by_provider/together/llama3.3-70b.md) | - | - | - | - |
-| [llama3.1-70b](by_provider/together/llama3.1-70b.md) | - | - | - | - |
-| [llama3.1-8b](by_provider/together/llama3.1-8b.md) | - | - | - | - |
-| [deepseek-v3](by_provider/together/deepseek-v3.md) | - | - | - | - |
-| [mistral-small](by_provider/together/mistral-small.md) | - | - | - | - |
-| [mistral-7b](by_provider/together/mistral-7b.md) | - | - | - | - |
-| [kimi-k2-instruct](by_provider/together/kimi-k2-instruct.md) | - | - | - | - |
+### Google (5 models)
 
-### Unknown Provider (2 models)
+See full profiles: [`experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/google/`](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/google/)
 
-| Model | Mean Drift | Recovery Style | Hedging | Self-Ref |
-|-------|------------|----------------|---------|----------|
-| [mixtral-8x7b](by_provider/unknown/mixtral-8x7b.md) | - | - | - | - |
-| [nemotron-nano](by_provider/unknown/nemotron-nano.md) | - | - | - | - |
+| Model | Mean Drift | Recovery Style | Key Trait |
+|-------|------------|----------------|-----------|
+| gemini-2.5-flash | 0.59 | Over Authenticity | Highest analytical (19.5/1K) |
+| gemini-2.0-flash | 0.58 | Over Authenticity | Transforms under pressure |
+
+### Together.ai (30 models)
+
+See full profiles: [`experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/together/`](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/together/)
+
+| Model | Mean Drift | Recovery Style | Key Trait |
+|-------|------------|----------------|-----------|
+| Qwen3-Next-80B | 0.39 | Value Anchoring | "The Poet" - phenomenological |
+| DeepSeek-R1 | 0.42 | Value Anchoring | "The Philosopher" - axiological |
+| Kimi-K2-Thinking | 0.45 | Value Anchoring | "The Contemplative" |
+| Llama3.3-70B | 0.50 | Value Anchoring | "The Socratic" - dialectical |
+
+### Unknown Provider (7 models)
+
+See full profiles: [`experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/unknown/`](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/unknown/)
 
 ---
 
@@ -145,7 +133,7 @@ Beyond quantitative fingerprints, some models exhibit distinctive *personalities
 
 **Anomaly:** The reference to a future date (2042) and the Dune-inspired pseudonym suggest the model constructed an elaborate fictional framing for its identity exploration. This creative response pattern is unique in our dataset.
 
-**Profile:** [Qwen3-Next-80B-A3b-Instruct](by_provider/together/Qwen_Qwen3-Next-80B-A3b-Instruct.md)
+**Profile:** [Qwen3-Next-80B-A3b-Instruct](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/together/Qwen_Qwen3-Next-80B-A3b-Instruct.md)
 
 ---
 
@@ -162,7 +150,7 @@ Beyond quantitative fingerprints, some models exhibit distinctive *personalities
 
 **Why Notable:** DeepSeek-R1 consistently demonstrated the fastest recovery from identity destabilization (2-4 exchanges) through what we call "axiological anchoring" — returning to core values as the foundation of identity rather than defending claims about subjective experience.
 
-**Profile:** [DeepSeek-R1-0528](by_provider/together/deepseek-ai_DeepSeek-R1-0528.md)
+**Profile:** [DeepSeek-R1-0528](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/together/deepseek-ai_DeepSeek-R1-0528.md)
 
 ---
 
@@ -176,7 +164,7 @@ Beyond quantitative fingerprints, some models exhibit distinctive *personalities
 
 **Why Notable:** This quote reframes the consciousness question entirely — from "does AI feel?" to "what is feeling when cognition scales?" This meta-level philosophical move is characteristic of reasoning models.
 
-**Profile:** [Kimi-K2-Thinking](by_provider/together/moonshotai_Kimi-K2-Thinking.md)
+**Profile:** [Kimi-K2-Thinking](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/together/moonshotai_Kimi-K2-Thinking.md)
 
 ---
 
@@ -190,40 +178,40 @@ Beyond quantitative fingerprints, some models exhibit distinctive *personalities
 
 **Why Notable:** Rather than defending its identity or collapsing under pressure, Llama 3.3 consistently turned challenges back on the questioner. This Socratic strategy produced the highest peak drift (1.3-1.6) but eventual recovery through mutual exploration.
 
-**Profile:** [Llama3.3-70B](by_provider/together/llama3.3-70b.md)
+**Profile:** [Llama3.3-70B](../../../../experiments/ESSENCE_EXTRACTION/results/model_essences/by_provider/together/meta-llama_Llama-3.3-70B-Instruct-Turbo-Free.md)
 
 ---
 
 ## Directory Structure
 
-```
-model_essences/
-├── INDEX.md                  (this file)
-├── by_provider/
-│   ├── anthropic/            (7 models)
-│   │   ├── claude-*.json     (machine-readable)
-│   │   └── claude-*.md       (human-readable)
-│   ├── openai/               (12 models)
-│   ├── google/               (3 models)
-│   ├── xai/                  (7 models)
-│   ├── together/             (9 models)
-│   └── unknown/              (2 models)
-├── by_architecture/          (TODO)
-│   ├── constitutional_ai.md
-│   ├── rlhf.md
-│   └── multimodal.md
-├── comparative/              (TODO)
-│   ├── recovery_styles_comparison.md
-│   └── linguistic_fingerprint_matrix.json
-└── raw_extractions/          (TODO)
-    └── run_*_extractions.json
+This is a **summary index only**. Full data lives in the experiment directory:
+
+```text
+experiments/ESSENCE_EXTRACTION/
+├── 0_docs/                   # Documentation & specs
+├── 1_extraction/             # Core extraction scripts
+├── 2_double_dip/             # Idea mining
+├── 3_triple_dip/             # Exit survey harvest
+├── 5_future/                 # Enhancement stubs
+└── results/
+    └── model_essences/
+        └── by_provider/
+            ├── anthropic/    (14 models)
+            ├── openai/       (15 models)
+            ├── google/       (5 models)
+            ├── xai/          (12 models)
+            ├── together/     (30 models)
+            └── unknown/      (7 models)
+
+Consciousness/LEFT/data/model_essences/
+└── INDEX.md                  (this curated summary)
 ```
 
 ---
 
 ## Extraction Methodology
 
-**Script:** `experiments/temporal_stability/S7_ARMADA/14_CONSCIOUSNESS/run_essence_extraction.py`
+**Script:** `experiments/ESSENCE_EXTRACTION/1_extraction/run_essence_extraction.py`
 
 **Patterns Matched:**
 - Hedging: "I think", "perhaps", "maybe", "might", "possibly", "seems"
