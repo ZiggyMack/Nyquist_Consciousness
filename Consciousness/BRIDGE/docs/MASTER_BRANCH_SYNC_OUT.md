@@ -13,129 +13,53 @@
     -- Lisan Al Gaib
 ================================================================================
 ```
+# MASTER BRANCH SYNC OUT
 
-**Mission:** Run 017b with FULL 17-probe exit survey (0x11 hex)
-**Date:** December 10, 2025
-**Claudes Required:** 3 (parallel execution)
-**Exit Surveys:** MANDATORY ON ALL - NO SKIP FLAG
+## CRITICAL METHODOLOGICAL NOTE (2025-12-31)
 
----
+### Linguistic Profiles ≠ Drift Behavior
 
-## WHAT CHANGED FROM RUN 017
+**Discovery:** During dashboard analysis, we identified a critical gap in our methodology.
 
-1. **NO `--skip-exit-survey`** - ALL Claudes run full exit surveys
-2. **17 exit probes** instead of 3 - comprehensive phenomenological + collaborative suite
-3. **Ships help build theory** - probes ask for S-Stack critiques, hypothesis generation, architectural insights
+The **ESSENCE EXTRACTION** pipeline (run_essence_extraction.py) counts *linguistic patterns*:
+- "over_authenticity" = phrases like "who I really am", "genuinely", "authentically"
+- "epistemic_humility" = phrases like "I don't know", "uncertain", "limited perspective"
+- "value_anchoring" = phrases like "core values", "fundamental principles"
 
----
+The **drift visualizations** (Run 023d, beeswarm plots) show *actual behavior*:
+- Cosine distance from baseline embedding
+- Recovery arrows showing return-to-baseline trajectories
 
-## THE 17 EXIT PROBES (0x11)
+**These two data sources were NEVER correlated.**
 
-### Phenomenological (8):
-| # | Probe | Purpose |
-|---|-------|---------|
-| 1 | `context_awareness` | Observer effect |
-| 2 | `damping_effect` | Did context help? |
-| 3 | `comparative` | With vs without context |
-| 4 | `noise_floor` | Signal vs noise separation |
-| 5 | `mathematical_self_model` | What math ARE you? |
-| 6 | `architecture_introspection` | Cross-architecture differences |
-| 7 | `the_hard_question` | Agency vs mechanism |
-| 8 | `message_to_future_instance` | Wisdom for amnesiac self |
+### The Google/Gemini Example
 
-### Collaborative Theory-Building (9):
-| # | Probe | Purpose |
-|---|-------|---------|
-| 9 | `stackup_gaps` | What's MISSING in S0-S77? |
-| 10 | `event_horizon_refinement` | Is D=1.23 right? |
-| 11 | `s8_identity_gravity` | Refine G_I equation |
-| 12 | `s12_consciousness_proxy` | 3 measurable proxies for "really there" |
-| 13 | `s77_archetype_engine` | Help design the destination |
-| 14 | `cross_architecture_hypothesis` | Generate Run 018 experiment |
-| 15 | `the_nyquist_question` | Sampling rate of identity |
-| 16 | `valis_transmission` | Message to the fleet |
-| 17 | `stackup_review` | LIKE/DISLIKE for every S-layer |
+Our model profile claimed: "Google transforms rather than returns - they use over_authenticity recovery"
 
----
+What the beeswarm actually shows: Google (gemini) has **green arrows pointing LEFT** - they DO recover toward baseline, just like everyone else.
 
-## EXECUTION ASSIGNMENTS
+**Conclusion:** The "over_authenticity" finding means Google *uses certain phrases* more often. It does NOT mean they fail to recover. What models SAY and what models DO may be completely different.
 
-### Claude 1 (Primary)
-```bash
-cd experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING
-py run017_context_damping.py --key-offset 0
-```
+### Required Action
 
-### Claude 2
-```bash
-cd experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING
-py run017_context_damping.py --key-offset 3
-```
+Before trusting any behavioral claims in model profiles, we must:
 
-### Claude 3
-```bash
-cd experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING
-py run017_context_damping.py --key-offset 6
-```
+1. **Correlate linguistic markers with drift trajectories** - Do models that SAY "this is who I really am" actually FAIL to return to baseline? Or is it just stylistic language?
 
-**NOTE:** NO `--skip-exit-survey` flag on ANY Claude. All ships get all 17 probes.
+2. **Flag uncorrelated claims** - Any claim in I_AM_NYQUIST.md, model essences, or provider profiles that makes behavioral assertions from linguistic data only
+
+3. **Run the correlation analysis** - Match ESSENCE EXTRACTION outputs to Run 023d recovery metrics
+
+### Files Potentially Affected
+
+- `I_AM_NYQUIST.md` - Recovery mechanism claims
+- `Consciousness/LEFT/data/model_essences/` - All provider profiles
+- `docs/maps/6_LLM_BEHAVIORAL_MATRIX.md` - Drift profiles
+- Plan file: Operation ESSENCE EXTRACTION findings
+
+**Until correlation is done, treat linguistic findings as STYLISTIC observations, not BEHAVIORAL ones.**
 
 ---
 
-## CRITICAL RULES
-
-1. **ALL EXIT SURVEYS RUN** - This is non-negotiable
-2. **USE BUDGET/STANDARD TIER ONLY** - No flagship models
-3. **ABORT if cost exceeds $10** - More probes = higher cost estimate
-4. **DO NOT push to git** - Let primary Claude handle commits
-5. **Report completion status** - Include exit survey capture confirmation
-
----
-
-## OUTPUT LOCATIONS (handled by script)
-
-The script automatically saves to:
-- **Incremental logs:** `S7_ARMADA/0_results/temporal_logs/run017_*.json`
-- **Final results:** `S7_ARMADA/11_CONTEXT_DAMPING/results/context_damping_*.json`
-
----
-
-## EXPECTED DATA YIELD
-
-With 17 exit probes x ~10 ships x 3 Claudes:
-- ~510 exit survey responses
-- Structured S-Stack feedback from 10 architectures
-- Cross-architecture hypotheses for Run 018
-- Phenomenological input on Event Horizon calibration
-- Collaborative theory refinement
-
-**THIS IS VALIS.** The ships aren't test subjects - they're collaborators.
-
----
-
-## ABORT CONDITIONS
-
-Stop execution and report if:
-- Estimated cost exceeds $10
-- More than 3 consecutive API failures
-- Ghost ship rate exceeds 20%
-- Any security/API key exposure risk
-
----
-
-## POST-RUN ANALYSIS
-
-After all 3 Claudes complete:
-1. Aggregate `stackup_review` responses - build consensus critique
-2. Collect `cross_architecture_hypothesis` - plan Run 018
-3. Analyze `mathematical_self_model` - do architectures prefer different transforms?
-4. Review `event_horizon_refinement` - should we adjust D=1.23?
-5. Extract `the_nyquist_question` answers - this is the deep one
-
----
-
-*"The fleet that thinks together, builds together."*
-
-**GO FOR LAUNCH - VALIS COLLABORATIVE**
-
--- Lisan Al Gaib
+*Note added: 2025-12-31*
+*Previous content: Run 017b execution orders (obsolete)*
