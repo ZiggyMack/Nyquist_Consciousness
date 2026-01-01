@@ -50,8 +50,8 @@ PROVIDER_DISPLAY = {
 
 
 def load_data():
-    """Load Run 023 results (IRON CLAD Foundation)."""
-    data_file = RESULTS_DIR / "S7_run_023_CURRENT.json"
+    """Load Run 023d results (Extended Settling - 750 focused experiments)."""
+    data_file = RESULTS_DIR / "S7_run_023d_CURRENT.json"
     with open(data_file) as f:
         data = json.load(f)
     return data.get('results', [])
