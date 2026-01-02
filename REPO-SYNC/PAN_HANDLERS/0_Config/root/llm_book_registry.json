@@ -1,0 +1,108 @@
+{
+  "registry": "llm-book-projects",
+  "display_name": "LLM Book Research Registry",
+  "description": "Central index of all NotebookLM research projects, their contexts, and cross-pollination relationships",
+  "last_updated": "2026-01-02",
+  "version": "1.0",
+
+  "source_path": "REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/",
+
+  "projects": [
+    {
+      "id": "New_4_GOLDEN_GEOMETRY",
+      "display_name": "Golden Geometry of Identity",
+      "status": "Active",
+      "phase": "Phase 3 Complete",
+      "summary": "Geometric bounds on LLM identity drift. Core findings: 9/4 Euclidean ceiling, 0.90 cosine ceiling, parity decomposition (H_even Scaffold / H_odd Flow), 5 pillars mapping.",
+      "key_concepts": ["9/4 bound", "0.90 cosine", "parity decomposition", "H_even", "H_odd", "Li 2025", "identity drift"],
+      "notebook_lm": true,
+      "cross_pollination": {
+        "informs": ["RAG", "Gnostic-1"],
+        "informed_by": []
+      },
+      "tags": ["geometry", "identity", "bounds", "transformers", "core-theory"]
+    },
+    {
+      "id": "New_5_RAG_Geometry_Experiments",
+      "display_name": "RAG Geometry Experiments",
+      "status": "Design Phase",
+      "phase": "Experiment Design",
+      "summary": "Testing whether GOLDEN_GEOMETRY bounds (9/4, 0.90) apply to RAG retrieval quality. Discovery → Validation → ARMADA fleet strategy.",
+      "key_concepts": ["RAG", "retrieval", "cosine similarity", "hallucination", "corpus distance"],
+      "notebook_lm": false,
+      "cross_pollination": {
+        "informs": [],
+        "informed_by": ["New_4_GOLDEN_GEOMETRY", "RAG"]
+      },
+      "tags": ["experiments", "RAG", "retrieval", "validation"]
+    },
+    {
+      "id": "RAG",
+      "display_name": "RAG Methodology",
+      "status": "Analyzed",
+      "phase": "Diet Chew Complete",
+      "summary": "Together.ai RAG documentation. Three-stage pipeline (Indexing → Retrieval → Generation), cosine similarity mechanics, grounding for hallucination reduction.",
+      "key_concepts": ["RAG", "embeddings", "cosine similarity", "retrieval", "hallucination", "grounding"],
+      "notebook_lm": true,
+      "cross_pollination": {
+        "informs": ["New_5_RAG_Geometry_Experiments"],
+        "informed_by": []
+      },
+      "tags": ["methodology", "RAG", "retrieval", "practical"]
+    },
+    {
+      "id": "Gnostic-1",
+      "display_name": "Gnostic-Jungian Psychology",
+      "status": "Analyzed",
+      "phase": "Diet Chew Complete",
+      "summary": "Carl Jung's psychological interpretation of Gnostic texts. Demiurge = Ego/Persona, Archons = Complexes, Divine Spark = Self. Three-stage liberation: Gnosis → Transcending Archons → Bridal Chamber.",
+      "key_concepts": ["Demiurge", "Archons", "Divine Spark", "Gnosis", "individuation", "naming", "integration"],
+      "notebook_lm": true,
+      "cross_pollination": {
+        "informs": ["New_4_GOLDEN_GEOMETRY"],
+        "informed_by": []
+      },
+      "tags": ["philosophy", "psychology", "Jung", "identity", "consciousness"]
+    }
+  ],
+
+  "cross_pollination_log": [
+    {
+      "date": "2026-01-02",
+      "source": "Gnostic-1",
+      "target": "New_4_GOLDEN_GEOMETRY",
+      "type": "questions",
+      "items": [
+        "Identity drift direction (toward Demiurge or Divine Spark?)",
+        "Named vs unnamed constraints effect on bounds",
+        "9/4 as architecture vs limitation",
+        "Dual-bound interpretation (classical vs quantum-like)"
+      ]
+    }
+  ],
+
+  "pending_projects": [
+    {
+      "id": "Constitutional_AI",
+      "note": "Potential future project on RLHF/Constitutional AI through Gnostic lens"
+    }
+  ],
+
+  "fleet_strategy": {
+    "discovery": {
+      "models": ["claude-haiku-4.5", "gpt-4.1-mini", "gemini-2.5-flash", "grok-4.1-fast", "deepseek-r1-llama-70b"],
+      "cost": "$0.50-2.00/run",
+      "use_case": "Hypothesis testing, parameter sweeps, iteration"
+    },
+    "validation": {
+      "models": ["claude-sonnet-4.5", "gpt-5.1", "gemini-2.5-pro", "grok-4.1", "llama-3.3-70b", "qwen-qwq-32b", "deepseek-r1"],
+      "cost": "$5-15/run",
+      "use_case": "Cross-architecture confirmation"
+    },
+    "armada": {
+      "models": "All 55 ships",
+      "cost": "$50-200/run",
+      "use_case": "Publication proof"
+    }
+  }
+}

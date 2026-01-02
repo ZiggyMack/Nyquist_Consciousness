@@ -116,6 +116,10 @@ PRESERVE_DIRS = [
 # Marker file indicating a batch has been ingested
 INGESTED_MARKER = ".ingested"
 
+# LLM Book Registry (Pan Handlers config)
+PAN_HANDLERS_CONFIG = REPO_ROOT / "REPO-SYNC" / "PAN_HANDLERS" / "0_Config" / "root"
+LLM_BOOK_REGISTRY = PAN_HANDLERS_CONFIG / "llm_book_registry.json"
+
 # Cache directory for diet mode (inside each batch folder)
 CACHE_DIR_NAME = "_CACHE_"
 
@@ -145,6 +149,146 @@ def get_version_info() -> Dict:
         with open(VERSION_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     return {"current_version": "unknown", "review_status": "unknown"}
+
+
+def load_llm_book_registry() -> Dict:
+    """Load the LLM Book Registry from Pan Handlers config."""
+    if LLM_BOOK_REGISTRY.exists():
+        with open(LLM_BOOK_REGISTRY, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"projects": [], "cross_pollination_log": []}
+
+
+def load_panhandlers_root() -> Dict:
+    """Load the Pan Handlers root config for lab/module context."""
+    root_file = PAN_HANDLERS_CONFIG / "panhandlers-root.json"
+    if root_file.exists():
+        with open(root_file, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"modules": [], "architecture": {}}
+
+
+def load_lab_configs() -> Dict[str, Dict]:
+    """Load all Pan Handler lab/module configs."""
+    modules_dir = PAN_HANDLERS_CONFIG.parent / "modules"
+    labs = {}
+    if modules_dir.exists():
+        for f in modules_dir.glob("*.json"):
+            try:
+                with open(f, "r", encoding="utf-8") as fp:
+                    labs[f.stem] = json.load(fp)
+            except json.JSONDecodeError:
+                pass
+    return labs
+
+
+def get_panhandlers_context() -> str:
+    """
+    Get summary context of Pan Handler labs for routing awareness.
+
+    Returns a formatted string describing labs that Claude can use
+    to identify where insights should be routed.
+    """
+    root = load_panhandlers_root()
+    labs = load_lab_configs()
+
+    context_lines = ["## Pan Handler Labs (for routing awareness)\n"]
+
+    # Add architecture overview
+    arch = root.get("architecture", {})
+    if arch:
+        context_lines.append("### Architecture")
+        for role, module in arch.items():
+            if isinstance(module, list):
+                context_lines.append(f"- **{role}:** {', '.join(module)}")
+            else:
+                context_lines.append(f"- **{role}:** {module}")
+        context_lines.append("")
+
+    # Add lab summaries
+    context_lines.append("### Active Labs")
+    for module in root.get("modules", []):
+        lab_id = module.get("id", "")
+        lab_config = labs.get(lab_id, {})
+
+        name = module.get("name", lab_id)
+        role = module.get("role", lab_config.get("role", ""))
+        status = module.get("status", "Unknown")
+
+        if status == "Active":
+            context_lines.append(f"- **{name}** ({lab_id}): {role}")
+
+    context_lines.append("")
+    return "\n".join(context_lines)
+
+
+def get_other_projects_context(current_project: str) -> str:
+    """
+    Get full context for cross-pollination: LLM Book projects + Pan Handler labs.
+
+    Returns a formatted string describing:
+    1. Other LLM Book projects (for cross-pollination)
+    2. Pan Handler labs (for routing awareness)
+    """
+    context_parts = []
+
+    # Part 1: Other LLM Book projects
+    registry = load_llm_book_registry()
+    projects = registry.get("projects", [])
+
+    if projects:
+        project_lines = ["## Other LLM Book Projects (for cross-pollination)\n"]
+
+        for proj in projects:
+            if proj["id"] == current_project:
+                continue
+
+            project_lines.append(f"### {proj['id']}")
+            project_lines.append(f"**Summary:** {proj.get('summary', 'No summary')}")
+            project_lines.append(f"**Key Concepts:** {', '.join(proj.get('key_concepts', []))}")
+            project_lines.append(f"**Status:** {proj.get('status', 'Unknown')}")
+            project_lines.append("")
+
+        if len(project_lines) > 1:
+            context_parts.append("\n".join(project_lines))
+
+    # Part 2: Pan Handler labs
+    panhandlers_context = get_panhandlers_context()
+    if panhandlers_context:
+        context_parts.append(panhandlers_context)
+
+    return "\n".join(context_parts)
+
+
+def update_registry_cross_pollination(source: str, target: str, items: List[str]) -> None:
+    """
+    Log a cross-pollination event to the LLM Book Registry.
+
+    Args:
+        source: Project ID that inspired the cross-pollination
+        target: Project ID receiving the cross-pollinated content
+        items: List of questions/reports added
+    """
+    if not LLM_BOOK_REGISTRY.exists():
+        return
+
+    registry = load_llm_book_registry()
+
+    log_entry = {
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "source": source,
+        "target": target,
+        "type": "questions",
+        "items": items
+    }
+
+    if "cross_pollination_log" not in registry:
+        registry["cross_pollination_log"] = []
+
+    registry["cross_pollination_log"].append(log_entry)
+
+    with open(LLM_BOOK_REGISTRY, "w", encoding="utf-8") as f:
+        json.dump(registry, f, indent=2)
 
 
 def is_nyquist_content(folder_name: str) -> bool:
@@ -801,6 +945,187 @@ def create_rnd_analysis_stubs(batch_name: str, source_folder: Path, dry_run: boo
     return created
 
 
+def create_llm_book_interface_files(batch_name: str, source_folder: Path, dry_run: bool = True,
+                                     diet: bool = False) -> List[Path]:
+    """
+    Create LLM Book interface files (chat.md, report.md) for NotebookLM interaction.
+
+    These files provide:
+    - chat.md: Suggested questions to ask the project's NotebookLM
+    - report.md: Suggested custom reports, infographics, slide decks, audio/video
+
+    Only created in diet mode (these are for STAGING projects, not committed content).
+    """
+    if not diet:
+        return []
+
+    created = []
+    cache_dir = source_folder / CACHE_DIR_NAME
+
+    # Get current date for timestamps
+    from datetime import datetime
+    current_date = datetime.now().strftime("%Y-%m-%d")
+
+    chat_content = f"""# NotebookLM Questions: {batch_name}
+
+## Suggested Questions
+
+### Q1: [Core Concept Question]
+
+> [Question about the fundamental concepts in this source material]
+
+**Response:**
+
+---
+
+### Q2: [Mechanism/Process Question]
+
+> [Question about how something works or operates]
+
+**Response:**
+
+---
+
+### Q3: [Relationship Question]
+
+> [Question about connections between concepts]
+
+**Response:**
+
+---
+
+### Q4: [Application Question]
+
+> [Question about practical applications or implications]
+
+**Response:**
+
+---
+
+### Q5: [Boundary/Limitation Question]
+
+> [Question about edge cases, limitations, or exceptions]
+
+**Response:**
+
+---
+
+## Follow-Up Questions
+
+(To be added after initial responses)
+
+---
+
+*Created: {current_date}*
+*Project: {batch_name} NotebookLM*
+*Status: TEMPLATE - Claude to populate with source-specific questions*
+"""
+
+    report_content = f"""# NotebookLM Report Requests: {batch_name}
+
+## Custom Reports
+
+### Report 1: [Deep Dive Topic]
+
+**Type:** Deep Dive / Technical Analysis
+
+**Prompt:**
+> [Detailed prompt for the report]
+
+**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
+
+---
+
+### Report 2: [Framework/Methodology]
+
+**Type:** Framework / Methodology
+
+**Prompt:**
+> [Detailed prompt for the report]
+
+**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
+
+---
+
+### Report 3: [Comparative Analysis]
+
+**Type:** Analytical Report
+
+**Prompt:**
+> [Detailed prompt for the report]
+
+**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
+
+---
+
+## Infographics
+
+### Infographic 1: [Visual Mapping]
+
+**Description:** [What should be visualized]
+
+**Elements to include:**
+- [Element 1]
+- [Element 2]
+- [Element 3]
+
+**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
+
+---
+
+## Slide Decks
+
+### Deck 1: [Overview Presentation]
+
+**Purpose:** [What the deck should accomplish]
+
+**Suggested slides:**
+1. [Slide 1 topic]
+2. [Slide 2 topic]
+3. [Slide 3 topic]
+4. [Slide 4 topic]
+5. [Slide 5 topic]
+
+**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
+
+---
+
+## Audio Overviews
+
+### Audio 1: Deep Dive Conversation
+
+**Topic:** [What the audio should cover]
+
+**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
+
+---
+
+## Video Presentations
+
+(Pending AVLAR stackup implementation)
+
+---
+
+*Created: {current_date}*
+*Project: {batch_name} NotebookLM*
+*Status: TEMPLATE - Claude to populate with source-specific suggestions*
+"""
+
+    files = {
+        "chat.md": chat_content,
+        "report.md": report_content
+    }
+
+    for filename, content in files.items():
+        file_path = cache_dir / filename
+        if not dry_run:
+            cache_dir.mkdir(parents=True, exist_ok=True)
+            file_path.write_text(content, encoding="utf-8")
+        created.append(file_path)
+
+    return created
+
+
 def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = False,
                        skip_review: bool = False) -> Dict:
     """
@@ -852,6 +1177,7 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = F
             result["files"] += file_count
 
             target_display = "_CACHE_/ (analysis)" if diet else f"RnD/{topic_name}"
+            diet_tag = " -> _CACHE_/" if diet else ""
             result["details"].append({
                 "source": folder.name,
                 "target": target_display,
@@ -868,6 +1194,14 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = F
             print(f"  {action} Created R&D analysis files{diet_tag}:")
             for stub in stubs:
                 print(f"      - {stub.parent.name}/{stub.name}")
+
+            # Create LLM Book interface files (chat.md, report.md) - diet mode only
+            if diet:
+                interface_files = create_llm_book_interface_files(batch_name, folder, dry_run, diet=diet)
+                if interface_files:
+                    print(f"  {action} Created NotebookLM interface files{diet_tag}:")
+                    for ifile in interface_files:
+                        print(f"      - {ifile.name}")
 
             # Mark as ingested (skip in diet mode)
             if not diet:

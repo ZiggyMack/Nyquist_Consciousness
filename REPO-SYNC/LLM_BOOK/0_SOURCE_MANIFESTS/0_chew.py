@@ -161,6 +161,16 @@ def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False) 
             for f in analysis_files:
                 print(f"    - {f.relative_to(cache_path)}")
 
+            # Get cross-pollination context from registry
+            try:
+                import importlib.util
+                ingest_spec = importlib.util.spec_from_file_location("ingest", SCRIPT_DIR / "1_ingest.py")
+                ingest_module = importlib.util.module_from_spec(ingest_spec)
+                ingest_spec.loader.exec_module(ingest_module)
+                other_projects_context = ingest_module.get_other_projects_context(batch_name)
+            except Exception:
+                other_projects_context = ""
+
             # Output the Claude instruction block
             print("\n" + "=" * 60)
             print("CLAUDE: ANALYZE AND POPULATE")
@@ -178,6 +188,14 @@ INSTRUCTIONS:
    - CONNECTIONS: Links to other research, Pan Handler labs
    - EXPERIMENTS: Testable hypotheses, proposed experiments
    - REVIEW_NOTES: Quality assessment, key themes, routing suggestions
+   - chat.md: Questions to ask THIS project's NotebookLM
+   - report.md: Custom reports, infographics, slides to request
+
+4. CROSS-POLLINATION: If this material inspires questions or report ideas for OTHER
+   LLM Book projects, append to their chat.md/report.md files (create if missing).
+   Mark cross-pollinated items with "Cross-Pollinated from {batch_name}" section.
+
+{other_projects_context}
 
 SOURCE FILES:
 {chr(10).join(f'  - {f}' for f in source_files)}
