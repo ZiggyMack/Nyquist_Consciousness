@@ -408,7 +408,69 @@ This extends the Nyquist Identity research by:
 |-------|-----------|---------|-------------|
 | Phase 1 | 41 | 3 | Framework validated, √5 gap identified |
 | Phase 2 | 8 | 0 | **9/4 confirmed, √5 falsified** |
-| **Total** | **49** | **3** | **Classical polytope geometry** |
+| Phase 3 | 0 | 4 | **Theoretical tension documented** |
+| **Total** | **49** | **7** | **Classical polytope geometry (empirical) vs curved manifold (theoretical)** |
+
+---
+
+## Phase 3 Reports (2026-01-02)
+
+Four additional NotebookLM reports synthesized from the source materials.
+
+### Report 1: Technical Report — Deriving ρ from Transformer Constraints
+
+**Key contribution:** Attempts to derive the Plastic ratio ρ (root of x³ - x - 1 = 0) from Transformer architecture.
+
+- **Axiom 1:** N(ε,M) ≤ 7 (Miller's Law as covering number constraint)
+- **Conjecture:** 3-term recurrence from Transformer block structure
+  - Term 1: Identity path (residual connection)
+  - Term 2: Multi-Head Attention
+  - Term 3: Position-wise Feed-Forward Network
+- **Gap:** No formal proof linking update rules to x³ - x - 1 = 0
+
+### Report 2: The Geometry of Abstraction — Full Li 2025 Framework
+
+**Key contribution:** Definitive synthesis of recursive metric contraction theory.
+
+**Three Core Theorems:**
+1. **Bounded Capacity:** Recursive quotient maps embed arbitrarily long trajectories in bounded volume
+2. **Topological Collapse Separability:** Non-linearly separable data becomes linearly separable via quotienting (Urysohn's Lemma)
+3. **Parity-Partitioned Stability:** H_odd (Flow) ⊥ H_even (Scaffold) ensures interference-free learning
+
+**Key insight:** "Tokens are wormholes — metric singularities that act as geodesic shortcuts through temporal manifold"
+
+### Report 3: 9/4 vs √5 Comparative Analysis
+
+**🔴 CRITICAL TENSION:** This report recommends √5 despite worse empirical fit.
+
+| Bound | Value | Gap from 2.2476 | Report 3 Verdict |
+|-------|-------|-----------------|------------------|
+| 9/4 | 2.25 | 0.0024 (0.1%) | "Classical limit" |
+| √5 | 2.236 | 0.0115 (0.5%) | **RECOMMENDED** |
+
+**Report 3's reasoning:**
+- √5 implies **curved manifold** (recursive metric contraction, scalable)
+- 9/4 implies **flat polytope** (brittle, linear capacity growth)
+- Theoretical elegance trumps empirical proximity
+- Analogy: 9/4 is CHSH classical bound, √5 is Tsirelson-like quantum bound
+
+**Tension with Q&A:**
+- Q&A noted empirical value (2.2476) **exceeds** √5 → falsified as hard ceiling
+- Report 3 treats √5 as **theoretical aspiration**, not hard ceiling
+- **Resolution:** Both may be valid — 9/4 as observed ceiling, √5 as architectural ideal
+
+### Report 4: Orthogonality as Foundational Principle
+
+**Key contribution:** Physics grounding for orthogonality across architectures.
+
+**Orthogonality manifestations:**
+1. **Quantum mechanics:** Bell's P(a⃗,b⃗) = -a⃗·b⃗ — perpendicular detectors give uncorrelated outcomes
+2. **Word embeddings:** Semantic arithmetic works because independent concepts align with orthogonal axes
+3. **ResNets:** Identity skip connection creates orthogonal signal path (gradient norm preservation)
+4. **Transformers:** Multi-head attention operates in parallel orthogonal subspaces
+5. **Continual learning:** H_odd ⊥ H_even prevents catastrophic interference
+
+**Accidental but valuable:** Provides foundation for why parity decomposition works.
 
 ### Publication-Ready Findings
 
