@@ -22,6 +22,16 @@ Materials prepared FOR NotebookLM:
 - [x] `RESEARCH_QUESTION.md` - Methodology design questions
 - [x] `EXISTING_EVIDENCE.md` - Relevant findings from Nyquist Framework
 - [x] `CONSTRAINTS.md` - Sampling rate limitations, resources
+- [x] `SAMBA_ANALYSIS.md` - Analysis of SAMBA EEG foundation model paper (2026-01-03)
+- [x] `SAMBA - TOWARD A LONG-CONTEXT EEG...pdf` - Source paper
+
+### Key SAMBA Insights
+
+- **Mamba > Transformer** for long non-stationary sequences
+- **Spectral loss** during training encourages frequency-aware representations
+- **TSR masking** preserves semantic blocks (baseline/perturbation/recovery)
+- **Differential pathways** suppress noise, enhance signal
+- **Spatial weights** converge to task-relevant patterns (interpretable)
 
 ---
 
@@ -35,9 +45,10 @@ Responses received FROM NotebookLM:
 
 ## Progress Log
 
-| Date | Action | Notes |
-|------|--------|-------|
-| 2025-12-31 | Project created | Phase 2 research design |
+| Date       | Action               | Notes                                                                      |
+|------------|----------------------|----------------------------------------------------------------------------|
+| 2025-12-31 | Project created      | Phase 2 research design                                                    |
+| 2026-01-03 | SAMBA paper analyzed | Key EEG foundation model - Mamba architecture, spectral loss, TSR masking  |
 
 ---
 

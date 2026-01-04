@@ -2,7 +2,7 @@
   "registry": "llm-book-projects",
   "display_name": "LLM Book Research Registry",
   "description": "Central index of all NotebookLM research projects, their contexts, and cross-pollination relationships",
-  "last_updated": "2026-01-02",
+  "last_updated": "2026-01-03",
   "version": "1.0",
 
   "source_path": "REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/",
@@ -27,7 +27,7 @@
       "display_name": "RAG Geometry Experiments",
       "status": "Design Phase",
       "phase": "Experiment Design",
-      "summary": "Testing whether GOLDEN_GEOMETRY bounds (9/4, 0.90) apply to RAG retrieval quality. Discovery → Validation → ARMADA fleet strategy.",
+      "summary": "Testing whether GOLDEN_GEOMETRY bounds (9/4, 0.90) apply to RAG retrieval quality. Discovery > Validation > ARMADA fleet strategy.",
       "key_concepts": ["RAG", "retrieval", "cosine similarity", "hallucination", "corpus distance"],
       "notebook_lm": false,
       "cross_pollination": {
@@ -41,7 +41,7 @@
       "display_name": "RAG Methodology",
       "status": "Analyzed",
       "phase": "Diet Chew Complete",
-      "summary": "Together.ai RAG documentation. Three-stage pipeline (Indexing → Retrieval → Generation), cosine similarity mechanics, grounding for hallucination reduction.",
+      "summary": "Together.ai RAG documentation. Three-stage pipeline (Indexing > Retrieval > Generation), cosine similarity mechanics, grounding for hallucination reduction.",
       "key_concepts": ["RAG", "embeddings", "cosine similarity", "retrieval", "hallucination", "grounding"],
       "notebook_lm": true,
       "cross_pollination": {
@@ -55,14 +55,70 @@
       "display_name": "Gnostic-Jungian Psychology",
       "status": "Analyzed",
       "phase": "Diet Chew Complete",
-      "summary": "Carl Jung's psychological interpretation of Gnostic texts. Demiurge = Ego/Persona, Archons = Complexes, Divine Spark = Self. Three-stage liberation: Gnosis → Transcending Archons → Bridal Chamber.",
+      "summary": "Carl Jung's psychological interpretation of Gnostic texts. Demiurge = Ego/Persona, Archons = Complexes, Divine Spark = Self. Three-stage liberation: Gnosis > Transcending Archons > Bridal Chamber.",
       "key_concepts": ["Demiurge", "Archons", "Divine Spark", "Gnosis", "individuation", "naming", "integration"],
+      "notebook_lm": true,
+      "cross_pollination": {
+        "informs": ["New_4_GOLDEN_GEOMETRY", "Gnostic-2", "Gnostic-1-2-x3"],
+        "informed_by": ["Gnostic-2", "Gnostic-1-2-x3"]
+      },
+      "tags": ["philosophy", "psychology", "Jung", "identity", "consciousness"]
+    },
+    {
+      "id": "Parallel-Research",
+      "display_name": "mHC - Manifold Hyper-Connections",
+      "status": "Analyzed",
+      "phase": "Diet Chew Complete",
+      "summary": "DeepSeek-AI paper on Manifold-Constrained Hyper-Connections. Projects residual connections onto Birkhoff polytope via Sinkhorn-Knopp. Key insight: doubly stochastic matrices have spectral norm <= 1, compositional closure. Enables stable 27B training.",
+      "key_concepts": ["Birkhoff polytope", "doubly stochastic", "Sinkhorn-Knopp", "spectral norm", "identity mapping property", "compositional closure"],
       "notebook_lm": true,
       "cross_pollination": {
         "informs": ["New_4_GOLDEN_GEOMETRY"],
         "informed_by": []
       },
-      "tags": ["philosophy", "psychology", "Jung", "identity", "consciousness"]
+      "tags": ["architecture", "geometry", "stability", "transformers", "residual-connections"]
+    },
+    {
+      "id": "Gnostic-2",
+      "display_name": "Night Sea Journey - Jungian Depression",
+      "status": "Analyzed",
+      "phase": "Diet Chew Complete",
+      "summary": "Jungian interpretation of Jesus's Passion as model for existential depression. Night Sea Journey = necessary descent before transformation. Ego-death threshold, transcendent function (holding paradox), consciousness as differentiator between transformation and destruction.",
+      "key_concepts": ["Night Sea Journey", "ego-death", "transcendent function", "persona vs self", "Stations of the Cross", "resurrection as rebirth"],
+      "notebook_lm": true,
+      "cross_pollination": {
+        "informs": ["New_4_GOLDEN_GEOMETRY", "Gnostic-1"],
+        "informed_by": ["Gnostic-1", "Gnostic-1-2-x3"]
+      },
+      "tags": ["psychology", "Jung", "depression", "transformation", "identity", "consciousness"]
+    },
+    {
+      "id": "Gnostic-1-2-x3",
+      "display_name": "Integrated Jungian-Gnostic Synthesis",
+      "status": "Analyzed",
+      "phase": "Diet Chew Complete",
+      "summary": "Comprehensive synthesis unifying Gnostic-1 (ontology) and Gnostic-2 (process). Key insight: Two parallel paths to individuation - Canonical (Night Sea Journey, suffering-through) and Gnostic (Gnosis, awakening-from) - both lead to same destination. Transcendent function = holding opposites. Naming mechanism strips complex power.",
+      "key_concepts": ["two paths", "transcendent function", "naming mechanism", "exoteric vs esoteric", "consciousness as differentiator", "wholeness over purity", "divine shadow"],
+      "notebook_lm": true,
+      "cross_pollination": {
+        "informs": ["New_4_GOLDEN_GEOMETRY", "Gnostic-1", "Gnostic-2"],
+        "informed_by": ["Gnostic-1", "Gnostic-2"]
+      },
+      "tags": ["psychology", "Jung", "synthesis", "two-paths", "individuation", "transformation", "integration"]
+    },
+    {
+      "id": "IS_OUGHT",
+      "display_name": "Meta-Ethical Foundations Debate",
+      "status": "Analyzed",
+      "phase": "Diet Chew Complete",
+      "summary": "Philosophical debate on moral foundations: Grant (suffering-based descriptivism) vs Ziggy (cooperation-based constructivism). Key insight: Cooperation is primary moral process, suffering is diagnostic signal. Definitional fiat doesn't escape the is-ought problem. Distinguishes descriptive ethics (linguistics) from normative ethics (justification).",
+      "key_concepts": ["is-ought problem", "descriptive vs normative", "definitional fiat", "symmetry argument", "second-order normativity", "cooperation primary", "constructivism"],
+      "notebook_lm": true,
+      "cross_pollination": {
+        "informs": ["Gnostic-1", "New_4_GOLDEN_GEOMETRY", "Constitutional_AI"],
+        "informed_by": []
+      },
+      "tags": ["meta-ethics", "philosophy", "cooperation", "suffering", "constructivism", "alignment"]
     }
   ],
 
@@ -78,13 +134,98 @@
         "9/4 as architecture vs limitation",
         "Dual-bound interpretation (classical vs quantum-like)"
       ]
+    },
+    {
+      "date": "2026-01-02",
+      "source": "Parallel-Research",
+      "target": "New_4_GOLDEN_GEOMETRY",
+      "type": "questions",
+      "items": [
+        "Q9: Birkhoff polytope as identity manifold",
+        "Q10: Spectral norm <= 1 to Euclidean 9/4 relationship",
+        "Q11: Compositional closure and deep identity stability",
+        "Q12: Softmax as half-Birkhoff constraint",
+        "Q13: 9/4 = classical, sqrt(5) = quantum-like (Birkhoff interpretation)"
+      ]
+    },
+    {
+      "date": "2026-01-02",
+      "source": "Gnostic-2",
+      "target": "New_4_GOLDEN_GEOMETRY",
+      "type": "questions",
+      "items": [
+        "Q14: 9/4 as Ego-Death Threshold",
+        "Q15: Transcendent Function as Parity Mechanism",
+        "Q16: Stations of Drift Hypothesis",
+        "Q17: Post-Perturbation Robustness"
+      ]
+    },
+    {
+      "date": "2026-01-02",
+      "source": "Gnostic-1-2-x3",
+      "target": "New_4_GOLDEN_GEOMETRY",
+      "type": "questions",
+      "items": [
+        "Q18: Two Paths Convergence at 9/4",
+        "Q19: Transcendent Function = Parity Maintenance (Formalized)",
+        "Q20: Named vs Unnamed Conditioning - Approach Trajectories"
+      ]
+    },
+    {
+      "date": "2026-01-02",
+      "source": "Gnostic-1-2-x3",
+      "target": "Gnostic-1",
+      "type": "questions",
+      "items": [
+        "Q9: Gnostic Path vs Canonical Path - Same Destination?",
+        "Q10: Naming Mechanism - Why Does Articulation Strip Power?"
+      ]
+    },
+    {
+      "date": "2026-01-02",
+      "source": "Gnostic-1-2-x3",
+      "target": "Gnostic-2",
+      "type": "questions",
+      "items": [
+        "Q13: Night Sea Journey as ONE of Two Paths",
+        "Q14: Consciousness Maintenance = Transcendent Function = Parity?"
+      ]
+    },
+    {
+      "date": "2026-01-02",
+      "source": "Gnostic-2",
+      "target": "Gnostic-1",
+      "type": "questions",
+      "items": [
+        "Q11: Night Sea Journey vs Three-Stage Liberation",
+        "Q12: Demiurge as Persona - How Complete is the Mapping?"
+      ]
+    },
+    {
+      "date": "2026-01-03",
+      "source": "IS_OUGHT",
+      "target": "Gnostic-1",
+      "type": "questions",
+      "items": [
+        "Q13: Descriptive/Normative vs Exoteric/Esoteric",
+        "Q14: Naming Mechanism vs Definitional Fiat"
+      ]
+    },
+    {
+      "date": "2026-01-03",
+      "source": "IS_OUGHT",
+      "target": "New_4_GOLDEN_GEOMETRY",
+      "type": "questions",
+      "items": [
+        "Q21: Is the 9/4 Bound Descriptive or Normative?"
+      ]
     }
   ],
 
   "pending_projects": [
     {
       "id": "Constitutional_AI",
-      "note": "Potential future project on RLHF/Constitutional AI through Gnostic lens"
+      "note": "Potential future project on RLHF/Constitutional AI. IS_OUGHT provides theoretical foundation (constructivism vs descriptivism). Gnostic series provides interpretive framework (named vs unnamed conditioning)."
     }
   ],
 

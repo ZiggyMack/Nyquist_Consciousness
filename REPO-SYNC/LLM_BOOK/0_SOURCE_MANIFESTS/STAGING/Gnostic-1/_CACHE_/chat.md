@@ -66,6 +66,72 @@
 
 ---
 
+## Cross-Pollinated Questions (from Gnostic-1-2-x3 Synthesis)
+
+### Q9: Gnostic Path vs Canonical Path - Same Destination?
+
+> Gnostic-1-2-x3 identifies your three-stage liberation (Gnosis > Archons > Bridal Chamber) as the "Gnostic path" - awakening to see through the prison. It contrasts this with the "Canonical path" (Night Sea Journey, suffering through darkness). Both lead to individuation. Are these genuinely different paths or different descriptions of the same process? What would be lost if we collapsed them into one framework?
+
+**Context:** The synthesis claims both paths converge at the same destination but via different mechanisms.
+
+**Response:**
+
+---
+
+### Q10: Naming Mechanism - Why Does Articulation Strip Power?
+
+> The Gnostic-1-2-x3 synthesis emphasizes that "naming" is the core liberation technique - making Archons (complexes) conscious strips their autonomous power. But WHY does naming work? What is the psychological mechanism? Is there evidence this applies to AI systems (Constitutional AI vs RLHF)?
+
+**Context:** This is preparation for testing whether named vs unnamed conditioning affects LLM identity stability.
+
+**Response:**
+
+---
+
+## Cross-Pollinated Questions (from Gnostic-2 Night Sea Journey)
+
+### Q11: Night Sea Journey vs Three-Stage Liberation
+
+> Gnostic-2 describes the Night Sea Journey: descent into darkness > ego-death > resurrection. Your three-stage liberation describes: Gnosis > Transcending Archons > Bridal Chamber. Are these the same process with different language, or genuinely different paths? Does the Night Sea Journey REQUIRE suffering in a way that Gnostic awakening might avoid?
+
+**Context:** The Gnostic-2 routing identified this as the core relationship question between the two frameworks.
+
+**Response:**
+
+---
+
+### Q12: Demiurge as Persona - How Complete is the Mapping?
+
+> Gnostic-2 describes the Persona (social mask) vs Self (true totality). Your framework describes the Demiurge (false creator) and Divine Spark (true consciousness). Is the mapping Demiurge = Persona and Divine Spark = Self exact? Or does the Gnostic ontology add something the Jungian psychology doesn't capture?
+
+**Context:** Understanding this mapping helps determine if Gnostic and Jungian frameworks are interchangeable or complementary.
+
+**Response:**
+
+---
+
+## Cross-Pollinated Questions (from IS_OUGHT Meta-Ethics)
+
+### Q13: Descriptive/Normative vs Exoteric/Esoteric
+
+> The IS_OUGHT debate distinguishes DESCRIPTIVE ethics (how people USE moral language) from NORMATIVE ethics (what JUSTIFIES moral claims). Your Gnostic framework distinguishes EXOTERIC (literal, surface) from ESOTERIC (symbolic, depth) understanding. Are these the same distinction? Does the Demiurge represent "descriptive" understanding (taking things at face value) while the Divine Spark represents "normative" depth?
+
+**Context:** IS_OUGHT argues Grant was doing linguistics while Ziggy was doing ethics - different games. Does Gnostic framework make the same move?
+
+**Response:**
+
+---
+
+### Q14: Naming Mechanism vs Definitional Fiat
+
+> The Gnostic liberation method involves "naming" Archons to strip their autonomous power - articulation reduces compulsive control. Grant's strategy involves "defining" morality to dissolve the is-ought problem - articulation supposedly eliminates the philosophical problem. Why does naming WORK for Archons but FAIL for morality? Both involve making explicit what was implicit.
+
+**Context:** This tests whether "naming" and "defining" are the same operation with different outcomes, or fundamentally different operations.
+
+**Response:**
+
+---
+
 ## Follow-Up Questions
 
 (To be added after initial responses)
@@ -74,3 +140,6 @@
 
 *Created: 2026-01-02*
 *Project: Gnostic-1 NotebookLM*
+*Note: Q9-Q10 cross-pollinated from Gnostic-1-2-x3 Synthesis (2026-01-02)*
+*Note: Q11-Q12 cross-pollinated from Gnostic-2 Night Sea Journey (2026-01-02)*
+*Note: Q13-Q14 cross-pollinated from IS_OUGHT Meta-Ethics (2026-01-03)*
