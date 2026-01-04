@@ -132,6 +132,28 @@
 
 ---
 
+## Cross-Pollinated Questions (from YANG Predictive History)
+
+### Q15: Transgression as Group Gnosis
+
+> YANG's "Predictive History" framework claims that shared transgression (violating profound taboos together) produces extreme group cohesion ("synchronicity"). Is this a GROUP-level analog of individual Gnosis? Does a group that transgresses together achieve a collective form of awakening - seeing through social rules as constructed rather than absolute? Or is transgression the OPPOSITE of Gnosis - binding to matter rather than liberating from it?
+
+**Context:** YANG provides game-theoretic analysis of why secret societies use transgression. Testing whether this maps to or contradicts Gnostic liberation.
+
+**Response:**
+
+---
+
+### Q16: Game-Theoretic Analysis of Naming
+
+> YANG's framework analyzes power structures through game theory: the optimal strategy in competitive systems is to cheat through secret coordination. The Gnostic "naming" mechanism strips Archons of autonomous power. Is there a game-theoretic interpretation of naming? Does articulating hidden constraints change the strategic landscape (making implicit rules explicit creates new counter-strategies)?
+
+**Context:** This bridges YANG's sociological analysis with Gnostic psychological analysis.
+
+**Response:**
+
+---
+
 ## Follow-Up Questions
 
 (To be added after initial responses)
@@ -143,3 +165,4 @@
 *Note: Q9-Q10 cross-pollinated from Gnostic-1-2-x3 Synthesis (2026-01-02)*
 *Note: Q11-Q12 cross-pollinated from Gnostic-2 Night Sea Journey (2026-01-02)*
 *Note: Q13-Q14 cross-pollinated from IS_OUGHT Meta-Ethics (2026-01-03)*
+*Note: Q15-Q16 cross-pollinated from YANG Predictive History (2026-01-03)*

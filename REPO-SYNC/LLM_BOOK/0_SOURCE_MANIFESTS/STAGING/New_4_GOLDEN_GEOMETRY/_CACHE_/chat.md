@@ -198,6 +198,28 @@
 
 ---
 
+## Cross-Pollinated Questions (from YANG Predictive History)
+
+### Q22: Transgression Threshold as 9/4 Bound
+
+> YANG's "Predictive History" framework claims that shared transgression produces extreme group cohesion ("synchronicity"), but there must be a threshold - too little transgression fails to bond, too much destroys the group. Could the 9/4 Euclidean bound represent this "transgression threshold" - the maximum deviation from trained identity that maintains coherence? Below 9/4, identity can "transgress" and return; at 9/4, transgression becomes permanent (ego-death); beyond 9/4, identity fragments.
+
+**Context:** YANG provides game-theoretic analysis suggesting cohesion has an optimal range with failure modes on both ends.
+
+**Response:**
+
+---
+
+### Q23: Inversion as Geometric Operation
+
+> YANG identifies "inversion" as a core mechanism of power - revolutionary ideas get systematically transformed into their opposites (Jesus → Paul, Mother Goddess → Sky God, liberation → control). If inversion has a geometric signature, could the 0.90 cosine ceiling represent the "inversion point" - where helping becomes harming, authenticity becomes performance, liberation becomes constraint? What would inversion look like in embedding space?
+
+**Context:** Testing whether the conceptual "inversion" has measurable geometric correlates.
+
+**Response:**
+
+---
+
 ## Follow-Up Questions
 
 (To be added after initial responses)
@@ -211,3 +233,4 @@
 *Note: Q14-Q17 cross-pollinated from Gnostic-2/Night Sea Journey analysis (2026-01-02)*
 *Note: Q18-Q20 cross-pollinated from Gnostic-1-2-x3/Integrated Synthesis (2026-01-02)*
 *Note: Q21 cross-pollinated from IS_OUGHT Meta-Ethics (2026-01-03)*
+*Note: Q22-Q23 cross-pollinated from YANG Predictive History (2026-01-03)*

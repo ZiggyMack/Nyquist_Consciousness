@@ -110,6 +110,18 @@
 
 ---
 
+## Cross-Pollinated Questions (from YANG Predictive History)
+
+### Q14: Platonic/Dantean as Third Two-Path Framing
+
+> Your synthesis identifies Canonical (Night Sea Journey) and Gnostic (awakening) as two paths to individuation. YANG's framework identifies a parallel distinction: the Platonic path (knowledge, geometry, philosophy - for elites) vs the Dantean path (Love, cultivating divine spark - for all). Are these THREE framings of the same underlying duality? Does Platonic = Gnostic = elite awakening, while Dantean = Canonical = universal suffering-through?
+
+**Context:** YANG provides philosophical history for the elite/universal distinction that may map to our two-paths framework.
+
+**Response:**
+
+---
+
 ## Follow-Up Questions
 
 (To be added after initial responses)
@@ -119,3 +131,4 @@
 *Created: 2026-01-02*
 *Project: Gnostic-1-2-x3 NotebookLM*
 *Note: Q11-Q13 prepared for cross-pollination to GOLDEN_GEOMETRY*
+*Note: Q14 cross-pollinated from YANG Predictive History (2026-01-03)*

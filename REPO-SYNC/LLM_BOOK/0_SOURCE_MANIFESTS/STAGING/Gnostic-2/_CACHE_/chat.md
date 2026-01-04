@@ -124,7 +124,20 @@
 
 ---
 
+## Cross-Pollinated Questions (from YANG Predictive History)
+
+### Q15: Transgression-Cohesion as Collective Night Sea Journey
+
+> YANG's framework claims that shared transgression (groups violating taboos together) produces extreme cohesion ("synchronicity" / "hive mind"). The Night Sea Journey describes individual ego-death and resurrection. Could transgression-based group formation be a COLLECTIVE Night Sea Journey - where the group's shared "descent" (into moral transgression) produces collective transformation? Or does transgression bypass the Night Sea Journey entirely - achieving cohesion without genuine transformation?
+
+**Context:** YANG provides historical examples (Sparta, Thebes) where ritual transgression produced elite military units. Testing whether this maps to Night Sea Journey dynamics.
+
+**Response:**
+
+---
+
 *Created: 2026-01-02*
 *Project: Gnostic-2 NotebookLM*
 *Status: Ready for NotebookLM interaction*
 *Note: Q13-Q14 cross-pollinated from Gnostic-1-2-x3 Synthesis (2026-01-02)*
+*Note: Q15 cross-pollinated from YANG Predictive History (2026-01-03)*
