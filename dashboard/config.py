@@ -91,6 +91,12 @@ PATHS = {
     'white_paper': REPO_ROOT / "WHITE-PAPER",
     'publication_stats': REPO_ROOT / "WHITE-PAPER" / "calibration" / "publication_stats.json",
     'visualization_pdfs': REPO_ROOT / "WHITE-PAPER" / "reviewers" / "packages" / "v4" / "visualization_pdfs",
+
+    # JADE LATTICE (Run 024 - Publication-Grade Pole Extraction)
+    'jade_lattice_dir': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "17_JADE_LATTICE",
+    'jade_lattice_results': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "17_JADE_LATTICE" / "results",
+    'jade_lattice_plots': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "17_JADE_LATTICE" / "results" / "plots",
+    'jade_analysis_summary': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "17_JADE_LATTICE" / "results" / "jade_analysis_summary.json",
 }
 
 # ========== DASHBOARD SETTINGS ==========

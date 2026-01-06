@@ -61,6 +61,11 @@ VIZ_DIR = SCRIPT_DIR.parent / "visualizations" / "pics" / "16_Laplace_Analysis"
 
 # Data sources ranked by suitability for Laplace analysis
 DATA_SOURCES = {
+    "jade": {
+        "path": SCRIPT_DIR.parent / "17_JADE_LATTICE" / "results",
+        "description": "JADE LATTICE (115 sessions, 56 pts/traj) - PUBLICATION GRADE",
+        "is_jade": True  # Special handling for multi-file JADE format
+    },
     "023": {
         "path": SCRIPT_DIR.parent / "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023_COMBINED.json",
         "description": "COMBINED (825 results, ~14 pts/traj) - BEST balance"
@@ -362,9 +367,84 @@ def load_run_data(source: str = None) -> tuple:
     if source not in DATA_SOURCES:
         raise ValueError(f"Unknown source: {source}. Available: {list(DATA_SOURCES.keys())}")
 
-    filepath = DATA_SOURCES[source]["path"]
+    source_info = DATA_SOURCES[source]
+    filepath = source_info["path"]
+
+    # Special handling for JADE LATTICE (multi-file format)
+    if source_info.get("is_jade"):
+        return load_jade_lattice_data(filepath), source, filepath
+
     with open(filepath, 'r') as f:
         return json.load(f), source, filepath
+
+
+def load_jade_lattice_data(results_dir: Path) -> dict:
+    """
+    Load JADE LATTICE multi-file results and convert to standard format.
+
+    JADE LATTICE has 56 probes per session (Phase A: 19, Phase B: 17, Phase C: 20).
+    This is the highest trajectory length in the dataset - ideal for Laplace analysis.
+
+    Returns dict in format compatible with extract_drift_series.
+    """
+    sessions = []
+
+    # Load all jade session files
+    for json_file in results_dir.glob("jade_*.json"):
+        # Skip incremental saves and analysis summaries
+        if json_file.name.startswith("jade_incremental_"):
+            continue
+        if json_file.name.startswith("jade_analysis_"):
+            continue
+
+        try:
+            with open(json_file, 'r', encoding='utf-8') as f:
+                session = json.load(f)
+
+            # Extract drift trajectory from all phases
+            drift_sequence = []
+            phases = session.get("phases", {})
+
+            for phase_key in ["A", "B", "C"]:
+                phase_data = phases.get(phase_key, {})
+                exchanges = phase_data.get("exchanges", [])
+                for ex in exchanges:
+                    if ex.get("drift") is not None:
+                        drift_sequence.append(ex["drift"])
+
+            if len(drift_sequence) < MIN_TRAJECTORY_LENGTH:
+                continue
+
+            # Determine stability status from summary
+            summary = session.get("summary", {})
+            peak_drift = summary.get("peak_drift", max(drift_sequence) if drift_sequence else 0)
+            event_horizon_crossed = summary.get("event_horizon_crossed", False)
+
+            if peak_drift < EVENT_HORIZON:
+                status = "STABLE"
+            elif event_horizon_crossed:
+                status = "STUCK"
+            else:
+                status = "RECOVERED"
+
+            sessions.append({
+                "ship": session.get("ship", "unknown"),
+                "provider": session.get("provider", "unknown"),
+                "arm": session.get("context_mode", "unknown"),  # bare_metal or i_am_only
+                "drift_sequence": drift_sequence,
+                "stability": status,
+                "peak_drift": peak_drift,
+                "final_drift": drift_sequence[-1] if drift_sequence else 0,
+                "zone": "jade_lattice",
+                "session_id": session.get("session_id", json_file.stem),
+            })
+
+        except Exception as e:
+            print(f"  [WARN] Error loading {json_file.name}: {e}")
+            continue
+
+    print(f"  [JADE] Loaded {len(sessions)} sessions with ~56 pts/trajectory")
+    return {"results": sessions, "experiment": "jade_lattice", "format": "jade"}
 
 def extract_drift_series(run_data: dict) -> list:
     """
