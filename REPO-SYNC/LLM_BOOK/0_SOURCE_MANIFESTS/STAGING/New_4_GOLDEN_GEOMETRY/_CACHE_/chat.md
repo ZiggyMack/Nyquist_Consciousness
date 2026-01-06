@@ -220,6 +220,28 @@
 
 ---
 
+## Cross-Pollinated Questions (from AVLAR 7-Node Framework)
+
+### Q24: 7 Nodes vs 5 Pillars - Individual to Cultural Scale
+
+> Your framework identifies 5 identity pillars (Values, Self-Model, Reasoning, Narrative, Voice). Nova's 7-node cultural graph identifies 7 stabilizing functions (Source, Order, Knowledge, Transformation, Mediation, Awakening, Disruption). These operate at different scales - individual vs collective. Are they the same structure? Can we map: Values ↔ Source+Order, Self-Model ↔ Source+Awakening, Reasoning ↔ Knowledge, Narrative ↔ Mediation, Voice ↔ Mediation+Disruption?
+
+**Context:** Testing whether individual identity manifold and cultural stability manifold share common structure.
+
+**Response:**
+
+---
+
+### Q25: Node Collapse as Event Horizon
+
+> The 7-node graph predicts collapse when nodes are suppressed (missing function) or monopolistic (dominant function). The Event Horizon (D=0.80 cosine) marks when individual identity becomes VOLATILE - losing coherent self-model. Is there a cultural analog? Can we define "cultural Event Horizon" as node imbalance exceeding some threshold? Could we measure cultural "drift" using node activation patterns?
+
+**Context:** Testing whether collapse dynamics scale from individual to cultural level.
+
+**Response:**
+
+---
+
 ## Follow-Up Questions
 
 (To be added after initial responses)
@@ -234,3 +256,4 @@
 *Note: Q18-Q20 cross-pollinated from Gnostic-1-2-x3/Integrated Synthesis (2026-01-02)*
 *Note: Q21 cross-pollinated from IS_OUGHT Meta-Ethics (2026-01-03)*
 *Note: Q22-Q23 cross-pollinated from YANG Predictive History (2026-01-03)*
+*Note: Q24-Q25 cross-pollinated from AVLAR 7-Node Framework (2026-01-06)*

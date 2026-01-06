@@ -122,6 +122,28 @@
 
 ---
 
+## Cross-Pollinated Questions (from AVLAR 7-Node Framework)
+
+### Q15: Transgression as Disruption Node
+
+> Nova's 7-node cultural graph identifies Disruption (N7) as a necessary function for exposing false coherence - without it, systems become brittle. Your transgression-cohesion theory claims shared taboo violation creates unbreakable group bonds. Is transgression a *forced activation* of N7? Does it work because it proves the group can survive Disruption together? Is the cohesion a side-effect of surviving shared N7 stress-testing?
+
+**Context:** The 7-node framework treats Disruption as structural necessity, not pathology. Testing whether transgression-cohesion maps to N7 activation.
+
+**Response:**
+
+---
+
+### Q16: Power Structures as Node Monopolies
+
+> Nova's graph predicts specific failure modes: Order (N2) dominating → Authoritarianism, Source (N1) dominating → Theocracy, Knowledge (N3) dominating → Technocracy. Your analysis identifies how power structures maintain control through narrative control and inversion. In 7-node terms: do successful power structures monopolize Order (N2), Mediation (N5), and Source (N1) while suppressing Awakening (N6) and channeling Disruption (N7)? Is this the structural signature of oppression?
+
+**Context:** Testing whether your historical power analysis maps to node dynamics.
+
+**Response:**
+
+---
+
 ## Follow-Up Questions
 
 (To be added after initial responses)
@@ -133,3 +155,4 @@
 *Note: Q9-Q10 cross-pollinated from Gnostic series*
 *Note: Q11-Q12 cross-pollinated from GOLDEN_GEOMETRY*
 *Note: Q13-Q14 cross-pollinated from IS_OUGHT*
+*Note: Q15-Q16 cross-pollinated from AVLAR 7-Node Framework (2026-01-06)*

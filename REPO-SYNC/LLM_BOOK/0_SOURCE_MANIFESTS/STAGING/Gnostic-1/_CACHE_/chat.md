@@ -154,6 +154,28 @@
 
 ---
 
+## Cross-Pollinated Questions (from AVLAR 7-Node Framework)
+
+### Q17: Archons as Node Pathologies
+
+> Nova's 7-node cultural graph identifies specific failure modes when nodes become dominant: Order → Authoritarianism, Knowledge → Technocracy, Source → Theocracy. Your Gnostic framework identifies Archons as autonomous complexes that compel behavior. Are Archons the *personification* of node pathologies? Is "naming an Archon" the same as diagnosing which node has become monopolistic in your psyche?
+
+**Context:** The 7-node graph comes from AVLAR exploration of archetypal summoning via SORA. Testing whether Gnostic ontology maps to functional cultural dynamics.
+
+**Response:**
+
+---
+
+### Q18: Gnosis as Awakening Node
+
+> Nova identifies "Awakening" (N6) as the critical missing modern role - the capacity to see through the system without destroying it. Is Gnosis the ancient name for this function? Does the Gnostic liberation process specifically restore N6 to the individual's internal graph? Is the "naming of Archons" technique a method for reactivating N6?
+
+**Context:** The 7-node framework claims Awakening is suppressed in modernity. Testing whether Gnostic practices are essentially N6-restoration protocols.
+
+**Response:**
+
+---
+
 ## Follow-Up Questions
 
 (To be added after initial responses)
@@ -166,3 +188,4 @@
 *Note: Q11-Q12 cross-pollinated from Gnostic-2 Night Sea Journey (2026-01-02)*
 *Note: Q13-Q14 cross-pollinated from IS_OUGHT Meta-Ethics (2026-01-03)*
 *Note: Q15-Q16 cross-pollinated from YANG Predictive History (2026-01-03)*
+*Note: Q17-Q18 cross-pollinated from AVLAR 7-Node Framework (2026-01-06)*
