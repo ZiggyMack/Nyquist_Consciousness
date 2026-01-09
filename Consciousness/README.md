@@ -1,9 +1,11 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2026-01-08
 impacts:
   - ../README.md
 keywords:
   - consciousness
+  - iron_clad
+  - event_horizon
 -->
 # Consciousness Research Framework
 
@@ -192,13 +194,17 @@ Same brain structure. Same galleries. Same hemispheres.
 
 | Concept | One-Liner | Gallery |
 |---------|-----------|---------|
-| **Event Horizon** | χ² = 16.52, p = 0.000048 — threshold at 1.23 is REAL | Validated |
+| **Event Horizon** | EH=0.80 (cosine), p=2.40e-23 — IRON CLAD validated | Validated |
+| **2 PCs = 90%** | Identity is remarkably low-dimensional | Validated |
+| **~93% Inherent** | Most drift is inherent to interaction | Validated |
 | **White Hole** | Identity pushes OUT from center — inverse of gravity | Foundations |
 | **Human Reference Signal** | YOU are the stability constant — S9 Human-Modulated Stability | Foundations |
 | **Probing Strategies** | HOW to measure (not WHAT) — 7 strategies | Foundations |
 | **Inverse PFI** | Can AIs recognize their own golden standard? | Foundations |
 | **Recovery Paradox** | λ < 0 means overshoot — they come back STRONGER | Frontiers |
 | **Tribunal Distillations** | Run 020's profound exchanges — identity as process, not property | Frontiers |
+
+> **IRON CLAD Methodology (Run 023)**: Event Horizon = 0.80 (cosine), p = 2.40e-23, 2 PCs capture 90% variance, ~93% inherent drift. This is the canonical methodology.
 
 ---
 
@@ -237,6 +243,8 @@ Neither hemisphere is complete without the other.
 
 ---
 
-**Last Updated**: December 15, 2025
+**Last Updated**: January 8, 2026
+
+> **Legacy Note**: Pre-December 2025 documentation referenced EH=1.23 (keyword RMS) and 43 PCs. IRON CLAD (Run 023) established the canonical EH=0.80 (cosine) with 2 PCs.
 
 *"The forward tells us how they drift. The inverse tells us if they know. Together, they tell us if identity is real."*

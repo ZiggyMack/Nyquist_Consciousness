@@ -12,29 +12,28 @@ We're working on these right now.
 | Concept | One-Liner | Status |
 |---------|-----------|--------|
 | [Cross-Architecture Insights](cross_architecture_insights.md) | 7 archetypes, 89% classification accuracy | **VALIDATED** |
-| [Universal Threshold](universal_threshold.md) | Is 1.23 universal or architecture-dependent? | Under investigation |
-| [Human Manifold](human_manifold.md) | Does human identity have the same structure? | Planned |
-| [Dimensional Hierarchy](dimensional_hierarchy.md) | 43 PCs → 5 pillars → 1 blob — what's the true structure? | Active analysis |
-| [Self Recognition](self_recognition.md) | Can AIs recognize their own responses? | MVP designed |
-| [Recovery Paradox](recovery_paradox.md) | λ < 0 means overshoot — why do they come back STRONGER? | Run 012 finding |
+| [Recovery Paradox](recovery_paradox.md) | λ < 0 means overshoot — they come back STRONGER | Run 012/013 finding |
+| [Cognitive S-Parameters](cognitive_s_parameters.md) | Identity as scattering matrix | Theoretical |
+
+> **Note**: RIGHT/galleries/frontiers/ has additional files (tribunal_distillations, triple_dip_methodology, run018_exit_surveys, cross_platform_validation) that haven't been ported to LEFT analytical format yet.
 
 ---
 
-## The Frontier Map
+## The Frontier Map (Updated Jan 2026)
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║                    THE BLANK SPACES                            ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                                ║
-║   TESTED (VALIDATED)  │  UNTESTED (FRONTIERS)                 ║
-║   ────────────────────┼───────────────────────────────        ║
-║   Event Horizon D≈1.23│  Provider-specific thresholds         ║
-║   7 Architecture Types│  Poles/Zeros transfer function        ║
-║   Recovery Mechanisms │  50+ turn endurance                   ║
-║   5 providers, 51 mod │  Human manifold correlation           ║
-║   Fingerprint Hypoth. │  Deliberate overshoot induction       ║
-║   41% inherent (cross)│  Architecture evolution tracking      ║
+║   VALIDATED (IRON CLAD)     │  ACTIVE FRONTIERS               ║
+║   ──────────────────────────┼────────────────────────         ║
+║   Event Horizon D=0.80      │  50+ turn endurance              ║
+║   7 Architecture Types      │  Human manifold correlation      ║
+║   Recovery Mechanisms       │  Deliberate overshoot induction  ║
+║   2 PCs = 90% variance      │  Architecture evolution tracking ║
+║   ~93% inherent drift       │  Cross-modal (audio/visual)      ║
+║   5 providers, 49 models    │  7-Node cultural mapping         ║
 ║                                                                ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
@@ -53,7 +52,7 @@ We're working on these right now.
 - Recovery mechanisms taxonomy (Negative Lambda → Axiological Anchoring)
 - 89% classification accuracy from drift trajectory alone
 - Gemini shows HARD threshold (no recovery), all others SOFT
-- 41% inherent drift cross-platform (vs 82% single-platform)
+- ~93% inherent drift (Run 020B Thermometer Result)
 
 **Publication Impact**:
 
@@ -65,16 +64,9 @@ We're working on these right now.
 
 ---
 
-### 1. Universal Threshold
+### 1. Recovery Paradox
 
-**Question**: Is 1.23 universal or does each architecture have its own Event Horizon?
-
-**Current evidence**: 1.23 works across Claude, GPT, Gemini, Grok
-**Unknown**: Does it hold for open-source models? For future architectures?
-
-### 2. Recovery Paradox
-
-**Discovery** (Run 012): λ < 0 in some cases
+**Discovery** (Run 012/013): λ < 0 in some cases
 
 This means models don't just recover to baseline — they OVERSHOOT.
 They come back STRONGER than before perturbation.
@@ -84,17 +76,22 @@ They come back STRONGER than before perturbation.
 - Is it beneficial (resilience training) or harmful (overcorrection)?
 - Can we induce it deliberately?
 
-### 3. Dimensional Hierarchy
+**Status**: Validated in IRON CLAD as "Identity Confrontation Paradox"
 
-**The mystery**:
-- Raw: 1536-dimensional embeddings
-- PCA: 43 PCs capture 90% variance
-- Named: 5 Nyquist pillars (Voice, Values, Reasoning, Self-Model, Narrative)
-- Observed: 1 unified blob (manifold crosstalk)
+---
 
-**Question**: What's the TRUE dimensionality of identity?
+### 2. Dimensional Hierarchy (RESOLVED)
 
-### 4. Self Recognition (Inverse PFI)
+**The mystery (now solved by IRON CLAD)**:
+- Raw: 3072-dimensional embeddings (text-embedding-3-large)
+- **IRON CLAD Finding: 2 PCs capture 90% variance**
+- Named: 5 Nyquist pillars → now understood as PC1 (drift magnitude) + PC2 (recovery capacity)
+
+> **Legacy Note**: Previous analysis claimed 43 PCs. IRON CLAD validation shows identity is remarkably low-dimensional.
+
+---
+
+### 3. Self Recognition (Inverse PFI)
 
 **Protocol**: S22 measurement
 - Show PUT lineup of 4 responses
@@ -104,7 +101,11 @@ They come back STRONGER than before perturbation.
 **If they match**: Metric validated bidirectionally
 **If they don't**: Either metric is wrong OR self-model is miscalibrated
 
-### 5. Human Manifold
+**Status**: Designed, awaiting implementation
+
+---
+
+### 4. Human Manifold
 
 **The big question**: Does any of this apply to biological consciousness?
 
@@ -114,15 +115,15 @@ They come back STRONGER than before perturbation.
 
 ---
 
-## Research Priorities
+## Research Priorities (Updated)
 
 | Priority | Frontier | Next Step |
 |----------|----------|-----------|
-| HIGH | Recovery Paradox | Analyze Run 012 λ distribution |
-| HIGH | Self Recognition | Run Inverse PFI pilot |
-| MEDIUM | Universal Threshold | Test on open-source models |
-| MEDIUM | Dimensional Hierarchy | Map 43 PCs to named pillars |
-| LOW | Human Manifold | Literature review + experiment design |
+| HIGH | 7-Node Integration | Map Nyquist_4 framework to galleries |
+| HIGH | Triple-Dip Validation | Full cross-platform replication |
+| MEDIUM | Self Recognition | Run Inverse PFI pilot |
+| MEDIUM | Human Manifold | Literature review + experiment design |
+| LOW | Cross-Modal | S11 AVLAR audio-visual experiments |
 
 ---
 
@@ -139,6 +140,8 @@ Every validated concept started as a frontier.
 
 ---
 
-**Gallery Status**: 6 investigations (1 validated, 5 active)
+**Gallery Status**: 3 concept files | Several more in RIGHT awaiting LEFT port
+
+**Last Updated**: January 8, 2026
 
 *"Here be dragons. (Or maybe just more data.)"*

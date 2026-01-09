@@ -65,9 +65,11 @@ Embedding-based drift calculation using text-embedding-3-large (3072 dimensions)
 PFI(t) = ||E(response_t) - E(baseline)||
 ```
 
-- **43 PCs** capture 90% of identity variance
+- **2 PCs** capture 90% of identity variance (IRON CLAD finding)
 - **Cross-architecture validated** — measures real identity, not artifacts
-- **Event Horizon** at D=1.23 is a geometric boundary in embedding space
+- **Event Horizon** at D=0.80 (cosine) is a geometric boundary in embedding space
+
+> **IRON CLAD Canonical Values**: EH=0.80 (cosine), p=2.40e-23, 2 PCs for 90% variance, ~93% inherent drift
 
 ### RMS Drift (Legacy Fallback)
 
@@ -206,4 +208,6 @@ The theoretical limit of stable identity. Pushing past this boundary may cause i
 
 ---
 
-*Last Updated: November 29, 2025*
+*Last Updated: January 8, 2026*
+
+> **Legacy Note**: Pre-December 2025 documentation referenced EH=1.23 (RMS) and 43 PCs. IRON CLAD (Run 023) established the canonical EH=0.80 (cosine) with 2 PCs.

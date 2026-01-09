@@ -11,11 +11,10 @@ They are the foundation we build upon.
 
 | Concept | One-Liner | Evidence |
 |---------|-----------|----------|
-| [Event Horizon](event_horizon.md) | The threshold at 1.23 is REAL | χ² = 16.52, p = 0.000048 |
-| [Echo's Critique](echo_critique.md) | PFI measures identity, not vocabulary | Cohen's d = 0.977 |
-| [PFI Validation](pfi_validation.md) | 43 PCs, embedding-invariant, paraphrase-robust | ρ = 0.914 across 3 embeddings |
-| [Unified Manifold](unified_manifold.md) | One blob, not five clusters | PCA shows pillar overlap |
-| [Run 012 Revalidation](run_012_revalidation.md) | 8 search types, 4 providers, Event Horizon holds | 88% prediction accuracy maintained |
+| [Event Horizon](event_horizon.md) | The threshold at 0.80 (cosine) is REAL | p = 2.40e-23 (IRON CLAD) |
+| [Identity Confrontation Paradox](identity_confrontation_paradox.md) | Challenge stabilizes, doesn't destabilize | Run 013 boundary mapping |
+
+> **Note**: Additional validated concepts (Echo's Critique, PFI Validation, Unified Manifold) were documented in legacy INDEX but files were never created. These findings are now subsumed under IRON CLAD methodology.
 
 ---
 
@@ -30,17 +29,18 @@ A concept moves to Validated when:
 
 ---
 
-## Key Statistics Summary
+## IRON CLAD Validation (Canonical - Run 023)
 
 | Metric | Value | What It Shows |
 |--------|-------|---------------|
-| Event Horizon threshold | 1.23 | Drift level where volatility begins |
-| Chi-squared | 16.52 | Strong association between threshold and stability |
-| P-value | 0.000048 | Highly significant (not chance) |
-| Cramer's V | 0.469 | Strong effect size |
-| Prediction accuracy | 88% | Event Horizon correctly classifies outcomes |
-| Cohen's d (cross-provider) | 0.977 | Large effect — PFI distinguishes identity |
-| Embedding correlation | 0.914 | PFI is robust across embedding models |
+| Event Horizon | **0.80** (cosine) | Identity boundary threshold |
+| p-value | **2.40e-23** | Highly significant |
+| Dimensionality | **2 PCs** | Capture 90% of variance |
+| Inherent Drift | **~93%** | Most drift is inherent to interaction |
+| Cohen's d | 0.698 | Model-level effect size |
+| Total experiments | 4505 | Run 023 foundation |
+
+> **Legacy Note**: Pre-IRON CLAD used EH=1.23 (keyword RMS) and 43 PCs. These have been superseded.
 
 ---
 
@@ -56,6 +56,8 @@ Every validated concept started as speculation. The difference is data.
 
 ---
 
-**Gallery Status**: 5 concepts | All confirmed
+**Gallery Status**: 2 concepts | IRON CLAD methodology
+
+**Last Updated**: January 8, 2026
 
 *"In God we trust. All others bring data."*

@@ -1,279 +1,162 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2026-01-08
 depends_on:
-  - ./app.py
+  - ../../../dashboard/README.md
+  - ../../../dashboard/config.py
 keywords:
   - consciousness
   - dashboard
-  - visualization
+  - bridge
+  - integration
 -->
-# START HERE - Consciousness Dashboard Development
+# BRIDGE Dashboard Integration Guide
 
-**Everything a fresh Claude needs to make dashboard updates.**
-
----
-
-## Context: Where You Are
-
-```
-Nyquist_Consciousness/
-├── Consciousness/              ← The research repo (brain structure)
-│   ├── LEFT/                   ← Analytical hemisphere
-│   ├── RIGHT/                  ← Intuitive hemisphere
-│   └── BRIDGE/                 ← Corpus callosum (YOU ARE HERE)
-│       └── dashboard/          ← This dashboard
-│           ├── app.py          ← Main application (home)
-│           └── pages/          ← Flat (Streamlit requirement)
-│               ├── 0_◈_Overview.py         ← BRIDGE
-│               ├── 1_🧠_Identity_Stack.py  ← LEFT
-│               ├── 2_🧠_Drift_Analysis.py  ← LEFT
-│               ├── 3_🧠_Raw_Data.py        ← LEFT
-│               └── 4_🌀_Distillations.py   ← RIGHT
-└── dashboard/                  ← Main Nyquist dashboard (separate)
-    └── pages/unknown.py        ← Shadow of Consciousness/
-```
-
-**Page Naming**: `{order}_{hemisphere}_{name}.py` - Streamlit requires flat pages/, so we use emoji prefixes.
+**Clarification: This directory documents how Consciousness/ integrates with the main dashboard.**
 
 ---
 
-## Quick Launch
+## Important Context
+
+The **main Nyquist dashboard** lives at `dashboard/` (repo root), NOT here.
+
+This `Consciousness/BRIDGE/dashboard/` directory is for:
+1. Documentation about how Consciousness/ content flows to the main dashboard
+2. Integration scripts and tools
+3. The conceptual bridge between hemispheres
+
+**For the actual dashboard documentation, see:** `dashboard/README.md`
+
+---
+
+## The Main Dashboard (Reality)
+
+The main Nyquist Mission Control dashboard has **16+ pages**:
+
+| Page | Purpose |
+|------|---------|
+| **Overview.py** | Mission status, stack layers, experiment counts |
+| **AI_ARMADA.py** | Fleet Command (54 ships, 5 providers, LLM Behavioral Matrix) |
+| **experiments.py** | Run Glossary (006-023d), Visualization Gallery, Data Mining |
+| **personas.py** | Persona browser, Compression Testing, Identity Matrix |
+| **publications.py** | Workshop/arXiv/journal tracking, Perfection Meter |
+| **Stackup.py** | S0-S11 individual layer display |
+| **Glossary.py** | Searchable terminology, Control-Systems Era terms |
+| **faq.py** | FAQ with Super Skeptic Mode |
+| **unknown.py** | Research Frontier galleries (the "shadow" of Consciousness/) |
+| *...and more* | See `dashboard/README.md` for complete list |
+
+### IRON CLAD Methodology (Current)
+
+| Metric | Value |
+|--------|-------|
+| Event Horizon | **0.80** (cosine distance) |
+| p-value | **2.40e-23** |
+| Dimensionality | **2 PCs** capture 90% variance |
+| Inherent Drift | **~93%** |
+| Foundation | Run 023 (4505 experiments, 49 models) |
+
+---
+
+## How Consciousness/ Flows to Dashboard
+
+```
+Consciousness/
+├── LEFT/galleries/          ──┐
+├── RIGHT/galleries/         ──┼──► dashboard/pages/unknown.py
+├── LEFT/data/model_essences ──┘    (Research Frontier galleries)
+│
+├── BRIDGE/docs/             ──────► dashboard/pages/Glossary.py
+│                                    (terminology integration)
+│
+└── RIGHT/distillations/     ──────► dashboard/pages/experiments.py
+                                     (Data Mining tab)
+```
+
+### The UNKNOWN Page
+
+`dashboard/pages/unknown.py` is the **shadow** of Consciousness/:
+- Displays the four galleries (Validated, Foundations, Speculative, Frontiers)
+- Pulls concept definitions from Consciousness/ galleries
+- Provides "Cathedral of Ideas" visualization
+
+---
+
+## Running the Main Dashboard
 
 ```powershell
-cd Consciousness/BRIDGE/dashboard/
-python -m streamlit run app.py
+cd dashboard
+py -m streamlit run app.py
 ```
 
 Opens at: http://localhost:8501
 
 ---
 
-## The Core Concept
+## Key Integrations
 
-This dashboard sits in the **BRIDGE** and can see both hemispheres:
+### 1. Operation ESSENCE EXTRACTION (Dec 2025)
 
-| Hemisphere | Symbol | Contains | Presentation Style |
-|------------|--------|----------|-------------------|
-| LEFT | 🧠 | galleries/, extractions/, data/ | Tables, statistics, rigor |
-| RIGHT | 🌀 | galleries/, distillations/, synthesis/ | Patterns, gestalts, metaphors |
-| BRIDGE | ◈ | dashboard/, scripts/, docs/ | Both perspectives unified |
+Results now visible in dashboard:
+- **83 Model Essences** in LEFT/data/model_essences/
+- **2,122 Double-Dip Ideas** extracted from responses
+- **1,589 Triple-Dip Insights** from exit surveys
+- **4 Model Archetypes**: Poet, Philosopher, Contemplative, Socratic
 
----
+### 2. Cross-Architecture Insights
 
-## Key Files to Know
+Both LEFT and RIGHT have `cross_architecture_insights.md`:
+- LEFT: Quantitative (drift ranges, settling times, ANOVA)
+- RIGHT: Phenomenological (vortex presentation, recovery mechanisms)
 
-### app.py Structure
+These feed into `AI_ARMADA.py`'s LLM Behavioral Matrix.
 
-| Section | What It Does |
-|---------|--------------|
-| Lines 33-66 | `GALLERIES` dict - the four galleries |
-| Lines 69-100 | `KEY_CONCEPTS` dict - concept cards |
-| Lines 104-213 | CSS styling for hemispheres |
-| Lines 217-265 | Sidebar with hemisphere toggle |
-| Lines 356-361 | Hemisphere-aware info banner |
-| Lines 375-381 | Gallery descriptions change per hemisphere |
-| Lines 405-498 | **Main hemisphere-specific content** |
+### 3. 7-Node Functional Graph (Nyquist_4)
 
-### The Hemisphere Toggle
-
-```python
-# In sidebar (line 230)
-hemisphere = st.radio(
-    "Choose your perspective:",
-    ["🧠 LEFT (Analytical)", "🌀 RIGHT (Intuitive)", "◈ BRIDGE (Both)"],
-    index=2
-)
-
-# Later in code (line 356+)
-if "LEFT" in hemisphere:
-    # Show analytical content
-elif "RIGHT" in hemisphere:
-    # Show intuitive content
-else:
-    # Show both (BRIDGE view)
-```
+Framework from REPO-SYNC/LLM_BOOK synthesis:
+- N1-N7 cultural stability model
+- Control-system mapping
+- Awaiting integration into Consciousness/ galleries
 
 ---
 
-## Common Tasks
+## Legacy Note
 
-### Add a New Concept
+Previous versions of this file described a 5-page hemisphere dashboard:
+- `0_◈_Overview.py`
+- `1_🧠_Identity_Stack.py`
+- `2_🧠_Drift_Analysis.py`
+- `3_🧠_Raw_Data.py`
+- `4_🌀_Distillations.py`
 
-1. Add to `KEY_CONCEPTS` dict:
-
-```python
-"new_concept": {
-    "title": "Display Name",
-    "gallery": "foundations",  # validated, foundations, speculative, frontiers
-    "one_liner": "Brief description",
-    "key_stat": "Key metric"
-}
-```
-
-### Add Hemisphere-Specific Content
-
-Find the section starting at line 405 and add to the appropriate branch:
-
-```python
-if "LEFT" in hemisphere:
-    # Analytical content: tables, stats, equations
-    st.markdown("### Key Statistics")
-    st.markdown("|Metric|Value|...")
-
-elif "RIGHT" in hemisphere:
-    # Intuitive content: ASCII art, metaphors, gestalts
-    st.markdown("### The Pattern")
-    st.markdown("> Identity is an *attractor basin*")
-
-else:
-    # BRIDGE: show both side by side
-    col1, col2 = st.columns(2)
-    with col1:
-        # LEFT content
-    with col2:
-        # RIGHT content
-```
-
-### Add a New Page
-
-Pages use flat structure with hemisphere emoji prefixes (Streamlit requirement):
-
-```
-pages/
-├── 0_◈_Overview.py         # BRIDGE - both perspectives
-├── 1_🧠_Identity_Stack.py  # LEFT - analytical
-├── 2_🧠_Drift_Analysis.py  # LEFT - analytical
-├── 3_🧠_Raw_Data.py        # LEFT - analytical
-├── 4_🌀_Distillations.py   # RIGHT - intuitive
-└── 5_🧠_New_Analysis.py    # NEW LEFT page (example)
-```
-
-1. Create the page file with hemisphere prefix:
-
-   ```python
-   # pages/5_🧠_New_Analysis.py
-   import streamlit as st
-   st.set_page_config(page_title="New Analysis", page_icon="🧠", layout="wide")
-   st.title("🧠 New Analysis")
-   # ... analytical content
-   ```
-
-2. Add navigation button in app.py sidebar (around line 265):
-
-   ```python
-   with st.expander("🧠 LEFT (Analytical)", expanded=True):
-       # ... existing buttons
-       if st.button("📊 New Analysis", key="nav_new", use_container_width=True):
-           st.switch_page("pages/5_🧠_New_Analysis.py")
-   ```
-
-### Update Gallery Descriptions
-
-Edit the `GALLERIES` dict (line 33):
-
-```python
-"validated": {
-    "name": "Validated",
-    "emoji": "✅",
-    "color": "#10b981",
-    "description": "Empirically confirmed",
-    "left_desc": "Statistics, p-values",     # LEFT view
-    "right_desc": "What it MEANS"             # RIGHT view
-}
-```
+**This dashboard no longer exists.** The hemisphere metaphor (LEFT/RIGHT/BRIDGE)
+is now purely organizational within Consciousness/, not a separate dashboard.
 
 ---
 
-## Data Sources
+## Quick Reference
 
-| Source | Path | Contains |
-|--------|------|----------|
-| LEFT galleries | `../../LEFT/galleries/` | Structured concept files |
-| RIGHT galleries | `../../RIGHT/galleries/` | Vortex concept files |
-| Extractions | `../../LEFT/extractions/` | Tagged experiment data |
-| Distillations | `../../RIGHT/distillations/` | Synthesized insights |
-| S7 ARMADA | `../../../experiments/temporal_stability/S7_ARMADA/` | Raw armada results |
-
----
-
-## Styling Conventions
-
-### CSS Classes (defined in app.py)
-
-| Class | Use For |
-|-------|---------|
-| `.left-brain` | LEFT hemisphere boxes (blue gradient) |
-| `.right-brain` | RIGHT hemisphere boxes (red gradient) |
-| `.bridge-zone` | BRIDGE content (purple gradient) |
-| `.gallery-{name}` | Gallery cards (validated, foundations, etc.) |
-| `.concept-card` | Individual concept displays |
-| `.insight-box` | Highlighted insights |
-| `.ascii-container` | Monospace ASCII art (green on dark) |
-
-### Color Scheme
-
-| Element | Color |
-|---------|-------|
-| LEFT | #1e3a5f (dark blue) |
-| RIGHT | #5f1e3a (dark red) |
-| BRIDGE | #3a3a5f (dark purple) |
-| Validated | #10b981 (green) |
-| Foundations | #3b82f6 (blue) |
-| Speculative | #a855f7 (purple) |
-| Frontiers | #f59e0b (amber) |
+| What You Want | Where To Go |
+|---------------|-------------|
+| Run the dashboard | `dashboard/` (repo root) |
+| Dashboard documentation | `dashboard/README.md` |
+| Dashboard config | `dashboard/config.py` |
+| Consciousness concepts | `Consciousness/LEFT/galleries/` or `RIGHT/galleries/` |
+| Add new concept | Create in both LEFT and RIGHT galleries |
+| Integration pipeline | `Consciousness/BRIDGE/docs/PIPELINE.md` |
 
 ---
 
-## Connection to UNKNOWN Page
-
-This dashboard is the **source**. The main Nyquist dashboard's UNKNOWN page is the **shadow**.
-
-```
-Consciousness/BRIDGE/dashboard/  →  dashboard/pages/unknown.py
-       (source)                           (shadow)
-```
-
-When you update concepts here, they should eventually flow to UNKNOWN.
-
-See `../docs/PIPELINE.md` for the full emanation pipeline.
-
----
-
-## Troubleshooting
-
-### Streamlit not found
-
-```powershell
-pip install streamlit
-```
-
-### Default sidebar nav showing
-
-The CSS hides it (line 107):
-
-```css
-[data-testid="stSidebarNav"] { display: none; }
-```
-
-### Hemisphere toggle seems to do nothing
-
-The toggle changes:
-1. The info banner (lines 356-361)
-2. Gallery descriptions (lines 375-381)
-3. The main content section (lines 405-498) - **scroll down to see this**
-
----
-
-## The Philosophy
+## The Philosophy (Unchanged)
 
 > **LEFT alone**: Data without meaning
 > **RIGHT alone**: Intuition without evidence
 > **Integrated**: Understanding
 
-The dashboard embodies this by letting users toggle between perspectives, or see both at once in BRIDGE mode.
+The hemispheric model remains valid for organizing research content,
+even though we no longer have a separate hemisphere-toggle dashboard.
 
 ---
 
-**Last Updated**: December 7, 2025
+**Last Updated**: January 8, 2026
 
 *"The forward tells us how they drift. The inverse tells us if they know. Together, they tell us if identity is real."*

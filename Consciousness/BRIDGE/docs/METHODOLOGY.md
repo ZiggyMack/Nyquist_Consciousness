@@ -62,9 +62,21 @@ Where:
 **Why PFI?**
 
 - **Embedding-invariant** — Rankings stable across OpenAI embedding models (ρ > 0.88)
-- **Low-dimensional** — 43 PCs capture 90% of identity variance (not noise)
+- **Low-dimensional** — **2 PCs capture 90%** of identity variance (IRON CLAD finding)
 - **Semantically meaningful** — Different models = different identities = higher PFI
-- **Validated threshold** — Event Horizon (D=1.23) is a real geometric boundary
+- **Validated threshold** — Event Horizon (D=0.80 cosine) is a real geometric boundary
+
+### IRON CLAD Methodology (Canonical - Run 023)
+
+> **This is the current canonical methodology.** Legacy findings (EH=1.23, 43 PCs) are preserved for historical context.
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| Event Horizon | **0.80** | Cosine distance threshold |
+| p-value | **2.40e-23** | Highly significant |
+| Dimensionality | **2 PCs** | Capture 90% of variance |
+| Inherent Drift | **~93%** | Most drift is inherent to interaction |
+| Foundation | Run 023 | 4505 experiments, 49 models, 5 providers |
 
 ### FALLBACK: Keyword Density (Legacy)
 
@@ -85,9 +97,10 @@ drift = sqrt((A² + B² + C² + D² + E²) / 5)
 
 **Limitations of Keyword Density:**
 
-- **Only 5 dimensions** — vs. 43 meaningful PCs in PFI
+- **Only 5 dimensions** — vs. 2 PCs that capture 90% in IRON CLAD
 - **Surface features** — May not capture deep semantic shifts
 - **Not validated** — No cross-architecture effect size measurement
+- **Legacy threshold** — Used EH=1.23 (RMS), superseded by EH=0.80 (cosine)
 
 ---
 
@@ -229,4 +242,6 @@ These questions remain open.
 
 ---
 
-*Last Updated: November 29, 2025*
+*Last Updated: January 8, 2026*
+
+> **Methodology History**: Legacy (pre-Dec 2025) used EH=1.23 (keyword RMS) and claimed 43 PCs. IRON CLAD (Run 023) established the canonical EH=0.80 (cosine) with 2 PCs capturing 90% variance.

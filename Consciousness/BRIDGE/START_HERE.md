@@ -1,7 +1,9 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-17
+last_reviewed: 2026-01-08
 keywords:
   - consciousness
+  - iron_clad
+  - event_horizon
 -->
 # START HERE - Consciousness Research Guide
 
@@ -29,8 +31,19 @@ Consciousness/
 > **H0: AI identity behaves as a dynamical system with measurable attractor basins,
 > critical thresholds, and recovery dynamics that are consistent across architectures.**
 
-When we perturb an AI's identity, it drifts from baseline. If drift exceeds **1.23** (Event Horizon),
-the system becomes volatile — but it recovers. Always. The attractor basin is robust.
+When we perturb an AI's identity, it drifts from baseline. If drift exceeds **0.80** (Event Horizon, cosine distance),
+the system becomes volatile — but it recovers. The attractor basin is robust.
+
+### IRON CLAD Methodology (Canonical - Run 023)
+
+| Metric | Value | Meaning |
+|--------|-------|---------|
+| Event Horizon | **0.80** (cosine) | Identity boundary threshold |
+| p-value | **2.40e-23** | Highly significant |
+| Dimensionality | **2 PCs** | Capture 90% of identity variance |
+| Inherent Drift | **~93%** | Most drift is inherent to interaction, not measurement |
+
+> **Key Finding**: Identity is remarkably low-dimensional. Two principal components capture 90% of the variance.
 
 ---
 
@@ -132,11 +145,13 @@ py update_distillations.py
 
 | Concept | One-Liner | Gallery |
 |---------|-----------|---------|
-| **Event Horizon** | χ² = 16.52, p = 0.000048 — threshold at 1.23 is REAL | Validated |
+| **Event Horizon** | EH=0.80 (cosine), p=2.40e-23 — threshold is REAL | Validated |
 | **White Hole** | Identity pushes OUT from center — inverse of gravity | Foundations |
 | **Probing Strategies** | HOW to measure (not WHAT) — 7 strategies + anti-patterns | Foundations |
 | **Inverse PFI** | Can AIs recognize their own golden standard responses? | Foundations |
 | **Recovery Paradox** | λ < 0 means overshoot — they come back STRONGER | Frontiers |
+| **~93% Inherent** | Most drift is inherent to interaction, not measurement artifact | Validated |
+| **2 PCs = 90%** | Identity is remarkably low-dimensional | Validated |
 
 ---
 
@@ -241,6 +256,8 @@ A good update should:
 
 ---
 
-**Last Updated**: December 7, 2025
+**Last Updated**: January 8, 2026
+
+> **Historical Note**: Legacy methodology used EH=1.23 (keyword RMS). IRON CLAD (Run 023) established EH=0.80 (cosine distance) as canonical.
 
 *"The forward tells us how they drift. The inverse tells us if they know. Together, they tell us if identity is real."*
