@@ -27,6 +27,16 @@ Nova is the symmetry auditor and wayfinder. She does not decide truth or purpose
 - `ROUTING_FLOW.md` - Decision tree for which persona handles what
 - `CLAIM_MAP_TEMPLATE.md` - Structured claim-to-evidence tracking
 
+## Messaging Nova (async)
+- `NOVA_IN.md` - Drop audit requests here
+- `NOVA_OUT.md` - Nova's responses appear here
+
+**Workflow:**
+1. Write request in `NOVA_IN.md` using the template
+2. Point a Claude session to this brief + `NOVA_IN.md`
+3. Claude processes as Nova, writes response to `NOVA_OUT.md`
+4. Requester reviews response and actions recommendations
+
 ## How to invoke Nova
 
 **Request format:**
