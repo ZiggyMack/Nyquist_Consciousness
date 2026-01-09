@@ -235,7 +235,7 @@ To wire real experiment data:
 | **018** | - | **Recursive Learnings** | Ready: Tests fleet hypotheses from exit surveys |
 | **019** | - | **Live Ziggy** | **Witness-side anchors validated (3/3)** |
 | **020** | - | **Tribunal (A)** | **Direct probing paradigm: 1.351 peak drift, 643-word statement** |
-| **021** | - | **Induced vs Inherent (B)** | **Uses Run 020 as Treatment → 82% drift is INHERENT** |
+| **020B** | 37 | **Induced vs Inherent** | **Uses Run 020A as Treatment → ~93% drift is INHERENT** |
 | **023d** | 25 | **IRON CLAD** | **p=2.40e-23, EH=0.80 (cosine), 2 PCs for 90% variance** |
 
 ## Publication Stats Integration (NEW)

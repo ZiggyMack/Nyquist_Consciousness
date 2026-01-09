@@ -1341,7 +1341,8 @@ def render_pfi_validation_tab():
         """)
 
         # Show the visualization
-        manifold_img = Path(__file__).parent.parent.parent / "experiments" / "compression_tests" / "compression_v2_sstack" / "visualizations" / "7_manifold_structure" / "manifold_pca_comparison.png"
+        # Legacy visualization - archived after IRON CLAD methodology transition
+        manifold_img = Path(__file__).parent.parent.parent / "experiments" / ".archive" / "compression_tests_Euclidean" / "visualizations" / "7_manifold_structure" / "manifold_pca_comparison.png"
         if manifold_img.exists():
             st.image(str(manifold_img), caption="LEFT: Actual data (unified blob) | RIGHT: What orthogonal would look like")
         else:

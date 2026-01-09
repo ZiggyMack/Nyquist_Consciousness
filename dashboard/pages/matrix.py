@@ -1648,7 +1648,7 @@ def render():
         </div>
         """, unsafe_allow_html=True)
     else:
-        st.info("Loading departures from Pan_Handlers/projects.json...")
+        st.info("🚀 Flagship projects not yet configured. Visit [Pan Handler Central](https://pan-handlers.streamlit.app/) for live project data.")
 
     # ══════════════════════════════════════════════════════════════
     # SECTION 3: PROJECT DETAILS (Collapsible)

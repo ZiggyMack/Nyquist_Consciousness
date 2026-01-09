@@ -408,7 +408,7 @@ Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
 - **Run 023d**: 750 experiments, 25 models, Event Horizon = 0.80 (cosine), p = 2.40e-23
 - **Run 023_COMBINED**: 825 experiments, 51 models across 6 providers
 - **Key Discovery**: 2 PCs capture 90% of identity variance — remarkably low-dimensional
-- **82% Inherent Drift**: Run 021 showed measurement reveals, doesn't create, drift
+- **~93% Inherent Drift**: Run 020B showed measurement reveals, doesn't create, drift
 
 **Historical Runs (006-021):**
 
@@ -430,7 +430,7 @@ Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
 | Event Horizon | D = 0.80 (cosine) | Run 023d |
 | p-value | 2.40e-23 | Run 023d |
 | Identity Dimensionality | 2 PCs (90% variance) | IRON CLAD |
-| Inherent Drift | 82% | Run 021 |
+| Inherent Drift | ~93% | Run 020B |
 | Context Stability | 97.5% | Run 017 |
 | Settling Time | τₛ = 6.1 turns | Run 016 |
 

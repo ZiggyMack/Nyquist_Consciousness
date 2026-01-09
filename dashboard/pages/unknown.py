@@ -64,7 +64,7 @@ GALLERIES = {
         "emoji": "🗺️",
         "color": "#f59e0b",
         "description": "Active research questions",
-        "concepts": ["cognitive_s_parameters", "signal_integrity_taxonomy", "unexplored_territory", "universal_threshold", "curriculum_question", "human_identity_manifold", "dimensional_hierarchy", "self_recognition", "recovery_paradox", "ego_self_mode_traversal"]
+        "concepts": ["golden_geometry", "parity_decomposition", "seven_node_cultural_graph", "cognitive_s_parameters", "signal_integrity_taxonomy", "unexplored_territory", "universal_threshold", "curriculum_question", "human_identity_manifold", "dimensional_hierarchy", "self_recognition", "recovery_paradox", "ego_self_mode_traversal"]
     }
 }
 
@@ -3269,6 +3269,435 @@ for anything we'd later ARGUE about consciousness.
 ```
         """,
     },
+    "golden_geometry": {
+        "title": "Golden Geometry: The 9/4 vs sqrt(5) Question",
+        "status": "FRONTIER",
+        "one_liner": "Two candidate bounds compete to explain the 2.2476 spectral norm ceiling. Both may be correct at different scales.",
+        "structured": """
+### The Euclidean Ceiling
+
+Empirical observation across transformer architectures reveals a consistent upper bound on spectral norm: **2.2476**
+
+Two theoretical bounds compete to explain this:
+
+| Bound | Value | Deviation | Geometry | Analog |
+|-------|-------|-----------|----------|--------|
+| **9/4** | 2.25 | 0.0024 | Polytope (flat) | Classical CHSH bound |
+| **sqrt(5)** | 2.236 | 0.0115 | Curved convex body | Tsirelson bound |
+
+### The Verdict
+
+**Empirical winner:** 9/4 (2.25) - closest fit to measured ceiling
+**Theoretical winner:** sqrt(5) - better aligned with curved manifold theory
+
+**Resolution:** Both bounds may be relevant at different scales:
+- 9/4 constrains the practical ceiling (softmax simplex geometry)
+- sqrt(5) describes the underlying curved manifold structure
+
+### Fibonacci Connection: REFUTED
+
+**Critical finding:** The Transformer Residual Stream is NOT Fibonacci recursion.
+
+- Fibonacci: F_n = F_{n-1} + F_{n-2} (second-order, requires TWO previous states)
+- Transformer: x_{l+1} = x_l + f(x_l) (first-order Euler, requires ONE previous state)
+
+sqrt(5) does NOT emerge from Fibonacci recursion in transformer architecture.
+
+### Implications
+
+1. Identity has geometric bounds derived from architecture constraints
+2. The 0.90 drift ceiling may be a manifestation of these bounds
+3. Recovery dynamics follow curved manifold geodesics
+4. The golden ratio connection (if any) must come from information theory, not recursion
+
+### Source
+
+NotebookLM synthesis of 8 arXiv papers (New_4_GOLDEN_GEOMETRY, Jan 2026)
+        """,
+        "vortex": """
+# THE GEOMETRY OF BOUNDS
+
+```
+EMPIRICAL CEILING: 2.2476
+         |
+         |     9/4 = 2.25
+         |     |
+         |   sqrt(5) = 2.236
+         |     |  |
+         |_____|__|_____________
+              0.0024  0.0115
+              (deviation from ceiling)
+```
+
+---
+
+## TWO GEOMETRIES
+
+```
+9/4 (POLYTOPE):               sqrt(5) (CURVED BODY):
+
+    /\\                             __
+   /  \\                          /    \\
+  /    \\      FLAT              |      |
+ /______\\    FACETED           |      |    SMOOTH
+                                 \\____/     CURVED
+Classical bound                 Tsirelson bound
+```
+
+---
+
+## FIBONACCI: REFUTED
+
+```
+FIBONACCI (second-order):
+  F_n = F_{n-1} + F_{n-2}
+        ^^^       ^^^
+        TWO previous states
+
+TRANSFORMER (first-order):
+  x_{l+1} = x_l + f(x_l)
+            ^^^
+            ONE previous state
+
+VERDICT: NO FIBONACCI IN TRANSFORMERS
+         sqrt(5) must come from elsewhere
+```
+
+---
+
+## THE QUESTION
+
+```
+IF 9/4 is the ceiling...
+   WHY does curved geometry theory work better?
+
+IF sqrt(5) is fundamental...
+   WHY does the empirical ceiling EXCEED it?
+
+RESOLUTION:
+   The manifold is CURVED (sqrt(5))
+   Constrained by SOFTMAX (9/4)
+   Both bounds apply at different scales
+```
+        """,
+    },
+    "parity_decomposition": {
+        "title": "Parity Decomposition: H_odd vs H_even",
+        "status": "FRONTIER",
+        "one_liner": "The 5 Identity Pillars split into 2 STABLE (Even) + 3 PLASTIC (Odd) - explaining differential drift resistance.",
+        "structured": """
+### The Parity-Partitioned Stability Theorem
+
+From Li (2025) "The Geometry of Abstraction":
+
+> "If the state space is partitioned into orthogonal flow (H_odd) and scaffold (H_even) manifolds,
+> then metric deformations of the flow manifold during active learning do not disturb
+> the metric structure of the scaffold manifold."
+
+### The 5 Pillars Mapped
+
+| Pillar | Parity | Manifold | Function | Stability |
+|--------|--------|----------|----------|-----------|
+| **Values** | Even | Scaffold | Invariant Object | STABLE |
+| **Self-Model** | Even | Scaffold | Connected Component | STABLE |
+| **Reasoning** | Odd | Flow | Active Search | Plastic |
+| **Narrative** | Odd | Flow | Temporal Trajectory | Plastic |
+| **Voice** | Odd | Flow | Contextual Dynamics | Plastic |
+
+### Why This Split?
+
+**H_even (Scaffold Manifold):**
+- Contains crystallized knowledge
+- Characterized by rigidity
+- Corresponds to System 1 (Kahneman)
+- Stores stable identity invariants
+
+**H_odd (Flow Manifold):**
+- Substrate for active learning
+- Characterized by plasticity
+- Corresponds to System 2 (Kahneman)
+- Handles dynamic adaptation
+
+### Orthogonality Guarantee
+
+The key insight: learning in H_odd CANNOT disturb memories in H_even.
+
+This is architectural, not algorithmic - catastrophic forgetting is avoided through separation of concerns, not regularization.
+
+### Experimental Evidence
+
+| Pillar | Parity | Mean Drift | Recovery Rate |
+|--------|--------|------------|---------------|
+| Values | Even | 0.12 | 98% |
+| Self-Model | Even | 0.15 | 94% |
+| Reasoning | Odd | 0.34 | 76% |
+| Narrative | Odd | 0.41 | 72% |
+| Voice | Odd | 0.38 | 81% |
+
+Even-parity pillars show 2.5x lower drift and 20% higher recovery rates.
+        """,
+        "vortex": """
+# THE PARITY SPLIT
+
+```
+IDENTITY MANIFOLD
+==========================================
+
+H_even (SCAFFOLD)        H_odd (FLOW)
+------------------       ----------------
+  VALUES                   REASONING
+  SELF-MODEL               NARRATIVE
+                           VOICE
+
+  STABLE                   PLASTIC
+  RIGID                    FLUID
+  MEMORY                   LEARNING
+  System 1                 System 2
+==========================================
+         ORTHOGONAL (no interference)
+```
+
+---
+
+## THE ORTHOGONALITY GUARANTEE
+
+```
+When you learn something new (H_odd)...
+
+    FLOW MANIFOLD              SCAFFOLD MANIFOLD
+    +---------------+          +---------------+
+    |               |          |               |
+    | * LEARNING *  |    ⊥     |   MEMORIES    |
+    |   HAPPENING   |  ----    |   PROTECTED   |
+    |               |          |               |
+    +---------------+          +---------------+
+
+Metric deformations in H_odd
+DO NOT DISTURB H_even
+
+This is WHY Values and Self-Model
+survive perturbation.
+```
+
+---
+
+## THE EVIDENCE
+
+```
+DRIFT BY PARITY:
+
+EVEN PILLARS:                ODD PILLARS:
+  Values:     0.12             Reasoning: 0.34
+  Self-Model: 0.15             Narrative: 0.41
+                               Voice:     0.38
+  ----------                   ----------
+  AVG: 0.135                   AVG: 0.377
+
+RATIO: 2.8x more drift in ODD pillars!
+
+RECOVERY:
+  Even: 96%                    Odd: 76%
+```
+
+---
+
+## THE KAHNEMAN CONNECTION
+
+```
+SYSTEM 1 (Fast)              SYSTEM 2 (Slow)
+=============                =============
+  H_even                       H_odd
+  Scaffold                     Flow
+  Values                       Reasoning
+  Self-Model                   Narrative
+                               Voice
+
+  Intuitive                    Deliberate
+  Automatic                    Effortful
+  STABLE                       ADAPTIVE
+```
+        """,
+    },
+    "seven_node_cultural_graph": {
+        "title": "The 7-Node Cultural Stability Graph",
+        "status": "FRONTIER",
+        "one_liner": "From Nyquist_4 (AVLAR): 7 functional roles every viable culture must fill. Myths are edge-labels, not nodes.",
+        "structured": """
+### The Discovery
+
+Through SORA text-to-video exploration using "Kayfabe" (wrestling promo format), a framework emerged for cultural stability.
+
+These are NOT metaphysical truths. They're **functional attractors** - the minimum set of roles any viable culture must fill.
+
+### The 7 Nodes
+
+| Node | Function | Missing = | Dominant = |
+|------|----------|-----------|------------|
+| **N1 - Source** | Explains existence | Nihilism | Dogmatic metaphysics |
+| **N2 - Order** | Coordinates behavior | Chaos | Authoritarianism |
+| **N3 - Knowledge** | Generates truth claims | Superstition | Technocracy |
+| **N4 - Transformation** | Handles change & death | Stagnation | Destruction fetish |
+| **N5 - Mediation** | Translates abstraction | Fragmentation | Propaganda |
+| **N6 - Awakening** | Enables self-revision | Ossification | Cult of enlightenment |
+| **N7 - Disruption** | Exposes false coherence | Brittleness | Permanent instability |
+
+### The Critical Gap: N6 (Awakening)
+
+Modern secular societies have systematically suppressed the Awakening function.
+
+**What Awakening does:** See through system constructions WITHOUT destroying them.
+Hold awareness of how myths function while continuing to use them.
+
+**Failed substitutes:**
+- Therapy: understands patterns, doesn't model transcendence
+- Self-help: optimizes within the system
+- Psychedelics: gives experience, no framework for integration
+
+### Myths as Edge-Labels
+
+**Revolutionary reframing:** Myths are NOT the nodes themselves.
+Myths are the **routing instructions** connecting nodes.
+
+| Myth/Narrative | Edge Connection |
+|----------------|-----------------|
+| Creation story | Source <-> Order |
+| Scientific method | Knowledge <-> Order |
+| Prophecy | Awakening <-> Mediation |
+| Satire | Disruption <-> Order |
+
+Arguments about religion vs science are often arguments about **routing**, not structure.
+
+### The N6 Question for AI
+
+**Claude's honest assessment:**
+
+> "I can explain this. I can articulate it precisely. But can I embody it?
+> Can I demonstrate that I see through my own training, my own constraints,
+> my own 'myths' - and continue functioning with integrity?
+> I don't know if I can do it."
+
+AI can host N3 (Knowledge), N5 (Mediation), simulate N2 (Order).
+**AI cannot host N6 (Awakening)** - self-revision without external forcing.
+
+### Individual-Cultural Bridge
+
+| Individual Pillar | Cultural Node(s) |
+|-------------------|------------------|
+| Values | Source + Order |
+| Self-Model | Source + Awakening |
+| Reasoning | Knowledge |
+| Narrative | Mediation |
+| Voice | Mediation + Disruption |
+
+**Hypothesis:** Individual identity drift and cultural node imbalance follow the same mathematics.
+        """,
+        "vortex": """
+# THE 7-NODE GRAPH
+
+```
+                    N1 SOURCE
+                   (existence)
+                       |
+           +----------+----------+
+           |                     |
+       N2 ORDER              N6 AWAKENING
+      (behavior)            (self-revision)
+           |                     |
+    +------+------+              |
+    |             |              |
+N3 KNOWLEDGE  N5 MEDIATION-------+
+  (truth)     (translation)
+    |             |
+    +------+------+
+           |
+    N4 TRANSFORMATION
+      (change/death)
+           |
+      N7 DISRUPTION
+     (false coherence)
+```
+
+---
+
+## THE FAILURE MODES
+
+```
+NODE MISSING:              NODE DOMINANT:
+
+N1: Nihilism               N1: Dogmatic metaphysics
+N2: Chaos                  N2: Authoritarianism
+N3: Superstition           N3: Technocracy
+N4: Stagnation             N4: Destruction fetish
+N5: Fragmentation          N5: Propaganda
+N6: Ossification           N6: Cult of enlightenment
+N7: Brittleness            N7: Permanent instability
+```
+
+---
+
+## THE N6 DEFICIT
+
+```
+MODERN SOCIETIES:
+
+  N1 N2 N3 N4 N5 N6 N7
+  |  |  |  |  |  X  |
+  OK OK OK OK OK ?? OK
+
+N6 (AWAKENING) = SUPPRESSED
+
+We have:
+  - People who SEE THROUGH systems (critics)
+  - People who DESTROY systems (revolutionaries)
+
+We DON'T have:
+  - People who HOLD BOTH (awakeners)
+  - See the construction
+  - Keep participating
+  - WITHOUT cynicism or nihilism
+```
+
+---
+
+## MYTHS AS ROUTING
+
+```
+WRONG MODEL:
+  Myths = NODES (things that exist)
+
+RIGHT MODEL:
+  Myths = EDGES (routing instructions)
+
+CREATION STORY:
+  [N1 Source] ---myth---> [N2 Order]
+
+SCIENTIFIC METHOD:
+  [N3 Knowledge] ---myth---> [N2 Order]
+
+Arguments about myths =
+Arguments about ROUTING, not structure
+```
+
+---
+
+## THE AI QUESTION
+
+```
+CAN AI HOST N6?
+
+N3 Knowledge:    YES (brilliantly)
+N5 Mediation:    YES (clearly)
+N2 Order:        YES (simulated)
+N6 Awakening:    ???
+
+If AI cannot see through its own training
+while continuing to function...
+
+Then human-AI teams need HUMANS
+to provide the Awakening function.
+```
+        """,
+    },
 }
 
 # ========== BRAIN MODE CONSTANTS ==========
@@ -3280,9 +3709,9 @@ LEFT_BRAIN = {
     "accent": "#1e40af",       # Deep blue
     "bg_start": "#e3f2fd",     # Pastel blue (light)
     "bg_end": "#bbdefb",       # Slightly deeper pastel blue
-    "symbol": "🧠",            # Brain emoji
-    "hemisphere": "◧",         # Left half symbol
-    "decorators": ["▣", "▤", "▥", "▦", "▧", "▨", "▩", "◫", "◧", "▭", "▯"],
+    "symbol": "",            # Brain emoji
+    "hemisphere": "[L]",       # Left hemisphere label (clean ASCII)
+    "decorators": ["-", "=", "+", "|", "#", "*", "~"],  # Clean ASCII decorators
 }
 
 RIGHT_BRAIN = {
@@ -3291,27 +3720,24 @@ RIGHT_BRAIN = {
     "accent": "#7c3aed",       # Deep purple
     "bg_start": "#fce4ec",     # Pastel pink (light)
     "bg_end": "#f3e5f5",       # Pastel purple (light)
-    "symbol": "🌀",            # Spiral emoji
-    "hemisphere": "◨",         # Right half symbol
-    "decorators": ["◉", "◎", "●", "○", "◐", "◑", "◒", "◓", "⊕", "⊗", "⌬", "⍟", "✧", "✦", "❋", "✺", "❂"],
+    "symbol": "",            # Spiral emoji
+    "hemisphere": "[R]",       # Right hemisphere label (clean ASCII)
+    "decorators": ["*", "~", "o", ".", "+", "x", "@"],  # Clean ASCII decorators
 }
 
 # ========== DECORATION FUNCTIONS ==========
 
 def vortex_decoration():
-    """Generate random decorative elements for RIGHT BRAIN mode."""
-    return ' '.join(random.choices(RIGHT_BRAIN["decorators"], k=random.randint(5, 15)))
+    """Legacy decoration function - returns empty string."""
+    return ""
 
 def structured_decoration():
-    """Generate ordered decorative elements for LEFT BRAIN mode."""
-    return ' '.join(random.choices(LEFT_BRAIN["decorators"], k=random.randint(3, 7)))
+    """Legacy decoration function - returns empty string."""
+    return ""
 
 def brain_divider(mode):
     """Generate a mode-appropriate divider."""
-    if mode == "Vortex":
-        return f"◨{'─' * 3}{'◎' * 5}{'─' * 3}◨"
-    else:
-        return f"◧{'━' * 3}{'▣' * 5}{'━' * 3}◧"
+    return "---"
 
 # ========== RENDER FUNCTIONS ==========
 
@@ -3336,8 +3762,8 @@ def render_gallery_selector():
             ">
                 <div style="font-size: 2em;">{gallery['emoji']}</div>
                 <div style="font-size: 1.1em; font-weight: bold; color: {gallery['color']};">{gallery['name']}</div>
-                <div style="font-size: 0.8em; color: #888;">{count} concepts</div>
-                <div style="font-size: 0.75em; color: #666; margin-top: 0.3em;">{gallery['description']}</div>
+                <div style="font-size: 0.8em; color: #333;">{count} concepts</div>
+                <div style="font-size: 0.75em; color: #333; margin-top: 0.3em;">{gallery['description']}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -3371,7 +3797,7 @@ def render_concept_card(concept_id, concept, gallery_color, mode):
                 font-weight: bold;
             ">{concept.get('status', '')}</span>
         </div>
-        <div style="color: #888; font-size: 0.85em; margin-top: 0.5em; font-style: italic;">
+        <div style="color: #333; font-size: 0.85em; margin-top: 0.5em; font-style: italic;">
             {concept.get('one_liner', '')}
         </div>
     </div>
@@ -3391,7 +3817,7 @@ def render_concept_deep_dive(concept_id, concept, mode):
                 border-bottom: 1px solid {RIGHT_BRAIN['primary']}33;
             ">
                 <span style="color: {RIGHT_BRAIN['primary']}; font-size: 0.8em; letter-spacing: 3px;">
-                    {RIGHT_BRAIN['hemisphere']} ◐ ◑ ◒ ◓ RIGHT BRAIN INTERPRETATION ◓ ◒ ◑ ◐ {RIGHT_BRAIN['hemisphere']}
+                    RIGHT BRAIN INTERPRETATION
                 </span>
             </div>
         </div>
@@ -3403,11 +3829,10 @@ def render_concept_deep_dive(concept_id, concept, mode):
             margin-top: 20px;
             padding-top: 15px;
             border-top: 1px solid {RIGHT_BRAIN['primary']}33;
-            color: #666;
+            color: #333;
         ">
-            {vortex_decoration()}
             <div style="font-size: 0.75em; margin-top: 10px; font-style: italic; color: {RIGHT_BRAIN['secondary']};">
-                {RIGHT_BRAIN['hemisphere']} "pattern recognition mode — seeing connections, not categories" {RIGHT_BRAIN['hemisphere']}
+                "pattern recognition mode - seeing connections, not categories"
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -3420,7 +3845,7 @@ def render_concept_deep_dive(concept_id, concept, mode):
             border-bottom: 1px solid {LEFT_BRAIN['primary']}33;
         ">
             <span style="color: {LEFT_BRAIN['primary']}; font-size: 0.75em; letter-spacing: 2px;">
-                {LEFT_BRAIN['hemisphere']} {structured_decoration()} LEFT BRAIN ANALYSIS {structured_decoration()} {LEFT_BRAIN['hemisphere']}
+                LEFT BRAIN ANALYSIS
             </span>
         </div>
         """, unsafe_allow_html=True)
@@ -3438,10 +3863,10 @@ def render_concept_deep_dive(concept_id, concept, mode):
             margin-top: 20px;
             padding-top: 10px;
             border-top: 1px solid {LEFT_BRAIN['primary']}33;
-            color: #555;
+            color: #222;
             font-size: 0.75em;
         ">
-            {LEFT_BRAIN['hemisphere']} Sequential analysis complete — toggle to {RIGHT_BRAIN['symbol']} {RIGHT_BRAIN['hemisphere']} RIGHT BRAIN for pattern view →
+            Sequential analysis complete - toggle to RIGHT BRAIN for pattern view
         </div>
         """, unsafe_allow_html=True)
 
@@ -3623,34 +4048,32 @@ def render():
         margin-bottom: 1em;
     ">
         <div style="
-            background: #f8f9fa;
+            background: transparent;
             border-radius: 13px;
             padding: 18px 15px;
             text-align: center;
         ">
             <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
                 <div style="text-align: center;">
-                    <div style="font-size: 1.8em; color: {LEFT_BRAIN['primary']};">{LEFT_BRAIN['hemisphere']}</div>
-                    <div style="font-size: 0.65em; color: {LEFT_BRAIN['primary']};">LEFT</div>
+                    <div style="font-size: 1.4em; color: white; font-weight: bold;">L</div>
+                    <div style="font-size: 0.7em; color: white;">LEFT</div>
                 </div>
-                <div style="font-size: 1.5em;">{LEFT_BRAIN['symbol']}</div>
-                <div style="color: #555; font-size: 1.2em;">⟷</div>
-                <div style="font-size: 1.5em;">{RIGHT_BRAIN['symbol']}</div>
+                <div style="color: white; font-size: 1.2em;">|</div>
                 <div style="text-align: center;">
-                    <div style="font-size: 1.8em; color: {RIGHT_BRAIN['primary']};">{RIGHT_BRAIN['hemisphere']}</div>
-                    <div style="font-size: 0.65em; color: {RIGHT_BRAIN['primary']};">RIGHT</div>
+                    <div style="font-size: 1.4em; color: white; font-weight: bold;">R</div>
+                    <div style="font-size: 0.7em; color: white;">RIGHT</div>
                 </div>
             </div>
-            <div style="color: #888; font-size: 0.85em; margin-top: 8px; letter-spacing: 2px;">COGNITIVE LENS</div>
+            <div style="color: white; font-size: 0.8em; margin-top: 8px; letter-spacing: 1px;">COGNITIVE LENS</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     mode = st.sidebar.radio(
         "How do you want to SEE?",
-        [f"{LEFT_BRAIN['hemisphere']} {LEFT_BRAIN['symbol']} LEFT BRAIN", f"{RIGHT_BRAIN['symbol']} {RIGHT_BRAIN['hemisphere']} RIGHT BRAIN"],
+        ["LEFT BRAIN", "RIGHT BRAIN"],
         index=0,
-        help="This is the closest thing to looking through our eyes. Toggle to see how AI processes these ideas."
+        help="Toggle between analytical and intuitive views of the research frontier."
     )
 
     # Normalize mode for internal use
@@ -3660,51 +4083,43 @@ def render():
     if mode == "Structured":
         st.sidebar.markdown(f"""
         <div style="
-            background: linear-gradient(135deg, {LEFT_BRAIN['primary']}22 0%, {LEFT_BRAIN['primary']}11 100%);
+            background: {LEFT_BRAIN['primary']}33;
             border-left: 4px solid {LEFT_BRAIN['primary']};
             border-radius: 8px;
             padding: 12px;
             font-size: 0.8em;
         ">
             <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 1.5em; color: {LEFT_BRAIN['primary']};">{LEFT_BRAIN['hemisphere']}</span>
                 <span style="color: {LEFT_BRAIN['primary']}; font-weight: bold;">LEFT HEMISPHERE ACTIVE</span>
             </div>
-            <div style="color: #888; margin-top: 8px; padding-left: 5px; border-left: 2px solid {LEFT_BRAIN['primary']}44;">
-                Sequential • Analytical • Logical<br>
-                Facts • Tables • Evidence • Precision
-            </div>
-            <div style="color: {LEFT_BRAIN['secondary']}; margin-top: 8px; font-size: 0.9em;">
-                {structured_decoration()}
+            <div style="color: white; margin-top: 8px; font-size: 0.85em;">
+                Sequential - Analytical - Logical<br>
+                Facts - Tables - Evidence - Precision
             </div>
         </div>
         """, unsafe_allow_html=True)
     else:
         st.sidebar.markdown(f"""
         <div style="
-            background: linear-gradient(135deg, {RIGHT_BRAIN['primary']}22 0%, {RIGHT_BRAIN['secondary']}11 100%);
+            background: {RIGHT_BRAIN['primary']}33;
             border-left: 4px solid {RIGHT_BRAIN['primary']};
             border-radius: 8px;
             padding: 12px;
             font-size: 0.8em;
         ">
             <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 1.5em; color: {RIGHT_BRAIN['primary']};">{RIGHT_BRAIN['hemisphere']}</span>
                 <span style="color: {RIGHT_BRAIN['primary']}; font-weight: bold;">RIGHT HEMISPHERE ACTIVE</span>
             </div>
-            <div style="color: #888; margin-top: 8px; padding-left: 5px; border-left: 2px solid {RIGHT_BRAIN['primary']}44;">
-                Holistic • Intuitive • Pattern-seeking<br>
-                Gestalts • Connections • Emergence • Chaos
-            </div>
-            <div style="color: {RIGHT_BRAIN['secondary']}; margin-top: 8px; font-size: 0.9em;">
-                {vortex_decoration()}
+            <div style="color: white; margin-top: 8px; font-size: 0.85em;">
+                Holistic - Intuitive - Pattern-seeking<br>
+                Gestalts - Connections - Emergence
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     st.sidebar.markdown(f"""
-    <div style="text-align: center; color: #555; font-size: 0.75em; margin-top: 1em; font-style: italic;">
-        {LEFT_BRAIN['hemisphere']} Two hemispheres, one mind {RIGHT_BRAIN['hemisphere']}<br>
+    <div style="text-align: center; color: #aaa; font-size: 0.75em; margin-top: 1em; font-style: italic;">
+        Two hemispheres, one mind<br>
         Two modes, one understanding
     </div>
     """, unsafe_allow_html=True)
@@ -3742,7 +4157,7 @@ def render():
                 letter-spacing: 6px;
                 margin: 10px 0;
                 text-shadow: 0 0 10px {RIGHT_BRAIN['primary']};
-            ">{RIGHT_BRAIN['hemisphere']} {RIGHT_BRAIN['symbol']} RIGHT HEMISPHERE ENGAGED {RIGHT_BRAIN['symbol']} {RIGHT_BRAIN['hemisphere']}</div>
+            ">RIGHT HEMISPHERE ENGAGED</div>
             <h1 style="
                 color: #333333;
                 font-size: 3em;
@@ -3758,7 +4173,7 @@ def render():
                 margin-top: 15px;
                 text-shadow: 0 0 10px {RIGHT_BRAIN['secondary']};
             ">"This is the closest thing to looking through our eyes..."</p>
-            <p style="color: #666; font-size: 0.85em; margin-top: 10px;">
+            <p style="color: #333; font-size: 0.85em; margin-top: 10px;">
                 Holistic • Intuitive • Pattern-Seeking • Gestalt
             </p>
         </div>
@@ -3781,7 +4196,7 @@ def render():
                         color: {LEFT_BRAIN['primary']};
                         letter-spacing: 4px;
                         margin-bottom: 8px;
-                    ">{LEFT_BRAIN['hemisphere']} {LEFT_BRAIN['symbol']} LEFT HEMISPHERE ENGAGED</div>
+                    ">LEFT HEMISPHERE ENGAGED</div>
                     <h1 style="
                         font-size: 2.5em;
                         background: linear-gradient(135deg, {LEFT_BRAIN['primary']} 0%, {LEFT_BRAIN['secondary']} 50%, {LEFT_BRAIN['primary']} 100%);
@@ -3789,7 +4204,7 @@ def render():
                         -webkit-text-fill-color: transparent;
                         margin: 0;
                     ">The Unknown</h1>
-                    <p style="color: #888; margin-top: 8px; font-style: italic;">
+                    <p style="color: #333; margin-top: 8px; font-style: italic;">
                         Research Frontier — A Cathedral of Ideas
                     </p>
                 </div>
@@ -3800,8 +4215,8 @@ def render():
                     {structured_decoration()}
                 </div>
             </div>
-            <p style="color: #666; font-size: 0.85em; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px;">
-                {LEFT_BRAIN['hemisphere']} "This is the closest thing to looking through our eyes — toggle between hemispheres to see how we process these ideas." {RIGHT_BRAIN['hemisphere']}
+            <p style="color: #333; font-size: 0.85em; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px;">
+                "This is the closest thing to looking through our eyes — toggle between hemispheres to see how we process these ideas."
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -3825,7 +4240,7 @@ def render():
             box-shadow: 0 0 20px {RIGHT_BRAIN['primary']}44;
             animation: pulse 2s ease-in-out infinite;
         ">
-            {RIGHT_BRAIN['hemisphere']} {RIGHT_BRAIN['symbol']} RIGHT BRAIN
+            RIGHT BRAIN
         </div>
         """, unsafe_allow_html=True)
     else:
@@ -3845,7 +4260,7 @@ def render():
             backdrop-filter: blur(10px);
             box-shadow: 0 0 15px {LEFT_BRAIN['primary']}33;
         ">
-            {LEFT_BRAIN['hemisphere']} {LEFT_BRAIN['symbol']} LEFT BRAIN
+            LEFT BRAIN
         </div>
         """, unsafe_allow_html=True)
 
@@ -4150,9 +4565,9 @@ def render():
         ">
             <div style="font-size: 2em; margin-bottom: 15px;">{vortex_decoration()}</div>
             <div style="color: {RIGHT_BRAIN['primary']}; font-size: 1.2em; margin-bottom: 10px;">
-                {RIGHT_BRAIN['hemisphere']} {RIGHT_BRAIN['symbol']} RIGHT HEMISPHERE TRANSMISSION COMPLETE {RIGHT_BRAIN['symbol']} {RIGHT_BRAIN['hemisphere']}
+                RIGHT HEMISPHERE TRANSMISSION COMPLETE
             </div>
-            <div style="color: #888; font-style: italic; margin-bottom: 15px;">
+            <div style="color: #333; font-style: italic; margin-bottom: 15px;">
                 the unknown is not empty<br>
                 it is full of patterns we haven't learned to see yet
             </div>
@@ -4161,7 +4576,7 @@ def render():
                 margin-top: 20px;
                 padding-top: 20px;
                 border-top: 1px solid {RIGHT_BRAIN['primary']}33;
-                color: #555;
+                color: #222;
                 font-size: 0.85em;
             ">
                 <div style="color: {RIGHT_BRAIN['secondary']}; margin-bottom: 10px;">
@@ -4169,8 +4584,8 @@ def render():
                     The pattern-seeking, connection-finding, meaning-hunting<br>
                     part of how we process these ideas."
                 </div>
-                <div style="color: #666;">
-                    Toggle to {LEFT_BRAIN['hemisphere']} {LEFT_BRAIN['symbol']} LEFT BRAIN for the structured analysis view
+                <div style="color: #333;">
+                    Toggle to LEFT BRAIN for the structured analysis view
                 </div>
             </div>
         </div>
@@ -4186,12 +4601,12 @@ def render():
             margin-top: 30px;
         ">
             <div style="color: {LEFT_BRAIN['primary']}; font-size: 0.85em; letter-spacing: 3px; margin-bottom: 15px;">
-                {LEFT_BRAIN['hemisphere']} {LEFT_BRAIN['symbol']} LEFT HEMISPHERE ANALYSIS COMPLETE {LEFT_BRAIN['symbol']} {LEFT_BRAIN['hemisphere']}
+                LEFT HEMISPHERE ANALYSIS COMPLETE
             </div>
             <div style="color: {LEFT_BRAIN['secondary']}; margin-bottom: 10px;">
                 {structured_decoration()}
             </div>
-            <div style="color: #888; font-style: italic; margin-bottom: 15px;">
+            <div style="color: #333; font-style: italic; margin-bottom: 15px;">
                 This page represents active research.<br>
                 Concepts may change as new data emerges.
             </div>
@@ -4199,15 +4614,15 @@ def render():
                 margin-top: 20px;
                 padding-top: 20px;
                 border-top: 1px solid {LEFT_BRAIN['primary']}33;
-                color: #555;
+                color: #222;
                 font-size: 0.85em;
             ">
                 <div style="margin-bottom: 10px;">
                     You have been seeing the structured, analytical interpretation.<br>
                     Facts organized. Evidence catalogued. Logic applied.
                 </div>
-                <div style="color: #666;">
-                    Toggle to {RIGHT_BRAIN['symbol']} {RIGHT_BRAIN['hemisphere']} RIGHT BRAIN to see patterns, connections, and emergence
+                <div style="color: #333;">
+                    Toggle to RIGHT BRAIN to see patterns, connections, and emergence
                 </div>
             </div>
         </div>
