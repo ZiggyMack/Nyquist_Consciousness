@@ -2,7 +2,7 @@
 
 **Purpose**: Step-by-step methodology for using NotebookLM to distill Nyquist Consciousness research.
 
-**Last Updated**: December 31, 2025
+**Last Updated**: January 6, 2026
 
 ---
 
@@ -118,14 +118,19 @@ Can you give me a condensed quick-reference version of [the report topic] with:
 | Study Guide | Only if you want auto-generated |
 
 ### 3.2 Studio Menu (Right Panel)
-| Function | When to Use |
-|----------|-------------|
-| **Audio Overview** | Generate podcast-style summary (untested) |
-| **Video Overview** | Generate video summary (untested) |
-| **Mind Map** | Visualize concept relationships (untested) |
-| Flashcards | Generate study flashcards |
-| Quiz | Generate comprehension quiz |
-| **Data Table** | Extract structured data from sources |
+
+| Function | When to Use | Customization Options |
+|----------|-------------|----------------------|
+| **Audio Overview** | Podcast-style discussions | Format: Deep Dive / Brief / Critique / Debate; Length: Short / Default / Long |
+| **Video Overview** | Animated explainer videos | Format: Explainer / Brief; Style: Whiteboard / Classic / Retro / Heritage / Anime / Paper-craft / Watercolor / Kawaii |
+| **Infographic** | Visual diagrams & charts | Detail: Concise / Standard / Detailed; Orientation: Landscape / Portrait / Square |
+| **Slide Deck** | Presentation slides | Format: Detailed Deck / Presenter Slides; Length: Short / Default |
+| **Mind Map** | Concept relationships | (auto-generated) |
+| **Flashcards** | Study/memorization | (auto-generated) |
+| **Quiz** | Comprehension testing | (auto-generated) |
+| **Data Table** | Structured extraction | (auto-generated) |
+
+**Full customization reference:** See `HOLY_GRAIL.md` → "NotebookLM Output Customization Reference"
 
 ### 3.3 Chat Interface
 | Use Case | Prompt Pattern |
@@ -313,12 +318,17 @@ Correct any errors found.
 
 ## 9. Future Enhancements
 
-- [ ] Test Audio Overview for podcast-style content
+- [x] ~~Test Audio Overview for podcast-style content~~ — DONE (2026-01-06): Deep Dive, Brief, Critique, Debate formats documented
+- [x] ~~Test Video Overview for animated explainers~~ — DONE (2026-01-06): 10 visual styles documented (Whiteboard, Anime, Heritage, etc.)
+- [x] ~~Test Infographic customization~~ — DONE (2026-01-06): Detail levels + orientations documented
+- [x] ~~Test Slide Deck customization~~ — DONE (2026-01-06): Detailed Deck vs Presenter Slides documented
 - [ ] Test Mind Map for visual concept relationships
 - [ ] Test Data Table for structured extraction
 - [ ] Create prompt templates for other pipelines (Media, Funding)
 - [ ] Automate output copying with scripts
 - [ ] Build dashboard page for browsing distillations
+
+**Reference implementation:** See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/Nyquist_4/_CACHE_/report.md` for complete example with 25 output specifications.
 
 ---
 

@@ -25,7 +25,7 @@ REPORTS TO GENERATE:
 
 CHAT QUESTIONS TO ASK:
 - 'What's the strongest argument for funding this research?'
-- 'What would a skeptical reviewer challenge?'
+- 'What would a skepticaal reviewer challenge?'
 - 'How does this compare to competing approaches?'
 
 PROMPTS:
@@ -403,3 +403,227 @@ For projects using Type E mode, use the `New_X/` structure in STAGING/:
 ```
 
 See WORKFLOW_SPEC.md Section 11 for the full workflow.
+
+---
+
+## NotebookLM Output Customization Reference (2026-01-06)
+
+*Comprehensive guide to all customization options for NotebookLM's Studio outputs.*
+
+### Output Types Available
+
+| Output Type | Description | Key Use Cases |
+|-------------|-------------|---------------|
+| **Reports** | Written documents on specific topics | Technical deep dives, summaries, analysis |
+| **Infographic** | Visual diagrams and charts | Network graphs, matrices, comparisons |
+| **Slide Deck** | Presentation slides | TED talks, technical briefings, pitches |
+| **Audio Overview** | Podcast-style audio | Deep dives, debates, quick overviews |
+| **Video Overview** | Animated explainer videos | Visual learners, complex concepts |
+| **Flashcards** | Study/memorization cards | Key concepts, terminology |
+| **Quiz** | Assessment questions | Comprehension testing |
+| **Data Table** | Structured data extraction | Comparative analysis |
+| **Mind Map** | Concept relationship diagrams | Brainstorming, structure visualization |
+
+---
+
+### Infographic Customization
+
+**Settings:**
+- **Level of detail:** Concise | Standard | Detailed (BETA)
+- **Orientation:** Landscape | Portrait | Square
+
+**Description Field:** Free-text prompt guiding the visual design.
+
+**Best Practices:**
+```markdown
+**NotebookLM Settings:**
+- **Level of detail:** [Concise/Standard/Detailed (BETA)]
+- **Orientation:** [Landscape/Portrait/Square]
+
+**Description for NotebookLM:**
+> [Detailed description of what to visualize, including:
+> - Specific elements to include
+> - Layout structure (circular, matrix, comparison, flow)
+> - Color coding scheme
+> - Labels and legends
+> - Title]
+```
+
+**Orientation Selection Guide:**
+| Orientation | Best For |
+|-------------|----------|
+| **Landscape** | Network diagrams, timelines, side-by-side comparisons |
+| **Portrait** | Vertical flows, matrices, lists with detail |
+| **Square** | Mapping diagrams, balanced comparisons |
+
+---
+
+### Slide Deck Customization
+
+**Settings:**
+- **Format:** Detailed Deck | Presenter Slides
+  - *Detailed Deck*: Comprehensive with full text, for reading/sharing standalone
+  - *Presenter Slides*: Visual with talking points, for live presentation
+- **Length:** Short | Default
+
+**Description Field:** Free-text prompt with slide structure.
+
+**Best Practices:**
+```markdown
+**NotebookLM Settings:**
+- **Format:** [Detailed Deck/Presenter Slides]
+- **Length:** [Short/Default]
+
+**Description for NotebookLM:**
+> Deck Title: [Name]
+> Audience: [Who this is for]
+>
+> Slides:
+> 1. [First slide topic/content]
+> 2. [Second slide topic/content]
+> ...
+>
+> Style: [Tone, jargon level, examples to use]
+```
+
+**Format Selection Guide:**
+| Format | Use When |
+|--------|----------|
+| **Detailed Deck** | Sharing document without presenter, reading offline |
+| **Presenter Slides** | Live talks, webinars, verbal expansion planned |
+
+---
+
+### Audio Overview Customization
+
+**Settings:**
+- **Format:** Deep Dive | Brief | Critique | Debate
+  - *Deep Dive*: Lively conversation unpacking and connecting topics
+  - *Brief*: Bite-sized overview of core ideas
+  - *Critique*: Expert review offering constructive feedback
+  - *Debate*: Thoughtful debate illuminating different perspectives
+- **Length:** Short | Default | Long
+
+**Focus Prompt Field:** Guides what AI hosts discuss.
+
+**Best Practices:**
+```markdown
+**NotebookLM Settings:**
+- **Format:** [Deep Dive/Brief/Critique/Debate]
+- **Length:** [Short/Default/Long]
+
+**Focus Prompt for NotebookLM:**
+> [Specific topics to cover, perspectives to take,
+> questions to address, audience to target]
+```
+
+**Format Selection Guide:**
+| Format | Best For |
+|--------|----------|
+| **Deep Dive** | Comprehensive exploration, learning sessions |
+| **Brief** | Quick overviews, summaries, busy audiences |
+| **Critique** | Evaluating ideas, finding weaknesses, constructive feedback |
+| **Debate** | Exploring multiple perspectives, controversial topics |
+
+---
+
+### Video Overview Customization
+
+**Settings:**
+- **Format:** Explainer | Brief
+  - *Explainer*: Structured, comprehensive, connects the dots
+  - *Brief*: Bite-sized overview of core ideas
+- **Visual Style:** Auto-select | Custom | Classic | Whiteboard | Kawaii | Anime | Watercolor | Retro print | Heritage | Paper-craft
+
+**Focus Prompt Field:** Guides content and visual emphasis.
+
+**Best Practices:**
+```markdown
+**NotebookLM Settings:**
+- **Format:** [Explainer/Brief]
+- **Visual Style:** [Style name]
+
+**Focus Prompt for NotebookLM:**
+> [Topic to explain, visual elements to emphasize,
+> examples to show, conclusion to reach]
+```
+
+**Visual Style Selection Guide:**
+| Style | Best For | Aesthetic |
+|-------|----------|-----------|
+| **Whiteboard** | Technical diagrams, educational content | Clean, professional, diagrammatic |
+| **Classic** | Professional/corporate content | Clean, minimal, professional |
+| **Retro print** | Historical/theatrical themes | Vintage, poster-like, bold |
+| **Heritage** | Serious philosophical/historical topics | Gravitas, traditional, authoritative |
+| **Paper-craft** | Layered concepts, mapping | Dimensional, textured, layered |
+| **Anime** | Philosophical/introspective AI content | Stylized, expressive, modern |
+| **Watercolor** | Artistic/creative content | Soft, flowing, artistic |
+| **Kawaii** | Approachable/friendly content | Cute, accessible, playful |
+
+---
+
+### Report Customization
+
+**Best Practices for Report Requests:**
+```markdown
+### Report [N]: [Title]
+
+**Focus:** [One-sentence focus]
+
+**Should Cover:**
+- [Specific topic 1]
+- [Specific topic 2]
+- [Specific topic 3]
+
+**Target Audience:** [Who will read this]
+```
+
+---
+
+### Cross-Output Strategy
+
+When creating a comprehensive NotebookLM distillation, consider generating multiple output types for the same content:
+
+| Content Type | Primary Output | Supporting Outputs |
+|--------------|----------------|-------------------|
+| **Complex Framework** | Report + Infographic | Video (Whiteboard), Audio (Deep Dive) |
+| **Controversial Topic** | Report | Audio (Debate), Video (Heritage) |
+| **Quick Concept** | Audio (Brief) | Video (Brief), Infographic (Concise) |
+| **Technical Deep Dive** | Report | Slide Deck (Detailed), Audio (Deep Dive) |
+| **Visual Mapping** | Infographic | Video (Paper-craft), Slide Deck |
+
+---
+
+### Complete Output Spec Template
+
+For comprehensive distillation planning, use this template:
+
+```markdown
+## [Project] NotebookLM Output Specifications
+
+### Reports
+[Report specs with Focus, Should Cover, Target Audience]
+
+### Infographic Requests
+[Infographic specs with Settings + Description]
+
+### Slide Deck Requests
+[Deck specs with Settings + Description]
+
+### Audio Guide Requests
+[Audio specs with Settings + Focus Prompt]
+
+### Video Overview Requests
+[Video specs with Settings + Focus Prompt]
+```
+
+---
+
+### Example: Complete AVLAR (Nyquist_4) Output Spec
+
+See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/Nyquist_4/_CACHE_/report.md` for a complete example with:
+- 5 Reports (7-Node Framework, Kayfabe Vehicle, Missing Awakener, Control-System Model, Noble Lie)
+- 5 Infographics (7-Node Graph, Failure Matrix, Kayfabe Comparison, 5-to-7 Mapping, Awakening Deficit)
+- 3 Slide Decks (Intro, Technical, N6 Question)
+- 5 Audio Guides (Deep Dive, Deep Dive, Debate, Brief, Critique)
+- 7 Videos (Whiteboard, Retro, Heritage, Classic, Paper-craft, Anime, Whiteboard)
