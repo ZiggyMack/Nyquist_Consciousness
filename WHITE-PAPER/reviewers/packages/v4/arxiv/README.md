@@ -19,7 +19,6 @@ research for **cs.AI Preprint** submission.
 ### Reading Order
 
 1. `submissions/README.md`
-2. `ARXIV_BLUEPRINT.md`
 
 ---
 

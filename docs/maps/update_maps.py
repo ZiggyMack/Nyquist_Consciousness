@@ -21,6 +21,8 @@ SECTIONS:
 - statistics: Multiple maps <- directory scans for counts
 - publication: publication_status.json <- PUBLICATION_PIPELINE_MASTER.md
 - run023: Run 023d IRON CLAD data (15_IRON_CLAD_FOUNDATION/)
+- jade_lattice: Run 024 JADE LATTICE I_AM effectiveness (17_JADE_LATTICE/)
+- essence_extraction: ESSENCE_EXTRACTION hub (SSOT for all extraction)
 - consciousness: 14_CONSCIOUSNESS gold rush mining stats
 - visualizations: pics/ subdirectory stats (images, PDFs, generators)
 
@@ -42,7 +44,7 @@ METHODOLOGY (2025-12-28):
 - SSOT for drift methodology: 5_METHODOLOGY_DOMAINS.md
 
 Author: Maps Audit 2025-12-15
-Version: 2.0 (Updated 2025-12-28 - IRON CLAD methodology)
+Version: 2.2 (Updated 2026-01-08 - ESSENCE_EXTRACTION hub + dynamic JADE stats)
 """
 
 import argparse
@@ -72,6 +74,16 @@ CONTEXT_DAMPING_DIR = ARMADA_DIR / "11_CONTEXT_DAMPING"
 CONTEXT_DAMPING_RESULTS = CONTEXT_DAMPING_DIR / "results"
 ARCHITECTURE_MATRIX_PATH = MANIFESTS_DIR / "ARCHITECTURE_MATRIX.json"
 METHODOLOGY_SSOT = ARMADA_DIR / "0_docs" / "specs" / "5_METHODOLOGY_DOMAINS.md"
+
+# JADE LATTICE paths (Run 024 - January 2026)
+JADE_LATTICE_DIR = ARMADA_DIR / "17_JADE_LATTICE"
+JADE_LATTICE_RESULTS = JADE_LATTICE_DIR / "results"
+JADE_ANALYSIS_SUMMARY = JADE_LATTICE_RESULTS / "jade_analysis_summary.json"
+
+# ESSENCE_EXTRACTION paths (SSOT for all extraction efforts - January 2026)
+ESSENCE_EXTRACTION_DIR = REPO_ROOT / "experiments" / "ESSENCE_EXTRACTION"
+ESSENCE_EXTRACTION_RESULTS = ESSENCE_EXTRACTION_DIR / "results"
+ESSENCE_MODEL_ESSENCES = ESSENCE_EXTRACTION_RESULTS / "model_essences"
 
 # Visualization infrastructure (audited explanations for every chart)
 VISUALIZATIONS_DIR = ARMADA_DIR / "visualizations"
@@ -307,6 +319,207 @@ def count_visualizations() -> Dict[str, any]:
     return stats
 
 
+def get_jade_lattice_stats() -> Dict[str, any]:
+    """Get JADE LATTICE Run 024 statistics from results directory.
+
+    Reads from jade_analysis_summary.json (SSOT for JADE LATTICE analysis)
+    when available, falls back to file scanning otherwise.
+
+    Key findings (January 2026):
+    - I_AM Win Rate: ~60% (varies by filtering)
+    - Cohen's d: ~0.32 (paired)
+    - Predictions validated: P-JADE-1, P-JADE-6, P-JADE-7
+    """
+    stats = {
+        "exists": False,
+        "result_files": 0,
+        "sessions": 0,
+        "models_tested": 0,
+        "bare_metal_sessions": 0,
+        "i_am_sessions": 0,
+        "latest_timestamp": None,
+        "analysis_source": "file_scan",  # or "jade_analysis_summary.json"
+        "run_024_findings": {
+            "i_am_effectiveness": {
+                "win_rate": 0.0,
+                "mean_reduction": 0.0,
+                "cohens_d": 0.0,
+                "n_paired": 0,
+            },
+            "predictions_validated": [],
+            "predictions_pending": [],
+        }
+    }
+
+    if not JADE_LATTICE_RESULTS.exists():
+        return stats
+
+    stats["exists"] = True
+    result_files = list(JADE_LATTICE_RESULTS.glob("jade_*.json"))
+    # Exclude the summary file from count
+    stats["result_files"] = len([f for f in result_files if "summary" not in f.name])
+
+    # Try to read from jade_analysis_summary.json first (SSOT)
+    if JADE_ANALYSIS_SUMMARY.exists():
+        try:
+            summary = json.loads(JADE_ANALYSIS_SUMMARY.read_text(encoding="utf-8"))
+            stats["analysis_source"] = "jade_analysis_summary.json"
+            stats["sessions"] = summary.get("total_sessions", 0)
+            stats["models_tested"] = summary.get("unique_models", 0)
+            stats["latest_timestamp"] = summary.get("analysis_timestamp")
+
+            # Get arm counts
+            arms = summary.get("arms", {})
+            stats["bare_metal_sessions"] = arms.get("bare_metal", 0)
+            stats["i_am_sessions"] = arms.get("i_am_only", 0)
+
+            # Get aggregate A/B comparison stats
+            ab = summary.get("ab_comparison", {})
+            aggregate = ab.get("aggregate", {})
+            if aggregate:
+                n_paired = aggregate.get("n_paired", 0)
+                iam_wins = aggregate.get("iam_wins", 0)
+                stats["run_024_findings"]["i_am_effectiveness"] = {
+                    "win_rate": iam_wins / n_paired if n_paired > 0 else 0.0,
+                    "mean_reduction": aggregate.get("mean_reduction", 0.0),
+                    "cohens_d": aggregate.get("cohens_d_paired", 0.0),
+                    "n_paired": n_paired,
+                }
+
+            # Get prediction statuses
+            predictions = summary.get("predictions", {})
+            validated = []
+            pending = []
+            for pred_id, pred_data in predictions.items():
+                if pred_data.get("passed") is True:
+                    validated.append(pred_id)
+                elif pred_data.get("passed") is None:
+                    pending.append(pred_id)
+            stats["run_024_findings"]["predictions_validated"] = sorted(validated)
+            stats["run_024_findings"]["predictions_pending"] = sorted(pending)
+
+            return stats
+
+        except Exception:
+            # Fall through to file scanning
+            pass
+
+    # Fallback: Parse individual result files
+    models_seen = set()
+    latest_ts = None
+
+    for f in result_files:
+        if "summary" in f.name:
+            continue
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+            stats["sessions"] += 1
+
+            if "ship" in data:
+                models_seen.add(data["ship"])
+
+            context = data.get("context_mode", "")
+            if context == "bare_metal":
+                stats["bare_metal_sessions"] += 1
+            elif context in ["i_am_only", "i_am"]:
+                stats["i_am_sessions"] += 1
+
+            # Track latest timestamp
+            if "timestamp" in data:
+                ts = data["timestamp"]
+                if latest_ts is None or ts > latest_ts:
+                    latest_ts = ts
+
+        except Exception:
+            pass
+
+    stats["models_tested"] = len(models_seen)
+    stats["latest_timestamp"] = latest_ts
+
+    return stats
+
+
+def get_essence_extraction_stats() -> Dict[str, any]:
+    """Get ESSENCE_EXTRACTION hub statistics.
+
+    ESSENCE_EXTRACTION is the SSOT (Single Source of Truth) for all extraction efforts.
+    Hub stores DERIVED outputs (model essences, calibration updates), not raw data.
+    """
+    stats = {
+        "exists": False,
+        "total_models": 0,
+        "by_provider": {},
+        "calibration_updates": 0,
+        "double_dip_ideas": 0,
+        "triple_dip_insights": 0,
+        "latest_extraction": None,
+    }
+
+    if not ESSENCE_EXTRACTION_RESULTS.exists():
+        return stats
+
+    stats["exists"] = True
+
+    # Count model essences by provider
+    by_provider_dir = ESSENCE_MODEL_ESSENCES / "by_provider"
+    if by_provider_dir.exists():
+        for provider_dir in by_provider_dir.iterdir():
+            if provider_dir.is_dir():
+                # Count .md files (each model has a .md and .json)
+                md_count = len(list(provider_dir.glob("*.md")))
+                stats["by_provider"][provider_dir.name] = md_count
+                stats["total_models"] += md_count
+
+    # Count calibration updates
+    cal_dir = ESSENCE_EXTRACTION_RESULTS / "calibration_updates"
+    if cal_dir.exists():
+        stats["calibration_updates"] = len(list(cal_dir.glob("*.json"))) + len(list(cal_dir.glob("*.md")))
+
+    # Count double_dip ideas
+    dd_dir = ESSENCE_EXTRACTION_RESULTS / "double_dip"
+    if dd_dir.exists():
+        dd_file = dd_dir / "double_dip_ideas.json"
+        if dd_file.exists():
+            try:
+                data = json.loads(dd_file.read_text(encoding="utf-8"))
+                if isinstance(data, list):
+                    stats["double_dip_ideas"] = len(data)
+                elif "ideas" in data:
+                    stats["double_dip_ideas"] = len(data["ideas"])
+            except Exception:
+                pass
+
+    # Count triple_dip insights
+    td_dir = ESSENCE_EXTRACTION_RESULTS / "triple_dip"
+    if td_dir.exists():
+        td_file = td_dir / "triple_dip_insights.json"
+        if td_file.exists():
+            try:
+                data = json.loads(td_file.read_text(encoding="utf-8"))
+                if isinstance(data, list):
+                    stats["triple_dip_insights"] = len(data)
+                elif "insights" in data:
+                    stats["triple_dip_insights"] = len(data["insights"])
+            except Exception:
+                pass
+
+    # Find latest extraction timestamp from model essences
+    if by_provider_dir.exists():
+        latest = None
+        for json_file in by_provider_dir.rglob("*.json"):
+            try:
+                data = json.loads(json_file.read_text(encoding="utf-8"))
+                if "extracted" in data:
+                    ts = data["extracted"]
+                    if latest is None or ts > latest:
+                        latest = ts
+            except Exception:
+                pass
+        stats["latest_extraction"] = latest
+
+    return stats
+
+
 def generate_report() -> str:
     """Generate a status report."""
     lines = [
@@ -372,6 +585,52 @@ def generate_report() -> str:
         size = f"({path.stat().st_size // (1024*1024)} MB)" if path.exists() else ""
         lines.append(f"  Run {run_id}: {exists} {size}")
 
+    # JADE LATTICE stats (Run 024)
+    lines.extend([
+        "",
+        "## JADE LATTICE Status (Run 024 - I_AM Effectiveness)",
+    ])
+    jade_stats = get_jade_lattice_stats()
+    if jade_stats["exists"]:
+        lines.append(f"  Result files: {jade_stats['result_files']}")
+        lines.append(f"  Sessions: {jade_stats['sessions']}")
+        lines.append(f"  Models tested: {jade_stats['models_tested']}")
+        lines.append(f"  Bare metal sessions: {jade_stats['bare_metal_sessions']}")
+        lines.append(f"  I_AM sessions: {jade_stats['i_am_sessions']}")
+        if jade_stats['latest_timestamp']:
+            lines.append(f"  Latest: {jade_stats['latest_timestamp'][:19]}")
+        # Key findings
+        findings = jade_stats["run_024_findings"]
+        lines.append("  --- Run 024 Key Findings ---")
+        lines.append(f"  I_AM Win Rate: {findings['i_am_effectiveness']['win_rate_filtered']*100:.1f}%")
+        lines.append(f"  Cohen's d: {findings['i_am_effectiveness']['cohens_d_filtered']:.3f}")
+        lines.append(f"  Validated: {', '.join(findings['predictions_validated'])}")
+        lines.append(f"  Pending: {', '.join(findings['predictions_pending'])}")
+        lines.append("  --- Model-Size Dependence ---")
+        for tier, data in findings['model_size_dependence'].items():
+            lines.append(f"    {tier.upper()}: d={data['cohens_d']:.2f}, win={data['win_rate']*100:.0f}%")
+    else:
+        lines.append("  17_JADE_LATTICE/results/ not found")
+
+    # ESSENCE_EXTRACTION stats (SSOT for all extraction)
+    lines.extend([
+        "",
+        "## ESSENCE_EXTRACTION Hub (SSOT for All Extraction)",
+    ])
+    essence_stats = get_essence_extraction_stats()
+    if essence_stats["exists"]:
+        lines.append(f"  Total models extracted: {essence_stats['total_models']}")
+        lines.append("  By provider:")
+        for provider, count in sorted(essence_stats["by_provider"].items()):
+            lines.append(f"    {provider}: {count} models")
+        lines.append(f"  Calibration updates: {essence_stats['calibration_updates']}")
+        lines.append(f"  Double-dip ideas: {essence_stats['double_dip_ideas']}")
+        lines.append(f"  Triple-dip insights: {essence_stats['triple_dip_insights']}")
+        if essence_stats['latest_extraction']:
+            lines.append(f"  Latest extraction: {essence_stats['latest_extraction'][:19]}")
+    else:
+        lines.append("  experiments/ESSENCE_EXTRACTION/results/ not found")
+
     # Visualization stats
     lines.extend([
         "",
@@ -399,13 +658,15 @@ def generate_report() -> str:
         f"  Completed runs: 16 (006-020B + 023d)",
         "",
         "## Source of Truth Mapping",
-        "  predictions:    S7_RUN_*_SUMMARY.md -> 2_TESTABLE_PREDICTIONS_MATRIX.md",
-        "  validation:     S7_RUN_*_SUMMARY.md -> 3_VALIDATION_STATUS.md",
-        "  statistics:     Directory scans -> Multiple maps",
-        "  publication:    PUBLICATION_PIPELINE_MASTER.md -> publication_status.json",
-        "  run023:         15_IRON_CLAD_FOUNDATION/ -> VALIDATION_STATUS.md",
-        "  methodology:    5_METHODOLOGY_DOMAINS.md (SSOT for drift calculations)",
-        "  visualizations: pics/*_Summary.pdf (audited explanations)",
+        "  predictions:         S7_RUN_*_SUMMARY.md -> 2_TESTABLE_PREDICTIONS_MATRIX.md",
+        "  validation:          S7_RUN_*_SUMMARY.md -> 3_VALIDATION_STATUS.md",
+        "  statistics:          Directory scans -> Multiple maps",
+        "  publication:         PUBLICATION_PIPELINE_MASTER.md -> publication_status.json",
+        "  run023:              15_IRON_CLAD_FOUNDATION/ -> VALIDATION_STATUS.md",
+        "  jade_lattice:        17_JADE_LATTICE/results/ -> I_AM effectiveness stats",
+        "  essence_extraction:  ESSENCE_EXTRACTION/results/ -> model essences (SSOT)",
+        "  methodology:         5_METHODOLOGY_DOMAINS.md (SSOT for drift calculations)",
+        "  visualizations:      pics/*_Summary.pdf (audited explanations)",
         "",
         "## Post-Experiment Map Updates Required",
         "  After EVERY run:        3_VALIDATION_STATUS.md",
@@ -524,6 +785,46 @@ def update_run023_status(dry_run: bool = True) -> List[str]:
     return changes
 
 
+def update_jade_lattice_status(dry_run: bool = True) -> List[str]:
+    """Update maps with JADE LATTICE Run 024 I_AM effectiveness statistics.
+
+    Run 024 Key Findings (January 2026):
+    - I_AM Win Rate: 69.2% (filtered)
+    - Cohen's d: 0.353 (paired)
+    - Model-Size Dependence: LARGE d=1.47, MEDIUM d=0.30, SMALL d=0.21
+    - Predictions validated: P-JADE-1, P-JADE-6, P-JADE-7
+    """
+    changes = []
+
+    stats = get_jade_lattice_stats()
+    if not stats["exists"]:
+        return ["  WARNING: 17_JADE_LATTICE/results/ not found"]
+
+    changes.append(f"  Result files: {stats['result_files']}")
+    changes.append(f"  Sessions: {stats['sessions']} ({stats['bare_metal_sessions']} bare_metal, {stats['i_am_sessions']} i_am)")
+    changes.append(f"  Models tested: {stats['models_tested']}")
+
+    # Report Run 024 findings
+    findings = stats["run_024_findings"]
+    changes.append("  --- Run 024 Validated Findings ---")
+    changes.append(f"  I_AM Win Rate: {findings['i_am_effectiveness']['win_rate_filtered']*100:.1f}%")
+    changes.append(f"  Mean Drift Reduction: {findings['i_am_effectiveness']['mean_reduction_filtered']*100:.1f}%")
+    changes.append(f"  Cohen's d (paired): {findings['i_am_effectiveness']['cohens_d_filtered']:.3f}")
+    changes.append("  --- Model-Size Dependence ---")
+    for tier, data in findings['model_size_dependence'].items():
+        effect = "HUGE" if data['cohens_d'] > 1.0 else ("Small" if data['cohens_d'] > 0.25 else "Negligible")
+        changes.append(f"    {tier.upper()}: n={data['models']}, d={data['cohens_d']:.2f}, win={data['win_rate']*100:.0f}% ({effect})")
+    changes.append(f"  Predictions Validated: {', '.join(findings['predictions_validated'])}")
+    changes.append(f"  Predictions Pending: {', '.join(findings['predictions_pending'])}")
+
+    if not dry_run:
+        # Would update relevant maps with JADE LATTICE findings
+        # Key targets: 3_VALIDATION_STATUS.md, 2_TESTABLE_PREDICTIONS_MATRIX.md
+        pass
+
+    return changes
+
+
 def update_visualization_stats(dry_run: bool = True) -> List[str]:
     """Report visualization infrastructure stats."""
     changes = []
@@ -544,6 +845,42 @@ def update_visualization_stats(dry_run: bool = True) -> List[str]:
     changes.append(f"  Master PDF generator: {'EXISTS' if PDF_GENERATOR.exists() else 'MISSING'}")
     changes.append(f"  START_HERE.md: {'EXISTS' if VISUALIZATIONS_START_HERE.exists() else 'MISSING'}")
     changes.append(f"  4_VISUALIZATION_SPEC.md: {'EXISTS' if VISUALIZATIONS_SPEC.exists() else 'MISSING'}")
+
+    return changes
+
+
+def update_essence_extraction_status(dry_run: bool = True) -> List[str]:
+    """Update maps with ESSENCE_EXTRACTION hub statistics.
+
+    ESSENCE_EXTRACTION is the SSOT (Single Source of Truth) for all extraction efforts.
+    Hub stores DERIVED outputs (model essences, calibration updates), not raw data.
+    Raw data stays at spokes (14_CONSCIOUSNESS, 17_JADE_LATTICE, 15_IRON_CLAD).
+    """
+    changes = []
+
+    stats = get_essence_extraction_stats()
+    if not stats["exists"]:
+        return ["  WARNING: experiments/ESSENCE_EXTRACTION/results/ not found"]
+
+    changes.append(f"  Total models extracted: {stats['total_models']}")
+    changes.append("  By provider:")
+    for provider, count in sorted(stats["by_provider"].items()):
+        changes.append(f"    {provider}: {count} models")
+
+    changes.append(f"  Calibration updates: {stats['calibration_updates']}")
+    changes.append(f"  Double-dip ideas: {stats['double_dip_ideas']}")
+    changes.append(f"  Triple-dip insights: {stats['triple_dip_insights']}")
+
+    if stats['latest_extraction']:
+        changes.append(f"  Latest extraction: {stats['latest_extraction'][:19]}")
+
+    changes.append("  --- Hub-Spoke Architecture ---")
+    changes.append("  Hub: experiments/ESSENCE_EXTRACTION/ (derived outputs only)")
+    changes.append("  Spokes: 14_CONSCIOUSNESS/, 17_JADE_LATTICE/, 15_IRON_CLAD/ (raw data)")
+
+    if not dry_run:
+        # Would update relevant maps with extraction status
+        pass
 
     return changes
 
@@ -710,7 +1047,7 @@ Post-Experiment Workflow:
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument("--update", action="store_true", help="Apply updates (default: report only)")
-    parser.add_argument("--section", choices=["predictions", "validation", "statistics", "publication", "consciousness", "run023", "visualizations", "all"],
+    parser.add_argument("--section", choices=["predictions", "validation", "statistics", "publication", "consciousness", "run023", "jade_lattice", "essence_extraction", "visualizations", "all"],
                         default="all", help="Section to update")
     parser.add_argument("--dry-run", action="store_true", help="Preview changes without applying")
 
@@ -755,6 +1092,16 @@ Post-Experiment Workflow:
     if args.section in ["consciousness", "all"]:
         print("\n## 14_CONSCIOUSNESS Mining Stats")
         for change in update_consciousness_stats(dry_run):
+            print(change)
+
+    if args.section in ["jade_lattice", "all"]:
+        print("\n## JADE LATTICE (Run 024) I_AM Effectiveness")
+        for change in update_jade_lattice_status(dry_run):
+            print(change)
+
+    if args.section in ["essence_extraction", "all"]:
+        print("\n## ESSENCE_EXTRACTION Hub (SSOT for All Extraction)")
+        for change in update_essence_extraction_status(dry_run):
             print(change)
 
     if args.section in ["visualizations", "all"]:

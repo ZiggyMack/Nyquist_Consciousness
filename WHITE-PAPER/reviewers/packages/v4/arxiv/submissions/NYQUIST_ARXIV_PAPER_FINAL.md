@@ -18,7 +18,7 @@
 
 ## 1. Introduction
 
-![Figure 1: Identity Manifold](../figures/generated/png/fig1_identity_manifold.png)
+![Figure 1: Identity Manifold](../figures/conceptual/pics/fig1_identity_manifold_CONCEPTUAL.png)
 *Figure 1: Identity exists as a low-dimensional attractor in high-dimensional embedding space. Compression finds coordinates (C), reconstruction returns to the basin (R), and drift (D) measures deviation from the original manifold.*
 
 The stability of behavioral characteristics in Large Language Models (LLMs) during extended interactions represents a fundamental challenge for deployment in critical applications. While existing evaluation frameworks focus on output quality metrics—accuracy, helpfulness, safety, and value alignment—they fail to address a more fundamental question: **does the system maintain consistent identity across interactions?**
@@ -188,7 +188,7 @@ This enables prediction of:
 
 ### 3.6 Experimental Design
 
-![Figure 2: Experimental Pipeline](../figures/generated/png/fig3_pipeline.png)
+![Figure 2: Experimental Pipeline](../figures/conceptual/pics/fig3_pipeline_CONCEPTUAL.png)
 *Figure 2: The S3→S6 experimental pipeline. S3 (Empirical Validation) generates cross-architecture data; S4 (Mathematical Formalism) provides operators; S5 (Interpretive Layer) identifies fragility hierarchy; S6 (Omega Synthesis) achieves drift cancellation through multi-architecture triangulation.*
 
 We conducted 21 distinct experimental runs across two eras, culminating in IRON CLAD validation (N>=3 per experimental cell):
@@ -252,6 +252,9 @@ Consistent across text-embedding-3-large/small/ada. Not a single-embedding artif
 | Raw dimensions | 3072 | 3072 |
 | **90% variance PCs** | **2** | 43 |
 | 95% variance PCs | ~3 | 67 |
+
+![Figure: Variance Curve - 2 PCs = 90%](../figures/experiments/run023/variance_curve.png)
+*Figure: Cumulative explained variance showing 2 principal components capture 90% of identity variance in cosine methodology (vs 43 PCs in legacy Euclidean). This dramatic dimensionality reduction demonstrates identity operates on a remarkably concentrated manifold.*
 
 Identity operates on a remarkably low-dimensional manifold. The dramatic reduction (43→2 PCs) reflects cosine distance's focus on directional similarity, isolating the core identity signal.
 
@@ -346,13 +349,11 @@ The control vs treatment design separates measurement effects from inherent dyna
 ![Figure: Combined Provider Analysis](../figures/experiments/run023/combined_provider_dashboard.png)
 *Figure: Run 023d combined provider analysis (750 experiments x 25 models x 5 providers). Shows provider stability rates (ANTHROPIC 96%, GOOGLE 94%), recovery efficiency, and peak drift distributions. Event Horizon = 0.80 (cosine distance). Key metrics: Overall stability 75.3%, Mean Peak Drift 0.508, Mean Settled Drift 0.426.*
 
-| Provider | Control B→F | Treatment Peak | Inherent Ratio |
-|----------|-------------|----------------|----------------|
-| OpenAI | ~0.98 | ~1.91 | 51% |
-| Together | ~0.69 | ~2.2 | 36% |
-| **Overall** | — | — | **38%** |
+**Cross-Platform Replication (Run 020B IRON CLAD):**
 
-**Interpretation (Run 020B IRON CLAD):** The definitive cross-platform validation (248 sessions, 37 ships, 5 providers) establishes **~93% inherent drift ratio** (Control B→F = 0.661, Treatment B→F = 0.711). This confirms the core Thermometer Result:
+The ~93% inherent ratio (0.661/0.711) holds universally across all five providers (Anthropic, OpenAI, Google, xAI, Together), confirming this is a fundamental property of extended AI interaction, not a provider-specific artifact.
+
+**Interpretation:** The definitive cross-platform validation (248 sessions, 37 ships, 5 providers) establishes **~93% inherent drift ratio** (Control B→F = 0.661, Treatment B→F = 0.711). This confirms the core Thermometer Result:
 
 - Probing amplifies trajectory energy
 - Probing minimally affects destination coordinates (+7.6% final drift)
@@ -482,22 +483,22 @@ First visualization of AI identity as geometric object. Not metaphor—measureme
 
 ### Claim A (Instrument Validity)
 ```
-├── EXP-PFI-A Phase 1: Embedding invariance (rho~0.91)
-├── EXP-PFI-A Phase 2: Low-dimensional structure (43 PCs)
-├── EXP-PFI-A Phase 3: Semantic sensitivity (d~0.98)
+├── EXP-PFI-A Phase 1: Embedding invariance (ρ≈0.91)
+├── Run 023d Phase 2: Low-dimensional structure (2 PCs)
+├── Run 023d Phase 3B: Semantic sensitivity (d=0.698)
 └── EXP-PFI-A Phase 4: Paraphrase robustness (0% above threshold)
 ```
 
 ### Claim B (Regime Threshold)
 ```
-├── Run 009: Chi-square validation (p~4.8e-5)
+├── Run 023d: Event Horizon D=0.80 (p=2.40×10⁻²³)
 └── EXP-PFI-A Phase 2: PC space separability (p=0.0018)
 ```
 
 ### Claim C (Oscillator Dynamics)
 ```
-├── Run 016: Settling time protocol (tau_s = 6.1)
-└── Run 016: Ringback measurement (3.2 mean)
+├── Run 023d: Extended settling (τₛ ≈ 7 probes)
+└── Run 016-023: Ringback measurement
 ```
 
 ### Claim D (Context Damping)

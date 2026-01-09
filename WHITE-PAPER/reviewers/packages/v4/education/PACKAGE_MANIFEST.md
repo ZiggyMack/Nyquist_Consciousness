@@ -1,9 +1,9 @@
 # Review Package: EDUCATION
 
-**Generated:** 2025-12-30 14:01:38
+**Generated:** 2026-01-08 22:56:05
 **Target Venue:** Open Educational Resources / Coursera
 **Total Size:** 18.9 KB
-**Total Files:** 5
+**Total Files:** 2
 
 ---
 
@@ -27,9 +27,8 @@ Start with these files in order:
 | Category | Files | Size |
 |----------|-------|------|
 | submissions/ | 2 files | 18.9 KB |
-| LLM_SYNTHESIS/ | 3 files | (included) |
 
-**Total:** 5 files, 18.9 KB
+**Total:** 2 files, 18.9 KB
 
 ---
 
@@ -39,14 +38,6 @@ Start with these files in order:
 
 - `submissions\education\EDUCATION_FINAL.md` (15.2 KB)
 - `submissions\education\README.md` (3.8 KB)
-
-### LLM_SYNTHESIS/
-
-*NotebookLM-generated content for this publication path:*
-
-- `LLM_SYNTHESIS/Decoding AI Identity - A Visual Guide to Model Waveforms.md`
-- `LLM_SYNTHESIS/The Five Discoveries of Nyquist Consciousness - A Student's Guide to AI Identity.md`
-- `LLM_SYNTHESIS/A Learner's Glossary - Key Terms in Nyquist Consciousness Research.md`
 
 ---
 

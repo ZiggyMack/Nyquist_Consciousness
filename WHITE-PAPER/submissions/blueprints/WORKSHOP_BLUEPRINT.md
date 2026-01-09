@@ -3,7 +3,7 @@
 **Target:** NeurIPS/AAAI Workshop on AI Safety / Alignment
 **Format:** 4-8 pages, focused claims
 **Status:** Ready for submission
-**Generated:** 2025-12-31
+**Generated:** 2026-01-08
 
 ---
 

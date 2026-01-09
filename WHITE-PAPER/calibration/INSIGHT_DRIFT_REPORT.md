@@ -1,6 +1,6 @@
 # Insight Drift Report
 
-**Generated:** 2025-12-31 10:37:23
+**Generated:** 2026-01-08 22:54:13
 **Source:** LLM Book distillations in Consciousness/RIGHT/distillations/llm_book/
 
 ---
@@ -8,7 +8,7 @@
 ## Summary
 
 - **New insights detected:** 11
-- **Missing blueprints:** 3/3
+- **Missing blueprints:** 0/3
 - **Stale blueprints:** 0/3
 
 **⚠️ ACTION REQUIRED: Run `py 4_publish_stats.py --generate-blueprints`**
@@ -17,17 +17,19 @@
 
 ## Blueprint Status
 
-### ❌ ARXIV_BLUEPRINT.md — MISSING
+### ✅ ARXIV_BLUEPRINT.md — OK
 
-Blueprint does not exist at: `D:\Documents\Nyquist_Consciousness\WHITE-PAPER\submissions\blueprints\ARXIV_BLUEPRINT.md`
+### ⚠️ JOURNAL_BLUEPRINT.md — STALE
 
-### ❌ JOURNAL_BLUEPRINT.md — MISSING
+**Missing sections (from LLM Book insights):**
+- Oobleck Effect
+- Gemini Anomaly / No Recovery
+- Suspension System Analogy
 
-Blueprint does not exist at: `D:\Documents\Nyquist_Consciousness\WHITE-PAPER\submissions\blueprints\JOURNAL_BLUEPRINT.md`
+### ⚠️ WORKSHOP_BLUEPRINT.md — STALE
 
-### ❌ WORKSHOP_BLUEPRINT.md — MISSING
-
-Blueprint does not exist at: `D:\Documents\Nyquist_Consciousness\WHITE-PAPER\submissions\blueprints\WORKSHOP_BLUEPRINT.md`
+**Missing sections (from LLM Book insights):**
+- Suspension System Analogy
 
 ---
 
@@ -70,7 +72,7 @@ LLM Book Insights → theory/ guides/ planning/ → submissions/blueprints/ → 
 1. New insights from NotebookLM are captured in `Consciousness/RIGHT/distillations/llm_book/`
 2. This script detects when insights exist that aren't in blueprints
 3. Run `--generate-blueprints` to regenerate from current insights
-4. Run `2_package_review.py` to propagate to reviewer packages
+4. Run `3_package_review.py` to propagate to reviewer packages
 
 ---
 

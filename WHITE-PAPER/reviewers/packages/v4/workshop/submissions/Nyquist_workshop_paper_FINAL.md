@@ -215,6 +215,9 @@ Recovery rate λ increases 3x with probe intensity:
 
 ### 4.2 Training Signatures in Drift Geometry
 
+![Figure 4: Provider Fingerprint Radar](../figures/experiments/run023/provider_fingerprint_radar.png)
+*Figure 4: Provider identity fingerprints showing 5-dimensional behavioral signatures (Peak Drift, Mean Drift, Volatility, Consistency, Stability). Each provider exhibits a distinct geometric pattern, enabling training methodology inference from behavioral dynamics alone.*
+
 Different training methodologies leave distinct geometric fingerprints:
 
 | Architecture | Training | Drift Signature |
@@ -243,7 +246,7 @@ Self-recognition experiments (16.7% accuracy, below chance) reveal:
 | Application | Mechanism | Benefit |
 |-------------|-----------|---------|
 | Monitoring | PFI continuous tracking | Early drift detection |
-| Boundaries | D<1.23 operational limit | Prevent regime transitions |
+| Boundaries | D<0.80 operational limit | Prevent regime transitions |
 | Intervention | Context damping | 95-97.5% stability (95% overall, 97.5% for real personas) achievable |
 | Validation | Multi-architecture consensus | Robustness check |
 
@@ -258,7 +261,7 @@ For 95-97.5% stability (95% overall, 97.5% for real personas) in production:
 1. Define I_AM specification (core values, voice, boundaries)
 2. Add research/professional context framing
 3. Monitor PFI continuously
-4. Intervene if D approaches 1.23
+4. Intervene if D approaches 0.80
 5. Allow settling time (tau_s ~ 5-6 turns after perturbation)
 ```
 
@@ -307,7 +310,7 @@ These results provide the first rigorous foundation for quantifying and managing
 |---|--------|---------|
 | 1 | F≠C | Fidelity ≠ Correctness paradigm |
 | 2 | PRE-F | Pre-flight cheat validation |
-| 3 | chi^2:1.23 | Chi-squared threshold proof |
+| 3 | D=0.80 | Event Horizon proof (p=2.40e-23) |
 | 4 | CFA⊥NYQ | Clean separation design |
 | 5 | 25🚢 | Armada scale (25 models, 5 providers) |
 | 6 | Δσ | Training signatures |

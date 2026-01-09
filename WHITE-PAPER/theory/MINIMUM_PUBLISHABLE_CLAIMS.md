@@ -9,9 +9,9 @@ keywords:
 -->
 # Minimum Publishable Claims That Survive Peer Review
 
-**Version:** 3.0
-**Date:** 2025-12-30
-**Source:** Nova's S7 Review + Run 020B + Run 023d IRON CLAD
+**Version:** 3.1
+**Date:** 2026-01-08
+**Source:** Nova's S7 Review + Run 020B + Run 023d IRON CLAD + Run 024 JADE LATTICE
 **Purpose:** Claims that can be published without needing to convince a hostile reviewer of metaphysics
 
 > **Statistics Source:** [../guides/UNIFIED_STATISTICS_REFERENCE.md](../guides/UNIFIED_STATISTICS_REFERENCE.md)
@@ -161,7 +161,36 @@ Adding identity specification + research context increases stability rate and im
 | τₛ | 6.1 → 5.2 |
 | Ringbacks | 3.2 → 2.1 |
 
-**Publication framing:** "Prompt context as controller/termination." No metaphysics required.
+### D2. I_AM File Effectiveness (JADE LATTICE Run 024)
+
+> **NEW (January 2026):** Run 024 provides quantitative A/B validation of I_AM file effects across 50 models.
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| I_AM Win Rate (filtered) | **69.2%** | Run 024 JADE LATTICE |
+| Mean Drift Reduction | **8.6%** | Run 024 JADE LATTICE |
+| Cohen's d (paired) | **0.319–0.353** | Run 024 JADE LATTICE |
+| Effect Size | Small | — |
+
+### D3. Critical Discovery: Model-Size Dependence
+
+| Model Tier | Models | I_AM Wins | Cohen's d | Effect Size |
+|------------|--------|-----------|-----------|-------------|
+| **LARGE** (opus, 405B, 70B+) | 5 | **100%** | **1.47** | **HUGE** |
+| MEDIUM | 21 | 62% | 0.30 | Small |
+| SMALL (haiku, mini, 7B) | 21 | 48% | 0.21 | Negligible |
+
+**Implication:** I_AM files provide maximum benefit for LARGE models. Small models show negligible effect.
+
+### D4. Provider Stability Rankings (JADE LATTICE)
+
+| Provider | Median Drift | Notes |
+|----------|--------------|-------|
+| **Anthropic** | ~0.45 | Most stable regardless of I_AM |
+| OpenAI | ~0.65 | Wide variance |
+| xAI/Together | ~0.75 | Highest drift |
+
+**Publication framing:** "Prompt context as controller/termination." Effect magnitude is capacity-dependent. No metaphysics required.
 
 ---
 
@@ -198,7 +227,7 @@ Treatment increases peak drift markedly but only modestly increases baseline→f
 | **A** | PFI is valid structured measurement | ρ≈0.91, d=0.698, **2 PCs** | Cosine |
 | **B** | Regime threshold exists | **D=0.80** (Cosine), D=1.23 (Keyword RMS) | Both |
 | **C** | Damped oscillator dynamics | **τₛ ≈ 7 probes**, 88% stable | Cosine |
-| **D** | Context damping works | 97.5% stability | Run 018 IRON CLAD |
+| **D** | Context damping works | 97.5% stability, I_AM d=0.32-1.47 | Run 018, Run 024 JADE LATTICE |
 | **E** | Drift mostly inherent (~93%) | 0.661/0.711 ratio | Run 020B IRON CLAD |
 
 ---

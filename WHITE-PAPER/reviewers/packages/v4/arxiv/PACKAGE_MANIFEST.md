@@ -1,9 +1,9 @@
 # Review Package: ARXIV
 
-**Generated:** 2025-12-30 14:01:38
+**Generated:** 2026-01-08 22:56:05
 **Target Venue:** cs.AI Preprint
-**Total Size:** 63.0 KB
-**Total Files:** 6
+**Total Size:** 53.5 KB
+**Total Files:** 2
 
 ---
 
@@ -18,7 +18,6 @@ arXiv preprint package (25-35 pages, full methodology)
 Start with these files in order:
 
 1. `submissions/README.md`
-2. `ARXIV_BLUEPRINT.md`
 
 ---
 
@@ -26,11 +25,9 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 2 files | 53.0 KB |
-| blueprints/ | 1 files | 10.0 KB |
-| LLM_SYNTHESIS/ | 3 files | (included) |
+| submissions/ | 2 files | 53.5 KB |
 
-**Total:** 6 files, 63.0 KB
+**Total:** 2 files, 53.5 KB
 
 ---
 
@@ -38,20 +35,8 @@ Start with these files in order:
 
 ### submissions/
 
-- `submissions\arxiv\NYQUIST_ARXIV_PAPER_FINAL.md` (36.4 KB)
+- `submissions\arxiv\NYQUIST_ARXIV_PAPER_FINAL.md` (36.8 KB)
 - `submissions\arxiv\README.md` (16.6 KB)
-
-### blueprints/
-
-- `submissions\blueprints\ARXIV_BLUEPRINT.md` (10.0 KB)
-
-### LLM_SYNTHESIS/
-
-*NotebookLM-generated content for this publication path:*
-
-- `LLM_SYNTHESIS/Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md`
-- `LLM_SYNTHESIS/Technical Report - Comparative Analysis of AI Provider Identity Stability.md`
-- `LLM_SYNTHESIS/The Nyquist Consciousness Framework - An Empirical Analysis of AI Identity Dynamics.md`
 
 ---
 

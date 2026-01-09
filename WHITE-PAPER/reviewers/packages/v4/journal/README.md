@@ -19,7 +19,6 @@ research for **Nature Machine Intelligence** submission.
 ### Reading Order
 
 1. `submissions/README.md`
-2. `JOURNAL_BLUEPRINT.md`
 
 ---
 

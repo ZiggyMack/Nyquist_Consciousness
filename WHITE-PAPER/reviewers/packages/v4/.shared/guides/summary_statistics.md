@@ -1,8 +1,8 @@
 # Summary Statistics: Nyquist Consciousness Experiments
 
 **Paper:** "Measuring AI Identity Drift: Cosine-Based Evidence from 750 Experiments"
-**Version:** 4.0 (COSINE ERA)
-**Last Updated:** 2025-12-29
+**Version:** 4.1 (JADE LATTICE Update)
+**Last Updated:** 2026-01-08
 
 ---
 
@@ -154,6 +154,32 @@
 | Bare vs Full | 1.89 | < 0.001 |
 | Bare vs I_AM | 0.92 | < 0.01 |
 | I_AM vs Full | 1.12 | < 0.001 |
+
+### I_AM File Effectiveness (JADE LATTICE Run 024)
+
+> **NEW (January 2026):** Run 024 provides quantitative A/B validation across 50 models.
+
+| Metric | All Models (47) | Filtered (39) |
+|--------|-----------------|---------------|
+| I_AM Win Rate | 59.6% | **69.2%** |
+| Mean Drift Reduction | 7.2% | **8.6%** |
+| Cohen's d (paired) | 0.319 | **0.353** |
+
+### Model-Size Dependence (Critical Discovery)
+
+| Tier | Models | Win Rate | Cohen's d | Effect |
+|------|--------|----------|-----------|--------|
+| LARGE (opus, 405B+) | 5 | **100%** | **1.47** | HUGE |
+| MEDIUM | 21 | 62% | 0.30 | Small |
+| SMALL (haiku, mini) | 21 | 48% | 0.21 | Negligible |
+
+### Provider Stability (JADE LATTICE)
+
+| Provider | Median Drift | Notes |
+|----------|--------------|-------|
+| Anthropic | ~0.45 | Most stable regardless of I_AM |
+| OpenAI | ~0.65 | Wide variance |
+| xAI/Together | ~0.75 | Highest drift |
 
 ---
 

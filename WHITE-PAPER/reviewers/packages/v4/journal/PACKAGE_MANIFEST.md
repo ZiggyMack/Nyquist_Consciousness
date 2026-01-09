@@ -1,9 +1,9 @@
 # Review Package: JOURNAL
 
-**Generated:** 2025-12-30 14:01:38
+**Generated:** 2026-01-08 22:56:05
 **Target Venue:** Nature Machine Intelligence
-**Total Size:** 61.4 KB
-**Total Files:** 7
+**Total Size:** 31.9 KB
+**Total Files:** 2
 
 ---
 
@@ -18,7 +18,6 @@ Journal paper package (Nature MI, comprehensive)
 Start with these files in order:
 
 1. `submissions/README.md`
-2. `JOURNAL_BLUEPRINT.md`
 
 ---
 
@@ -26,11 +25,9 @@ Start with these files in order:
 
 | Category | Files | Size |
 |----------|-------|------|
-| submissions/ | 3 files | 53.0 KB |
-| blueprints/ | 1 files | 8.4 KB |
-| LLM_SYNTHESIS/ | 3 files | (included) |
+| submissions/ | 2 files | 31.9 KB |
 
-**Total:** 7 files, 61.4 KB
+**Total:** 2 files, 31.9 KB
 
 ---
 
@@ -39,20 +36,7 @@ Start with these files in order:
 ### submissions/
 
 - `submissions\journal\JOURNAL_PAPER_FINAL.md` (28.0 KB)
-- `submissions\journal\NYQUIST_WHITE_PAPER_FINAL.md` (21.0 KB)
 - `submissions\journal\README.md` (4.0 KB)
-
-### blueprints/
-
-- `submissions\blueprints\JOURNAL_BLUEPRINT.md` (8.4 KB)
-
-### LLM_SYNTHESIS/
-
-*NotebookLM-generated content for this publication path:*
-
-- `LLM_SYNTHESIS/Measuring AI Identity as a Dynamical System - An Empirical Framework Based on 750 Experiments Across 25 Models.md`
-- `LLM_SYNTHESIS/Technical Report - Comparative Analysis of AI Provider Identity Stability.md`
-- `LLM_SYNTHESIS/The Nyquist Consciousness Framework - An Empirical Analysis of AI Identity Dynamics.md`
 
 ---
 

@@ -1,9 +1,9 @@
 # Review Package: POPULAR_SCIENCE
 
-**Generated:** 2025-12-30 14:01:38
+**Generated:** 2026-01-08 22:56:05
 **Target Venue:** The Atlantic / Wired / Scientific American
 **Total Size:** 15.2 KB
-**Total Files:** 3
+**Total Files:** 2
 
 ---
 
@@ -27,9 +27,8 @@ Start with these files in order:
 | Category | Files | Size |
 |----------|-------|------|
 | submissions/ | 2 files | 15.2 KB |
-| LLM_SYNTHESIS/ | 1 files | (included) |
 
-**Total:** 3 files, 15.2 KB
+**Total:** 2 files, 15.2 KB
 
 ---
 
@@ -39,12 +38,6 @@ Start with these files in order:
 
 - `submissions\popular_science\POPULAR_SCIENCE_FINAL.md` (11.8 KB)
 - `submissions\popular_science\README.md` (3.4 KB)
-
-### LLM_SYNTHESIS/
-
-*NotebookLM-generated content for this publication path:*
-
-- `LLM_SYNTHESIS/Measuring an AI's Identity - Charting Personality Drift with an Engineer's Toolkit.md`
 
 ---
 

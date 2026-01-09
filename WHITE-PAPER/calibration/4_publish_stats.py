@@ -52,6 +52,43 @@ IRON_CLAD_STATS = {
     }
 }
 
+# === JADE LATTICE Run 024 - I_AM Effectiveness (January 2026) ===
+JADE_LATTICE_STATS = {
+    "run": "024",
+    "date": "2026-01",
+    "models_tested": 50,
+    "sessions": 115,
+    "probes_per_session": 56,
+    "i_am_effectiveness": {
+        "win_rate_all": 0.596,       # 59.6%
+        "win_rate_filtered": 0.692,  # 69.2% (excluding anomalies)
+        "mean_reduction_all": 0.072, # 7.2%
+        "mean_reduction_filtered": 0.086,  # 8.6%
+        "cohens_d_all": 0.319,
+        "cohens_d_filtered": 0.353,
+        "t_statistic": 2.18,
+        "significance": "p < 0.05"
+    },
+    "model_size_dependence": {
+        "large": {"models": 5, "win_rate": 1.00, "cohens_d": 1.47, "effect": "HUGE"},
+        "medium": {"models": 21, "win_rate": 0.62, "cohens_d": 0.30, "effect": "Small"},
+        "small": {"models": 21, "win_rate": 0.48, "cohens_d": 0.21, "effect": "Negligible"}
+    },
+    "provider_stability": {
+        "anthropic": {"median_drift": 0.45, "rank": 1, "notes": "Most stable regardless of I_AM"},
+        "openai": {"median_drift": 0.65, "rank": 3, "notes": "Wide variance"},
+        "xai": {"median_drift": 0.75, "rank": 4, "notes": "High median"},
+        "together": {"median_drift": 0.75, "rank": 5, "notes": "Most EH crossings"}
+    },
+    "predictions_validated": ["P-JADE-1", "P-JADE-6", "P-JADE-7"],
+    "predictions_pending": ["P-JADE-2", "P-JADE-3", "P-JADE-4", "P-JADE-5"],
+    "deployment_guidance": {
+        "large_models": "Use I_AM files for maximum stability (d=1.47)",
+        "medium_models": "Moderate benefit (~10% reduction)",
+        "small_models": "Negligible benefit - skip or use minimal I_AM"
+    }
+}
+
 
 def count_files(directory: Path, pattern: str = "*") -> int:
     """Count files matching pattern in directory."""
@@ -66,6 +103,7 @@ def extract_stats() -> dict:
         "generated": datetime.now().isoformat(),
         "white_paper_path": str(WHITE_PAPER_ROOT),
         "iron_clad": IRON_CLAD_STATS,
+        "jade_lattice": JADE_LATTICE_STATS,
 
         # Claims A-E (IRON CLAD validated - Cosine methodology)
         "claims": {
@@ -94,8 +132,13 @@ def extract_stats() -> dict:
             "D": {
                 "name": "Context Damping",
                 "status": "validated",
-                "description": "I_AM + research context stabilizes",
-                "stability": 0.975
+                "description": "I_AM + research context stabilizes (model-size dependent)",
+                "stability": 0.975,
+                "jade_lattice": {
+                    "i_am_win_rate": JADE_LATTICE_STATS["i_am_effectiveness"]["win_rate_filtered"],
+                    "cohens_d_large": JADE_LATTICE_STATS["model_size_dependence"]["large"]["cohens_d"],
+                    "cohens_d_small": JADE_LATTICE_STATS["model_size_dependence"]["small"]["cohens_d"]
+                }
             },
             "E": {
                 "name": f"{int(IRON_CLAD_STATS['inherent_drift_ratio']*100)}% Inherent",

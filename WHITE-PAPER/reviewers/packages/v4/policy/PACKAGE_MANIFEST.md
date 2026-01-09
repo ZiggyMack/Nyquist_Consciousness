@@ -1,9 +1,9 @@
 # Review Package: POLICY
 
-**Generated:** 2025-12-30 14:01:38
+**Generated:** 2026-01-08 22:56:05
 **Target Venue:** Brookings / Center for AI Safety / EU AI Office
 **Total Size:** 19.3 KB
-**Total Files:** 3
+**Total Files:** 2
 
 ---
 
@@ -27,9 +27,8 @@ Start with these files in order:
 | Category | Files | Size |
 |----------|-------|------|
 | submissions/ | 2 files | 19.3 KB |
-| LLM_SYNTHESIS/ | 1 files | (included) |
 
-**Total:** 3 files, 19.3 KB
+**Total:** 2 files, 19.3 KB
 
 ---
 
@@ -39,12 +38,6 @@ Start with these files in order:
 
 - `submissions\policy\POLICY_FINAL.md` (15.4 KB)
 - `submissions\policy\README.md` (3.9 KB)
-
-### LLM_SYNTHESIS/
-
-*NotebookLM-generated content for this publication path:*
-
-- `LLM_SYNTHESIS/Briefing Document - The Nyquist Consciousness Framework for AI Identity Dynamics.md`
 
 ---
 

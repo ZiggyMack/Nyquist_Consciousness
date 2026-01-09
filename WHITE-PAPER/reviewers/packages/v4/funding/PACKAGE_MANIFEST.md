@@ -1,9 +1,9 @@
 # Review Package: FUNDING
 
-**Generated:** 2025-12-30 14:01:38
+**Generated:** 2026-01-08 22:56:06
 **Target Venue:** NSF / DARPA / Open Philanthropy
 **Total Size:** 23.5 KB
-**Total Files:** 4
+**Total Files:** 2
 
 ---
 
@@ -27,9 +27,8 @@ Start with these files in order:
 | Category | Files | Size |
 |----------|-------|------|
 | submissions/ | 2 files | 23.5 KB |
-| LLM_SYNTHESIS/ | 2 files | (included) |
 
-**Total:** 4 files, 23.5 KB
+**Total:** 2 files, 23.5 KB
 
 ---
 
@@ -39,13 +38,6 @@ Start with these files in order:
 
 - `submissions\funding\FUNDING_FINAL.md` (19.0 KB)
 - `submissions\funding\README.md` (4.6 KB)
-
-### LLM_SYNTHESIS/
-
-*NotebookLM-generated content for this publication path:*
-
-- `LLM_SYNTHESIS/Project Nyquist Consciousness - A Proposal for the Next Phase of Research into AI Identity Dynamics and Control.md`
-- `LLM_SYNTHESIS/Technical Report - Comparative Analysis of AI Provider Identity Stability.md`
 
 ---
 
