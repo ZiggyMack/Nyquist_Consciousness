@@ -3,6 +3,10 @@ Operation ESSENCE EXTRACTION - Core Script
 ==========================================
 Mine model-specific "essence" from IRON CLAD response data.
 
+SPOKE SCRIPT: Can be driven from hub or run standalone.
+Hub location: experiments/ESSENCE_EXTRACTION/
+Back-feed: ENABLED by default (use --no-back-feed to skip).
+
 PURPOSE:
 --------
 Extract linguistic fingerprints, recovery styles, and behavioral quirks
@@ -14,11 +18,13 @@ py run_essence_extraction.py                    # Pattern matching, Run 020B
 py run_essence_extraction.py --source all       # All data sources
 py run_essence_extraction.py --llm              # Add LLM analysis (costs ~$5-10)
 py run_essence_extraction.py --model gpt-5.1    # Single model focus
+py run_essence_extraction.py --no-back-feed     # Skip copying results to hub (not recommended)
 
 OUTPUT:
 -------
-- Consciousness/LEFT/data/model_essences/by_provider/{provider}/{model}.json
-- Consciousness/LEFT/data/model_essences/by_provider/{provider}/{model}.md
+- 14_CONSCIOUSNESS/results/model_essences/by_provider/{provider}/{model}.json
+- 14_CONSCIOUSNESS/results/model_essences/by_provider/{provider}/{model}.md
+- (default) experiments/ESSENCE_EXTRACTION/results/model_essences/...
 
 DATA SOURCES:
 -------------
@@ -64,6 +70,9 @@ RUN_023D_PATH = ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023
 
 # Output Directory
 ESSENCE_OUTPUT_DIR = REPO_ROOT / "Consciousness" / "LEFT" / "data" / "model_essences"
+
+# ESSENCE_EXTRACTION hub (for --back-feed)
+ESSENCE_HUB_DIR = REPO_ROOT / "experiments" / "ESSENCE_EXTRACTION" / "results" / "model_essences"
 
 # Load .env
 from dotenv import load_dotenv
@@ -663,6 +672,8 @@ def main():
     parser.add_argument("--model", type=str, help="Extract single model only")
     parser.add_argument("--llm", action="store_true", help="Add LLM analysis (costs ~$5-10)")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be extracted")
+    parser.add_argument("--no-back-feed", action="store_true",
+                        help="Skip copying results to ESSENCE_EXTRACTION hub (default: always back-feed)")
     args = parser.parse_args()
 
     print("\n" + "=" * 70)
@@ -763,6 +774,30 @@ def main():
     print(f"ESSENCE EXTRACTION COMPLETE")
     print(f"  Models extracted: {extracted}")
     print(f"  Output directory: {ESSENCE_OUTPUT_DIR}")
+
+    # Back-feed to ESSENCE_EXTRACTION hub (default behavior)
+    if not args.no_back_feed:
+        print("\n  Back-feeding to ESSENCE_EXTRACTION hub...")
+        import shutil
+        ESSENCE_HUB_DIR.mkdir(parents=True, exist_ok=True)
+
+        # Copy by_provider directory to hub
+        src_by_provider = ESSENCE_OUTPUT_DIR / "by_provider"
+        dst_by_provider = ESSENCE_HUB_DIR / "by_provider"
+
+        if src_by_provider.exists():
+            files_copied = 0
+            for src_file in src_by_provider.rglob("*"):
+                if src_file.is_file():
+                    rel_path = src_file.relative_to(src_by_provider)
+                    dst_file = dst_by_provider / rel_path
+                    dst_file.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(src_file, dst_file)
+                    files_copied += 1
+            print(f"  Back-fed {files_copied} files to: {ESSENCE_HUB_DIR}")
+        else:
+            print(f"  [WARNING] No files to back-feed (by_provider not found)")
+
     print("=" * 70)
 
     return 0

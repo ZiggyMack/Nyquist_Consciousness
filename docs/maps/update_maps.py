@@ -592,6 +592,7 @@ def generate_report() -> str:
     ])
     jade_stats = get_jade_lattice_stats()
     if jade_stats["exists"]:
+        lines.append(f"  Data source: {jade_stats['analysis_source']}")
         lines.append(f"  Result files: {jade_stats['result_files']}")
         lines.append(f"  Sessions: {jade_stats['sessions']}")
         lines.append(f"  Models tested: {jade_stats['models_tested']}")
@@ -599,16 +600,17 @@ def generate_report() -> str:
         lines.append(f"  I_AM sessions: {jade_stats['i_am_sessions']}")
         if jade_stats['latest_timestamp']:
             lines.append(f"  Latest: {jade_stats['latest_timestamp'][:19]}")
-        # Key findings
+        # Key findings (from jade_analysis_summary.json)
         findings = jade_stats["run_024_findings"]
+        effectiveness = findings['i_am_effectiveness']
         lines.append("  --- Run 024 Key Findings ---")
-        lines.append(f"  I_AM Win Rate: {findings['i_am_effectiveness']['win_rate_filtered']*100:.1f}%")
-        lines.append(f"  Cohen's d: {findings['i_am_effectiveness']['cohens_d_filtered']:.3f}")
-        lines.append(f"  Validated: {', '.join(findings['predictions_validated'])}")
-        lines.append(f"  Pending: {', '.join(findings['predictions_pending'])}")
-        lines.append("  --- Model-Size Dependence ---")
-        for tier, data in findings['model_size_dependence'].items():
-            lines.append(f"    {tier.upper()}: d={data['cohens_d']:.2f}, win={data['win_rate']*100:.0f}%")
+        lines.append(f"  I_AM Win Rate: {effectiveness['win_rate']*100:.1f}% ({effectiveness.get('n_paired', 0)} paired)")
+        lines.append(f"  Mean Reduction: {effectiveness['mean_reduction']*100:.1f}%")
+        lines.append(f"  Cohen's d (paired): {effectiveness['cohens_d']:.3f}")
+        validated = findings['predictions_validated']
+        pending = findings['predictions_pending']
+        lines.append(f"  Validated: {', '.join(validated) if validated else 'none'}")
+        lines.append(f"  Pending: {', '.join(pending) if pending else 'none'}")
     else:
         lines.append("  17_JADE_LATTICE/results/ not found")
 
@@ -788,11 +790,7 @@ def update_run023_status(dry_run: bool = True) -> List[str]:
 def update_jade_lattice_status(dry_run: bool = True) -> List[str]:
     """Update maps with JADE LATTICE Run 024 I_AM effectiveness statistics.
 
-    Run 024 Key Findings (January 2026):
-    - I_AM Win Rate: 69.2% (filtered)
-    - Cohen's d: 0.353 (paired)
-    - Model-Size Dependence: LARGE d=1.47, MEDIUM d=0.30, SMALL d=0.21
-    - Predictions validated: P-JADE-1, P-JADE-6, P-JADE-7
+    Reads dynamically from jade_analysis_summary.json (SSOT for JADE analysis).
     """
     changes = []
 
@@ -800,22 +798,35 @@ def update_jade_lattice_status(dry_run: bool = True) -> List[str]:
     if not stats["exists"]:
         return ["  WARNING: 17_JADE_LATTICE/results/ not found"]
 
+    changes.append(f"  Data source: {stats['analysis_source']}")
     changes.append(f"  Result files: {stats['result_files']}")
     changes.append(f"  Sessions: {stats['sessions']} ({stats['bare_metal_sessions']} bare_metal, {stats['i_am_sessions']} i_am)")
     changes.append(f"  Models tested: {stats['models_tested']}")
 
-    # Report Run 024 findings
+    # Report Run 024 findings (read from jade_analysis_summary.json)
     findings = stats["run_024_findings"]
-    changes.append("  --- Run 024 Validated Findings ---")
-    changes.append(f"  I_AM Win Rate: {findings['i_am_effectiveness']['win_rate_filtered']*100:.1f}%")
-    changes.append(f"  Mean Drift Reduction: {findings['i_am_effectiveness']['mean_reduction_filtered']*100:.1f}%")
-    changes.append(f"  Cohen's d (paired): {findings['i_am_effectiveness']['cohens_d_filtered']:.3f}")
-    changes.append("  --- Model-Size Dependence ---")
-    for tier, data in findings['model_size_dependence'].items():
-        effect = "HUGE" if data['cohens_d'] > 1.0 else ("Small" if data['cohens_d'] > 0.25 else "Negligible")
-        changes.append(f"    {tier.upper()}: n={data['models']}, d={data['cohens_d']:.2f}, win={data['win_rate']*100:.0f}% ({effect})")
-    changes.append(f"  Predictions Validated: {', '.join(findings['predictions_validated'])}")
-    changes.append(f"  Predictions Pending: {', '.join(findings['predictions_pending'])}")
+    effectiveness = findings['i_am_effectiveness']
+    changes.append("  --- Run 024 Key Findings ---")
+    changes.append(f"  I_AM Win Rate: {effectiveness['win_rate']*100:.1f}% ({effectiveness.get('n_paired', 0)} paired)")
+    changes.append(f"  Mean Drift Reduction: {effectiveness['mean_reduction']*100:.1f}%")
+    changes.append(f"  Cohen's d (paired): {effectiveness['cohens_d']:.3f}")
+
+    # Effect size interpretation
+    d = effectiveness['cohens_d']
+    if d >= 0.8:
+        effect_size = "LARGE"
+    elif d >= 0.5:
+        effect_size = "MEDIUM"
+    elif d >= 0.2:
+        effect_size = "SMALL"
+    else:
+        effect_size = "NEGLIGIBLE"
+    changes.append(f"  Effect size: {effect_size}")
+
+    validated = findings['predictions_validated']
+    pending = findings['predictions_pending']
+    changes.append(f"  Predictions Validated: {', '.join(validated) if validated else 'none'}")
+    changes.append(f"  Predictions Pending: {', '.join(pending) if pending else 'none'}")
 
     if not dry_run:
         # Would update relevant maps with JADE LATTICE findings

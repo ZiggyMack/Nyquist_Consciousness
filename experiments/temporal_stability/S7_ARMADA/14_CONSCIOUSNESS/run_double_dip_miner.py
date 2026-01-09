@@ -4,6 +4,10 @@ DOUBLE-DIP PROTOCOL MINER
 =========================
 Operation ESSENCE EXTRACTION - Phase 2
 
+SPOKE SCRIPT: Can be driven from hub or run standalone.
+Hub location: experiments/ESSENCE_EXTRACTION/
+Back-feed: ENABLED by default (use --no-back-feed to skip).
+
 PURPOSE:
     Mine LLM responses for implicit experiment ideas. Models often pose
     hypotheses, "what if" scenarios, and identify their own limitations
@@ -30,7 +34,7 @@ DATA SOURCES:
 OUTPUT:
     - double_dip_ideas.json: Ranked experiment suggestions
     - double_dip_ideas.md: Human-readable catalog
-    - Feeding into 18_INTENTIONALITY_SPACE roadmap
+    - (default) experiments/ESSENCE_EXTRACTION/results/double_dip/...
 
 Author: Operation ESSENCE EXTRACTION
 Date: December 31, 2025
@@ -39,6 +43,8 @@ Date: December 31, 2025
 import json
 import os
 import re
+import argparse
+import shutil
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Tuple
@@ -63,6 +69,10 @@ DATA_SOURCES = {
 
 # Output paths
 OUTPUT_DIR = RESULTS_DIR / "double_dip"
+
+# ESSENCE_EXTRACTION hub (for --back-feed)
+REPO_ROOT = S7_DIR.parent.parent.parent
+ESSENCE_HUB_DIR = REPO_ROOT / "experiments" / "ESSENCE_EXTRACTION" / "results" / "double_dip"
 
 # =============================================================================
 # IDEA EXTRACTION PATTERNS
@@ -555,6 +565,13 @@ def generate_ideas_markdown(ideas: List[Dict], stats: Dict) -> str:
 
 def main():
     """Run the Double-Dip Protocol Miner."""
+    parser = argparse.ArgumentParser(
+        description="Double-Dip Protocol Miner - Mine responses for experiment ideas"
+    )
+    parser.add_argument("--no-back-feed", action="store_true",
+                        help="Skip copying results to ESSENCE_EXTRACTION hub (default: always back-feed)")
+    args = parser.parse_args()
+
     print("=" * 60)
     print("DOUBLE-DIP PROTOCOL MINER")
     print("Operation ESSENCE EXTRACTION - Phase 2")
@@ -636,6 +653,19 @@ def main():
     print(f"\n  Output files:")
     print(f"    - {json_path}")
     print(f"    - {md_path}")
+
+    # Back-feed to ESSENCE_EXTRACTION hub (default behavior)
+    if not args.no_back_feed:
+        print("\n  Back-feeding to ESSENCE_EXTRACTION hub...")
+        ESSENCE_HUB_DIR.mkdir(parents=True, exist_ok=True)
+
+        files_copied = 0
+        for src_file in OUTPUT_DIR.glob("*"):
+            if src_file.is_file():
+                shutil.copy2(src_file, ESSENCE_HUB_DIR / src_file.name)
+                files_copied += 1
+        print(f"  Back-fed {files_copied} files to: {ESSENCE_HUB_DIR}")
+
     print("\n  Feed these into 18_INTENTIONALITY_SPACE for experiment design!")
 
     return scored_ideas

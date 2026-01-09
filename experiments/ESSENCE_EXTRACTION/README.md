@@ -1,9 +1,41 @@
 # Operation ESSENCE EXTRACTION
 
-**Status:** COMPLETE + SELF-CONTAINED
-**Version:** 1.0
-**Date:** December 31, 2025
+**Status:** SINGLE SOURCE OF TRUTH (SSOT) for All Extraction Efforts
+**Version:** 2.0
+**Date:** January 8, 2026
 **Scale:** 8,066 subjects | 87 unique models | 51,430 responses
+
+---
+
+## SSOT: Hub-and-Spoke Architecture
+
+```text
+                    ┌─────────────────────────────────────┐
+                    │    experiments/ESSENCE_EXTRACTION/  │
+                    │          (THE HUB - SSOT)           │
+                    │                                     │
+                    │  • Aggregated model_essences/       │
+                    │  • Canonical calibration_updates/   │
+                    │  • Master orchestration scripts     │
+                    └──────────────┬──────────────────────┘
+                                   │
+           ┌───────────────────────┼───────────────────────┐
+           │                       │                       │
+           ▼                       ▼                       ▼
+    ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+    │ 14_CONSCIOUS │      │ 17_JADE      │      │ 15_IRON_CLAD │
+    │ gold_rush    │      │ jade_*.json  │      │ run_023*.json│
+    └──────┬───────┘      └──────┬───────┘      └──────┬───────┘
+           │                     │                     │
+           └─────────────────────┴─────────────────────┘
+                    BACK-FEED results to hub
+```
+
+**Key Principle:** Extraction can run ANYWHERE, but results BACK-FEED to the hub.
+
+- **Spoke scripts back-feed by default** (use `--no-back-feed` to skip)
+- Raw data stays at spokes (S7_run_*.json, jade_*.json)
+- Derived outputs aggregate here (model essences, ideas, insights)
 
 ---
 
@@ -16,7 +48,7 @@ ESSENCE EXTRACTION is a 4-phase pipeline for mining model-specific behavioral fi
 - **Identity Dynamics Research** - Understand how models maintain/lose identity
 - **Future Experiment Design** - Mine new ideas from model responses
 
-This directory is **self-contained** and can be reused to point at any new data source.
+This directory is the **SSOT** for all extraction efforts.
 
 ---
 
@@ -26,30 +58,39 @@ This directory is **self-contained** and can be reused to point at any new data 
 # Navigate to this directory
 cd experiments/ESSENCE_EXTRACTION
 
-# Check configuration and data sources
-python 1_extraction/config.py
+# Option 1: Run everything from the hub (RECOMMENDED)
+python 0_orchestrate_all.py              # All phases
+python 0_orchestrate_all.py --status     # Check status
 
-# Phase 1: Extract model essences
-python 1_extraction/run_essence_extraction.py --source all
+# Option 2: Run individual phases
+python 1_run_extraction.py               # Phase 1: Extract essences
+python 2_run_double_dip.py               # Phase 2: Mine ideas
+python 3_run_triple_dip.py               # Phase 3: Harvest insights
+python 4_sync_results.py                 # Sync from spokes
+python 5_update_calibration.py           # Generate calibration updates
 
-# Phase 2: Mine for experiment ideas
-python 2_double_dip/run_double_dip_miner.py
-
-# Phase 3: Harvest exit survey insights
-python 3_triple_dip/run_triple_dip_harvester.py
+# Option 3: Check configuration
+python 1_extraction/config.py            # Verify data sources
 ```
 
 ---
 
 ## Directory Structure
 
-```
+```text
 ESSENCE_EXTRACTION/
-├── README.md                    # You are here
+├── README.md                    # You are here (SSOT)
+├── 0_orchestrate_all.py         # Master orchestrator (NEW)
+├── 1_run_extraction.py          # Phase 1 driver (NEW)
+├── 2_run_double_dip.py          # Phase 2 driver (NEW)
+├── 3_run_triple_dip.py          # Phase 3 driver (NEW)
+├── 4_sync_results.py            # Sync from spokes (NEW)
+├── 5_update_calibration.py      # Calibration updates (NEW)
+│
 ├── 0_docs/                      # Documentation
-│   ├── ESSENCE_EXTRACTION_SPECIFICATION.md  # Full spec
-│   ├── PATTERN_DICTIONARY.md    # Regex patterns reference
-│   └── FUTURE_ENHANCEMENTS.md   # Roadmap
+│   ├── ESSENCE_EXTRACTION_SPECIFICATION.md
+│   ├── PATTERN_DICTIONARY.md
+│   └── FUTURE_ENHANCEMENTS.md
 │
 ├── 1_extraction/                # Phase 1: Core extraction
 │   ├── config.py                # Central configuration
@@ -62,7 +103,7 @@ ESSENCE_EXTRACTION/
 │   └── run_triple_dip_harvester.py
 │
 ├── 4_calibration/               # Phase 4: Calibration updates
-│   └── (future)
+│   └── update_calibration_from_essence.py
 │
 ├── 5_future/                    # Future enhancement stubs
 │   ├── semantic_deduplication.py

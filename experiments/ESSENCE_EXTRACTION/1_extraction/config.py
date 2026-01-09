@@ -22,31 +22,77 @@ RESULTS_DIR = EXPERIMENT_DIR / "results"
 DOCS_DIR = EXPERIMENT_DIR / "0_docs"
 
 # =============================================================================
-# DATA SOURCES
+# DATA SOURCES - ALL SPOKES FEED INTO THIS HUB
 # =============================================================================
 
-# Default data source locations (relative to repo root)
-# Edit these paths to point at your experiment data
-
-# Option 1: Point to existing S7_ARMADA data
+# S7_ARMADA spoke directories
 S7_ARMADA_DIR = EXPERIMENT_DIR.parent / "temporal_stability" / "S7_ARMADA"
 
+# -----------------------------------------------------------------------------
+# SPOKE 1: 11_CONTEXT_DAMPING (Runs 017-020)
+# -----------------------------------------------------------------------------
+CONTEXT_DAMPING_DIR = S7_ARMADA_DIR / "11_CONTEXT_DAMPING" / "results"
+
+# -----------------------------------------------------------------------------
+# SPOKE 2: 15_IRON_CLAD_FOUNDATION (Run 023 series)
+# -----------------------------------------------------------------------------
+IRON_CLAD_DIR = S7_ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results"
+
+# -----------------------------------------------------------------------------
+# SPOKE 3: 17_JADE_LATTICE (Run 024 - I_AM A/B testing)
+# -----------------------------------------------------------------------------
+JADE_LATTICE_DIR = S7_ARMADA_DIR / "17_JADE_LATTICE" / "results"
+
+# -----------------------------------------------------------------------------
+# SPOKE 4: 14_CONSCIOUSNESS (Gold Rush, Diamond Rush, Quartz Rush)
+# -----------------------------------------------------------------------------
+CONSCIOUSNESS_DIR = S7_ARMADA_DIR / "14_CONSCIOUSNESS" / "results"
+
+# =============================================================================
+# DATA SOURCES REGISTRY
+# =============================================================================
+# All extraction efforts flow through this registry.
+# Add new data sources here as they become available.
+
 DATA_SOURCES = {
+    # --- CONTEXT DAMPING (Spoke 1) ---
     # IRON CLAD original threshold experiment (2488 subjects)
-    "018": S7_ARMADA_DIR / "11_CONTEXT_DAMPING" / "results" / "S7_run_018_CURRENT.json",
-
+    "018": CONTEXT_DAMPING_DIR / "S7_run_018_CURRENT.json",
     # Conversation log format (248 subjects, rich dialogue)
-    "020b": S7_ARMADA_DIR / "11_CONTEXT_DAMPING" / "results" / "S7_run_020B_CURRENT.json",
+    "020b": CONTEXT_DAMPING_DIR / "S7_run_020B_CURRENT.json",
 
+    # --- IRON CLAD FOUNDATION (Spoke 2) ---
     # Probe sequence format (4505 experiments)
-    "023": S7_ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023_CURRENT.json",
-
+    "023": IRON_CLAD_DIR / "S7_run_023_CURRENT.json",
     # Extended settling experiments (750 experiments)
-    "023d": S7_ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results" / "S7_run_023_extended_CURRENT.json",
+    "023d": IRON_CLAD_DIR / "S7_run_023d_CURRENT.json",
+
+    # --- JADE LATTICE (Spoke 3) ---
+    # I_AM A/B testing sessions (115+ sessions, 50 models)
+    # Note: JADE uses individual session files, not a single JSON
+    "jade_lattice": JADE_LATTICE_DIR,  # Directory of jade_*.json files
+    # Aggregated analysis summary
+    "jade_summary": JADE_LATTICE_DIR / "jade_analysis_summary.json",
+
+    # --- CONSCIOUSNESS (Spoke 4) ---
+    # Gold Rush mining runs
+    "gold_rush": CONSCIOUSNESS_DIR,  # Directory of gold_rush_*.json files
 }
 
-# Option 2: Add your own data sources
+# Data source types (some are files, some are directories)
+DATA_SOURCE_TYPES = {
+    "018": "file",
+    "020b": "file",
+    "023": "file",
+    "023d": "file",
+    "jade_lattice": "directory",  # Contains jade_*.json session files
+    "jade_summary": "file",
+    "gold_rush": "directory",  # Contains gold_rush_*.json files
+}
+
+# To add new data sources:
 # DATA_SOURCES["my_experiment"] = Path("/path/to/my_experiment_results.json")
+# DATA_SOURCE_TYPES["my_experiment"] = "file"  # or "directory"
 
 # =============================================================================
 # OUTPUT LOCATIONS
@@ -122,11 +168,26 @@ def validate_data_sources() -> dict:
     """Check which data sources are available."""
     status = {}
     for name, path in DATA_SOURCES.items():
-        status[name] = {
-            "path": str(path),
-            "exists": path.exists(),
-            "size_mb": round(path.stat().st_size / 1024 / 1024, 2) if path.exists() else 0
-        }
+        source_type = DATA_SOURCE_TYPES.get(name, "file")
+        exists = path.exists()
+
+        if source_type == "directory" and exists:
+            # Count files in directory
+            json_files = list(path.glob("*.json"))
+            status[name] = {
+                "path": str(path),
+                "type": "directory",
+                "exists": True,
+                "file_count": len(json_files),
+                "size_mb": round(sum(f.stat().st_size for f in json_files) / 1024 / 1024, 2)
+            }
+        else:
+            status[name] = {
+                "path": str(path),
+                "type": "file",
+                "exists": exists,
+                "size_mb": round(path.stat().st_size / 1024 / 1024, 2) if exists else 0
+            }
     return status
 
 def ensure_output_dirs():

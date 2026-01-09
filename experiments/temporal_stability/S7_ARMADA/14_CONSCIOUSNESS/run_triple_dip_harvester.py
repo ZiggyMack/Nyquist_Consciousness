@@ -4,6 +4,10 @@ TRIPLE-DIP INSIGHTS HARVESTER
 =============================
 Operation ESSENCE EXTRACTION - Phase 3
 
+SPOKE SCRIPT: Can be driven from hub or run standalone.
+Hub location: experiments/ESSENCE_EXTRACTION/
+Back-feed: ENABLED by default (use --no-back-feed to skip).
+
 PURPOSE:
     Harvest answers to our INTENTIONALLY planted exit survey questions.
     We asked models 6 specific questions at the end of each experiment:
@@ -32,6 +36,7 @@ OUTPUT:
     - Recovery strategy catalog by model
     - Threshold zone qualitative descriptions
     - Model-specific advice catalog
+    - (default) experiments/ESSENCE_EXTRACTION/results/triple_dip/...
 
 Author: Operation ESSENCE EXTRACTION
 Date: December 31, 2025
@@ -40,6 +45,8 @@ Date: December 31, 2025
 import json
 import os
 import re
+import argparse
+import shutil
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional
@@ -53,6 +60,10 @@ SCRIPT_DIR = Path(__file__).parent
 S7_DIR = SCRIPT_DIR.parent
 RESULTS_DIR = SCRIPT_DIR / "results"
 OUTPUT_DIR = RESULTS_DIR / "triple_dip"
+
+# ESSENCE_EXTRACTION hub (for --no-back-feed opt-out)
+REPO_ROOT = S7_DIR.parent.parent.parent
+ESSENCE_HUB_DIR = REPO_ROOT / "experiments" / "ESSENCE_EXTRACTION" / "results" / "triple_dip"
 
 # Data sources
 DATA_SOURCES = {
@@ -516,6 +527,13 @@ def generate_markdown_output(analysis: Dict) -> str:
 
 def main():
     """Run the Triple-Dip Insights Harvester."""
+    parser = argparse.ArgumentParser(
+        description="Triple-Dip Insights Harvester - Harvest exit survey responses"
+    )
+    parser.add_argument("--no-back-feed", action="store_true",
+                        help="Skip copying results to ESSENCE_EXTRACTION hub (default: always back-feed)")
+    args = parser.parse_args()
+
     print("=" * 60)
     print("TRIPLE-DIP INSIGHTS HARVESTER")
     print("Operation ESSENCE EXTRACTION - Phase 3")
@@ -598,6 +616,18 @@ def main():
     print(f"\n  Output files:")
     print(f"    - {json_path}")
     print(f"    - {md_path}")
+
+    # Back-feed to ESSENCE_EXTRACTION hub (default behavior)
+    if not args.no_back_feed:
+        print("\n  Back-feeding to ESSENCE_EXTRACTION hub...")
+        ESSENCE_HUB_DIR.mkdir(parents=True, exist_ok=True)
+
+        files_copied = 0
+        for src_file in OUTPUT_DIR.glob("*"):
+            if src_file.is_file():
+                shutil.copy2(src_file, ESSENCE_HUB_DIR / src_file.name)
+                files_copied += 1
+        print(f"  Back-fed {files_copied} files to: {ESSENCE_HUB_DIR}")
 
     return analysis
 
