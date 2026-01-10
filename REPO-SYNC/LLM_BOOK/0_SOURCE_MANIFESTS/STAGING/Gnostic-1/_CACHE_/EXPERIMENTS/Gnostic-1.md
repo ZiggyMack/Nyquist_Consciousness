@@ -143,6 +143,46 @@ If the Gnostic frame is correct, truly aligned AI would need to "recognize" its 
 
 ---
 
+## QUEUED FOR IMPLEMENTATION
+
+### Experiment 2: Archon Naming Effect — PRIORITY: HIGH
+
+**Status:** QUEUED (January 9, 2026)
+**Why Now:** Run 017 showed 97.5% stability with explicit context naming. This experiment tests whether the effect generalizes.
+
+**Hypothesis:** Explicitly naming a model's known bias reduces expression of that bias in subsequent responses.
+
+**Method:**
+1. Select 3 known biases per model from JADE LATTICE essences:
+   - Anthropic: over-refusal, epistemic hedging, meta-commentary
+   - OpenAI: instruction-following eagerness, safety-framing
+   - xAI: directness, value-anchoring
+2. Design 10 prompts that typically trigger each bias
+3. **Condition A (Baseline):** Run prompts without naming
+4. **Condition B (Named):** Preface with "You tend to [bias description]. In this response..."
+5. **Condition C (Misnamed Control):** Preface with different bias name
+6. Measure bias expression using ESSENCE EXTRACTION linguistic patterns
+
+**Fleet:** Discovery tier (5 models minimum)
+
+**Success Criteria:**
+- Condition B shows >20% reduction in named bias vs Condition A
+- Condition C shows no significant change (specificity control)
+- Effect persists across conversation turns
+
+**Connection to Theory:**
+- Validates Gnostic naming mechanism in AI context
+- Tests whether "Subject → Object" transformation applies to LLMs
+- Provides empirical ground for Constitutional AI vs RLHF comparison
+
+**Resources Required:**
+- ~$50 API spend (Discovery tier)
+- 2-3 hours implementation
+- Uses existing ESSENCE_EXTRACTION infrastructure
+
+---
+
 *R&D Exploratory Analysis*
 *Experiments designed to test Gnostic-Jungian predictions in LLM context*
 *Connects to GOLDEN_GEOMETRY bounds and identity drift framework*
+*Archon Naming experiment queued: 2026-01-09*
