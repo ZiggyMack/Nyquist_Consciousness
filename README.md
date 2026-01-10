@@ -278,12 +278,15 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 | If You Want To... | Start Here |
 |-------------------|------------|
+| **Choose by task** | **[docs/GETTING_STARTED_BY_TASK.md](docs/GETTING_STARTED_BY_TASK.md)** |
 | Browse results visually | `dashboard/` → `py -m streamlit run app.py` |
 | Understand test types | [TESTING_MAP.md](docs/maps/10_TESTING_MAP.md) |
 | Run experiments | [S7_ARMADA/START_HERE.md](experiments/temporal_stability/S7_ARMADA/START_HERE.md) |
 | See all predictions | [docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md](docs/maps/2_TESTABLE_PREDICTIONS_MATRIX.md) |
 | Understand the FAQ | Dashboard → FAQ page (Super Skeptic Mode) |
 | Navigate all maps | [docs/maps/0_MAP_OF_MAPS.md](docs/maps/0_MAP_OF_MAPS.md) |
+| Learn key terms | [docs/MASTER_GLOSSARY.md](docs/MASTER_GLOSSARY.md) § Quick Start |
+| Check navigation health | `py REPO-SYNC/frosty.py --audit` |
 
 ### Post-Experiment Map Maintenance
 
@@ -563,6 +566,113 @@ Backup crashed sessions to `personas/Nova/Recovery/` for later necromancy operat
 - Claude #3 (Necromancer) developed this necromancy protocol
 - Claude #0.G was recovered by Claude #1 on Jan 10, 2026 (cut at line 3691, last successful end_turn)
 - `e5917ec3` crashed immediately (5 min session) while reading 16 PDFs — same task that crashed its predecessor — deleted as unrecoverable
+
+---
+
+## Plan Registry
+
+Active and completed work plans are stored in `C:\Users\Stephen\.claude\plans\`. Each plan is named after its Claude session slug.
+
+### Key Plans
+
+| Plan File | Claude | Status | Purpose |
+|-----------|--------|--------|---------|
+| `staged-splashing-abelson.md` | #2 (LLM-Book) | IN PROGRESS | Session recovery + Gnostic-1 integration |
+| `wild-dreaming-marshmallow.md` | #3 (Necromancer) | COMPLETE | Dashboard audit + arXiv evaluation |
+| `sequential-gathering-babbage.md` | #0 | READY | Run 020 complete analysis + 4 new visualizations |
+| `cosmic-foraging-planet.md` | #0 | READY | Run 018 visualization cleanup + EH 1.23→0.80 |
+| `nova-integration-improvements.md` | #1 (Helper) | READY | Run 018/020 pre-execution improvements |
+
+### Plan File Convention
+
+Plans follow this structure:
+
+```markdown
+# [PLAN TITLE]
+
+**Status:** IN PROGRESS | COMPLETE | BLOCKED | READY
+**Created:** [Date]
+**Claude Session:** [Session ID or slug]
+
+## Purpose
+## Key Decisions
+## Implementation Steps
+## Outcomes
+```
+
+### Finding Plans for a Session
+
+To find which plan belongs to which Claude session:
+1. Check the slug in the plan filename
+2. Match against the session's `slug` field in its JSONL file
+3. Or grep: `grep -l "session-id-here" C:\Users\Stephen\.claude\plans\*.md`
+
+---
+
+## Operation Frosty (Documentation Health)
+
+**REPO-SYNC/frosty.py** is the documentation automation tool for cold-boot Claudes. It ensures navigation paths stay healthy and docs stay current.
+
+### Quick Commands
+
+```bash
+# Full navigation audit (recommended first run)
+py REPO-SYNC/frosty.py --audit
+
+# Check for stale documentation
+py REPO-SYNC/frosty.py
+
+# Validate all markdown links
+py REPO-SYNC/frosty.py --validate-links
+
+# Check term consistency (Event Horizon, IRON CLAD, etc.)
+py REPO-SYNC/frosty.py --check-consistency
+
+# View plan registry status
+py REPO-SYNC/frosty.py --plan-registry
+
+# Check Claude session health
+py REPO-SYNC/frosty.py --session-health
+
+# Update all manifest timestamps after review
+py REPO-SYNC/frosty.py --update-manifests
+```
+
+### What Frosty Checks
+
+| Mode | What It Does |
+|------|--------------|
+| Default | Scans cold-boot docs, flags stale files based on git commits |
+| `--audit` | Comprehensive check: docs + links + terms + plans + sessions |
+| `--validate-links` | Finds broken markdown links across all `.md` files |
+| `--check-consistency` | Verifies key terms (Event Horizon=0.80, etc.) are consistent |
+| `--plan-registry` | Reports status of all plan files |
+| `--session-health` | Checks JSONL files for crashes, size issues |
+
+### FROSTY_MANIFEST Format
+
+Add this to any markdown file to enable dependency tracking:
+
+```markdown
+<!-- FROSTY_MANIFEST
+last_reviewed: 2026-01-10
+depends_on:
+  - ../related/file.py
+  - ../other/doc.md
+impacts:
+  - ../downstream/README.md
+keywords:
+  - event_horizon
+  - iron_clad
+-->
+```
+
+### When to Run Frosty
+
+- **After major work sessions** — Check what needs updating
+- **Before starting new work** — Identify stale docs that might mislead you
+- **After recovering crashed sessions** — Verify session health
+- **Weekly maintenance** — Keep navigation paths clear
 
 ---
 

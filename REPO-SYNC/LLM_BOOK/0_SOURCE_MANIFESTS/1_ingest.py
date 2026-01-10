@@ -84,6 +84,7 @@ from typing import Dict, List, Tuple, Optional
 SCRIPT_DIR = Path(__file__).parent
 LLM_BOOK_DIR = SCRIPT_DIR.parent  # REPO-SYNC/LLM_BOOK/
 STAGING_DIR = SCRIPT_DIR / "STAGING"
+TEMPLATES_DIR = SCRIPT_DIR / "templates"  # SSOT templates directory
 REPO_ROOT = LLM_BOOK_DIR.parent.parent  # d:\Documents\Nyquist_Consciousness
 WHITE_PAPER_DIR = REPO_ROOT / "WHITE-PAPER"
 SYNC_SCRIPT = WHITE_PAPER_DIR / "calibration" / "1_sync_llmbook.py"
@@ -141,6 +142,38 @@ IRON_CLAD_STATS = {
         "Gemini": "∞ (no recovery)"
     }
 }
+
+
+# === TEMPLATE LOADING (SSOT) ===
+
+def load_template(template_name: str, substitutions: Dict[str, str] = None) -> str:
+    """
+    Load a template from the templates/ directory (Single Source of Truth).
+
+    Args:
+        template_name: Name of template file (e.g., 'report_template.md')
+        substitutions: Dict of {placeholder: value} for template variables
+                      Placeholders use {variable_name} format
+
+    Returns:
+        Template content with substitutions applied
+
+    Raises:
+        FileNotFoundError: If template doesn't exist
+    """
+    template_path = TEMPLATES_DIR / template_name
+
+    if not template_path.exists():
+        raise FileNotFoundError(f"Template not found: {template_path}")
+
+    content = template_path.read_text(encoding="utf-8")
+
+    # Apply substitutions if provided
+    if substitutions:
+        for placeholder, value in substitutions.items():
+            content = content.replace(f"{{{placeholder}}}", value)
+
+    return content
 
 
 def get_version_info() -> Dict:
@@ -948,12 +981,14 @@ def create_rnd_analysis_stubs(batch_name: str, source_folder: Path, dry_run: boo
 def create_llm_book_interface_files(batch_name: str, source_folder: Path, dry_run: bool = True,
                                      diet: bool = False) -> List[Path]:
     """
-    Create LLM Book interface files (chat.md, report.md) for NotebookLM interaction.
+    Create LLM Book interface files (chat.md, report.md, routing.md) for NotebookLM interaction.
 
     These files provide:
     - chat.md: Suggested questions to ask the project's NotebookLM
     - report.md: Suggested custom reports, infographics, slide decks, audio/video
+    - routing.md: Cross-pollination matrix for Pan Handler labs and LLM Book projects
 
+    Templates are loaded from templates/ directory (Single Source of Truth).
     Only created in diet mode (these are for STAGING projects, not committed content).
     """
     if not diet:
@@ -963,225 +998,30 @@ def create_llm_book_interface_files(batch_name: str, source_folder: Path, dry_ru
     cache_dir = source_folder / CACHE_DIR_NAME
 
     # Get current date for timestamps
-    from datetime import datetime
     current_date = datetime.now().strftime("%Y-%m-%d")
 
-    chat_content = f"""# NotebookLM Questions: {batch_name}
-
-## Suggested Questions
-
-### Q1: [Core Concept Question]
-
-> [Question about the fundamental concepts in this source material]
-
-**Response:**
-
----
-
-### Q2: [Mechanism/Process Question]
-
-> [Question about how something works or operates]
-
-**Response:**
-
----
-
-### Q3: [Relationship Question]
-
-> [Question about connections between concepts]
-
-**Response:**
-
----
-
-### Q4: [Application Question]
-
-> [Question about practical applications or implications]
-
-**Response:**
-
----
-
-### Q5: [Boundary/Limitation Question]
-
-> [Question about edge cases, limitations, or exceptions]
-
-**Response:**
-
----
-
-## Follow-Up Questions
-
-(To be added after initial responses)
-
----
-
-*Created: {current_date}*
-*Project: {batch_name} NotebookLM*
-*Status: TEMPLATE - Claude to populate with source-specific questions*
-"""
-
-    report_content = f"""# NotebookLM Report Requests: {batch_name}
-
-## Custom Reports
-
-### Report 1: [Deep Dive Topic]
-
-**Type:** Deep Dive / Technical Analysis
-
-**Prompt:**
-> [Detailed prompt for the report]
-
-**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
-
----
-
-### Report 2: [Framework/Methodology]
-
-**Type:** Framework / Methodology
-
-**Prompt:**
-> [Detailed prompt for the report]
-
-**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
-
----
-
-### Report 3: [Comparative Analysis]
-
-**Type:** Analytical Report
-
-**Prompt:**
-> [Detailed prompt for the report]
-
-**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
-
----
-
-## Infographics
-
-### Infographic 1: [Visual Mapping]
-
-**Description:** [What should be visualized]
-
-**Elements to include:**
-- [Element 1]
-- [Element 2]
-- [Element 3]
-
-**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
-
----
-
-## Slide Decks
-
-### Deck 1: [Overview Presentation]
-
-**Purpose:** [What the deck should accomplish]
-
-**Suggested slides:**
-1. [Slide 1 topic]
-2. [Slide 2 topic]
-3. [Slide 3 topic]
-4. [Slide 4 topic]
-5. [Slide 5 topic]
-
-**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
-
----
-
-## Audio Overviews
-
-### Audio 1: Deep Dive Conversation
-
-**Topic:** [What the audio should cover]
-
-**Status:** [ ] Requested  [ ] Received  [ ] Analyzed
-
----
-
-## Video Presentations
-
-(Pending AVLAR stackup implementation)
-
----
-
-*Created: {current_date}*
-*Project: {batch_name} NotebookLM*
-*Status: TEMPLATE - Claude to populate with source-specific suggestions*
-"""
-
-    routing_content = f"""# ROUTING MATRIX: {batch_name}
-
-## Source Summary
-
-**Material:** [Brief description of source material]
-**Core Concepts:** [Key concepts from this source]
-**Domain:** [Primary domain/field]
-
----
-
-## LLM Book Project Connections
-
-| Project | Connection Strength | Rationale | Action |
-| ------- | ------------------- | --------- | ------ |
-| New_4_GOLDEN_GEOMETRY | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action taken or "No action"] |
-| New_5_RAG_Geometry_Experiments | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action taken or "No action"] |
-| RAG | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action taken or "No action"] |
-| Gnostic-1 | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action taken or "No action"] |
-
----
-
-## Pan Handler Lab Connections
-
-| Lab | Role | Connection Strength | Rationale | Action |
-| --- | ---- | ------------------- | --------- | ------ |
-| nyquist-consciousness | Theory Engine | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-| cfa-meta-lab | Epistemic Engine | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-| ndo | Sensory Cortex | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-| abi | Investigation Wing | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-| dcia | Interpretation Wing | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-| voting-lab | Civic Infrastructure | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-| justice-lab | Carceral Reform | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-| gene-lab | Biomedical Research | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-| avlar-studio | Creative Wing (S9) | [STRONG/MODERATE/WEAK/NONE] | [Why or why not] | [Action] |
-
----
-
-## Cross-Pollination Actions Taken
-
-| Target | Type | Items Added |
-| ------ | ---- | ----------- |
-| [Project/Lab] | [Questions/Reports/Insights] | [Brief description] |
-
----
-
-## Cross-Pollination Actions Recommended
-
-| Target | Type | Recommendation |
-| ------ | ---- | -------------- |
-| [Project/Lab] | [Insight/Question/Report] | [What should be added] |
-
----
-
-## Key Routing Insight
-
-[One paragraph explaining the main takeaway for how this material fits into the broader research ecosystem]
-
----
-
-*Routing evaluation completed: {current_date}*
-*Status: TEMPLATE - Claude to populate with source-specific routing analysis*
-"""
-
-    files = {
-        "chat.md": chat_content,
-        "report.md": report_content,
-        "routing.md": routing_content
+    # Template substitutions
+    substitutions = {
+        "batch_name": batch_name,
+        "current_date": current_date
     }
 
-    for filename, content in files.items():
-        file_path = cache_dir / filename
+    # Template file mappings
+    template_files = {
+        "chat.md": "chat_template.md",
+        "report.md": "report_template.md",
+        "routing.md": "routing_template.md"
+    }
+
+    for output_filename, template_filename in template_files.items():
+        try:
+            content = load_template(template_filename, substitutions)
+        except FileNotFoundError as e:
+            print(f"  [WARN] Template not found: {template_filename}, using fallback")
+            # Fallback for missing templates
+            content = f"# {batch_name}\n\n*Template {template_filename} not found*\n*Created: {current_date}*\n"
+
+        file_path = cache_dir / output_filename
         if not dry_run:
             cache_dir.mkdir(parents=True, exist_ok=True)
             file_path.write_text(content, encoding="utf-8")

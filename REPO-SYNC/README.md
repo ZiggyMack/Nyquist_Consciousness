@@ -2,7 +2,63 @@
 
 Cross-repository synchronization hub for the Nyquist Consciousness framework.
 
-**Last Updated:** 2025-12-29
+**Last Updated:** 2026-01-10
+
+---
+
+## Operation Frosty (Documentation Health) — START HERE
+
+**frosty.py** is the documentation automation tool for cold-boot Claudes. It audits documentation health, validates links, checks term consistency, and monitors Claude session status.
+
+### Quick Commands
+
+```bash
+# Full audit (recommended for cold boot)
+py REPO-SYNC/frosty.py --audit
+
+# Individual checks
+py REPO-SYNC/frosty.py --validate-links      # Find broken markdown links
+py REPO-SYNC/frosty.py --check-consistency   # Verify key term usage
+py REPO-SYNC/frosty.py --plan-registry       # See active Claude work plans
+py REPO-SYNC/frosty.py --session-health      # Check Claude session JSONL files
+```
+
+### What `--audit` Reports
+
+| Score | What It Measures |
+|-------|------------------|
+| **Documentation freshness** | FROSTY_MANIFEST `last_reviewed` dates |
+| **Link validity** | Broken markdown links `[text](path)` |
+| **Term consistency** | Key terms match canonical values |
+| **Plan registry** | Status of Claude work plans |
+| **Session health** | Claude session JSONL files (crashes, size) |
+
+### FROSTY_MANIFEST Format
+
+Every major documentation file should include a manifest:
+
+```markdown
+<!-- FROSTY_MANIFEST
+last_reviewed: 2026-01-10
+depends_on:
+  - ../README.md
+  - ./related_file.md
+impacts:
+  - ../other_file.md
+keywords:
+  - key_concept_1
+  - key_concept_2
+-->
+```
+
+### Key Terms Checked
+
+| Term | Expected Values |
+|------|-----------------|
+| Event Horizon | 0.80, D=0.80 |
+| IRON CLAD | N=3 |
+| Inherent drift | ~93%, 93% |
+| Experiments count | 4505, 825 |
 
 ---
 
@@ -10,25 +66,18 @@ Cross-repository synchronization hub for the Nyquist Consciousness framework.
 
 ```
 REPO-SYNC/
-├── README.md                    # This file
+├── START_HERE.md                # Cold Boot Protocol for new Claudes
+├── README.md                    # This file (REPO-SYNC overview)
+├── frosty.py                    # Documentation health tool (v2.0)
+├── add_frosty_manifests.py      # Batch FROSTY manifest insertion
 ├── MASTER_BRANCH_SYNC_IN.md     # Staging: main → Consciousness
 ├── MASTER_BRANCH_SYNC_OUT.md    # Staging: Consciousness → main
-├── frosty.py                    # FROSTY manifest utilities
-├── add_frosty_manifests.py      # Batch FROSTY manifest insertion
 │
 ├── CFA/                   # Claude Field Array synchronization
 │   ├── FOR_OMEGA_NOVA/    # Materials for Nova/Omega integration
 │   ├── Lucian/            # Lucian collaboration materials
 │   ├── Opus/              # Opus 4 review materials
 │   └── *.md               # Phase 1 specs and handoffs
-│
-├── FRAME_THEORY/          # Frame Theory integration (moved from docs/)
-│   ├── diagrams/          # Visual diagrams and ASCII representations
-│   │   └── 01_eliciting_emotions/
-│   ├── *.jpeg, *.png      # Frame Theory visual assets
-│   ├── INDEX.md           # Frame Theory index
-│   ├── README.md          # Frame Theory overview
-│   └── preperation.md     # Preparation notes
 │
 ├── LATEX/                 # LaTeX technical writing toolkit
 │   └── README.md          # Git clone reference (latex3/latex2e)
@@ -68,7 +117,6 @@ REPO-SYNC/
 | Repo | Purpose | Sync Frequency |
 |------|---------|----------------|
 | **CFA (Claude Field Array)** | Omega/Nova persona integration | As needed |
-| **FRAME_THEORY** | Emotional elicitation framework & S-layer mapping | As needed |
 | **LATEX** | Technical writing, reports, arXiv submissions | On publication cycles |
 | **LLM_BOOK** | NotebookLM-validated publications, external validation | On publication cycles |
 | **Logos (PXL)** | Formal verification, AGI safety proofs, Coq theorems | As needed |
@@ -92,15 +140,6 @@ The CFA directory contains:
    - PHASE_1_CONSISTENCY_REPORT.md
    - PHASE_1_FREEZE_HANDOFF.md
    - S0_S6_FROZEN_SPEC.md
-
-### FRAME_THEORY Sync
-
-Frame Theory integration for emotional elicitation research:
-
-1. **diagrams/** - Visual and ASCII diagram representations
-   - 01_eliciting_emotions/ - Emotional frame diagrams with S-layer mappings
-2. **Frame Theory *.jpeg/png** - Visual assets
-3. **INDEX.md** - Navigation index for Frame Theory materials
 
 ### LATEX Sync
 

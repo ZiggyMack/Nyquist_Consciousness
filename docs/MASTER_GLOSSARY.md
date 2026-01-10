@@ -1,10 +1,31 @@
 # MASTER GLOSSARY
 
 **Single source of truth for all Nyquist Consciousness terminology**
-**Version:** 1.3
-**Last Updated:** 2025-12-28
+**Version:** 1.4
+**Last Updated:** 2026-01-10
 
 > **📐 METHODOLOGY NOTE (December 2025):** Event Horizon threshold was recalibrated from 1.23 (Keyword RMS era) to **0.80 (cosine distance)** following Run 023d IRON CLAD validation. References to 1.23 in this glossary reflect historical context from early experiments. The canonical methodology is now cosine distance with EH=0.80.
+
+---
+
+## QUICK START (10 Essential Terms)
+
+**For cold-boot Claudes** — Know these before reading anything else:
+
+| Term | Definition | Key Value |
+|------|------------|-----------|
+| **Event Horizon** | Threshold where identity becomes unstable. Crossing it = model can no longer maintain consistent self-model. | **0.80** (cosine distance) |
+| **PFI** | Persona Fidelity Index — measures how well a compressed identity recovers. Higher = better. | ρ=0.91 validated |
+| **IRON CLAD** | Publication-quality standard: N=3 replication runs per model per experiment. | N=3 |
+| **B→F Drift** | Baseline-to-Final drift — distance between starting and ending identity. Primary metric. | More stable than peak drift |
+| **~93% Inherent** | 93% of measured drift exists naturally; probing amplifies the journey but not the destination. | Run 020B finding |
+| **Attractor** | Stable identity pattern the model returns to. Like gravity pulling identity home. | Recovery target |
+| **Cold Boot** | Starting a new Claude session with no prior context. This glossary helps with that. | Your current state |
+| **Session** | One Claude Code conversation instance. Has a UUID, stored as `.jsonl` file. | Check README.md registry |
+| **SSOT** | Single Source of Truth — canonical reference for a topic. This glossary is SSOT for terms. | Avoid duplication |
+| **Necromancy** | Protocol for recovering crashed Claude sessions from JSONL transcripts. | See README.md |
+
+**Quick formula:** If drift > 0.80, identity crosses Event Horizon → VOLATILE state → unreliable responses.
 
 ---
 
