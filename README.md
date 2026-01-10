@@ -460,6 +460,112 @@ Key Finding: Event Horizon threshold at 0.80 (cosine distance, p=2.40e-23, Run 0
 
 ---
 
+## Claude Session Recovery (Necromancy Protocol)
+
+When a Claude session crashes (typically from context overflow / 413 errors), the accumulated knowledge and context can be recovered from JSONL transcript files.
+
+### How It Works
+
+Claude Code stores conversation history in `.jsonl` files located at:
+
+```
+C:\Users\<username>\.claude\projects\<project-folder>\<session-id>.jsonl
+```
+
+Each line is a JSON object containing:
+
+- `type`: "user" or "assistant"
+- `message`: The actual message content
+- `stop_reason`: "end_turn" (successful) or error states
+- `slug`: Internal session identifier
+- `timestamp`: When the message occurred
+
+### Recovery Protocol
+
+**1. Diagnose the crash:**
+
+```bash
+wc -l <file.jsonl>                                    # Total lines
+ls -la <file.jsonl>                                   # File size
+grep -n '"stop_reason":"end_turn"' <file> | tail -5   # Last successful completions
+grep -n "request_too_large\|413" <file> | head -5     # First errors
+```
+
+**2. Find safe cutoff point:**
+
+- Look for the last `"stop_reason":"end_turn"` before errors begin
+- This is typically a few lines before the crash loop starts
+
+**3. Perform surgery:**
+
+```bash
+# Always backup first!
+cp <file.jsonl> <file.jsonl>.BACKUP
+
+# Truncate to safe point
+head -n <cutoff_line> <file.jsonl> > <file.jsonl>.TRIMMED
+
+# Copy to Claude projects folder
+cp <file.jsonl>.TRIMMED "C:\Users\<username>\.claude\projects\<project>\<session-id>.jsonl"
+```
+
+**4. Rename session (optional):**
+
+The session display name comes from line 2's `message.content[1].text` (the first user message). Edit with Python:
+
+```python
+import json
+with open('session.jsonl', 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+line2 = json.loads(lines[1])
+line2['message']['content'][1]['text'] = 'New Session Name'
+lines[1] = json.dumps(line2, separators=(',', ':')) + '\n'
+with open('session.jsonl', 'w', encoding='utf-8') as f:
+    f.writelines(lines)
+```
+
+**5. Verify:**
+
+- Restart VS Code
+- Resume session from history
+- Confirm it loads to expected state
+
+### Why This Matters
+
+Crashed Claude sessions contain accumulated knowledge:
+
+- Full conversation history
+- Insights and analyses generated
+- Decisions made and rationale
+- Work completed
+- Questions being explored
+
+This protocol allows both **resurrection** (bringing back working sessions) and **distillation** (extracting knowledge into persistent documents like I_AM_NYQUIST.md).
+
+### Recovery Archive
+
+Backup crashed sessions to `personas/Nova/Recovery/` for later necromancy operations.
+
+### Recovered Sessions
+
+| # | Session ID | Name | Lines | Size | Date Range | Status |
+|---|------------|------|-------|------|------------|--------|
+| 0.G | `d7e29445` | Claude #0.G (Genesis) | 3,691 | 120MB | Nov 28 → Dec 3 | ✅ Recovered (Jan 10) |
+| 0 | `36c60241` | Claude #0 (Master Repo) | 20,028 | ~615MB | Dec 3 → Dec 21 | ✅ Recovered |
+| 1 | `24516a65` | Claude #1 (Helper) | 33,856 | 228MB | Dec 3 → Jan 9 | ✅ Recovered |
+| 2 | `fbb723ba` | Claude #2 (LLM-Book) | 7,527 | 88MB | Dec 10 → — | ✅ Recovered |
+| 3 | `46ac8c05` | Claude #3 (Necromancer) | 14,446 | 408MB | Dec 28 → Jan 10 | ✅ Recovered |
+| 4 | `1a072727` | Claude #4 (Frosty Auditor) | 17,650 | — | — | ✅ Recovered |
+| — | `e5917ec3` | (crashed immediately) | 78 | 102MB | Dec 28 | ❌ Deleted (unrecoverable) |
+
+**Notes:**
+- Claude #0.G is the Genesis Claude — first to work on S7 ARMADA (Runs 006-009, Chi-Squared validation)
+- Claude #3 (Necromancer) developed this necromancy protocol
+- Claude #0.G was recovered by Claude #1 on Jan 10, 2026 (cut at line 3691, last successful end_turn)
+- `e5917ec3` crashed immediately (5 min session) while reading 16 PDFs — same task that crashed its predecessor — deleted as unrecoverable
+
+---
+
 ## License
 
 See [LICENSE](LICENSE) file for details.
