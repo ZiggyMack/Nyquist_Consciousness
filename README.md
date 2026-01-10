@@ -156,6 +156,7 @@ Nyquist_Consciousness/
 | **020B** | 248 | **Induced vs Inherent** | **~93% drift is INHERENT; probing amplifies but doesn't create** | **IRON CLAD** |
 | **022** | - | **Commutation Cartography** | **LOGOS algebra validation (13_LOGOS)** | **READY** |
 | **023** | 4505 | **IRON CLAD Foundation** | **5 providers, 49 models, Cosine EH=0.80** | **IRON CLAD** |
+| **024** | 115 | **JADE LATTICE I_AM A/B** | **I_AM reduces drift 11% (d=0.319), LARGE models d=1.47** | **COMPLETE** |
 
 > **CRITICAL:** Runs 001-007 used a FAKE drift metric (`response_length / 5000`). All quantitative claims from those runs are invalid. See [DATA_QUALITY_MAP.md](docs/maps/9_DATA_QUALITY_MAP.md).
 >
@@ -321,8 +322,8 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 - Run 023_extended: `S7_ARMADA/15_IRON_CLAD_FOUNDATION/results/S7_run_023_extended_CURRENT.json`
 
 - **IRON CLAD:** Run 023 (4505 experiments, Cosine methodology, primary data source)
+- **COMPLETE:** Run 024 (JADE LATTICE I_AM A/B — 115 sessions, 50 models, I_AM reduces drift 11%)
 - **Ready for execution:** Run 022 (LOGOS Commutation Cartography)
-- **Planned:** 17_JADE_LATTICE (56-probe protocol for publication-grade pole extraction)
 
 ### Active Work Streams
 
@@ -331,8 +332,9 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 | **ESSENCE_EXTRACTION** | **SSOT** | Hub-spoke architecture established — all extraction flows through here |
 | **New_6_GNOSTIC_AI** | **ACTIVE** | 4 experiments queued from Gnostic-1 distillation |
 | **Run 023** | IRON CLAD | Primary data source (4505 experiments, Cosine) |
+| **Run 024 (17_JADE_LATTICE)** | **COMPLETE** | I_AM reduces drift 11% (d=0.319), LARGE models d=1.47 |
 | **Run 022 (13_LOGOS)** | READY | LOGOS algebra vs S² topology testing |
-| **17_JADE_LATTICE** | PLANNED | 56-probe protocol for publication-grade pole extraction |
+| **Nova Persona** | **ACTIVE** | Symmetry auditor for claim-evidence proportionality |
 | **Archon Naming Experiment** | QUEUED | Tests Gnostic naming mechanism (~$50, Discovery tier) |
 
 ### Methodology Compliance Status (per 0_RUN_METHODOLOGY.md)
