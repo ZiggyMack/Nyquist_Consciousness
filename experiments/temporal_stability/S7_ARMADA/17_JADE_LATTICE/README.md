@@ -235,19 +235,25 @@ py visualize_laplace.py
 
 ### Run 024 Key Results (January 2026)
 
-| Metric | All Models (47) | Filtered (39) |
-|--------|-----------------|---------------|
-| I_AM Win Rate | 59.6% | **69.2%** |
-| Mean Drift Reduction | 7.2% | **8.6%** |
-| Cohen's d | 0.319 | **0.353** |
+**Sample:** 50 models attempted, 47 yielded paired A/B comparisons, 8 zero-drift anomalies excluded for sensitivity analysis (n=39).
 
-**Critical Discovery: Model-Size Dependence**
+| Metric | All Models (n=47) | Filtered (n=39) |
+|--------|-------------------|-----------------|
+| I_AM Win Rate | 59.6% | 69.2% |
+| Mean Drift Reduction | 7.2% | 8.6% |
+| Cohen's d | 0.319 (small) | 0.353 (small) |
 
-| Tier | Models | Win Rate | Cohen's d | Effect |
-|------|--------|----------|-----------|--------|
-| LARGE (opus, 405B, 70B+) | 5 | **100%** | **1.47** | HUGE |
-| MEDIUM | 21 | 62% | 0.30 | Small |
-| SMALL (haiku, mini, 7B) | 21 | 48% | 0.21 | Negligible |
+**Note on filtering:** 8 models showed exactly 0.000 drift in both conditions (gpt-5, o3, o4-mini, deepseek-r1, gemini-2.5-pro, etc.) - likely API errors or non-existent model endpoints. These are excluded from filtered analysis but included in "all models" baseline. Filtered results (n=39) represent sensitivity analysis; primary results use all paired models (n=47).
+
+**Exploratory Finding (small n): Effect appears MODEL-SIZE DEPENDENT**
+
+| Tier | Models | Win Rate | Cohen's d | Effect | Note |
+|------|--------|----------|-----------|--------|------|
+| LARGE (opus, 405B, 70B+) | 5 | **100%** | **1.47** | HUGE | *n=5, interpret with caution* |
+| MEDIUM | 21 | 62% | 0.30 | Small | |
+| SMALL (haiku, mini, 7B) | 21 | 48% | 0.21 | Negligible | |
+
+**Honest headline:** I_AM files reduce drift on average (small effect d=0.319, model-dependent). 40% of models saw no benefit or got worse.
 
 ---
 

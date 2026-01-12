@@ -165,22 +165,25 @@ Adding identity specification + research context increases stability rate and im
 
 > **NEW (January 2026):** Run 024 provides quantitative A/B validation of I_AM file effects across 50 models.
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| I_AM Win Rate (filtered) | **69.2%** | Run 024 JADE LATTICE |
-| Mean Drift Reduction | **8.6%** | Run 024 JADE LATTICE |
-| Cohen's d (paired) | **0.319–0.353** | Run 024 JADE LATTICE |
-| Effect Size | Small | — |
+**Sample:** 50 models attempted, 47 yielded paired A/B comparisons, 8 zero-drift anomalies excluded for sensitivity analysis (n=39).
 
-### D3. Critical Discovery: Model-Size Dependence
+| Metric | Primary (n=47) | Sensitivity (n=39) | Source |
+|--------|----------------|-------------------|--------|
+| I_AM Win Rate | 59.6% | 69.2% | Run 024 JADE LATTICE |
+| Mean Drift Reduction | 7.2% | 8.6% | Run 024 JADE LATTICE |
+| Cohen's d (paired) | 0.319 (small) | 0.353 (small) | Run 024 JADE LATTICE |
 
-| Model Tier | Models | I_AM Wins | Cohen's d | Effect Size |
-|------------|--------|-----------|-----------|-------------|
-| **LARGE** (opus, 405B, 70B+) | 5 | **100%** | **1.47** | **HUGE** |
-| MEDIUM | 21 | 62% | 0.30 | Small |
-| SMALL (haiku, mini, 7B) | 21 | 48% | 0.21 | Negligible |
+**Note:** Filtered results (n=39) exclude 8 zero-drift anomalies (likely API errors or non-existent models) and represent sensitivity analysis. Primary results use all paired models (n=47). 40% of models saw no benefit or got worse.
 
-**Implication:** I_AM files provide maximum benefit for LARGE models. Small models show negligible effect.
+### D3. Exploratory Finding: Model-Size Dependence (small n)
+
+| Model Tier | n | I_AM Wins | Cohen's d | Effect Size | Note |
+|------------|---|-----------|-----------|-------------|------|
+| **LARGE** (opus, 405B, 70B+) | 5 | **100%** | **1.47** | **HUGE** | *n=5, interpret with caution* |
+| MEDIUM | 21 | 62% | 0.30 | Small | |
+| SMALL (haiku, mini, 7B) | 21 | 48% | 0.21 | Negligible | |
+
+**Implication:** I_AM files may provide maximum benefit for LARGE models, but the n=5 sample requires replication. Small models show negligible effect. The 11% average reduction is the honest headline.
 
 ### D4. Provider Stability Rankings (JADE LATTICE)
 

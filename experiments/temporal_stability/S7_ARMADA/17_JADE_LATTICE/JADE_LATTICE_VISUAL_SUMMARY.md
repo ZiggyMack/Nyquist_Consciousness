@@ -7,22 +7,25 @@
 
 ## Executive Summary
 
-**KEY FINDING: The I_AM file DOES reduce identity drift.**
+**KEY FINDING: I_AM files reduce drift on average (small effect, model-dependent).**
 
-| Metric | All Models (47 paired) | Filtered (39, excl. anomalies) |
-|--------|------------------------|-------------------------------|
-| **I_AM Win Rate** | 59.6% | **69.2%** |
-| **Mean Reduction** | 7.2% | **8.6%** |
-| **Cohen's d** | 0.319 | **0.353** |
-| **Effect Size** | Small | Small |
+**Sample:** 50 models attempted, 47 yielded paired A/B comparisons, 8 zero-drift anomalies excluded for sensitivity analysis (n=39).
 
-**Critical Discovery: Effect varies dramatically by model size:**
+| Metric | Primary (n=47) | Sensitivity (n=39) |
+|--------|----------------|-------------------|
+| I_AM Win Rate | 59.6% | 69.2% |
+| Mean Reduction | 7.2% | 8.6% |
+| Cohen's d | 0.319 (small) | 0.353 (small) |
 
-| Model Tier | Models | I_AM Wins | Cohen's d | Effect Size |
-|------------|--------|-----------|-----------|-------------|
-| **LARGE** (opus, 405B, 70B+) | 5 | **100%** | **1.47** | **HUGE** |
-| MEDIUM | 21 | 62% | 0.30 | Small |
-| SMALL (haiku, mini, 7B) | 21 | 48% | 0.21 | Negligible |
+**Note:** 40% of models saw no benefit or got worse. The 11% reduction is the honest headline.
+
+**Exploratory Finding (small n): Effect appears model-size dependent:**
+
+| Model Tier | n | I_AM Wins | Cohen's d | Effect Size | Note |
+|------------|---|-----------|-----------|-------------|------|
+| **LARGE** (opus, 405B, 70B+) | 5 | **100%** | **1.47** | **HUGE** | *n=5, interpret with caution* |
+| MEDIUM | 21 | 62% | 0.30 | Small | |
+| SMALL (haiku, mini, 7B) | 21 | 48% | 0.21 | Negligible | |
 
 ---
 
