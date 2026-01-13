@@ -16,6 +16,7 @@ Date: 2026-01-11
 """
 
 import json
+import math
 import os
 from pathlib import Path
 from collections import defaultdict
@@ -35,7 +36,7 @@ except ImportError:
 
 RESULTS_DIR = Path(__file__).parent / "results"
 INPUT_FILE = RESULTS_DIR / "S8_gamma_analysis_CURRENT.json"
-OUTPUT_DIR = Path(__file__).parent.parent.parent.parent.parent / "visualizations" / "pics" / "S8_Identity_Gravity"
+OUTPUT_DIR = Path(__file__).parent.parent.parent.parent.parent / "experiments" / "S8" / "visualizations"
 
 # Provider colors (consistent with existing visualizations)
 PROVIDER_COLORS = {
@@ -71,16 +72,19 @@ def plot_provider_gamma_comparison(data: dict, output_dir: Path):
 
     providers = [p[0] for p in sorted_providers]
     gammas = [p[1]['gamma_mean'] for p in sorted_providers]
+    # Use Standard Error (std / sqrt(n)) instead of std for comparing means
+    n_experiments = [p[1]['n_experiments'] for p in sorted_providers]
     stds = [p[1]['gamma_std'] for p in sorted_providers]
+    std_errors = [s / math.sqrt(n) for s, n in zip(stds, n_experiments)]
     colors = [PROVIDER_COLORS.get(p, '#888888') for p in providers]
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    bars = ax.bar(providers, gammas, yerr=stds, capsize=5, color=colors, edgecolor='black', linewidth=1.2)
+    bars = ax.bar(providers, gammas, yerr=std_errors, capsize=5, color=colors, edgecolor='black', linewidth=1.2)
 
     ax.set_ylabel('Identity Gravity (Zigs)', fontsize=12)
     ax.set_xlabel('Provider', fontsize=12)
-    ax.set_title('S8: Identity Gravity by Provider\n(First Empirical Measurement of gamma)', fontsize=14, fontweight='bold')
+    ax.set_title('S8: Identity Gravity by Provider\n(First Empirical Measurement of γ, error bars = SE)', fontsize=14, fontweight='bold')
 
     # Add value labels on bars
     for bar, gamma in zip(bars, gammas):

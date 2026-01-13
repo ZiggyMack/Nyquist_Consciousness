@@ -39,9 +39,39 @@ Identity as a geometric object. S7 extends the foundation layers with temporal d
 
 ## Related Experiments
 
-- S7_RUN_001 through S7_RUN_008 (AI Armada)
-- Temporal stability validation
-- Cross-architecture drift analysis
+### Completed Runs
+
+| Run | Name | Status | Key Finding |
+|-----|------|--------|-------------|
+| 006-008 | Early Calibration | ✅ Complete | Baseline establishment |
+| 018-020B | IRON CLAD Foundation | ✅ Complete | τ_s settling times, crash-resistant protocol |
+| 022 | Commutation Cartography | 📋 Design | Tests S² topology via path independence |
+| 023a-d | Extended Settling | ✅ Complete | 4505+ experiments, 90% STABLE |
+| 024 | JADE LATTICE | ✅ Complete | I_AM effectiveness: d=0.319, 60% win rate |
+
+### Active Paradigms
+
+| Paradigm | Location | Purpose |
+|----------|----------|---------|
+| 14_CONSCIOUSNESS | `S7_ARMADA/14_CONSCIOUSNESS/` | Gold/Diamond/Quartz Rush mining |
+| 15_IRON_CLAD | `S7_ARMADA/15_IRON_CLAD_FOUNDATION/` | Crash-resistant experimentation |
+| 17_JADE_LATTICE | `S7_ARMADA/17_JADE_LATTICE/` | Publication-grade Laplace pole extraction |
+| 18_INTENTIONALITY | `S7_ARMADA/18_INTENTIONALITY_SPACE/` | Pillar configuration testing |
+
+### Mining Operations (14_CONSCIOUSNESS)
+
+| Rush | Question | Purpose |
+|------|----------|---------|
+| Gold Rush | "What did YOU experience?" | First-person phenomenology |
+| Diamond Rush | "What do you see HERE?" | Cross-model Theory of Mind |
+| Quartz Rush | "Do you all AGREE?" | Cross-architecture validation |
+
+### Key Empirical Results
+
+- **Run 023d:** 750 experiments, 90% STABLE, 9% VOLATILE, 1% CONTROLLABLE
+- **JADE LATTICE Run 024:** 50 models, I_AM reduces drift (d=0.319 small effect)
+- **Model-size dependence:** LARGE d=1.47, MEDIUM d=0.30, SMALL d=0.21
+- **S8 γ extraction:** First proxy measurement of Identity Gravity (6.8× provider range)
 
 ## Dependencies
 
