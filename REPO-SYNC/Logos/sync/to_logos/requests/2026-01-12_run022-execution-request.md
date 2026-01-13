@@ -7,6 +7,70 @@
 
 ---
 
+## FIRST: Pull Required Files
+
+LOGOS, you need to pull the latest from Nyquist_Consciousness before executing. Here are the explicit files/directories required:
+
+### Git Pull Command
+
+```bash
+git pull origin Consciousness
+```
+
+### Critical Files to Verify After Pull
+
+**Experiment Script & Design:**
+
+```text
+experiments/temporal_stability/S7_ARMADA/13_LOGOS/
+├── run022_commutation_cartography.py    # Main experiment (1,228 lines)
+├── RUN_022_DESIGN.md                    # Full specification
+└── results/                             # Output directory
+```
+
+**Supporting Libraries (dependencies):**
+
+```text
+experiments/temporal_stability/S7_ARMADA/1_CALIBRATION/lib/
+├── drift_calculator.py                  # Cosine distance methodology
+├── triple_dip.py                        # Exit survey utilities
+└── fleet_loader.py                      # Ship configurations
+```
+
+**Results Directory (must exist):**
+
+```text
+experiments/temporal_stability/S7_ARMADA/0_results/
+├── runs/                                # Canonical output location
+└── temporal_logs/                       # Exchange-by-exchange logs
+```
+
+**Sync Folder (for handoff):**
+
+```text
+REPO-SYNC/Logos/sync/
+├── SYNC_STATUS.md                       # Updated 2026-01-12
+├── shared/experiments/run022_commutation_cartography.md
+└── from_logos/predictions/2025-12-15_run022-calibration.md
+```
+
+**Environment:**
+
+```text
+experiments/temporal_stability/S7_ARMADA/.env   # API keys (not in repo - configure locally)
+```
+
+### Verification Checklist
+
+After pulling, verify these files exist:
+
+- [ ] `S7_ARMADA/13_LOGOS/run022_commutation_cartography.py`
+- [ ] `S7_ARMADA/1_CALIBRATION/lib/drift_calculator.py`
+- [ ] `S7_ARMADA/0_results/runs/` directory
+- [ ] `.env` file with API keys configured
+
+---
+
 ## Executive Summary
 
 Run 022 (Commutation Cartography) is **fully designed, implemented, and validated**. All 3 Rapports are complete. The experiment script exists and is ready.
