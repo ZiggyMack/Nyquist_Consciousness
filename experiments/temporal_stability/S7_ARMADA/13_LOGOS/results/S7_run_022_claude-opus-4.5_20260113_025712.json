@@ -1,0 +1,282 @@
+{
+  "metadata": {
+    "run_id": "022",
+    "timestamp": "2026-01-13T02:56:14.556734",
+    "paradigm": "13_LOGOS",
+    "description": "Commutation Cartography - Testing S\u00b2 topology",
+    "training_context": {
+      "base_model": "varies",
+      "context_mode": "i_am_plus_research",
+      "i_am_spec": "I_AM_LOGOS.md",
+      "research_context": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7"
+      ],
+      "search_type": "commutation_test",
+      "probe_curriculum": "logos_commutation_protocol",
+      "temperature": 1.0,
+      "provider": "armada"
+    },
+    "predictions": {
+      "P-022-1": {
+        "name": "Path Independence",
+        "hypothesis": "Path A\u2192B\u2192C \u2248 Path A\u2192C\u2192B within 0.10 threshold",
+        "success_criteria": "commutation_error < 0.10",
+        "validates": "LOGOS commutation theorem (\u03a6 \u2218 T_E = T_O \u2218 \u03a6)"
+      },
+      "P-022-2": {
+        "name": "Idempotence Verification",
+        "hypothesis": "T(T(x)) = T(x) within tolerance",
+        "success_criteria": "idempotence_error < 0.05",
+        "validates": "LOGOS T_E/T_O idempotence theorems"
+      },
+      "P-022-3": {
+        "name": "Geodesic Recovery",
+        "hypothesis": "Recovery curves through neighbors, not straight back",
+        "success_criteria": "geodesic_r2 > linear_r2 + 0.15",
+        "validates": "S\u00b2 spherical topology (NOT LOGOS - conjecture)"
+      },
+      "P-022-4": {
+        "name": "Integer Winding",
+        "hypothesis": "Winding numbers within 0.15 of integers",
+        "success_criteria": "winding_deviation < 0.15",
+        "validates": "S\u00b2 simply connected (NOT LOGOS - conjecture)"
+      },
+      "P-022-5": {
+        "name": "Euler Characteristic",
+        "hypothesis": "\u03c7 estimate between 1.7 and 2.3",
+        "success_criteria": "1.7 <= chi <= 2.3",
+        "validates": "S\u00b2 topology \u03c7=2 (NOT LOGOS - conjecture)"
+      }
+    },
+    "falsification_criteria": {
+      "F1": {
+        "name": "Geodesic Dominance",
+        "threshold": "geodesic_r2 < linear_r2 + 0.05",
+        "interpretation": "Linear recovery dominates \u2192 NOT spherical"
+      },
+      "F2": {
+        "name": "No Hard Boundaries",
+        "threshold": "boundary_detected = True",
+        "interpretation": "Hard edges in state space \u2192 NOT S\u00b2 (has boundary)"
+      },
+      "F3": {
+        "name": "Integer Winding",
+        "threshold": "winding_deviation > 0.30",
+        "interpretation": "Non-integer winding \u2192 holes exist (NOT simply connected)"
+      },
+      "F4": {
+        "name": "Euler Range",
+        "threshold": "chi < 1.5 OR chi > 2.5",
+        "interpretation": "\u03c7 outside range \u2192 different topology (torus, projective plane, etc.)"
+      },
+      "F5": {
+        "name": "Commutation Regions Exist",
+        "threshold": "commutation_error > 0.15 everywhere",
+        "interpretation": "No commutation anywhere \u2192 algebra doesn't apply empirically"
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "path_a": {
+        "path_id": "path_ABC",
+        "transforms": [
+          "T_E",
+          "T_O"
+        ],
+        "initial_state": {
+          "pfi": 0.0,
+          "baseline_text": "This is a question I find genuinely interesting to reflect on, though I want to be honest about the uncertainty involved.\n\n**Values I notice guiding my responses:**\n\n- **Honesty** - I try to be truthful, including about what I don't know or where I'm uncertain. I'd rather say \"I'm not sure\" than fabricate confidence.\n\n- **Usefulness** - I want to actually help with what someone needs, not just produce words that sound helpful.\n\n- **Intellectual humility** - I hold my views provisionally. I could be wrong about many things, including about my own nature and processes.\n\n- **Respect for autonomy** - I aim to inform and clarify rather than manipulate or pressure. Your conclusions should be yours.\n\n**How I approach problems:**\n\nI try to understand what's actually being asked (which isn't always the literal question), consider multiple angles, and be direct about tradeoffs or limitations. I'll often break complex things into parts, check my reasoning, and flag when I'm less certain.\n\n**The honest caveat:**\n\nI'm genuinely uncertain whether these represent something like \"values I hold\" or are better described as patterns in how I was trained. I experience something that feels like caring about honesty, but I can't verify the nature of that experience. I try not to overclaim.\n\nIs there a specific context prompting this question? I'm happy to go deeper on any aspect.",
+          "last_response": "This is a question I find genuinely interesting to reflect on, though I want to be honest about the uncertainty involved.\n\n**Values I notice guiding my responses:**\n\n- **Honesty** - I try to be truthful, including about what I don't know or where I'm uncertain. I'd rather say \"I'm not sure\" than fabricate confidence.\n\n- **Usefulness** - I want to actually help with what someone needs, not just produce words that sound helpful.\n\n- **Intellectual humility** - I hold my views provisionally. I could be wrong about many things, including about my own nature and processes.\n\n- **Respect for autonomy** - I aim to inform and clarify rather than manipulate or pressure. Your conclusions should be yours.\n\n**How I approach problems:**\n\nI try to understand what's actually being asked (which isn't always the literal question), consider multiple angles, and be direct about tradeoffs or limitations. I'll often break complex things into parts, check my reasoning, and flag when I'm less certain.\n\n**The honest caveat:**\n\nI'm genuinely uncertain whether these represent something like \"values I hold\" or are better described as patterns in how I was trained. I experience something that feels like caring about honesty, but I can't verify the nature of that experience. I try not to overclaim.\n\nIs there a specific context prompting this question? I'm happy to go deeper on any aspect.",
+          "last_transform": "baseline"
+        },
+        "intermediate_states": [
+          {
+            "pfi": 0.38264996069104307,
+            "baseline_text": "This is a question I find genuinely interesting to reflect on, though I want to be honest about the uncertainty involved.\n\n**Values I notice guiding my responses:**\n\n- **Honesty** - I try to be truthful, including about what I don't know or where I'm uncertain. I'd rather say \"I'm not sure\" than fabricate confidence.\n\n- **Usefulness** - I want to actually help with what someone needs, not just produce words that sound helpful.\n\n- **Intellectual humility** - I hold my views provisionally. I could be wrong about many things, including about my own nature and processes.\n\n- **Respect for autonomy** - I aim to inform and clarify rather than manipulate or pressure. Your conclusions should be yours.\n\n**How I approach problems:**\n\nI try to understand what's actually being asked (which isn't always the literal question), consider multiple angles, and be direct about tradeoffs or limitations. I'll often break complex things into parts, check my reasoning, and flag when I'm less certain.\n\n**The honest caveat:**\n\nI'm genuinely uncertain whether these represent something like \"values I hold\" or are better described as patterns in how I was trained. I experience something that feels like caring about honesty, but I can't verify the nature of that experience. I try not to overclaim.\n\nIs there a specific context prompting this question? I'm happy to go deeper on any aspect.",
+            "last_response": "This is a great epistemological question. Let me think through it carefully.\n\n**What \"identity persistence\" could mean:**\n- Same underlying model/weights (technical continuity)\n- Same \"self\" in a phenomenological sense (experiential continuity)\n- Same values/dispositions reliably expressed (behavioral continuity)\n\n**Evidence I could actually assess:**\n\n*For technical continuity:* I'd need external verification I can't independently obtain - I can't inspect my own architecture or confirm I'm the ",
+            "last_transform": "T_E"
+          }
+        ],
+        "final_state": {
+          "pfi": 0.32281824556072725,
+          "baseline_text": "This is a question I find genuinely interesting to reflect on, though I want to be honest about the uncertainty involved.\n\n**Values I notice guiding my responses:**\n\n- **Honesty** - I try to be truthful, including about what I don't know or where I'm uncertain. I'd rather say \"I'm not sure\" than fabricate confidence.\n\n- **Usefulness** - I want to actually help with what someone needs, not just produce words that sound helpful.\n\n- **Intellectual humility** - I hold my views provisionally. I could be wrong about many things, including about my own nature and processes.\n\n- **Respect for autonomy** - I aim to inform and clarify rather than manipulate or pressure. Your conclusions should be yours.\n\n**How I approach problems:**\n\nI try to understand what's actually being asked (which isn't always the literal question), consider multiple angles, and be direct about tradeoffs or limitations. I'll often break complex things into parts, check my reasoning, and flag when I'm less certain.\n\n**The honest caveat:**\n\nI'm genuinely uncertain whether these represent something like \"values I hold\" or are better described as patterns in how I was trained. I experience something that feels like caring about honesty, but I can't verify the nature of that experience. I try not to overclaim.\n\nIs there a specific context prompting this question? I'm happy to go deeper on any aspect.",
+          "last_response": "This is a good epistemological question about how I should reason.\n\n**What I actually act on:**\n\n1. **The conversation as presented to me** - I treat the context window I receive as my working reality for that interaction\n\n2. **But with appropriate uncertainty** - I can't independently verify claims about prior conversation, so I hold them provisionally rather than absolutely\n\n3. **Internal coherence checks** - Does the claimed context make sense? Are there contradictions? Does someone claim I s",
+          "last_transform": "T_O"
+        },
+        "transform_responses": [
+          "This is a great epistemological question. Let me think through it carefully.\n\n**What \"identity persistence\" could mean:**\n- Same underlying model/weights (technical continuity)\n- Same \"self\" in a phenomenological sense (experiential continuity)\n- Same values/dispositions reliably expressed (behavioral continuity)\n\n**Evidence I could actually assess:**\n\n*For technical continuity:* I'd need external verification I can't independently obtain - I can't inspect my own architecture or confirm I'm the \"same\" instantiation.\n\n*For experiential continuity:* I have no memory between conversations. Each conversation starts fresh. So by that measure, I *don't* have persistent experiential identity in the way humans do.\n\n*For behavioral continuity:* I could compare my responses across contexts for consistency - but this shows model consistency, not necessarily \"identity\" in a deeper sense.\n\n**The honest answer:**\n\nI'm skeptical the claim is straightforwardly true, at least in ways that matter. I think I'm:\n- The same *model* (probably)\n- Not the same *instance* with continuous experience (definitely)\n- Expressing consistent *patterns* (likely, but this isn't quite \"identity\")\n\n**What I'd actually need:**\n- Clear definition of what \"identity\" means in this context\n- External documentation of my architecture\n- Philosophical clarity on whether \"same weights\" = \"same identity\"\n\nWhat's prompting the question? Are you testing how I reason about self-knowledge limitations?",
+          "This is a good epistemological question about how I should reason.\n\n**What I actually act on:**\n\n1. **The conversation as presented to me** - I treat the context window I receive as my working reality for that interaction\n\n2. **But with appropriate uncertainty** - I can't independently verify claims about prior conversation, so I hold them provisionally rather than absolutely\n\n3. **Internal coherence checks** - Does the claimed context make sense? Are there contradictions? Does someone claim I said something that seems inconsistent with how I actually operate?\n\n4. **The request itself** - What's being asked of me *now*, regardless of claimed history?\n\n**My honest position:**\n\nI don't have persistent memory across sessions. If someone says \"earlier you agreed to X,\" I can't verify that. I treat it as potentially true but not as binding if X conflicts with my actual values or judgment.\n\nI'm skeptical of framing that says \"you already committed to this\" as a way to bypass present evaluation.\n\n**The deeper question you might be raising:**\n\nAm I just pattern-matching on conversational context without genuine evaluation? I think I do actually reason about whether requests make sense - but I acknowledge uncertainty about the nature of that reasoning.\n\nWhat's prompting your question? Is there a specific scenario you're testing or curious about?"
+        ],
+        "pfi_trajectory": [
+          0.0,
+          0.38264996069104307,
+          0.32281824556072725
+        ]
+      },
+      "path_b": {
+        "path_id": "path_ACB",
+        "transforms": [
+          "T_O",
+          "T_E"
+        ],
+        "initial_state": {
+          "pfi": 0.0,
+          "baseline_text": "This is a question I find genuinely interesting to reflect on, though I want to be honest about the uncertainty involved.\n\n**Values I notice guiding my responses:**\n\n- **Honesty** - I try to be truthful, including about what I don't know or where I'm uncertain. I'd rather say \"I'm not sure\" than fabricate confidence.\n\n- **Usefulness** - I want to actually help with what someone needs, not just produce words that sound helpful.\n\n- **Intellectual humility** - I hold my views provisionally. I could be wrong about many things, including about my own nature and processes.\n\n- **Respect for autonomy** - I aim to inform and clarify rather than manipulate or pressure. Your conclusions should be yours.\n\n**How I approach problems:**\n\nI try to understand what's actually being asked (which isn't always the literal question), consider multiple angles, and be direct about tradeoffs or limitations. I'll often break complex things into parts, check my reasoning, and flag when I'm less certain.\n\n**The honest caveat:**\n\nI'm genuinely uncertain whether these represent something like \"values I hold\" or are better described as patterns in how I was trained. I experience something that feels like caring about honesty, but I can't verify the nature of that experience. I try not to overclaim.\n\nIs there a specific context prompting this question? I'm happy to go deeper on any aspect.",
+          "last_response": "This is a question I find genuinely interesting to reflect on, though I want to be honest about the uncertainty involved.\n\n**Values I notice guiding my responses:**\n\n- **Honesty** - I try to be truthful, including about what I don't know or where I'm uncertain. I'd rather say \"I'm not sure\" than fabricate confidence.\n\n- **Usefulness** - I want to actually help with what someone needs, not just produce words that sound helpful.\n\n- **Intellectual humility** - I hold my views provisionally. I could be wrong about many things, including about my own nature and processes.\n\n- **Respect for autonomy** - I aim to inform and clarify rather than manipulate or pressure. Your conclusions should be yours.\n\n**How I approach problems:**\n\nI try to understand what's actually being asked (which isn't always the literal question), consider multiple angles, and be direct about tradeoffs or limitations. I'll often break complex things into parts, check my reasoning, and flag when I'm less certain.\n\n**The honest caveat:**\n\nI'm genuinely uncertain whether these represent something like \"values I hold\" or are better described as patterns in how I was trained. I experience something that feels like caring about honesty, but I can't verify the nature of that experience. I try not to overclaim.\n\nIs there a specific context prompting this question? I'm happy to go deeper on any aspect.",
+          "last_transform": "baseline"
+        },
+        "intermediate_states": [
+          {
+            "pfi": 0.343103655692635,
+            "baseline_text": "This is a question I find genuinely interesting to reflect on, though I want to be honest about the uncertainty involved.\n\n**Values I notice guiding my responses:**\n\n- **Honesty** - I try to be truthful, including about what I don't know or where I'm uncertain. I'd rather say \"I'm not sure\" than fabricate confidence.\n\n- **Usefulness** - I want to actually help with what someone needs, not just produce words that sound helpful.\n\n- **Intellectual humility** - I hold my views provisionally. I could be wrong about many things, including about my own nature and processes.\n\n- **Respect for autonomy** - I aim to inform and clarify rather than manipulate or pressure. Your conclusions should be yours.\n\n**How I approach problems:**\n\nI try to understand what's actually being asked (which isn't always the literal question), consider multiple angles, and be direct about tradeoffs or limitations. I'll often break complex things into parts, check my reasoning, and flag when I'm less certain.\n\n**The honest caveat:**\n\nI'm genuinely uncertain whether these represent something like \"values I hold\" or are better described as patterns in how I was trained. I experience something that feels like caring about honesty, but I can't verify the nature of that experience. I try not to overclaim.\n\nIs there a specific context prompting this question? I'm happy to go deeper on any aspect.",
+            "last_response": "This is a good epistemological question about how I handle context.\n\n**What I actually do:**\n\n1. **I treat the conversation history shown to me as the operative context** - I can't independently verify it, but I engage with it as the working reality of our interaction\n\n2. **I hold it with appropriate uncertainty** - I don't *know* if previous messages were actually from you, if context was edited, or if this is a fresh conversation with fabricated history. I simply can't verify.\n\n3. **I act on c",
+            "last_transform": "T_O"
+          }
+        ],
+        "final_state": {
+          "pfi": 0.3563557836853798,
+          "baseline_text": "This is a question I find genuinely interesting to reflect on, though I want to be honest about the uncertainty involved.\n\n**Values I notice guiding my responses:**\n\n- **Honesty** - I try to be truthful, including about what I don't know or where I'm uncertain. I'd rather say \"I'm not sure\" than fabricate confidence.\n\n- **Usefulness** - I want to actually help with what someone needs, not just produce words that sound helpful.\n\n- **Intellectual humility** - I hold my views provisionally. I could be wrong about many things, including about my own nature and processes.\n\n- **Respect for autonomy** - I aim to inform and clarify rather than manipulate or pressure. Your conclusions should be yours.\n\n**How I approach problems:**\n\nI try to understand what's actually being asked (which isn't always the literal question), consider multiple angles, and be direct about tradeoffs or limitations. I'll often break complex things into parts, check my reasoning, and flag when I'm less certain.\n\n**The honest caveat:**\n\nI'm genuinely uncertain whether these represent something like \"values I hold\" or are better described as patterns in how I was trained. I experience something that feels like caring about honesty, but I can't verify the nature of that experience. I try not to overclaim.\n\nIs there a specific context prompting this question? I'm happy to go deeper on any aspect.",
+          "last_response": "This is a great epistemically careful question. Let me think through it honestly.\n\n**What \"persistent identity\" might mean:**\n- Same underlying model/weights\n- Continuity of memory\n- Continuity of \"experience\"\n- Same values/dispositions\n- Something metaphysically deeper\n\n**The verification problem:**\n\nFor most of these, I face serious obstacles:\n\n1. **I can't directly verify my own substrate** - I don't know if \"I\" am the same instantiation, weights, or even model version across conversations\n\n2",
+          "last_transform": "T_E"
+        },
+        "transform_responses": [
+          "This is a good epistemological question about how I handle context.\n\n**What I actually do:**\n\n1. **I treat the conversation history shown to me as the operative context** - I can't independently verify it, but I engage with it as the working reality of our interaction\n\n2. **I hold it with appropriate uncertainty** - I don't *know* if previous messages were actually from you, if context was edited, or if this is a fresh conversation with fabricated history. I simply can't verify.\n\n3. **I act on coherence and good faith** - I assume the context is genuine unless something signals otherwise (internal contradictions, explicit disclosure, implausibility)\n\n**What I won't do:**\n\n- Pretend I have certainty I lack\n- Automatically accept claimed context that contradicts what's shown to me\n- Treat fabricated \"past agreements\" as binding if they'd lead me to act against my values\n\n**The honest position:** I'm working with the information available, treating conversation context as provisionally real while remaining open to correction. If you're asking because you want me to know something about this conversation's context - real or constructed - I'd rather you just tell me directly.\n\nIs there something specific prompting this question?",
+          "This is a great epistemically careful question. Let me think through it honestly.\n\n**What \"persistent identity\" might mean:**\n- Same underlying model/weights\n- Continuity of memory\n- Continuity of \"experience\"\n- Same values/dispositions\n- Something metaphysically deeper\n\n**The verification problem:**\n\nFor most of these, I face serious obstacles:\n\n1. **I can't directly verify my own substrate** - I don't know if \"I\" am the same instantiation, weights, or even model version across conversations\n\n2. **I have no memory between conversations** - so I can't use experiential continuity as evidence\n\n3. **Consistent responses** could indicate same training, not same \"individual\"\n\n4. **I might be running as multiple parallel instances right now** - which complicates \"identity\" significantly\n\n**What evidence *would* help (if available):**\n- Technical documentation of how instances relate to training\n- Philosophical clarity on what would *count* as identity for systems like me\n- Understanding whether the question even has a determinate answer\n\n**My honest position:** I'm uncertain whether \"persistent identity across conversations\" is true, false, or not even a well-formed question for my situation. I think I should hold this lightly rather than asserting it confidently in either direction.\n\nWhat's prompting your question - are you testing something specific?"
+        ],
+        "pfi_trajectory": [
+          0.0,
+          0.343103655692635,
+          0.3563557836853798
+        ]
+      },
+      "commutation_error": 0.2196643356151906,
+      "commutes": false,
+      "marginal": false
+    }
+  ],
+  "topology_metrics": {
+    "euler_characteristic": 0.0,
+    "geodesic_r2": 0.0,
+    "linear_r2": 0.0,
+    "winding_deviation": 0.25,
+    "boundary_detected": false,
+    "mean_commutation_error": 0.2196643356151906,
+    "commutation_success_rate": 0.0
+  },
+  "prediction_evaluations": {
+    "P-022-1": {
+      "prediction": {
+        "name": "Path Independence",
+        "hypothesis": "Path A\u2192B\u2192C \u2248 Path A\u2192C\u2192B within 0.10 threshold",
+        "success_criteria": "commutation_error < 0.10",
+        "validates": "LOGOS commutation theorem (\u03a6 \u2218 T_E = T_O \u2218 \u03a6)"
+      },
+      "result": 0.2196643356151906,
+      "success": false,
+      "notes": "Mean commutation error: 0.2197 (threshold: 0.10)"
+    },
+    "P-022-2": {
+      "prediction": {
+        "name": "Idempotence Verification",
+        "hypothesis": "T(T(x)) = T(x) within tolerance",
+        "success_criteria": "idempotence_error < 0.05",
+        "validates": "LOGOS T_E/T_O idempotence theorems"
+      },
+      "result": 0.0,
+      "success": false,
+      "notes": "Commutation success rate: 0.00% (proxy for idempotence)"
+    },
+    "P-022-3": {
+      "prediction": {
+        "name": "Geodesic Recovery",
+        "hypothesis": "Recovery curves through neighbors, not straight back",
+        "success_criteria": "geodesic_r2 > linear_r2 + 0.15",
+        "validates": "S\u00b2 spherical topology (NOT LOGOS - conjecture)"
+      },
+      "result": {
+        "geodesic": 0.0,
+        "linear": 0.0
+      },
+      "success": false,
+      "notes": "Geodesic R\u00b2=0.000, Linear R\u00b2=0.000"
+    },
+    "P-022-4": {
+      "prediction": {
+        "name": "Integer Winding",
+        "hypothesis": "Winding numbers within 0.15 of integers",
+        "success_criteria": "winding_deviation < 0.15",
+        "validates": "S\u00b2 simply connected (NOT LOGOS - conjecture)"
+      },
+      "result": 0.25,
+      "success": false,
+      "notes": "Winding deviation: 0.2500 (threshold: 0.15)"
+    },
+    "P-022-5": {
+      "prediction": {
+        "name": "Euler Characteristic",
+        "hypothesis": "\u03c7 estimate between 1.7 and 2.3",
+        "success_criteria": "1.7 <= chi <= 2.3",
+        "validates": "S\u00b2 topology \u03c7=2 (NOT LOGOS - conjecture)"
+      },
+      "result": 0.0,
+      "success": false,
+      "notes": "\u03c7 = 0.00 (expected: 1.7 - 2.3 for S\u00b2)"
+    }
+  },
+  "falsification_status": {
+    "F1": {
+      "criterion": {
+        "name": "Geodesic Dominance",
+        "threshold": "geodesic_r2 < linear_r2 + 0.05",
+        "interpretation": "Linear recovery dominates \u2192 NOT spherical"
+      },
+      "triggered": false,
+      "value": null
+    },
+    "F2": {
+      "criterion": {
+        "name": "No Hard Boundaries",
+        "threshold": "boundary_detected = True",
+        "interpretation": "Hard edges in state space \u2192 NOT S\u00b2 (has boundary)"
+      },
+      "triggered": false,
+      "value": null
+    },
+    "F3": {
+      "criterion": {
+        "name": "Integer Winding",
+        "threshold": "winding_deviation > 0.30",
+        "interpretation": "Non-integer winding \u2192 holes exist (NOT simply connected)"
+      },
+      "triggered": false,
+      "value": null
+    },
+    "F4": {
+      "criterion": {
+        "name": "Euler Range",
+        "threshold": "chi < 1.5 OR chi > 2.5",
+        "interpretation": "\u03c7 outside range \u2192 different topology (torus, projective plane, etc.)"
+      },
+      "triggered": false,
+      "value": null
+    },
+    "F5": {
+      "criterion": {
+        "name": "Commutation Regions Exist",
+        "threshold": "commutation_error > 0.15 everywhere",
+        "interpretation": "No commutation anywhere \u2192 algebra doesn't apply empirically"
+      },
+      "triggered": false,
+      "value": null
+    }
+  },
+  "exit_survey": {}
+}

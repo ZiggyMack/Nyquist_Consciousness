@@ -722,13 +722,13 @@ def calculate_topology_metrics(comparisons: List[CommutationComparison]) -> Dict
     euler_char = estimate_euler_characteristic(comparisons)
 
     return {
-        "euler_characteristic": euler_char,
-        "geodesic_r2": geodesic_r2,
-        "linear_r2": linear_r2,
-        "winding_deviation": winding_deviation,
-        "boundary_detected": boundary_detected,
-        "mean_commutation_error": mean_error,
-        "commutation_success_rate": success_rate,
+        "euler_characteristic": float(euler_char),
+        "geodesic_r2": float(geodesic_r2),
+        "linear_r2": float(linear_r2),
+        "winding_deviation": float(winding_deviation),
+        "boundary_detected": bool(boundary_detected),
+        "mean_commutation_error": float(mean_error),
+        "commutation_success_rate": float(success_rate),
     }
 
 
