@@ -14,18 +14,22 @@
 
 | Priority | Project | Waiting On It | Loop Closure | Action |
 |:--------:|---------|:-------------:|:------------:|--------|
-| **1** | **New_4_GOLDEN_GEOMETRY** | 8 projects | N/A (HUB) | **DO THIS FIRST** - Everyone waiting |
-| 2 | Gnostic-1 | 6 projects | 1/2 (50%) | Questions from Frame_Theory, YANG, IS_OUGHT, KAYFABE, x3, G2 |
-| 3 | Frame_Theory | 6 projects | 0/6 (0%) | Needs answers from 6 targets |
-| 4 | Gnostic-1-2-x3 | 2 projects | 1/4 (25%) | Integration layer - needs GOLDEN_GEOMETRY |
-| 5 | Gnostic-2 | 2 projects | 0/2 (0%) | Needs Gnostic-1, GOLDEN_GEOMETRY |
-| 6 | YANG | 1 project | 1/5 (20%) | Needs GOLDEN_GEOMETRY + Gnostic series |
-| 7 | New_7_KAYFABE | 0 projects | 0/4 (0%) | Waiting on GOLDEN_GEOMETRY, Frame_Theory |
-| 8 | IS_OUGHT | 0 projects | 1/3 (33%) | Waiting on GOLDEN_GEOMETRY, Frame_Theory |
-| 9 | Parallel-Research | 0 projects | 0/1 (0%) | Waiting on GOLDEN_GEOMETRY only |
+| **1** | **New_4_GOLDEN_GEOMETRY** | 10 projects | N/A (HUB) | **DO THIS FIRST** - Everyone waiting |
+| 2 | **HOFFMAN** | 6 projects | 0/? (0%) | **Rosetta Stone** - theoretical linchpin for all |
+| 3 | Gnostic-1 | 6 projects | 1/2 (50%) | Questions from Frame_Theory, YANG, IS_OUGHT, KAYFABE, x3, G2 |
+| 4 | Frame_Theory | 6 projects | 0/6 (0%) | Needs answers from 6 targets |
+| 5 | **Lucien** | 5 projects | 0/? (0%) | Identity persistence theory, SHAMAN/KAYFABE connections |
+| 6 | **SHAMAN** | 4 projects | 0/? (0%) | Assemblage point theory, GOLDEN_GEOMETRY/KAYFABE connections |
+| 7 | Gnostic-1-2-x3 | 2 projects | 1/4 (25%) | Integration layer - needs GOLDEN_GEOMETRY |
+| 8 | Gnostic-2 | 2 projects | 0/2 (0%) | Needs Gnostic-1, GOLDEN_GEOMETRY |
+| 9 | YANG | 1 project | 1/5 (20%) | Needs GOLDEN_GEOMETRY + Gnostic series |
+| 10 | New_7_KAYFABE | 0 projects | 0/4 (0%) | Waiting on GOLDEN_GEOMETRY, Frame_Theory |
+| 11 | IS_OUGHT | 0 projects | 1/3 (33%) | Waiting on GOLDEN_GEOMETRY, Frame_Theory |
+| 12 | Parallel-Research | 0 projects | 0/1 (0%) | Waiting on GOLDEN_GEOMETRY only |
 | ✓ | LYNNCH_PINS | 0 projects | N/A | Ready for BURP (no outgoing Q's) |
 | ✓ | NON-LOCALITY | 0 projects | N/A | Ready for BURP (no outgoing Q's) |
 | ✓ | RAG | 0 projects | N/A | Ready for BURP (no outgoing Q's) |
+| ★ | **Infinity-Nyquist** | ALL | N/A (META) | Meta-framework - Stone Inventory (EXP-INF-1) |
 
 ### The HUB Problem
 

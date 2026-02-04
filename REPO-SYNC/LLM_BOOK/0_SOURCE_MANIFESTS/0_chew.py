@@ -443,10 +443,269 @@ Use `py 0_chew.py --route {safe_name}` to see where insights should go.
 """
         (project_dir / "_OUT" / "CONSTRAINTS.md").write_text(constraints, encoding="utf-8")
 
+        # Create chat.md for NotebookLM Q&A tracking
+        chat_md = f"""# NotebookLM Questions: {name}
+
+**Project:** {name}
+**Created:** {datetime.now().strftime('%Y-%m-%d')}
+**Status:** ACTIVE
+
+---
+
+## Suggested Questions
+
+### Q1: [First Question Topic]
+
+> [Your first question for NotebookLM - be specific about what you want to understand]
+
+**Response:**
+[Paste NotebookLM response here]
+
+---
+
+### Q2: [Second Question Topic]
+
+> [Your second question]
+
+**Response:**
+[Paste NotebookLM response here]
+
+---
+
+### Q3: [Third Question Topic]
+
+> [Your third question]
+
+**Response:**
+[Paste NotebookLM response here]
+
+---
+
+## Cross-Pollination Questions
+
+### Q4: To [Target Project] - [Connection Topic]
+
+> [Question that connects this research to another project]
+
+**Response:**
+[Paste NotebookLM response here]
+
+---
+
+## Follow-Up Questions
+
+(To be added after initial responses)
+
+---
+
+*Created: {datetime.now().strftime('%Y-%m-%d')}*
+*Project: {name} NotebookLM Session*
+*Source material: _OUT/ folder contents*
+"""
+        (project_dir / "chat.md").write_text(chat_md, encoding="utf-8")
+
+        # Create report.md for HOLY_GRAIL NotebookLM output specifications
+        report_md = f"""# {name} Report Recommendations
+
+**Source:** {name} Research
+**Date:** {datetime.now().strftime('%Y-%m-%d')}
+**Methodology:** HOLY_GRAIL Output Specification Template
+
+---
+
+## How to Use This Document
+
+This file contains **complete NotebookLM output specifications**. Each section has copy-paste-ready prompts for NotebookLM's Studio panel.
+
+### Output Count Summary
+
+| Type | Count | Formats Used |
+|------|-------|--------------|
+| **Reports** | 5 | Standard report prompts |
+| **Infographics** | 5 | Detailed/Standard, Landscape/Portrait/Square |
+| **Slide Decks** | 3 | Detailed Deck, Presenter Slides |
+| **Audio Guides** | 4 | Deep Dive, Brief, Critique, Debate |
+| **Videos** | 5 | Explainer/Brief, Whiteboard/Heritage/Classic |
+
+### Cross-Reference
+
+- **Source material:** `{folder_name}/_OUT/`
+- **Questions file:** `{folder_name}/chat.md`
+
+---
+
+## NotebookLM Report Requests
+
+### Report 1: [Core Topic] — Theoretical Foundation
+
+**Focus:** [What this report should explain]
+
+**Should Cover:**
+
+- [Key concept 1]
+- [Key concept 2]
+- [Key concept 3]
+- [Connection to broader framework]
+- [Falsification criteria]
+
+**Target Audience:** [Who would read this]
+
+---
+
+### Report 2: [Methodology] — Experimental Design
+
+**Focus:** [Practical approach]
+
+**Should Cover:**
+
+- [Method 1]
+- [Method 2]
+- [Success criteria]
+
+**Target Audience:** [Who would read this]
+
+---
+
+### Report 3: [Application] — Practical Implications
+
+**Focus:** [How to use the findings]
+
+**Should Cover:**
+
+- [Implication 1]
+- [Implication 2]
+
+**Target Audience:** [Who would read this]
+
+---
+
+### Report 4: [Connections] — Cross-Pollination
+
+**Focus:** [How this connects to other projects]
+
+**Should Cover:**
+
+- Connection to GOLDEN_GEOMETRY
+- Connection to other relevant projects
+
+**Target Audience:** Framework synthesizers
+
+---
+
+### Report 5: [Synthesis] — The Bigger Picture
+
+**Focus:** [How this fits into the Nyquist framework]
+
+**Should Cover:**
+
+- Integration with existing findings
+- What this unlocks
+
+**Target Audience:** Nyquist researchers
+
+---
+
+## Infographic Requests
+
+### Infographic 1: [Main Concept Visual]
+
+**NotebookLM Settings:**
+
+- **Level of detail:** Detailed (BETA)
+- **Orientation:** Landscape
+
+**Description for NotebookLM:**
+> [Describe the infographic you want created - be specific about layout, content, and visual elements]
+
+---
+
+### Infographic 2: [Process/Flow Diagram]
+
+**NotebookLM Settings:**
+
+- **Level of detail:** Standard
+- **Orientation:** Portrait
+
+**Description for NotebookLM:**
+> [Description]
+
+---
+
+## Slide Deck Requests
+
+### Deck 1: Introduction to {name}
+
+**NotebookLM Settings:**
+
+- **Format:** Detailed Deck (comprehensive with full text)
+- **Length:** Default
+
+**Description for NotebookLM:**
+> Deck: Introduction to {name}
+> Audience: [Target audience]
+>
+> Slides:
+> 1. Title
+> 2. [Slide 2 topic]
+> 3. [Slide 3 topic]
+> ...
+>
+> Style: [Style guidance]
+
+---
+
+## Audio Guide Requests
+
+### Audio 1: {name} Deep Dive
+
+**NotebookLM Settings:**
+
+- **Format:** Deep Dive (lively conversation)
+- **Length:** Long
+
+**Focus Prompt for NotebookLM:**
+> [Describe what the audio should cover]
+
+---
+
+### Audio 2: Quick Overview
+
+**NotebookLM Settings:**
+
+- **Format:** Brief (bite-sized overview)
+- **Length:** Short
+
+**Focus Prompt for NotebookLM:**
+> [Description]
+
+---
+
+## Video Overview Requests
+
+### Video 1: Introduction
+
+**NotebookLM Settings:**
+
+- **Format:** Explainer (structured, comprehensive)
+- **Visual Style:** Whiteboard (clean diagrams)
+
+**Focus Prompt for NotebookLM:**
+> [Description]
+
+---
+
+*Report recommendations created: {datetime.now().strftime('%Y-%m-%d')}*
+*Methodology: HOLY_GRAIL Output Specification Template*
+*Template generated by 0_chew.py --baka*
+"""
+        (project_dir / "report.md").write_text(report_md, encoding="utf-8")
+
         print(f"  Created: {project_dir}")
         print(f"  Created: {project_dir / '_IN'}")
         print(f"  Created: {project_dir / '_OUT'}")
         print(f"  Created: README.md + templates")
+        print(f"  Created: chat.md (NotebookLM Q&A)")
+        print(f"  Created: report.md (HOLY_GRAIL outputs)")
 
     return [project_dir]
 
