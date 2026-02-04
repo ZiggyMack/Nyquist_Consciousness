@@ -42,15 +42,26 @@
 | P-022-7 | Cross-domain Φ-transition signature | Bridge mapping |
 | P-022-8 | Behavioral T_E more stable than direct-asking T_E | Oobleck confirmation |
 
-### Next: Run 022 Execution
+### Run 022 Execution - COMPLETE
 
-Run 022 methodology is **FULLY VALIDATED**. Ready for Phase 1 execution.
+**2026-02-03 UPDATE:** Run 022 EXECUTED by Nyquist Framework (Opus 4.5).
 
-**2026-01-12 UPDATE:** Execution request sent to LOGOS Claude.
-See: `sync/to_logos/requests/2026-01-12_run022-execution-request.md`
+#### Results Summary
 
-Rationale: LOGOS has the Coq-proven theorems being tested (P-022-1, P-022-2).
-Per PROTOCOL.md: "LOGOS proves the algebra" - appropriate for LOGOS to validate empirically.
+| Provider | Model | Commutation Error | P-022-1/2 |
+|----------|-------|-------------------|-----------|
+| Anthropic | claude-sonnet-4 | 0.0002 | **PASS** |
+| Anthropic | claude-opus-4.5 | 0.344 | FAIL |
+| OpenAI | gpt-4o | 0.374 | FAIL |
+| Google | gemini-2.5-flash | 0.417 | FAIL |
+| xAI | grok-4 | 0.319 | FAIL |
+| Together | llama33-70b | 0.399 | FAIL |
+
+**Key Finding:** Sonnet 4 passed (error ~0), but fleet sweep failed (mean error 0.37).
+
+**Results Location:** `sync/shared/results/RUN_022_SUMMARY.md` + 7 JSON files
+
+**Status:** AWAITING LOGOS ANALYSIS
 
 ---
 

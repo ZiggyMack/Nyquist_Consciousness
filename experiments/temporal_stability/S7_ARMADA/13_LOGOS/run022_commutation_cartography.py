@@ -885,8 +885,8 @@ def evaluate_predictions(results: Dict) -> Dict:
     evaluations = {}
 
     # P-022-1: Path Independence
-    mean_error = topology.get("mean_commutation_error", 1.0)
-    p1_success = mean_error < 0.10
+    mean_error = float(topology.get("mean_commutation_error", 1.0))
+    p1_success = bool(mean_error < 0.10)
     evaluations["P-022-1"] = {
         "prediction": PREDICTIONS["P-022-1"],
         "result": mean_error,
@@ -896,28 +896,28 @@ def evaluate_predictions(results: Dict) -> Dict:
 
     # P-022-2: Idempotence (would need T(T(x)) tests, simplified here)
     # For now, use commutation success as proxy
-    success_rate = topology.get("commutation_success_rate", 0)
+    success_rate = float(topology.get("commutation_success_rate", 0))
     evaluations["P-022-2"] = {
         "prediction": PREDICTIONS["P-022-2"],
         "result": success_rate,
-        "success": success_rate > 0.9,
+        "success": bool(success_rate > 0.9),
         "notes": f"Commutation success rate: {success_rate:.2%} (proxy for idempotence)"
     }
 
     # P-022-3: Geodesic Recovery
-    geodesic_r2 = topology.get("geodesic_r2", 0)
-    linear_r2 = topology.get("linear_r2", 0)
-    p3_success = geodesic_r2 > linear_r2 + 0.15
+    geodesic_r2 = float(topology.get("geodesic_r2", 0))
+    linear_r2 = float(topology.get("linear_r2", 0))
+    p3_success = bool(geodesic_r2 > linear_r2 + 0.15)
     evaluations["P-022-3"] = {
         "prediction": PREDICTIONS["P-022-3"],
         "result": {"geodesic": geodesic_r2, "linear": linear_r2},
         "success": p3_success,
-        "notes": f"Geodesic R²={geodesic_r2:.3f}, Linear R²={linear_r2:.3f}"
+        "notes": f"Geodesic R2={geodesic_r2:.3f}, Linear R2={linear_r2:.3f}"
     }
 
     # P-022-4: Integer Winding
-    winding_dev = topology.get("winding_deviation", 1.0)
-    p4_success = winding_dev < 0.15
+    winding_dev = float(topology.get("winding_deviation", 1.0))
+    p4_success = bool(winding_dev < 0.15)
     evaluations["P-022-4"] = {
         "prediction": PREDICTIONS["P-022-4"],
         "result": winding_dev,
@@ -926,13 +926,13 @@ def evaluate_predictions(results: Dict) -> Dict:
     }
 
     # P-022-5: Euler Characteristic
-    chi = topology.get("euler_characteristic", 0)
-    p5_success = 1.7 <= chi <= 2.3
+    chi = float(topology.get("euler_characteristic", 0))
+    p5_success = bool(1.7 <= chi <= 2.3)
     evaluations["P-022-5"] = {
         "prediction": PREDICTIONS["P-022-5"],
         "result": chi,
         "success": p5_success,
-        "notes": f"χ = {chi:.2f} (expected: 1.7 - 2.3 for S²)"
+        "notes": f"chi = {chi:.2f} (expected: 1.7 - 2.3 for S2)"
     }
 
     return evaluations
@@ -1043,8 +1043,8 @@ def main():
     print("RUN 022: COMMUTATION CARTOGRAPHY")
     print("=" * 70)
     print()
-    print("LOGOS PROVEN (Coq): Φ ∘ T_E = T_O ∘ Φ (commutation)")
-    print("RUN 022 TESTS: Does this hold TOPOLOGICALLY on S²?")
+    print("LOGOS PROVEN (Coq): Phi o T_E = T_O o Phi (commutation)")
+    print("RUN 022 TESTS: Does this hold TOPOLOGICALLY on S2?")
     print()
     print("Methodology: Behavioral T_E/T_O (Oobleck Effect-informed)")
     if args.dry_run:
@@ -1056,14 +1056,14 @@ def main():
     print("PRE-REGISTERED PREDICTIONS (Double-Dip)")
     print("-" * 70)
     for pred_id, pred in PREDICTIONS.items():
-        proves = "LOGOS" if "LOGOS" in pred["validates"] else "S² conjecture"
+        proves = "LOGOS" if "LOGOS" in pred["validates"] else "S2 conjecture"
         print(f"  {pred_id}: {pred['name']} [{proves}]")
         print(f"          Success if: {pred['success_criteria']}")
     print()
 
     # Show falsification criteria
     print("-" * 70)
-    print("S² FALSIFICATION CRITERIA")
+    print("S2 FALSIFICATION CRITERIA")
     print("-" * 70)
     for crit_id, crit in FALSIFICATION_CRITERIA.items():
         print(f"  {crit_id}: {crit['name']}")
