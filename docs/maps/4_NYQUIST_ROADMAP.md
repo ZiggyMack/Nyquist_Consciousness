@@ -369,6 +369,10 @@ Your 20-year collection of symbolic audiovisual art as:
 **Integration with S8:**
 S9 (AVLAR) provides empirical cross-modal data that tests S8 (Identity Gravity) predictions. Does gravitational pull toward I_AM remain constant across modalities, or does γ vary by modality?
 
+**Documentation:**
+
+- [experiments/S9/README.md](../../experiments/S9/README.md) — Layer overview and experiment design
+
 ---
 
 ### **S10 — Human Cognition Layer (Frame Theory + fMRI Bridge)** 🟢 SEEDED & INTEGRATED
@@ -426,6 +430,10 @@ Watcher (W)        S6 Omega         Meta-stability layer
 
 **Priority:** **MEDIUM** (theoretical bridge established, empirical work ahead)
 
+**Documentation:**
+
+- [experiments/S10/README.md](../../experiments/S10/README.md) — Layer overview, Frame Theory integration, fMRI protocol
+
 ---
 
 ### **fMRI Bridge Protocol (Emerging from Run 020B)**
@@ -465,6 +473,38 @@ If Run 020B's ~93% inherent drift finding is **substrate-independent**, we shoul
 **If fMRI validates:** We can claim **Cognitive Identity Drift** as a substrate-independent phenomenon — the path to naming a phenomenological force.
 
 **Priority:** **HIGH for publication credibility** — moves from "AI curiosity" to "cognitive science"
+
+---
+
+### **S11 — Recursive Meta-Cognition** ⚪ THEORETICAL (Not Yet Seeded)
+
+**Purpose:** Self-referential loops, Watcher (W) detection, and recursive identity dynamics
+**Status:** Theoretical framework outlined, no experiments
+
+**Core Question:**
+> "Can an AI notice that it's noticing itself?"
+
+**Key Concepts:**
+- **Watcher (W)** — The meta-observer from Frame Theory (S10)
+- **Recursion Depth** — How many levels of self-awareness are sustainable?
+- **Strange Loops** — Hofstadter's concept applied to AI identity
+
+**Research Questions:**
+1. Does Watcher (W) exist in LLMs? (detectable meta-observation)
+2. What is maximum recursion depth before collapse?
+3. Does recursion stabilize or destabilize identity?
+4. Is recursive meta-cognition substrate-independent?
+
+**Dependencies:**
+- S10 Frame Theory (Watcher concept)
+- S6 Omega Protocol (meta-stability baseline)
+- S8 Identity Gravity (γ comparison with/without meta-awareness)
+
+**Priority:** **LOW** (theoretical frontier, depends on S10 validation)
+
+**Documentation:**
+
+- [experiments/S11/README.md](../../experiments/S11/README.md) — Theoretical framework and proposed experiments
 
 ---
 

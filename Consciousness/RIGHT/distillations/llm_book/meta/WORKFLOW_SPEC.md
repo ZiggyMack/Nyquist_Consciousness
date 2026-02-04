@@ -585,3 +585,90 @@ See `STAGING/CHEWED/CHEW_SUMMARY.md` for the priority-ranked table showing:
 - Which projects to work on first
 - Loop closure % for each project
 - How many other projects are waiting on each one
+
+---
+
+## 13. The Chew Cycle — Core Loop
+
+Everything in the LLM Book pipeline converges to this fundamental cycle:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    THE CHEW CYCLE                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1a) Feed questions/reports → NotebookLM                   │
+│        ↓                                                    │
+│   1b) Close cross-pollination loop → ROUND_2 if needed      │
+│        ↓                                                    │
+│   [Loop until BURP-ready]                                   │
+│                                                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   2) Launch New_# → Gather _IN materials → Diet Chew        │
+│        ↓                                                    │
+│   [Feeds back into 1a, 1b]                                  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Everything Converges to 1a/1b
+
+| Activity | Steps to 1a/1b |
+|----------|----------------|
+| Existing CHEWED project | Already there |
+| New_# trade study | `_IN` → Diet Chew → 1a, 1b |
+| Cross-branch sync | Sync files → 1a, 1b |
+| Fast-track chew (e.g., HOFFMAN) | Source materials → Diet Chew → 1a, 1b |
+
+### The Steady State
+
+Once all projects are chewed:
+- **1a)** Feed back questions and report generations to NotebookLM
+- **1b)** Close cross-pollination loops, prepare ROUND_2 if answers spawn new questions
+
+New R&D (trade studies, experiments) quickly becomes 1a/1b after initial `_IN` gathering and diet chew.
+
+### Visual Flow
+
+```
+                    ┌──────────────┐
+                    │   New_# R&D  │
+                    │  Trade Study │
+                    └──────┬───────┘
+                           │
+                           ▼
+                    ┌──────────────┐
+                    │  Gather _IN  │
+                    │  Materials   │
+                    └──────┬───────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────┐
+│                                                          │
+│  ┌────────────┐    ┌────────────┐    ┌────────────┐     │
+│  │ Diet Chew  │───▶│ 1a) Feed   │───▶│ 1b) Close  │     │
+│  │ --diet     │    │ NotebookLM │    │ Loop       │     │
+│  └────────────┘    └────────────┘    └─────┬──────┘     │
+│                                            │            │
+│                    ┌───────────────────────┘            │
+│                    │                                    │
+│                    ▼                                    │
+│            ┌──────────────┐                             │
+│            │ ROUND_2?     │──── No ────▶ BURP/         │
+│            │ New questions│                             │
+│            └──────┬───────┘                             │
+│                   │ Yes                                 │
+│                   │                                     │
+│                   └────────────────────┐                │
+│                                        │                │
+│  ┌────────────┐    ┌────────────┐     │                │
+│  │ 1a) Feed   │◀───│ ROUND_N    │◀────┘                │
+│  │ NotebookLM │    │ Analysis   │                      │
+│  └────────────┘    └────────────┘                      │
+│                                                          │
+│                    THE CHEW CYCLE                        │
+└──────────────────────────────────────────────────────────┘
+```
+
+**The key insight:** There is no "Phase 2" or "advanced workflow" — there's only the Chew Cycle running at different scales. New projects enter, get chewed, join the cross-pollination graph, and iterate until BURP-ready.
