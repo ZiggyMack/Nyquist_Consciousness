@@ -25,6 +25,7 @@ Version: 4.0 (2026-02-04) - Round-based iteration support
 """
 
 import argparse
+import io
 import json
 import re
 import shutil
@@ -32,6 +33,10 @@ import sys
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional
+
+# Fix Windows console encoding for Unicode characters (subscripts, etc.)
+if sys.stdout.encoding != 'utf-8':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
 # === PATH CONSTANTS ===
 SCRIPT_DIR = Path(__file__).parent
