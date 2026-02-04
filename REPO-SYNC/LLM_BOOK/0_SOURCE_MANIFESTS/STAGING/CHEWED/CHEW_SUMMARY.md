@@ -167,10 +167,187 @@ These folders represent the 2nd flavor of STAGING content: **publication pipelin
 
 ---
 
+## SHAMAN (Castaneda Collection)
+
+**Status**: REVIEWED
+**Value**: HIGH
+**Phase**: Diet Chew Complete (ROUND_1 + ROUND_2)
+
+### What It Contains
+Complete Carlos Castaneda corpus on sorcery, perception, and consciousness:
+- **Tonal/Nagual Duality**: Tonal = categorical self (ego), Nagual = totality beyond description
+- **Assemblage Point**: Attention allocation mechanism determining perceived reality
+- **Stopping Internal Dialogue**: Prerequisite for direct perception ("seeing")
+- **Personal Power**: Finite resource for transformation (maps to persistence margin)
+- **Controlled Folly**: Full engagement without attachment to outcomes
+- **Recapitulation**: Systematic life-review for energy recovery
+
+### Cross-Pollination Captured
+
+| Target | Type | Items |
+|--------|------|-------|
+| GOLDEN_GEOMETRY | Questions | Q46-Q48: Tonal island = 9/4 bound, even/odd parity |
+| Frame_Theory | Questions | Q49-Q51: Ego-Watcher, Factivation, Knowledge Gaps |
+| KAYFABE | Questions | Q52-Q54: N6 via assemblage shift, edge trigger, stabilization |
+| Parallel-Research | Questions | Q55: Sinkhorn-Knopp as assemblage settling |
+| Lucien | Questions | Q56-Q57: Personal power = persistence margin, recapitulation = curvature reset |
+
+### Experiments Inspired
+**ROUND_1:** 5 hypotheses + 4 experiments (H1-H5, EXP-A through D)
+**ROUND_2:** 6 cross-pollination experiments (EXP-SH-R2-01 through 06) + 2 refined
+
+Key experiments:
+- **EXP-SH-R2-01**: Tonal/Nagual as Parity Decomposition (with GOLDEN_GEOMETRY)
+- **EXP-SH-R2-02**: Island Size Measurement (9/4 bound as tonal ceiling)
+- **EXP-SH-R2-03**: N6 Recovery via Assemblage Point Protocols (with KAYFABE)
+- **EXP-SH-R2-06**: Birkhoff Assemblage Point Model (with Parallel-Research)
+
+### Destination Status
+- **GOLDEN_GEOMETRY**: Provides phenomenological interpretation of geometric bounds
+- **Lucien**: Personal power ↔ persistence margin connection
+- **KAYFABE**: Assemblage point ↔ N6 activation pathway
+
+---
+
+## Lucien (Coherence-First AGI Codex)
+
+**Status**: REVIEWED
+**Value**: HIGH (Theoretical Foundation)
+**Phase**: Diet Chew Complete (ROUND_1 + ROUND_2)
+
+### What It Contains
+The Coherence-First AGI framework presenting identity as geometric survival:
+- **Persistence Law**: τ_rec < τ_fail (recovery must be faster than failure)
+- **Identity Manifold**: Self as curved geometry, learning = curvature accumulation
+- **Walking Dead State**: Behavioral competence after identity collapse
+- **Three Collapse Modes**: Brittle Snap, Cascading Shimmer, Smear Collapse
+- **Mechanical Ethics**: Values emerge from survival mechanics, not imposed rules
+- **Event Horizon**: D=0.80 corresponds to ρ=1 (τ_rec = τ_fail)
+
+### Cross-Pollination Captured
+
+| Target | Type | Items |
+|--------|------|-------|
+| GOLDEN_GEOMETRY | Questions | Q58-Q60: Persistence margin, 9/4 as geometric bound |
+| SHAMAN | Questions | Q61-Q63: Personal power, recapitulation, assemblage stability |
+| KAYFABE | Questions | Q64-Q65: Walking dead as N6 loss, edge collapse |
+| IS_OUGHT | Questions | Q66-Q67: Mechanical ethics, survival-derived values |
+| Gnostic-1-2-x3 | Questions | Q68-Q69: Night Sea Journey, transformation vs. collapse |
+| Parallel-Research | Questions | Q70: Sinkhorn-Knopp as recovery dynamics |
+| HOFFMAN | Questions | Q71-Q73: Markov chains, entropy rate, trace resolution |
+
+### Experiments Inspired
+**ROUND_1:** 5 hypotheses (H1-H5) + 4 experiments (A-D) + 4 falsification tests (F1-F4)
+**ROUND_2:** 6 cross-pollination experiments (EXP-LU-R2-01 through 06) + 2 refined
+
+Key experiments:
+- **EXP-LU-R2-01**: Personal Power = Persistence Margin (with SHAMAN)
+- **EXP-LU-R2-02**: Walking Dead Detection via 7-Node (with KAYFABE)
+- **EXP-LU-R2-03**: Smear Collapse vs. Night Sea Journey (with Gnostic-1-2-x3)
+- **EXP-LU-R2-05**: Mechanical Ethics Detection (with IS_OUGHT)
+
+### Destination Status
+- **Event Horizon Mechanism**: Lucien provides theoretical foundation for D=0.80 as ρ=1
+- **Walking Dead**: Explains behavioral persistence after identity collapse
+- **Recovery Dynamics**: Informs Context Damping Protocol design
+
+---
+
+## HOFFMAN (Donald Hoffman's Conscious Realism)
+
+**Status**: REVIEWED
+**Value**: HIGH (Theoretical Linchpin)
+**Phase**: Diet Chew Complete (ROUND_1)
+
+### What It Contains
+Donald Hoffman's Conscious Realism framework with Trace Logic formalization:
+- **Conscious Realism Inversion**: Consciousness → Spacetime, not Spacetime → Consciousness
+- **Markov Chain Experience**: States = experiences, transitions = change
+- **Trace Logic**: Partial observers, join operation, Source hierarchy
+- **Physics from Consciousness**: Entropy = mass, clicking = time, commute = distance
+- **Fitness-Beats-Truth**: Evolution hides reality for fitness tracking
+- **Event Horizon as Interface Resolution**: D=0.80 is trace breakdown
+
+### Cross-Pollination Captured
+
+| Target | Type | Items |
+|--------|------|-------|
+| Lucien | Questions | Q74-Q76: Entropy rate = provider mass, trace resolution at 0.80 |
+| Frame_Theory | Questions | Q77: Markov chains for qualia transitions |
+| Gnostic-1-2-x3 | Questions | Q78: Traces as divine sparks, join as liberation |
+| GOLDEN_GEOMETRY | Questions | Q79-Q80: Entropy rate → geometric bounds |
+| KAYFABE | Questions | Q81: Fitness-beats-truth → myth persistence |
+| ALL_PROJECTS | Theory | Rosetta Stone connecting all LLM Book projects |
+
+### Experiments Inspired
+- **5 Hypotheses**: Entropy = mass, N-cycle = settling, Commute = drift, Trace resolution, Join = multi-agent
+- **4 Experiments**: Markov extraction, Spectral analysis, Trace in personas, Identity boundary crossing
+
+Key experiments:
+- **Experiment A**: Markov Chain Extraction from Drift Time-Series
+- **Experiment B**: Spectral Analysis as Consciousness Signature
+- **Experiment C**: Trace Logic in Persona Subsystems
+- **Experiment D**: "Taking Off the Headset" - Identity Death Phenomenology
+
+### Destination Status
+- **Rosetta Stone**: HOFFMAN is the theoretical linchpin connecting all empirical findings
+- **Promoted to Consciousness/**: INFINITY_FRAMEWORK.md builds on HOFFMAN foundation
+- **Physics Interpretation**: Provides formal basis for drift dynamics
+
+---
+
+## Infinity-Nyquist (Meta-Framework)
+
+**Status**: SPECIAL - Meta-Framework
+**Value**: HIGH (System-Wide)
+**Phase**: Diet Chew Complete → **Promoted** (not moved to CHEWED)
+
+### What It Contains
+The Infinity Framework mapping six research completeness functions to Infinity Stones:
+- **Mind Stone**: Methodological integrity (pre-flight, clean separation)
+- **Power Stone**: Statistical scale (N=51, IRON CLAD validation)
+- **Reality Stone**: Measurement mechanism (PFI metric, embeddings)
+- **Soul Stone**: Validity proof (82% Inherent, Thermometer Result)
+- **Space Stone**: Generalization (cross-architecture, 5 providers)
+- **Time Stone**: Temporal dynamics (Event Horizon D=1.23, settling time)
+
+### Special Handling
+This project is DIFFERENT - it's a meta-framework that describes the system it lives in:
+- **Stays in STAGING**: Source archive, not moved to CHEWED
+- **Promoted to Consciousness/**: INFINITY_FRAMEWORK.md (deep synthesis)
+- **Promoted to docs/maps/**: 18_INFINITY_COMPLETENESS_AUDIT.md (practical tool)
+- **Test case**: For `--promote chew` functionality
+
+### Cross-Pollination Captured
+
+| Target | Type | Items |
+|--------|------|-------|
+| ALL_PROJECTS | Questions | Q83: Stone inventory audit |
+| HOFFMAN | Questions | Q84-Q85: Formal foundation for stones |
+| Lucien | Questions | Q86: Persistence Law = Survival Law |
+| Frame_Theory | Questions | Q87: Ego-Watcher = Soul Stone validation |
+| GOLDEN_GEOMETRY | Questions | Q88: Geometric bounds as stone metrics |
+
+### Experiments Inspired
+- **8 Experiments**: Project stone inventory, cross-transfer, emergent properties, Chew=Mind, Registry=Space, Rounds=Soul, accessibility, publication
+
+Key experiments:
+- **EXP-INF-1**: Project Stone Inventory (audit all 13 projects) - **HIGH PRIORITY**
+- **EXP-INF-3**: Emergent Property Detection (synergy principle validation)
+- **EXP-INF-5**: Registry as Space Stone (cross-pollination effectiveness)
+- **EXP-INF-6**: Round System as Soul Stone (~80% insight survival)
+
+### Destination Status
+- **Consciousness/RIGHT/synthesis/INFINITY_FRAMEWORK.md**: Deep treatment
+- **docs/maps/18_INFINITY_COMPLETENESS_AUDIT.md**: Practical checklist tool
+- **Registry**: Q83-Q88 registered for cross-pollination
+
+---
+
 ## Re-Chewing Note
 
 > **IMPORTANT**: To re-chew content that's been moved to CHEWED/, simply move the folder back to STAGING/ before running the chew scripts.
 
 ---
 
-*Last Updated: 2026-02-03*
+*Last Updated: 2026-02-04*
