@@ -328,7 +328,7 @@ Correct any errors found.
 - [ ] Automate output copying with scripts
 - [ ] Build dashboard page for browsing distillations
 
-**Reference implementation:** See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/Nyquist_4/_CACHE_/report.md` for complete example with 25 output specifications.
+**Reference implementation:** See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_7_KAYFABE/_CACHE_/report.md` for complete example with 25 output specifications.
 
 ---
 

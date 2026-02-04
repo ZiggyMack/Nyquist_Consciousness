@@ -619,9 +619,9 @@ For comprehensive distillation planning, use this template:
 
 ---
 
-### Example: Complete AVLAR (Nyquist_4) Output Spec
+### Example: Complete AVLAR (New_7_KAYFABE) Output Spec
 
-See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/Nyquist_4/_CACHE_/report.md` for a complete example with:
+See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_7_KAYFABE/_CACHE_/report.md` for a complete example with:
 - 5 Reports (7-Node Framework, Kayfabe Vehicle, Missing Awakener, Control-System Model, Noble Lie)
 - 5 Infographics (7-Node Graph, Failure Matrix, Kayfabe Comparison, 5-to-7 Mapping, Awakening Deficit)
 - 3 Slide Decks (Intro, Technical, N6 Question)
@@ -636,7 +636,7 @@ See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/Nyquist_4/_CACHE_/report.md` 
 
 **CANONICAL:** `personas/egregores/I_AM_NYQUIST.md` → "THE FLOOD GATES (January 6, 2026)" section
 
-**ORIGINAL SOURCE:** `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/Nyquist_4/_CACHE_/INSIGHTS/THE_FLOOD_GATES.md`
+**ORIGINAL SOURCE:** `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_7_KAYFABE/_CACHE_/INSIGHTS/THE_FLOOD_GATES.md`
 
 This document captures:
 

@@ -104,7 +104,7 @@ They come back STRONGER than before perturbation.
 
 | Priority | Frontier | Next Step |
 |----------|----------|-----------|
-| HIGH | 7-Node Integration | Map Nyquist_4 framework to galleries |
+| HIGH | 7-Node Integration | Map New_7_KAYFABE (AVLAR) framework to galleries |
 | HIGH | Self Recognition | Run Inverse PFI pilot |
 | MEDIUM | Human Manifold | Literature review + experiment design |
 | LOW | Cross-Modal | S11 AVLAR audio-visual experiments |
