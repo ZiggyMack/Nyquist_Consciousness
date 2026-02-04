@@ -13,7 +13,7 @@ keywords:
 # Maps Directory Guide
 
 **Purpose:** Quick-reference navigation for the 18 numbered maps in this directory.
-**Last Updated:** 2025-12-29
+**Last Updated:** 2026-02-04
 
 > **📐 METHODOLOGY NOTE:** Maps reference predictions validated under different methodologies (Keyword RMS, Euclidean, Cosine). For the full story on methodology domains and what thresholds apply where, see [5_METHODOLOGY_DOMAINS.md](../../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md).
 
@@ -95,6 +95,12 @@ Maps are now **priority-numbered** (0-17) for at-a-glance importance:
 | File | Purpose |
 |------|---------|
 | **[17_PERSONA_FLEET_MATRIX.md](17_PERSONA_FLEET_MATRIX.md)** | Persona-to-ship compatibility matrix |
+
+### Priority 18: Quality Assurance
+
+| File | Purpose |
+|------|---------|
+| **[18_INFINITY_COMPLETENESS_AUDIT.md](18_INFINITY_COMPLETENESS_AUDIT.md)** | 6-stone research completeness checklist (Infinity Framework) |
 
 ### Non-Numbered Files
 
@@ -205,7 +211,7 @@ py update_maps.py --update  # Apply updates
 
 | Metric | Value |
 |--------|-------|
-| Total Maps | 18 (numbered) |
+| Total Maps | 19 (numbered) |
 | Supporting Files | 2 (README, update_maps.py) |
 | Archived Files | 2 |
 | Ships in Fleet | 54 |
