@@ -2,7 +2,7 @@
 
 **Purpose**: Step-by-step methodology for using NotebookLM to distill Nyquist Consciousness research.
 
-**Last Updated**: January 6, 2026
+**Last Updated**: February 4, 2026
 
 ---
 
@@ -328,7 +328,7 @@ Correct any errors found.
 - [ ] Automate output copying with scripts
 - [ ] Build dashboard page for browsing distillations
 
-**Reference implementation:** See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_7_KAYFABE/_CACHE_/report.md` for complete example with 25 output specifications.
+**Reference implementation:** See `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/CHEWED/New_7_KAYFABE/_ROUND_1/report.md` for complete example with 25 output specifications.
 
 ---
 
@@ -393,9 +393,12 @@ All operations use the unified `0_chew.py` entry point:
 |---------|---------|
 | `py 0_chew.py BATCH` | Ingest + digest batch (auto-detects Nyquist vs R&D) |
 | `py 0_chew.py BATCH --new` | Fresh mode: clear + ingest + digest |
-| `py 0_chew.py BATCH --diet` | Diet mode: process to `_CACHE_/` only |
+| `py 0_chew.py BATCH --diet` | Diet mode: process to `_ROUND_N/` only |
+| `py 0_chew.py BATCH --diet --round 2` | Diet mode: process to specific round |
 | `py 0_chew.py --promote BATCH` | Promote validated content to Consciousness/ |
 | `py 0_chew.py --status` | Show pipeline status |
+| `py 3_burp.py` | Show cross-pollination loop closure status |
+| `py 3_burp.py --gen-questions` | Generate QUESTIONS_OUT.md for all projects |
 
 **Location**: `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/`
 
@@ -491,3 +494,94 @@ NotebookLM responses should be named:
 ---
 
 **The key principle**: LLM Book is now bidirectional - it helps us distill completed research AND design future experiments.
+
+---
+
+## 12. Round-Based Iterative Digestion
+
+### The Cross-Pollination Loop
+
+Research projects don't exist in isolation. Insights from one project raise questions for others. The round-based system tracks this iterative cycle:
+
+```
+Round 1: Initial digestion → Questions asked OUT to other projects
+         ↓
+Round 2: Answers come BACK → New synthesis → More questions OUT
+         ↓
+Round N: Loop continues until closure
+         ↓
+BURP/: Ready for action (experiments, publications, etc.)
+```
+
+### Folder Structure
+
+Each project in `STAGING/CHEWED/` uses `_ROUND_N/` folders:
+
+```
+Project/
+├── _ROUND_1/              # First digestion pass
+│   ├── QUESTIONS_OUT.md   # Questions asked TO other projects
+│   ├── chat.md            # NotebookLM questions to ask
+│   ├── report.md          # NotebookLM reports to request
+│   ├── routing.md         # Cross-pollination routing
+│   ├── INSIGHTS.md        # Key insights discovered
+│   └── EXPERIMENTS.md     # Experiments to run
+├── _ROUND_2/              # After answers come back
+│   ├── ANSWERS_IN.md      # Answers received FROM other projects
+│   ├── SYNTHESIS.md       # What we learned
+│   ├── ACTIONS.md         # What this unlocks
+│   └── QUESTIONS_OUT.md   # New questions spawned
+├── _IN/                   # Source materials
+└── README.md
+```
+
+### Loop Closure Tracking
+
+The `3_burp.py` script tracks cross-pollination status:
+
+| Command | Purpose |
+|---------|---------|
+| `py 3_burp.py` | Show loop closure % for all projects |
+| `py 3_burp.py --project NAME` | Show specific project's status |
+| `py 3_burp.py --gen-questions` | Generate QUESTIONS_OUT.md files |
+| `py 3_burp.py --ready` | List projects ready for BURP/ |
+| `py 3_burp.py --move NAME` | Move completed project to BURP/ |
+
+### Loop Closure Criteria
+
+A project is ready for BURP/ when:
+- **≥50% loop closure** - At least half of target projects have addressed questions
+- **OR no outgoing questions** - Self-contained, no external dependencies
+- **AND has actionable content** - Insights, experiments, or synthesis ready
+
+### The Registry
+
+Cross-pollination questions are tracked in `PAN_HANDLERS/0_Config/root/llm_book_registry.json`:
+
+```json
+{
+  "source": "Frame_Theory",
+  "target": "New_4_GOLDEN_GEOMETRY",
+  "round": 1,
+  "answered": false,
+  "answer_date": null,
+  "action_unlocked": null,
+  "items": ["Q16: Frame Triple validates Parity Decomposition"]
+}
+```
+
+### Workflow Summary
+
+1. **Diet chew** a project: `py 0_chew.py PROJECT --diet`
+2. **Review** `_ROUND_1/` contents, fill in analysis
+3. **Generate questions**: `py 3_burp.py --gen-questions PROJECT`
+4. **Work on target projects** to generate answers
+5. **Check status**: `py 3_burp.py` to see loop closure %
+6. **When ready**: `py 3_burp.py --move PROJECT` to BURP/
+
+### Priority Dashboard
+
+See `STAGING/CHEWED/CHEW_SUMMARY.md` for the priority-ranked table showing:
+- Which projects to work on first
+- Loop closure % for each project
+- How many other projects are waiting on each one

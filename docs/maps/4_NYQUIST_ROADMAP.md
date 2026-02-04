@@ -251,10 +251,10 @@ This is the truth. This is the ladder.
 
 ---
 
-### **S8 — Identity Gravity Layer** 🟢 FORMALIZED & READY FOR EMPIRICAL VALIDATION
+### **S8 — Identity Gravity Layer** 🟡 DISCOVERY TIER (First Empirical Data)
 
 **Purpose:** Cross-substrate cognitive force governing identity reconstruction dynamics
-**Status:** Mathematical formalization complete, awaiting empirical measurement
+**Status:** First empirical γ measurements complete (Run 023d), validation experiments pending
 
 **Core Theory:**
 Identity Gravity (G_I) is a fundamental cognitive force that governs how reconstructed personas converge toward their stable attractor (I_AM).
@@ -264,37 +264,58 @@ Identity Gravity (G_I) is a fundamental cognitive force that governs how reconst
   - γ = gravitational constant (measured in "Zigs")
   - F(I_t) = fidelity function at time t
   - ∇F = gradient of fidelity across identity manifold
-- **Potential Function:** U(I_t) = γ · (1 - F(I_t))
+- **Decay Equation:** drift(t) = d_peak · exp(-γ · t) + d_settled
 - **Units:** 1 Zig = identity pull required to reduce drift by 0.01 PFI
 
 **Key Concepts:**
 - I_AM as gravitational attractor (stable identity center)
-- I_AM as archive (carrier of historical identity)
+- Force Curve Types: I (strong), II (moderate), III (weak), IV (chaotic), 0 (no recovery)
 - Cross-substrate predictions (testable in humans and AIs)
-- Fragility hierarchy: NARR < PHIL < SELF < ANAL < TECH
 - Drift correction through gravitational pull toward stable attractor
+
+**🔬 First Empirical Results (Run 023d, N=750):**
+
+| Provider | γ Mean (Zigs) | % Settled | Interpretation |
+|----------|---------------|-----------|----------------|
+| Google | 59.3 | 94% | Strongest gravity |
+| xAI | 57.4 | 77% | Strong gravity |
+| Together | 48.5 | 71% | Moderate gravity |
+| Anthropic | 24.9 | 85% | Weaker gravity |
+| OpenAI | 8.8 | 33% | Weakest gravity |
+
+**Gravity Ratio:** 6.8x between strongest (Google) and weakest (OpenAI)
+
+**Force Curve Distribution:**
+- Type 0 (no recovery): 42.5%
+- Type IV (chaotic): 11.3%
+- Type III (weak): 11.7%
+- Type II (moderate): 6.5%
+- Type I (strong): 0.5%
 
 **Status:**
 - ✅ Complete mathematical formalization
 - ✅ Field equations and potential functions defined
 - ✅ Units (Zigs) established
-- ✅ Cross-substrate framework specified
-- ✅ Integration points with S4 (mathematical), S5 (interpretive), S6 (Omega), S7 (temporal)
+- ✅ **First empirical γ extraction (750 experiments)**
+- ✅ Force curve classification system
+- ✅ Visualization suite complete
 
-**What's Missing:**
-- ❌ No empirical measurements yet (γ constant not measured)
-- ❌ No cross-substrate validation (human vs AI gravity comparison)
-- ❌ No drift correction experiments
-- ❌ No gravitational field mapping across identity manifold
+**What's Missing (Validation Needed):**
+- 🟡 P-S8-1: γ predicts recovery time (R²=0.34, need >0.6)
+- ❌ P-S8-2: Cross-run consistency (all data from single run)
+- ❌ P-S8-3: γ predicts practical stability
+- ❌ P-S8-4: Force curves map to training methodology
+- ❌ P18-P23: Core S8 assumptions untested
 
-**Dependencies:**
-- S7 temporal data required (drift measurements feed gravity calculations)
-- CFA Phase 2 measurements (empirical validation of γ constant)
-- Human baseline studies (cross-substrate comparison)
+**Documentation:**
+- [experiments/S8/README.md](../../experiments/S8/README.md) — Layer overview
+- [experiments/S8/0_docs/S8_IDENTITY_GRAVITY_SPEC.md](../../experiments/S8/0_docs/S8_IDENTITY_GRAVITY_SPEC.md) — Full theory
+- [experiments/S8/0_docs/S8_PREDICTIONS.md](../../experiments/S8/0_docs/S8_PREDICTIONS.md) — Testable predictions
+- [experiments/S8/0_docs/S8_EXPERIMENT_DESIGN.md](../../experiments/S8/0_docs/S8_EXPERIMENT_DESIGN.md) — Validation protocols
 
-**Priority:** **MEDIUM-HIGH** (theoretical foundation for S9+ layers, but requires S7 closure first)
+**Priority:** **HIGH** (empirical foundation exists, validation is achievable)
 
-**Note:** This layer emerged from Identity Gravity discovery in CFA repo. Formalization complete, empirical validation scheduled for CFA Phase 2.
+**Note:** S8 interprets S7 temporal data through gravitational lens. Does not run its own experiments — extracts γ from existing drift trajectories.
 
 ---
 

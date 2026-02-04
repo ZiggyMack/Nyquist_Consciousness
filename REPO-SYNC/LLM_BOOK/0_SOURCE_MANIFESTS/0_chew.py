@@ -11,16 +11,17 @@ USAGE:
 ------
 py 0_chew.py BATCH                    # Default: ingest + digest (append)
 py 0_chew.py BATCH --new              # Fresh: clear + ingest + digest
-py 0_chew.py BATCH --diet             # Diet: process to _CACHE_/ only
+py 0_chew.py BATCH --diet             # Diet: process to _ROUND_N/ only
+py 0_chew.py BATCH --diet --round 2   # Diet: process to _ROUND_2/
 py 0_chew.py --baka "Project Name"    # Create research project
 py 0_chew.py --promote BATCH          # Promote to Consciousness/
-py 0_chew.py --reset                  # Purge _CACHE_/ directories
+py 0_chew.py --reset                  # Purge _ROUND_N/ directories
 py 0_chew.py --status                 # Show pipeline status
 py 0_chew.py --route TOPIC            # Show routing info
 py 0_chew.py --labs                   # List Pan Handler labs
 
 Author: LLM_BOOK Pipeline
-Version: 3.0 (2025-12-31) - Unified entry point architecture
+Version: 4.0 (2026-02-04) - Round-based iteration support
 """
 
 import argparse
@@ -60,14 +61,16 @@ def is_nyquist_content(folder_name: str) -> bool:
     return any(kw in folder_name.lower() for kw in nyquist_keywords)
 
 
-def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False) -> Dict:
+def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False,
+                 round_num: int = None) -> Dict:
     """
     Execute the full pipeline for a batch.
 
     Args:
         batch_name: Name of batch folder in STAGING/
-        mode: "default" (append), "new" (fresh), or "diet" (_CACHE_/)
+        mode: "default" (append), "new" (fresh), or "diet" (_ROUND_N/)
         dry_run: Preview without making changes
+        round_num: Which round to write to (default: auto-detect)
 
     Returns:
         Dict with ingest and digest results
@@ -110,7 +113,8 @@ def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False) 
         force=False,
         batches=[batch_name],
         skip_review=False,
-        diet=diet
+        diet=diet,
+        round_num=round_num
     )
     result["ingest"] = ingest_result
 
@@ -126,18 +130,27 @@ def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False) 
         result["digest"] = digest_result
     else:
         print("\n## Step 2: DIGEST (SKIPPED - diet mode)")
-        print("  Content remains in _CACHE_/ for review")
+        # Determine round directory
+        staging_path = DEFAULT_STAGING_DIR / batch_name
+        if round_num:
+            round_dir_name = f"_ROUND_{round_num}"
+        else:
+            # Auto-detect latest round
+            rounds = sorted([d.name for d in staging_path.iterdir()
+                           if d.is_dir() and d.name.startswith("_ROUND_")])
+            round_dir_name = rounds[-1] if rounds else "_ROUND_1"
+        print(f"  Content remains in {round_dir_name}/ for review")
         result["digest"] = None
+        result["round_dir"] = round_dir_name
 
         # Step 3: Trigger Claude analysis for diet mode
         print("\n## Step 3: CLAUDE ANALYSIS")
         print("-" * 40)
 
         # Build the analysis prompt
-        staging_path = DEFAULT_STAGING_DIR / batch_name
-        cache_path = staging_path / "_CACHE_"
+        round_path = staging_path / round_dir_name
 
-        if cache_path.exists():
+        if round_path.exists():
             # Find source files to analyze
             source_files = []
             for ext in ["*.md", "*.txt", "*.pdf"]:
@@ -149,7 +162,7 @@ def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False) 
                     source_files.extend(in_folder.glob(ext))
 
             # Find analysis files to populate
-            analysis_files = list(cache_path.rglob("*.md"))
+            analysis_files = list(round_path.rglob("*.md"))
 
             print(f"\n  Source files to analyze: {len(source_files)}")
             for f in source_files[:5]:  # Show first 5
@@ -159,7 +172,7 @@ def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False) 
 
             print(f"\n  Analysis files to populate: {len(analysis_files)}")
             for f in analysis_files:
-                print(f"    - {f.relative_to(cache_path)}")
+                print(f"    - {f.relative_to(round_path)}")
 
             # Get cross-pollination context from registry
             try:
@@ -178,11 +191,11 @@ def run_pipeline(batch_name: str, mode: str = "default", dry_run: bool = False) 
             print(f"""
 <CLAUDE_ANALYSIS_REQUEST>
 BATCH: {batch_name}
-CACHE: {cache_path}
+ROUND: {round_dir_name}
 
 INSTRUCTIONS:
 1. Read all source files in STAGING/{batch_name}/
-2. For each analysis file in _CACHE_/, replace placeholder text with actual insights
+2. For each analysis file in {round_dir_name}/, replace placeholder text with actual insights
 3. Focus on:
    - INSIGHTS: Novel ideas, surprising findings, patterns
    - CONNECTIONS: Links to other research, Pan Handler labs
@@ -204,7 +217,7 @@ ANALYSIS FILES TO POPULATE:
 {chr(10).join(f'  - {f}' for f in analysis_files)}
 
 After analysis, the user can:
-  - Review _CACHE_/ contents
+  - Review {round_dir_name}/ contents
   - Run normal chew to commit: py 0_chew.py {batch_name}
   - Or discard: py 0_chew.py --reset
 </CLAUDE_ANALYSIS_REQUEST>
@@ -224,7 +237,7 @@ After analysis, the user can:
 
 
 def reset_caches(dry_run: bool = False) -> Dict:
-    """Purge all _CACHE_/ directories (throw_up wrapper)."""
+    """Purge all _ROUND_N/ directories (throw_up wrapper)."""
     try:
         import importlib.util
         ingest_spec = importlib.util.spec_from_file_location("ingest", SCRIPT_DIR / "1_ingest.py")
@@ -670,11 +683,14 @@ def get_all_projects() -> List[Dict]:
             # Research project
             in_folder = folder / "_IN"
             out_folder = folder / "_OUT"
-            cache_folder = folder / "_CACHE_"
 
             in_count = len(list(in_folder.glob("*"))) if in_folder.exists() else 0
             out_count = len(list(out_folder.glob("*"))) if out_folder.exists() else 0
-            has_cache = cache_folder.exists()
+
+            # Count rounds
+            rounds = sorted([d.name for d in folder.iterdir()
+                           if d.is_dir() and d.name.startswith("_ROUND_")])
+            round_count = len(rounds)
 
             parts = folder.name.split("_", 2)
             name = parts[2] if len(parts) > 2 else folder.name
@@ -686,14 +702,14 @@ def get_all_projects() -> List[Dict]:
                 "number": int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 0,
                 "in_count": in_count,
                 "out_count": out_count,
-                "has_cache": has_cache,
+                "round_count": round_count,
+                "rounds": rounds,
                 "path": folder
             })
 
         else:
             # Standard batch (Nyquist or R&D)
             in_folder = folder / "_IN"
-            cache_folder = folder / "_CACHE_"
             ingested = (folder / ".ingested").exists()
 
             # Check for files in root or _IN
@@ -702,7 +718,10 @@ def get_all_projects() -> List[Dict]:
             else:
                 file_count = len([f for f in folder.iterdir() if f.is_file() and not f.name.startswith(".")])
 
-            has_cache = cache_folder.exists()
+            # Count rounds
+            rounds = sorted([d.name for d in folder.iterdir()
+                           if d.is_dir() and d.name.startswith("_ROUND_")])
+            round_count = len(rounds)
             is_nyquist = is_nyquist_content(folder.name)
 
             projects.append({
@@ -711,7 +730,8 @@ def get_all_projects() -> List[Dict]:
                 "name": folder.name,
                 "file_count": file_count,
                 "ingested": ingested,
-                "has_cache": has_cache,
+                "round_count": round_count,
+                "rounds": rounds,
                 "path": folder
             })
 
@@ -733,10 +753,12 @@ def show_status():
         print("\n## Research Projects (--baka)")
         print("-" * 40)
         for p in sorted(research, key=lambda x: x["number"]):
-            cache_tag = " [CACHE]" if p.get("has_cache") else ""
-            print(f"  [{p['number']}] {p['name']}{cache_tag}")
+            round_tag = f" [R{p['round_count']}]" if p.get("round_count", 0) > 0 else ""
+            print(f"  [{p['number']}] {p['name']}{round_tag}")
             print(f"      _OUT/: {p['out_count']} files (to NotebookLM)")
             print(f"      _IN/:  {p['in_count']} files (from NotebookLM)")
+            if p.get('rounds'):
+                print(f"      Rounds: {', '.join(p['rounds'])}")
             print()
     else:
         print("\n## Research Projects (--baka)")
@@ -749,8 +771,8 @@ def show_status():
         print("-" * 40)
         for p in nyquist:
             status = "[*] INGESTED" if p["ingested"] else "[ ] PENDING"
-            cache_tag = " [CACHE]" if p.get("has_cache") else ""
-            print(f"  {status} {p['name']} ({p['file_count']} files){cache_tag}")
+            round_tag = f" [R{p['round_count']}]" if p.get("round_count", 0) > 0 else ""
+            print(f"  {status} {p['name']} ({p['file_count']} files){round_tag}")
 
     # R&D batches
     rnd = [p for p in projects if p["type"] == "rnd"]
@@ -759,8 +781,8 @@ def show_status():
         print("-" * 40)
         for p in rnd:
             status = "[*] INGESTED" if p["ingested"] else "[ ] PENDING"
-            cache_tag = " [CACHE]" if p.get("has_cache") else ""
-            print(f"  {status} {p['name']} ({p['file_count']} files){cache_tag}")
+            round_tag = f" [R{p['round_count']}]" if p.get("round_count", 0) > 0 else ""
+            print(f"  {status} {p['name']} ({p['file_count']} files){round_tag}")
 
     # Commands
     print("\n" + "=" * 60)
@@ -768,10 +790,11 @@ def show_status():
     print("=" * 60)
     print("  py 0_chew.py BATCH              # Ingest + digest (default)")
     print("  py 0_chew.py BATCH --new        # Fresh: clear + process")
-    print("  py 0_chew.py BATCH --diet       # Diet: to _CACHE_/ only")
+    print("  py 0_chew.py BATCH --diet       # Diet: to _ROUND_N/ only")
+    print("  py 0_chew.py BATCH --diet --round 2  # Process to _ROUND_2/")
     print("  py 0_chew.py --baka \"Name\"      # Create research project")
     print("  py 0_chew.py --promote BATCH    # Promote to Consciousness/")
-    print("  py 0_chew.py --reset            # Purge _CACHE_/ directories")
+    print("  py 0_chew.py --reset            # Purge _ROUND_N/ directories")
     print("  py 0_chew.py --route TOPIC      # Show routing for topic")
     print("  py 0_chew.py --labs             # List Pan Handler labs")
 
@@ -814,7 +837,11 @@ Routing Intelligence:
     mode_group.add_argument("--new", action="store_true",
                            help="Fresh mode: clear existing + ingest + digest")
     mode_group.add_argument("--diet", action="store_true",
-                           help="Diet mode: process to _CACHE_/ only")
+                           help="Diet mode: process to _ROUND_N/ only")
+
+    # Round specification
+    parser.add_argument("--round", type=int, default=None,
+                       help="Which round to write to (default: auto-detect next round)")
 
     # Project management flags
     parser.add_argument("--baka", type=str, metavar="NAME",
@@ -822,7 +849,7 @@ Routing Intelligence:
     parser.add_argument("--promote", type=str, metavar="BATCH",
                        help="Promote batch to Consciousness/")
     parser.add_argument("--reset", action="store_true",
-                       help="Purge all _CACHE_/ directories")
+                       help="Purge all _ROUND_N/ directories")
     parser.add_argument("--status", action="store_true",
                        help="Show pipeline status")
 
@@ -846,7 +873,7 @@ Routing Intelligence:
     if args.reset:
         # --reset: Purge caches
         print("=" * 60)
-        print("RESETTING: Purging all _CACHE_/ directories")
+        print("RESETTING: Purging all _ROUND_N/ directories")
         print("=" * 60)
         reset_caches(dry_run=args.dry_run)
 
@@ -882,7 +909,7 @@ Routing Intelligence:
     elif args.batch:
         # BATCH: Run pipeline
         mode = "new" if args.new else ("diet" if args.diet else "default")
-        run_pipeline(args.batch, mode=mode, dry_run=args.dry_run)
+        run_pipeline(args.batch, mode=mode, dry_run=args.dry_run, round_num=args.round)
 
     else:
         # No action: Show status

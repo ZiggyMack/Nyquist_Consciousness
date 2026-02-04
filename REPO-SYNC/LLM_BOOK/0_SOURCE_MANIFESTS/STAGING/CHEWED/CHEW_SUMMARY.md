@@ -8,6 +8,37 @@
 
 ---
 
+## 🎯 LOOP CLOSURE PRIORITY
+
+**Work on projects in this order.** Higher = more projects blocked waiting on answers.
+
+| Priority | Project | Waiting On It | Loop Closure | Action |
+|:--------:|---------|:-------------:|:------------:|--------|
+| **1** | **New_4_GOLDEN_GEOMETRY** | 8 projects | N/A (HUB) | **DO THIS FIRST** - Everyone waiting |
+| 2 | Gnostic-1 | 6 projects | 1/2 (50%) | Questions from Frame_Theory, YANG, IS_OUGHT, KAYFABE, x3, G2 |
+| 3 | Frame_Theory | 6 projects | 0/6 (0%) | Needs answers from 6 targets |
+| 4 | Gnostic-1-2-x3 | 2 projects | 1/4 (25%) | Integration layer - needs GOLDEN_GEOMETRY |
+| 5 | Gnostic-2 | 2 projects | 0/2 (0%) | Needs Gnostic-1, GOLDEN_GEOMETRY |
+| 6 | YANG | 1 project | 1/5 (20%) | Needs GOLDEN_GEOMETRY + Gnostic series |
+| 7 | New_7_KAYFABE | 0 projects | 0/4 (0%) | Waiting on GOLDEN_GEOMETRY, Frame_Theory |
+| 8 | IS_OUGHT | 0 projects | 1/3 (33%) | Waiting on GOLDEN_GEOMETRY, Frame_Theory |
+| 9 | Parallel-Research | 0 projects | 0/1 (0%) | Waiting on GOLDEN_GEOMETRY only |
+| ✓ | LYNNCH_PINS | 0 projects | N/A | Ready for BURP (no outgoing Q's) |
+| ✓ | NON-LOCALITY | 0 projects | N/A | Ready for BURP (no outgoing Q's) |
+| ✓ | RAG | 0 projects | N/A | Ready for BURP (no outgoing Q's) |
+
+### The HUB Problem
+
+**GOLDEN_GEOMETRY is the critical bottleneck.** 8 out of 10 research projects have unanswered questions waiting on it. Until GOLDEN_GEOMETRY answers are generated, most cross-pollination loops cannot close.
+
+**Recommended workflow:**
+1. Complete GOLDEN_GEOMETRY Round 2 (answer incoming questions)
+2. Distribute answers to waiting projects
+3. Re-run `py 3_burp.py` to update closure percentages
+4. Work down the priority list
+
+---
+
 ## Frame_Theory
 
 **Status**: REVIEWED

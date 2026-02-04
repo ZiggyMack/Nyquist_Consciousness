@@ -53,26 +53,35 @@ Claude reads markdown files and assesses:
 
 Use --skip-review to create placeholder templates instead.
 
-DIET MODE:
-----------
+DIET MODE (ROUND-BASED):
+------------------------
 Diet mode allows full cognitive processing WITHOUT committing to the real pipeline.
-Output goes to _CACHE_/ inside the batch folder instead of 1_VALIDATION/.
-Use --throw_up to purge all _CACHE_/ directories.
+Output goes to _ROUND_N/ inside the batch folder instead of 1_VALIDATION/.
+Use --throw_up to purge all _ROUND_N/ directories.
+
+ROUND STRUCTURE:
+  _ROUND_1/  - First digestion pass (default)
+  _ROUND_2/  - Second pass after answers come back
+  ...
+
+Use --round N to specify which round to create (default: auto-detect next round).
 
 IMPORTANT: Diet mode IGNORES .ingested status - you can diet-chew any batch,
 whether it's been ingested before or not. This is intentional - diet mode is
 for non-committal preview/priming, and already-ingested content is still valid
 for that purpose.
 
-py ingest.py --ingest --diet --batch SomeOldBatch  # Process to _CACHE_/
-py ingest.py --throw_up                             # Purge all _CACHE_/ directories
+py ingest.py --ingest --diet --batch SomeOldBatch  # Process to _ROUND_1/ (auto)
+py ingest.py --ingest --diet --batch X --round 2   # Process to _ROUND_2/
+py ingest.py --throw_up                             # Purge all _ROUND_N/ directories
 
 Author: LLM_BOOK Ingestion Pipeline
-Version: 5.0 (2025-12-31) - Diet mode for non-committal processing
+Version: 6.0 (2026-02-04) - Round-based iteration support (_ROUND_N folders)
 """
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -121,8 +130,10 @@ INGESTED_MARKER = ".ingested"
 PAN_HANDLERS_CONFIG = REPO_ROOT / "REPO-SYNC" / "PAN_HANDLERS" / "0_Config" / "root"
 LLM_BOOK_REGISTRY = PAN_HANDLERS_CONFIG / "llm_book_registry.json"
 
-# Cache directory for diet mode (inside each batch folder)
-CACHE_DIR_NAME = "_CACHE_"
+# Round directory for diet mode (inside each batch folder)
+# Replaced _CACHE_ with _ROUND_N for iterative processing
+ROUND_DIR_PREFIX = "_ROUND_"
+LEGACY_CACHE_DIR_NAME = "_CACHE_"  # For backward compatibility detection
 
 # IRON CLAD reference statistics for validation
 IRON_CLAD_STATS = {
@@ -142,6 +153,41 @@ IRON_CLAD_STATS = {
         "Gemini": "∞ (no recovery)"
     }
 }
+
+
+# === ROUND DETECTION ===
+
+def discover_rounds(folder: Path) -> List[int]:
+    """
+    Discover all _ROUND_N folders in a project folder.
+    Returns sorted list of round numbers found.
+    """
+    rounds = []
+    round_pattern = re.compile(r"^_ROUND_(\d+)$")
+
+    for item in folder.iterdir():
+        if item.is_dir():
+            match = round_pattern.match(item.name)
+            if match:
+                rounds.append(int(match.group(1)))
+
+    return sorted(rounds)
+
+
+def get_next_round(folder: Path) -> int:
+    """Get the next round number for a folder (highest + 1, or 1 if none)."""
+    existing = discover_rounds(folder)
+    return max(existing) + 1 if existing else 1
+
+
+def get_round_dir_name(round_num: int) -> str:
+    """Get the folder name for a round number."""
+    return f"{ROUND_DIR_PREFIX}{round_num}"
+
+
+def get_round_dir(folder: Path, round_num: int) -> Path:
+    """Get the path to a specific round directory."""
+    return folder / get_round_dir_name(round_num)
 
 
 # === TEMPLATE LOADING (SSOT) ===
@@ -387,12 +433,13 @@ def get_pending_batches(staging: Dict) -> Dict[str, List[Path]]:
 
 
 def create_review_notes_template(batch_name: str, source_folder: Path, dry_run: bool = True,
-                                  diet: bool = False) -> Path:
+                                  diet: bool = False, round_num: int = None) -> Path:
     """
     Create a review notes template for a batch.
 
     Args:
-        diet: If True, write to source_folder/_CACHE_/ instead of VALIDATION_DIR
+        diet: If True, write to source_folder/_ROUND_N/ instead of VALIDATION_DIR
+        round_num: Which round to write to (default: auto-detect next round)
 
     Returns the path to the created file.
     """
@@ -453,11 +500,13 @@ def create_review_notes_template(batch_name: str, source_folder: Path, dry_run: 
 
     # Determine target path based on diet mode
     if diet:
-        # Diet mode: write to _CACHE_/ inside the batch folder
-        cache_dir = source_folder / CACHE_DIR_NAME
-        target_path = cache_dir / f"REVIEW_NOTES_{batch_name}.md"
+        # Diet mode: write to _ROUND_N/ inside the batch folder
+        if round_num is None:
+            round_num = get_next_round(source_folder)
+        round_dir = get_round_dir(source_folder, round_num)
+        target_path = round_dir / f"REVIEW_NOTES_{batch_name}.md"
         if not dry_run:
-            cache_dir.mkdir(parents=True, exist_ok=True)
+            round_dir.mkdir(parents=True, exist_ok=True)
             target_path.write_text(template, encoding="utf-8")
     else:
         # Normal mode: write to 1_VALIDATION/
@@ -470,12 +519,13 @@ def create_review_notes_template(batch_name: str, source_folder: Path, dry_run: 
 
 
 def create_analysis_stubs(batch_name: str, source_folder: Path = None, dry_run: bool = True,
-                          diet: bool = False) -> List[Path]:
+                          diet: bool = False, round_num: int = None) -> List[Path]:
     """
     Create stub files for analysis directories.
 
     Args:
-        diet: If True, write to source_folder/_CACHE_/ instead of VALIDATION_DIR
+        diet: If True, write to source_folder/_ROUND_N/ instead of VALIDATION_DIR
+        round_num: Which round to write to (default: auto-detect)
     """
     created = []
 
@@ -484,12 +534,14 @@ def create_analysis_stubs(batch_name: str, source_folder: Path = None, dry_run: 
         subdir_name = analysis_dir.name
 
         if diet and source_folder:
-            # Diet mode: write to _CACHE_/ inside the batch folder
-            cache_dir = source_folder / CACHE_DIR_NAME / subdir_name
-            stub_path = cache_dir / f"{batch_name}.md"
+            # Diet mode: write to _ROUND_N/ inside the batch folder
+            if round_num is None:
+                round_num = get_next_round(source_folder)
+            round_dir = get_round_dir(source_folder, round_num) / subdir_name
+            stub_path = round_dir / f"{batch_name}.md"
             if not dry_run:
-                cache_dir.mkdir(parents=True, exist_ok=True)
-                stub_path.write_text(f"# {subdir_name}: {batch_name}\n\n*Diet mode analysis*\n")
+                round_dir.mkdir(parents=True, exist_ok=True)
+                stub_path.write_text(f"# {subdir_name}: {batch_name}\n\n*Round {round_num} analysis*\n")
         else:
             # Normal mode: write to 1_VALIDATION/ subdirectories
             stub_path = analysis_dir / f"{batch_name}.md"
@@ -590,7 +642,7 @@ def perform_claude_review(batch_name: str, source_folder: Path, dry_run: bool = 
 
 
 def generate_reviewed_notes(batch_name: str, source_folder: Path, review: Dict, dry_run: bool = True,
-                            diet: bool = False) -> Path:
+                            diet: bool = False, round_num: int = None) -> Path:
     """
     Generate REVIEW_NOTES with Claude's actual assessment.
 
@@ -601,7 +653,8 @@ def generate_reviewed_notes(batch_name: str, source_folder: Path, review: Dict, 
     - Specific recommendations
 
     Args:
-        diet: If True, write to source_folder/_CACHE_/ instead of VALIDATION_DIR
+        diet: If True, write to source_folder/_ROUND_N/ instead of VALIDATION_DIR
+        round_num: Which round to write to (default: auto-detect)
     """
     in_folder = source_folder / "_IN"
     files = list(in_folder.iterdir()) if in_folder.exists() else []
@@ -698,11 +751,13 @@ def generate_reviewed_notes(batch_name: str, source_folder: Path, review: Dict, 
 
     # Determine target path based on diet mode
     if diet:
-        # Diet mode: write to _CACHE_/ inside the batch folder
-        cache_dir = source_folder / CACHE_DIR_NAME
-        target_path = cache_dir / f"REVIEW_NOTES_{batch_name}.md"
+        # Diet mode: write to _ROUND_N/ inside the batch folder
+        if round_num is None:
+            round_num = get_next_round(source_folder)
+        round_dir = get_round_dir(source_folder, round_num)
+        target_path = round_dir / f"REVIEW_NOTES_{batch_name}.md"
         if not dry_run:
-            cache_dir.mkdir(parents=True, exist_ok=True)
+            round_dir.mkdir(parents=True, exist_ok=True)
             target_path.write_text(template, encoding="utf-8")
     else:
         # Normal mode: write to 1_VALIDATION/
@@ -723,13 +778,13 @@ def copy_folder_contents(source: Path, target: Path, dry_run: bool = True,
         source: Source folder to copy from
         target: Target folder to copy to
         dry_run: Preview without making changes
-        exclude_patterns: List of folder/file names to exclude (e.g., ["_CACHE_", ".ingested"])
+        exclude_patterns: List of folder/file names to exclude (e.g., ["_ROUND_", ".ingested"])
     """
     if not source.exists():
         return 0
 
     if exclude_patterns is None:
-        exclude_patterns = [CACHE_DIR_NAME, INGESTED_MARKER]
+        exclude_patterns = [ROUND_DIR_PREFIX, LEGACY_CACHE_DIR_NAME, INGESTED_MARKER]
 
     file_count = 0
 
@@ -763,7 +818,7 @@ RND_ANALYSIS_DIRS = ["INSIGHTS", "CONNECTIONS", "EXPERIMENTS"]
 
 
 def create_rnd_review_notes(batch_name: str, source_folder: Path, dry_run: bool = True,
-                             diet: bool = False) -> Path:
+                             diet: bool = False, round_num: int = None) -> Path:
     """
     Create R&D review notes template (open-ended, exploratory).
 
@@ -867,10 +922,12 @@ Based on content analysis:
 
     # Determine target path
     if diet:
-        cache_dir = source_folder / CACHE_DIR_NAME
-        target_path = cache_dir / f"REVIEW_NOTES_{batch_name}.md"
+        if round_num is None:
+            round_num = get_next_round(source_folder)
+        round_dir = get_round_dir(source_folder, round_num)
+        target_path = round_dir / f"REVIEW_NOTES_{batch_name}.md"
         if not dry_run:
-            cache_dir.mkdir(parents=True, exist_ok=True)
+            round_dir.mkdir(parents=True, exist_ok=True)
             target_path.write_text(template, encoding="utf-8")
     else:
         rnd_dir = LLM_BOOK_DIR / "RnD" / get_rnd_topic_name(batch_name)
@@ -883,7 +940,7 @@ Based on content analysis:
 
 
 def create_rnd_analysis_stubs(batch_name: str, source_folder: Path, dry_run: bool = True,
-                               diet: bool = False) -> List[Path]:
+                               diet: bool = False, round_num: int = None) -> List[Path]:
     """
     Create R&D analysis stub files (INSIGHTS, CONNECTIONS, EXPERIMENTS).
 
@@ -961,10 +1018,12 @@ def create_rnd_analysis_stubs(batch_name: str, source_folder: Path, dry_run: boo
 
     for subdir_name, content in stubs.items():
         if diet:
-            cache_dir = source_folder / CACHE_DIR_NAME / subdir_name
-            stub_path = cache_dir / f"{batch_name}.md"
+            if round_num is None:
+                round_num = get_next_round(source_folder)
+            round_subdir = get_round_dir(source_folder, round_num) / subdir_name
+            stub_path = round_subdir / f"{batch_name}.md"
             if not dry_run:
-                cache_dir.mkdir(parents=True, exist_ok=True)
+                round_subdir.mkdir(parents=True, exist_ok=True)
                 stub_path.write_text(content, encoding="utf-8")
         else:
             rnd_dir = LLM_BOOK_DIR / "RnD" / topic_name / subdir_name
@@ -979,7 +1038,7 @@ def create_rnd_analysis_stubs(batch_name: str, source_folder: Path, dry_run: boo
 
 
 def create_llm_book_interface_files(batch_name: str, source_folder: Path, dry_run: bool = True,
-                                     diet: bool = False) -> List[Path]:
+                                     diet: bool = False, round_num: int = None) -> List[Path]:
     """
     Create LLM Book interface files (chat.md, report.md, routing.md) for NotebookLM interaction.
 
@@ -995,7 +1054,9 @@ def create_llm_book_interface_files(batch_name: str, source_folder: Path, dry_ru
         return []
 
     created = []
-    cache_dir = source_folder / CACHE_DIR_NAME
+    if round_num is None:
+        round_num = get_next_round(source_folder)
+    round_dir = get_round_dir(source_folder, round_num)
 
     # Get current date for timestamps
     current_date = datetime.now().strftime("%Y-%m-%d")
@@ -1021,9 +1082,9 @@ def create_llm_book_interface_files(batch_name: str, source_folder: Path, dry_ru
             # Fallback for missing templates
             content = f"# {batch_name}\n\n*Template {template_filename} not found*\n*Created: {current_date}*\n"
 
-        file_path = cache_dir / output_filename
+        file_path = round_dir / output_filename
         if not dry_run:
-            cache_dir.mkdir(parents=True, exist_ok=True)
+            round_dir.mkdir(parents=True, exist_ok=True)
             file_path.write_text(content, encoding="utf-8")
         created.append(file_path)
 
@@ -1031,17 +1092,18 @@ def create_llm_book_interface_files(batch_name: str, source_folder: Path, dry_ru
 
 
 def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = False,
-                       skip_review: bool = False) -> Dict:
+                       skip_review: bool = False, round_num: int = None) -> Dict:
     """
     Ingest R&D content into RnD/ directory WITH cognitive processing.
 
     Args:
         folders: List of source folders to process
         dry_run: Preview without making changes
-        diet: If True, write to _CACHE_/ instead of RnD/ (non-committal)
+        diet: If True, write to _ROUND_N/ instead of RnD/ (non-committal)
         skip_review: If True, create templates only without analysis
+        round_num: Which round to write to (default: auto-detect)
     """
-    result = {"folders": 0, "files": 0, "details": [], "diet": diet, "review_notes": []}
+    result = {"folders": 0, "files": 0, "details": [], "diet": diet, "review_notes": [], "round": round_num}
 
     rnd_dir = LLM_BOOK_DIR / "RnD"
 
@@ -1051,10 +1113,12 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = F
 
         if diet:
             # Diet mode: DON'T copy source files (they're already in STAGING)
-            # Just create analysis structure in _CACHE_/
-            cache_dir = folder / CACHE_DIR_NAME
+            # Just create analysis structure in _ROUND_N/
+            if round_num is None:
+                round_num = get_next_round(folder)
+            round_dir = get_round_dir(folder, round_num)
             if not dry_run:
-                cache_dir.mkdir(parents=True, exist_ok=True)
+                round_dir.mkdir(parents=True, exist_ok=True)
 
             # Count source files for reporting (but don't copy them)
             source_files = [f for f in folder.iterdir()
@@ -1062,7 +1126,7 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = F
             file_count = len(source_files)
 
             action = "[DRY RUN]" if dry_run else "[OK]"
-            print(f"  {action} {folder.name} -> _CACHE_/ (analysis only, {file_count} source files in place)")
+            print(f"  {action} {folder.name} -> _ROUND_{round_num}/ (analysis only, {file_count} source files in place)")
         else:
             # Normal mode: copy to LLM_BOOK/RnD/{topic_name}
             target = rnd_dir / topic_name
@@ -1080,8 +1144,8 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = F
             result["folders"] += 1
             result["files"] += file_count
 
-            target_display = "_CACHE_/ (analysis)" if diet else f"RnD/{topic_name}"
-            diet_tag = " -> _CACHE_/" if diet else ""
+            target_display = f"_ROUND_{round_num}/ (analysis)" if diet else f"RnD/{topic_name}"
+            diet_tag = f" -> _ROUND_{round_num}/" if diet else ""
             result["details"].append({
                 "source": folder.name,
                 "target": target_display,
@@ -1089,19 +1153,19 @@ def ingest_rnd_content(folders: List[Path], dry_run: bool = True, diet: bool = F
             })
 
             # Create R&D cognitive processing outputs
-            rn_path = create_rnd_review_notes(batch_name, folder, dry_run, diet=diet)
+            rn_path = create_rnd_review_notes(batch_name, folder, dry_run, diet=diet, round_num=round_num)
             result["review_notes"].append(str(rn_path))
             print(f"  {action} Created REVIEW_NOTES_{batch_name}.md (R&D exploratory){diet_tag}")
 
             # Create analysis stubs
-            stubs = create_rnd_analysis_stubs(batch_name, folder, dry_run, diet=diet)
+            stubs = create_rnd_analysis_stubs(batch_name, folder, dry_run, diet=diet, round_num=round_num)
             print(f"  {action} Created R&D analysis files{diet_tag}:")
             for stub in stubs:
                 print(f"      - {stub.parent.name}/{stub.name}")
 
             # Create LLM Book interface files (chat.md, report.md) - diet mode only
             if diet:
-                interface_files = create_llm_book_interface_files(batch_name, folder, dry_run, diet=diet)
+                interface_files = create_llm_book_interface_files(batch_name, folder, dry_run, diet=diet, round_num=round_num)
                 if interface_files:
                     print(f"  {action} Created NotebookLM interface files{diet_tag}:")
                     for ifile in interface_files:
@@ -1157,11 +1221,13 @@ def clear_ingestion_markers(dry_run: bool = True) -> int:
 
 def throw_up(dry_run: bool = True) -> Dict:
     """
-    Purge all _CACHE_/ directories found in STAGING/.
+    Purge all _ROUND_N/ directories found in STAGING/.
 
     The digestive metaphor continues:
-    - --diet = consume but don't commit (output to _CACHE_/)
+    - --diet = consume but don't commit (output to _ROUND_N/)
     - --throw_up = purge the temporary output
+
+    Also purges legacy _CACHE_/ directories for backward compatibility.
 
     Returns:
         Dict with purged directories and count
@@ -1172,22 +1238,26 @@ def throw_up(dry_run: bool = True) -> Dict:
     if not STAGING_DIR.exists():
         return {"purged": [], "count": 0, "files": 0}
 
+    round_pattern = re.compile(r"^_ROUND_\d+$")
+
     for folder in STAGING_DIR.iterdir():
         if folder.is_dir():
-            cache_dir = folder / CACHE_DIR_NAME
-            if cache_dir.exists():
-                # Count files before deletion
-                file_count = sum(1 for f in cache_dir.rglob("*") if f.is_file())
-                total_files += file_count
+            # Check for _ROUND_N directories
+            for subdir in folder.iterdir():
+                if subdir.is_dir() and (round_pattern.match(subdir.name) or subdir.name == LEGACY_CACHE_DIR_NAME):
+                    # Count files before deletion
+                    file_count = sum(1 for f in subdir.rglob("*") if f.is_file())
+                    total_files += file_count
 
-                if not dry_run:
-                    shutil.rmtree(cache_dir)
+                    if not dry_run:
+                        shutil.rmtree(subdir)
 
-                purged.append({
-                    "path": str(cache_dir),
-                    "batch": folder.name,
-                    "files": file_count
-                })
+                    purged.append({
+                        "path": str(subdir),
+                        "batch": folder.name,
+                        "round_dir": subdir.name,
+                        "files": file_count
+                    })
 
     return {"purged": purged, "count": len(purged), "files": total_files}
 
@@ -1266,7 +1336,8 @@ def generate_report() -> str:
 
 def perform_ingestion(dry_run: bool = True, fresh: bool = False,
                       force: bool = False, batches: List[str] = None,
-                      skip_review: bool = False, diet: bool = False) -> Dict:
+                      skip_review: bool = False, diet: bool = False,
+                      round_num: int = None) -> Dict:
     """
     Perform ingestion workflow.
 
@@ -1277,7 +1348,8 @@ def perform_ingestion(dry_run: bool = True, fresh: bool = False,
         batches: Specific batch names to process (None = all pending)
         skip_review: If True, create placeholder templates instead of Claude review
                     (also skips DEEP_DIVES, FUTURE, EXPERIMENTS creation)
-        diet: If True, write to _CACHE_/ instead of real pipeline (non-committal)
+        diet: If True, write to _ROUND_N/ instead of real pipeline (non-committal)
+        round_num: Which round to write to (default: auto-detect next round)
     """
     results = {
         "timestamp": datetime.now().isoformat(),
@@ -1286,6 +1358,7 @@ def perform_ingestion(dry_run: bool = True, fresh: bool = False,
         "force": force,
         "skip_review": skip_review,
         "diet": diet,
+        "round": round_num,
         "batches_filter": batches,
         "nyquist": {"batches": [], "review_notes": [], "reviews": [], "analysis_files": []},
         "rnd": {},
@@ -1296,13 +1369,14 @@ def perform_ingestion(dry_run: bool = True, fresh: bool = False,
     force_str = " --force" if force else ""
     batch_str = f" --batch {' '.join(batches)}" if batches else ""
     review_str = " --skip-review" if skip_review else " (with Claude review)"
-    diet_str = " --diet (-> _CACHE_/)" if diet else ""
+    round_str = f" --round {round_num}" if round_num else " (auto-detect)"
+    diet_str = f" --diet (-> _ROUND_N/)" if diet else ""
 
     print("=" * 60)
     print(f"LLM_BOOK INGESTION - {mode_str}{fresh_str}{force_str}{batch_str}{diet_str}")
     print(f"Review mode:{review_str}")
     if diet:
-        print("DIET MODE: Output goes to _CACHE_/ (no pipeline commitment)")
+        print(f"DIET MODE: Output goes to _ROUND_N/{round_str}")
     print("=" * 60)
 
     # Fresh mode: clear everything first
@@ -1377,7 +1451,7 @@ def perform_ingestion(dry_run: bool = True, fresh: bool = False,
 
             if skip_review:
                 # Create placeholder template only (skip all substantive review)
-                rn_path = create_review_notes_template(batch_name, folder, dry_run, diet=diet)
+                rn_path = create_review_notes_template(batch_name, folder, dry_run, diet=diet, round_num=round_num)
                 print(f"  {action} Created REVIEW_NOTES_{batch_name}.md (template only){diet_tag}")
                 print(f"      (Skipped: DEEP_DIVES, FUTURE, EXPERIMENTS analysis)")
             else:
@@ -1387,14 +1461,14 @@ def perform_ingestion(dry_run: bool = True, fresh: bool = False,
                 results["nyquist"]["reviews"].append(review)
 
                 # Generate reviewed notes with actual assessment
-                rn_path = generate_reviewed_notes(batch_name, folder, review, dry_run, diet=diet)
+                rn_path = generate_reviewed_notes(batch_name, folder, review, dry_run, diet=diet, round_num=round_num)
                 print(f"  {action} Created REVIEW_NOTES_{batch_name}.md{diet_tag}")
                 print(f"      Quality: {review['quality_grade']}")
                 print(f"      IRON CLAD checks: {len(set(review['iron_clad_accuracy']))}/6")
                 print(f"      Files reviewed: {len(review['files_reviewed'])}")
 
                 # Create analysis files (default behavior - always done unless skip_review)
-                stubs = create_analysis_stubs(batch_name, folder, dry_run, diet=diet)
+                stubs = create_analysis_stubs(batch_name, folder, dry_run, diet=diet, round_num=round_num)
                 results["nyquist"]["analysis_files"].extend([str(s) for s in stubs])
                 print(f"  {action} Created analysis files{diet_tag}:")
                 for stub in stubs:
@@ -1414,7 +1488,7 @@ def perform_ingestion(dry_run: bool = True, fresh: bool = False,
     # Ingest R&D content
     print("\n## Step 3: Process R&D content")
     if pending["rnd"]:
-        results["rnd"] = ingest_rnd_content(pending["rnd"], dry_run, diet=diet)
+        results["rnd"] = ingest_rnd_content(pending["rnd"], dry_run, diet=diet, round_num=round_num)
     else:
         print("  No pending R&D batches")
 
@@ -1468,8 +1542,9 @@ Examples:
   py ingest.py --ingest --fresh   # Clear all, then ingest with review
   py ingest.py --ingest --skip-review  # Skip review, templates only
   py ingest.py --ingest --fresh --batch Nyquist_3  # Fresh ingest of just Nyquist_3
-  py ingest.py --ingest --diet --batch OldBatch   # Diet mode: process to _CACHE_/
-  py ingest.py --throw_up         # Purge all _CACHE_/ directories
+  py ingest.py --ingest --diet --batch OldBatch   # Diet mode: process to _ROUND_1/ (auto)
+  py ingest.py --ingest --diet --batch X --round 2  # Process to _ROUND_2/
+  py ingest.py --throw_up         # Purge all _ROUND_N/ directories
         """
     )
 
@@ -1484,9 +1559,11 @@ Examples:
     parser.add_argument("--skip-review", action="store_true",
                         help="Skip Claude review, create placeholder templates only (no analysis)")
     parser.add_argument("--diet", action="store_true",
-                        help="Diet mode: write to _CACHE_/ instead of real pipeline (non-committal)")
+                        help="Diet mode: write to _ROUND_N/ instead of real pipeline (non-committal)")
+    parser.add_argument("--round", type=int, default=None,
+                        help="Which round to write to (default: auto-detect next round)")
     parser.add_argument("--throw_up", action="store_true",
-                        help="Purge all _CACHE_/ directories in STAGING/ (clean up diet mode output)")
+                        help="Purge all _ROUND_N/ directories in STAGING/ (clean up diet mode output)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview changes without applying")
     parser.add_argument("--json", action="store_true",
@@ -1506,14 +1583,14 @@ Examples:
             print("\nNo _CACHE_/ directories found to purge.")
         else:
             action = "[DRY RUN]" if args.dry_run else "[PURGED]"
-            print(f"\n{action} Found {results['count']} _CACHE_/ directories ({results['files']} files):")
+            print(f"\n{action} Found {results['count']} round directories ({results['files']} files):")
             for item in results["purged"]:
-                print(f"  - STAGING/{item['batch']}/_CACHE_/ ({item['files']} files)")
+                print(f"  - STAGING/{item['batch']}/{item['round_dir']}/ ({item['files']} files)")
 
             if args.dry_run:
                 print("\n[DRY RUN] No changes made. Run without --dry-run to purge.")
             else:
-                print("\n[OK] All _CACHE_/ directories purged!")
+                print("\n[OK] All round directories purged!")
 
         if args.json:
             print(json.dumps(results, indent=2))
@@ -1530,7 +1607,8 @@ Examples:
             force=args.force,
             batches=args.batch,
             skip_review=args.skip_review,
-            diet=args.diet
+            diet=args.diet,
+            round_num=args.round
         )
 
         if args.json:

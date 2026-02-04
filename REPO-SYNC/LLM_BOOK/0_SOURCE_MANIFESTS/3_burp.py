@@ -8,17 +8,32 @@ Closes the cross-pollination loop by:
   1. Reading questions asked OUT from each project
   2. Checking if target projects have answers/insights that address them
   3. Generating Answer Reports showing loop closure status
-  4. Identifying projects ready to move to BURP/ (action-ready)
+  4. Generating QUESTIONS_OUT.md files for each project (from registry)
+  5. Identifying projects ready to move to BURP/ (action-ready)
 
 DIGESTIVE WORKFLOW:
 -------------------
 STAGING/           -> Raw material waiting to be processed
     | chew (0_chew.py)
     v
-STAGING/CHEWED/    -> Digested, questions asked outward
+STAGING/CHEWED/    -> Digested in _ROUND_N/ folders, questions asked outward
     | burp (3_burp.py)
     v
 STAGING/CHEWED/BURP/  -> Answers received back, loop closed, ready for action
+
+ROUND STRUCTURE:
+----------------
+Each project in CHEWED/ has iterative rounds:
+  _ROUND_1/  - First digestion pass (renamed from _CACHE_)
+  _ROUND_2/  - Second pass after answers come back
+  ...
+
+Each _ROUND_N/ folder can contain:
+  - QUESTIONS_OUT.md  - Questions asked TO other projects
+  - ANSWERS_IN.md     - Answers received FROM other projects
+  - ACTIONS.md        - What answers unlock
+  - chat.md, report.md, routing.md  - Standard digest outputs
+  - INSIGHTS.md, EXPERIMENTS.md     - Analysis outputs
 
 USAGE:
 ------
@@ -27,14 +42,17 @@ py 3_burp.py --report           # Generate full Answer Reports
 py 3_burp.py --project NAME     # Check specific project
 py 3_burp.py --ready            # List projects ready for BURP/
 py 3_burp.py --move NAME        # Move project to BURP/
+py 3_burp.py --gen-questions    # Generate QUESTIONS_OUT.md for all projects
+py 3_burp.py --gen-questions NAME  # Generate for specific project
 
 Author: LLM_BOOK Pipeline
-Version: 1.0 (2026-02-03) - Initial synthesis pass implementation
+Version: 1.1 (2026-02-03) - Added round detection and QUESTIONS_OUT generation
 """
 
 import argparse
 import json
 import shutil
+import re
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
@@ -131,10 +149,21 @@ def discover_chewed_projects() -> List[Dict]:
         if folder.name.startswith("."):
             continue
 
-        # Check for answer indicators
+        # Check for answer indicators (in root or in _ROUND_N folders)
         has_insights = (folder / "INSIGHTS.md").exists() or any(folder.glob("*INSIGHTS*.md"))
         has_experiments = (folder / "EXPERIMENTS.md").exists() or any(folder.glob("*EXPERIMENTS*.md"))
         has_synthesis = any(folder.glob("*synthesis*.md"))
+
+        # Also check inside _ROUND_N folders
+        rounds = discover_project_rounds(folder)
+        for r in rounds:
+            if r["has_insights"]:
+                has_insights = True
+            if r["has_experiments"]:
+                has_experiments = True
+
+        # Check for _IN folder (indicates Claude-assisted work was done)
+        has_in_folder = (folder / "_IN").exists()
 
         projects.append({
             "id": folder.name,
@@ -142,6 +171,9 @@ def discover_chewed_projects() -> List[Dict]:
             "has_insights": has_insights,
             "has_experiments": has_experiments,
             "has_synthesis": has_synthesis,
+            "has_in_folder": has_in_folder,
+            "rounds": rounds,
+            "latest_round": rounds[-1]["round"] if rounds else 0,
             "files": [f.name for f in folder.iterdir() if f.is_file()]
         })
 
@@ -157,6 +189,58 @@ def discover_burped_projects() -> List[str]:
         folder.name for folder in BURP_DIR.iterdir()
         if folder.is_dir() and not folder.name.startswith(".")
     ])
+
+
+# =============================================================================
+# ROUND DETECTION
+# =============================================================================
+
+def discover_project_rounds(project_path: Path) -> List[Dict]:
+    """
+    Discover all _ROUND_N folders in a project.
+
+    Returns list of dicts with round info:
+        [
+            {"round": 1, "path": Path, "has_questions_out": bool, ...},
+            {"round": 2, "path": Path, ...}
+        ]
+    """
+    rounds = []
+
+    # Pattern: _ROUND_1, _ROUND_2, etc.
+    round_pattern = re.compile(r"^_ROUND_(\d+)$")
+
+    for folder in project_path.iterdir():
+        if not folder.is_dir():
+            continue
+
+        match = round_pattern.match(folder.name)
+        if match:
+            round_num = int(match.group(1))
+            rounds.append({
+                "round": round_num,
+                "path": folder,
+                "has_questions_out": (folder / "QUESTIONS_OUT.md").exists(),
+                "has_answers_in": (folder / "ANSWERS_IN.md").exists(),
+                "has_actions": (folder / "ACTIONS.md").exists(),
+                "has_chat": (folder / "chat.md").exists(),
+                "has_report": (folder / "report.md").exists(),
+                "has_insights": (folder / "INSIGHTS.md").exists() or any(folder.glob("*INSIGHTS*.md")),
+                "has_experiments": (folder / "EXPERIMENTS.md").exists() or any(folder.glob("*EXPERIMENTS*.md"))
+            })
+
+    return sorted(rounds, key=lambda x: x["round"])
+
+
+def get_latest_round(project_path: Path) -> Optional[Dict]:
+    """Get the highest numbered round for a project."""
+    rounds = discover_project_rounds(project_path)
+    return rounds[-1] if rounds else None
+
+
+def get_round_path(project_path: Path, round_num: int) -> Path:
+    """Get path to a specific round folder."""
+    return project_path / f"_ROUND_{round_num}"
 
 
 # =============================================================================
@@ -284,6 +368,180 @@ def analyze_incoming_needs(registry: Dict, project_id: str) -> Dict:
         "has_answer_content": has_answer_content,
         "needs_attention": not has_answer_content and len(incoming) > 0
     }
+
+
+# =============================================================================
+# QUESTIONS_OUT GENERATION
+# =============================================================================
+
+def generate_questions_out_content(registry: Dict, project_id: str, round_num: int = 1) -> str:
+    """
+    Generate QUESTIONS_OUT.md content for a project from the registry.
+
+    Extracts all outgoing questions from cross_pollination_log where
+    source == project_id and round == round_num.
+    """
+    outgoing = []
+    for entry in registry.get("cross_pollination_log", []):
+        if entry.get("source") == project_id and entry.get("round", 1) == round_num:
+            outgoing.append(entry)
+
+    if not outgoing:
+        return f"""# Questions Out - Round {round_num}
+
+**Project:** {project_id}
+**Round:** {round_num}
+**Date:** {datetime.now().strftime('%Y-%m-%d')}
+
+## No Outgoing Questions
+
+This project has no questions logged in Round {round_num}.
+
+---
+*Generated by 3_burp.py*
+"""
+
+    # Group by target
+    by_target = {}
+    for entry in outgoing:
+        target = entry.get("target")
+        if target not in by_target:
+            by_target[target] = {
+                "date": entry.get("date"),
+                "answered": entry.get("answered", False),
+                "answer_date": entry.get("answer_date"),
+                "action_unlocked": entry.get("action_unlocked"),
+                "items": []
+            }
+        by_target[target]["items"].extend(entry.get("items", []))
+
+    # Build content
+    lines = [
+        f"# Questions Out - Round {round_num}",
+        "",
+        f"**Project:** {project_id}",
+        f"**Round:** {round_num}",
+        f"**Date:** {datetime.now().strftime('%Y-%m-%d')}",
+        "",
+        "## Questions Asked to Other Projects",
+        ""
+    ]
+
+    total_questions = 0
+    answered_targets = 0
+
+    for target, info in sorted(by_target.items()):
+        status = "Answered" if info["answered"] else "Pending"
+        status_icon = "[x]" if info["answered"] else "[ ]"
+
+        if info["answered"]:
+            answered_targets += 1
+
+        lines.append(f"### {status_icon} {target}")
+        lines.append("")
+        lines.append(f"**Status:** {status}")
+
+        if info["answer_date"]:
+            lines.append(f"**Answer Date:** {info['answer_date']}")
+
+        if info["action_unlocked"]:
+            lines.append(f"**Action Unlocked:** {info['action_unlocked']}")
+
+        lines.append("")
+        lines.append("| Q# | Question | Status |")
+        lines.append("|----|----------|--------|")
+
+        for item in info["items"]:
+            total_questions += 1
+            q_status = "Answered" if info["answered"] else "Pending"
+            lines.append(f"| {total_questions} | {item} | {q_status} |")
+
+        lines.append("")
+
+    # Summary
+    total_targets = len(by_target)
+    lines.insert(7, f"**Summary:** {answered_targets}/{total_targets} targets answered, {total_questions} total questions")
+    lines.insert(8, "")
+
+    lines.extend([
+        "---",
+        "*Generated by 3_burp.py*"
+    ])
+
+    return "\n".join(lines)
+
+
+def generate_questions_out_file(project_id: str, round_num: int = 1, dry_run: bool = False) -> Dict:
+    """
+    Generate QUESTIONS_OUT.md file for a project's round folder.
+
+    Returns:
+        {"success": bool, "path": Path, "message": str}
+    """
+    result = {"success": False, "path": None, "message": ""}
+
+    project_path = CHEWED_DIR / project_id
+    if not project_path.exists():
+        result["message"] = f"Project not found: {project_id}"
+        return result
+
+    round_path = get_round_path(project_path, round_num)
+    if not round_path.exists():
+        result["message"] = f"Round folder not found: _ROUND_{round_num}"
+        return result
+
+    registry = load_registry()
+    content = generate_questions_out_content(registry, project_id, round_num)
+
+    output_path = round_path / "QUESTIONS_OUT.md"
+    result["path"] = output_path
+
+    if dry_run:
+        result["success"] = True
+        result["message"] = f"[DRY RUN] Would write to {output_path}"
+        return result
+
+    try:
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(content)
+        result["success"] = True
+        result["message"] = f"Generated {output_path}"
+    except Exception as e:
+        result["message"] = f"Error writing file: {e}"
+
+    return result
+
+
+def generate_all_questions_out(dry_run: bool = False) -> List[Dict]:
+    """Generate QUESTIONS_OUT.md for all chewed projects."""
+    results = []
+    chewed = discover_chewed_projects()
+
+    for project in chewed:
+        project_id = project["id"]
+        project_path = project["path"]
+
+        # Find latest round
+        rounds = discover_project_rounds(project_path)
+        if not rounds:
+            results.append({
+                "project": project_id,
+                "success": False,
+                "message": "No _ROUND_N folders found"
+            })
+            continue
+
+        # Generate for each round that exists
+        for round_info in rounds:
+            result = generate_questions_out_file(
+                project_id,
+                round_info["round"],
+                dry_run=dry_run
+            )
+            result["project"] = project_id
+            results.append(result)
+
+    return results
 
 
 # =============================================================================
@@ -579,6 +837,10 @@ Examples:
                         help="List all projects ready for BURP/")
     parser.add_argument("--move", type=str, metavar="NAME",
                         help="Move project to BURP/")
+    parser.add_argument("--gen-questions", nargs="?", const="ALL", metavar="NAME",
+                        help="Generate QUESTIONS_OUT.md (for all projects or specific one)")
+    parser.add_argument("--rounds", type=str, metavar="NAME",
+                        help="Show round status for a specific project")
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview changes without applying")
 
@@ -610,6 +872,64 @@ Examples:
             print(f"ERROR: {result['message']}")
         elif args.dry_run:
             print("[DRY RUN] No changes made. Run without --dry-run to apply.")
+
+    elif args.gen_questions:
+        print("=" * 60)
+        print("Generating QUESTIONS_OUT.md Files")
+        print("=" * 60)
+
+        if args.gen_questions == "ALL":
+            results = generate_all_questions_out(dry_run=args.dry_run)
+            success_count = sum(1 for r in results if r["success"])
+            print(f"\nProcessed {len(results)} items, {success_count} successful")
+
+            for r in results:
+                status = "[OK]" if r["success"] else "[FAIL]"
+                print(f"  {status} {r.get('project', 'unknown')}: {r['message']}")
+        else:
+            # Specific project
+            project_path = CHEWED_DIR / args.gen_questions
+            if not project_path.exists():
+                print(f"ERROR: Project not found: {args.gen_questions}")
+            else:
+                rounds = discover_project_rounds(project_path)
+                if not rounds:
+                    print(f"ERROR: No _ROUND_N folders found in {args.gen_questions}")
+                else:
+                    for round_info in rounds:
+                        result = generate_questions_out_file(
+                            args.gen_questions,
+                            round_info["round"],
+                            dry_run=args.dry_run
+                        )
+                        status = "[OK]" if result["success"] else "[FAIL]"
+                        print(f"  {status} Round {round_info['round']}: {result['message']}")
+
+        if args.dry_run:
+            print("\n[DRY RUN] No files written. Run without --dry-run to apply.")
+
+    elif args.rounds:
+        project_path = CHEWED_DIR / args.rounds
+        if not project_path.exists():
+            print(f"ERROR: Project not found: {args.rounds}")
+        else:
+            rounds = discover_project_rounds(project_path)
+            print("=" * 60)
+            print(f"Round Status: {args.rounds}")
+            print("=" * 60)
+
+            if not rounds:
+                print("  No _ROUND_N folders found")
+            else:
+                for r in rounds:
+                    print(f"\n  _ROUND_{r['round']}/")
+                    print(f"    QUESTIONS_OUT.md: {'Yes' if r['has_questions_out'] else 'No'}")
+                    print(f"    ANSWERS_IN.md:    {'Yes' if r['has_answers_in'] else 'No'}")
+                    print(f"    ACTIONS.md:       {'Yes' if r['has_actions'] else 'No'}")
+                    print(f"    chat.md:          {'Yes' if r['has_chat'] else 'No'}")
+                    print(f"    report.md:        {'Yes' if r['has_report'] else 'No'}")
+                    print(f"    INSIGHTS:         {'Yes' if r['has_insights'] else 'No'}")
+                    print(f"    EXPERIMENTS:      {'Yes' if r['has_experiments'] else 'No'}")
 
     else:
         # Default: status report
