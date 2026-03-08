@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCFE Coherence Field Simulator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #04060a;
+    --surface: #090d14;
+    --border: #141c2a;
+    --border-bright: #1e2d44;
+    --text: #c8d8f0;
+    --text-dim: #4a6080;
+    --text-mid: #7090b8;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #a855f7;
+    --green: #22d3a0;
+    --red: #f43f5e;
+    --yellow: #fbbf24;
+    --glow: rgba(0, 212, 255, 0.12);
+    --glow2: rgba(168, 85, 247, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 12px 0 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .title-block h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 20px rgba(0,212,255,0.4);
+  }
+
+  .title-block p {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  .header-status {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .status-dot.paused { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); animation: none; }
+  .status-dot.collapsed { background: var(--red); box-shadow: 0 0 8px var(--red); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    display: grid;
+    grid-template-columns: 220px 1fr 220px;
+    gap: 10px;
+    align-items: start;
+  }
+
+  /* PANELS */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px;
+  }
+
+  .panel-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* PARAMETERS */
+  .param-group { margin-bottom: 14px; }
+  .param-group:last-child { margin-bottom: 0; }
+
+  .param-name {
+    font-size: 0.6rem;
+    color: var(--text-mid);
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .param-name em {
+    font-style: italic;
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+
+  .param-desc {
+    font-size: 0.52rem;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  input[type=range] {
+    width: 100%;
+    height: 2px;
+    -webkit-appearance: none;
+    background: var(--border-bright);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(0,212,255,0.5);
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.4);
+  }
+
+  .param-val {
+    font-size: 0.62rem;
+    color: var(--accent);
+    font-weight: 500;
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* CENTER: CANVAS AREA */
+  .center {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .canvas-wrapper {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  canvas#field {
+    display: block;
+    width: 100%;
+    image-rendering: pixelated;
+  }
+
+  .canvas-overlay {
+    position: absolute;
+    top: 8px; left: 8px;
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+
+  .canvas-overlay span {
+    display: block;
+    line-height: 1.7;
+  }
+
+  .canvas-overlay .val { color: var(--accent); }
+
+  /* COLORBAR */
+  .colorbar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 2px;
+    font-size: 0.55rem;
+    color: var(--text-dim);
+  }
+
+  #colorbar {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+  }
+
+  /* FIELD SELECTOR */
+  .view-tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    background: none;
+    border: 1px solid var(--border-bright);
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.57rem;
+    letter-spacing: 0.05em;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tab-btn:hover { border-color: var(--accent); color: var(--text); }
+  .tab-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.06); }
+
+  /* CONTROLS */
+  .ctrl-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    flex: 1;
+    min-width: 60px;
+    background: none;
+    border: 1px solid var(--border-bright);
+    color: var(--text-mid);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 6px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.06); }
+  .btn.danger { border-color: var(--red); color: var(--red); }
+  .btn.danger:hover { background: rgba(244,63,94,0.08); }
+  .btn.warning { border-color: var(--yellow); color: var(--yellow); }
+
+  /* RIGHT PANEL: READOUTS */
+  .readout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .readout-cell {
+    background: rgba(0,212,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 6px 8px;
+  }
+
+  .readout-label {
+    font-size: 0.5rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .readout-val {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+
+  .readout-val.good { color: var(--green); }
+  .readout-val.warn { color: var(--yellow); }
+  .readout-val.bad { color: var(--red); }
+  .readout-val.purple { color: var(--accent3); }
+
+  /* PHASE SPACE MINI CHART */
+  canvas#phase { display: block; width: 100%; border-radius: 2px; }
+  canvas#history { display: block; width: 100%; border-radius: 2px; }
+
+  /* EVENTS LOG */
+  .event-log {
+    height: 90px;
+    overflow-y: auto;
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .event-log .ev { color: var(--text-mid); }
+  .event-log .ev-warn { color: var(--yellow); }
+  .event-log .ev-collapse { color: var(--red); }
+  .event-log .ev-good { color: var(--green); }
+  .event-log .ev-pulse { color: var(--accent3); }
+
+  /* EQUATION BAR */
+  .eq-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .eq-bar .eq {
+    color: var(--text-mid);
+    font-style: italic;
+  }
+
+  .eq-bar .eq b { color: var(--accent); font-style: normal; }
+  .eq-bar .eq i { color: var(--accent3); }
+
+  .section-title {
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+
+  .phase-label {
+    font-size: 0.5rem;
+    color: var(--text-dim);
+    margin-bottom: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  /* COLLAPSE OVERLAY */
+  #collapse-flash {
+    position: fixed;
+    inset: 0;
+    background: rgba(244, 63, 94, 0.15);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 100;
+    transition: opacity 0.1s;
+  }
+
+  /* SOLITON INJECTION BUTTON */
+  .inject-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .inject-btn {
+    flex: 1;
+    min-width: 50px;
+    background: none;
+    border: 1px solid var(--border-bright);
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.06em;
+    padding: 5px 6px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+
+  .inject-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+  .inject-btn.active-inject { border-color: var(--accent3); color: var(--accent3); background: rgba(168,85,247,0.06); }
+
+  .coherence-bar-wrap {
+    margin-top: 8px;
+  }
+
+  .coherence-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .coherence-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.1s, background 0.3s;
+  }
+</style>
+</head>
+<body>
+
+<div id="collapse-flash"></div>
+
+<div class="app">
+
+  <header>
+    <div class="title-block">
+      <h1>MCFE Coherence Field Simulator</h1>
+      <p>Master Cognitive Field Equation — Soliton Dynamics &amp; Identity Phase Evolution</p>
+    </div>
+    <div class="header-status">
+      <div class="status-dot" id="status-dot"></div>
+      <span id="status-text">RUNNING</span>
+      <span id="tick-display">τ = 0.000</span>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <!-- LEFT: PARAMETERS -->
+    <div class="panel">
+      <div class="panel-label">Field Parameters</div>
+
+      <div class="param-group">
+        <div class="param-name"><span><em>β</em><sub>eff</sub> — Diffusion</span><span class="param-val" id="val-beta">0.80</span></div>
+        <div class="param-desc">Semantic smoothing. High β → broad boundaries, stable field.</div>
+        <input type="range" id="sl-beta" min="0.1" max="3.0" step="0.05" value="0.8">
+      </div>
+
+      <div class="param-group">
+        <div class="param-name"><span><em>λ</em> — Well Depth</span><span class="param-val" id="val-lambda">1.20</span></div>
+        <div class="param-desc">Identity phase separation. Higher λ → deeper wells, stronger solitons.</div>
+        <input type="range" id="sl-lambda" min="0.1" max="4.0" step="0.05" value="1.2">
+      </div>
+
+      <div class="param-group">
+        <div class="param-name"><span><em>γ</em> — Nonlinearity</span><span class="param-val" id="val-gamma">1.00</span></div>
+        <div class="param-desc">Identity force strength. Controls collapse threshold speed.</div>
+        <input type="range" id="sl-gamma" min="0.1" max="3.0" step="0.05" value="1.0">
+      </div>
+
+      <div class="param-group">
+        <div class="param-name"><span><em>α</em> — Dissipation</span><span class="param-val" id="val-alpha">0.10</span></div>
+        <div class="param-desc">Relaxation rate toward stable phases. Identity damping.</div>
+        <input type="range" id="sl-alpha" min="0.0" max="1.0" step="0.01" value="0.1">
+      </div>
+
+      <div class="panel-label" style="margin-top:14px">External Forcing</div>
+
+      <div class="param-group">
+        <div class="param-name"><span><em>S</em><sub>id</sub> — Forcing Amp</span><span class="param-val" id="val-forcing">0.00</span></div>
+        <div class="param-desc">External cognitive pressure. High values drive collapse.</div>
+        <input type="range" id="sl-forcing" min="0" max="3.0" step="0.05" value="0">
+      </div>
+
+      <div class="param-group">
+        <div class="param-name"><span>Forcing Freq</span><span class="param-val" id="val-ffreq">0.50</span></div>
+        <div class="param-desc">Oscillation frequency of external forcing field.</div>
+        <input type="range" id="sl-ffreq" min="0.1" max="4.0" step="0.1" value="0.5">
+      </div>
+
+      <div class="panel-label" style="margin-top:14px">Memory Kernel</div>
+
+      <div class="param-group">
+        <div class="param-name"><span><em>k</em><sub>mem</sub> — Strength</span><span class="param-val" id="val-kmem">0.30</span></div>
+        <div class="param-desc">Nonlocal memory coupling. Sharpens or broadens solitons.</div>
+        <input type="range" id="sl-kmem" min="0.0" max="2.0" step="0.05" value="0.3">
+      </div>
+
+      <div class="param-group">
+        <div class="param-name"><span><em>ℓ</em> — Memory Range</span><span class="param-val" id="val-krange">4.00</span></div>
+        <div class="param-desc">Spatial reach of memory kernel. Long range → global effects.</div>
+        <input type="range" id="sl-krange" min="1" max="20" step="0.5" value="4">
+      </div>
+
+      <div class="panel-label" style="margin-top:14px">Inject Perturbation</div>
+      <div class="inject-row">
+        <button class="inject-btn" onclick="injectSoliton()">+ Soliton</button>
+        <button class="inject-btn" onclick="injectNoise()">+ Noise</button>
+        <button class="inject-btn" onclick="injectForcing()">+ Pulse</button>
+        <button class="inject-btn" onclick="injectAntisoliton()">+ Anti</button>
+      </div>
+    </div>
+
+    <!-- CENTER: CANVAS -->
+    <div class="center">
+      <div class="canvas-wrapper">
+        <canvas id="field" width="512" height="512"></canvas>
+        <div class="canvas-overlay">
+          <span>ψ(x,y,τ)</span>
+          <span id="cur-view" class="val">FIELD</span>
+          <span id="soliton-count" style="margin-top:4px">solitons: <span class="val" id="sc-val">—</span></span>
+          <span>coherence: <span class="val" id="coh-val">—</span></span>
+        </div>
+      </div>
+
+      <div class="colorbar-row">
+        <span>−<em>λ</em><sup>½</sup></span>
+        <canvas id="colorbar" width="300" height="6"></canvas>
+        <span>+<em>λ</em><sup>½</sup></span>
+      </div>
+
+      <div class="panel" style="padding: 10px 12px;">
+        <div class="section-title">View Mode</div>
+        <div class="view-tabs" id="view-tabs">
+          <button class="tab-btn active" data-view="field">Ψ Field</button>
+          <button class="tab-btn" data-view="gradient">|∇Ψ|</button>
+          <button class="tab-btn" data-view="potential">V(Ψ)</button>
+          <button class="tab-btn" data-view="memory">Memory</button>
+          <button class="tab-btn" data-view="forcing">Forcing</button>
+          <button class="tab-btn" data-view="velocity">dΨ/dτ</button>
+        </div>
+      </div>
+
+      <div class="panel" style="padding: 10px 12px;">
+        <div class="ctrl-row">
+          <button class="btn primary" id="btn-play" onclick="togglePlay()">⏸ PAUSE</button>
+          <button class="btn" onclick="resetField('soliton')">INIT: SOLITON</button>
+          <button class="btn" onclick="resetField('noise')">INIT: NOISE</button>
+          <button class="btn" onclick="resetField('flat')">INIT: FLAT</button>
+          <button class="btn danger" onclick="triggerCollapse()">⚡ COLLAPSE</button>
+        </div>
+      </div>
+
+      <div class="eq-bar">
+        <span class="eq">∂<sub>τ</sub>ψ = <b>β<sub>eff</sub></b>∇²ψ − <i>γ</i>(ψ³ − <b>λ</b>ψ) − <b>α</b>ψ + S<sub>id</sub> + S<sub>mem</sub></span>
+        <span style="color:var(--text-dim);font-size:0.55rem">— MindCODEX Ch.5 (MCFE, nondimensional form)</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: READOUTS -->
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="panel">
+        <div class="panel-label">Live Readouts</div>
+        <div class="readout-grid">
+          <div class="readout-cell">
+            <div class="readout-label">τ (time)</div>
+            <div class="readout-val" id="r-tau">0.000</div>
+          </div>
+          <div class="readout-cell">
+            <div class="readout-label">Coherence C</div>
+            <div class="readout-val good" id="r-coh">—</div>
+          </div>
+          <div class="readout-cell">
+            <div class="readout-label">⟨ψ²⟩ mean</div>
+            <div class="readout-val" id="r-psi2">—</div>
+          </div>
+          <div class="readout-cell">
+            <div class="readout-label">Free Energy F</div>
+            <div class="readout-val purple" id="r-fe">—</div>
+          </div>
+          <div class="readout-cell">
+            <div class="readout-label">Max |∇ψ|</div>
+            <div class="readout-val" id="r-grad">—</div>
+          </div>
+          <div class="readout-cell">
+            <div class="readout-label">Phase Bias</div>
+            <div class="readout-val" id="r-bias">—</div>
+          </div>
+          <div class="readout-cell">
+            <div class="readout-label">Soliton ℒ₀</div>
+            <div class="readout-val purple" id="r-L0">—</div>
+          </div>
+          <div class="readout-cell">
+            <div class="readout-label">E_sol</div>
+            <div class="readout-val" id="r-esol">—</div>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top:4px">Global Coherence</div>
+        <div class="coherence-bar-wrap">
+          <div style="display:flex;justify-content:space-between;font-size:0.5rem;color:var(--text-dim);margin-bottom:3px">
+            <span>collapse</span><span id="cbar-pct">100%</span><span>stable</span>
+          </div>
+          <div class="coherence-bar-bg">
+            <div class="coherence-bar-fill" id="cbar-fill" style="width:100%;background:var(--green)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Phase Portrait — ψ vs dψ/dτ</div>
+        <div class="phase-label">sample point: center</div>
+        <canvas id="phase" width="196" height="120"></canvas>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Coherence History</div>
+        <canvas id="history" width="196" height="80"></canvas>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Event Log</div>
+        <div class="event-log" id="event-log">
+          <span class="ev-good">► Simulator initialized</span><br>
+          <span class="ev">► MCFE nondimensional form active</span><br>
+          <span class="ev">► Soliton IC loaded</span><br>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .main -->
+
+</div><!-- end .app -->
+
+<script>
+// ─── SIMULATION ENGINE ──────────────────────────────────────────────────────
+
+const N = 128; // grid size
+const dx = 1.0;
+const dt = 0.04;
+
+let tau = 0;
+let running = true;
+let viewMode = 'field';
+
+let psi = new Float32Array(N * N);
+let psiOld = new Float32Array(N * N);
+let laplacian = new Float32Array(N * N);
+let memField = new Float32Array(N * N);
+let dpsi = new Float32Array(N * N);
+
+// Parameters (live, updated from sliders)
+let p = {
+  beta: 0.8, lambda: 1.2, gamma: 1.0, alpha: 0.1,
+  forcing: 0.0, ffreq: 0.5,
+  kmem: 0.3, krange: 4.0
+};
+
+// History
+const HIST_LEN = 196;
+let cohHistory = new Float32Array(HIST_LEN);
+let phaseX = new Array(300).fill(0);
+let phaseY = new Array(300).fill(0);
+let phasePtr = 0;
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+function idx(x, y) {
+  return ((y + N) % N) * N + ((x + N) % N);
+}
+
+function resetField(mode) {
+  tau = 0;
+  const L0 = Math.sqrt(2 * p.beta / (p.gamma * p.lambda));
+  const phi_pm = Math.sqrt(p.lambda);
+
+  if (mode === 'soliton') {
+    // Two domain-wall solitons: Φ(x) = √λ·tanh(√(γλ/2β) · (x−x₀))
+    const k = Math.sqrt(p.gamma * p.lambda / (2 * p.beta));
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const cx = x - N / 2;
+        const cy = y - N / 2;
+        // Two solitons
+        const sol1 = phi_pm * Math.tanh(k * (cx + N / 4));
+        const sol2 = -phi_pm * Math.tanh(k * (cx - N / 4));
+        psi[idx(x, y)] = (sol1 + sol2) * 0.7 + (Math.random() - 0.5) * 0.05;
+      }
+    }
+    logEvent('soliton', '► IC: dual soliton solution loaded');
+  } else if (mode === 'noise') {
+    for (let i = 0; i < N * N; i++) {
+      psi[i] = (Math.random() - 0.5) * 0.3;
+    }
+    logEvent('ev', '► IC: random noise field');
+  } else if (mode === 'flat') {
+    for (let i = 0; i < N * N; i++) {
+      psi[i] = phi_pm * (Math.random() > 0.5 ? 1 : -1) * 0.95 + (Math.random() - 0.5) * 0.02;
+    }
+    logEvent('ev', '► IC: phase-separated domains');
+  }
+
+  psiOld.set(psi);
+  cohHistory.fill(1.0);
+  phaseX.fill(0); phaseY.fill(0);
+}
+
+// ─── LAPLACIAN ───────────────────────────────────────────────────────────────
+
+function computeLaplacian() {
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < N; x++) {
+      const c  = psi[idx(x,   y)];
+      const r  = psi[idx(x+1, y)];
+      const l  = psi[idx(x-1, y)];
+      const u  = psi[idx(x,   y+1)];
+      const d  = psi[idx(x,   y-1)];
+      laplacian[idx(x,y)] = (r + l + u + d - 4 * c) / (dx * dx);
+    }
+  }
+}
+
+// ─── MEMORY KERNEL (short-range Gaussian convolution, approximated) ───────────
+
+function computeMemory() {
+  const ell = p.krange;
+  const k0 = p.kmem;
+  // Fast approximate: Gaussian with radius = ceil(2*ell)
+  const rad = Math.min(Math.ceil(2 * ell), 12);
+  // Build normalized kernel
+  let kernelSum = 0;
+  const ksize = 2 * rad + 1;
+  const kernel = new Float32Array(ksize * ksize);
+  for (let ky = -rad; ky <= rad; ky++) {
+    for (let kx = -rad; kx <= rad; kx++) {
+      const d2 = kx*kx + ky*ky;
+      const v = Math.exp(-d2 / (2 * ell * ell));
+      kernel[(ky+rad)*ksize + (kx+rad)] = v;
+      kernelSum += v;
+    }
+  }
+  // Normalize
+  for (let i = 0; i < kernel.length; i++) kernel[i] /= kernelSum;
+
+  // Convolve
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < N; x++) {
+      let s = 0;
+      for (let ky = -rad; ky <= rad; ky++) {
+        for (let kx = -rad; kx <= rad; kx++) {
+          s += kernel[(ky+rad)*ksize+(kx+rad)] * psi[idx(x+kx, y+ky)];
+        }
+      }
+      memField[idx(x,y)] = k0 * (s - psi[idx(x,y)]);
+    }
+  }
+}
+
+// ─── STEP ────────────────────────────────────────────────────────────────────
+
+function step() {
+  computeLaplacian();
+  computeMemory();
+
+  const betaEff = p.beta;
+  const lam = p.lambda;
+  const gam = p.gamma;
+  const alph = p.alpha;
+
+  // Forcing field: spatially modulated + temporal oscillation
+  const forcingAmp = p.forcing;
+  const forcingPhase = tau * p.ffreq * 2 * Math.PI;
+
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < N; x++) {
+      const i = idx(x, y);
+      const pv = psi[i];
+
+      // MCFE: ∂τψ = βeff·∇²ψ − γ(ψ³ − λψ) − αψ + Sid + Smem
+      const reaction = -gam * (pv * pv * pv - lam * pv);
+      const diss     = -alph * pv;
+      const diff     = betaEff * laplacian[i];
+      const mem      = memField[i];
+
+      // Spatially varying forcing: checkerboard-ish pattern × oscillation
+      const fx = x / N - 0.5;
+      const fy = y / N - 0.5;
+      const spatialMod = Math.sin(fx * Math.PI * 3) * Math.cos(fy * Math.PI * 3);
+      const forcing = forcingAmp * spatialMod * Math.sin(forcingPhase);
+
+      dpsi[i] = diff + reaction + diss + mem + forcing;
+    }
+  }
+
+  for (let i = 0; i < N * N; i++) {
+    psiOld[i] = psi[i];
+    psi[i] += dt * dpsi[i];
+    // Soft clamp to prevent blow-up
+    if (psi[i] > 4) psi[i] = 4;
+    if (psi[i] < -4) psi[i] = -4;
+  }
+
+  tau += dt;
+}
+
+// ─── METRICS ─────────────────────────────────────────────────────────────────
+
+function computeMetrics() {
+  const phi_pm = Math.sqrt(Math.max(p.lambda, 0.01));
+  let psi2 = 0, fe = 0, gradMax = 0, biasSum = 0;
+
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < N; x++) {
+      const i = idx(x, y);
+      const pv = psi[i];
+      psi2 += pv * pv;
+
+      // Free energy density: V(ψ) = (ψ²-λ)²/4
+      const vp = (pv * pv - p.lambda);
+      fe += vp * vp * 0.25;
+
+      // Gradient magnitude
+      const gx = (psi[idx(x+1,y)] - psi[idx(x-1,y)]) / (2*dx);
+      const gy = (psi[idx(x,y+1)] - psi[idx(x,y-1)]) / (2*dx);
+      const g = Math.sqrt(gx*gx + gy*gy);
+      if (g > gradMax) gradMax = g;
+
+      biasSum += pv;
+    }
+  }
+
+  const n2 = N * N;
+  psi2 /= n2; fe /= n2; biasSum /= n2;
+
+  // Coherence: fraction of field near stable phases
+  let nearPhase = 0;
+  const thresh = phi_pm * 0.3;
+  for (let i = 0; i < n2; i++) {
+    if (Math.abs(Math.abs(psi[i]) - phi_pm) < thresh) nearPhase++;
+  }
+  const coherence = nearPhase / n2;
+
+  // Soliton width L0 = sqrt(2β/(γλ))
+  const L0 = Math.sqrt(2 * p.beta / (Math.max(p.gamma * p.lambda, 0.01)));
+
+  // Soliton energy Esol = (2√2/3) √(β·γ) · λ^(3/2)
+  const esol = (2 * Math.sqrt(2) / 3) * Math.sqrt(p.beta * p.gamma) * Math.pow(Math.max(p.lambda, 0), 1.5);
+
+  return { psi2, fe, gradMax, biasSum, coherence, L0, esol };
+}
+
+// ─── INJECTION ───────────────────────────────────────────────────────────────
+
+function injectSoliton() {
+  const phi_pm = Math.sqrt(p.lambda);
+  const k = Math.sqrt(p.gamma * p.lambda / (2 * p.beta));
+  const cx = Math.floor(Math.random() * N);
+  const cy = Math.floor(Math.random() * N);
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < N; x++) {
+      const dist = Math.sqrt((x-cx)**2 + (y-cy)**2);
+      psi[idx(x,y)] += phi_pm * Math.tanh(k * (dist - 15)) * 0.6;
+    }
+  }
+  logEvent('pulse', '► Soliton injected at (' + cx + ',' + cy + ')');
+}
+
+function injectAntisoliton() {
+  const phi_pm = Math.sqrt(p.lambda);
+  const k = Math.sqrt(p.gamma * p.lambda / (2 * p.beta));
+  const cx = Math.floor(Math.random() * N);
+  const cy = Math.floor(Math.random() * N);
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < N; x++) {
+      const dist = Math.sqrt((x-cx)**2 + (y-cy)**2);
+      psi[idx(x,y)] -= phi_pm * Math.tanh(k * (dist - 12)) * 0.5;
+    }
+  }
+  logEvent('pulse', '► Anti-soliton injected → collision dynamics');
+}
+
+function injectNoise() {
+  for (let i = 0; i < N * N; i++) {
+    psi[i] += (Math.random() - 0.5) * 0.8;
+  }
+  logEvent('warn', '⚠ Noise burst injected');
+}
+
+function injectForcing() {
+  const cx = N/2, cy = N/2;
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < N; x++) {
+      const d2 = (x-cx)**2 + (y-cy)**2;
+      psi[idx(x,y)] += 1.5 * Math.exp(-d2 / 200);
+    }
+  }
+  logEvent('pulse', '► Gaussian forcing pulse applied');
+}
+
+function triggerCollapse() {
+  for (let i = 0; i < N * N; i++) {
+    psi[i] += (Math.random() - 0.5) * 3.0;
+  }
+  document.getElementById('collapse-flash').style.opacity = '1';
+  setTimeout(() => {
+    document.getElementById('collapse-flash').style.opacity = '0';
+  }, 300);
+  logEvent('collapse', '⚡ COLLAPSE TRIGGERED — coherence loss initiated');
+}
+
+// ─── RENDERING ───────────────────────────────────────────────────────────────
+
+const canvas = document.getElementById('field');
+const ctx = canvas.getContext('2d');
+const imgData = ctx.createImageData(N, N);
+
+function colormap(v, vmin, vmax) {
+  // Blue(-) → Black(0) → Red(+) with cyan/purple highlights
+  const t = Math.max(0, Math.min(1, (v - vmin) / (vmax - vmin)));
+  let r, g, b;
+  if (t < 0.5) {
+    const s = t * 2; // 0→1
+    r = Math.round(s * 30);
+    g = Math.round(s * 80 + (1-s)*120);
+    b = Math.round(255 - s * 120);
+  } else {
+    const s = (t - 0.5) * 2; // 0→1
+    r = Math.round(s * 220 + (1-s)*30);
+    g = Math.round((1-s) * 80 + s * 20);
+    b = Math.round((1-s) * 135);
+  }
+  return [r, g, b];
+}
+
+function getViewData(mode) {
+  const phi_pm = Math.sqrt(Math.max(p.lambda, 0.01));
+  const data = new Float32Array(N * N);
+
+  if (mode === 'field') {
+    for (let i = 0; i < N*N; i++) data[i] = psi[i];
+    return { data, vmin: -phi_pm * 1.5, vmax: phi_pm * 1.5 };
+  }
+
+  if (mode === 'gradient') {
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const gx = (psi[idx(x+1,y)] - psi[idx(x-1,y)]) / (2*dx);
+        const gy = (psi[idx(x,y+1)] - psi[idx(x,y-1)]) / (2*dx);
+        data[idx(x,y)] = Math.sqrt(gx*gx + gy*gy);
+      }
+    }
+    return { data, vmin: 0, vmax: phi_pm * 1.5 };
+  }
+
+  if (mode === 'potential') {
+    for (let i = 0; i < N*N; i++) {
+      const pv = psi[i];
+      data[i] = (pv*pv - p.lambda) * (pv*pv - p.lambda) * 0.25;
+    }
+    return { data, vmin: 0, vmax: phi_pm*phi_pm * phi_pm*phi_pm * 0.25 };
+  }
+
+  if (mode === 'memory') {
+    for (let i = 0; i < N*N; i++) data[i] = memField[i];
+    let mx = 0;
+    for (let i = 0; i < N*N; i++) if (Math.abs(memField[i]) > mx) mx = Math.abs(memField[i]);
+    return { data, vmin: -mx, vmax: mx };
+  }
+
+  if (mode === 'forcing') {
+    const forcingPhase = tau * p.ffreq * 2 * Math.PI;
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const fx = x / N - 0.5, fy = y / N - 0.5;
+        data[idx(x,y)] = p.forcing * Math.sin(fx*Math.PI*3) * Math.cos(fy*Math.PI*3) * Math.sin(forcingPhase);
+      }
+    }
+    return { data, vmin: -p.forcing, vmax: p.forcing };
+  }
+
+  if (mode === 'velocity') {
+    for (let i = 0; i < N*N; i++) data[i] = dpsi[i];
+    let mx = 0;
+    for (let i = 0; i < N*N; i++) if (Math.abs(dpsi[i]) > mx) mx = Math.abs(dpsi[i]);
+    return { data, vmin: -mx || -0.1, vmax: mx || 0.1 };
+  }
+
+  return { data: psi, vmin: -phi_pm, vmax: phi_pm };
+}
+
+function renderField() {
+  const { data, vmin, vmax } = getViewData(viewMode);
+  for (let i = 0; i < N * N; i++) {
+    const [r, g, b] = colormap(data[i], vmin, vmax);
+    imgData.data[i*4]   = r;
+    imgData.data[i*4+1] = g;
+    imgData.data[i*4+2] = b;
+    imgData.data[i*4+3] = 255;
+  }
+  ctx.putImageData(imgData, 0, 0);
+}
+
+function renderColorbar() {
+  const cbc = document.getElementById('colorbar');
+  const cctx = cbc.getContext('2d');
+  const W = cbc.width;
+  const grd = cctx.createLinearGradient(0, 0, W, 0);
+  grd.addColorStop(0,    'rgb(30,  120, 255)');
+  grd.addColorStop(0.5,  'rgb(30,   80, 135)');
+  grd.addColorStop(1.0,  'rgb(220,  20, 0)');
+  cctx.fillStyle = grd;
+  cctx.fillRect(0, 0, W, 6);
+}
+
+// ─── PHASE PORTRAIT ──────────────────────────────────────────────────────────
+
+function renderPhase() {
+  const pc = document.getElementById('phase');
+  const pctx = pc.getContext('2d');
+  const W = pc.width, H = pc.height;
+  pctx.fillStyle = '#090d14';
+  pctx.fillRect(0, 0, W, H);
+
+  // Grid lines at stable phases
+  const phi_pm = Math.sqrt(Math.max(p.lambda, 0.01));
+  pctx.strokeStyle = 'rgba(0,212,255,0.12)';
+  pctx.lineWidth = 1;
+
+  // Axes
+  pctx.beginPath();
+  pctx.moveTo(W/2, 0); pctx.lineTo(W/2, H);
+  pctx.moveTo(0, H/2); pctx.lineTo(W, H/2);
+  pctx.stroke();
+
+  // Phase wells
+  const xToScreen = (v) => W/2 + v * W / (phi_pm * 3);
+  const yToScreen = (v) => H/2 - v * H / 2;
+
+  pctx.strokeStyle = 'rgba(168,85,247,0.3)';
+  pctx.setLineDash([3, 3]);
+  const x1 = xToScreen(phi_pm);
+  pctx.beginPath(); pctx.moveTo(x1, 0); pctx.lineTo(x1, H); pctx.stroke();
+  const x2 = xToScreen(-phi_pm);
+  pctx.beginPath(); pctx.moveTo(x2, 0); pctx.lineTo(x2, H); pctx.stroke();
+  pctx.setLineDash([]);
+
+  // Trace
+  const ci = idx(N/2|0, N/2|0);
+  const pv = psi[ci];
+  const dv = dpsi[ci];
+
+  phaseX[phasePtr] = pv;
+  phaseY[phasePtr] = dv;
+  phasePtr = (phasePtr + 1) % phaseX.length;
+
+  pctx.strokeStyle = 'rgba(0,212,255,0.5)';
+  pctx.lineWidth = 1;
+  pctx.beginPath();
+  for (let i = 0; i < phaseX.length; i++) {
+    const idx2 = (phasePtr + i) % phaseX.length;
+    const sx = xToScreen(phaseX[idx2]);
+    const sy = yToScreen(phaseY[idx2]);
+    const alpha = i / phaseX.length;
+    if (i === 0) pctx.moveTo(sx, sy);
+    else pctx.lineTo(sx, sy);
+  }
+  pctx.stroke();
+
+  // Current point
+  const sx = xToScreen(pv), sy = yToScreen(dv);
+  pctx.fillStyle = '#00d4ff';
+  pctx.beginPath();
+  pctx.arc(Math.max(4,Math.min(W-4,sx)), Math.max(4,Math.min(H-4,sy)), 3, 0, Math.PI*2);
+  pctx.fill();
+}
+
+// ─── HISTORY ─────────────────────────────────────────────────────────────────
+
+function renderHistory(coherence) {
+  cohHistory.copyWithin(0, 1);
+  cohHistory[HIST_LEN - 1] = coherence;
+
+  const hc = document.getElementById('history');
+  const hctx = hc.getContext('2d');
+  const W = hc.width, H = hc.height;
+  hctx.fillStyle = '#090d14';
+  hctx.fillRect(0, 0, W, H);
+
+  // Threshold lines
+  hctx.strokeStyle = 'rgba(251,191,36,0.3)';
+  hctx.lineWidth = 1;
+  hctx.setLineDash([3,3]);
+  hctx.beginPath();
+  hctx.moveTo(0, H * 0.3); hctx.lineTo(W, H * 0.3);
+  hctx.stroke();
+  hctx.setLineDash([]);
+
+  // History line
+  hctx.strokeStyle = '#22d3a0';
+  hctx.lineWidth = 1.5;
+  hctx.beginPath();
+  for (let i = 0; i < HIST_LEN; i++) {
+    const x = i * W / HIST_LEN;
+    const y = H - cohHistory[i] * H * 0.9 - 2;
+    if (i === 0) hctx.moveTo(x, y);
+    else hctx.lineTo(x, y);
+  }
+  hctx.stroke();
+}
+
+// ─── UI UPDATES ──────────────────────────────────────────────────────────────
+
+let lastCollapseWarn = false;
+
+function updateReadouts(m) {
+  document.getElementById('r-tau').textContent = tau.toFixed(3);
+  document.getElementById('r-coh').textContent = (m.coherence * 100).toFixed(1) + '%';
+  document.getElementById('r-psi2').textContent = m.psi2.toFixed(4);
+  document.getElementById('r-fe').textContent = m.fe.toFixed(4);
+  document.getElementById('r-grad').textContent = m.gradMax.toFixed(3);
+  document.getElementById('r-bias').textContent = m.biasSum.toFixed(4);
+  document.getElementById('r-L0').textContent = m.L0.toFixed(3);
+  document.getElementById('r-esol').textContent = m.esol.toFixed(3);
+  document.getElementById('tick-display').textContent = 'τ = ' + tau.toFixed(3);
+  document.getElementById('r-tau').textContent = tau.toFixed(3);
+
+  // Color-code coherence
+  const cEl = document.getElementById('r-coh');
+  cEl.className = 'readout-val ' + (m.coherence > 0.6 ? 'good' : m.coherence > 0.3 ? 'warn' : 'bad');
+
+  // Coherence bar
+  const pct = (m.coherence * 100).toFixed(0) + '%';
+  document.getElementById('cbar-pct').textContent = pct;
+  const fill = document.getElementById('cbar-fill');
+  fill.style.width = pct;
+  fill.style.background = m.coherence > 0.6 ? 'var(--green)' : m.coherence > 0.3 ? 'var(--yellow)' : 'var(--red)';
+
+  document.getElementById('coh-val').textContent = (m.coherence * 100).toFixed(1) + '%';
+  document.getElementById('cv-val');
+
+  // Status
+  const dot = document.getElementById('status-dot');
+  const st = document.getElementById('status-text');
+  if (!running) {
+    dot.className = 'status-dot paused';
+    st.textContent = 'PAUSED';
+  } else if (m.coherence < 0.15) {
+    dot.className = 'status-dot collapsed';
+    st.textContent = 'COLLAPSE';
+    if (!lastCollapseWarn) {
+      logEvent('collapse', '⚡ COHERENCE COLLAPSE — C < 15%');
+      lastCollapseWarn = true;
+    }
+  } else {
+    dot.className = 'status-dot';
+    st.textContent = 'RUNNING';
+    lastCollapseWarn = false;
+  }
+
+  // Count solitons (zero crossings in x-row at mid)
+  let zc = 0;
+  const midRow = N / 2 | 0;
+  for (let x = 1; x < N; x++) {
+    if (psi[idx(x-1, midRow)] * psi[idx(x, midRow)] < 0) zc++;
+  }
+  document.getElementById('sc-val').textContent = zc;
+}
+
+// ─── EVENT LOG ───────────────────────────────────────────────────────────────
+
+function logEvent(type, msg) {
+  const log = document.getElementById('event-log');
+  const classMap = { ev: 'ev', warn: 'ev-warn', collapse: 'ev-collapse', soliton: 'ev-good', pulse: 'ev-pulse', good: 'ev-good' };
+  log.innerHTML += `<span class="${classMap[type] || 'ev'}">${msg}</span><br>`;
+  log.scrollTop = log.scrollHeight;
+}
+
+// ─── PARAMETER SLIDERS ───────────────────────────────────────────────────────
+
+function bindSlider(id, key, display) {
+  const sl = document.getElementById(id);
+  const vd = document.getElementById(display);
+  sl.addEventListener('input', () => {
+    p[key] = parseFloat(sl.value);
+    vd.textContent = parseFloat(sl.value).toFixed(2);
+  });
+}
+
+bindSlider('sl-beta',    'beta',    'val-beta');
+bindSlider('sl-lambda',  'lambda',  'val-lambda');
+bindSlider('sl-gamma',   'gamma',   'val-gamma');
+bindSlider('sl-alpha',   'alpha',   'val-alpha');
+bindSlider('sl-forcing', 'forcing', 'val-forcing');
+bindSlider('sl-ffreq',   'ffreq',   'val-ffreq');
+bindSlider('sl-kmem',    'kmem',    'val-kmem');
+bindSlider('sl-krange',  'krange',  'val-krange');
+
+// ─── VIEW TABS ────────────────────────────────────────────────────────────────
+
+document.getElementById('view-tabs').addEventListener('click', e => {
+  if (e.target.classList.contains('tab-btn')) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    viewMode = e.target.dataset.view;
+    document.getElementById('cur-view').textContent = viewMode.toUpperCase();
+  }
+});
+
+// ─── PLAY/PAUSE ───────────────────────────────────────────────────────────────
+
+function togglePlay() {
+  running = !running;
+  const btn = document.getElementById('btn-play');
+  btn.textContent = running ? '⏸ PAUSE' : '▶ PLAY';
+  logEvent(running ? 'good' : 'warn', running ? '► Simulation resumed' : '⏸ Simulation paused');
+}
+
+// ─── MAIN LOOP ───────────────────────────────────────────────────────────────
+
+let stepsPerFrame = 4;
+let frameCount = 0;
+
+function loop() {
+  if (running) {
+    for (let s = 0; s < stepsPerFrame; s++) step();
+    renderField();
+    renderPhase();
+    const m = computeMetrics();
+    if (frameCount % 3 === 0) {
+      renderHistory(m.coherence);
+      updateReadouts(m);
+    }
+    frameCount++;
+  }
+  requestAnimationFrame(loop);
+}
+
+// ─── STARTUP ─────────────────────────────────────────────────────────────────
+
+renderColorbar();
+resetField('soliton');
+loop();
+</script>
+</body>
+</html>
