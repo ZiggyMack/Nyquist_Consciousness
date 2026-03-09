@@ -112,6 +112,7 @@ docs/
 ├── knowledge_packs/             # Knowledge pack test content
 ├── CFA-SYNC/                    # CFA synchronization materials
 │
+├── WHAT_WE_BUILT.md            # Canonical framing: Identity Reliability Stack
 ├── NYQUIST_PROTOCOL.md         # Core protocol specification
 ├── S_Series_README.md          # S-layer overview
 └── README.md                   # This file
@@ -251,20 +252,21 @@ docs/
 
 **Theory & Roadmap:**
 
-1. **[NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md)** - Complete S0-S77 theoretical roadmap
-2. **[S_Series_README.md](S_Series_README.md)** - Overview of all S-layers
-3. **[NYQUIST_PROTOCOL.md](NYQUIST_PROTOCOL.md)** - Core protocol specification
-4. **[RESEARCH_PIPELINE_VISUAL.md](RESEARCH_PIPELINE_VISUAL.md)** - Visual research pipeline
+1. **[WHAT_WE_BUILT.md](WHAT_WE_BUILT.md)** - Canonical framing of the full system
+2. **[NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md)** - Complete S0-S77 theoretical roadmap
+3. **[S_Series_README.md](S_Series_README.md)** - Overview of all S-layers
+4. **[NYQUIST_PROTOCOL.md](NYQUIST_PROTOCOL.md)** - Core protocol specification
+5. **[RESEARCH_PIPELINE_VISUAL.md](RESEARCH_PIPELINE_VISUAL.md)** - Visual research pipeline
 
 **Predictions & Validation:**
 
-5. **[TESTABLE_PREDICTIONS_MATRIX.md](TESTABLE_PREDICTIONS_MATRIX.md)** - All 46 falsifiable predictions with confidence tiers
-6. **[S7_META_LOOP_CONSERVATIVE_ANALYSIS.md](S7_META_LOOP_CONSERVATIVE_ANALYSIS.md)** - S7 risk assessment and dependency analysis
+6. **[TESTABLE_PREDICTIONS_MATRIX.md](TESTABLE_PREDICTIONS_MATRIX.md)** - All 46 falsifiable predictions with confidence tiers
+7. **[S7_META_LOOP_CONSERVATIVE_ANALYSIS.md](S7_META_LOOP_CONSERVATIVE_ANALYSIS.md)** - S7 risk assessment and dependency analysis
 
 **Integration & Mapping:**
 
-7. **[IDENTITY_LATTICE_MAPS.md](IDENTITY_LATTICE_MAPS.md)** - 4D identity space (IC, MC, IM, HMG) mappings for all personas
-8. **[KEELY_INTEGRATION_ROADMAP.md](KEELY_INTEGRATION_ROADMAP.md)** - Keely 3-6-9 framework integration plan
+8. **[IDENTITY_LATTICE_MAPS.md](IDENTITY_LATTICE_MAPS.md)** - 4D identity space (IC, MC, IM, HMG) mappings for all personas
+9. **[KEELY_INTEGRATION_ROADMAP.md](KEELY_INTEGRATION_ROADMAP.md)** - Keely 3-6-9 framework integration plan
 
 ---
 
@@ -378,9 +380,10 @@ When adding new documentation:
 ## Key Documents
 
 ### Must-Read for Newcomers
-1. [NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md) - Start here
-2. [TESTABLE_PREDICTIONS_MATRIX.md](TESTABLE_PREDICTIONS_MATRIX.md) - What we're validating
-3. [RESEARCH_PIPELINE_VISUAL.md](RESEARCH_PIPELINE_VISUAL.md) - Where we're going
+1. [WHAT_WE_BUILT.md](WHAT_WE_BUILT.md) - What this system is, end to end
+2. [NYQUIST_ROADMAP.md](NYQUIST_ROADMAP.md) - Start here
+3. [TESTABLE_PREDICTIONS_MATRIX.md](TESTABLE_PREDICTIONS_MATRIX.md) - What we're validating
+4. [RESEARCH_PIPELINE_VISUAL.md](RESEARCH_PIPELINE_VISUAL.md) - Where we're going
 
 ### For Experimenters
 1. [reference/PROBE_SET.md](reference/PROBE_SET.md) - How to probe
