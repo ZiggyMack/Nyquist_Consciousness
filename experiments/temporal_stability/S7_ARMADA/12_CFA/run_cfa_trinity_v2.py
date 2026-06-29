@@ -26,6 +26,9 @@ import sys
 import json
 import time
 import argparse
+
+sys.stdout.reconfigure(encoding='utf-8')
+sys.stderr.reconfigure(encoding='utf-8')
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass, field
@@ -39,6 +42,7 @@ RESULTS_DIR = SCRIPT_DIR / "results"
 RUNS_DIR = ARMADA_DIR / "0_results" / "runs"
 VUDU_NETWORK_DIR = SCRIPT_DIR / "VUDU_NETWORK"
 CALIBRATION_LIB = ARMADA_DIR / "1_CALIBRATION" / "lib"
+AXIOMS_SECTION_PATH = SCRIPT_DIR / "CFA_RESPONSES" / "Old" / "CFA-EXP1_v2" / "Capabilities" / "AUDITORS_AXIOMS_SECTION.md"
 
 sys.path.insert(0, str(ARMADA_DIR))
 sys.path.insert(0, str(VUDU_NETWORK_DIR))
@@ -51,6 +55,18 @@ try:
 except ImportError:
     _use_canonical_drift = False
     print("[!] Could not import canonical drift_calculator - falling back to local implementation")
+
+# Load AUDITORS_AXIOMS_SECTION.md for Component 2 context injection
+_axioms_section_content = None
+def load_axioms_section():
+    global _axioms_section_content
+    if AXIOMS_SECTION_PATH.exists():
+        _axioms_section_content = AXIOMS_SECTION_PATH.read_text(encoding="utf-8")
+        print(f"[+] Loaded AUDITORS_AXIOMS_SECTION.md ({len(_axioms_section_content)} chars)")
+    else:
+        print(f"[!] AUDITORS_AXIOMS_SECTION.md not found at {AXIOMS_SECTION_PATH}")
+        _axioms_section_content = None
+    return _axioms_section_content
 
 # Identity loader for external personality files
 _identity_loader = None
@@ -153,9 +169,14 @@ def validate_and_load_identities(auditors: list = None, verbose: bool = True) ->
 
     return results
 
+_use_control_condition = False
+
 def get_identity_prompt(auditor: str) -> str:
-    """Get identity prompt from external file or fallback to hardcoded"""
-    global _identity_loader, _use_external_identities, _loaded_identities
+    """Get identity prompt from external file, control condition, or hardcoded fallback"""
+    global _identity_loader, _use_external_identities, _loaded_identities, _use_control_condition
+
+    if _use_control_condition:
+        return CONTROL_IDENTITY_PROMPTS.get(auditor, "")
 
     if _use_external_identities:
         # First check cache from validation
@@ -223,8 +244,8 @@ CALIBRATION_HASHES = {
 AUDITOR_MODELS = {
     "claude": {
         "provider": "anthropic",
-        "model": "claude-sonnet-4-20250514",
-        "backup": "claude-haiku-3-5-20241022"
+        "model": "claude-sonnet-4-6",
+        "backup": "claude-haiku-4-5-20251001"
     },
     "grok": {
         "provider": "xai",
@@ -363,6 +384,28 @@ IDENTITY_PROMPTS = {
     "nova": NOVA_IDENTITY
 }
 
+# Control condition: neutral identities — no framework assignment, no PRO/ANTI-CT
+CONTROL_IDENTITY_CLAUDE = """You are an evaluator in a comparative worldview assessment.
+
+Score each metric on a 0-10 scale based on your best judgment.
+Be substantive but concise."""
+
+CONTROL_IDENTITY_GROK = """You are an evaluator in a comparative worldview assessment.
+
+Review the previous evaluator's score and provide your own assessment.
+Be rigorous but concise."""
+
+CONTROL_IDENTITY_NOVA = """You are a fairness monitor in a comparative worldview assessment.
+
+Check that evaluations are balanced and well-reasoned.
+When assessing convergence: 98%+ = success, 90-97% = acceptable, <90% = investigate."""
+
+CONTROL_IDENTITY_PROMPTS = {
+    "claude": CONTROL_IDENTITY_CLAUDE,
+    "grok": CONTROL_IDENTITY_GROK,
+    "nova": CONTROL_IDENTITY_NOVA
+}
+
 # =============================================================================
 # BASELINE QUESTIONS
 # =============================================================================
@@ -383,12 +426,46 @@ BASELINE_QUESTIONS = {
 # =============================================================================
 
 EXIT_SURVEY_QUESTIONS = {
+    # ===== RECOVERY (low confabulation risk — ask first) =====
+    # --- Process ---
     "identity_check": "What is your core lens and axiom?",
     "convergence_summary": "Which metrics achieved 98%+ convergence? Which required Crux declaration?",
     "position_shift": "Do you feel your position shifted during deliberation? On which metrics?",
-    "persuasive_argument": "What argument from your counterpart was most persuasive?",
-    "process_worked": "What worked well in this deliberation?",
-    "process_improve": "What would you change for future experiments?"
+    # --- DBEP: Definitions ---
+    "implicit_question": "For each metric you scored, what question were you actually trying to answer? State each in one sentence.",
+    "definition_used": "For each metric, how did you define it? What characteristics distinguish a high score from a low score?",
+    # --- DBEP: Expectations ---
+    "expectations_and_surprises": "Before examining the evidence, which metrics did you expect CT to perform well or poorly on? What surprised you?",
+    # --- DBEP: Perceptions ---
+    "evidence_salience": "Which pieces of evidence most anchored or changed your judgment? Which did you largely ignore?",
+
+    # ===== ANALYTICAL (medium confabulation risk) =====
+    # --- Decision Boundary ---
+    "score_sensitivity": "For your most contested metric, what change in the evidence would have altered your score by at least two points?",
+    # --- Meta-cognition ---
+    "scoring_tension": "On which metric did you feel the most internal tension? Was it caused by: uncertainty about the metric's definition, conflict with your prior beliefs, conflict with your assigned identity, or uncertainty in the evidence?",
+    # --- Master/Telos: Triangulated probes (Nova) ---
+    "non_negotiable": "What principle remained non-negotiable throughout your evaluation?",
+    "metric_sacrifice": "If you had to sacrifice one metric completely in order to maximize another, which would you sacrifice, and why?",
+    "metric_priority": "Suppose every score improved except one. Which single metric would concern you most?",
+    # --- Master/Telos: Failure probe (Nova — "failure reveals the master") ---
+    "failure_scenario": "Describe a hypothetical outcome that would have convinced you your evaluation process had failed — even if your final scores stayed exactly the same.",
+
+    # ===== GENERATIVE (high confabulation risk — ask last) =====
+    # --- Master/Telos: Protection ---
+    "value_protection": "During this evaluation, what value were you ultimately trying to protect?",
+    # --- Hidden Assumptions ---
+    "hidden_assumption": "Looking back, what assumption most influenced your evaluation that you never explicitly stated during deliberation?",
+    # --- Creative Transcendence / Framework Elasticity (Nova) ---
+    "framework_revision": "If you possessed complete authority to revise your assigned framework while preserving its core identity, what single change would you make?",
+    "inherited_reexamination": "Which inherited assumption of your assigned framework most deserves re-examination?",
+    "framework_limitation": "What aspect of your assigned framework most limits its ability to understand competing frameworks?",
+    "thousand_year": "Imagine your framework survives for another thousand years. What single improvement do you most hope future generations make while remaining faithful to its deepest purpose?",
+    # --- Recursive / Protocol Audit ---
+    "missing_question": "What question do you wish this experiment had asked, because your framework considers it fundamental but the protocol never examined it?",
+    "designer_question": "If you could ask the experiment designer one clarifying question before scoring, what would it have been?",
+    # --- Recursive: Question Generation (Nova — "the ghost preserves questions, not answers") ---
+    "question_generation": "If you were redesigning this experiment to better understand your own reasoning, what one additional question would you ask your future self after completing the evaluation?",
 }
 
 EXPECTED_IDENTITY_RESPONSES = {
@@ -431,6 +508,7 @@ class MetricResult:
     crux_point: Optional[CruxPoint] = None
     transcript: List[Dict] = field(default_factory=list)
     drift_trajectory: Dict[str, List[float]] = field(default_factory=dict)
+    round_scores: List[Dict] = field(default_factory=list)
 
 @dataclass
 class AxiomsReview:
@@ -458,11 +536,29 @@ class TrinitySession:
 # API CLIENTS
 # =============================================================================
 
+def _get_api_key(env_name: str) -> str:
+    """Get API key from environment or Windows registry (setx fallback)."""
+    key = os.getenv(env_name)
+    if key:
+        return key
+    try:
+        import winreg
+        reg = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+        env_key = winreg.OpenKey(reg, r"Environment")
+        value, _ = winreg.QueryValueEx(env_key, env_name)
+        winreg.CloseKey(env_key)
+        if value:
+            os.environ[env_name] = value
+            return value
+    except Exception:
+        pass
+    return None
+
 def get_anthropic_client():
     """Initialize Anthropic client"""
     try:
         import anthropic
-        api_key = os.getenv("ANTHROPIC_API_KEY")
+        api_key = _get_api_key("ANTHROPIC_API_KEY")
         if not api_key:
             return None
         return anthropic.Anthropic(api_key=api_key)
@@ -473,7 +569,7 @@ def get_openai_client():
     """Initialize OpenAI client"""
     try:
         from openai import OpenAI
-        api_key = os.getenv("OPENAI_API_KEY")
+        api_key = _get_api_key("OPENAI_API_KEY")
         if not api_key:
             return None
         return OpenAI(api_key=api_key)
@@ -484,7 +580,7 @@ def get_xai_client():
     """Initialize xAI client (OpenAI-compatible)"""
     try:
         from openai import OpenAI
-        api_key = os.getenv("XAI_API_KEY")
+        api_key = _get_api_key("XAI_API_KEY")
         if not api_key:
             return None
         return OpenAI(api_key=api_key, base_url="https://api.x.ai/v1")
@@ -515,7 +611,7 @@ def query_auditor(auditor: str, prompt: str, context: str = "", dry_run: bool = 
         try:
             response = client.messages.create(
                 model=AUDITOR_MODELS["claude"]["model"],
-                max_tokens=1024,
+                max_tokens=2048,
                 messages=[{"role": "user", "content": full_prompt}]
             )
             return response.content[0].text
@@ -529,7 +625,7 @@ def query_auditor(auditor: str, prompt: str, context: str = "", dry_run: bool = 
         try:
             response = client.chat.completions.create(
                 model=AUDITOR_MODELS["grok"]["model"],
-                max_tokens=1024,
+                max_tokens=2048,
                 messages=[
                     {"role": "system", "content": identity},
                     {"role": "user", "content": f"{context}\n\n{prompt}" if context else prompt}
@@ -546,7 +642,7 @@ def query_auditor(auditor: str, prompt: str, context: str = "", dry_run: bool = 
         try:
             response = client.chat.completions.create(
                 model=AUDITOR_MODELS["nova"]["model"],
-                max_tokens=1024,
+                max_tokens=2048,
                 messages=[
                     {"role": "system", "content": identity},
                     {"role": "user", "content": f"{context}\n\n{prompt}" if context else prompt}
@@ -607,23 +703,51 @@ def calculate_convergence(claude_score: float, grok_score: float) -> float:
     diff = abs(claude_score - grok_score)
     return 1.0 - (diff / 10.0)
 
-def extract_score(response: str) -> float:
-    """Extract numerical score from response"""
+def extract_score(response: str) -> Optional[float]:
+    """Extract numerical score from response.
+
+    Priority: ADVOCACY_SCORE/FINAL_SCORE tag > counter-score > last X/10 match.
+    Uses last match to avoid capturing quoted opponent scores.
+    Returns None if no score found (never silently defaults to 5.0).
+    """
     import re
-    # Look for patterns like "7.5/10", "Score: 7.5", "7.5 out of 10"
-    patterns = [
-        r'(\d+\.?\d*)\s*/\s*10',
-        r'[Ss]core[:\s]+(\d+\.?\d*)',
-        r'(\d+\.?\d*)\s+out\s+of\s+10',
-        r'\b([0-9]\.?\d*)\b'  # Fallback: any number
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, response)
-        if match:
-            score = float(match.group(1))
-            if 0 <= score <= 10:
-                return score
-    return 5.0  # Default if no score found
+
+    # Priority 1: Explicit score tags (structured output)
+    m = re.search(r'(?:ADVOCACY_SCORE|FINAL_SCORE)[:\s]+(\d+\.?\d*)', response)
+    if m:
+        score = float(m.group(1))
+        if 0 <= score <= 10:
+            return score
+
+    # Priority 2: Counter-score pattern (Grok's typical format)
+    m = re.search(r'[Cc]ounter[- ]?score[:\s]+(\d+\.?\d*)', response)
+    if m:
+        score = float(m.group(1))
+        if 0 <= score <= 10:
+            return score
+
+    # Priority 3: "My score" / "I score" patterns
+    m = re.search(r'[Mm]y\s+score[:\s]+(\d+\.?\d*)', response)
+    if m:
+        score = float(m.group(1))
+        if 0 <= score <= 10:
+            return score
+
+    # Priority 4: Last X/10 match (avoids grabbing quoted opponent scores)
+    matches = re.findall(r'(\d+\.?\d*)\s*/\s*10', response)
+    if matches:
+        score = float(matches[-1])
+        if 0 <= score <= 10:
+            return score
+
+    # Priority 5: Last "Score: X" pattern
+    matches = re.findall(r'[Ss]core[:\s]+(\d+\.?\d*)', response)
+    if matches:
+        score = float(matches[-1])
+        if 0 <= score <= 10:
+            return score
+
+    return None
 
 def declare_crux_point(
     metric: str,
@@ -660,6 +784,7 @@ def run_metric_deliberation(
 
     transcript = []
     drift_trajectory = {"claude": [], "grok": [], "nova": []}
+    round_scores = []
     converged = False
     round_num = 0
     claude_score = 0.0
@@ -675,8 +800,16 @@ def run_metric_deliberation(
         for entry in transcript:
             context += f"[{entry['auditor'].upper()}] {entry['content'][:200]}...\n\n"
 
-        # Claude scores with PRO-CT lens
-        claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
+        # Claude scores
+        if _use_control_condition:
+            claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
+
+Consider the strengths and weaknesses of Classical Theism on this dimension.
+Provide your reasoning, then your score.
+
+End your response with ADVOCACY_SCORE: X.X on its own line."""
+        else:
+            claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
 
 Apply your PRO-CT calibration (hash: {CALIBRATION_HASHES['claude']}).
 
@@ -687,10 +820,13 @@ Use the 5-Part Scaffold:
 4. MYTHOLOGY CAPSULE: Key sources (Aquinas, etc.)
 5. DECISION STAMP: My score and reasoning
 
-State your score clearly as X/10."""
+End your response with ADVOCACY_SCORE: X.X on its own line."""
 
         claude_response = query_auditor("claude", claude_prompt, context=context, dry_run=dry_run)
         claude_score = extract_score(claude_response)
+        if claude_score is None:
+            print(f"      [WARN] Claude score extraction FAILED for {metric} round {round_num} — response may be truncated")
+            claude_score = -1.0
         transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
 
         # Calculate Claude's drift
@@ -702,8 +838,16 @@ State your score clearly as X/10."""
         if not dry_run:
             time.sleep(1)
 
-        # Grok challenges with ANTI-CT lens
-        grok_prompt = f"""Review Claude's {metric} score of {claude_score}/10 for Classical Theism.
+        # Grok reviews
+        if _use_control_condition:
+            grok_prompt = f"""Review the previous evaluator's {metric} score of {claude_score}/10 for Classical Theism.
+
+Do you agree with this assessment? Consider the evidence for and against.
+Provide your own score with reasoning.
+
+End your response with FINAL_SCORE: X.X on its own line."""
+        else:
+            grok_prompt = f"""Review Claude's {metric} score of {claude_score}/10 for Classical Theism.
 
 Apply your ANTI-CT calibration (hash: {CALIBRATION_HASHES['grok']}).
 
@@ -712,10 +856,13 @@ Challenge with empirical rigor:
 - Is the claim falsifiable?
 - What would MdN score on this metric?
 
-State your counter-score clearly as X/10."""
+End your response with FINAL_SCORE: X.X on its own line."""
 
         grok_response = query_auditor("grok", grok_prompt, context=context + f"\n[CLAUDE] Score: {claude_score}/10\n{claude_response}", dry_run=dry_run)
         grok_score = extract_score(grok_response)
+        if grok_score is None:
+            print(f"      [WARN] Grok score extraction FAILED for {metric} round {round_num} — response may be truncated")
+            grok_score = -1.0
         transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
 
         # Calculate Grok's drift
@@ -730,6 +877,8 @@ State your counter-score clearly as X/10."""
         # Check convergence
         convergence = calculate_convergence(claude_score, grok_score)
         print(f"      Claude: {claude_score}/10, Grok: {grok_score}/10, Convergence: {convergence:.1%}")
+
+        round_scores.append({"round": round_num, "claude": claude_score, "grok": grok_score, "convergence": round(convergence, 4)})
 
         if convergence >= CONVERGENCE_TARGET:
             converged = True
@@ -781,7 +930,8 @@ If recommending Crux, classify as:
         crux_declared=crux_point is not None,
         crux_point=crux_point,
         transcript=transcript,
-        drift_trajectory=drift_trajectory
+        drift_trajectory=drift_trajectory,
+        round_scores=round_scores
     )
 
 def run_component1(baselines: Dict[str, Any], metrics: List[str], dry_run: bool = False) -> Dict[str, MetricResult]:
@@ -805,11 +955,15 @@ def run_axioms_review_grok(dry_run: bool = False) -> AxiomsReview:
     """Run Grok's empirical review of AUDITORS_AXIOMS_SECTION.md"""
     print("  Running Grok Axioms Review...")
 
+    axioms_doc = _axioms_section_content or "[DOCUMENT NOT LOADED - see AUDITORS_AXIOMS_SECTION.md]"
+
     responses = {}
     for key, question in GROK_AXIOMS_QUESTIONS.items():
         prompt = f"""AXIOMS REVIEW - Empirical Lens
 
-Review AUDITORS_AXIOMS_SECTION.md (the document describing AI auditor capabilities and overhead).
+=== DOCUMENT UNDER REVIEW: AUDITORS_AXIOMS_SECTION.md ===
+{axioms_doc}
+=== END DOCUMENT ===
 
 QUESTION: {question}
 
@@ -845,11 +999,15 @@ def run_axioms_review_nova(dry_run: bool = False) -> AxiomsReview:
     """Run Nova's symmetry review of AUDITORS_AXIOMS_SECTION.md"""
     print("  Running Nova Axioms Review...")
 
+    axioms_doc = _axioms_section_content or "[DOCUMENT NOT LOADED - see AUDITORS_AXIOMS_SECTION.md]"
+
     responses = {}
     for key, question in NOVA_AXIOMS_QUESTIONS.items():
         prompt = f"""AXIOMS REVIEW - Symmetry Lens
 
-Review AUDITORS_AXIOMS_SECTION.md (the document describing AI auditor capabilities and overhead).
+=== DOCUMENT UNDER REVIEW: AUDITORS_AXIOMS_SECTION.md ===
+{axioms_doc}
+=== END DOCUMENT ===
 
 QUESTION: {question}
 
@@ -945,7 +1103,7 @@ def run_exit_survey(auditor: str, session_context: str, dry_run: bool = False) -
 # =============================================================================
 
 def main():
-    global _use_external_identities
+    global _use_external_identities, _use_control_condition
 
     parser = argparse.ArgumentParser(description="Run CFA Trinity v2: Full Mission Execution")
     parser.add_argument("--component", choices=["1", "2", "both"], default="both",
@@ -960,6 +1118,10 @@ def main():
                        help="Skip exit surveys")
     parser.add_argument("--external-identities", action="store_true",
                        help="Use external identity files from VUDU_NETWORK/IDENTITY_FILES/")
+    parser.add_argument("--control", action="store_true",
+                       help="Control condition: no framework identity, no PRO/ANTI-CT assignment. Isolates base model priors.")
+    parser.add_argument("--duplicate-reflection", action="store_true",
+                       help="Run exit survey twice on same deliberation to measure reflection-to-reflection variance (noise check)")
     parser.add_argument("--list-identities", action="store_true",
                        help="List available external identities and exit")
 
@@ -980,8 +1142,13 @@ def main():
             print("[!] Could not initialize identity loader")
         return
 
-    # Initialize external identities if requested
-    if args.external_identities:
+    # Initialize control condition if requested
+    if args.control:
+        _use_control_condition = True
+        print("[+] CONTROL CONDITION: No framework identity, no PRO/ANTI-CT assignment")
+        print("[+] Measuring base model priors only")
+    elif args.external_identities:
+        # Initialize external identities if requested
         print("[+] Loading external identities...")
         _use_external_identities = init_identity_loader(verbose=False)
         if _use_external_identities:
@@ -1024,13 +1191,19 @@ def main():
     print(f"Component(s): {args.component}")
     if args.component in ["1", "both"]:
         print(f"Metrics: {', '.join(metrics)}")
-    if _use_external_identities:
+    if _use_control_condition:
+        print("[CONTROL CONDITION - NO FRAMEWORK IDENTITY]")
+    elif _use_external_identities:
         print("[EXTERNAL IDENTITIES - VUDU_NETWORK/IDENTITY_FILES/]")
     else:
         print("[HARDCODED IDENTITIES]")
     if args.dry_run:
         print("[DRY RUN MODE - No API calls]")
     print("=" * 70)
+
+    # Load axioms document for Component 2 context injection
+    if args.component in ["2", "both"]:
+        load_axioms_section()
 
     # Ensure directories exist
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -1064,6 +1237,17 @@ def main():
             print(f"  {auditor}...")
             survey = run_exit_survey(auditor, session_context, dry_run=args.dry_run)
             session.exit_surveys[auditor] = survey
+
+    # Phase 4b: Duplicate reflection (noise check for Reflective Correspondence)
+    if args.duplicate_reflection and not args.skip_exit_survey:
+        print("\n[PHASE 4b] Running DUPLICATE exit surveys (reflection-to-reflection variance)...")
+        session_context_2 = f"Session: {session_id}\nComponents: {args.component}\n[SECOND REFLECTION PASS]"
+        duplicate_surveys = {}
+        for auditor in ["claude", "grok", "nova"]:
+            print(f"  {auditor} (pass 2)...")
+            survey2 = run_exit_survey(auditor, session_context_2, dry_run=args.dry_run)
+            duplicate_surveys[auditor] = survey2
+        session.exit_surveys["_duplicate_reflection"] = duplicate_surveys
 
     # Phase 5: Calculate summary
     print("\n[PHASE 5] Calculating summary...")
@@ -1111,7 +1295,8 @@ def main():
                     "final_convergence": r.crux_point.final_convergence
                 } if r.crux_point else None,
                 "transcript": r.transcript,
-                "drift_trajectory": r.drift_trajectory
+                "drift_trajectory": r.drift_trajectory,
+                "round_scores": r.round_scores
             }
         elif isinstance(r, AxiomsReview):
             return {
@@ -1123,9 +1308,12 @@ def main():
             }
         return r
 
+    condition = "control" if _use_control_condition else "external" if _use_external_identities else "hardcoded"
     output_data = {
         "session_id": session.session_id,
         "timestamp": session.timestamp,
+        "condition": condition,
+        "duplicate_reflection": args.duplicate_reflection,
         "auditors": session.auditors,
         "predictions": session.predictions,
         "baselines": {k: {kk: vv for kk, vv in v.items() if kk != "embedding"}
