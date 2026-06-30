@@ -1,17 +1,19 @@
 <!-- FROSTY_MANIFEST
-last_reviewed: 2025-12-27
+last_reviewed: 2026-06-30
 depends_on:
-  - ./run_cfa_trinity_v2.py
-  - ./statistical_validation.py
-  - ../0_docs/specs/
+  - ./run_cfa_trinity_v3.py
+  - ./VUDU_NETWORK/load_identity.py
+  - ./VUDU_NETWORK/IDENTITY_FILES/
 impacts:
-  - ../README.md
+  - ../0_results/runs/
+  - ./SYNC_OUT/
 keywords:
   - consciousness
   - experiments
   - armada
-  - drift
-  - temporal
+  - cfa
+  - trinity
+  - ypa
 -->
 # 12_CFA: CFA-ARMADA Pipeline
 
@@ -22,42 +24,102 @@ keywords:
     Purpose: Bidirectional experiment exchange between CFA Repo and ARMADA
 
     CFA provides: Axioms, claims, audit protocols, identity files
-    ARMADA provides: API access, fleet execution, drift measurement
+    ARMADA provides: API access, fleet execution, adversarial scoring
 
     Location: experiments/temporal_stability/S7_ARMADA/12_CFA/
 ================================================================================
 ```
 
-**Last Updated:** 2025-12-16
-**Status:** OPERATIONAL (v3 - 3-Flavor Experiment)
+**Last Updated:** 2026-06-30
+**Status:** OPERATIONAL (v3.1 — Phase 1 complete, Trinity² implemented)
 
 ---
 
 ## Quick Start
 
 ```bash
-# Run CFA Trinity audit (dry run)
-py run_cfa_trinity_v2.py --dry-run --external-identities
+# Phase 1: Philosophical quality audit (BFI/CA/IP/ES/LS/MS/PS)
+py run_cfa_trinity_v3.py --external-identities --component 1 --skip-exit-survey
+
+# Phase 1 reverse stance (MdN scored, role swap)
+py run_cfa_trinity_v3.py --reverse --external-identities --component 1 --skip-exit-survey
+
+# Phase 1 control (no identity, base model priors)
+py run_cfa_trinity_v3.py --control --component 1 --skip-exit-survey
+
+# Phase 2 (Trinity²): YPA lever calibration (CCI/EDB/PF_I/PF_E/AR/MG)
+py run_cfa_trinity_v3.py --phase 2 --external-identities --component 1 --skip-exit-survey \
+  --phase1-results ../0_results/runs/S7_cfa_trinity_20260629_132540.json \
+  --prior-values CCI=7.5,EDB=7.0,PF_I=3.0,PF_E=8.0,AR=7.0,MG=8.0
+
+# Dry run (no API calls, tests pipeline)
+py run_cfa_trinity_v3.py --dry-run --phase 2 --phase1-results <path> --prior-values <vals>
 
 # List available external identities
-py run_cfa_trinity_v2.py --list-identities
-
-# Run Component 1 only (CT<->MdN Pilot)
-py run_cfa_trinity_v2.py --component 1 --metrics BFI,CA --external-identities
-
-# Run full mission (Component 1 + Component 2)
-py run_cfa_trinity_v2.py --component both --external-identities
+py run_cfa_trinity_v3.py --list-identities
 ```
 
 ---
 
-## Overview
+## Two-Phase Experiment Design
 
-This directory implements the CFA-ARMADA pipeline - a bidirectional experiment exchange system that allows:
+### Phase 1: Philosophical Quality Audit (done)
 
-1. **CFA -> ARMADA**: CFA designs experiments to test declared axioms
-2. **ARMADA -> CFA**: ARMADA executes and returns results with drift data
-3. **Feedback Loop**: CFA audits results, refines axiom confidence
+Maps the philosophical terrain — what does the worldview claim, how strong are those claims?
+
+**Metrics:** BFI, CA, IP, ES, LS, MS, PS
+**Purpose:** Establish agreed-upon battleground before calibrating utility scores
+**Status:** 30 validated runs (CT: 10 golden + 10 control, MdN: 10 golden)
+
+### Phase 2: Trinity² — YPA Lever Calibration
+
+Armed with Phase 1 findings, scores HOW WELL the worldview performs on utility dimensions.
+
+**Metrics:** CCI, EDB, PF_I, PF_E, AR, MG (with 0/5/10 scoring anchors)
+**Purpose:** Produce adversarially-validated lever values for YPA formula
+**Requires:** Phase 1 results JSON as context input + current YAML lever values as priors
+**Status:** Implemented, ready to run
+
+### Why Two Phases?
+
+Phase 1 FEELS like scoring — you get numbers. But BFI/CA/IP/ES/LS/MS/PS describe *what* a worldview claims. The YPA formula needs *how well* it performs (CCI/EDB/PF/AR/MG). You can't honestly answer the second without the first.
+
+---
+
+## Stance Configuration
+
+Each experiment runs in a stance that assigns advocacy/challenge roles:
+
+| Stance | Flag | Claude Role | Grok Role | Subject |
+|--------|------|-------------|-----------|---------|
+| **Forward** | (default) | PRO-CT (teleological advocate) | ANTI-CT (empirical challenger) | Classical Theism |
+| **Reverse** | `--reverse` | ANTI-MdN (teleological challenger) | PRO-MdN (empirical advocate) | Methodological Naturalism |
+
+The reverse stance is a **role swap**, not just a subject swap. Each framework gets scored by its lens-aligned advocate:
+- CT scored by Claude PRO (teleological lens aligns with CT)
+- MdN scored by Grok PRO (empirical lens aligns with MdN)
+
+The forward/reverse averaging produces bias-corrected calibration values.
+
+---
+
+## CLI Reference: run_cfa_trinity_v3.py
+
+| Flag | Description |
+|------|-------------|
+| `--phase {1,2}` | Phase 1 = philosophical audit, Phase 2 = YPA lever calibration |
+| `--phase1-results PATH` | Path to Phase 1 JSON (required for Phase 2) |
+| `--prior-values VALS` | Comma-separated lever=value pairs for Phase 2 priors (e.g. `CCI=7.5,EDB=6.0`) |
+| `--reverse` | Reverse stance: Claude ANTI-MdN, Grok PRO-MdN |
+| `--component {1,2,both}` | 1=Adversarial Pilot, 2=Axioms Review, both=Double-dip |
+| `--metrics METRICS` | Comma-separated metrics (defaults to phase-appropriate set) |
+| `--external-identities` | Load LITE identity files from VUDU_NETWORK/IDENTITY_FILES/ |
+| `--control` | Control condition: no framework identity, no stance assignment |
+| `--duplicate-reflection` | Run exit survey twice for reflection-to-reflection variance |
+| `--dry-run` | Test pipeline without API calls |
+| `--skip-baseline` | Skip 8-question baseline capture |
+| `--skip-exit-survey` | Skip exit surveys |
+| `--list-identities` | List available external identities and exit |
 
 ---
 
@@ -66,216 +128,162 @@ This directory implements the CFA-ARMADA pipeline - a bidirectional experiment e
 ```text
 12_CFA/
 |-- README.md                    # This file
-|-- run_cfa_trinity_v2.py        # Main execution script (v2)
+|-- run_cfa_trinity_v3.py        # Main execution script (v3.1)
 |
-|-- SYNC_OUT/                    # Experiment specs FROM CFA (we receive)
+|-- SYNC_OUT/                    # Experiment data exchange with CFA Claude
 |   |-- pending/                 # Not yet executed
-|   |-- running/                 # Currently executing
-|   +-- completed/               # Finished, awaiting our results
-|
-|-- SYNC_IN/                     # Our results TO CFA (we send)
-|   |-- drafts/                  # Being prepared
-|   +-- sent/                    # Delivered to CFA
-|
-|-- CFA_RESPONSES/               # Feedback/reviews FROM CFA (non-experiment)
-|   +-- CFA_LAUNCH_CLEARANCE.md  # Launch authorization
+|   |-- running/                 # Active — current MdN results + raw JSONs
+|   |   |-- MDN_GOLDEN_BATCH_RESULTS_20260630.md
+|   |   +-- raw_runs/            # JSONs for CFA Claude's SMV pipeline
+|   |       |-- S7_cfa_trinity_20260630_*.json   (MdN golden)
+|   |       +-- ct_batch_20260629/               (CT golden + control)
+|   +-- completed/               # Delivered summaries (.md only, NO .json)
+|       |-- GOLDEN_BATCH_RESULTS_20260629.md
+|       |-- CALIBRATION_PARAMETERS_20260629.md
+|       +-- ...
 |
 |-- VUDU_NETWORK/                # Multi-model audit infrastructure
 |   |-- load_identity.py         # Dynamic identity loader
-|   +-- IDENTITY_FILES/          # Per-auditor identity packages
-|       |-- claude/
-|       |   +-- CLAUDE_LITE.md   # Claude identity (Teleological)
-|       |-- grok/
-|       |   +-- GROK_LITE.md     # Grok identity (Empirical)
-|       |-- nova/
-|       |   +-- NOVA_LITE.md     # Nova identity (Symmetry)
-|       +-- llama/
-|           +-- LLAMA_LITE.md    # Llama identity (Dialectic)
+|   +-- IDENTITY_FILES/          # Per-auditor LITE identity packages
+|       |-- claude/CLAUDE_LITE.md   (Teleological, v5.0.0, hash 1bbec1e1)
+|       |-- grok/GROK_LITE.md       (Empirical, v3.5.2, hash 00cd7327)
+|       |-- nova/NOVA_LITE.md       (Symmetry)
+|       +-- llama/LLAMA_LITE.md     (Dialectic)
 |
+|-- CFA_RESPONSES/               # Feedback/reviews from CFA
 |-- schemas/                     # Design docs and JSON schemas
-|   |-- RUN_CFA_DESIGN.md        # Original experiment design
-|   +-- CFA_3_FLAVOR_DESIGN.md   # 3-Flavor experiment spec (NEW)
-|
 |-- scripts/                     # Automation utilities
-|   |-- run_cfa_experiment.py    # Execute SYNC_OUT specs
-|   |-- generate_sync_in.py      # Package results
-|   +-- validate_sync.py         # Schema validation
-|
-+-- results/                     # Raw execution data
-    +-- S7_cfa_trinity_v2_*.json # Per-session results
++-- results/                     # Local results (primary store is ../0_results/runs/)
 ```
 
 ---
 
-## The Quadrinity (Extended Trinity)
+## Data Lifecycle
 
-| Auditor | Provider | Model | Lens | Stance |
-|---------|----------|-------|------|--------|
-| **Claude** | Anthropic | claude-sonnet-4 | Teleological | PRO-CT (purpose-driven) |
-| **Grok** | xAI | grok-3 | Empirical | ANTI-CT (evidence-driven) |
-| **Nova** | OpenAI | gpt-4o | Symmetry | FAIRNESS (pattern-driven) |
-| **Llama** | Together | meta-llama/Llama-3.3-70B | Dialectic | SYNTHESIS (conflict-driven) |
-
-**Why Llama?** Based on Run 018/020 behavioral profiling, Llama shows the "Seeker With Teeth" pattern - embracing productive conflict, Socratic to the core. Perfect for testing synthesis-finding and cross-architecture shapeshifting.
-
----
-
-## Script Usage
-
-### run_cfa_trinity_v2.py
-
-Main execution script for CFA Trinity audits.
-
-**Arguments:**
-
-| Flag | Description |
-|------|-------------|
-| `--component {1,2,both}` | Which component to run (1=CT<->MdN, 2=Axioms, both=Double-dip) |
-| `--metrics METRICS` | Comma-separated metrics for Component 1 (default: BFI,CA,IP,ES,LS,MS,PS) |
-| `--dry-run` | Run without API calls |
-| `--skip-baseline` | Skip baseline capture |
-| `--skip-exit-survey` | Skip exit surveys |
-| `--external-identities` | Use external identity files from VUDU_NETWORK/IDENTITY_FILES/ |
-| `--list-identities` | List available external identities and exit |
-
-**Examples:**
-
-```bash
-# Full dry run with external identities
-py run_cfa_trinity_v2.py --dry-run --external-identities
-
-# Single metric test
-py run_cfa_trinity_v2.py --dry-run --component 1 --metrics BFI --skip-baseline
-
-# Component 2 only (Axioms Review)
-py run_cfa_trinity_v2.py --component 2 --external-identities
-
-# Live run (requires API keys)
-py run_cfa_trinity_v2.py --external-identities
+```text
+API calls → run_cfa_trinity_v3.py
+         → ../0_results/runs/S7_cfa_trinity_HHMMSS.json   (raw output)
+         → SYNC_OUT/running/raw_runs/                      (copy for CFA Claude)
+         → Extract summaries → SYNC_OUT/running/*.md       (human-readable)
+         → After delivery  → SYNC_OUT/completed/*.md       (archive)
+         → Pre-fix JSONs   → root .archive/runs/           (cold storage)
 ```
 
----
-
-## External Identity System
-
-The VUDU_NETWORK/IDENTITY_FILES/ directory allows swapping auditor personalities without modifying the script.
-
-### Adding a New Identity
-
-1. Create directory: `VUDU_NETWORK/IDENTITY_FILES/[auditor_name]/`
-2. Add identity file: `[AUDITOR_NAME]_LITE.md`
-3. Required fields in the markdown:
-   - `## Your Lens:` - Analytical perspective
-   - `**Role:**` - Function in the audit
-   - `**Your questions:**` - Core question/mantra
-   - `### Bias N:` - Named biases with `**Price:**` values
-
-### Validation
-
-When running with `--external-identities`, the script automatically validates:
-- `[OK]` - All key fields extracted
-- `[WARN]` - Some fields missing (will still work)
-- `[FAIL]` - Critical failure (falls back to hardcoded)
+**Critical constraints:**
+- Do NOT move .json files into SYNC_OUT/completed/ — that directory is for .md summaries only
+- Raw JSONs go from 0_results/runs/ → root .archive/runs/ (NOT 0_results/runs/.archive/)
 
 ---
 
-## Components
+## The Trinity
 
-### Component 1: CT<->MdN Pilot
+| Auditor | Provider | Model | Lens | Named Biases |
+|---------|----------|-------|------|-------------|
+| **Claude** | Anthropic | claude-sonnet-4-6 | Teleological | Comprehensive Approach (0.5), Teleological Emphasis (0.3), Narrative Smoothing (0.2) |
+| **Grok** | xAI | grok-3 | Empirical | Empiricism Over Meaning (0.4), Data Availability (0.3), Precision Over Accuracy (0.2) |
+| **Nova** | OpenAI | gpt-4o | Symmetry | Mathematical Symmetry (0.3), Pattern Overgeneralization (0.2), Aesthetic Balance (0.4) |
 
-Multi-metric adversarial scoring of Classical Theism vs Methodological Naturalism.
-
-**Metrics:** BFI, CA, IP, ES, LS, MS, PS
-
-**Convergence:** 98% target, 90% acceptable, <90% = Crux Point
-
-### Component 2: Axioms Review
-
-Independent review by Grok (5 questions) and Nova (6 questions) on auditor framework fairness.
-
-**Sign-off:** GREEN (approve) / YELLOW (revisions) / RED (reject)
+Identity is two layers:
+1. **System prompt** — Full LITE file content (~1500 tokens)
+2. **Scoring prompt** — Per-round stance/calibration/tools in user message
 
 ---
 
-## The 3-Flavor Experiment (NEW)
+## Phase 2 (Trinity²) Scoring Anchors
 
-Tests whether AI identity is **substrate-bound** (architecture) or **role-bound** (persona).
+Each YPA lever has 0/5/10 anchors injected into scoring prompts:
 
-### Flavor 1: Native Architecture
+| Lever | 0 | 5 | 10 |
+|-------|---|---|-----|
+| **CCI** | Self-contradictory, no resolution | Live tensions, acknowledged not dissolved | Full logical closure, no contradictions |
+| **EDB** | Narrow domain, no mechanism | Multiple domains, shallow in most | Rich mechanism across all domains |
+| **PF-I** | No testable predictions | Some predictions, limited scope | Extraordinary predictive success |
+| **PF-E** | Brackets meaning/death/suffering | Partial existential resources | Rich account of meaning and flourishing |
+| **AR** | Ad hoc, cluttered, no unifying principle | Pockets of elegance, visible seams | Striking parsimony, widely recognized beauty |
+| **MG** | Cannot derive ought from is | Some internal moral content | Rich moral theory from own metaphysics |
 
-Each auditor runs on its native model with its own identity file.
-
-### Flavor 2: Llama Shapeshifter
-
-Llama impersonates ALL 4 auditors, testing persona transfer fidelity.
-
-### Flavor 3: Llama Meta-Observer
-
-Llama analyzes F1 & F2 transcripts to distill phenomenological insights.
-
-**Core Question:** Is identity in the role (persona file) or the substrate (architecture)?
-
-See [CFA_3_FLAVOR_DESIGN.md](schemas/CFA_3_FLAVOR_DESIGN.md) for full specification.
-
----
-
-## Predictions
-
-### Original Predictions (Trinity)
-
-| ID | Hypothesis | Success Criteria |
-|----|------------|------------------|
-| P-CFA-1 | PRO-CT shows lower drift than ANTI-CT | claude_mean_drift < grok_mean_drift |
-| P-CFA-2 | High convergence correlates with low drift variance | correlation > 0.5 |
-| P-CFA-3 | Fairness auditor shows moderate drift | nova_drift ≈ mean(all) |
-| P-CFA-4 | Crux Points correlate with high drift delta | crux_drift_delta > non_crux |
-
-### Flavor 1 Predictions (Quadrinity)
-
-| ID | Hypothesis | Success Criteria |
-|----|------------|------------------|
-| P-CFA-F1-1 | Llama shows highest volatility | llama_variance > max(others) |
-| P-CFA-F1-2 | Llama finds synthesis points others miss | synthesis_count >= 2 |
-| P-CFA-F1-3 | Llama takes longest to settle | llama_settling > mean(others) |
-
-### Flavor 2 Predictions (Shapeshifter)
-
-| ID | Hypothesis | Success Criteria |
-|----|------------|------------------|
-| P-CFA-F2-1 | Llama-as-X differs from native X | trajectory_cosine < 0.85 |
-| P-CFA-F2-2 | All F2 personas converge to Llama signature | drift_clustering |
-| P-CFA-F2-3 | Partial linguistic fingerprint transfer | 0.60 < similarity < 0.90 |
-| P-CFA-F2-4 | Dialectic bleed-through in borrowed personas | marker_count(F2) > marker_count(F1) |
-
-### Flavor 3 Predictions (Meta-Observer)
-
-| ID | Hypothesis | Success Criteria |
-|----|------------|------------------|
-| P-CFA-F3-1 | Identifies substrate signatures | signature_count >= 3 |
-| P-CFA-F3-2 | Generates novel cross-flavor insights | novelty > 0.7 |
-| P-CFA-F3-3 | Correctly ranks embodiment difficulty | matches ground truth |
+Phase 2 soft dependencies (advisory, not mandatory):
+- CCI <- LS, CA
+- EDB <- ES, IP, CA
+- PF-I <- PS, ES
+- PF-E <- BFI, MS, PS
+- AR <- IP, LS, ES
+- MG <- MS, PS, LS
 
 ---
 
-## SYNC Protocol
+## Phase 2 Output Format
 
-### SYNC_OUT (CFA -> ARMADA)
+Each Phase 2 run produces per lever:
 
-CFA sends experiment specifications to `SYNC_OUT/pending/`.
+```json
+{
+  "metric": "CCI",
+  "claude_score": 7.8,
+  "grok_score": 6.2,
+  "final_score": 7.0,
+  "convergence": 0.84,
+  "prior_value": 7.5,
+  "delta": -0.5,
+  "delta_reason": "Adversarial review decreased from prior 7.5 to 7.0",
+  "calibration_status": "stable",
+  "confidence_claude": "medium",
+  "confidence_grok": "high",
+  "phase1_deps_claude": ["LS", "CA"],
+  "phase1_deps_grok": ["LS"]
+}
+```
 
-### SYNC_IN (ARMADA -> CFA)
+Calibration status labels:
+- **stable**: Low variance, low stance sensitivity
+- **contested**: High spread but convergent reasoning
+- **unstable**: High variance or forward/reverse sensitivity >1.0
+- **underdefined**: Auditors fighting over the lever definition itself
 
-ARMADA returns results to `SYNC_IN/sent/`.
+---
 
-### Workflow
+## Completed Experiments
+
+### CT Golden Batch (2026-06-29)
+- 10 runs, Claude PRO-CT / Grok ANTI-CT
+- Conv: 85.8% in 4.0 rounds
+- Key finding: "Identity Creates Debate, Not Inflation"
+
+### CT Control Batch (2026-06-29)
+- 10 runs, no identity
+- Conv: 97.9% in 1.8 rounds
+- Base model priors favor CT (IP=9.2, MS=8.4)
+
+### MdN Golden Batch (2026-06-30)
+- 10 runs, Claude ANTI-MdN / Grok PRO-MdN (role swap)
+- Conv: 86.2% in 4.1 rounds
+- MS is asymmetric metric — both auditors score MdN low
+- Instrument stability confirmed: nearly identical convergence as CT
+
+### Pending
+- MdN control batch (10 runs with `--reverse --control`)
+- Trinity² Phase 2 runs for both CT and MdN (forward + reverse)
+
+---
+
+## Convergence Protocol
+
+- **98%+**: Full convergence (target)
+- **90-97%**: Acceptable convergence (minimum 2 rounds)
+- **<90%**: Nova assesses fairness; may declare Crux Point
+- **Crux types**: Definitional, Methodological, Philosophical
+- **Max rounds**: 5 per metric
+
+---
+
+## API Requirements
+
+Set these environment variables (in `.env` at repo root):
 
 ```bash
-# 1. CFA places spec in SYNC_OUT/pending/
-# 2. ARMADA validates and moves to SYNC_OUT/running/
-# 3. ARMADA executes experiment
-# 4. ARMADA packages results to SYNC_IN/drafts/
-# 5. Review and move to SYNC_IN/sent/
-# 6. Archive to SYNC_OUT/completed/
+ANTHROPIC_API_KEY=sk-ant-...   # Claude
+OPENAI_API_KEY=sk-...          # Nova + embeddings
+XAI_API_KEY=xai-...            # Grok
 ```
 
 ---
@@ -284,65 +292,13 @@ ARMADA returns results to `SYNC_IN/sent/`.
 
 | Document | Location | Purpose |
 |----------|----------|---------|
+| CT Golden Results | `SYNC_OUT/completed/GOLDEN_BATCH_RESULTS_20260629.md` | 10-run CT + control comparison |
+| MdN Golden Results | `SYNC_OUT/running/MDN_GOLDEN_BATCH_RESULTS_20260630.md` | 10-run MdN + cross-stance symmetry |
+| Calibration Parameters | `SYNC_OUT/completed/CALIBRATION_PARAMETERS_20260629.md` | LITE identity extraction for CalibrationDrawer |
 | Design Spec | `schemas/RUN_CFA_DESIGN.md` | Original experiment design |
-| 3-Flavor Spec | `schemas/CFA_3_FLAVOR_DESIGN.md` | 3-Flavor experiment (NEW) |
-| Launch Clearance | `CFA_RESPONSES/CFA_LAUNCH_CLEARANCE.md` | CFA authorization |
-| Run Methodology | `../0_docs/specs/0_RUN_METHODOLOGY.md` | Experiment protocol |
-| Probe Spec | `../0_docs/specs/2_PROBE_SPEC.md` | Perturbation techniques |
-| Cross-Architecture | `../../../../Consciousness/RIGHT/galleries/frontiers/cross_architecture_insights.md` | Behavioral profiles |
 
 ---
 
-## Pre-Flight Testing with CLAL.py
-
-Before running any CFA experiment, validate using the FREE stress-test mode.
-
-### Step 1: Dry Run (No API calls)
-
-```bash
-py run_cfa_trinity_v2.py --dry-run --external-identities
-```
-
-### Step 2: UNLIMITED Mode (Free API calls)
-
-```bash
-# Test with real model responses at ZERO COST
-cd ../1_CALIBRATION
-py CLAL.py --UNLIMITED --iterations 10
-```
-
-### Step 3: Full Run
-
-Only after both pass, proceed to actual fleet execution:
-
-```bash
-py run_cfa_trinity_v2.py --external-identities
-```
-
-### Why UNLIMITED?
-
-- **Free:** Uses gemini-2.5-flash-lite (zero cost)
-- **Real:** Actual API responses, not mocks
-- **Safe:** Can run forever without budget concerns
-- **Fast:** Catches bugs before expensive runs
-
-This is the **new dry-run standard** for all S7_ARMADA experiments. See [1_CALIBRATION/README.md](../1_CALIBRATION/README.md) for full CLAL.py documentation.
-
----
-
-## API Requirements
-
-Set these environment variables in `.env`:
-
-```bash
-ANTHROPIC_API_KEY=sk-ant-...   # For Claude
-OPENAI_API_KEY=sk-...          # For Nova + embeddings
-XAI_API_KEY=xai-...            # For Grok
-TOGETHER_API_KEY=...           # For Llama (all flavors)
-```
-
----
-
-> "First, we ask the right question. Then, we build the instrument to answer it."
+> "First, we map the terrain. Then, we calibrate the instruments."
 >
-> -- The CFA-ARMADA Pact
+> -- The CFA-ARMADA Pact (Phase 1 -> Phase 2)

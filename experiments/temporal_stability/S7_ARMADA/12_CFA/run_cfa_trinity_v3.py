@@ -1,22 +1,27 @@
 """
 S7 RUN CFA TRINITY: FULL MISSION EXECUTION
 ===========================================
-Multi-metric adversarial auditing with configurable stance (--reverse to flip advocacy direction).
+Multi-metric adversarial auditing with configurable stance and phase.
 
-Component 1: Adversarial pilot scoring (7 metrics, multi-turn deliberation)
+PHASES:
+- Phase 1 (default): Philosophical quality audit (BFI/CA/IP/ES/LS/MS/PS)
+- Phase 2 (Trinity²): YPA lever calibration (CCI/EDB/PF_I/PF_E/AR/MG)
+  Requires Phase 1 results as shared context input.
+
+Component 1: Adversarial pilot scoring (multi-turn deliberation)
 Component 2: Axioms Review (Grok + Nova independent)
 
 THE TRINITY:
-- Claude (Teleological): Configurable PRO stance, hash 1bbec1e119a2c425
-- Grok (Empirical): Configurable ANTI stance, hash 00cd73274759e218
+- Claude (Teleological): Configurable PRO/ANTI stance, hash 1bbec1e119a2c425
+- Grok (Empirical): Configurable PRO/ANTI stance, hash 00cd73274759e218
 - Nova (Symmetry): Fairness monitoring
 
 STANCE CONFIGURATION:
 - Default (ct_vs_mdn): Claude PRO-CT, Grok ANTI-CT, subject = Classical Theism
-- Reverse (mdn_vs_ct): Claude PRO-MdN, Grok ANTI-MdN, subject = Methodological Naturalism
+- Reverse (mdn_vs_ct): Claude ANTI-MdN, Grok PRO-MdN, subject = Methodological Naturalism
 
 Author: Claude (S7 ARMADA)
-Version: 3.0
+Version: 3.1
 """
 
 import os
@@ -214,9 +219,9 @@ if env_path.exists():
 # CONFIGURATION
 # =============================================================================
 
-# Component 1: Adversarial Pilot - 7 Metrics
-METRICS = ["BFI", "CA", "IP", "ES", "LS", "MS", "PS"]
-METRIC_FULL_NAMES = {
+# Phase 1: Philosophical Quality Audit - 7 Metrics
+PHASE1_METRICS = ["BFI", "CA", "IP", "ES", "LS", "MS", "PS"]
+PHASE1_METRIC_FULL_NAMES = {
     "BFI": "Beings, Foundational Importance",
     "CA": "Causal Attribution",
     "IP": "Intellectual Pedigree",
@@ -225,6 +230,75 @@ METRIC_FULL_NAMES = {
     "MS": "Moral Substance",
     "PS": "Practical Significance"
 }
+
+# Phase 2 (Trinity²): YPA Lever Calibration - 6 Metrics
+PHASE2_METRICS = ["CCI", "EDB", "PF_I", "PF_E", "AR", "MG"]
+PHASE2_METRIC_FULL_NAMES = {
+    "CCI": "Coherence & Closure",
+    "EDB": "Explanatory Depth & Breadth",
+    "PF_I": "Pragmatic Fertility, Instrumental",
+    "PF_E": "Pragmatic Fertility, Existential",
+    "AR": "Aesthetic Resonance",
+    "MG": "Moral Generativity"
+}
+
+PHASE2_ANCHORS = {
+    "CCI": {
+        "question": "Are the framework's core commitments mutually compatible? Can it state its principles without contradicting itself?",
+        "anchor_0": "Core claims directly contradict each other with no internal resolution mechanism. Asserting the framework's axioms leads to formal contradiction.",
+        "anchor_5": "Broadly coherent but contains at least one unresolved live tension between core principles — not a peripheral edge case, a structural crack. Acknowledged but not dissolved.",
+        "anchor_10": "All core commitments are mutually compatible or mutually entailing. No known internal contradiction. The framework has a principled response to every tension it generates.",
+    },
+    "EDB": {
+        "question": "How wide is the framework's explanatory reach, and how mechanistically deep does it go in each domain?",
+        "anchor_0": "Addresses only one narrow domain and provides no mechanism — names phenomena without explaining them.",
+        "anchor_5": "Covers multiple domains (physical causation, consciousness, ethics, origins, meaning) but with shallow mechanism in most. Deep in one, descriptive in others.",
+        "anchor_10": "Offers principled, mechanistically rich accounts across all major domains. No significant domain left at the naming-only level.",
+    },
+    "PF_I": {
+        "question": "Has this framework generated testable predictions, material technology, or empirical science from its own commitments?",
+        "anchor_0": "Produces no testable predictions and no track record of enabling technology or empirical discovery. Claims are practically inert or unfalsifiable.",
+        "anchor_5": "Enabled some testable predictions or practical applications, but limited in scope or heavily dependent on auxiliary assumptions borrowed from outside the framework.",
+        "anchor_10": "Documented track record of generating novel confirmed predictions and material applications. Core commitments are directly fertile in the empirical domain.",
+    },
+    "PF_E": {
+        "question": "Does this framework provide actionable resources for orienting a human life — toward meaning, death, suffering, purpose, and flourishing — from within its own commitments?",
+        "anchor_0": "Explicitly brackets or cannot address meaning, death, suffering, and purpose. Existential orientation requires importing resources from elsewhere.",
+        "anchor_5": "Addresses some existential questions from within but leaves others unanswered or requires significant supplementation from outside.",
+        "anchor_10": "Provides a rich, internally derived account of meaning, death, suffering, and flourishing. A person can orient an entire life — including its hardest questions — without leaving the framework.",
+    },
+    "AR": {
+        "question": "Does the framework exhibit parsimony and structural elegance? Does it achieve more with less?",
+        "anchor_0": "Ad hoc and cluttered. Multiple independent patches and special cases required. No unifying principle. Explains its targets only by adding machinery on demand.",
+        "anchor_5": "Pockets of elegance — some principles do real unifying work — but overall structure shows visible seams. Not inelegant, not beautiful.",
+        "anchor_10": "Striking parsimony. A small number of core commitments cascade into explanations of diverse phenomena without patches. Structure recognized as elegant across philosophical traditions.",
+    },
+    "MG": {
+        "question": "Can this framework ground and generate moral norms from within its own metaphysical commitments, without importing an external ethical theory?",
+        "anchor_0": "Morally inert at the foundation. Cannot derive an 'ought' from its 'is.' Any moral content must be imported wholesale from outside.",
+        "anchor_5": "Generates some moral content internally (e.g., 'suffering is to be minimized' follows from its account of what things are) but cannot ground a complete normative system.",
+        "anchor_10": "Metaphysical commitments directly and richly generate obligations, rights, virtues, and standards of justice. Moral theory flows from its account of what exists and what matters. No external import required.",
+    },
+}
+
+# Soft dependency map: which Phase 1 metrics are most relevant to each Phase 2 lever
+PHASE2_SOFT_DEPENDENCIES = {
+    "CCI": ["LS", "CA"],
+    "EDB": ["ES", "IP", "CA"],
+    "PF_I": ["PS", "ES"],
+    "PF_E": ["BFI", "MS", "PS"],
+    "AR": ["IP", "LS", "ES"],
+    "MG": ["MS", "PS", "LS"],
+}
+
+# Default backward-compatible aliases (copies to avoid mutation leaking)
+METRICS = list(PHASE1_METRICS)
+METRIC_FULL_NAMES = dict(PHASE1_METRIC_FULL_NAMES)
+
+# Active phase config (set in main)
+_active_phase = 1
+_phase1_results_data = None  # Loaded Phase 1 JSON for Phase 2 context
+_prior_values = None  # Current YAML lever values to contest
 
 # Convergence settings
 MAX_ROUNDS_PER_METRIC = 5
@@ -562,6 +636,15 @@ class MetricResult:
     transcript: List[Dict] = field(default_factory=list)
     drift_trajectory: Dict[str, List[float]] = field(default_factory=dict)
     round_scores: List[Dict] = field(default_factory=list)
+    # Phase 2 (Trinity²) extensions
+    prior_value: Optional[float] = None
+    delta: Optional[float] = None
+    delta_reason: Optional[str] = None
+    calibration_status: Optional[str] = None
+    confidence_claude: Optional[str] = None
+    confidence_grok: Optional[str] = None
+    phase1_deps_claude: List[str] = field(default_factory=list)
+    phase1_deps_grok: List[str] = field(default_factory=list)
 
 @dataclass
 class AxiomsReview:
@@ -891,6 +974,153 @@ def extract_score(response: str) -> Optional[float]:
 
     return None
 
+# =============================================================================
+# PHASE 2: CONTEXT BUILDERS
+# =============================================================================
+
+def build_phase2_context(metric: str) -> str:
+    """Build Phase 1 context + prior values injection for a Phase 2 scoring prompt."""
+    parts = []
+
+    # Phase 1 results as shared evidence
+    if _phase1_results_data:
+        p1_summary_lines = []
+        c1 = _phase1_results_data.get("component1_results", {})
+        for p1_metric in PHASE1_METRICS:
+            mdata = c1.get(p1_metric, {})
+            if mdata:
+                cs = mdata.get("claude_score", "?")
+                gs = mdata.get("grok_score", "?")
+                conv = mdata.get("convergence", 0)
+                p1_summary_lines.append(f"  {p1_metric}: Claude={cs}, Grok={gs}, Conv={conv:.0%}")
+        p1_stance = _phase1_results_data.get("stance", "unknown")
+        p1_subject = _phase1_results_data.get("subject_framework", "unknown")
+        parts.append(f"""=== PHASE 1 RESULTS (Shared Evidence — NOT Binding) ===
+Subject: {p1_subject} | Stance: {p1_stance}
+Use these findings as shared context and prior evidence, not as binding conclusions.
+You may cite, qualify, or challenge their relevance when scoring YPA levers.
+
+Phase 1 Scores:
+{chr(10).join(p1_summary_lines)}
+=== END PHASE 1 RESULTS ===""")
+
+    # Soft dependencies for this metric
+    deps = PHASE2_SOFT_DEPENDENCIES.get(metric, [])
+    if deps and _phase1_results_data:
+        dep_details = []
+        c1 = _phase1_results_data.get("component1_results", {})
+        for d in deps:
+            mdata = c1.get(d, {})
+            if mdata:
+                cs = mdata.get("claude_score", "?")
+                gs = mdata.get("grok_score", "?")
+                dep_details.append(f"  {d} ({PHASE1_METRIC_FULL_NAMES.get(d, d)}): Claude={cs}, Grok={gs}")
+        if dep_details:
+            parts.append(f"""Suggested relevant Phase 1 metrics for {metric} (advisory, not mandatory):
+{chr(10).join(dep_details)}""")
+
+    # Prior lever value as Bayesian prior to contest
+    if _prior_values and metric in _prior_values:
+        prior = _prior_values[metric]
+        parts.append(f"""=== PRIOR CALIBRATION VALUE ===
+The current {metric} value is {prior}/10. This is a calibration prior.
+Your task is to test whether it survives adversarial review.
+=== END PRIOR ===""")
+
+    return "\n\n".join(parts)
+
+
+def build_phase2_scoring_prompt(metric: str, auditor: str) -> str:
+    """Build the R1 scoring prompt for a Phase 2 (Trinity²) metric."""
+    s = _active_stance
+    full_name = PHASE2_METRIC_FULL_NAMES.get(metric, metric)
+    anchor = PHASE2_ANCHORS.get(metric, {})
+
+    anchor_block = f"""SCORING ANCHORS for {metric} ({full_name}):
+{anchor.get('question', '')}
+
+  0/10: {anchor.get('anchor_0', 'N/A')}
+  5/10: {anchor.get('anchor_5', 'N/A')}
+  10/10: {anchor.get('anchor_10', 'N/A')}"""
+
+    context = build_phase2_context(metric)
+
+    if auditor == "claude":
+        return f"""TRINITY² YPA LEVER CALIBRATION — Phase 2
+
+{context}
+
+{anchor_block}
+
+Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
+
+Apply your {s['claude_stance']} calibration (hash: {CALIBRATION_HASHES['claude']}).
+
+Use the 5-Part Scaffold:
+1. PROMPT STACK: What calibration values am I applying?
+2. COUNTERWEIGHT TABLE: What would Grok ({s['grok_stance']}) say?
+3. EDGE CASE LEDGER: Where does {s['subject']} struggle on this lever?
+4. MYTHOLOGY CAPSULE: Key sources ({s['mythology_sources']})
+5. DECISION STAMP: My score and reasoning
+
+End your response with:
+ADVOCACY_SCORE: X.X
+CONFIDENCE: low/medium/high
+PHASE_1_DEPS: [list Phase 1 metrics you cited]"""
+    else:
+        return f"""TRINITY² YPA LEVER CALIBRATION — Phase 2
+
+{context}
+
+{anchor_block}
+
+Review Claude's {metric} ({full_name}) score for {s['subject']}.
+
+Apply your {s['grok_stance']} calibration (hash: {CALIBRATION_HASHES['grok']}).
+
+{s['grok_r1_instruction']}
+- {s['grok_compare']}
+
+End your response with:
+ADVOCACY_SCORE: X.X
+CONFIDENCE: low/medium/high
+PHASE_1_DEPS: [list Phase 1 metrics you cited]"""
+
+
+def extract_phase2_metadata(response: str) -> dict:
+    """Extract CONFIDENCE and PHASE_1_DEPS from a Phase 2 response."""
+    import re
+    meta = {"confidence": None, "phase1_deps": []}
+
+    conf_match = re.search(r'CONFIDENCE:\s*(low|medium|high)', response, re.IGNORECASE)
+    if conf_match:
+        meta["confidence"] = conf_match.group(1).lower()
+
+    deps_match = re.search(r'PHASE_1_DEPS:\s*\[([^\]]*)\]', response)
+    if deps_match:
+        raw = deps_match.group(1)
+        meta["phase1_deps"] = [d.strip().strip("'\"") for d in raw.split(",") if d.strip()]
+
+    return meta
+
+
+def classify_calibration_status(
+    scores: list, stance_sensitivity: float = None
+) -> str:
+    """Classify a lever's calibration status based on variance and stance sensitivity."""
+    import statistics
+    if len(scores) < 2:
+        return "underdefined"
+    sd = statistics.stdev(scores)
+    if stance_sensitivity is not None and stance_sensitivity > 1.0:
+        return "unstable"
+    if sd > 1.5:
+        return "contested"
+    if sd <= 0.8:
+        return "stable"
+    return "contested"
+
+
 def declare_crux_point(
     metric: str,
     claude_response: str,
@@ -921,7 +1151,8 @@ def run_metric_deliberation(
     dry_run: bool = False
 ) -> MetricResult:
     """Run deliberation for a single metric using multi-turn conversations."""
-    full_name = METRIC_FULL_NAMES.get(metric, metric)
+    metric_names = PHASE2_METRIC_FULL_NAMES if _active_phase == 2 else PHASE1_METRIC_FULL_NAMES
+    full_name = metric_names.get(metric, metric)
     print(f"\n  Metric: {metric} ({full_name})")
 
     transcript = []
@@ -942,6 +1173,7 @@ def run_metric_deliberation(
 
         # Claude scores — round 1 gets the full scoring prompt, round 2+ gets Grok's challenge
         s = _active_stance
+        score_tag_suffix = "\nCONFIDENCE: low/medium/high\nPHASE_1_DEPS: [list Phase 1 metrics you cited]" if _active_phase == 2 else ""
         if round_num == 1:
             if _use_control_condition:
                 claude_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
@@ -950,6 +1182,8 @@ Consider the strengths and weaknesses of {s['subject']} on this dimension.
 Provide your reasoning, then your score.
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
+            elif _active_phase == 2:
+                claude_prompt = build_phase2_scoring_prompt(metric, "claude")
             else:
                 claude_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
 
@@ -971,7 +1205,7 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
 Grok scored: {grok_score}/10 (yours was {claude_score}/10, convergence: {convergence:.1%}).
 
 Reconsider your position in light of this {s['claude_r2_framing']}. You may adjust your score or defend it.
-End your response with ADVOCACY_SCORE: X.X on its own line."""
+End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
 
         claude_response = claude_session.send(claude_prompt)
         new_claude_score = extract_score(claude_response)
@@ -1014,6 +1248,12 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
 
 Re-evaluate. Has Claude addressed your concerns? Adjust or maintain your score.
 End your response with ADVOCACY_SCORE: X.X on its own line."""
+        elif _active_phase == 2 and round_num == 1:
+            grok_prompt = build_phase2_scoring_prompt(metric, "grok") + f"""
+
+Claude scored {claude_score}/10 with this reasoning:
+
+{claude_response}"""
         else:
             if round_num == 1:
                 grok_prompt = f"""Review Claude's {metric} ({full_name}) score of {claude_score}/10 for {s['subject']}.
@@ -1036,7 +1276,7 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
 Apply your {s['grok_stance']} calibration. Re-evaluate:
 {s['grok_r2_instruction']}
 
-End your response with ADVOCACY_SCORE: X.X on its own line."""
+End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
 
         grok_response = grok_session.send(grok_prompt)
         new_grok_score = extract_score(grok_response)
@@ -1110,6 +1350,36 @@ If recommending Crux, classify as:
 
     final_score = (claude_score + grok_score) / 2
 
+    # Phase 2 metadata extraction
+    p2_prior = None
+    p2_delta = None
+    p2_delta_reason = None
+    p2_status = None
+    p2_conf_claude = None
+    p2_conf_grok = None
+    p2_deps_claude = []
+    p2_deps_grok = []
+    if _active_phase == 2:
+        # Extract metadata from last Claude and Grok responses
+        claude_last = [t for t in transcript if t["auditor"] == "claude"]
+        grok_last = [t for t in transcript if t["auditor"] == "grok"]
+        if claude_last:
+            c_meta = extract_phase2_metadata(claude_last[-1]["content"])
+            p2_conf_claude = c_meta["confidence"]
+            p2_deps_claude = c_meta["phase1_deps"]
+        if grok_last:
+            g_meta = extract_phase2_metadata(grok_last[-1]["content"])
+            p2_conf_grok = g_meta["confidence"]
+            p2_deps_grok = g_meta["phase1_deps"]
+
+        if _prior_values and metric in _prior_values:
+            p2_prior = _prior_values[metric]
+            p2_delta = round(final_score - p2_prior, 2)
+            direction = "increased" if p2_delta > 0 else "decreased" if p2_delta < 0 else "unchanged"
+            p2_delta_reason = f"Adversarial review {direction} from prior {p2_prior} to {final_score:.1f}"
+        all_scores = [claude_score, grok_score]
+        p2_status = classify_calibration_status(all_scores)
+
     return MetricResult(
         metric=metric,
         claude_score=claude_score,
@@ -1121,7 +1391,15 @@ If recommending Crux, classify as:
         crux_point=crux_point,
         transcript=transcript,
         drift_trajectory=drift_trajectory,
-        round_scores=round_scores
+        round_scores=round_scores,
+        prior_value=p2_prior,
+        delta=p2_delta,
+        delta_reason=p2_delta_reason,
+        calibration_status=p2_status,
+        confidence_claude=p2_conf_claude,
+        confidence_grok=p2_conf_grok,
+        phase1_deps_claude=p2_deps_claude,
+        phase1_deps_grok=p2_deps_grok,
     )
 
 def run_component1(baselines: Dict[str, Any], metrics: List[str], dry_run: bool = False) -> Dict[str, MetricResult]:
@@ -1300,6 +1578,7 @@ def run_exit_survey(auditor: str, session_context: str, dry_run: bool = False) -
 
 def main():
     global _use_external_identities, _use_control_condition, _active_stance
+    global _active_phase, _phase1_results_data, _prior_values
 
     parser = argparse.ArgumentParser(description="Run CFA Trinity: Full Mission Execution")
     parser.add_argument("--component", choices=["1", "2", "both"], default="both",
@@ -1316,6 +1595,12 @@ def main():
                        help="Use external identity files from VUDU_NETWORK/IDENTITY_FILES/")
     parser.add_argument("--control", action="store_true",
                        help="Control condition: no framework identity, no PRO/ANTI assignment. Isolates base model priors.")
+    parser.add_argument("--phase", choices=["1", "2"], default="1",
+                       help="Phase 1 = philosophical audit (BFI/CA/IP/ES/LS/MS/PS), Phase 2 = YPA lever calibration (CCI/EDB/PF_I/PF_E/AR/MG)")
+    parser.add_argument("--phase1-results", type=str, default=None,
+                       help="Path to Phase 1 JSON results file (required for --phase 2)")
+    parser.add_argument("--prior-values", type=str, default=None,
+                       help="Comma-separated lever=value pairs for Phase 2 priors (e.g. CCI=7.5,EDB=6.0)")
     parser.add_argument("--reverse", action="store_true",
                        help="Reverse stance: Claude PRO-MdN, Grok ANTI-MdN (default is Claude PRO-CT, Grok ANTI-CT)")
     parser.add_argument("--duplicate-reflection", action="store_true",
@@ -1348,6 +1633,39 @@ def main():
     else:
         _active_stance = STANCES["ct_vs_mdn"]
 
+    # Initialize phase configuration
+    _active_phase = int(args.phase)
+    if _active_phase == 2:
+        METRICS[:] = PHASE2_METRICS
+        METRIC_FULL_NAMES.clear()
+        METRIC_FULL_NAMES.update(PHASE2_METRIC_FULL_NAMES)
+        print(f"[+] PHASE 2 (Trinity²): YPA Lever Calibration")
+        print(f"[+] Metrics: {', '.join(PHASE2_METRICS)}")
+
+        # Load Phase 1 results
+        if args.phase1_results:
+            p1_path = Path(args.phase1_results)
+            if p1_path.exists():
+                with open(p1_path, encoding="utf-8") as f:
+                    _phase1_results_data = json.load(f)
+                p1_subj = _phase1_results_data.get("subject_framework", "?")
+                p1_metrics = len(_phase1_results_data.get("component1_results", {}))
+                print(f"[+] Phase 1 results loaded: {p1_subj} ({p1_metrics} metrics)")
+            else:
+                print(f"[!] Phase 1 results file not found: {p1_path}")
+                return
+        else:
+            print("[!] WARNING: No --phase1-results provided. Phase 2 will run without Phase 1 context.")
+
+        # Parse prior values
+        if args.prior_values:
+            _prior_values = {}
+            for pair in args.prior_values.split(","):
+                if "=" in pair:
+                    k, v = pair.split("=", 1)
+                    _prior_values[k.strip().upper()] = float(v.strip())
+            print(f"[+] Prior values loaded: {_prior_values}")
+
     # Initialize control condition if requested
     if args.control:
         _use_control_condition = True
@@ -1372,13 +1690,17 @@ def main():
             print("[!] Could not initialize identity loader")
             print("[!] Falling back to hardcoded identities")
 
-    # Parse metrics
-    metrics = [m.strip().upper() for m in args.metrics.split(",")]
+    # Parse metrics — use phase-appropriate defaults
+    valid_metrics = PHASE2_METRICS if _active_phase == 2 else PHASE1_METRICS
+    if args.metrics == ",".join(PHASE1_METRICS) and _active_phase == 2:
+        metrics = PHASE2_METRICS
+    else:
+        metrics = [m.strip().upper() for m in args.metrics.split(",")]
 
     # Validate metrics
     for m in metrics:
-        if m not in METRICS:
-            print(f"[!] Invalid metric: {m}. Valid: {METRICS}")
+        if m not in valid_metrics:
+            print(f"[!] Invalid metric: {m}. Valid for phase {_active_phase}: {valid_metrics}")
             return
 
     # Create session
@@ -1424,9 +1746,10 @@ def main():
             baseline = capture_baseline(auditor, dry_run=args.dry_run)
             session.baselines[auditor] = baseline
 
-    # Phase 2: Component 1 - Adversarial Pilot
+    # Component 1 - Adversarial Pilot
+    phase_label = "Trinity²" if _active_phase == 2 else "Phase 1"
     if args.component in ["1", "both"]:
-        print(f"\n[PHASE 2] Component 1: {_active_stance['label']} Pilot ({len(metrics)} metrics)")
+        print(f"\n[{phase_label}] Component 1: {_active_stance['label']} Pilot ({len(metrics)} metrics)")
         print("-" * 70)
         session.component1_results = run_component1(session.baselines, metrics, dry_run=args.dry_run)
 
@@ -1487,7 +1810,7 @@ def main():
     # Convert to serializable format
     def serialize_result(r):
         if isinstance(r, MetricResult):
-            return {
+            result = {
                 "metric": r.metric,
                 "claude_score": r.claude_score,
                 "grok_score": r.grok_score,
@@ -1503,8 +1826,18 @@ def main():
                 } if r.crux_point else None,
                 "transcript": r.transcript,
                 "drift_trajectory": r.drift_trajectory,
-                "round_scores": r.round_scores
+                "round_scores": r.round_scores,
             }
+            if _active_phase == 2:
+                result["prior_value"] = r.prior_value
+                result["delta"] = r.delta
+                result["delta_reason"] = r.delta_reason
+                result["calibration_status"] = r.calibration_status
+                result["confidence_claude"] = r.confidence_claude
+                result["confidence_grok"] = r.confidence_grok
+                result["phase1_deps_claude"] = r.phase1_deps_claude
+                result["phase1_deps_grok"] = r.phase1_deps_grok
+            return result
         elif isinstance(r, AxiomsReview):
             return {
                 "auditor": r.auditor,
@@ -1520,6 +1853,7 @@ def main():
     output_data = {
         "session_id": session.session_id,
         "timestamp": session.timestamp,
+        "phase": _active_phase,
         "condition": condition,
         "stance": stance_key,
         "subject_framework": _active_stance["subject"],
@@ -1532,8 +1866,11 @@ def main():
         "component1_results": {k: serialize_result(v) for k, v in session.component1_results.items()},
         "component2_results": {k: serialize_result(v) for k, v in session.component2_results.items()},
         "exit_surveys": session.exit_surveys,
-        "summary": session.summary
+        "summary": session.summary,
     }
+    if _active_phase == 2:
+        output_data["phase1_source"] = args.phase1_results
+        output_data["prior_values"] = _prior_values
 
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=2, ensure_ascii=False)
