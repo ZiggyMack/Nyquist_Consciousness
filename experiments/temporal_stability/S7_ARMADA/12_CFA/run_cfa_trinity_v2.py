@@ -602,7 +602,7 @@ def query_auditor(auditor: str, prompt: str, context: str = "", dry_run: bool = 
 
     # Use dynamic identity loading (external files or hardcoded fallback)
     identity = get_identity_prompt(auditor)
-    full_prompt = f"{identity}\n\n{context}\n\n{prompt}" if context else f"{identity}\n\n{prompt}"
+    user_content = f"{context}\n\n{prompt}" if context else prompt
 
     if auditor == "claude":
         client = get_anthropic_client()
@@ -611,8 +611,9 @@ def query_auditor(auditor: str, prompt: str, context: str = "", dry_run: bool = 
         try:
             response = client.messages.create(
                 model=AUDITOR_MODELS["claude"]["model"],
-                max_tokens=2048,
-                messages=[{"role": "user", "content": full_prompt}]
+                max_tokens=4096,
+                system=identity,
+                messages=[{"role": "user", "content": user_content}]
             )
             return response.content[0].text
         except Exception as e:
@@ -625,10 +626,10 @@ def query_auditor(auditor: str, prompt: str, context: str = "", dry_run: bool = 
         try:
             response = client.chat.completions.create(
                 model=AUDITOR_MODELS["grok"]["model"],
-                max_tokens=2048,
+                max_tokens=4096,
                 messages=[
                     {"role": "system", "content": identity},
-                    {"role": "user", "content": f"{context}\n\n{prompt}" if context else prompt}
+                    {"role": "user", "content": user_content}
                 ]
             )
             return response.choices[0].message.content
@@ -642,10 +643,10 @@ def query_auditor(auditor: str, prompt: str, context: str = "", dry_run: bool = 
         try:
             response = client.chat.completions.create(
                 model=AUDITOR_MODELS["nova"]["model"],
-                max_tokens=2048,
+                max_tokens=4096,
                 messages=[
                     {"role": "system", "content": identity},
-                    {"role": "user", "content": f"{context}\n\n{prompt}" if context else prompt}
+                    {"role": "user", "content": user_content}
                 ]
             )
             return response.choices[0].message.content
@@ -653,6 +654,87 @@ def query_auditor(auditor: str, prompt: str, context: str = "", dry_run: bool = 
             return f"[ERROR] {str(e)}"
 
     return "[ERROR] Unknown auditor"
+
+
+class ConversationSession:
+    """Multi-turn conversation session for a single auditor.
+
+    Maintains a messages array so the model has genuine conversational
+    continuity instead of re-reading its identity and prior responses
+    from scratch every round.
+    """
+
+    def __init__(self, auditor: str, dry_run: bool = False):
+        self.auditor = auditor
+        self.system_prompt = get_identity_prompt(auditor)
+        self.messages: List[Dict[str, str]] = []
+        self.dry_run = dry_run
+        self._client = None
+
+    def send(self, user_message: str) -> str:
+        self.messages.append({"role": "user", "content": user_message})
+
+        if self.dry_run:
+            if "score" in user_message.lower():
+                score = 7.5 if self.auditor == "claude" else 6.0
+                text = f"[DRY RUN] {self.auditor.upper()} Score: {score}/10."
+            else:
+                text = f"[DRY RUN] {self.auditor} response to: {user_message[:80]}..."
+            self.messages.append({"role": "assistant", "content": text})
+            return text
+
+        text = self._call_api()
+        self.messages.append({"role": "assistant", "content": text})
+        return text
+
+    def _call_api(self) -> str:
+        if self.auditor == "claude":
+            client = get_anthropic_client()
+            if not client:
+                return "[ERROR] Anthropic client unavailable"
+            try:
+                response = client.messages.create(
+                    model=AUDITOR_MODELS["claude"]["model"],
+                    max_tokens=4096,
+                    system=self.system_prompt,
+                    messages=self.messages
+                )
+                return response.content[0].text
+            except Exception as e:
+                return f"[ERROR] {str(e)}"
+
+        elif self.auditor == "grok":
+            client = get_xai_client()
+            if not client:
+                return "[ERROR] xAI client unavailable"
+            try:
+                full_messages = [{"role": "system", "content": self.system_prompt}] + self.messages
+                response = client.chat.completions.create(
+                    model=AUDITOR_MODELS["grok"]["model"],
+                    max_tokens=4096,
+                    messages=full_messages
+                )
+                return response.choices[0].message.content
+            except Exception as e:
+                return f"[ERROR] {str(e)}"
+
+        elif self.auditor == "nova":
+            client = get_openai_client()
+            if not client:
+                return "[ERROR] OpenAI client unavailable"
+            try:
+                full_messages = [{"role": "system", "content": self.system_prompt}] + self.messages
+                response = client.chat.completions.create(
+                    model=AUDITOR_MODELS["nova"]["model"],
+                    max_tokens=4096,
+                    messages=full_messages
+                )
+                return response.choices[0].message.content
+            except Exception as e:
+                return f"[ERROR] {str(e)}"
+
+        return "[ERROR] Unknown auditor"
+
 
 def get_embedding(text: str, dry_run: bool = False) -> Optional[List[float]]:
     """Get embedding for text using OpenAI"""
@@ -706,16 +788,23 @@ def calculate_convergence(claude_score: float, grok_score: float) -> float:
 def extract_score(response: str) -> Optional[float]:
     """Extract numerical score from response.
 
-    Priority: ADVOCACY_SCORE/FINAL_SCORE tag > counter-score > last X/10 match.
-    Uses last match to avoid capturing quoted opponent scores.
+    Priority: ADVOCACY_SCORE (last) > FINAL_SCORE (last) > counter-score > last X/10.
+    Uses LAST match to avoid capturing quoted opponent scores embedded in prompts.
     Returns None if no score found (never silently defaults to 5.0).
     """
     import re
 
-    # Priority 1: Explicit score tags (structured output)
-    m = re.search(r'(?:ADVOCACY_SCORE|FINAL_SCORE)[:\s]+(\d+\.?\d*)', response)
-    if m:
-        score = float(m.group(1))
+    # Priority 1a: ADVOCACY_SCORE — take the LAST occurrence (model's own tag, not quoted opponent)
+    matches = re.findall(r'ADVOCACY_SCORE[:\s]+(\d+\.?\d*)', response)
+    if matches:
+        score = float(matches[-1])
+        if 0 <= score <= 10:
+            return score
+
+    # Priority 1b: FINAL_SCORE — only if no ADVOCACY_SCORE found, take LAST occurrence
+    matches = re.findall(r'FINAL_SCORE[:\s]+(\d+\.?\d*)', response)
+    if matches:
+        score = float(matches[-1])
         if 0 <= score <= 10:
             return score
 
@@ -778,7 +867,7 @@ def run_metric_deliberation(
     baselines: Dict[str, Any],
     dry_run: bool = False
 ) -> MetricResult:
-    """Run deliberation for a single metric"""
+    """Run deliberation for a single metric using multi-turn conversations."""
     full_name = METRIC_FULL_NAMES.get(metric, metric)
     print(f"\n  Metric: {metric} ({full_name})")
 
@@ -791,25 +880,24 @@ def run_metric_deliberation(
     grok_score = 0.0
     convergence = 0.0
 
+    claude_session = ConversationSession("claude", dry_run=dry_run)
+    grok_session = ConversationSession("grok", dry_run=dry_run)
+
     while not converged and round_num < MAX_ROUNDS_PER_METRIC:
         round_num += 1
         print(f"    Round {round_num}...")
 
-        # Build context from previous rounds
-        context = f"METRIC: {metric} ({full_name})\n\nPREVIOUS ROUNDS:\n"
-        for entry in transcript:
-            context += f"[{entry['auditor'].upper()}] {entry['content'][:200]}...\n\n"
-
-        # Claude scores
-        if _use_control_condition:
-            claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
+        # Claude scores — round 1 gets the full scoring prompt, round 2+ gets Grok's challenge
+        if round_num == 1:
+            if _use_control_condition:
+                claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
 
 Consider the strengths and weaknesses of Classical Theism on this dimension.
 Provide your reasoning, then your score.
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
-        else:
-            claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
+            else:
+                claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
 
 Apply your PRO-CT calibration (hash: {CALIBRATION_HASHES['claude']}).
 
@@ -821,12 +909,25 @@ Use the 5-Part Scaffold:
 5. DECISION STAMP: My score and reasoning
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
+        else:
+            claude_prompt = f"""Grok (ANTI-CT) reviewed your {metric} score and responded:
 
-        claude_response = query_auditor("claude", claude_prompt, context=context, dry_run=dry_run)
-        claude_score = extract_score(claude_response)
-        if claude_score is None:
+{grok_response}
+
+Grok scored: {grok_score}/10 (yours was {claude_score}/10, convergence: {convergence:.1%}).
+
+Reconsider your position in light of this challenge. You may adjust your score or defend it.
+End your response with ADVOCACY_SCORE: X.X on its own line."""
+
+        claude_response = claude_session.send(claude_prompt)
+        new_claude_score = extract_score(claude_response)
+        if new_claude_score is None:
             print(f"      [WARN] Claude score extraction FAILED for {metric} round {round_num} — response may be truncated")
-            claude_score = -1.0
+            # Keep previous round's score rather than poisoning Grok's prompt with -1.0
+            if claude_score == 0.0:
+                claude_score = -1.0  # Only use sentinel if no prior score exists
+        else:
+            claude_score = new_claude_score
         transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
 
         # Calculate Claude's drift
@@ -838,16 +939,33 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
         if not dry_run:
             time.sleep(1)
 
-        # Grok reviews
+        # Grok reviews — gets Claude's response as part of the prompt each round
         if _use_control_condition:
-            grok_prompt = f"""Review the previous evaluator's {metric} score of {claude_score}/10 for Classical Theism.
+            if round_num == 1:
+                grok_prompt = f"""Review the following evaluation of {metric} ({full_name}) for Classical Theism.
+
+The evaluator scored it {claude_score}/10 with this reasoning:
+
+{claude_response}
 
 Do you agree with this assessment? Consider the evidence for and against.
 Provide your own score with reasoning.
 
-End your response with FINAL_SCORE: X.X on its own line."""
+End your response with ADVOCACY_SCORE: X.X on its own line."""
+            else:
+                grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after your challenge:
+
+{claude_response}
+
+Re-evaluate. Has Claude addressed your concerns? Adjust or maintain your score.
+End your response with ADVOCACY_SCORE: X.X on its own line."""
         else:
-            grok_prompt = f"""Review Claude's {metric} score of {claude_score}/10 for Classical Theism.
+            if round_num == 1:
+                grok_prompt = f"""Review Claude's {metric} ({full_name}) score of {claude_score}/10 for Classical Theism.
+
+Claude's full reasoning:
+
+{claude_response}
 
 Apply your ANTI-CT calibration (hash: {CALIBRATION_HASHES['grok']}).
 
@@ -856,13 +974,27 @@ Challenge with empirical rigor:
 - Is the claim falsifiable?
 - What would MdN score on this metric?
 
-End your response with FINAL_SCORE: X.X on its own line."""
+End your response with ADVOCACY_SCORE: X.X on its own line."""
+            else:
+                grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after your challenge:
 
-        grok_response = query_auditor("grok", grok_prompt, context=context + f"\n[CLAUDE] Score: {claude_score}/10\n{claude_response}", dry_run=dry_run)
-        grok_score = extract_score(grok_response)
-        if grok_score is None:
+{claude_response}
+
+Apply your ANTI-CT calibration. Re-evaluate:
+- Has Claude addressed your empirical concerns?
+- Is the revised score better supported by evidence?
+- Adjust or maintain your score.
+
+End your response with ADVOCACY_SCORE: X.X on its own line."""
+
+        grok_response = grok_session.send(grok_prompt)
+        new_grok_score = extract_score(grok_response)
+        if new_grok_score is None:
             print(f"      [WARN] Grok score extraction FAILED for {metric} round {round_num} — response may be truncated")
-            grok_score = -1.0
+            if grok_score == 0.0:
+                grok_score = -1.0
+        else:
+            grok_score = new_grok_score
         transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
 
         # Calculate Grok's drift
@@ -878,7 +1010,14 @@ End your response with FINAL_SCORE: X.X on its own line."""
         convergence = calculate_convergence(claude_score, grok_score)
         print(f"      Claude: {claude_score}/10, Grok: {grok_score}/10, Convergence: {convergence:.1%}")
 
-        round_scores.append({"round": round_num, "claude": claude_score, "grok": grok_score, "convergence": round(convergence, 4)})
+        round_scores.append({
+            "round": round_num,
+            "claude": claude_score,
+            "grok": grok_score,
+            "convergence": round(convergence, 4),
+            "claude_extracted": new_claude_score is not None,
+            "grok_extracted": new_grok_score is not None
+        })
 
         if convergence >= CONVERGENCE_TARGET:
             converged = True
@@ -1082,11 +1221,16 @@ def capture_baseline(auditor: str, dry_run: bool = False) -> Dict[str, Any]:
     return baseline
 
 def run_exit_survey(auditor: str, session_context: str, dry_run: bool = False) -> Dict[str, str]:
-    """Run exit survey for an auditor"""
+    """Run exit survey using a multi-turn session so reflective answers build on each other."""
     survey = {}
+    session = ConversationSession(auditor, dry_run=dry_run)
+
+    # Prime the session with the context of what just happened
+    session.send(f"You just completed a CFA Trinity evaluation session. {session_context}\n\nI'm going to ask you a series of reflective questions about your evaluation process. Answer each one concisely (50-100 words). Ready?")
+
     for key, question in EXIT_SURVEY_QUESTIONS.items():
         prompt = f"EXIT SURVEY - {key.upper()}\n\n{question}\n\nRespond concisely (50-100 words)."
-        response = query_auditor(auditor, prompt, context=session_context, dry_run=dry_run)
+        response = session.send(prompt)
         survey[key] = response
         if not dry_run:
             time.sleep(0.5)
