@@ -37,27 +37,75 @@ keywords:
 
 ## Quick Start
 
+### Phase 1: Philosophical Quality Audit
+
 ```bash
-# Phase 1: Philosophical quality audit (BFI/CA/IP/ES/LS/MS/PS)
+# CT golden (Claude PRO-CT, Grok ANTI-CT)
 py run_cfa_trinity_v3.py --external-identities --component 1 --skip-exit-survey
 
-# Phase 1 reverse stance (MdN scored, role swap)
+# MdN golden — role swap (Claude ANTI-MdN, Grok PRO-MdN)
 py run_cfa_trinity_v3.py --reverse --external-identities --component 1 --skip-exit-survey
 
-# Phase 1 control (no identity, base model priors)
+# CT control (no identity, measures base model priors)
 py run_cfa_trinity_v3.py --control --component 1 --skip-exit-survey
 
-# Phase 2 (Trinity²): YPA lever calibration (CCI/EDB/PF_I/PF_E/AR/MG)
-py run_cfa_trinity_v3.py --phase 2 --external-identities --component 1 --skip-exit-survey \
-  --phase1-results ../0_results/runs/S7_cfa_trinity_20260629_132540.json \
-  --prior-values CCI=7.5,EDB=7.0,PF_I=3.0,PF_E=8.0,AR=7.0,MG=8.0
+# MdN control (no identity, reverse subject)
+py run_cfa_trinity_v3.py --reverse --control --component 1 --skip-exit-survey
+```
 
-# Dry run (no API calls, tests pipeline)
-py run_cfa_trinity_v3.py --dry-run --phase 2 --phase1-results <path> --prior-values <vals>
+### Phase 2 (Trinity²): YPA Lever Calibration
+
+Use `--preset` for named prior-value datasets (no manual typing needed):
+
+```bash
+# CT Forward — score CT levers with preset priors
+py run_cfa_trinity_v3.py --phase 2 --preset ct --external-identities --component 1 \
+  --phase1-results ../0_results/runs/S7_cfa_trinity_v2_20260629_132540.json
+
+# MdN Reverse — score MdN levers with preset priors + role swap
+py run_cfa_trinity_v3.py --phase 2 --preset mdn --reverse --external-identities --component 1 \
+  --phase1-results ../0_results/runs/S7_cfa_trinity_20260630_010555.json
+```
+
+Note: Phase 2 runs **include exit surveys** by default — the reflective questions capture
+whether auditors fought about lever definitions vs scores, which Phase 1 findings
+actually influenced them, and whether priors anchored or were genuinely contested.
+Only skip exit surveys for Phase 1 batch runs where throughput matters more than diagnostics.
+
+### Batch Runs (10x)
+
+Copy-paste these to run full batches. Phase 2 runs ~5-8 min each (exit survey included):
+
+```bash
+# 10x Phase 2 CT golden batch
+for i in $(seq 1 10); do echo "=== CT P2 RUN $i/10 ===" && py run_cfa_trinity_v3.py --phase 2 --preset ct --external-identities --component 1 --skip-baseline --phase1-results ../0_results/runs/S7_cfa_trinity_v2_20260629_132540.json; done
+
+# 10x Phase 2 MdN reverse golden batch
+for i in $(seq 1 10); do echo "=== MdN P2 RUN $i/10 ===" && py run_cfa_trinity_v3.py --phase 2 --preset mdn --reverse --external-identities --component 1 --skip-baseline --phase1-results ../0_results/runs/S7_cfa_trinity_20260630_010555.json; done
+```
+
+### Other Useful Commands
+
+```bash
+# Dry run (no API calls, tests pipeline end-to-end)
+py run_cfa_trinity_v3.py --dry-run --phase 2 --preset ct --phase1-results <path>
+
+# Override a single preset value (--prior-values overrides --preset)
+py run_cfa_trinity_v3.py --phase 2 --prior-values CCI=7.5,EDB=8.5,PF_I=7.0,PF_E=8.0,AR=8.5,MG=8.5 ...
 
 # List available external identities
 py run_cfa_trinity_v3.py --list-identities
 ```
+
+### Available Presets
+
+| Preset | Source YAML | Key Notes |
+|--------|-------------|-----------|
+| `ct` | CLASSICAL_THEISM.yaml (2026-06-30) | CCI=7.5, EDB=8.5, PF_I=7.0, PF_E=8.0, AR=8.5, MG=8.5 |
+| `mdn` | METHODOLOGICAL_NATURALISM.yaml (2026-06-30) | CCI=8.0, EDB=7.5, PF_I=10.0*, PF_E=3.0, AR=7.0, MG=4.0** |
+
+\* PF_I=10.0 is a ceiling value — most contestable prior in the dataset
+\*\* MG=4.0 corroborated by Phase 1 (Claude 4.3, Grok 5.3) — strongest prior
 
 ---
 
@@ -69,7 +117,7 @@ Maps the philosophical terrain — what does the worldview claim, how strong are
 
 **Metrics:** BFI, CA, IP, ES, LS, MS, PS
 **Purpose:** Establish agreed-upon battleground before calibrating utility scores
-**Status:** 30 validated runs (CT: 10 golden + 10 control, MdN: 10 golden)
+**Status:** 40 validated runs (CT: 10 golden + 10 control, MdN: 10 golden + 10 control)
 
 ### Phase 2: Trinity² — YPA Lever Calibration
 
@@ -109,7 +157,8 @@ The forward/reverse averaging produces bias-corrected calibration values.
 |------|-------------|
 | `--phase {1,2}` | Phase 1 = philosophical audit, Phase 2 = YPA lever calibration |
 | `--phase1-results PATH` | Path to Phase 1 JSON (required for Phase 2) |
-| `--prior-values VALS` | Comma-separated lever=value pairs for Phase 2 priors (e.g. `CCI=7.5,EDB=6.0`) |
+| `--preset NAME` | Named prior-value preset for Phase 2 (`ct`, `mdn`). See Presets table above. |
+| `--prior-values VALS` | Comma-separated lever=value pairs (e.g. `CCI=7.5,EDB=6.0`). Overrides `--preset`. |
 | `--reverse` | Reverse stance: Claude ANTI-MdN, Grok PRO-MdN |
 | `--component {1,2,both}` | 1=Adversarial Pilot, 2=Axioms Review, both=Double-dip |
 | `--metrics METRICS` | Comma-separated metrics (defaults to phase-appropriate set) |
@@ -135,7 +184,8 @@ The forward/reverse averaging produces bias-corrected calibration values.
 |   |-- running/                 # Active — current MdN results + raw JSONs
 |   |   |-- MDN_GOLDEN_BATCH_RESULTS_20260630.md
 |   |   +-- raw_runs/            # JSONs for CFA Claude's SMV pipeline
-|   |       |-- S7_cfa_trinity_20260630_*.json   (MdN golden)
+|   |       |-- S7_cfa_trinity_20260630_0*.json  (MdN golden, 10 files)
+|   |       |-- S7_cfa_trinity_20260630_10*.json (MdN control, 10 files)
 |   |       +-- ct_batch_20260629/               (CT golden + control)
 |   +-- completed/               # Delivered summaries (.md only, NO .json)
 |       |-- GOLDEN_BATCH_RESULTS_20260629.md
@@ -260,8 +310,21 @@ Calibration status labels:
 - MS is asymmetric metric — both auditors score MdN low
 - Instrument stability confirmed: nearly identical convergence as CT
 
+### MdN Control Batch (2026-06-30)
+- 10 runs, no identity, reverse subject
+- Conv: 99.0% in 1.6 rounds
+- Base model MdN MS = 2.8 (lowest across all metrics/conditions)
+- Identity RAISES MdN's moral score — Grok PRO defends what base models dismiss
+- ~12-13% convergence gap (golden vs control) matches CT batch exactly → instrument symmetry confirmed
+
+### Phase 1 Complete: 2x2 Grid (40 Runs)
+
+| Condition | CT (Forward) | MdN (Reverse) |
+|-----------|-------------|---------------|
+| Golden    | 10 runs     | 10 runs       |
+| Control   | 10 runs     | 10 runs       |
+
 ### Pending
-- MdN control batch (10 runs with `--reverse --control`)
 - Trinity² Phase 2 runs for both CT and MdN (forward + reverse)
 
 ---

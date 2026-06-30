@@ -291,6 +291,40 @@ PHASE2_SOFT_DEPENDENCIES = {
     "MG": ["MS", "PS", "LS"],
 }
 
+# =============================================================================
+# PHASE 2: PRIOR VALUE PRESETS
+# =============================================================================
+# Named datasets of current YAML lever values. Use --preset <name> instead of
+# typing --prior-values manually. Values sourced from CFA repo canonical YAMLs.
+#
+# These are Bayesian priors the auditors will contest — not ground truth.
+# Add new presets as worldview profiles are created.
+
+PRIOR_PRESETS = {
+    # Dataset 1 — Classical Theism (from CLASSICAL_THEISM.yaml, 2026-06-30)
+    # CFA Claude notes: all values manually calibrated in design sessions
+    "ct": {
+        "CCI": 7.5,    # Coherence & Closure
+        "EDB": 8.5,    # Explanatory Depth & Breadth
+        "PF_I": 7.0,   # Pragmatic Fertility, Instrumental
+        "PF_E": 8.0,   # Pragmatic Fertility, Existential
+        "AR": 8.5,     # Aesthetic Resonance
+        "MG": 8.5,     # Moral Generativity
+    },
+    # Dataset 2 — Methodological Naturalism (from METHODOLOGICAL_NATURALISM.yaml, 2026-06-30)
+    # CFA Claude notes:
+    #   PF_I=10.0 is a ceiling value — upper-bound intuition, most contestable prior
+    #   MG=4.0 corroborated by Phase 1 (Claude 4.3, Grok 5.3) — strongest prior
+    "mdn": {
+        "CCI": 8.0,
+        "EDB": 7.5,
+        "PF_I": 10.0,
+        "PF_E": 3.0,
+        "AR": 7.0,
+        "MG": 4.0,
+    },
+}
+
 # Default backward-compatible aliases (copies to avoid mutation leaking)
 METRICS = list(PHASE1_METRICS)
 METRIC_FULL_NAMES = dict(PHASE1_METRIC_FULL_NAMES)
@@ -1599,8 +1633,10 @@ def main():
                        help="Phase 1 = philosophical audit (BFI/CA/IP/ES/LS/MS/PS), Phase 2 = YPA lever calibration (CCI/EDB/PF_I/PF_E/AR/MG)")
     parser.add_argument("--phase1-results", type=str, default=None,
                        help="Path to Phase 1 JSON results file (required for --phase 2)")
+    parser.add_argument("--preset", type=str, default=None,
+                       help=f"Named prior-value preset for Phase 2 (available: {', '.join(PRIOR_PRESETS.keys())}). Overridden by --prior-values.")
     parser.add_argument("--prior-values", type=str, default=None,
-                       help="Comma-separated lever=value pairs for Phase 2 priors (e.g. CCI=7.5,EDB=6.0)")
+                       help="Comma-separated lever=value pairs for Phase 2 priors (e.g. CCI=7.5,EDB=6.0). Overrides --preset.")
     parser.add_argument("--reverse", action="store_true",
                        help="Reverse stance: Claude PRO-MdN, Grok ANTI-MdN (default is Claude PRO-CT, Grok ANTI-CT)")
     parser.add_argument("--duplicate-reflection", action="store_true",
@@ -1657,14 +1693,22 @@ def main():
         else:
             print("[!] WARNING: No --phase1-results provided. Phase 2 will run without Phase 1 context.")
 
-        # Parse prior values
+        # Load prior values: --prior-values overrides --preset
         if args.prior_values:
             _prior_values = {}
             for pair in args.prior_values.split(","):
                 if "=" in pair:
                     k, v = pair.split("=", 1)
                     _prior_values[k.strip().upper()] = float(v.strip())
-            print(f"[+] Prior values loaded: {_prior_values}")
+            print(f"[+] Prior values (manual): {_prior_values}")
+        elif args.preset:
+            preset_key = args.preset.lower()
+            if preset_key in PRIOR_PRESETS:
+                _prior_values = dict(PRIOR_PRESETS[preset_key])
+                print(f"[+] Prior values (preset '{preset_key}'): {_prior_values}")
+            else:
+                print(f"[!] Unknown preset '{args.preset}'. Available: {', '.join(PRIOR_PRESETS.keys())}")
+                return
 
     # Initialize control condition if requested
     if args.control:
