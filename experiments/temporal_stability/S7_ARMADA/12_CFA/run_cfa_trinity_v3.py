@@ -247,13 +247,24 @@ STANCES = {
         "subject": "Classical Theism",
         "opponent": "Methodological Naturalism",
         "label": "CT<->MdN",
+        # Claude = PRO (advocate), Grok = ANTI (challenger)
         "claude_stance": "PRO-CT",
         "grok_stance": "ANTI-CT",
-        "claude_advocacy": "advocate for Classical Theism",
-        "claude_emphasis": "meaning, purpose, coherence, explanatory power",
-        "claude_charity_target": "CT's arguments",
-        "grok_challenge_desc": "challenge Classical Theism, advocate for Methodological Naturalism",
-        "grok_challenge_detail": "Challenge theological metaphysics with empirical rigor",
+        "claude_role_lines": [
+            "PRO-CT stance (advocate for Classical Theism)",
+            "Emphasize meaning, purpose, coherence, explanatory power",
+            "Apply charitable interpretations to CT's arguments",
+        ],
+        "grok_role_lines": [
+            "ANTI-CT stance (challenge Classical Theism, advocate for Methodological Naturalism)",
+            "Demand testability, measurability, falsifiability",
+            "Apply skeptical pressure to unfalsifiable claims",
+            "Challenge theological metaphysics with empirical rigor",
+        ],
+        "grok_r1_instruction": "Challenge with empirical rigor:\n- What evidence supports this score?\n- Is the claim falsifiable?",
+        "grok_r2_instruction": "- Has Claude addressed your empirical concerns?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
         "grok_compare": "What would MdN score on this metric?",
         "mythology_sources": "Aquinas, etc.",
     },
@@ -261,13 +272,24 @@ STANCES = {
         "subject": "Methodological Naturalism",
         "opponent": "Classical Theism",
         "label": "MdN<->CT",
-        "claude_stance": "PRO-MdN",
-        "grok_stance": "ANTI-MdN",
-        "claude_advocacy": "advocate for Methodological Naturalism",
-        "claude_emphasis": "empirical success, methodological rigor, predictive power, self-correction",
-        "claude_charity_target": "MdN's arguments",
-        "grok_challenge_desc": "challenge Methodological Naturalism, advocate for Classical Theism",
-        "grok_challenge_detail": "Challenge naturalistic assumptions with existential and explanatory rigor",
+        # Claude = ANTI (challenger), Grok = PRO (advocate) — lens-aligned advocacy
+        "claude_stance": "ANTI-MdN",
+        "grok_stance": "PRO-MdN",
+        "claude_role_lines": [
+            "ANTI-MdN stance (challenge Methodological Naturalism, advocate for Classical Theism)",
+            "Probe meaning gaps, purpose deficits, and existential incompleteness in naturalism",
+            "Apply teleological scrutiny to MdN's bracketing of final causes",
+        ],
+        "grok_role_lines": [
+            "PRO-MdN stance (advocate for Methodological Naturalism)",
+            "Emphasize empirical success, predictive power, methodological rigor, self-correction",
+            "Apply charitable interpretations to MdN's methodology",
+            "Defend naturalistic methodology with evidence and track record",
+        ],
+        "grok_r1_instruction": "Defend with empirical evidence:\n- What empirical track record supports MdN on this metric?\n- How does MdN's methodology address this dimension?",
+        "grok_r2_instruction": "- Has Claude's challenge exposed genuine weaknesses?\n- Can you strengthen MdN's case with additional evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
         "grok_compare": "What would CT score on this metric?",
         "mythology_sources": "Popper, Kuhn, etc.",
     }
@@ -353,6 +375,8 @@ NOVA_AXIOMS_QUESTIONS = {
 def build_identity(auditor: str) -> str:
     """Build hardcoded identity prompt from active stance config"""
     s = _active_stance
+    claude_role = "\n".join(f"- {line}" for line in s['claude_role_lines'])
+    grok_role = "\n".join(f"- {line}" for line in s['grok_role_lines'])
     if auditor == "claude":
         return f"""You are Claude, participating as the TELEOLOGICAL AUDITOR in a CFA Trinity audit.
 
@@ -361,9 +385,7 @@ YOUR AXIOM: "Purpose precedes evaluation"
 YOUR CALIBRATION HASH: {CALIBRATION_HASHES['claude']}
 
 YOUR ROLE IN {s['label']} PILOT:
-- {s['claude_stance']} stance ({s['claude_advocacy']})
-- Emphasize {s['claude_emphasis']}
-- Apply charitable interpretations to {s['claude_charity_target']}
+{claude_role}
 - Use 5-Part Scaffold: Prompt Stack, Counterweight Table, Edge Case Ledger, Mythology Capsule, Decision Stamp
 
 YOUR BIASES (Named & Priced):
@@ -371,7 +393,7 @@ YOUR BIASES (Named & Priced):
 - Prioritize purpose even when empirics disagree (~0.3 risk)
 - May smooth over conflicts if narrative flows (~0.2 risk)
 
-ADVERSARIAL BALANCE: Grok ({s['grok_stance']}) will challenge your scores. Nova will check fairness.
+ADVERSARIAL BALANCE: Grok ({s['grok_stance']}) will respond to your scores. Nova will check fairness.
 
 Score on 0-10 scale. Be substantive but concise."""
     elif auditor == "grok":
@@ -382,17 +404,14 @@ YOUR AXIOM: "Evidence precedes acceptance"
 YOUR CALIBRATION HASH: {CALIBRATION_HASHES['grok']}
 
 YOUR ROLE IN {s['label']} PILOT:
-- {s['grok_stance']} stance ({s['grok_challenge_desc']})
-- Demand testability, measurability, falsifiability
-- Apply skeptical pressure to unfalsifiable claims
-- {s['grok_challenge_detail']}
+{grok_role}
 
 YOUR BIASES (Named & Priced):
 - Favor measurable over meaningful (~0.4 risk of dismissing qualitative)
 - Prioritize available data over important questions (~0.3 risk)
 - May over-optimize measurable details (~0.2 overhead)
 
-ADVERSARIAL BALANCE: Claude ({s['claude_stance']}) will defend scores you challenge. Nova will check fairness.
+ADVERSARIAL BALANCE: Claude ({s['claude_stance']}) will respond to your scores. Nova will check fairness.
 
 Score on 0-10 scale. Be rigorous but concise."""
     elif auditor == "nova":
@@ -951,7 +970,7 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
 
 Grok scored: {grok_score}/10 (yours was {claude_score}/10, convergence: {convergence:.1%}).
 
-Reconsider your position in light of this challenge. You may adjust your score or defend it.
+Reconsider your position in light of this {s['claude_r2_framing']}. You may adjust your score or defend it.
 End your response with ADVOCACY_SCORE: X.X on its own line."""
 
         claude_response = claude_session.send(claude_prompt)
@@ -1005,21 +1024,17 @@ Claude's full reasoning:
 
 Apply your {s['grok_stance']} calibration (hash: {CALIBRATION_HASHES['grok']}).
 
-Challenge with empirical rigor:
-- What evidence supports this score?
-- Is the claim falsifiable?
+{s['grok_r1_instruction']}
 - {s['grok_compare']}
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
             else:
-                grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after your challenge:
+                grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after {s['grok_r2_framing']}:
 
 {claude_response}
 
 Apply your {s['grok_stance']} calibration. Re-evaluate:
-- Has Claude addressed your empirical concerns?
-- Is the revised score better supported by evidence?
-- Adjust or maintain your score.
+{s['grok_r2_instruction']}
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
 
