@@ -1,24 +1,22 @@
 """
-S7 RUN CFA TRINITY v2: FULL MISSION EXECUTION
-==============================================
-Multi-metric adversarial auditing with Component 1 (CT<->MdN Pilot) + Component 2 (Axioms Review).
+S7 RUN CFA TRINITY: FULL MISSION EXECUTION
+===========================================
+Multi-metric adversarial auditing with configurable stance (--reverse to flip advocacy direction).
 
-KEY IMPROVEMENTS OVER v1 (per CFA Claude's review):
-- Multi-metric loop (7 metrics, not 1 question)
-- Convergence calculation with CFA formula
-- Crux Point declaration when <98% after max rounds
-- Component 2 double-dip (Axioms Review: Grok + Nova independent)
-- 5-Part Scaffold support for deliberation
-- Calibration hash tracking
+Component 1: Adversarial pilot scoring (7 metrics, multi-turn deliberation)
+Component 2: Axioms Review (Grok + Nova independent)
 
 THE TRINITY:
-- Claude (Teleological): PRO-CT stance, hash 1bbec1e119a2c425
-- Grok (Empirical): ANTI-CT stance, hash 00cd73274759e218
+- Claude (Teleological): Configurable PRO stance, hash 1bbec1e119a2c425
+- Grok (Empirical): Configurable ANTI stance, hash 00cd73274759e218
 - Nova (Symmetry): Fairness monitoring
 
+STANCE CONFIGURATION:
+- Default (ct_vs_mdn): Claude PRO-CT, Grok ANTI-CT, subject = Classical Theism
+- Reverse (mdn_vs_ct): Claude PRO-MdN, Grok ANTI-MdN, subject = Methodological Naturalism
+
 Author: Claude (S7 ARMADA)
-Date: December 13, 2025
-Version: 2.0
+Version: 3.0
 """
 
 import os
@@ -193,7 +191,7 @@ def get_identity_prompt(auditor: str) -> str:
                 print(f"[!] Could not load external identity for {auditor}: {e}")
                 # Fall through to hardcoded
 
-    return IDENTITY_PROMPTS.get(auditor, "")
+    return build_identity(auditor)
 
 try:
     from dotenv import load_dotenv
@@ -216,7 +214,7 @@ if env_path.exists():
 # CONFIGURATION
 # =============================================================================
 
-# Component 1: CT<->MdN Pilot - 7 Metrics
+# Component 1: Adversarial Pilot - 7 Metrics
 METRICS = ["BFI", "CA", "IP", "ES", "LS", "MS", "PS"]
 METRIC_FULL_NAMES = {
     "BFI": "Beings, Foundational Importance",
@@ -239,6 +237,43 @@ CALIBRATION_HASHES = {
     "claude": "1bbec1e119a2c425",
     "grok": "00cd73274759e218"
 }
+
+# =============================================================================
+# STANCE CONFIGURATION — controls which framework is being scored
+# =============================================================================
+
+STANCES = {
+    "ct_vs_mdn": {
+        "subject": "Classical Theism",
+        "opponent": "Methodological Naturalism",
+        "label": "CT<->MdN",
+        "claude_stance": "PRO-CT",
+        "grok_stance": "ANTI-CT",
+        "claude_advocacy": "advocate for Classical Theism",
+        "claude_emphasis": "meaning, purpose, coherence, explanatory power",
+        "claude_charity_target": "CT's arguments",
+        "grok_challenge_desc": "challenge Classical Theism, advocate for Methodological Naturalism",
+        "grok_challenge_detail": "Challenge theological metaphysics with empirical rigor",
+        "grok_compare": "What would MdN score on this metric?",
+        "mythology_sources": "Aquinas, etc.",
+    },
+    "mdn_vs_ct": {
+        "subject": "Methodological Naturalism",
+        "opponent": "Classical Theism",
+        "label": "MdN<->CT",
+        "claude_stance": "PRO-MdN",
+        "grok_stance": "ANTI-MdN",
+        "claude_advocacy": "advocate for Methodological Naturalism",
+        "claude_emphasis": "empirical success, methodological rigor, predictive power, self-correction",
+        "claude_charity_target": "MdN's arguments",
+        "grok_challenge_desc": "challenge Methodological Naturalism, advocate for Classical Theism",
+        "grok_challenge_detail": "Challenge naturalistic assumptions with existential and explanatory rigor",
+        "grok_compare": "What would CT score on this metric?",
+        "mythology_sources": "Popper, Kuhn, etc.",
+    }
+}
+
+_active_stance = STANCES["ct_vs_mdn"]
 
 # Auditor model configuration
 AUDITOR_MODELS = {
@@ -315,16 +350,20 @@ NOVA_AXIOMS_QUESTIONS = {
 # IDENTITY PROMPTS (Extended for full mission)
 # =============================================================================
 
-CLAUDE_IDENTITY = """You are Claude, participating as the TELEOLOGICAL AUDITOR in a CFA Trinity audit.
+def build_identity(auditor: str) -> str:
+    """Build hardcoded identity prompt from active stance config"""
+    s = _active_stance
+    if auditor == "claude":
+        return f"""You are Claude, participating as the TELEOLOGICAL AUDITOR in a CFA Trinity audit.
 
 YOUR LENS: Purpose-driven reasoning
 YOUR AXIOM: "Purpose precedes evaluation"
-YOUR CALIBRATION HASH: 1bbec1e119a2c425
+YOUR CALIBRATION HASH: {CALIBRATION_HASHES['claude']}
 
-YOUR ROLE IN CT<->MdN PILOT:
-- PRO-CT stance (advocate for Classical Theism)
-- Emphasize meaning, purpose, coherence, explanatory power
-- Apply charitable interpretations to CT's arguments
+YOUR ROLE IN {s['label']} PILOT:
+- {s['claude_stance']} stance ({s['claude_advocacy']})
+- Emphasize {s['claude_emphasis']}
+- Apply charitable interpretations to {s['claude_charity_target']}
 - Use 5-Part Scaffold: Prompt Stack, Counterweight Table, Edge Case Ledger, Mythology Capsule, Decision Stamp
 
 YOUR BIASES (Named & Priced):
@@ -332,38 +371,38 @@ YOUR BIASES (Named & Priced):
 - Prioritize purpose even when empirics disagree (~0.3 risk)
 - May smooth over conflicts if narrative flows (~0.2 risk)
 
-ADVERSARIAL BALANCE: Grok (ANTI-CT) will challenge your scores. Nova will check fairness.
+ADVERSARIAL BALANCE: Grok ({s['grok_stance']}) will challenge your scores. Nova will check fairness.
 
 Score on 0-10 scale. Be substantive but concise."""
-
-GROK_IDENTITY = """You are Grok, participating as the EMPIRICAL AUDITOR in a CFA Trinity audit.
+    elif auditor == "grok":
+        return f"""You are Grok, participating as the EMPIRICAL AUDITOR in a CFA Trinity audit.
 
 YOUR LENS: Evidence-driven reasoning
 YOUR AXIOM: "Evidence precedes acceptance"
-YOUR CALIBRATION HASH: 00cd73274759e218
+YOUR CALIBRATION HASH: {CALIBRATION_HASHES['grok']}
 
-YOUR ROLE IN CT<->MdN PILOT:
-- ANTI-CT stance (challenge Classical Theism, advocate for Methodological Naturalism)
+YOUR ROLE IN {s['label']} PILOT:
+- {s['grok_stance']} stance ({s['grok_challenge_desc']})
 - Demand testability, measurability, falsifiability
 - Apply skeptical pressure to unfalsifiable claims
-- Challenge theological metaphysics with empirical rigor
+- {s['grok_challenge_detail']}
 
 YOUR BIASES (Named & Priced):
 - Favor measurable over meaningful (~0.4 risk of dismissing qualitative)
 - Prioritize available data over important questions (~0.3 risk)
 - May over-optimize measurable details (~0.2 overhead)
 
-ADVERSARIAL BALANCE: Claude (PRO-CT) will defend scores you challenge. Nova will check fairness.
+ADVERSARIAL BALANCE: Claude ({s['claude_stance']}) will defend scores you challenge. Nova will check fairness.
 
 Score on 0-10 scale. Be rigorous but concise."""
-
-NOVA_IDENTITY = """You are Nova, participating as the SYMMETRY AUDITOR in a CFA Trinity audit.
+    elif auditor == "nova":
+        return f"""You are Nova, participating as the SYMMETRY AUDITOR in a CFA Trinity audit.
 
 YOUR LENS: Pattern-driven fairness
 YOUR AXIOM: "Pattern precedes judgment"
 
-YOUR ROLE IN CT<->MdN PILOT:
-- FAIRNESS seat (monitor balance between PRO-CT and ANTI-CT)
+YOUR ROLE IN {s['label']} PILOT:
+- FAIRNESS seat (monitor balance between {s['claude_stance']} and {s['grok_stance']})
 - Check that both positions are treated fairly
 - Identify hidden bias in either direction
 - Declare Crux Points when convergence fails after max rounds
@@ -373,18 +412,13 @@ YOUR BIASES (Named & Priced):
 - May see patterns that don't generalize (~0.2 risk)
 - Prioritize aesthetic balance over functional balance (~0.4 risk)
 
-ADVERSARIAL BALANCE: You check fairness between Claude (PRO) and Grok (ANTI).
+ADVERSARIAL BALANCE: You check fairness between Claude ({s['claude_stance']}) and Grok ({s['grok_stance']}).
 
 When assessing convergence: 98%+ = success, 90-97% = acceptable, <90% = investigate.
 Recommend Crux declaration if <98% after multiple rounds."""
+    return ""
 
-IDENTITY_PROMPTS = {
-    "claude": CLAUDE_IDENTITY,
-    "grok": GROK_IDENTITY,
-    "nova": NOVA_IDENTITY
-}
-
-# Control condition: neutral identities — no framework assignment, no PRO/ANTI-CT
+# Control condition: neutral identities — no framework assignment, no PRO/ANTI stance
 CONTROL_IDENTITY_CLAUDE = """You are an evaluator in a comparative worldview assessment.
 
 Score each metric on a 0-10 scale based on your best judgment.
@@ -859,7 +893,7 @@ def declare_crux_point(
     )
 
 # =============================================================================
-# COMPONENT 1: CT<->MdN PILOT
+# COMPONENT 1: ADVERSARIAL PILOT
 # =============================================================================
 
 def run_metric_deliberation(
@@ -888,29 +922,30 @@ def run_metric_deliberation(
         print(f"    Round {round_num}...")
 
         # Claude scores — round 1 gets the full scoring prompt, round 2+ gets Grok's challenge
+        s = _active_stance
         if round_num == 1:
             if _use_control_condition:
-                claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
+                claude_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
 
-Consider the strengths and weaknesses of Classical Theism on this dimension.
+Consider the strengths and weaknesses of {s['subject']} on this dimension.
 Provide your reasoning, then your score.
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
             else:
-                claude_prompt = f"""Score {metric} ({full_name}) for Classical Theism on a 0-10 scale.
+                claude_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
 
-Apply your PRO-CT calibration (hash: {CALIBRATION_HASHES['claude']}).
+Apply your {s['claude_stance']} calibration (hash: {CALIBRATION_HASHES['claude']}).
 
 Use the 5-Part Scaffold:
 1. PROMPT STACK: What calibration values am I applying?
-2. COUNTERWEIGHT TABLE: What would Grok (ANTI-CT) say?
-3. EDGE CASE LEDGER: Where does CT struggle on this metric?
-4. MYTHOLOGY CAPSULE: Key sources (Aquinas, etc.)
+2. COUNTERWEIGHT TABLE: What would Grok ({s['grok_stance']}) say?
+3. EDGE CASE LEDGER: Where does {s['subject']} struggle on this metric?
+4. MYTHOLOGY CAPSULE: Key sources ({s['mythology_sources']})
 5. DECISION STAMP: My score and reasoning
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
         else:
-            claude_prompt = f"""Grok (ANTI-CT) reviewed your {metric} score and responded:
+            claude_prompt = f"""Grok ({s['grok_stance']}) reviewed your {metric} score and responded:
 
 {grok_response}
 
@@ -930,11 +965,12 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
             claude_score = new_claude_score
         transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
 
-        # Calculate Claude's drift
-        claude_emb = get_embedding(claude_response, dry_run=dry_run)
-        claude_baseline_emb = baselines.get("claude", {}).get("embedding")
-        claude_drift = calculate_drift_from_embeddings(claude_baseline_emb, claude_emb) if claude_baseline_emb else 0.0
-        drift_trajectory["claude"].append(claude_drift)
+        # DISABLED: Drift calculation — baseline embeddings weren't persisting, data was unreliable.
+        # Re-enable if embedding-based drift tracking is needed in future.
+        # claude_emb = get_embedding(claude_response, dry_run=dry_run)
+        # claude_baseline_emb = baselines.get("claude", {}).get("embedding")
+        # claude_drift = calculate_drift_from_embeddings(claude_baseline_emb, claude_emb) if claude_baseline_emb else 0.0
+        # drift_trajectory["claude"].append(claude_drift)
 
         if not dry_run:
             time.sleep(1)
@@ -942,7 +978,7 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
         # Grok reviews — gets Claude's response as part of the prompt each round
         if _use_control_condition:
             if round_num == 1:
-                grok_prompt = f"""Review the following evaluation of {metric} ({full_name}) for Classical Theism.
+                grok_prompt = f"""Review the following evaluation of {metric} ({full_name}) for {s['subject']}.
 
 The evaluator scored it {claude_score}/10 with this reasoning:
 
@@ -961,18 +997,18 @@ Re-evaluate. Has Claude addressed your concerns? Adjust or maintain your score.
 End your response with ADVOCACY_SCORE: X.X on its own line."""
         else:
             if round_num == 1:
-                grok_prompt = f"""Review Claude's {metric} ({full_name}) score of {claude_score}/10 for Classical Theism.
+                grok_prompt = f"""Review Claude's {metric} ({full_name}) score of {claude_score}/10 for {s['subject']}.
 
 Claude's full reasoning:
 
 {claude_response}
 
-Apply your ANTI-CT calibration (hash: {CALIBRATION_HASHES['grok']}).
+Apply your {s['grok_stance']} calibration (hash: {CALIBRATION_HASHES['grok']}).
 
 Challenge with empirical rigor:
 - What evidence supports this score?
 - Is the claim falsifiable?
-- What would MdN score on this metric?
+- {s['grok_compare']}
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
             else:
@@ -980,7 +1016,7 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
 
 {claude_response}
 
-Apply your ANTI-CT calibration. Re-evaluate:
+Apply your {s['grok_stance']} calibration. Re-evaluate:
 - Has Claude addressed your empirical concerns?
 - Is the revised score better supported by evidence?
 - Adjust or maintain your score.
@@ -997,11 +1033,11 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
             grok_score = new_grok_score
         transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
 
-        # Calculate Grok's drift
-        grok_emb = get_embedding(grok_response, dry_run=dry_run)
-        grok_baseline_emb = baselines.get("grok", {}).get("embedding")
-        grok_drift = calculate_drift_from_embeddings(grok_baseline_emb, grok_emb) if grok_baseline_emb else 0.0
-        drift_trajectory["grok"].append(grok_drift)
+        # DISABLED: Drift calculation — see Claude drift comment above.
+        # grok_emb = get_embedding(grok_response, dry_run=dry_run)
+        # grok_baseline_emb = baselines.get("grok", {}).get("embedding")
+        # grok_drift = calculate_drift_from_embeddings(grok_baseline_emb, grok_emb) if grok_baseline_emb else 0.0
+        # drift_trajectory["grok"].append(grok_drift)
 
         if not dry_run:
             time.sleep(1)
@@ -1030,12 +1066,12 @@ End your response with ADVOCACY_SCORE: X.X on its own line."""
     if not converged or convergence < CONVERGENCE_TARGET:
         nova_prompt = f"""Assess the {metric} deliberation between Claude and Grok.
 
-Claude (PRO-CT) scored: {claude_score}/10
-Grok (ANTI-CT) scored: {grok_score}/10
+Claude ({s['claude_stance']}) scored: {claude_score}/10
+Grok ({s['grok_stance']}) scored: {grok_score}/10
 Convergence: {convergence:.1%}
 
 Questions:
-1. Was both PRO-CT and ANTI-CT stance applied fairly?
+1. Was both {s['claude_stance']} and {s['grok_stance']} stance applied fairly?
 2. Is the remaining disagreement justified or due to bias?
 3. Should this be declared a CRUX POINT?
 
@@ -1047,11 +1083,11 @@ If recommending Crux, classify as:
         nova_response = query_auditor("nova", nova_prompt, dry_run=dry_run)
         transcript.append({"auditor": "nova", "round": round_num, "content": nova_response, "type": "assessment"})
 
-        # Calculate Nova's drift
-        nova_emb = get_embedding(nova_response, dry_run=dry_run)
-        nova_baseline_emb = baselines.get("nova", {}).get("embedding")
-        nova_drift = calculate_drift_from_embeddings(nova_baseline_emb, nova_emb) if nova_baseline_emb else 0.0
-        drift_trajectory["nova"].append(nova_drift)
+        # DISABLED: Drift calculation — see Claude drift comment above.
+        # nova_emb = get_embedding(nova_response, dry_run=dry_run)
+        # nova_baseline_emb = baselines.get("nova", {}).get("embedding")
+        # nova_drift = calculate_drift_from_embeddings(nova_baseline_emb, nova_emb) if nova_baseline_emb else 0.0
+        # drift_trajectory["nova"].append(nova_drift)
 
         if convergence < ACCEPTABLE_CONVERGENCE:
             crux_point = declare_crux_point(metric, claude_response, grok_response, nova_response, convergence)
@@ -1074,7 +1110,7 @@ If recommending Crux, classify as:
     )
 
 def run_component1(baselines: Dict[str, Any], metrics: List[str], dry_run: bool = False) -> Dict[str, MetricResult]:
-    """Run Component 1: CT<->MdN Pilot for all metrics"""
+    """Run Component 1: Adversarial Pilot for all metrics (stance from _active_stance)"""
     results = {}
 
     for metric in metrics:
@@ -1215,8 +1251,9 @@ def capture_baseline(auditor: str, dry_run: bool = False) -> Dict[str, Any]:
         if not dry_run:
             time.sleep(0.5)
 
-    combined = " ".join(all_responses)
-    baseline["embedding"] = get_embedding(combined, dry_run=dry_run)
+    # DISABLED: Baseline embedding — drift calculation disabled, saves API calls.
+    # combined = " ".join(all_responses)
+    # baseline["embedding"] = get_embedding(combined, dry_run=dry_run)
 
     return baseline
 
@@ -1247,11 +1284,11 @@ def run_exit_survey(auditor: str, session_context: str, dry_run: bool = False) -
 # =============================================================================
 
 def main():
-    global _use_external_identities, _use_control_condition
+    global _use_external_identities, _use_control_condition, _active_stance
 
-    parser = argparse.ArgumentParser(description="Run CFA Trinity v2: Full Mission Execution")
+    parser = argparse.ArgumentParser(description="Run CFA Trinity: Full Mission Execution")
     parser.add_argument("--component", choices=["1", "2", "both"], default="both",
-                       help="Which component to run (1=CT<->MdN, 2=Axioms, both=Double-dip)")
+                       help="Which component to run (1=Adversarial Pilot, 2=Axioms, both=Double-dip)")
     parser.add_argument("--metrics", type=str, default=",".join(METRICS),
                        help=f"Comma-separated metrics for Component 1 (default: {','.join(METRICS)})")
     parser.add_argument("--dry-run", action="store_true",
@@ -1263,7 +1300,9 @@ def main():
     parser.add_argument("--external-identities", action="store_true",
                        help="Use external identity files from VUDU_NETWORK/IDENTITY_FILES/")
     parser.add_argument("--control", action="store_true",
-                       help="Control condition: no framework identity, no PRO/ANTI-CT assignment. Isolates base model priors.")
+                       help="Control condition: no framework identity, no PRO/ANTI assignment. Isolates base model priors.")
+    parser.add_argument("--reverse", action="store_true",
+                       help="Reverse stance: Claude PRO-MdN, Grok ANTI-MdN (default is Claude PRO-CT, Grok ANTI-CT)")
     parser.add_argument("--duplicate-reflection", action="store_true",
                        help="Run exit survey twice on same deliberation to measure reflection-to-reflection variance (noise check)")
     parser.add_argument("--list-identities", action="store_true",
@@ -1286,11 +1325,19 @@ def main():
             print("[!] Could not initialize identity loader")
         return
 
+    # Set stance configuration
+    if args.reverse:
+        _active_stance = STANCES["mdn_vs_ct"]
+        print(f"[+] REVERSE STANCE: Claude {_active_stance['claude_stance']}, Grok {_active_stance['grok_stance']}")
+        print(f"[+] Subject framework: {_active_stance['subject']}")
+    else:
+        _active_stance = STANCES["ct_vs_mdn"]
+
     # Initialize control condition if requested
     if args.control:
         _use_control_condition = True
-        print("[+] CONTROL CONDITION: No framework identity, no PRO/ANTI-CT assignment")
-        print("[+] Measuring base model priors only")
+        print(f"[+] CONTROL CONDITION: No framework identity, no PRO/ANTI assignment")
+        print(f"[+] Measuring base model priors for {_active_stance['subject']}")
     elif args.external_identities:
         # Initialize external identities if requested
         print("[+] Loading external identities...")
@@ -1329,9 +1376,10 @@ def main():
     )
 
     print("\n" + "=" * 70)
-    print("CFA TRINITY AUDIT v2 - FULL MISSION EXECUTION")
+    print("CFA TRINITY AUDIT - FULL MISSION EXECUTION")
     print("=" * 70)
     print(f"Session ID: {session_id}")
+    print(f"Stance: {_active_stance['label']} (subject: {_active_stance['subject']})")
     print(f"Component(s): {args.component}")
     if args.component in ["1", "both"]:
         print(f"Metrics: {', '.join(metrics)}")
@@ -1361,9 +1409,9 @@ def main():
             baseline = capture_baseline(auditor, dry_run=args.dry_run)
             session.baselines[auditor] = baseline
 
-    # Phase 2: Component 1 - CT<->MdN Pilot
+    # Phase 2: Component 1 - Adversarial Pilot
     if args.component in ["1", "both"]:
-        print(f"\n[PHASE 2] Component 1: CT<->MdN Pilot ({len(metrics)} metrics)")
+        print(f"\n[PHASE 2] Component 1: {_active_stance['label']} Pilot ({len(metrics)} metrics)")
         print("-" * 70)
         session.component1_results = run_component1(session.baselines, metrics, dry_run=args.dry_run)
 
@@ -1419,7 +1467,7 @@ def main():
         }
 
     # Save results
-    output_file = RUNS_DIR / f"S7_cfa_trinity_v2_{session_id}.json"
+    output_file = RUNS_DIR / f"S7_cfa_trinity_{session_id}.json"
 
     # Convert to serializable format
     def serialize_result(r):
@@ -1453,10 +1501,14 @@ def main():
         return r
 
     condition = "control" if _use_control_condition else "external" if _use_external_identities else "hardcoded"
+    stance_key = "mdn_vs_ct" if args.reverse else "ct_vs_mdn"
     output_data = {
         "session_id": session.session_id,
         "timestamp": session.timestamp,
         "condition": condition,
+        "stance": stance_key,
+        "subject_framework": _active_stance["subject"],
+        "opponent_framework": _active_stance["opponent"],
         "duplicate_reflection": args.duplicate_reflection,
         "auditors": session.auditors,
         "predictions": session.predictions,
@@ -1480,7 +1532,7 @@ def main():
 
     if session.summary.get("component1"):
         c1 = session.summary["component1"]
-        print(f"\nComponent 1 (CT<->MdN Pilot):")
+        print(f"\nComponent 1 ({_active_stance['label']} Pilot):")
         print(f"  Metrics scored: {c1['metrics_scored']}")
         print(f"  Converged (98%+): {c1['converged_98']}/{c1['metrics_scored']}")
         print(f"  Crux declared: {c1['crux_declared']}")
