@@ -679,6 +679,7 @@ class MetricResult:
     confidence_grok: Optional[str] = None
     phase1_deps_claude: List[str] = field(default_factory=list)
     phase1_deps_grok: List[str] = field(default_factory=list)
+    extraction_failed: bool = False
 
 @dataclass
 class AxiomsReview:
@@ -1244,10 +1245,14 @@ End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
         claude_response = claude_session.send(claude_prompt)
         new_claude_score = extract_score(claude_response)
         if new_claude_score is None:
-            print(f"      [WARN] Claude score extraction FAILED for {metric} round {round_num} — response may be truncated")
-            # Keep previous round's score rather than poisoning Grok's prompt with -1.0
-            if claude_score == 0.0:
-                claude_score = -1.0  # Only use sentinel if no prior score exists
+            print(f"      [ABORT] Claude score extraction FAILED for {metric} round {round_num} — aborting run")
+            transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
+            return MetricResult(
+                metric=metric, claude_score=-1.0, grok_score=grok_score,
+                final_score=-1.0, convergence=0.0, rounds_taken=round_num,
+                crux_declared=False, transcript=transcript, round_scores=round_scores,
+                extraction_failed=True,
+            )
         else:
             claude_score = new_claude_score
         transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
@@ -1315,9 +1320,14 @@ End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
         grok_response = grok_session.send(grok_prompt)
         new_grok_score = extract_score(grok_response)
         if new_grok_score is None:
-            print(f"      [WARN] Grok score extraction FAILED for {metric} round {round_num} — response may be truncated")
-            if grok_score == 0.0:
-                grok_score = -1.0
+            print(f"      [ABORT] Grok score extraction FAILED for {metric} round {round_num} — aborting run")
+            transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
+            return MetricResult(
+                metric=metric, claude_score=claude_score, grok_score=-1.0,
+                final_score=-1.0, convergence=0.0, rounds_taken=round_num,
+                crux_declared=False, transcript=transcript, round_scores=round_scores,
+                extraction_failed=True,
+            )
         else:
             grok_score = new_grok_score
         transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
@@ -1443,6 +1453,10 @@ def run_component1(baselines: Dict[str, Any], metrics: List[str], dry_run: bool 
     for metric in metrics:
         result = run_metric_deliberation(metric, baselines, dry_run=dry_run)
         results[metric] = result
+
+        if result.extraction_failed:
+            print(f"\n  [ABORT] Extraction failure on {metric} — skipping remaining metrics")
+            break
 
         if not dry_run:
             time.sleep(2)  # Rate limiting between metrics
@@ -1803,8 +1817,19 @@ def main():
         print("-" * 70)
         session.component2_results = run_component2(dry_run=args.dry_run)
 
+    # Check for extraction failures — abort run early if contaminated
+    _run_aborted = False
+    if session.component1_results:
+        for m, r in session.component1_results.items():
+            if r.extraction_failed:
+                _run_aborted = True
+                print(f"\n[ABORT] Run contaminated by extraction failure on {m} — skipping exit surveys and marking aborted")
+                session.summary["aborted"] = True
+                session.summary["abort_reason"] = f"Extraction failure on {m}"
+                break
+
     # Phase 4: Exit surveys
-    if not args.skip_exit_survey:
+    if not args.skip_exit_survey and not _run_aborted:
         print("\n[PHASE 4] Running exit surveys...")
         session_context = f"Session: {session_id}\nComponents: {args.component}"
         for auditor in ["claude", "grok", "nova"]:

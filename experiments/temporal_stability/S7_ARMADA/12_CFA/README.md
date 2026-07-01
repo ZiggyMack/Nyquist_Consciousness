@@ -324,8 +324,35 @@ Calibration status labels:
 | Golden    | 10 runs     | 10 runs       |
 | Control   | 10 runs     | 10 runs       |
 
+### Trinity² Phase 2: CT Golden (2026-06-30)
+- 10 runs, Phase 2 YPA lever calibration with CT priors
+- Conv: 90.3% in 3.2 rounds, 17 cruxes
+- Identity pulls all 6 levers down 0.9-1.8 points (PF_I hardest hit: -1.80)
+
+### Trinity² Phase 2: CT Control (2026-06-30)
+- 10 runs, no identity, CT priors
+- Conv: 98.8% in 1.6 rounds, 0 cruxes
+- Base models rate CT 6.65-8.62 on all levers
+
+### Trinity² Phase 2: MdN Golden (2026-06-30)
+- 10 runs, Phase 2 YPA lever calibration with MdN priors (reverse stance)
+- Conv: 91.7% in 2.7 rounds, 8 cruxes
+- Mixed identity effect: EDB/PF_I down, CCI/MG up — LITE files help MdN on some levers
+
+### Trinity² Phase 2: MdN Control (2026-06-30)
+- 10 runs, no identity, MdN priors (reverse stance)
+- Conv: 98.9% in 1.5 rounds, 0 cruxes
+- PF_I=9.28 validates extreme prior (10.0); PF_E=4.50 corrects up from 3.0
+
+### Phase 2 Complete: 2x2 Grid (40 Runs)
+
+| Condition | CT (Forward) | MdN (Reverse) |
+|-----------|-------------|---------------|
+| Golden    | 10 runs     | 10 runs       |
+| Control   | 10 runs     | 10 runs       |
+
 ### Pending
-- Trinity² Phase 2 runs for both CT and MdN (forward + reverse)
+- Additional worldview profiles (beyond CT and MdN)
 
 ---
 
