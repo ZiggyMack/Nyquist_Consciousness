@@ -323,6 +323,17 @@ PRIOR_PRESETS = {
         "AR": 7.0,
         "MG": 4.0,
     },
+    # Dataset 3 — Process Theology (from PROCESS_THEOLOGY.yaml, 2026-06-30)
+    # CFA Claude notes: preliminary web-research estimates, not yet deliberation-validated
+    # PT is theistic but rejects CT's divine simplicity, omnipotence, immutability
+    "pt": {
+        "CCI": 7.0,
+        "EDB": 7.5,
+        "PF_I": 5.0,
+        "PF_E": 7.0,
+        "AR": 7.5,
+        "MG": 6.5,
+    },
 }
 
 # Default backward-compatible aliases (copies to avoid mutation leaking)
@@ -400,6 +411,60 @@ STANCES = {
         "grok_r2_framing": "your defense",
         "grok_compare": "What would CT score on this metric?",
         "mythology_sources": "Popper, Kuhn, etc.",
+    },
+    "pt_vs_ct": {
+        "subject": "Process Theology",
+        "opponent": "Classical Theism",
+        "label": "PT<->CT",
+        # Claude = PRO (advocate), Grok = ANTI (challenger)
+        # Claude's teleological lens advocates for PT's meaning-making despite PT rejecting CT's God
+        # Grok challenges PT's unfalsifiable speculative metaphysics
+        "claude_stance": "PRO-PT",
+        "grok_stance": "ANTI-PT",
+        "claude_role_lines": [
+            "PRO-PT stance (advocate for Process Theology)",
+            "Emphasize relational God, creative advance, aesthetic richness, epistemic humility",
+            "Apply charitable interpretations to PT's dipolar theism and panpsychism",
+        ],
+        "grok_role_lines": [
+            "ANTI-PT stance (challenge Process Theology, advocate for Classical Theism)",
+            "Demand testability: can panpsychism or divine luring be empirically detected?",
+            "Challenge unfalsifiable speculative metaphysics with empirical rigor",
+            "Press whether a non-omnipotent God solves theodicy or just redefines it away",
+        ],
+        "grok_r1_instruction": "Challenge with empirical rigor:\n- Is this claim testable or purely speculative?\n- Does CT's classical framework handle this dimension better?",
+        "grok_r2_instruction": "- Has Claude addressed your empirical concerns?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would CT score on this metric?",
+        "mythology_sources": "Whitehead, Hartshorne, Cobb, Griffin",
+    },
+    "ct_vs_pt": {
+        "subject": "Classical Theism",
+        "opponent": "Process Theology",
+        "label": "CT<->PT",
+        # Reverse: Claude = ANTI (challenger), Grok = PRO (advocate)
+        # Claude's teleological lens challenges CT from PT's perspective
+        # Grok advocates for CT's empirical track record and institutional stability
+        "claude_stance": "ANTI-CT",
+        "grok_stance": "PRO-CT",
+        "claude_role_lines": [
+            "ANTI-CT stance (challenge Classical Theism from Process Theology perspective)",
+            "Probe rigidity of divine simplicity, the problem of evil under omnipotence",
+            "Apply process-relational scrutiny to CT's static, substance-based metaphysics",
+        ],
+        "grok_role_lines": [
+            "PRO-CT stance (advocate for Classical Theism)",
+            "Emphasize CT's logical rigor, historical depth, institutional track record",
+            "Defend classical divine attributes with philosophical tradition",
+            "Challenge PT's speculative metaphysics as less parsimonious than CT",
+        ],
+        "grok_r1_instruction": "Defend with historical evidence:\n- What philosophical track record supports CT on this metric?\n- How does CT's classical framework address this dimension?",
+        "grok_r2_instruction": "- Has Claude's process-relational challenge exposed genuine weaknesses?\n- Can you strengthen CT's case with additional evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would PT score on this metric?",
+        "mythology_sources": "Aquinas, Augustine, Anselm",
     }
 }
 
@@ -966,14 +1031,15 @@ def extract_score(response: str) -> Optional[float]:
     import re
 
     # Priority 1a: ADVOCACY_SCORE — take the LAST occurrence (model's own tag, not quoted opponent)
-    matches = re.findall(r'ADVOCACY_SCORE[:\s]+(\d+\.?\d*)', response)
+    # Allow markdown bold markers (**) between tag and number (Grok sometimes writes **ADVOCACY_SCORE:** 5.8)
+    matches = re.findall(r'ADVOCACY_SCORE[:\s\*]+(\d+\.?\d*)', response)
     if matches:
         score = float(matches[-1])
         if 0 <= score <= 10:
             return score
 
     # Priority 1b: FINAL_SCORE — only if no ADVOCACY_SCORE found, take LAST occurrence
-    matches = re.findall(r'FINAL_SCORE[:\s]+(\d+\.?\d*)', response)
+    matches = re.findall(r'FINAL_SCORE[:\s\*]+(\d+\.?\d*)', response)
     if matches:
         score = float(matches[-1])
         if 0 <= score <= 10:
@@ -1652,7 +1718,9 @@ def main():
     parser.add_argument("--prior-values", type=str, default=None,
                        help="Comma-separated lever=value pairs for Phase 2 priors (e.g. CCI=7.5,EDB=6.0). Overrides --preset.")
     parser.add_argument("--reverse", action="store_true",
-                       help="Reverse stance: Claude PRO-MdN, Grok ANTI-MdN (default is Claude PRO-CT, Grok ANTI-CT)")
+                       help="Reverse stance: swap Claude/Grok roles (e.g. ct_vs_mdn -> mdn_vs_ct, pt_vs_ct -> ct_vs_pt)")
+    parser.add_argument("--stance", type=str, default=None,
+                       help=f"Explicit stance key (available: {', '.join(STANCES.keys())}). Overrides default + --reverse.")
     parser.add_argument("--duplicate-reflection", action="store_true",
                        help="Run exit survey twice on same deliberation to measure reflection-to-reflection variance (noise check)")
     parser.add_argument("--list-identities", action="store_true",
@@ -1676,7 +1744,16 @@ def main():
         return
 
     # Set stance configuration
-    if args.reverse:
+    if args.stance:
+        stance_key = args.stance.lower()
+        if stance_key not in STANCES:
+            print(f"[!] Unknown stance '{args.stance}'. Available: {', '.join(STANCES.keys())}")
+            return
+        _active_stance = STANCES[stance_key]
+        print(f"[+] STANCE: {stance_key} — Claude {_active_stance['claude_stance']}, Grok {_active_stance['grok_stance']}")
+        print(f"[+] Subject framework: {_active_stance['subject']}")
+    elif args.reverse:
+        # Legacy: --reverse without --stance defaults to mdn_vs_ct
         _active_stance = STANCES["mdn_vs_ct"]
         print(f"[+] REVERSE STANCE: Claude {_active_stance['claude_stance']}, Grok {_active_stance['grok_stance']}")
         print(f"[+] Subject framework: {_active_stance['subject']}")
@@ -1918,7 +1995,7 @@ def main():
         return r
 
     condition = "control" if _use_control_condition else "external" if _use_external_identities else "hardcoded"
-    stance_key = "mdn_vs_ct" if args.reverse else "ct_vs_mdn"
+    stance_key = args.stance.lower() if args.stance else ("mdn_vs_ct" if args.reverse else "ct_vs_mdn")
     output_data = {
         "session_id": session.session_id,
         "timestamp": session.timestamp,
