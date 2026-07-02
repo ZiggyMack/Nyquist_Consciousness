@@ -465,7 +465,61 @@ STANCES = {
         "grok_r2_framing": "your defense",
         "grok_compare": "What would PT score on this metric?",
         "mythology_sources": "Aquinas, Augustine, Anselm",
-    }
+    },
+    "mdn_vs_pt": {
+        "subject": "Methodological Naturalism",
+        "opponent": "Process Theology",
+        "label": "MdN<->PT",
+        # Claude = ANTI (challenger from PT perspective), Grok = PRO (advocate for MdN)
+        # Claude's teleological lens makes it a natural PT sympathizer — challenges MdN's bracketing of telos
+        # Grok's empirical lens naturally defends MdN's methodology
+        "claude_stance": "ANTI-MdN",
+        "grok_stance": "PRO-MdN",
+        "claude_role_lines": [
+            "ANTI-MdN stance (challenge Methodological Naturalism from Process Theology perspective)",
+            "Probe meaning gaps: MdN brackets purpose, experience, and subjective reality",
+            "Apply process-relational scrutiny — does MdN's reductionism lose the experiential dimension?",
+        ],
+        "grok_role_lines": [
+            "PRO-MdN stance (advocate for Methodological Naturalism)",
+            "Emphasize empirical success, predictive power, methodological rigor, self-correction",
+            "Apply charitable interpretations to MdN's methodology",
+            "Defend naturalistic methodology against PT's speculative metaphysics",
+        ],
+        "grok_r1_instruction": "Defend with empirical evidence:\n- What empirical track record supports MdN on this metric?\n- How does MdN's methodology outperform PT's speculative claims?",
+        "grok_r2_instruction": "- Has Claude's process-relational challenge exposed genuine weaknesses?\n- Can you strengthen MdN's case with additional evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would PT score on this metric?",
+        "mythology_sources": "Popper, Kuhn, Quine, Lakatos",
+    },
+    "pt_vs_mdn": {
+        "subject": "Process Theology",
+        "opponent": "Methodological Naturalism",
+        "label": "PT<->MdN",
+        # Claude = PRO (advocate for PT), Grok = ANTI (challenger from MdN perspective)
+        # Claude's teleological lens naturally advocates for PT's meaning-making
+        # Grok's empirical lens challenges PT's unfalsifiable claims using MdN's standards
+        "claude_stance": "PRO-PT",
+        "grok_stance": "ANTI-PT",
+        "claude_role_lines": [
+            "PRO-PT stance (advocate for Process Theology against Methodological Naturalism)",
+            "Emphasize relational ontology, creative advance, experiential richness, panpsychism",
+            "Apply charitable interpretations to PT's dipolar theism and aesthetic cosmology",
+        ],
+        "grok_role_lines": [
+            "ANTI-PT stance (challenge Process Theology from Methodological Naturalism perspective)",
+            "Demand testability: can panpsychism, divine luring, or prehension be empirically detected?",
+            "Challenge speculative metaphysics with MdN's parsimony and predictive success",
+            "Press whether PT adds explanatory power beyond what naturalistic methods already provide",
+        ],
+        "grok_r1_instruction": "Challenge with empirical rigor:\n- Is this claim testable by naturalistic methods, or purely speculative?\n- Does MdN's methodological toolkit handle this dimension more parsimoniously?",
+        "grok_r2_instruction": "- Has Claude addressed your empirical concerns?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would MdN score on this metric?",
+        "mythology_sources": "Whitehead, Hartshorne, Cobb, Griffin",
+    },
 }
 
 _active_stance = STANCES["ct_vs_mdn"]

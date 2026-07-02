@@ -92,7 +92,6 @@
       "Bash(\"C:\\Users\\Stephen\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" \"d:/Documents/Nyquist_Consciousness/experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/visualize_run018.py\")",
       "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" add WHITE-PAPER/README.md WHITE-PAPER/START_HERE.md experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/visualize_run018.py experiments/temporal_stability/S7_ARMADA/visualizations/pics/ experiments/temporal_stability/S7_ARMADA/0_results/temporal_logs/run018/)",
       "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" add experiments/temporal_stability/S7_ARMADA/11_CONTEXT_DAMPING/visualize_run018.py experiments/temporal_stability/S7_ARMADA/visualizations/pics/)",
-      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" commit -m \"$(cat <<''EOF''\nRun 018 visualization + temporal logs organization + WHITE-PAPER updates\n\n## Visualizations\n- Update visualize_run018.py to read from consolidated manifest (184 files)\n- Generate 4 new visualizations in pics/run018/:\n  - run018a_threshold_validation.png\n  - run018b_architecture_signatures.png\n  - run018c_nyquist_sampling.png  \n  - run018d_gravity_dynamics.png\n- Add load_from_manifest() and get_manifest_experiment_data() functions\n- Update paths to use pics/run018/ output directory\n\n## Temporal Logs Organization\n- Move 464 temporal log files to run018/ subdirectory\n- Total: 510 files now organized in 0_results/temporal_logs/run018/\n- Files include architecture, gravity, nyquist, and threshold experiments\n\n## WHITE-PAPER Documentation Updates\n- README.md: Update to IRON CLAD status (184 files, 51 models)\n- START_HERE.md: Update version to 3.1, mark Run 018 complete\n- Add visualization output paths to documentation\n\nKey findings from temporal log mining:\n- Grok 4.1 reasoning: Exceptional exit_survey with deep topology analysis\n- Claude Opus 4.5: Beautiful final_statement on identity preservation\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(if not exist \"reference\\specs\" mkdir \"reference\\specs\")",
       "Bash(if not exist \"reference\\proofs\" mkdir \"reference\\proofs\")",
       "Bash(if not exist \"reference\\code\" mkdir \"reference\\code\")",
@@ -190,7 +189,6 @@
       "Bash(cmd /c \"taskkill /F /PID 22352\")",
       "Bash(powershell -Command \"Stop-Process -Id 22352 -Force\")",
       "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" add dashboard/README.md)",
-      "Bash(git -C \"d:\\Documents\\Nyquist_Consciousness\" commit -m \"$(cat <<''EOF''\nDashboard README: Add 8 new Lessons Learned (#16-23)\n\nNew issues documented from Claude Code session experiences:\n\n#16: Status Files Getting Deleted/Misplaced\n    - NYQUIST_STATUS.json recovery from git history\n    - Real example: commit 44f3298 deletion, restored from 520f5e6\n\n#17: Hardcoded Values Drift from Source of Truth\n    - publications.py progress bars vs WHITE-PAPER status\n    - Checklist of files to update when status changes\n\n#18: Duplicate Dictionary Keys in Python\n    - Silent overwrites with no error raised\n    - Real example: AI_ARMADA.py had two \"run_020b\" entries\n\n#19: Run Number Confusion (020 vs 020A vs 020B)\n    - Canonical naming convention documented\n    - Files to update when adding new runs\n\n#20: Session State Not Updating on Rerun\n    - safe_rerun() pattern with delay\n    - Initialization before widget rendering\n\n#21: Image Paths Break After Directory Reorganization\n    - Use path variables not hardcoded strings\n    - Real example: Run 017 VIZ_PICS path fix\n\n#22: Git Push \"Everything up-to-date\" Confusion\n    - Diagnosis commands for branch/remote issues\n\n#23: Thermometer Result Percentage Confusion (41% vs 82%)\n    - Clarifies the two different metrics\n    - When to use each framing\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(cmd /c \"dir /tc \"\"d:\\Documents\\Nyquist_Consciousness\\experiments\\temporal_stability\\S7_ARMADA\\visualizations\\pics\\5_stability\\run009_stability_basin.png\"\"\")",
       "Bash(for run in 008 009 010 011 012 013 014)",
       "Bash(do echo \"=== Regenerating pillar for run $run ===\")",
@@ -390,7 +388,8 @@
       "Bash(git cherry-pick:*)",
       "Bash(for item in _IN _IN2 _OUT _ROUND_1 chat.md report.md README.md)",
       "Bash(do if [ -e \"$item\" ])",
-      "Bash(then mv \"$item\" \"../BURP/New_4_GOLDEN_GEOMETRY/pre-lim/\")"
+      "Bash(then mv \"$item\" \"../BURP/New_4_GOLDEN_GEOMETRY/pre-lim/\")",
+      "Bash(stat -c \"%Y\" \"C:/Users/Stephen/AppData/Local/Temp/claude/d--Documents-Nyquist-Consciousness/36c60241-0df8-4d4a-babf-8a63c3061dcf/tasks/beodzonem.output\" && echo \"---\" && date +%s)"
     ],
     "deny": [],
     "ask": [],
