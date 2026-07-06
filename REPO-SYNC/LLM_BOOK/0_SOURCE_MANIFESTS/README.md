@@ -284,6 +284,46 @@ REPO-SYNC/LLM_BOOK/
 
 ---
 
+## Content Formatting (CRITICAL for Cold Boot)
+
+The pipeline README (this file) covers **where files go**. For **how files should look**, you need the formatting specs in a separate location:
+
+**Specs live at:** `Consciousness/RIGHT/distillations/llm_book/meta/`
+
+| Spec | What It Tells You |
+|------|-------------------|
+| `WORKFLOW_SPEC.md` (Section 12) | `_ROUND_1/` folder structure, file list, round-based iteration |
+| `HOLY_GRAIL.md` | Output specification template for `report.md` (Reports + Infographics + Slides + Audio + Video) |
+| `PROMPT_ENGINEERING.md` | Ethos, lessons learned, prompt patterns |
+
+### Reference Implementations (copy these formats)
+
+| File | Template To Follow |
+|------|-------------------|
+| `report.md` | `STAGING/New_2_S_Parameters/report.md` — Full HOLY_GRAIL output spec with all 5 output types |
+| `chat.md` | `STAGING/New_2_S_Parameters/chat.md` — Q1/Q2 numbering, blockquoted questions, `[Paste NotebookLM response here]` placeholders |
+
+### _ROUND_1/ Expected File Structure
+
+```
+Project/_ROUND_1/
+├── chat.md            # NotebookLM questions to ask (Q1, Q2... format)
+├── report.md          # NotebookLM output specifications (HOLY_GRAIL template)
+├── REVIEW_NOTES_*.md  # Key findings from initial digestion
+├── INSIGHTS/          # Extracted insights
+├── CONNECTIONS/       # Cross-project links
+├── EXPERIMENTS/       # Experiments to run
+├── QUESTIONS_OUT.md   # Questions asked TO other projects
+└── routing.md         # Cross-pollination routing
+```
+
+### Quick Formatting Rules
+
+- **report.md**: Header (Source/Date/Methodology) → Output Count Summary table → Reports (Focus/Should Cover/Target Audience) → Infographics (Settings + Description) → Slide Decks → Audio Guides → Videos → Footer
+- **chat.md**: Header (Project/Created/Status) → `### QN: Title` → blockquoted question → `**Response:**` → `[Paste NotebookLM response here]` → `---` separator
+
+---
+
 ## IRON CLAD Methodology
 
 Nyquist content validates against canonical values:

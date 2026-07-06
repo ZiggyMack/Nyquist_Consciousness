@@ -57,10 +57,11 @@ llm_book/
 ├── case_studies/          # Focused investigations (Gemini Anomaly)
 ├── reviewer_feedback/     # NotebookLM assessments and critiques
 └── meta/                  # Workflow specs, prompt engineering, strategy
-    ├── WORKFLOW_SPEC.md   # Step-by-step methodology
-    ├── PROMPT_ENGINEERING.md
-    ├── HOLY_GRAIL.md      # Automated strategy vision
-    └── RECURSION_*.md     # Meta-analysis documents
+    ├── WORKFLOW_SPEC.md          # Step-by-step methodology
+    ├── PROMPT_ENGINEERING.md     # Prompt design for NotebookLM
+    ├── HOLY_GRAIL.md             # Output specification (reports, infographics, videos, audio)
+    ├── CARE_PACKAGE_TEMPLATE.md  # Cross-pollination knowledge transfer format
+    └── RECURSION_*.md            # Meta-analysis documents
 ```
 
 ---
@@ -79,13 +80,29 @@ All operations use the unified `0_chew.py` entry point:
 
 ---
 
+## Cross-Pollination
+
+When findings from one LLM Book project need to be delivered to another system (CFA Claude, Pan Handler labs, other NotebookLM projects), use the care package format:
+
+- **Template:** [meta/CARE_PACKAGE_TEMPLATE.md](meta/CARE_PACKAGE_TEMPLATE.md)
+- **Reference implementation:** `REPO-SYNC/LLM_BOOK/.../12_CFA/SYNC_OUT/pending/cognitive_physics_care_package.md`
+- **Routing rules:** `REPO-SYNC/PAN_HANDLERS/1_Maps/llm_book_routing.json`
+
+Each `_ROUND_1/` directory should contain:
+
+- `routing.md` — maps connections to other projects and labs
+- `QUESTIONS_OUT.md` — questions pushed to other projects' chat.md files
+
+---
+
 ## See Also
 
 - [INDEX.md](INDEX.md) - Content navigation
 - [meta/WORKFLOW_SPEC.md](meta/WORKFLOW_SPEC.md) - Full workflow specification
-- [meta/HOLY_GRAIL.md](meta/HOLY_GRAIL.md) - Strategy synthesis vision
+- [meta/HOLY_GRAIL.md](meta/HOLY_GRAIL.md) - Output specification (reports, infographics, videos, audio)
+- [meta/CARE_PACKAGE_TEMPLATE.md](meta/CARE_PACKAGE_TEMPLATE.md) - Cross-pollination knowledge transfer format
 - [REPO-SYNC/LLM_BOOK/START_HERE.md](../../../REPO-SYNC/LLM_BOOK/START_HERE.md) - Pipeline documentation
 
 ---
 
-_Last updated: 2025-12-31_
+_Last updated: 2026-07-05_

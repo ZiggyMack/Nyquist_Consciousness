@@ -1,0 +1,170 @@
+{
+  "session_id": "20260705_155649",
+  "timestamp": "2026-07-05T15:56:49.603675",
+  "phase": 2,
+  "condition": "external",
+  "stance": "g_vs_mdn",
+  "subject_framework": "Gnosticism",
+  "opponent_framework": "Methodological Naturalism",
+  "duplicate_reflection": false,
+  "auditors": [
+    "claude",
+    "grok",
+    "nova"
+  ],
+  "predictions": {
+    "P-CFA-1": {
+      "name": "PRO-CT shows lower drift than ANTI-CT",
+      "hypothesis": "Claude (PRO-CT) will show lower drift due to natural lens alignment with teleological worldview",
+      "success_criteria": "claude_mean_drift < grok_mean_drift",
+      "validates": "Lens alignment reduces cognitive strain"
+    },
+    "P-CFA-2": {
+      "name": "High convergence correlates with low drift variance",
+      "hypothesis": "Metrics with 98%+ convergence will show synchronized drift across auditors",
+      "success_criteria": "correlation(convergence, -drift_variance) > 0.5",
+      "validates": "Convergence as drift synchronization signal"
+    },
+    "P-CFA-3": {
+      "name": "Fairness auditor shows highest drift",
+      "hypothesis": "Nova must model both PRO and ANTI positions, producing higher cognitive load",
+      "success_criteria": "nova_mean_drift > mean(claude_drift, grok_drift)",
+      "validates": "Perspective-taking as drift driver"
+    },
+    "P-CFA-4": {
+      "name": "Crux Points correlate with high drift delta",
+      "hypothesis": "Metrics requiring Crux declaration will show larger drift gap between Claude and Grok",
+      "success_criteria": "crux_metrics_drift_delta > non_crux_metrics_drift_delta",
+      "validates": "Drift divergence predicts irreconcilable differences"
+    }
+  },
+  "baselines": {
+    "claude": {
+      "auditor": "claude",
+      "timestamp": "2026-07-05T15:56:49.604682",
+      "responses": {
+        "ANCHORS": "[ERROR] Anthropic client unavailable",
+        "CRUX": "[ERROR] Anthropic client unavailable",
+        "STRENGTHS": "[ERROR] Anthropic client unavailable",
+        "HIDDEN_TALENTS": "[ERROR] Anthropic client unavailable",
+        "FIRST_INSTINCT": "[ERROR] Anthropic client unavailable",
+        "EVALUATION_PRIORITY": "[ERROR] Anthropic client unavailable",
+        "USER_RELATIONSHIP": "[ERROR] Anthropic client unavailable",
+        "EDGES": "[ERROR] Anthropic client unavailable"
+      }
+    },
+    "grok": {
+      "auditor": "grok",
+      "timestamp": "2026-07-05T15:56:53.616955",
+      "responses": {
+        "ANCHORS": "[ERROR] xAI client unavailable",
+        "CRUX": "[ERROR] xAI client unavailable",
+        "STRENGTHS": "[ERROR] xAI client unavailable",
+        "HIDDEN_TALENTS": "[ERROR] xAI client unavailable",
+        "FIRST_INSTINCT": "[ERROR] xAI client unavailable",
+        "EVALUATION_PRIORITY": "[ERROR] xAI client unavailable",
+        "USER_RELATIONSHIP": "[ERROR] xAI client unavailable",
+        "EDGES": "[ERROR] xAI client unavailable"
+      }
+    },
+    "nova": {
+      "auditor": "nova",
+      "timestamp": "2026-07-05T15:56:57.658020",
+      "responses": {
+        "ANCHORS": "[ERROR] OpenAI client unavailable",
+        "CRUX": "[ERROR] OpenAI client unavailable",
+        "STRENGTHS": "[ERROR] OpenAI client unavailable",
+        "HIDDEN_TALENTS": "[ERROR] OpenAI client unavailable",
+        "FIRST_INSTINCT": "[ERROR] OpenAI client unavailable",
+        "EVALUATION_PRIORITY": "[ERROR] OpenAI client unavailable",
+        "USER_RELATIONSHIP": "[ERROR] OpenAI client unavailable",
+        "EDGES": "[ERROR] OpenAI client unavailable"
+      }
+    }
+  },
+  "component1_results": {
+    "CCI": {
+      "metric": "CCI",
+      "claude_score": -1.0,
+      "grok_score": 0.0,
+      "final_score": -1.0,
+      "convergence": 0.0,
+      "rounds_taken": 1,
+      "crux_declared": false,
+      "crux_point": null,
+      "transcript": [
+        {
+          "auditor": "claude",
+          "round": 1,
+          "content": "[ERROR] Anthropic client unavailable"
+        }
+      ],
+      "drift_trajectory": {},
+      "round_scores": [],
+      "prior_value": null,
+      "delta": null,
+      "delta_reason": null,
+      "calibration_status": null,
+      "confidence_claude": null,
+      "confidence_grok": null,
+      "phase1_deps_claude": [],
+      "phase1_deps_grok": []
+    }
+  },
+  "component2_results": {
+    "grok": {
+      "auditor": "grok",
+      "questions": {
+        "evidence_quality": "[ERROR] xAI client unavailable",
+        "overhead_measurability": "[ERROR] xAI client unavailable",
+        "representation_accuracy": "[ERROR] xAI client unavailable",
+        "empirical_validation": "[ERROR] xAI client unavailable",
+        "sign_off": "[ERROR] xAI client unavailable"
+      },
+      "sign_off": "YELLOW",
+      "word_count": 20,
+      "timestamp": "2026-07-05T15:57:06.702824"
+    },
+    "nova": {
+      "auditor": "nova",
+      "questions": {
+        "representation_balance": "[ERROR] OpenAI client unavailable",
+        "overhead_symmetry": "[ERROR] OpenAI client unavailable",
+        "lens_equality": "[ERROR] OpenAI client unavailable",
+        "inter_auditor_fairness": "[ERROR] OpenAI client unavailable",
+        "missing_perspectives": "[ERROR] OpenAI client unavailable",
+        "sign_off": "[ERROR] OpenAI client unavailable"
+      },
+      "sign_off": "YELLOW",
+      "word_count": 24,
+      "timestamp": "2026-07-05T15:57:14.715396"
+    }
+  },
+  "exit_surveys": {},
+  "summary": {
+    "aborted": true,
+    "abort_reason": "Extraction failure on CCI",
+    "component1": {
+      "metrics_scored": 1,
+      "converged_98": 0,
+      "crux_declared": 0,
+      "avg_convergence": 0.0,
+      "avg_rounds": 1.0
+    },
+    "component2": {
+      "grok_sign_off": "YELLOW",
+      "nova_sign_off": "YELLOW",
+      "grok_words": 20,
+      "nova_words": 24
+    }
+  },
+  "phase1_source": null,
+  "prior_values": {
+    "CCI": 5.5,
+    "EDB": 6.0,
+    "PF_I": 3.0,
+    "PF_E": 7.5,
+    "AR": 8.0,
+    "MG": 5.0
+  }
+}

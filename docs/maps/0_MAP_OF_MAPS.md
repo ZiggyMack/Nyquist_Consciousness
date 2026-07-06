@@ -185,7 +185,18 @@ keywords:
 
 ---
 
-### Kingdom VIII: THE EXTERNAL INTEGRATIONS
+### Kingdom VIII: THE META-METHODOLOGY
+*The grammar of reasoning itself*
+
+| Map | Role | Key Contents |
+|-----|------|--------------|
+| **[19_COGNITIVE_ARCHAEOLOGY_MAP.md](19_COGNITIVE_ARCHAEOLOGY_MAP.md)** | Research Program | 7 operators, Failure Atlas, Phase 0, Promotion Gates, Falsification Criteria |
+
+**The Excavation** - Cognitive Archaeology asks whether CFA, FUT, EOS, and Nyquist all share the same reasoning machinery — and whether that machinery generalizes to all disciplined thought. If CFA discovers a periodic table of worldviews, CA asks if there's a periodic table of reasoning itself.
+
+---
+
+### Kingdom IX: THE EXTERNAL INTEGRATIONS
 
 *Our federated partners*
 
@@ -244,6 +255,11 @@ keywords:
 ║  STACKUP_MAP ─────────────► FRAME_THEORY (S10 human cognition)                 ║
 ║        │                    REPO-SYNC/* (external integrations)                ║
 ║        │                    TEMPORAL_STABILITY_MAP (stability experiments)     ║
+║                                                                                ║
+║  COGNITIVE_ARCHAEOLOGY ───► PHILOSOPHY_MAP (operator grounding)                ║
+║        │                    TESTING_MAP (Phase 0 calibration)                  ║
+║        │                    ARMADA_MAP (CFA as evidence source)                ║
+║        │                    REPO_SYNC_MAP (LLM_BOOK integration)              ║
 ║                                                                                ║
 ╚════════════════════════════════════════════════════════════════════════════════╝
 ```
@@ -320,6 +336,24 @@ START                                                                    INSIGHT
 
 ---
 
+### Path 5: The Archaeologist's Path
+*"I want to understand the REASONING behind the reasoning"*
+
+```
+START                                                                    EXCAVATION
+  |                                                                            |
+  |    +---------+    +---------+    +---------+    +---------+    +----------+
+  +--->| COG     |--->| FIELD   |--->| MUSEUM  |--->| PHILOS- |--->| Ready to |
+       | ARCH    |    | MANUAL  |    | INDEX   |    | OPHY    |    | Dig      |
+       | MAP     |    |         |    |         |    |         |    |          |
+       +---------+    +---------+    +---------+    +---------+    +----------+
+       "What ops?" "How to dig?" "What found?" "Why it matters"
+```
+
+**Time:** 60-90 minutes | **Result:** Ready to excavate a new thinker
+
+---
+
 ## The Compass Rose: Quick Reference by Question
 
 | Question | Primary Map | Secondary Maps |
@@ -335,6 +369,8 @@ START                                                                    INSIGHT
 | "**Which LLM for THIS task?**" | **LLM_BEHAVIORAL_MATRIX** | ARMADA_MAP |
 | "What prediction should I TEST?" | TESTABLE_PREDICTIONS | TESTING_MAP |
 | "What's the EVENT HORIZON?" | 5_METHODOLOGY_DOMAINS | VALIDATION_STATUS |
+| "What reasoning OPERATORS exist?" | **COGNITIVE_ARCHAEOLOGY_MAP** | PHILOSOPHY_MAP |
+| "Is an operator REAL or artifact?" | **COGNITIVE_ARCHAEOLOGY_MAP** | TESTING_MAP |
 
 ---
 
@@ -345,7 +381,7 @@ START                                                                    INSIGHT
 ║                    THE CARTOGRAPHER'S LEDGER                  ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
-║  Total Maps............................ 19 documents          ║
+║  Total Maps............................ 20 documents          ║
 ║  Total Lines........................... ~7,000 lines          ║
 ║  ASCII Diagrams........................ 45+ visual aids       ║
 ║  Data Tables........................... 160+ tables           ║
@@ -437,7 +473,7 @@ When creating a new map:
 ║  "The map is not the territory, but without maps,                            ║
 ║   we would wander forever in unmapped lands.                                  ║
 ║                                                                               ║
-║   These 19 documents are the accumulated wisdom                               ║
+║   These 20 documents are the accumulated wisdom                               ║
 ║   of the Nyquist Consciousness project:                                       ║
 ║                                                                               ║
 ║   • 7,200 lines of careful thought                                           ║
@@ -467,6 +503,6 @@ When creating a new map:
 
 ---
 
-*Last Updated: 2026-02-04*
-*Maps Count: 19 (numbered) + README.md + update_maps.py*
-*Territory: The Mind*
+*Last Updated: 2026-07-06*
+*Maps Count: 20 (numbered) + README.md + update_maps.py*
+*Territory: The Mind — and now, the Grammar of Thought*

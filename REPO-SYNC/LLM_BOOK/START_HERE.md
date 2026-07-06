@@ -225,6 +225,7 @@ LLM_BOOK/
 ## See Also
 
 - [0_SOURCE_MANIFESTS/README.md](0_SOURCE_MANIFESTS/README.md) - Pipeline documentation (0_chew.py entry point)
+- [Content Formatting Specs](../../Consciousness/RIGHT/distillations/llm_book/meta/) - **HOLY_GRAIL.md** (report.md template), **WORKFLOW_SPEC.md** (process + _ROUND_1/ structure), **PROMPT_ENGINEERING.md** (ethos)
 - [WHITE-PAPER/README.md](../../WHITE-PAPER/README.md) - Publication package overview
 - [WHITE-PAPER/calibration/1_sync_llmbook.py](../../WHITE-PAPER/calibration/1_sync_llmbook.py) - Sync script
 - [WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json](../../WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json) - Version tracking

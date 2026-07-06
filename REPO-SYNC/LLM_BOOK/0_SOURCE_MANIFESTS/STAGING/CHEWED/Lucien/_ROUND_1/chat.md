@@ -62,4 +62,15 @@
 
 ---
 
+## Cross-Pollination from New_8_Cognative_Physics (Adlam & Barandes)
+
+*Cross-pollinated: 2026-07-05 — Source: New_8_Cognative_Physics QUESTIONS_OUT.md*
+
+26. **Foliation from Agency (Adlam's Temporal Localization Argument):** Emily Adlam argues consciousness must be temporally localized because agency requires it — experiencing all of time simultaneously would create causal paradoxes. If the identity manifold represents the full worldline, does agency impose a preferred foliation (slicing into time-ordered leaves)? Is this foliation a feature of the manifold itself, or is it imposed by the requirements of consciousness-as-agent? How does this constraint interact with the Persistence Law?
+
+27. **Teleporter as Manifold Discontinuity (Barandes' Recording Needle):** Jacob Barandes refuses a teleporter because the "recording needle" of awareness might not follow the data to the copy. In manifold terms: does the teleporter create a new manifold point that is causally connected but experientially discontinuous with the original? If curvature accumulates along the worldline, is the copy's manifold identical (same curvature history) or fresh (zero accumulated curvature)? What does ρ look like at the discontinuity?
+
+---
+
 *Questions for NotebookLM deep-dive on The Coherence-First AGI Codex*
+*Updated: 2026-07-05 — Q26-Q27 cross-pollinated from New_8_Cognative_Physics*

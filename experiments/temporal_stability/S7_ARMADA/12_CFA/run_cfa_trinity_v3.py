@@ -334,6 +334,17 @@ PRIOR_PRESETS = {
         "AR": 7.5,
         "MG": 6.5,
     },
+    # Dataset 4 — Gnosticism (preliminary estimates, 2026-07-02)
+    # Dualistic cosmology: material world = flawed demiurge creation, liberation via gnosis
+    # High existential/aesthetic resonance, low instrumental pragmatics
+    "g": {
+        "CCI": 5.5,     # Elaborate mythology but fragmented across schools (Valentinian, Sethian, Mandaean)
+        "EDB": 6.0,     # Addresses evil/suffering via demiurge, but narrow explanatory scope
+        "PF_I": 3.0,    # No empirical/instrumental utility — gnosis is inner, not outer
+        "PF_E": 7.5,    # Strong: liberation narrative, cosmic drama, personal transformation
+        "AR": 8.0,      # Rich mythology: pleroma, archons, Sophia, divine spark — deeply evocative
+        "MG": 5.0,      # Mixed: ascetic world-denial vs. radical compassion for trapped spirits
+    },
 }
 
 # Default backward-compatible aliases (copies to avoid mutation leaking)
@@ -519,6 +530,151 @@ STANCES = {
         "grok_r2_framing": "your challenge",
         "grok_compare": "What would MdN score on this metric?",
         "mythology_sources": "Whitehead, Hartshorne, Cobb, Griffin",
+    },
+    # === Gnosticism matchups (6 stances: each existing framework vs G, both directions) ===
+    "ct_vs_g": {
+        "subject": "Classical Theism",
+        "opponent": "Gnosticism",
+        "label": "CT<->G",
+        "claude_stance": "PRO-CT",
+        "grok_stance": "ANTI-CT",
+        "claude_role_lines": [
+            "PRO-CT stance (advocate for Classical Theism against Gnostic challenge)",
+            "Emphasize divine simplicity, omnipotence, goodness of creation, systematic coherence",
+            "Apply charitable interpretations to CT's theodicy and metaphysical unity",
+        ],
+        "grok_role_lines": [
+            "ANTI-CT stance (challenge Classical Theism from Gnostic perspective)",
+            "Press the problem of evil: if God is omnipotent and good, why does suffering persist?",
+            "Challenge CT's monism — Gnosticism's demiurge explains cosmic suffering without blaming God",
+            "Demand CT explain the experiential reality of evil without dismissing it as privation",
+        ],
+        "grok_r1_instruction": "Challenge from Gnostic cosmology:\n- Does CT's theodicy actually resolve evil, or just redefine it?\n- Can divine omnipotence and goodness coexist with manifest suffering?",
+        "grok_r2_instruction": "- Has Claude addressed the Gnostic challenge to theodicy?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would Gnosticism score on this metric?",
+        "mythology_sources": "Aquinas, Augustine, Anselm",
+    },
+    "g_vs_ct": {
+        "subject": "Gnosticism",
+        "opponent": "Classical Theism",
+        "label": "G<->CT",
+        "claude_stance": "ANTI-G",
+        "grok_stance": "PRO-G",
+        "claude_role_lines": [
+            "ANTI-G stance (challenge Gnosticism from Classical Theism perspective)",
+            "Probe Gnostic dualism: is the demiurge coherent or ad hoc mythology?",
+            "Apply systematic-theological scrutiny — does Gnosticism's fragmented cosmology cohere?",
+        ],
+        "grok_role_lines": [
+            "PRO-G stance (advocate for Gnosticism)",
+            "Emphasize gnosis as direct experiential knowledge, not mere belief",
+            "Defend the demiurge model as superior theodicy to CT's privation theory",
+            "Highlight Gnosticism's existential power: liberation, cosmic drama, divine spark",
+        ],
+        "grok_r1_instruction": "Defend with experiential evidence:\n- What does Gnosticism offer that CT's systematic theology cannot?",
+        "grok_r2_instruction": "- Has Claude's theological challenge exposed genuine weaknesses?\n- Can you strengthen Gnosticism's case?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would CT score on this metric?",
+        "mythology_sources": "Valentinus, Basilides, Nag Hammadi texts, Jonas",
+    },
+    "mdn_vs_g": {
+        "subject": "Methodological Naturalism",
+        "opponent": "Gnosticism",
+        "label": "MdN<->G",
+        "claude_stance": "ANTI-MdN",
+        "grok_stance": "PRO-MdN",
+        "claude_role_lines": [
+            "ANTI-MdN stance (challenge Methodological Naturalism from Gnostic perspective)",
+            "Probe epistemological limits: MdN only accesses the material realm the demiurge created",
+            "Apply Gnostic scrutiny — does MdN's empiricism mistake the prison for the whole cosmos?",
+        ],
+        "grok_role_lines": [
+            "PRO-MdN stance (advocate for Methodological Naturalism)",
+            "Emphasize empirical success, predictive power, methodological rigor, self-correction",
+            "Defend naturalistic methodology against Gnosticism's unfalsifiable mythology",
+            "Press: gnosis claims cannot be tested, replicated, or shared — MdN can",
+        ],
+        "grok_r1_instruction": "Defend with empirical evidence:\n- What empirical track record supports MdN on this metric?\n- How does MdN's methodology outperform Gnosticism's esoteric claims?",
+        "grok_r2_instruction": "- Has Claude's Gnostic challenge exposed genuine weaknesses?\n- Can you strengthen MdN's case with additional evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would Gnosticism score on this metric?",
+        "mythology_sources": "Popper, Kuhn, Quine, Lakatos",
+    },
+    "g_vs_mdn": {
+        "subject": "Gnosticism",
+        "opponent": "Methodological Naturalism",
+        "label": "G<->MdN",
+        "claude_stance": "PRO-G",
+        "grok_stance": "ANTI-G",
+        "claude_role_lines": [
+            "PRO-G stance (advocate for Gnosticism against Methodological Naturalism)",
+            "Emphasize gnosis as experiential knowledge beyond empirical measurement",
+            "Apply charitable interpretations to Gnostic cosmology's explanatory ambitions",
+        ],
+        "grok_role_lines": [
+            "ANTI-G stance (challenge Gnosticism from Methodological Naturalism perspective)",
+            "Demand testability: can demiurge, archons, or divine spark be empirically detected?",
+            "Challenge mythological cosmology with parsimony and predictive success",
+            "Press: Gnosticism generates no testable predictions — it's unfalsifiable by design",
+        ],
+        "grok_r1_instruction": "Challenge with empirical rigor:\n- Is this claim testable by naturalistic methods, or purely mythological?\n- Does MdN's methodology handle this dimension more parsimoniously?",
+        "grok_r2_instruction": "- Has Claude addressed your empirical concerns?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would MdN score on this metric?",
+        "mythology_sources": "Valentinus, Basilides, Nag Hammadi texts, Jonas",
+    },
+    "pt_vs_g": {
+        "subject": "Process Theology",
+        "opponent": "Gnosticism",
+        "label": "PT<->G",
+        "claude_stance": "PRO-PT",
+        "grok_stance": "ANTI-PT",
+        "claude_role_lines": [
+            "PRO-PT stance (advocate for Process Theology against Gnostic challenge)",
+            "Emphasize relational God, creative advance, aesthetic richness, epistemic humility",
+            "Apply charitable interpretations to PT's panentheism and non-coercive divine luring",
+        ],
+        "grok_role_lines": [
+            "ANTI-PT stance (challenge Process Theology from Gnostic perspective)",
+            "Press: PT's non-coercive God is too weak — Gnosticism's demiurge explains why evil is structural, not just emergent",
+            "Challenge PT's optimism about the material world — Gnosticism sees it as a prison, not a creative advance",
+            "Demand PT explain why gnosis (direct experiential liberation) isn't superior to aesthetic persuasion",
+        ],
+        "grok_r1_instruction": "Challenge from Gnostic cosmology:\n- Is PT's non-coercive divine luring sufficient, or does evil demand a stronger explanation?\n- Does PT's aesthetic optimism ignore the depth of cosmic suffering?",
+        "grok_r2_instruction": "- Has Claude addressed the Gnostic challenge?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would Gnosticism score on this metric?",
+        "mythology_sources": "Whitehead, Hartshorne, Cobb, Griffin",
+    },
+    "g_vs_pt": {
+        "subject": "Gnosticism",
+        "opponent": "Process Theology",
+        "label": "G<->PT",
+        "claude_stance": "ANTI-G",
+        "grok_stance": "PRO-G",
+        "claude_role_lines": [
+            "ANTI-G stance (challenge Gnosticism from Process Theology perspective)",
+            "Probe dualistic world-denial: does rejecting the material world undermine creative advance?",
+            "Apply process-relational scrutiny — is Gnosticism's demiurge coherent or just cosmic scapegoating?",
+        ],
+        "grok_role_lines": [
+            "PRO-G stance (advocate for Gnosticism against Process Theology)",
+            "Emphasize gnosis as direct experiential knowledge, superior to PT's philosophical abstraction",
+            "Defend demiurge theodicy as more honest about evil than PT's aesthetic optimism",
+            "Highlight Gnosticism's liberation narrative: divine spark, pleroma return, cosmic rescue",
+        ],
+        "grok_r1_instruction": "Defend with experiential evidence:\n- What does Gnosticism's liberation narrative offer that PT's process cannot?\n- How does gnosis address dimensions PT leaves to speculative philosophy?",
+        "grok_r2_instruction": "- Has Claude's process-relational challenge exposed genuine weaknesses?\n- Can you strengthen Gnosticism's case?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would PT score on this metric?",
+        "mythology_sources": "Valentinus, Basilides, Nag Hammadi texts, Jonas",
     },
 }
 
@@ -1614,9 +1770,12 @@ Be thorough (150-250 words for this question)."""
 
     # Determine sign-off from responses
     sign_off_response = responses.get("sign_off", "")
-    if "GREEN" in sign_off_response.upper():
+    sign_off_first_line = sign_off_response.split("\n")[0].upper()
+    if "GREEN" in sign_off_first_line:
         sign_off = "GREEN"
-    elif "RED" in sign_off_response.upper():
+    elif "YELLOW" in sign_off_first_line:
+        sign_off = "YELLOW"
+    elif "RED" in sign_off_first_line:
         sign_off = "RED"
     else:
         sign_off = "YELLOW"
@@ -1658,9 +1817,12 @@ Be thorough (150-250 words for this question)."""
 
     # Determine sign-off from responses
     sign_off_response = responses.get("sign_off", "")
-    if "GREEN" in sign_off_response.upper():
+    sign_off_first_line = sign_off_response.split("\n")[0].upper()
+    if "GREEN" in sign_off_first_line:
         sign_off = "GREEN"
-    elif "RED" in sign_off_response.upper():
+    elif "YELLOW" in sign_off_first_line:
+        sign_off = "YELLOW"
+    elif "RED" in sign_off_first_line:
         sign_off = "RED"
     else:
         sign_off = "YELLOW"

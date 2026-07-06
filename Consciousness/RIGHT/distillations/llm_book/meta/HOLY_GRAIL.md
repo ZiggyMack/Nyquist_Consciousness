@@ -429,6 +429,7 @@ See WORKFLOW_SPEC.md Section 11 for the full workflow.
 ### Infographic Customization
 
 **Settings:**
+- **Visual Style:** Auto-select | Kawaii | Clay | Sketch Note | Anime | Editorial | Instructional | Bento Grid | Bricks | Scientific | Professional
 - **Level of detail:** Concise | Standard | Detailed (BETA)
 - **Orientation:** Landscape | Portrait | Square
 
@@ -437,6 +438,7 @@ See WORKFLOW_SPEC.md Section 11 for the full workflow.
 **Best Practices:**
 ```markdown
 **NotebookLM Settings:**
+- **Visual Style:** [Style name]
 - **Level of detail:** [Concise/Standard/Detailed (BETA)]
 - **Orientation:** [Landscape/Portrait/Square]
 
@@ -448,6 +450,21 @@ See WORKFLOW_SPEC.md Section 11 for the full workflow.
 > - Labels and legends
 > - Title]
 ```
+
+**Visual Style Selection Guide:**
+| Style | Best For | Aesthetic |
+|-------|----------|-----------|
+| **Auto-select** | When unsure — let NotebookLM choose | Varies |
+| **Scientific** | Technical diagrams, data visualizations, research | Clean, academic, precise |
+| **Professional** | Business/corporate content, formal presentations | Polished, minimal, authoritative |
+| **Instructional** | Educational content, step-by-step processes | Clear, structured, pedagogical |
+| **Editorial** | Narrative content, journalism-style layouts | Magazine-quality, editorial |
+| **Bento Grid** | Multi-panel comparisons, categorized info | Grid layout, organized, modular |
+| **Sketch Note** | Conceptual maps, brainstorming, informal | Hand-drawn, organic, approachable |
+| **Bricks** | Building-block concepts, hierarchies | 3D, modular, constructive |
+| **Clay** | Approachable/friendly 3D content | Soft 3D, tactile, playful |
+| **Anime** | Stylized, expressive, modern topics | Dynamic, vivid, character-driven |
+| **Kawaii** | Lightest content, maximum accessibility | Cute, pastel, friendly |
 
 **Orientation Selection Guide:**
 | Orientation | Best For |
@@ -530,17 +547,22 @@ See WORKFLOW_SPEC.md Section 11 for the full workflow.
 ### Video Overview Customization
 
 **Settings:**
-- **Format:** Explainer | Brief
-  - *Explainer*: Structured, comprehensive, connects the dots
-  - *Brief*: Bite-sized overview of core ideas
-- **Visual Style:** Auto-select | Custom | Classic | Whiteboard | Kawaii | Anime | Watercolor | Retro print | Heritage | Paper-craft
+- **Format:** Cinematic | Explainer | Short
+  - *Cinematic*: Rich, immersive experience with engaging visuals and storytelling
+  - *Explainer*: Structured, comprehensive overview that connects the dots
+  - *Short*: Bite-sized overview of core ideas (replaces old "Brief")
+- **Visual Style (Explainer only):** Anime | Watercolor | Retro print | Heritage | Paper-craft (and possibly more)
+  - Cinematic and Short do NOT have visual style options — only topic focus/custom topic
+- **Topic Focus:** Pre-suggested topics based on sources, or "Custom topic" free-text field
 
-**Focus Prompt Field:** Guides content and visual emphasis.
+**Focus Prompt Field:** Guides content and visual emphasis. For Cinematic/Short, use the "Custom topic" field.
 
 **Best Practices:**
+
+For **Explainer** (has visual style):
 ```markdown
 **NotebookLM Settings:**
-- **Format:** [Explainer/Brief]
+- **Format:** Explainer
 - **Visual Style:** [Style name]
 
 **Focus Prompt for NotebookLM:**
@@ -548,17 +570,30 @@ See WORKFLOW_SPEC.md Section 11 for the full workflow.
 > examples to show, conclusion to reach]
 ```
 
-**Visual Style Selection Guide:**
+For **Cinematic** or **Short** (no visual style):
+```markdown
+**NotebookLM Settings:**
+- **Format:** [Cinematic/Short]
+
+**Custom Topic for NotebookLM:**
+> [Topic to focus on, narrative arc, key ideas to cover]
+```
+
+**Format Selection Guide:**
+| Format | Visual Style? | Best For | Output |
+|--------|--------------|----------|--------|
+| **Cinematic** | No | Complex ideas needing narrative/storytelling | Rich, immersive video |
+| **Explainer** | Yes | Technical content, connecting dots, structured walkthrough | Comprehensive video with chosen aesthetic |
+| **Short** | No | Quick overviews, single concepts, busy audiences | Bite-sized video |
+
+**Visual Style Selection Guide (Explainer only):**
 | Style | Best For | Aesthetic |
 |-------|----------|-----------|
-| **Whiteboard** | Technical diagrams, educational content | Clean, professional, diagrammatic |
-| **Classic** | Professional/corporate content | Clean, minimal, professional |
-| **Retro print** | Historical/theatrical themes | Vintage, poster-like, bold |
 | **Heritage** | Serious philosophical/historical topics | Gravitas, traditional, authoritative |
 | **Paper-craft** | Layered concepts, mapping | Dimensional, textured, layered |
 | **Anime** | Philosophical/introspective AI content | Stylized, expressive, modern |
 | **Watercolor** | Artistic/creative content | Soft, flowing, artistic |
-| **Kawaii** | Approachable/friendly content | Cute, accessible, playful |
+| **Retro print** | Historical/theatrical themes | Vintage, poster-like, bold |
 
 ---
 

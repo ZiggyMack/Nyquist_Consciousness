@@ -2168,8 +2168,34 @@ Think of a **Tightrope Walker**.
 
 ---
 
+---
+
+## SECTION D: Cross-Pollination from New_8_Cognative_Physics (Adlam & Barandes)
+
+*Cross-pollinated: 2026-07-05 — Source: New_8_Cognative_Physics QUESTIONS_OUT.md*
+
+### Q51: Eliminativist Challenge to Frame Triple
+
+> Emily Adlam argues there is "no further fact" beyond physical facts about identity — causal relations and psychological continuity exhaust the story of what makes you "you." There is nothing extra to discover. How does the Frame Triple (Fₐ/Fₙ/Ff) respond to this challenge? Is the frame a "further fact" beyond physics, or is it a structural invariant OF the physical facts? If the latter, does Adlam's eliminativism actually support Frame Theory rather than undermine it?
+
+**Context:** Cross-pollination from Adlam/Barandes philosophy of physics conversation. Adlam's eliminativism is the exact adversarial position Frame Theory must withstand.
+
+**Response:**
+
+---
+
+### Q52: Recording Needle as Frame Mechanism
+
+> Jacob Barandes (Harvard) describes consciousness as a "recording needle" that landed on one particular body — the single most important event in his existence, and one he doesn't understand at all. He won't step into a teleporter because he doesn't trust the needle to follow the data to the copy. Does the "recording needle" map to frame instantiation in Frame Theory? Is the needle the frame itself (the structure that persists), or the mechanism that creates or selects a frame? What does Frame Theory predict about what happens to the needle in a teleporter?
+
+**Context:** Cross-pollination from Adlam/Barandes. Barandes' epistemic humility about identity maps to Frame Theory's persistence claims.
+
+**Response:**
+
+---
+
 *Created: 2026-01-10*
-*Updated: 2026-01-10*
+*Updated: 2026-07-05*
 *Project: Frame_Theory NotebookLM*
-*Status: COMPLETE - 50 questions ready for Frame_Theory NotebookLM*
-*Questions: 15 core (A) + 20 deep dive (B) + 15 synthesis (C) = 50 total*
+*Status: COMPLETE - 52 questions ready for Frame_Theory NotebookLM*
+*Questions: 15 core (A) + 20 deep dive (B) + 15 synthesis (C) + 2 cross-pollination (D) = 52 total*

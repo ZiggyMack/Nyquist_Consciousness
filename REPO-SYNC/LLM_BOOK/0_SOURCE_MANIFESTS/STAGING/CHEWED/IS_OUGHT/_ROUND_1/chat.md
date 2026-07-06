@@ -116,13 +116,23 @@
 
 ---
 
-## Follow-Up Questions
+## Cross-Pollination from New_8_Cognative_Physics (Adlam & Barandes)
 
-(To be added after initial responses)
+*Cross-pollinated: 2026-07-05 — Source: New_8_Cognative_Physics QUESTIONS_OUT.md*
+
+### Q14: Goals Fix Credences as Is-Ought Collapse
+
+> Emily Adlam (philosopher of physics) demonstrates that in pure self-locating uncertainty — scenarios where you know everything about the world but not which copy of yourself you are — "as soon as you specify your goal, the credences are already fixed." There is no intermediate empirical or theoretical step between stating what you care about and knowing what to do. This is a domain where the is-ought gap collapses entirely: goal specification immediately determines rational strategy with zero empirical gap. Does this mechanism generalize beyond self-location? Are there other domains where specifying values completely determines rational strategy without any further empirical investigation?
+
+**Context:** Cross-pollination from Adlam/Barandes. The under-determination pattern (description underdetermines prescription) is the is-ought gap restated formally.
+
+**Response:**
 
 ---
 
 *Created: 2026-01-03*
+*Updated: 2026-07-05*
 *Project: IS_OUGHT NotebookLM*
 *Note: Q11-Q12 prepared for cross-pollination to Gnostic series*
 *Note: Q13 prepared for cross-pollination to GOLDEN_GEOMETRY*
+*Note: Q14 cross-pollinated from New_8_Cognative_Physics (2026-07-05)*
