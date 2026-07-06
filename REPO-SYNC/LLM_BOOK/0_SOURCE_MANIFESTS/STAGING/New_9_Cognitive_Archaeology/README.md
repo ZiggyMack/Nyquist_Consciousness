@@ -183,7 +183,7 @@ New_9_Cognitive_Archaeology/
 
 Nova's observation: CFA, FUT, EOS, and Nyquist all use the same cognitive machinery. Cognitive Archaeology studies that machinery directly.
 
-If CFA is discovering a periodic table of worldviews, Cognitive Archaeology asks whether there is a **periodic table of reasoning itself**. That question operates at a different level of abstraction than everything that came before. If the answer is "yes," the implications reach beyond philosophy into education, AI, scientific methodology, and the design of future reasoning systems. If the answer is "no," that result is still profoundly interesting — it would mean reasoning is irreducibly context-dependent, which itself constrains every project above.
+If CFA is discovering a periodic table of worldviews, Cognitive Archaeology asks whether there is a **finite grammar of reasoning operators**. That question operates at a different level of abstraction than everything that came before. The motivating metaphor is a "periodic table of reasoning" — but the actual hypothesis is agnostic about form. Operators might behave like discrete atoms, or like genes, or like circuits, or like grammatical rules. The structure of the answer is part of what we're discovering. If the answer is "yes, there is reusable structure," the implications reach beyond philosophy into education, AI, scientific methodology, and the design of future reasoning systems. If the answer is "no," that result is still profoundly interesting — it would mean reasoning is irreducibly context-dependent, which itself constrains every project above.
 
 ---
 

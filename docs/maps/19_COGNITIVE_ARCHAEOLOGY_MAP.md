@@ -14,11 +14,14 @@
                          ┌──────────────────────────────────┐
                          │        THE CORE QUESTION          │
                          │                                    │
-                         │  Is there a periodic table of      │
-                         │  reasoning itself?                  │
+                         │  Is there a finite grammar of      │
+                         │  reasoning operators?               │
                          │                                    │
                          │  Or is reasoning irreducibly        │
                          │  context-dependent?                 │
+                         │                                    │
+                         │  (Motivating metaphor: "a periodic │
+                         │   table of reasoning itself")      │
                          └───────────────┬──────────────────┘
                                          │
             ┌────────────────────────────┼────────────────────────────┐

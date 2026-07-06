@@ -4,6 +4,8 @@
 
 Before excavating any thinker, calibrate the instrument. This experiment determines whether operator extraction is a property of the source text or a property of the extractor.
 
+Everything before this point was hypothesis formation. Dig Site 000 is where reality gets a vote.
+
 ---
 
 ## Design
