@@ -242,7 +242,8 @@ The program is killed or demoted to "descriptive hobby" if:
    ├── LEDGER.md                                Confidence tracking + promotion gates
    ├── DIG_SITES/
    │   ├── 000_Extractor_Calibration/           Phase 0 experiment design
-   │   │   └── experiment_design.md
+   │   │   ├── experiment_design.md             Procedural details (how to run)
+   │   │   └── PRE_REGISTRATION.md              Frozen expectations (what we believe before data)
    │   └── 001_Adlam_Barandes/                  First excavation (seeded from New_8)
    │       └── excavation.md
    ├── MUSEUM/

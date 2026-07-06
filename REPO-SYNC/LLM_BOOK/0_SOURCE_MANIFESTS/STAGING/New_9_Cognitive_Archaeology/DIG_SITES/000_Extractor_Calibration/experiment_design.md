@@ -112,6 +112,8 @@ If Dig Site 000 demonstrates strong extractor dependence — Claude finds operat
 
 **Not yet run.** Queued as the first experiment before Dig Site 002.
 
+**Pre-registration:** See `PRE_REGISTRATION.md` for frozen expectations, prediction log, and permitted conclusions.
+
 ---
 
 *Created: 2026-07-06*
