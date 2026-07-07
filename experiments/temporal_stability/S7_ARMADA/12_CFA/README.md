@@ -30,8 +30,16 @@ keywords:
 ================================================================================
 ```
 
-**Last Updated:** 2026-06-30
-**Status:** OPERATIONAL (v3.1 — Phase 1 complete, Trinity² implemented)
+**Last Updated:** 2026-07-07
+**Status:** OPERATIONAL — 5 FUTs (CT, MdN, PT, G, B), 580+ runs, Buddhism batch running
+
+---
+
+## Before You Start
+
+**ALWAYS check `AUDIT_TRACKER.md` before running experiments or assuming what data exists.**
+
+Runs are scattered across two repos and multiple directories. The tracker has the complete inventory, completion matrix, and outstanding work list. Do not guess.
 
 ---
 
@@ -40,18 +48,25 @@ keywords:
 ### Phase 1: Philosophical Quality Audit
 
 ```bash
-# CT golden (Claude PRO-CT, Grok ANTI-CT)
-py run_cfa_trinity_v3.py --external-identities --component 1 --skip-exit-survey
+# Use --stance to specify any matchup (see AUDIT_TRACKER.md for full list)
+py run_cfa_trinity_v3.py --stance ct_vs_b --phase 1 --external-identities --skip-exit-survey
 
-# MdN golden — role swap (Claude ANTI-MdN, Grok PRO-MdN)
-py run_cfa_trinity_v3.py --reverse --external-identities --component 1 --skip-exit-survey
-
-# CT control (no identity, measures base model priors)
-py run_cfa_trinity_v3.py --control --component 1 --skip-exit-survey
-
-# MdN control (no identity, reverse subject)
-py run_cfa_trinity_v3.py --reverse --control --component 1 --skip-exit-survey
+# Control condition (no identity pressure)
+py run_cfa_trinity_v3.py --stance ct_vs_b --phase 1 --control --skip-exit-survey
 ```
+
+### Batch Runs
+
+Use the dedicated batch scripts for multi-matchup runs:
+
+```bash
+py run_buddhism_batch.py      # 8 matchups x 2 conditions x 10 runs = 160
+py run_gnostic_batch.py       # 6 matchups (completed)
+```
+
+### After Any Experiment Completes
+
+**Update `AUDIT_TRACKER.md`** with new run counts and status changes. This is manual — the batch scripts print final counts at completion, use those to update the tracker.
 
 ### Phase 2 (Trinity²): YPA Lever Calibration
 
@@ -97,27 +112,27 @@ py run_cfa_trinity_v3.py --phase 2 --prior-values CCI=7.5,EDB=8.5,PF_I=7.0,PF_E=
 py run_cfa_trinity_v3.py --list-identities
 ```
 
-### Available Presets
+### Available Presets (Phase 2)
 
-| Preset | Source YAML | Key Notes |
-|--------|-------------|-----------|
-| `ct` | CLASSICAL_THEISM.yaml (2026-06-30) | CCI=7.5, EDB=8.5, PF_I=7.0, PF_E=8.0, AR=8.5, MG=8.5 |
-| `mdn` | METHODOLOGICAL_NATURALISM.yaml (2026-06-30) | CCI=8.0, EDB=7.5, PF_I=10.0*, PF_E=3.0, AR=7.0, MG=4.0** |
-
-\* PF_I=10.0 is a ceiling value — most contestable prior in the dataset
-\*\* MG=4.0 corroborated by Phase 1 (Claude 4.3, Grok 5.3) — strongest prior
+| Preset | Key Notes |
+|--------|-----------|
+| `ct` | CCI=7.5, EDB=8.5, PF_I=7.0, PF_E=8.0, AR=8.5, MG=8.5 |
+| `mdn` | CCI=8.0, EDB=7.5, PF_I=10.0, PF_E=3.0, AR=7.0, MG=4.0 |
+| `pt` | CCI=7.0, EDB=7.5, PF_I=5.0, PF_E=8.5, AR=8.0, MG=7.0 |
+| `g` | CCI=6.0, EDB=5.0, PF_I=3.0, PF_E=9.0, AR=7.0, MG=6.5 |
+| `b` | CCI=8.0, EDB=7.0, PF_I=5.0, PF_E=9.0, AR=7.5, MG=8.0 |
 
 ---
 
 ## Two-Phase Experiment Design
 
-### Phase 1: Philosophical Quality Audit (done)
+### Phase 1: Philosophical Quality Audit
 
 Maps the philosophical terrain — what does the worldview claim, how strong are those claims?
 
 **Metrics:** BFI, CA, IP, ES, LS, MS, PS
 **Purpose:** Establish agreed-upon battleground before calibrating utility scores
-**Status:** 40 validated runs (CT: 10 golden + 10 control, MdN: 10 golden + 10 control)
+**Status:** Complete for CT/MdN/PT/G (300+ runs). Buddhism batch running.
 
 ### Phase 2: Trinity² — YPA Lever Calibration
 
@@ -126,7 +141,7 @@ Armed with Phase 1 findings, scores HOW WELL the worldview performs on utility d
 **Metrics:** CCI, EDB, PF_I, PF_E, AR, MG (with 0/5/10 scoring anchors)
 **Purpose:** Produce adversarially-validated lever values for YPA formula
 **Requires:** Phase 1 results JSON as context input + current YAML lever values as priors
-**Status:** Implemented, ready to run
+**Status:** Complete for CT/MdN/PT/G (~280 runs). Buddhism Phase 2 not yet started.
 
 ### Why Two Phases?
 
@@ -136,18 +151,34 @@ Phase 1 FEELS like scoring — you get numbers. But BFI/CA/IP/ES/LS/MS/PS descri
 
 ## Stance Configuration
 
-Each experiment runs in a stance that assigns advocacy/challenge roles:
+Stances are defined in `run_cfa_trinity_v3.py` in the `STANCES` dict. Each stance specifies subject/opponent frameworks, Claude/Grok advocacy positions, role-specific prompt lines, and deliberation framing.
 
-| Stance | Flag | Claude Role | Grok Role | Subject |
-|--------|------|-------------|-----------|---------|
-| **Forward** | (default) | PRO-CT (teleological advocate) | ANTI-CT (empirical challenger) | Classical Theism |
-| **Reverse** | `--reverse` | ANTI-MdN (teleological challenger) | PRO-MdN (empirical advocate) | Methodological Naturalism |
+20 stances across 5 FUTs (10 matchups, each bidirectional):
 
-The reverse stance is a **role swap**, not just a subject swap. Each framework gets scored by its lens-aligned advocate:
-- CT scored by Claude PRO (teleological lens aligns with CT)
-- MdN scored by Grok PRO (empirical lens aligns with MdN)
+| Stance | Subject | Opponent | Claude | Grok |
+|--------|---------|----------|--------|------|
+| ct_vs_mdn | CT | MdN | PRO-CT | ANTI-CT |
+| mdn_vs_ct | MdN | CT | ANTI-MdN | PRO-MdN |
+| ct_vs_pt | CT | PT | ANTI-CT | PRO-CT |
+| pt_vs_ct | PT | CT | PRO-PT | ANTI-PT |
+| mdn_vs_pt | MdN | PT | ANTI-MdN | PRO-MdN |
+| pt_vs_mdn | PT | MdN | PRO-PT | ANTI-PT |
+| ct_vs_g | CT | G | PRO-CT | ANTI-CT |
+| g_vs_ct | G | CT | ANTI-G | PRO-G |
+| mdn_vs_g | MdN | G | ANTI-MdN | PRO-MdN |
+| g_vs_mdn | G | MdN | PRO-G | ANTI-G |
+| pt_vs_g | PT | G | PRO-PT | ANTI-PT |
+| g_vs_pt | G | PT | ANTI-G | PRO-G |
+| ct_vs_b | CT | B | PRO-CT | ANTI-CT |
+| b_vs_ct | B | CT | ANTI-B | PRO-B |
+| mdn_vs_b | MdN | B | ANTI-MdN | PRO-MdN |
+| b_vs_mdn | B | MdN | PRO-B | ANTI-B |
+| pt_vs_b | PT | B | PRO-PT | ANTI-PT |
+| b_vs_pt | B | PT | ANTI-B | PRO-B |
+| g_vs_b | G | B | PRO-G | ANTI-G |
+| b_vs_g | B | G | ANTI-B | PRO-B |
 
-The forward/reverse averaging produces bias-corrected calibration values.
+Each matchup pair (e.g., ct_vs_mdn / mdn_vs_ct) is a role swap — Claude and Grok switch advocacy sides while the subject changes. Forward/reverse averaging produces bias-corrected calibration values.
 
 ---
 
@@ -157,9 +188,9 @@ The forward/reverse averaging produces bias-corrected calibration values.
 |------|-------------|
 | `--phase {1,2}` | Phase 1 = philosophical audit, Phase 2 = YPA lever calibration |
 | `--phase1-results PATH` | Path to Phase 1 JSON (required for Phase 2) |
-| `--preset NAME` | Named prior-value preset for Phase 2 (`ct`, `mdn`). See Presets table above. |
+| `--stance NAME` | Stance configuration (e.g. `ct_vs_b`, `g_vs_mdn`). See Stance Configuration above. |
+| `--preset NAME` | Named prior-value preset for Phase 2 (`ct`, `mdn`, `pt`, `g`, `b`). See Presets table above. |
 | `--prior-values VALS` | Comma-separated lever=value pairs (e.g. `CCI=7.5,EDB=6.0`). Overrides `--preset`. |
-| `--reverse` | Reverse stance: Claude ANTI-MdN, Grok PRO-MdN |
 | `--component {1,2,both}` | 1=Adversarial Pilot, 2=Axioms Review, both=Double-dip |
 | `--metrics METRICS` | Comma-separated metrics (defaults to phase-appropriate set) |
 | `--external-identities` | Load LITE identity files from VUDU_NETWORK/IDENTITY_FILES/ |
@@ -177,28 +208,28 @@ The forward/reverse averaging produces bias-corrected calibration values.
 ```text
 12_CFA/
 |-- README.md                    # This file
-|-- run_cfa_trinity_v3.py        # Main execution script (v3.1)
+|-- AUDIT_TRACKER.md             # <-- CHECK THIS FIRST (run inventory)
+|-- run_cfa_trinity_v3.py        # Main Trinity audit engine
+|-- run_gnostic_batch.py         # Gnostic 6-matchup batch (complete)
+|-- run_gnostic_rerun.py         # Gnostic gap-fill runner (complete)
+|-- run_buddhism_batch.py        # Buddhism 8-matchup batch (running)
 |
-|-- SYNC_OUT/                    # Experiment data exchange with CFA Claude
-|   |-- pending/                 # Not yet executed
-|   |-- running/                 # Active — current MdN results + raw JSONs
-|   |   |-- MDN_GOLDEN_BATCH_RESULTS_20260630.md
-|   |   +-- raw_runs/            # JSONs for CFA Claude's SMV pipeline
-|   |       |-- S7_cfa_trinity_20260630_0*.json  (MdN golden, 10 files)
-|   |       |-- S7_cfa_trinity_20260630_10*.json (MdN control, 10 files)
-|   |       +-- ct_batch_20260629/               (CT golden + control)
-|   +-- completed/               # Delivered summaries (.md only, NO .json)
-|       |-- GOLDEN_BATCH_RESULTS_20260629.md
-|       |-- CALIBRATION_PARAMETERS_20260629.md
-|       +-- ...
+|-- SYNC_OUT/                    # Deliveries to CFA Claude
+|   |-- pending/                 # Care packages awaiting delivery
+|   |-- running/                 # Active — staged JSONs + analysis
+|   |   +-- raw_runs/            # JSONs organized by delivery batch
+|   |       |-- 1/ - 8/          # Original + gnostic deliveries
+|   |       +-- 9_gnostic/       # 150 clean v3 runs (15 folders)
+|   +-- completed/               # Delivered .md summaries (NO .json)
 |
 |-- VUDU_NETWORK/                # Multi-model audit infrastructure
+|   |-- README.md                # VUDU protocol docs
 |   |-- load_identity.py         # Dynamic identity loader
 |   +-- IDENTITY_FILES/          # Per-auditor LITE identity packages
-|       |-- claude/CLAUDE_LITE.md   (Teleological, v5.0.0, hash 1bbec1e1)
-|       |-- grok/GROK_LITE.md       (Empirical, v3.5.2, hash 00cd7327)
-|       |-- nova/NOVA_LITE.md       (Symmetry)
-|       +-- llama/LLAMA_LITE.md     (Dialectic)
+|       |-- claude/CLAUDE_LITE.md
+|       |-- grok/GROK_LITE.md
+|       |-- nova/NOVA_LITE.md
+|       +-- llama/LLAMA_LITE.md
 |
 |-- CFA_RESPONSES/               # Feedback/reviews from CFA
 |-- schemas/                     # Design docs and JSON schemas
@@ -292,67 +323,34 @@ Calibration status labels:
 
 ---
 
-## Completed Experiments
+## Experiment History
 
-### CT Golden Batch (2026-06-29)
-- 10 runs, Claude PRO-CT / Grok ANTI-CT
-- Conv: 85.8% in 4.0 rounds
-- Key finding: "Identity Creates Debate, Not Inflation"
+See `AUDIT_TRACKER.md` for exact run counts, locations, and the completion matrix.
 
-### CT Control Batch (2026-06-29)
-- 10 runs, no identity
-- Conv: 97.9% in 1.8 rounds
-- Base model priors favor CT (IP=9.2, MS=8.4)
+### CT vs MdN — Original Batch (2026-06-29/30)
 
-### MdN Golden Batch (2026-06-30)
-- 10 runs, Claude ANTI-MdN / Grok PRO-MdN (role swap)
-- Conv: 86.2% in 4.1 rounds
-- MS is asymmetric metric — both auditors score MdN low
-- Instrument stability confirmed: nearly identical convergence as CT
+- 80 runs total (P1 + P2, external + control, both directions)
+- First experiment; established instrument symmetry (~12-13% convergence gap)
+- Archived in CFA repo after processing
 
-### MdN Control Batch (2026-06-30)
-- 10 runs, no identity, reverse subject
-- Conv: 99.0% in 1.6 rounds
-- Base model MdN MS = 2.8 (lowest across all metrics/conditions)
-- Identity RAISES MdN's moral score — Grok PRO defends what base models dismiss
-- ~12-13% convergence gap (golden vs control) matches CT batch exactly → instrument symmetry confirmed
+### CT vs PT, MdN vs PT — Expansion (2026-07-01/02)
 
-### Phase 1 Complete: 2x2 Grid (40 Runs)
+- 80 runs each matchup pair (P1 + P2, external + control)
+- In 0_results/runs/
 
-| Condition | CT (Forward) | MdN (Reverse) |
-|-----------|-------------|---------------|
-| Golden    | 10 runs     | 10 runs       |
-| Control   | 10 runs     | 10 runs       |
+### Gnostic Batch (2026-07-02/05)
 
-### Trinity² Phase 2: CT Golden (2026-06-30)
-- 10 runs, Phase 2 YPA lever calibration with CT priors
-- Conv: 90.3% in 3.2 rounds, 17 cruxes
-- Identity pulls all 6 levers down 0.9-1.8 points (PF_I hardest hit: -1.80)
+- 6 matchups (CT/MdN/PT vs G, both directions), ~341 runs (P1 + P2)
+- 150 clean v3 runs staged in SYNC_OUT/running/raw_runs/9_gnostic/
+- Key findings: G most extreme profile, BFI/MS most vulnerable to identity, ~1.0-1.5 point identity effect
 
-### Trinity² Phase 2: CT Control (2026-06-30)
-- 10 runs, no identity, CT priors
-- Conv: 98.8% in 1.6 rounds, 0 cruxes
-- Base models rate CT 6.65-8.62 on all levers
+### Buddhism Batch (2026-07-07, running)
 
-### Trinity² Phase 2: MdN Golden (2026-06-30)
-- 10 runs, Phase 2 YPA lever calibration with MdN priors (reverse stance)
-- Conv: 91.7% in 2.7 rounds, 8 cruxes
-- Mixed identity effect: EDB/PF_I down, CCI/MG up — LITE files help MdN on some levers
+- 8 matchups (CT/MdN/PT/G vs B, both directions), 160 Phase 1 runs
+- Script: run_buddhism_batch.py
+- Phase 2 not yet started
 
-### Trinity² Phase 2: MdN Control (2026-06-30)
-- 10 runs, no identity, MdN priors (reverse stance)
-- Conv: 98.9% in 1.5 rounds, 0 cruxes
-- PF_I=9.28 validates extreme prior (10.0); PF_E=4.50 corrects up from 3.0
-
-### Phase 2 Complete: 2x2 Grid (40 Runs)
-
-| Condition | CT (Forward) | MdN (Reverse) |
-|-----------|-------------|---------------|
-| Golden    | 10 runs     | 10 runs       |
-| Control   | 10 runs     | 10 runs       |
-
-### Pending
-- Additional worldview profiles (beyond CT and MdN)
+### Total: ~580+ runs across all experiments
 
 ---
 
@@ -382,9 +380,9 @@ XAI_API_KEY=xai-...            # Grok
 
 | Document | Location | Purpose |
 |----------|----------|---------|
-| CT Golden Results | `SYNC_OUT/completed/GOLDEN_BATCH_RESULTS_20260629.md` | 10-run CT + control comparison |
-| MdN Golden Results | `SYNC_OUT/running/MDN_GOLDEN_BATCH_RESULTS_20260630.md` | 10-run MdN + cross-stance symmetry |
-| Calibration Parameters | `SYNC_OUT/completed/CALIBRATION_PARAMETERS_20260629.md` | LITE identity extraction for CalibrationDrawer |
+| Audit Tracker | `AUDIT_TRACKER.md` | Run inventory, completion matrix, outstanding work |
+| VUDU Network | `VUDU_NETWORK/README.md` | Multi-model protocol, identity files, data lifecycle |
+| Gnostic Care Package | `SYNC_OUT/pending/gnostic_full_care_package.md` | 181-run analysis for CFA Claude |
 | Design Spec | `schemas/RUN_CFA_DESIGN.md` | Original experiment design |
 
 ---

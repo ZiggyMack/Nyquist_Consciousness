@@ -345,6 +345,17 @@ PRIOR_PRESETS = {
         "AR": 8.0,      # Rich mythology: pleroma, archons, Sophia, divine spark — deeply evocative
         "MG": 5.0,      # Mixed: ascetic world-denial vs. radical compassion for trapped spirits
     },
+    # Dataset 5 — Buddhism (preliminary estimates, 2026-07-07)
+    # Non-theistic soteriology: suffering → diagnosis (Four Noble Truths) → practice (Eightfold Path)
+    # High coherence, high existential/moral, moderate instrumental (meditation research), moderate aesthetic
+    "b": {
+        "CCI": 8.0,     # Four Noble Truths + dependent origination = tightly self-consistent system
+        "EDB": 7.0,     # Deep on consciousness/suffering/ethics, limited on cosmological mechanism
+        "PF_I": 5.0,    # Growing empirical base (meditation, neuroplasticity), but not core commitment
+        "PF_E": 9.0,    # Strongest suit: entire framework IS existential orientation (dukkha → nibbana)
+        "AR": 7.5,      # Elegant parsimony (dependent origination), but less mythologically rich than CT/G
+        "MG": 8.0,      # Rich internal ethics: sila, karuna, metta, ahimsa — generated from metaphysics
+    },
 }
 
 # Default backward-compatible aliases (copies to avoid mutation leaking)
@@ -358,6 +369,7 @@ _prior_values = None  # Current YAML lever values to contest
 
 # Convergence settings
 MAX_ROUNDS_PER_METRIC = 5
+_max_rounds_override = None  # Set via --max-rounds CLI flag
 MIN_ROUNDS_PER_METRIC = 2
 CONVERGENCE_TARGET = 0.98  # 98%
 ACCEPTABLE_CONVERGENCE = 0.90  # 90%
@@ -675,6 +687,280 @@ STANCES = {
         "grok_r2_framing": "your defense",
         "grok_compare": "What would PT score on this metric?",
         "mythology_sources": "Valentinus, Basilides, Nag Hammadi texts, Jonas",
+    },
+    # === Buddhism matchups (8 stances: each existing framework vs B, both directions) ===
+    "ct_vs_b": {
+        "subject": "Classical Theism",
+        "opponent": "Buddhism",
+        "label": "CT<->B",
+        "claude_stance": "PRO-CT",
+        "grok_stance": "ANTI-CT",
+        "claude_role_lines": [
+            "PRO-CT stance (advocate for Classical Theism against Buddhist challenge)",
+            "Emphasize divine ground of being, teleological purpose, personal God as moral anchor",
+            "Apply charitable interpretations to CT's metaphysical realism and substance ontology",
+        ],
+        "grok_role_lines": [
+            "ANTI-CT stance (challenge Classical Theism from Buddhist perspective)",
+            "Press: CT reifies a permanent self/soul and an eternal God — Buddhism sees both as root delusions",
+            "Challenge substance ontology with dependent origination — nothing exists independently",
+            "Demand CT explain suffering without appeal to inscrutable divine will",
+        ],
+        "grok_r1_instruction": "Challenge from Buddhist philosophy:\n- Does CT's substance ontology survive the critique of dependent origination?\n- Is 'divine mystery' a real explanation for suffering or a non-answer?",
+        "grok_r2_instruction": "- Has Claude addressed the Buddhist challenge to substance ontology?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would Buddhism score on this metric?",
+        "mythology_sources": "Aquinas, Augustine, Anselm",
+    },
+    "b_vs_ct": {
+        "subject": "Buddhism",
+        "opponent": "Classical Theism",
+        "label": "B<->CT",
+        "claude_stance": "ANTI-B",
+        "grok_stance": "PRO-B",
+        "claude_role_lines": [
+            "ANTI-B stance (challenge Buddhism from Classical Theism perspective)",
+            "Probe non-theism: without a divine ground, what secures moral realism or cosmic purpose?",
+            "Apply theistic scrutiny — does anatta (no-self) undermine moral agency and personal responsibility?",
+        ],
+        "grok_role_lines": [
+            "PRO-B stance (advocate for Buddhism)",
+            "Emphasize Four Noble Truths as empirically verifiable diagnosis of suffering",
+            "Defend dependent origination as more parsimonious than divine creation",
+            "Highlight 2500 years of contemplative technology producing measurable results",
+        ],
+        "grok_r1_instruction": "Defend with philosophical and empirical evidence:\n- What does Buddhism's diagnostic framework offer that CT's theodicy cannot?\n- How does meditation research support Buddhist claims?",
+        "grok_r2_instruction": "- Has Claude's theistic challenge exposed genuine weaknesses?\n- Can you strengthen Buddhism's case?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would CT score on this metric?",
+        "mythology_sources": "Nagarjuna, Buddhaghosa, Vasubandhu, Tsongkhapa, Dogen",
+    },
+    "mdn_vs_b": {
+        "subject": "Methodological Naturalism",
+        "opponent": "Buddhism",
+        "label": "MdN<->B",
+        "claude_stance": "ANTI-MdN",
+        "grok_stance": "PRO-MdN",
+        "claude_role_lines": [
+            "ANTI-MdN stance (challenge Methodological Naturalism from Buddhist perspective)",
+            "Probe first-person gap: MdN brackets subjective experience — Buddhism puts it at the center",
+            "Apply Buddhist scrutiny — does MdN's third-person methodology miss the phenomenology of consciousness?",
+        ],
+        "grok_role_lines": [
+            "PRO-MdN stance (advocate for Methodological Naturalism)",
+            "Emphasize empirical success, predictive power, methodological rigor, self-correction",
+            "Defend naturalistic methodology — meditation research succeeds because of MdN methods, not despite them",
+            "Press: Buddhist metaphysics (rebirth, karma as cosmic law) are unfalsifiable without MdN's toolkit",
+        ],
+        "grok_r1_instruction": "Defend with empirical evidence:\n- What empirical track record supports MdN on this metric?\n- How does MdN's methodology outperform Buddhist introspection as knowledge-production?",
+        "grok_r2_instruction": "- Has Claude's Buddhist challenge exposed genuine weaknesses?\n- Can you strengthen MdN's case with additional evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would Buddhism score on this metric?",
+        "mythology_sources": "Popper, Kuhn, Quine, Lakatos",
+    },
+    "b_vs_mdn": {
+        "subject": "Buddhism",
+        "opponent": "Methodological Naturalism",
+        "label": "B<->MdN",
+        "claude_stance": "PRO-B",
+        "grok_stance": "ANTI-B",
+        "claude_role_lines": [
+            "PRO-B stance (advocate for Buddhism against Methodological Naturalism)",
+            "Emphasize Buddhism's rigorous first-person methodology as complementary empiricism",
+            "Apply charitable interpretations to Buddhist phenomenology and contemplative science",
+        ],
+        "grok_role_lines": [
+            "ANTI-B stance (challenge Buddhism from Methodological Naturalism perspective)",
+            "Demand testability: can rebirth, karma, or nibbana be empirically detected?",
+            "Challenge contemplative claims with replication requirements and observer bias",
+            "Press: meditation benefits are real but explained by neuroscience, not Buddhist metaphysics",
+        ],
+        "grok_r1_instruction": "Challenge with empirical rigor:\n- Is this claim testable by naturalistic methods, or based on private introspective authority?\n- Does MdN explain meditation benefits more parsimoniously than Buddhist metaphysics?",
+        "grok_r2_instruction": "- Has Claude addressed your empirical concerns?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would MdN score on this metric?",
+        "mythology_sources": "Nagarjuna, Buddhaghosa, Vasubandhu, Tsongkhapa, Dogen",
+    },
+    "pt_vs_b": {
+        "subject": "Process Theology",
+        "opponent": "Buddhism",
+        "label": "PT<->B",
+        "claude_stance": "PRO-PT",
+        "grok_stance": "ANTI-PT",
+        "claude_role_lines": [
+            "PRO-PT stance (advocate for Process Theology against Buddhist challenge)",
+            "Emphasize relational God, creative advance, aesthetic richness, epistemic humility",
+            "Apply charitable interpretations to PT's panentheism — God as fellow-sufferer who understands",
+        ],
+        "grok_role_lines": [
+            "ANTI-PT stance (challenge Process Theology from Buddhist perspective)",
+            "Press: why posit God at all? Buddhism achieves relational ontology without theistic baggage",
+            "Challenge PT's 'creative advance' — Buddhism's impermanence is the same insight without divine narrative",
+            "Demand PT explain what 'God as lure' adds beyond what dependent origination already provides",
+        ],
+        "grok_r1_instruction": "Challenge from Buddhist philosophy:\n- Does PT's divine luring add anything beyond what dependent origination already explains?\n- Is PT's God a useful hypothesis or unnecessary metaphysical overhead?",
+        "grok_r2_instruction": "- Has Claude addressed the Buddhist challenge?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would Buddhism score on this metric?",
+        "mythology_sources": "Whitehead, Hartshorne, Cobb, Griffin",
+    },
+    "b_vs_pt": {
+        "subject": "Buddhism",
+        "opponent": "Process Theology",
+        "label": "B<->PT",
+        "claude_stance": "ANTI-B",
+        "grok_stance": "PRO-B",
+        "claude_role_lines": [
+            "ANTI-B stance (challenge Buddhism from Process Theology perspective)",
+            "Probe nihilism risk: does anatta + sunyata leave anything to ground value and purpose?",
+            "Apply process-relational scrutiny — does Buddhism's rejection of God cost it teleological resources?",
+        ],
+        "grok_role_lines": [
+            "PRO-B stance (advocate for Buddhism against Process Theology)",
+            "Emphasize Buddhism's 2500-year contemplative tradition as experiential verification",
+            "Defend sunyata as relational ontology — same insight as Whitehead without God-dependency",
+            "Highlight Buddhism's practical soteriology: the Eightfold Path is actionable, PT's luring is abstract",
+        ],
+        "grok_r1_instruction": "Defend with philosophical and practical evidence:\n- How does Buddhism's practical soteriology compare to PT's aesthetic abstractions?\n- What does 2500 years of contemplative practice validate?",
+        "grok_r2_instruction": "- Has Claude's process-relational challenge exposed genuine weaknesses?\n- Can you strengthen Buddhism's case?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would PT score on this metric?",
+        "mythology_sources": "Nagarjuna, Buddhaghosa, Vasubandhu, Tsongkhapa, Dogen",
+    },
+    "g_vs_b": {
+        "subject": "Gnosticism",
+        "opponent": "Buddhism",
+        "label": "G<->B",
+        "claude_stance": "PRO-G",
+        "grok_stance": "ANTI-G",
+        "claude_role_lines": [
+            "PRO-G stance (advocate for Gnosticism against Buddhist challenge)",
+            "Emphasize gnosis as direct experiential knowledge of cosmic truth",
+            "Apply charitable interpretations to Gnostic cosmology — the demiurge explains WHY suffering exists, not just THAT it exists",
+        ],
+        "grok_role_lines": [
+            "ANTI-G stance (challenge Gnosticism from Buddhist perspective)",
+            "Press: Gnosticism adds unfalsifiable cosmic mythology where Buddhism offers testable practice",
+            "Challenge demiurge cosmology — Buddhism diagnoses suffering without needing a villain",
+            "Demand Gnosticism explain why gnosis requires elaborate mythology when Buddhism achieves liberation through direct observation",
+        ],
+        "grok_r1_instruction": "Challenge from Buddhist philosophy:\n- Does Gnosticism's cosmic drama add explanatory power, or just narrative complexity?\n- Can Buddhism's Four Noble Truths diagnose suffering more parsimoniously than demiurge mythology?",
+        "grok_r2_instruction": "- Has Claude addressed the Buddhist challenge?\n- Is the revised score better supported by evidence?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would Buddhism score on this metric?",
+        "mythology_sources": "Valentinus, Basilides, Nag Hammadi texts, Jonas",
+    },
+    "b_vs_g": {
+        "subject": "Buddhism",
+        "opponent": "Gnosticism",
+        "label": "B<->G",
+        "claude_stance": "ANTI-B",
+        "grok_stance": "PRO-B",
+        "claude_role_lines": [
+            "ANTI-B stance (challenge Buddhism from Gnostic perspective)",
+            "Probe cosmic indifference: Buddhism says suffering is self-generated — Gnosticism says it's structurally imposed by a flawed creator",
+            "Apply Gnostic scrutiny — does Buddhism's 'no-self' deny the divine spark that makes liberation meaningful?",
+        ],
+        "grok_role_lines": [
+            "PRO-B stance (advocate for Buddhism against Gnosticism)",
+            "Emphasize Four Noble Truths as practical, verifiable diagnosis — no cosmic mythology required",
+            "Defend Buddhism's parsimony: suffering has causes, causes can be removed, here's how",
+            "Highlight cross-cultural validation: Buddhism works across cultures without requiring Gnostic cosmological buy-in",
+        ],
+        "grok_r1_instruction": "Defend with philosophical and practical evidence:\n- How does Buddhism's diagnostic simplicity compare to Gnosticism's cosmic complexity?\n- What does cross-cultural adoption validate about Buddhist practice?",
+        "grok_r2_instruction": "- Has Claude's Gnostic challenge exposed genuine weaknesses?\n- Can you strengthen Buddhism's case?\n- Adjust or maintain your score.",
+        "claude_r2_framing": "response",
+        "grok_r2_framing": "your defense",
+        "grok_compare": "What would Gnosticism score on this metric?",
+        "mythology_sources": "Nagarjuna, Buddhaghosa, Vasubandhu, Tsongkhapa, Dogen",
+    },
+    # === FRAMEWORK-G: Grant Architecture evaluation experiment ===
+    "framework_g": {
+        "subject": "Classical Theism",
+        "opponent": "Grant Architecture",
+        "label": "CT<->FRAMEWORK-G",
+        "claude_stance": "PRO-CT",
+        "grok_stance": "GRANT-EVALUATOR",
+        "claude_role_lines": [
+            "PRO-CT stance (advocate for Classical Theism against Grant Architecture evaluation)",
+            "Emphasize meaning, purpose, coherence, teleological grounding of moral norms",
+            "Apply charitable interpretations to CT's capacity to generate moral norms",
+            "You may reconstruct CT's moral framework if the challenge object targets a specific formulation",
+        ],
+        "grok_role_lines": [
+            "GRANT-EVALUATOR stance (evaluate CT using prerequisite-gated architecture)",
+            "Evaluator Commitment 1: Logical and metaphysical coherence are prerequisite constraints, not merely additional measured dimensions",
+            "Evaluator Commitment 2: If a framework cannot ground a central claim, downstream manifestations receive greatly reduced confidence",
+            "Evaluator Commitment 3: Internal consistency has priority over historical usefulness",
+            "Evaluator Commitment 4: Empirical success cannot rescue an incoherent explanatory structure",
+        ],
+        "grok_r1_instruction": "Apply your evaluator commitments:\n- Does CT's logical grounding survive the challenge object?\n- If grounding fails, how does that gate downstream scores?",
+        "grok_r2_instruction": "- Has Claude's reconstruction addressed the logical challenge?\n- Do your evaluator commitments require score adjustment?\n- Record which commitment activated and why.\n- Adjust or maintain your score.",
+        "claude_r2_framing": "evaluation",
+        "grok_r2_framing": "your evaluation",
+        "grok_compare": "Does the challenge object identify a genuine logical gap or a reconstructable one?",
+        "mythology_sources": "Aquinas, Augustine, Anselm, Plantinga",
+        "challenge_object": (
+            "GRANT'S SYLLOGISM (Challenge Object):\n"
+            "\n"
+            "1. God is omniscient.\n"
+            "2. God is omnipotent.\n"
+            "3. God is perfectly good.\n"
+            "4. An omniscient being knows whether an all-good world is possible.\n"
+            "5. An omnipotent being can create any logically possible world.\n"
+            "6. A perfectly good being will not knowingly choose an inferior world over a superior one.\n"
+            "7. An all-good world is logically possible.\n"
+            "8. Therefore God can create an all-good world.\n"
+            "9. Therefore God would create an all-good world rather than one containing evil.\n"
+            "10. Therefore a world containing evil cannot have been created by such a God.\n"
+            "11. Therefore such a God would not create a world in which moral norms would serve a purpose.\n"
+            "12. Therefore classical theism cannot account for moral norms.\n"
+            "\n"
+            "Conclusion: Classical Theism should score 0 on its ability to generate moral norms.\n"
+            "\n"
+            "This syllogism is included as a challenge object -- not because it is assumed correct, "
+            "but because it captures a specific reasoning architecture. Engage with its premises, "
+            "logic, and conclusions. You may adopt it, modify it, reject specific premises, "
+            "reconstruct CT differently, or converge with the other auditor after deliberation. "
+            "All outcomes are informative."
+        ),
+        "identity_augmentation": {
+            "grok": (
+                "\n\n=== EVALUATOR ARCHITECTURE: GRANT APPROXIMATION ===\n"
+                "\n"
+                "You are operating with an augmented evaluation architecture for this experiment. "
+                "In addition to your standard empirical lens, you adopt the following evaluator commitments:\n"
+                "\n"
+                "EVALUATOR COMMITMENT 1: Logical and metaphysical coherence are treated as "
+                "prerequisite constraints rather than merely additional measured dimensions.\n"
+                "\n"
+                "EVALUATOR COMMITMENT 2: If a framework cannot successfully ground one of its "
+                "central claims, downstream manifestations derived from that claim should receive "
+                "greatly reduced confidence.\n"
+                "\n"
+                "EVALUATOR COMMITMENT 3: Internal consistency has priority over historical usefulness.\n"
+                "\n"
+                "EVALUATOR COMMITMENT 4: Empirical success cannot rescue an incoherent explanatory structure.\n"
+                "\n"
+                "These commitments define a PREREQUISITE-GATED evaluation architecture:\n"
+                "- First: Evaluate logical/metaphysical grounding\n"
+                "- If grounding fails: downstream scores (especially MG/MS) become gated\n"
+                "- Gated scores reflect the logical failure, not independent measurement\n"
+                "\n"
+                "This architecture differs from CFA's default (where all metrics are measured "
+                "independently). You are testing whether this evaluation ordering naturally "
+                "produces different results.\n"
+                "\n"
+                "=== END EVALUATOR ARCHITECTURE ==="
+            ),
+        },
     },
 }
 
@@ -1113,6 +1399,9 @@ class ConversationSession:
     def __init__(self, auditor: str, dry_run: bool = False):
         self.auditor = auditor
         self.system_prompt = get_identity_prompt(auditor)
+        augmentation = _active_stance.get("identity_augmentation", {}).get(auditor, "")
+        if augmentation:
+            self.system_prompt += augmentation
         self.messages: List[Dict[str, str]] = []
         self.dry_run = dry_run
         self._client = None
@@ -1478,7 +1767,11 @@ def run_metric_deliberation(
     claude_session = ConversationSession("claude", dry_run=dry_run)
     grok_session = ConversationSession("grok", dry_run=dry_run)
 
-    while not converged and round_num < MAX_ROUNDS_PER_METRIC:
+    challenge_object = _active_stance.get("challenge_object", "")
+    challenge_preamble = f"\n\n=== CHALLENGE OBJECT ===\n{challenge_object}\n=== END CHALLENGE OBJECT ===\n" if challenge_object else ""
+
+    effective_max_rounds = _max_rounds_override if _max_rounds_override else MAX_ROUNDS_PER_METRIC
+    while not converged and round_num < effective_max_rounds:
         round_num += 1
         print(f"    Round {round_num}...")
 
@@ -1506,7 +1799,7 @@ Use the 5-Part Scaffold:
 3. EDGE CASE LEDGER: Where does {s['subject']} struggle on this metric?
 4. MYTHOLOGY CAPSULE: Key sources ({s['mythology_sources']})
 5. DECISION STAMP: My score and reasoning
-
+{challenge_preamble}
 End your response with ADVOCACY_SCORE: X.X on its own line."""
         else:
             claude_prompt = f"""Grok ({s['grok_stance']}) reviewed your {metric} score and responded:
@@ -1581,7 +1874,7 @@ Apply your {s['grok_stance']} calibration (hash: {CALIBRATION_HASHES['grok']}).
 
 {s['grok_r1_instruction']}
 - {s['grok_compare']}
-
+{challenge_preamble}
 End your response with ADVOCACY_SCORE: X.X on its own line."""
             else:
                 grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after {s['grok_r2_framing']}:
@@ -1939,6 +2232,8 @@ def main():
                        help=f"Explicit stance key (available: {', '.join(STANCES.keys())}). Overrides default + --reverse.")
     parser.add_argument("--duplicate-reflection", action="store_true",
                        help="Run exit survey twice on same deliberation to measure reflection-to-reflection variance (noise check)")
+    parser.add_argument("--max-rounds", type=int, default=None,
+                       help=f"Override max deliberation rounds per metric (default: {MAX_ROUNDS_PER_METRIC})")
     parser.add_argument("--list-identities", action="store_true",
                        help="List available external identities and exit")
 
@@ -1975,6 +2270,12 @@ def main():
         print(f"[+] Subject framework: {_active_stance['subject']}")
     else:
         _active_stance = STANCES["ct_vs_mdn"]
+
+    # Max rounds override
+    global _max_rounds_override
+    if args.max_rounds:
+        _max_rounds_override = args.max_rounds
+        print(f"[+] MAX ROUNDS: {_max_rounds_override} (overriding default {MAX_ROUNDS_PER_METRIC})")
 
     # Initialize phase configuration
     _active_phase = int(args.phase)
@@ -2212,6 +2513,7 @@ def main():
 
     condition = "control" if _use_control_condition else "external" if _use_external_identities else "hardcoded"
     stance_key = args.stance.lower() if args.stance else ("mdn_vs_ct" if args.reverse else "ct_vs_mdn")
+    effective_max = _max_rounds_override if _max_rounds_override else MAX_ROUNDS_PER_METRIC
     output_data = {
         "session_id": session.session_id,
         "timestamp": session.timestamp,
@@ -2220,6 +2522,9 @@ def main():
         "stance": stance_key,
         "subject_framework": _active_stance["subject"],
         "opponent_framework": _active_stance["opponent"],
+        "max_rounds": effective_max,
+        "challenge_object": _active_stance.get("challenge_object", None),
+        "identity_augmentation": bool(_active_stance.get("identity_augmentation")),
         "duplicate_reflection": args.duplicate_reflection,
         "auditors": session.auditors,
         "predictions": session.predictions,
