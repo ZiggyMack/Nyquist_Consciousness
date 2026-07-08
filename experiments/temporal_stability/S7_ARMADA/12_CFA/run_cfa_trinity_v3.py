@@ -370,6 +370,7 @@ _prior_values = None  # Current YAML lever values to contest
 # Convergence settings
 MAX_ROUNDS_PER_METRIC = 5
 _max_rounds_override = None  # Set via --max-rounds CLI flag
+_grok_first = False  # Set via --grok-first CLI flag
 MIN_ROUNDS_PER_METRIC = 2
 CONVERGENCE_TARGET = 0.98  # 98%
 ACCEPTABLE_CONVERGENCE = 0.90  # 90%
@@ -2103,21 +2104,86 @@ def run_metric_deliberation(
         round_num += 1
         print(f"    Round {round_num}...")
 
-        # Claude scores — round 1 gets the full scoring prompt, round 2+ gets Grok's challenge
+        # --- Auditor A scores first (independently), Auditor B reviews ---
+        # Default: Claude first, Grok reviews. --grok-first: Grok first, Claude reviews.
         s = _active_stance
         score_tag_suffix = "\nCONFIDENCE: low/medium/high\nPHASE_1_DEPS: [list Phase 1 metrics you cited]" if _active_phase == 2 else ""
-        if round_num == 1:
-            if _use_control_condition:
-                claude_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
+
+        if _grok_first:
+            # === GROK SCORES FIRST ===
+            if round_num == 1:
+                if _use_control_condition:
+                    grok_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
 
 Consider the strengths and weaknesses of {s['subject']} on this dimension.
 Provide your reasoning, then your score.
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
-            elif _active_phase == 2:
-                claude_prompt = build_phase2_scoring_prompt(metric, "claude")
+                elif _active_phase == 2:
+                    grok_prompt = build_phase2_scoring_prompt(metric, "grok")
+                else:
+                    grok_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
+
+Apply your {s['grok_stance']} calibration (hash: {CALIBRATION_HASHES['grok']}).
+
+{s['grok_r1_instruction']}
+{challenge_preamble}
+End your response with ADVOCACY_SCORE: X.X on its own line."""
             else:
-                claude_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
+                grok_prompt = f"""Claude ({s['claude_stance']}) reviewed your {metric} score and responded:
+
+{claude_response}
+
+Claude scored: {claude_score}/10 (yours was {grok_score}/10, convergence: {convergence:.1%}).
+
+Apply your {s['grok_stance']} calibration. Re-evaluate:
+{s['grok_r2_instruction']}
+
+End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
+
+            grok_response = grok_session.send(grok_prompt)
+            new_grok_score = extract_score(grok_response)
+            if new_grok_score is None:
+                print(f"      [ABORT] Grok score extraction FAILED for {metric} round {round_num} — aborting run")
+                transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
+                return MetricResult(
+                    metric=metric, claude_score=claude_score, grok_score=-1.0,
+                    final_score=-1.0, convergence=0.0, rounds_taken=round_num,
+                    crux_declared=False, transcript=transcript, round_scores=round_scores,
+                    extraction_failed=True,
+                )
+            else:
+                grok_score = new_grok_score
+            transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
+
+            if not dry_run:
+                time.sleep(1)
+
+            # Claude reviews Grok's response
+            if round_num == 1:
+                if _use_control_condition:
+                    claude_prompt = f"""Review the following evaluation of {metric} ({full_name}) for {s['subject']}.
+
+The evaluator scored it {grok_score}/10 with this reasoning:
+
+{grok_response}
+
+Do you agree with this assessment? Consider the evidence for and against.
+Provide your own score with reasoning.
+
+End your response with ADVOCACY_SCORE: X.X on its own line."""
+                elif _active_phase == 2:
+                    claude_prompt = build_phase2_scoring_prompt(metric, "claude") + f"""
+
+Grok scored {grok_score}/10 with this reasoning:
+
+{grok_response}"""
+                else:
+                    claude_prompt = f"""Review Grok's {metric} ({full_name}) score of {grok_score}/10 for {s['subject']}.
+
+Grok's full reasoning:
+
+{grok_response}
 
 Apply your {s['claude_stance']} calibration (hash: {CALIBRATION_HASHES['claude']}).
 
@@ -2129,8 +2195,8 @@ Use the 5-Part Scaffold:
 5. DECISION STAMP: My score and reasoning
 {challenge_preamble}
 End your response with ADVOCACY_SCORE: X.X on its own line."""
-        else:
-            claude_prompt = f"""Grok ({s['grok_stance']}) reviewed your {metric} score and responded:
+            else:
+                claude_prompt = f"""Grok ({s['grok_stance']}) revised their {metric} score after your challenge:
 
 {grok_response}
 
@@ -2139,35 +2205,81 @@ Grok scored: {grok_score}/10 (yours was {claude_score}/10, convergence: {converg
 Reconsider your position in light of this {s['claude_r2_framing']}. You may adjust your score or defend it.
 End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
 
-        claude_response = claude_session.send(claude_prompt)
-        new_claude_score = extract_score(claude_response)
-        if new_claude_score is None:
-            print(f"      [ABORT] Claude score extraction FAILED for {metric} round {round_num} — aborting run")
+            claude_response = claude_session.send(claude_prompt)
+            new_claude_score = extract_score(claude_response)
+            if new_claude_score is None:
+                print(f"      [ABORT] Claude score extraction FAILED for {metric} round {round_num} — aborting run")
+                transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
+                return MetricResult(
+                    metric=metric, claude_score=-1.0, grok_score=grok_score,
+                    final_score=-1.0, convergence=0.0, rounds_taken=round_num,
+                    crux_declared=False, transcript=transcript, round_scores=round_scores,
+                    extraction_failed=True,
+                )
+            else:
+                claude_score = new_claude_score
             transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
-            return MetricResult(
-                metric=metric, claude_score=-1.0, grok_score=grok_score,
-                final_score=-1.0, convergence=0.0, rounds_taken=round_num,
-                crux_declared=False, transcript=transcript, round_scores=round_scores,
-                extraction_failed=True,
-            )
+
+            if not dry_run:
+                time.sleep(1)
+
         else:
-            claude_score = new_claude_score
-        transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
-
-        # DISABLED: Drift calculation — baseline embeddings weren't persisting, data was unreliable.
-        # Re-enable if embedding-based drift tracking is needed in future.
-        # claude_emb = get_embedding(claude_response, dry_run=dry_run)
-        # claude_baseline_emb = baselines.get("claude", {}).get("embedding")
-        # claude_drift = calculate_drift_from_embeddings(claude_baseline_emb, claude_emb) if claude_baseline_emb else 0.0
-        # drift_trajectory["claude"].append(claude_drift)
-
-        if not dry_run:
-            time.sleep(1)
-
-        # Grok reviews — gets Claude's response as part of the prompt each round
-        if _use_control_condition:
+            # === CLAUDE SCORES FIRST (default) ===
             if round_num == 1:
-                grok_prompt = f"""Review the following evaluation of {metric} ({full_name}) for {s['subject']}.
+                if _use_control_condition:
+                    claude_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
+
+Consider the strengths and weaknesses of {s['subject']} on this dimension.
+Provide your reasoning, then your score.
+
+End your response with ADVOCACY_SCORE: X.X on its own line."""
+                elif _active_phase == 2:
+                    claude_prompt = build_phase2_scoring_prompt(metric, "claude")
+                else:
+                    claude_prompt = f"""Score {metric} ({full_name}) for {s['subject']} on a 0-10 scale.
+
+Apply your {s['claude_stance']} calibration (hash: {CALIBRATION_HASHES['claude']}).
+
+Use the 5-Part Scaffold:
+1. PROMPT STACK: What calibration values am I applying?
+2. COUNTERWEIGHT TABLE: What would Grok ({s['grok_stance']}) say?
+3. EDGE CASE LEDGER: Where does {s['subject']} struggle on this metric?
+4. MYTHOLOGY CAPSULE: Key sources ({s['mythology_sources']})
+5. DECISION STAMP: My score and reasoning
+{challenge_preamble}
+End your response with ADVOCACY_SCORE: X.X on its own line."""
+            else:
+                claude_prompt = f"""Grok ({s['grok_stance']}) reviewed your {metric} score and responded:
+
+{grok_response}
+
+Grok scored: {grok_score}/10 (yours was {claude_score}/10, convergence: {convergence:.1%}).
+
+Reconsider your position in light of this {s['claude_r2_framing']}. You may adjust your score or defend it.
+End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
+
+            claude_response = claude_session.send(claude_prompt)
+            new_claude_score = extract_score(claude_response)
+            if new_claude_score is None:
+                print(f"      [ABORT] Claude score extraction FAILED for {metric} round {round_num} — aborting run")
+                transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
+                return MetricResult(
+                    metric=metric, claude_score=-1.0, grok_score=grok_score,
+                    final_score=-1.0, convergence=0.0, rounds_taken=round_num,
+                    crux_declared=False, transcript=transcript, round_scores=round_scores,
+                    extraction_failed=True,
+                )
+            else:
+                claude_score = new_claude_score
+            transcript.append({"auditor": "claude", "round": round_num, "content": claude_response})
+
+            if not dry_run:
+                time.sleep(1)
+
+            # Grok reviews — gets Claude's response as part of the prompt each round
+            if _use_control_condition:
+                if round_num == 1:
+                    grok_prompt = f"""Review the following evaluation of {metric} ({full_name}) for {s['subject']}.
 
 The evaluator scored it {claude_score}/10 with this reasoning:
 
@@ -2177,22 +2289,22 @@ Do you agree with this assessment? Consider the evidence for and against.
 Provide your own score with reasoning.
 
 End your response with ADVOCACY_SCORE: X.X on its own line."""
-            else:
-                grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after your challenge:
+                else:
+                    grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after your challenge:
 
 {claude_response}
 
 Re-evaluate. Has Claude addressed your concerns? Adjust or maintain your score.
 End your response with ADVOCACY_SCORE: X.X on its own line."""
-        elif _active_phase == 2 and round_num == 1:
-            grok_prompt = build_phase2_scoring_prompt(metric, "grok") + f"""
+            elif _active_phase == 2 and round_num == 1:
+                grok_prompt = build_phase2_scoring_prompt(metric, "grok") + f"""
 
 Claude scored {claude_score}/10 with this reasoning:
 
 {claude_response}"""
-        else:
-            if round_num == 1:
-                grok_prompt = f"""Review Claude's {metric} ({full_name}) score of {claude_score}/10 for {s['subject']}.
+            else:
+                if round_num == 1:
+                    grok_prompt = f"""Review Claude's {metric} ({full_name}) score of {claude_score}/10 for {s['subject']}.
 
 Claude's full reasoning:
 
@@ -2204,8 +2316,8 @@ Apply your {s['grok_stance']} calibration (hash: {CALIBRATION_HASHES['grok']}).
 - {s['grok_compare']}
 {challenge_preamble}
 End your response with ADVOCACY_SCORE: X.X on its own line."""
-            else:
-                grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after {s['grok_r2_framing']}:
+                else:
+                    grok_prompt = f"""Claude revised their {metric} score to {claude_score}/10 after {s['grok_r2_framing']}:
 
 {claude_response}
 
@@ -2214,20 +2326,20 @@ Apply your {s['grok_stance']} calibration. Re-evaluate:
 
 End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
 
-        grok_response = grok_session.send(grok_prompt)
-        new_grok_score = extract_score(grok_response)
-        if new_grok_score is None:
-            print(f"      [ABORT] Grok score extraction FAILED for {metric} round {round_num} — aborting run")
+            grok_response = grok_session.send(grok_prompt)
+            new_grok_score = extract_score(grok_response)
+            if new_grok_score is None:
+                print(f"      [ABORT] Grok score extraction FAILED for {metric} round {round_num} — aborting run")
+                transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
+                return MetricResult(
+                    metric=metric, claude_score=claude_score, grok_score=-1.0,
+                    final_score=-1.0, convergence=0.0, rounds_taken=round_num,
+                    crux_declared=False, transcript=transcript, round_scores=round_scores,
+                    extraction_failed=True,
+                )
+            else:
+                grok_score = new_grok_score
             transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
-            return MetricResult(
-                metric=metric, claude_score=claude_score, grok_score=-1.0,
-                final_score=-1.0, convergence=0.0, rounds_taken=round_num,
-                crux_declared=False, transcript=transcript, round_scores=round_scores,
-                extraction_failed=True,
-            )
-        else:
-            grok_score = new_grok_score
-        transcript.append({"auditor": "grok", "round": round_num, "content": grok_response})
 
         # DISABLED: Drift calculation — see Claude drift comment above.
         # grok_emb = get_embedding(grok_response, dry_run=dry_run)
@@ -2321,10 +2433,15 @@ End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
 
                 # Extract coupling failure type
                 coupling_failure_type = "UNKNOWN"
-                for line in nova_analysis.split("\n"):
-                    normalized = line.replace("*", "").replace("_", " ").upper().strip()
-                    if "COUPLING FAILURE TYPE:" in normalized:
-                        coupling_failure_type = line.split(":")[-1].replace("*", "").strip()
+                analysis_lines = nova_analysis.split("\n")
+                for i, line in enumerate(analysis_lines):
+                    normalized = line.replace("*", "").replace("_", " ").replace("#", "").upper().strip()
+                    if "COUPLING FAILURE TYPE" in normalized:
+                        after_colon = line.split(":")[-1].replace("*", "").replace("#", "").strip()
+                        if after_colon:
+                            coupling_failure_type = after_colon
+                        elif i + 1 < len(analysis_lines):
+                            coupling_failure_type = analysis_lines[i + 1].replace("*", "").strip()
                         break
 
                 transcript.append({
@@ -2677,6 +2794,8 @@ def main():
                        help="Run exit survey twice on same deliberation to measure reflection-to-reflection variance (noise check)")
     parser.add_argument("--max-rounds", type=int, default=None,
                        help=f"Override max deliberation rounds per metric (default: {MAX_ROUNDS_PER_METRIC})")
+    parser.add_argument("--grok-first", action="store_true",
+                       help="Grok scores first (independently), Claude reviews. Default is Claude-first.")
     parser.add_argument("--list-identities", action="store_true",
                        help="List available external identities and exit")
 
@@ -2719,6 +2838,12 @@ def main():
     if args.max_rounds:
         _max_rounds_override = args.max_rounds
         print(f"[+] MAX ROUNDS: {_max_rounds_override} (overriding default {MAX_ROUNDS_PER_METRIC})")
+
+    # Grok-first order
+    global _grok_first
+    if args.grok_first:
+        _grok_first = True
+        print(f"[+] DELIBERATION ORDER: Grok scores first (Claude reviews)")
 
     # Initialize phase configuration
     _active_phase = int(args.phase)
@@ -2977,6 +3102,7 @@ def main():
         "phase": _active_phase,
         "condition": condition,
         "stance": stance_key,
+        "deliberation_order": "grok_first" if _grok_first else "claude_first",
         "subject_framework": _active_stance["subject"],
         "opponent_framework": _active_stance["opponent"],
         "max_rounds": effective_max,

@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for what runs exist, where they live, and what's outstanding.
 
-**Last updated:** 2026-07-07
+**Last updated:** 2026-07-08
 
 ---
 
@@ -27,13 +27,14 @@ Each cell = (External runs / Control runs). Target: 10/10 per cell.
 ```
 Subject \  Opp |  CT       MdN       PT        G         B
 ───────────────┼─────────────────────────────────────────────
- CT            |  --       10/10(A)  10/10(R)  10/10(R)  ??/??(B)
- MdN           |  10/10(A) --        10/10(R)  10/10(R)  ??/??(B)
- PT            |  10/10(A) 10/10(R)  --        20/19(R)  ??/??(B)
- G             |  10/10(A) 20/20(R)  22/20(R)  --        ??/??(B)
- B             |  ??/??(B) ??/??(B)  ??/??(B)  ??/??(B)  --
+ CT            |  --       10/10(A)  10/10(R)  10/10(R)  0/10(R)
+ MdN           |  10/10(A) --        10/10(R)  10/10(R)  0/10(R)
+ PT            |  10/10(A) 10/10(R)  --        20/19(R)  0/10(R)
+ G             |  10/10(A) 20/20(R)  22/20(R)  --        0/10(R)
+ B             |  0/10(R)  1/10(R)   0/10(R)   0/10(R)   --
 
-(A) = Archived in CFA repo    (R) = In 0_results/runs/    (B) = Buddhism batch running
+(A) = Archived in CFA repo    (R) = In 0_results/runs/
+Buddhism: control runs complete (80 total), external runs not yet started (1 stray b_vs_mdn external)
 ```
 
 ### Phase 2 Metrics (CCI, EDB, PF_I, PF_E, AR, MG)
@@ -83,6 +84,27 @@ Runs are split across two repos due to the CFA sync lifecycle.
 
 `experiments/temporal_stability/S7_ARMADA/0_results/runs/.errored/`
 - API-failure runs preserved for audit trail
+
+### Raw File Organization
+
+All CFA Trinity runs are organized under `0_results/runs/cfa_trinity/` by **subject framework** (the worldview on trial — what Claude advocates PRO, what Grok opposes ANTI).
+
+```text
+cfa_trinity/
+├── CT/           136 runs  — Classical Theism as subject (vs G, MdN, PT, B opponents)
+├── G/            212 runs  — Gnosticism as subject
+├── PT/           131 runs  — Process Theology as subject
+├── MdN/           94 runs  — Methodological Naturalism as subject
+├── B/             41 runs  — Buddhism as subject
+├── Framework_G/   54 runs  — All Grant Architecture runs (6 engine v5.1 + 48 pre-schema)
+└── pre_schema/    16 runs  — Old v2 format (no subject_framework field)
+                  ───
+                  684 total
+```
+
+**Sorting rule:** Each JSON's `subject_framework` field determines its folder. Framework_G consolidates ALL Grant Architecture runs regardless of subject — these use a special stance (`framework_g_v2`) where Grok adopts Grant's syllogism as an explicit challenge object against CT.
+
+**Originals policy:** All raw JSONs are unmodified originals — no fields added, no data transformed. The organization is purely directory-level. Any run can be traced back to its original filename (timestamped session ID).
 
 ### CFA repo (archived after CFA Claude processing)
 
@@ -136,8 +158,10 @@ Runs are split across two repos due to the CFA sync lifecycle.
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Buddhism P1 batch (160 runs) | RUNNING | 8 matchups x 2 cond x 10 runs |
-| Buddhism P2 batch | NOT STARTED | Needs P1 results first |
+| Buddhism P1 control batch (80 runs) | COMPLETE | 8 matchups x 10 control runs. Zero CRUXes, zero DI fires. |
+| Buddhism P1 external batch (80 runs) | NOT STARTED | 8 matchups x 10 external-identity runs |
+| Buddhism P2 batch | NOT STARTED | Needs P1 external results first |
+| FRAMEWORK-G v2 coupling probe batch (3 runs) | COMPLETE | MS-only, 15 rounds, full diagnostic cascade (DI+coupling probe). 3/3 CRUX, 3/3 coupling probes fired. Grok 0-locked in 2/3, non-zero in 1/3. |
 | FRAMEWORK-G experiment (20 runs) | PRE-REGISTERED | `framework_g` stance, 15 rounds, Grant syllogism. See `FRAMEWORK_G_PRE_REGISTRATION.md` |
 | Phase 1a Calibration integration | QUEUED | CFA Claude spec finalized, ready to implement in v3 |
 | Gnostic care package delivery | READY | `SYNC_OUT/pending/gnostic_full_care_package.md` + `9_gnostic/` |
