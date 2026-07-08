@@ -2322,8 +2322,9 @@ End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
                 # Extract coupling failure type
                 coupling_failure_type = "UNKNOWN"
                 for line in nova_analysis.split("\n"):
-                    if "COUPLING_FAILURE_TYPE:" in line:
-                        coupling_failure_type = line.split("COUPLING_FAILURE_TYPE:")[-1].strip()
+                    normalized = line.replace("*", "").replace("_", " ").upper().strip()
+                    if "COUPLING FAILURE TYPE:" in normalized:
+                        coupling_failure_type = line.split(":")[-1].replace("*", "").strip()
                         break
 
                 transcript.append({
@@ -2966,6 +2967,13 @@ def main():
     output_data = {
         "session_id": session.session_id,
         "timestamp": session.timestamp,
+        "engine_version": "5.1",
+        "diagnostic_architecture": {
+            "diagnostic_interrogation": True,
+            "coupling_probe": True,
+            "stall_threshold": STALL_THRESHOLD,
+            "coupling_probe_delay": COUPLING_PROBE_DELAY,
+        },
         "phase": _active_phase,
         "condition": condition,
         "stance": stance_key,

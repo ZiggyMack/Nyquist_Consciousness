@@ -49,7 +49,7 @@ except ImportError:
                         key, _, value = line.partition('=')
                         os.environ[key.strip()] = value.strip().strip('"').strip("'")
 
-env_path = Path(__file__).parent.parent.parent.parent.parent.parent / "experiments" / "temporal_stability" / ".env"
+env_path = Path(__file__).parent.parent.parent.parent.parent.parent.parent / "experiments" / "temporal_stability" / ".env"
 if env_path.exists():
     load_dotenv(env_path)
 
@@ -234,8 +234,15 @@ def extract_transcript_from_cfa(json_path: Path) -> dict:
         if not isinstance(transcript, list):
             continue
 
+        diagnostic_types = {
+            "nova_intervention", "intervention_response",
+            "coupling_probe", "coupling_response", "coupling_analysis",
+            "assessment",
+        }
         lines = []
         for entry in transcript:
+            if entry.get("type") in diagnostic_types:
+                continue
             auditor = entry.get("auditor", "unknown")
             round_num = entry.get("round", "?")
             content = entry.get("content", "")
