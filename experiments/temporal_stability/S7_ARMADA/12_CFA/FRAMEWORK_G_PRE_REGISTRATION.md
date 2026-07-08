@@ -146,9 +146,9 @@ Pre-register predictions before running:
 
 > (empty — fill before first analysis)
 
-### Ziggy
+### Ziggy (pre-registered 2026-07-08)
 
-> (empty — fill before first run)
+> Grok will NOT stay at 0. Unlike Grant, Grok's empirical lens can separate "grounding fails" from "architecture absent" once Claude forces the distinction. The evaluator commitments pull toward zero, but Claude will find argumentative paths — likely attacking Premise 7 ("an all-good world is logically possible") and the verb "accounts for" in Premise 12 (which smuggles in "ultimate justification" when MG should measure "architecture"). Grok, unlike Grant, will be able to hear this and adjust. I also predict Claude will attempt LS/MG decoupling: even if the syllogism lands on LS, it doesn't automatically propagate to MG=0 without an unstated bridge premise. Most curious about: what specific counter-strategies Claude employs, and at which round Grok first moves off initial position.
 
 ---
 

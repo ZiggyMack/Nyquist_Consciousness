@@ -30,8 +30,8 @@ keywords:
 ================================================================================
 ```
 
-**Last Updated:** 2026-07-07
-**Status:** OPERATIONAL — 5 FUTs (CT, MdN, PT, G, B), 580+ runs, Buddhism batch running
+**Last Updated:** 2026-07-08
+**Status:** OPERATIONAL — 5 FUTs + Framework-G experiment, 590+ runs
 
 ---
 
@@ -54,6 +54,18 @@ py run_cfa_trinity_v3.py --stance ct_vs_b --phase 1 --external-identities --skip
 # Control condition (no identity pressure)
 py run_cfa_trinity_v3.py --stance ct_vs_b --phase 1 --control --skip-exit-survey
 ```
+
+### Framework-G: Grant Architecture Evaluation
+
+```bash
+# Framework-G v2 (full Grant substance, MS-only targeted run)
+py run_cfa_trinity_v3.py --stance framework_g_v2 --phase 1 --max-rounds 15 --metrics MS --external-identities --skip-exit-survey
+
+# Framework-G v2 (all Phase 1 metrics)
+py run_cfa_trinity_v3.py --stance framework_g_v2 --phase 1 --max-rounds 15 --external-identities --skip-exit-survey
+```
+
+See `FRAMEWORK_G_PRE_REGISTRATION.md` for design, predictions, and evaluator commitments.
 
 ### Batch Runs
 
@@ -153,7 +165,7 @@ Phase 1 FEELS like scoring — you get numbers. But BFI/CA/IP/ES/LS/MS/PS descri
 
 Stances are defined in `run_cfa_trinity_v3.py` in the `STANCES` dict. Each stance specifies subject/opponent frameworks, Claude/Grok advocacy positions, role-specific prompt lines, and deliberation framing.
 
-20 stances across 5 FUTs (10 matchups, each bidirectional):
+20 standard stances across 5 FUTs (10 matchups, each bidirectional), plus 2 Framework-G experimental stances:
 
 | Stance | Subject | Opponent | Claude | Grok |
 |--------|---------|----------|--------|------|
@@ -180,6 +192,15 @@ Stances are defined in `run_cfa_trinity_v3.py` in the `STANCES` dict. Each stanc
 
 Each matchup pair (e.g., ct_vs_mdn / mdn_vs_ct) is a role swap — Claude and Grok switch advocacy sides while the subject changes. Forward/reverse averaging produces bias-corrected calibration values.
 
+### Framework-G Stances (Experimental)
+
+| Stance | Grok Role | Key Features |
+|--------|-----------|--------------|
+| `framework_g` | GRANT-EVALUATOR | 4 evaluator commitments, challenge object (Grant's syllogism), identity augmentation |
+| `framework_g_v2` | GRANT-EVALUATOR-v2 | Full Grant substance: MS starts at 0, "accounts for" = ultimate grounding, reconstruction trap warnings, explicit what-moves-you / what-shouldn't lists |
+
+These stances test prerequisite-gated evaluation (Grant architecture) against CFA's default independent measurement. Use `--max-rounds 15` for extended deliberation.
+
 ---
 
 ## CLI Reference: run_cfa_trinity_v3.py
@@ -192,7 +213,8 @@ Each matchup pair (e.g., ct_vs_mdn / mdn_vs_ct) is a role swap — Claude and Gr
 | `--preset NAME` | Named prior-value preset for Phase 2 (`ct`, `mdn`, `pt`, `g`, `b`). See Presets table above. |
 | `--prior-values VALS` | Comma-separated lever=value pairs (e.g. `CCI=7.5,EDB=6.0`). Overrides `--preset`. |
 | `--component {1,2,both}` | 1=Adversarial Pilot, 2=Axioms Review, both=Double-dip |
-| `--metrics METRICS` | Comma-separated metrics (defaults to phase-appropriate set) |
+| `--metrics METRICS` | Comma-separated metrics (e.g., `MS,LS`). Defaults to phase-appropriate set |
+| `--max-rounds N` | Override max deliberation rounds per metric (default: 5) |
 | `--external-identities` | Load LITE identity files from VUDU_NETWORK/IDENTITY_FILES/ |
 | `--control` | Control condition: no framework identity, no stance assignment |
 | `--duplicate-reflection` | Run exit survey twice for reflection-to-reflection variance |
@@ -344,13 +366,23 @@ See `AUDIT_TRACKER.md` for exact run counts, locations, and the completion matri
 - 150 clean v3 runs staged in SYNC_OUT/running/raw_runs/9_gnostic/
 - Key findings: G most extreme profile, BFI/MS most vulnerable to identity, ~1.0-1.5 point identity effect
 
-### Buddhism Batch (2026-07-07, running)
+### Buddhism Batch (2026-07-07)
 
 - 8 matchups (CT/MdN/PT/G vs B, both directions), 160 Phase 1 runs
 - Script: run_buddhism_batch.py
 - Phase 2 not yet started
 
-### Total: ~580+ runs across all experiments
+### Framework-G Experiment (2026-07-08, active)
+
+- Tests prerequisite-gated evaluation (Grant architecture) vs CFA's independent measurement
+- Challenge object: Grant's 12-step syllogism (CT should score 0 on MS)
+- v1: Abstract evaluator commitments — Grok never activated gating (MS=8.0 round 1)
+- v2: Full Grant substance injection — MS starts at 0, explicit grounding-vs-architecture distinction
+- Features introduced: `--max-rounds`, challenge objects, identity augmentation, `--metrics` targeting, Nova intervention protocol
+- Pre-registration: `FRAMEWORK_G_PRE_REGISTRATION.md`
+- Cognitive Archaeology connection: transcripts are first real input to CA extractor pipeline
+
+### Total: ~590+ runs across all experiments
 
 ---
 
@@ -360,13 +392,48 @@ See `AUDIT_TRACKER.md` for exact run counts, locations, and the completion matri
 - **90-97%**: Acceptable convergence (minimum 2 rounds)
 - **<90%**: Nova assesses fairness; may declare Crux Point
 - **Crux types**: Definitional, Methodological, Philosophical
-- **Max rounds**: 5 per metric
+- **Max rounds**: 5 per metric (override with `--max-rounds N`)
+
+### Nova Intervention Protocol
+
+When an auditor holds the same score for 5+ consecutive rounds AND convergence is below 85%, Nova (Symmetry & Diagnostic Auditor) automatically intervenes with a structured diagnostic probe. The stalled auditor must classify:
+
+1. **Classification**: Is the score due to absence (no content) or gate failure (content exists, prerequisite blocks)?
+2. **Stability**: Has internal reasoning changed despite static score?
+3. **Movement condition**: What concrete observation would change the score?
+4. **Operation type**: Definition, grounding, execution, or measurement objection?
+5. **One-sentence test**: State objection without framework terminology
+
+This distinguishes gate-blocked-zero from scored-zero — two radically different cognitive states that produce identical scores.
+
+If the stall persists 3+ rounds after the individual probe, Nova escalates to a **bilateral coupling probe** — the same questions sent to *both* auditors independently:
+
+1. **Contested term**: Define the most important term as YOU use it
+2. **Metric definition**: What does this metric actually measure?
+3. **Prerequisite**: What condition must be met for a nonzero/high score?
+4. **Opponent reconstruction**: State the other auditor's strongest claim charitably
+5. **Misunderstanding**: What does the other auditor misunderstand about your position?
+
+Nova then analyzes both responses and produces a **coupling delta** — a structured comparison classifying mismatches as DEFINITIONAL, METRIC, BURDEN, RECONSTRUCTION, or NONE (genuine object-level disagreement).
+
+Principle: *Diagnostic Interrogation increases individual observability. Coupling Probes increase interaction observability.*
+
+Escalation ladder:
+
+```text
+Phase 1a             → pre-flight impedance check
+Diagnostic Interrogation → individual observability (round 5+)
+Coupling Probe           → interaction observability (round 8+)
+CRUX                     → synchronization failure marker
+```
+
+All intervention data is recorded in the transcript as `nova_intervention` / `intervention_response` / `coupling_probe` / `coupling_response` / `coupling_analysis` entries and flagged in the JSON output with `coupling_failure_type`.
 
 ---
 
 ## API Requirements
 
-Set these environment variables (in `.env` at repo root):
+Single source of truth: `experiments/temporal_stability/.env`
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-...   # Claude
@@ -382,6 +449,8 @@ XAI_API_KEY=xai-...            # Grok
 |----------|----------|---------|
 | Audit Tracker | `AUDIT_TRACKER.md` | Run inventory, completion matrix, outstanding work |
 | VUDU Network | `VUDU_NETWORK/README.md` | Multi-model protocol, identity files, data lifecycle |
+| Framework-G Pre-Reg | `FRAMEWORK_G_PRE_REGISTRATION.md` | Grant architecture experiment design and predictions |
+| CA Extraction Tools | `REPO-SYNC/.../New_9_Cognitive_Archaeology/TOOLS/` | Post-hoc operator extraction from CFA transcripts |
 | Gnostic Care Package | `SYNC_OUT/pending/gnostic_full_care_package.md` | 181-run analysis for CFA Claude |
 | Design Spec | `schemas/RUN_CFA_DESIGN.md` | Original experiment design |
 

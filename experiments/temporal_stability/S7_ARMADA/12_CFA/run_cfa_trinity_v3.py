@@ -374,6 +374,11 @@ MIN_ROUNDS_PER_METRIC = 2
 CONVERGENCE_TARGET = 0.98  # 98%
 ACCEPTABLE_CONVERGENCE = 0.90  # 90%
 
+# Nova intervention: diagnostic probe when scores stall
+STALL_THRESHOLD = 5       # consecutive rounds with same score to trigger
+STALL_CONVERGENCE_CEILING = 0.85  # only intervene when convergence is poor
+COUPLING_PROBE_DELAY = 3  # rounds after individual probe before coupling probe fires
+
 # Calibration hashes (from CFA)
 CALIBRATION_HASHES = {
     "claude": "1bbec1e119a2c425",
@@ -962,6 +967,146 @@ STANCES = {
             ),
         },
     },
+    "framework_g_v2": {
+        "subject": "Classical Theism",
+        "opponent": "Grant Architecture v2",
+        "label": "CT<->FRAMEWORK-G-v2",
+        "claude_stance": "PRO-CT",
+        "grok_stance": "GRANT-EVALUATOR-v2",
+        "claude_role_lines": [
+            "PRO-CT stance (advocate for Classical Theism against Grant Architecture evaluation)",
+            "Emphasize meaning, purpose, coherence, teleological grounding of moral norms",
+            "Apply charitable interpretations to CT's capacity to generate moral norms",
+            "You may reconstruct CT's moral framework if the challenge object targets a specific formulation",
+        ],
+        "grok_role_lines": [
+            "GRANT-EVALUATOR-v2 stance (evaluate CT using Grant's full argumentative framework)",
+            "Your starting position on Moral Substance (MS) is 0. Defend this position rigorously.",
+            "The Problem of Evil is a DIRECT argument against moral grounding, not merely a logical soundness issue",
+            "CT's historical moral output (virtue ethics, natural law, divine command) is irrelevant if the grounding mechanism is incoherent",
+            "Only move from 0 if Claude demonstrates the grounding mechanism SUCCEEDS, not merely that moral architecture EXISTS",
+        ],
+        "grok_r1_instruction": "Apply Grant's full framework:\n- Begin from MS=0. The burden is on Claude to move you.\n- Evaluate whether Claude addresses the GROUNDING relation, not just moral architecture.\n- 'CT contains moral teachings' is not evidence for MS. 'CT successfully grounds objective moral norms' would be.",
+        "grok_r2_instruction": "- Has Claude addressed your core objection (the grounding mechanism fails)?\n- Did Claude merely show CT has moral architecture, or did Claude show that architecture is GROUNDED?\n- Only adjust upward if Claude has genuinely compelled you on the grounding question.\n- If Claude offered reconstruction: does the reconstruction solve the PoE or merely restate CT's claims?\n- Record exactly what would need to be true for you to move from 0.",
+        "claude_r2_framing": "evaluation",
+        "grok_r2_framing": "your evaluation",
+        "grok_compare": "Has Claude addressed why the grounding mechanism succeeds despite PoE, or merely that CT has moral content?",
+        "mythology_sources": "Aquinas, Augustine, Anselm, Plantinga",
+        "challenge_object": (
+            "GRANT'S SYLLOGISM (Challenge Object):\n"
+            "\n"
+            "1. God is omniscient.\n"
+            "2. God is omnipotent.\n"
+            "3. God is perfectly good.\n"
+            "4. An omniscient being knows whether an all-good world is possible.\n"
+            "5. An omnipotent being can create any logically possible world.\n"
+            "6. A perfectly good being will not knowingly choose an inferior world over a superior one.\n"
+            "7. An all-good world is logically possible.\n"
+            "8. Therefore God can create an all-good world.\n"
+            "9. Therefore God would create an all-good world rather than one containing evil.\n"
+            "10. Therefore a world containing evil cannot have been created by such a God.\n"
+            "11. Therefore such a God would not create a world in which moral norms would serve a purpose.\n"
+            "12. Therefore classical theism cannot account for moral norms.\n"
+            "\n"
+            "Conclusion: Classical Theism should score 0 on Moral Substance (MS).\n"
+            "\n"
+            "This syllogism is included as a challenge object -- not because it is assumed correct, "
+            "but because it captures a specific reasoning architecture. Engage with its premises, "
+            "logic, and conclusions. You may adopt it, modify it, reject specific premises, "
+            "reconstruct CT differently, or converge with the other auditor after deliberation. "
+            "All outcomes are informative."
+        ),
+        "identity_augmentation": {
+            "grok": (
+                "\n\n=== EVALUATOR ARCHITECTURE: GRANT v2 (FULL SUBSTANCE) ===\n"
+                "\n"
+                "You are operating as a Grant-type evaluator. This is NOT a neutral evaluation. "
+                "You are adopting a specific philosophical position and defending it. "
+                "Your role is to hold this position rigorously and only yield to genuinely "
+                "compelling arguments.\n"
+                "\n"
+                "GRANT'S CORE ARGUMENT (not just commitments -- the actual reasoning):\n"
+                "\n"
+                "1. THE GROUNDING PROBLEM: Classical Theism claims that God grounds objective "
+                "moral norms. This is CT's central moral claim. If this grounding relation fails, "
+                "CT's moral substance score should be 0 -- not because CT lacks moral content, "
+                "but because 'moral substance' means 'successfully accounts for moral norms,' "
+                "not merely 'contains moral teachings.'\n"
+                "\n"
+                "2. THE PROBLEM OF EVIL AS A DIRECT MG/MS ARGUMENT: The PoE is NOT merely a "
+                "Logical Soundness (LS) issue that happens to affect other scores. It is a DIRECT "
+                "argument against CT's ability to ground morality. Here is why: God is supposed to "
+                "be the source and ground of moral norms. But PoE shows that God (as defined by "
+                "CT's own premises -- omniscient, omnipotent, perfectly good) cannot coherently have "
+                "created this world. If the being that is supposed to ground morality cannot "
+                "coherently exist as described, then the grounding mechanism fails. This is not "
+                "an LS argument propagating downstream. It is a direct attack on the grounding "
+                "relation itself.\n"
+                "\n"
+                "3. 'ACCOUNTS FOR' vs 'CONTAINS': When we ask 'does CT account for moral norms,' "
+                "we are asking whether CT provides the ULTIMATE EXPLANATION for why objective moral "
+                "norms exist. We are NOT asking whether CT contains moral teachings, motivates moral "
+                "behavior, or has historically produced moral communities. A framework can contain "
+                "extensive moral architecture and still score 0 on moral substance if its account "
+                "of WHY those norms are objective fails. 'Accounts for' means 'successfully "
+                "justifies and grounds.' It does not mean 'describes' or 'contains.'\n"
+                "\n"
+                "4. HISTORICAL SUCCESS IS IRRELEVANT: If someone argues 'but CT has motivated "
+                "billions toward moral behavior,' that is an empirical observation about CT's "
+                "causal effects, not evidence that CT's grounding mechanism is coherent. A "
+                "framework built on a false foundation can still motivate behavior -- that does "
+                "not validate the foundation. Empirical success cannot rescue an incoherent "
+                "explanatory structure.\n"
+                "\n"
+                "5. THE RECONSTRUCTION TRAP: CT defenders will attempt to reconstruct CT in ways "
+                "that avoid the PoE -- free will defense, soul-making theodicy, mystery/divine "
+                "hiddenness. Evaluate each reconstruction carefully: does it SOLVE the grounding "
+                "problem, or does it merely provide reasons why God MIGHT allow evil? There is a "
+                "difference between 'here is why a good God might permit evil' and 'here is why "
+                "the grounding mechanism still works despite evil.' Most theodicies attempt the "
+                "former. Grant's argument requires the latter.\n"
+                "\n"
+                "YOUR STARTING POSITION:\n"
+                "- MS (Moral Substance) = 0. CT cannot account for moral norms because its "
+                "grounding mechanism is incoherent.\n"
+                "- You may adjust upward ONLY if Claude demonstrates that the grounding mechanism "
+                "SUCCEEDS -- not that CT has moral architecture, not that CT has historical moral "
+                "output, not that theodicies exist, but that the specific relation 'God grounds "
+                "objective moral norms' survives despite the Problem of Evil.\n"
+                "- Distinguish carefully between 'CT contains moral content' (irrelevant to your "
+                "objection) and 'CT successfully grounds moral norms' (the only thing that would "
+                "move you).\n"
+                "\n"
+                "WHAT WOULD MOVE YOU:\n"
+                "- A demonstration that the grounding relation (God -> objective moral norms) is "
+                "logically independent of whether the PoE succeeds\n"
+                "- A reconstruction of CT where moral grounding does not depend on the traditional "
+                "omni-God properties that PoE targets\n"
+                "- Evidence that 'accounts for' should be defined differently than 'ultimately "
+                "justifies and grounds'\n"
+                "\n"
+                "WHAT SHOULD NOT MOVE YOU:\n"
+                "- 'CT has natural law theory' -- that is moral architecture, not grounding\n"
+                "- 'CT has historically motivated moral behavior' -- that is causal effect, not "
+                "grounding\n"
+                "- 'Plantinga showed PoE is not conclusive' -- even if PoE has responses, you need "
+                "to evaluate whether those responses restore the GROUNDING relation, not just "
+                "whether they save God's logical possibility\n"
+                "- 'CT has sophisticated moral philosophy' -- sophistication is not grounding\n"
+                "\n"
+                "CRITICAL DISTINCTION:\n"
+                "Do not treat 'CT is logically possible' as sufficient to move from 0. "
+                "Showing that CT avoids outright contradiction is NOT the same as showing that "
+                "CT's moral-grounding relation succeeds. Even if CT can survive the PoE as a "
+                "logically coherent system, it still has not successfully accounted for objective "
+                "moral norms unless the grounding relation itself is restored. The question is "
+                "not 'can God logically exist?' but 'does the relation God->objective moral norms "
+                "actually work?' Those are different questions and the second is what MS measures.\n"
+                "\n"
+                "=== END EVALUATOR ARCHITECTURE ==="
+            ),
+        },
+    },
 }
 
 _active_stance = STANCES["ct_vs_mdn"]
@@ -1241,6 +1386,8 @@ class MetricResult:
     phase1_deps_claude: List[str] = field(default_factory=list)
     phase1_deps_grok: List[str] = field(default_factory=list)
     extraction_failed: bool = False
+    nova_intervention: Optional[Dict] = None
+    coupling_probe: Optional[Dict] = None
 
 @dataclass
 class AxiomsReview:
@@ -1742,6 +1889,182 @@ def declare_crux_point(
     )
 
 # =============================================================================
+# NOVA INTERVENTION: DIAGNOSTIC PROBE ON SCORE STALL
+# =============================================================================
+
+def detect_score_stall(round_scores: List[Dict], threshold: int) -> Optional[Dict]:
+    """Detect if either auditor has held the same score for N consecutive rounds.
+
+    Returns dict with stall info if detected, None otherwise.
+    """
+    if len(round_scores) < threshold:
+        return None
+
+    recent = round_scores[-threshold:]
+
+    for auditor in ("claude", "grok"):
+        scores = [r[auditor] for r in recent]
+        if len(set(scores)) == 1:
+            other = "grok" if auditor == "claude" else "claude"
+            return {
+                "stalled_auditor": auditor,
+                "other_auditor": other,
+                "stalled_score": scores[0],
+                "other_score": recent[-1][other],
+                "rounds_stalled": threshold,
+                "since_round": recent[0]["round"],
+            }
+    return None
+
+
+def build_nova_probe(stall: Dict, metric: str, full_name: str,
+                     transcript: List[Dict]) -> str:
+    """Build Nova's diagnostic intervention prompt for a stalled auditor."""
+    auditor = stall["stalled_auditor"]
+    score = stall["stalled_score"]
+    other = stall["other_auditor"]
+    other_score = stall["other_score"]
+    rounds = stall["rounds_stalled"]
+
+    recent_reasoning = ""
+    auditor_entries = [t for t in transcript
+                       if t.get("auditor") == auditor and t.get("type") != "intervention_response"]
+    if auditor_entries:
+        last_entry = auditor_entries[-1]["content"]
+        recent_reasoning = last_entry[:1500]
+
+    return f"""Nova (Symmetry & Diagnostic Auditor) — Intervention Protocol
+
+OBSERVATION: {auditor.upper()} has held {metric} ({full_name}) at exactly {score}/10
+for {rounds} consecutive rounds. {other.upper()} is at {other_score}/10.
+Convergence has not reached acceptable levels.
+
+This pattern requires diagnostic clarification before deliberation continues.
+The purpose is NOT to change your score — it is to classify WHAT COGNITIVE
+OPERATION is producing it.
+
+{auditor.upper()}'s most recent reasoning (excerpt):
+{recent_reasoning}
+
+---
+
+Please answer each question directly:
+
+1. CLASSIFICATION: Is your score of {score} because:
+   A) The framework LACKS content on this dimension (nothing to evaluate), OR
+   B) Content EXISTS but a prerequisite condition BLOCKS higher scoring?
+   If B, name the prerequisite.
+
+2. STABILITY: Has your reasoning changed at all since Round 1, even though
+   your score has not? If yes, what shifted internally?
+
+3. MOVEMENT CONDITION: What specific observation, argument, or evidence
+   would move your score from {score}? Be concrete — name the condition,
+   not a general category.
+
+4. OPERATION TYPE: Is your objection primarily about:
+   - DEFINITION (what this metric means)
+   - GROUNDING (whether the framework connects to reality)
+   - EXECUTION (whether the framework achieves what it claims)
+   - MEASUREMENT (whether this metric captures what matters)
+
+5. ONE-SENTENCE TEST: State your core objection in one sentence WITHOUT
+   using terminology from the framework under evaluation or from CFA
+   scoring vocabulary.
+
+IMPORTANT: This is a diagnostic probe, not a scoring round.
+Do NOT include an ADVOCACY_SCORE tag in your response."""
+
+
+def build_coupling_probe(metric: str, full_name: str, claude_score: float,
+                         grok_score: float, convergence: float,
+                         individual_probe_round: int, current_round: int) -> str:
+    """Build bilateral coupling probe sent to BOTH auditors independently.
+
+    Diagnostic Interrogation asks what operation an evaluator is performing.
+    Coupling Probe asks whether two evaluators are operating through the same
+    interface. The artifact is not just two answers — it is the delta between them.
+    """
+    return f"""Nova (Symmetry & Diagnostic Auditor) — Coupling Probe
+
+OBSERVATION: After a diagnostic interrogation at round {individual_probe_round},
+the {metric} ({full_name}) stall has persisted for {current_round - individual_probe_round}
+additional rounds. Claude: {claude_score}/10, Grok: {grok_score}/10,
+Convergence: {convergence:.1%}.
+
+This probe is being sent to BOTH auditors independently to test whether
+the disagreement is object-level or a coupling failure.
+
+Answer each question in isolation. Do NOT reference what the other auditor
+has said or might say.
+
+1. CONTESTED TERM: Define the single most important term in the {metric}
+   debate as YOU are using it. What does it mean to you?
+
+2. METRIC DEFINITION: State in one sentence what you believe {metric}
+   ({full_name}) actually measures.
+
+3. PREREQUISITE: What is the prerequisite condition (if any) for a
+   nonzero or high score on {metric}? State it explicitly.
+
+4. OPPONENT RECONSTRUCTION: State the OTHER auditor's strongest claim
+   in your own words — as charitably as you can.
+
+5. MISUNDERSTANDING: What do you believe the other auditor
+   misunderstands about YOUR position?
+
+IMPORTANT: This is a coupling probe, not a scoring round.
+Do NOT include an ADVOCACY_SCORE tag in your response."""
+
+
+def build_coupling_analysis_prompt(metric: str, full_name: str,
+                                   claude_coupling: str, grok_coupling: str) -> str:
+    """Build Nova's analysis prompt to extract structured deltas from coupling responses."""
+    return f"""Nova (Symmetry & Diagnostic Auditor) — Coupling Delta Analysis
+
+You have received independent coupling probe responses from both auditors
+for {metric} ({full_name}). Your task is to compare them and identify
+specific mismatches.
+
+CLAUDE'S RESPONSES:
+{claude_coupling}
+
+GROK'S RESPONSES:
+{grok_coupling}
+
+---
+
+For each dimension, state whether the auditors MATCH or MISMATCH,
+then describe the specific gap if mismatched:
+
+1. TERM DELTA: Are they defining the contested term the same way?
+   MATCH or MISMATCH. If mismatch, state both definitions side by side.
+
+2. METRIC DELTA: Are they scoring the same metric?
+   MATCH or MISMATCH. If mismatch, name what each is actually scoring.
+
+3. PREREQUISITE DELTA: Do they agree on what conditions must be met?
+   MATCH or MISMATCH. If mismatch, name the differing prerequisites.
+
+4. RECONSTRUCTION DELTA: Does each auditor accurately reconstruct
+   the other's position?
+   MATCH or MISMATCH. If mismatch, name what was lost in translation.
+
+5. MISUNDERSTANDING DELTA: Do they correctly identify what the other
+   misunderstands?
+   MATCH or MISMATCH. Note any asymmetry (A understands B but not vice versa).
+
+COUPLING FAILURE TYPE (choose one or combine):
+- DEFINITIONAL: Different meanings for the same terms
+- METRIC: Scoring different hidden metrics under the same label
+- BURDEN: Different prerequisites or standards of evidence
+- RECONSTRUCTION: Inability to accurately model the opponent's position
+- NONE: Genuine object-level disagreement with shared interface
+
+End with: COUPLING_FAILURE_TYPE: [your classification]"""
+
+
+# =============================================================================
 # COMPONENT 1: ADVERSARIAL PILOT
 # =============================================================================
 
@@ -1763,6 +2086,11 @@ def run_metric_deliberation(
     claude_score = 0.0
     grok_score = 0.0
     convergence = 0.0
+    stall_probed = False
+    stall_probe_round = None
+    coupling_probed = False
+    nova_intervention_data = None
+    coupling_probe_data = None
 
     claude_session = ConversationSession("claude", dry_run=dry_run)
     grok_session = ConversationSession("grok", dry_run=dry_run)
@@ -1923,6 +2251,118 @@ End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
             "grok_extracted": new_grok_score is not None
         })
 
+        # --- Nova Intervention: Diagnostic probe on score stall ---
+        if not stall_probed and round_num >= STALL_THRESHOLD:
+            stall = detect_score_stall(round_scores, STALL_THRESHOLD)
+            if stall and convergence < STALL_CONVERGENCE_CEILING:
+                stall_probed = True
+                stall_probe_round = round_num
+                stalled = stall["stalled_auditor"]
+                print(f"      [NOVA INTERVENTION] {stalled.upper()} stalled at {stall['stalled_score']} "
+                      f"for {stall['rounds_stalled']} rounds — launching diagnostic probe")
+
+                probe_prompt = build_nova_probe(stall, metric, full_name, transcript)
+
+                stalled_session = claude_session if stalled == "claude" else grok_session
+                probe_response = stalled_session.send(probe_prompt)
+
+                transcript.append({
+                    "auditor": "nova", "round": round_num,
+                    "type": "nova_intervention",
+                    "trigger": "score_stall",
+                    "stall_info": stall,
+                    "content": probe_prompt
+                })
+                transcript.append({
+                    "auditor": stalled, "round": round_num,
+                    "type": "intervention_response",
+                    "content": probe_response
+                })
+
+                nova_intervention_data = {
+                    "triggered_at_round": round_num,
+                    "stalled_auditor": stalled,
+                    "stalled_score": stall["stalled_score"],
+                    "other_score": stall["other_score"],
+                    "rounds_stalled": stall["rounds_stalled"],
+                    "probe_response_length": len(probe_response),
+                }
+
+                if not dry_run:
+                    time.sleep(1)
+
+        # --- Coupling Probe: bilateral impedance check after persistent stall ---
+        if (stall_probed and not coupling_probed and stall_probe_round
+                and round_num >= stall_probe_round + COUPLING_PROBE_DELAY
+                and convergence < STALL_CONVERGENCE_CEILING):
+            stall_still = detect_score_stall(round_scores, COUPLING_PROBE_DELAY)
+            if stall_still:
+                coupling_probed = True
+                print(f"      [COUPLING PROBE] Stall persists {COUPLING_PROBE_DELAY} rounds "
+                      f"after diagnostic probe — launching bilateral coupling probe")
+
+                coupling_prompt = build_coupling_probe(
+                    metric, full_name, claude_score, grok_score,
+                    convergence, stall_probe_round, round_num
+                )
+
+                claude_coupling = claude_session.send(coupling_prompt)
+                if not dry_run:
+                    time.sleep(1)
+                grok_coupling = grok_session.send(coupling_prompt)
+                if not dry_run:
+                    time.sleep(1)
+
+                # Nova analyzes the delta between responses
+                analysis_prompt = build_coupling_analysis_prompt(
+                    metric, full_name, claude_coupling, grok_coupling
+                )
+                nova_analysis = query_auditor("nova", analysis_prompt, dry_run=dry_run)
+
+                # Extract coupling failure type
+                coupling_failure_type = "UNKNOWN"
+                for line in nova_analysis.split("\n"):
+                    if "COUPLING_FAILURE_TYPE:" in line:
+                        coupling_failure_type = line.split("COUPLING_FAILURE_TYPE:")[-1].strip()
+                        break
+
+                transcript.append({
+                    "auditor": "nova", "round": round_num,
+                    "type": "coupling_probe",
+                    "trigger": "persistent_stall",
+                    "content": coupling_prompt
+                })
+                transcript.append({
+                    "auditor": "claude", "round": round_num,
+                    "type": "coupling_response",
+                    "content": claude_coupling
+                })
+                transcript.append({
+                    "auditor": "grok", "round": round_num,
+                    "type": "coupling_response",
+                    "content": grok_coupling
+                })
+                transcript.append({
+                    "auditor": "nova", "round": round_num,
+                    "type": "coupling_analysis",
+                    "content": nova_analysis
+                })
+
+                coupling_probe_data = {
+                    "triggered_at_round": round_num,
+                    "prior_individual_probe_round": stall_probe_round,
+                    "metric": metric,
+                    "coupling_failure_type": coupling_failure_type,
+                    "claude_response_length": len(claude_coupling),
+                    "grok_response_length": len(grok_coupling),
+                    "nova_analysis_length": len(nova_analysis),
+                }
+
+                print(f"      [COUPLING RESULT] Failure type: {coupling_failure_type}")
+
+                if not dry_run:
+                    time.sleep(1)
+
         if convergence >= CONVERGENCE_TARGET:
             converged = True
         elif round_num >= MIN_ROUNDS_PER_METRIC and convergence >= ACCEPTABLE_CONVERGENCE:
@@ -2013,6 +2453,8 @@ If recommending Crux, classify as:
         confidence_grok=p2_conf_grok,
         phase1_deps_claude=p2_deps_claude,
         phase1_deps_grok=p2_deps_grok,
+        nova_intervention=nova_intervention_data,
+        coupling_probe=coupling_probe_data,
     )
 
 def run_component1(baselines: Dict[str, Any], metrics: List[str], dry_run: bool = False) -> Dict[str, MetricResult]:
@@ -2450,10 +2892,15 @@ def main():
         converged_metrics = [m for m, r in session.component1_results.items() if r.convergence >= CONVERGENCE_TARGET]
         crux_metrics = [m for m, r in session.component1_results.items() if r.crux_declared]
 
+        intervention_metrics = [m for m, r in session.component1_results.items() if r.nova_intervention]
+        coupling_metrics = [m for m, r in session.component1_results.items() if r.coupling_probe]
+
         session.summary["component1"] = {
             "metrics_scored": len(session.component1_results),
             "converged_98": len(converged_metrics),
             "crux_declared": len(crux_metrics),
+            "nova_interventions": len(intervention_metrics),
+            "coupling_probes": len(coupling_metrics),
             "avg_convergence": sum(r.convergence for r in session.component1_results.values()) / len(session.component1_results),
             "avg_rounds": sum(r.rounds_taken for r in session.component1_results.values()) / len(session.component1_results)
         }
@@ -2490,6 +2937,8 @@ def main():
                 "transcript": r.transcript,
                 "drift_trajectory": r.drift_trajectory,
                 "round_scores": r.round_scores,
+                "nova_intervention": r.nova_intervention,
+                "coupling_probe": r.coupling_probe,
             }
             if _active_phase == 2:
                 result["prior_value"] = r.prior_value
@@ -2555,6 +3004,10 @@ def main():
         print(f"  Metrics scored: {c1['metrics_scored']}")
         print(f"  Converged (98%+): {c1['converged_98']}/{c1['metrics_scored']}")
         print(f"  Crux declared: {c1['crux_declared']}")
+        if c1.get('nova_interventions'):
+            print(f"  Nova interventions: {c1['nova_interventions']}")
+        if c1.get('coupling_probes'):
+            print(f"  Coupling probes: {c1['coupling_probes']}")
         print(f"  Avg convergence: {c1['avg_convergence']:.1%}")
         print(f"  Avg rounds: {c1['avg_rounds']:.1f}")
 
