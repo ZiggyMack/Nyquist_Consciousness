@@ -14,6 +14,48 @@ This document records expectations, thresholds, and falsification conditions for
 
 ---
 
+## Principal Investigator Declaration
+
+*Recorded 2026-07-08, from structured interview conducted by Nova (Symmetry Auditor). This section captures Ziggy's epistemic position before any Dig Site 000 data exists. It is frozen at registration.*
+
+### Deep Commitment (A1/A4)
+
+The last two years have repeatedly produced the same kind of experience: following curiosity, play, argument, and inspiration into one domain, only to find structural resonance with more formal work somewhere else. Nyquist, CFA, DBEP, FUT, the Grant debates, and the Adlam/Barandes extraction all seem to keep surfacing similar moves: reconstruct before judging, separate representation from ontology, locate the disagreement layer, identify hidden assumptions, and ask what is doing the selecting. That resonance is not treated as proof. It is treated as the reason the hypothesis deserves a real test.
+
+The phenomenon I am unwilling to pretend does not exist is not any particular metaphysical conclusion. It is the observable fact that independently developed minds repeatedly achieve meaningful coordination across radically different internal worlds. Whatever ultimately explains that phenomenon — reasoning operators, embodied cognition, tacit knowledge, or something we have not yet imagined — I expect there exists recoverable structure enabling that navigation. Cognitive Archaeology is my current instrument for investigating that possibility, not my commitment to its explanation.
+
+### CA as Instrument (A5)
+
+Cognitive Archaeology is not a theory or a conclusion. It is an instrument for recovering whatever reusable structure enables successful navigation between conceptual worlds. The distinction matters: CA can fail while the phenomenon it investigates remains real. A failed Dig Site 000 kills the current extraction protocol, not the research question.
+
+### Scope Declaration (A6)
+
+Cognitive Archaeology is not fundamentally a theory of language. It is an investigation into the recoverable structures that enable successful coordination across distinct conceptual frameworks. Language is treated as one observable expression of that deeper navigation, not necessarily its substrate.
+
+### Motivations Disclaimer
+
+My motivations for pursuing this work include philosophical, experiential, and personal intuitions that extend well beyond the scope of this project. Those motivations are not themselves evidence for Cognitive Archaeology. The methodology is intentionally designed so that the instrument can succeed or fail independently of the motivations that inspired its creation.
+
+### Project-Level Falsification (A7)
+
+If repeated, well-controlled excavations fail to reveal useful recurring structure within linguistic reasoning, I would conclude that language is not the appropriate substrate for recovering the navigation machinery I am seeking. I would not regard this as evidence that no such machinery exists. Instead, I would shift investigation toward richer modalities — image, sound, ritual, and embodied interaction — where I already suspect important structure may reside. Projects such as AVLAR exist precisely to explore that possibility.
+
+The underlying meta-hypothesis, surfaced during this interview, is that meaning is substrate-independent. CA and AVLAR are dual experiments approaching the same question from opposite directions: CA examines language for recurring navigation structures; AVLAR examines ritual, image, and sound for the same. CA failing would retire one implementation, not the research program.
+
+### Fundamental Evidence Threshold (A8)
+
+The bar for "fundamental" is predictive power over cognitive *navigation*, not merely cognitive *conclusions*. Specifically: once recurring operators and their compositions are identified, it should be possible to predict how a thinker will navigate an unfamiliar problem — which moves they will reach for, in what order, and what they will skip — before observing their conclusions. For example, recovering five operators from Pearl and then predicting "when faced with an underdetermined causal explanation, Pearl will invoke intervention before appealing to correlation" — that is a navigation prediction. Anything less than this — merely cataloging what a thinker already did — is "interesting" but not fundamental.
+
+### Greatest Extraction Bias (A9)
+
+The surface-level bias is not trusting language to yield everything. But the deeper bias underneath it is expecting there to be deeper structure than language alone can reveal. This means that if Dig Site 000 succeeds, the immediate temptation will be to go deeper rather than to consolidate — to declare the linguistic layer "merely the surface" before it has been fully explored. This bias must be actively monitored in both directions: if results are marginal, the temptation is to blame the medium rather than the method; if results are strong, the temptation is to treat them as a stepping stone rather than a finding.
+
+### Why You (A10)
+
+If it's the path with the most heart, there is nothing that will keep me from treading it. As long as this appears to align with that, it's getting walked. The motivation is not capability or credentials. It is sustained commitment to following whatever appears to be the most meaningful direction of inquiry — what Castaneda's tradition calls "a path with heart." That commitment has already survived two years of building without guarantees. It will survive whatever Dig Site 000 reveals.
+
+---
+
 ## 1. Primary Research Question
 
 Can reasoning operators be recovered in a manner that is substantially independent of the extractor?
@@ -87,7 +129,13 @@ Each participant records predictions before seeing any data. **These predictions
 
 ### Ziggy predicts:
 
-*(to be recorded before experiment begins)*
+*Recorded 2026-07-08 via structured interview with Nova*
+
+- I do not expect every thinker to exhibit completely unique reasoning, nor do I expect all great thinkers to reduce to a single universal process. Reality will reveal a relatively small number of recurring reasoning families, with individual thinkers expressing different combinations and preferences rather than entirely unique cognitive architectures.
+- Deep metaphysical commitments — whether one treats mind or matter as fundamental — may influence reasoning pathways. I do not yet know whether this affects the operators themselves or merely how frequently different operators are employed. That distinction is something I expect the data to help resolve rather than something I wish to assume beforehand.
+- I expect the Museum to evolve into something more than a catalog of operators — a matrix of archetypal reasoning styles, showing recurring patterns across thinkers rather than merely isolated reasoning moves.
+- The basis set of core operators will be surprisingly small. My current intuition, influenced by both engineering simplicity and recurring historical archetype systems, is that the number may fall somewhere between roughly 2 and 12, but I do not wish that expectation to bias extraction.
+- **Strongest prediction:** If Cognitive Archaeology is approximately correct, then once we identify recurring reasoning operators and their compositions, we should be able to make non-trivial predictions about how a thinker is likely to reason before observing all of their conclusions. That predictive ability — not merely the existence of recurring operators — is what I expect would constitute the strongest evidence that the project is uncovering genuine structure rather than inventing categories.
 
 ---
 
@@ -106,6 +154,13 @@ Surprises become theory generators.
 - ...OP-006 survived while OP-001 failed. (Would invert our confidence hierarchy completely.)
 
 - ...granularity sensitivity was the failure mode, not extractor disagreement. (Would mean the operators are real but our decomposition grain is arbitrary.)
+
+### Ziggy would be surprised if
+
+- ...there were no recognizable pattern at all. Frameworks require some navigational machinery — we couldn't communicate if we had no way of entering and exiting each other's frames. Complete absence of pattern would be the most surprising outcome.
+- ...the basis set exceeded 12 core operators. Historical archetype systems (zodiac, enneagram, I Ching hexagram families) cluster around small numbers. More than 12 fundamental categories would challenge assumptions about cognitive economy.
+- ...operators proved to be artifacts of the extraction process rather than features of the thinkers. (Overlaps with Section 4 negative control criterion — but worth stating as a personal surprise trigger.)
+- ...language turned out to be the actual substrate rather than one projection of deeper navigational structure.
 
 ---
 
@@ -131,7 +186,9 @@ If operator recovery proves highly extractor-dependent across heterogeneous exca
 
 ### Ziggy:
 
-*(to be recorded before experiment begins)*
+*Recorded 2026-07-08 via structured interview with Nova*
+
+If rigorous multi-extractor testing reveals no stable grammar — every thinker essentially unique, no recurring operator families — I am prepared to accept that Cognitive Archaeology's current instrument has failed. However, I would not accept that the phenomenon has been explained away. Humans demonstrably coordinate across radically different conceptual frameworks; that observable fact would remain. CA failing would mean operators are the wrong decomposition, not that there is no navigational structure to find. I would retire the current extraction protocol and look for different instruments — not abandon the research question.
 
 ---
 
@@ -164,8 +221,10 @@ One or more failure criteria triggered.
 | Field | Value |
 |-------|-------|
 | Registered | 2026-07-06 |
+| PI interview completed | 2026-07-08 (A1–A10, Nova interviewer) |
 | Status | REGISTERED — NOT YET RUN |
 | Registered by | Repo Claude, with Nova's constitutional framework |
+| PI declaration by | Ziggy, via structured interview with Nova |
 | Experiment design | See `experiment_design.md` (procedural details) |
 | Frozen | All thresholds and predictions above are frozen as of registration date |
 

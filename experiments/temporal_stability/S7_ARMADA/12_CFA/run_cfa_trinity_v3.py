@@ -210,8 +210,8 @@ except ImportError:
                         key, _, value = line.partition('=')
                         os.environ[key.strip()] = value.strip().strip('"').strip("'")
 
-# Load environment
-env_path = Path(__file__).parent.parent.parent.parent.parent / ".env"
+# Load environment — single source of truth: temporal_stability/.env
+env_path = Path(__file__).parent.parent.parent / ".env"
 if env_path.exists():
     load_dotenv(env_path)
 
