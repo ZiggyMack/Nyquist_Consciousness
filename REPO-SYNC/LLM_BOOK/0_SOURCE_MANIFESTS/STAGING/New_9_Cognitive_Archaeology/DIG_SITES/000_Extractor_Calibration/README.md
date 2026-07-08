@@ -146,4 +146,5 @@ CFA's PHASE_1A_ISOMORPHISM_CALIBRATION tests whether an auditor's Phase 1 recons
 
 *Protocol designed: 2026-07-06*
 *Triggered by: Opus (EOS) critique — "The confound is you [the pipeline]"*
-*Status: QUEUED — run before Dig Site 002*
+*Status: PRELIMINARY DATA (Phase 0A partial) — full protocol not yet run*
+*Updated: 2026-07-08 — four-way CFA extraction provides preliminary multi-extractor agreement data*

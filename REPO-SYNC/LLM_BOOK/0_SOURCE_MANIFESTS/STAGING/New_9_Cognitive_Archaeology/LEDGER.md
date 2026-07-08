@@ -17,6 +17,7 @@ Three evidence types, ranked by epistemic weight (highest first):
 | **Independent** | Indep | Thinker arrived at this operator with no knowledge of our framework or each other — strongest confirmation |
 | **Collaborative** | Collab | Two or more parties in dialogue converged on the synthesis — meaningful, but shared context means it could be prompted pattern-matching rather than independent discovery |
 | **Synthetic** | Synth | We named the operator by pattern-matching across sources; no thinker formalized it themselves — working hypothesis, could be pareidolia |
+| **Multi-Extractor Convergence** | MEC | Multiple independent extractors recovered this operator museum-blind from the same source — evidence for extractor-independence, but still single-source |
 
 A Collaborative confirmation from two researchers across two frameworks (e.g., CFA Claude + Nova synthesizing across physics and audit methodology) is meaningfully stronger than a single Synthetic identification, but weaker than independent thinkers arriving at it from unrelated domains.
 
@@ -34,7 +35,9 @@ All operators currently show Ext-Indep: Unknown — all excavated by Claude. Dig
 | 004 | Reconstruction Before Judgment | YELLOW | Unknown | 2 | Indep, Indep, PT×1 | 001, CFA | Barandes/Adlam + CFA Phase 1a. PT: CRUX_MS — confounded (Claude examining Claude) |
 | 005 | Hidden Structure Injection | RED | Unknown | 1 | Collab | 001 | Nova + CFA Claude convergence: OP-001 + OP-002 are duals. Collab not Synth; but both parties share CFA context |
 | 006 | Under-Determination Detection | RED | Unknown | 1 | Synth | 001 | Nova synthesis. Action-framing incomplete; may be detection condition rather than operator |
-| 007 | Locate Disagreement Layer | YELLOW | Unknown | 2 | Indep, Indep, PT×2 | 001, DBEP | DBEP + Adlam. CRUX_MS: Layer Mismatch failure (confounded PT). CRUX_IP: Nova successful application (less confounded — Nova is not Claude) |
+| 007 | Locate Disagreement Layer | YELLOW | Partial (2) | 3 | Indep, Indep, PT×2, MEC×2 | 001, DBEP, 000 | DBEP + Adlam. CRUX_MS: Layer Mismatch failure (confounded PT). CRUX_IP: Nova successful application (less confounded — Nova is not Claude). CFA: 2 rediscoveries — metric/dimension separation + meta-dispute identification (4/4 multi-extractor convergence, museum-blind) |
+| 008 | Symmetry Testing of Standards | RED | Partial (2) | 1 | MEC | 000 | Recovered via 4/4 museum-blind extraction from CFA transcripts. 2 LLM extractors (Claude, Grok) agree. Passes 6/6 admission criteria. Related to OP-006. |
+| 009 | Contested ≠ Defeated | RED | Partial (2) | 1 | MEC | 000 | Recovered via 4/4 museum-blind extraction from CFA transcripts. 2 LLM extractors agree. Passes 6/6 admission criteria. Related to OP-006. |
 
 ---
 
@@ -42,7 +45,31 @@ All operators currently show Ext-Indep: Unknown — all excavated by Claude. Dig
 
 | Date | Operator | From | To | Trigger |
 |------|----------|------|----|---------|
-| — | — | — | — | No transitions yet |
+| 2026-07-08 | OP-008 Symmetry Testing | — | RED | Admitted via 6/6 Field Manual criteria, 4/4 multi-extractor convergence |
+| 2026-07-08 | OP-009 Contested ≠ Defeated | — | RED | Admitted via 6/6 Field Manual criteria, 4/4 multi-extractor convergence |
+| 2026-07-08 | OP-007 Locate Disagreement Layer | YELLOW | YELLOW (evidence added) | 2 CFA rediscoveries (metric separation + meta-dispute) via museum-blind extraction. Ext-Indep updated to Partial (2). |
+
+---
+
+## Dig Site 000 Preliminary Evidence (2026-07-08)
+
+Four-way extraction on CFA transcripts (Claude + Grok extractors × v2 pilot + v2.1 MS-only transcripts). Museum-blind — no CFA vocabulary shown to extractors. This is partial Phase 0A data (multi-extractor agreement on source text). Negative controls and granularity sensitivity not yet run.
+
+**Five stable operators recovered across all four extractions:**
+
+| CFA Operator | Museum Cross-Ref | Evidence Type |
+|-------------|-----------------|---------------|
+| Metric/dimension separation | OP-007, OP-001 (rediscovery) | Multi-extractor convergence |
+| Symmetry testing of standards | No match (candidate new) | Multi-extractor convergence |
+| Concession tracking with explicit pricing | No match (candidate new) | Multi-extractor convergence |
+| Distinguishing contested from defeated | No match (candidate new) | Multi-extractor convergence |
+| Meta-dispute identification | OP-007 (rediscovery) | Multi-extractor convergence |
+
+**Extractor agreement:** 7 exact matches + 2 strong matches out of 9 Grok operators matched Claude's on the v2.1 transcript. This exceeds the pre-committed 40% pairwise agreement threshold for Phase 0A.
+
+**Methodological finding — "shorter is richer":** Grok extracted 9 operators from 66K chars (v2.1 MS-only, stalled deliberation) vs 5 from 423K chars (v2 pilot, 7-metric convergence). Stall-induced metacognitive pressure forces auditors to explicitly articulate reasoning operations. Concentrated single-metric deliberation with impasses produces richer CA extraction material than broad multi-metric convergence runs. Implication: select transcripts with stalls and impasses for extraction, not clean convergences.
+
+**Differential presence evidence (Buddhism batch, 2026-07-08):** 48 good runs across 5 Buddhism matchups produced zero CRUXes, zero DI fires, zero coupling probes. Meta-dispute identification — the operator most strongly confirmed in CT transcripts — is predicted absent in Buddhism deliberations (no architectural gating challenge to trigger it). This is evidence AGAINST Falsification Criterion 3 ("operators are universally present"). If extraction on a Buddhism transcript confirms the absence, that is differential presence — the operator discriminates.
 
 ---
 
@@ -51,6 +78,8 @@ All operators currently show Ext-Indep: Unknown — all excavated by Claude. Dig
 | Dig Site | New Operators | Rediscoveries | Ratio |
 |----------|--------------|---------------|-------|
 | 001 Adlam/Barandes | 6 | 0 | — |
+| 000 CFA (admitted) | 2 (OP-008, OP-009) | 2 (OP-007 ×2) | 0.50 |
+| 000 CFA (held) | 1 (Concession Pricing) | — | — |
 
 When rediscoveries consistently outnumber new operators, we are approaching saturation.
 
@@ -114,4 +143,4 @@ Adopt when the registry reaches 15+ operators and the single-column format becom
 
 ---
 
-*Last updated: 2026-07-06*
+*Last updated: 2026-07-08 — OP-008/009 admitted, OP-007 CFA evidence added, MEC evidence type defined*

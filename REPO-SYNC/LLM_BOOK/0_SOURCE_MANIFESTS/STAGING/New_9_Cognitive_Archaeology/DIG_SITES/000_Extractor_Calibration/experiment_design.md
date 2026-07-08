@@ -110,10 +110,35 @@ If Dig Site 000 demonstrates strong extractor dependence — Claude finds operat
 
 ## Status
 
-**Not yet run.** Queued as the first experiment before Dig Site 002.
+**Preliminary Phase 0A data collected (2026-07-08).** Full protocol not yet run. Negative controls and granularity sensitivity outstanding.
+
+### What exists
+
+Four-way CFA transcript extraction produced preliminary multi-extractor agreement data:
+
+- **Source texts:** Two CFA Framework-G v2 transcripts (v2 pilot, 423K chars, 7 metrics; v2.1, 66K chars, MS-only with DI/CP)
+- **Extractors used:** Claude (claude-sonnet-4-6) and Grok (grok-3-mini) — museum-blind, no CFA vocabulary in prompts
+- **Result:** Five stable operators recovered across all four extractions. 7 exact + 2 strong matches out of 9 Grok operators matched Claude's on v2.1 transcript.
+- **Extraction files:** `extractions/extraction_cfa_framework_g_v2_20260708_standard_{extractor}_{timestamp}.md`
+
+### What this means for Phase 0
+
+This is partial Phase 0A (multi-extractor agreement on genuine source text). It addresses one confound — do two different LLM extractors find the same operators? — with a positive result. But it does NOT address:
+
+- Phase 0B (negative controls) — would a shopping list also produce 5 operators?
+- Phase 0C (granularity sensitivity) — do operators survive grain changes?
+- Human extractors — do non-LLM extractors agree?
+- Different source text — CFA transcripts are a specific genre; do results generalize?
+
+The preliminary data is encouraging but does not satisfy the full Phase 0 pass criteria. All pre-committed thresholds in `PRE_REGISTRATION.md` remain frozen.
+
+### Methodological discovery
+
+**"Shorter is richer."** Grok extracted 9 operators from the 66K-char stalled transcript vs 5 from the 423K-char convergent transcript. Stall-induced metacognitive pressure forces auditors to articulate reasoning operations explicitly. Implication for Dig Site 000 source text selection: prefer transcripts with impasses and stalls over clean convergences. The metacognitive pressure IS the excavation tool.
 
 **Pre-registration:** See `PRE_REGISTRATION.md` for frozen expectations, prediction log, and permitted conclusions.
 
 ---
 
 *Created: 2026-07-06*
+*Updated: 2026-07-08 — preliminary Phase 0A data noted*
