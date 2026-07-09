@@ -12,7 +12,7 @@ from config import PATHS, SETTINGS
 from utils import load_status
 
 # Import page modules
-from pages import Overview, personas, Stackup, AI_ARMADA, experiments, metrics, omega, avlar, roadmap, Glossary, publications, matrix, faq, unknown
+from pages import Overview, personas, Stackup, AI_ARMADA, experiments, metrics, omega, avlar, roadmap, Glossary, publications, matrix, faq, unknown, mission_control
 
 # ========== THEME & STYLING ==========
 
@@ -479,7 +479,7 @@ PAGE_MODULES = {
     "Personas": personas,
     "Stackup": Stackup,
     "AI Armada": AI_ARMADA,
-    "Experiments": experiments,  # Renamed from Tests - one-stop shop for all experiment data
+    "Experiments": experiments,
     "Metrics": metrics,
     "OMEGA NOVA": omega,
     "AVLAR": avlar,
@@ -488,6 +488,7 @@ PAGE_MODULES = {
     "Publications": publications,
     "FAQ": faq,
     "The Unknown": unknown,
+    "Mission Control": mission_control,
 }
 
 # Matrix is special - accessed via dedicated button, not radio

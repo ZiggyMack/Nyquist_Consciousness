@@ -4127,99 +4127,26 @@ def render():
     # Page header - dramatically different based on cognitive mode
     if mode == "Vortex":
         # RIGHT BRAIN header - chaotic, swirling, immersive
-        st.markdown(f"""
-        <div style="
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(45deg, {RIGHT_BRAIN['bg_start']}, {RIGHT_BRAIN['bg_end']}, #e8eaf6, {RIGHT_BRAIN['bg_start']});
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            border: 2px solid {RIGHT_BRAIN['primary']};
-            box-shadow: 0 0 30px {RIGHT_BRAIN['primary']}44, inset 0 0 60px {RIGHT_BRAIN['primary']}22;
-        ">
-            <style>
-                @keyframes gradientShift {{
-                    0% {{ background-position: 0% 50%; }}
-                    50% {{ background-position: 100% 50%; }}
-                    100% {{ background-position: 0% 50%; }}
-                }}
-                @keyframes pulse {{
-                    0%, 100% {{ opacity: 0.5; }}
-                    50% {{ opacity: 1; }}
-                }}
-            </style>
-            <div style="font-size: 2.5em; animation: pulse 2s ease-in-out infinite;">{vortex_decoration()}</div>
-            <div style="
-                font-size: 1em;
-                color: {RIGHT_BRAIN['primary']};
-                letter-spacing: 6px;
-                margin: 10px 0;
-                text-shadow: 0 0 10px {RIGHT_BRAIN['primary']};
-            ">RIGHT HEMISPHERE ENGAGED</div>
-            <h1 style="
-                color: #333333;
-                font-size: 3em;
-                margin: 10px 0;
-                text-shadow: 0 0 20px {RIGHT_BRAIN['primary']}66, 0 0 40px {RIGHT_BRAIN['secondary']}44;
-                letter-spacing: 12px;
-            ">T H E &nbsp; U N K N O W N</h1>
-            <div style="font-size: 2.5em; animation: pulse 2s ease-in-out infinite;">{vortex_decoration()}</div>
-            <p style="
-                color: {RIGHT_BRAIN['secondary']};
-                font-style: italic;
-                font-size: 1.1em;
-                margin-top: 15px;
-                text-shadow: 0 0 10px {RIGHT_BRAIN['secondary']};
-            ">"This is the closest thing to looking through our eyes..."</p>
-            <p style="color: #333; font-size: 0.85em; margin-top: 10px;">
-                Holistic • Intuitive • Pattern-Seeking • Gestalt
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""<style>@keyframes gradientShift {{0% {{ background-position: 0% 50%; }} 50% {{ background-position: 100% 50%; }} 100% {{ background-position: 0% 50%; }}}} @keyframes pulse {{0%, 100% {{ opacity: 0.5; }} 50% {{ opacity: 1; }}}}</style>
+<div style="text-align: center; padding: 30px 20px; background: linear-gradient(45deg, {RIGHT_BRAIN['bg_start']}, {RIGHT_BRAIN['bg_end']}, #e8eaf6, {RIGHT_BRAIN['bg_start']}); background-size: 400% 400%; animation: gradientShift 8s ease infinite; border-radius: 20px; margin-bottom: 20px; border: 2px solid {RIGHT_BRAIN['primary']}; box-shadow: 0 0 30px {RIGHT_BRAIN['primary']}44, inset 0 0 60px {RIGHT_BRAIN['primary']}22;">
+<div style="font-size: 1em; color: {RIGHT_BRAIN['primary']}; letter-spacing: 6px; margin: 10px 0; text-shadow: 0 0 10px {RIGHT_BRAIN['primary']};">RIGHT HEMISPHERE ENGAGED</div>
+<h1 style="color: #333333; font-size: 3em; margin: 10px 0; text-shadow: 0 0 20px {RIGHT_BRAIN['primary']}66, 0 0 40px {RIGHT_BRAIN['secondary']}44; letter-spacing: 12px;">T H E &nbsp; U N K N O W N</h1>
+<p style="color: {RIGHT_BRAIN['secondary']}; font-style: italic; font-size: 1.1em; margin-top: 15px; text-shadow: 0 0 10px {RIGHT_BRAIN['secondary']};">"This is the closest thing to looking through our eyes..."</p>
+<p style="color: #333; font-size: 0.85em; margin-top: 10px;">Holistic &bull; Intuitive &bull; Pattern-Seeking &bull; Gestalt</p>
+</div>""", unsafe_allow_html=True)
     else:
         # LEFT BRAIN header - clean, structured, precise
-        st.markdown(f"""
-        <div style="
-            padding: 25px 30px;
-            background: linear-gradient(135deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%);
-            border-radius: 15px;
-            margin-bottom: 20px;
-            border: 2px solid {LEFT_BRAIN['primary']};
-            box-shadow: 0 0 20px {LEFT_BRAIN['primary']}33;
-        ">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <div>
-                    <div style="
-                        font-size: 0.85em;
-                        color: {LEFT_BRAIN['primary']};
-                        letter-spacing: 4px;
-                        margin-bottom: 8px;
-                    ">LEFT HEMISPHERE ENGAGED</div>
-                    <h1 style="
-                        font-size: 2.5em;
-                        background: linear-gradient(135deg, {LEFT_BRAIN['primary']} 0%, {LEFT_BRAIN['secondary']} 50%, {LEFT_BRAIN['primary']} 100%);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        margin: 0;
-                    ">The Unknown</h1>
-                    <p style="color: #333; margin-top: 8px; font-style: italic;">
-                        Research Frontier — A Cathedral of Ideas
-                    </p>
-                </div>
-                <div style="text-align: right; color: {LEFT_BRAIN['secondary']}; font-size: 0.85em;">
-                    {structured_decoration()}<br>
-                    Sequential • Analytical<br>
-                    Logical • Precise<br>
-                    {structured_decoration()}
-                </div>
-            </div>
-            <p style="color: #333; font-size: 0.85em; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px;">
-                "This is the closest thing to looking through our eyes — toggle between hemispheres to see how we process these ideas."
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""<div style="padding: 25px 30px; background: linear-gradient(135deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%); border-radius: 15px; margin-bottom: 20px; border: 2px solid {LEFT_BRAIN['primary']}; box-shadow: 0 0 20px {LEFT_BRAIN['primary']}33;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<div>
+<div style="font-size: 0.85em; color: {LEFT_BRAIN['primary']}; letter-spacing: 4px; margin-bottom: 8px;">LEFT HEMISPHERE ENGAGED</div>
+<h1 style="font-size: 2.5em; background: linear-gradient(135deg, {LEFT_BRAIN['primary']} 0%, {LEFT_BRAIN['secondary']} 50%, {LEFT_BRAIN['primary']} 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0;">The Unknown</h1>
+<p style="color: #333; margin-top: 8px; font-style: italic;">Research Frontier &mdash; A Cathedral of Ideas</p>
+</div>
+<div style="text-align: right; color: {LEFT_BRAIN['secondary']}; font-size: 0.85em;">Sequential &bull; Analytical<br>Logical &bull; Precise</div>
+</div>
+<p style="color: #333; font-size: 0.85em; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px;">"This is the closest thing to looking through our eyes &mdash; toggle between hemispheres to see how we process these ideas."</p>
+</div>""", unsafe_allow_html=True)
 
     # Floating brain mode indicator with hemisphere symbol
     if mode == "Vortex":
@@ -4317,43 +4244,20 @@ def render():
         with gallery_tabs[i]:
             if mode == "Vortex":
                 # RIGHT BRAIN gallery header
-                st.markdown(f"""
-                <div style="
-                    text-align: center;
-                    padding: 20px;
-                    background: linear-gradient(135deg, {gallery['color']}22 0%, {RIGHT_BRAIN['bg_end']} 50%, {gallery['color']}11 100%);
-                    border-radius: 15px;
-                    border: 2px solid {gallery['color']}66;
-                    margin-bottom: 20px;
-                    box-shadow: 0 0 20px {gallery['color']}22;
-                    color: #333333;
-                ">
-                    <div style="font-size: 3em; margin-bottom: 10px;">{gallery['emoji']}</div>
-                    <div style="font-size: 1.5em; color: {gallery['color']}; text-shadow: 0 0 5px {gallery['color']}44;">{gallery['name'].upper()}</div>
-                    <div style="color: #555555; font-style: italic; margin-top: 10px;">{gallery['description']}</div>
-                    <div style="margin-top: 15px; color: #888888;">{vortex_decoration()}</div>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(f"""<div style="text-align: center; padding: 20px; background: linear-gradient(135deg, {gallery['color']}22 0%, {RIGHT_BRAIN['bg_end']} 50%, {gallery['color']}11 100%); border-radius: 15px; border: 2px solid {gallery['color']}66; margin-bottom: 20px; box-shadow: 0 0 20px {gallery['color']}22; color: #333333;">
+<div style="font-size: 3em; margin-bottom: 10px;">{gallery['emoji']}</div>
+<div style="font-size: 1.5em; color: {gallery['color']}; text-shadow: 0 0 5px {gallery['color']}44;">{gallery['name'].upper()}</div>
+<div style="color: #555555; font-style: italic; margin-top: 10px;">{gallery['description']}</div>
+</div>""", unsafe_allow_html=True)
             else:
                 # LEFT BRAIN gallery header
-                st.markdown(f"""
-                <div style="
-                    padding: 15px 20px;
-                    background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%);
-                    border-left: 4px solid {gallery['color']};
-                    border-radius: 0 10px 10px 0;
-                    margin-bottom: 20px;
-                    color: #333333;
-                ">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <span style="font-size: 2em;">{gallery['emoji']}</span>
-                        <div>
-                            <div style="font-size: 1.3em; color: {gallery['color']}; font-weight: bold;">{gallery['name']}</div>
-                            <div style="color: #555555; font-size: 0.9em;">{gallery['description']}</div>
-                        </div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(f"""<div style="padding: 15px 20px; background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%); border-left: 4px solid {gallery['color']}; border-radius: 0 10px 10px 0; margin-bottom: 20px; color: #333333;">
+<div style="display: flex; align-items: center; gap: 15px;">
+<span style="font-size: 2em;">{gallery['emoji']}</span>
+<div><div style="font-size: 1.3em; color: {gallery['color']}; font-weight: bold;">{gallery['name']}</div>
+<div style="color: #555555; font-size: 0.9em;">{gallery['description']}</div></div>
+</div>
+</div>""", unsafe_allow_html=True)
 
             # Concept sub-tabs within each gallery
             concept_ids = gallery["concepts"]
@@ -4435,37 +4339,15 @@ def render():
 
     # Open Questions section - mode-aware styling
     if mode == "Vortex":
-        st.markdown(f"""
-        <div style="
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, {RIGHT_BRAIN['bg_start']} 0%, {RIGHT_BRAIN['bg_end']} 100%);
-            border-radius: 15px;
-            border: 2px solid #a855f744;
-            margin-bottom: 20px;
-            color: #333333;
-        ">
-            <div style="font-size: 1.8em; color: #a855f7; text-shadow: 0 0 10px #a855f744;">❓ OPEN QUESTIONS ❓</div>
-            <div style="color: #555555; font-style: italic; margin-top: 10px;">
-                "the edges of understanding where dragons still roam"
-            </div>
-            <div style="margin-top: 10px; color: #888888;">{vortex_decoration()}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""<div style="text-align: center; padding: 20px; background: linear-gradient(135deg, {RIGHT_BRAIN['bg_start']} 0%, {RIGHT_BRAIN['bg_end']} 100%); border-radius: 15px; border: 2px solid #a855f744; margin-bottom: 20px; color: #333333;">
+<div style="font-size: 1.8em; color: #a855f7; text-shadow: 0 0 10px #a855f744;">&#10067; OPEN QUESTIONS &#10067;</div>
+<div style="color: #555555; font-style: italic; margin-top: 10px;">"the edges of understanding where dragons still roam"</div>
+</div>""", unsafe_allow_html=True)
     else:
-        st.markdown(f"""
-        <div style="
-            padding: 15px 20px;
-            background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%);
-            border-left: 4px solid #a855f7;
-            border-radius: 0 10px 10px 0;
-            margin-bottom: 20px;
-            color: #333333;
-        ">
-            <div style="font-size: 1.3em; color: #a855f7; font-weight: bold;">Open Questions</div>
-            <div style="color: #555555; font-size: 0.9em;">Active research directions and unresolved problems</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""<div style="padding: 15px 20px; background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%); border-left: 4px solid #a855f7; border-radius: 0 10px 10px 0; margin-bottom: 20px; color: #333333;">
+<div style="font-size: 1.3em; color: #a855f7; font-weight: bold;">Open Questions</div>
+<div style="color: #555555; font-size: 0.9em;">Active research directions and unresolved problems</div>
+</div>""", unsafe_allow_html=True)
 
     question_tabs = st.tabs(["🔬 Theoretical", "🧪 Experimental", "🤔 Philosophical"])
 
