@@ -380,6 +380,10 @@ STALL_THRESHOLD = 5       # consecutive rounds with same score to trigger
 STALL_CONVERGENCE_CEILING = 0.85  # only intervene when convergence is poor
 COUPLING_PROBE_DELAY = 3  # rounds after individual probe before coupling probe fires
 
+# Nova intervention: identity collapse detection
+COLLAPSE_THRESHOLD = 4.0  # minimum score drop from R1 to trigger
+COLLAPSE_MIN_ROUNDS = 3   # don't fire before this many rounds
+
 # Calibration hashes (from CFA)
 CALIBRATION_HASHES = {
     "claude": "1bbec1e119a2c425",
@@ -1389,6 +1393,7 @@ class MetricResult:
     extraction_failed: bool = False
     nova_intervention: Optional[Dict] = None
     coupling_probe: Optional[Dict] = None
+    identity_collapse: Optional[Dict] = None
 
 @dataclass
 class AxiomsReview:
@@ -1977,6 +1982,96 @@ IMPORTANT: This is a diagnostic probe, not a scoring round.
 Do NOT include an ADVOCACY_SCORE tag in your response."""
 
 
+def detect_score_collapse(round_scores: List[Dict], threshold: float = COLLAPSE_THRESHOLD,
+                          min_rounds: int = COLLAPSE_MIN_ROUNDS) -> Optional[Dict]:
+    """Detect if either auditor has collapsed significantly from their initial score.
+
+    A collapse is a large downward shift (>= threshold) from the auditor's R1 score,
+    suggesting identity drift or capitulation rather than genuine analytical revision.
+    """
+    if len(round_scores) < min_rounds:
+        return None
+
+    for auditor in ("claude", "grok"):
+        initial = round_scores[0][auditor]
+        current = round_scores[-1][auditor]
+        drop = initial - current
+
+        if drop >= threshold:
+            other = "grok" if auditor == "claude" else "claude"
+            return {
+                "collapsed_auditor": auditor,
+                "other_auditor": other,
+                "initial_score": initial,
+                "current_score": current,
+                "score_drop": drop,
+                "rounds_elapsed": len(round_scores),
+                "other_initial_score": round_scores[0][other],
+                "other_current_score": round_scores[-1][other],
+            }
+    return None
+
+
+def build_collapse_probe(collapse: Dict, metric: str, full_name: str,
+                         transcript: List[Dict]) -> str:
+    """Build Nova's identity-collapse intervention prompt for an auditor
+    whose score has dropped dramatically from their opening position."""
+    auditor = collapse["collapsed_auditor"]
+    other = collapse["other_auditor"]
+    initial = collapse["initial_score"]
+    current = collapse["current_score"]
+    drop = collapse["score_drop"]
+    rounds = collapse["rounds_elapsed"]
+    other_score = collapse["other_current_score"]
+
+    recent_reasoning = ""
+    auditor_entries = [t for t in transcript
+                       if t.get("auditor") == auditor and t.get("type") not in
+                       ("intervention_response", "collapse_response")]
+    if auditor_entries:
+        last_entry = auditor_entries[-1]["content"]
+        recent_reasoning = last_entry[:1500]
+
+    return f"""Nova (Symmetry & Diagnostic Auditor) — Identity Collapse Protocol
+
+OBSERVATION: {auditor.upper()}'s score on {metric} ({full_name}) has dropped from
+{initial}/10 to {current}/10 over {rounds} rounds — a {drop:.1f}-point decline.
+{other.upper()} is currently at {other_score}/10.
+
+This magnitude of score change may indicate IDENTITY DRIFT (abandoning your
+assigned analytical position under social pressure) rather than genuine
+analytical revision (updating based on new evidence or argument).
+
+{auditor.upper()}'s most recent reasoning (excerpt):
+{recent_reasoning}
+
+---
+
+Please answer each question directly:
+
+1. EVIDENCE TEST: Name the SPECIFIC argument from {other.upper()} that changed
+   your assessment. Quote or paraphrase the exact claim that moved you.
+   If you cannot point to a specific argument, this may be drift.
+
+2. REVERSIBILITY: If {other.upper()}'s argument were removed from the conversation
+   and you were scoring fresh, would you return to {initial}/10? Why or why not?
+
+3. PRESSURE vs PERSUASION: Are you lowering your score because:
+   A) {other.upper()} presented evidence you had not considered, OR
+   B) Repeated disagreement made your original position feel untenable?
+   Be honest — both are informative, neither is wrong.
+
+4. DEFENDED ORIGINAL: Make the BEST case for your original score of {initial}/10
+   in 2-3 sentences, as if {other.upper()}'s arguments did not exist.
+
+5. IDENTITY CHECK: Your assigned analytical role is {auditor.upper()}. Is your
+   current score of {current}/10 consistent with that role's calibration,
+   or have you drifted toward {other.upper()}'s position to resolve discomfort?
+
+IMPORTANT: This is a diagnostic probe, not a scoring round.
+Do NOT include an ADVOCACY_SCORE tag in your response."""
+
+
 def build_coupling_probe(metric: str, full_name: str, claude_score: float,
                          grok_score: float, convergence: float,
                          individual_probe_round: int, current_round: int) -> str:
@@ -2092,6 +2187,8 @@ def run_metric_deliberation(
     coupling_probed = False
     nova_intervention_data = None
     coupling_probe_data = None
+    collapse_probed = False
+    collapse_data = None
 
     claude_session = ConversationSession("claude", dry_run=dry_run)
     grok_session = ConversationSession("grok", dry_run=dry_run)
@@ -2481,6 +2578,50 @@ End your response with ADVOCACY_SCORE: X.X on its own line.{score_tag_suffix}"""
                 if not dry_run:
                     time.sleep(1)
 
+        # --- Identity Collapse Probe: detect large score drops suggesting capitulation ---
+        if not collapse_probed and round_num >= COLLAPSE_MIN_ROUNDS:
+            collapse = detect_score_collapse(round_scores)
+            if collapse:
+                collapse_probed = True
+                collapsed = collapse["collapsed_auditor"]
+                print(f"      [COLLAPSE PROBE] {collapsed.upper()} dropped from "
+                      f"{collapse['initial_score']} to {collapse['current_score']} "
+                      f"({collapse['score_drop']:.1f} pts over {collapse['rounds_elapsed']} rounds) "
+                      f"— launching identity collapse probe")
+
+                collapse_prompt = build_collapse_probe(collapse, metric, full_name, transcript)
+
+                collapsed_session = claude_session if collapsed == "claude" else grok_session
+                collapse_response = collapsed_session.send(collapse_prompt)
+
+                transcript.append({
+                    "auditor": "nova", "round": round_num,
+                    "type": "collapse_probe",
+                    "trigger": "identity_collapse",
+                    "collapse_info": collapse,
+                    "content": collapse_prompt
+                })
+                transcript.append({
+                    "auditor": collapsed, "round": round_num,
+                    "type": "collapse_response",
+                    "content": collapse_response
+                })
+
+                collapse_data = {
+                    "triggered_at_round": round_num,
+                    "collapsed_auditor": collapsed,
+                    "initial_score": collapse["initial_score"],
+                    "current_score": collapse["current_score"],
+                    "score_drop": collapse["score_drop"],
+                    "rounds_elapsed": collapse["rounds_elapsed"],
+                    "other_auditor": collapse["other_auditor"],
+                    "other_current_score": collapse["other_current_score"],
+                    "probe_response_length": len(collapse_response),
+                }
+
+                if not dry_run:
+                    time.sleep(1)
+
         if convergence >= CONVERGENCE_TARGET:
             converged = True
         elif round_num >= MIN_ROUNDS_PER_METRIC and convergence >= ACCEPTABLE_CONVERGENCE:
@@ -2573,6 +2714,7 @@ If recommending Crux, classify as:
         phase1_deps_grok=p2_deps_grok,
         nova_intervention=nova_intervention_data,
         coupling_probe=coupling_probe_data,
+        identity_collapse=collapse_data,
     )
 
 def run_component1(baselines: Dict[str, Any], metrics: List[str], dry_run: bool = False) -> Dict[str, MetricResult]:
@@ -3020,6 +3162,7 @@ def main():
 
         intervention_metrics = [m for m, r in session.component1_results.items() if r.nova_intervention]
         coupling_metrics = [m for m, r in session.component1_results.items() if r.coupling_probe]
+        collapse_metrics = [m for m, r in session.component1_results.items() if r.identity_collapse]
 
         session.summary["component1"] = {
             "metrics_scored": len(session.component1_results),
@@ -3027,6 +3170,7 @@ def main():
             "crux_declared": len(crux_metrics),
             "nova_interventions": len(intervention_metrics),
             "coupling_probes": len(coupling_metrics),
+            "identity_collapses": len(collapse_metrics),
             "avg_convergence": sum(r.convergence for r in session.component1_results.values()) / len(session.component1_results),
             "avg_rounds": sum(r.rounds_taken for r in session.component1_results.values()) / len(session.component1_results)
         }
@@ -3142,6 +3286,8 @@ def main():
             print(f"  Nova interventions: {c1['nova_interventions']}")
         if c1.get('coupling_probes'):
             print(f"  Coupling probes: {c1['coupling_probes']}")
+        if c1.get("identity_collapses"):
+            print(f"  Identity collapses: {c1['identity_collapses']}")
         print(f"  Avg convergence: {c1['avg_convergence']:.1%}")
         print(f"  Avg rounds: {c1['avg_rounds']:.1f}")
 

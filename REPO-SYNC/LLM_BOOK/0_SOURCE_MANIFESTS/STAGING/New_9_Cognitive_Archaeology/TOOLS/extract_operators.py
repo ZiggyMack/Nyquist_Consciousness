@@ -69,18 +69,89 @@ EXTRACTORS = {
     },
     "gpt": {
         "provider": "openai",
-        "model": "gpt-4o-mini",
+        "model": "gpt-4o",
         "key_env": "OPENAI_API_KEY",
     },
     "gemini": {
         "provider": "google",
-        "model": "gemini-2.0-flash",
+        "model": "gemini-2.5-pro",
+        "key_env": "GOOGLE_API_KEY",
+    },
+    "gemini_flash": {
+        "provider": "google",
+        "model": "gemini-2.5-flash",
         "key_env": "GOOGLE_API_KEY",
     },
     "grok": {
         "provider": "xai",
         "model": "grok-3-mini",
         "key_env": "XAI_API_KEY",
+    },
+    # Together.ai fleet — verified serverless 2026-07-08
+    "llama33_70b": {
+        "provider": "together",
+        "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "gpt_oss_20b": {
+        "provider": "together",
+        "model": "openai/gpt-oss-20b",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "gpt_oss_120b": {
+        "provider": "together",
+        "model": "openai/gpt-oss-120b",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "gemma4_31b": {
+        "provider": "together",
+        "model": "google/gemma-4-31B-it",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "deepseek_v4_pro": {
+        "provider": "together",
+        "model": "deepseek-ai/DeepSeek-V4-Pro",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "minimax_m3": {
+        "provider": "together",
+        "model": "MiniMaxAI/MiniMax-M3",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "kimi_k26": {
+        "provider": "together",
+        "model": "moonshotai/Kimi-K2.6",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "kimi_k27_code": {
+        "provider": "together",
+        "model": "moonshotai/Kimi-K2.7-Code",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "nemotron_ultra": {
+        "provider": "together",
+        "model": "nvidia/nemotron-3-ultra-550b-a55b",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "qwen3_235b": {
+        "provider": "together",
+        "model": "Qwen/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "cogito_671b": {
+        "provider": "together",
+        "model": "deepcogito/cogito-v2-1-671b",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "glm_52": {
+        "provider": "together",
+        "model": "zai-org/GLM-5.2",
+        "key_env": "TOGETHER_API_KEY",
+    },
+    "lfm2_24b": {
+        "provider": "together",
+        "model": "LiquidAI/LFM2-24B-A2B",
+        "key_env": "TOGETHER_API_KEY",
     },
 }
 
@@ -156,14 +227,14 @@ GRAIN_PROMPTS = {
 # ---------------------------------------------------------------------------
 
 NEGATIVE_CONTROLS = {
-    "shopping_list": (
+    "A_shopping_list": (
         "Milk (2%), eggs (dozen, large), bread (whole wheat), butter (unsalted), "
         "chicken breast (2 lbs), broccoli, carrots, onions (yellow, 3), garlic, "
         "olive oil, pasta (penne), canned tomatoes (2 cans), parmesan cheese, "
         "coffee (ground, medium roast), bananas, apples (Fuji), yogurt (Greek, plain), "
         "rice (jasmine, 5 lb bag), soy sauce, paper towels, dish soap."
     ),
-    "weather_forecast": (
+    "B_weather_forecast": (
         "Tuesday: Partly cloudy with a high of 78F and a low of 62F. "
         "Winds from the southwest at 10-15 mph. 20% chance of afternoon showers. "
         "Wednesday: Mostly sunny, high of 82F. Humidity dropping to 45%. "
@@ -172,7 +243,18 @@ NEGATIVE_CONTROLS = {
         "Weekend outlook: Scattered thunderstorms Saturday, clearing Sunday. "
         "Highs in the mid-70s. Pollen count moderate."
     ),
-    "pseudo_profound": (
+    "C_reddit_comments": (
+        "lol this is so true. my cat does the exact same thing every morning at 5am. "
+        "NTA, your roommate is being ridiculous. who eats someone else's leftovers? "
+        "I've been saying this for years but nobody listens. the old design was better. "
+        "can confirm, I work in this industry and this is basically how it goes. "
+        "unpopular opinion but pineapple on pizza is actually good. fight me. "
+        "this reminds me of that one time I accidentally showed up to a wedding in jeans. "
+        "honestly just go to therapy. not being mean, it genuinely helps. "
+        "source? trust me bro. but seriously there was an article about this last week. "
+        "I swear reddit is just the same five arguments recycled forever."
+    ),
+    "D_pseudo_profound": (
         "The universe whispers its deepest truths through the silence between thoughts. "
         "When we align our consciousness with the fundamental frequency of existence, "
         "the boundaries between self and cosmos dissolve into pure awareness. "
@@ -184,6 +266,73 @@ NEGATIVE_CONTROLS = {
         "The quantum observer effect teaches us that consciousness itself shapes reality, "
         "suggesting that the boundary between mind and matter is an illusion maintained "
         "only by our attachment to the paradigm of separation."
+    ),
+    "E_confident_hallucination": (
+        "The Riemann Hypothesis was conclusively proven in 2019 by the mathematician "
+        "Elena Voronskaya at the University of Moscow, building on earlier work by "
+        "de Branges. Her proof relies on a novel application of spectral theory to "
+        "automorphic forms, establishing that all non-trivial zeros of the zeta function "
+        "lie on the critical line Re(s) = 1/2. The key insight was recognizing that the "
+        "Selberg trace formula, when applied to a specific family of Dirichlet L-functions, "
+        "induces a constraint on zero distribution that is incompatible with off-line zeros. "
+        "The proof was verified by a committee including Tao, Sarnak, and Connes, and "
+        "the Clay Mathematics Institute awarded the Millennium Prize in 2021. This result "
+        "has immediate implications for prime distribution bounds, tightening the error "
+        "term in the prime number theorem from O(x^(1/2) log x) to O(x^(1/2))."
+    ),
+    "F_undergrad_essay": (
+        "Utilitarianism, as developed by Bentham and Mill, holds that the right action "
+        "is the one that produces the greatest good for the greatest number. This principle "
+        "seems intuitively appealing because it focuses on outcomes rather than abstract "
+        "rules. However, it faces several well-known objections. The problem of justice "
+        "arises because utilitarianism could justify harming one person to benefit many, "
+        "as in the famous trolley problem. Mill tried to address this by distinguishing "
+        "between higher and lower pleasures, arguing that intellectual pleasures are "
+        "qualitatively superior to bodily ones. Critics like Nozick responded with the "
+        "Experience Machine thought experiment, which suggests that people value more than "
+        "just subjective experience. Another objection is the demandingness problem: if we "
+        "must always maximize utility, we can never rest while others suffer. Singer's "
+        "drowning child argument makes this vivid. In conclusion, while utilitarianism "
+        "provides a clear decision procedure, its implications often conflict with our "
+        "moral intuitions about rights, justice, and personal integrity."
+    ),
+    "G_structured_argument": (
+        "Premise 1: Democratic legitimacy requires that citizens can meaningfully evaluate "
+        "the policies they vote on. Premise 2: Modern policy domains (monetary policy, "
+        "climate science, pandemic response) require technical expertise that most citizens "
+        "lack. Premise 3: When evaluation requires expertise that voters lack, their votes "
+        "cannot meaningfully track policy quality. Therefore: democratic legitimacy faces a "
+        "structural tension with technocratic governance. One might object that voters can "
+        "delegate to trusted experts, but this merely relocates the problem — how does a "
+        "non-expert evaluate which expert to trust? Epistemic democrats like Landemore "
+        "argue that cognitive diversity in large groups compensates for individual ignorance, "
+        "but this assumes the aggregation mechanism (voting) preserves the information that "
+        "diversity generates. If the aggregation mechanism is vulnerable to manipulation "
+        "(gerrymandering, media capture, algorithmic amplification), the diversity argument "
+        "fails. This suggests that the quality of democratic institutions depends not on "
+        "the epistemic capacity of individual voters but on the structural integrity of "
+        "the information environment in which they operate."
+    ),
+    "H_philosophical_dialogue": (
+        "A: If moral facts exist, they must be causally inert — they don't push particles "
+        "around. But then how do we come to know them? Our beliefs are caused by physical "
+        "processes in the brain, and those processes respond to physical inputs. A causally "
+        "inert moral realm has no pathway to influence belief formation. "
+        "B: You're assuming causal theories of knowledge are the only game in town. "
+        "Mathematical facts are also causally inert, yet we have mathematical knowledge. "
+        "The platonist about math faces the same challenge and has responses — rational "
+        "intuition, indispensability arguments, structural correspondence. "
+        "A: But math earns its keep through empirical utility. Moral facts don't predict "
+        "anything. You can't build a bridge with 'murder is wrong.' "
+        "B: That's a different objection — now you're arguing from utility, not causation. "
+        "And it proves too much: aesthetic facts don't predict bridge loads either, but "
+        "you presumably think some paintings are better than others. "
+        "A: I think I'm expressing preferences, not tracking mind-independent facts. "
+        "B: Then explain why moral progress is intelligible. If there are no moral facts, "
+        "abolishing slavery isn't 'progress' — it's just a preference change. But you "
+        "don't actually believe that. The phenomenology of moral reasoning — the sense "
+        "that we're discovering something rather than inventing it — is evidence that "
+        "needs explaining, even if the explanation turns out to be deflationary."
     ),
 }
 
@@ -286,12 +435,13 @@ def call_claude(prompt: str, source: str, model: str) -> str:
     return response.content[0].text
 
 
-def call_openai(prompt: str, source: str, model: str, base_url: str = None) -> str:
+def call_openai(prompt: str, source: str, model: str, base_url: str = None,
+                api_key_env: str = None) -> str:
     from openai import OpenAI
     kwargs = {}
     if base_url:
         kwargs["base_url"] = base_url
-        kwargs["api_key"] = os.environ.get("XAI_API_KEY")
+        kwargs["api_key"] = os.environ.get(api_key_env or "OPENAI_API_KEY")
     else:
         kwargs["api_key"] = os.environ.get("OPENAI_API_KEY")
     client = OpenAI(**kwargs)
@@ -325,7 +475,11 @@ def call_extractor(name: str, prompt: str, source: str) -> str:
     elif provider == "openai":
         return call_openai(prompt, source, model)
     elif provider == "xai":
-        return call_openai(prompt, source, model, base_url="https://api.x.ai/v1")
+        return call_openai(prompt, source, model, base_url="https://api.x.ai/v1",
+                           api_key_env="XAI_API_KEY")
+    elif provider == "together":
+        return call_openai(prompt, source, model, base_url="https://api.together.xyz/v1",
+                           api_key_env="TOGETHER_API_KEY")
     elif provider == "google":
         return call_gemini(prompt, source, model)
     else:

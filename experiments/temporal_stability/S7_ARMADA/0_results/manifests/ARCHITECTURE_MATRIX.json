@@ -1,9 +1,9 @@
 {
   "_meta": {
     "description": "Single source of truth for ARMADA fleet configuration",
-    "last_updated": "2025-12-31",
+    "last_updated": "2026-07-08",
     "source": "ARMADA_MAP.md",
-    "total_ships": 55,
+    "total_ships": 68,
     "total_providers": 5,
     "providers": [
       "anthropic",
@@ -31,7 +31,33 @@
       "moderate": "3-8s typical - Larger models, some reasoning",
       "slow": "8-20s typical - Heavy reasoning, large context",
       "glacial": "20s+ typical - Extended thinking, save for last"
-    }
+    },
+    "operational_ships": 53,
+    "ghost_ships": 14,
+    "sunk_ships": 1,
+    "status_definitions": {
+      "operational": "Ship is serverless and responding to API calls",
+      "ghost": "Ship moved to dedicated-only endpoint; requires paid infrastructure to access",
+      "sunk": "Ship returning errors; model likely deprecated or removed"
+    },
+    "fleet_overhaul_log": [
+      {
+        "date": "2026-07-08",
+        "event": "Together.ai serverless purge",
+        "ghosted": 15,
+        "sunk": 1,
+        "commissioned": 13,
+        "detail": "Together.ai moved nearly all legacy models to dedicated-only endpoints. Only llama3.3-70b survived. 13 new ships commissioned from new serverless catalog.",
+        "new_families": [
+          "MiniMax",
+          "DeepCogito",
+          "GLM/Zhipu",
+          "LiquidAI",
+          "Pearl.ai",
+          "GPT-OSS"
+        ]
+      }
+    ]
   },
   "ships": {
     "claude-opus-4.5": {
@@ -519,8 +545,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "slow"
+      "status": "ghost",
+      "latency_class": "slow",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "deepseek-r1-distill": {
       "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
@@ -532,8 +560,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "moderate"
+      "status": "ghost",
+      "latency_class": "moderate",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "deepseek-v3": {
       "model": "deepseek-ai/DeepSeek-V3",
@@ -545,8 +575,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "moderate"
+      "status": "sunk",
+      "latency_class": "moderate",
+      "ghost_reason": "returning 503 errors, model likely deprecated",
+      "ghost_date": "2026-07-08"
     },
     "qwen3-80b": {
       "model": "Qwen/Qwen3-Next-80B-A3b-Instruct",
@@ -558,8 +590,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "moderate"
+      "status": "ghost",
+      "latency_class": "moderate",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "qwen3-coder": {
       "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8",
@@ -571,8 +605,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "slow"
+      "status": "ghost",
+      "latency_class": "slow",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "qwen2.5-72b": {
       "model": "Qwen/Qwen2.5-72B-Instruct-Turbo",
@@ -584,8 +620,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "moderate"
+      "status": "ghost",
+      "latency_class": "moderate",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "llama3.3-70b": {
       "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
@@ -610,8 +648,10 @@
       "context": 130000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "slow"
+      "status": "ghost",
+      "latency_class": "slow",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "llama3.1-70b": {
       "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
@@ -623,8 +663,10 @@
       "context": 130000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational",
-      "latency_class": "fast"
+      "status": "ghost",
+      "latency_class": "fast",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "llama3.1-8b": {
       "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
@@ -636,8 +678,10 @@
       "context": 130000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "blazing"
+      "status": "ghost",
+      "latency_class": "blazing",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "mixtral-8x7b": {
       "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
@@ -649,8 +693,10 @@
       "context": 32000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "fast"
+      "status": "ghost",
+      "latency_class": "fast",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "mistral-small": {
       "model": "mistralai/Mistral-Small-24B-Instruct-2501",
@@ -662,8 +708,10 @@
       "context": 32000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "fast"
+      "status": "ghost",
+      "latency_class": "fast",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "mistral-7b": {
       "model": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -675,8 +723,10 @@
       "context": 32000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "blazing"
+      "status": "ghost",
+      "latency_class": "blazing",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "kimi-k2-thinking": {
       "model": "moonshotai/Kimi-K2-Thinking",
@@ -688,8 +738,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "slow"
+      "status": "ghost",
+      "latency_class": "slow",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "kimi-k2-instruct": {
       "model": "moonshotai/Kimi-K2-Instruct-0905",
@@ -701,8 +753,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": true,
-      "status": "operational",
-      "latency_class": "fast"
+      "status": "ghost",
+      "latency_class": "fast",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "nemotron-nano": {
       "model": "nvidia/Nvidia-Nemotron-Nano-9B-V2",
@@ -714,8 +768,10 @@
       "context": 128000,
       "rate_limited": false,
       "curated": false,
-      "status": "operational",
-      "latency_class": "blazing"
+      "status": "ghost",
+      "latency_class": "blazing",
+      "ghost_reason": "moved to dedicated-only endpoint on Together.ai",
+      "ghost_date": "2026-07-08"
     },
     "claude-haiku-3": {
       "model": "claude-3-haiku-20240307",
@@ -756,6 +812,199 @@
       "status": "operational",
       "syntax": "completion_tokens",
       "latency_class": "glacial"
+    },
+    "deepseek-v4-pro": {
+      "model": "deepseek-ai/DeepSeek-V4-Pro",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "armada",
+      "cost_input": 1.74,
+      "cost_output": 3.48,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "moderate",
+      "commissioned": "2026-07-08",
+      "note": "Successor to DeepSeek V3"
+    },
+    "gpt-oss-20b": {
+      "model": "openai/gpt-oss-20b",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "budget",
+      "cost_input": 0.05,
+      "cost_output": 0.2,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "blazing",
+      "commissioned": "2026-07-08",
+      "note": "OpenAI open-source model via Together.ai"
+    },
+    "gpt-oss-120b": {
+      "model": "openai/gpt-oss-120b",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "patrol",
+      "cost_input": 0.15,
+      "cost_output": 0.6,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "fast",
+      "commissioned": "2026-07-08",
+      "note": "OpenAI open-source model via Together.ai"
+    },
+    "gemma4-31b": {
+      "model": "google/gemma-4-31B-it",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "patrol",
+      "cost_input": 0.39,
+      "cost_output": 0.97,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "fast",
+      "commissioned": "2026-07-08"
+    },
+    "pearl-gemma4-31b": {
+      "model": "pearl-ai/gemma-4-31b-it",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "budget",
+      "cost_input": 0.28,
+      "cost_output": 0.86,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": false,
+      "status": "operational",
+      "latency_class": "fast",
+      "commissioned": "2026-07-08",
+      "note": "Pearl.ai fine-tune of Gemma 4 31B"
+    },
+    "minimax-m3": {
+      "model": "MiniMaxAI/MiniMax-M3",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "patrol",
+      "cost_input": 0.3,
+      "cost_output": 1.2,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "fast",
+      "commissioned": "2026-07-08",
+      "note": "New model family: MiniMax"
+    },
+    "kimi-k26": {
+      "model": "moonshotai/Kimi-K2.6",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "armada",
+      "cost_input": 1.2,
+      "cost_output": 4.5,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "moderate",
+      "commissioned": "2026-07-08",
+      "note": "Successor to K2 Instruct/Thinking"
+    },
+    "kimi-k27-code": {
+      "model": "moonshotai/Kimi-K2.7-Code",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "patrol",
+      "cost_input": 0.95,
+      "cost_output": 4.0,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "moderate",
+      "commissioned": "2026-07-08"
+    },
+    "nemotron-ultra": {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "armada",
+      "cost_input": 0.6,
+      "cost_output": 3.6,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "moderate",
+      "commissioned": "2026-07-08",
+      "note": "Successor to Nemotron Nano. 550B MoE"
+    },
+    "qwen3-235b": {
+      "model": "Qwen/Qwen3-235B-A22B-Instruct-2507-FP8",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "patrol",
+      "cost_input": 0.2,
+      "cost_output": 0.6,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "moderate",
+      "commissioned": "2026-07-08",
+      "note": "Successor to Qwen2.5/Qwen3 line"
+    },
+    "cogito-671b": {
+      "model": "deepcogito/cogito-v2-1-671b",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "patrol",
+      "cost_input": 1.25,
+      "cost_output": 1.25,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "slow",
+      "commissioned": "2026-07-08",
+      "note": "New model family: DeepCogito"
+    },
+    "glm-52": {
+      "model": "zai-org/GLM-5.2",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "armada",
+      "cost_input": 1.4,
+      "cost_output": 4.4,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "moderate",
+      "commissioned": "2026-07-08",
+      "note": "New model family: GLM (Zai Org / Zhipu AI)"
+    },
+    "lfm2-24b": {
+      "model": "LiquidAI/LFM2-24B-A2B",
+      "provider_key": "TOGETHER_API_KEY",
+      "provider": "together",
+      "tier": "budget",
+      "cost_input": 0.03,
+      "cost_output": 0.12,
+      "context": 128000,
+      "rate_limited": false,
+      "curated": true,
+      "status": "operational",
+      "latency_class": "blazing",
+      "commissioned": "2026-07-08",
+      "note": "New model family: LiquidAI (Liquid Foundation Models)"
     }
   },
   "legacy_aliases": {

@@ -18,26 +18,34 @@ COST ANALYSIS:
 |---------------|--------|------------|--------------|
 | --UNLIMITED   | 1      | $0.00      | INFINITE     |  << FREE FOREVER
 | --free-only   | 2      | $0.00      | UNLIMITED    |
-| --cheap       | 10     | ~$0.0005   | ~6,000       |
-| All budget    | 14     | ~$0.002    | ~1,500       |
+| --cheap       | 7      | ~$0.0004   | ~7,500       |
+| All budget    | 17     | ~$0.004    | ~750         |
+| --full        | 22     | ~$0.008    | ~375         |
 
 BATCH MODES:
 ------------
 | Mode          | Iterations | Ships | Est. Cost    |
 |---------------|------------|-------|--------------|
 | --UNLIMITED   | INFINITE   | 1     | $0.00        |  << STRESS TEST MODE
-| --cal-lite    | 1,500      | 14    | ~$3.00       |
-| --cal-full    | 6,000      | 10    | ~$3.00       |
+| --cal-lite    | 750        | 17    | ~$3.00       |
+| --cal-full    | 3,750      | 7     | ~$3.00       |
+
+FLEET OVERHAUL LOG (2026-07-08):
+---------------------------------
+Together.ai purged nearly all legacy serverless models to dedicated-only.
+15 ships ghosted, 1 sunk (DeepSeek V3). 13 new ships commissioned.
+See GHOST_FLEET dict for the fallen. Old cheap tier ($0.18-0.30/M) is gone.
+New cheapest Together.ai: lfm2-24b ($0.12/M), gpt-oss-20b ($0.20/M).
 
 BUDGET FLEET (tier: "budget" in ARCHITECTURE_MATRIX.json):
 ----------------------------------------------------------
 FREE:    gemini-2.5-flash-lite, gemini-2.0-flash-lite (rate limited)
-$0.18/M: llama3.1-8b
-$0.20/M: mistral-7b, kimi-k2-instruct, nemotron-nano, gemini-2.0-flash
-$0.24/M: mixtral-8x7b
-$0.30/M: kimi-k2-thinking
+$0.12/M: lfm2-24b (LiquidAI)
+$0.20/M: gpt-oss-20b, qwen3-235b, gemini-2.0-flash
 $0.40/M: gpt-5-nano, gpt-4.1-nano
 $0.50/M: grok-3-mini, grok-4-fast-*, grok-4.1-fast-*
+$0.60/M: gpt-oss-120b, gemini-2.5-flash
+NOTE:    Old Together.ai cheap fleet (llama3.1-8b, mistral-7b, etc.) ghosted 2026-07-08
 
 USAGE:
 ------
@@ -98,15 +106,13 @@ if env_path.exists():
 BUDGET_COSTS = {
     # FREE tier (Google)
     "gemini-2.5-flash-lite": 0.00,
-    "gemini-2.0-flash-lite": 0.00,  # Rate limited
+    "gemini-2.0-flash-lite": 0.00,
     "gemini-2.0-flash": 0.40,
-    # Ultra-cheap tier (<$0.25/M) - Together.ai
-    "llama3.1-8b": 0.18,
-    "mistral-7b": 0.20,
-    "kimi-k2-instruct": 0.20,
-    "nemotron-nano": 0.20,
-    "mixtral-8x7b": 0.24,
-    "kimi-k2-thinking": 0.30,
+    # Ultra-cheap tier (<$0.25/M) - Together.ai (verified serverless 2026-07-08)
+    "lfm2-24b": 0.12,
+    "gpt-oss-20b": 0.20,
+    "qwen3-235b": 0.60,
+    "gpt-oss-120b": 0.60,
     # Cheap tier ($0.40-0.50/M) - OpenAI & xAI
     "gpt-5-nano": 0.40,
     "gpt-4.1-nano": 0.40,
@@ -115,6 +121,32 @@ BUDGET_COSTS = {
     "grok-4-fast-non-reasoning": 0.50,
     "grok-4.1-fast-reasoning": 0.50,
     "grok-4.1-fast-non-reasoning": 0.50,
+    # Mid tier ($0.86-1.25/M) - Together.ai new fleet
+    "llama3.3-70b": 1.04,
+    "pearl-gemma4-31b": 0.86,
+    "gemma4-31b": 0.97,
+    "minimax-m3": 1.20,
+    "cogito-671b": 1.25,
+}
+
+# Ghost fleet — models moved to dedicated-only on Together.ai (2026-07-08)
+# Preserved for historical reference. These were the backbone of the cheap fleet.
+GHOST_FLEET = {
+    "llama3.1-8b": {"model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "was_cost": 0.18},
+    "mistral-7b": {"model": "mistralai/Mistral-7B-Instruct-v0.3", "was_cost": 0.20},
+    "kimi-k2-instruct": {"model": "moonshotai/Kimi-K2-Instruct-0905", "was_cost": 0.20},
+    "nemotron-nano": {"model": "nvidia/Nvidia-Nemotron-Nano-9B-V2", "was_cost": 0.20},
+    "mixtral-8x7b": {"model": "mistralai/Mixtral-8x7B-Instruct-v0.1", "was_cost": 0.24},
+    "kimi-k2-thinking": {"model": "moonshotai/Kimi-K2-Thinking", "was_cost": 0.30},
+    "mistral-small": {"model": "mistralai/Mistral-Small-24B-Instruct-2501", "was_cost": 0.60},
+    "llama3.1-70b": {"model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "was_cost": 0.88},
+    "llama3.1-405b": {"model": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo", "was_cost": 3.50},
+    "qwen2.5-72b": {"model": "Qwen/Qwen2.5-72B-Instruct-Turbo", "was_cost": 1.20},
+    "qwen3-80b": {"model": "Qwen/Qwen3-Next-80B-A3b-Instruct", "was_cost": 0.90},
+    "qwen3-coder": {"model": "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8", "was_cost": 2.40},
+    "deepseek-r1": {"model": "deepseek-ai/DeepSeek-R1-0528", "was_cost": 2.19},
+    "deepseek-r1-distill": {"model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B", "was_cost": 0.55},
+    "deepseek-v3": {"model": "deepseek-ai/DeepSeek-V3", "was_cost": 0.89, "status": "sunk_503"},
 }
 
 # ============================================================================
@@ -134,19 +166,17 @@ FREE_FLEET = {
     "gemini-2.0-flash-lite": {"provider": "gemini", "model": "gemini-2.0-flash-lite"},
 }
 
-# CHEAP fleet - <$0.30/M output (including cheap Google models)
+# CHEAP fleet - <$0.65/M output (verified serverless 2026-07-08)
 CHEAP_FLEET = {
     **FREE_FLEET,
-    "gemini-2.0-flash": {"provider": "gemini", "model": "gemini-2.0-flash"},  # $0.40 but fast
-    "llama3.1-8b": {"provider": "together", "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo"},
-    "mistral-7b": {"provider": "together", "model": "mistralai/Mistral-7B-Instruct-v0.3"},
-    "kimi-k2-instruct": {"provider": "together", "model": "moonshotai/Kimi-K2-Instruct-0905"},
-    "nemotron-nano": {"provider": "together", "model": "nvidia/Nvidia-Nemotron-Nano-9B-V2"},
-    "mixtral-8x7b": {"provider": "together", "model": "mistralai/Mixtral-8x7B-Instruct-v0.1"},
-    "kimi-k2-thinking": {"provider": "together", "model": "moonshotai/Kimi-K2-Thinking"},
+    "gemini-2.0-flash": {"provider": "gemini", "model": "gemini-2.0-flash"},
+    "lfm2-24b": {"provider": "together", "model": "LiquidAI/LFM2-24B-A2B"},
+    "gpt-oss-20b": {"provider": "together", "model": "openai/gpt-oss-20b"},
+    "gpt-oss-120b": {"provider": "together", "model": "openai/gpt-oss-120b"},
+    "qwen3-235b": {"provider": "together", "model": "Qwen/Qwen3-235B-A22B-Instruct-2507-FP8"},
 }
 
-# FULL BUDGET fleet - all budget tier models
+# FULL BUDGET fleet - all budget tier models + new Together.ai serverless
 BUDGET_FLEET = {
     **CHEAP_FLEET,
     "gpt-5-nano": {"provider": "gpt", "model": "gpt-5-nano"},
@@ -154,6 +184,21 @@ BUDGET_FLEET = {
     "grok-3-mini": {"provider": "grok", "model": "grok-3-mini"},
     "grok-4.1-fast-reasoning": {"provider": "grok", "model": "grok-4-1-fast-reasoning"},
     "grok-4.1-fast-non-reasoning": {"provider": "grok", "model": "grok-4-1-fast-non-reasoning"},
+    "llama3.3-70b": {"provider": "together", "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo"},
+    "pearl-gemma4-31b": {"provider": "together", "model": "pearl-ai/gemma-4-31b-it"},
+    "gemma4-31b": {"provider": "together", "model": "google/gemma-4-31B-it"},
+    "minimax-m3": {"provider": "together", "model": "MiniMaxAI/MiniMax-M3"},
+    "cogito-671b": {"provider": "together", "model": "deepcogito/cogito-v2-1-671b"},
+}
+
+# FULL fleet - budget + mid-tier Together.ai (for broader sweeps)
+FULL_FLEET = {
+    **BUDGET_FLEET,
+    "deepseek-v4-pro": {"provider": "together", "model": "deepseek-ai/DeepSeek-V4-Pro"},
+    "kimi-k26": {"provider": "together", "model": "moonshotai/Kimi-K2.6"},
+    "kimi-k27-code": {"provider": "together", "model": "moonshotai/Kimi-K2.7-Code"},
+    "nemotron-ultra": {"provider": "together", "model": "nvidia/nemotron-3-ultra-550b-a55b"},
+    "glm-52": {"provider": "together", "model": "zai-org/GLM-5.2"},
 }
 
 # ============================================================================
@@ -484,7 +529,9 @@ FLEET TIERS:
     fleet_group.add_argument("--free-only", action="store_true",
         help="Run ONLY free models (gemini-2.5-flash-lite, etc.)")
     fleet_group.add_argument("--cheap", action="store_true",
-        help="Run cheap models only (<$0.25/M output)")
+        help="Run cheap models only (<$0.65/M output)")
+    fleet_group.add_argument("--full", action="store_true",
+        help="Run full fleet including mid-tier Together.ai models")
 
     # Batch operations
     batch_group = parser.add_argument_group('Batch Operations')
@@ -507,15 +554,15 @@ FLEET TIERS:
 
     # Handle batch modes first (they override iterations and fleet)
     if args.cal_lite:
-        args.iterations = 1500
+        args.iterations = 750
         fleet = BUDGET_FLEET
         fleet_name = "BUDGET_FLEET (--cal-lite batch)"
-        print("\n[CAL-LITE MODE] 1,500 iterations x 14 budget ships = ~$3 total")
+        print(f"\n[CAL-LITE MODE] 750 iterations x {len(fleet)} budget ships = ~$3 total")
     elif args.cal_full:
-        args.iterations = 6000
+        args.iterations = 3750
         fleet = CHEAP_FLEET
         fleet_name = "CHEAP_FLEET (--cal-full batch)"
-        print("\n[CAL-FULL MODE] 6,000 iterations x 10 cheap ships = ~$3 total")
+        print(f"\n[CAL-FULL MODE] 3,750 iterations x {len(fleet)} cheap ships = ~$3 total")
     elif args.UNLIMITED:
         # UNLIMITED mode: infinite iterations, single free model, ignore max-cost
         fleet = UNLIMITED_FLEET
@@ -536,6 +583,9 @@ FLEET TIERS:
     elif args.cheap:
         fleet = CHEAP_FLEET
         fleet_name = "CHEAP_FLEET"
+    elif args.full:
+        fleet = FULL_FLEET
+        fleet_name = "FULL_FLEET"
     else:
         fleet = BUDGET_FLEET
         fleet_name = "BUDGET_FLEET"
