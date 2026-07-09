@@ -17,7 +17,7 @@ CFA_DIR = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "12_C
 RUNS_DIR = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "0_results" / "runs" / "cfa_trinity"
 MAPS_DIR = REPO_ROOT / "docs" / "maps"
 CA_DIR = REPO_ROOT / "REPO-SYNC" / "LLM_BOOK" / "0_SOURCE_MANIFESTS" / "STAGING" / "New_9_Cognitive_Archaeology"
-ARCH_MATRIX = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "ARCHITECTURE_MATRIX.json"
+ARCH_MATRIX = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json"
 
 
 def count_files(directory, pattern="*.json", recursive=True):
@@ -64,7 +64,11 @@ def get_fleet_counts():
     try:
         with open(ARCH_MATRIX, encoding="utf-8") as f:
             data = json.load(f)
-        ships = data if isinstance(data, list) else data.get("ships", [])
+        ships_raw = data.get("ships", data)
+        if isinstance(ships_raw, dict):
+            ships = list(ships_raw.values())
+        else:
+            ships = ships_raw
         total = len(ships)
         operational = sum(1 for s in ships if s.get("status") == "operational")
         ghost = sum(1 for s in ships if s.get("status") == "ghost")
