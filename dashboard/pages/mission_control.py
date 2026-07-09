@@ -132,10 +132,17 @@ def render():
 
     categories, total = get_run_inventory()
 
+    worldview_cats = {"CT", "MdN", "G", "PT", "B"}
+    worldview_total = sum(v["count"] for k, v in categories.items() if k in worldview_cats)
+    calibration_total = total - worldview_total
+
     col1, col2 = st.columns([1, 2])
 
     with col1:
-        st.metric("Total Runs", f"{total:,}")
+        m1, m2 = st.columns(2)
+        m1.metric("Worldview Runs", f"{worldview_total:,}")
+        m2.metric("Calibration / Legacy", f"{calibration_total:,}")
+        st.caption(f"Total: {total:,} (worldview evaluations + Framework-G calibration + pre-schema legacy)")
 
         framework_labels = {
             "CT": "Classical Theism",
@@ -143,7 +150,7 @@ def render():
             "G": "Gnosticism",
             "PT": "Process Theology",
             "B": "Buddhism",
-            "Framework_G": "Framework-G",
+            "Framework_G": "Framework-G (calibration)",
             "pre_schema": "Pre-schema (legacy)",
         }
 

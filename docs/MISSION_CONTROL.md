@@ -14,8 +14,8 @@
 | Status | Summaries | Raw JSONs | Notes |
 |--------|-----------|-----------|-------|
 | **pending/** | 2 | 0 | Buddhism batch results, Gnostic lever calibration |
-| **running/** | 2 | 230 | CT-vs-PT, PT-vs-MdN results + 9 batched run folders |
-| **completed/** | 17 | 0 | All prior deliveries processed by CFA Claude |
+| **running/** | 0 | 230 | 9 batched raw run folders (reference data) |
+| **completed/** | 19 | 0 | Includes CT-vs-PT and PT-vs-MdN (graduated 2026-07-09) |
 
 **Pending deliveries for CFA Claude:**
 - `BUDDHISM_BATCH_RESULTS_20260708.md` -- 41 B-category runs, full 2x2 grid
@@ -36,17 +36,19 @@
 
 ## Data Inventory
 
-### CFA Trinity Runs (702 total)
+### CFA Trinity Runs (614 worldview + 88 calibration/legacy = 702 total)
 
-| Framework | Runs | Latest | Status |
-|-----------|------|--------|--------|
-| Gnosticism (G) | 212 | 2026-07-08 | Largest corpus |
-| Classical Theism (CT) | 136 | 2026-07-08 | Mature |
-| Process Theology (PT) | 131 | 2026-07-08 | Validated |
-| Methodological Naturalism (MdN) | 94 | 2026-07-08 | Control baseline |
-| Framework-G | 72 | 2026-07-09 | Coupling probes + structure |
-| Buddhism (B) | 41 | 2026-07-08 | Newest |
-| pre_schema | 16 | legacy | v1/v2 format |
+| Framework | Runs | Latest | Status | Type |
+|-----------|------|--------|--------|------|
+| Gnosticism (G) | 212 | 2026-07-08 | Largest corpus | Worldview |
+| Classical Theism (CT) | 136 | 2026-07-08 | Mature | Worldview |
+| Process Theology (PT) | 131 | 2026-07-08 | Validated | Worldview |
+| Methodological Naturalism (MdN) | 94 | 2026-07-08 | Control baseline | Worldview |
+| Buddhism (B) | 41 | 2026-07-08 | Newest | Worldview |
+| Framework-G | 72 | 2026-07-09 | Coupling probes + engine testing | Calibration |
+| pre_schema | 16 | legacy | v1/v2 format, no matchup fields | Legacy |
+
+> **Note for CFA Claude:** Only the 614 worldview runs map to YAML profiles. Framework-G runs test the CFA deliberation engine itself (instrument calibration), not a worldview being audited. Pre-schema runs predate the current JSON format.
 
 ### Matchup Coverage Matrix
 
