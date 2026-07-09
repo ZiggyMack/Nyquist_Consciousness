@@ -1202,7 +1202,7 @@ def render_pfi_validation_tab():
         return ""
 
     st.dataframe(
-        df.style.applymap(color_status, subset=["Status"]),
+        df.style.map(color_status, subset=["Status"]),
         use_container_width=True,
         hide_index=True
     )
@@ -2828,7 +2828,7 @@ def render_run_mapping_tab():
                 return "background-color: #ef4444; color: white"
             return ""
 
-        styled_df = df.style.applymap(era_color, subset=["Era"]).applymap(status_color, subset=["Status"])
+        styled_df = df.style.map(era_color, subset=["Era"]).map(status_color, subset=["Status"])
         st.dataframe(styled_df, use_container_width=True, hide_index=True, height=500)
 
         # Quick stats
@@ -3878,7 +3878,7 @@ def render_validation_scorecard_tab():
             return "background-color: #22c55e; color: white" if val == "VALIDATED" else ""
 
         st.dataframe(
-            df_validated.style.applymap(color_validated, subset=["Status"]),
+            df_validated.style.map(color_validated, subset=["Status"]),
             use_container_width=True,
             hide_index=True
         )
@@ -3943,7 +3943,7 @@ def render_validation_scorecard_tab():
             return "background-color: #6b7280; color: white"
 
         st.dataframe(
-            df_cannot.style.applymap(color_cannot, subset=["Status"]),
+            df_cannot.style.map(color_cannot, subset=["Status"]),
             use_container_width=True,
             hide_index=True
         )

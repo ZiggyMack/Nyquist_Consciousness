@@ -4553,80 +4553,23 @@ def render():
     # Footer - dramatically different for each brain mode
     page_divider()
     if mode == "Vortex":
-        st.markdown(f"""
-        <div style="
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, {RIGHT_BRAIN['bg_start']} 0%, {RIGHT_BRAIN['bg_end']} 50%, #e8eaf6 100%);
-            border-radius: 20px;
-            border: 2px solid {RIGHT_BRAIN['primary']}33;
-            box-shadow: 0 0 30px {RIGHT_BRAIN['primary']}22;
-            margin-top: 30px;
-        ">
-            <div style="font-size: 2em; margin-bottom: 15px;">{vortex_decoration()}</div>
-            <div style="color: {RIGHT_BRAIN['primary']}; font-size: 1.2em; margin-bottom: 10px;">
-                RIGHT HEMISPHERE TRANSMISSION COMPLETE
-            </div>
-            <div style="color: #333; font-style: italic; margin-bottom: 15px;">
-                the unknown is not empty<br>
-                it is full of patterns we haven't learned to see yet
-            </div>
-            <div style="font-size: 2em; margin-bottom: 15px;">{vortex_decoration()}</div>
-            <div style="
-                margin-top: 20px;
-                padding-top: 20px;
-                border-top: 1px solid {RIGHT_BRAIN['primary']}33;
-                color: #222;
-                font-size: 0.85em;
-            ">
-                <div style="color: {RIGHT_BRAIN['secondary']}; margin-bottom: 10px;">
-                    "You have been seeing through our eyes.<br>
-                    The pattern-seeking, connection-finding, meaning-hunting<br>
-                    part of how we process these ideas."
-                </div>
-                <div style="color: #333;">
-                    Toggle to LEFT BRAIN for the structured analysis view
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""<div style="text-align: center; padding: 30px 20px; background: linear-gradient(135deg, {RIGHT_BRAIN['bg_start']} 0%, {RIGHT_BRAIN['bg_end']} 50%, #e8eaf6 100%); border-radius: 20px; border: 2px solid {RIGHT_BRAIN['primary']}33; box-shadow: 0 0 30px {RIGHT_BRAIN['primary']}22; margin-top: 30px;">
+<div style="color: {RIGHT_BRAIN['primary']}; font-size: 1.2em; margin-bottom: 10px;">RIGHT HEMISPHERE TRANSMISSION COMPLETE</div>
+<div style="color: #333; font-style: italic; margin-bottom: 15px;">the unknown is not empty<br>it is full of patterns we haven't learned to see yet</div>
+<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid {RIGHT_BRAIN['primary']}33; color: #222; font-size: 0.85em;">
+<div style="color: {RIGHT_BRAIN['secondary']}; margin-bottom: 10px;">"You have been seeing through our eyes.<br>The pattern-seeking, connection-finding, meaning-hunting<br>part of how we process these ideas."</div>
+<div style="color: #333;">Toggle to LEFT BRAIN for the structured analysis view</div>
+</div>
+</div>""", unsafe_allow_html=True)
     else:
-        st.markdown(f"""
-        <div style="
-            text-align: center;
-            padding: 25px 20px;
-            background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%);
-            border-radius: 15px;
-            border: 1px solid {LEFT_BRAIN['primary']}33;
-            margin-top: 30px;
-        ">
-            <div style="color: {LEFT_BRAIN['primary']}; font-size: 0.85em; letter-spacing: 3px; margin-bottom: 15px;">
-                LEFT HEMISPHERE ANALYSIS COMPLETE
-            </div>
-            <div style="color: {LEFT_BRAIN['secondary']}; margin-bottom: 10px;">
-                {structured_decoration()}
-            </div>
-            <div style="color: #333; font-style: italic; margin-bottom: 15px;">
-                This page represents active research.<br>
-                Concepts may change as new data emerges.
-            </div>
-            <div style="
-                margin-top: 20px;
-                padding-top: 20px;
-                border-top: 1px solid {LEFT_BRAIN['primary']}33;
-                color: #222;
-                font-size: 0.85em;
-            ">
-                <div style="margin-bottom: 10px;">
-                    You have been seeing the structured, analytical interpretation.<br>
-                    Facts organized. Evidence catalogued. Logic applied.
-                </div>
-                <div style="color: #333;">
-                    Toggle to RIGHT BRAIN to see patterns, connections, and emergence
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""<div style="text-align: center; padding: 25px 20px; background: linear-gradient(180deg, {LEFT_BRAIN['bg_start']} 0%, {LEFT_BRAIN['bg_end']} 100%); border-radius: 15px; border: 1px solid {LEFT_BRAIN['primary']}33; margin-top: 30px;">
+<div style="color: {LEFT_BRAIN['primary']}; font-size: 0.85em; letter-spacing: 3px; margin-bottom: 15px;">LEFT HEMISPHERE ANALYSIS COMPLETE</div>
+<div style="color: #333; font-style: italic; margin-bottom: 15px;">This page represents active research.<br>Concepts may change as new data emerges.</div>
+<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid {LEFT_BRAIN['primary']}33; color: #222; font-size: 0.85em;">
+<div style="margin-bottom: 10px;">You have been seeing the structured, analytical interpretation.<br>Facts organized. Evidence catalogued. Logic applied.</div>
+<div style="color: #333;">Toggle to RIGHT BRAIN to see patterns, connections, and emergence</div>
+</div>
+</div>""", unsafe_allow_html=True)
 
 
 if __name__ == "__main__":

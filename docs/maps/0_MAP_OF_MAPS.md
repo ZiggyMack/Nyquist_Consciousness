@@ -90,6 +90,16 @@ keywords:
 
 ---
 
+## Mission Control
+
+> **Start here.** Before consulting any map, check the dashboard.
+
+| Resource | Role |
+|----------|------|
+| **[MISSION_CONTROL.md](../MISSION_CONTROL.md)** | Single-glance status: SYNC bridge, data inventory, research program status, open loops, fleet health. Updated each session. CFA Claude's counterpart lives at `CFA/views/mission_control.py`. |
+
+---
+
 ## The Seven Kingdoms
 
 ### Kingdom I: THE VISION
@@ -150,7 +160,7 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **[1_ARMADA_MAP.md](1_ARMADA_MAP.md)** | Ship Registry | 54 models, 5 providers, capabilities, run history |
+| **[1_ARMADA_MAP.md](1_ARMADA_MAP.md)** | Ship Registry | 68 ships (53 operational, 14 ghost, 1 sunk), 5 providers |
 | **[6_LLM_BEHAVIORAL_MATRIX.md](6_LLM_BEHAVIORAL_MATRIX.md)** | Task Router | Which LLM for which task? Recovery profiles, drift fingerprints |
 | **[17_PERSONA_FLEET_MATRIX.md](17_PERSONA_FLEET_MATRIX.md)** | Assignment Logic | 25 personas, compatibility scores, friction vs synergy |
 | **[7_PUBLICATION_MAP.md](7_PUBLICATION_MAP.md)** | Publication Pipeline | 8 paths, current position, LLM_BOOK integration |
@@ -190,7 +200,7 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **[19_COGNITIVE_ARCHAEOLOGY_MAP.md](19_COGNITIVE_ARCHAEOLOGY_MAP.md)** | Research Program | 7 operators, Failure Atlas, Phase 0, Promotion Gates, Falsification Criteria |
+| **[19_COGNITIVE_ARCHAEOLOGY_MAP.md](19_COGNITIVE_ARCHAEOLOGY_MAP.md)** | Research Program | 9 operators, Failure Atlas, Phase 0 (A+B done, C pending), Promotion Gates, Falsification Criteria |
 
 **The Excavation** - Cognitive Archaeology asks whether CFA, FUT, EOS, and Nyquist all share the same reasoning machinery — and whether that machinery generalizes to all disciplined thought. If CFA discovers a periodic table of worldviews, CA asks if there's a periodic table of reasoning itself.
 
@@ -479,7 +489,7 @@ When creating a new map:
 ║   • 7,200 lines of careful thought                                           ║
 ║   • 46 testable predictions                                                  ║
 ║   • 16 completed experimental runs                                           ║
-║   • 54 models sailing the identity ocean                                     ║
+║   • 68 ships sailing the identity ocean (53 operational)                      ║
 ║   • 7 federated repositories                                                 ║
 ║   • 1 vision: S0 → S77                                                       ║
 ║                                                                               ║
