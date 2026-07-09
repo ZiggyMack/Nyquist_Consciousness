@@ -37,8 +37,23 @@ def get_run_inventory():
             files = list(cat_dir.glob("*.json"))
             if files:
                 latest = max(f.stat().st_mtime for f in files)
+                golden = 0
+                control = 0
+                for f in files:
+                    try:
+                        with open(f, encoding="utf-8") as fh:
+                            d = json.load(fh)
+                        cond = d.get("condition", "unknown")
+                        if cond == "external":
+                            golden += 1
+                        elif cond == "control":
+                            control += 1
+                    except Exception:
+                        pass
                 categories[cat_dir.name] = {
                     "count": len(files),
+                    "golden": golden,
+                    "control": control,
                     "latest": datetime.fromtimestamp(latest).strftime("%Y-%m-%d"),
                 }
     total = sum(v["count"] for v in categories.values())
@@ -133,16 +148,18 @@ def render():
     categories, total = get_run_inventory()
 
     worldview_cats = {"CT", "MdN", "G", "PT", "B"}
-    worldview_total = sum(v["count"] for k, v in categories.items() if k in worldview_cats)
-    calibration_total = total - worldview_total
+    golden_total = sum(v["golden"] for k, v in categories.items() if k in worldview_cats)
+    control_total = sum(v["control"] for k, v in categories.items() if k in worldview_cats)
+    calibration_total = total - golden_total - control_total
 
     col1, col2 = st.columns([1, 2])
 
     with col1:
-        m1, m2 = st.columns(2)
-        m1.metric("Worldview Runs", f"{worldview_total:,}")
-        m2.metric("Calibration / Legacy", f"{calibration_total:,}")
-        st.caption(f"Total: {total:,} (worldview evaluations + Framework-G calibration + pre-schema legacy)")
+        m1, m2, m3 = st.columns(3)
+        m1.metric("Golden Runs", f"{golden_total:,}")
+        m2.metric("Control Runs", f"{control_total:,}")
+        m3.metric("Calibration", f"{calibration_total:,}")
+        st.caption(f"Total on disk: {total:,} — Golden = external identity (CFA methodology), Control = hardcoded baseline, Calibration = Framework-G + pre-schema")
 
         framework_labels = {
             "CT": "Classical Theism",
@@ -156,11 +173,14 @@ def render():
 
         rows = []
         for cat, info in categories.items():
-            rows.append({
+            row = {
                 "Framework": framework_labels.get(cat, cat),
-                "Runs": info["count"],
+                "Golden": info["golden"],
+                "Control": info["control"],
+                "Total": info["count"],
                 "Latest": info["latest"],
-            })
+            }
+            rows.append(row)
         if rows:
             import pandas as pd
             df = pd.DataFrame(rows)
@@ -169,9 +189,11 @@ def render():
     with col2:
         if categories:
             import pandas as pd
+            wv = {k: v for k, v in categories.items() if k in worldview_cats}
             chart_data = pd.DataFrame({
-                "Framework": [framework_labels.get(k, k) for k in categories],
-                "Runs": [v["count"] for v in categories.values()],
+                "Framework": [framework_labels.get(k, k) for k in wv],
+                "Golden": [v["golden"] for v in wv.values()],
+                "Control": [v["control"] for v in wv.values()],
             })
             st.bar_chart(chart_data.set_index("Framework"))
 

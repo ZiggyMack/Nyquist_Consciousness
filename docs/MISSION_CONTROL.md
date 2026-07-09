@@ -36,19 +36,23 @@
 
 ## Data Inventory
 
-### CFA Trinity Runs (614 worldview + 88 calibration/legacy = 702 total)
+### CFA Trinity Runs (259 Golden + 355 Control + 88 calibration/legacy = 702 on disk)
 
-| Framework | Runs | Latest | Status | Type |
-|-----------|------|--------|--------|------|
-| Gnosticism (G) | 212 | 2026-07-08 | Largest corpus | Worldview |
-| Classical Theism (CT) | 136 | 2026-07-08 | Mature | Worldview |
-| Process Theology (PT) | 131 | 2026-07-08 | Validated | Worldview |
-| Methodological Naturalism (MdN) | 94 | 2026-07-08 | Control baseline | Worldview |
-| Buddhism (B) | 41 | 2026-07-08 | Newest | Worldview |
-| Framework-G | 72 | 2026-07-09 | Coupling probes + engine testing | Calibration |
-| pre_schema | 16 | legacy | v1/v2 format, no matchup fields | Legacy |
+**Golden = external identity (CFA methodology). Control = hardcoded baseline. Only Golden runs represent full CFA evaluations.**
 
-> **Note for CFA Claude:** Only the 614 worldview runs map to YAML profiles. Framework-G runs test the CFA deliberation engine itself (instrument calibration), not a worldview being audited. Pre-schema runs predate the current JSON format.
+| Framework | Golden | Control | Total | Latest |
+|-----------|--------|---------|-------|--------|
+| Gnosticism (G) | 102 | 110 | 212 | 2026-07-08 |
+| Classical Theism (CT) | 53 | 83 | 136 | 2026-07-08 |
+| Process Theology (PT) | 61 | 70 | 131 | 2026-07-08 |
+| Methodological Naturalism (MdN) | 42 | 52 | 94 | 2026-07-08 |
+| Buddhism (B) | 1 | 40 | 41 | 2026-07-08 |
+| **Worldview subtotal** | **259** | **355** | **614** | |
+| Framework-G (calibration) | — | — | 72 | 2026-07-09 |
+| pre_schema (legacy) | — | — | 16 | legacy |
+
+> **Note for CFA Claude:** Only the 259 Golden runs use the full CFA methodology (external identity files, PRO/ANTI stance calibration). Control runs measure base-model priors without identity influence. Framework-G runs test the engine, not a worldview. Buddhism has only 1 Golden run — almost entirely control-condition data.
+
 
 ### Matchup Coverage Matrix
 
