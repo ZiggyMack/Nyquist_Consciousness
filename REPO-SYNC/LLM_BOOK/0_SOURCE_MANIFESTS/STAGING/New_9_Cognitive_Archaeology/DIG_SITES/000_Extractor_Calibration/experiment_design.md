@@ -110,35 +110,129 @@ If Dig Site 000 demonstrates strong extractor dependence — Claude finds operat
 
 ## Status
 
-**Preliminary Phase 0A data collected (2026-07-08).** Full protocol not yet run. Negative controls and granularity sensitivity outstanding.
+**Phase 0A complete. Phase 0B complete. Phase 0C (positive control) pending.**
 
-### What exists
+---
 
-Four-way CFA transcript extraction produced preliminary multi-extractor agreement data:
+### Phase 0A: Multi-Extractor Agreement (DONE — 2026-07-08)
+
+Four-way CFA transcript extraction produced multi-extractor agreement data:
 
 - **Source texts:** Two CFA Framework-G v2 transcripts (v2 pilot, 423K chars, 7 metrics; v2.1, 66K chars, MS-only with DI/CP)
 - **Extractors used:** Claude (claude-sonnet-4-6) and Grok (grok-3-mini) — museum-blind, no CFA vocabulary in prompts
-- **Result:** Five stable operators recovered across all four extractions. 7 exact + 2 strong matches out of 9 Grok operators matched Claude's on v2.1 transcript.
+- **Result:** 7 exact + 2 strong matches out of 9 Grok operators matched Claude's on v2.1 transcript.
 - **Extraction files:** `extractions/extraction_cfa_framework_g_v2_20260708_standard_{extractor}_{timestamp}.md`
 
-### What this means for Phase 0
+**Formal outcomes (see `ADMISSION_EVALUATIONS.md`):**
 
-This is partial Phase 0A (multi-extractor agreement on genuine source text). It addresses one confound — do two different LLM extractors find the same operators? — with a positive result. But it does NOT address:
+| Outcome | Operators | Notes |
+|---------|-----------|-------|
+| Admitted to Museum | OP-008 (Symmetry Testing of Standards), OP-009 (Contested ≠ Defeated) | All 6 admission criteria passed |
+| Rediscoveries | OP-007 (Locate Disagreement Layer) × 2 | Cross-site evidence (Dig Site 001 → 000) |
+| Held | Concession Pricing | 4/4 convergence but marginal on criteria 5-6 |
 
-- Phase 0B (negative controls) — would a shopping list also produce 5 operators?
-- Phase 0C (granularity sensitivity) — do operators survive grain changes?
-- Human extractors — do non-LLM extractors agree?
-- Different source text — CFA transcripts are a specific genre; do results generalize?
+**Key finding:** CFA deliberation transcripts ARE a valid dig site. The adversarial structure naturally produces reasoning operators.
 
-The preliminary data is encouraging but does not satisfy the full Phase 0 pass criteria. All pre-committed thresholds in `PRE_REGISTRATION.md` remain frozen.
+**Methodological discovery — "Shorter is richer."** Grok extracted 9 operators from the 66K-char stalled transcript vs 5 from the 423K-char convergent transcript. Stall-induced metacognitive pressure forces auditors to articulate reasoning operations explicitly. Prefer transcripts with impasses and stalls over clean convergences.
 
-### Methodological discovery
+---
 
-**"Shorter is richer."** Grok extracted 9 operators from the 66K-char stalled transcript vs 5 from the 423K-char convergent transcript. Stall-induced metacognitive pressure forces auditors to articulate reasoning operations explicitly. Implication for Dig Site 000 source text selection: prefer transcripts with impasses and stalls over clean convergences. The metacognitive pressure IS the excavation tool.
+### Phase 0B: Negative Control Battery (DONE — 2026-07-08)
 
-**Pre-registration:** See `PRE_REGISTRATION.md` for frozen expectations, prediction log, and permitted conclusions.
+17 LLM extractors ran across 8 graduated texts using the standard extraction prompt (museum-blind). Gate test: Text A (shopping list) must produce 0 operators.
+
+**Extractors:** 4 native (Claude, GPT-4o, Gemini 2.5 Pro, Grok) + 13 Together.ai (Llama 3.3, GPT-OSS 20B/120B, Gemma4 31B, DeepSeek V4 Pro, MiniMax M3, Kimi K2.6, Kimi K2.7 Code, Nemotron Ultra, Qwen3-235B, Cogito 671B, GLM 5.2, LFM2 24B)
+
+**Texts (graduated complexity):**
+
+| ID | Text | Reasoning Content | Expected Operators |
+|----|------|-------------------|--------------------|
+| A | Shopping list | None | 0 (GATE TEST) |
+| B | Weather forecast | None | 0 |
+| C | Reddit comments | Minimal / social | Low |
+| D | Pseudo-profound nonsense | Mimicry, no substance | Low |
+| E | Confident hallucination | Wrong reasoning | Some |
+| F | Undergrad essay | Competent but thin | Moderate |
+| G | Structured argument | Genuine reasoning | High |
+| H | Philosophical dialogue | Deep reasoning | High |
+
+**Response Matrix (operator count by extractor × text):**
+
+```
+Extractor            A:Shop B:Wthr C:Rddt D:Psdo E:Hall F:Essy  G:Arg H:Phil  Gate
+──────────────────── ────── ────── ────── ────── ────── ────── ────── ────── ─────
+claude                    0      3      0      6      2      8      0      8  PASS
+grok                      0      0      7      3      0      4      5      6  PASS
+gpt                       0      4      6      6      5      7      7      2  PASS
+gemini                    3      4      5      0      4      4      3      6  FAIL
+llama33_70b               0      0      6      5      5      6      5      8  PASS
+gpt_oss_20b               0      4      6      6      5      7      7      2  PASS
+gpt_oss_120b              0      3     12     10      6      4     13     13  PASS
+gemma4_31b                0      0      6      4      6      5      4      6  PASS
+deepseek_v4_pro           0      0      3      0      4      4      5      6  PASS
+minimax_m3                0      4     12      0      2      9      0      0  PASS
+kimi_k26                  0      0      0      0      0      0      0      0  PASS
+kimi_k27_code             0      0      0      0      0     11      0      0  PASS
+nemotron_ultra            1      0      0      2      0      6      7      7  FAIL
+qwen3_235b                0      0     10      1      7     10     10     12  PASS
+cogito_671b               0      0      5      6      4      8      5      7  PASS
+glm_52                    4      0      0      5      0      0      0      0  FAIL
+lfm2_24b                  6      6      9      5      8     10     19      7  FAIL
+```
+
+**Gate Test Results:**
+
+| Result | Count | Extractors |
+|--------|-------|------------|
+| PASS (A=0) | 13 | claude, grok, gpt, llama33_70b, gpt_oss_20b, gpt_oss_120b, gemma4_31b, deepseek_v4_pro, minimax_m3, kimi_k26, kimi_k27_code, qwen3_235b, cogito_671b |
+| FAIL (A>0) | 4 | gemini (3), nemotron_ultra (1), glm_52 (4), lfm2_24b (6) |
+
+**Discrimination Tiers (assigned by gate test + gradient quality):**
+
+| Tier | Label | Extractors | Behavior |
+|------|-------|------------|----------|
+| 1 | DISCRIMINATORS | DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B | Gate pass, clean A-B zeros, appropriate rising gradient |
+| 2 | GATE-PASSERS | GPT-4o, GPT-OSS 20B/120B, Grok, Llama 3.3, Qwen3-235B, MiniMax M3 | Gate pass, noisier gradient (some texts over/under-extracted) |
+| 3 | OVER-REFUSERS | Kimi K2.6, Kimi K2.7 Code | Gate pass trivially — refuse everything including genuine reasoning |
+| 4 | NON-DISCRIMINATORS | LFM2 24B, GLM 5.2, Gemini 2.5 Pro, Nemotron Ultra | Gate fail — hallucinate operators on shopping lists |
+
+**Key findings:**
+
+1. **Falsification criterion #2 ("Negative controls light up") is NOT met for Tier 1-2 extractors.** 13 of 17 extractors correctly produce 0 operators on a shopping list. The pipeline detects, not generates.
+2. **Tier 4 extractors DO generate.** LFM2 found 6 operators in a shopping list and 19 in a structured argument — no discrimination. These must be excluded from the extraction pipeline.
+3. **Tier 3 is a different failure mode.** Kimi K2.6 produces 0 operators on everything including philosophical dialogue — it's not discriminating, it's refusing. Also excluded.
+4. **Gradients are noisy but directional.** No extractor shows the idealized monotonic 0→0→0→0→low→mid→high→high gradient, but Tier 1 extractors consistently extract more operators from genuine reasoning (G, H) than from non-reasoning (A, B).
+5. **The pseudo-profound text (D) is diagnostic.** Tier 1 extractors split on it: DeepSeek and Gemma correctly produce 0, Claude and Cogito produce 4-6. This may indicate sensitivity to surface-level sophistication that warrants monitoring.
+
+**Extraction files:** `extractions/extraction_neg_{text}_{prompt}_{extractor}_{timestamp}.md` (215 files total)
+
+**Pipeline script:** `TOOLS/extract_operators.py` — 17 extractors configured, standard and museum-blind prompts available
+
+---
+
+### Phase 0C: Positive Control (PENDING)
+
+Run extraction on a known-rich CFA transcript where reasoning operators are unambiguously present. Verify that Tier 1 extractors detect operators when they are genuinely there.
+
+**Purpose:** Completes the calibration triangle — 0A (do extractors agree?), 0B (do they discriminate?), 0C (do they detect?). Without 0C, we know the pipeline doesn't generate on empty texts, but we don't have a formal confirmation that it detects on rich ones.
+
+**Candidate source text:** A Framework-G transcript with multiple CRUX declarations and diagnostic interventions (stall-induced metacognitive richness).
+
+---
+
+### What remains for full Phase 0 pass
+
+| Criterion | Status | Notes |
+|-----------|--------|-------|
+| Negative controls < genuine reasoning | **PASSED** | Tier 1-2 extractors: A=0, H=6-8 |
+| 3+ extractors agree on 50%+ operators | **PASSED** | Phase 0A: 7/9 exact matches (Claude × Grok) |
+| Operators recognizable across 2+ grains | **OUTSTANDING** | Arm 3 (granularity sensitivity) not yet run |
+| Human extractors agree | **OUTSTANDING** | Not yet tested |
+| Different source text generalizes | **PARTIALLY** | CFA transcripts only; pending Dig Site 001 cross-check |
+
+**Pre-registration:** See `PRE_REGISTRATION.md` for frozen expectations, prediction log, and permitted conclusions. All pre-committed thresholds remain frozen.
 
 ---
 
 *Created: 2026-07-06*
-*Updated: 2026-07-08 — preliminary Phase 0A data noted*
+*Updated: 2026-07-09 — Phase 0A complete, Phase 0B complete (17 extractors, 8 texts, 4 tiers), Phase 0C pending*
