@@ -66,6 +66,30 @@ New_10_TOE/
         └── Reverse_Elephant.md        ← novel findings extracted
 ```
 
+## Architectural Significance (Nova's Analysis)
+
+This is not just another dig site. Nova's assessment after reading the scaffolding + A0 response:
+
+**Primitive reframe:** The lecture's generative engine is not "local ≠ global" but rather **"every operation has a domain of validity."** Curt interrogates operations themselves — extending, stitching, aggregating, reducing, formalizing — and the three failure modes (A/B/C) are algebraic cases of a composition operator.
+
+**Meta-architectural role:** 
+- Barandes → gives EOS a discovery engine (constraint inference)
+- Dirac → gives EOS another discovery engine (forward generation)
+- Curt → gives EOS the **operating system** managing how engines compose, conflict, or become incommensurable
+
+**4-axis discovery architecture taxonomy (predicted):**
+
+| Axis | Operation | Representative | Question |
+| --- | --- | --- | --- |
+| Transformation | What remains invariant? | Noether | |
+| Generation | What can be constructed? | Dirac | |
+| Constraint | What architecture is forced? | Barandes | |
+| Composition | When do locals become global? | Curt | |
+
+**Epistemic status:** Hypothesized. Pending confirmation from Q23-Q30 mining.
+
+---
+
 ## Mining Strategy
 
 This source is **philosophical/structural** rather than mathematical/formal. The extraction target is:
@@ -74,6 +98,9 @@ This source is **philosophical/structural** rather than mathematical/formal. The
 - The THICK CONCEPT MECHANISM (deflation↔inflation coupling)
 - The AVERTED VISION model of consciousness investigation
 - The PRE-ARTICULATE INTIMATION as discovery architecture component
+- **NEW (Nova):** The PRIMITIVE OPERATION (validity conditions of operations themselves)
+- **NEW (Nova):** POSITIVE CONSTRUCTION (when composition succeeds, not just when it fails)
+- **NEW (Nova):** COMPOSITION OPERATOR FAMILY (candidate operators for Museum)
 
 NotebookLM should be loaded with:
 1. The formatted transcript (_IN/transcript.md)

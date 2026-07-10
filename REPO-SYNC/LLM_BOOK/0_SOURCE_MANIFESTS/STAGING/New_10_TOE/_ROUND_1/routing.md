@@ -8,6 +8,8 @@
 
 **Domain:** Philosophy of Science / Mathematics / Consciousness / Meta-methodology
 
+**Nova's Reframe (Hypothesized):** The primitive is not "local ≠ global" but **"every operation has a domain of validity."** Curt interrogates operations themselves (extending, stitching, aggregating, reducing, formalizing). The three failure modes are algebraic cases of a composition operator. This dig site may provide EOS's composition theory — how discovery engines relate, compose, or become incommensurable.
+
 ---
 
 ## LLM Book Project Connections
@@ -29,6 +31,8 @@
 | --- | ---- | ------------------- | --------- | ------ |
 | nyquist-consciousness | Theory Engine | **CRITICAL** | Hard problem as Phenomenon B (no global section); Nyquist sampling as local-to-global extension question; consciousness investigation as thixotropic | Primary integration target |
 | cfa-meta-lab | Epistemic Engine | **STRONG** | Arrow's theorem mapping; pairwise agreement ≠ global coherence is CFA's core finding | Cross-pollinate after mining |
+| EOS / Museum | Meta-Architecture | **CRITICAL** | Provides composition theory for discovery engines; 4-axis taxonomy (Transformation/Generation/Constraint/Composition); first principled coordinate system for Museum | Primary architectural contribution |
+| ARMADA | Validation | MODERATE | Individual runs → stable lever estimate = composition operation subject to Curt's taxonomy | Consider Phenomenon A/B/C classification |
 
 ---
 
