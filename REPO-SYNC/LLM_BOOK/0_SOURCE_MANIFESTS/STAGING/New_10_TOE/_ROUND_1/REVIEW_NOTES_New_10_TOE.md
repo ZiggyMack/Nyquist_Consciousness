@@ -89,6 +89,31 @@ This discipline is what made the Barandes dig site strong. Maintain it here.
 
 ---
 
-*Status: ROUND 1 COMPLETE (Q1-Q22 answered) + NOVA ANALYSIS INTEGRATED*
-*Next: Run Q23-Q30 (Primitive Recovery), then assess whether PASS G warranted*
+## Nova's Adversarial Audit
+
+### Overall Assessment
+- **Conceptually rich** — operation-validity architecture is a genuine fourth discovery engine
+- **Methodologically promising** — auditing, classification, deflation-detection are practical tools
+- **Formally provisional** — sheaf-theoretic claims need Q31-Q34 to determine if math is load-bearing or decorative
+
+### Critical Correction: Sheaf Gluing Axiom
+The reports claim "local sections agree on overlaps yet no global section exists." In an ordinary sheaf, compatible sections DO glue uniquely (the gluing axiom). The formal situations producing obstructions are more specific (presheaf failures, torsors, lifting problems, weaker marginal compatibility). Convention: use "candidate Phenomenon B/C" until formal certificate produced.
+
+### What Survived the Audit
+- Operation-validity architecture (independent of sheaf formalism)
+- Valid compression criteria (generative, not decorative; structural similarity ≠ ontological identity)
+- False Operations as genuine operator family (distinct from Noether's false invariants)
+- Scale Oscillation as discovery technique
+- Transition data insight: architecture lives in relations, not nodes
+
+### What Needs Q31-Q38
+- Whether sheaf theory is genuinely carrying weight or supplying metaphor
+- Whether "thickness" can be decomposed into a bundle of commitments
+- Whether the framework admits legitimate reductions (false positive audit)
+- Whether EOS itself avoids becoming a Type D/E TOE
+
+---
+
+*Status: ROUND 1 COMPLETE (Q1-Q30 answered) + NOVA AUDIT INTEGRATED*
+*Next: Run Q31-Q38 (Formal Audit), determine if sheaf formalism is load-bearing*
 *Reviewer: Nova*

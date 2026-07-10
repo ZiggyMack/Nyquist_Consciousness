@@ -48,5 +48,30 @@ For every existing dig site (002-008), ask:
 
 ---
 
-*Status: 4 experiments staged, 2 pre-mining (1-2) + 2 Nova-predicted (3-4)*
-*Next: Run Q23-Q30, assess whether experiments are warranted or premature*
+### Experiment 5: Formal Audit — Is the Sheaf Formalism Load-Bearing? (Nova)
+**Hypothesis:** The sheaf-theoretic language in Curt's framework is either (a) genuinely carrying mathematical weight (producing theorems that constrain philosophical conclusions) or (b) supplying a powerful but ultimately decorative metaphor.
+
+**Protocol:**
+1. Run Q31-Q34 (formal audit block)
+2. For each claim of "sheaf-theoretic obstruction," determine: which specific formal setup is intended? (presheaf failure, torsor, lifting problem, marginal compatibility, etc.)
+3. Check: does the formal setup actually produce the claimed conclusion?
+4. Check: would the philosophical insight survive if the sheaf language were removed?
+
+**Decision criterion:** If the operation-validity framework survives independently of the sheaf formalism, promote the architecture but demote the mathematical proof claims to "inspired by" rather than "proven by."
+
+**This is the most important experiment for determining the dig site's final status.**
+
+### Experiment 6: CFA Interaction Classification (Nova)
+**Hypothesis:** CFA matchup interactions can be classified into four types (revelatory, constitutive, transformative, obstructive) — and this classification predicts which matchups will produce stable results vs. unstable/context-dependent results.
+
+**Protocol:**
+1. For each completed CFA matchup, classify: did the interaction reveal pre-existing properties, create new relational properties, change the frameworks, or block global synthesis?
+2. Check: do obstructive interactions correlate with high variance across runs?
+3. Check: do constitutive interactions produce lever correlations not present in either framework alone?
+
+**Depends on:** Sufficient CFA run data + Q31-Q34 confirming that "obstruction" has formal content in this context.
+
+---
+
+*Status: 6 experiments staged — 2 pre-mining (1-2), 2 Nova-predicted (3-4), 2 from adversarial audit (5-6)*
+*Next: Run Q31-Q38, Experiment 5 determines whether sheaf formalism is promoted or demoted*

@@ -85,3 +85,81 @@ Curt constantly moves: Example → Pattern → Mathematics → Example → Patte
 | **Hypothesized** | Our synthesis / Nova's prediction | Requires validation against source |
 
 Hypotheses 5-8 are Nova's predictions. Mining should test whether the transcript supports them directly or whether they are EOS-level synthesis imposed on the source.
+
+---
+
+## Nova's Adversarial Audit — Corrections
+
+### Critical: Sheaf Theory Claims Are Formally Provisional
+
+The reports repeatedly claim "local sections agree on overlaps yet no global section exists." In an ordinary sheaf, the **gluing axiom** guarantees that compatible local sections DO glue uniquely. The statement requires precise qualification:
+
+Obstructions arise in specific situations:
+- Presheaves failing the sheaf condition
+- Torsors/bundles lacking global sections
+- Lifting problems through another structure
+- Contextuality under weaker marginal compatibility (not full overlap agreement)
+- Extension problems where inputs aren't a compatible family of the same sheaf
+
+**Clean correction:** "Local solvability, pairwise availability, or weaker marginal compatibility need not produce a global solution. But a genuinely compatible family of sections of a sheaf does glue uniquely."
+
+**Convention adopted:** Use "candidate Phenomenon B/C" not "IS Phenomenon B/C" until formal obstruction certificate is produced.
+
+### Technical Problems Identified
+
+1. **"Zero object" misuse** — Empty set of global sections ≠ zero section ≠ zero object ≠ trivial object. Reports slide among these.
+2. **Ant-on-sphere conflation** — Local coordinate triviality ≠ local physical flatness. Curvature IS locally measurable. What's locally trivial is the manifold/chart structure.
+3. **Local data alone underdetermines** — A collection of R²-patches could glue into many surfaces. The decisive information is the **transition functions** (relational gluing data), not the patches themselves.
+
+### Key Implication of Problem 3
+
+The missing ingredient is often not "more local facts" but the **relational gluing data**. This connects to Barandes/Q41: the architecture lives in the transitions, not the isolated nodes.
+
+---
+
+## New Operator Candidate: Domain-of-Validity Testing (Nova)
+
+**Level:** Extracted (from operation-validity pattern across all mining results)
+
+> Before applying an operation to a new scale, substrate, or level of abstraction, identify the conditions under which that operation was established, then test whether those conditions survive the transfer.
+
+**Trigger questions:**
+1. What operation is being used?
+2. Where was it proven or validated?
+3. Which assumptions made it work?
+4. Do those assumptions persist here?
+5. What would failure look like?
+6. Is the operation revelatory, constitutive, transformative, or obstructive?
+
+This may be more fundamental than "Local ≠ Global Detection" because it generalizes beyond composition to ANY operation transfer.
+
+---
+
+## Strongest Cross-Dig-Site Synthesis
+
+Barandes (Q41 / pair-dependence):
+> System A alone does not determine the relevant conditionals; interaction with B produces relational structure.
+
+Curt (transition data):
+> Local objects alone do not determine the whole; the compatibility and transition structure governs whether and how they compose.
+
+**Together:**
+> **The architecture often lives in relations, overlaps, and allowed transformations — not in isolated components.**
+
+For CFA, this produces a four-way interaction classification:
+1. **Revelatory** — exposes an intrinsic property
+2. **Constitutive** — creates a new relational property
+3. **Transformative** — changes the participants
+4. **Obstructive** — blocks global synthesis despite local coherence
+
+---
+
+## Overall Quality Assessment (Nova)
+
+| Dimension | Rating | Notes |
+| --- | --- | --- |
+| Conceptual richness | STRONG | Operation-validity architecture is a genuine fourth discovery engine |
+| Methodological promise | STRONG | Auditing, classification, deflation-detection are practical tools |
+| Formal rigor | PROVISIONAL | Sheaf-theoretic backbone needs Q31-Q34 audit before promotion |
+
+The operation-validity framework survives independently of whether the sheaf formalism is rigorous. If Q31-Q34 confirm the math, this becomes foundational. If they don't, the architecture persists but stripped of mathematical proof claims — which would itself be very Curt-like: preserve the architecture, refuse the inflated ontology.

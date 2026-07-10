@@ -56,7 +56,30 @@ Individual CFA runs → stable lever estimate = a composition operation. ARMADA'
 
 Grant repeatedly assumes: if every local argument succeeds → global worldview follows. The persistent disagreement IS Curt's primitive in action — assuming composition is universally valid when it may be domain-limited. Curt provides the formal vocabulary for a fight already happening.
 
+### 9. Barandes Q41 Lock — Architecture Lives in Transitions (Nova — Confirmed)
+**Level:** Extracted (convergent across two independent dig sites)
+
+Barandes (pair-dependence): "System A alone does not determine the relevant conditionals; interaction with B produces relational structure."
+
+Curt (transition data): "Local objects alone do not determine the whole; the compatibility and transition structure governs whether and how they compose."
+
+**Together:** The architecture often lives in relations, overlaps, and allowed transformations — not in isolated components.
+
+This is the most defensible cross-dig-site principle so far. For CFA, a matchup is not merely two pre-existing profiles placed side-by-side — the interaction may generate new structure. Four-way classification:
+1. **Revelatory** — exposes an intrinsic property
+2. **Constitutive** — creates a new relational property
+3. **Transformative** — changes the participants
+4. **Obstructive** — blocks global synthesis despite local coherence
+
+### 10. False Operations vs False Invariants (Nova — Extracted)
+**Level:** Extracted
+
+A **false invariant** (Noether) mistakenly treats something as preserved under transformation.
+A **false operation** (Curt) mistakenly treats a transformation as licensed in a new domain.
+
+These are structurally distinct. The Museum needs both families.
+
 ---
 
-*Status: Pre-mining connections + Nova analysis integrated*
-*Next: Validate connections 5-8 against transcript evidence in Q23-Q30*
+*Status: Pre-mining connections + Nova analysis + adversarial audit integrated*
+*Next: Run Q31-Q38, then validate whether connections 5-8 survive formal scrutiny*
