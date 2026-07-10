@@ -11,15 +11,19 @@
 
 ### SYNC_OUT (Nyquist -> CFA)
 
-| Status | Summaries | Raw JSONs | Notes |
-|--------|-----------|-----------|-------|
+| Status | Deliveries | Raw JSONs | Notes |
+|--------|------------|-----------|-------|
 | **pending/** | 2 | 0 | Buddhism batch results, Gnostic lever calibration |
 | **running/** | 0 | 230 | 9 batched raw run folders (reference data) |
-| **completed/** | 19 | 0 | Includes CT-vs-PT and PT-vs-MdN (graduated 2026-07-09) |
+| **completed/** | 21 | 0 | +2 YAML deliveries applied by CFA Claude (2026-07-09) |
 
 **Pending deliveries for CFA Claude:**
-- `BUDDHISM_BATCH_RESULTS_20260708.md` -- 41 B-category runs, full 2x2 grid
-- `GNOSTIC_LEVER_CALIBRATION_20260708.md` -- Phase 2 lever data for G matchups
+- `BUDDHISM_BATCH_RESULTS_20260708.md` — 41 B-category runs, full 2x2 grid
+- `GNOSTIC_LEVER_CALIBRATION_20260708.md` — Phase 2 lever data for G matchups
+
+**Recently applied (2026-07-09):**
+- `CT_VS_PT_TRINITY_SCORES_20260709.yaml` — merged into CLASSICAL_THEISM.yaml
+- `PT_VS_MDN_TRINITY_SCORES_20260709.yaml` — merged into PROCESS_THEOLOGY.yaml
 
 ### SYNC_IN (CFA -> Nyquist)
 

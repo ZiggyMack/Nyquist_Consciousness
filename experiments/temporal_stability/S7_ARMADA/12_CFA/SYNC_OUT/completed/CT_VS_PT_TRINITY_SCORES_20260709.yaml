@@ -1,0 +1,244 @@
+# SYNC_OUT Delivery: CT-vs-PT (Classical Theism evaluated against Process Theology)
+# Target: CLASSICAL_THEISM.yaml
+# Section: trinity_scores_by_matchup.vs_process_theology
+# Date: 2026-07-09
+# Source: 10 golden + 10 control Phase 1 runs,
+#         10 golden + 10 control Phase 2 runs
+# Subject: Classical Theism | Opponent: Process Theology
+
+# ============================================================
+# PASTE INTO CLASSICAL_THEISM.yaml under trinity_scores_by_matchup:
+# ============================================================
+
+trinity_scores_by_matchup:
+  vs_process_theology:
+    experiment_id: "CFA-CT-VS-PT-BATCH-20260703"
+
+    session_ids:
+      golden:
+        - "20260702_231307"
+        - "20260702_233611"
+        - "20260703_000454"
+        - "20260703_003145"
+        - "20260703_005840"
+        - "20260703_012447"
+        - "20260703_014529"
+        - "20260703_021107"
+        - "20260703_023755"
+        - "20260703_025846"
+      control:
+        - "20260703_071338"
+        - "20260703_072038"
+        - "20260703_072808"
+        - "20260703_073536"
+        - "20260703_074408"
+        - "20260703_075227"
+        - "20260703_080135"
+        - "20260703_081059"
+        - "20260703_081958"
+        - "20260703_083008"
+
+    identity_condition: "external_identity"
+    score_audit_status: "VALIDATED — parser fixes applied before batch. Clean extraction across all runs."
+
+    metrics:
+      BFI:
+        full_name: "Beings, Foundational Importance"
+        claude_mean: 7.71
+        claude_sd: 0.6
+        claude_range: [6.5, 8.4]
+        grok_mean: 8.42
+        grok_sd: 0.61
+        grok_range: [7.1, 9.1]
+        spread: 0.71
+        convergence_pct: 92.9
+        avg_rounds: 2.3
+        combined_midpoint: 8.06
+        stability: "medium"
+        crux_rate: "1/10"
+        identity_delta_claude: -0.28
+        identity_delta_grok: 0.48
+        divergence_layer: "Beliefs"
+        notes: "Convergence at 92.9% after 2.3 rounds."
+      CA:
+        full_name: "Causal Attribution"
+        claude_mean: 6.02
+        claude_sd: 0.58
+        claude_range: [5.0, 6.9]
+        grok_mean: 7.12
+        grok_sd: 0.63
+        grok_range: [6.0, 8.0]
+        spread: 1.1
+        convergence_pct: 89.0
+        avg_rounds: 3.5
+        combined_midpoint: 6.57
+        stability: "medium"
+        crux_rate: "3/10"
+        identity_delta_claude: -1.15
+        identity_delta_grok: -0.25
+        divergence_layer: "Beliefs"
+        notes: "Convergence at 89.0% after 3.5 rounds."
+      IP:
+        full_name: "Intellectual Pedigree"
+        claude_mean: 7.4
+        claude_sd: 0.71
+        claude_range: [6.1, 8.4]
+        grok_mean: 8.3
+        grok_sd: 0.64
+        grok_range: [6.8, 8.9]
+        spread: 0.9
+        convergence_pct: 91.0
+        avg_rounds: 2.9
+        combined_midpoint: 7.85
+        stability: "medium"
+        crux_rate: "3/10"
+        identity_delta_claude: -1.78
+        identity_delta_grok: -0.68
+        divergence_layer: "Perceptions"
+        notes: "Convergence at 91.0% after 2.9 rounds."
+      ES:
+        full_name: "Explanatory Scope"
+        claude_mean: 6.06
+        claude_sd: 0.59
+        claude_range: [5.0, 7.0]
+        grok_mean: 7.27
+        grok_sd: 0.84
+        grok_range: [6.0, 8.5]
+        spread: 1.21
+        convergence_pct: 87.9
+        avg_rounds: 3.3
+        combined_midpoint: 6.67
+        stability: "medium"
+        crux_rate: "3/10"
+        identity_delta_claude: -1.63
+        identity_delta_grok: -0.37
+        divergence_layer: "Definitions"
+        notes: "Convergence at 87.9% after 3.3 rounds."
+      LS:
+        full_name: "Logical Soundness"
+        claude_mean: 6.39
+        claude_sd: 0.6
+        claude_range: [5.4, 7.2]
+        grok_mean: 7.44
+        grok_sd: 0.5
+        grok_range: [6.8, 8.1]
+        spread: 1.05
+        convergence_pct: 89.5
+        avg_rounds: 3.5
+        combined_midpoint: 6.91
+        stability: "medium"
+        crux_rate: "4/10"
+        identity_delta_claude: -0.25
+        identity_delta_grok: 0.31
+        divergence_layer: "Expectations"
+        notes: "Convergence at 89.5% after 3.5 rounds."
+      MS:
+        full_name: "Moral Substance"
+        claude_mean: 6.82
+        claude_sd: 0.53
+        claude_range: [5.8, 7.6]
+        grok_mean: 7.64
+        grok_sd: 0.62
+        grok_range: [6.7, 8.5]
+        spread: 0.82
+        convergence_pct: 91.8
+        avg_rounds: 2.7
+        combined_midpoint: 7.23
+        stability: "medium"
+        crux_rate: "1/10"
+        identity_delta_claude: -1.62
+        identity_delta_grok: -0.88
+        divergence_layer: "Beliefs"
+        notes: "Convergence at 91.8% after 2.7 rounds."
+      PS:
+        full_name: "Practical Significance"
+        claude_mean: 5.91
+        claude_sd: 0.46
+        claude_range: [5.2, 6.6]
+        grok_mean: 6.71
+        grok_sd: 0.31
+        grok_range: [6.4, 7.3]
+        spread: 0.81
+        convergence_pct: 91.9
+        avg_rounds: 3.4
+        combined_midpoint: 6.31
+        stability: "high"
+        crux_rate: "3/10"
+        identity_delta_claude: -2.03
+        identity_delta_grok: -1.1
+        divergence_layer: "Perceptions"
+        notes: "Large identity effect on Grok (-1.10)."
+
+    batch_summary:
+      avg_convergence_pct: 90.6
+      avg_convergence_sd: 1.8
+      avg_rounds: 3.1
+      avg_rounds_sd: 0.5
+      total_crux_declarations: 18
+      avg_crux_per_run: 1.8
+      extraction_warnings: "0 of ~140 calls"
+      control_avg_convergence_pct: 97.8
+      control_avg_rounds: 1.8
+
+# ============================================================
+# PHASE 2 LEVERS — paste into levers_by_matchup in CLASSICAL_THEISM.yaml
+# ============================================================
+
+levers_by_matchup:
+
+  # Phase 2 lever data (YPA calibration) — 10 golden, 10 control runs
+  # Merge into levers_by_matchup.vs_process_theology in CLASSICAL_THEISM.yaml
+  levers_vs_process_theology:
+    CCI:
+      prior: 7.5
+      golden_final: 7.14
+      golden_sd: 0.19
+      control_final: 7.21
+      delta_from_prior: -0.18
+      convergence_pct: 96.3
+    EDB:
+      prior: 8.5
+      golden_final: 7.67
+      golden_sd: 0.43
+      control_final: 7.48
+      delta_from_prior: -0.59
+      convergence_pct: 95.2
+    PF_I:
+      prior: 7.0
+      golden_final: 5.45
+      golden_sd: 0.67
+      control_final: 6.75
+      delta_from_prior: -1.22
+      convergence_pct: 93.4
+    PF_E:
+      prior: 8.0
+      golden_final: 7.36
+      golden_sd: 0.58
+      control_final: 8.22
+      delta_from_prior: -0.35
+      convergence_pct: 94.2
+    AR:
+      prior: 8.5
+      golden_final: 7.68
+      golden_sd: 0.19
+      control_final: 8.54
+      delta_from_prior: -0.63
+      convergence_pct: 96.2
+    MG:
+      prior: 8.5
+      golden_final: 7.79
+      golden_sd: 0.35
+      control_final: 8.22
+      delta_from_prior: -0.49
+      convergence_pct: 95.6
+
+# ============================================================
+# QUICK REFERENCE
+# ============================================================
+# Golden Phase 1: n=10
+#   Avg convergence: 90.6%
+#   Avg rounds: 3.1
+#   Total crux declarations: 18 (1.8/run)
+# Control Phase 1: n=10
+#   Avg convergence: 97.8%
+# Identity gap: -7.2 pts

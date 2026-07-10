@@ -64,12 +64,15 @@ def get_sync_status():
     result = {}
     for status in ["pending", "running", "completed"]:
         path = CFA_DIR / "SYNC_OUT" / status
-        mds = list(path.glob("*.md")) if path.exists() else []
+        deliveries = []
+        if path.exists():
+            deliveries = [f for f in path.iterdir()
+                          if f.suffix in ('.md', '.yaml', '.yml') and f.name != '.gitkeep']
         raw_path = path / "raw_runs"
         jsons = 0
         if raw_path.exists():
             jsons = count_files(raw_path, "*.json")
-        result[status] = {"summaries": len(mds), "jsons": jsons}
+        result[status] = {"summaries": len(deliveries), "jsons": jsons}
     return result
 
 
@@ -135,7 +138,7 @@ def render():
     for i, (status, data) in enumerate(sync.items()):
         with cols[i]:
             label = f"{status_icons.get(status, '')} {status.title()}"
-            detail = f"{data['summaries']} summaries"
+            detail = f"{data['summaries']} deliveries"
             if data["jsons"] > 0:
                 detail += f", {data['jsons']} raw JSONs"
             st.metric(label, detail)
@@ -292,8 +295,7 @@ when they are genuinely present. Phase 0C is the last calibration step before fu
     with st.expander("🔵 SYNC_OUT housekeeping — raw JSONs in running/"):
         jsons_in_running = sync.get("running", {}).get("jsons", 0)
         st.markdown(f"""**{jsons_in_running} raw JSONs** sitting in `SYNC_OUT/running/raw_runs/`.
-CT-vs-PT and PT-vs-MdN summaries still in running status.
-Graduate completed summaries to `completed/` and decide on raw JSON archival.""")
+CT-vs-PT and PT-vs-MdN deliveries graduated. Decide on raw JSON archival.""")
 
     with st.expander("🔵 Buddhism 2x2 design incomplete"):
         st.markdown("""Buddhism has 41 subject runs. Reverse-stance runs exist in other frameworks' folders,
