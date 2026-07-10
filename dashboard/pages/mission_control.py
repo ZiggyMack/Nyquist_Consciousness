@@ -1,16 +1,17 @@
 """
-MISSION CONTROL — Live research dashboard
+MISSION CONTROL — Research decision board
 ==========================================
-Single-glance status for Repo Claude, CFA Claude, and human collaborators.
-Reads live data from the repo filesystem.
+Single-glance: what's cooking, what needs doing, what's blocking.
+Inspired by CFA Claude's mission control design.
 """
 
 import streamlit as st
 import json
-import os
 from pathlib import Path
 from datetime import datetime
 from config import PATHS
+
+import pandas as pd
 
 REPO_ROOT = PATHS['repo_root']
 CFA_DIR = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "12_CFA"
@@ -125,177 +126,248 @@ def get_map_freshness():
     return maps
 
 
-def get_dig_site_status():
-    """Read status of LLM Book dig sites."""
-    dig_sites = [
-        {"Site": "000", "Target": "Extractor Calibration", "Status": "Phase 0A/0B Done, 0C Pending",
-         "Result": "17 extractors calibrated, 4 tiers, 2 new ops"},
-        {"Site": "001", "Target": "Adlam & Barandes", "Status": "Complete",
-         "Result": "7 operators (OP-001 to OP-007)"},
-        {"Site": "002", "Target": "Barandes (solo)", "Status": "Complete",
-         "Result": "RCI architecture, 40 insights, 14 connections"},
-        {"Site": "010", "Target": "Curt Jaimungal", "Status": "Complete (Round 1 + Audit)",
-         "Result": "Architecture F, Discovery Simplex, Relation Space"},
-        {"Site": "003", "Target": "Dirac", "Status": "Planned (Q50 #1)",
-         "Result": "Tests Generation corner of simplex"},
-        {"Site": "004", "Target": "Wolfram", "Status": "Queued (Q50 #2)",
-         "Result": "Computational/deterministic architecture"},
-        {"Site": "005", "Target": "Hermann", "Status": "Queued (Q50 #3)",
-         "Result": "Philosophical auditing, Noether lineage"},
-    ]
-    return dig_sites
+def priority_badge(level):
+    colors = {
+        "HIGH": ("#dc2626", "#fef2f2"),
+        "MEDIUM": ("#d97706", "#fffbeb"),
+        "LOW": ("#6b7280", "#f9fafb"),
+    }
+    bg, _ = colors.get(level, ("#6b7280", "#f9fafb"))
+    return f'<span style="background:{bg}; color:white; padding:2px 10px; border-radius:4px; font-size:0.8em; font-weight:bold;">{level}</span>'
+
+
+def action_line(text):
+    return f'*<span style="color:#2a9d8f;">→ {text}</span>*'
 
 
 def render():
     st.markdown("## Mission Control")
-    st.caption("Live research dashboard — priorities, SYNC bridge, data inventory, research status, open loops")
-    st.markdown("---")
+    st.caption("Research decision board — what's cooking, what needs doing, what's blocking")
 
-    # ==================== PRIORITY WORKSTREAMS ====================
-    st.markdown("### Priority Workstreams")
-
-    priorities = [
-        {"#": "1", "Stream": "CA Phase 0C (positive control)",
-         "Status": "PENDING — gates empirical arm",
-         "Next": "Select known-rich transcript, run Tier 1 extractors"},
-        {"#": "2", "Stream": "LLM Book / Deep Digs",
-         "Status": "New_10 DONE, New_8 R2 done",
-         "Next": "Dig Site 003 (Dirac) — Generation corner"},
-        {"#": "3", "Stream": "CA Theoretical Arm",
-         "Status": "Arch F confirmed, Simplex hypothesized",
-         "Next": "Validate simplex; 'Is Museum a Category?'"},
-        {"#": "4", "Stream": "CFA Trinity data",
-         "Status": "702 runs, engine operational",
-         "Next": "SYNC_OUT housekeeping"},
-        {"#": "5", "Stream": "Dashboard / Maps",
-         "Status": "Live, 14 pages",
-         "Next": "Map 19 update with New_10 results"},
-    ]
-
-    import pandas as pd
-    st.dataframe(pd.DataFrame(priorities), hide_index=True, use_container_width=True)
-
-    st.info("""**Two-track structure (emerged post-Curt):**
-- **Empirical arm:** Phase 0C → systematic excavation (gated — confirms extraction pipeline DETECTS, not just GENERATES)
-- **Theoretical arm:** LLM Book deep digs (Nova + NotebookLM) → architecture discovery → cross-pollination to New_9
-
-Phase 0C still gates everything. The theoretical arm builds the MAP; only the empirical arm CONFIRMS what's real.""")
+    # ==================== WHAT'S COOKING? ====================
 
     st.markdown("---")
+    st.markdown("\U0001f50d\U0001f525 **WHAT'S COOKING?**")
+    st.caption("New theoretical terrain opening up — what the deep digs unlocked and where the research is headed next")
 
-    # ==================== SYNC BRIDGE ====================
-    st.markdown("### SYNC Bridge (CFA ↔ Nyquist)")
+    cook_col1, cook_col2 = st.columns(2)
+
+    with cook_col1:
+        with st.container(border=True):
+            st.markdown("\U0001f4d0 **Discovery Simplex emerged from Curt**")
+            st.markdown(
+                "Four orthogonal discovery questions — not competing theories. "
+                "Transformation (Noether), Constraint (Barandes), Composition (Curt), Generation (Dirac). "
+                "Two corners confirmed, two predicted. This replaces the single backward/forward axis "
+                "with a principled coordinate system for organizing all discovery architectures."
+            )
+            st.caption("New_10 Dig Site 010 · Q31–Q38 formal audit · CONFIRMED")
+
+        with st.container(border=True):
+            st.markdown("⚠️ **Phase 0C still gates empirical validation**")
+            st.markdown(
+                "The theoretical arm ran ahead — Architecture F extracted, simplex hypothesized, "
+                "5-project convergence confirmed. But the extraction pipeline's positive control hasn't run. "
+                "Without 0C, every operator extraction has an asterisk. The theoretical arm builds the MAP; "
+                "only the empirical arm CONFIRMS what's real."
+            )
+            st.caption("Phase 0 · Blocker: known-rich transcript selection")
+
+    with cook_col2:
+        with st.container(border=True):
+            st.markdown("\U0001f517 **\"Don't privilege nodes\" — 5 projects converge**")
+            st.markdown(
+                "Barandes (pair-dependent laws), Curt (transition functions), CFA (crux interactions), "
+                "ARMADA (calibration relationships), EOS (operator composition). All independently say: "
+                "interesting structure lives BETWEEN components, not within them. "
+                "This is the strongest cross-project principle confirmed so far."
+            )
+            st.caption("Convergence: Barandes + Curt + CFA + ARMADA + EOS")
+
+        with st.container(border=True):
+            st.markdown("\U0001f3db️ **Architecture F = a fourth discovery engine**")
+            st.markdown(
+                "Curt's \"every operation has a domain of validity\" produced a genuine new architecture: "
+                "Composition Analysis. Unlike RCI (reads backward from outputs), Architecture F audits "
+                "whether operations are LICENSED in new domains. It's the architecture that audits other "
+                "architectures. Instances: Arrow, Efron, Abramsky-Brandenburger."
+            )
+            st.caption("New_10 · Architecture F · Candidate (Composition corner)")
+
+    # ==================== LLM BOOK PIPELINE STATUS ====================
+
+    st.markdown("---")
+    st.markdown("\U0001f4da **LLM BOOK PIPELINE**")
+    st.caption("Deep dig status — what's done, what's next, how it feeds New_9")
+
+    pipe_col1, pipe_col2, pipe_col3 = st.columns(3)
+
+    with pipe_col1:
+        with st.container(border=True):
+            st.markdown("**New_8** (Barandes/Adlam)")
+            st.markdown("Round 1 ✔️ Round 2 ✔️")
+            st.markdown(
+                "Produced: 7 operators (OP-001–007), RCI architecture (confirmed), "
+                "ISP↔Cognitive Archaeology mapping, Noether lens."
+            )
+            st.markdown("*Status: ✅ COMPLETE*")
+
+    with pipe_col2:
+        with st.container(border=True):
+            st.markdown("**New_10** (Curt / TOE)")
+            st.markdown("Round 1 ✔️ Audit ✔️")
+            st.markdown(
+                "Produced: Architecture F, Discovery Simplex, Relation Space, "
+                "Category Theory hypothesis, 8 experiments staged, 13 connections."
+            )
+            st.markdown("*Status: ✅ COMPLETE*")
+
+    with pipe_col3:
+        with st.container(border=True):
+            st.markdown("**Dig Site 003** (Dirac)")
+            st.markdown("Q50 rank #1 — next in queue")
+            st.markdown(
+                "Tests: Generation corner of the simplex. Does forward-generative "
+                "discovery exist as genuinely distinct from backward-reading (RCI)? "
+                "Beauty as selection filter. Pre-articulate intimation."
+            )
+            st.markdown("*Status: ⏳ PLANNED*")
+
+    # ==================== OPEN LOOPS ====================
+
+    st.markdown("---")
+    st.markdown("\U0001f512 **OPEN LOOPS**")
+    st.caption("Known issues and pending decisions — remove entries as they're resolved")
 
     sync = get_sync_status()
-    cols = st.columns(3)
-    status_icons = {"pending": "\U0001f4ec", "running": "\U0001f504", "completed": "✅"}
-    for i, (status, data) in enumerate(sync.items()):
-        with cols[i]:
-            label = f"{status_icons.get(status, '')} {status.title()}"
-            detail = f"{data['summaries']} deliveries"
-            if data["jsons"] > 0:
-                detail += f", {data['jsons']} raw JSONs"
-            st.metric(label, detail)
+
+    # Count by priority
+    st.markdown("**1 high · 2 medium · 3 low**")
+
+    # HIGH priority items (full width)
+    with st.container(border=True):
+        st.markdown(f'{priority_badge("HIGH")} &nbsp; **CA Phase 0C — positive control transcript needed**',
+                    unsafe_allow_html=True)
+        st.markdown(
+            "Repo Claude needs a **known-rich CFA deliberation transcript** (Framework-G preferred) "
+            "to run the positive control extraction battery — confirming the pipeline detects operators "
+            "when they are genuinely present. Phase 0C is the last calibration step before systematic excavation. "
+            "The theoretical arm advanced without it, but only 0C can confirm operators at GREEN/STAR level."
+        )
+        st.markdown(action_line(
+            "Action: select a Framework-G v2.1 transcript (66K chars, MS-only with DI/CP), "
+            "run Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B)"
+        ), unsafe_allow_html=True)
+
+    med_col1, med_col2 = st.columns(2)
+
+    with med_col1:
+        with st.container(border=True):
+            st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **Dig Site 003 (Dirac) — next deep dig**',
+                        unsafe_allow_html=True)
+            st.markdown(
+                "The Discovery Simplex predicts a Generation corner — forward-generative discovery "
+                "as a genuinely distinct architecture. Dirac is the test case. If his process reduces to "
+                "RCI applied differently, the simplex loses a corner. If it's genuinely new, Architecture B "
+                "is confirmed."
+            )
+            st.markdown(action_line(
+                "Prepare Dirac source material for NotebookLM, design Q1–Q22"
+            ), unsafe_allow_html=True)
+
+    with med_col2:
+        with st.container(border=True):
+            jsons_in_running = sync.get("running", {}).get("jsons", 0)
+            st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **SYNC_OUT housekeeping — {jsons_in_running} raw JSONs**',
+                        unsafe_allow_html=True)
+            st.markdown(
+                f"**{jsons_in_running} raw JSONs** sitting in `SYNC_OUT/running/raw_runs/` across batch folders. "
+                "CT-vs-PT and PT-vs-MdN deliveries graduated. Decide whether raw JSONs should be archived "
+                "or remain for CFA Claude to pull."
+            )
+            st.markdown(action_line(
+                "Graduate completed summaries to completed/, archive raw JSONs to .archive/"
+            ), unsafe_allow_html=True)
+
+    low_col1, low_col2, low_col3 = st.columns(3)
+
+    with low_col1:
+        with st.container(border=True):
+            st.markdown(f'{priority_badge("LOW")} &nbsp; **PT YAML — vs_buddhism misplaced**',
+                        unsafe_allow_html=True)
+            st.markdown(
+                "`PROCESS_THEOLOGY.yaml` has a `levers_by_matchup.vs_buddhism` block with Trinity score "
+                "structure — misplaced during Buddhism batch. No runtime impact (coverage matrix ignores it). "
+                "Structural debt only."
+            )
+            st.markdown(action_line(
+                "Move block to trinity_scores_by_matchup when convenient"
+            ), unsafe_allow_html=True)
+
+    with low_col2:
+        with st.container(border=True):
+            st.markdown(f'{priority_badge("LOW")} &nbsp; **Buddhism 2×2 design incomplete**',
+                        unsafe_allow_html=True)
+            st.markdown(
+                "Buddhism has 41 subject runs (b_vs_ct: 10, b_vs_mdn: 11, b_vs_pt: 10, b_vs_g: 10). "
+                "Reverse-stance runs exist in other frameworks' folders but the full closed 2×2 design "
+                "isn't formally documented."
+            )
+            st.markdown(action_line(
+                "Awareness item — no action required now"
+            ), unsafe_allow_html=True)
+
+    with low_col3:
+        with st.container(border=True):
+            maps = get_map_freshness()
+            stale_count = sum(1 for m in maps if m["status"] == "stale")
+            st.markdown(f'{priority_badge("LOW")} &nbsp; **Map staleness — {stale_count} maps stale**',
+                        unsafe_allow_html=True)
+            st.markdown(
+                "Foundation maps (Stackup, Philosophy, Identity Lattice) likely still accurate "
+                "but unreviewed since Dec 2025. Validation Status and Testable Predictions most "
+                "likely to have drifted."
+            )
+            st.markdown(action_line(
+                "Batch review when bandwidth allows"
+            ), unsafe_allow_html=True)
+
+    # ==================== INVENTORY (collapsed) ====================
 
     st.markdown("---")
 
-    # ==================== DATA INVENTORY ====================
-    st.markdown("### Trinity Run Inventory")
+    with st.expander("\U0001f4ca **DATA INVENTORY** — runs, fleet, maps", expanded=False):
 
-    categories, total = get_run_inventory()
+        # --- Trinity Runs ---
+        st.markdown("#### Trinity Run Inventory")
+        categories, total = get_run_inventory()
+        worldview_cats = {"CT", "MdN", "G", "PT", "B"}
+        golden_total = sum(v["golden"] for k, v in categories.items() if k in worldview_cats)
+        control_total = sum(v["control"] for k, v in categories.items() if k in worldview_cats)
+        calibration_total = total - golden_total - control_total
 
-    worldview_cats = {"CT", "MdN", "G", "PT", "B"}
-    golden_total = sum(v["golden"] for k, v in categories.items() if k in worldview_cats)
-    control_total = sum(v["control"] for k, v in categories.items() if k in worldview_cats)
-    calibration_total = total - golden_total - control_total
-
-    col1, col2 = st.columns([1, 2])
-
-    with col1:
         m1, m2, m3 = st.columns(3)
         m1.metric("Golden Runs", f"{golden_total:,}")
         m2.metric("Control Runs", f"{control_total:,}")
         m3.metric("Calibration", f"{calibration_total:,}")
-        st.caption(f"Total on disk: {total:,} — Golden = external identity (CFA methodology), Control = hardcoded baseline, Calibration = Framework-G + pre-schema")
+        st.caption(f"Total on disk: {total:,}")
 
         framework_labels = {
-            "CT": "Classical Theism",
-            "MdN": "Methodological Naturalism",
-            "G": "Gnosticism",
-            "PT": "Process Theology",
-            "B": "Buddhism",
-            "Framework_G": "Framework-G (calibration)",
-            "pre_schema": "Pre-schema (legacy)",
+            "CT": "Classical Theism", "MdN": "Methodological Naturalism",
+            "G": "Gnosticism", "PT": "Process Theology", "B": "Buddhism",
+            "Framework_G": "Framework-G (calibration)", "pre_schema": "Pre-schema (legacy)",
         }
-
         rows = []
         for cat, info in categories.items():
-            row = {
+            rows.append({
                 "Framework": framework_labels.get(cat, cat),
-                "Golden": info["golden"],
-                "Control": info["control"],
-                "Total": info["count"],
-                "Latest": info["latest"],
-            }
-            rows.append(row)
-        if rows:
-            df = pd.DataFrame(rows)
-            st.dataframe(df, hide_index=True, use_container_width=True)
-
-    with col2:
-        if categories:
-            wv = {k: v for k, v in categories.items() if k in worldview_cats}
-            chart_data = pd.DataFrame({
-                "Framework": [framework_labels.get(k, k) for k in wv],
-                "Golden": [v["golden"] for v in wv.values()],
-                "Control": [v["control"] for v in wv.values()],
+                "Golden": info["golden"], "Control": info["control"],
+                "Total": info["count"], "Latest": info["latest"],
             })
-            st.bar_chart(chart_data.set_index("Framework"))
+        if rows:
+            st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
 
-    st.markdown("---")
-
-    # ==================== RESEARCH STATUS ====================
-    st.markdown("### Research Program Status")
-
-    res_col1, res_col2 = st.columns(2)
-
-    with res_col1:
-        st.markdown("#### Cognitive Archaeology (Empirical)")
-        phases = [
-            {"Phase": "0A", "Focus": "CFA transcript extraction", "Status": "Complete ✅"},
-            {"Phase": "0B", "Focus": "Negative control battery (17 extractors)", "Status": "Complete ✅"},
-            {"Phase": "0C", "Focus": "Positive control", "Status": "PENDING ⚠️"},
-            {"Phase": "Full", "Focus": "Systematic worldview excavation", "Status": "Blocked on 0C"},
-        ]
-        st.dataframe(pd.DataFrame(phases), hide_index=True, use_container_width=True)
-
-        museum_col1, museum_col2, museum_col3 = st.columns(3)
-        museum_col1.metric("Museum A", "9 operators")
-        museum_col2.metric("Saturation", "0.50")
-        museum_col3.metric("Held", "1 candidate")
-
-        extractions_dir = CA_DIR / "DIG_SITES" / "000_Extractor_Calibration" / "extractions"
-        ext_count = count_files(extractions_dir, "*.md", recursive=False) if extractions_dir.exists() else 0
-        st.caption(f"Phase 0C blocker: known-rich CFA transcript needed")
-        st.caption(f"{ext_count} extraction files in Dig Site 000")
-
-        st.markdown("#### Cognitive Archaeology (Theoretical)")
-
-        dig_sites = get_dig_site_status()
-        st.dataframe(pd.DataFrame(dig_sites), hide_index=True, use_container_width=True)
-
-        arch_col1, arch_col2, arch_col3 = st.columns(3)
-        arch_col1.metric("Museum B", "6 architectures")
-        arch_col2.metric("Confirmed", "1 (RCI)")
-        arch_col3.metric("Candidates", "5 (B-F)")
-
-        st.markdown("""**Discovery Simplex** (4 orthogonal corners):
-- Transformation (Noether) | Constraint (Barandes) | Composition (Curt) | Generation (Dirac)
-- 2 corners confirmed, 2 predicted""")
-
-        st.caption("Cross-dig-site principle: 'Architecture lives in relations, not nodes' (5-project convergence)")
-
-    with res_col2:
+        # --- Fleet ---
         st.markdown("#### Fleet Status")
         fleet = get_fleet_counts()
         if fleet:
@@ -307,6 +379,81 @@ Phase 0C still gates everything. The theoretical arm builds the MAP; only the em
         else:
             st.info("ARCHITECTURE_MATRIX.json not found")
 
+        # --- SYNC ---
+        st.markdown("#### SYNC Bridge (CFA ↔ Nyquist)")
+        sync_cols = st.columns(3)
+        status_icons = {"pending": "\U0001f4ec", "running": "\U0001f504", "completed": "✅"}
+        for i, (status, data) in enumerate(sync.items()):
+            with sync_cols[i]:
+                label = f"{status_icons.get(status, '')} {status.title()}"
+                detail = f"{data['summaries']} deliveries"
+                if data["jsons"] > 0:
+                    detail += f", {data['jsons']} raw JSONs"
+                st.metric(label, detail)
+
+        # --- Maps ---
+        st.markdown("#### Map Freshness")
+        if maps:
+            current = sum(1 for m in maps if m["status"] == "current")
+            recent = sum(1 for m in maps if m["status"] == "recent")
+            stale = sum(1 for m in maps if m["status"] == "stale")
+
+            mc1, mc2, mc3 = st.columns(3)
+            mc1.metric("Current (< 7d)", current)
+            mc2.metric("Recent (< 30d)", recent)
+            mc3.metric("Stale (30d+)", stale)
+
+            def freshness_color(val):
+                if val == "current":
+                    return "background-color: #22c55e; color: white"
+                elif val == "recent":
+                    return "background-color: #f59e0b; color: white"
+                elif val == "stale":
+                    return "background-color: #6b7280; color: white"
+                return ""
+
+            df = pd.DataFrame(maps)
+            df.columns = ["Map", "Updated", "Age (days)", "Status"]
+            styled = df.style.map(freshness_color, subset=["Status"])
+            st.dataframe(styled, hide_index=True, use_container_width=True, height=300)
+
+        # --- Dig Sites ---
+        st.markdown("#### Dig Site Status")
+        dig_sites = [
+            {"Site": "000", "Target": "Extractor Calibration", "Status": "0A/0B Done, 0C Pending",
+             "Result": "17 extractors, 4 tiers, 2 new ops"},
+            {"Site": "001", "Target": "Adlam & Barandes", "Status": "✅ Complete",
+             "Result": "7 operators (OP-001–007)"},
+            {"Site": "002", "Target": "Barandes (solo)", "Status": "✅ Complete",
+             "Result": "RCI architecture, 40 insights"},
+            {"Site": "010", "Target": "Curt Jaimungal", "Status": "✅ Complete (R1+Audit)",
+             "Result": "Arch F, Simplex, Relation Space"},
+            {"Site": "003", "Target": "Dirac", "Status": "⏳ Planned (Q50 #1)",
+             "Result": "Tests Generation corner"},
+            {"Site": "004", "Target": "Wolfram", "Status": "Queued (Q50 #2)",
+             "Result": "Computational architecture"},
+            {"Site": "005", "Target": "Hermann", "Status": "Queued (Q50 #3)",
+             "Result": "Philosophical auditing"},
+        ]
+        st.dataframe(pd.DataFrame(dig_sites), hide_index=True, use_container_width=True)
+
+        # --- Museum stats ---
+        st.markdown("#### Museum Status")
+        mu_col1, mu_col2 = st.columns(2)
+        with mu_col1:
+            st.markdown("**Museum A (Operators)**")
+            a1, a2, a3 = st.columns(3)
+            a1.metric("Registered", "9")
+            a2.metric("Saturation", "0.50")
+            a3.metric("Held", "1")
+        with mu_col2:
+            st.markdown("**Museum B (Architectures)**")
+            b1, b2, b3 = st.columns(3)
+            b1.metric("Total", "6")
+            b2.metric("Confirmed", "1 (RCI)")
+            b3.metric("Candidates", "5")
+
+        # --- Engine ---
         st.markdown("#### CFA Trinity Engine")
         engine_status = [
             {"Component": "Adversarial deliberation", "Status": "Operational ✅"},
@@ -317,82 +464,6 @@ Phase 0C still gates everything. The theoretical arm builds the MAP; only the em
             {"Component": "--control (base-model)", "Status": "Operational ✅"},
         ]
         st.dataframe(pd.DataFrame(engine_status), hide_index=True, use_container_width=True)
-
-        st.markdown("#### Recent Milestones")
-        st.success("""**New_10_TOE (Curt) — COMPLETE**
-- Round 1: 38 questions answered (Q1-Q22 + Q23-Q30 Nova + Q31-Q38 Audit)
-- Formal audit: STRENGTHENED (self-corrected sheaf claims)
-- Products: Architecture F, Discovery Simplex, Relation Space, Category Theory hypothesis
-- Cross-pollinated back to New_9 DISCOVERY_ARCHITECTURES.md""")
-
-    st.markdown("---")
-
-    # ==================== MAP FRESHNESS ====================
-    st.markdown("### Map Freshness")
-
-    maps = get_map_freshness()
-    if maps:
-        current = sum(1 for m in maps if m["status"] == "current")
-        recent = sum(1 for m in maps if m["status"] == "recent")
-        stale = sum(1 for m in maps if m["status"] == "stale")
-
-        mc1, mc2, mc3 = st.columns(3)
-        mc1.metric("Current (< 7d)", current, delta="up to date")
-        mc2.metric("Recent (< 30d)", recent)
-        mc3.metric("Stale (30d+)", stale, delta="needs review", delta_color="inverse")
-
-        def freshness_color(val):
-            if val == "current":
-                return "background-color: #22c55e; color: white"
-            elif val == "recent":
-                return "background-color: #f59e0b; color: white"
-            elif val == "stale":
-                return "background-color: #6b7280; color: white"
-            return ""
-
-        df = pd.DataFrame(maps)
-        df.columns = ["Map", "Updated", "Age (days)", "Status"]
-        styled = df.style.map(freshness_color, subset=["Status"])
-        st.dataframe(styled, hide_index=True, use_container_width=True, height=300)
-
-    st.markdown("---")
-
-    # ==================== OPEN LOOPS ====================
-    st.markdown("### Open Loops")
-
-    with st.expander("\U0001f7e1 CA Phase 0C — positive control transcript needed", expanded=True):
-        st.markdown("""**Priority: HIGH — gates empirical arm**
-
-Repo Claude needs a **known-rich CFA deliberation transcript** (Framework-G preferred)
-to run the positive control extraction battery — confirming the pipeline detects operators
-when they are genuinely present. Phase 0C is the last calibration step before full excavation begins.
-
-The theoretical arm (LLM Book deep digs) has advanced significantly without 0C — but only
-the empirical arm can confirm operators at GREEN/STAR level. 0C remains the gate.""")
-
-    with st.expander("\U0001f7e1 Map 19 — needs New_10_TOE results"):
-        st.markdown("""**Priority: HIGH**
-
-Map 19 (Cognitive Archaeology) is stale: doesn't reflect Dig Site 002 (Barandes) completion,
-Dig Site 010 (Curt), Architecture F, Discovery Simplex, or the two-museum concept.
-Dig site numbering is wrong (lists Pearl as 002). Needs full update.""")
-
-    with st.expander("\U0001f535 SYNC_OUT housekeeping — raw JSONs in running/"):
-        jsons_in_running = sync.get("running", {}).get("jsons", 0)
-        st.markdown(f"""**{jsons_in_running} raw JSONs** sitting in `SYNC_OUT/running/raw_runs/`.
-CT-vs-PT and PT-vs-MdN deliveries graduated. Decide on raw JSON archival.""")
-
-    with st.expander("\U0001f535 Buddhism 2x2 design incomplete"):
-        st.markdown("""Buddhism has 41 subject runs. Reverse-stance runs exist in other frameworks' folders,
-but the full closed 2x2 design isn't formally documented. Low urgency — awareness item.""")
-
-    with st.expander("\U0001f535 PT YAML — vs_buddhism misplaced in levers_by_matchup"):
-        st.markdown("""`PROCESS_THEOLOGY.yaml` has a `levers_by_matchup.vs_buddhism` block that should live
-in `trinity_scores_by_matchup`. No runtime issues. CFA Claude is aware.""")
-
-    with st.expander("\U0001f535 Map staleness — 13 maps over 6 months old"):
-        st.markdown("""Foundation maps (Stackup, Philosophy, Identity Lattice) likely still accurate
-but unreviewed since Dec 2025. Validation Status and Testable Predictions most likely to have drifted.""")
 
     st.markdown("---")
     st.caption("*For CFA Claude: your counterpart dashboard lives at `CFA/views/mission_control.py`. "
