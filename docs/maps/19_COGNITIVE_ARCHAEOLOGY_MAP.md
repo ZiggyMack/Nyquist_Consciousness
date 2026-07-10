@@ -1,8 +1,8 @@
 # Cognitive Archaeology Map
 
-**Purpose:** Navigate the Cognitive Archaeology research program — the systematic excavation of reasoning operators across independent thinkers.
+**Purpose:** Navigate the Cognitive Archaeology research program — the systematic excavation of reasoning operators across independent thinkers, and the discovery of reusable architectures that compose those operators into entire discovery engines.
 
-**Status:** Phase 0A complete (CFA transcript extraction, 2 new operators admitted). Phase 0B complete (negative control battery, 17 extractors x 8 texts, discrimination tiers established). Phase 0C (positive control) pending. Dig Site 001 done. No new dig sites beyond 000/001 yet.
+**Status:** Phase 0A/0B complete. Phase 0C (positive control) pending — still gates the empirical arm. Theoretical arm running in parallel via LLM Book deep digs. Dig Sites 001, 002, 010 complete. Museum A: 9 operators. Museum B: 6 architectures (1 confirmed, 5 candidates). Discovery Simplex hypothesized.
 
 **Location:** `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/`
 
@@ -17,37 +17,67 @@
                          │  Is there a finite grammar of      │
                          │  reasoning operators?               │
                          │                                    │
-                         │  Or is reasoning irreducibly        │
-                         │  context-dependent?                 │
+                         │  And do they compose into a        │
+                         │  finite set of discovery           │
+                         │  architectures?                    │
                          │                                    │
-                         │  (Motivating metaphor: "a periodic │
-                         │   table of reasoning itself")      │
                          └───────────────┬──────────────────┘
                                          │
             ┌────────────────────────────┼────────────────────────────┐
             │                            │                            │
             ▼                            ▼                            ▼
   ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-  │   EXCAVATION     │     │   VALIDATION     │     │   GOVERNANCE     │
-  │                  │     │                  │     │                  │
-  │ DIG_SITES/       │     │ MUSEUM/          │     │ LEDGER.md        │
-  │ TEMPLATES/       │     │  INDEX.md        │     │ FIELD_MANUAL.md  │
-  │ NOTEBOOKLM_      │     │  GRAPH.md        │     │ README.md        │
-  │ PROMPTS.md       │     │  RETIRED.md      │     │                  │
-  │                  │     │  operators/       │     │ Promotion Gates  │
-  │ "Recover the     │     │                  │     │ Falsification    │
-  │  operators"      │     │ "Catalogue and   │     │ Anti-Reification │
-  │                  │     │  predict"        │     │                  │
+  │   EXCAVATION     │     │   MUSEUM A       │     │   MUSEUM B       │
+  │                  │     │   (Operators)    │     │   (Architectures)│
+  │ DIG_SITES/       │     │                  │     │                  │
+  │ TEMPLATES/       │     │ INDEX.md         │     │ DISCOVERY_       │
+  │ NOTEBOOKLM_     │     │ GRAPH.md         │     │ ARCHITECTURES.md │
+  │ PROMPTS.md       │     │ operators/       │     │                  │
+  │                  │     │                  │     │ "How do operators │
+  │ "Recover the     │     │ "Catalogue and   │     │  compose into    │
+  │  operators"      │     │  predict"        │     │  discovery       │
+  │                  │     │                  │     │  engines?"       │
   └──────────────────┘     └──────────────────┘     └──────────────────┘
+            │                            │                            │
+            └────────────────────────────┼────────────────────────────┘
+                                         │
+                                         ▼
+                              ┌──────────────────┐
+                              │   GOVERNANCE     │
+                              │                  │
+                              │ LEDGER.md        │
+                              │ FIELD_MANUAL.md  │
+                              │ README.md        │
+                              │                  │
+                              │ Promotion Gates  │
+                              │ Falsification    │
+                              │ Anti-Reification │
+                              └──────────────────┘
 ```
+
+---
+
+## The Two Museums
+
+| | Museum A | Museum B |
+|---|---|---|
+| **Name** | Museum of Cognitive Operators | Museum of Discovery Architectures |
+| **Contents** | Individual reasoning moves | Entire discovery engines |
+| **Level** | Microscopic (atoms) | Macroscopic (molecules) |
+| **Analogy** | Verbs | Grammars |
+| **Document** | `MUSEUM/INDEX.md` | `DISCOVERY_ARCHITECTURES.md` |
+| **Admission** | 6 criteria (FIELD_MANUAL) | 4 criteria (named composition, multiple instances, predictive, discriminative) |
+| **Current** | 9 operators | 1 confirmed (RCI) + 5 candidates (B-F) |
+
+Operators compose into architectures. Architectures compose into scientific traditions.
 
 ---
 
 ## The Scientific Method
 
 ```
-  Phase 0 (DONE)                The Core Pipeline
-  ──────────────                ───────────────────────────────────────
+  EMPIRICAL ARM (Phase 0)        The Core Pipeline
+  ──────────────────────         ───────────────────────────────────────
 
   EXTRACTOR          OBSERVE ──► EXCAVATE ──► ADMIT ──► CROSS-SITE
   CALIBRATION           │                                    │
@@ -56,14 +86,24 @@
        │                │         TEST         CONFIDENCE
        │                │            │
        ▼                │            ▼
-  "Who is               │         PREDICT ──► FUNDAMENTAL?
-   excavating?"         │
-                        │         Operators either survive
-  17 extractors         │         this process or they don't.
-  calibrated.           │
-  4 tiers found.        │
-  Gate: PASSED.         │
+  0A: Who extracts?     │         PREDICT ──► FUNDAMENTAL?
+  0B: What's noise?     │
+  0C: What's signal?    │         Operators either survive
+      ⚠️ PENDING        │         this process or they don't.
+                        │
+  THEORETICAL ARM       │
+  ─────────────────     │
+  LLM Book Deep Digs    │
+  (Nova + NotebookLM)   │
+       │                │
+       ▼                │
+  ARCHITECTURE          │
+  DISCOVERY             │
+  (cross-pollination    │
+   back to Museum B)    │
 ```
+
+**Phase 0C still gates the empirical arm.** The theoretical arm advances in parallel but cannot confirm operators at GREEN/STAR level without 0C.
 
 ---
 
@@ -85,7 +125,7 @@
 
 ---
 
-## The Operator Museum (Current State)
+## The Operator Museum (Museum A — Current State)
 
 ```
    CONFIDENCE LEVELS
@@ -120,6 +160,64 @@
 
 ---
 
+## Discovery Architectures (Museum B — Current State)
+
+```
+   CONFIRMED
+   ─────────
+   Architecture A: Reverse Constraint Inference (RCI)
+     Composition: OP-001 → OP-011 → OP-006 → Noether Lens → RCI
+     Algorithm:   Change representation → observe survivors → read backward → infer architecture
+     Instances:   Noether, Barandes, Darwin, Shannon, EOS
+     Simplex:     Constraint corner
+
+   CANDIDATES
+   ──────────
+   Architecture B: Forward Mathematical Generation         (tests at Dig Site 003 / Dirac)
+   Architecture C: Evolutionary Search                     (speculative — meta-architecture?)
+   Architecture D: Compression-Driven Discovery            (speculative — related to RCI?)
+   Architecture E: Adversarial Discovery                   (partially instantiated in CFA)
+   Architecture F: Composition Analysis / Op-Validity      (extracted from Dig Site 010 / Curt)
+     Algorithm:   Identify operation → recover validity conditions → vary domain → classify A/B/C
+     Instances:   Curt, Arrow, Abramsky-Brandenburger, Efron
+     Simplex:     Composition corner
+```
+
+---
+
+## The Discovery Simplex (Post-Dig-Site-010)
+
+Four orthogonal discovery questions — not competing theories:
+
+```
+              Transformation (Noether)
+                  ▲
+                  │
+   Composition ◄──┼──► Generation (Dirac)
+      (Curt)      │
+                  ▼
+             Constraint (Barandes)
+```
+
+| Corner | Question | Architecture | Status |
+|--------|----------|--------------|--------|
+| Transformation | What survives change? | (inside RCI) | Predicted |
+| Constraint | What minimal architecture reproduces observations? | RCI (Arch A) | Confirmed |
+| Composition | When is an operation licensed at scale? | Arch F | Confirmed |
+| Generation | What structures deserve exploration before evidence? | Arch B | Tests at Dig Site 003 |
+
+**Relation Space:** Architecture often lives in TRANSITIONS between nodes (transition functions, gluing data, relational structure), not in the nodes themselves. Confirmed across 5 projects:
+
+| Project | What is relational |
+|---------|-------------------|
+| Barandes | Pair-dependent laws (A alone doesn't determine conditionals) |
+| Curt | Transition functions (gluing data determines the global object) |
+| CFA | Crux interactions (matchup produces structure neither framework has alone) |
+| ARMADA | Calibration relationships (individual runs don't determine stable lever) |
+| EOS | Operators compose into architectures (composition is where architecture lives) |
+
+---
+
 ## The Failure Atlas
 
 Each operator, when absent, produces a named cognitive failure:
@@ -145,18 +243,24 @@ Each operator, when absent, produces a named cognitive failure:
 ## Dig Sites
 
 ```
-   SITE    TARGET                STATUS          RESULT
-   ────    ──────                ──────          ──────
-   000     Extractor Calibration PHASE 0A DONE   2 new ops (OP-008, OP-009),
-                                 PHASE 0B DONE   2 rediscoveries (OP-007),
-                                 PHASE 0C PEND.  1 held candidate (Concession Pricing)
-                                                 17 extractors calibrated, 4 tiers found
-   001     Adlam & Barandes      DONE            7 operators (OP-001 through OP-007)
-   002     Pearl                 NOT STARTED     First genuine test of the theory
-   003     Dennett               NOT STARTED
-   004     Jaynes                NOT STARTED
-   ...     (11 thinkers total)
+   SITE    TARGET                STATUS              RESULT
+   ────    ──────                ──────              ──────
+   000     Extractor Calibration 0A/0B DONE          2 new ops (OP-008, OP-009),
+                                 0C PENDING ⚠️       2 rediscoveries (OP-007),
+                                                     17 extractors, 4 tiers
+   001     Adlam & Barandes      DONE                7 operators (OP-001 to OP-007)
+   002     Barandes (solo)       DONE                RCI architecture, 40 insights
+   010     Curt Jaimungal        DONE (R1 + Audit)   Architecture F, Discovery Simplex,
+                                                     Relation Space, Category Theory hyp.
+   003     Dirac                 PLANNED (Q50 #1)    Tests Generation corner
+   004     Wolfram               QUEUED (Q50 #2)     Computational/deterministic
+   005     Hermann               QUEUED (Q50 #3)     Philosophical auditing
+   006     Pearl                 QUEUED              Causal separation, convergence potential
+   007     Dennett               QUEUED              Heterophenomenology, Nyquist link
+   008     Jaynes                QUEUED              ISP lineage, MaxEnt
 ```
+
+**Note:** From Dig Site 003 onward, the queue is driven by Q50 recursion — each excavation recommends the next targets ranked by expected operator yield.
 
 ---
 
@@ -203,7 +307,35 @@ Ran multi-extractor extraction on CFA Framework-G (Consciousness as Telos) delib
 
 ### Phase 0C: Positive Control (PENDING)
 
-Run extraction on known-rich CFA transcript to verify pipeline detects operators when they are genuinely present. Completes the calibration.
+Run extraction on known-rich CFA transcript to verify pipeline detects operators when they are genuinely present. Completes the calibration. **Still gates the empirical arm.**
+
+---
+
+## Dig Site 010 Results (2026-07-10)
+
+### Key Contributions from Curt / "The Reverse Elephant"
+
+**Architecture F (Composition Analysis / Operation-Validity Testing):**
+- Every operation has a domain of validity
+- Three failure modes are algebraic cases of a composition operator
+- Algorithm: identify operation → recover validity conditions → vary domain → classify
+- This is the architecture that AUDITS other architectures
+
+**The Discovery Simplex:**
+- Four orthogonal discovery questions replace the single direction axis
+- Two corners confirmed (Constraint = RCI, Composition = Arch F)
+- Two predicted (Transformation = Noether lens, Generation = Dirac test)
+
+**Relation Space:**
+- "Architecture lives in transitions, not nodes" (confirmed across 5 projects)
+- Don't store nodes — store relations/gluing data
+
+**Category Theory Hypothesis (EOS-level, NOT from Curt):**
+- If operators are morphisms (transformations), not objects, the Museum may be a category
+- Category Theory as comparative language ABOVE sheaf theory
+- Operators extracted from different domains share structure because they're all structure-preserving mappings
+
+**Key Correction:** Curt is anti-premature-unification, NOT anti-unification. "Only unify when gluing conditions are earned."
 
 ---
 
@@ -249,7 +381,8 @@ The program is killed or demoted to "descriptive hobby" if:
    Curator               Repo Claude     "How do we preserve this?"
    Experimentalist       CFA Claude      "Does this survive adversarial evaluation?"
    Methodologist         EOS Opus        "Would this convince a skeptical community?"
-   Synthesist            Nova            "Are these the same deeper operation?"
+   Synthesist/Auditor    Nova            "Are these the same deeper operation?"
+                                         "Does this survive formal pressure?"
    Field Archaeologist   Ziggy           "What's interesting? What connects?"
 ```
 
@@ -265,6 +398,8 @@ The program is killed or demoted to "descriptive hobby" if:
 | Core Confound | Opus | Separate operators in thinkers from operators in reader |
 | Excavation Norm | Nova | Excavate generously, classify conservatively |
 | Blind Protocol | Nova | Don't show the Museum before digging |
+| Relation Space | Curt/Barandes | Architecture lives in transitions, not nodes |
+| Anti-Premature Unification | Curt | Only unify when gluing conditions are earned |
 
 ---
 
@@ -277,6 +412,7 @@ The program is killed or demoted to "descriptive hobby" if:
    Predictive power                    Increasing
    Need for new operators              Decreasing
    Explanatory compression             Increasing
+   Architecture reuse                  Increasing (new from Museum B)
 ```
 
 ---
@@ -292,9 +428,13 @@ The program is killed or demoted to "descriptive hobby" if:
 | Museum | LLM_BOOK | NotebookLM as excavation tool, not summarizer |
 | Phase 0 | CFA Identity | Same instrument-vs-object problem in different costume |
 | Failure Atlas | CFA CRUX | Every CRUX maps to a Failure Atlas entry |
-| Phase 0A | CFA Transcripts | CFA deliberation IS a valid dig site — adversarial structure generates operators |
+| Phase 0A | CFA Transcripts | CFA deliberation IS a valid dig site |
 | Phase 0B | Map 6 / Fleet | Extractor discrimination tiers feed LLM Behavioral Matrix routing |
 | OP-008/009 | CFA Framework-G | New operators recovered from CFA evaluation of Consciousness as Telos |
+| Architecture F | New_10_TOE (Curt) | Composition Analysis — audits other architectures for valid operations |
+| Discovery Simplex | New_10_TOE / New_9 | 4-corner organizing framework for architectures |
+| Relation Space | Barandes + Curt + CFA + ARMADA + EOS | 5-project convergence: "don't privilege nodes" |
+| Category Theory hyp. | EOS synthesis | Operators as morphisms — Museum may be a category |
 
 ---
 
@@ -303,41 +443,57 @@ The program is killed or demoted to "descriptive hobby" if:
 ```
    New_9_Cognitive_Archaeology/
    ├── README.md                                Core vision + falsification criteria
+   ├── DISCOVERY_ARCHITECTURES.md               Museum B: architectures + simplex + relation space
    ├── FIELD_MANUAL.md                          Workflow + admission criteria + norms
    ├── LEDGER.md                                Confidence tracking + promotion gates
    ├── RESEARCH_QUESTIONS.md                    Open questions driving the program
    ├── DIG_SITES/
    │   ├── 000_Extractor_Calibration/           Phase 0 instrument calibration
    │   │   ├── README.md                        Dig site overview
-   │   │   ├── experiment_design.md             Procedural details (how to run)
-   │   │   ├── PRE_REGISTRATION.md              Frozen expectations (before data)
-   │   │   ├── ADMISSION_EVALUATIONS.md         Operator admission decisions from Phase 0A
-   │   │   ├── ARM_1_ANALYSIS.md                Phase 0A results analysis
-   │   │   └── extractions/                     200+ extraction files (Phase 0A + 0B)
-   │   └── 001_Adlam_Barandes/                  First excavation (seeded from New_8)
-   │       └── excavation.md
+   │   │   ├── experiment_design.md             Procedural details
+   │   │   ├── PRE_REGISTRATION.md              Frozen expectations
+   │   │   ├── ADMISSION_EVALUATIONS.md         Operator admission decisions
+   │   │   ├── ARM_1_ANALYSIS.md                Phase 0A results
+   │   │   └── extractions/                     164+ extraction files (Phase 0A + 0B)
+   │   ├── 001_Adlam_Barandes/                  First excavation (seeded from New_8)
+   │   ├── 002_Barandes/                        Barandes solo — COMPLETE (40 insights)
+   │   ├── 003_Dirac/                           Q50 #1 — forward-generative test (PLANNED)
+   │   ├── 004_Wolfram/                         Q50 #2 — computational architecture
+   │   ├── 005_Hermann/                         Q50 #3 — philosophical auditing
+   │   ├── 006_Pearl/                           Causal separation, convergence potential
+   │   ├── 007_Dennett/                         Heterophenomenology, Nyquist link
+   │   └── 008_Jaynes/                          ISP lineage, MaxEnt
    ├── MUSEUM/
    │   ├── INDEX.md                             Master operator list (9 operators)
-   │   ├── GRAPH.md                             Relationships + Failure Atlas
+   │   ├── GRAPH.md                             Relationships + Failure Atlas + direction axis
    │   ├── RETIRED.md                           Failed/retired operators
    │   └── operators/                           Individual operator pages (9)
-   │       ├── OP_001 through OP_007            From Dig Site 001
-   │       ├── OP_008_symmetry_testing.md       From Dig Site 000 (Phase 0A)
-   │       └── OP_009_contested_neq_defeated.md From Dig Site 000 (Phase 0A)
    ├── TOOLS/
    │   └── extract_operators.py                 Multi-extractor pipeline (17 extractors)
    ├── compression_candidates/                  Theoretical compression explorations
-   │   ├── README.md
-   │   └── category_theory/                     Category-theoretic operator formalization
+   │   ├── README.md                            Third Law, promotion pathway
+   │   └── category_theory/                     UCC — predictions registered, 0 tests run
    └── TEMPLATES/
        ├── DIG_SITE_TEMPLATE.md
        ├── OPERATOR_TEMPLATE.md
        └── NOTEBOOKLM_PROMPTS.md
+
+   New_10_TOE/ (separate staging folder, cross-pollinates to New_9)
+   ├── README.md                                Source overview + architectural significance
+   ├── _IN/transcript.md                        Formatted transcript
+   ├── _IN/*.md, *.pdf                          NotebookLM reports (3 .md, 3 .pdf)
+   └── _ROUND_1/                                38 questions (Q1-Q38), formal audit
+       ├── chat.md                              All Q&A (6 levels deep)
+       ├── routing.md                           Cross-project connections (COMPLETE)
+       ├── REVIEW_NOTES_New_10_TOE.md           Quality assessment (CONFIRMED)
+       ├── INSIGHTS/Reverse_Elephant.md         Post-audit synthesis
+       ├── CONNECTIONS/Reverse_Elephant.md      13 cross-project connections
+       └── EXPERIMENTS/Reverse_Elephant.md      8 experiments staged
 ```
 
 ---
 
 *Created: 2026-07-06*
-*Updated: 2026-07-09 — Phase 0A/0B results, OP-008/009, TOOLS, file index*
+*Updated: 2026-07-10 — Dig Sites 002/010 complete, Museum B + Discovery Simplex + Relation Space added, dig site numbering corrected, two-track structure (empirical/theoretical) documented*
 *Map #19*
 *Territory: The Grammar of Thought*

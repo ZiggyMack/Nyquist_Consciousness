@@ -3,7 +3,26 @@
 > Single-glance status for Repo Claude and human collaborators.
 > CFA Claude: your counterpart dashboard lives at `CFA/views/mission_control.py`.
 
-**Last updated:** 2026-07-09
+**Last updated:** 2026-07-10
+
+---
+
+## Active Workstreams (Priority Order)
+
+| #  | Stream                              | Status                                              | Next Step                                                              |
+|----|-------------------------------------|-----------------------------------------------------|------------------------------------------------------------------------|
+| 1  | **CA Phase 0C** (positive control)  | PENDING — blocker for empirical arm                 | Select known-rich transcript, run Tier 1 extractors                    |
+| 2  | **LLM Book / Deep Digs**            | New_10_TOE COMPLETE (Curt), New_8 Round 2 done      | Dig Site 003 (Dirac) — tests Generation corner of Discovery Simplex    |
+| 3  | **CA Theoretical Arm**              | Architecture F confirmed, Discovery Simplex hypothesized | Validate simplex with Dig Site 003; test "Is the Museum a Category?"   |
+| 4  | **CFA Trinity data**                | 702 runs, engine operational                        | SYNC_OUT housekeeping (230 raw JSONs)                                  |
+| 5  | **Dashboard**                       | Live, 14 pages                                      | Update mission_control.py + Map 19 with New_10 results                 |
+
+**Two-track structure (emerged post-Curt):**
+
+- **Empirical arm:** Phase 0C → Dig Site 003 → systematic excavation (gated by 0C)
+- **Theoretical arm:** LLM Book deep digs (Nova + NotebookLM) → architecture discovery → cross-pollination back to New_9
+
+Phase 0C still gates everything. The theoretical arm builds the MAP; only the empirical arm CONFIRMS what's real.
 
 ---
 
@@ -85,7 +104,7 @@ B           10      11       10      10      --       41
 
 ## Research Program Status
 
-### Cognitive Archaeology
+### Cognitive Archaeology (Empirical Arm)
 
 | Phase | Focus | Status | Key Result |
 |-------|-------|--------|------------|
@@ -102,6 +121,21 @@ B           10      11       10      10      --       41
 - Granularity sensitivity (Arm 3) -- not yet run
 - Human extractors -- not yet tested
 - Cross-source generalization -- CFA transcripts only so far
+
+### Cognitive Archaeology (Theoretical Arm — LLM Book Deep Digs)
+
+| Dig Site | Source | Status | Key Contribution |
+|----------|--------|--------|------------------|
+| 001 | Adlam & Barandes | **Complete** | 7 operators, RCI architecture |
+| 002 | Barandes (solo) | **Complete** | 40 insights, 14 connections, 11 experiments |
+| 010 | Curt Jaimungal | **Complete** (Round 1 + Formal Audit) | Architecture F, Discovery Simplex, Relation Space |
+| 003 | Dirac | **Planned** (Q50 #1) | Tests Generation corner of simplex |
+| 004 | Wolfram | Queued (Q50 #2) | Computational/deterministic architecture |
+| 005 | Hermann | Queued (Q50 #3) | Philosophical auditing, Noether lineage |
+
+**Discovery Architectures (Museum B):** 1 confirmed (RCI), 5 candidates (B-F)
+**Discovery Simplex:** 4 orthogonal corners hypothesized (Transformation, Constraint, Composition, Generation)
+**Cross-dig-site principle confirmed:** "Architecture lives in relations, not nodes" (5-project convergence)
 
 ### CFA Trinity Engine
 
@@ -164,12 +198,19 @@ B           10      11       10      10      --       41
 
 ## Open Loops
 
+
 ### Phase 0C -- positive control transcript needed
+
 > **Priority: HIGH** | **Owner: Repo Claude** | **Blocker: transcript selection**
 
-Repo Claude needs a known-rich CFA deliberation transcript (Framework-G preferred, stalled/high-metacognitive-pressure) to run Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B) and confirm the pipeline detects operators when they are genuinely present. Last calibration step before Dig Site 002.
+Repo Claude needs a known-rich CFA deliberation transcript (Framework-G preferred, stalled/high-metacognitive-pressure) to run Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B) and confirm the pipeline detects operators when they are genuinely present. Last calibration step before systematic excavation.
 
 **Candidate:** Framework-G v2.1 transcript (66K chars, MS-only with DI/CP) -- already used in Phase 0A but could serve double duty.
+
+### Map 19 (Cognitive Archaeology) -- needs New_10_TOE results
+> **Priority: HIGH** | **Owner: Repo Claude**
+
+Map 19 is stale: doesn't reflect Dig Site 002 (Barandes) completion, Dig Site 010 (Curt), Architecture F, Discovery Simplex, or the two-museum concept. Dig site numbering is wrong (lists Pearl as 002). Needs full rewrite of dig sites table, addition of DISCOVERY_ARCHITECTURES.md section, and cross-references to New_10_TOE.
 
 ### SYNC_OUT housekeeping -- 230 raw JSONs in running/
 > **Priority: MEDIUM** | **Owner: Repo Claude**
@@ -190,18 +231,6 @@ Buddhism has 41 subject runs (b_vs_ct: 10, b_vs_mdn: 11, b_vs_pt: 10, b_vs_g: 10
 > **Priority: LOW** | **Batch task**
 
 Most maps haven't been updated since December 2025. The active research areas (CFA, CA, Fleet) are current. Foundation maps (Stackup, Philosophy, Identity Lattice) likely still accurate but unreviewed. Validation Status and Testable Predictions are the most likely to have drifted.
-
----
-
-## Active Workstreams
-
-| Stream | Status | Next Step |
-|--------|--------|-----------|
-| Cognitive Archaeology | Phase 0B done | Phase 0C positive control |
-| CFA Trinity data | 702 runs | SYNC_OUT housekeeping |
-| CFA Dashboard | CFA Claude updating | Check back after his implementation |
-| Dig Site 002 (Pearl) | Not started | Awaiting Phase 0 completion |
-| LLM_BOOK chapters | 14 staging folders | New_9 (CA) most active |
 
 ---
 
