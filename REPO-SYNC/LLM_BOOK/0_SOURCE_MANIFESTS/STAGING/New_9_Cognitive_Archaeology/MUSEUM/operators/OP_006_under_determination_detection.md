@@ -1,8 +1,9 @@
 # Operator 006: Under-Determination Detection
 
-**Confidence:** RED
+**Confidence:** YELLOW
 **First recovered:** Dig Site 001 (Nova synthesis)
-**Independent confirmations:** 1
+**Independent confirmations:** 2 (Nova Dig Site 001, Barandes Dig Site 002 rediscovery)
+**Class:** Blind Spot Operator
 
 ---
 
@@ -61,8 +62,9 @@ The pattern: formalism → gap → import → conclusion that looks determined b
 | # | Dig Site | Thinker | Form | Date |
 |---|---------|---------|------|------|
 | 1 | 001 | Nova | Unifying abstraction across Adlam, Barandes, CFA | 2026-07-05 |
+| 2 | 002 | Barandes | Rediscovery: Q15 "Gap-in-Literature Detection" — Barandes systematically identifies where existing formalisms underdetermine outcomes (e.g., Hilbert space underdetermines physical ontology; the standard axioms underdetermine what "measurement" means). Same operation as OP-006 applied to physics foundations. | 2026-07-09 |
 
 ---
 
 *Registered: 2026-07-06*
-*Last updated: 2026-07-06*
+*Last updated: 2026-07-10 — Barandes Dig Site 002 rediscovery added; promoted RED→YELLOW; Class field added*

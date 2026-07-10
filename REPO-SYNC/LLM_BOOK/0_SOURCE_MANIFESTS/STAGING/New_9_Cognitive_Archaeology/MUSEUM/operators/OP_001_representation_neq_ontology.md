@@ -2,7 +2,8 @@
 
 **Confidence:** YELLOW
 **First recovered:** Dig Site 001 (Barandes)
-**Independent confirmations:** 2 (Barandes, CFA/FUT)
+**Independent confirmations:** 3 (Barandes Dig Site 001, CFA/FUT, Barandes Dig Site 002 rediscovery)
+**Class:** Translation Operator
 
 ---
 
@@ -58,8 +59,9 @@ FUT's qualification procedure: a Framework Under Test (FUT) can be described in 
 | 2 | — | CFA/FUT | FUT representation→evaluation separation | Independent | pre-existing |
 | 3 | — | CFA CRUX_MS_20260629 | Failure-mode confirmation: Claude oscillated between two MS representations (metaphysical grounding vs. empirical outcomes) without declaring one as primary. Each representation yielded a different score; the oscillation was cycling between coordinate systems. Resolution = declare representation before scoring (Phase 0 calibration). | Pressure-tested | 2026-06-29 |
 | 4 | — | CFA CRUX_IP_20260629 | Failure-mode confirmation: Claude and Grok each operated in different IP representations (historical lineage vs. empirical traction) without declaring them. Both representations are legitimate encodings of "Intellectual Pedigree." Nova correctly diagnosed as Definitions-layer divergence, not philosophical impasse. | Pressure-tested | 2026-06-29 |
+| 5 | 002 | Barandes | Rediscovery: Q15 "Representation-Shifting" operator — Barandes systematically tests claims by translating to equivalent formalisms (Hilbert space ↔ vintage probabilities). Same operation as OP-001 applied throughout ISP development. Recovered independently from Round 2 transcript by NotebookLM. | Rediscovery | 2026-07-09 |
 
 ---
 
 *Registered: 2026-07-06*
-*Last updated: 2026-07-06*
+*Last updated: 2026-07-10 — Barandes Dig Site 002 rediscovery added; Class field added*

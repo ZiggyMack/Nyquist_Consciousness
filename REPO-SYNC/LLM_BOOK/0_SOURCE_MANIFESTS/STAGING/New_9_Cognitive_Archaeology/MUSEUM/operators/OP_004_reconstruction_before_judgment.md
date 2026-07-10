@@ -2,7 +2,8 @@
 
 **Confidence:** YELLOW
 **First recovered:** Dig Site 001 (Barandes + Adlam)
-**Independent confirmations:** 2 (Barandes/Adlam, CFA Phase sequence)
+**Independent confirmations:** 3 (Barandes/Adlam Dig Site 001, CFA Phase sequence, Barandes Dig Site 002 rediscovery)
+**Class:** Translation Operator
 
 ---
 
@@ -63,8 +64,9 @@ The CFA Phase sequence: Phase 1a is faithful reconstruction (describe the FUT in
 | 1 | 001 | Adlam | Decision-theoretic reconstruction before dismissal | Independent | 2026-07-05 |
 | 2 | — | CFA | Phase 1a → 1b → 2 sequence | Independent | pre-existing |
 | 3 | — | CFA CRUX_MS_20260629 | Failure-mode confirmation (FM-1: Premature Evaluation): Claude embedded evaluative stance into Phase 1 reconstruction. Two competing MS definitions were both evaluative framings, not reconstruction variants. Cycling = two premature evaluations alternating, not reconstruction instability. | Pressure-tested | 2026-06-29 |
+| 4 | 002 | Barandes | Rediscovery: Q15 "Empirical Anchoring" operator — Barandes insists on grounding every theoretical claim in empirical adequacy before formal evaluation. Same operation as OP-004 applied to physics interpretations: reconstruct the interpretation's predictions faithfully, THEN test against the four criteria. | Rediscovery | 2026-07-09 |
 
 ---
 
 *Registered: 2026-07-06*
-*Last updated: 2026-07-06*
+*Last updated: 2026-07-10 — Barandes Dig Site 002 rediscovery added; Class field added*

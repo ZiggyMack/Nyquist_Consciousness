@@ -18,6 +18,32 @@ This is the difference between cataloguing every sentence ever written and disco
 
 ---
 
+## Levels of Abstraction
+
+The project studies discovery at six levels. We didn't plan to climb this hierarchy — Dig Site 002 pushed us up it.
+
+```text
+Level 0  Knowledge               "Barandes thinks X."
+Level 1  Patterns                "Barandes repeatedly removes mathematical baggage."
+Level 2  Operators               OP-011, OP-014, OP-012
+Level 3  Operator Families       Translation, Subtraction, Constraint Induction, Blind Spots
+Level 4  Discovery Architectures Backward-Reading (RCI), Forward-Generative (candidate)
+Level 5  Meta-science            When should one architecture outperform another?
+```
+
+Levels 0-3 are housed in the Operator Museum (`MUSEUM/`). Level 4 has its own document (`DISCOVERY_ARCHITECTURES.md`). Level 5 is what Dig Site 003 tests.
+
+The hierarchy inverts the original direction of explanation:
+
+```text
+Original assumption:  Protocol → Knowledge → Operators
+Actual structure:     Reality → Invariants → Architectures → Operators → Protocol → Knowledge
+```
+
+Protocols don't create operators. Protocols instantiate architectures. Architectures select operators. Operators extract knowledge. Knowledge reveals invariants.
+
+---
+
 ## First Law
 
 > **Independent convergence is stronger evidence than isolated brilliance.**
@@ -49,23 +75,46 @@ This is not a flaw. This is the scientific method applied to itself. Phlogiston 
 ```
 OBSERVATION       "I noticed Barandes repeatedly separates representation from ontology."
      |
-EXCAVATION        Recover the operator from the source material.
+EXCAVATION        Recover operators from the source material.
      |
 ADMISSION         Does it satisfy the Operator Admission Criteria?
      |
 CROSS-SITE        Does Pearl independently perform the same operation?
 RECOVERY
      |
+ARCHITECTURE      Do recovered operators compose into a discovery engine?
+IDENTIFICATION    (see DISCOVERY_ARCHITECTURES.md)
+     |
 PRESSURE          Can CFA successfully use the operator?
 TESTING
      |
-PREDICTION        Does the operator correctly predict unseen reasoning or failure modes?
+PREDICTION        Does the operator (or architecture) predict unseen reasoning or failure modes?
      |
 FUNDAMENTAL       Saturated across thinkers. Compositional. Predictive.
 STATUS
 ```
 
 Operators either survive this process or they don't.
+
+### The Recursive Discovery Loop
+
+Each dig site feeds the next — not just via Q50 source recommendations, but through every level of the hierarchy:
+
+```text
+Dig Site N
+    ↓
+Knowledge              What did this thinker discover?
+    ↓
+Operators              What cognitive moves did they repeat?
+    ↓
+Discovery Architecture What engine composed those operators?
+    ↓
+Protocol Revision      How should we revise extraction to capture this?
+    ↓
+Dig Site N+1           Which unexplored region of Discovery Space maximizes information gain?
+```
+
+Q50 operationalizes the last step. Originally "who should we study next?" — now "which region of Discovery Space is least sampled?"
 
 ---
 
@@ -144,17 +193,24 @@ The museum is not the goal. Prediction is the goal. An operator registry that on
 ```
 New_9_Cognitive_Archaeology/
 ├── README.md                  # This file
+├── DISCOVERY_ARCHITECTURES.md # Museum B: discovery engines (Level 4)
 ├── LEDGER.md                  # Operator confidence tracking
 ├── FIELD_MANUAL.md            # Excavation workflow, admission criteria
 ├── RESEARCH_QUESTIONS.md      # What the infrastructure exists to answer (16 questions)
-├── DIG_SITES/                 # Individual excavations
+├── DIG_SITES/                 # Individual excavations (Q50-recursive from 003+)
 │   ├── 000_Extractor_Calibration/  # Phase 0: instrument calibration
 │   │   ├── extractions/       # Raw extraction outputs (museum-blind)
 │   │   ├── ADMISSION_EVALUATIONS.md  # Formal operator admission tests
 │   │   └── ARM_1_ANALYSIS.md  # Extractor agreement matrix
 │   ├── 001_Adlam_Barandes/    # First dig site (seeded from New_8)
-│   ├── 002_Pearl/
-│   └── ...
+│   ├── 002_Barandes/           # Barandes solo (New_8 Round 2) — COMPLETE
+│   ├── 003_Dirac/              # Q50 #1 — forward-generative, RCI stress test
+│   ├── 004_Wolfram/            # Q50 #2 — deterministic architecture
+│   ├── 005_Hermann/            # Q50 #3 — philosophical auditing, Noether lineage
+│   ├── 006_Pearl/              # Original list — highest convergence potential
+│   ├── 007_Dennett/            # Original list — Nyquist/consciousness link
+│   ├── 008_Jaynes/             # Original list — ISP lineage, MaxEnt
+│   └── (each self-contained: _IN/, _OUT/, chat.md, STATUS.md)
 ├── MUSEUM/                    # Operator catalog
 │   ├── INDEX.md               # Master operator list (9 registered)
 │   ├── GRAPH.md               # Operator relationships + Failure Atlas
@@ -251,23 +307,35 @@ Dig Site 000 must complete before any mathematical framework is adopted. The pro
 
 ## Target Thinker List
 
-Initial excavation targets (ordered by expected operator density):
+### Completed Dig Sites
 
 1. **Adlam & Barandes** — representation dependence, hidden selection, emergence circularity *(DONE — Dig Site 001)*
-2. **Pearl** — causal separation, intervention vs observation, counterfactual construction
-3. **Dennett** — intentional stance, heterophenomenology, competence without comprehension
-4. **Jaynes** — inferential vs physical information, maximum entropy, plausible reasoning
-5. **Lakoff** — conceptual metaphor, embodied cognition, framing effects
-6. **Deutsch** — constructor theory, explanatory depth, fallibilism
-7. **Popper** — falsifiability, demarcation, conjectures and refutations
-8. **Hofstadter** — strange loops, analogy as cognition, levels of description
-9. **Marr** — computational/algorithmic/implementational levels
-10. **Simon** — bounded rationality, satisficing, near-decomposability
-11. **Kuhn** — paradigm structure, normal vs revolutionary science, incommensurability
+2. **Barandes (solo)** — ISP theory, subtractive discovery, pedagogical forcing, Noether extraction *(DONE — Dig Site 002, 40 insights, 14 connections, 11 experiments)*
+
+### Q50-Recursive Queue (self-evolving from Dig Site 002)
+
+3. **Dirac** — playful mathematical deformity, beauty as selection, forward-generative discovery *(PLANNING — Dig Site 003, Q50 rank #1)*
+4. **Wolfram** — computational irreducibility, deterministic vs probabilistic architecture *(Q50 rank #2, pending Dig Site 003 Q50 output)*
+5. **Grete Hermann** — philosophical auditing of consensus math, Noether lineage *(Q50 rank #3, pending)*
+
+### Original Target List (deferred — may re-enter via Q50 recursion)
+
+- **Pearl** — causal separation, intervention vs observation, counterfactual construction
+- **Dennett** — intentional stance, heterophenomenology, competence without comprehension
+- **Jaynes** — inferential vs physical information, maximum entropy, plausible reasoning
+- **Lakoff** — conceptual metaphor, embodied cognition, framing effects
+- **Deutsch** — constructor theory, explanatory depth, fallibilism
+- **Popper** — falsifiability, demarcation, conjectures and refutations
+- **Hofstadter** — strange loops, analogy as cognition, levels of description
+- **Marr** — computational/algorithmic/implementational levels
+- **Simon** — bounded rationality, satisficing, near-decomposability
+- **Kuhn** — paradigm structure, normal vs revolutionary science, incommensurability
+
+> **Note:** From Dig Site 003 onward, the thinker list is driven by Q50 recursion — each dig site's extraction recommends the next candidates ranked by expected operator yield. Original targets re-enter the queue when a Q50 output recommends them. Source material for Q50-recursive dig sites lives directly under `DIG_SITES/NNN_Thinker/` (self-contained LLM book projects) rather than as separate `New_N` projects in STAGING.
 
 ---
 
 *Project initiated: 2026-07-06*
 *Proposed by: Nova (2026-07-05)*
 *Named by: Ziggy*
-*Last updated: 2026-07-08 — OP-008/009 admitted, compression_candidates/ quarantine, Arm 1 analysis, architecture tree updated*
+*Last updated: 2026-07-10 — Discovery Architectures (Level 4) recognized as distinct from operators; DISCOVERY_ARCHITECTURES.md created; Recursive Discovery Loop added; hierarchy of abstraction (Levels 0-5) codified; direction axis (Backward↔Forward) added to GRAPH.md*
