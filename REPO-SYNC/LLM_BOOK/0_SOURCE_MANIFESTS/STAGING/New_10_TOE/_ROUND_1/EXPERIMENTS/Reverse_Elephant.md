@@ -71,7 +71,41 @@ For every existing dig site (002-008), ask:
 
 **Depends on:** Sufficient CFA run data + Q31-Q34 confirming that "obstruction" has formal content in this context.
 
+### Experiment 7: Is the Museum a Category? (Nova — Post-Audit)
+**Hypothesis:** The Museum of Cognitive Operators may secretly be a mathematical category, with operators as morphisms (structure-preserving transformations between cognitive states) rather than objects.
+
+**Protocol:**
+1. For each operator in the museum (OP-001 through OP-015+): Is it an object or a transformation?
+2. Identify: What are the objects? (Cognitive states? Representations? Knowledge configurations?)
+3. Identify: What are the morphisms? (Operators themselves?)
+4. Check: Do operators compose associatively? (If A → B → C, is (A→B)→C = A→(B→C)?)
+5. Check: Are there identity morphisms? (An operator that leaves a cognitive state unchanged?)
+6. Check: Are there functors? (Mappings that preserve the entire operator structure from one domain to another?)
+
+**Prediction:** If yes, then Category Theory provides the natural language for EOS — and "structural similarity across domains" becomes a theorem about functorial preservation rather than a hand-wave about analogy.
+
+**If false:** Operators may compose non-associatively, or the "objects" may not have clear identities. In that case, a weaker algebraic structure (groupoid, operad, or something else) may be more appropriate.
+
+### Experiment 8: Theory Space / Discovery Space Duality Test (Nova — Post-Audit)
+**Hypothesis:** Proximity in Theory Space does NOT reliably predict proximity in Discovery Space, and vice versa.
+
+**Protocol:**
+1. Identify 4-6 theories with known discovery architectures
+2. Rate pairwise "distance" in Theory Space (ontological agreement/disagreement)
+3. Rate pairwise "distance" in Discovery Space (shared discovery architecture or not)
+4. Check: Do the two distance metrics correlate, anti-correlate, or decouple?
+
+**Specific predictions:**
+- ISP and Many-Worlds: far in Theory Space (relational vs. universal), close in Discovery Space (both use forward mathematical extension) → supports duality
+- ISP and Process Philosophy: close in Theory Space (both relational), far in Discovery Space (constraint inference vs. speculative metaphysics) → supports duality
+- If distances always correlate: duality hypothesis FAILS (Theory Space = Discovery Space, just viewed differently)
+
+**Note:** Experiment 5 (Is sheaf formalism load-bearing?) is now PARTIALLY RESOLVED:
+- Q31 confirmed the formalism is load-bearing WHEN properly specified (fiber bundles, presheaves, not vanilla sheaf gluing)
+- Q34 provides the formal standard (obstruction certificate) for legitimate claims
+- Remaining: No one has yet COMPUTED an actual obstruction class for consciousness or philosophy
+
 ---
 
-*Status: 6 experiments staged — 2 pre-mining (1-2), 2 Nova-predicted (3-4), 2 from adversarial audit (5-6)*
-*Next: Run Q31-Q38, Experiment 5 determines whether sheaf formalism is promoted or demoted*
+*Status: 8 experiments staged — 2 pre-mining (1-2), 2 Nova-predicted (3-4), 2 adversarial audit (5-6), 2 post-audit synthesis (7-8)*
+*Experiment 5 partially resolved; Experiment 7 ("Is the Museum a category?") is now the most architecturally significant open question*

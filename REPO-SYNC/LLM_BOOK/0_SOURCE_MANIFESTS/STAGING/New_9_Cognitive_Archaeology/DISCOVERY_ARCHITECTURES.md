@@ -37,7 +37,7 @@ An architecture is CONFIRMED when criteria 1-4 hold across 3+ independent dig si
 
 ---
 
-## The Direction Axis
+## The Direction Axis (Original)
 
 Discovery architectures have at least one confirmed dimension:
 
@@ -57,6 +57,37 @@ minimal sufficiency                           playful exploration
 **Prediction:** If Dig Site 003 (Dirac) yields genuinely forward-facing operators, the axis is confirmed as a real dimension of variation. If Dirac's moves reduce to backward-reading in disguise, the axis collapses and backward-reading is more universal than predicted.
 
 **Status of additional axes:** Nova proposes five more dimensions (Constraint↔Generative, Subtractive↔Constructive, Empirical↔Mathematical, Local↔Global, Human-guided↔Automated). These are plausible but untested — we cannot plot a landscape we haven't sampled. Additional axes earn recognition when dig sites populate them with discriminable positions.
+
+---
+
+## The Discovery Simplex (Post-Dig-Site-010)
+
+Dig Site 010 (Curt) revealed that the single direction axis may be a projection of a richer structure. Four discovery architectures answer **orthogonal questions** rather than competing:
+
+```
+           Transformation (Noether)
+               ▲
+               │
+Composition ◄──┼──► Generation (Dirac)
+   (Curt)      │
+               ▼
+          Constraint (Barandes)
+```
+
+| Corner | Primary Question | Characteristic Move |
+|---|---|---|
+| Transformation | What survives change? | Vary representation, observe invariants |
+| Constraint | What minimal architecture reproduces observations? | Read backward from stable outputs |
+| Composition | When is an operation licensed at scale? | Test validity conditions under transfer |
+| Generation | What mathematical structures deserve exploration before evidence? | Deform playfully, filter by beauty |
+
+**Status:** Hypothesized. Two corners confirmed (Constraint = RCI, Composition = Architecture F). Two predicted (Transformation = Noether lens inside RCI; Generation = Dig Site 003 test).
+
+**Key insight from Dig Site 010:** These corners are not mutually exclusive. A single discovery may traverse multiple corners. The simplex describes EMPHASIS, not exclusion.
+
+**Relation Space:** Dig Site 010's deepest finding is that architecture often lives in the TRANSITIONS between nodes (transition functions, gluing data, relational structure) rather than in the nodes themselves. This applies to the simplex: the interesting discoveries may happen at the edges between corners, not at the corners.
+
+**Category Theory hypothesis (EOS-level, not from any single source):** If operators are morphisms (transformations between cognitive states) rather than objects, the Museum may be a category. Category Theory would then provide the natural comparative language for the simplex — explaining why operators extracted from wildly different domains share structure (they're all structure-preserving mappings).
 
 ---
 
@@ -167,6 +198,49 @@ Step 5: The physics was not the input — it's the output
 
 ---
 
+### Architecture F (candidate): Composition Analysis / Operation-Validity Testing
+
+**Status:** CANDIDATE — extracted from Dig Site 010 (Curt Jaimungal, "The Reverse Elephant")
+
+**Operator composition:**
+
+```text
+Domain-of-Validity Testing
+  → Extension Classification (A/B/C/D)
+  → Deflation-Inflation Detection
+  → Obstruction Certificate
+  → Scale Oscillation (test portability)
+```
+
+**The algorithm:**
+
+```text
+Step 1: Identify the operation being assumed (reduction, extension, aggregation, formalization...)
+Step 2: Recover its hidden validity conditions
+Step 3: Vary scale, domain, or substrate
+Step 4: Classify: success (A), transformation (A-nontrivial), multiplicity (C), or obstruction (B)
+Step 5: Refuse ontological conclusions that exceed what the operation licenses
+```
+
+**Instances:**
+
+| Discoverer | Operation tested | What was found |
+|---|---|---|
+| Curt (sheaf obstructions) | Local-to-global extension | Domains where composition is blocked (B) or underdetermined (C) |
+| Arrow | Preference aggregation | Impossibility theorem — pairwise consistency ≠ global ranking |
+| Abramsky-Brandenburger | Marginal-to-joint extension | Quantum contextuality — marginal compatibility ≠ joint distribution |
+| Efron | Transitivity of dominance | Non-transitive dice — pairwise dominance ≠ global ordering |
+
+**Characteristic outputs:** Impossibility theorems, domain boundaries for operations, obstruction certificates, "this operation works HERE but not THERE."
+
+**Failure mode when misapplied:** Premature declaration of obstruction. Finding that composition is hard is not proof that it's impossible — an obstruction certificate requires a computed cohomology class or explicit counterexample, not just difficulty.
+
+**Key distinction from Architecture A (RCI):** RCI reads backward from outputs to infer minimal architecture. Architecture F reads OPERATIONS to find where they break. RCI asks "what structure is forced?" Architecture F asks "when is this operation licensed?"
+
+**Simplex position:** Composition corner. This is the architecture that AUDITS other architectures rather than generating discoveries directly.
+
+---
+
 ## The Two Museums
 
 This project is developing two complementary catalogs:
@@ -232,5 +306,6 @@ We resist the temptation to plot six axes through two points. The axes become re
 ---
 
 *Created: 2026-07-10*
-*Status: 1 confirmed architecture, 4 candidates (1 testable at Dig Site 003, 3 speculative)*
+*Status: 1 confirmed architecture, 5 candidates (1 testable at Dig Site 003, 3 speculative, 1 extracted from Dig Site 010)*
 *Next test: Dig Site 003 (Dirac) — does forward-generative discovery exist as a genuinely distinct architecture?*
+*Discovery Simplex hypothesized — two corners confirmed (Constraint = RCI, Composition = Architecture F), two predicted*

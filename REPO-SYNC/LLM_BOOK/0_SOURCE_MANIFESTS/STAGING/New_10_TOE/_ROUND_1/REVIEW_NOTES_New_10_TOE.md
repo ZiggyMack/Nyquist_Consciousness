@@ -112,8 +112,30 @@ The reports claim "local sections agree on overlaps yet no global section exists
 - Whether the framework admits legitimate reductions (false positive audit)
 - Whether EOS itself avoids becoming a Type D/E TOE
 
+## Q31-Q38 Formal Audit Results
+
+### Verdict: STRENGTHENED
+
+The formal audit did not weaken the dig site — it strengthened it by forcing self-correction.
+
+**Q31 (Sheaf Axiom Audit):** Self-corrected. Now properly specifies fiber bundles, presheaves failing sheaf condition, and marginal compatibility rather than misquoting the gluing axiom. EOS methodology victory — the extraction protocol corrected its own overclaim.
+
+**Q32 (Agreement types):** Mapped five distinct notions of compatibility to specific examples. Arrow = pairwise consistency. Contextuality = marginal compatibility. Consciousness = agreement on overlaps. These are structurally distinct relations that share a categorical architecture.
+
+**Q33 (Transition data):** Identified as **biggest single answer**. "Architecture lives in relational gluing data, not nodes." Unifies Barandes, CFA, ARMADA, EOS.
+
+**Q34 (Obstruction certificate):** Provides the minimum formal standard for claiming Phenomenon B/C. Requires: defined cover, local sections, compatibility conditions, AND computed cohomology class or counterexample to extension.
+
+**Q35 (Valid thickness):** "Thickness has teeth" — moved from unfalsifiable "preserve essence" to testable "preserve operational commitments." Each thick concept now has a decomposable preservation checklist.
+
+**Q36 (False positive audit):** Identifies legitimate reductions (thermodynamics, genetics) and explains why they work: non-thick concepts, combinatorial power sets, Phenomenon A. Framework accommodates genuine scientific success.
+
+**Q37 (Totality without triviality):** Curt is anti-premature-unification, NOT anti-unification. A global theory can be non-destructive if it maps obstructions as permanent features. EOS itself avoids Type D/E by "dealing in arguments, not positions."
+
+**Q38 (Operation composition):** Confirms validity conditions don't trivially compose (Efron's dice = proof). Curt's framework reflexively applies to itself (Phenomenon D) — and he's aware of it.
+
 ---
 
-*Status: ROUND 1 COMPLETE (Q1-Q30 answered) + NOVA AUDIT INTEGRATED*
-*Next: Run Q31-Q38 (Formal Audit), determine if sheaf formalism is load-bearing*
+*Status: ROUND 1 COMPLETE (Q1-Q38 answered) + FORMAL AUDIT CONFIRMED*
+*Next: Update DISCOVERY_ARCHITECTURES.md with Architecture F (Composition Analysis)*
 *Reviewer: Nova*

@@ -40,7 +40,10 @@
 
 | Target | Type | Items Added |
 | ------ | ---- | ----------- |
-| | | *To be populated after Round 1 mining* |
+| New_9 / DISCOVERY_ARCHITECTURES.md | Architecture | Architecture F (Composition Analysis), Discovery Simplex, Relation Space, Category Theory hypothesis |
+| New_10 / INSIGHTS | Synthesis | Post-audit confirmation, Relation Space, Discovery Simplex, "operators are morphisms" |
+| New_10 / CONNECTIONS | Cross-dig-site | #12 "Don't Privilege Nodes" convergence (5 projects), #13 Category Theory as comparative language |
+| New_10 / EXPERIMENTS | Design | #7 "Is the Museum a Category?", #8 Theory Space / Discovery Space Duality Test |
 
 ---
 
@@ -48,9 +51,12 @@
 
 | Target | Type | Recommendation |
 | ------ | ---- | -------------- |
-| | | *To be populated after Round 1 mining* |
+| Museum / FIELD_MANUAL | Operator | Add Domain-of-Validity Testing as candidate operator (OP-016?) |
+| CFA | Experiment | Classify matchup interactions (revelatory/constitutive/transformative/obstructive) |
+| ARMADA | Analysis | Test whether convergence behavior maps to Phenomenon A/B/C |
 
 ---
 
-*Routing evaluation: PENDING — pre-mining template*
-*Status: TEMPLATE — awaiting Round 1 Q&A results*
+*Routing evaluation: COMPLETE — Round 1 (Q1-Q38) + Formal Audit CONFIRMED*
+*Status: ROUND 1 COMPLETE + FORMAL AUDIT CONFIRMED. Dig site produces Architecture F + Discovery Simplex.*
+*Next: Dig Site 003 (Dirac) to test Generation corner of the simplex*
