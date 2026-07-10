@@ -154,6 +154,69 @@ For CFA, this produces a four-way interaction classification:
 
 ---
 
+---
+
+## Nova's Highest-Level Synthesis: Theory Space / Discovery Space Duality
+
+### The Adjacent Layer Insight
+
+Curt's GUI and EOS solve **adjacent problems**, not the same problem:
+- **Curt:** How do I represent/navigate the landscape of all possible Theories of Everything? (Theory Space — navigation)
+- **EOS:** How do I extract, compare, and evolve the cognitive machinery that generates those theories? (Discovery Space — discovery)
+
+### The Stack
+
+```
+Reality
+  ↓
+Discovery Architectures (how discoveries are made) ← EOS lives here
+  ↓
+Operators (reasoning moves) ← Museum lives here
+  ↓
+Theory Construction
+  ↓
+Theory Space (all candidate TOEs) ← Curt's GUI lives here
+  ↓
+Navigation Interface
+```
+
+Curt builds the bottom. EOS builds the top. They're complementary.
+
+### The Radical Reframe: Organize by Discovery Architecture, Not Conclusions
+
+Current philosophy organizes by **conclusions** (materialism, idealism, panpsychism...).
+EOS organizes by **production mechanisms** (forward generation, constraint inference, invariant discovery...).
+
+This is like organizing biology by **developmental programs** instead of by appearance.
+
+### Coordinate 3
+
+Every theory has three coordinate systems:
+1. **Ontology** — What exists?
+2. **Epistemology** — How do we know?
+3. **Discovery Architecture** — How was this found?
+
+Nobody organizes by Coordinate 3. That's what EOS invents.
+
+### The Duality Hypothesis (Testable)
+
+> Does proximity in Theory Space correspond to proximity in Discovery Space?
+
+Two possibilities that would confirm the duality:
+- Theories that fiercely disagree metaphysically but are products of the **same** discovery architecture (e.g., forward mathematical generation) → closer than they appear
+- Theories that superficially agree but emerge from **radically different** epistemic engines → further apart than they appear
+
+If true, combining Curt's GUI with EOS produces a **bidirectional atlas** — navigate from theories to discovery architectures, and from discovery architectures back to the families of theories they naturally generate.
+
+### Why This Matters for EOS
+
+The "Dig Sites" metaphor is deeper than it appears:
+- Archaeology doesn't just catalog artifacts — it reconstructs **civilizations**
+- EOS doesn't reconstruct books — it reconstructs **cognitive civilizations**
+- The GUI becomes not just navigable but **explanatory** when each theory node links to: Discovery Architecture → Operators → Evidence → Hidden Assumptions → Failure Modes → Alternative Routes
+
+---
+
 ## Overall Quality Assessment (Nova)
 
 | Dimension | Rating | Notes |

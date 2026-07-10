@@ -71,7 +71,19 @@ This is the most defensible cross-dig-site principle so far. For CFA, a matchup 
 3. **Transformative** — changes the participants
 4. **Obstructive** — blocks global synthesis despite local coherence
 
-### 10. False Operations vs False Invariants (Nova — Extracted)
+### 10. Theory Space / Discovery Space Duality (Nova — Hypothesized)
+**Level:** Hypothesized (testable research program)
+
+Curt's GUI maps Theory Space (navigation). EOS maps Discovery Space (extraction/evolution). These may be mathematically dual:
+- Proximity in Theory Space ≠ proximity in Discovery Space
+- Theories that fiercely disagree metaphysically may share a discovery architecture
+- Theories that superficially agree may emerge from radically different epistemic engines
+
+**Testable prediction:** If ISP and Many-Worlds are both products of "forward mathematical extension," they're closer in Discovery Space than their ontological disagreement suggests. Conversely, ISP and process philosophy might agree on relational ontology but arrive there via entirely different architectures (constraint inference vs. speculative metaphysics).
+
+**Product:** A bidirectional atlas — navigate from theories to discovery architectures and back. "Coordinate 3" (how was this found?) becomes a first-class organizing principle.
+
+### 11. False Operations vs False Invariants (Nova — Extracted)
 **Level:** Extracted
 
 A **false invariant** (Noether) mistakenly treats something as preserved under transformation.
