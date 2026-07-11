@@ -55,11 +55,17 @@ import re
 import argparse
 import subprocess
 import json
+import csv
+import io
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Set, Tuple
 from collections import defaultdict
+
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 # =============================================================================
 # CONFIGURATION
@@ -312,7 +318,7 @@ def scan_cold_boot_docs(root: Path, subdir: Optional[str] = None) -> List[Path]:
     for pattern in COLD_BOOT_PATTERNS:
         found.extend(search_root.rglob(pattern))
 
-    exclusions = ['.git', '__pycache__', 'node_modules', 'venv', '.venv']
+    exclusions = ['.git', '__pycache__', 'node_modules', 'venv', '.venv', '.archive']
     filtered = [
         f for f in found
         if not any(ex in str(f) for ex in exclusions)
@@ -428,20 +434,27 @@ def generate_checklist(doc_path: Path, reasons: List[str]) -> List[str]:
 # =============================================================================
 
 def extract_markdown_links(file_path: Path) -> List[Tuple[str, str, int]]:
-    """Extract all markdown links from a file. Returns [(text, target, line_num), ...]"""
+    """Extract all markdown links from a file. Returns [(text, target, line_num), ...]
+    Skips links inside fenced code blocks (``` ... ```)."""
     links = []
     try:
         content = file_path.read_text(encoding='utf-8', errors='replace')
         lines = content.split('\n')
 
-        # Pattern for [text](target)
         link_pattern = r'\[([^\]]+)\]\(([^)]+)\)'
+        in_code_fence = False
 
         for line_num, line in enumerate(lines, 1):
+            stripped = line.strip()
+            if stripped.startswith('```'):
+                in_code_fence = not in_code_fence
+                continue
+            if in_code_fence:
+                continue
+
             for match in re.finditer(link_pattern, line):
                 text = match.group(1)
                 target = match.group(2)
-                # Skip external links and anchors
                 if not target.startswith('http') and not target.startswith('#'):
                     links.append((text, target, line_num))
     except:
@@ -470,12 +483,13 @@ def validate_link(source_file: Path, link_target: str) -> Tuple[bool, str]:
 
     return False, f"File not found: {link_target}"
 
-def validate_all_links(root: Path) -> List[LinkValidation]:
-    """Validate all markdown links in the repository."""
+def validate_all_links(root: Path, subdir: Optional[str] = None) -> List[LinkValidation]:
+    """Validate all markdown links in the repository (or a subdirectory if --dir is set)."""
     results = []
-    md_files = list(root.rglob("*.md"))
+    search_root = root / subdir if subdir else root
+    md_files = list(search_root.rglob("*.md"))
 
-    exclusions = ['.git', '__pycache__', 'node_modules', 'venv', '.venv']
+    exclusions = ['.git', '__pycache__', 'node_modules', 'venv', '.venv', '.archive']
     md_files = [f for f in md_files if not any(ex in str(f) for ex in exclusions)]
 
     for md_file in md_files:
@@ -497,12 +511,13 @@ def validate_all_links(root: Path) -> List[LinkValidation]:
 # v2.0: TERM CONSISTENCY
 # =============================================================================
 
-def check_term_consistency(root: Path) -> List[TermConsistency]:
+def check_term_consistency(root: Path, subdir: Optional[str] = None) -> List[TermConsistency]:
     """Check that key terms are used consistently across all docs."""
     results = []
-    md_files = list(root.rglob("*.md"))
+    search_root = root / subdir if subdir else root
+    md_files = list(search_root.rglob("*.md"))
 
-    exclusions = ['.git', '__pycache__', 'node_modules', 'venv', '.venv']
+    exclusions = ['.git', '__pycache__', 'node_modules', 'venv', '.venv', '.archive']
     md_files = [f for f in md_files if not any(ex in str(f) for ex in exclusions)]
 
     for term, expected_values in KEY_TERMS.items():
@@ -1008,6 +1023,10 @@ def main():
         "--session-health", "-s", action="store_true",
         help="Check Claude session JSONL file health"
     )
+    parser.add_argument(
+        "--format", "-f", choices=["text", "json", "csv"], default="text",
+        help="Output format: text (default), json, or csv"
+    )
 
     args = parser.parse_args()
 
@@ -1016,15 +1035,28 @@ def main():
 
     # Handle specific modes
     if args.validate_links:
-        print("Validating all markdown links...")
-        results = validate_all_links(REPO_ROOT)
-        print_link_validation_report(results)
+        scope = f" (scoped to {args.dir})" if args.dir else ""
+        print(f"Validating all markdown links{scope}...")
+        results = validate_all_links(REPO_ROOT, args.dir)
+        if args.format == "json":
+            print(json.dumps([{"source": str(r.source_file.relative_to(REPO_ROOT)), "line": r.line_number, "target": r.link_target, "valid": r.valid, "error": r.error} for r in results], indent=2))
+        elif args.format == "csv":
+            writer = csv.writer(sys.stdout)
+            writer.writerow(["source", "line", "target", "valid", "error"])
+            for r in results:
+                writer.writerow([str(r.source_file.relative_to(REPO_ROOT)), r.line_number, r.link_target, r.valid, r.error])
+        else:
+            print_link_validation_report(results)
         return
 
     if args.check_consistency:
-        print("Checking term consistency...")
-        results = check_term_consistency(REPO_ROOT)
-        print_consistency_report(results)
+        scope = f" (scoped to {args.dir})" if args.dir else ""
+        print(f"Checking term consistency{scope}...")
+        results = check_term_consistency(REPO_ROOT, args.dir)
+        if args.format == "json":
+            print(json.dumps([{"term": r.term, "expected": r.expected, "consistent": r.consistent, "found": {v: [str(p.relative_to(REPO_ROOT)) + f":{ln}" for p, ln in locs] for v, locs in r.found.items()}} for r in results], indent=2))
+        else:
+            print_consistency_report(results)
         return
 
     if args.plan_registry:
@@ -1044,11 +1076,20 @@ def main():
         commits = get_recent_commits(args.commits)
         docs = scan_cold_boot_docs(REPO_ROOT, args.dir)
         flagged = [check_file_staleness(doc, commits) for doc in docs]
-        links = validate_all_links(REPO_ROOT)
-        terms = check_term_consistency(REPO_ROOT)
+        links = validate_all_links(REPO_ROOT, args.dir)
+        terms = check_term_consistency(REPO_ROOT, args.dir)
         plans = scan_plan_files()
         sessions = check_session_health()
-        print_audit_report(flagged, links, terms, plans, sessions, commits)
+        if args.format == "json":
+            print(json.dumps({
+                "docs_flagged": len([f for f in flagged if f.priority in ['HIGH', 'MEDIUM']]),
+                "broken_links": len([l for l in links if not l.valid]),
+                "inconsistent_terms": len([t for t in terms if not t.consistent]),
+                "plans_in_progress": len([p for p in plans if p.status == 'IN PROGRESS']),
+                "crashed_sessions": len([s for s in sessions if s.status == 'CRASHED']),
+            }, indent=2))
+        else:
+            print_audit_report(flagged, links, terms, plans, sessions, commits)
         return
 
     # Default mode: staleness check

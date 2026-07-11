@@ -18,9 +18,16 @@ keywords:
 
 **Purpose:** Task routing table based on behavioral quirks discovered through identity stability experiments.
 
-**Last Updated:** July 9, 2026
-**Source:** Run 018 (IRON CLAD), Run 020A/B Tribunal experiments, Phase 0B Extractor Calibration (2026-07-08)
 **Core Finding:** Different architectures have distinct "identity fingerprints" — consistent behavioral signatures under perturbation.
+
+### Review Dates (this file serves two purposes — track them separately)
+
+| Section | Last Reviewed | Scope |
+|---------|--------------|-------|
+| **Operational routing** (fleet status, task routing, extractor tiers, costs) | 2026-07-09 | Endpoints, pricing, availability — changes when fleet changes |
+| **Scientific profiles** (behavioral profiles, drift dynamics, fingerprints) | 2026-07-09 | Evidence-backed identity signatures — changes when new IRON CLAD data arrives |
+
+**Source:** Run 018 (IRON CLAD), Run 020A/B Tribunal experiments, Phase 0B/0C Extractor Calibration (2026-07-08/10)
 
 ---
 
@@ -153,6 +160,12 @@ drift patterns remain accurate. See `S7_ARMADA/0_docs/debug/ATTRIBUTION_ERRATA.m
 | **Strong opinion needed** | Grok | Llama | Mistral † |
 
 ---
+
+---
+
+## Part 2: Scientific Behavioral Profiles
+
+> **Scope:** Evidence-backed identity signatures from IRON CLAD experiments. These profiles describe model *family* behavior under identity perturbation — they are scientific findings, not operational recommendations. Updated when new IRON CLAD calibration data arrives.
 
 ## Behavioral Profiles by Provider
 

@@ -9,6 +9,97 @@ keywords:
 -->
 # Consciousness Research Framework
 
+> **Live status lives elsewhere:** `docs/MISSION_CONTROL.md` tells us what is currently happening.
+> This directory is different. `Consciousness/` is the distilled after-effect: what remains after experiments, collaborators, sync loops, failures, reviews, and discoveries have been metabolized into meaning.
+
+## What This Directory Is For
+
+`Consciousness/` is not the operations dashboard, the raw data store, or the publication package.
+
+It is the **distillation layer**.
+
+The rest of the repo measures, argues, validates, packages, and routes. This directory receives the residue of all that work after it has passed through enough pressure to become useful as understanding:
+
+- experimental results that have become concepts
+- arguments that have become principles
+- cross-agent exchanges that have become reusable patterns
+- failures that have become safeguards
+- metaphors that have survived contact with data
+- data that has earned interpretation
+
+The dashboard explains what the experimental data says. `Consciousness/` preserves what the combined system learned from it.
+
+## The Nectar Layer
+
+The working analogy is biological and cognitive:
+
+```text
+Experiments produce signal.
+Sync loops circulate it.
+LEFT formalizes what can be named, sequenced, checked, and claimed.
+RIGHT perceives the larger shape, metaphor, resonance, and implication.
+BRIDGE lets them speak.
+Consciousness keeps the nectar.
+```
+
+This directory should feel like the place where the repo's many layers stop being separate tools and start becoming a memory.
+
+That means not every file here has to be live, executable, or perfectly current. Some files are fossils. Some are seeds. Some are crystallized concepts. The important question is not "does this run?" but:
+
+> Did this earn a place in the library of what the project now understands?
+
+## Operating Principle
+
+Nothing enters `Consciousness/` merely because it is interesting.
+
+It belongs here when it has been transformed by at least one of these processes:
+
+- measured by ARMADA or CFA
+- cross-checked by another model or repo
+- distilled from LLM Book or NotebookLM work
+- promoted from a sync exchange into a reusable concept
+- converted from a failure into a guardrail
+- turned from a metaphor into a testable or explanatory structure
+
+Raw insight can visit. Distilled insight stays.
+
+## Hemisphere Model
+
+The LEFT/RIGHT split is a working cognitive analogy, not a pop-psychology slogan.
+
+In this library:
+
+| Region | Role | Output |
+|--------|------|--------|
+| `LEFT/` | Formalization hemisphere | definitions, claims, evidence, method, caveats |
+| `RIGHT/` | Gestalt hemisphere | metaphors, pattern maps, synthesis, implications |
+| `BRIDGE/` | Corpus callosum | translation, reconciliation, promotion, routing |
+
+The practical rule:
+
+```text
+RIGHT perceives the shape.
+LEFT names, sequences, and verifies the shape.
+BRIDGE keeps the two from becoming separate minds.
+```
+
+So a durable concept should eventually have both forms:
+
+- a LEFT card that says what can be asserted, measured, sourced, and checked
+- a RIGHT card that says what the result means, what pattern survived, and why it matters
+
+## Protected Pipelines
+
+Some directories inside `Consciousness/` are not just notes; they are active interfaces to external repo processes.
+
+The most important protected surface right now is:
+
+```text
+Consciousness/RIGHT/distillations/llm_book/
+```
+
+That directory is the curated promoted-library endpoint for the LLM Book / NotebookLM pipeline. Do not bulk move, rename, flatten, or reorganize it during Consciousness cleanup. Treat it as a promoted content vault: add to it only through its documented workflow, and preserve its internal structure unless the upstream pipeline is updated at the same time.
+
 **A brain with two hemispheres — organized like the mind itself.**
 
 ---

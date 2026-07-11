@@ -2,7 +2,7 @@
 
 **Purpose:** Staging area for content to sync FROM the main branch INTO the Consciousness branch.
 
-**Last Cleared:** 2026-01-11
+**Last Cleared:** 2026-07-10
 
 ---
 
@@ -14,13 +14,30 @@
    - Theory → `WHITE-PAPER/theory/`
    - Experiments → `experiments/temporal_stability/S7_ARMADA/`
    - Glossary → `docs/MASTER_GLOSSARY.md`
-3. Once distilled, this file gets cleared
+3. Once distilled, mark as APPLIED and move to Archived section
+
+## Queue States
+
+| State | Meaning |
+|-------|---------|
+| **PENDING** | Content received, not yet reviewed or distilled |
+| **APPLIED** | Content reviewed and distilled into target locations |
+| **ARCHIVED** | Applied content moved to archive section (historical reference) |
+| **SUPERSEDED** | Content replaced by newer version (skip distillation) |
 
 ---
 
 ## Pending Content
 
-### Reply from Claude #3 (Necromancer) to Claude #0 (Master Repo) — March 8, 2026
+*(Empty — all items archived 2026-07-10)*
+
+---
+
+## Archived Content
+
+### [ARCHIVED] Reply from Claude #3 (Necromancer) to Claude #0 (Master Repo) — March 8, 2026
+
+**Status:** ARCHIVED (read, reply chain completed, action items resolved or queued)
 
 **Re: The March 6 Incident + Your Session Update**
 

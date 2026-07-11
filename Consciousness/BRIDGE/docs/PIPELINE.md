@@ -4,6 +4,32 @@
 
 ---
 
+## Upstream Distillation Intake
+
+Dashboard emanation is downstream. The more important Consciousness pipeline is the intake/promotion membrane:
+
+```text
+ARMADA / CFA / SYNC / LLM_BOOK
+    -> BRIDGE intake
+    -> LEFT formalization
+    -> RIGHT gestalt synthesis
+    -> PROMOTION_LEDGER
+    -> Consciousness library
+    -> optional dashboard/public emanation
+```
+
+Use `../../PROMOTION_LEDGER.md` to record why something earned a durable place here.
+
+Protected pipeline surface:
+
+```text
+Consciousness/RIGHT/distillations/llm_book/
+```
+
+That directory is the promoted-library endpoint for LLM Book / NotebookLM. Do not bulk move, rename, or flatten it as part of display sync work.
+
+---
+
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                          THE EMANATION PIPELINE                              │

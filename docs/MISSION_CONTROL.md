@@ -199,22 +199,22 @@ B           10      11       10      10      --       41
 | 3 Validation Status | 2025-12-30 | Stale |
 | 4 Nyquist Roadmap | 2026-06-29 | Recent |
 | 5 Stackup | 2026-01-12 | Aging |
-| 6 LLM Behavioral Matrix | **2026-07-09** | Current |
+| 6 LLM Behavioral Matrix | **2026-07-10** | Current |
 | 7 Publication | 2025-12-30 | Stale |
 | 8 Temporal Stability | 2025-12-30 | Stale |
 | 9 Data Quality | 2025-12-30 | Stale |
-| 10 Testing | 2025-12-30 | Stale |
+| 10 Testing | **2026-07-10** | Current |
 | 11 Visual | 2025-12-30 | Stale |
 | 12 Philosophy | 2025-12-31 | Stale |
-| 13 Identity Lattice | 2025-12-30 | Stale |
+| 13 Identity Lattice | **2026-07-10** | Current |
 | 14 Repo Sync | 2025-12-30 | Stale |
 | 15 S7 Meta Loop | 2025-12-30 | Stale |
 | 16 Repo | 2025-12-30 | Stale |
-| 17 Persona Fleet Matrix | **2026-07-09** | Current |
+| 17 Persona Fleet Matrix | **2026-07-10** | Current |
 | 18 Infinity Completeness | 2026-06-29 | Recent |
 | 19 Cognitive Archaeology | **2026-07-09** | Current |
 
-**Current:** 4 maps | **Recent:** 2 maps | **Stale (6+ months):** 13 maps
+**Current:** 7 maps | **Recent:** 2 maps | **Stale (6+ months):** 10 maps
 
 ---
 
@@ -251,6 +251,24 @@ Buddhism has 41 subject runs (b_vs_ct: 10, b_vs_mdn: 11, b_vs_pt: 10, b_vs_g: 10
 > **Priority: LOW** | **Batch task**
 
 Most maps haven't been updated since December 2025. The active research areas (CFA, CA, Fleet) are current. Foundation maps (Stackup, Philosophy, Identity Lattice) likely still accurate but unreviewed. Validation Status and Testable Predictions are the most likely to have drifted.
+
+---
+
+## Drift Detection Pairs
+
+Known sources of cross-document drift. When updating one source, check its pair for consistency.
+
+| Source A (authority) | Source B (derivative) | What drifts | How to check |
+|---------------------|----------------------|-------------|--------------|
+| `MISSION_CONTROL.md` (this file) | `docs/maps/*.md` | Operator counts, phase status, run counts | Compare map claims against this dashboard |
+| `CURRENT_VERSION.json` | `packages/README.md` | Current package version | README must say same version as JSON `current_version` |
+| `ARCHITECTURE_MATRIX.json` | `docs/maps/1_ARMADA_MAP.md`, `docs/maps/17_PERSONA_FLEET_MATRIX.md` | Ship counts, operational status | JSON is authority; maps summarize |
+| `CLAIM_EVIDENCE_LEDGER.md` | Publication papers, README, maps | Statistics (EH, p-values, counts) | Every public number must cite a ledger row |
+| `MUSEUM/INDEX.md` | `docs/maps/19_COGNITIVE_ARCHAEOLOGY_MAP.md` | Operator count, confidence levels, families | INDEX decides; Map 19 summarizes |
+| `SYNC_IN/` + `SYNC_OUT/` queue files | Applied changes in repo | Pending vs. applied status | Check queue states: PENDING items should eventually become APPLIED or SUPERSEDED |
+| `dashboard/pages/mission_control.py` | `MISSION_CONTROL.md` | Stat tiles, phase status | Dashboard hardcodes values; update when this file changes |
+
+> **Rule:** When Frosty or a human catches a drift pair disagreement, the authority file (Source A) wins. Fix Source B to match.
 
 ---
 

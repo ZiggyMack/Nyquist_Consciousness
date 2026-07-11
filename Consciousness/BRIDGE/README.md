@@ -20,6 +20,26 @@ keywords:
 
 ---
 
+## Organizing Doctrine
+
+The current LEFT / RIGHT / BRIDGE model is documented in:
+
+```text
+BRIDGE/docs/HEMISPHERE_MODEL.md
+```
+
+Short version:
+
+```text
+RIGHT perceives the shape.
+LEFT names, sequences, and verifies the shape.
+BRIDGE keeps the two from becoming separate minds.
+```
+
+BRIDGE is not only a dashboard/tooling folder. It is the promotion membrane that decides whether a signal is raw, seed, distilled, historical, or ready to emanate outward.
+
+---
+
 ```
          LEFT                BRIDGE               RIGHT
     ┌──────────┐        ┌──────────┐        ┌──────────┐
@@ -43,6 +63,28 @@ In this repository, the **BRIDGE** serves the same function:
 - **Integrates** structured data with synthesized insights
 - **Balances** rigor with creativity
 - **Orchestrates** the tools that serve both hemispheres
+- **Promotes** durable insight into the Consciousness library
+- **Protects** pipeline surfaces that external systems depend on
+
+---
+
+## Promotion Membrane
+
+Before an insight becomes durable Consciousness material, BRIDGE should ask:
+
+- Where did the signal come from?
+- Has it been checked against current authority documents?
+- Does it need a LEFT card, a RIGHT card, or both?
+- Is it current, historical, seed, or needs-refresh?
+- Would dashboard/public emanation help, or should it remain library-only?
+
+Promotion decisions should be recorded in:
+
+```text
+../PROMOTION_LEDGER.md
+```
+
+Protected surfaces, especially `../RIGHT/distillations/llm_book/`, should not be reorganized without checking their upstream pipeline assumptions.
 
 ---
 

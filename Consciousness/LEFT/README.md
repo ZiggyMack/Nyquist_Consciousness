@@ -19,6 +19,30 @@ keywords:
 
 ---
 
+## Neuroscience-Aligned Role
+
+LEFT is the **formalization hemisphere**.
+
+It does not own all truth, all math, or all evidence. Its job is to turn signal into explicit, checkable structure:
+
+- names
+- definitions
+- ordered claims
+- metric domains
+- evidence anchors
+- caveats
+- contradiction notes
+
+Practical rule:
+
+```text
+LEFT names, sequences, and verifies the shape.
+```
+
+See `../BRIDGE/docs/HEMISPHERE_MODEL.md` for the full LEFT / RIGHT / BRIDGE doctrine.
+
+---
+
 ```
     ╔═══════════════════════════════════════╗
     ║                                       ║
@@ -54,6 +78,23 @@ When processing consciousness research through the LEFT hemisphere:
 3. **Categorize** - Organize into taxonomies
 4. **Prove** - Hypothesis testing, p-values, effect sizes
 5. **Document** - Tables, structured markdown, citations
+
+---
+
+## LEFT Acceptance Criteria
+
+A durable LEFT file should make it easy for another agent to check the claim without guessing.
+
+Before a concept is treated as current, include:
+
+- the exact claim being made
+- source signal: run ID, sync file, map, paper, or pipeline batch
+- metric domain: `cosine-current`, `legacy-rms`, `mixed`, or `non-metric`
+- current vs historical status
+- caveat or boundary condition
+- link to the paired RIGHT file when it exists
+
+If those pieces are missing, mark the concept as `seed` or `needs-refresh`.
 
 ---
 

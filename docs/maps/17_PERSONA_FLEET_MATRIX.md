@@ -52,6 +52,30 @@ keywords:
 
 ---
 
+## Ship Calibration States
+
+Each ship in the alignment scores table falls into one of four calibration states:
+
+| State | Symbol | Meaning | Action |
+|-------|--------|---------|--------|
+| **ACTIVE_CALIBRATED** | | Operational ship with alignment scores from `compare_persona_to_fleet.py` | Use for pairing decisions |
+| **ACTIVE_UNCALIBRATED** | ◇ | Operational ship, no alignment scores yet | Run calibration before pairing |
+| **LEGACY_GHOST** | † | Moved to dedicated-only endpoint (Together.ai purge 2026-07-08) | Scores valid for model family research; do not route new work |
+| **SUNK** | ✗ | Permanently unavailable | Historical reference only |
+
+**Current fleet by state:**
+
+| State | Count | Examples |
+|-------|-------|---------|
+| ACTIVE_CALIBRATED | 40 | Claude family, GPT family, Gemini, Grok, Llama 3.3 |
+| ACTIVE_UNCALIBRATED | 13 | DeepSeek V4 Pro, Gemma 4 31B, Cogito 671B, MiniMax M3, GPT-OSS 20B/120B |
+| LEGACY_GHOST | 14 | kimi-k2-thinking †, mixtral-8x7b †, qwen3-coder †, qwen3-80b † |
+| SUNK | 1 | nemotron-nano-9b |
+
+> **Calibration script:** `compare_persona_to_fleet.py` requires fleet baselines from `S7_baseline_LATEST.json`. New ships need a baseline run before alignment scores can be generated.
+
+---
+
 ## Quick Reference
 
 | Persona | Best Aligned Ships | Friction Ships | Notes |

@@ -20,6 +20,30 @@ keywords:
 
 ---
 
+## Neuroscience-Aligned Role
+
+RIGHT is the **gestalt hemisphere**.
+
+It does not mean "unsupported imagination." Its job is to perceive the larger shape that formal claims alone do not preserve:
+
+- metaphor
+- resonance
+- spatial pattern
+- cross-concept synthesis
+- implication
+- emotional/prosodic tone
+- questions that point to the next structure
+
+Practical rule:
+
+```text
+RIGHT perceives the shape.
+```
+
+See `../BRIDGE/docs/HEMISPHERE_MODEL.md` for the full LEFT / RIGHT / BRIDGE doctrine.
+
+---
+
 ```
     ╭───────────────────────────────────────╮
     │                                       │
@@ -55,6 +79,31 @@ When processing consciousness research through the RIGHT hemisphere:
 3. **Visualize** - What's the shape of this idea?
 4. **Synthesize** - What emerges from the whole?
 5. **Express** - ASCII art, metaphors, gestalts
+
+---
+
+## RIGHT Acceptance Criteria
+
+A durable RIGHT file should clarify the pattern without inflating the claim.
+
+Before a synthesis is treated as distilled, include:
+
+- the core metaphor or image
+- what the metaphor explains
+- what the metaphor does not prove
+- source signal or paired LEFT anchor
+- current vs historical status
+- implication for future work
+
+If a RIGHT insight has no evidence anchor yet, keep it, but label it as `seed` or `speculative`.
+
+---
+
+## Protected Library: LLM Book
+
+`distillations/llm_book/` is a protected promoted-library endpoint for the LLM Book / NotebookLM pipeline.
+
+Do not bulk move, rename, flatten, or reorganize that directory during general Consciousness cleanup. Add to it only through the documented promotion workflow, or update the upstream pipeline at the same time.
 
 ---
 

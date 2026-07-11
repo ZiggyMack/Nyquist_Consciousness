@@ -1,29 +1,36 @@
 # Reviewer Packages
 
 **Last Updated:** December 30, 2025
-**Status:** v4 packages ready with Run 020B IRON CLAD complete (248 sessions, 37 ships)
-**Version Source:** `CURRENT_VERSION.json`
+**Status:** v5 packages ready — Opus 4.5 8-pipeline review complete, ALL PIPELINES PUBLICATION READY
+**Version Source:** `CURRENT_VERSION.json` (sole authority for current version)
 
 ---
 
 ## Package Versions
 
-### v4/ (Current - December 29, 2025)
+### v5/ (Current - December 30, 2025)
+
+**Opus 4.5 8-Pipeline Review — All Publication Paths Ready**
+
+Updates from v4:
+- Fixed arXiv contradictory inherent drift (38% table removed → ~93% only)
+- Fixed arXiv Section 6 evidence chain legacy values (43 PCs→2, d=0.98→0.698, p~4.8e-5→2.40e-23, τₛ 6.1→7)
+- Fixed Workshop D=1.23 → D=0.80 (3 locations)
+- Updated 7 LLM Book files with 750/25/5 counts
+- All 8 publication pipelines verified: arXiv, Workshop, Journal, Popular Science, Education, Policy, Funding, Media
+
+**Use this version for all current work.**
+
+### v4/ (December 29, 2025)
 
 **Run 020B IRON CLAD Complete + Shared Content Architecture**
 
-Major updates:
+Key features:
 - **`.shared/` directory** — Deduplicated content across all 8 publication paths
-- **PACKAGE_INDEX.json** — Maps shared content to paths
 - **16 visualization PDFs** — Full IRON CLAD audit complete
 - **Run 020B Complete:** 248 sessions, 37 IRON CLAD ships, ~93% inherent drift
 
-Key features:
-- Shared content architecture eliminates duplication (~60% size reduction)
-- Reviewers work in `{path}/submissions/` directories (flat structure)
-- Extract to final submission via `3_generate_pdfs.py --from-review`
-
-**Use this version for all current work.**
+**Superseded by v5. Preserved for reference.**
 
 ### v3/ (December 26, 2025)
 
@@ -35,7 +42,7 @@ Historical snapshot with:
 - **Event Horizon = 0.80** (Cosine, calibrated)
 - **750 experiments, 25 models, 5 providers**
 
-**Superseded by v4. Preserved for reference.**
+**Superseded by v5. Preserved for reference.**
 
 ### v2/ (Historical - December 24, 2025)
 
@@ -59,8 +66,9 @@ packages/
 ├── CURRENT_VERSION.json   # Source of truth for current version
 ├── v1/                    # Historical (archived)
 ├── v2/                    # Historical (superseded)
-├── v3/                    # Historical (superseded by v4)
-├── v4/                    # ★ CURRENT
+├── v3/                    # Historical (superseded)
+├── v4/                    # Historical (superseded by v5)
+├── v5/                    # ★ CURRENT
 │   ├── START_HERE.md      # Reviewer entry point
 │   ├── REVIEWER_BRIEF.md  # Full orientation
 │   ├── PACKAGE_INDEX.json # Shared content mapping
@@ -131,7 +139,7 @@ v4/visualization_pdfs/README.md  <- 16 PDF summaries
 
 ---
 
-## Key Metrics (v4)
+## Key Metrics (v5)
 
 | Metric | Value | Source |
 | ------ | ----- | ------ |
@@ -191,7 +199,7 @@ py 2_package_review.py --submission-pdfs
 
 ---
 
-## Package Architecture (v4)
+## Package Architecture (v5)
 
 v4 uses a **shared content architecture** to eliminate duplication:
 
