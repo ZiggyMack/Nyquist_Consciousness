@@ -9,6 +9,9 @@ keywords:
 -->
 # LLM_BOOK: NotebookLM Validation Hub
 
+> **Canonical current status:** [`docs/MISSION_CONTROL.md`](../../docs/MISSION_CONTROL.md) — read this for live project state.
+> This file is for **LLM Book pipeline** only — NotebookLM ingestion, staging, deep digs.
+
 **What This Is:** Outputs from feeding our research to Google's NotebookLM
 
 **The Miracle:** From ~24 stale files, NotebookLM independently:

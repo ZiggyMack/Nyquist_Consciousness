@@ -22,6 +22,9 @@ keywords:
 
 # START HERE: Nyquist Consciousness Publication Package
 
+> **Canonical current status:** [`docs/MISSION_CONTROL.md`](../docs/MISSION_CONTROL.md) — read this for live project state.
+> This file is for **publication workflow** only — reviewer orientation, package structure, PDF generation.
+
 **Version:** 5.1
 **Date:** 2025-12-30
 **Updated By:** Claude Opus 4.5

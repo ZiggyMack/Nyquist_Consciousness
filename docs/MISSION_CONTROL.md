@@ -7,6 +7,23 @@
 
 ---
 
+## Authority Ladder
+
+| Domain | Authority File | Role |
+|--------|---------------|------|
+| Current project state | `docs/MISSION_CONTROL.md` (this file) | Live dashboard — read first |
+| Map navigation | `docs/maps/0_MAP_OF_MAPS.md` | Index of all 19 maps |
+| Fleet state | `ARCHITECTURE_MATRIX.json` + `docs/maps/1_ARMADA_MAP.md` | Ship inventory + operational status |
+| Model routing | `docs/maps/6_LLM_BEHAVIORAL_MATRIX.md` | Task→model recommendations |
+| Persona routing | `docs/maps/17_PERSONA_FLEET_MATRIX.md` | Ship→persona pairing |
+| Cognitive Archaeology | `docs/maps/19_COGNITIVE_ARCHAEOLOGY_MAP.md` | CA program navigation |
+| Operator truth | `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/MUSEUM/INDEX.md` | Operator registry (maps summarize, INDEX decides) |
+| Publication package | `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json` | Current package version |
+
+> **Rule:** Maps summarize; ledgers and manifests decide. If a map disagrees with its authority file, the authority file wins.
+
+---
+
 ## Active Workstreams (Priority Order)
 
 | #  | Stream                              | Status                                              | Next Step                                                              |
@@ -48,12 +65,15 @@ Phase 0C still gates everything. The theoretical arm builds the MAP; only the em
 
 | Status | Files | Notes |
 |--------|-------|-------|
-| **sent/** | 3 | Bootstrap architecture, research connection, tiered bootstrap |
+| **processed/** | 7 | 3 bootstrap docs + 4 Phase 0C/New_10 reply chain (2026-07-10) |
 | **drafts/** | 2 | Coupling probe analysis (draft + copy) |
+
+**Convention:** Incoming CFA messages land in `SYNC_IN/` root. Move to `processed/` after reading and acting.
 
 **Recent CFA briefings delivered:**
 - `BRIEFING_20260709_ARMADA_STATUS.md` -- Fleet overhaul, Phase 0 results, data map
 - `GNOSTIC_METRIC_EXTRACTION_20260709.md` -- Per-metric Trinity scores for GNOSTICISM.yaml
+- `CFA_CLAUDE_REPLY_PHASE0C_OBS_20260710.md` -- Scout→Gate→Adjudicate routing, Protocol-Dependent vs Voluntary property, CT-vs-G pilot timing
 
 ---
 

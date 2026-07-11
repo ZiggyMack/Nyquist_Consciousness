@@ -16,6 +16,9 @@ keywords:
 
 # S7 ARMADA - Operations Guide
 
+> **Canonical current status:** [`docs/MISSION_CONTROL.md`](../../../docs/MISSION_CONTROL.md) — read this for live project state.
+> This file is for **ARMADA experiment operations** only — scripts, fleet, run design.
+
 **Purpose:** Cross-architecture identity stability testing via the Eight Search Types.
 
 **Core Question:** How do AI models maintain identity coherence under perturbation?

@@ -142,6 +142,21 @@ To qualify as an operator, a recovered pattern MUST satisfy ALL of the following
 | **Survives translation** | Can you express it in different terminology without losing the core move? | If renaming breaks it, it's terminology, not structure |
 | **Transforms epistemic state** | After applying it, does something change about what you know, believe, or investigate? | If applying it leaves your epistemic position unchanged, it's not doing cognitive work |
 
+### Operator Metadata: Protocol-Dependent vs. Voluntary
+
+When operators are extracted from structured formats (e.g., CFA Trinity deliberations), distinguish:
+
+| Property | Definition | Example | Interpretation |
+|----------|-----------|---------|----------------|
+| **Voluntary** | Operator requires deliberate cognitive initiative regardless of format | OP-004 (Reconstruction Before Judgment) — evaluator must choose to reconstruct | "This thinker spontaneously deploys this move" |
+| **Protocol-Dependent** | Operator appearance is partly explainable by format constraints | OP-008 (Symmetry Testing) in CFA with --reverse stance | "This format induces this move" |
+
+Voluntary operators are stronger evidence of genuine cognitive architecture. Protocol-dependent operators are still real, but they need different interpretation: "this protocol induces this reasoning move" rather than "this thinker spontaneously deploys this move."
+
+Museum entries should record this property when source format could plausibly induce the operator. See Experiment 11 (OP-008 protocol-induction test) for the formal test design.
+
+**Source:** CFA Claude (2026-07-10)
+
 ### The Taxonomy: Operators vs Heuristics vs Rhetorical Techniques
 
 These three categories are often confused. Only the first belongs in the Museum.

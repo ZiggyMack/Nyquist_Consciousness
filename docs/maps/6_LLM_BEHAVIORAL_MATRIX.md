@@ -121,7 +121,13 @@ drift patterns remain accurate. See `S7_ARMADA/0_docs/debug/ATTRIBUTION_ERRATA.m
 | Gemini 2.5 Pro | FAIL (3) | Surprising — native model fails gate |
 | Nemotron Ultra | FAIL (1) | Marginal fail, 1 on shopping list |
 
-**Dig site extraction protocol:** Run Tier 1 quad (Gemma4 + DeepSeek + Claude + Cogito). Require 3/4 agreement for operator admission. Use Grok as Tier 2 tiebreaker if needed.
+**Dig site extraction protocol — Scout → Gate → Adjudicate:**
+
+- **Scout** (high recall): Claude (Sonnet 4-6) — finds the most candidates (11 operators), 91% match. Use for exploratory passes where catching everything matters, then filter.
+- **Gate** (high precision): Gemma4 31B — under-fires, not over-fires. Won't name an operator it can't justify. Use for museum admission where false positives cost more than false negatives.
+- **Adjudicate** (tiebreaker): Grok (Tier 2) — resolves conflicts between scout and gate.
+
+**Full protocol:** Run Tier 1 quad (Gemma4 + DeepSeek + Claude + Cogito). Require 3/4 agreement for operator admission. Grok as Tier 2 tiebreaker if needed.
 
 ### Legacy Fleet Routing (White Paper Era, Dec 2025)
 

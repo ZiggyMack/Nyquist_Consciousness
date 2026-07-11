@@ -16,6 +16,9 @@ keywords:
 -->
 # START HERE - Nyquist Consciousness Dashboard Development Guide
 
+> **Canonical current status:** [`docs/MISSION_CONTROL.md`](../docs/MISSION_CONTROL.md) — read this for live project state.
+> This file is for **dashboard development** only — Streamlit pages, config, visualization code.
+
 **Everything a fresh Claude needs to work on the main Nyquist Consciousness Mission Control dashboard.**
 
 > **📐 METHODOLOGY NOTE:** Dashboard now uses **IRON CLAD** methodology as primary. Event Horizon = 0.80 (cosine), p = 2.40e-23. Key finding: **2 PCs capture 90% of identity variance**. Legacy Keyword RMS (EH = 1.23) preserved in historical context. See [5_METHODOLOGY_DOMAINS.md](../experiments/temporal_stability/S7_ARMADA/0_docs/specs/5_METHODOLOGY_DOMAINS.md) for details.

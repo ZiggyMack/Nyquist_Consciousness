@@ -131,6 +131,7 @@ def priority_badge(level):
         "HIGH": ("#dc2626", "#fef2f2"),
         "MEDIUM": ("#d97706", "#fffbeb"),
         "LOW": ("#6b7280", "#f9fafb"),
+        "DONE": ("#22c55e", "#f0fdf4"),
     }
     bg, _ = colors.get(level, ("#6b7280", "#f9fafb"))
     return f'<span style="background:{bg}; color:white; padding:2px 10px; border-radius:4px; font-size:0.8em; font-weight:bold;">{level}</span>'
@@ -164,14 +165,14 @@ def render():
             st.caption("New_10 Dig Site 010 · Q31–Q38 formal audit · CONFIRMED")
 
         with st.container(border=True):
-            st.markdown("⚠️ **Phase 0C still gates empirical validation**")
+            st.markdown("✅ **Phase 0C COMPLETE — empirical arm unblocked**")
             st.markdown(
-                "The theoretical arm ran ahead — Architecture F extracted, simplex hypothesized, "
-                "5-project convergence confirmed. But the extraction pipeline's positive control hasn't run. "
-                "Without 0C, every operator extraction has an asterisk. The theoretical arm builds the MAP; "
-                "only the empirical arm CONFIRMS what's real."
+                "All 4 Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B) "
+                "passed the positive control on Framework-G v2.1 (66K chars). "
+                "91–100% match with Phase 0A ground truth. Calibration triangle closed: "
+                "pipeline detects (0C), doesn't hallucinate (0B), extractors agree (0A)."
             )
-            st.caption("Phase 0 · Blocker: known-rich transcript selection")
+            st.caption("Phase 0C · 2026-07-10 · Gemma4 31B star performer")
 
     with cook_col2:
         with st.container(border=True):
@@ -242,21 +243,20 @@ def render():
     sync = get_sync_status()
 
     # Count by priority
-    st.markdown("**1 high · 2 medium · 3 low**")
+    st.markdown("**0 high · 2 medium · 3 low**")
 
-    # HIGH priority items (full width)
+    # Phase 0C resolved (full width)
     with st.container(border=True):
-        st.markdown(f'{priority_badge("HIGH")} &nbsp; **CA Phase 0C — positive control transcript needed**',
+        st.markdown(f'{priority_badge("DONE")} &nbsp; **CA Phase 0C — COMPLETE (2026-07-10)**',
                     unsafe_allow_html=True)
         st.markdown(
-            "Repo Claude needs a **known-rich CFA deliberation transcript** (Framework-G preferred) "
-            "to run the positive control extraction battery — confirming the pipeline detects operators "
-            "when they are genuinely present. Phase 0C is the last calibration step before systematic excavation. "
-            "The theoretical arm advanced without it, but only 0C can confirm operators at GREEN/STAR level."
+            "4 Tier 1 extractors passed positive control on Framework-G v2.1 (66K chars). "
+            "91–100% match with Phase 0A ground truth. OP-004 and OP-008 recovered by 6/6 independent "
+            "extractors — first GREEN promotion candidates (pending 2nd dig site). "
+            "Empirical arm **UNBLOCKED**."
         )
         st.markdown(action_line(
-            "Action: select a Framework-G v2.1 transcript (66K chars, MS-only with DI/CP), "
-            "run Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B)"
+            "Resolved — proceed to systematic excavation (Dig Site 003 Dirac)"
         ), unsafe_allow_html=True)
 
     med_col1, med_col2 = st.columns(2)
@@ -420,12 +420,12 @@ def render():
         # --- Dig Sites ---
         st.markdown("#### Dig Site Status")
         dig_sites = [
-            {"Site": "000", "Target": "Extractor Calibration", "Status": "0A/0B Done, 0C Pending",
-             "Result": "17 extractors, 4 tiers, 2 new ops"},
+            {"Site": "000", "Target": "Extractor Calibration", "Status": "✅ 0A/0B/0C Complete",
+             "Result": "17 extractors, 4 tiers, 2 new ops, Gemma4 star"},
             {"Site": "001", "Target": "Adlam & Barandes", "Status": "✅ Complete",
              "Result": "7 operators (OP-001–007)"},
             {"Site": "002", "Target": "Barandes (solo)", "Status": "✅ Complete",
-             "Result": "RCI architecture, 40 insights"},
+             "Result": "6 new ops (OP-010–015), RCI arch, 40 insights"},
             {"Site": "010", "Target": "Curt Jaimungal", "Status": "✅ Complete (R1+Audit)",
              "Result": "Arch F, Simplex, Relation Space"},
             {"Site": "003", "Target": "Dirac", "Status": "⏳ Planned (Q50 #1)",
@@ -443,8 +443,8 @@ def render():
         with mu_col1:
             st.markdown("**Museum A (Operators)**")
             a1, a2, a3 = st.columns(3)
-            a1.metric("Registered", "9")
-            a2.metric("Saturation", "0.50")
+            a1.metric("Registered", "15")
+            a2.metric("YELLOW / RED", "7 / 8")
             a3.metric("Held", "1")
         with mu_col2:
             st.markdown("**Museum B (Architectures)**")

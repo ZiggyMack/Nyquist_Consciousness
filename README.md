@@ -45,7 +45,7 @@ When an AI model's identity drift exceeds 0.80 (measured via cosine distance in 
 
 - **Statistical validation**: p = 2.40e-23 (Run 023, cosine methodology)
 - **Prediction accuracy**: 88%
-- **Ships tested**: 54 across 5 providers, 10 model families (Claude, GPT, Gemini, Grok, Together.ai)
+- **Ships tested**: 68 total (53 operational) across 5 providers, 10 model families — see [Mission Control](docs/MISSION_CONTROL.md) for current fleet state
 - **Run 012 Revalidation**: 100% Event Horizon crossing, 100% recovery (real drift metric)
 - **Run 020B IRON CLAD**: ~93% of drift is INHERENT, not induced by measurement (248 sessions, 37 ships)
 - **Calculator**: `experiments/temporal_stability/S7_ARMADA/1_CALIBRATION/lib/drift_calculator.py`
@@ -258,13 +258,13 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 | # | File | Purpose | Time |
 |---|------|---------|------|
-| 1 | **[README.md](README.md)** (this file) | Project overview, key findings, structure | 5 min |
-| 2 | **[docs/maps/0_MAP_OF_MAPS.md](docs/maps/0_MAP_OF_MAPS.md)** | Navigation hub — 18 maps, 7 kingdoms, 4 journey paths | 10 min |
-| 3 | **[docs/maps/3_VALIDATION_STATUS.md](docs/maps/3_VALIDATION_STATUS.md)** | What's proven — S7 98% complete, methodology status | 5 min |
-| 4 | **[docs/maps/10_TESTING_MAP.md](docs/maps/10_TESTING_MAP.md)** | How to test — 6 search types, SSOT pointers | 10 min |
-| 5 | **[experiments/temporal_stability/S7_ARMADA/START_HERE.md](experiments/temporal_stability/S7_ARMADA/START_HERE.md)** | Run experiments — scripts, commands, quick start | 5 min |
-| 6 | **[docs/MASTER_GLOSSARY.md](docs/MASTER_GLOSSARY.md)** | Terms — Event Horizon, PFI, IRON CLAD, 100+ definitions | Reference |
-| 7 | **[docs/PHILOSOPHICAL_FAQ.md](docs/PHILOSOPHICAL_FAQ.md)** | Deep theory — Ego/Self, Door Handle, Castaneda mapping | 10 min |
+| 1 | **[docs/MISSION_CONTROL.md](docs/MISSION_CONTROL.md)** | Live operational dashboard — current state, workstreams, authority ladder | 5 min |
+| 2 | **[README.md](README.md)** (this file) | Project overview, key findings, structure | 5 min |
+| 3 | **[docs/maps/0_MAP_OF_MAPS.md](docs/maps/0_MAP_OF_MAPS.md)** | Navigation hub — 19 maps, 8 kingdoms, 4 journey paths | 10 min |
+| 4 | **[docs/maps/3_VALIDATION_STATUS.md](docs/maps/3_VALIDATION_STATUS.md)** | What's proven — S7 98% complete, methodology status | 5 min |
+| 5 | **[docs/maps/10_TESTING_MAP.md](docs/maps/10_TESTING_MAP.md)** | How to test — 6 search types, SSOT pointers | 10 min |
+| 6 | **[experiments/temporal_stability/S7_ARMADA/START_HERE.md](experiments/temporal_stability/S7_ARMADA/START_HERE.md)** | Run experiments — scripts, commands, quick start | 5 min |
+| 7 | **[docs/MASTER_GLOSSARY.md](docs/MASTER_GLOSSARY.md)** | Terms — Event Horizon, PFI, IRON CLAD, 100+ definitions | Reference |
 | 8 | **[docs/maps/6_LLM_BEHAVIORAL_MATRIX.md](docs/maps/6_LLM_BEHAVIORAL_MATRIX.md)** | Which LLM for which task? Provider routing | 5 min |
 | 9 | **[dashboard/START_HERE.md](dashboard/START_HERE.md)** | Dashboard operation — Streamlit commands, pages | 3 min |
 | 10 | **[REPO-SYNC/README.md](REPO-SYNC/README.md)** | External repos — 7 partners, sync protocols | 5 min |
@@ -304,8 +304,12 @@ Spectral extensions, human-AI coupling, hybrid emergence.
 
 ## Project Status
 
-**Current Phase**: THEORETICAL INTEGRATION ERA | ESSENCE_EXTRACTION SSOT | New_6_GNOSTIC_AI
-**Last Updated**: 2026-01-10
+> **For current live status, see [`docs/MISSION_CONTROL.md`](docs/MISSION_CONTROL.md)** — the canonical operational dashboard (updated 2026-07-10).
+
+**Below: Historical milestone snapshot from January 2026.** The project has since expanded to include CFA Trinity (702 runs), Cognitive Archaeology (15 operators, Phase 0 complete), and a 68-ship fleet. See Mission Control for current state.
+
+**January 2026 Milestone**: THEORETICAL INTEGRATION ERA | ESSENCE_EXTRACTION SSOT | New_6_GNOSTIC_AI
+**Snapshot Date**: 2026-01-10
 **Key Milestone**: Gnostic-Jungian Bridge complete — interpretive framework maps to empirical findings
 
 ### Current Status (January 10, 2026)

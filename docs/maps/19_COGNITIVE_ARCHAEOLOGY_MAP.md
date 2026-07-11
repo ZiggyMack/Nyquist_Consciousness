@@ -2,7 +2,9 @@
 
 **Purpose:** Navigate the Cognitive Archaeology research program — the systematic excavation of reasoning operators across independent thinkers, and the discovery of reusable architectures that compose those operators into entire discovery engines.
 
-**Status:** Phase 0A/0B complete. Phase 0C (positive control) pending — still gates the empirical arm. Theoretical arm running in parallel via LLM Book deep digs. Dig Sites 001, 002, 010 complete. Museum A: 9 operators. Museum B: 6 architectures (1 confirmed, 5 candidates). Discovery Simplex hypothesized.
+**Status:** Phase 0 COMPLETE (0A/0B/0C all passed). Empirical arm UNBLOCKED. Theoretical arm running in parallel via LLM Book deep digs. Dig Sites 001, 002, 010 complete. Museum A: 15 operators (7 YELLOW, 8 RED). Museum B: 6 architectures (1 confirmed, 5 candidates). Discovery Simplex hypothesized.
+
+**Last reconciled against Mission Control:** 2026-07-10
 
 **Location:** `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/`
 
@@ -67,7 +69,7 @@
 | **Analogy** | Verbs | Grammars |
 | **Document** | `MUSEUM/INDEX.md` | `DISCOVERY_ARCHITECTURES.md` |
 | **Admission** | 6 criteria (FIELD_MANUAL) | 4 criteria (named composition, multiple instances, predictive, discriminative) |
-| **Current** | 9 operators | 1 confirmed (RCI) + 5 candidates (B-F) |
+| **Current** | 15 operators (7Y, 8R) | 1 confirmed (RCI) + 5 candidates (B-F) |
 
 Operators compose into architectures. Architectures compose into scientific traditions.
 
@@ -89,7 +91,7 @@ Operators compose into architectures. Architectures compose into scientific trad
   0A: Who extracts?     │         PREDICT ──► FUNDAMENTAL?
   0B: What's noise?     │
   0C: What's signal?    │         Operators either survive
-      ⚠️ PENDING        │         this process or they don't.
+      ✅ ALL COMPLETE    │         this process or they don't.
                         │
   THEORETICAL ARM       │
   ─────────────────     │
@@ -103,7 +105,7 @@ Operators compose into architectures. Architectures compose into scientific trad
    back to Museum B)    │
 ```
 
-**Phase 0C still gates the empirical arm.** The theoretical arm advances in parallel but cannot confirm operators at GREEN/STAR level without 0C.
+**Phase 0C is COMPLETE (2026-07-10).** The empirical arm is UNBLOCKED. Systematic excavation can proceed.
 
 ---
 
@@ -128,19 +130,22 @@ Operators compose into architectures. Architectures compose into scientific trad
 ## The Operator Museum (Museum A — Current State)
 
 ```
-   CONFIDENCE LEVELS
+   CONFIDENCE LEVELS                          (source: MUSEUM/INDEX.md)
    ─────────────────
    STAR  Fundamental    0 operators    (requires irreducibility + predicted absence)
    GREEN Confirmed      0 operators    (requires extractor-independence + discrimination)
-   YELLOW Candidate     3 operators    OP-001, OP-004, OP-007
-   RED   Hypothesis     6 operators    OP-002, OP-003, OP-005, OP-006, OP-008, OP-009
+   YELLOW Candidate     7 operators    OP-001, OP-004, OP-007, OP-010, OP-011, OP-012, OP-013
+   RED   Hypothesis     8 operators    OP-002, OP-003, OP-005, OP-006, OP-008, OP-009, OP-014, OP-015
 
-   Total: 9 operators registered
+   Total: 15 operators registered
    OP-001 to OP-007: First recovered from Dig Site 001 (Adlam & Barandes)
    OP-008, OP-009:   First recovered from Dig Site 000 (CFA Framework-G transcripts)
+   OP-010 to OP-015: First recovered from Dig Site 002 (Barandes solo)
    OP-007:           Cross-site evidence (001 + 000 + DBEP)
    Held candidates:  1 (Concession Pricing — 4/4 convergence, marginal on criteria 5-6)
-   Saturation:       0.50 (2 rediscoveries in 4 admitted operators across 2 dig sites)
+   Saturation:       5 rediscoveries across 3 dig sites (OP-001×1, OP-004×1, OP-006×1, OP-007×2)
+   Families:         Translation, Information, Minimal Sufficiency, Blind Spot, Constraint-Induced Discovery
+   GREEN candidates: OP-004, OP-008 (6/6 extractors in Phase 0A+0C, pending 2nd dig site)
 
    OPERATOR HIERARCHY
    ──────────────────
@@ -156,6 +161,13 @@ Operators compose into architectures. Architectures compose into scientific trad
 
    OP-008: Symmetry Testing of Standards        (evaluative, from CFA)
    OP-009: Contested ≠ Defeated                 (epistemic calibration, from CFA)
+
+   OP-010: Altitude Escalation                  (meta-level, from Dig Site 002)
+   OP-011: Subtractive Discovery                (minimal sufficiency, from Dig Site 002)
+   OP-012: Pedagogical Forcing                  (teaching as discovery, from Dig Site 002)
+   OP-013: Epistemic Boundary Setting           (knowledge boundary, from Dig Site 002)
+   OP-014: Ontological Downgrading              (graded reality, from Dig Site 002)
+   OP-015: Question Completion                  (question generation, from Dig Site 002)
 ```
 
 ---
@@ -176,7 +188,7 @@ Operators compose into architectures. Architectures compose into scientific trad
    Architecture B: Forward Mathematical Generation         (tests at Dig Site 003 / Dirac)
    Architecture C: Evolutionary Search                     (speculative — meta-architecture?)
    Architecture D: Compression-Driven Discovery            (speculative — related to RCI?)
-   Architecture E: Adversarial Discovery                   (partially instantiated in CFA)
+   Architecture E: Adversarial Discovery                   (INSTANTIATED in CFA)
    Architecture F: Composition Analysis / Op-Validity      (extracted from Dig Site 010 / Curt)
      Algorithm:   Identify operation → recover validity conditions → vary domain → classify A/B/C
      Instances:   Curt, Arrow, Abramsky-Brandenburger, Efron
@@ -234,6 +246,12 @@ Each operator, when absent, produces a named cognitive failure:
    OP-007  Locate Disagreement  ──►  Layer Confusion
    OP-008  Symmetry Testing     ──►  Selective Application
    OP-009  Contested ≠ Defeated ──►  Premature Closure
+   OP-010  Altitude Escalation  ──►  Level Lock
+   OP-011  Subtractive Discovery──►  Additive Bias
+   OP-012  Pedagogical Forcing  ──►  Assumed Understanding
+   OP-013  Epistemic Boundary   ──►  Boundary Blindness
+   OP-014  Ontological Downgrade──►  Binary Ontology
+   OP-015  Question Completion  ──►  Question Starvation
 
    Bidirectional: failure ──► absent operator ──► failure
 ```
@@ -245,9 +263,10 @@ Each operator, when absent, produces a named cognitive failure:
 ```
    SITE    TARGET                STATUS              RESULT
    ────    ──────                ──────              ──────
-   000     Extractor Calibration 0A/0B DONE          2 new ops (OP-008, OP-009),
-                                 0C PENDING ⚠️       2 rediscoveries (OP-007),
-                                                     17 extractors, 4 tiers
+   000     Extractor Calibration 0A/0B/0C ALL DONE    2 new ops (OP-008, OP-009),
+                                                     2 rediscoveries (OP-007),
+                                                     17 extractors, 4 tiers,
+                                                     Gemma4 31B star performer
    001     Adlam & Barandes      DONE                7 operators (OP-001 to OP-007)
    002     Barandes (solo)       DONE                RCI architecture, 40 insights
    010     Curt Jaimungal        DONE (R1 + Audit)   Architecture F, Discovery Simplex,
@@ -305,9 +324,26 @@ Ran multi-extractor extraction on CFA Framework-G (Consciousness as Telos) delib
    But Tier 4 extractors DO generate — they must be excluded.
 ```
 
-### Phase 0C: Positive Control (PENDING)
+### Phase 0C: Positive Control (COMPLETE — 2026-07-10)
 
-Run extraction on known-rich CFA transcript to verify pipeline detects operators when they are genuinely present. Completes the calibration. **Still gates the empirical arm.**
+Ran 4 Tier 1 extractors on the Framework-G v2.1 transcript (66,803 chars) — the same source used in Phase 0A, leveraging established ground truth.
+
+```
+   EXTRACTOR           OPERATORS   MUSEUM HITS                         MATCH
+   ─────────           ─────────   ───────────                         ─────
+   Claude (Sonnet 4-6) 11          OP-001, OP-004, OP-007, OP-008     91%
+   DeepSeek V4 Pro     8           OP-001, OP-004, OP-008             100%
+   Gemma4 31B ★        9           OP-004, OP-007, OP-008, OP-009     100%
+   Cogito 671B         8           OP-004, OP-007, OP-008             100%
+
+   ★ Gemma4 31B = star performer (all 4 museum entries recovered blind)
+```
+
+**Result:** Pipeline DETECTS when operators are present (0C), doesn't hallucinate them when absent (0B), and independent extractors agree (0A). Calibration triangle complete. **Empirical arm UNBLOCKED.**
+
+**GREEN candidates:** OP-004 and OP-008 recovered by 6/6 independent extractors across 0A+0C. Pending 2nd dig site for formal promotion.
+
+**Evidence:** `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/DIG_SITES/000_Extractor_Calibration/extractions/extraction_*_20260710_*.md`
 
 ---
 
@@ -464,10 +500,10 @@ The program is killed or demoted to "descriptive hobby" if:
    │   ├── 007_Dennett/                         Heterophenomenology, Nyquist link
    │   └── 008_Jaynes/                          ISP lineage, MaxEnt
    ├── MUSEUM/
-   │   ├── INDEX.md                             Master operator list (9 operators)
+   │   ├── INDEX.md                             Master operator list (15 operators)
    │   ├── GRAPH.md                             Relationships + Failure Atlas + direction axis
    │   ├── RETIRED.md                           Failed/retired operators
-   │   └── operators/                           Individual operator pages (9)
+   │   └── operators/                           Individual operator pages (15)
    ├── TOOLS/
    │   └── extract_operators.py                 Multi-extractor pipeline (17 extractors)
    ├── compression_candidates/                  Theoretical compression explorations
@@ -494,6 +530,6 @@ The program is killed or demoted to "descriptive hobby" if:
 ---
 
 *Created: 2026-07-06*
-*Updated: 2026-07-10 — Dig Sites 002/010 complete, Museum B + Discovery Simplex + Relation Space added, dig site numbering corrected, two-track structure (empirical/theoretical) documented*
+*Updated: 2026-07-10 — Phase 0C COMPLETE, Museum A: 9→15 operators (OP-010 through OP-015 from Dig Site 002), Architecture E INSTANTIATED, empirical arm UNBLOCKED, Failure Atlas extended, reconciled against Mission Control*
 *Map #19*
 *Territory: The Grammar of Thought*

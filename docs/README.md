@@ -16,9 +16,12 @@ keywords:
 
 # Documentation Directory
 
+> **Canonical current status:** [`MISSION_CONTROL.md`](MISSION_CONTROL.md) — read this first for live project state.
+> This file is for documentation structure and theory layer navigation only.
+
 **Purpose:** Theory specifications, research documentation, and reference materials
 **Organized:** 2025-11-26
-**Last Updated:** 2025-12-28
+**Last Updated:** 2026-07-10
 
 ---
 
@@ -63,7 +66,7 @@ The **Cartographer's Table** organizing all 17 navigation maps into 7 Kingdoms:
 | Speculative | KEELY_INTEGRATION, IDENTITY_LATTICE | Future frameworks |
 | Quality | VALIDATION_STATUS, COVERAGE_MAP | What's left to do |
 
-See [maps/MAP_OF_MAPS.md](maps/MAP_OF_MAPS.md) for full navigation guide.
+See [maps/0_MAP_OF_MAPS.md](maps/0_MAP_OF_MAPS.md) for full navigation guide.
 
 ---
 

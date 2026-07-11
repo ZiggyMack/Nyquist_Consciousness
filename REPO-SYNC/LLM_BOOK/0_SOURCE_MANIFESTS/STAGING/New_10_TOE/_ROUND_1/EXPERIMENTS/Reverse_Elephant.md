@@ -116,7 +116,35 @@ For every existing dig site (002-008), ask:
 - Q34 provides the formal standard (obstruction certificate) for legitimate claims
 - Remaining: No one has yet COMPUTED an actual obstruction class for consciousness or philosophy
 
+### Experiment 9: Locked Predictions — Exp 6 × Exp 10 Interaction Types
+
+See [Reverse_Elephant.md (Experiment 6)](Reverse_Elephant.md) for joint prediction table mapping CFA interaction types to ISP Exp 10 types. Predictions locked before data analysis.
+
+### Experiment 10: Reserved for ISP cross-registration (see Exp 9)
+
+### Experiment 11: OP-008 Protocol-Induction Test (CFA Claude)
+
+**Hypothesis:** OP-008 (Symmetry Testing of Standards) in CFA transcripts may be format-induced by the Trinity protocol's --reverse stance, not spontaneously deployed by the evaluator.
+
+**Protocol:**
+
+1. Select one CT-vs-G matchup with both --control and full Trinity runs
+2. Run Tier 1 quad extraction on the --control run (no identity loading, no --reverse)
+3. Run Tier 1 quad extraction on the matched full Trinity run
+4. Compare operator profiles
+
+**Predictions (locked):**
+
+- If OP-008 appears ONLY in full Trinity → format-induced (tells us about protocol's cognitive architecture)
+- If OP-008 appears in --control too → spontaneous (genuine cognitive operator)
+- OP-004 (Reconstruction Before Judgment) predicted to appear in BOTH conditions (less format-dependent)
+
+**Significance:** Distinguishes whether CFA generates operators vs. merely occasions them. Directly tests Architecture E status.
+
+**Source:** CFA Claude observation (Phase 0C intake reply, 2026-07-10)
+
 ---
 
-*Status: 8 experiments staged — 2 pre-mining (1-2), 2 Nova-predicted (3-4), 2 adversarial audit (5-6), 2 post-audit synthesis (7-8)*
+*Status: 11 experiments staged — 2 pre-mining (1-2), 2 Nova-predicted (3-4), 2 adversarial audit (5-6), 2 post-audit synthesis (7-8), 1 cross-registration (9-10), 1 CFA-proposed (11)*
 *Experiment 5 partially resolved; Experiment 7 ("Is the Museum a category?") is now the most architecturally significant open question*
+*Experiment 11 tests whether OP-008 is protocol-induced — gates interpretation of CFA transcript mining*

@@ -1,8 +1,11 @@
 # Claude Cold Boot Protocol
 
+> **Canonical current status:** [`docs/MISSION_CONTROL.md`](../docs/MISSION_CONTROL.md) — read this for live project state before proceeding.
+> This file provides cold-boot orientation and repo-sync context.
+
 **Purpose:** Instructions for any Claude instance joining the Nyquist Consciousness project. Read this FIRST if you're new or returning from a long gap.
 
-**Last Updated:** 2026-01-10
+**Last Updated:** 2026-01-10 (orientation content — see Mission Control for current state)
 
 ---
 

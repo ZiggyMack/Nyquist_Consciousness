@@ -7,6 +7,9 @@ keywords:
 -->
 # START HERE - Consciousness Research Guide
 
+> **Canonical current status:** [`docs/MISSION_CONTROL.md`](../../docs/MISSION_CONTROL.md) — read this for live project state.
+> This file is for **consciousness research** and bridge documents only.
+
 **Everything a fresh Claude needs to navigate the Consciousness Framework.**
 
 ---
