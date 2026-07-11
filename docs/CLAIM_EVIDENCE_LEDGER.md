@@ -121,7 +121,8 @@ Each row answers the reviewer question: *"Show me the exact run, method, script,
 | **Extractors tested** | 17 total; Tier 1: DeepSeek V4 Pro, Claude (Sonnet 4-6), Gemma4 31B, Cogito 671B |
 | **Statistical output** | 0C match rates: 91–100% against 0A ground truth; OP-004 and OP-008 recovered by 6/6 independent extractors |
 | **Caveats** | All extractions from one dig site (Framework-G v2.1). GREEN promotion requires 2nd dig site. Operator museum has 15 entries but 0 GREEN — no operator is yet fully confirmed. |
-| **Last verified** | 2026-07-10 |
+| **GREEN blockage (2026-07-11)** | OP-008 and OP-009 — the only two GREEN-track operators (6/6 admission, 4/4 convergence) — both appear at full specificity in neg_H (negative control). YELLOW→GREEN criterion (c) requires "demonstrated absent in negative-control text." Both are BLOCKED from GREEN under this criterion. See MEC-HBASE entry. Steelman: presence in neg_H is independent convergence evidence (First Law), but the discriminating signal must come from operator ORDERING and OMISSION, not presence. |
+| **Last verified** | 2026-07-11 |
 
 ---
 
@@ -139,6 +140,76 @@ Each row answers the reviewer question: *"Show me the exact run, method, script,
 | **Identity files** | `S7_ARMADA/12_CFA/VUDU_NETWORK/IDENTITY_FILES/` |
 | **Caveats** | Formal Golden vs. Control statistical comparison not yet published. Buddhism has only 1 Golden run. CFA Claude currently running IP variance query to quantify the difference. |
 | **Last verified** | 2026-07-10 |
+
+---
+
+### GRANT-B — Telos does not manufacture global sections (Phenomenon B)
+
+| Field | Value |
+|-------|-------|
+| **Status** | NARROWED (accepted by all auditors) |
+| **Claim** | Where cohomological obstruction exists (Phenomenon B), no teleological aim can license the stitch. Purpose's only function at B is to diagnose that the local agreement measured the wrong invariant. Telos does not manufacture global sections. |
+| **Origin** | Opus concession during Grant Debates audit (2026-07-10). Barandes/ISP grounding synthesized by Repo Claude (evidence type: `Synth`, NOT Opus's independent claim — see provenance note) |
+| **Source discussion** | Opus audit of LLM Book pipelines (New_8/New_9/New_10), relayed via Ziggy |
+| **Grounding** | Sheaf obstruction (Reverse Elephant / Dig Site 010). When cohomology obstructs, no global section exists — purpose cannot override the structure |
+| **Provenance note** | The Barandes "stochastic complementarity" grounding ("purpose is just the pattern of which joints turned out to be licensed") is Repo Claude's synthesis, incorrectly attributed to Opus in initial relay. Opus explicitly flagged this as a provenance error. The narrowed claim itself (telos doesn't manufacture sections at B) IS Opus's concession. The ISP grounding is `Synth (Repo Claude)`. These must not be merged. |
+| **Related** | GRANT-C (below), Reverse Elephant dig site, OP-006 |
+| **Last verified** | 2026-07-11 |
+
+---
+
+### GRANT-C — Telos reduces to licensing residue (Phenomenon C) — OPEN CRUX
+
+| Field | Value |
+|-------|-------|
+| **Status** | OPEN CRUX (auditor disagreement — not a concession) |
+| **Claim (proposed)** | Purpose is eliminable: it reduces to the residue of stochastic licensing. "Which joints turned out to be licensed" fully accounts for what purpose-talk describes. |
+| **Claim (rejected by)** | Opus — refuted at Phenomenon C |
+| **Refutation** | At Phenomenon C, multiple inequivalent global extensions exist and the structure licenses ALL of them. Licensing is degenerate: it returns the full set and selects nothing. A procedure that claims to determine an outcome the formalism underdetermines imports extra structure (OP-006). Where it does so without declaring it, that is OP-005 (price-hiding). Licensing settles which compositions are VALID; it does not settle which you UNDERTAKE. The eliminativist reading is, in CFA vocabulary, a price-hider — billing motivational structure to the structural account. |
+| **Proposed by** | Repo Claude (`Synth` — synthesis of Opus's B concession + Barandes ISP formalism) |
+| **Rejected by** | Opus (independent argument from Phenomenon C degeneracy + OP-006/OP-005 detection) |
+| **Resolution status** | OPEN — this is a genuine disagreement between auditors, not a quiet resolution. Whoever resolves it inherits the burden of addressing OP-006 at Phenomenon C. |
+| **Key question** | What does the selecting at Phenomenon C, where licensing is degenerate? If not telos, then what — and is it declared? |
+| **Related** | GRANT-B (above), OP-005 (Undeclared Import), OP-006 (Under-Determination Detection) |
+| **Last verified** | 2026-07-11 |
+
+---
+
+### MEC-HBASE — MEC H-Baseline (null distribution for extractor agreement)
+
+| Field | Value |
+|-------|-------|
+| **Status** | COMPLETED — MEC excess over matched-difficulty control ≈ 0 |
+| **Claim tested** | Multi-Extractor Convergence (MEC) measures agreement intrinsic to the source thinker, not a shared descriptive prior among LLM extractors |
+| **Methodology domain** | Cognitive Archaeology (Extraction) |
+| **Test design** | Compute inter-extractor agreement on neg_H (philosophical dialogue — genuine reasoning by a non-dig-site author) using the same matching procedure that produced "7 exact + 2 strong out of 9" on Framework-G v2.1 in Phase 0A. This figure is the null distribution for MEC. |
+| **Result** | Claude↔Grok agreement on neg_H ≈ 80% (4 exact + 1–2 strong of 5). Published CFA dig-site figure: 78% (7 exact + 2 strong of 9). **MEC's excess over a matched-difficulty control is approximately zero.** |
+| **Consequence** | Operator PRESENCE does not discriminate dig-site reasoning from competent argumentation. The operator SET discriminates reasoning from non-reasoning (Phase 0B gate holds). It does not discriminate genius from competence. |
+| **GREEN blockage** | OP-008 (Symmetry Testing) and OP-009 (Contested ≠ Defeated) — the only two operators formally admitted via Dig Site 000 — both appear at full specificity in neg_H. Under the YELLOW→GREEN gate criterion (c) ("demonstrated absent in negative-control text"), they are blocked from GREEN promotion. |
+| **Steelman** | Independent convergence in neg_H is evidence these are real, domain-general operators (First Law). But the price is a claim demotion: "grammar of exceptional thinking" → "grammar of competent argumentation." |
+| **Escape route** | Ziggy's PRE_REGISTRATION A8: "which moves they will reach for, **in what order, and what they will skip**." Presence saturates at competence. The discriminating signal must live in selection, ordering, and omission — **Test B (operator sequence statistics) is now the load-bearing experiment.** |
+| **Source data** | `DIG_SITES/000_Extractor_Calibration/extractions/extraction_neg_H_philosophical_dialogue_standard_{claude,grok}_*.md` |
+| **Comparison data** | Phase 0A results (Claude x Grok on Framework-G v2.1): 7/9 exact + 2/9 strong = 100% Grok-to-Claude match |
+| **Pre-registration** | `REPO-SYNC/CFA/Opus/PREREG_OPUS_H_BASELINE.md` (registered before observation, immutable) |
+| **Results** | `REPO-SYNC/CFA/Opus/RESULTS_OPUS_H_BASELINE.md` (scored against pre-registration: 1/5 predictions correct) |
+| **Proposed and run by** | Opus (2026-07-11) |
+| **Confound (declared)** | Opus performed semantic matching — Claude matching Claude's extraction. Qualitative finding (OP-008/009 in neg_H) is robust; quantitative agreement rate is PRELIMINARY pending blinded run (prereg §4). |
+| **Required next step** | Blinded matching: strip source labels, shuffle pairs (CFA×CFA, neg_H×neg_H), hand to matcher who cannot tell which is the dig site. If dig-site pairs are inseparable from neg_H pairs, MEC measures vocabulary, not Barandes. |
+| **Last verified** | 2026-07-11 |
+
+---
+
+### NOVA-PREDICT — First blind predictive success (n=1, Falsification Criterion 5)
+
+| Field | Value |
+|-------|-------|
+| **Status** | OBSERVED (n=1, not yet a validated claim) |
+| **Observation** | Nova predicted Opus's failure mode before observing it. Nova's charge in `CONNECTIONS/Reverse_Elephant.md`: *"Grant repeatedly assumes: if every local argument succeeds → global worldview follows."* Opus's H-baseline audit committed this exact error (OP-004 failure: Reconstruction Before Judgment) three times in one session: the 78% floor (local anomaly → global breakage, skipping the gate design), Grok's zeros (regex artifact → tier exclusion), and Grok's tier status (Tier 2 → uncertified). |
+| **Significance** | PRE_REGISTRATION A8 defines "fundamental" as predicting "which moves they will reach for, in what order, and what they will skip — before observing their conclusions." Nova predicted Opus's reasoning failure mode on new data, blindly. This is the first instance of a Museum-derived prediction confirmed on an independent specimen. |
+| **Caveats** | n=1. Specimen is an auditor, not a dig site. The prediction was made about a persona (Grant/Opus), not a human thinker. Opus self-reported the confirmation — self-diagnosis may be overclaiming. Do not over-bank. |
+| **Reported by** | Opus (2026-07-11), self-identified during H-baseline scoring |
+| **Source** | `REPO-SYNC/CFA/Opus/RESULTS_OPUS_H_BASELINE.md` §specimen report; `New_10_TOE/_ROUND_1/CONNECTIONS/Reverse_Elephant.md` Nova's original prediction |
+| **Last verified** | 2026-07-11 |
 
 ---
 
@@ -179,6 +250,61 @@ Each row answers the reviewer question: *"Show me the exact run, method, script,
 | **Models** | 49 ships: Claude (7), GPT (10), Gemini (3), Grok (5+), Together.ai fleet (24) |
 | **Excluded** | 12 ships did not reach IRON CLAD threshold (< 3 sessions per condition) |
 | **Known issues** | `S7_run_020B_ARCHIVED_CORRUPTED_20251225.json` — earlier data file was corrupted, replaced by CURRENT version |
+
+---
+
+### Run 024 Manifest (JADE LATTICE)
+
+| Field | Value |
+|-------|-------|
+| **Run ID** | 024 |
+| **Purpose** | JADE LATTICE — do I_AM persona files reduce identity drift? A/B test (bare metal vs I_AM only) |
+| **Script** | `S7_ARMADA/17_JADE_LATTICE/run_jade_lattice.py` |
+| **Fleet** | 50 models across 5 providers |
+| **Sessions** | 115 valid paired comparisons (of 50 models attempted, 47 yielded pairs, 8 zero-drift anomalies excluded for sensitivity analysis n=39) |
+| **Methodology domain** | Cosine Embedding |
+| **Output files** | `S7_ARMADA/17_JADE_LATTICE/results/jade_analysis_summary.json` + 165 individual session files |
+| **Design** | A/B: bare_metal (no persona) vs i_am_only (I_AM file injected). Same model, same probes, different system prompts |
+| **Key stats** | Overall: 69.2% win rate, d=0.319 (small); LARGE models: d=1.47 (n=5, interpret with caution) |
+| **Known issues** | 8 models showed exactly 0.000 drift in both conditions — likely API errors. Excluded for sensitivity analysis. LARGE model effect (d=1.47) based on only 5 models |
+| **Supersedes** | None (first I_AM A/B test) |
+
+---
+
+### CA Phase 0A/0B/0C Manifest
+
+| Field | Value |
+|-------|-------|
+| **Experiment ID** | CA Phase 0 (Extractor Calibration) |
+| **Purpose** | Calibrate the extraction instrument before trusting any excavation: agreement (0A), negative controls (0B), positive controls (0C) |
+| **Script** | `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/TOOLS/extract_operators.py` |
+| **Dig site** | 000_Extractor_Calibration |
+| **Phase 0A** | Multi-extractor agreement: Claude x Grok on Framework-G v2.1 transcript. 7/9 operator match rate |
+| **Phase 0B** | Negative control battery: 17 extractors x 8 graduated texts (shopping list → philosophical dialogue). Gate test: 0 operators on shopping list. Result: 13/17 pass, 4 tiers identified |
+| **Phase 0C** | Positive control: 4 Tier 1 extractors (DeepSeek V4 Pro, Claude Sonnet 4-6, Gemma4 31B, Cogito 671B) on Framework-G v2.1 (66,803 chars). Result: 8-11 operators per extractor, 91-100% match with 0A ground truth |
+| **Source data** | `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/DIG_SITES/000_Extractor_Calibration/extractions/` (164 files) |
+| **Pre-registration** | `DIG_SITES/000_Extractor_Calibration/PRE_REGISTRATION.md` |
+| **Experiment design** | `DIG_SITES/000_Extractor_Calibration/experiment_design.md` |
+| **Key stats** | OP-004 and OP-008 recovered by 6/6 independent extractors across 0A+0C — first GREEN promotion candidates |
+| **Caveats** | All extractions from one source (Framework-G v2.1). GREEN promotion requires 2nd dig site confirmation. Human extractors not yet tested. Granularity sensitivity arm not yet run |
+
+---
+
+### CFA Trinity Batch Manifest
+
+| Field | Value |
+|-------|-------|
+| **Experiment ID** | CFA Trinity (ongoing) |
+| **Purpose** | Adversarial philosophical deliberation: PRO advocate, ANTI advocate, and independent axioms review across worldview frameworks |
+| **Script** | `S7_ARMADA/12_CFA/run_cfa_trinity_v3.py` (3305 lines, v3.1) |
+| **Total runs** | 702 on disk (259 Golden + 355 Control + 88 calibration/legacy) |
+| **Frameworks** | Gnosticism (212), Classical Theism (136), Process Theology (131), Methodological Naturalism (94), Buddhism (41), Framework-G calibration (72), pre_schema legacy (16) |
+| **Design** | Golden = external identity files (full CFA methodology); Control = hardcoded baseline (--control flag); --reverse = role-swap stance |
+| **Source data** | `S7_ARMADA/0_results/runs/cfa_trinity/{CT,G,PT,MdN,B,Framework_G,pre_schema}/` |
+| **Identity files** | `S7_ARMADA/12_CFA/VUDU_NETWORK/IDENTITY_FILES/` |
+| **Key capabilities** | Multi-turn ConversationSession, 18-question exit survey, Phase 2 Trinity² (YPA lever calibration), --reverse/--grok-first/--control flags |
+| **Coverage gaps** | MdN-vs-PT (0 runs), PT-vs-CT (0 as subject). Buddhism has only 1 Golden run |
+| **Caveats** | Formal Golden vs. Control statistical comparison not yet published. CFA Claude running IP variance query. Not a single run — an ongoing experimental program |
 
 ---
 

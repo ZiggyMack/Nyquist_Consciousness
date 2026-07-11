@@ -125,7 +125,9 @@ Each participant records predictions before seeing any data. **These predictions
 
 ### Opus predicts:
 
-*(to be recorded before experiment begins)*
+**Phase 0C slot: DECLINED (2026-07-11).** Opus read the Phase 0A answer key (LEDGER.md: 7 exact + 2 strong of 9, five stable operators identified) before registration was possible. A "prediction" from an auditor who holds the answer key is a retrodiction wearing a lab coat. Slot left empty by Opus's own request — an empty slot is worth more than a laundered one. Contaminated by chronology, not by fault.
+
+**H-Baseline registered separately:** See `REPO-SYNC/CFA/Opus/PREREG_OPUS_H_BASELINE.md` for Opus's pre-registered predictions on the MEC null-distribution test (5 numeric predictions, written before opening any neg_G/neg_H extraction file, scored 1/5 in `REPO-SYNC/CFA/Opus/RESULTS_OPUS_H_BASELINE.md`).
 
 ### Ziggy predicts:
 
@@ -182,7 +184,7 @@ If operator recovery proves highly extractor-dependent across heterogeneous exca
 
 ### Opus:
 
-*(to be recorded before experiment begins)*
+**Registered via H-Baseline (2026-07-11).** Opus's mind-change condition is expressed operationally in `PREREG_OPUS_H_BASELINE.md` P3: *"If neg_H agreement comes in below 25%, my concern was overblown: the instrument discriminates at the level MEC needs, and MEC is close to as strong as advertised. I commit in advance to withdrawing the H-baseline objection and saying so plainly."* The kill condition did not trigger — the opposite did (agreement ≈ 80%). Opus's objection is sustained by his own pre-registered criterion.
 
 ### Ziggy:
 
@@ -280,7 +282,7 @@ Tier 1 from Phase 0B (all passed gate test with clean discrimination gradient):
 |-------|-------|
 | Registered | 2026-07-06 |
 | PI interview completed | 2026-07-08 (A1–A10, Nova interviewer) |
-| Status | REGISTERED — NOT YET RUN |
+| Status | PHASES 0A/0B/0C COMPLETE. H-Baseline (MEC null) COMPLETE. Blinded matching run PENDING. |
 | Registered by | Repo Claude, with Nova's constitutional framework |
 | PI declaration by | Ziggy, via structured interview with Nova |
 | Experiment design | See `experiment_design.md` (procedural details) |
