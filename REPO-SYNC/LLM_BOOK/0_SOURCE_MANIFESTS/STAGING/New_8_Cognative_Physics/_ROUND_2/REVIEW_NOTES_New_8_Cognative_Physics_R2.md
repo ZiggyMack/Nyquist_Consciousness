@@ -1,8 +1,15 @@
 # Review Notes: Cognitive Physics Round 2
 
+> **WARNING: This file is a PRE-MINING skeleton and does NOT reflect the actual Round 2 results.**
+> **For the real substance, read:**
+>
+> - `INSIGHTS/Cognative_Physics_R2.md` (498 lines, fully populated)
+> - `CONNECTIONS/Cognative_Physics_R2.md` (159 lines, fully populated)
+> - `EXPERIMENTS/Cognative_Physics_R2.md` (224 lines, fully populated)
+
 **Reviewer:** [To be completed after mining]
 **Date:** 2026-07-09
-**Status:** PRE-MINING (skeleton)
+**Status:** PRE-MINING (skeleton) — see WARNING above
 
 ---
 

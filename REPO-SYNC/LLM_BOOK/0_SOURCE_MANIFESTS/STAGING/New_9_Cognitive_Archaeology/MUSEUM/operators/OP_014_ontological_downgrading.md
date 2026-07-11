@@ -43,6 +43,12 @@ David Griffiths' Introduction to QM offers three positions: realist (wave functi
 
 ---
 
+## Admission Caution (CFA Claude Flag — 2026-07-10)
+
+DBEP already implements graded evaluation structurally. If OP-014 describes what DBEP already does, the operator isn't new — it's describing the background epistemology that CFA and DBEP share. RED → YELLOW requires demonstrating that Ontological Downgrading is an active mid-inference MOVE ("the move of converting a binary existence question into a scale question" as an explicit step during reasoning), not just a philosophical STANCE that a thinker holds. Barandes uses it as an active cognitive move mid-argument, which supports operator status — but the behavioral definition needs to be sharper than "believes in graded realism."
+
+---
+
 ## Failure Modes
 
 1. **Everything Is Equally Real:** Refusing to discriminate — treating all levels as equivalent. Graded realism requires genuine discrimination between levels. Configurations are MORE real than wave functions in ISP. Temperature is LESS fundamental than molecular motion but still real.

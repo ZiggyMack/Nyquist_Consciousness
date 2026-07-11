@@ -71,6 +71,17 @@ For every existing dig site (002-008), ask:
 
 **Depends on:** Sufficient CFA run data + Q31-Q34 confirming that "obstruction" has formal content in this context.
 
+**Joint prediction with ISP Exp 10 (LOCKED 2026-07-10 by CFA Claude — pre-registered before data analysis):**
+
+| Exp 6 Type | Predicted Exp 10 Type | Rationale |
+|---|---|---|
+| Revelatory | Intrinsic | Exposing a pre-existing property → property is system-level |
+| Constitutive | Relational | Creating new relational property → property is pair-level |
+| Obstructive | AMBIGUOUS | Obstruction may produce both intrinsic and relational variance — structural property of the pairing, neither purely system-level nor purely pair-level |
+| Transformative | SEQUENCE-DEPENDENT (third category) | If matchup changes frameworks through interaction, post-interaction IP ≠ pre-interaction IP. This shows up as high IP variance across rounds, which Exp 10 flags as "pair-dependent" but which is actually order/sequence-dependent — a category neither ISP Exp 10 nor Curt Exp 6 anticipates |
+
+**Why locked pre-run:** If the Revelatory↔Intrinsic and Constitutive↔Relational alignments hold, the two taxonomies are compatible facets of the same analysis. If obstructive interactions produce the predicted ambiguity, that's a genuine gap in both classification schemes. If transformative interactions produce sequence-dependent variance, that's a THIRD category discovery. All three outcomes are interesting; locking predictions prevents post-hoc confirmation.
+
 ### Experiment 7: Is the Museum a Category? (Nova — Post-Audit)
 **Hypothesis:** The Museum of Cognitive Operators may secretly be a mathematical category, with operators as morphisms (structure-preserving transformations between cognitive states) rather than objects.
 

@@ -188,13 +188,17 @@ Step 5: The physics was not the input — it's the output
 
 ### Architecture E (candidate): Adversarial Discovery
 
-**Status:** SPECULATIVE — partially instantiated in CFA
+**Status:** INSTANTIATED — CFA IS an instance, not just an analogy
 
-**Hypothesized composition:** Thesis → Antithesis → Failure point identification → Synthesis at higher level
+**Composition:** Thesis → Antithesis → Failure point identification → Synthesis at higher level
 
-**Predicted instances:** Hegel, CFA itself, peer review, debate-based reasoning
+**Instances:** Hegel, CFA itself, peer review, debate-based reasoning
 
-**Key question:** Is this an architecture or a protocol that can instantiate any architecture?
+CFA Phase 1 creates adversarial conditions (thesis ↔ antithesis). The crux is the failure point identification. Phase 2 calibrates on what broke (synthesis at higher level = lever estimation conditioned on the failure). CFA doesn't USE Architecture E — CFA IS Architecture E applied to the worldview comparison domain.
+
+**Meta-loop:** When CA Phase 0 studies CFA transcripts, it applies Architecture F (operation-validity testing) to audit an instance of Architecture E. This is a clean meta-architectural relationship: F audits E.
+
+**Open question:** Is Adversarial Discovery a discovery ARCHITECTURE (sits alongside A-D and F) or a meta-PROTOCOL that can wrap any architecture? CFA Claude's read: it's a protocol that ALWAYS produces the same structural output (crux = failure point), so it may be a meta-architecture that WRAPS other architectures rather than sitting at the same level. If true, Architecture E belongs one rung up in the hierarchy.
 
 ---
 
@@ -306,6 +310,6 @@ We resist the temptation to plot six axes through two points. The axes become re
 ---
 
 *Created: 2026-07-10*
-*Status: 1 confirmed architecture, 5 candidates (1 testable at Dig Site 003, 3 speculative, 1 extracted from Dig Site 010)*
+*Status: 1 confirmed architecture (RCI), 5 candidates (1 testable at Dig Site 003, 2 speculative, 1 extracted from Dig Site 010, 1 instantiated in CFA)*
 *Next test: Dig Site 003 (Dirac) — does forward-generative discovery exist as a genuinely distinct architecture?*
 *Discovery Simplex hypothesized — two corners confirmed (Constraint = RCI, Composition = Architecture F), two predicted*

@@ -113,9 +113,10 @@ B           10      11       10      10      --       41
 | 0C | Positive control | **Pending** | Blocker: need known-rich transcript |
 | Full | Systematic worldview excavation | Not started | Awaiting Phase 0 completion |
 
-**Museum:** 9 operators (3 YELLOW, 6 RED, 0 GREEN, 0 STAR)
-**Saturation:** 0.50 (2 rediscoveries across 2 dig sites)
+**Museum:** 15 operators (7 YELLOW, 8 RED, 0 GREEN, 0 STAR)
+**Saturation:** 5 rediscoveries across 3 dig sites (OP-001×1, OP-004×1, OP-006×1, OP-007×2)
 **Held candidates:** 1 (Concession Pricing)
+**Operator families:** Translation, Information, Minimal Sufficiency, Blind Spot, Constraint-Induced Discovery
 
 **Outstanding Phase 0 criteria:**
 - Granularity sensitivity (Arm 3) -- not yet run
@@ -207,10 +208,10 @@ Repo Claude needs a known-rich CFA deliberation transcript (Framework-G preferre
 
 **Candidate:** Framework-G v2.1 transcript (66K chars, MS-only with DI/CP) -- already used in Phase 0A but could serve double duty.
 
-### Map 19 (Cognitive Archaeology) -- needs New_10_TOE results
-> **Priority: HIGH** | **Owner: Repo Claude**
+### Map 19 (Cognitive Archaeology) -- UPDATED 2026-07-10
+> **Priority: DONE** | **Owner: Repo Claude**
 
-Map 19 is stale: doesn't reflect Dig Site 002 (Barandes) completion, Dig Site 010 (Curt), Architecture F, Discovery Simplex, or the two-museum concept. Dig site numbering is wrong (lists Pearl as 002). Needs full rewrite of dig sites table, addition of DISCOVERY_ARCHITECTURES.md section, and cross-references to New_10_TOE.
+Full rewrite completed: Two Museums concept, Discovery Simplex, dig site numbering corrected (Q50-recursive: 002=Barandes, 010=Curt), Architecture F, Relation Space convergence table, Dig Site 010 results section, cross-references to New_10_TOE. File: `docs/maps/19_COGNITIVE_ARCHAEOLOGY_MAP.md`.
 
 ### SYNC_OUT housekeeping -- 230 raw JSONs in running/
 > **Priority: MEDIUM** | **Owner: Repo Claude**
