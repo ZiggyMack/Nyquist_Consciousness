@@ -11,7 +11,7 @@
 
 | #  | Stream                              | Status                                              | Next Step                                                              |
 |----|-------------------------------------|-----------------------------------------------------|------------------------------------------------------------------------|
-| 1  | **CA Phase 0C** (positive control)  | PENDING — blocker for empirical arm                 | Select known-rich transcript, run Tier 1 extractors                    |
+| 1  | **CA Phase 0C** (positive control)  | **COMPLETE** — 2026-07-10                           | All 4 Tier 1 extractors PASS; empirical arm UNBLOCKED                  |
 | 2  | **LLM Book / Deep Digs**            | New_10_TOE COMPLETE (Curt), New_8 Round 2 done      | Dig Site 003 (Dirac) — tests Generation corner of Discovery Simplex    |
 | 3  | **CA Theoretical Arm**              | Architecture F confirmed, Discovery Simplex hypothesized | Validate simplex with Dig Site 003; test "Is the Museum a Category?"   |
 | 4  | **CFA Trinity data**                | 702 runs, engine operational                        | SYNC_OUT housekeeping (230 raw JSONs)                                  |
@@ -110,7 +110,7 @@ B           10      11       10      10      --       41
 |-------|-------|--------|------------|
 | 0A | Multi-extractor agreement | **Complete** | 7/9 match rate (Claude x Grok) |
 | 0B | Negative control battery (17 extractors) | **Complete** | 13/17 gate pass, 4 tiers |
-| 0C | Positive control | **Pending** | Blocker: need known-rich transcript |
+| 0C | Positive control | **Complete** | 4/4 Tier 1 extractors detect known operators; Gemma4 31B star performer |
 | Full | Systematic worldview excavation | Not started | Awaiting Phase 0 completion |
 
 **Museum:** 15 operators (7 YELLOW, 8 RED, 0 GREEN, 0 STAR)
@@ -200,13 +200,11 @@ B           10      11       10      10      --       41
 ## Open Loops
 
 
-### Phase 0C -- positive control transcript needed
+### Phase 0C -- positive control COMPLETE
 
-> **Priority: HIGH** | **Owner: Repo Claude** | **Blocker: transcript selection**
+> **Priority: DONE** | **Owner: Repo Claude** | **Completed: 2026-07-10**
 
-Repo Claude needs a known-rich CFA deliberation transcript (Framework-G preferred, stalled/high-metacognitive-pressure) to run Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B) and confirm the pipeline detects operators when they are genuinely present. Last calibration step before systematic excavation.
-
-**Candidate:** Framework-G v2.1 transcript (66K chars, MS-only with DI/CP) -- already used in Phase 0A but could serve double duty.
+All 4 Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B) ran on the Framework-G v2.1 transcript (66K chars). Results: 8-11 operators per extractor, 91-100% match with Phase 0A ground truth. OP-004 and OP-008 recovered by 6/6 independent extractors across 0A+0C — first GREEN promotion candidates. Gemma4 31B star performer (recovered all 4 museum entries). Empirical arm is now **UNBLOCKED**.
 
 ### Map 19 (Cognitive Archaeology) -- UPDATED 2026-07-10
 > **Priority: DONE** | **Owner: Repo Claude**

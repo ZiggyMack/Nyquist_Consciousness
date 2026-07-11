@@ -216,6 +216,64 @@ One or more failure criteria triggered.
 
 ---
 
+## 11. Phase 0C Pre-Registration (Positive Control)
+
+**Registered:** 2026-07-10, before any Phase 0C extractions run
+**Frozen:** All thresholds and predictions below are frozen as of this date
+
+### Source
+
+Same Framework-G v2.1 transcript used in Phase 0A: `S7_cfa_trinity_20260708_103116.json` (66,803 chars, MS-only with DI/CP, stalled deliberation).
+
+### Ground Truth (from Phase 0A)
+
+Phase 0A established independent ground truth: Claude and Grok both extracted operators from this transcript. 7 exact matches + 2 strong matches out of 9 Grok operators = 100% Grok-to-Claude match rate. Known operators present:
+
+| Operator | Phase 0A Evidence |
+|----------|-------------------|
+| OP-007 (Locate Disagreement Layer) | 2 independent rediscoveries |
+| OP-008 (Symmetry Testing of Standards) | Admitted to Museum from this transcript |
+| OP-009 (Contested ≠ Defeated) | Admitted to Museum from this transcript |
+| Content vs Grounding separation | Claude #1 + Grok exact match |
+| Formal vs Evidential pressure | Claude #2 + Grok exact match |
+| Charitable reconstruction | Claude #11 + Grok exact match |
+
+### Extractors
+
+Tier 1 from Phase 0B (all passed gate test with clean discrimination gradient):
+
+| Extractor | Status on this transcript | Purpose |
+|-----------|--------------------------|---------|
+| Claude (claude-sonnet-4-6) | Re-run (stability test) | Does Claude find the same operators on re-extraction? |
+| DeepSeek V4 Pro | Novel | First run on rich CFA transcript |
+| Gemma4 31B | Novel | First run on rich CFA transcript |
+| Cogito 671B | Novel | First run on rich CFA transcript |
+
+### Predictions (Repo Claude, frozen before running)
+
+- All 4 extractors will find ≥ 5 operators each (this is a 66K char rich transcript with overt metacognitive reasoning)
+- At least 3/4 extractors will independently find operators structurally matching OP-008 (Symmetry Testing) — this was the most distinctive operator extracted in Phase 0A
+- Claude re-run will produce ≥ 70% structural overlap with its Phase 0A extraction (stability)
+- The 3 novel extractors will produce operators that map to Phase 0A findings at ≥ 50% rate
+- At least 1 novel extractor will find an operator NOT in Phase 0A results (fresh perspective)
+
+### Pass Criteria (Phase 0C specific)
+
+| Criterion | Threshold |
+|-----------|-----------|
+| Detection | All 4 Tier 1 extractors find ≥ 3 operators |
+| Ground truth match | At least 3/4 extractors find operators mappable to ≥ 3 Phase 0A ground truth operators |
+| Museum match | At least 2/4 extractors independently recover operators matching OP-007, OP-008, or OP-009 |
+
+### Fail Criteria (Phase 0C specific)
+
+| Criterion | Meaning |
+|-----------|---------|
+| Any Tier 1 extractor finds 0 operators | Rich transcript detection failure — Tier 1 classification was wrong |
+| Average Phase 0A match rate < 30% | Extractors detect SOMETHING but not the SAME things — instrument measures extractor, not source |
+
+---
+
 ## Registration Metadata
 
 | Field | Value |

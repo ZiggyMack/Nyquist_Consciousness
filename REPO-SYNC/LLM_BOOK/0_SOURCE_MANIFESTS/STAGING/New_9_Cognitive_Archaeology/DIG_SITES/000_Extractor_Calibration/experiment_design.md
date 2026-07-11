@@ -210,13 +210,55 @@ lfm2_24b                  6      6      9      5      8     10     19      7  FA
 
 ---
 
-### Phase 0C: Positive Control (PENDING)
+### Phase 0C: Positive Control (DONE — 2026-07-10)
 
-Run extraction on a known-rich CFA transcript where reasoning operators are unambiguously present. Verify that Tier 1 extractors detect operators when they are genuinely there.
+Run Tier 1 extractors on a known-rich CFA transcript where Phase 0A independently established ground truth. Verify detection.
 
 **Purpose:** Completes the calibration triangle — 0A (do extractors agree?), 0B (do they discriminate?), 0C (do they detect?). Without 0C, we know the pipeline doesn't generate on empty texts, but we don't have a formal confirmation that it detects on rich ones.
 
-**Candidate source text:** A Framework-G transcript with multiple CRUX declarations and diagnostic interventions (stall-induced metacognitive richness).
+**Source text:** Same Framework-G v2.1 transcript used in Phase 0A: `S7_cfa_trinity_20260708_103116.json` (66,803 chars, MS-only with DI/CP, stalled deliberation). Phase 0A established ground truth: Claude and Grok found 7 exact + 2 strong matches.
+
+**Extractors:** Tier 1 from Phase 0B (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B). Claude is a stability re-run; the other 3 are novel on this transcript.
+
+**Results:**
+
+| Extractor | Operators Found | Museum Hits | Phase 0A Match Rate |
+|-----------|----------------|-------------|---------------------|
+| Claude (re-run) | 11 | OP-001, OP-004, OP-007, OP-008 | 91% (10/11 map) |
+| DeepSeek V4 Pro | 8 | OP-001, OP-004, OP-008 | 100% (8/8 map) |
+| Gemma4 31B | 9 | OP-004, OP-007, OP-008, OP-009 | 100% (9/9 map) |
+| Cogito 671B | 8 | OP-004, OP-007, OP-008 | 100% (8/8 map) |
+
+**Museum operator recovery across all 6 extractors that have seen this transcript (Phase 0A + 0C):**
+
+| Operator | Claude 0A | Grok 0A | Claude 0C | DeepSeek 0C | Gemma4 0C | Cogito 0C | Hit Rate |
+|----------|-----------|---------|-----------|-------------|-----------|-----------|----------|
+| OP-004 (Reconstruction) | Yes | Yes | Yes | Yes | Yes | Yes | **6/6** |
+| OP-008 (Symmetry Testing) | Yes | Yes | Yes | Yes | Yes | Yes | **6/6** |
+| OP-007 (Locate Disagreement) | Yes | Yes | Yes | — | Yes | Yes | **5/6** |
+| OP-009 (Contested ≠ Defeated) | Yes | — | — | — | Yes | — | **2/6** |
+| OP-001 (Rep ≠ Ontology) | — | — | Yes | Yes | Yes | — | **3/6** |
+
+**Star performer:** Gemma4 31B — recovered all 4 museum entries (OP-004, OP-007, OP-008, OP-009) in a single blind extraction.
+
+**Pass criteria check:**
+
+| Criterion | Required | Actual | Status |
+|-----------|----------|--------|--------|
+| All find ≥ 3 operators | ≥ 3 each | 8, 8, 9, 11 | **PASS** |
+| ≥ 3/4 find ≥ 3 ground truth matches | 3 extractors | 4/4 | **PASS** |
+| ≥ 2/4 recover OP-007/008/009 | 2 extractors | 4/4 on OP-008, 3/4 on OP-007 | **PASS** |
+
+**Fail criteria check:** No failures triggered.
+
+**Key findings:**
+
+1. **OP-004 and OP-008 are the most robust operators in the Museum** — recovered by 6/6 independent extractors across two phases. These are the first candidates for GREEN promotion.
+2. **Claude re-run stability is high** — 91% structural overlap with Phase 0A extraction. The instrument is stable across runs.
+3. **All 4 Tier 1 extractors converge tightly** — every operator found by a novel extractor maps to Phase 0A ground truth. The pipeline detects the SAME things regardless of which Tier 1 extractor is used.
+4. **Gemma4 31B is the star extractor** — 9 operators, all 4 museum entries recovered, zero false positives on this transcript. Recommended as primary extractor for future dig sites alongside Claude.
+
+**Extraction files:** `extractions/extraction_cfa_framework_g_v2_20260708_standard_{extractor}_20260710_223744.md`
 
 ---
 

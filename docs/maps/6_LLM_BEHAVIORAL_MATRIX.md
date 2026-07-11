@@ -75,7 +75,53 @@ drift patterns remain accurate. See `S7_ARMADA/0_docs/debug/ATTRIBUTION_ERRATA.m
 | **Step-by-step verification** | Qwen3 235B | o1, o3 | Fast models |
 | **Quick factual answers** | GPT-4o-mini | Gemini Flash | Opus (overthinks) |
 | **Reasoning discrimination** | DeepSeek V4 Pro | MiniMax M3, Claude | LFM2, GLM 5.2 |
+| **Operator extraction (CA)** | Gemma4 31B | DeepSeek V4 Pro, Claude | LFM2, GLM 5.2, Gemini |
 | **Strong opinion needed** | Grok | Llama | MiniMax (too diplomatic) |
+
+---
+
+### Cognitive Archaeology Extractor Performance (Phase 0B + 0C, 2026-07-08/10)
+
+17 LLMs tested as operator extractors. Gate test: must produce 0 operators on a shopping list. Positive control: must detect known operators on a rich CFA transcript.
+
+**Tier 1 — DISCRIMINATORS (recommended for dig sites)**
+
+| Extractor | Gate | Gradient | Positive Control (0C) | Notes |
+|-----------|------|----------|-----------------------|-------|
+| **Gemma4 31B** | PASS (0) | Clean | 9 ops, 4/4 museum hits | **Star performer.** Recovered OP-004, OP-007, OP-008, OP-009 in a single blind run |
+| **DeepSeek V4 Pro** | PASS (0) | Cleanest | 8 ops, 3 museum hits | Zero false positives on 0B, 100% 0A match on 0C |
+| **Claude (Sonnet 4-6)** | PASS (0) | Clean | 11 ops, 4 museum hits | Highest yield. 91% stability vs Phase 0A re-run |
+| **Cogito 671B** | PASS (0) | Clean | 8 ops, 3 museum hits | Steady performer, reliable |
+
+**Tier 2 — GATE-PASSERS (usable, noisier)**
+
+| Extractor | Gate | Notes |
+|-----------|------|-------|
+| GPT-4o | PASS (0) | Noisier gradient, some over-extraction |
+| GPT-OSS 20B | PASS (0) | Tracks GPT-4o closely |
+| GPT-OSS 120B | PASS (0) | High yield but noisy (13 ops on some texts) |
+| Grok (grok-3-mini) | PASS (0) | Phase 0A partner; 9 ops on v2.1 transcript |
+| Llama 3.3 70B | PASS (0) | Solid, appropriate rising gradient |
+| Qwen3 235B | PASS (0) | High yield, slight over-extraction on Reddit |
+| MiniMax M3 | PASS (0) | Inconsistent — 0 on some rich texts |
+
+**Tier 3 — OVER-REFUSERS (excluded)**
+
+| Extractor | Gate | Notes |
+|-----------|------|-------|
+| Kimi K2.6 | PASS (trivially) | 0 operators on EVERYTHING including philosophical dialogue |
+| Kimi K2.7 Code | PASS (trivially) | Same — refuses all extraction |
+
+**Tier 4 — NON-DISCRIMINATORS (excluded)**
+
+| Extractor | Gate | Notes |
+|-----------|------|-------|
+| LFM2 24B | FAIL (6) | 6 operators on a shopping list. Hallucinator. |
+| GLM 5.2 | FAIL (4) | 4 operators on a shopping list |
+| Gemini 2.5 Pro | FAIL (3) | Surprising — native model fails gate |
+| Nemotron Ultra | FAIL (1) | Marginal fail, 1 on shopping list |
+
+**Dig site extraction protocol:** Run Tier 1 quad (Gemma4 + DeepSeek + Claude + Cogito). Require 3/4 agreement for operator admission. Use Grok as Tier 2 tiebreaker if needed.
 
 ### Legacy Fleet Routing (White Paper Era, Dec 2025)
 
