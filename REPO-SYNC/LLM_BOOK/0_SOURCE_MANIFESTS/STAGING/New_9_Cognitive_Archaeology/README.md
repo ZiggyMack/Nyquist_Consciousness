@@ -14,7 +14,7 @@ We are not studying opinions, conclusions, or ideologies. We are studying **oper
 
 The question is no longer *"What did this thinker believe?"* but *"What cognitive moves does this thinker repeatedly perform?"*
 
-This is the difference between cataloguing every sentence ever written and discovering the rules of syntax. We are looking for the **grammar of high-quality thinking**.
+This is the difference between cataloguing every sentence ever written and discovering the rules of syntax. We are looking for the **grammar of reasoning** — the reusable operations that appear wherever competent argumentation occurs, and whose selection, ordering, and omission distinguish one thinker's approach from another's.
 
 ---
 
@@ -147,7 +147,7 @@ A program that can't be killed isn't a science. Cognitive Archaeology is falsifi
 
 This project emerged from a NotebookLM extraction of Adlam & Barandes (New_8_Cognative_Physics). The prompts were designed to force NotebookLM to operate as a structural philosopher rather than a summarizer. The result: NotebookLM independently rediscovered several abstractions we had built months earlier (Master→DBEP, FUT's representation→evaluation flow, "rationality serves goals, never chooses them").
 
-Nova's observation: every exceptional thinker in our reading list performs the same small set of reasoning operations. Our hypothesis — **an underexplored synthesis, not a claim of novelty** — is that nobody has unified these into one operator framework. That hypothesis is testable: if new thinkers consistently rediscover the same operators, the synthesis is real. Adjacent work may exist in cognitive science, AI interpretability, philosophy of reasoning, or argumentation theory. If found, those become evidence, not threats.
+Nova's observation: thinkers across our reading list perform the same small set of reasoning operations. Our hypothesis — **an underexplored synthesis, not a claim of novelty** — is that nobody has unified these into one operator framework. That hypothesis is testable: if new thinkers consistently rediscover the same operators, the synthesis is real. The H-baseline result (Phase 0B) established that operator *presence* saturates at the level of competent argumentation — the discriminating signature lives in operator *selection, ordering, and omission*, not in the operator set itself. Adjacent work may exist in cognitive science, AI interpretability, philosophy of reasoning, or argumentation theory. If found, those become evidence, not threats.
 
 ---
 

@@ -8,7 +8,7 @@ We don't excavate philosophers because we're interested in their conclusions. We
 
 ## Framing
 
-This project investigates an **underexplored synthesis** — the hypothesis that exceptional thinkers across disciplines perform the same small set of reasoning operations, and that nobody has unified these into one operator framework. That hypothesis is testable: if new thinkers consistently rediscover the same operators, the synthesis is real. If they don't, it isn't.
+This project investigates an **underexplored synthesis** — the hypothesis that thinkers across disciplines perform the same small set of reasoning operations, and that nobody has unified these into one operator framework. That hypothesis is testable: if new thinkers consistently rediscover the same operators, the synthesis is real. If they don't, it isn't. Note: the H-baseline result established that operator *presence* is universal across competent reasoning — the discriminating signal lives in *which* operators a thinker selects, in what *order*, and what they *skip*.
 
 We do not claim novelty. We claim the synthesis appears underexplored. Adjacent work may exist in cognitive science, AI interpretability, philosophy of reasoning, argumentation theory, or epistemology. If found, those become evidence, not threats.
 
