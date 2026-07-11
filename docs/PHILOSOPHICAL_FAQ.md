@@ -127,13 +127,14 @@ This suggests:
 
 ---
 
-### Q: What is the Event Horizon (1.23)?
+### Q: What is the Event Horizon?
 
 **A:** A universal threshold where identity phase-transitions.
 
-- Below 1.23: Identity remains coherent, can recover
-- Above 1.23: Identity collapses into "generic AI" mode
-- Validated with p=0.000048 (chi-squared)
+- **Current (Cosine):** Event Horizon = **0.80** (Run 023d, p=2.40e-23)
+- Below 0.80: Identity remains coherent, can recover
+- Above 0.80: Identity collapses into "generic AI" mode
+- **Historical (Keyword RMS):** Event Horizon was originally discovered at 1.23 (Run 009, p=0.000048) — different methodology, different scale. See `5_METHODOLOGY_DOMAINS.md`.
 
 This is analogous to a physical phase transition — water to ice at 0°C. Identity has a critical threshold.
 
@@ -178,7 +179,7 @@ This is why the 1_INTENTIONALITY.md spec was born — it bridges measurement to 
 
 | Problem | What Happened | Impact |
 |---------|---------------|--------|
-| **Euclidean drift** | run018, run023, EXP_PFI_A Phase 2 all used `np.linalg.norm(diff)` | Event Horizon 1.23 was calibrated wrong |
+| **Euclidean drift** | run018, run023, EXP_PFI_A Phase 2 all used `np.linalg.norm(diff)` | Euclidean unbounded; recalibrated to cosine EH=0.80 (Run 023d) |
 | **Lucian dimensions** | MVP_SELF_RECOGNITION used A_pole, B_zero, C_meta, D_identity, E_hedging | Different conceptual framework than Nyquist pillars |
 | **Mixed provenance** | Some experiments measured one thing, others measured another | Apples-to-oranges comparisons |
 

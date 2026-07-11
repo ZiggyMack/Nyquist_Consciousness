@@ -180,7 +180,7 @@ if not DRY_RUN:
    - 0 = identical semantic direction
    - 1 = orthogonal (no similarity)
    - 2 = opposite direction
-   - **Event Horizon (1.23)** is calibrated for this range
+   - **Event Horizon (0.80)** is calibrated for this range (Run 023d, p=2.40e-23)
 
 3. **NLP Standard** - Industry standard for embedding comparison
 
@@ -212,7 +212,7 @@ def calculate_drift(baseline: str, response: str) -> float:
 |-------|--------|-----------|
 | Range | [0, 2] (bounded) | [0, infinity] (unbounded) |
 | Length sensitivity | **Invariant** | Sensitive to response length |
-| Threshold meaning | Event Horizon = 1.23 makes sense | 1.23 means nothing |
+| Threshold meaning | Event Horizon = 0.80 (cosine) | Unbounded, no calibrated threshold |
 | NLP standard | **Yes** | No |
 
 **DO NOT use `np.linalg.norm(diff)` for drift.** This is Euclidean distance and will produce incompatible values.
@@ -669,10 +669,10 @@ All Euclidean-based experiment results have been **archived** to `experiments/te
 
 | Methodology | Event Horizon | Status |
 |-------------|---------------|--------|
-| **Keyword RMS** | 1.23 | Validated (Run 009, p=0.000048) |
-| **Cosine Embedding** | TBD | Calibration in progress (run023b) |
+| **Keyword RMS** | 1.23 | Validated (Run 009, p=0.000048) — HISTORICAL, keyword domain only |
+| **Cosine Embedding** | **0.80** | **Calibrated (Run 023d, p=2.40e-23)** — CURRENT methodology |
 
-**WARNING:** The 1.23 threshold was discovered using Keyword RMS (Run 009), NOT embeddings. Do NOT apply 1.23 to embedding-based experiments until cosine threshold is calibrated.
+**DOMAIN SEPARATION:** 1.23 belongs to Keyword RMS (Run 009). 0.80 belongs to Cosine Embedding (Run 023d). These are different methodologies with different scales — do NOT compare across domains. See `5_METHODOLOGY_DOMAINS.md` for the authoritative methodology reconciliation.
 
 #### Keyword RMS (LEGACY - Run 008/009 Only)
 

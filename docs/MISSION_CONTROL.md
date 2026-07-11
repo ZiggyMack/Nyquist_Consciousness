@@ -18,6 +18,7 @@
 | Persona routing | `docs/maps/17_PERSONA_FLEET_MATRIX.md` | Ship→persona pairing |
 | Cognitive Archaeology | `docs/maps/19_COGNITIVE_ARCHAEOLOGY_MAP.md` | CA program navigation |
 | Operator truth | `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/MUSEUM/INDEX.md` | Operator registry (maps summarize, INDEX decides) |
+| Claim evidence | `docs/CLAIM_EVIDENCE_LEDGER.md` | Every public-facing statistic must cite a row here |
 | Publication package | `WHITE-PAPER/reviewers/packages/CURRENT_VERSION.json` | Current package version |
 
 > **Rule:** Maps summarize; ledgers and manifests decide. If a map disagrees with its authority file, the authority file wins.
