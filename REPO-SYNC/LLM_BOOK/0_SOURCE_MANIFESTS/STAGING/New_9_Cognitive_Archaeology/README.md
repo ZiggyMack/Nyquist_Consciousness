@@ -18,6 +18,34 @@ This is the difference between cataloguing every sentence ever written and disco
 
 ---
 
+## Project Status (2026-07-11)
+
+| Milestone | Status | Key Result |
+|-----------|--------|------------|
+| Dig Site 001 (Adlam/Barandes) | COMPLETE | 6 operators recovered (OP-001 through OP-006) |
+| Dig Site 002 (Barandes solo) | COMPLETE | 6 new operators (OP-010 through OP-015), 3 rediscoveries, operator families introduced, Discovery Architectures emerged |
+| Dig Site 003 (Dirac) | PLANNING | Q50 rank #1. Tests forward-generative architecture. |
+| Phase 0A (positive control) | COMPLETE | 2 extractors (Claude + Grok), 7/9 exact match, 100% Grok-to-Claude match rate |
+| Phase 0B (negative controls) | COMPLETE | 17 extractors x 8 negative controls (136 extractions). Extractor tiering established. Clean discrimination gradient. |
+| Phase 0C (Tier 1 positive) | COMPLETE | 4 Tier 1 extractors on Framework-G v2.1. 91-100% match with Phase 0A ground truth. |
+| H-Baseline (MEC null test) | COMPLETE | MEC excess over matched-difficulty control ~ 0. Operator PRESENCE saturates at competence. Discriminating signal lives in SELECTION, ORDERING, and OMISSION. |
+| Test A (composition regimes) | PLANNED | Do worldview transitions compose? 702 CFA Trinity runs available. |
+| Test B (sequence statistics) | IN PROGRESS | Tooling built. Preliminary: dig-site avg 12.5 operators vs neg-H 5.7. Blinded matching run PENDING. |
+| Museum | 15 operators | 0 GREEN, 7 YELLOW, 8 RED. GREEN promotion BLOCKED for OP-008/OP-009 (found in neg-H). |
+| Discovery Architectures | 1 confirmed, 5 candidates | RCI confirmed. Forward-generative, Evolutionary, Compression, Adversarial, Composition Analysis candidates. Discovery Simplex hypothesized. |
+
+### The H-Baseline Finding
+
+The most important empirical result so far. Opus proposed and pre-registered an H-baseline test: run the same extraction on a matched-difficulty negative control (a throwaway philosophy seminar dialogue, neg-H) using the same extractors. If Tier 1 extractors agree on neg-H operators at rates comparable to dig-site operators, then Multi-Extractor Convergence (MEC) measures vocabulary, not the source.
+
+**Result:** Tier 1 extractors agree ~80% on neg-H vs ~78% on dig-site. MEC excess ~ 0. OP-008 and OP-009 — the only two GREEN-track operators — both appeared in neg-H, blocking their promotion (GREEN criterion (c) requires "demonstrated absent in negative-control text").
+
+**What this means:** Operator *presence* discriminates reasoning from non-reasoning (negative controls A-F produce dramatically fewer operators), but it does NOT discriminate exceptional from competent. The operators are a grammar of competent argumentation, not a grammar of genius.
+
+**The escape route:** Ziggy's pre-registration A8 predicts that the discriminating signal lives in operator SELECTION, ORDERING, and OMISSION — not presence. Test B is the load-bearing experiment that tests this.
+
+---
+
 ## Levels of Abstraction
 
 The project studies discovery at six levels. We didn't plan to climb this hierarchy — Dig Site 002 pushed us up it.
@@ -197,14 +225,16 @@ New_9_Cognitive_Archaeology/
 ├── LEDGER.md                  # Operator confidence tracking
 ├── FIELD_MANUAL.md            # Excavation workflow, admission criteria
 ├── RESEARCH_QUESTIONS.md      # What the infrastructure exists to answer (16 questions)
-├── DIG_SITES/                 # Individual excavations (Q50-recursive from 003+)
+├── DIG_SITES/
 │   ├── 000_Extractor_Calibration/  # Phase 0: instrument calibration
-│   │   ├── extractions/       # Raw extraction outputs (museum-blind)
+│   │   ├── extractions/       # 280+ extraction files (17 extractors x 8 sources + positives)
+│   │   ├── PRE_REGISTRATION.md     # Frozen predictions, PI declaration, phase status
 │   │   ├── ADMISSION_EVALUATIONS.md  # Formal operator admission tests
-│   │   └── ARM_1_ANALYSIS.md  # Extractor agreement matrix
-│   ├── 001_Adlam_Barandes/    # First dig site (seeded from New_8)
+│   │   ├── ARM_1_ANALYSIS.md  # Extractor agreement matrix
+│   │   └── BLIND_PAIRS_TIER1.txt   # 27 blinded pairs for matching protocol
+│   ├── 001_Adlam_Barandes/    # First dig site (seeded from New_8) — COMPLETE
 │   ├── 002_Barandes/           # Barandes solo (New_8 Round 2) — COMPLETE
-│   ├── 003_Dirac/              # Q50 #1 — forward-generative, RCI stress test
+│   ├── 003_Dirac/              # Q50 #1 — forward-generative, RCI stress test — PLANNING
 │   ├── 004_Wolfram/            # Q50 #2 — deterministic architecture
 │   ├── 005_Hermann/            # Q50 #3 — philosophical auditing, Noether lineage
 │   ├── 006_Pearl/              # Original list — highest convergence potential
@@ -212,9 +242,13 @@ New_9_Cognitive_Archaeology/
 │   ├── 008_Jaynes/             # Original list — ISP lineage, MaxEnt
 │   └── (each self-contained: _IN/, _OUT/, chat.md, STATUS.md)
 ├── MUSEUM/                    # Operator catalog
-│   ├── INDEX.md               # Master operator list (9 registered)
+│   ├── INDEX.md               # Master operator list (15 registered)
 │   ├── GRAPH.md               # Operator relationships + Failure Atlas
-│   └── operators/             # Individual operator pages (OP-001 through OP-009)
+│   ├── RETIRED.md             # Operator retirement records
+│   └── operators/             # Individual operator pages (OP-001 through OP-015)
+├── TOOLS/                     # Analysis scripts
+│   ├── extract_operators.py   # Extraction pipeline
+│   └── sequence_analysis.py   # Test B + blinded matching tooling
 ├── compression_candidates/    # Mathematical framework quarantine
 │   ├── README.md              # Third Law, promotion pathway
 │   └── category_theory/       # First UCC — predictions registered, 0 tests run
@@ -285,13 +319,27 @@ Category Theory has surfaced as one candidate lens because it shares CA's obsess
 
 **These are observations, not commitments.** They become meaningful only if and when empirical data independently confirms the structures they predict.
 
-### Testable Experiments (Available Now)
+### Active Tests
 
-Two experiments can test mathematical structure without committing to any mathematical framework:
+Two experiments are in progress. Neither requires committing to any mathematical framework.
 
-**1. Operator sequence statistics.** Across existing CFA transcripts: do the five stable operators appear in consistent order? Does "metric separation → symmetry testing" always precede "meta-dispute identification"? This is a co-occurrence and ordering test — plain sequence statistics, no mathematical framework required. If a consistent compositional pathway emerges across transcripts, that is evidence of algebraic structure. If the order varies but the set is stable, the operators are a basis without composition laws.
+**Test B: Operator Sequence Statistics (LOAD-BEARING)**
 
-**2. Framework composition test.** If score profiles compose, then Framework A's profile against Framework C should be partially predictable from A→B and B→C data. We have complete data for G→PT (n=80), PT→MdN (n=40), and G→MdN (n=80). This test can be run now.
+The H-baseline proved that operator *presence* saturates at competence. If operator *ordering* on dig sites is also indistinguishable from matched-difficulty controls, the Museum catalogues competence. If the ordering differs — that's the fossil.
+
+Tooling: `TOOLS/sequence_analysis.py` (inventory, extract, stats, blind commands). Preliminary results: dig-site extractions average 12.5 operators vs neg-H 5.7. Dig-site vocabulary is more domain-specific (251 unique words vs 103 neg-H-only). Semantic matching is the bottleneck for authoritative results.
+
+Blinded matching protocol (Opus pre-registration section 4): 27 pairs generated in `BLIND_PAIRS_TIER1.txt` — source labels stripped, shuffled with seed=42. A matcher who cannot see which pair came from the dig site classifies them. If dig-site pairs are inseparable from neg-H pairs, MEC measures vocabulary, not Barandes.
+
+**Status:** Tooling complete. Blinded matching run PENDING.
+
+**Test A: Composition Regimes (CFA Trinity)**
+
+Do worldview transitions compose? For every triple (A, B, C), classify the relationship between A→B, B→C, and A→C into regimes: composes exactly, composes approximately, fails composition, generates obstruction, or generates novelty.
+
+Data: 702 CFA Trinity runs (G=212, PT=131, MdN=94). Need to parse JSON files for framework pairings, extract exit survey score vectors, compute composition statistics.
+
+**Status:** PLANNED. Awaiting structural framing from CFA Claude on what vectors define "composition signature."
 
 ### The Convergence Prediction
 
@@ -301,7 +349,49 @@ Different frameworks may use different objects but the **same transformations**.
 
 This section records theoretical observations for future testing. It does not inform any extraction prompt, YAML schema, operator definition, or code change. The empirical engine (adversarial deliberation, extraction, DI, coupling probe, Failure Atlas) stays exactly as built. Mathematics earns its place by compressing what the engine finds, not by telling the engine what to look for.
 
-Dig Site 000 must complete before any mathematical framework is adopted. The proper sequence: excavate reasoning, discover stable structures, then ask mathematicians what those structures resemble. Not: adopt a mathematical language, then look for it in reasoning.
+Dig Site 000 is complete (Phases 0A/0B/0C + H-baseline). The proper sequence remains: excavate reasoning, discover stable structures, then ask mathematicians what those structures resemble. Not: adopt a mathematical language, then look for it in reasoning.
+
+---
+
+## Instrument Validation Results (Phase 0)
+
+Phase 0 is the instrument calibration — testing whether the extraction pipeline deserves to measure anything at all. It ran in four phases plus a null-distribution test.
+
+### Phase 0A: Positive Control (2 extractors)
+
+Two extractors (Claude + Grok) independently extracted operators from the same CFA transcript (Framework-G v2.1, 66K chars, MS-only with DI/CP). Neither saw the Museum.
+
+**Result:** 7 exact matches + 2 strong matches out of 9 Grok operators = 100% Grok-to-Claude match rate. Five stable operators recovered across all extractions. Two new operators admitted to Museum (OP-008, OP-009). Two OP-007 rediscoveries confirmed. Exceeds pre-committed 40% pairwise agreement threshold.
+
+**Methodological finding:** "Shorter is richer" — stall-induced metacognitive pressure forces auditors to explicitly articulate reasoning operations. Concentrated single-metric deliberation with impasses produces richer extraction material than broad multi-metric convergence runs.
+
+### Phase 0B: Negative Control Battery (17 extractors)
+
+17 LLM extractors ran museum-blind on 8 negative control texts: shopping list (neg_A), weather forecast (neg_B), Reddit comments (neg_C), pseudo-profound nonsense (neg_D), confident hallucination (neg_E), instruction manual (neg_F), philosophical dialogue (neg_G), and matched-difficulty philosophy seminar (neg_H).
+
+**Result:** Clean discrimination gradient. Tier 1 extractors cleanly refused to extract operators from trivial controls (shopping list, weather forecast). Lower-tier extractors showed false positives. This established the extractor tiering system:
+
+| Tier | Models | Criterion |
+|------|--------|-----------|
+| Tier 1 | DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B | Clean discrimination: refuse trivial, extract genuine |
+| Tier 2 | Grok, GPT, Kimi K26/K27, Qwen3 235B, Llama 33 70B | Moderate discrimination, some false positives |
+| Tier 4 | LFM2, GLM, Gemini 2.5 Pro, Nemotron Ultra, MiniMax M3, GPT-OSS variants | Poor discrimination or hallucinated operators |
+
+### Phase 0C: Tier 1 Positive Control (4 extractors)
+
+All four Tier 1 extractors ran on the same Framework-G v2.1 transcript used in Phase 0A. Museum-blind.
+
+**Result:** 91-100% match with Phase 0A ground truth. All four extractors found operators mapping to known Museum entries. Pre-registered pass criteria met on all dimensions (detection, ground truth match, Museum match).
+
+### H-Baseline: MEC Null Distribution (Opus)
+
+Opus proposed, pre-registered, and scored this test. The question: does Multi-Extractor Convergence (MEC) measure the source text or just the extractor ecology's shared vocabulary?
+
+**Design:** Run Tier 1 extractors on neg_H (a philosophy seminar dialogue of matched difficulty but no disciplined reasoning structure). Compare inter-extractor agreement on neg_H vs dig-site.
+
+**Result:** ~80% agreement on neg_H vs ~78% on dig-site. MEC excess ~ 0. Opus scored 1/5 on his own pre-registered predictions. OP-008 and OP-009 both found in neg-H, blocking GREEN promotion. Full results in `REPO-SYNC/CFA/Opus/RESULTS_OPUS_H_BASELINE.md`.
+
+**Implication:** Operator presence is a threshold signal (reasoning vs non-reasoning), not a gradient signal (competent vs exceptional). The discriminating fossil — if it exists — must live in operator ordering, selection patterns, and omission. This is what Test B investigates.
 
 ---
 
@@ -309,8 +399,9 @@ Dig Site 000 must complete before any mathematical framework is adopted. The pro
 
 ### Completed Dig Sites
 
-1. **Adlam & Barandes** — representation dependence, hidden selection, emergence circularity *(DONE — Dig Site 001)*
-2. **Barandes (solo)** — ISP theory, subtractive discovery, pedagogical forcing, Noether extraction *(DONE — Dig Site 002, 40 insights, 14 connections, 11 experiments)*
+1. **Adlam & Barandes** — representation dependence, hidden selection, emergence circularity *(DONE — Dig Site 001, 6 new operators: OP-001 through OP-006)*
+2. **Barandes (solo)** — ISP theory, subtractive discovery, pedagogical forcing, Noether extraction *(DONE — Dig Site 002, 6 new operators: OP-010 through OP-015, 3 rediscoveries: OP-001/004/006, 40 insights, 14 connections, 11 experiments, operator family classifications introduced, Discovery Architectures emerged)*
+3. **Extractor Calibration** — instrument validation, not a thinker dig *(DONE — Dig Site 000, Phases 0A/0B/0C + H-baseline complete, 2 new operators: OP-008/009, 2 OP-007 rediscoveries, 17 extractors tested, tiering established)*
 
 ### Q50-Recursive Queue (self-evolving from Dig Site 002)
 
@@ -338,4 +429,4 @@ Dig Site 000 must complete before any mathematical framework is adopted. The pro
 *Project initiated: 2026-07-06*
 *Proposed by: Nova (2026-07-05)*
 *Named by: Ziggy*
-*Last updated: 2026-07-10 — Discovery Architectures (Level 4) recognized as distinct from operators; DISCOVERY_ARCHITECTURES.md created; Recursive Discovery Loop added; hierarchy of abstraction (Levels 0-5) codified; direction axis (Backward↔Forward) added to GRAPH.md*
+*Last updated: 2026-07-11 — Phase 0 results (0A/0B/0C + H-baseline) documented; extractor tiering (Tier 1/2/4) added; H-baseline finding and implications surfaced; Test A/B active tests documented; Museum count updated (9→15); TOOLS/ directory added to architecture; dig site yields added; claims language reflects H-baseline ("grammar of reasoning" not "grammar of genius")*

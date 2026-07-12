@@ -155,6 +155,18 @@ def render():
 
     with cook_col1:
         with st.container(border=True):
+            st.markdown("\U0001f9ea **H-Baseline: operator presence saturates at competence**")
+            st.markdown(
+                "Opus proposed and pre-registered an MEC null-distribution test. Result: "
+                "Tier 1 extractors agree ~80% on matched-difficulty neg-H vs ~78% on dig-site. "
+                "MEC excess ~ 0. OP-008/OP-009 found in neg-H, **blocking GREEN promotion**. "
+                "Operator PRESENCE discriminates reasoning from non-reasoning, but NOT exceptional "
+                "from competent. The discriminating fossil must live in operator SELECTION, ORDERING, "
+                "and OMISSION (Ziggy's PRE_REGISTRATION A8)."
+            )
+            st.caption("H-Baseline · 2026-07-11 · Opus scored 1/5 on own predictions")
+
+        with st.container(border=True):
             st.markdown("\U0001f4d0 **Discovery Simplex emerged from Curt**")
             st.markdown(
                 "Four orthogonal discovery questions — not competing theories. "
@@ -162,19 +174,20 @@ def render():
                 "Two corners confirmed, two predicted. This replaces the single backward/forward axis "
                 "with a principled coordinate system for organizing all discovery architectures."
             )
-            st.caption("New_10 Dig Site 010 · Q31–Q38 formal audit · CONFIRMED")
-
-        with st.container(border=True):
-            st.markdown("✅ **Phase 0C COMPLETE — empirical arm unblocked**")
-            st.markdown(
-                "All 4 Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B) "
-                "passed the positive control on Framework-G v2.1 (66K chars). "
-                "91–100% match with Phase 0A ground truth. Calibration triangle closed: "
-                "pipeline detects (0C), doesn't hallucinate (0B), extractors agree (0A)."
-            )
-            st.caption("Phase 0C · 2026-07-10 · Gemma4 31B star performer")
+            st.caption("New_10 Dig Site 010 · Q31-Q38 formal audit · CONFIRMED")
 
     with cook_col2:
+        with st.container(border=True):
+            st.markdown("\U0001f52c **Test B: is ordering the fossil? (LOAD-BEARING)**")
+            st.markdown(
+                "If dig-site operator ORDER is indistinguishable from neg-H, the Museum catalogues "
+                "competence. If it differs, that's the fossil. Tooling built (`sequence_analysis.py`). "
+                "Preliminary: dig-site avg 12.5 operators vs neg-H 5.7 — COUNT discriminates. "
+                "27 blinded pairs generated (seed=42), source labels stripped. "
+                "Blinded matching run PENDING."
+            )
+            st.caption("Test B · IN PROGRESS · Semantic matching is the bottleneck")
+
         with st.container(border=True):
             st.markdown("\U0001f517 **\"Don't privilege nodes\" — 5 projects converge**")
             st.markdown(
@@ -184,16 +197,6 @@ def render():
                 "This is the strongest cross-project principle confirmed so far."
             )
             st.caption("Convergence: Barandes + Curt + CFA + ARMADA + EOS")
-
-        with st.container(border=True):
-            st.markdown("\U0001f3db️ **Architecture F = a fourth discovery engine**")
-            st.markdown(
-                "Curt's \"every operation has a domain of validity\" produced a genuine new architecture: "
-                "Composition Analysis. Unlike RCI (reads backward from outputs), Architecture F audits "
-                "whether operations are LICENSED in new domains. It's the architecture that audits other "
-                "architectures. Instances: Arrow, Efron, Abramsky-Brandenburger."
-            )
-            st.caption("New_10 · Architecture F · Candidate (Composition corner)")
 
     # ==================== LLM BOOK PIPELINE STATUS ====================
 
@@ -208,8 +211,8 @@ def render():
             st.markdown("**New_8** (Barandes/Adlam)")
             st.markdown("Round 1 ✔️ Round 2 ✔️")
             st.markdown(
-                "Produced: 7 operators (OP-001–007), RCI architecture (confirmed), "
-                "ISP↔Cognitive Archaeology mapping, Noether lens."
+                "Produced: 6 operators (OP-001-006), RCI architecture (confirmed), "
+                "ISP-Cognitive Archaeology mapping, Noether lens."
             )
             st.markdown("*Status: ✅ COMPLETE*")
 
@@ -242,24 +245,23 @@ def render():
 
     sync = get_sync_status()
 
-    # Count by priority
-    st.markdown("**0 high · 2 medium · 3 low**")
+    st.markdown("**0 high · 3 medium · 3 low**")
 
-    # Phase 0C resolved (full width)
     with st.container(border=True):
-        st.markdown(f'{priority_badge("DONE")} &nbsp; **CA Phase 0C — COMPLETE (2026-07-10)**',
+        st.markdown(f'{priority_badge("DONE")} &nbsp; **Phase 0 COMPLETE — all phases + H-baseline**',
                     unsafe_allow_html=True)
         st.markdown(
-            "4 Tier 1 extractors passed positive control on Framework-G v2.1 (66K chars). "
-            "91–100% match with Phase 0A ground truth. OP-004 and OP-008 recovered by 6/6 independent "
-            "extractors — first GREEN promotion candidates (pending 2nd dig site). "
-            "Empirical arm **UNBLOCKED**."
+            "Phase 0A (2 extractors, 100% match), 0B (17 extractors, 136 extractions, tiering established), "
+            "0C (4 Tier 1, 91-100% ground truth match), H-baseline (MEC excess ~ 0). "
+            "Empirical arm **UNBLOCKED**. "
+            "GREEN promotion for OP-008/009 **BLOCKED** by H-baseline: both found in neg-H (criterion (c) not met). "
+            "Escape route: Test B (operator ordering/omission)."
         )
         st.markdown(action_line(
-            "Resolved — proceed to systematic excavation (Dig Site 003 Dirac)"
+            "Phase 0 resolved. Test B is the load-bearing next experiment."
         ), unsafe_allow_html=True)
 
-    med_col1, med_col2 = st.columns(2)
+    med_col1, med_col2, med_col3 = st.columns(3)
 
     with med_col1:
         with st.container(border=True):
@@ -276,6 +278,20 @@ def render():
             ), unsafe_allow_html=True)
 
     with med_col2:
+        with st.container(border=True):
+            st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **Test A: Composition Regimes (702 runs)**',
+                        unsafe_allow_html=True)
+            st.markdown(
+                "Do worldview transitions compose? For each triple (A, B, C), classify A->B + B->C vs A->C "
+                "into regimes: exact, approximate, fails, obstruction, novelty. "
+                "Data exists (G=212, PT=131, MdN=94 CFA Trinity runs). "
+                "Awaiting structural framing from CFA Claude on composition signature vectors."
+            )
+            st.markdown(action_line(
+                "Send Q2/Q3 to CFA Claude, build Test A script from structural framing"
+            ), unsafe_allow_html=True)
+
+    with med_col3:
         with st.container(border=True):
             jsons_in_running = sync.get("running", {}).get("jsons", 0)
             st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **SYNC_OUT housekeeping — {jsons_in_running} raw JSONs**',
@@ -420,12 +436,12 @@ def render():
         # --- Dig Sites ---
         st.markdown("#### Dig Site Status")
         dig_sites = [
-            {"Site": "000", "Target": "Extractor Calibration", "Status": "✅ 0A/0B/0C Complete",
-             "Result": "17 extractors, 4 tiers, 2 new ops, Gemma4 star"},
+            {"Site": "000", "Target": "Extractor Calibration", "Status": "✅ 0A/0B/0C + H-Baseline",
+             "Result": "17 extractors, Tier 1/2/4, MEC excess~0, GREEN blocked"},
             {"Site": "001", "Target": "Adlam & Barandes", "Status": "✅ Complete",
-             "Result": "7 operators (OP-001–007)"},
+             "Result": "6 operators (OP-001-006)"},
             {"Site": "002", "Target": "Barandes (solo)", "Status": "✅ Complete",
-             "Result": "6 new ops (OP-010–015), RCI arch, 40 insights"},
+             "Result": "6 new ops (OP-010-015), 3 rediscoveries, RCI arch"},
             {"Site": "010", "Target": "Curt Jaimungal", "Status": "✅ Complete (R1+Audit)",
              "Result": "Arch F, Simplex, Relation Space"},
             {"Site": "003", "Target": "Dirac", "Status": "⏳ Planned (Q50 #1)",

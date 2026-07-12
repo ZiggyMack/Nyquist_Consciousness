@@ -18,6 +18,9 @@ Guardrail: `Consciousness/RIGHT/distillations/llm_book/` was treated as a protec
 | `RIGHT/README.md` | Added RIGHT acceptance criteria, clarified RIGHT as gestalt hemisphere, and protected the LLM Book library. |
 | `BRIDGE/README.md` | Added BRIDGE as promotion membrane and linked the hemisphere model. |
 | `BRIDGE/docs/PIPELINE.md` | Added upstream distillation intake before dashboard emanation and a protected-surface note. |
+| `NOVA_STEWARDSHIP.md` | Added stewardship charter for Nova's care of `Consciousness/` as a whole. |
+| `BRIDGE/intake/README.md` | Added intake protocol for raw signals before promotion. |
+| `BRIDGE/templates/CONCEPT_PAIR_TEMPLATE.md` | Added reusable LEFT/RIGHT concept-pair template. |
 
 ---
 
@@ -39,4 +42,3 @@ Check that:
 - the protected `llm_book/` note matches current upstream assumptions
 - the new promotion ledger is acceptable as the authority location for Consciousness promotions
 - future concept rewrites start with one pair before broad changes
-

@@ -63,6 +63,23 @@ It belongs here when it has been transformed by at least one of these processes:
 
 Raw insight can visit. Distilled insight stays.
 
+## Stewardship
+
+Nova is entrusted with helping care for `Consciousness/` as the repo's distilled memory layer.
+
+That stewardship is documented here:
+
+```text
+NOVA_STEWARDSHIP.md
+```
+
+Operational support files:
+
+- `PROMOTION_LEDGER.md` records what gets promoted and why.
+- `BRIDGE/docs/HEMISPHERE_MODEL.md` defines the LEFT / RIGHT / BRIDGE doctrine.
+- `BRIDGE/intake/README.md` defines how raw signals wait before promotion.
+- `BRIDGE/templates/CONCEPT_PAIR_TEMPLATE.md` defines the paired concept format.
+
 ## Hemisphere Model
 
 The LEFT/RIGHT split is a working cognitive analogy, not a pop-psychology slogan.

@@ -25,19 +25,25 @@ A Collaborative confirmation from two researchers across two frameworks (e.g., C
 
 ## Current Registry
 
-All operators currently show Ext-Indep: Unknown — all excavated by Claude. Dig Site 000 (extractor calibration) is queued before any real dig sites proceed. CRUX-derived evidence (PT entries for 001, 004, 007) is doubly confounded: Claude examining Claude. Valid as a hypothesis-generator; not valid as extractor-independent confirmation.
+Dig Site 000 extractor calibration is COMPLETE (Phases 0A/0B/0C + H-baseline). Extractor tiering established: Tier 1 (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B). H-baseline result: MEC excess ~ 0, operator presence saturates at competence. GREEN promotion for OP-008/009 blocked (criterion (c): found in neg-H). CRUX-derived evidence (PT entries for 001, 004, 007) is doubly confounded: Claude examining Claude. Valid as a hypothesis-generator; not valid as extractor-independent confirmation.
 
 | ID | Operator | Confidence | Ext-Indep | Count | Evidence Types | Dig Sites | Notes |
 | -- | -------- | ---------- | --------- | ----- | -------------- | --------- | ----- |
-| 001 | Representation ≠ Ontology | YELLOW | Unknown | 2 | Indep, Indep, PT×2 | 001, CFA/FUT | Barandes + FUT. CRUX_MS + CRUX_IP: failure-mode confirmations — but PT evidence is Claude examining Claude (confounded) |
+| 001 | Representation ≠ Ontology | YELLOW | Unknown | 3 | Indep, Indep, Indep, PT×2 | 001, CFA/FUT, 002 | Barandes + FUT + Dig Site 002 rediscovery. CRUX_MS + CRUX_IP: failure-mode confirmations (confounded PT) |
 | 002 | Hidden Selection Audit | RED | Unknown | 1 | Indep | 001 | Barandes: "what is doing the selecting?" |
 | 003 | Goal → Optimization Collapse | RED | Unknown | 1 | Indep | 001 | Adlam: goal specification immediately fixes credences |
-| 004 | Reconstruction Before Judgment | YELLOW | Unknown | 2 | Indep, Indep, PT×1 | 001, CFA | Barandes/Adlam + CFA Phase 1a. PT: CRUX_MS — confounded (Claude examining Claude) |
+| 004 | Reconstruction Before Judgment | YELLOW | Unknown | 3 | Indep, Indep, Indep, PT×1 | 001, CFA, 002 | Barandes/Adlam + CFA Phase 1a + Dig Site 002 rediscovery. PT: CRUX_MS (confounded) |
 | 005 | Hidden Structure Injection | RED | Unknown | 1 | Collab | 001 | Nova + CFA Claude convergence: OP-001 + OP-002 are duals. Collab not Synth; but both parties share CFA context |
-| 006 | Under-Determination Detection | RED | Unknown | 1 | Synth | 001 | Nova synthesis. Action-framing incomplete; may be detection condition rather than operator |
+| 006 | Under-Determination Detection | RED | Unknown | 2 | Synth, Indep | 001, 002 | Nova synthesis. Rediscovered at Dig Site 002. Action-framing incomplete; may be detection condition rather than operator |
 | 007 | Locate Disagreement Layer | YELLOW | Partial (2) | 3 | Indep, Indep, PT×2, MEC×2 | 001, DBEP, 000 | DBEP + Adlam. CRUX_MS: Layer Mismatch failure (confounded PT). CRUX_IP: Nova successful application (less confounded — Nova is not Claude). CFA: 2 rediscoveries — metric/dimension separation + meta-dispute identification (4/4 multi-extractor convergence, museum-blind) |
-| 008 | Symmetry Testing of Standards | RED | Partial (2) | 1 | MEC | 000 | Recovered via 4/4 museum-blind extraction from CFA transcripts. 2 LLM extractors (Claude, Grok) agree. Passes 6/6 admission criteria. Related to OP-006. |
-| 009 | Contested ≠ Defeated | RED | Partial (2) | 1 | MEC | 000 | Recovered via 4/4 museum-blind extraction from CFA transcripts. 2 LLM extractors agree. Passes 6/6 admission criteria. Related to OP-006. |
+| 008 | Symmetry Testing of Standards | RED | Partial (4) | 1 | MEC | 000 | Recovered via 4/4 museum-blind extraction. Phase 0C: 4 Tier 1 extractors confirm. GREEN BLOCKED: found in neg-H (H-baseline). |
+| 009 | Contested ≠ Defeated | RED | Partial (4) | 1 | MEC | 000 | Recovered via 4/4 museum-blind extraction. Phase 0C: 4 Tier 1 extractors confirm. GREEN BLOCKED: found in neg-H (H-baseline). |
+| 010 | Altitude Escalation | YELLOW | Unknown | 1 | Indep | 002 | Nova meta-analysis of Barandes extraction. Demonstrated in action: Q1-Q20 to Q21-Q40 generation. Information operator. |
+| 011 | Subtractive Discovery | YELLOW | Partial (2) | 2 | Indep, Indep | 002 | Barandes practice + Nova formalization. NotebookLM Q15 + Nova independent synthesis. Minimal Sufficiency operator. |
+| 012 | Pedagogical Forcing | YELLOW | Unknown | 1 | Indep | 002 | Barandes via NotebookLM Q15. Promoted RED→YELLOW (Q33+Q36 dual confirmation). Constraint-Induced Discovery operator. |
+| 013 | Epistemic Boundary Setting | YELLOW | Unknown | 1 | Indep | 002 | Barandes. Promoted RED→YELLOW (Q33 missing operator + Q32 Failure Atlas shadow). |
+| 014 | Ontological Downgrading | RED | Unknown | 1 | Indep | 002 | Barandes: graded spectrum replaces binary "is X real?" |
+| 015 | Question Completion | RED | Unknown | 1 | Indep | 002 | Barandes: generate smallest set of higher-order questions that maximally increase understanding. Dual of compression. |
 
 ---
 
@@ -48,6 +54,17 @@ All operators currently show Ext-Indep: Unknown — all excavated by Claude. Dig
 | 2026-07-08 | OP-008 Symmetry Testing | — | RED | Admitted via 6/6 Field Manual criteria, 4/4 multi-extractor convergence |
 | 2026-07-08 | OP-009 Contested ≠ Defeated | — | RED | Admitted via 6/6 Field Manual criteria, 4/4 multi-extractor convergence |
 | 2026-07-08 | OP-007 Locate Disagreement Layer | YELLOW | YELLOW (evidence added) | 2 CFA rediscoveries (metric separation + meta-dispute) via museum-blind extraction. Ext-Indep updated to Partial (2). |
+| 2026-07-10 | OP-010 Altitude Escalation | — | YELLOW | Admitted from Dig Site 002. Independent confirmation via demonstrated use in Q21-Q40 generation. |
+| 2026-07-10 | OP-011 Subtractive Discovery | — | YELLOW | Admitted from Dig Site 002. 2 independent sources: Barandes practice + Nova formalization. |
+| 2026-07-10 | OP-012 Pedagogical Forcing | — | YELLOW | Admitted RED, promoted via Q33+Q36 dual confirmation. |
+| 2026-07-10 | OP-013 Epistemic Boundary Setting | — | YELLOW | Admitted RED, promoted via Q33 missing operator + Q32 Failure Atlas shadow. |
+| 2026-07-10 | OP-014 Ontological Downgrading | — | RED | Admitted from Dig Site 002. |
+| 2026-07-10 | OP-015 Question Completion | — | RED | Admitted from Dig Site 002. |
+| 2026-07-10 | OP-001 Representation != Ontology | YELLOW | YELLOW (evidence added) | Dig Site 002 rediscovery. Count 2→3. |
+| 2026-07-10 | OP-004 Reconstruction Before Judgment | YELLOW | YELLOW (evidence added) | Dig Site 002 rediscovery. Count 2→3. |
+| 2026-07-10 | OP-006 Under-Determination Detection | RED | RED (evidence added) | Dig Site 002 rediscovery. Count 1→2. |
+| 2026-07-11 | OP-008 Symmetry Testing | RED | RED (GREEN BLOCKED) | H-baseline: found in neg-H. Criterion (c) not met. Ext-Indep updated to Partial (4) via Phase 0C. |
+| 2026-07-11 | OP-009 Contested != Defeated | RED | RED (GREEN BLOCKED) | H-baseline: found in neg-H. Criterion (c) not met. Ext-Indep updated to Partial (4) via Phase 0C. |
 
 ---
 
@@ -78,10 +95,11 @@ Four-way extraction on CFA transcripts (Claude + Grok extractors × v2 pilot + v
 | Dig Site | New Operators | Rediscoveries | Ratio |
 |----------|--------------|---------------|-------|
 | 001 Adlam/Barandes | 6 | 0 | — |
-| 000 CFA (admitted) | 2 (OP-008, OP-009) | 2 (OP-007 ×2) | 0.50 |
+| 000 CFA (admitted) | 2 (OP-008, OP-009) | 2 (OP-007 x2) | 0.50 |
 | 000 CFA (held) | 1 (Concession Pricing) | — | — |
+| 002 Barandes solo | 6 (OP-010 through OP-015) | 3 (OP-001, OP-004, OP-006) | 0.50 |
 
-When rediscoveries consistently outnumber new operators, we are approaching saturation.
+When rediscoveries consistently outnumber new operators, we are approaching saturation. Current trajectory: 50% rediscovery rate at Dig Sites 000 and 002 — new operators still arriving at the same rate as rediscoveries.
 
 ---
 
@@ -143,4 +161,4 @@ Adopt when the registry reaches 15+ operators and the single-column format becom
 
 ---
 
-*Last updated: 2026-07-08 — OP-008/009 admitted, OP-007 CFA evidence added, MEC evidence type defined*
+*Last updated: 2026-07-11 — OP-010 through OP-015 added from Dig Site 002; OP-001/004/006 rediscovery counts updated; OP-008/009 GREEN blocked (H-baseline); Phase 0 status updated to COMPLETE; Dig Site 002 added to Saturation Tracker*

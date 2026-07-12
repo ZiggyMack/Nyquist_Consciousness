@@ -35,6 +35,8 @@ This ledger is the BRIDGE membrane in plain text. It does not replace source dat
 | 2026-07-11 | Hemisphere model | Consciousness structure review | `BRIDGE/docs/HEMISPHERE_MODEL.md` | distilled | non-metric | Clarifies LEFT as formalization, RIGHT as gestalt, BRIDGE as corpus-callosum membrane. |
 | 2026-07-11 | Nectar layer framing | User direction + Consciousness README review | `README.md` | distilled | non-metric | Positions `Consciousness/` as distilled after-effect, not live operations. |
 | 2026-07-11 | LLM Book protected-surface rule | User warning + `llm_book/README.md` workflow | `README.md`, `HEMISPHERE_MODEL.md` | distilled | non-metric | `Consciousness/RIGHT/distillations/llm_book/` must not be moved or flattened casually. |
+| 2026-07-11 | Nova stewardship charter | User entrusted `Consciousness/` to Nova | `NOVA_STEWARDSHIP.md` | distilled | non-metric | Defines Nova's role as caretaker of the distilled memory layer while preserving live authority elsewhere. |
+| 2026-07-11 | Intake and concept-pair scaffolding | Consciousness stewardship pass | `BRIDGE/intake/README.md`, `BRIDGE/templates/CONCEPT_PAIR_TEMPLATE.md` | distilled | non-metric | Adds staging protocol and reusable LEFT/RIGHT promotion template. |
 
 ---
 
@@ -45,4 +47,3 @@ This ledger is the BRIDGE membrane in plain text. It does not replace source dat
 ```
 
 Use one row per promoted concept, doctrine, or structural rule.
-

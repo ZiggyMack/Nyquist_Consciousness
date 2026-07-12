@@ -16,7 +16,7 @@ The infrastructure is built. These are the questions it exists to answer. Each i
 
 **How to test:** Phase 0B negative control battery (graduated A–H). Measure the response curve, not a binary pass/fail.
 
-**Status:** NOT YET TESTED. Hard gate for everything below.
+**Status:** TESTED (Phase 0B). 17 extractors x 8 negative controls (136 extractions). Result: clean discrimination gradient. Tier 1 extractors (DeepSeek V4 Pro, Claude, Gemma4 31B, Cogito 671B) cleanly refuse trivial controls. The pipeline detects, not generates — for non-reasoning text. H-baseline caveat: matched-difficulty philosophical text (neg-H) produces operator structures comparable to dig-site text, meaning the pipeline detects *competent reasoning*, not *exceptional reasoning*. Gate: PASSED for reasoning vs non-reasoning discrimination. OPEN for exceptional vs competent discrimination (Test B in progress).
 
 ### Q2: Do operators survive human extraction?
 
@@ -24,9 +24,9 @@ The infrastructure is built. These are the questions it exists to answer. Each i
 
 **Why it matters:** Claude and Grok may share training-induced biases that produce the same descriptive vocabulary. A human breaks exactly that confound.
 
-**How to test:** Phase 0C. Recruit 1–2 human extractors (philosophy background, STEM background). Same source text as Arm 1. Compare pairwise.
+**How to test:** Phase 0C. Recruit 1-2 human extractors (philosophy background, STEM background). Same source text as Arm 1. Compare pairwise.
 
-**Status:** NOT YET TESTED.
+**Status:** PARTIALLY TESTED. Phase 0C ran 4 Tier 1 LLM extractors (91-100% ground truth match), establishing cross-LLM agreement. Human extraction NOT YET TESTED — the LLM-shared-bias confound remains live. This is the most important remaining confound.
 
 ---
 
@@ -36,11 +36,13 @@ The infrastructure is built. These are the questions it exists to answer. Each i
 
 **The question:** Across CFA transcripts, do the five stable operators appear in a consistent sequence? Does metric separation reliably precede symmetry testing, which precedes meta-dispute identification?
 
-**Why it matters:** If ordering is consistent, operators compose — there's algebraic structure. If ordering varies but the set is stable, operators are a basis without composition laws. Both are interesting; they imply different kinds of structure.
+**Why it matters:** After the H-baseline result, this is now the LOAD-BEARING question. Operator presence saturates at competence — the discriminating signal must live in ordering, selection, and omission. If dig-site ordering is indistinguishable from neg-H ordering, the Museum catalogues competence. If ordering differs, that's the fossil.
 
-**How to test:** Sequence statistics across 10+ extracted transcripts. Count co-occurrence, ordering, and transition probabilities.
+**How to test:** Test B — sequence statistics across extracted transcripts. Tooling: `TOOLS/sequence_analysis.py`. Compare dig-site operator sequences vs neg-H sequences.
 
-**Data needed:** Extraction on 8+ additional transcripts (currently have 2).
+**Data needed:** Existing Phase 0A/0B/0C extractions (available now). Semantic matching is the bottleneck.
+
+**Status:** IN PROGRESS. Preliminary: dig-site avg 12.5 operators vs neg-H 5.7. COUNT discriminates. Blinded matching run PENDING.
 
 ### Q4: Do operators inhibit one another?
 
@@ -172,4 +174,4 @@ Category Theory is the first Unearned Compression Candidate. Others will compete
 
 *Created: 2026-07-08*
 *Initial questions seeded from Nova's research agenda proposal*
-*Last updated: 2026-07-08*
+*Last updated: 2026-07-11 — Q1 status updated (Phase 0B TESTED), Q2 partially tested (Phase 0C LLMs, no humans), Q3 reframed as load-bearing (Test B in progress)*
