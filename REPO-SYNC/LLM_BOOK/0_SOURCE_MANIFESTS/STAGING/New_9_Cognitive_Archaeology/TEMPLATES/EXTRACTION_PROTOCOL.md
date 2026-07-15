@@ -98,6 +98,30 @@ For each operator recovered in PASS C, ask: in what other domains would this ope
 
 What reusable reasoning machinery emerges? What operator families? What methodological principles? Level 5.
 
+### PASS F: Abstention Detection (Museum-Aware)
+
+> "What inferences were available and NOT drawn?"
+
+This is the only pass that is intentionally museum-aware. Show the extractor the full operator catalog (MUSEUM/INDEX.md). For each section of the source material, ask:
+
+1. Which Museum operators were AVAILABLE (contextually relevant)?
+2. Which available operators were NOT deployed?
+3. For each abstention, classify:
+   - **Deliberate refusal** — thinker explicitly chose not to
+   - **Competing priority** — another operator was chosen instead
+   - **Context-inappropriate** — operator doesn't apply here
+   - **True omission** — no signal about why it was skipped
+4. For deliberate refusals, what failure mode did they avoid by NOT applying it?
+
+PASS F runs AFTER PASS C (blind cognitive extraction) — never before. The blind extraction must complete first so that presence data isn't contaminated by the Museum-aware pass.
+
+**CALIBRATION REQUIREMENT:** PASS F must be calibrated before trusted. At every sentence, infinitely many inferences were available and skipped — without controls, the abstention catalog is just the Museum projected onto the text.
+
+- **Negative control:** Run PASS F on neg_H (throwaway seminar dialogue from Phase 0B). If it flags as many available-but-skipped operators as it does on genuine dig site material, the detector is measuring its own imagination. All Measured, All Floored.
+- **Positive control:** Diagnosed audit failures from CFA exhaust — transcripts where specific operator omissions were already traced to specific failures. These are ground-truth "missing operator" labels: same medium, diagnosis already done.
+
+The exhaust IS the calibration set for the omission instrument, exactly as neg_H was for the presence instrument. Mine-the-exhaust and abstention-pass are one pipeline, not two.
+
 ### PASS Ω: Protocol Evolution
 
 > "What changed about the extraction protocol because of this dig site?"
@@ -276,6 +300,12 @@ After extraction:
 
 ---
 
+## Source Selection
+
+**Shorter is richer.** Phase 0A found that shorter transcripts with stalls and impasses produce richer operator extraction than long convergent runs. Stall-induced metacognitive pressure forces explicit articulation of reasoning operations that would otherwise remain implicit. When selecting from multiple available sources for a thinker, prioritize those with visible reasoning friction over smooth convergent discussions.
+
+---
+
 ## Applying to Next Thinker
 
 1. Load source material into NotebookLM
@@ -287,7 +317,8 @@ After extraction:
 7. Run Noether extraction via Q42-Q49 (invariance as discovery method)
 8. Apply Question Completion to generate next round
 9. **ALWAYS** run Q50 (Source Discovery) — this seeds the next dig site
-10. Run PASS Ω (protocol evolution) — what changed about the methodology
+10. Run PASS F (abstention detection, museum-aware) — what operators were available but not deployed? Run AFTER blind extraction (PASS C) is complete
+11. Run PASS Ω (protocol evolution) — what changed about the methodology
 11. Integrate into Museum with proper provenance and confidence levels
 
 **Candidate next subjects:** Hoffman (consciousness-first), Adlam (solo), Tegmark (mathematical universe), Pearl (causal inference), Jaynes (maximum entropy), Dennett (heterophenomenology)

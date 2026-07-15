@@ -95,6 +95,7 @@ Use when a notebook contains multiple thinkers.
 - Run **Relationship Mapping** third — once you have the operators, map how they connect.
 - **Cross-Thinker Comparison** is for notebooks containing multiple sources. Run it last.
 - **Assumptions Excavation** can run independently at any point.
+- **Abstention Detection** runs AFTER blind extraction (Primary Excavation) is complete — never before. It is intentionally Museum-aware.
 
 ### Quality Indicators
 
@@ -221,5 +222,52 @@ A good CFA extraction will:
 
 ---
 
+---
+
+## Abstention Detection Prompt (Museum-Aware — PASS F)
+
+> You are given a catalog of known reasoning operations (the Museum).
+> You are also given a text containing reasoning.
+>
+> For each reasoning operation in the catalog:
+>
+> 1. Was this operation RELEVANT to the text? (Would the thinker have had occasion to use it?)
+> 2. If relevant, was it USED or SKIPPED?
+> 3. If skipped, classify the abstention:
+>    * Deliberate refusal (explicitly chose not to)
+>    * Competing priority (another operation was chosen instead — which?)
+>    * True omission (no signal — the thinker appears unaware of the option)
+>
+> Focus on TRUE OMISSIONS and DELIBERATE REFUSALS. Context-inappropriate operators are uninteresting — don't list them.
+>
+> For each true omission: what would have changed if the operator had been applied?
+> For each deliberate refusal: what failure mode did the thinker avoid?
+
+### CFA Abstention Detection Prompt (Museum-Aware — PASS F)
+
+> You are given a catalog of known reasoning operations.
+> You are reading an adversarial deliberation transcript.
+>
+> For each auditor separately:
+>
+> 1. Which catalog operators did they USE?
+> 2. Which catalog operators were AVAILABLE but NOT USED?
+> 3. For each available-but-unused operator:
+>    * Was it relevant to the argument being made?
+>    * Would deploying it have changed the outcome?
+>    * Did the opponent use it instead? (Asymmetric deployment)
+>
+> The most informative finding is an operator that ONE auditor deploys and the OTHER does not, especially when it would have strengthened the non-deploying auditor's position.
+
+### Abstention Detection Usage Notes
+
+- **This is the only Museum-aware extraction.** All other prompts are Museum-blind by design. PASS F intentionally breaks blindness to detect omission — the trade is acknowledged.
+- Run ONLY after PASS C (blind cognitive extraction) is complete. Never before.
+- The abstention catalog is unbounded — at every sentence, infinitely many inferences were available. Without controls, this prompt will project the Museum onto the text. Calibrate with neg_H (negative control) and diagnosed CFA failures (positive control) before trusting results.
+- True omissions and asymmetric deployments are the highest-value findings. Context-inappropriate absences are noise.
+
+---
+
 *Prompts designed: 2026-07-05 (Nova) + 2026-07-06 (refinements)*
 *CFA transcript prompts added: 2026-07-08 (Repo Claude)*
+*Abstention detection prompts added: 2026-07-14 (Opus/CFA Claude feedback)*

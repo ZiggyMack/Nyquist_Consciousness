@@ -67,6 +67,10 @@ See `DIG_SITES/000_Extractor_Calibration/` for the experiment design.
 
 Choose a thinker. Prefer sources where the thinker is PERFORMING reasoning live (interviews, debates, lectures) over sources where they REPORT conclusions (papers, books). Performing is where operators surface.
 
+**Source Selection Heuristic (Phase 0A finding):** Shorter transcripts with stalls and impasses produce richer operator extraction than long convergent runs. Stall-induced metacognitive pressure forces explicit articulation of reasoning operations. Prioritize these when selecting from multiple available sources.
+
+**Pre-flight: OP-006 Check.** Before committing to a dig site, apply Under-Determination Detection (OP-006) to the source: does the material actually determine the operators you'll extract, or are you importing them? OP-006 would have caught every false finding in the Test A postmortem (composition without noise floor, asymmetry without main effect). Ask: "What is the noise floor of this extraction?"
+
 Create directory: `DIG_SITES/{NNN}_{Thinker_Name}/`
 
 ### Step 2: Excavate
@@ -74,6 +78,14 @@ Create directory: `DIG_SITES/{NNN}_{Thinker_Name}/`
 Run NotebookLM extraction using prompts from `TEMPLATES/NOTEBOOKLM_PROMPTS.md`. Always run the **Primary Excavation Prompt** (Hidden Cognitive Operators) first. Follow with Failure Modes and Relationship Mapping.
 
 For manual excavation (reading without NotebookLM): read with the question "What cognitive move did they just perform?" not "What did they just say?"
+
+### Step 2b: Abstention Detection (Run after PASS C)
+
+After blind extraction is complete, run PASS F (museum-aware) to identify operators that were available but not deployed. This is the post-H-baseline instrument upgrade — operator presence saturates at competence, so the discriminating signal lives in what's MISSING, not what's present.
+
+Show the extractor the full Museum catalog (INDEX.md). Ask which operators were relevant at each point in the text, which were used, and which were skipped. Classify each abstention (deliberate refusal, competing priority, or true omission). See `TEMPLATES/NOTEBOOKLM_PROMPTS.md` for the Abstention Detection Prompt.
+
+PASS F output feeds directly into Test B (sequence_analysis.py) as omission data.
 
 ### Step 3: Recover Artifacts
 
@@ -239,6 +251,27 @@ After every excavation, ask:
 3. Did at least 1 operator already exist in the Museum? (Zero after 5+ digs = either the operators aren't general, or the dig was sloppy)
 4. Are operators named as VERBS, not nouns? (We catalogue moves, not things)
 5. Would a thinker RECOGNIZE the operator if you showed it to them? (If not, you may be projecting)
+
+---
+
+## The Cross-Arm Prediction Loop (EOS ↔ CFA)
+
+Each dig site produces two artifacts:
+
+1. A thinker's **cognitive architecture** (operators, genome, discovery architecture)
+2. A thinker's **substantive worldview** (their actual position on reality)
+
+The worldview is a candidate for future CFA Trinity batches. This creates a testable prediction loop:
+
+```text
+EOS extracts operator profile →
+CFA tests worldview under adversarial comparison →
+Compare: does the operator profile predict worldview performance?
+```
+
+Example: If Dirac's genome shows heavy use of OP-011 (Subtractive Discovery) and weak Epistemic Boundary Setting (OP-013), does his worldview score high on MG and AR but low on CCI?
+
+This is the most underused structural connection in the project. Every dig site that produces a Discovery Genome (see `TEMPLATES/DISCOVERY_GENOME.md`) implicitly generates a CFA prediction. Test it.
 
 ---
 

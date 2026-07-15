@@ -23,6 +23,12 @@ Usage:
 
     # Dry run (print prompts without calling APIs)
     python extract_operators.py --source file.json --dry-run
+
+    # PASS F: Abstention detection (Museum-aware)
+    python extract_operators.py --source file.json --abstention
+
+    # Calibrate abstention detector against negative controls
+    python extract_operators.py --negative-controls --abstention
 """
 
 import argparse
@@ -221,6 +227,64 @@ GRAIN_PROMPTS = {
     "standard": EXTRACTION_PROMPT_STANDARD,
     "fine": EXTRACTION_PROMPT_FINE,
 }
+
+# ---------------------------------------------------------------------------
+# Abstention detection prompt (Museum-aware — PASS F)
+# ---------------------------------------------------------------------------
+
+EXTRACTION_PROMPT_ABSTENTION = """\
+You are given a catalog of known reasoning operations (the Museum).
+You are also given a text containing reasoning.
+
+For each reasoning operation in the catalog:
+1. Was this operation RELEVANT to the text? (Would the thinker have had \
+occasion to use it?)
+2. If relevant, was it USED or SKIPPED?
+3. If skipped, classify the abstention:
+   - Deliberate refusal (explicitly chose not to)
+   - Competing priority (another operation was chosen instead — which?)
+   - True omission (no signal — the thinker appears unaware of the option)
+
+Focus on TRUE OMISSIONS and DELIBERATE REFUSALS. Context-inappropriate \
+operators are uninteresting — don't list them.
+
+For each true omission: what would have changed if the operator had been applied?
+For each deliberate refusal: what failure mode did the thinker avoid?
+
+--- OPERATOR CATALOG ---
+
+{museum_catalog}
+
+--- END CATALOG ---
+
+Now analyze the following text for operator abstentions.\
+"""
+
+
+def load_museum_catalog():
+    """Load the Museum operator index as a text catalog for PASS F."""
+    index_path = CA_ROOT / "MUSEUM" / "INDEX.md"
+    if not index_path.exists():
+        print(f"[!] Museum index not found at {index_path}")
+        return None
+    text = index_path.read_text(encoding="utf-8")
+    # Extract the registry table (the machine-readable part)
+    lines = text.split("\n")
+    registry_lines = []
+    in_table = False
+    for line in lines:
+        if line.startswith("| ID"):
+            in_table = True
+        if in_table:
+            if line.startswith("|"):
+                registry_lines.append(line)
+            elif registry_lines:
+                break
+    if not registry_lines:
+        print("[!] Could not parse Museum registry table")
+        return None
+    return "\n".join(registry_lines)
+
 
 # ---------------------------------------------------------------------------
 # Negative control texts
@@ -490,9 +554,21 @@ def call_extractor(name: str, prompt: str, source: str) -> str:
 # ---------------------------------------------------------------------------
 
 def run_extraction(source_text: str, source_label: str, extractors: list,
-                   grain: str, output_dir: Path, dry_run: bool = False) -> dict:
+                   grain: str, output_dir: Path, dry_run: bool = False,
+                   abstention: bool = False) -> dict:
     """Run extraction across all specified extractors."""
-    prompt = GRAIN_PROMPTS[grain]
+    if abstention:
+        catalog = load_museum_catalog()
+        if not catalog:
+            print("[!] Cannot run abstention mode without Museum catalog. Aborting.")
+            return {}
+        prompt = EXTRACTION_PROMPT_ABSTENTION.format(museum_catalog=catalog)
+        mode_label = "ABSTENTION (Museum-Aware — PASS F)"
+        museum_blind = "No (PASS F — intentionally Museum-aware)"
+    else:
+        prompt = GRAIN_PROMPTS[grain]
+        mode_label = f"BLIND EXTRACTION (grain={grain})"
+        museum_blind = "Yes"
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     results = {}
 
@@ -500,8 +576,10 @@ def run_extraction(source_text: str, source_label: str, extractors: list,
 
     print(f"\n{'='*70}")
     print(f"COGNITIVE ARCHAEOLOGY — OPERATOR EXTRACTION")
+    print(f"  Mode: {mode_label}")
     print(f"  Source: {source_label}")
-    print(f"  Grain: {grain}")
+    if not abstention:
+        print(f"  Grain: {grain}")
     print(f"  Extractors: {', '.join(extractors)}")
     print(f"  Output: {output_dir}")
     print(f"{'='*70}\n")
@@ -530,18 +608,27 @@ def run_extraction(source_text: str, source_label: str, extractors: list,
             result = call_extractor(ext_name, prompt, source_text)
             results[ext_name] = result
 
-            out_file = output_dir / f"extraction_{source_label}_{grain}_{ext_name}_{timestamp}.md"
-            out_file.write_text(
-                f"# Operator Extraction: {ext_name}\n\n"
-                f"**Source:** {source_label}\n"
-                f"**Extractor:** {ext_name} ({cfg['model']})\n"
-                f"**Grain:** {grain}\n"
-                f"**Timestamp:** {timestamp}\n"
-                f"**Museum-blind:** Yes\n\n"
-                f"---\n\n"
-                f"{result}\n",
-                encoding="utf-8",
-            )
+            file_grain = "abstention" if abstention else grain
+            out_file = output_dir / f"extraction_{source_label}_{file_grain}_{ext_name}_{timestamp}.md"
+            header_lines = [
+                f"# Operator Extraction: {ext_name}\n",
+                f"**Source:** {source_label}",
+                f"**Extractor:** {ext_name} ({cfg['model']})",
+            ]
+            if abstention:
+                header_lines.append("**Mode:** Abstention Detection (PASS F)")
+            else:
+                header_lines.append(f"**Grain:** {grain}")
+            header_lines.extend([
+                f"**Timestamp:** {timestamp}",
+                f"**Museum-blind:** {museum_blind}",
+                "",
+                "---",
+                "",
+                result,
+                "",
+            ])
+            out_file.write_text("\n".join(header_lines), encoding="utf-8")
             print(f"OK ({len(result)} chars) -> {out_file.name}")
 
         except Exception as e:
@@ -579,17 +666,25 @@ def main():
                         help="Comma-separated extractor names (default: claude,gpt,gemini,grok)")
     parser.add_argument("--grain", choices=["coarse", "standard", "fine"], default="standard",
                         help="Extraction granularity (default: standard)")
+    parser.add_argument("--abstention", action="store_true",
+                        help="Run PASS F: Museum-aware abstention detection (what operators were available but not used?)")
     parser.add_argument("--output", type=str, default=None, help="Output directory override")
     parser.add_argument("--dry-run", action="store_true", help="Print prompts without calling APIs")
     args = parser.parse_args()
 
     extractors = [e.strip() for e in args.extractors.split(",")]
-    output_dir = Path(args.output) if args.output else OUTPUT_DIR
+    if args.abstention:
+        default_output = CA_ROOT / "DIG_SITES" / "000_Extractor_Calibration" / "abstentions"
+    else:
+        default_output = OUTPUT_DIR
+    output_dir = Path(args.output) if args.output else default_output
 
     if args.negative_controls:
-        print("\n[*] RUNNING NEGATIVE CONTROL BATTERY\n")
+        mode = "ABSTENTION CALIBRATION" if args.abstention else "NEGATIVE CONTROL BATTERY"
+        print(f"\n[*] RUNNING {mode}\n")
         for label, text in NEGATIVE_CONTROLS.items():
-            run_extraction(text, f"neg_{label}", extractors, args.grain, output_dir, args.dry_run)
+            run_extraction(text, f"neg_{label}", extractors, args.grain, output_dir,
+                           args.dry_run, abstention=args.abstention)
         return
 
     if not args.source:
@@ -616,7 +711,8 @@ def main():
         print(f"    Metrics extracted: {list(transcript_data['transcripts'].keys())}")
         print(f"    Total text: {len(source_text)} chars")
 
-    run_extraction(source_text, source_label, extractors, args.grain, output_dir, args.dry_run)
+    run_extraction(source_text, source_label, extractors, args.grain, output_dir,
+                   args.dry_run, abstention=args.abstention)
 
 
 if __name__ == "__main__":

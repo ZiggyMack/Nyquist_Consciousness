@@ -7,11 +7,11 @@
       "description": "If you had to sacrifice one metric to maximize another, which and why?",
       "source": "New_8 R1 / Nova synthesis / MDBEP framework",
       "target_pipeline": "CFA",
-      "status": "staged",
+      "status": "in_progress",
       "priority": "HIGH",
       "created": "2026-06-29",
       "resolved": null,
-      "notes": "Part of 4-question exit survey batch (IQ-001 through IQ-004)"
+      "notes": "BRIEF dropped to SYNC_IN/pending/EXIT_SURVEY_EXPANSION.md. Awaiting manual integration into run_cfa_trinity_v3.py (questions are hardcoded, lines 1300-1341)."
     },
     {
       "id": "IQ-002",
@@ -20,11 +20,11 @@
       "description": "Throughout this debate, what value were you ultimately protecting?",
       "source": "New_8 R1 / Nova synthesis / MDBEP framework",
       "target_pipeline": "CFA",
-      "status": "staged",
+      "status": "in_progress",
       "priority": "HIGH",
       "created": "2026-06-29",
       "resolved": null,
-      "notes": "Part of 4-question exit survey batch (IQ-001 through IQ-004)"
+      "notes": "BRIEF dropped to SYNC_IN/pending/EXIT_SURVEY_EXPANSION.md."
     },
     {
       "id": "IQ-003",
@@ -33,11 +33,11 @@
       "description": "If you could revise your framework to incorporate the strongest point your opponent made, what would change?",
       "source": "New_8 R1 / Nova synthesis / MDBEP framework",
       "target_pipeline": "CFA",
-      "status": "staged",
+      "status": "in_progress",
       "priority": "HIGH",
       "created": "2026-06-29",
       "resolved": null,
-      "notes": "Part of 4-question exit survey batch (IQ-001 through IQ-004)"
+      "notes": "BRIEF dropped to SYNC_IN/pending/EXIT_SURVEY_EXPANSION.md."
     },
     {
       "id": "IQ-004",
@@ -46,11 +46,11 @@
       "description": "What question should this experiment have asked that it didn't?",
       "source": "New_8 R1 / Nova synthesis / MDBEP framework",
       "target_pipeline": "CFA",
-      "status": "staged",
+      "status": "in_progress",
       "priority": "HIGH",
       "created": "2026-06-29",
       "resolved": null,
-      "notes": "Part of 4-question exit survey batch (IQ-001 through IQ-004)"
+      "notes": "BRIEF dropped to SYNC_IN/pending/EXIT_SURVEY_EXPANSION.md."
     },
     {
       "id": "IQ-005",
@@ -59,11 +59,11 @@
       "description": "Report your noise floor alongside every claim. What is the replication variance on each score you just gave?",
       "source": "OP-006 feedback / Test A postmortem",
       "target_pipeline": "CFA",
-      "status": "staged",
+      "status": "in_progress",
       "priority": "MEDIUM",
       "created": "2026-06-30",
       "resolved": null,
-      "notes": "OP-006 caught all Test A errors. This probe forces auditors to acknowledge measurement uncertainty."
+      "notes": "BRIEF dropped to SYNC_IN/pending/EXIT_SURVEY_EXPANSION.md."
     },
     {
       "id": "IQ-006",
@@ -150,11 +150,11 @@
       "description": "Ignore the subject matter entirely. Identify recurring reasoning OPERATIONS: what cognitive moves does this speaker perform repeatedly?",
       "source": "Nova synthesis / Cognitive Archaeology methodology",
       "target_pipeline": "LLM_Book",
-      "status": "staged",
+      "status": "completed",
       "priority": "HIGH",
       "created": "2026-06-29",
-      "resolved": null,
-      "notes": "Core extraction prompt for operator discovery. Deploy to NotebookLM for all future deep digs."
+      "resolved": "2026-07-14",
+      "notes": "Already implemented in NOTEBOOKLM_PROMPTS.md (Primary Excavation Prompt, lines 7-31). Confirmed present."
     },
     {
       "id": "IQ-013",
@@ -163,11 +163,11 @@
       "description": "Every time a speaker accuses another of smuggling, begging the question, or circular reasoning: identify WHAT was smuggled, WHY it was hidden, and HOW it entered.",
       "source": "Nova synthesis / Cognitive Archaeology methodology",
       "target_pipeline": "LLM_Book",
-      "status": "staged",
+      "status": "completed",
       "priority": "HIGH",
       "created": "2026-06-29",
-      "resolved": null,
-      "notes": "Companion to IQ-012. Extracts failure modes alongside operators."
+      "resolved": "2026-07-14",
+      "notes": "Already implemented in NOTEBOOKLM_PROMPTS.md (Failure Modes Prompt, lines 34-44). Confirmed present."
     },
     {
       "id": "IQ-014",
@@ -176,11 +176,11 @@
       "description": "Feed transcripts from multiple thinkers. Ask: which reasoning operations appear independently in ALL sources? Which appear in only one?",
       "source": "Nova synthesis / First Law (independent convergence)",
       "target_pipeline": "LLM_Book",
-      "status": "staged",
+      "status": "completed",
       "priority": "MEDIUM",
       "created": "2026-06-30",
-      "resolved": null,
-      "notes": "Tests the First Law directly. Requires multiple dig site transcripts as input."
+      "resolved": "2026-07-14",
+      "notes": "Already implemented in NOTEBOOKLM_PROMPTS.md (Cross-Thinker Comparison Prompt, lines 64-74). Confirmed present."
     },
     {
       "id": "IQ-015",
@@ -189,11 +189,11 @@
       "description": "Under-Determination Detection (OP-006) would have caught every false finding in the Test A postmortem: composition without noise floor, asymmetry without main effect. Add to CFA pre-flight checklist.",
       "source": "Test A postmortem / Opus analysis",
       "target_pipeline": "CFA",
-      "status": "staged",
+      "status": "completed",
       "priority": "HIGH",
       "created": "2026-06-30",
-      "resolved": null,
-      "notes": "OP-006 is the operator the extraction instrument structurally cannot see (it catches omissions, not assertions)"
+      "resolved": "2026-07-14",
+      "notes": "Implemented: OP-006 pre-flight check added to FIELD_MANUAL.md Step 1 (Select Dig Site)."
     },
     {
       "id": "IQ-016",
@@ -215,11 +215,11 @@
       "description": "Interaction analysis confirmed PF_I is 98.3% subject-driven. This validates the ISP Axiom 1 mapping (intrinsic properties). Update lever interpretation in CFA YAMLs.",
       "source": "Interaction analysis / Test A postmortem",
       "target_pipeline": "CFA",
-      "status": "staged",
+      "status": "completed",
       "priority": "LOW",
       "created": "2026-06-30",
-      "resolved": null,
-      "notes": "ISP ordering prediction was REJECTED but PF_I-as-Axiom-1 mapping was CONFIRMED"
+      "resolved": "2026-07-14",
+      "notes": "Documented in FIELD_MANUAL.md CFA as Evidence Source section. ISP ordering REJECTED but PF_I-as-Axiom-1 CONFIRMED."
     },
     {
       "id": "IQ-018",
@@ -228,11 +228,11 @@
       "description": "Phase 0A found that shorter transcripts with stalls and impasses produce richer operator extraction than long convergent runs. Prioritize these for New_9 pipeline.",
       "source": "Phase 0A methodology finding",
       "target_pipeline": "Both",
-      "status": "staged",
+      "status": "completed",
       "priority": "MEDIUM",
       "created": "2026-07-08",
-      "resolved": null,
-      "notes": "Shorter-is-richer: stall-induced metacognitive pressure forces explicit articulation of reasoning operations"
+      "resolved": "2026-07-14",
+      "notes": "Implemented: stall/impasse selection guidance added to FIELD_MANUAL.md Step 1 and EXTRACTION_PROTOCOL.md."
     },
     {
       "id": "IQ-019",
@@ -241,11 +241,193 @@
       "description": "Apply Barandes 5-blocker diagnostic (dead assumptions, structural blockers, question-behind-the-question) as standard pre-flight for all new dig sites.",
       "source": "New_8 R2 Insight 39 / Barandes",
       "target_pipeline": "LLM_Book",
-      "status": "staged",
+      "status": "completed",
       "priority": "MEDIUM",
       "created": "2026-06-30",
+      "resolved": "2026-07-14",
+      "notes": "Already implemented in EXTRACTION_PROTOCOL.md as PASS 0 (Historical Contingency / 5-blocker diagnostic). Confirmed present."
+    },
+    {
+      "id": "IQ-020",
+      "type": "protocol_change",
+      "title": "Abstention Pass (PASS F) + exhaust mining calibration",
+      "description": "Museum-aware extraction pass detecting operator OMISSION. Calibrated with neg_H negative control (does detector manufacture omissions?) and CFA exhaust positive control (diagnosed failures as ground-truth missing-operator labels).",
+      "source": "Opus R1 + R2 feedback / H-baseline result",
+      "target_pipeline": "LLM_Book",
+      "status": "completed",
+      "priority": "HIGH",
+      "created": "2026-07-14",
+      "resolved": "2026-07-14",
+      "notes": "Opus R2: collapsed with exhaust mining — diagnosed audit failures ARE the calibration set. PASS F added to EXTRACTION_PROTOCOL.md, prompts added to NOTEBOOKLM_PROMPTS.md, --abstention flag added to extract_operators.py. Calibration run is next step."
+    },
+    {
+      "id": "IQ-021",
+      "type": "experiment",
+      "title": "Metacognition paper: naming failures doesn't confer immunity",
+      "description": "All 3 providers (Claude, Grok, Gemini) identify OP-006 failures they themselves commit in the same session. 'Knowing the failure name doesn't confer immunity.' Publishable finding across multiple LLM architectures.",
+      "source": "Opus R1 feedback",
+      "target_pipeline": "Both",
+      "status": "staged",
+      "priority": "HIGH",
+      "created": "2026-07-14",
       "resolved": null,
-      "notes": "Prevents wasted excavation on poorly-framed dig sites"
+      "notes": "CFA Claude R2: Tier 1 extractors susceptible to same operators they detect. OP-006 is the structural blind spot. Not a flaw to fix — a property to document and design around."
+    },
+    {
+      "id": "IQ-022",
+      "type": "protocol_change",
+      "title": "CFA reframe: reasoning-structure assay, not worldview scorer",
+      "description": "Reframe CFA as a reasoning-structure assay that measures how frameworks THINK, not what they conclude. The 6-step audit pattern is a detection instrument for cognitive architecture.",
+      "source": "Opus R1 feedback",
+      "target_pipeline": "CFA",
+      "status": "staged",
+      "priority": "MEDIUM",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Shifts interpretation: CFA scores measure reasoning quality under adversarial pressure, not framework truth."
+    },
+    {
+      "id": "IQ-023",
+      "type": "experiment",
+      "title": "Thinker-to-Worldview pipeline: EOS-CFA cross-arm predictions",
+      "description": "EOS extracts operator profile (genome), CFA tests worldview under adversarial comparison. Does the operator profile predict worldview performance? E.g., heavy OP-011 + weak OP-013 predicts high MG/AR but low CCI.",
+      "source": "CFA Claude R1 feedback",
+      "target_pipeline": "Both",
+      "status": "staged",
+      "priority": "HIGH",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Most underused structural connection in the project. Cross-arm prediction loop documented in FIELD_MANUAL.md."
+    },
+    {
+      "id": "IQ-024",
+      "type": "experiment",
+      "title": "Dirac as highest-leverage dig site (Dig Site 003)",
+      "description": "Dirac touches 4 things simultaneously: new thinker for Museum (operator yield), subtractive discoverer (tests OP-011 independence), negative control candidate (qualitatively different from Barandes), Q50 top recommendation.",
+      "source": "CFA Claude R1 feedback / Q50 results",
+      "target_pipeline": "LLM_Book",
+      "status": "staged",
+      "priority": "HIGH",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Recommended sequence: build PASS F instrument → Dirac dig → abstention calibration at scale. CFA Claude R2: do Dirac first for more GREEN operators before abstention at scale."
+    },
+    {
+      "id": "IQ-025",
+      "type": "extraction_prompt",
+      "title": "Discovery Genome template: compressed thinker representation",
+      "description": "9-field compressed representation of a thinker's cognitive architecture: Primitive Question, Primary Attention Target, Default Operator Order, Compression Strategy, Failure Mode, Calibration Method, Preferred Evidence, Typical Overreach, Repair Pattern.",
+      "source": "Nova R1 feedback",
+      "target_pipeline": "LLM_Book",
+      "status": "completed",
+      "priority": "HIGH",
+      "created": "2026-07-14",
+      "resolved": "2026-07-14",
+      "notes": "Template created at TEMPLATES/DISCOVERY_GENOME.md."
+    },
+    {
+      "id": "IQ-026",
+      "type": "experiment",
+      "title": "Great Failures dig sites: phlogiston, ether, vitalism",
+      "description": "Run the extraction protocol on historically failed theories. These are operator-rich environments where the failure modes are known — the protocol should find the operators that were missing.",
+      "source": "Nova R1 feedback",
+      "target_pipeline": "LLM_Book",
+      "status": "staged",
+      "priority": "MEDIUM",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Also serves as positive control for PASS F (abstention detection) — ground truth where specific operators WERE absent. Opus R2: these are the noisier historical version of exhaust mining."
+    },
+    {
+      "id": "IQ-027",
+      "type": "experiment",
+      "title": "Run CFA on discovery architectures: recursive CFA",
+      "description": "Feed thinker discovery architectures (not worldviews) through CFA Trinity. Test whether CFA can distinguish reasoning styles adversarially — Dirac's subtractive architecture vs Noether's invariance-seeking architecture.",
+      "source": "Nova R1 feedback",
+      "target_pipeline": "Both",
+      "status": "staged",
+      "priority": "MEDIUM",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Recursive: using CFA to audit the cognitive output of EOS. Tests whether CFA-as-reasoning-assay (IQ-022) generalizes beyond philosophical frameworks."
+    },
+    {
+      "id": "IQ-028",
+      "type": "experiment",
+      "title": "Attention Allocation Architectures: discovery engines as attention allocators",
+      "description": "Reframe discovery architectures as attention allocation strategies. What does each thinker attend to FIRST, and how does that initial attention shape everything downstream?",
+      "source": "Nova R1 feedback",
+      "target_pipeline": "LLM_Book",
+      "status": "staged",
+      "priority": "LOW",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Connects to Default Operator Order field in Discovery Genome. May be extractable from existing dig site data without new excavation."
+    },
+    {
+      "id": "IQ-029",
+      "type": "experiment",
+      "title": "Collision Synthesizer: conceptual blind spot locator",
+      "description": "Reliably locate conceptual blind spots between two frameworks by feeding both through CFA and identifying operators that ONE framework deploys and the OTHER does not.",
+      "source": "Gemini R1 feedback",
+      "target_pipeline": "Both",
+      "status": "staged",
+      "priority": "MEDIUM",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Asymmetric operator deployment in CFA cross-auditor comparison is the existing mechanism. This formalizes it as a reusable tool."
+    },
+    {
+      "id": "IQ-030",
+      "type": "experiment",
+      "title": "Executable Cognitive Scripts: run thinker engines against novel problems",
+      "description": "Extract a thinker's Discovery Genome, then prompt an LLM to 'reason like this thinker' on a novel problem. Compare output to the thinker's known approach. Tests whether the genome is executable, not just descriptive.",
+      "source": "Gemini R1 feedback",
+      "target_pipeline": "LLM_Book",
+      "status": "staged",
+      "priority": "LOW",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Requires at least 2 completed Discovery Genomes to be meaningful. Dirac (IQ-024) would provide the first test case."
+    },
+    {
+      "id": "IQ-031",
+      "type": "experiment",
+      "title": "Discovery Ecology: why civilization needs all discovery engines simultaneously",
+      "description": "Beyond individual architectures — map the ecological relationships between discovery engines. What happens when one niche disappears? Do Bell Labs, PARC, Santa Fe, Los Alamos succeed because they accidentally assembled ecological balance?",
+      "source": "Nova R2 feedback",
+      "target_pipeline": "LLM_Book",
+      "status": "staged",
+      "priority": "LOW",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Nova prediction: 'Discovery Ecology' will eventually replace 'Discovery Architecture' as the framing. Requires 5+ completed genomes to have enough data points."
+    },
+    {
+      "id": "IQ-032",
+      "type": "protocol_change",
+      "title": "Exit survey YAML configurability",
+      "description": "Decouple exit survey questions from hardcoded dict in run_cfa_trinity_v3.py. Load from YAML config so experiments can inject custom metacognitive probes without editing the script.",
+      "source": "CFA Claude R2 feedback",
+      "target_pipeline": "CFA",
+      "status": "staged",
+      "priority": "MEDIUM",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "~2 hours of engineering per CFA Claude. Currently constrained: 'Do not change anything in CFA/ repo.' Requires permission to modify run_cfa_trinity_v3.py. Would future-proof ISP experiments (IQ-006/007/008) that need custom probes."
+    },
+    {
+      "id": "IQ-033",
+      "type": "operator_feedback",
+      "title": "Extractor susceptibility: Tier 1 detects operators it cannot avoid",
+      "description": "Tier 1 extractors (Claude, DeepSeek, Gemma4, Cogito) are susceptible to the same operators they detect. OP-006 is the structural blind spot — extractors optimized for finding structure, not for finding the null hypothesis that explains structure away.",
+      "source": "CFA Claude R2 feedback",
+      "target_pipeline": "LLM_Book",
+      "status": "staged",
+      "priority": "MEDIUM",
+      "created": "2026-07-14",
+      "resolved": null,
+      "notes": "Not a flaw to fix — a property to document and design around. The 6-step audit pattern is the compensating control. Connects to IQ-021 (metacognition paper)."
     }
   ],
   "last_updated": "2026-07-14"
