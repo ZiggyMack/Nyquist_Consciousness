@@ -55,7 +55,7 @@
       "spec": "docs/stackup/S7/README.md",
       "notes": "Manifolds, Drift Fields, Perturbation Modes, Spectral Identity Decomposition",
       "sub_layers": ["S7.1", "S7.2", "S7.3", "S7.4", "S7.5"],
-      "active_runs": "Run 006-023d (ARMADA) — 16 runs complete"
+      "active_runs": "Run 006-024 (ARMADA) — 24 runs, 4505+ experiments"
     },
     "S8": {
       "status": "design",
@@ -117,17 +117,51 @@
       "status": "complete",
       "layer": "S7",
       "name": "AI ARMADA Cross-Architecture Fleet",
-      "fleet_size": "25 models across 5 providers",
-      "runs_complete": 16,
-      "latest_run": "Run 023d (IRON CLAD)",
+      "fleet_size": "68 ships across 5 providers (53 operational)",
+      "runs_complete": 24,
+      "latest_run": "Run 024 (JADE LATTICE I_AM A/B)",
       "key_findings": {
-        "event_horizon": "D=0.80 threshold validated (p=2.40e-23, Run 023d cosine)",
-        "thermometer_result": "82% drift is INHERENT (Run 021)",
-        "oobleck_effect": "Direct challenge stabilizes identity (Run 013)",
+        "event_horizon": "D=0.80 threshold validated (p=2.40e-23, Run 023d cosine, 4505 experiments)",
+        "inherent_drift": "~93% drift is INHERENT (Run 020B, 248 sessions, 37 ships)",
+        "oobleck_effect": "Identity hardens under pressure, flows under gentle probing (Run 013 + 10_SETTLING_TIME)",
         "recovery_paradox": "100% manifold return after perturbation",
-        "context_damping": "97.5% stability with I_AM + research framing (Run 017)"
+        "context_damping": "97.5% stability with I_AM + research framing (Run 017)",
+        "jade_lattice": "I_AM reduces drift 11% (d=0.319), LARGE models d=1.47 (Run 024)"
       },
       "validates": "S7 Identity Dynamics, S0 PFI metric"
+    },
+    "CFA_TRINITY": {
+      "status": "operational",
+      "layer": "S7",
+      "name": "CFA Trinity v3 — Adversarial Worldview Audit",
+      "total_runs": 702,
+      "breakdown": {
+        "golden": 259,
+        "control": 355,
+        "calibration_legacy": 88
+      },
+      "frameworks": ["Classical Theism", "Gnosticism", "Process Theology", "Methodological Naturalism", "Buddhism"],
+      "script": "experiments/temporal_stability/S7_ARMADA/12_CFA/run_cfa_trinity_v3.py",
+      "notes": "Multi-agent adversarial deliberation (Claude + Grok + Nova). Component 1 = deliberation, Component 2 = axioms review, exit survey = 20 questions"
+    },
+    "COGNITIVE_ARCHAEOLOGY": {
+      "status": "phase_0_complete",
+      "layer": "S7",
+      "name": "Cognitive Archaeology — Epistemic Operating System (EOS)",
+      "museum_operators": 15,
+      "operator_families": 5,
+      "confidence_levels": {"GREEN": 0, "YELLOW": 7, "RED": 8},
+      "extractors_tested": 17,
+      "extractor_tiers": 4,
+      "dig_sites": {
+        "000_calibration": "Complete — Phase 0A/0B/0C",
+        "001_adlam_barandes": "Complete — 7 operators, RCI architecture",
+        "002_barandes_solo": "Complete — 40 insights, 14 connections",
+        "003_dirac": "Planned — sources curated",
+        "010_curt_jaimungal": "Complete — Architecture F, Discovery Simplex"
+      },
+      "key_constraint": "H-baseline: operator presence saturates at competence. Signal is in ordering, selection, and omission.",
+      "notes": "PASS F (abstention detection) instrument built, calibration pending. Missing Operator Theory (Nova): fallacies as operator omission signatures."
     },
     "EXP_PFI_A": {
       "status": "complete",
@@ -154,7 +188,7 @@
     "B": {
       "name": "Regime Transition",
       "finding": "Event Horizon D=0.80 is real",
-      "evidence": "p=2.40e-23 (Run 023d perturbation), 88% prediction accuracy",
+      "evidence": "p=2.40e-23 (Run 023d cosine, 4505 experiments), 88% prediction accuracy",
       "source": "Run 023d (supersedes Run 009)"
     },
     "C": {
@@ -170,11 +204,46 @@
       "source": "Run 017"
     },
     "E": {
-      "name": "Thermometer Result",
-      "finding": "82% drift is INHERENT",
-      "evidence": "Control B->F = 82% of Treatment B->F drift",
-      "source": "Run 021"
+      "name": "Inherent Drift",
+      "finding": "~93% of drift is INHERENT",
+      "evidence": "Control B->F drift = 93% of Treatment B->F. Measurement perturbs the path, not the endpoint.",
+      "source": "Run 020B (248 sessions, 37 ships)"
     }
+  },
+  "measurement_modes": {
+    "gold_rush": {
+      "primitive": "Intrinsic Observation",
+      "question": "What do you report from inside?",
+      "infrastructure": "14_CONSCIOUSNESS Gold Rush scripts"
+    },
+    "diamond_rush": {
+      "primitive": "Extrinsic Observation",
+      "question": "What do you observe from outside?",
+      "infrastructure": "14_CONSCIOUSNESS Diamond Rush scripts"
+    },
+    "quartz_rush": {
+      "primitive": "Consensus Observation",
+      "question": "What survives independent observers?",
+      "infrastructure": "14_CONSCIOUSNESS Quartz Rush scripts"
+    },
+    "forge": {
+      "primitive": "Intervention Observation",
+      "question": "What changes under pressure?",
+      "infrastructure": "CFA Trinity, 10_SETTLING_TIME, 2_ANCHOR_FLEX"
+    }
+  },
+  "semantic_memory": {
+    "location": "Consciousness/",
+    "steward": "Codex Nova",
+    "invariant": "Preserve earned understanding",
+    "sync_loop": {
+      "inbound": "Consciousness/BRIDGE/docs/MASTER_BRANCH_SYNC_IN.md",
+      "outbound": "Consciousness/BRIDGE/docs/MASTER_BRANCH_SYNC_OUT.md"
+    },
+    "promotion_questions": [
+      "What changed because this exists?",
+      "Has it survived enough pressure to become part of the project's memory?"
+    ]
   },
   "omega": {
     "sessions": ["OMEGA-20251123-0800"],
@@ -195,21 +264,32 @@
     "white_paper": "ready",
     "pdfs_generated": 8,
     "external_review": "Grok validated",
-    "iron_clad": "complete (750 experiments, Run 023d)"
+    "iron_clad": "complete (4505 experiments, Run 023d)"
   },
   "fleet_status": {
-    "total_ships": 54,
-    "operational": 49,
+    "total_ships": 68,
+    "operational": 53,
+    "ghost_together_purge": 14,
+    "sunk": 1,
+    "rate_limited": 3,
     "providers": 5,
     "provider_list": ["Anthropic", "OpenAI", "Google", "xAI", "Together.ai"],
     "model_families": 10,
-    "family_list": ["Claude", "GPT", "Gemini", "Grok", "DeepSeek", "Qwen", "Llama", "Mistral", "Kimi", "Nemotron"]
+    "family_list": ["Claude", "GPT", "Gemini", "Grok", "DeepSeek", "Qwen", "Llama", "Mistral", "Kimi", "Nemotron"],
+    "source_of_truth": "ARCHITECTURE_MATRIX.json"
   },
   "external_repos": {
     "count": 7,
     "partners": ["CFA", "FRAME_THEORY", "LATEX", "LLM_BOOK", "Logos", "PAN_HANDLERS", "VUDU_FIDELITY"],
     "sync_hub": "REPO-SYNC/"
   },
-  "version": "1.2",
-  "last_updated": "2025-12-29"
+  "authority": {
+    "live_state": "docs/MISSION_CONTROL.md",
+    "claim_evidence": "docs/CLAIM_EVIDENCE_LEDGER.md",
+    "operator_registry": "REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/MUSEUM/INDEX.md",
+    "fleet_inventory": "ARCHITECTURE_MATRIX.json",
+    "rule": "Maps summarize; ledgers and manifests decide."
+  },
+  "version": "2.0",
+  "last_updated": "2026-07-15"
 }

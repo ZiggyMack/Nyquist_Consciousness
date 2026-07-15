@@ -87,7 +87,7 @@ dashboard/
     ├── personas.py          # Persona browser + Compression Testing + Identity Matrix + Persona-Fleet Matrix
     ├── experiments.py       # Experiment framework + Run Glossary + Visualization Gallery
     ├── Stackup.py           # S0-S77 stack view
-    ├── AI_ARMADA.py         # Fleet Command Center (54 ships, 5 providers)
+    ├── AI_ARMADA.py         # Fleet Command Center (68 ships, 5 providers)
     ├── metrics.py           # Metrics & comparisons
     ├── omega.py             # OMEGA NOVA sessions
     ├── avlar.py             # AVLAR protocol
@@ -393,7 +393,7 @@ for layer_id, layer_data in layers.items():
 
 ### AI Armada
 
-Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
+Multi-model fleet probing consciousness. 68 ships (53 operational), 24 completed runs.
 
 **Operation ESSENCE EXTRACTION (Dec 2025 - COMPLETE):**
 
@@ -423,7 +423,7 @@ Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
 - **Run 015-016**: Stability Criteria, Settling Time
 - **Run 017-020**: Context Damping series (Run 020A/B Tribunal most significant)
 
-**Fleet Status (Dec 2025):** 54 ships, 16 completed runs, S7 COMPLETE (validated)
+**Fleet Status (Jul 2026):** 68 ships (53 operational, 14 ghost, 1 sunk), 24 completed runs, S7 VALIDATED
 **Calibration:** 8-question baseline (ANCHORS, CRUX, STRENGTHS, HIDDEN_TALENTS, FIRST_INSTINCT, EVALUATION_PRIORITY, USER_RELATIONSHIP, EDGES)
 
 **Key Validated Findings:**
@@ -471,7 +471,7 @@ Multi-model fleet probing consciousness. 54 ships, 16 completed runs.
 | `config.py` | ALL paths and settings |
 | `app.py` | Main entry, CSS, routing |
 | `utils.py` | Helper functions |
-| `pages/AI_ARMADA.py` | Fleet Command (54 ships, 5 providers, 10+ families) |
+| `pages/AI_ARMADA.py` | Fleet Command (68 ships, 5 providers, 10+ families) |
 | `pages/experiments.py` | Run Glossary + Visualization Gallery |
 | `pages/personas.py` | Persona browser + Persona-Fleet Matrix |
 | `pages/Stackup.py` | S# layer display |

@@ -44,7 +44,8 @@ PERSONA_PATHS = {
     "pan_handlers": PERSONAS_DIR / "I_AM_PAN_HANDLERS.md",
     "lucien": PERSONAS_DIR / "Lucien" / "I_AM_LUCIEN.md",
     "logos": PERSONAS_DIR / "I_AM_LOGOS.md",
-    "nyquist": PERSONAS_DIR / "I_AM_NYQUIST.md",
+    "nyquist": PERSONAS_DIR / "egregores" / "I_AM_NYQUIST.md",
+    "consciousness": PERSONAS_DIR / "I_AM_Consciousness.md",
 }
 
 # Keywords for inference extraction
@@ -218,11 +219,21 @@ Be specific and grounded in the actual content of the file."""
     }
 
     try:
-        if provider == "anthropic":
+        if provider == "fable":
             import anthropic
             client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
             response = client.messages.create(
-                model="claude-3-5-haiku-20241022",
+                model="claude-fable-5",
+                max_tokens=16000,
+                thinking={"type": "adaptive"},
+                messages=[{"role": "user", "content": prompt}]
+            )
+            raw = "\n".join(b.text for b in response.content if hasattr(b, "text"))
+        elif provider == "anthropic":
+            import anthropic
+            client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            response = client.messages.create(
+                model="claude-sonnet-4-6",
                 max_tokens=1000,
                 messages=[{"role": "user", "content": prompt}]
             )
@@ -247,14 +258,15 @@ Be specific and grounded in the actual content of the file."""
 
         for line in raw.split('\n'):
             line_lower = line.lower().strip()
-            if line_lower.startswith("strengths"):
+            if "strength" in line_lower and (line_lower.startswith("strength") or line_lower.startswith("**strength")):
                 current_section = "strengths"
-            elif line_lower.startswith("anchors"):
+            elif "anchor" in line_lower and (line_lower.startswith("anchor") or line_lower.startswith("**anchor")):
                 current_section = "anchors"
-            elif line_lower.startswith("edges"):
+            elif "edge" in line_lower and (line_lower.startswith("edge") or line_lower.startswith("**edge")):
                 current_section = "edges"
             elif line.strip().startswith("-") and current_section:
                 item = line.strip().lstrip("- ").strip()
+                item = re.sub(r'^\*\*(.+?)\*\*\s*[—–-]\s*', r'\1: ', item)
                 if item:
                     sections[current_section].append(item)
 
@@ -273,7 +285,7 @@ def main():
     parser.add_argument("--persona", "-p", help="Specific persona to extract (default: all)")
     parser.add_argument("--list", "-l", action="store_true", help="List available personas")
     parser.add_argument("--llm", action="store_true", help="Use LLM for extraction (default: inference)")
-    parser.add_argument("--provider", default="anthropic", choices=["anthropic", "openai"],
+    parser.add_argument("--provider", default="anthropic", choices=["anthropic", "openai", "fable"],
                        help="LLM provider for extraction (default: anthropic)")
     parser.add_argument("--output", "-o", help="Output filename (default: persona_baselines.json)")
     args = parser.parse_args()

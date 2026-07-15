@@ -205,14 +205,15 @@ def count_ships() -> int:
     if ARCHITECTURE_MATRIX_PATH.exists():
         try:
             data = json.loads(ARCHITECTURE_MATRIX_PATH.read_text(encoding="utf-8"))
+            if "ships" in data:
+                return len(data["ships"])
             if "models" in data:
                 return len(data["models"])
-            # Alternative structure: list of model entries
             if isinstance(data, list):
                 return len(data)
         except Exception:
             pass
-    return 54  # Fallback to known value
+    return 68  # Fallback to known value
 
 
 def get_run_023d_stats() -> Dict[str, any]:
@@ -657,7 +658,7 @@ def generate_report() -> str:
         "## Map Statistics",
         f"  Maps in docs/maps/: {count_maps()}",
         f"  Ships in fleet: {count_ships()} (from ARCHITECTURE_MATRIX.json)",
-        f"  Completed runs: 16 (006-020B + 023d)",
+        f"  Completed runs: 24 (006-020B + 023d + JADE + CFA Trinity)",
         "",
         "## Source of Truth Mapping",
         "  predictions:         S7_RUN_*_SUMMARY.md -> 2_TESTABLE_PREDICTIONS_MATRIX.md",

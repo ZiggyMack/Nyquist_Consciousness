@@ -30,8 +30,8 @@ keywords:
   - **Compression Testing Tab** - PFI experiments, pre-flight validation
   - **Identity Matrix Tab** - Deep dive into identity physics
   - **Persona-Fleet Matrix Tab** - Match personas to ships (NEW: moved from AI_ARMADA)
-- **Experiments** - Complete run glossary with all 16 experiments (006-023d), Visualization Gallery, methodology details
-- **AI Armada** - Fleet Command Center (54 ships, 5 providers, 10+ model families)
+- **Experiments** - Complete run glossary with 24 experiments (006-024), Visualization Gallery, methodology details
+- **AI Armada** - Fleet Command Center (68 ships, 5 providers, 10+ model families)
   - Provider Status (Fleet Summary + per-provider breakdowns including Together.ai model families)
   - Identity Fingerprints (Task Router, Recovery Matrix, Drift Profiles, Linguistic Fingerprints)
   - Ghost Ship Bay (rescue scripts for API parameter issues)

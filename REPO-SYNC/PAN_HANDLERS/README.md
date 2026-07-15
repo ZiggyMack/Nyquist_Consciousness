@@ -36,13 +36,13 @@ This directory serves as the **routing intelligence** for LLM Book distillations
 | Gene Lab | Biomedical Research | Incubating |
 | AVLAR Studio | Cross-Modal Art/Ritual | Active |
 
-### Nyquist Stack Status (2026-01-12)
+### Nyquist Stack Status (2026-07-15)
 
 | Layer | Status | Key Result |
 |-------|--------|------------|
 | S0-S6 | FROZEN | Foundation complete |
-| S7 | ACTIVE | Run 023d (750 exp), Run 024 (JADE LATTICE) |
-| S8 | ACTIVE | First γ measurement (6.8× provider range) |
+| S7 | VALIDATED | Run 023d (4505 exp, EH=0.80), Run 024 (JADE LATTICE), CFA Trinity (702 runs), Cognitive Archaeology (15 operators) |
+| S8 | ACTIVE | First gamma measurement (6.8x provider range) |
 | S9 | DESIGN | Human-AI Coupling theory complete |
 | S10 | ACTIVE | Hybrid Emergence thresholds defined |
 | S11 | DESIGN | AVLAR Protocol |

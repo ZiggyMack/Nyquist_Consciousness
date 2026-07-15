@@ -101,11 +101,13 @@ Gate test: 13/17 extractors correctly produce 0 operators on shopping list (PASS
 | Information | Manage what is known/unknown/askable | OP-010, OP-013, OP-015 |
 | Minimal Sufficiency | Remove until only what's needed remains | OP-011 |
 | Blind Spot | Detect what's hidden/missing/smuggled | OP-006, OP-002, OP-005 |
-| Constraint-Induced Discovery | Use limitations as discovery tools | OP-012, OP-003, OP-008 |
+| Constraint-Induced Discovery | Use limitations as discovery tools | OP-003, OP-007, OP-008, OP-009, OP-012 |
 
 Confidence levels: 0 GREEN, 7 YELLOW, 8 RED.
 
 GREEN promotion blocked by H-baseline: operator PRESENCE saturates at competence. Test B (ordering) and PASS F (abstention) are the escape routes.
+
+**GREEN promotion criteria (pre-registration gap — CFA Claude, 2026-07-15):** The escape routes are named but the decision rule is not written down. Before Dirac runs, commit to: what specific evidence pattern triggers GREEN promotion? Options: (a) cross-dig-site recovery alone (appears in Dig Site 003 after 002), (b) cross-dig-site + Test B showing ordering signal absent in neg-H, (c) cross-dig-site + PASS F showing meaningful abstention pattern. Without pre-committed criteria, any promotion decision is post hoc.
 
 ---
 
@@ -169,7 +171,7 @@ Exit survey questions are hardcoded in `EXIT_SURVEY_QUESTIONS` dict. 20 question
 
 ## 10. Key Structural Properties
 
-**Extractor susceptibility:** Tier 1 extractors are susceptible to the same operators they detect. OP-006 (Under-Determination Detection) is the structural blind spot — extractors optimized for finding structure, not for finding the null hypothesis that explains structure away. This is a property to document and design around, not a flaw to fix. The 6-step audit pattern is the compensating control.
+**Extractor susceptibility:** Tier 1 extractors are susceptible to the same operators they detect. OP-006 (Under-Determination Detection) is the structural blind spot — extractors optimized for finding structure, not for finding the null hypothesis that explains structure away. This is *probably* a property to document and design around, not a flaw to fix — but that conclusion depends on the priming experiment (IQ-staged): if giving an extractor the OP-006 definition + worked example of the main-effect error changes its behavior, blindness is partly fixable and "design around it" leaves signal on the table. Current evidence for unfixability: naming the failure didn't prevent it, three times, across providers (n=3 auditors, not dig sites — suggestive, not conclusive). The 6-step audit pattern is the observed recovery mechanism, not yet tested as a standalone control. What actually happened: adversarial re-checking caught OP-006 failures post hoc, at a latency of one to several exchanges, routed through a human mediator. Whether the written procedure works without that routing is the cross-assignment experiment registered but not yet run.
 
 **The H-baseline constraint:** Operator presence is universal across competent reasoning. Any finding based solely on presence is measuring vocabulary, not genius. All future findings must address: does this result survive the H-baseline? Does the signal persist when you control for "any competent reasoner would do this"?
 
@@ -188,5 +190,38 @@ Exit survey questions are hardcoded in `EXIT_SURVEY_QUESTIONS` dict. 20 question
 
 ---
 
+---
+
+## 12. Collaborator Review (2026-07-15)
+
+All four collaborators reviewed this audit. Key corrections and contributions:
+
+**Opus (corrections applied):**
+- Section 10 OP-006 sentence downgraded from "the compensating control" to "the observed recovery mechanism, not yet tested as a standalone control" — the honest version of what actually happened
+- "Design around, not fix" is probably right but depends on the priming experiment result. If priming an extractor with OP-006 definition + worked example changes behavior, blindness is partly fixable. Current evidence: n=3 auditors, suggestive not conclusive
+- **Action:** Run priming experiment before building architecture that assumes the answer. Costs an afternoon; many downstream decisions silently depend on it
+
+**Nova (new frameworks):**
+- EOS is three interacting sciences: Cognitive Archaeology (discovery), Instrument Science (measurement), Epistemic Engineering (intervention). The lifecycle of an engineering discipline.
+- Operator families are functional subsystems analogous to cognitive organs (Information=working memory, Translation=representation, Blind Spot=metacognition, Constraint=search, Minimal Sufficiency=compression)
+- Sequence deserves promotion: operator ORDER may be half the architecture. Noether using Subtraction-then-Invariant-Search is different from the reverse.
+- Proposed "Transfer Proven" confidence level above GREEN: independently recovered from multiple thinkers, domains, extractors, contexts, AND used prospectively
+- Endgame framing: not Discovery Architectures but "a science of cognitive design"
+- See also: Missing Operator Theory (separate analysis) — fallacies as operator omission signatures, "physiology vs pathology of reasoning"
+
+**CFA Claude (corrections applied + action items):**
+- Family table was missing OP-007 and OP-009 (now added to Constraint-Induced Discovery)
+- Abstention data only interpretable for YELLOW+ operators. RED operators: log abstention data, don't conclude from it
+- GREEN promotion criteria must be explicit BEFORE Dirac runs (pre-registration gap — now flagged in Section 5)
+- IQ-032 (YAML exit survey) unblocks the most CFA-side experiments. ISP experiments (Exp 9, Exp 11) need custom exit probes. Prioritize before Dirac or Dirac's exit surveys won't capture the right metacognitive signal
+
+**Gemini (synthesis):**
+- "Blast radius" framing on audit-vs-design-around: if system handles critical state, Opus is right (audit). If rapid prototyping, design-around is smarter. Recursive operating system = high-stakes = audit pattern wins.
+- Proposed dynamic survey_config.json loader for exit survey injection — aligns with IQ-032
+- Note: some of Gemini's "build requests" (Museum-aware extraction, abstention pass) are already implemented. Gemini's synthesis was based on earlier project state.
+
+---
+
 *Infrastructure audit conducted 2026-07-14*
+*Collaborator review incorporated 2026-07-15*
 *Sources: Explore agent (extraction pipeline), Explore agent (CFA exit survey), 4-collaborator synthesis (Opus, Nova, CFA Claude, Gemini)*

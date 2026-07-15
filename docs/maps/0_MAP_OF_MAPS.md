@@ -200,7 +200,7 @@ keywords:
 
 | Map | Role | Key Contents |
 |-----|------|--------------|
-| **[19_COGNITIVE_ARCHAEOLOGY_MAP.md](19_COGNITIVE_ARCHAEOLOGY_MAP.md)** | Research Program | 9 operators, Failure Atlas, Phase 0 (A+B done, C pending), Promotion Gates, Falsification Criteria |
+| **[19_COGNITIVE_ARCHAEOLOGY_MAP.md](19_COGNITIVE_ARCHAEOLOGY_MAP.md)** | Research Program | 15 operators in 5 families, Failure Atlas, Phase 0 complete (A+B+C), Promotion Gates, Falsification Criteria |
 
 **The Excavation** - Cognitive Archaeology asks whether CFA, FUT, EOS, and Nyquist all share the same reasoning machinery — and whether that machinery generalizes to all disciplined thought. If CFA discovers a periodic table of worldviews, CA asks if there's a periodic table of reasoning itself.
 
@@ -488,7 +488,7 @@ When creating a new map:
 ║                                                                               ║
 ║   • 7,200 lines of careful thought                                           ║
 ║   • 46 testable predictions                                                  ║
-║   • 16 completed experimental runs                                           ║
+║   • 24 completed experimental runs                                           ║
 ║   • 68 ships sailing the identity ocean (53 operational)                      ║
 ║   • 7 federated repositories                                                 ║
 ║   • 1 vision: S0 → S77                                                       ║

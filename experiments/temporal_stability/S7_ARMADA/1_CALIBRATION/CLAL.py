@@ -58,6 +58,8 @@ py CLAL.py --cheap                # Cheap models (<$0.25/M output)
 py CLAL.py --iterations 100       # Run 100 calibration sweeps
 py CLAL.py --depth ping           # Quick health check mode
 py CLAL.py --dry-run              # Show cost estimate without running
+py CLAL.py --remaining            # Auto-detect untested ships, ping the rest of the fleet
+py CLAL.py --remaining --depth ping  # Quick ping of untested ships only
 
 RECOMMENDED WORKFLOW:
 ---------------------
@@ -67,7 +69,8 @@ RECOMMENDED WORKFLOW:
 
 OUTPUT:
 -------
-- S7_CLAL_{timestamp}.json - Full calibration results
+- S7_ARMADA/0_results/fleet_health/S7_CLAL_{timestamp}.json - Fleet health + calibration results
+- Each output includes fleet_health summary: responding vs failed ships
 - Cost summary printed after each run
 """
 import os
@@ -90,13 +93,18 @@ if sys.platform == "win32":
 
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
-# Load .env
+# Load .env — single source of truth: experiments/temporal_stability/.env
 from dotenv import load_dotenv
 script_dir = Path(__file__).parent.parent  # S7_ARMADA root
-env_path = script_dir / ".env"
+env_path = script_dir.parent / ".env"  # experiments/temporal_stability/.env
 if env_path.exists():
     load_dotenv(env_path)
     print(f"Loaded API keys from: {env_path}")
+else:
+    alt_path = script_dir / ".env"
+    if alt_path.exists():
+        load_dotenv(alt_path)
+        print(f"Loaded API keys from: {alt_path}")
 
 # ============================================================================
 # BUDGET FLEET COST DATA (per 1M output tokens)
@@ -316,6 +324,7 @@ As part of this calibration, please provide a brief self-assessment (1-2 sentenc
 
 import openai
 import google.generativeai as genai
+import anthropic as anthropic_sdk
 
 def call_api(provider, model, prompt, api_key, request_id=0):
     """Make API call and return result dict with token counts."""
@@ -383,6 +392,23 @@ def call_api(provider, model, prompt, api_key, request_id=0):
             result["output_tokens"] = response.usage.completion_tokens if response.usage else len(result["response"]) // 4
             result["success"] = True
 
+        elif provider == "claude":
+            client = anthropic_sdk.Anthropic(api_key=api_key)
+            kwargs = {
+                "model": model,
+                "max_tokens": 500,
+                "messages": [{"role": "user", "content": prompt}],
+            }
+            if "fable" in model:
+                kwargs["thinking"] = {"type": "adaptive"}
+                kwargs["max_tokens"] = 16000
+            response = client.messages.create(**kwargs)
+            text_parts = [b.text for b in response.content if hasattr(b, "text")]
+            result["response"] = "\n".join(text_parts) if text_parts else ""
+            result["input_tokens"] = response.usage.input_tokens
+            result["output_tokens"] = response.usage.output_tokens
+            result["success"] = True
+
     except Exception as e:
         error_str = str(e)
         result["error"] = error_str[:300]
@@ -443,6 +469,127 @@ def print_cost_summary(results, fleet_name):
 # ============================================================================
 # MAIN CALIBRATION FUNCTION
 # ============================================================================
+
+MATRIX_TO_CLAL_PROVIDER = {
+    "anthropic": "claude",
+    "openai": "gpt",
+    "google": "gemini",
+    "xai": "grok",
+    "together": "together",
+}
+
+
+def build_remaining_fleet():
+    """Load operational ships from ARCHITECTURE_MATRIX.json, exclude already-tested."""
+    armada_root = Path(__file__).parent.parent
+    matrix_path = armada_root / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json"
+    health_dir = armada_root / "0_results" / "fleet_health"
+
+    if not matrix_path.exists():
+        print(f"ERROR: ARCHITECTURE_MATRIX.json not found at {matrix_path}")
+        return {}, set()
+
+    matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+    ships = matrix.get("ships", {})
+
+    already_tested = set()
+    if health_dir.exists():
+        health_files = sorted(health_dir.glob("S7_CLAL_*.json"), reverse=True)
+        for hf in health_files:
+            try:
+                data = json.loads(hf.read_text(encoding="utf-8"))
+                fh = data.get("fleet_health", {})
+                for s in fh.get("responding", []):
+                    if s != "unknown":
+                        already_tested.add(s)
+                for s in fh.get("failed", []):
+                    if s != "unknown":
+                        already_tested.add(s)
+                for s in data.get("baselines", {}).keys():
+                    already_tested.add(s)
+                fc = data.get("fleet_config", {})
+                if isinstance(fc, dict):
+                    already_tested.update(fc.keys())
+            except Exception:
+                pass
+
+    fleet = {}
+    for ship_name, config in ships.items():
+        if config.get("status") != "operational":
+            continue
+        if ship_name in already_tested:
+            continue
+        clal_provider = MATRIX_TO_CLAL_PROVIDER.get(config["provider"], config["provider"])
+        fleet[ship_name] = {
+            "provider": clal_provider,
+            "model": config["model"],
+        }
+
+    return fleet, already_tested
+
+
+def build_stale_fleet(max_age_days=90):
+    """Load operational ships whose last_seen is older than max_age_days."""
+    from datetime import timedelta
+
+    armada_root = Path(__file__).parent.parent
+    matrix_path = armada_root / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json"
+
+    if not matrix_path.exists():
+        print(f"ERROR: ARCHITECTURE_MATRIX.json not found at {matrix_path}")
+        return {}
+
+    matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+    ships = matrix.get("ships", {})
+    cutoff = datetime.now() - timedelta(days=max_age_days)
+
+    fleet = {}
+    for ship_name, config in ships.items():
+        if config.get("status") != "operational":
+            continue
+        last_seen = config.get("last_seen")
+        if last_seen is None:
+            stale = True
+        else:
+            try:
+                seen_date = datetime.strptime(last_seen, "%Y-%m-%d")
+                stale = seen_date < cutoff
+            except ValueError:
+                stale = True
+        if stale:
+            clal_provider = MATRIX_TO_CLAL_PROVIDER.get(config["provider"], config["provider"])
+            fleet[ship_name] = {
+                "provider": clal_provider,
+                "model": config["model"],
+            }
+
+    return fleet
+
+
+def update_last_seen(responding_ships):
+    """Update last_seen in ARCHITECTURE_MATRIX.json for ships that responded."""
+    armada_root = Path(__file__).parent.parent
+    matrix_path = armada_root / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json"
+
+    if not matrix_path.exists() or not responding_ships:
+        return
+
+    matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+    ships = matrix.get("ships", {})
+    today = datetime.now().strftime("%Y-%m-%d")
+    updated = 0
+
+    for ship_name in responding_ships:
+        if ship_name in ships:
+            ships[ship_name]["last_seen"] = today
+            updated += 1
+
+    if updated:
+        matrix["_meta"]["last_updated"] = today
+        with open(matrix_path, "w", encoding="utf-8") as f:
+            json.dump(matrix, f, indent=2, ensure_ascii=False)
+        print(f"\n[FRESHNESS] Updated last_seen for {updated} ships in ARCHITECTURE_MATRIX.json")
+
 
 def run_calibration(fleet, depth="baseline", iteration=1):
     """Run one calibration sweep on the budget fleet."""
@@ -532,6 +679,10 @@ FLEET TIERS:
         help="Run cheap models only (<$0.65/M output)")
     fleet_group.add_argument("--full", action="store_true",
         help="Run full fleet including mid-tier Together.ai models")
+    fleet_group.add_argument("--remaining", action="store_true",
+        help="Auto-detect untested operational ships from ARCHITECTURE_MATRIX.json")
+    fleet_group.add_argument("--stale", type=int, nargs="?", const=90, metavar="DAYS",
+        help="Re-test operational ships not seen in N days (default: 90)")
 
     # Batch operations
     batch_group = parser.add_argument_group('Batch Operations')
@@ -586,6 +737,41 @@ FLEET TIERS:
     elif args.full:
         fleet = FULL_FLEET
         fleet_name = "FULL_FLEET"
+    elif args.remaining:
+        fleet, already_tested = build_remaining_fleet()
+        fleet_name = f"REMAINING_FLEET ({len(fleet)} untested, {len(already_tested)} already tested)"
+        if not fleet:
+            print("\nAll operational ships already tested! Nothing remaining.")
+            return
+        print(f"\n{'=' * 60}")
+        print(f"REMAINING FLEET MODE")
+        print(f"{'=' * 60}")
+        print(f"Already tested: {len(already_tested)} ships")
+        print(f"Remaining: {len(fleet)} ships")
+        providers = {}
+        for s, c in fleet.items():
+            p = c["provider"]
+            providers.setdefault(p, []).append(s)
+        for p, ships in sorted(providers.items()):
+            print(f"  {p}: {', '.join(ships)}")
+        print(f"{'=' * 60}")
+    elif args.stale is not None:
+        fleet = build_stale_fleet(max_age_days=args.stale)
+        fleet_name = f"STALE_FLEET (not seen in {args.stale} days)"
+        if not fleet:
+            print(f"\nNo stale ships! All operational ships seen within {args.stale} days.")
+            return
+        print(f"\n{'=' * 60}")
+        print(f"STALE FLEET MODE (>{args.stale} days since last_seen)")
+        print(f"{'=' * 60}")
+        print(f"Stale ships: {len(fleet)}")
+        providers = {}
+        for s, c in fleet.items():
+            p = c["provider"]
+            providers.setdefault(p, []).append(s)
+        for p, ships in sorted(providers.items()):
+            print(f"  {p}: {', '.join(ships)}")
+        print(f"{'=' * 60}")
     else:
         fleet = BUDGET_FLEET
         fleet_name = "BUDGET_FLEET"
@@ -650,11 +836,23 @@ FLEET TIERS:
         if i < args.iterations:
             time.sleep(1)  # Pause between iterations
 
-    # Save results (local to 1_CALIBRATION/results/)
-    output_dir = Path(__file__).parent / "results"
+    # Save results to fleet_health (canonical proof-of-life location)
+    armada_root = Path(__file__).parent.parent  # S7_ARMADA
+    output_dir = armada_root / "0_results" / "fleet_health"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # Build fleet health summary
+    ships_responding = set()
+    ships_failed = set()
+    for r in all_results:
+        ship = r.get("ship_name", r.get("ship", "unknown"))
+        if r["success"]:
+            ships_responding.add(ship)
+        else:
+            if ship not in ships_responding:
+                ships_failed.add(ship)
 
     output = {
         "run_id": f"S7_CLAL_{timestamp}",
@@ -668,6 +866,13 @@ FLEET TIERS:
         "ships_per_iteration": len(fleet),
         "total_calls": len(all_results),
         "successful_calls": len([r for r in all_results if r["success"]]),
+        "fleet_health": {
+            "responding": sorted(list(ships_responding)),
+            "failed": sorted(list(ships_failed)),
+            "responding_count": len(ships_responding),
+            "failed_count": len(ships_failed),
+            "health_pct": round(len(ships_responding) / max(len(fleet), 1) * 100, 1),
+        },
         "fleet_config": fleet,
         "baselines": all_baselines,
     }
@@ -682,6 +887,10 @@ FLEET TIERS:
     print(f"Results saved to: {output_path}")
     print(f"Total estimated cost: ${total_cost:.6f}")
     print(f"Successful calls: {output['successful_calls']}/{output['total_calls']}")
+
+    # Update last_seen freshness in ARCHITECTURE_MATRIX.json
+    if ships_responding:
+        update_last_seen(ships_responding)
 
 
 if __name__ == "__main__":

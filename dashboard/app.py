@@ -264,6 +264,15 @@ def apply_custom_css():
         border-bottom: 1px solid #dee2e6;
     }
 
+    /* Fix table text truncation — wrap instead of clip */
+    .dataframe td, .dataframe th,
+    [data-testid="stTable"] td, [data-testid="stTable"] th {
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        max-width: 400px;
+    }
+
     /* Dataframe specific - force light theme */
     [data-testid="stDataFrame"] {
         background: #ffffff !important;

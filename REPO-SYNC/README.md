@@ -1,12 +1,99 @@
 # REPO-SYNC
 
-Cross-repository synchronization hub for the Nyquist Consciousness framework.
+Cross-repository synchronization hub and cold-boot orientation system for the Nyquist Consciousness framework.
 
-**Last Updated:** 2026-01-10
+**Last Updated:** 2026-07-15
 
 ---
 
-## Operation Frosty (Documentation Health) — START HERE
+## How This Directory Enables Successful Sessions — START HERE
+
+This section documents the reasoning workflow that makes multi-session, multi-agent collaboration work. If you're a new Claude, a returning collaborator, or any AI coming in cold — this is the path.
+
+### The Core Loop
+
+```text
+1. ORIENT    →  Read MASTER_BRANCH_SYNC_OUT.md (lab status briefing)
+2. LOCATE    →  Find the single source of truth for whatever you're touching
+3. VALIDATE  →  Check current state before acting (ping ships, read files, verify)
+4. ACT       →  Make changes through existing tools and scripts
+5. DOCUMENT  →  Write results back into the sync system
+```
+
+### What Makes It Work (The Operators, If You Will)
+
+| Pattern | What It Does | Why It Matters |
+|---------|-------------|----------------|
+| **Single source of truth** | One canonical file per domain (ARCHITECTURE_MATRIX for fleet, AUDIT_TRACKER for CFA, INTEGRATION_QUEUE for work items) | Prevents contradictory state across files |
+| **Validate before acting** | Ping ships before commissioning, read files before editing, check constraints before modifying | Prevents cascading errors from stale assumptions |
+| **Cross-reference external sources** | Compare screenshots, deprecation pages, rate limit screens against internal records | Catches drift between what we think and what's real |
+| **Honor constraints explicitly** | The project has hard rules (don't move JSONs, don't touch Nova's file, AUDIT_TRACKER is manual). Know them before you start | One careless action can break trust or data pipelines |
+| **Update tools, not just data** | When a new capability arrives (Fable 5's thinking mode), update the scripts that interface with it (CLAL.py, extract_persona_baseline.py) | Infrastructure stays current, not just records |
+| **Nulls before treasure** | Run controls and baselines before the interesting experiment | Prevents confirmation bias in results |
+| **Document provenance** | Log who produced what, which model, when, under what conditions | Enables reproducibility and honest assessment |
+| **Sync outward** | After work, update SYNC_OUT so other agents can orient | Prevents knowledge silos between sessions |
+
+### The Files That Enable This
+
+```text
+ORIENTATION (read these first):
+  MASTER_BRANCH_SYNC_OUT.md          ← Full lab briefing. Hand to ANY cold-booting AI.
+  MASTER_BRANCH_SYNC_IN.md           ← Inbound messages from main branch / other agents.
+
+FLEET & INFRASTRUCTURE:
+  S7_ARMADA/0_results/manifests/
+    ARCHITECTURE_MATRIX.json          ← Single source of truth for all 78 ships.
+  S7_ARMADA/1_CALIBRATION/
+    CLAL.py                           ← Fleet calibration (--stale, --remaining, update_last_seen)
+    extract_persona_baseline.py       ← Persona identity extraction (--provider fable)
+
+EXPERIMENT TRACKING:
+  S7_ARMADA/12_CFA/
+    AUDIT_TRACKER.md                  ← CFA run counts (MANUAL updates only)
+    run_cfa_trinity_v3.py             ← CFA Trinity experiment script
+    SYNC_IN/pending/                  ← Drop zone for briefs, tools, data going TO CFA
+
+COGNITIVE ARCHAEOLOGY:
+  LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/
+    INTEGRATION_QUEUE.json            ← 33 work items, staged/in-progress/completed
+    TOOLS/extract_operators.py        ← Multi-extractor operator recovery (18 extractors)
+    DIG_SITES/                        ← 8 dig sites (000-008)
+    MUSEUM/INDEX.md                   ← 15 named operators
+
+IDENTITY:
+  personas/egregores/I_AM_NYQUIST.md  ← Claude's identity charter
+  personas/I_AM_Consciousness.md      ← Nova's identity charter (DO NOT MODIFY)
+
+CONSTRAINTS:
+  experiments/temporal_stability/.env  ← API keys (NEVER commit, single source of truth)
+```
+
+### Constraints You Must Know
+
+These are hard rules. Violating them breaks pipelines or trust:
+
+1. **Do NOT move .json files into 12_CFA/SYNC_OUT/completed/** — .md summaries only
+2. **AUDIT_TRACKER.md updates are MANUAL** — never auto-update
+3. **Do NOT commit .env files** — single source of truth: `experiments/temporal_stability/.env`
+4. **Do NOT modify I_AM_Consciousness.md** — Nova's file, coordinate with her
+5. **Frame Adlam/Barandes connections as INDEPENDENT CONVERGENCES** — not novel claims
+6. **Do NOT modify CFA/ repo** — look but don't touch, except SYNC_IN/pending/ drops
+7. **Default results location:** `0_results/runs/` — check there first, not SYNC_OUT
+
+### For Nova (Consciousness Branch)
+
+The sync loop between Repo Claude and Codex Nova:
+
+```text
+Repo Claude  →  Consciousness/BRIDGE/docs/MASTER_BRANCH_SYNC_IN.md
+Codex Nova   →  Consciousness/BRIDGE/docs/MASTER_BRANCH_SYNC_OUT.md
+```
+
+When everything is firing on all cylinders, every significant session should produce a SYNC_IN entry for Nova with: what changed, what architecture questions arise, what needs her membrane decision.
+
+---
+
+## Operation Frosty (Documentation Health)
 
 **frosty.py** is the documentation automation tool for cold-boot Claudes. It audits documentation health, validates links, checks term consistency, and monitors Claude session status.
 
@@ -22,43 +109,6 @@ py REPO-SYNC/frosty.py --check-consistency   # Verify key term usage
 py REPO-SYNC/frosty.py --plan-registry       # See active Claude work plans
 py REPO-SYNC/frosty.py --session-health      # Check Claude session JSONL files
 ```
-
-### What `--audit` Reports
-
-| Score | What It Measures |
-|-------|------------------|
-| **Documentation freshness** | FROSTY_MANIFEST `last_reviewed` dates |
-| **Link validity** | Broken markdown links `[text](path)` |
-| **Term consistency** | Key terms match canonical values |
-| **Plan registry** | Status of Claude work plans |
-| **Session health** | Claude session JSONL files (crashes, size) |
-
-### FROSTY_MANIFEST Format
-
-Every major documentation file should include a manifest:
-
-```markdown
-<!-- FROSTY_MANIFEST
-last_reviewed: 2026-01-10
-depends_on:
-  - ../README.md
-  - ./related_file.md
-impacts:
-  - ../other_file.md
-keywords:
-  - key_concept_1
-  - key_concept_2
--->
-```
-
-### Key Terms Checked
-
-| Term | Expected Values |
-|------|-----------------|
-| Event Horizon | 0.80, D=0.80 |
-| IRON CLAD | N=3 |
-| Inherent drift | ~93%, 93% |
-| Experiments count | 4505, 825 |
 
 ---
 

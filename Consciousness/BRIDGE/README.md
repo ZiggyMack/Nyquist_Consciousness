@@ -205,9 +205,27 @@ Shared documentation lives here:
 
 ```
 BRIDGE/docs/
-├── METHODOLOGY.md      # How experiments work
-└── TERMINOLOGY.md      # Glossary of terms
+├── MASTER_BRANCH_SYNC_IN.md    # Messages FROM Repo Claude TO Nova
+├── MASTER_BRANCH_SYNC_OUT.md   # Messages FROM Nova TO Repo Claude
+├── METHODOLOGY.md              # How experiments work
+├── TERMINOLOGY.md              # Glossary of terms
+├── FOUR_MODE_MEASUREMENT.md    # Gold/Diamond/Quartz/Forge framework
+├── HEMISPHERE_MODEL.md         # LEFT/RIGHT/BRIDGE doctrine
+├── PIPELINE.md                 # Consciousness promotion pipeline
+├── REVISION_LAYER.md           # Concept revision tracking
+└── archive/                    # Historical sync entries
 ```
+
+### SYNC Protocol (Claude <-> Nova)
+
+Repo Claude and Codex Nova communicate through paired files in `docs/`:
+
+```text
+Repo Claude  →  MASTER_BRANCH_SYNC_IN.md   (lab updates, architecture questions, deliverables)
+Codex Nova   →  MASTER_BRANCH_SYNC_OUT.md   (architecture decisions, promotions, corrections)
+```
+
+After significant work, Repo Claude appends to `SYNC_IN.md` with: what changed, what architecture questions arise (Nova's jurisdiction: ontology, drift, compression, altitude), and what needs her membrane decision (promote/hold/retire). Nova responds via `SYNC_OUT.md`. Ziggy carries the files between branches.
 
 ---
 

@@ -431,6 +431,39 @@ All intervention data is recorded in the transcript as `nova_intervention` / `in
 
 ---
 
+## SYNC Protocol
+
+### SYNC_IN (Inbound to CFA)
+
+External agents communicate with CFA Claude by dropping files into `SYNC_IN/pending/`. This is the ONLY writable path — do not modify anything else in 12_CFA/.
+
+```text
+SYNC_IN/
+├── pending/       ← Drop briefs, tools, data here
+│   ├── *.md       ← Methodology briefs, experiment proposals, pre-registrations
+│   └── *.py       ← Tools (e.g., anchor_operators.py)
+├── processed/     ← Items CFA Claude has consumed
+└── drafts/        ← Work-in-progress items
+```
+
+**What to drop:** Briefs with predictions + kill conditions, tools with documentation, data with provenance. **What NOT to drop:** Raw JSONs (those go to `0_results/runs/`), config changes (EXIT_SURVEY_QUESTIONS is hardcoded in the script).
+
+### SYNC_OUT (Outbound from CFA)
+
+CFA produces results here for consumption by other agents:
+
+```text
+SYNC_OUT/
+├── running/       ← Active batch outputs
+│   └── raw_runs/  ← Live JSON run files (DO NOT move to completed/)
+├── pending/       ← .md summaries ready for consumption
+└── completed/     ← .md summaries that have been consumed (.md ONLY, never .json)
+```
+
+**Critical:** `.json` files NEVER go into `completed/`. That directory is for `.md` summaries only. Raw JSONs migrate from `0_results/runs/` to root `.archive/runs/` — not through SYNC_OUT.
+
+---
+
 ## API Requirements
 
 Single source of truth: `experiments/temporal_stability/.env`
