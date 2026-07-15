@@ -10,6 +10,7 @@ Usage:
     python sequence_analysis.py extract [--dir DIR] [--source SOURCE] [--tier TIER]
     python sequence_analysis.py blind [--dir DIR] [--tier TIER] [--seed SEED]
     python sequence_analysis.py stats [--dir DIR] [--tier TIER]
+    python sequence_analysis.py match [--dir DIR] [--tier TIER] [--dry-run]
 """
 
 import sys
@@ -22,10 +23,29 @@ import json
 import os
 import re
 import random
+from datetime import datetime
 from pathlib import Path
 from collections import defaultdict
 
+# Environment (for API calls in match command)
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    def load_dotenv(path):
+        if path and path.exists():
+            with open(path) as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        key, _, value = line.partition('=')
+                        os.environ[key.strip()] = value.strip().strip('"').strip("'")
+
+env_path = Path(__file__).parent.parent.parent.parent.parent.parent.parent / "experiments" / "temporal_stability" / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
+
 EXTRACTIONS_DIR = Path(__file__).parent.parent / "DIG_SITES" / "000_Extractor_Calibration" / "extractions"
+MATCH_OUTPUT_DIR = Path(__file__).parent.parent / "DIG_SITES" / "000_Extractor_Calibration" / "matches"
 
 TIER_1 = {"claude", "deepseek_v4_pro", "gemma4_31b", "cogito_671b"}
 TIER_2 = {"grok", "gpt", "llama33_70b", "qwen3_235b", "kimi_k26", "kimi_k27_code", "minimax_m3"}
@@ -389,6 +409,251 @@ def cmd_stats(args):
         print(f"    Neg-H:    {neg_h_counts} (mean={sum(neg_h_counts)/len(neg_h_counts):.1f})")
 
 
+MATCH_PROMPT = """\
+You are comparing two lists of reasoning operators extracted from the SAME text \
+by two different LLM extractors. The operators describe the same cognitive moves \
+but may be named differently.
+
+For each operator in List A, find its semantic match in List B (if any). Two \
+operators match if they describe the same underlying cognitive operation, even \
+if named differently. For example, "Separating Map from Territory" and \
+"Representation ≠ Ontology" describe the same operation.
+
+List A:
+{list_a}
+
+List B:
+{list_b}
+
+Return your answer as a JSON array of objects. Each object has:
+- "a_pos": position number in List A (1-indexed)
+- "a_name": operator name from List A
+- "b_pos": position number in List B (1-indexed, or null if no match)
+- "b_name": operator name from List B (or null if no match)
+- "confidence": "high", "medium", or "low"
+- "reason": brief explanation of why they match (or why no match)
+
+Include ALL operators from List A. If an operator has no match in List B, set \
+b_pos and b_name to null. After the List A entries, add any UNMATCHED operators \
+from List B (those not matched to any List A operator) with a_pos and a_name \
+set to null.
+
+Return ONLY the JSON array, no other text.\
+"""
+
+
+def call_matcher(list_a, list_b):
+    """Call Claude to semantically match two operator lists."""
+    import anthropic
+
+    a_text = "\n".join(f"  {i+1}. {op}" for i, op in enumerate(list_a))
+    b_text = "\n".join(f"  {i+1}. {op}" for i, op in enumerate(list_b))
+    prompt = MATCH_PROMPT.format(list_a=a_text, list_b=b_text)
+
+    client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=4096,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    text = response.content[0].text.strip()
+    # Strip markdown code fences if present
+    if text.startswith("```"):
+        text = re.sub(r"^```\w*\n?", "", text)
+        text = re.sub(r"\n?```$", "", text)
+    return json.loads(text)
+
+
+def compute_ordering_stats(matches):
+    """Compute ordering correlation from semantic matches."""
+    matched_pairs = [(m["a_pos"], m["b_pos"]) for m in matches
+                     if m.get("a_pos") and m.get("b_pos")]
+    if len(matched_pairs) < 2:
+        return {"n_matched": len(matched_pairs), "rank_correlation": None,
+                "order_preserved": None, "inversions": None}
+
+    # Spearman rank correlation (manual, no scipy dependency)
+    # Convert raw positions to ranks (positions may come from lists of
+    # different lengths, so raw differences are meaningless)
+    n = len(matched_pairs)
+    a_vals = [p[0] for p in matched_pairs]
+    b_vals = [p[1] for p in matched_pairs]
+
+    def _to_ranks(vals):
+        order = sorted(range(len(vals)), key=lambda i: vals[i])
+        ranks = [0] * len(vals)
+        for rank, idx in enumerate(order, 1):
+            ranks[idx] = rank
+        return ranks
+
+    a_ranks = _to_ranks(a_vals)
+    b_ranks = _to_ranks(b_vals)
+    d_sq = sum((a - b) ** 2 for a, b in zip(a_ranks, b_ranks))
+    rho = 1 - (6 * d_sq) / (n * (n**2 - 1)) if n > 1 else 0
+
+    # Count order-preserved pairs vs inversions
+    preserved = 0
+    inverted = 0
+    for i in range(len(matched_pairs)):
+        for j in range(i + 1, len(matched_pairs)):
+            a_order = matched_pairs[i][0] < matched_pairs[j][0]
+            b_order = matched_pairs[i][1] < matched_pairs[j][1]
+            if a_order == b_order:
+                preserved += 1
+            else:
+                inverted += 1
+
+    total_comparisons = preserved + inverted
+    return {
+        "n_matched": n,
+        "rank_correlation": round(rho, 3),
+        "order_preserved": preserved,
+        "inversions": inverted,
+        "preservation_rate": round(preserved / total_comparisons, 3) if total_comparisons else None,
+    }
+
+
+def cmd_match(args):
+    """Semantic matching: use LLM to match operators across extractor pairs."""
+    extractions_dir = Path(args.dir) if args.dir else EXTRACTIONS_DIR
+    output_dir = MATCH_OUTPUT_DIR
+    output_dir.mkdir(parents=True, exist_ok=True)
+    data = load_all_extractions(extractions_dir)
+
+    tier_filter = int(args.tier) if args.tier else 1
+    data = [d for d in data if d["metadata"].get("tier", 99) <= tier_filter]
+
+    if not data:
+        print("[!] No extractions found matching tier filter")
+        return
+
+    # Group by source
+    by_source = defaultdict(list)
+    for item in data:
+        src = item["metadata"].get("source", "unknown")
+        by_source[src].append(item)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    all_results = []
+
+    for source, items in sorted(by_source.items()):
+        if len(items) < 2:
+            continue
+
+        category = get_source_category(source)
+        print(f"\n{'='*60}")
+        print(f"SOURCE: {source} ({category})")
+        print(f"  {len(items)} extractors, generating {len(items)*(len(items)-1)//2} pairs")
+        print(f"{'='*60}")
+
+        for i in range(len(items)):
+            for j in range(i + 1, len(items)):
+                ext_a = items[i]["metadata"].get("extractor", "?")
+                ext_b = items[j]["metadata"].get("extractor", "?")
+                ops_a = [op["name"] for op in items[i]["operators"]]
+                ops_b = [op["name"] for op in items[j]["operators"]]
+
+                if not ops_a or not ops_b:
+                    print(f"  [{ext_a} x {ext_b}] SKIP (empty operator list)")
+                    continue
+
+                print(f"  [{ext_a} x {ext_b}] Matching {len(ops_a)} vs {len(ops_b)} operators...",
+                      end=" ", flush=True)
+
+                if args.dry_run:
+                    print("DRY RUN")
+                    continue
+
+                try:
+                    matches = call_matcher(ops_a, ops_b)
+                    stats = compute_ordering_stats(matches)
+
+                    result = {
+                        "source": source,
+                        "category": category,
+                        "extractor_a": ext_a,
+                        "extractor_b": ext_b,
+                        "ops_a_count": len(ops_a),
+                        "ops_b_count": len(ops_b),
+                        "matches": matches,
+                        "ordering": stats,
+                    }
+                    all_results.append(result)
+
+                    n = stats["n_matched"]
+                    rho = stats["rank_correlation"]
+                    pres = stats.get("preservation_rate")
+                    print(f"OK  matched={n}  rho={rho}  order_preserved={pres}")
+
+                except Exception as e:
+                    print(f"FAILED: {e}")
+
+    if not all_results and not args.dry_run:
+        print("\n[!] No results generated")
+        return
+
+    if args.dry_run:
+        print(f"\n[DRY RUN] Would process {sum(1 for s, items in by_source.items() if len(items) >= 2 for i in range(len(items)) for j in range(i+1, len(items)))} pairs")
+        return
+
+    # Save results
+    out_file = output_dir / f"semantic_matches_{timestamp}.json"
+    out_file.write_text(json.dumps(all_results, indent=2), encoding="utf-8")
+    print(f"\nResults saved to: {out_file.name}")
+
+    # Summary
+    print(f"\n{'='*60}")
+    print("TEST B: SEMANTIC MATCHING SUMMARY")
+    print(f"{'='*60}")
+
+    by_cat = defaultdict(list)
+    for r in all_results:
+        by_cat[r["category"]].append(r)
+
+    for cat in ["dig_site", "h_baseline", "g_baseline", "neg_control"]:
+        results = by_cat.get(cat, [])
+        if not results:
+            continue
+        rhos = [r["ordering"]["rank_correlation"] for r in results
+                if r["ordering"]["rank_correlation"] is not None]
+        pres_rates = [r["ordering"]["preservation_rate"] for r in results
+                      if r["ordering"].get("preservation_rate") is not None]
+        matched_counts = [r["ordering"]["n_matched"] for r in results]
+
+        print(f"\n  {cat.upper()} ({len(results)} pairs):")
+        if rhos:
+            print(f"    Rank correlation (rho): min={min(rhos):.3f}  "
+                  f"max={max(rhos):.3f}  mean={sum(rhos)/len(rhos):.3f}")
+        if pres_rates:
+            print(f"    Order preservation: min={min(pres_rates):.3f}  "
+                  f"max={max(pres_rates):.3f}  mean={sum(pres_rates)/len(pres_rates):.3f}")
+        print(f"    Matched operators: min={min(matched_counts)}  "
+              f"max={max(matched_counts)}  mean={sum(matched_counts)/len(matched_counts):.1f}")
+
+    # THE TEST: do dig-site pairs have more consistent ordering than neg-H?
+    dig_rhos = [r["ordering"]["rank_correlation"] for r in by_cat.get("dig_site", [])
+                if r["ordering"]["rank_correlation"] is not None]
+    h_rhos = [r["ordering"]["rank_correlation"] for r in by_cat.get("h_baseline", [])
+              if r["ordering"]["rank_correlation"] is not None]
+
+    if dig_rhos and h_rhos:
+        dig_mean = sum(dig_rhos) / len(dig_rhos)
+        h_mean = sum(h_rhos) / len(h_rhos)
+        print(f"\n  {'='*50}")
+        print(f"  TEST B VERDICT:")
+        print(f"    Dig-site mean rho: {dig_mean:.3f}")
+        print(f"    Neg-H mean rho:    {h_mean:.3f}")
+        print(f"    Delta:             {dig_mean - h_mean:.3f}")
+        if dig_mean > h_mean + 0.1:
+            print(f"    --> DIG SITES SHOW MORE CONSISTENT ORDERING")
+            print(f"    --> Operator ordering IS a discriminating signal")
+        elif abs(dig_mean - h_mean) <= 0.1:
+            print(f"    --> INCONCLUSIVE (delta < 0.1)")
+        else:
+            print(f"    --> NEG-H HAS EQUAL OR BETTER ORDERING")
+            print(f"    --> Ordering does NOT discriminate (H-baseline survives)")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Operator Sequence Analysis & Blinded Matching")
     subparsers = parser.add_subparsers(dest="command")
@@ -410,6 +675,11 @@ def main():
     sts.add_argument("--dir", help="Extractions directory")
     sts.add_argument("--tier", help="Max tier to include (default: 2)")
 
+    mtch = subparsers.add_parser("match", help="Semantic matching via LLM (Test B core)")
+    mtch.add_argument("--dir", help="Extractions directory")
+    mtch.add_argument("--tier", help="Max tier to include (default: 1 = Tier 1 only)")
+    mtch.add_argument("--dry-run", action="store_true", help="Show what would be matched without API calls")
+
     args = parser.parse_args()
 
     if args.command == "inventory":
@@ -420,6 +690,8 @@ def main():
         cmd_blind(args)
     elif args.command == "stats":
         cmd_stats(args)
+    elif args.command == "match":
+        cmd_match(args)
     else:
         parser.print_help()
 

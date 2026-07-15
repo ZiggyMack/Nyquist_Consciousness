@@ -124,11 +124,11 @@
       "description": "Blinded matching protocol. 27 pairs generated, source labels stripped. Does operator ORDERING on dig sites differ from matched-difficulty controls?",
       "source": "H-baseline result / Opus pre-registration",
       "target_pipeline": "LLM_Book",
-      "status": "staged",
+      "status": "in_progress",
       "priority": "HIGH",
       "created": "2026-07-11",
       "resolved": null,
-      "notes": "LOAD-BEARING experiment. Tooling built (sequence_analysis.py). Semantic matching is the bottleneck."
+      "notes": "PRELIMINARY RESULT: Ordering does NOT discriminate. Corrected rho: dig_site=0.224 vs H_baseline=0.762 (delta=-0.538). H-baseline shows stronger ordering consistency. CONFOUND: dig site has cogito_671b (32 ops) vs baselines (4-8 ops) — list-length asymmetry inflates ordering disagreement. Need more dig sites with comparable operator counts before verdict is final. Rho bug fixed (raw positions → ranks). Results in matches/semantic_matches_20260715_010046.json."
     },
     {
       "id": "IQ-011",
@@ -258,7 +258,7 @@
       "priority": "HIGH",
       "created": "2026-07-14",
       "resolved": "2026-07-14",
-      "notes": "Opus R2: collapsed with exhaust mining — diagnosed audit failures ARE the calibration set. PASS F added to EXTRACTION_PROTOCOL.md, prompts added to NOTEBOOKLM_PROMPTS.md, --abstention flag added to extract_operators.py. Calibration run is next step."
+      "notes": "PASS F built + calibration PASSED. Gradient: neg_A=0 omissions, neg_C=0, neg_B=3 (genre-level), neg_D=4, neg_E=5, neg_F=6, neg_G=4+1 deliberate, neg_H=8+1 deliberate. Detector self-corrects (flags own potential OP-001/004 errors on non-reasoning text). Results in DIG_SITES/000_Extractor_Calibration/abstentions/."
     },
     {
       "id": "IQ-021",
@@ -280,11 +280,11 @@
       "description": "Reframe CFA as a reasoning-structure assay that measures how frameworks THINK, not what they conclude. The 6-step audit pattern is a detection instrument for cognitive architecture.",
       "source": "Opus R1 feedback",
       "target_pipeline": "CFA",
-      "status": "staged",
+      "status": "completed",
       "priority": "MEDIUM",
       "created": "2026-07-14",
-      "resolved": null,
-      "notes": "Shifts interpretation: CFA scores measure reasoning quality under adversarial pressure, not framework truth."
+      "resolved": "2026-07-15",
+      "notes": "Implemented: CFA-as-reasoning-assay section added to FIELD_MANUAL.md under 'CFA as Evidence Source'."
     },
     {
       "id": "IQ-023",
@@ -423,12 +423,12 @@
       "description": "Tier 1 extractors (Claude, DeepSeek, Gemma4, Cogito) are susceptible to the same operators they detect. OP-006 is the structural blind spot — extractors optimized for finding structure, not for finding the null hypothesis that explains structure away.",
       "source": "CFA Claude R2 feedback",
       "target_pipeline": "LLM_Book",
-      "status": "staged",
+      "status": "completed",
       "priority": "MEDIUM",
       "created": "2026-07-14",
-      "resolved": null,
-      "notes": "Not a flaw to fix — a property to document and design around. The 6-step audit pattern is the compensating control. Connects to IQ-021 (metacognition paper)."
+      "resolved": "2026-07-15",
+      "notes": "Documented: 'Extractor Susceptibility: A Property, Not a Flaw' section added to FIELD_MANUAL.md. 6-step audit pattern identified as compensating control. Connects to IQ-021 (metacognition paper)."
     }
   ],
-  "last_updated": "2026-07-14"
+  "last_updated": "2026-07-15"
 }

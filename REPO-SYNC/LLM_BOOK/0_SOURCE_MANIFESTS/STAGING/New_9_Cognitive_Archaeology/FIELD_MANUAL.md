@@ -222,6 +222,18 @@ This makes every archived CRUX declaration a potential ledger entry — not a ne
 
 **Protocol:** When reviewing a CRUX declaration, ask: "Which operators from the Museum are flagged by this event? Does this confirm an existing failure mode or reveal a new one?" Log findings in the relevant operator's Provenance Chain under evidence type "Pressure-tested."
 
+### CFA as Reasoning-Structure Assay (Reframe)
+
+CFA is not a worldview scorer. It is a reasoning-structure assay — it measures how frameworks THINK under adversarial pressure, not what they conclude. The 6-step audit pattern (reconstruct, evaluate, challenge, defend, converge, reflect) is a detection instrument for cognitive architecture. Scores measure reasoning quality, not framework truth.
+
+This reframe matters because: the same CFA infrastructure that tests worldviews can test discovery architectures (IQ-027), cognitive scripts (IQ-030), and attention allocation strategies (IQ-028). The assay generalizes to any structured reasoning process, not just philosophical frameworks.
+
+### Extractor Susceptibility: A Property, Not a Flaw
+
+Tier 1 extractors (Claude, DeepSeek V4 Pro, Gemma4 31B, Cogito 671B) are susceptible to the same operators they detect. OP-006 (Under-Determination Detection) is the structural blind spot — extractors are optimized for finding structure, not for finding the null hypothesis that explains structure away. Test A demonstrated this: the extractors found composition effects without checking noise floors.
+
+This is not a flaw to fix. It is a property to document and design around. The compensating control is the 6-step audit pattern: no finding is trusted until it survives the main-effect decomposition, the H-baseline check, and the negative control battery. The extractors find candidates; the audit pattern filters them.
+
 ---
 
 ## Excavation Norms
