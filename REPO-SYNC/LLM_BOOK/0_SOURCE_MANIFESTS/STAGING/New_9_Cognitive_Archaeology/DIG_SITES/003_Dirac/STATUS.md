@@ -1,8 +1,8 @@
 # Dig Site 003: Dirac — STATUS
 
-**Status:** PLANNING
+**Status:** SOURCES CURATED — ready for NotebookLM loading
 **Thinker:** Paul Dirac
-**Source:** TBD — source material collection in progress
+**Source:** See `_IN/SOURCES.md` — 6-tier curated collection (YouTube, PDFs, archives, books)
 **Protocol version:** 1.2
 **Origin:** Q50 recursion from Dig Site 002 (ranked #1 by expected operator yield)
 
@@ -46,10 +46,10 @@ Before extraction begins, register what the protocol PREDICTS about Dirac. These
 
 ## Next Steps
 
-1. **Source material collection** — find 3+ hours of process-revealing Dirac material
-2. **NotebookLM setup** — create dedicated notebook with source material
+1. ~~**Source material collection**~~ — DONE. See `_IN/SOURCES.md` (6-tier curated guide with paste-ready URLs)
+2. **NotebookLM setup** — create notebook, load Round 1 sources (YouTube first, PDFs second)
 3. **PASS 0** — historical contingency pass on Dirac's discipline
-4. **Round 1 extraction** — run protocol v1.2 (Q1-Q50)
+4. **Round 1 extraction** — run protocol v1.2 (Q1-Q50 + Q41-Q46 nerfed-equations thread)
 
 ---
 

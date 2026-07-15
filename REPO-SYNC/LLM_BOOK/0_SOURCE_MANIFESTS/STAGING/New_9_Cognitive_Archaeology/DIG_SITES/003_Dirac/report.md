@@ -106,6 +106,39 @@ This file contains **complete NotebookLM output specifications**. Each section h
 
 ---
 
+### Report 6: The "Nerfed Equations" Investigation — Hidden Structure and Suppressed Interpretations
+
+**Focus:** Did the transition from Dirac's original formulations to modern QFT lose essential structure?
+
+**Should Cover:**
+
+- What the Dirac sea interpretation contained that QFT's particle-antiparticle formalism does NOT
+- Hestenes' "Real Dirac Equation" — what the imaginary unit i hides (spin-plane geometry, zitterbewegung)
+- Dirac's 1951 "Is There an Aether?" paper — his own argument that the ether is not ruled out
+- His lifelong rejection of renormalization as "ugly and not mathematically sensible"
+- Whether the simplifications were (a) pure mathematical convenience, (b) Kuhnian paradigm replacement, or (c) something was deliberately swept under the rug
+- The cognitive archaeology angle: Dirac's late-career dissent uses the SAME operator (beauty as selection) that produced his greatest successes — what does this tell us about the operator's failure mode?
+
+**Target Audience:** Cognitive Archaeology extractors + anyone investigating "what physics left behind"
+
+---
+
+### Report 7: Beauty as Selection Criterion — Success Mode and Failure Mode
+
+**Focus:** When does "beauty as selection" work, and when does it fail? This is the central operator question for Dig Site 003.
+
+**Should Cover:**
+
+- Successes: Dirac equation, antimatter prediction, bra-ket notation
+- Failures: Large Numbers Hypothesis, anti-renormalization stance, aether revival
+- The pattern: does the operator have a domain of validity? What determines whether beauty tracks truth?
+- Comparison: is Barandes' "pedagogical forcing" subject to the same failure mode?
+- Prediction: in what domains should "beauty as selection" be trusted vs distrusted?
+
+**Target Audience:** Museum operator analysts (feeds operator admission criteria)
+
+---
+
 ## Infographic Requests
 
 ### Infographic 1: Barandes vs Dirac — Two Discovery Architectures

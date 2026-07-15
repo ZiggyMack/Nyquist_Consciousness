@@ -379,9 +379,59 @@ Questions below follow the 6-Level Inquiry Stack from EXTRACTION_PROTOCOL.md. Le
 
 ---
 
+## The "Nerfed Equations" Thread — Hidden Structure & Suppressed Interpretations
+
+### Q41: What Did QFT Replace?
+
+> When quantum field theory replaced Dirac's "sea" interpretation, what conceptual content was lost? The Dirac sea treats the vacuum as a filled substance with internal structure. Modern QFT treats it as a neutral vacuum with virtual particle-antiparticle pairs. Are these genuinely equivalent, or did the translation lose something? What would Dirac say was lost?
+
+**Response:**
+
+---
+
+### Q42: Hestenes' "Real Dirac Equation"
+
+> David Hestenes rewrote the Dirac equation in geometric algebra, eliminating complex numbers entirely. He argues the imaginary unit i in the standard formulation HIDES a geometric meaning — it's actually the generator of rotations in the electron's spin plane. What structure does the standard complex formulation obscure? Is Hestenes right that something was lost, or is this just a notational preference?
+
+**Response:**
+
+---
+
+### Q43: Dirac's Dissent — "Ugly and Incomplete"
+
+> Dirac never accepted renormalization in QED. He called it "ugly" and "not mathematically sensible." He also published "Is There an Aether?" in Nature (1951), arguing that an ether is compatible with relativity. Was Dirac a crank in his later years, or was he detecting a genuine problem that the field chose to paper over? What cognitive operation is he performing when he refuses to accept a successful-but-ugly theory?
+
+**Response:**
+
+---
+
+### Q44: The Aether Paper — Cognitive Archaeology
+
+> In his 1951 Nature letter, Dirac argued we are "rather forced to have an aether." Apply operator extraction to THIS paper specifically: what reasoning moves does Dirac perform? Does he use the same operators he used in his successful earlier work, or different ones? Is this the same cognitive architecture producing a wrong answer, or a different architecture?
+
+**Response:**
+
+---
+
+### Q45: Was There a Conspiracy, or Just a Paradigm Shift?
+
+> Some fringe sources claim Dirac's original formulations were deliberately "nerfed" — simplified to remove inconvenient implications about vacuum structure, zero-point energy, or ether-like properties. Is there any evidence that the simplifications were motivated by anything other than mathematical convenience? Or is this a straightforward case of Kuhnian paradigm replacement where the winning framework genuinely solved problems the old one couldn't?
+
+**Response:**
+
+---
+
+### Q46: The Cognitive Architecture of Dissent
+
+> Dirac's late-career dissent (anti-renormalization, pro-aether, Large Numbers Hypothesis) uses beauty and elegance as arguments AGAINST empirically successful theories. This is the same cognitive move that produced the Dirac equation — beauty as selection criterion — but now it's producing heterodox conclusions. What does this tell us about the operator's FAILURE MODE? Is "beauty as selection criterion" a one-way ratchet that eventually conflicts with any pragmatic consensus?
+
+**Response:**
+
+---
+
 ## Follow-Up Questions
 
-*(To be added after initial responses — Q41-Q49 reserved for follow-ups based on Round 1 answers)*
+*(Q47-Q49 reserved for follow-ups based on Round 1 answers)*
 
 ---
 
