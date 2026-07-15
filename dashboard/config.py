@@ -97,6 +97,9 @@ PATHS = {
     'jade_lattice_results': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "17_JADE_LATTICE" / "results",
     'jade_lattice_plots': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "17_JADE_LATTICE" / "results" / "plots",
     'jade_analysis_summary': REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "17_JADE_LATTICE" / "results" / "jade_analysis_summary.json",
+
+    # Cognitive Archaeology
+    'integration_queue': REPO_ROOT / "REPO-SYNC" / "LLM_BOOK" / "0_SOURCE_MANIFESTS" / "STAGING" / "New_9_Cognitive_Archaeology" / "INTEGRATION_QUEUE.json",
 }
 
 # ========== DASHBOARD SETTINGS ==========

@@ -338,5 +338,90 @@ Nyquist content validates against canonical values:
 
 ---
 
-_Last updated: 2025-12-31_
+## STAGING Deep Dive Index
+
+All research projects in `STAGING/` — the source material for the chew pipeline.
+
+| # | Directory | Subject | Status | Key Products |
+|---|-----------|---------|--------|-------------|
+| 1 | `New_1_EEG_Analog` | Spectral patterns in LLM identity drift | Complete | report.md, chat.md |
+| 2 | `New_2_S_Parameters` | Signal/impedance framework | Complete | report.md (HOLY_GRAIL reference implementation), chat.md |
+| 3 | `New_3_Human_Validation` | Human validation methodology | Complete | report.md, chat.md |
+| 4 | *(archived)* | Golden Geometry — geometric bounds | Archived | Lives in `CHEWED/BURP/New_4_GOLDEN_GEOMETRY/pre-lim/` |
+| 5 | `New_5_RAG_Geometry_Experiments` | Geometry of RAG systems | Complete | report.md |
+| 6 | `New_6_GNOSTIC_AI` | Gnostic framework applied to AI | Complete | report.md |
+| 7 | `New_7_KAYFABE` | Cultural model — 7-node mythic graph | Complete | report.md (HOLY_GRAIL specs), `_CACHE_/INSIGHTS/` |
+| 8 | `New_8_Cognative_Physics` | Adlam/Barandes consciousness-physics dialogue | Complete (2 rounds) | 40 insights, 9+ experiments, ISP-CA mapping, 6 operators |
+| 9 | `New_9_Cognitive_Archaeology` | Dig site excavation project | **Active** | 8 dig sites, 15 operators, LEDGER, MUSEUM, TOOLS |
+| 10 | `New_10_TOE` | Curt Jaimungal "Reverse Elephant" | Complete (R1 + Audit) | Architecture F, Discovery Simplex, Relation Space |
+| — | `Infinity-Nyquist` | Levin/Platonic hypothesis validation | Complete | Synthesis document |
+
+> **Q50 Transition:** From Dig Site 003 (Dirac) onward, new thinker digs live as self-contained projects under `New_9_Cognitive_Archaeology/DIG_SITES/NNN_Thinker/` rather than as `New_N` projects in STAGING. The Q50 recursive queue drives selection.
+
+---
+
+## Structure Patterns
+
+### Basic Pattern (New_1 through New_7)
+
+```
+Project/
+├── _IN/          ← Input artifacts/sources
+├── _OUT/         ← Materials FOR NotebookLM
+├── chat.md       ← Q&A results
+├── report.md     ← Synthesis/recommendations (HOLY_GRAIL format)
+└── README.md     ← Project overview
+```
+
+### Advanced Pattern (New_8, New_10)
+
+```
+Project/
+├── _IN/          ← Input artifacts/sources
+├── _OUT/         ← Materials FOR NotebookLM
+├── _ROUND_1/     ← Versioned mining rounds
+│   ├── chat.md           ← Questions (Q1-QN numbered)
+│   ├── report.md         ← HOLY_GRAIL output specifications
+│   ├── routing.md        ← Cross-project connection matrix
+│   ├── QUESTIONS_OUT.md  ← Follow-up questions for other projects
+│   ├── REVIEW_NOTES_*.md ← Quality assessment
+│   ├── CONNECTIONS/      ← Cross-dig-site links
+│   ├── EXPERIMENTS/      ← Staged experiment designs
+│   └── INSIGHTS/         ← Extracted findings
+├── _ROUND_2/     ← Second round (if warranted)
+└── README.md
+```
+
+> **Note:** New_9 (Cognitive Archaeology) is a self-contained project with its own architecture — see `New_9_Cognitive_Archaeology/README.md`.
+
+---
+
+## Chew Operation Checklist
+
+What every deep dig should produce before it's considered "done." Use this to verify nothing was forgotten.
+
+### Core outputs (every dig):
+
+1. **`chat.md`** — All Q&A documented (Q1-QN format)
+2. **`report.md`** — HOLY_GRAIL output specifications
+3. **`INSIGHTS/`** — Extracted findings (the "what did we learn")
+4. **`CONNECTIONS/`** — Cross-project links (what connects to what)
+5. **`EXPERIMENTS/`** — Staged experiment designs (what to test next)
+6. **`routing.md`** — Cross-pollination routing matrix
+7. **`REVIEW_NOTES_*.md`** — Quality assessment
+8. **Cross-pollination EXECUTED** — not just documented, actually update target projects
+9. **Operator extraction attempted** — feed to New_9 pipeline if reasoning content exists
+
+### For advanced digs (Round 2+):
+
+10. **`QUESTIONS_OUT.md`** — Questions generated FOR other projects
+11. **Second-round mining** — if Round 1 revealed enough depth to warrant it
+
+### Integration Queue:
+
+12. **Actionable items queued** — any new CFA questions, experiments, extraction prompts, or protocol changes discovered during the dig should be added to `New_9_Cognitive_Archaeology/INTEGRATION_QUEUE.json`
+
+---
+
+_Last updated: 2026-07-14_
 _Version: Unified Pipeline (v3.0) - 0_chew.py Entry Point_

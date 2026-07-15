@@ -20,6 +20,7 @@ MAPS_DIR = REPO_ROOT / "docs" / "maps"
 CA_DIR = REPO_ROOT / "REPO-SYNC" / "LLM_BOOK" / "0_SOURCE_MANIFESTS" / "STAGING" / "New_9_Cognitive_Archaeology"
 LLM_BOOK_DIR = REPO_ROOT / "REPO-SYNC" / "LLM_BOOK" / "0_SOURCE_MANIFESTS" / "STAGING"
 ARCH_MATRIX = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json"
+CA_QUEUE = PATHS.get('integration_queue', CA_DIR / "INTEGRATION_QUEUE.json")
 
 
 def count_files(directory, pattern="*.json", recursive=True):
@@ -141,6 +142,27 @@ def action_line(text):
     return f'*<span style="color:#2a9d8f;">→ {text}</span>*'
 
 
+def load_integration_queue():
+    if not CA_QUEUE.exists():
+        return [], {}
+    try:
+        with open(CA_QUEUE, encoding="utf-8") as f:
+            data = json.load(f)
+        items = data.get("queue", [])
+        counts = {}
+        for item in items:
+            status = item.get("status", "staged")
+            counts[status] = counts.get(status, 0) + 1
+        return items, counts
+    except Exception:
+        return [], {}
+
+
+def status_icon(status):
+    icons = {"staged": "\U0001f4cb", "active": "\U0001f525", "completed": "✅", "withdrawn": "⏸️"}
+    return icons.get(status, "\U0001f4cb")
+
+
 def render():
     st.markdown("## Mission Control")
     st.caption("Research decision board — what's cooking, what needs doing, what's blocking")
@@ -237,6 +259,71 @@ def render():
             )
             st.markdown("*Status: ⏳ PLANNED*")
 
+    # ==================== INTEGRATION QUEUE ====================
+
+    st.markdown("---")
+    st.markdown("\U0001f504 **INTEGRATION QUEUE**")
+    st.caption("Insights → Actions — what deep digs uncovered that we need to act on")
+
+    queue_items, queue_counts = load_integration_queue()
+
+    if queue_items:
+        staged = queue_counts.get("staged", 0)
+        active = queue_counts.get("active", 0)
+        completed = queue_counts.get("completed", 0)
+
+        iq1, iq2, iq3, iq4 = st.columns(4)
+        iq1.metric("\U0001f4cb Staged", staged)
+        iq2.metric("\U0001f525 Active", active)
+        iq3.metric("✅ Completed", completed)
+        iq4.metric("Total", len(queue_items))
+
+        type_labels = {
+            "cfa_question": "CFA Questions",
+            "experiment": "Experiments",
+            "extraction_prompt": "Extraction Prompts",
+            "operator_feedback": "Operator Feedback",
+            "protocol_change": "Protocol Changes",
+        }
+
+        with st.expander("\U0001f4cb **Queue by Type**", expanded=True):
+            types_present = []
+            for t_key, t_label in type_labels.items():
+                if any(item.get("type") == t_key for item in queue_items):
+                    types_present.append((t_key, t_label))
+
+            if types_present:
+                tabs = st.tabs([t_label for _, t_label in types_present])
+                for tab, (t_key, t_label) in zip(tabs, types_present):
+                    with tab:
+                        type_items = [i for i in queue_items if i.get("type") == t_key]
+                        active_items = [i for i in type_items if i.get("status") not in ("completed", "withdrawn")]
+                        resolved_items = [i for i in type_items if i.get("status") in ("completed", "withdrawn")]
+
+                        for item in active_items:
+                            with st.container(border=True):
+                                badge = priority_badge(item.get("priority", "LOW"))
+                                status_str = f'{status_icon(item["status"])} {item["status"].upper()}'
+                                st.markdown(
+                                    f'{badge} &nbsp; **{item["id"]}: {item["title"]}** &nbsp; {status_str}',
+                                    unsafe_allow_html=True,
+                                )
+                                st.markdown(f'*{item.get("description", "")}*')
+                                st.caption(f'Source: {item.get("source", "?")} • Pipeline: {item.get("target_pipeline", "?")} • Created: {item.get("created", "?")}')
+
+                        if resolved_items:
+                            with st.expander(f"Resolved ({len(resolved_items)})", expanded=False):
+                                for item in resolved_items:
+                                    st.markdown(f'✅ **{item["id"]}: {item["title"]}** — {item.get("resolved", "?")}')
+
+        if completed > 0 or queue_counts.get("withdrawn", 0) > 0:
+            resolved_all = [i for i in queue_items if i.get("status") in ("completed", "withdrawn")]
+            with st.expander(f"Recently Resolved ({len(resolved_all)})", expanded=False):
+                for item in resolved_all:
+                    st.markdown(f'{status_icon(item["status"])} **{item["id"]}: {item["title"]}** — {item.get("notes", "")}')
+    else:
+        st.info("No integration queue found. Create `INTEGRATION_QUEUE.json` in New_9_Cognitive_Archaeology/.")
+
     # ==================== OPEN LOOPS ====================
 
     st.markdown("---")
@@ -279,16 +366,16 @@ def render():
 
     with med_col2:
         with st.container(border=True):
-            st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **Test A: Composition Regimes (702 runs)**',
+            st.markdown(f'{priority_badge("DONE")} &nbsp; **Test A: Composition Regimes — RESOLVED**',
                         unsafe_allow_html=True)
             st.markdown(
-                "Do worldview transitions compose? For each triple (A, B, C), classify A->B + B->C vs A->C "
-                "into regimes: exact, approximate, fails, obstruction, novelty. "
-                "Data exists (G=212, PT=131, MdN=94 CFA Trinity runs). "
-                "Awaiting structural framing from CFA Claude on composition signature vectors."
+                "Main-effect decomposition killed the manifold hypothesis. CFA scores are 82-98% "
+                "subject-driven — PF_I is a framework property, not a transition property. "
+                "Interaction term is 12-18% (real but small). "
+                "Tool: `interaction_analysis.py` (decompose, families, isp, full commands)."
             )
             st.markdown(action_line(
-                "Send Q2/Q3 to CFA Claude, build Test A script from structural framing"
+                "Resolved. Framework profiles confirmed. Transition paths are not the signal."
             ), unsafe_allow_html=True)
 
     with med_col3:
