@@ -69,6 +69,45 @@ This cluster of reconstructions is the identity manifold — not metaphorically,
         "skeptic_level": 2,
     },
     {
+        "question": "What is the CFA Trinity adversarial audit?",
+        "answer": """
+**CFA Trinity** (Consciousness Framework Audit) pits two AI auditors — Claude and Grok — in
+multi-turn adversarial deliberation, scoring philosophical frameworks across 7 metrics.
+702+ runs, 4 of 8 frameworks complete.
+
+**What we learned** (Repo Opus, commonality ANOVA on all 702 runs):
+CFA is a **framework-property assay**, not a worldview-transition probe. The unique matchup-specific
+structure we hoped lived *between* frameworks (a "manifold") is only **0.8–5.7%** of variance —
+scores are overwhelmingly *additive framework properties*, dominated by which framework is being
+audited. Even PF_I's famous "non-commutativity" turned out to be a subject-vs-opponent role
+asymmetry (an additive main effect), not a transition geometry.
+
+*Note: this is a different "manifold" from the Identity Manifold above — that one (persona
+reconstruction clusters, σ²=0.000869) is real and well-supported. Naming collision, different claim.*
+        """,
+        "category": "technical",
+        "skeptic_level": 3,
+    },
+    {
+        "question": "What is Cognitive Archaeology (the Extraction Operating System)?",
+        "answer": """
+**Cognitive Archaeology** mines reusable *reasoning operators* — the cognitive moves a thinker
+makes — from source texts, using 18 independent LLM extractors across 4 tiers. Extracted operators
+are curated into a **Museum** (currently 15 named operators).
+
+**The key discovery** (the H-baseline): operator *presence* saturates at competence — even
+throwaway text contains the basic moves. So the discriminating signal isn't *which* operators
+appear, but their **selection, ordering, and omission**. That's why we built **PASS F**, the
+abstention pass: it asks "which operators were available but NOT deployed?" — measuring the shape
+of the absence, calibrated against a negative control (neg_H).
+
+Next dig site: **Dirac**, testing whether forward-generative discovery is a genuinely distinct
+cognitive architecture.
+        """,
+        "category": "general",
+        "skeptic_level": 2,
+    },
+    {
         "question": "What is drift and how do you measure it?",
         "answer": """
 **Drift** = Measure of identity perturbation from baseline.

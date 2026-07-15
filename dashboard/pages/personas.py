@@ -1235,11 +1235,11 @@ def render_persona_fleet_matrix():
     with col1:
         st.metric("🎭 Personas", "24", delta="Core fleet")
     with col2:
-        st.metric("🚀 Ships", "54", delta="5 providers")
+        st.metric("🚀 Ships", "78", delta="5 providers")
     with col3:
         st.metric("🏆 Top Alignment", "0.72", delta="variant_synthetic_optimal")
     with col4:
-        st.metric("📅 Updated", "2025-12-28")
+        st.metric("📅 Updated", "2026-07-15")
 
     st.markdown("---")
 

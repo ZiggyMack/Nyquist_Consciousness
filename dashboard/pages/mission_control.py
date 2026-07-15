@@ -204,11 +204,13 @@ def render():
             st.markdown(
                 "If dig-site operator ORDER is indistinguishable from neg-H, the Museum catalogues "
                 "competence. If it differs, that's the fossil. Tooling built (`sequence_analysis.py`). "
-                "Preliminary: dig-site avg 12.5 operators vs neg-H 5.7 — COUNT discriminates. "
-                "27 blinded pairs generated (seed=42), source labels stripped. "
-                "Blinded matching run PENDING."
+                "COUNT discriminates (dig-site avg 12.5 operators vs neg-H 5.7). "
+                "**Fable 5 caught a flaw:** Test B was scoring *listing* order, but the prompt asks for a "
+                "catalog — listing ≠ deployment order. Anchored re-analysis (`anchor_operators.py`): "
+                "listing-vs-anchored **ρ=0.441** (gap is real), anchor coverage 0.71 (just above the 0.70 "
+                "kill line). Ordering signal survives, but must be measured on anchored position."
             )
-            st.caption("Test B · IN PROGRESS · Semantic matching is the bottleneck")
+            st.caption("Test B · IN PROGRESS · Fable position-anchoring integrated; ordering re-test on anchored data")
 
         with st.container(border=True):
             st.markdown("\U0001f517 **\"Don't privilege nodes\" — 5 projects converge**")
@@ -366,16 +368,19 @@ def render():
 
     with med_col2:
         with st.container(border=True):
-            st.markdown(f'{priority_badge("DONE")} &nbsp; **Test A: Composition Regimes — RESOLVED**',
+            st.markdown(f'{priority_badge("DONE")} &nbsp; **Test A: Composition Regimes — RESOLVED (Repo Opus, 702 runs)**',
                         unsafe_allow_html=True)
             st.markdown(
-                "Main-effect decomposition killed the manifold hypothesis. CFA scores are 82-98% "
-                "subject-driven — PF_I is a framework property, not a transition property. "
-                "Interaction term is 12-18% (real but small). "
-                "Tool: `interaction_analysis.py` (decompose, families, isp, full commands)."
+                "The manifold is dead as a large effect. A **commonality decomposition** (nested R²) "
+                "over all 702 runs — identifiable where Type I/III are not on this empty-diagonal design — "
+                "puts unique matchup structure (the actual manifold) at just **0.8–5.7%** of variance "
+                "(external), ~0% in control. Scores are additive framework properties dominated by "
+                "*subject* identity. **PF_I is 71.7% subject / 0.8% interaction** — its non-commutativity "
+                "is a role asymmetry, not a transition geometry. If any interaction survives, it's EDB (5.7%). "
+                "Tool: `12_CFA/analysis/anova_interaction.py`."
             )
             st.markdown(action_line(
-                "Resolved. Framework profiles confirmed. Transition paths are not the signal."
+                "Resolved. CFA is a framework-property assay, not a manifold probe. Test A′ replication runs cancelled."
             ), unsafe_allow_html=True)
 
     with med_col3:

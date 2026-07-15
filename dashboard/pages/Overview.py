@@ -13,6 +13,7 @@ Design: Matches sophistication of AI Armada, Tests, and The Unknown pages.
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import json
 import re
 import subprocess
 import base64
@@ -258,6 +259,37 @@ def estimate_time_compression():
 # Unpack paths
 REPO_ROOT = PATHS['repo_root']
 LEDGER_COLORS = SETTINGS['colors']
+
+
+def _fleet_summary():
+    """Live fleet counts + per-provider breakdown from ARCHITECTURE_MATRIX.json."""
+    matrix = (Path(__file__).parent.parent.parent / "experiments" / "temporal_stability"
+              / "S7_ARMADA" / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json")
+    try:
+        data = json.loads(matrix.read_text(encoding="utf-8"))
+        raw = data.get("ships", data)
+        ships = list(raw.values()) if isinstance(raw, dict) else raw
+    except Exception:
+        return None
+    from collections import Counter, defaultdict
+    by = defaultdict(Counter)
+    tot = Counter()
+    for s in ships:
+        by[s.get("provider", "?")][s.get("status", "?")] += 1
+        tot[s.get("status", "?")] += 1
+    prov_labels = {"anthropic": "Claude (Anthropic)", "openai": "GPT (OpenAI)",
+                   "google": "Gemini (Google)", "xai": "Grok (xAI)", "together": "Together.ai"}
+    rows = []
+    for pv in sorted(by, key=lambda p: -sum(by[p].values())):
+        c = by[pv]
+        rows.append({"Provider": prov_labels.get(pv, pv),
+                     "🟢 Operational": c.get("operational", 0),
+                     "👻 Ghost": c.get("ghost", 0),
+                     "🪦 Sunk": c.get("sunk", 0),
+                     "📦 Total": sum(c.values())})
+    return {"total": len(ships), "operational": tot.get("operational", 0),
+            "ghost": tot.get("ghost", 0), "sunk": tot.get("sunk", 0),
+            "providers": len(by), "rows": rows}
 
 
 def render():
@@ -883,7 +915,7 @@ def render():
 
     with s7_col2:
         st.markdown("""
-        **Current Status:** Run 021 Complete (Triple-Blind Validation)
+        **Current Status:** Run 024 Complete (JADE LATTICE I_AM A/B)
 
         | Phase | Runs | Status |
         |-------|------|--------|
@@ -891,39 +923,58 @@ def render():
         | Threshold Validation | 008-012 | ✅ Complete |
         | Control Systems | 015-017 | ✅ Complete |
         | Blind Validation | 018-021 | ✅ Complete |
+        | IRON CLAD Foundation | 023 (4505 exp) | ✅ Complete |
+        | JADE LATTICE I_AM A/B | 024 | ✅ Complete |
         | Human Grounding | EXP3 | 🟡 Ready |
         """)
+
+    page_divider()
+
+    # === SECTION 5b: BEYOND IDENTITY DRIFT — CURRENT WORKSTREAMS ===
+    st.markdown("### Beyond Identity Drift — Two New Workstreams")
+    ws_col1, ws_col2 = st.columns(2)
+    with ws_col1:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, rgba(42,157,143,0.03) 100%);
+                    border: 2px solid #2a9d8f; border-radius: 10px; padding: 1em; height: 100%;">
+            <div style="font-weight: bold; color: #2a9d8f; font-size: 1.1em;">⚖️ CFA Trinity — Adversarial Framework Audit</div>
+            <p style="color:#444; margin-top:0.5em;">Two AI auditors (Claude + Grok) deliberate philosophical
+            frameworks across 7 metrics. 702+ runs, 4/8 frameworks complete. <b>Repo Opus verdict (702 runs):</b>
+            CFA is a framework-property assay — the "manifold" is only 0.8–5.7% of variance; scores are additive
+            framework properties, not a transition geometry.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with ws_col2:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(233,196,106,0.1) 0%, rgba(233,196,106,0.03) 100%);
+                    border: 2px solid #e9c46a; border-radius: 10px; padding: 1em; height: 100%;">
+            <div style="font-weight: bold; color: #b8860b; font-size: 1.1em;">⛏️ Cognitive Archaeology (EOS)</div>
+            <p style="color:#444; margin-top:0.5em;">The Extraction Operating System mines reusable reasoning
+            <i>operators</i> from source texts via 18 LLM extractors. Museum of 15 operators; the H-baseline showed
+            presence saturates at competence, so the signal lives in selection, ordering, and <b>omission</b>
+            (PASS F, the abstention pass). Dirac dig site is next.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
     page_divider()
 
     # === SECTION 6: FLEET STATUS ===
     st.markdown("## 🚀 Fleet Status")
 
-    fleet_col1, fleet_col2, fleet_col3, fleet_col4, fleet_col5 = st.columns(5)
+    _fleet = _fleet_summary()
+    if _fleet:
+        fleet_col1, fleet_col2, fleet_col3, fleet_col4, fleet_col5 = st.columns(5)
+        fleet_col1.metric("🟢 Operational", _fleet["operational"])
+        fleet_col2.metric("👻 Ghost", _fleet["ghost"], delta="Rescuable")
+        fleet_col3.metric("🪦 Sunk", _fleet["sunk"])
+        fleet_col4.metric("📦 Total Ships", _fleet["total"])
+        fleet_col5.metric("🌐 Providers", _fleet["providers"])
 
-    with fleet_col1:
-        st.metric("🟢 Operational", "47", delta="80%")
-    with fleet_col2:
-        st.metric("⏳ Rate Limited", "5", delta="Gemini")
-    with fleet_col3:
-        st.metric("👻 Ghost Ships", "7", delta="Rescuable")
-    with fleet_col4:
-        st.metric("🔑 API Keys", "50", delta="10/provider")
-    with fleet_col5:
-        st.metric("🌐 Providers", "5", delta="Global")
-
-    with st.expander("📊 Fleet Breakdown by Provider", expanded=False):
-        st.markdown("""
-| Provider | 🟢 Operational | ⏳ Rate Limited | 👻 Ghost | 📦 Total |
-|----------|----------------|-----------------|----------|----------|
-| **Claude** (Anthropic) | 7 | 0 | 0 | 7 |
-| **GPT** (OpenAI) | 7 | 0 | 7 | 14 |
-| **Gemini** (Google) | 3 | 5 | 0 | 8 |
-| **Grok** (xAI) | 10 | 0 | 0 | 10 |
-| **Together.ai** | 15 | 0 | 5 | 20 |
-
-*See AI Armada page for full fleet management*
-        """)
+        with st.expander("📊 Fleet Breakdown by Provider", expanded=False):
+            st.dataframe(pd.DataFrame(_fleet["rows"]), hide_index=True, use_container_width=True)
+            st.caption("Live from ARCHITECTURE_MATRIX.json · See AI Armada page for full fleet management")
+    else:
+        st.info("Fleet matrix not found — see AI Armada page for fleet status.")
 
     page_divider()
 

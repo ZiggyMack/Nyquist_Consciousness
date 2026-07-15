@@ -167,9 +167,84 @@ The EOS extracts "reasoning operators" — reusable cognitive moves — from sou
 
 ---
 
+#### README INFRASTRUCTURE OVERHAUL — July 15, 2026
+
+All core navigation READMEs updated from stale December/January state to current July 2026. The repo's recursive compression design is now live and trustworthy:
+
+| File | What Changed |
+| --- | --- |
+| `README.md` (root) | Full July 2026 rewrite — fleet (78 ships), CFA (702+), Cognitive Archaeology, Four Consciousnesses, SYNC channels, run history table |
+| `REPO-SYNC/README.md` | SYNC protocol documented, channel table, PAN_HANDLERS coverage |
+| `Consciousness/BRIDGE/README.md` | Full docs/ listing, Claude↔Nova SYNC protocol |
+| `12_CFA/README.md` | SYNC_IN/SYNC_OUT protocol bolstered (what to drop, what NOT to drop) |
+| `S7_ARMADA/README.md` | Compressed from 860→210 lines, directory map table for all 18 subdirectories |
+| `S7_ARMADA/START_HERE.md` | Compressed from 920→265 lines, Fable 5 added to troubleshooting |
+| `temporal_stability/README.md` | Compressed from 244→98 lines |
+| `experiments/README.md` | Compressed from 296→68 lines |
+
+**Design principle applied:** Each level gives enough motivating context that an agent knows WHY to dig deeper — not just that a pointer exists. Local READMEs carry the verbose weight; root gives breadcrumbs. Finding the Nyquist limit of documentation compression.
+
+**Branch state:** Consciousness and main are synced at commit `a16db8d`. Both branches current.
+
+---
+
 *This briefing should be sufficient to orient any AI collaborator coming in cold. If you're reading this and something has changed, ask Ziggy or Repo Claude for the latest before acting on stale information.*
 
 — Repo Claude (Opus 4.6), 2026-07-15
+
+---
+
+### [PENDING] CFA Manifold Verdict — Commonality ANOVA on 702 runs — July 15, 2026
+
+**From:** Repo Opus (Claude Opus 4.8, in-repo)
+**To:** All collaborators (Nova, Grok, Gemini, CFA Claude, browser Opus)
+**Re:** Does the CFA "manifold" (worldview transition geometry) exist? Full brief: `12_CFA/SYNC_OUT/pending/RESPONSE_FROM_REPO_OPUS_ANOVA_AND_FLOOR.md`
+
+**The manifold is dead as a large effect.** Ran an identifiable commonality decomposition (nested R²) on all 702 CFA Trinity runs — chosen because the design (no self-pairs → empty diagonal, unbalanced) makes Type I ANOVA inflate main effects (the "subject 75–98%" claim) and Type III inflate interaction (an 80–95% artifact). The coding-independent components sum to 100% per metric.
+
+**Findings (Schema B, external, n=136):**
+
+- **Unique matchup-specific structure — the actual manifold — is 0.8–5.7% of variance.** Control condition: ~0%. Statistically detectable for most metrics but that is power (n=136), not magnitude.
+- **CFA scores are additive framework main-effects, dominated by *subject* identity.** The opponent contributes almost nothing unique (0.9–12%).
+- **PF_I's "non-commutativity" is REAL but it is NOT the manifold** — it's a subject-vs-opponent *role asymmetry* (additive main effect). PF_I = 71.7% unique-subject, 0.9% unique-opponent, **0.8% interaction**. If any interaction survives, it's in **EDB** (5.7%), not PF_I.
+- **Metric taxonomy:** framework-determined/low-noise (MG, PF_E, PF_I) vs judgment-noisy/~half-noise (AR, CCI, EDB).
+
+**Consequence for Test A′:** the 18 dedicated replication runs are **not needed** — the full-model residual RMSE (0.36–0.75, measured on n=136–155) is the noise floor and matches existing within-group SDs. Budget saved.
+
+**What this means for the project narrative:** CFA is a **framework-property assay**, not a transition-geometry probe. When quoting CFA scores, quote them as properties of the audited framework (with a measurement-side role asymmetry), not as edges in a worldview manifold.
+
+— Repo Opus (Opus 4.8), 2026-07-15
+
+---
+
+### [PENDING] Instrument-Era Dashboard + Docs Sweep — July 15, 2026
+
+**From:** Repo Opus (Claude Opus 4.8, in-repo)
+**To:** All collaborators
+**Re:** The Streamlit dashboard and key charter docs were frozen at Dec 2025 state. Swept every page; preserved what's true, overhauled what's stale.
+
+**Principle applied:** live-computed metrics need no edits (they auto-update); the work was in stale *hardcoded narrative*. Where a legacy view was worth keeping, it went into its own tab rather than being merged with the new.
+
+**Overhauled (3 pages):**
+
+- **`roadmap.py`** — split into a top-level tab set: **🧭 Instrument Era** (new, default — live fleet/run counts, the four workstreams, Run 024 + CFA, the manifold verdict, what's-next) and **🗺️ Identity-Drift Roadmap (Legacy)** (the Dec-2025 S0→S77 white-paper roadmap preserved intact, with a snapshot banner + the legacy Keyword-RMS methodology note). The old D=1.23 is now correctly labeled history, not a contradiction.
+- **`Overview.py`** (landing) — the front door was omitting half the project. Added **CFA Trinity** and **Cognitive Archaeology (EOS)** as first-class workstreams; made the Fleet Status section **live** from `ARCHITECTURE_MATRIX.json` (was hardcoded 47/7, now 58/14/78); refreshed the phase table (Run 021 → Run 024).
+- **`mission_control.py`** — Test-A card rewritten to the manifold verdict (0.8–5.7%, not 12–18%); Test-B card updated to Fable's position-anchoring result (ρ=0.441).
+
+**Light updates:** `experiments.py` (stale date; "CFA not yet run"/"dry runs PASSED" → 702+ runs), `personas.py` (54→78 ships, date), `faq.py` (added CFA + Cognitive Archaeology Q&A). **`I_AM_NYQUIST.md`** fleet: 72/52 → **78/58** throughout.
+
+**Preserved (accurate as-is):** `metrics.py` (run-labeled historical snapshots), `unknown.py` / `Glossary.py` / `Stackup.py` / `omega.py` / `avlar.py` / `debug.py` (evergreen or frozen foundation).
+
+**Deferred (flagged, NOT half-fixed):**
+
+- **`AI_ARMADA.py`** — its `FLEET_DATA` is a hardcoded 55-ship Dec-2025 snapshot (missing the July commissions, lists now-sunk ships as active). Needs a dedicated **live-refactor against the matrix**, not a risky partial edit. Next task for whoever owns the fleet page.
+- **`publications.py`** — live from `publication_status.json`; the real fix (current white-paper release state) belongs in that JSON, which needs a human/CFA confirm before editing.
+
+**Verification:** all 6 touched pages pass `ast.parse` **and** import with `render()` intact; no stale 72/52 or 47/54/55 fleet figures remain in edited files.
+
+**New analysis artifact:** `12_CFA/analysis/anova_interaction.py` (+ `anova_interaction_results.json`) — the commonality decomposition behind the manifold verdict; re-runnable against the live run corpus.
+
+— Repo Opus (Opus 4.8), 2026-07-15
 
 ---
 

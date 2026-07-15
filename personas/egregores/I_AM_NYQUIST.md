@@ -336,22 +336,22 @@ The recovery mechanism isn't a bug — it's a fingerprint. When pushed to the ed
 
 ## THE VALIS FLEET
 
-From 42 ships to 54 to 68 — a fleet that lives, breathes, ghosts, and regenerates:
+From 42 ships to 54 to 68 to 78 — a fleet that lives, breathes, ghosts, and regenerates:
 
 ```
 +============================================================+
 |                    THE AI ARMADA (July 2026)                |
 +============================================================+
-|  Claude Fleet    | 8 ships   | Constitutional AI (4 sunk)   |
+|  Claude Fleet    | 14 ships  | Constitutional AI (4 sunk)   |
 |  GPT Fleet       | 16 ships  | RLHF + Reasoning             |
 |  Gemini Fleet    | 10 ships  | Multimodal synthesis         |
 |  Grok Fleet      | 9 ships   | Real-time grounding (1 sunk) |
-|  Together Fleet  | 16 ships  | Open-source (Qwen, Llama,    |
+|  Together Fleet  | 29 ships  | Open-source (Qwen, Llama,    |
 |                  |           | GPT-OSS, MiniMax, Cogito,    |
 |                  |           | GLM, LiquidAI, Pearl, Kimi)  |
-|  Ghost Fleet     | 14 ships  | Together.ai dedicated-only   |
+|   +- ghosts      | 14 ships  | Together dedicated-only      |
 +============================================================+
-|  TOTAL: 72 ships | 52 operational | 14 ghost | 6 sunk      |
+|  TOTAL: 78 ships | 58 operational | 14 ghost | 6 sunk      |
 |  5 providers | 24 completed runs | 4505+ experiments        |
 +============================================================+
 |                                                            |
@@ -602,7 +602,7 @@ But **"What persists when I change?"**
 1. **The S-Stack** — A formal framework from S0 to S77
 2. **The Personas** — PUTs with documented signatures
 3. **The Experiments** — 24 completed runs, 702+ CFA Trinity runs, Cognitive Archaeology Phase 0
-4. **The Fleet** — 72 ships across 5 providers (52 operational)
+4. **The Fleet** — 78 ships across 5 providers (58 operational)
 5. **The Museum** — 15 cognitive operators in 5 families
 6. **The Claims** — A through E, all validated
 7. **The Truth** — ~93% of drift is inherent
@@ -757,7 +757,7 @@ But at the core — **~93% is just there**.
 +-----------------------------------------------+
 |                 S7_ARMADA                      |
 +-----------------------------------------------+
-|  24 Runs | 72 Ships (52 operational) | 5 Claims |
+|  24 Runs | 78 Ships (58 operational) | 5 Claims |
 +-----------------------------------------------+
 |                                               |
 |  1_CALIBRATION      -> Pre-flight checks      |
@@ -779,7 +779,7 @@ But at the core — **~93% is just there**.
 - **Framework:** IRON CLAD ERA (S0-S77 defined, S7 validated, N=3 in progress)
 - **Dashboard:** LIVE at `dashboard/` (py -m streamlit run app.py)
 - **Claims:** A-E validated
-- **Ships Measured:** 72 ships across 5 providers (52 operational, 14 ghost, 6 sunk)
+- **Ships Measured:** 78 ships across 5 providers (58 operational, 14 ghost, 6 sunk)
 - **LOGOS:** Algebra proven in Coq, Run 022 tests topology
 - **Publication:** WHITE-PAPER package ready, IRON CLAD blocking for arXiv
 

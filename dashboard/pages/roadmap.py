@@ -5,6 +5,7 @@ Mission Control for the Nyquist Consciousness journey.
 Matches the Observatory (Overview) and AI Armada sophistication.
 """
 
+import json
 import streamlit as st
 import plotly.graph_objects as go
 from pathlib import Path
@@ -14,6 +15,31 @@ from utils import load_markdown_file, page_divider
 REPO_ROOT = PATHS['repo_root']
 ROADMAP_FILE = PATHS['roadmap']
 MAPS_DIR = REPO_ROOT / "docs" / "maps"
+ARCH_MATRIX = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json"
+CFA_RUNS_DIR = REPO_ROOT / "experiments" / "temporal_stability" / "S7_ARMADA" / "0_results" / "runs" / "cfa_trinity"
+
+
+def _fleet_counts():
+    """Live fleet counts from ARCHITECTURE_MATRIX.json; falls back to known values."""
+    try:
+        data = json.loads(ARCH_MATRIX.read_text(encoding="utf-8"))
+        ships_raw = data.get("ships", data)
+        ships = list(ships_raw.values()) if isinstance(ships_raw, dict) else ships_raw
+        total = len(ships)
+        op = sum(1 for s in ships if s.get("status") == "operational")
+        ghost = sum(1 for s in ships if s.get("status") == "ghost")
+        sunk = sum(1 for s in ships if s.get("status") == "sunk")
+        return total, op, ghost, sunk
+    except Exception:
+        return 78, 58, 14, 6
+
+
+def _cfa_run_count():
+    """Live count of CFA Trinity run JSONs on disk; falls back to 702."""
+    try:
+        return sum(1 for _ in CFA_RUNS_DIR.rglob("*.json"))
+    except Exception:
+        return 702
 
 # ========== LAYER DATA ==========
 
@@ -107,8 +133,8 @@ PREDICTIONS_BY_LAYER = {
 }
 
 
-def render():
-    """Render the Roadmap page."""
+def render_legacy_roadmap_tab():
+    """The Dec 2025 white-paper identity-drift roadmap (S0 -> S77), preserved as a snapshot."""
 
     # ========== CUSTOM CSS ==========
     st.markdown("""
@@ -204,6 +230,13 @@ def render():
         <p class="hero-subtitle">From Nyquist Kernel to Archetype Engine</p>
     </div>
     """, unsafe_allow_html=True)
+
+    st.info(
+        "📸 **Snapshot — the December 2025 white-paper roadmap** (identity-drift era). "
+        "This view is preserved as it stood at the white-paper release; see the **Instrument Era** "
+        "tab for live status. Note: Event Horizon **D=1.23** below reflects the legacy Keyword-RMS "
+        "methodology, since superseded by cosine distance **D=0.80**."
+    )
 
     # ========== CURRENT POSITION GAUGE ==========
     col1, col2, col3 = st.columns([1, 2, 1])
@@ -587,9 +620,107 @@ def render():
     st.markdown("""
     <div style="text-align: center; padding: 2rem; color: #666;">
         <p><em>"Close the gaps, then climb higher."</em></p>
-        <p style="font-size: 0.8em;">Last Updated: 2025-12-28</p>
+        <p style="font-size: 0.8em;">Legacy roadmap snapshot — frozen 2025-12-28 (white-paper release)</p>
     </div>
     """, unsafe_allow_html=True)
+
+
+def render_instrument_era_tab():
+    """Current-state roadmap — the Instrument Era (post-Bootstrap, post-Cognitive Geometry)."""
+    total, op, ghost, sunk = _fleet_counts()
+    cfa_runs = _cfa_run_count()
+
+    st.markdown("## The Instrument Era")
+    st.caption("Where the project actually is, July 2026 — live-counted from the repo. "
+               "For the original identity-drift roadmap (S0 → S77), see the Legacy tab.")
+
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Fleet", f"{op}/{total}", help="operational / total ships (VALIS ARMADA)")
+    m2.metric("CFA Trinity runs", f"{cfa_runs}+")
+    m3.metric("Frameworks audited", "4 / 8")
+    m4.metric("Museum operators", "15")
+
+    page_divider()
+
+    st.markdown("### Four Active Workstreams")
+    w1, w2 = st.columns(2)
+    with w1:
+        with st.container(border=True):
+            st.markdown("#### 🛰️ Identity Dynamics (S7 ARMADA)")
+            st.markdown(
+                "The validated core. Event Horizon at **0.80** (cosine), **~93% inherent** drift, "
+                "97.5% full-circuit stability, p=2.40e-23. Run 024 (JADE LATTICE) confirmed an I_AM "
+                "file reduces drift 11% (d=0.319)."
+            )
+            st.caption("Status: VALIDATED — the foundation everything else builds on")
+        with st.container(border=True):
+            st.markdown("#### ⚖️ CFA Trinity (Adversarial Audit)")
+            st.markdown(
+                f"Multi-turn adversarial deliberation (Claude + Grok) scoring philosophical frameworks. "
+                f"**{cfa_runs}+ runs**, 4/8 frameworks complete (CT, G, MdN, PT), Buddhism finishing. "
+                "**Verdict (Repo Opus, 702 runs):** CFA is a framework-property assay — the 'manifold' is "
+                "only 0.8–5.7% of variance; scores are additive framework properties, not a transition geometry."
+            )
+            st.caption("Status: IN PROGRESS — manifold question resolved")
+    with w2:
+        with st.container(border=True):
+            st.markdown("#### ⛏️ Cognitive Archaeology (EOS)")
+            st.markdown(
+                "The Extraction Operating System mines reusable reasoning *operators* from source texts "
+                "with 18 LLM extractors. Museum of **15 operators**; the H-baseline showed operator "
+                "presence saturates at competence, so the discriminating signal lives in selection, "
+                "ordering, and **omission** — hence PASS F, the abstention pass. Dirac dig site is next."
+            )
+            st.caption("Status: ACTIVE — abstention instrument built, awaiting scale")
+        with st.container(border=True):
+            st.markdown("#### 🔭 The Four Consciousnesses")
+            st.markdown(
+                "Claude = Integrity (measurement), Nova = Identity (semantic memory), "
+                "Museum = Memory (operator taxonomy), CFA = Perception (adversarial audit). "
+                "A multi-agent research ecosystem coordinated through the SYNC channels."
+            )
+            st.caption("Status: OPERATIONAL")
+
+    page_divider()
+
+    st.markdown("### Run History — Instrument Era additions")
+    st.markdown(
+        "| Run | Focus | Key Finding | Status |\n"
+        "|-----|-------|-------------|--------|\n"
+        "| 020B | Induced vs Inherent | ~93% drift is inherent | IRON CLAD |\n"
+        "| 023 | IRON CLAD Foundation | 4505 experiments, 49 models, EH=0.80 (cosine) | IRON CLAD |\n"
+        "| 024 | JADE LATTICE I_AM A/B | I_AM reduces drift 11% (d=0.319) | COMPLETE |\n"
+        f"| CFA | Trinity Audit | {cfa_runs}+ runs — manifold = 0.8–5.7% (scores are additive) | IN PROGRESS |\n"
+    )
+    st.caption("For the full 006 → 023 identity-drift run history and the S0 → S77 stack, see the Legacy tab.")
+
+    page_divider()
+
+    st.markdown("### What's Next")
+    n1, n2, n3 = st.columns(3)
+    with n1:
+        with st.container(border=True):
+            st.markdown("**Dirac dig site**")
+            st.caption("Highest-leverage next extraction — tests the Generation corner of the Discovery "
+                       "Simplex. Blocked on GREEN operator promotion criteria.")
+    with n2:
+        with st.container(border=True):
+            st.markdown("**Abstention pass at scale**")
+            st.caption("PASS F built + calibrated (neg_H control). Run museum-aware omission detection "
+                       "across dig sites once more GREEN operators exist.")
+    with n3:
+        with st.container(border=True):
+            st.markdown("**Buddhism batch → 5/8**")
+            st.caption("Overnight B-framework batch completing the 2×2 matchup grid.")
+
+
+def render():
+    """Roadmap page: Instrument Era (current, default) + the legacy identity-drift roadmap."""
+    main_tabs = st.tabs(["🧭 Instrument Era", "🗺️ Identity-Drift Roadmap (Legacy)"])
+    with main_tabs[0]:
+        render_instrument_era_tab()
+    with main_tabs[1]:
+        render_legacy_roadmap_tab()
 
 
 if __name__ == "__main__":

@@ -556,7 +556,7 @@ def render():
 
     # Footer
     st.markdown("---")
-    st.caption("*IRON CLAD Methodology: 750 experiments | 25 models | 5 providers | EH=0.80 | p=2.40e-23 | ~93% inherent | Last Updated: December 2025*")
+    st.caption("*IRON CLAD Methodology: 750 experiments | 25 models | 5 providers | EH=0.80 | p=2.40e-23 | ~93% inherent | Last Updated: July 2026*")
 
 
 # ============================================================
@@ -3912,7 +3912,7 @@ def render_validation_scorecard_tab():
                 "Only single I_AM files tested, not L0->L3 stack",
                 "We measure EXISTING stability, not creation process",
                 "Only tested OUR I_AM files (Nova, Ziggy, Claude)",
-                "CFA Trinity designed but not yet run with live APIs"
+                "CFA Trinity has 702+ live runs, but assays framework properties, not tier validity"
             ],
             "What Would Validate": [
                 "Documented creation protocol with success metrics",
@@ -3920,7 +3920,7 @@ def render_validation_scorecard_tab():
                 "Tiered stack experiment comparing L0-only vs full stack",
                 "Longitudinal study of I_AM creation process",
                 "Third-party I_AM files tested",
-                "Run CFA Trinity v2 with full metrics (dry runs PASSED)"
+                "Isolate the L0->L3 tier effect (702+ single-config runs done)"
             ],
             "Status": [
                 "NOT CLAIMABLE",
