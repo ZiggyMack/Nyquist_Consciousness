@@ -36,8 +36,10 @@ Rediscovery tally: **OP-001, OP-006, OP-011, OP-013** (4 more independent confir
 | **Dimensionless Structural Linking** | Strip units → find dimensionless ratios → reject coincidence → postulate a dynamic law locking them | Aesthetic Generation | The Large Numbers move — the one that **failed** (varying-G) |
 | **Systematic Structural Translation** | Discard a domain's objects, transplant its *algebraic relations* intact into a new domain | Translation | Poisson bracket → commutator. Distinct from OP-001; runs *after* it in sequence |
 | **Tolerant Approximation** | Neglect secondary factors via intuition; trust beauty over rigor | Information | Engineering pragmatism; used infinite-dim matrices without waiting for rigor |
+| **Heuristic Relaxation** (Sunday Walk) | Deliberately hold a problem "faintly in the back of the mind" during unstructured time to let the subconscious forge cross-domain analogies | Aesthetic Generation (process) | *Surfaced by the reports, not the Q&A.* Commutator↔Poisson-bracket analogy emerged on a country walk (1925). Incubation as a generative act |
+| **Notational Strategy** *(marginal/micro)* | Choose notation so it *encodes* the structure being reasoned about | Translation | Standardized `[u,v]` for the commutator to reflect its anti-symmetry. Marginal on admission criteria (reusable move? borderline) |
 
-**Highest-value candidates for admission:** Anomaly Elevation, Formalism-First Generation, Systematic Structural Translation — each is repeated across ≥2 discoveries, irreducible to existing operators, and generates cross-domain predictions (the model gave AI/economics/biology transfers).
+**Highest-value candidates for admission:** Anomaly Elevation, Formalism-First Generation, Systematic Structural Translation, and **Heuristic Relaxation** — each repeated across ≥2 discoveries, irreducible to existing operators, cross-domain-transferable. Heuristic Relaxation is a *process/metacognitive* operator (a different kind than the rest) and pairs with a PASS Ω protocol upgrade (§10).
 
 ---
 
@@ -96,7 +98,17 @@ The dig **confirms the pre-registered "Beauty's Two Faces" hypothesis without ne
 
 ---
 
-## 9. Next Steps
+## 9. Protocol Friction — the Negative-Control Payoff (Suppressed Drawing)
+
+The dig's stated goal included finding where the v1.2 protocol *struggles*. It found three hard boundaries — arguably the most important research output of the round (full: `_OUT/Negative Control Analysis — Protocol Friction…`):
+
+- **The Suppressed Drawing / Geometry–Algebra Chasm.** Dirac generated via *projective geometry* but deliberately suppressed it and published austere algebra — he "published on one side and worked on the other" (Galison). The protocol extracts *verbalized* heuristics; the generative visual model is trapped in tacit space. **The Penrose Silence** (1972): asked to verbalize how projective geometry shaped QM, Dirac refused with "a trademark shake of the head." **Part of this architecture is genuinely unextractable by a verbal protocol** — a real finding, not a failure.
+- **Beauty is an irreducible, top-level operator.** It resists decomposition because it is the "Final Answer" standard, operates on ~century-long horizons (real-time utility feedback is invalid), and inverts the data hierarchy (keep the beautiful equation, reject the ugly data — which a utility-biased protocol flags as an error).
+- **Incubation ("dead time") is generative.** The Sunday-Walk synthesis (and the "uncertain night" waiting for Whittaker's) shows the protocol's bias toward *active* operators misses relaxation-based subconscious synthesis.
+
+These three become concrete protocol upgrades → **`PASS_OMEGA_OUTPUT.md`** (proposed v1.3).
+
+## 10. Next Steps
 
 - [ ] Run each new candidate through the **Operator Admission Criteria** (FIELD_MANUAL) before Museum registration; register survivors RED, log rediscoveries in OP-001/006/011/013 provenance + the OP-004 inversion.
 - [ ] Add the **Aesthetic Generation** family to `MUSEUM/INDEX.md` families list (pending admission of ≥1 member).

@@ -9,12 +9,14 @@
 ## Round 1 Results (2026-07-16)
 
 - **Rediscoveries (4):** OP-001, OP-006, OP-011, OP-013. Plus a documented **OP-004 inversion** (Dirac refuses reconstruction-in-others'-terms) — a boundary/absence finding.
-- **New operator candidates (6, RED):** Anomaly Elevation, Formalism-First Generation, Aesthetic Filtering, Dimensionless Structural Linking, Systematic Structural Translation, Tolerant Approximation.
-- **New family:** Aesthetic Generation (Formalist Generation).
+- **New operator candidates (8, RED):** Anomaly Elevation, Formalism-First Generation, Aesthetic Filtering, Dimensionless Structural Linking, Systematic Structural Translation, Tolerant Approximation, + (from the reports) **Heuristic Relaxation** (Sunday-Walk incubation) and Notational Strategy (marginal).
+- **New family:** Aesthetic Generation (Formalist Generation). Architecture name: **"Playful Deformity"** (deform a robust classical framework via algebraic substitution).
 - **Dirac Protocol** extracted (formalist mirror of the Barandes Protocol; the two are complementary).
 - **"Beauty's Two Faces" answered by the dig:** the same operator (beauty-as-selection) produced antimatter *and* the varying-G / QED-rejection failures → beauty generates, does not select.
+- **Negative-control payoff (PASS Ω):** the protocol has three hard boundaries on Dirac — the Suppressed Drawing / Penrose Silence (tacit geometry, unextractable), beauty-as-irreducible-operator, and generative incubation. → 3 proposed v1.3 upgrades in `PASS_OMEGA_OUTPUT.md`.
+- **7 NotebookLM reports mined** (`_OUT/`): Playful Deformity, Forward/Backward audit, Beauty as Selection, Nerfed Equations, Dirac Protocol, Noether Lens, Protocol Friction.
 - **Predictions:** 4 confirmed, 1 partial miss (RCI mix), 1 miss (Q50 stayed in physics).
-- **Q50 recursion → next digs:** Hestenes (#1, sources already local), Bohr (#2), Feynman (#3).
+- **Q50 recursion → next digs:** Hestenes (#1, sources already local — natural test of the new Tacit-Heuristic Probe), Bohr (#2), Feynman (#3).
 
 ---
 
