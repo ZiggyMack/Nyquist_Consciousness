@@ -6,6 +6,33 @@
 
 ---
 
+## TREATED TRANSCRIPTS & LOAD STATUS (2026-07-15)
+
+**Treated transcripts** (Standard treatment applied — header, timestamps stripped, light ASR fix; see FIELD_MANUAL Step 1b). Extraction set:
+
+| File | Tier | Notes |
+| --- | --- | --- |
+| `Dirac_Christchurch_1_Quantum_Mechanics.md` | 1 | Best of 4 QM transcriptions (punctuated) |
+| `Dirac_Christchurch_2_QED.md` | 1 | Renormalization critique |
+| `Dirac_Christchurch_3_Magnetic_Monopoles.md` | 1 | **Beauty-driven SUCCESS** (positive control) |
+| `Dirac_Christchurch_4_Does_G_Vary.md` | 1 | **Beauty-driven FAILURE** (negative control) |
+| `Dirac_Hund_Interview_1982.md` | 1 | Late-career method reflection |
+| `Farmelo_Religion_of_Mathematical_Beauty.md` | 1E | External architecture reconstruction |
+| `FSU_Documentary_Dirac.md` | 1E | Short doc clip |
+| `Dirac_God_in_Beauty_of_Mathematics.md` | 1E | Methodology focus |
+| `About_Dirac_Most_Beautiful_Equation.md` | 1E | Equation-discovery process |
+| `About_Dirac_Split_Scientific_World.md` | 1E | Video essay |
+
+Three duplicate Lecture-1 transcriptions preserved in `_alt_transcriptions/` (not in the extraction set). PDFs in `_IN/` are untreated source docs.
+
+**NotebookLM load status** (from the "Bohr to Heisenberg" notebook, 54 sources):
+
+- **Loaded ✓:** Lectures 1–2; most methodology PDFs; Wikiquote, Dirac-sea, Hestenes, aether, most web sources.
+- **Failed ✗ in NotebookLM:** Christchurch **Lecture 3 (Monopoles)** and **Lecture 4 (Does G Vary)**; web URLs — Springer, Academia.edu, Cambridge Core, IAS, LiveScience, Nature, Scribd, one YouTube.
+- **CRITICAL:** Lectures 3 & 4 failed to ingest in NotebookLM **but full local treated transcripts exist** (`Dirac_Christchurch_3/4_*.md`). Feed them directly, or re-try the YouTube URLs. This pair is **load-bearing** — it's Dirac's own within-thinker positive/negative control for beauty-as-method (see `_OUT/REPORT_IDEAS.md` → "Beauty's Two Faces"). Do not treat these as lost.
+
+---
+
 ## TIER 1: YOUTUBE — DIRAC'S OWN VOICE (paste URLs directly into NotebookLM)
 
 These are the highest-value sources. Dirac SPEAKING reveals cognitive architecture that papers don't.

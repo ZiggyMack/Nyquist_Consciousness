@@ -73,6 +73,18 @@ Choose a thinker. Prefer sources where the thinker is PERFORMING reasoning live 
 
 Create directory: `DIG_SITES/{NNN}_{Thinker_Name}/`
 
+### Step 1b: Transcript Treatment (Standard)
+
+Downloaded transcripts (YouTube / interview ASR exports) get the **Standard treatment** before excavation, so extractors read reasoning rather than transcription noise:
+
+1. **Header** — prepend a provenance block: `Speaker`, `Type` (Lecture / Interview / Documentary), source `URL`, `Tier` (1 = the thinker's own voice; 1E = *about* the thinker), `Dig Site`, and a `Museum-blind: Yes` marker.
+2. **Strip timestamps + reflow** — remove interleaved ASR timestamps (both `0:00`-on-its-own-line and inline `0:1414 seconds…` formats) and reflow into paragraphs.
+3. **Light ASR correction** — fix obvious errors on key terms only (proper nouns / domain terms: Bohr, Sommerfeld, monopoles, Schrödinger). Do NOT rewrite the thinker's phrasing — faithfulness beats polish; operators survive minor ASR noise.
+4. **Clean filenames** — rename to `{Thinker}_{Source}_{Topic}.md`.
+5. **Dedupe** — for multiple uploads of the same source, keep the cleanest as canonical and move the rest to `_IN/_alt_transcriptions/` (preserved, but excluded from the extraction set to avoid double-counting).
+
+Tier-1 (the thinker's own voice) is the highest-value extraction material — tag it so extraction weights it accordingly. PDFs / papers are source documents, not transcripts, and do not get this treatment.
+
 ### Step 2: Excavate
 
 Run NotebookLM extraction using prompts from `TEMPLATES/NOTEBOOKLM_PROMPTS.md`. Always run the **Primary Excavation Prompt** (Hidden Cognitive Operators) first. Follow with Failure Modes and Relationship Mapping.
