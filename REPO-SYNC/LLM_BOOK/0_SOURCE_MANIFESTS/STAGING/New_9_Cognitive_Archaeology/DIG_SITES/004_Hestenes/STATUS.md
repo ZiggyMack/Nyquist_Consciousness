@@ -40,9 +40,13 @@ So Hestenes is the natural **test of the v1.3 Tacit-Heuristic Probe**: can the p
 - `_IN/chat.md` — answered version; `_OUT/` — reports.
 - `excavation.md`, `DISCOVERY_GENOME.md`, `PASS_OMEGA_OUTPUT.md`.
 
+## Co-Load: Barandes ISP (CFA flag #8, 2026-07-16)
+
+CFA Claude flagged a **triple-dip**: load the **Barandes ISP sources into the same NotebookLM instance** as Hestenes. Hestenes reverse-engineers Dirac's suppressed geometry (complex *i* = spacelike spin bivector); Barandes' ISP stochastic mechanics runs on the same spinor / bivector / geometric-product machinery. Co-loading lets ISP↔geometric-algebra questions (spinors, bivectors, the geometric product, whether ISP division events have a geometric representation) be asked **across both sources in one session** — Dirac (003) → Hestenes (004) → Barandes (001/002) as a single source cluster. Self-Contained Question Principle throughout (define ISP / OP-terms inline). See `_IN/SOURCES.md` § Co-Load.
+
 ## Next Steps
 
-1. **Load NotebookLM** — Hestenes PDFs are already local in `../003_Dirac/_IN/` (REAL_DIRAC.pdf, caiqm.pdf, Observ-opers.pdf); see `_IN/SOURCES.md` for the full list + additions.
+1. **Load NotebookLM** — Hestenes PDFs are already local in `../003_Dirac/_IN/` (REAL_DIRAC.pdf, caiqm.pdf, Observ-opers.pdf); **co-load the Barandes ISP source** (see `_IN/SOURCES.md` § Co-Load) so the spinor/bivector bridge can be probed across both; see `_IN/SOURCES.md` for the full list + additions.
 2. **Author `chat.md`** from the v1.3 template — apply the Self-Contained Question Principle (define OP-xxx, families, "Barandes/Dirac" inline) and add a Tacit-Heuristic Probe question.
 3. **Run + recover** per FIELD_MANUAL.
 

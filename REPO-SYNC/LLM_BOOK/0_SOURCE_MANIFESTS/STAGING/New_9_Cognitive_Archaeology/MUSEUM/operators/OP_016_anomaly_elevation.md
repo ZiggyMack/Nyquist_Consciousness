@@ -4,7 +4,7 @@
 **First recovered:** Dig Site 003 (Dirac)
 **Independent confirmations:** 1
 **Extractor-independence:** Unknown
-**Family:** Aesthetic Generation
+**Family:** Aesthetic Generation (PROPOSED — family held pending Hestenes cross-confirmation, CFA flag 2026-07-16)
 
 ---
 

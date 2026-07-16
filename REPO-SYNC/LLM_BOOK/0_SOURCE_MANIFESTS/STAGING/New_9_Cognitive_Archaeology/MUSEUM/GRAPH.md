@@ -71,6 +71,17 @@ Each operator, when absent, produces a named cognitive failure. The failure is t
 - The Atlas is bidirectional: it predicts failures AND diagnoses them.
 - Every CRUX declaration in CFA can be mapped to this atlas — the CRUX names the failure, the Atlas identifies the absent operator.
 
+### Worked Examples — OP-006 "Determination Illusion" caught in the wild (2026-07-16)
+
+Two cross-project cases where a signal that *felt* like rich structure, held against its own failure case, collapsed to a smaller but cleaner finding. Both are OP-006 (Under-Determination Detection) **doing its job** — asking "what is the simplest explanation consistent with this data?" (CFA Claude reaction #9, 2026-07-16.)
+
+| Case | The seductive signal | The failure case that floored it | Residue after OP-006 |
+|------|---------------------|----------------------------------|----------------------|
+| **Dirac's aesthetic operator** (Dig 003, OP-019) | Beauty *feels* like it selects truth — it generated antimatter and the monopole | The same filter produced the Large Numbers Hypothesis / varying-G (elegant, wrong). Beauty **generates** candidates but does not **select** correct ones. | Aesthetic Filtering is generative, not truth-tracking; OP-006 (empirical deference) is precisely the check OP-019 overrides. |
+| **CFA's early manifold claim** (2026-07-16 verdict) | The Type III ANOVA interaction *felt* like rich relational geometry — 29.9% PF_E, "manifold curvature" | The interaction was mostly a main-effect artifact of the empty-diagonal design. Commonality decomposition (nested R²) is the OP-006 check. | Real relational residue floored to **0.8–5.7%** unique interaction; subject main effect carries 70–98%. Smaller, cleaner, real. |
+
+**The shared pattern:** a signal that feels like structure, measured against its failure case, reveals a smaller but cleaner finding. Finding *both* — one in a physicist's discovery architecture, one in our own measurement pipeline — is evidence the OP-006 "Determination Illusion" shadow is a real, cross-domain failure mode, not a quirk of one setting.
+
 ---
 
 ## Dual Pairs

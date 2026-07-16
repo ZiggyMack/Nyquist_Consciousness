@@ -27,6 +27,19 @@
 
 ---
 
+## Co-Load: Barandes ISP (CFA flag #8, 2026-07-16)
+
+CFA Claude flagged a **triple-dip**: load the Barandes ISP sources into the *same* NotebookLM instance as Hestenes. Hestenes shows Dirac's complex *i* is a spacelike (spin) bivector; Barandes' Indivisible Stochastic Processes framework runs on the same spinor / bivector / geometric-product machinery. Co-loading lets ISP↔geometric-algebra questions be asked **across both sources in one session** (Dirac 003 → Hestenes 004 → Barandes 001/002 as one source cluster).
+
+| Source | Location | Notes |
+| --- | --- | --- |
+| Barandes ISP podcast / transcript (primary ISP source) | LLM Book source manifests — used in Dig 001/002; external NotebookLM source, not a local PDF | The ISP primary source. Load alongside Hestenes for the spinor/bivector bridge. |
+| Barandes ISP papers (if a PDF is available) | web / arXiv | Optional formal backup for the podcast. |
+
+**Question targets across both sources:** the geometric product; bivectors as the spin plane; why a "complex phase" is really a rotation in a real geometric algebra; whether ISP **division events** have a natural geometric-algebra representation. Apply the Self-Contained Question Principle (define ISP, "division event," and any OP-terms inline — NotebookLM sees only the loaded sources).
+
+---
+
 ## Loading order
 
 1. **Real Dirac Theory** (REAL_DIRAC.pdf) — the core method, and the direct bridge from Dig 003.

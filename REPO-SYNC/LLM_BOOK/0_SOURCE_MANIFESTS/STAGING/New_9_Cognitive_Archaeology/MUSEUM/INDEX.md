@@ -57,10 +57,10 @@ Reconstruction Before Judgment (004)
 - Dig sites completed: 3 (Dig Site 001 Barandes/Adlam, Dig Site 002 Barandes solo, Dig Site 003 Dirac) + Dig Site 000 Phase 0A partial
 - Dig Site 000: 2 operators admitted (OP-008, OP-009), 2 OP-007 rediscoveries, 1 held candidate (Concession Pricing)
 - Dig Site 002: 6 new operators (OP-010 through OP-015), 3 rediscoveries (OP-001, OP-004, OP-006). First non-CFA source. First operator family classifications.
-- Dig Site 003 (Dirac): 4 new operators (OP-016 through OP-019), 4 rediscoveries (OP-001, OP-006, OP-011, OP-013), 1 OP-004 **counterexample** (Dirac's deliberate inversion), 4 held candidates. First Q50-recursive dig. New family: **Aesthetic Generation**.
+- Dig Site 003 (Dirac): 4 new operators (OP-016 through OP-019), 4 rediscoveries (OP-001, OP-006, OP-011, OP-013), 1 OP-004 **counterexample** (Dirac's deliberate inversion), 4 held candidates. First Q50-recursive dig. New family: **Aesthetic Generation** (PROPOSED — pending Hestenes).
 - Held candidates: 5 (Concession Pricing; + from Dig 003: Heuristic Relaxation, Tolerant Approximation, Dimensionless Structural Linking, Notational Strategy — classified as heuristics/techniques, not operators)
 - Saturation: 9 rediscoveries across 4 dig sites (OP-001×2, OP-004×1, OP-006×2, OP-007×2, OP-011×1, OP-013×1). Dig 003 was the first **1.0 ratio** (4 new / 4 rediscoveries) — an early saturation signal.
-- Operator families introduced: Translation, Information, Minimal Sufficiency, Blind Spot, Constraint-Induced Discovery, **Aesthetic Generation** (first *generative* family)
+- Operator families introduced: Translation, Information, Minimal Sufficiency, Blind Spot, Constraint-Induced Discovery. **Aesthetic Generation** (first *generative* family) is **PROPOSED — held pending Hestenes cross-confirmation** (CFA Claude flag, 2026-07-16): a 6th family is a taxonomy-level change and needs a second site.
 
 ---
 

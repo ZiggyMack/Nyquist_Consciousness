@@ -46,6 +46,30 @@ The CFA Phase sequence: Phase 1a is faithful reconstruction (describe the FUT in
 
 ---
 
+## Counterexamples
+
+### CE-1: Dirac (Dig Site 003) — deliberate refusal, still succeeds
+
+**Violation:** Dirac explicitly *refuses* faithful reconstruction in others' terms — "I usually put it into my own notation… get everything as simple as possible." He rebuilds every position from *his* terms from the start.
+
+**Did it work?** Yes, spectacularly (relativistic electron equation, antimatter, quantization). His architecture is **formalism-first generation**, where the output is a new formalism, not a clarified reconstruction.
+
+**What this tells us:** OP-004 is *discriminating enough to be legitimately absent.* Its absence here is principled and textually verifiable, not noise — so this is a **documented negative control**, not a rediscovery (OP-004 count unchanged). The distinction it draws: "same cognitive posture as reconstruction, but the output is the architecture, not the clarification."
+
+---
+
+## GREEN Promotion Path (proposed — CFA Claude, 2026-07-16)
+
+CFA proposes OP-004 GREEN criteria; the Dirac case advances one of them:
+
+1. **Positive rediscovery threshold** — ≥2 independent dig sites show OP-004 PRESENT via direct textual evidence (not inference). *Status: Barandes/Adlam (001) + Barandes (002) = 2 positive; CFA sequence is protocol-induced, weaker.*
+2. **Negative control documented** — ≥1 site where OP-004 is ABSENT with an articulated reason. **✓ MET by Dirac (CE-1): "formalism-first" is the reason.**
+3. **Discriminability** — the presence/absence pattern is explainable by the thinker's architecture, not random. ✓ (Barandes = interpretation-focused → present; Dirac = generation-focused → absent.)
+
+Remaining for GREEN: firm up criterion 1 with a *second independent-thinker* positive (not protocol-induced), then the full RED→YELLOW→GREEN gate in `LEDGER.md`.
+
+---
+
 ## Duals and Related Operators
 
 | Relationship | Operator | Explanation |
