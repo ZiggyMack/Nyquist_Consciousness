@@ -1,10 +1,20 @@
 # Dig Site 003: Dirac — STATUS
 
-**Status:** SOURCES CURATED — ready for NotebookLM loading
+**Status:** ROUND 1 COMPLETE — 50 questions answered, artifacts recovered (see `excavation.md`, `DISCOVERY_GENOME.md`)
 **Thinker:** Paul Dirac
-**Source:** See `_IN/SOURCES.md` — 6-tier curated collection (YouTube, PDFs, archives, books)
+**Source:** See `_IN/SOURCES.md` — treated transcripts + methodology PDFs. Answers in `_IN/chat.md`
 **Protocol version:** 1.2
 **Origin:** Q50 recursion from Dig Site 002 (ranked #1 by expected operator yield)
+
+## Round 1 Results (2026-07-16)
+
+- **Rediscoveries (4):** OP-001, OP-006, OP-011, OP-013. Plus a documented **OP-004 inversion** (Dirac refuses reconstruction-in-others'-terms) — a boundary/absence finding.
+- **New operator candidates (6, RED):** Anomaly Elevation, Formalism-First Generation, Aesthetic Filtering, Dimensionless Structural Linking, Systematic Structural Translation, Tolerant Approximation.
+- **New family:** Aesthetic Generation (Formalist Generation).
+- **Dirac Protocol** extracted (formalist mirror of the Barandes Protocol; the two are complementary).
+- **"Beauty's Two Faces" answered by the dig:** the same operator (beauty-as-selection) produced antimatter *and* the varying-G / QED-rejection failures → beauty generates, does not select.
+- **Predictions:** 4 confirmed, 1 partial miss (RCI mix), 1 miss (Q50 stayed in physics).
+- **Q50 recursion → next digs:** Hestenes (#1, sources already local), Bohr (#2), Feynman (#3).
 
 ---
 
