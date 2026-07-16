@@ -312,7 +312,10 @@ Correct any errors found.
 | May hallucinate specific numbers | Always verify against source material |
 | Format suggestions change randomly | Always use "Create Your Own" |
 | Can't access external URLs | All context must be in uploaded sources |
+| Knows nothing outside its sources | Inline any external concept a question references (see principle below) |
 | Daily generation limits | Prioritize most important outputs |
+
+> **⚠️ The Self-Contained Question Principle.** The limitation above ("all context must be in uploaded sources") is not just passive — it is an active constraint on how you *formulate* questions. NotebookLM cannot see our Museum, operator IDs (OP-xxx), named protocols, other projects, or other thinkers. **Any question that references a concept not in the uploaded sources MUST inline that concept's definition**, or the answer will be a hallucination you can't distinguish from a real finding. When a question pushes NotebookLM into new territory — mapping the source onto our framework — carry the map with it: name the concept, define it in one line, and instruct "answer only from the sources; the definition is provided because it's our term, not the source's." Canonical statement + worked examples: `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/TEMPLATES/EXTRACTION_PROTOCOL.md`.
 
 ---
 

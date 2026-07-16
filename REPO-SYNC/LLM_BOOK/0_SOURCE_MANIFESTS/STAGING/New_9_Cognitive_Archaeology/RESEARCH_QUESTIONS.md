@@ -4,6 +4,8 @@
 
 The infrastructure is built. These are the questions it exists to answer. Each is testable with the existing pipeline. None require new architecture.
 
+> **Question formulation — carry the context with the question.** Many of these are answered by pushing a tool (NotebookLM / the LLM Book, an extractor, a fresh model) that only knows what it was *given*. Such a tool has no access to our Museum, our operator IDs (OP-xxx), our named protocols, or other thinkers. **Any question that references our internal framework must inline the definitions it needs** — otherwise the answer is a hallucination you can't distinguish from a real finding. Write every outward-facing question to stand on its own, especially when it pushes the tool into new territory. Canonical statement + worked examples: `TEMPLATES/EXTRACTION_PROTOCOL.md` → "The Self-Contained Question Principle."
+
 ---
 
 ## Instrument Calibration (Phase 0 — gates everything)

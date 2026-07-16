@@ -54,6 +54,8 @@ Based on analysis, generate:
 4. **Ready-to-use prompts** (copy-paste ready)
 5. **Quality checklist** (what to verify in outputs)
 
+> **⚠️ Self-Contained Question Principle (constraint on every generated question/prompt).** NotebookLM answers ONLY from the uploaded sources. It cannot see our Museum, operator IDs (OP-xxx), named protocols, other projects, or other thinkers. Any generated chat question or prompt that references a concept **not in the uploaded sources must inline that concept's definition** — otherwise the model hallucinates or returns a thin answer indistinguishable from a real one. When the strategy pushes NotebookLM into new territory (mapping the source onto our framework), the question must *carry the map with it*. Canonical statement + worked examples: `REPO-SYNC/LLM_BOOK/0_SOURCE_MANIFESTS/STAGING/New_9_Cognitive_Archaeology/TEMPLATES/EXTRACTION_PROTOCOL.md` → "The Self-Contained Question Principle."
+
 ### Phase 3: Output Organization
 
 Specify:

@@ -138,6 +138,12 @@ Output: a versioned revision log for the extraction protocol itself.
 
 Replace `[THINKER]`, `[THEORY]`, `[DOMAIN]`, `[MECHANISM]`, `[KEY_CONCEPT]` with subject-specific content.
 
+> **⚠️ The Self-Contained Question Principle (carry the map).** NotebookLM answers ONLY from the sources loaded into its notebook. It cannot see our Museum, our operator IDs (OP-xxx), our operator families, our named protocols (Barandes / Dirac Protocol, the Noetherian algorithm), the EOS, or any other thinker or dig site — none of that is in the sources. **Any question that names a concept not present in the loaded sources MUST inline that concept's definition**, or the model will hallucinate or return a thin/empty answer and you won't be able to tell which.
+>
+> Whenever a question pushes the model *outside* its sources — asking it to map the source onto our framework — **carry the map with you**: name the external concept, give a one-line definition, then instruct *"answer only from the loaded sources; these definitions are provided because they are our terms, not the source's."*
+>
+> This bites hardest at **Levels 3-5 (Q16 onward)**, where questions increasingly invoke Museum operators, operator families, cross-thinker comparisons, and the EOS. Levels 0-2 are usually source-internal and need little scaffolding. Worked examples of inlined operator/family/EOS definitions: `DIG_SITES/003_Dirac/chat.md` (Q22, Q24, Q27).
+
 ### Level 0-1: Content Extraction (Q1-Q6)
 
 1. What is [THEORY]? Extract the complete mechanism — not a summary, but the actual structure.
