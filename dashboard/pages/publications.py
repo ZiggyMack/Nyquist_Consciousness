@@ -191,15 +191,15 @@ def render_publication_tracks():
 
     with col2:
         st.markdown("#### arXiv")
-        st.progress(0.95)
+        st.progress(1.0)
         st.markdown("""
         **Target:** arXiv cs.AI
 
         **Focus:** Full 5 claims + extensions
 
-        **Status:** ✅ READY (PDF generated)
+        **Status:** 🏆 PUBLISHED (PDF released on arXiv)
 
-        **Timeline:** Dec 2025
+        **Timeline:** Released Feb 2026
 
         📄 `WHITE-PAPER/submissions/arxiv/`
         """)

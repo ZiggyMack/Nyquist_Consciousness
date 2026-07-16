@@ -17,7 +17,7 @@ AI ARMADA PAGE — Fleet Command & Cross-Architecture Identity Insights
 ================================================================================
 
 FOCUS: Fleet-level identity dynamics and cross-architecture behavioral insights.
-- Provider Status: Real-time operational status across 55 ships
+- Provider Status: Real-time operational status across the full fleet (live from ARCHITECTURE_MATRIX.json)
 - Identity Fingerprints: Linguistic signatures, drift profiles, recovery mechanisms
 - Cost Analysis: Task routing by budget tier
 - Mission Planner: Fleet composition recommendations
@@ -32,6 +32,7 @@ VALIS Handshake completed December 10, 2025: 9/10 ships responded to first signa
 
 import streamlit as st
 import json
+import re
 import pandas as pd
 from pathlib import Path
 from config import PATHS
@@ -97,10 +98,129 @@ RESULTS_DIR = ARMADA_DIR / "results"  # Legacy path for old runs
 IRON_CLAD_RESULTS = PATHS.get('iron_clad_results', ARMADA_DIR / "15_IRON_CLAD_FOUNDATION" / "results")
 CONTEXT_DAMPING_RESULTS = PATHS.get('context_damping_results', ARMADA_DIR / "11_CONTEXT_DAMPING" / "results")
 
-# Fleet composition data - MUST match ARCHITECTURE_MATRIX.json (55 ships)
-# Source of truth: S7_ARMADA/0_results/manifests/ARCHITECTURE_MATRIX.json
-# Ships are NEVER deleted - they're marked ghost/dry-dock if unreachable
-FLEET_DATA = {
+# ---------------------------------------------------------------------------
+# Fleet is built LIVE from ARCHITECTURE_MATRIX.json (the fleet source of truth)
+# so the roster and counts never go stale. Presentation (provider emoji/colors)
+# and the capability-tier badges the page is known for are kept here, since the
+# matrix stores only cost-tier + status, not capability tier. Ships are never
+# deleted -- ghost/sunk ships still show, marked with a status emoji.
+# ---------------------------------------------------------------------------
+
+PROVIDER_STYLE = {
+    "anthropic": {"label": "Anthropic (Claude)", "emoji": "🟣", "color": "#7c3aed", "bg": "#f3e8ff"},
+    "openai":    {"label": "OpenAI (GPT)",       "emoji": "🟢", "color": "#10a37f", "bg": "#e8f5e9"},
+    "google":    {"label": "Google (Gemini)",    "emoji": "🔵", "color": "#4285f4", "bg": "#e3f2fd"},
+    "xai":       {"label": "xAI (Grok)",         "emoji": "⚫", "color": "#374151", "bg": "#f3f4f6"},
+    "together":  {"label": "Together.ai (Open Source)", "emoji": "🟠", "color": "#f97316", "bg": "#fff7ed"},
+}
+
+# Curated capability tiers (model_id -> badge) preserve the exact badges for known
+# ships; new/unknown ships fall back to a keyword + cost-tier heuristic.
+CAPABILITY_TIERS = {
+    # Anthropic
+    "claude-opus-4-5-20251101": "Flagship", "claude-sonnet-4-5-20250929": "Heavy",
+    "claude-haiku-4-5-20251001": "Fast", "claude-opus-4-1-20250805": "Heavy",
+    "claude-opus-4-20250514": "Heavy", "claude-sonnet-4-20250514": "Medium",
+    "claude-3-5-haiku-20241022": "Fast", "claude-3-haiku-20240307": "Legacy",
+    # OpenAI
+    "gpt-5.1": "Flagship", "gpt-5": "Heavy", "gpt-5-mini": "Medium", "gpt-5-nano": "Fast",
+    "gpt-4.1": "Heavy", "gpt-4.1-mini": "Medium", "gpt-4.1-nano": "Fast", "gpt-4o": "Heavy",
+    "gpt-4o-mini": "Medium", "gpt-4": "Legacy", "gpt-4-turbo": "Heavy", "gpt-3.5-turbo": "Legacy",
+    "o1": "Reasoning", "o4-mini": "Reasoning", "o3": "Reasoning", "o3-mini": "Reasoning",
+    # Google
+    "gemini-2.5-pro-preview-06-05": "Heavy", "gemini-2.5-flash-preview-05-20": "Fast",
+    "gemini-2.5-flash-lite-preview-06-17": "Light", "gemini-2.0-flash": "Medium",
+    "gemini-2.0-flash-lite": "Light", "gemini-2.5-flash-preview-04-17": "Reasoning",
+    # xAI
+    "grok-4-1-fast-reasoning": "Flagship", "grok-4-1-fast-non-reasoning": "Heavy",
+    "grok-code-fast-1": "Code", "grok-4-fast-reasoning": "Reasoning",
+    "grok-4-fast-non-reasoning": "Fast", "grok-4": "Heavy", "grok-3": "Medium",
+    "grok-3-mini": "Light", "grok-2-vision-1212": "Vision",
+    # Together
+    "deepseek-ai/DeepSeek-R1-0528": "Flagship",
+    "deepseek-ai/DeepSeek-R1-Distill-Llama-70B": "Heavy",
+    "Qwen/Qwen3-Next-80B-A3b-Instruct": "Heavy",
+    "Qwen/Qwen3-Coder-480B-A35B-Instruct-Fp8": "Code",
+    "Qwen/Qwen2.5-72B-Instruct-Turbo": "Heavy",
+    "meta-llama/Llama-3.3-70B-Instruct-Turbo": "Heavy",
+    "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo": "Flagship",
+    "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo": "Heavy",
+    "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo": "Fast",
+    "mistralai/Mixtral-8x7B-Instruct-v0.1": "Medium",
+    "mistralai/Mistral-Small-24B-Instruct-2501": "Medium",
+    "mistralai/Mistral-7B-Instruct-v0.3": "Fast",
+    "moonshotai/Kimi-K2-Thinking": "Reasoning",
+    "moonshotai/Kimi-K2-Instruct-0905": "Heavy",
+    "nvidia/Nvidia-Nemotron-Nano-9B-V2": "Fast",
+    "Qwen/Qwen3-4B-Instruct": "Fast",
+}
+
+# Live status -> badge emoji
+STATUS_EMOJI = {"operational": "🟢", "ghost": "👻", "sunk": "🪦", "rate_limited": "🟡"}
+
+_MATRIX_PATH = (Path(__file__).parent.parent.parent / "experiments" / "temporal_stability"
+                / "S7_ARMADA" / "0_results" / "manifests" / "ARCHITECTURE_MATRIX.json")
+
+
+def _friendly_name(model_id):
+    """Tidy, mostly-lowercase ship name from a model id (approximates the old aliases)."""
+    name = model_id.split("/")[-1]                     # strip org prefix (Together)
+    name = re.sub(r"-20\d{6}$", "", name)              # strip trailing -YYYYMMDD
+    name = re.sub(r"-preview-\d{2}-\d{2}$", "", name)  # strip -preview-MM-DD
+    # trim trailing open-weights variant noise (repeatedly)
+    for _ in range(3):
+        name = re.sub(r"-(instruct|turbo|chat|fp8|hf|v\d+(\.\d+)?|\d{4})$", "", name, flags=re.I)
+    return name.lower()
+
+
+def _capability_tier(model_id, cost_tier):
+    """Badge tier: curated where known, else keyword/cost-tier heuristic."""
+    if model_id in CAPABILITY_TIERS:
+        return CAPABILITY_TIERS[model_id]
+    mid = model_id.lower()
+    if "reasoning" in mid or "thinking" in mid:
+        return "Reasoning"
+    if "code" in mid or "coder" in mid:
+        return "Code"
+    if "vision" in mid:
+        return "Vision"
+    return {"yacht": "Flagship", "high_maintenance": "Heavy", "armada": "Heavy",
+            "patrol": "Medium", "budget": "Fast"}.get(cost_tier, "Medium")
+
+
+def _load_fleet_data():
+    """Build the per-provider fleet structure LIVE from ARCHITECTURE_MATRIX.json."""
+    try:
+        data = json.loads(_MATRIX_PATH.read_text(encoding="utf-8"))
+        raw = data.get("ships", data)
+        ships = list(raw.values()) if isinstance(raw, dict) else raw
+    except Exception:
+        return {}
+    order = {"operational": 0, "ghost": 1, "sunk": 2}
+    fleet = {}
+    for pv, style in PROVIDER_STYLE.items():
+        roster = []
+        for s in ships:
+            if s.get("provider") != pv:
+                continue
+            model_id = s.get("model", "")
+            roster.append({
+                "name": _friendly_name(model_id),
+                "model_id": model_id,
+                "tier": _capability_tier(model_id, s.get("tier", "")),
+                "status": s.get("status", "operational"),
+            })
+        roster.sort(key=lambda r: order.get(r["status"], 3))
+        fleet[style["label"]] = {"emoji": style["emoji"], "color": style["color"],
+                                 "bg": style["bg"], "ships": roster}
+    return fleet
+
+
+FLEET_DATA = _load_fleet_data()
+
+# Legacy hardcoded roster -- superseded by the live loader above; retained only as
+# a reference snapshot of the Dec-2025 fleet. NOT rendered.
+_LEGACY_FLEET_DATA = {
     "Anthropic (Claude)": {
         "emoji": "🟣",
         "color": "#7c3aed",
@@ -252,7 +372,7 @@ def render_fleet_insights():
 
         with provider_tabs[0]:  # Fleet Summary
             st.markdown("### 🌐 Real-Time Fleet Readiness")
-            st.markdown("*Aggregated status across all 54 ships from 10+ model families*")
+            st.markdown(f"*Aggregated status across all {sum(len(v['ships']) for v in FLEET_DATA.values())} ships from 10+ model families*")
 
             # Summary metrics row: Operational, Rate Limited, Ghost, Providers, Total (last)
             col1, col2, col3, col4, col5 = st.columns(5)
@@ -265,7 +385,7 @@ def render_fleet_insights():
             with col4:
                 st.metric("🌐 Providers", "5", delta="Global coverage")
             with col5:
-                st.metric("📦 Total Fleet", "54", delta="10+ families")
+                st.metric("📦 Total Fleet", sum(len(v["ships"]) for v in FLEET_DATA.values()), delta="10+ families")
 
             st.markdown("---")
 
@@ -1207,9 +1327,13 @@ def render_fleet_dropdown(title="🚢 Fleet Manifest", expanded=False):
                         "Experimental": ("#ede9fe", "#7c3aed"), # Light violet bg, violet text
                     }
                     bg, text = tier_colors.get(tier, ("#f3f4f6", "#6b7280"))
+                    status = ship.get('status', 'operational')
+                    status_emoji = STATUS_EMOJI.get(status, '')
+                    dim = 'opacity: 0.5;' if status == 'sunk' else ''
 
                     st.markdown(f"""
-                    <div style="display: flex; align-items: center; margin-bottom: 0.3em; font-size: 0.85em;">
+                    <div style="display: flex; align-items: center; margin-bottom: 0.3em; font-size: 0.85em; {dim}">
+                        <span style="margin-right: 0.35em; font-size: 0.9em;" title="{status}">{status_emoji}</span>
                         <span style="background: {bg}; color: {text}; border: 1px solid {text}40;
                                      padding: 0.1em 0.4em; border-radius: 10px; font-size: 0.75em;
                                      font-weight: bold; margin-right: 0.5em; min-width: 60px; text-align: center;">
