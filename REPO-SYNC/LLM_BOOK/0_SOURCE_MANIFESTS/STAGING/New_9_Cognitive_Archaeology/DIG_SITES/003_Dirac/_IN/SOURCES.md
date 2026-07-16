@@ -19,7 +19,7 @@ closest analog to the Barandes podcast that made Dig Site 002 work.
 |---|-------|-------------|-------|
 | 1 | Quantum Mechanics | https://www.youtube.com/watch?v=2GwctBldBvU | Clean audio remaster. HOW he organizes QM reveals his architecture |
 | 2 | Quantum Electrodynamics | https://www.youtube.com/watch?v=pFx3RIalpa4 | He HATED renormalization — watch for methodology critiques |
-| 3 | Magnetic Monopoles | (search "Dirac lecture 3 of 4 magnetic monopoles clean audio") | Beauty-driven prediction — the method at work |
+| 3 | Magnetic Monopoles | (search "Dirac lecture 3 of 4 magnetic monopoles clean audio") | Beauty-driven prediction — the method at work https://www.youtube.com/watch?v=yJ7CSbcRLnQ |
 | 4 | Does G Vary? (Large Numbers) | https://www.youtube.com/watch?v=8ddEZSKSaLA | His FAILED methodology application — negative control for beauty-as-method |
 
 **Alternative uploads of same lectures (if above links break):**
