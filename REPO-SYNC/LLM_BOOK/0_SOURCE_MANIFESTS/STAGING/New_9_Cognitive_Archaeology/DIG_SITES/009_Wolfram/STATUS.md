@@ -1,4 +1,4 @@
-# Dig Site 004: Wolfram — STATUS
+# Dig Site 009: Wolfram — STATUS
 
 **Status:** QUEUED
 **Thinker:** Stephen Wolfram

@@ -235,7 +235,7 @@ New_9_Cognitive_Archaeology/
 │   ├── 001_Adlam_Barandes/    # First dig site (seeded from New_8) — COMPLETE
 │   ├── 002_Barandes/           # Barandes solo (New_8 Round 2) — COMPLETE
 │   ├── 003_Dirac/              # Q50 #1 — forward-generative, RCI stress test — PLANNING
-│   ├── 004_Wolfram/            # Q50 #2 — deterministic architecture
+│   ├── 009_Wolfram/            # Q50 #2 — deterministic architecture
 │   ├── 005_Hermann/            # Q50 #3 — philosophical auditing, Noether lineage
 │   ├── 006_Pearl/              # Original list — highest convergence potential
 │   ├── 007_Dennett/            # Original list — Nyquist/consciousness link

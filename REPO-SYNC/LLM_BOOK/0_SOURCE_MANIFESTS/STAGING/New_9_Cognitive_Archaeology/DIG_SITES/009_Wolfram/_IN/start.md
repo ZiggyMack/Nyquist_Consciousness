@@ -1,4 +1,4 @@
-# Dig Site 004: Stephen Wolfram — Source Material Guide
+# Dig Site 009: Stephen Wolfram — Source Material Guide
 
 **Q50 Rank:** #2 (from Dig Site 002)
 **Expected Yield:** HIGH
