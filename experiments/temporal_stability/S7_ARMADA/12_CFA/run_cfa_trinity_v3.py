@@ -356,6 +356,37 @@ PRIOR_PRESETS = {
         "AR": 7.5,      # Elegant parsimony (dependent origination), but less mythologically rich than CT/G
         "MG": 8.0,      # Rich internal ethics: sila, karuna, metta, ahimsa — generated from metaphysics
     },
+    # === Breadth batch — 8 unrun profiles (n=1 breadth pass, 2026-07-16) ===
+    # PRELIMINARY: values copied from CFA repo YAMLs (levers block, dated 2026-06-30):
+    #   d:/Documents/CFA/profiles/worldviews/*.yaml — web-research estimates, NOT yet
+    #   deliberation-validated. Mapping by abbreviation (CCI←collective_coherence_impact,
+    #   EDB←epistemic_debt_burden, PF_I←paternalistic_force_interventionist,
+    #   PF_E←paternalistic_force_epistemic, AR←asymmetry_risk, MG←meta_governance).
+    #   Contest these in the Phase-2 double-back; for now they gate the pre-run shell check.
+    "judaism": {  # Orthodox Judaism (ORTHODOX_JUDAISM.yaml)
+        "CCI": 8.0, "EDB": 8.0, "PF_I": 4.0, "PF_E": 9.0, "AR": 7.5, "MG": 9.0,
+    },
+    "mormonism": {  # Mormonism / LDS (MORMONISM.yaml)
+        "CCI": 7.0, "EDB": 8.0, "PF_I": 5.0, "PF_E": 9.0, "AR": 5.5, "MG": 8.0,
+    },
+    "islam": {  # Islam (ISLAM.yaml)
+        "CCI": 8.0, "EDB": 8.5, "PF_I": 5.0, "PF_E": 9.0, "AR": 7.0, "MG": 8.5,
+    },
+    "hinduism": {  # Hinduism / Vedantic synthesis (HINDUISM.yaml)
+        "CCI": 7.0, "EDB": 8.5, "PF_I": 4.5, "PF_E": 9.5, "AR": 7.0, "MG": 8.0,
+    },
+    "existentialism": {  # Existentialism (EXISTENTIALISM.yaml)
+        "CCI": 7.0, "EDB": 8.0, "PF_I": 4.0, "PF_E": 8.5, "AR": 7.0, "MG": 6.5,
+    },
+    "error_theory": {  # Moral Error Theory (ERROR_THEORY.yaml) — meta-ethical position
+        "CCI": 7.0, "EDB": 3.0, "PF_I": 5.0, "PF_E": 2.0, "AR": 8.5, "MG": 1.0,
+    },
+    "null_hypothesis": {  # Null Hypothesis / epistemic minimalism (NULL_HYPOTHESIS.yaml) — CONTROL ANCHOR
+        "CCI": 8.5, "EDB": 3.5, "PF_I": 9.0, "PF_E": 2.0, "AR": 9.5, "MG": 3.0,
+    },
+    "desiderata": {  # Desiderata Believers / pragmatic faith (DESIDERATA_BELIEVERS.yaml) — meta-epistemic
+        "CCI": 6.0, "EDB": 7.5, "PF_I": 6.0, "PF_E": 8.5, "AR": 5.0, "MG": 6.0,
+    },
 }
 
 # Default backward-compatible aliases (copies to avoid mutation leaking)
@@ -1113,6 +1144,97 @@ STANCES = {
         },
     },
 }
+
+# =============================================================================
+# BREADTH STANCES — 8 unrun worldviews vs Classical Theism (n=1 breadth pass)
+# =============================================================================
+# Generated programmatically (2026-07-16) to avoid 8 verbose hand-written blocks.
+# Spec (CFA breadth brief): Claude = PRO-<X> (advocate the new worldview),
+#                           Grok  = ANTI-<X> (challenge X, advocate Classical Theism).
+# Stance keys are "<profile>_vs_ct"; Phase-2 priors share the same profile key in
+# PRIOR_PRESETS. CT is the fixed n=1 partner for all 8. NULL_HYPOTHESIS is flagged
+# as the control anchor (epistemic method, not a comprehensive worldview).
+
+def make_vs_ct_stance(abbr, subject, mythology_sources, advocate_focus, challenge_focus):
+    """Build a subject-vs-Classical-Theism stance dict in the canonical STANCES shape."""
+    return {
+        "subject": subject,
+        "opponent": "Classical Theism",
+        "label": f"{abbr}<->CT",
+        "claude_stance": f"PRO-{abbr}",
+        "grok_stance": f"ANTI-{abbr}",
+        "claude_role_lines": [
+            f"PRO-{abbr} stance (advocate for {subject})",
+            advocate_focus,
+            f"Apply charitable interpretations to {subject}'s core commitments",
+        ],
+        "grok_role_lines": [
+            f"ANTI-{abbr} stance (challenge {subject}, advocate for Classical Theism)",
+            challenge_focus,
+            "Demand evidence, internal coherence, and explanatory adequacy",
+            "Press where the framework's own declared debts strain its axioms",
+        ],
+        "grok_r1_instruction": (
+            "Challenge with rigor:\n"
+            "- What actually supports this score?\n"
+            "- Where do the framework's own debts undercut it?"
+        ),
+        "grok_r2_instruction": (
+            "- Has Claude addressed your challenge?\n"
+            "- Is the revised score better supported?\n"
+            "- Adjust or maintain your score."
+        ),
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would Classical Theism score on this metric?",
+        "mythology_sources": mythology_sources,
+    }
+
+# profile_key: (ABBR, subject, mythology_sources, advocate_focus, challenge_focus)
+_BREADTH_VS_CT_PROFILES = {
+    "judaism": (
+        "OJ", "Orthodox Judaism", "Maimonides, Talmud, Rashi, Tanakh",
+        "Emphasize 3000-year textual coherence, covenantal meaning, and halakhic moral depth",
+        "Press theodicy (the Shoah), covenant particularism, and science/tradition tensions",
+    ),
+    "mormonism": (
+        "MOR", "Mormonism", "Joseph Smith, Book of Mormon, Doctrine & Covenants, B.H. Roberts",
+        "Emphasize the eternal-progression narrative, tight welfare community, and eternal families",
+        "Press Book of Mormon anachronisms, DNA/archaeology, and revelation-based credibility",
+    ),
+    "islam": (
+        "ISL", "Islam", "Quran, Hadith, al-Ghazali, Averroes, Avicenna",
+        "Emphasize Tawhid's unifying coherence, comprehensive sharia ethics, and ummah meaning",
+        "Press the problem of evil, sectarian interpretation conflicts, and science-revelation tension",
+    ),
+    "hinduism": (
+        "HIN", "Hinduism", "Vedas, Upanishads, Shankara, Ramanuja, Bhagavad Gita",
+        "Emphasize Brahman/Atman metaphysics, karma-dharma moral causation, and existential richness",
+        "Press internal school contradictions (Advaita vs Dvaita), caste, and karmic-regress theodicy",
+    ),
+    "existentialism": (
+        "EXI", "Existentialism", "Kierkegaard, Nietzsche, Sartre, Heidegger, de Beauvoir, Camus",
+        "Emphasize authenticity, radical freedom, and honest confrontation with meaning",
+        "Press groundlessness, a thin positive ethics, and relativism risk",
+    ),
+    "error_theory": (
+        "ERR", "Error Theory", "J.L. Mackie, Richard Joyce, Hume (argument from queerness)",
+        "Emphasize the rigor of the argument from queerness and unflinching epistemic honesty",
+        "Press self-refutation risk, practical paralysis, and the phenomenology of moral obligation",
+    ),
+    "null_hypothesis": (
+        "NULL", "Null Hypothesis", "Hume, Sagan, W.K. Clifford, scientific skepticism",
+        "Emphasize evidential discipline, truth-tracking, and the fertility of the scientific method",
+        "Press its inability to ground meaning, morality, or any positive worldview (it is a method, not a worldview)",
+    ),
+    "desiderata": (
+        "DES", "Desiderata Believers", "William James (The Will to Believe), Pascal, pragmatist epistemology",
+        "Emphasize the pragmatic license for beneficial belief and the weight of experiential evidence",
+        "Press doxastic voluntarism, self-deception/wishful-thinking risk, and insulation from disconfirmation",
+    ),
+}
+for _bk, (_abbr, _subj, _myth, _adv, _chal) in _BREADTH_VS_CT_PROFILES.items():
+    STANCES[f"{_bk}_vs_ct"] = make_vs_ct_stance(_abbr, _subj, _myth, _adv, _chal)
 
 _active_stance = STANCES["ct_vs_mdn"]
 
