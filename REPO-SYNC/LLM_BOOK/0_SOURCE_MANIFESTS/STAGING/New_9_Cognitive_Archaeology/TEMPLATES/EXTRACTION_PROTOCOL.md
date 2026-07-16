@@ -1,7 +1,7 @@
 # Cognitive Architecture Extraction Protocol
 
-**Version:** 1.0 (Barandes Protocol)
-**Origin:** Developed during Dig Site 002 (Barandes "No Time" interview extraction)
+**Version:** 1.3 (Barandes Protocol + Noether Lens + Q50 mandatory + Dirac negative-control upgrades)
+**Origin:** Developed during Dig Site 002 (Barandes "No Time" interview extraction); evolved through Dig Site 003 (Dirac). See the v1.3 revision log under PASS Ω.
 **Purpose:** Replicable template for extracting the cognitive architecture of any thinker from source material
 
 ---
@@ -131,6 +131,16 @@ Fires at close of every dig site. Asks: What methodology revisions does this ext
 PASS 0 and PASS Ω are symmetric: PASS 0 looks backward at the THINKER's discipline (what hidden assumptions sustained the blind spot?). PASS Ω looks backward at the EXTRACTOR's methodology (what hidden assumptions of our own protocol did this dig site expose?).
 
 Output: a versioned revision log for the extraction protocol itself.
+
+#### Revision Log — v1.3 (from Dig Site 003, Dirac)
+
+Dirac was chosen partly as a **negative control** — an aesthetic, tacit, incubation-driven architecture the utility-biased protocol was expected to struggle with. It did, in three specific ways, yielding three upgrades (full derivation: `DIG_SITES/003_Dirac/PASS_OMEGA_OUTPUT.md`):
+
+1. **Tacit-Heuristic Probe ("Silent Mapping").** When a subject refuses or cannot verbalize the bridge between mental model and output (the "Penrose Silence" — Dirac suppressed his projective geometry and published austere algebra), stop asking and *reverse-engineer*: infer the hidden generative model from the symmetry/geometry of the resulting formalism. Mark it as inference, not testimony. Flag `TACIT_SUPPRESSED`. Strengthens PASS C for thinkers who suppress their scaffolding.
+2. **Relaxation / Incubation Parameter.** Treat unstructured "dead time" as a first-class discovery variable. Probe: "Where did synthesis occur during relaxation / away from the desk?" Score incubation synthesis as generative, not a gap. (Recovers process operators like Heuristic Relaxation.)
+3. **Aesthetic-Threshold Metric.** Do not decompose "beauty" into sub-steps — *measure it as a filter*: the frequency with which the subject rejects an empirically-successful result for aesthetic reasons. A high threshold is a signature that predicts both triumphs and failures ("Beauty's Two Faces").
+
+Also generalized from this dig: treat **process/metacognitive operators** and **operator refusals** (deliberate omissions, e.g. Dirac's refusal of OP-004) as first-class recoverables — an architecture is defined partly by what it *won't* do.
 
 ---
 

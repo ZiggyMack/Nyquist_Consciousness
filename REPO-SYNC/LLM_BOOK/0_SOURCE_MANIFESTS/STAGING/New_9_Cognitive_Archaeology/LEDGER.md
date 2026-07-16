@@ -29,21 +29,25 @@ Dig Site 000 extractor calibration is COMPLETE (Phases 0A/0B/0C + H-baseline). E
 
 | ID | Operator | Confidence | Ext-Indep | Count | Evidence Types | Dig Sites | Notes |
 | -- | -------- | ---------- | --------- | ----- | -------------- | --------- | ----- |
-| 001 | Representation ≠ Ontology | YELLOW | Unknown | 3 | Indep, Indep, Indep, PT×2 | 001, CFA/FUT, 002 | Barandes + FUT + Dig Site 002 rediscovery. CRUX_MS + CRUX_IP: failure-mode confirmations (confounded PT) |
+| 001 | Representation ≠ Ontology | YELLOW | Unknown | 4 | Indep, Indep, Indep, Indep, PT×2 | 001, CFA/FUT, 002, 003 | Barandes + FUT + Dig 002 + Dirac (003: "method of representations" vs coordinate-free invariants/kets). CRUX_MS + CRUX_IP (confounded PT) |
 | 002 | Hidden Selection Audit | RED | Unknown | 1 | Indep | 001 | Barandes: "what is doing the selecting?" |
 | 003 | Goal → Optimization Collapse | RED | Unknown | 1 | Indep | 001 | Adlam: goal specification immediately fixes credences |
-| 004 | Reconstruction Before Judgment | YELLOW | Unknown | 3 | Indep, Indep, Indep, PT×1 | 001, CFA, 002 | Barandes/Adlam + CFA Phase 1a + Dig Site 002 rediscovery. PT: CRUX_MS (confounded) |
+| 004 | Reconstruction Before Judgment | YELLOW | Unknown | 3 | Indep, Indep, Indep, PT×1 | 001, CFA, 002 | Barandes/Adlam + CFA Phase 1a + Dig 002. **CE-1 (Dig 003): Dirac deliberately VIOLATES it** — refuses to reconstruct in others' terms ("I put it into my own notation"), yet succeeds. Boundary case, not a rediscovery; count unchanged. PT: CRUX_MS (confounded) |
 | 005 | Hidden Structure Injection | RED | Unknown | 1 | Collab | 001 | Nova + CFA Claude convergence: OP-001 + OP-002 are duals. Collab not Synth; but both parties share CFA context |
-| 006 | Under-Determination Detection | RED | Unknown | 2 | Synth, Indep | 001, 002 | Nova synthesis. Rediscovered at Dig Site 002. Action-framing incomplete; may be detection condition rather than operator |
+| 006 | Under-Determination Detection | RED | Unknown | 3 | Synth, Indep, Indep | 001, 002, 003 | Nova synthesis + Dig 002 + Dirac (003: flagged the scattering singularity, imported "outward-moving only" to fix it). 3rd independent source — YELLOW candidate on next review |
 | 007 | Locate Disagreement Layer | YELLOW | Partial (2) | 3 | Indep, Indep, PT×2, MEC×2 | 001, DBEP, 000 | DBEP + Adlam. CRUX_MS: Layer Mismatch failure (confounded PT). CRUX_IP: Nova successful application (less confounded — Nova is not Claude). CFA: 2 rediscoveries — metric/dimension separation + meta-dispute identification (4/4 multi-extractor convergence, museum-blind) |
 | 008 | Symmetry Testing of Standards | RED | Partial (4) | 1 | MEC | 000 | Recovered via 4/4 museum-blind extraction. Phase 0C: 4 Tier 1 extractors confirm. GREEN BLOCKED: found in neg-H (H-baseline). |
 | 009 | Contested ≠ Defeated | RED | Partial (4) | 1 | MEC | 000 | Recovered via 4/4 museum-blind extraction. Phase 0C: 4 Tier 1 extractors confirm. GREEN BLOCKED: found in neg-H (H-baseline). |
 | 010 | Altitude Escalation | YELLOW | Unknown | 1 | Indep | 002 | Nova meta-analysis of Barandes extraction. Demonstrated in action: Q1-Q20 to Q21-Q40 generation. Information operator. |
-| 011 | Subtractive Discovery | YELLOW | Partial (2) | 2 | Indep, Indep | 002 | Barandes practice + Nova formalization. NotebookLM Q15 + Nova independent synthesis. Minimal Sufficiency operator. |
+| 011 | Subtractive Discovery | YELLOW | Partial (2) | 3 | Indep, Indep, Indep | 002, 003 | Barandes + Nova + Dirac (003: stripped classical visualization/determinism to the minimal algebraic substratum). Minimal Sufficiency operator. |
 | 012 | Pedagogical Forcing | YELLOW | Unknown | 1 | Indep | 002 | Barandes via NotebookLM Q15. Promoted RED→YELLOW (Q33+Q36 dual confirmation). Constraint-Induced Discovery operator. |
-| 013 | Epistemic Boundary Setting | YELLOW | Unknown | 1 | Indep | 002 | Barandes. Promoted RED→YELLOW (Q33 missing operator + Q32 Failure Atlas shadow). |
+| 013 | Epistemic Boundary Setting | YELLOW | Unknown | 2 | Indep, Indep | 002, 003 | Barandes + Dirac (003: "Class One" philosophy quarantined vs "Class Two" math flaws). Now 2 independent thinkers. |
 | 014 | Ontological Downgrading | RED | Unknown | 1 | Indep | 002 | Barandes: graded spectrum replaces binary "is X real?" |
 | 015 | Question Completion | RED | Unknown | 1 | Indep | 002 | Barandes: generate smallest set of higher-order questions that maximally increase understanding. Dual of compression. |
+| 016 | Anomaly Elevation | RED | Unknown | 1 | Indep | 003 | Dirac: non-commutation → Poisson bracket; negative energy → antimatter. Aesthetic Generation family. Failure mode: elevating coincidence (Large Numbers) |
+| 017 | Formalism-First Generation | RED | Unknown | 1 | Indep | 003 | Dirac: "equations before interpretation"; spin fell out of the algebra. Pre-registered as "formalism-as-oracle." Aesthetic Generation family |
+| 018 | Systematic Structural Translation | RED | Unknown | 1 | Indep | 003 | Dirac: Poisson bracket → commutator. Confirmed distinct from OP-001 (runs after it). Translation family |
+| 019 | Aesthetic Filtering | RED | Unknown | 1 | Indep | 003 | Dirac: beauty over experiment ("Final Answer" standard). Failure mode = "Beauty's Two Faces." Aesthetic Generation family |
 
 ---
 
@@ -65,6 +69,15 @@ Dig Site 000 extractor calibration is COMPLETE (Phases 0A/0B/0C + H-baseline). E
 | 2026-07-10 | OP-006 Under-Determination Detection | RED | RED (evidence added) | Dig Site 002 rediscovery. Count 1→2. |
 | 2026-07-11 | OP-008 Symmetry Testing | RED | RED (GREEN BLOCKED) | H-baseline: found in neg-H. Criterion (c) not met. Ext-Indep updated to Partial (4) via Phase 0C. |
 | 2026-07-11 | OP-009 Contested != Defeated | RED | RED (GREEN BLOCKED) | H-baseline: found in neg-H. Criterion (c) not met. Ext-Indep updated to Partial (4) via Phase 0C. |
+| 2026-07-16 | OP-016 Anomaly Elevation | — | RED | Admitted via 6/6 Field Manual criteria (Dig 003, Dirac). Aesthetic Generation family. |
+| 2026-07-16 | OP-017 Formalism-First Generation | — | RED | Admitted 6/6 (Dig 003). Pre-registered as "formalism-as-oracle." |
+| 2026-07-16 | OP-018 Systematic Structural Translation | — | RED | Admitted 6/6 (Dig 003). Confirmed distinct from OP-001 (runs after it). |
+| 2026-07-16 | OP-019 Aesthetic Filtering | — | RED | Admitted 6/6 (Dig 003). Failure mode = "Beauty's Two Faces." |
+| 2026-07-16 | OP-001 Representation != Ontology | YELLOW | YELLOW (evidence added) | Dig 003 rediscovery. Count 3→4. |
+| 2026-07-16 | OP-006 Under-Determination Detection | RED | RED (evidence added) | Dig 003 rediscovery. Count 2→3. YELLOW-eligible on next review. |
+| 2026-07-16 | OP-011 Subtractive Discovery | YELLOW | YELLOW (evidence added) | Dig 003 rediscovery. Count 2→3. |
+| 2026-07-16 | OP-013 Epistemic Boundary Setting | YELLOW | YELLOW (evidence added) | Dig 003 rediscovery. Count 1→2 (2 independent thinkers). |
+| 2026-07-16 | OP-004 Reconstruction Before Judgment | YELLOW | YELLOW (counterexample) | Dig 003: Dirac violates it and succeeds — boundary case CE-1. Count unchanged. |
 
 ---
 
@@ -98,8 +111,9 @@ Four-way extraction on CFA transcripts (Claude + Grok extractors × v2 pilot + v
 | 000 CFA (admitted) | 2 (OP-008, OP-009) | 2 (OP-007 x2) | 0.50 |
 | 000 CFA (held) | 1 (Concession Pricing) | — | — |
 | 002 Barandes solo | 6 (OP-010 through OP-015) | 3 (OP-001, OP-004, OP-006) | 0.50 |
+| 003 Dirac | 4 (OP-016 through OP-019) | 4 (OP-001, OP-006, OP-011, OP-013) | 1.00 |
 
-When rediscoveries consistently outnumber new operators, we are approaching saturation. Current trajectory: 50% rediscovery rate at Dig Sites 000 and 002 — new operators still arriving at the same rate as rediscoveries.
+When rediscoveries consistently outnumber new operators, we are approaching saturation. Trajectory: 0.50 at Dig Sites 000/002 → **1.00 at Dig 003** (first dig where rediscoveries equal new operators). One data point, not a trend — but the first saturation signal. Note Dig 003 also produced a *counterexample* (OP-004) and 4 *held* candidates reclassified as heuristics/techniques, so the effective "new operator" yield is conservative.
 
 ---
 
@@ -161,4 +175,5 @@ Adopt when the registry reaches 15+ operators and the single-column format becom
 
 ---
 
-*Last updated: 2026-07-11 — OP-010 through OP-015 added from Dig Site 002; OP-001/004/006 rediscovery counts updated; OP-008/009 GREEN blocked (H-baseline); Phase 0 status updated to COMPLETE; Dig Site 002 added to Saturation Tracker*
+*Last updated: 2026-07-16 — Dig Site 003 (Dirac): OP-016 through OP-019 admitted RED (6/6 criteria); rediscoveries OP-001 (3→4), OP-006 (2→3), OP-011 (2→3), OP-013 (1→2); OP-004 counterexample CE-1 (Dirac inversion); Saturation Tracker 003 row (first 1.0 ratio); 4 candidates held as heuristics/techniques. New family: Aesthetic Generation.*
+*2026-07-11 — OP-010 through OP-015 added from Dig Site 002; OP-001/004/006 rediscovery counts updated; OP-008/009 GREEN blocked (H-baseline); Phase 0 status COMPLETE; Dig Site 002 added to Saturation Tracker*

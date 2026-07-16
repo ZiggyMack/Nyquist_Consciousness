@@ -23,6 +23,10 @@ All recovered reasoning operators, ordered by registration. See individual pages
 | 013 | Epistemic Boundary Setting | YELLOW | 002 | Declare what you don't know before claiming what you do — draw the known/unknown boundary explicitly |
 | 014 | Ontological Downgrading | RED | 002 | Replace "is X real?" with graded spectrum — fundamental, emergent-but-real, perceptual, mathematical construct |
 | 015 | Question Completion | RED | 002 | Generate the smallest set of higher-order questions that would maximally increase understanding. Dual of compression. |
+| 016 | Anomaly Elevation | RED | 003 | Isolate a fatal-looking anomaly and elevate it to the foundational axiom of the new system |
+| 017 | Formalism-First Generation | RED | 003 | Develop beautiful math for its own sake, then find what reality it maps onto — equations before interpretation |
+| 018 | Systematic Structural Translation | RED | 003 | Discard a domain's objects; transplant its algebraic relations intact into a new domain |
+| 019 | Aesthetic Filtering | RED | 003 | Use mathematical beauty as the primary selection criterion, overriding empirical fit |
 
 ---
 
@@ -46,17 +50,19 @@ Reconstruction Before Judgment (004)
 
 ## Quick Stats
 
-- Total registered: 15
+- Total registered: 19
 - GREEN (confirmed): 0
 - YELLOW (candidate): 7 (OP-001, OP-004, OP-007, OP-010, OP-011, OP-012, OP-013)
-- RED (hypothesis): 8 (OP-002, OP-003, OP-005, OP-006, OP-008, OP-009, OP-014, OP-015)
-- Dig sites completed: 2 (Dig Site 001 Barandes/Adlam, Dig Site 002 Barandes solo) + Dig Site 000 Phase 0A partial
+- RED (hypothesis): 12 (OP-002, OP-003, OP-005, OP-006, OP-008, OP-009, OP-014, OP-015, OP-016, OP-017, OP-018, OP-019)
+- Dig sites completed: 3 (Dig Site 001 Barandes/Adlam, Dig Site 002 Barandes solo, Dig Site 003 Dirac) + Dig Site 000 Phase 0A partial
 - Dig Site 000: 2 operators admitted (OP-008, OP-009), 2 OP-007 rediscoveries, 1 held candidate (Concession Pricing)
 - Dig Site 002: 6 new operators (OP-010 through OP-015), 3 rediscoveries (OP-001, OP-004, OP-006). First non-CFA source. First operator family classifications.
-- Held candidates: 1 (Concession Pricing — 4/4 extraction convergence, marginal on criteria 5-6)
-- Saturation: 5 rediscoveries across 3 dig sites (OP-001×1, OP-004×1, OP-006×1, OP-007×2)
-- Operator families introduced: Translation, Information, Minimal Sufficiency, Blind Spot, Constraint-Induced Discovery
+- Dig Site 003 (Dirac): 4 new operators (OP-016 through OP-019), 4 rediscoveries (OP-001, OP-006, OP-011, OP-013), 1 OP-004 **counterexample** (Dirac's deliberate inversion), 4 held candidates. First Q50-recursive dig. New family: **Aesthetic Generation**.
+- Held candidates: 5 (Concession Pricing; + from Dig 003: Heuristic Relaxation, Tolerant Approximation, Dimensionless Structural Linking, Notational Strategy — classified as heuristics/techniques, not operators)
+- Saturation: 9 rediscoveries across 4 dig sites (OP-001×2, OP-004×1, OP-006×2, OP-007×2, OP-011×1, OP-013×1). Dig 003 was the first **1.0 ratio** (4 new / 4 rediscoveries) — an early saturation signal.
+- Operator families introduced: Translation, Information, Minimal Sufficiency, Blind Spot, Constraint-Induced Discovery, **Aesthetic Generation** (first *generative* family)
 
 ---
 
-*Last updated: 2026-07-10 — OP-012 and OP-013 promoted RED→YELLOW (Q33+Q36 dual confirmation for OP-012; Q33 missing operator + Q32 Failure Atlas shadow for OP-013). OP-010 through OP-015 registered from Dig Site 002; operator family classifications added; 3 rediscoveries logged*
+*Last updated: 2026-07-16 — Dig Site 003 (Dirac): OP-016 through OP-019 registered RED (4/4 admission criteria); Aesthetic Generation family added; 4 rediscoveries logged (OP-001/006/011/013); OP-004 counterexample recorded (Dirac inversion); 4 candidates held as heuristics/techniques.*
+*2026-07-10 — OP-012/OP-013 promoted RED→YELLOW; OP-010 through OP-015 registered from Dig Site 002; operator family classifications added; 3 rediscoveries logged*
