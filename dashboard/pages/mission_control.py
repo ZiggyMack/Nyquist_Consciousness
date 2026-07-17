@@ -193,7 +193,7 @@ def render():
             st.markdown(
                 "Four orthogonal discovery questions — not competing theories. "
                 "Transformation (Noether), Constraint (Barandes), Composition (Curt), Generation (Dirac). "
-                "Two corners confirmed, two predicted. This replaces the single backward/forward axis "
+                "Three corners confirmed (Dirac closed Generation), one predicted. Replaces the single backward/forward axis "
                 "with a principled coordinate system for organizing all discovery architectures."
             )
             st.caption("New_10 Dig Site 010 · Q31-Q38 formal audit · CONFIRMED")
@@ -253,13 +253,14 @@ def render():
     with pipe_col3:
         with st.container(border=True):
             st.markdown("**Dig Site 003** (Dirac)")
-            st.markdown("Q50 rank #1 — next in queue")
+            st.markdown("Q50 rank #1 — ✅ excavated")
             st.markdown(
-                "Tests: Generation corner of the simplex. Does forward-generative "
-                "discovery exist as genuinely distinct from backward-reading (RCI)? "
-                "Beauty as selection filter. Pre-articulate intimation."
+                "Confirmed the **Generation corner**: forward-generative discovery is distinct. "
+                "4 new operators (OP-016–019), new **Aesthetic Generation** family (held PROPOSED), "
+                "an OP-004 *inversion* (Dirac refuses reconstruction), and \"Beauty's Two Faces.\" "
+                "Next: **004 Hestenes** (co-loads Barandes ISP)."
             )
-            st.markdown("*Status: ⏳ PLANNED*")
+            st.markdown("*Status: ✅ COMPLETE*")
 
     # ==================== INTEGRATION QUEUE ====================
 
@@ -334,7 +335,7 @@ def render():
 
     sync = get_sync_status()
 
-    st.markdown("**0 high · 3 medium · 3 low**")
+    st.markdown("**0 high · 3 medium · 2 low**")
 
     with st.container(border=True):
         st.markdown(f'{priority_badge("DONE")} &nbsp; **Phase 0 COMPLETE — all phases + H-baseline**',
@@ -354,16 +355,16 @@ def render():
 
     with med_col1:
         with st.container(border=True):
-            st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **Dig Site 003 (Dirac) — next deep dig**',
+            st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **Dig Site 004 (Hestenes) — next deep dig**',
                         unsafe_allow_html=True)
             st.markdown(
-                "The Discovery Simplex predicts a Generation corner — forward-generative discovery "
-                "as a genuinely distinct architecture. Dirac is the test case. If his process reduces to "
-                "RCI applied differently, the simplex loses a corner. If it's genuinely new, Architecture B "
-                "is confirmed."
+                "Dirac (003) confirmed the Generation corner ✅. Next is **Hestenes** — he reverse-"
+                "engineered the geometry Dirac suppressed (complex *i* = the spin bivector). Co-load with "
+                "Barandes ISP in one NotebookLM instance for the spinor/bivector bridge "
+                "(Dirac→Hestenes→Barandes triple-dip). Sources already local; scaffolded."
             )
             st.markdown(action_line(
-                "Prepare Dirac source material for NotebookLM, design Q1–Q22"
+                "Author chat.md from v1.3 template (Self-Contained Principle); co-load Barandes ISP"
             ), unsafe_allow_html=True)
 
     with med_col2:
@@ -414,15 +415,16 @@ def render():
 
     with low_col2:
         with st.container(border=True):
-            st.markdown(f'{priority_badge("LOW")} &nbsp; **Buddhism 2×2 design incomplete**',
+            st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **Breadth batch — 8 worldviews at n=1 (live)**',
                         unsafe_allow_html=True)
             st.markdown(
-                "Buddhism has 41 subject runs (b_vs_ct: 10, b_vs_mdn: 11, b_vs_pt: 10, b_vs_g: 10). "
-                "Reverse-stance runs exist in other frameworks' folders but the full closed 2×2 design "
-                "isn't formally documented."
+                "Buddhism batch **COMPLETE** (80/80, all 8 matchups 10/10). Now scoring the 8 unrun "
+                "profiles (Judaism, Mormonism, Islam, Hinduism, Existentialism, Error Theory, Null "
+                "Hypothesis, Desiderata) at **n=1** — breadth first, double back for n=10 + controls. "
+                "Repo Opus runs the API batch; CFA Claude runs manual mode."
             )
             st.markdown(action_line(
-                "Awareness item — no action required now"
+                "Batch running (x_vs_ct, Phase 1, external); report scorecard on completion"
             ), unsafe_allow_html=True)
 
     with low_col3:
@@ -534,14 +536,16 @@ def render():
              "Result": "6 operators (OP-001-006)"},
             {"Site": "002", "Target": "Barandes (solo)", "Status": "✅ Complete",
              "Result": "6 new ops (OP-010-015), 3 rediscoveries, RCI arch"},
+            {"Site": "003", "Target": "Dirac", "Status": "✅ Complete (Q50 #1)",
+             "Result": "4 ops (OP-016-019), Aesthetic Generation family, OP-004 inversion"},
+            {"Site": "004", "Target": "Hestenes", "Status": "⏳ Next (scaffolded)",
+             "Result": "Reverse-engineers Dirac's geometry; co-load Barandes ISP"},
+            {"Site": "005", "Target": "Hermann", "Status": "Queued",
+             "Result": "Philosophical auditing"},
+            {"Site": "009", "Target": "Wolfram", "Status": "Queued",
+             "Result": "Computational architecture"},
             {"Site": "010", "Target": "Curt Jaimungal", "Status": "✅ Complete (R1+Audit)",
              "Result": "Arch F, Simplex, Relation Space"},
-            {"Site": "003", "Target": "Dirac", "Status": "⏳ Planned (Q50 #1)",
-             "Result": "Tests Generation corner"},
-            {"Site": "004", "Target": "Wolfram", "Status": "Queued (Q50 #2)",
-             "Result": "Computational architecture"},
-            {"Site": "005", "Target": "Hermann", "Status": "Queued (Q50 #3)",
-             "Result": "Philosophical auditing"},
         ]
         st.dataframe(pd.DataFrame(dig_sites), hide_index=True, use_container_width=True)
 
@@ -551,9 +555,9 @@ def render():
         with mu_col1:
             st.markdown("**Museum A (Operators)**")
             a1, a2, a3 = st.columns(3)
-            a1.metric("Registered", "15")
-            a2.metric("YELLOW / RED", "7 / 8")
-            a3.metric("Held", "1")
+            a1.metric("Registered", "19")
+            a2.metric("YELLOW / RED", "7 / 12")
+            a3.metric("Held", "5")
         with mu_col2:
             st.markdown("**Museum B (Architectures)**")
             b1, b2, b3 = st.columns(3)
