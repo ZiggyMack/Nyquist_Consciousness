@@ -129,7 +129,7 @@ def main():
     print(f"{'='*70}")
     print(f"\nFinal Phase-2 external counts:")
     for key, code, label in PROFILES:
-        print(f"  {key}_vs_ct: phase2 external={count_existing_phase2(f'{key}_vs_ct')}")
+        print(f"  {key}_vs_{OPP}: phase2 external={count_existing_phase2(f'{key}_vs_{OPP}')}")
 
 
 if __name__ == "__main__":
