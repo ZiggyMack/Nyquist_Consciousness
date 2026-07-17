@@ -335,7 +335,7 @@ def render():
 
     sync = get_sync_status()
 
-    st.markdown("**0 high · 3 medium · 2 low**")
+    st.markdown("**0 high · 2 medium · 2 low**")
 
     with st.container(border=True):
         st.markdown(f'{priority_badge("DONE")} &nbsp; **Phase 0 COMPLETE — all phases + H-baseline**',
@@ -415,16 +415,16 @@ def render():
 
     with low_col2:
         with st.container(border=True):
-            st.markdown(f'{priority_badge("MEDIUM")} &nbsp; **Breadth batch — 8 worldviews at n=1 (live)**',
+            st.markdown(f'{priority_badge("DONE")} &nbsp; **Breadth COMPLETE — 8 worldviews audited (n=1)**',
                         unsafe_allow_html=True)
             st.markdown(
-                "Buddhism batch **COMPLETE** (80/80, all 8 matchups 10/10). Now scoring the 8 unrun "
-                "profiles (Judaism, Mormonism, Islam, Hinduism, Existentialism, Error Theory, Null "
-                "Hypothesis, Desiderata) at **n=1** — breadth first, double back for n=10 + controls. "
-                "Repo Opus runs the API batch; CFA Claude runs manual mode."
+                "All 8 unrun profiles scored vs **CT and MdN**, **Phase 1 (quality) + Phase 2 (YPA)**, plus "
+                "control baselines — up to 6 runs each. **Opponent effect** tracks ideological distance (Null "
+                "Hypothesis +0.92 vs MdN, Mormonism −0.62); **identity effect** creates debate, doesn't inflate, "
+                "but **compresses** the range ~2× (advocate lifts weak, critic lowers strong)."
             )
             st.markdown(action_line(
-                "Batch running (x_vs_ct, Phase 1, external); report scorecard on completion"
+                "n=1 preliminary; n=10 firming deferred. Full scorecards → Experiments ▸ Framework-Audited Metrics"
             ), unsafe_allow_html=True)
 
     with low_col3:

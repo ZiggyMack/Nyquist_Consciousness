@@ -4009,50 +4009,51 @@ def render_validation_scorecard_tab():
         st.markdown("### Next Experiments: What Would Close the Gap")
         st.markdown("*How to move from measurement to architecture claims.*")
 
-        # CFA Trinity Experiment - READY
+        # CFA Trinity — COMPLETE (Framework-Audited Metrics)
         st.success("""
-        **HIGH PRIORITY: CFA Trinity Audit** (READY TO RUN)
+        **CFA TRINITY — COMPLETE: Framework-Audited Metrics** *(no longer a "next" experiment)*
 
-        Multi-metric adversarial auditing with Three Auditors, Seven Metrics, and Double-Dip Protocol.
-
-        ```
-        THE TRINITY:
-        +-- Claude (Teleological): PRO stance, hash 1bbec1e119a2c425
-        +-- Grok (Empirical):      ANTI stance, hash 00cd73274759e218
-        +-- Nova (Symmetry):       Fairness monitoring, Crux declaration
-
-        7 METRICS (BFI, CA, IP, ES, LS, MS, PS):
-        +-- Each metric: Claude scores -> Grok challenges -> Nova mediates
-        +-- Convergence target: 98% (formula: 1 - |self - peer| / 10)
-        +-- Max rounds per metric: 5
-        +-- Crux Point declared if <90% after max rounds
-
-        DOUBLE-DIP PROTOCOL:
-        +-- Component 1: CT<->MdN Pilot (7 metrics, convergence loop)
-        +-- Component 2: Axioms Review (Grok + Nova sign-off)
-
-        OUTPUT:
-        +-- Per-metric convergence and Crux declarations
-        +-- Drift trajectories for all 3 auditors
-        +-- 4 testable predictions (P-CFA-1 through P-CFA-4)
-        +-- Exit surveys with identity validation
-        ```
-
-        **Script:** `12_CFA/run_cfa_trinity_v2.py`
-        **Status:** Dry runs PASSED, external identity loading validated
+        The CFA Trinity has run **700+ audits**. It is a **framework-property assay**: adversarial
+        deliberation (Claude PRO / Grok ANTI / Nova fairness) scores worldviews across 7 Phase-1
+        quality metrics + 6 Phase-2 YPA levers. **13 worldviews** now carry audited scores (5 anchors +
+        8 breadth), each vs multiple opponents, both phases, with control baselines.
+        **Script:** `12_CFA/run_cfa_trinity_v3.py`
         """)
 
-        # Predictions table
+        st.markdown("#### Breadth Scorecard — 8 worldviews vs CT (n=1, deliberated)")
         st.markdown("""
-        **CFA Trinity Predictions:**
+        | Worldview | Phase-1 quality | YPA (yield/axiom) |
+        |-----------|:---------------:|:-----------------:|
+        | Hinduism | 7.01 | 3.62 |
+        | Islam | 6.91 | 3.75 |
+        | Orthodox Judaism | 6.80 | 3.62 |
+        | Existentialism | 6.40 | 3.37 |
+        | Mormonism | 5.98 | 2.80 |
+        | Desiderata Believers | 5.45 | 3.43 |
+        | Error Theory | 5.41 | 2.77 |
+        | Null Hypothesis | 5.29 | 3.75 |
 
-        | ID | Prediction | Success Criteria |
-        |----|-----------|-----------------|
-        | P-CFA-1 | PRO-CT shows lower drift than ANTI-CT | claude_mean_drift < grok_mean_drift |
-        | P-CFA-2 | High convergence correlates with low drift variance | correlation > 0.5 |
-        | P-CFA-3 | Fairness auditor shows highest drift | nova_mean_drift > mean(claude, grok) |
-        | P-CFA-4 | Crux Points correlate with high drift delta | crux_delta > non_crux_delta |
+        *Phase-1 rewards comprehensiveness (religions top). **YPA rewards parsimony** — Null Hypothesis
+        jumps from last on quality to tied-first on yield-per-axiom; Mormonism's axiom-bloat (BFT 13) sinks it.*
         """)
+
+        st.markdown("#### Two measurement-side findings")
+        cfa_col_a, cfa_col_b = st.columns(2)
+        with cfa_col_a:
+            st.info(
+                "**Opponent effect** (CT vs MdN) — a framework's score depends on *who's judging*, and "
+                "the tilt tracks **ideological distance**: secular frameworks rise vs a naturalist opponent "
+                "(Null Hypothesis **+0.92**), religions fall (Mormonism **−0.62**). Real but small — ISP "
+                "Axiom 2 at the worldview grain."
+            )
+        with cfa_col_b:
+            st.info(
+                "**Identity effect** (external − control) — loading PRO/ANTI identities **Creates Debate** "
+                "(convergence 92–94% vs **98.6%** control), **Doesn't Inflate** (mean ≈ 0), **but Compresses** "
+                "the range ~2× (advocate lifts weak frameworks, critic lowers strong ones). External CFA "
+                "scores are range-compressed vs base-model priors."
+            )
+        st.caption("n=1 breadth pass — audited but preliminary; n=10 firming deferred. Raw runs: `0_results/runs/cfa_trinity/<CODE>/`. Full briefs in `12_CFA/SYNC_OUT/`.")
 
         st.markdown("---")
 

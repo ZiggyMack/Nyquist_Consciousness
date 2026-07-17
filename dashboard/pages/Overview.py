@@ -142,20 +142,22 @@ def estimate_time_compression():
 
     # Actual project timeline
     project_start = "2025-11-16"  # First commit
-    project_days = 44  # As of Dec 30, 2025
+    project_days = 243  # As of 2026-07-17 (git-tracked snapshot)
 
-    # Count actual artifacts
+    # Count actual artifacts (git-tracked, measured 2026-07-17)
+    # NOTE: earlier Dec-2025 figures were higher for python because that tree
+    # predated the archive/refactor; these reflect the committed repo today.
     metrics = {
-        'python_lines': 179718,      # Measured
-        'markdown_lines': 544912,    # Measured
-        'total_files': 6469,         # Measured
-        'visualizations': 1140,      # PNG/SVG/PDF files
-        'experiments': 750,          # IRON CLAD experiments
+        'python_lines': 145763,      # Measured (tracked *.py)
+        'markdown_lines': 590578,    # Measured (tracked *.md)
+        'total_files': 7310,         # Measured (all tracked files)
+        'visualizations': 910,       # PNG/SVG/PDF files
+        'experiments': 750,          # IRON CLAD experiments (identity-drift)
         'validated_runs': 16,        # S7 runs
         'publication_paths': 8,      # Ready papers
-        'git_commits': 651,          # Measured
-        'directories': 1370,         # Architecture complexity
-        'result_files': 3736,        # JSON results
+        'git_commits': 820,          # Measured
+        'directories': 1105,         # Architecture complexity
+        'result_files': 1073,        # JSON results (tracked 0_results)
     }
 
     # Industry-standard time estimates (CONSERVATIVE)
