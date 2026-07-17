@@ -1236,6 +1236,49 @@ _BREADTH_VS_CT_PROFILES = {
 for _bk, (_abbr, _subj, _myth, _adv, _chal) in _BREADTH_VS_CT_PROFILES.items():
     STANCES[f"{_bk}_vs_ct"] = make_vs_ct_stance(_abbr, _subj, _myth, _adv, _chal)
 
+
+# --- Second breadth pass: same 8 worldviews vs Methodological Naturalism ---
+# Swaps the common opponent CT -> MdN so the subject-held-constant contrast isolates
+# the opponent effect (the 0.8-5.7% relational residue / ISP Axiom 2). Grok now advocates
+# MdN, so its challenge is empirical-testability framed rather than theological.
+def make_vs_mdn_stance(abbr, subject, mythology_sources, advocate_focus, challenge_focus):
+    """Build a subject-vs-Methodological-Naturalism stance dict (canonical STANCES shape)."""
+    return {
+        "subject": subject,
+        "opponent": "Methodological Naturalism",
+        "label": f"{abbr}<->MdN",
+        "claude_stance": f"PRO-{abbr}",
+        "grok_stance": f"ANTI-{abbr}",
+        "claude_role_lines": [
+            f"PRO-{abbr} stance (advocate for {subject})",
+            advocate_focus,
+            f"Apply charitable interpretations to {subject}'s core commitments",
+        ],
+        "grok_role_lines": [
+            f"ANTI-{abbr} stance (challenge {subject}, advocate for Methodological Naturalism)",
+            challenge_focus,
+            "Demand empirical testability, parsimony, and a predictive track record",
+            "Press where the framework's claims outrun what naturalistic methods can verify",
+        ],
+        "grok_r1_instruction": (
+            "Challenge with empirical rigor:\n"
+            "- Is this claim testable by naturalistic methods, or unfalsifiable?\n"
+            "- Where do the framework's own declared debts undercut it?"
+        ),
+        "grok_r2_instruction": (
+            "- Has Claude addressed your empirical challenge?\n"
+            "- Is the revised score better supported by evidence?\n"
+            "- Adjust or maintain your score."
+        ),
+        "claude_r2_framing": "challenge",
+        "grok_r2_framing": "your challenge",
+        "grok_compare": "What would Methodological Naturalism score on this metric?",
+        "mythology_sources": mythology_sources,
+    }
+
+for _bk, (_abbr, _subj, _myth, _adv, _chal) in _BREADTH_VS_CT_PROFILES.items():
+    STANCES[f"{_bk}_vs_mdn"] = make_vs_mdn_stance(_abbr, _subj, _myth, _adv, _chal)
+
 _active_stance = STANCES["ct_vs_mdn"]
 
 # Auditor model configuration

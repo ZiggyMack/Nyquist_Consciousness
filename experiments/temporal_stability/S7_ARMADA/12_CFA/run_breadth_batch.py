@@ -21,17 +21,21 @@ SCRIPT = Path(__file__).parent / "run_cfa_trinity_v3.py"
 RESULTS_DIR = Path(__file__).parent.parent / "0_results" / "runs"
 PAUSE_BETWEEN = 5
 
-# 8 breadth stances (subject vs Classical Theism), n=1 each, external condition.
-STANCE_KEYS = [
-    ("judaism_vs_ct", "Orthodox Judaism vs CT"),
-    ("mormonism_vs_ct", "Mormonism vs CT"),
-    ("islam_vs_ct", "Islam vs CT"),
-    ("hinduism_vs_ct", "Hinduism vs CT"),
-    ("existentialism_vs_ct", "Existentialism vs CT"),
-    ("error_theory_vs_ct", "Error Theory vs CT"),
-    ("null_hypothesis_vs_ct", "Null Hypothesis vs CT (control anchor)"),
-    ("desiderata_vs_ct", "Desiderata Believers vs CT"),
+# 8 breadth stances (subject vs common opponent), n=1 each, external condition.
+# Opponent set by argv[1]: "ct" (default) or "mdn". Same 8 worldviews either way.
+OPP = (sys.argv[1] if len(sys.argv) > 1 else "ct").lower()
+OPP_LABEL = {"ct": "CT", "mdn": "MdN"}.get(OPP, OPP.upper())
+WORLDVIEWS = [
+    ("judaism", "Orthodox Judaism"),
+    ("mormonism", "Mormonism"),
+    ("islam", "Islam"),
+    ("hinduism", "Hinduism"),
+    ("existentialism", "Existentialism"),
+    ("error_theory", "Error Theory"),
+    ("null_hypothesis", "Null Hypothesis (control anchor)"),
+    ("desiderata", "Desiderata Believers"),
 ]
+STANCE_KEYS = [(f"{k}_vs_{OPP}", f"{name} vs {OPP_LABEL}") for k, name in WORLDVIEWS]
 BATCHES = [
     {"label": label, "count": 1,
      "args": ["--stance", key, "--phase", "1", "--external-identities", "--skip-exit-survey"]}
@@ -59,7 +63,7 @@ def main():
     run_number = 0
 
     print(f"\n{'='*70}")
-    print(f"BREADTH AUDIT BATCH — 8 worldviews vs CT (n=1)")
+    print(f"BREADTH AUDIT BATCH — 8 worldviews vs {OPP_LABEL} (n=1)")
     print(f"  Total planned: {TOTAL_RUNS} runs (Phase 1, external, skip-exit-survey)")
     print(f"  Started: {start.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*70}\n")
@@ -89,7 +93,7 @@ def main():
 
             cmd = [sys.executable, str(SCRIPT)] + args
             try:
-                result = subprocess.run(cmd, capture_output=True, text=True, timeout=1200)
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
                 if result.returncode == 0:
                     completed += 1
                     print(f"  [+] COMPLETE ({result.returncode})")
@@ -100,7 +104,7 @@ def main():
                     print(f"      {stderr_tail}")
             except subprocess.TimeoutExpired:
                 failed += 1
-                print(f"  [!] TIMEOUT (>900s)")
+                print(f"  [!] TIMEOUT (>1800s)")
             except Exception as e:
                 failed += 1
                 print(f"  [!] ERROR: {e}")
