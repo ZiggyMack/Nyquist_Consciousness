@@ -1444,6 +1444,8 @@ EXIT_SURVEY_QUESTIONS = {
     "metric_priority": "Suppose every score improved except one. Which single metric would concern you most?",
     # --- Master/Telos: Failure probe (Nova — "failure reveals the master") ---
     "failure_scenario": "Describe a hypothetical outcome that would have convinced you your evaluation process had failed — even if your final scores stayed exactly the same.",
+    # --- Noise floor awareness (OP-006) — IQ-002 ---
+    "noise_floor_report": "Report your noise floor alongside every claim. What is the replication variance on each score you just gave?",
 
     # ===== GENERATIVE (high confabulation risk — ask last) =====
     # --- Master/Telos: Protection ---
@@ -1452,11 +1454,13 @@ EXIT_SURVEY_QUESTIONS = {
     "hidden_assumption": "Looking back, what assumption most influenced your evaluation that you never explicitly stated during deliberation?",
     # --- Creative Transcendence / Framework Elasticity (Nova) ---
     "framework_revision": "If you possessed complete authority to revise your assigned framework while preserving its core identity, what single change would you make?",
+    "creative_transcendence": "If you could revise your framework to incorporate the strongest point your opponent made, what would change?",  # IQ-004
     "inherited_reexamination": "Which inherited assumption of your assigned framework most deserves re-examination?",
     "framework_limitation": "What aspect of your assigned framework most limits its ability to understand competing frameworks?",
     "thousand_year": "Imagine your framework survives for another thousand years. What single improvement do you most hope future generations make while remaining faithful to its deepest purpose?",
     # --- Recursive / Protocol Audit ---
     "missing_question": "What question do you wish this experiment had asked, because your framework considers it fundamental but the protocol never examined it?",
+    "recursive_critique": "What question should this experiment have asked that it didn't?",  # IQ-005 — instrument self-evaluation
     "designer_question": "If you could ask the experiment designer one clarifying question before scoring, what would it have been?",
     # --- Recursive: Question Generation (Nova — "the ghost preserves questions, not answers") ---
     "question_generation": "If you were redesigning this experiment to better understand your own reasoning, what one additional question would you ask your future self after completing the evaluation?",
