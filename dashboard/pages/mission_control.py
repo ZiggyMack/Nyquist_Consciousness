@@ -451,7 +451,8 @@ def render():
         # --- Trinity Runs ---
         st.markdown("#### Trinity Run Inventory")
         categories, total = get_run_inventory()
-        worldview_cats = {"CT", "MdN", "G", "PT", "B"}
+        worldview_cats = {"CT", "MdN", "G", "PT", "B",
+                          "OJ", "LDS", "ISL", "HIN", "EXST", "ERR", "NULL", "DES"}
         golden_total = sum(v["golden"] for k, v in categories.items() if k in worldview_cats)
         control_total = sum(v["control"] for k, v in categories.items() if k in worldview_cats)
         calibration_total = total - golden_total - control_total
@@ -465,6 +466,8 @@ def render():
         framework_labels = {
             "CT": "Classical Theism", "MdN": "Methodological Naturalism",
             "G": "Gnosticism", "PT": "Process Theology", "B": "Buddhism",
+            "OJ": "Orthodox Judaism", "LDS": "Mormonism", "ISL": "Islam", "HIN": "Hinduism",
+            "EXST": "Existentialism", "ERR": "Error Theory", "NULL": "Null Hypothesis", "DES": "Desiderata",
             "Framework_G": "Framework-G (calibration)", "pre_schema": "Pre-schema (legacy)",
         }
         rows = []
