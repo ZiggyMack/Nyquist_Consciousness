@@ -941,9 +941,10 @@ def render():
                     border: 2px solid #2a9d8f; border-radius: 10px; padding: 1em; height: 100%;">
             <div style="font-weight: bold; color: #2a9d8f; font-size: 1.1em;">⚖️ CFA Trinity — Adversarial Framework Audit</div>
             <p style="color:#444; margin-top:0.5em;">Two AI auditors (Claude + Grok) deliberate philosophical
-            frameworks across 7 metrics. 702+ runs, 4/8 frameworks complete. <b>Repo Opus verdict (702 runs):</b>
-            CFA is a framework-property assay — the "manifold" is only 0.8–5.7% of variance; scores are additive
-            framework properties, not a transition geometry.</p>
+            frameworks across 7 quality metrics + 6 YPA levers. <b>13 worldviews audited</b> (n=1 breadth) — each
+            vs CT &amp; MdN, both phases, with control baselines. <b>Findings:</b> framework-property assay (manifold
+            only 0.8–5.7% of variance); the opponent effect tracks ideological distance; identity <i>creates debate,
+            doesn't inflate, but compresses</i> the range ~2×.</p>
         </div>
         """, unsafe_allow_html=True)
     with ws_col2:
