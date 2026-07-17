@@ -38,18 +38,24 @@ PROFILES = [
     ("desiderata", "DES", "Desiderata"),
 ]
 
+# Opponent set by argv[1]: "ct" (default) or "mdn". PROFILES/short-codes are per-subject.
+OPP = (sys.argv[1] if len(sys.argv) > 1 else "ct").lower()
+OPP_LABEL = {"ct": "CT", "mdn": "MdN"}.get(OPP, OPP.upper())
+
 
 def find_phase1_results(stance, code):
-    """Locate this stance's Phase-1 external run JSON (moved into cfa_trinity/<code>/)."""
+    """Locate this stance's Phase-1 external run JSON (flat drop zone OR cfa_trinity/<code>/)."""
+    search = list(RESULTS_DIR.glob("S7_cfa_trinity_*.json"))
     folder = CFA_TRINITY / code
     if folder.exists():
-        for f in folder.glob("*.json"):
-            try:
-                d = json.loads(f.read_text(encoding="utf-8"))
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                continue
-            if d.get("stance") == stance and d.get("phase") == 1 and d.get("condition") == "external":
-                return f
+        search += list(folder.glob("*.json"))
+    for f in search:
+        try:
+            d = json.loads(f.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            continue
+        if d.get("stance") == stance and d.get("phase") == 1 and d.get("condition") == "external":
+            return f
     return None
 
 
@@ -72,13 +78,13 @@ def main():
     failed = 0
 
     print(f"\n{'='*70}")
-    print(f"BREADTH PHASE 2 (Trinity²) BATCH — YPA lever calibration, 8 worldviews (n=1)")
+    print(f"BREADTH PHASE 2 (Trinity²) BATCH — YPA levers vs {OPP_LABEL}, 8 worldviews (n=1)")
     print(f"  Metrics: CCI, EDB, PF_I, PF_E, AR, MG  |  external  |  --component 1")
     print(f"  Started: {start.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*70}\n")
 
     for key, code, label in PROFILES:
-        stance = f"{key}_vs_ct"
+        stance = f"{key}_vs_{OPP}"
         if count_existing_phase2(stance) >= 1:
             print(f"\n[SKIP] {label} Phase 2 - already have 1")
             completed += 1
