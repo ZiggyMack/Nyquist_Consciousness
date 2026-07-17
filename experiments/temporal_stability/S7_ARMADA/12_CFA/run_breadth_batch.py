@@ -126,10 +126,10 @@ def main():
     print(f"  Ended:     {end.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*70}")
 
-    print(f"\nFinal breadth run counts (external):")
+    print(f"\nFinal breadth run counts [{COND}]:")
     for key, label in STANCE_KEYS:
-        ext = count_existing(key, "external")
-        print(f"  {key}: external={ext}")
+        cnt = count_existing(key, COND)
+        print(f"  {key}: {COND}={cnt}")
 
 
 if __name__ == "__main__":
