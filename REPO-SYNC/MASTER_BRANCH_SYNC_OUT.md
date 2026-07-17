@@ -62,6 +62,13 @@ Several morning items resolved as the day's work landed — logged here so the n
 - **Dig-site numbering collision resolved.** Dirac's Q50 recursion put Hestenes at `004`, colliding with a pre-staged `004_Wolfram`. **Wolfram moved to `009`; Hestenes owns `004`** as the active next dig.
 - **Museum now has 19 operators** (OP-001…019), not 15 — OP-016…019 registered from Dig 003 (Aesthetic Generation family, held PROPOSED). **IQ-034** logged (Fable 5 recalibration).
 
+#### Evening update (2026-07-16)
+
+- **Breadth batch — recovered from a timeout snag, near-complete.** Evening API latency drifted run times from ~13 min (morning) to ~17–22 min; four runs (Hinduism, Existentialism, Error Theory, Desiderata) brushed the 20-min per-run cap and were killed (zero output). Bumped the cap to **30 min** (`timeout=1800`) and re-ran — idempotent, so only the missing four retry. **Now at 5/8 valid Phase-1 scorecards** (Judaism, Mormonism, Islam, Null Hypothesis, Hinduism); Existentialism running; Error Theory + Desiderata queued. Full 8-worldview-vs-CT scorecard imminent.
+- **CFA implemented the staged exit-survey questions** (`f4bf0a9`): creative_transcendence, recursive_critique, noise_floor_report (OP-006 probe). Two were already covered (metric_sacrifice, value_protection). **IQ-001 → IQ-005 closed.**
+- **CFA found + patched a Component-2 bug mid-batch** (`33827d7`): the Grok axioms-review question referenced a ghost "Fresh Claude Trial 2" no longer in the auditor doc (now "VuDu logs"). I flagged the symptom (Nyquist side); CFA had the document history and root-caused it. Textbook SYNC-loop. The 4 already-completed runs keep a `CORRUPTED_QUESTION_STALE` flag on that one secondary field — **Phase-1 scores unaffected**, and Component 2 is worldview-independent so it isn't re-run; the retry set gets the clean question automatically.
+- **Test A postmortem converged.** CFA's design read and my commonality decomposition agree with no daylight: retire the composition model; `score = subject + opponent + interaction`; per-matchup YAML already captures it.
+
 #### Still open
 
 - **Breadth n=1 → n=10 double-back:** the current pass is n=1 for breadth; the ×9-more runs + control condition + reverse stances (`ct_vs_<key>`) are deferred.
