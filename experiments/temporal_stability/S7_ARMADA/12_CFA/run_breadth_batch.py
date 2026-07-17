@@ -25,6 +25,9 @@ PAUSE_BETWEEN = 5
 # Opponent set by argv[1]: "ct" (default) or "mdn". Same 8 worldviews either way.
 OPP = (sys.argv[1] if len(sys.argv) > 1 else "ct").lower()
 OPP_LABEL = {"ct": "CT", "mdn": "MdN"}.get(OPP, OPP.upper())
+# Condition set by argv[2]: "external" (default, identity-loaded) or "control" (base-model priors).
+COND = (sys.argv[2] if len(sys.argv) > 2 else "external").lower()
+COND_FLAG = "--control" if COND == "control" else "--external-identities"
 WORLDVIEWS = [
     ("judaism", "Orthodox Judaism"),
     ("mormonism", "Mormonism"),
@@ -38,7 +41,7 @@ WORLDVIEWS = [
 STANCE_KEYS = [(f"{k}_vs_{OPP}", f"{name} vs {OPP_LABEL}") for k, name in WORLDVIEWS]
 BATCHES = [
     {"label": label, "count": 1,
-     "args": ["--stance", key, "--phase", "1", "--external-identities", "--skip-exit-survey"]}
+     "args": ["--stance", key, "--phase", "1", COND_FLAG, "--skip-exit-survey"]}
     for key, label in STANCE_KEYS
 ]
 TOTAL_RUNS = sum(b["count"] for b in BATCHES)
@@ -63,7 +66,7 @@ def main():
     run_number = 0
 
     print(f"\n{'='*70}")
-    print(f"BREADTH AUDIT BATCH — 8 worldviews vs {OPP_LABEL} (n=1)")
+    print(f"BREADTH AUDIT BATCH — 8 worldviews vs {OPP_LABEL} [{COND}] (n=1)")
     print(f"  Total planned: {TOTAL_RUNS} runs (Phase 1, external, skip-exit-survey)")
     print(f"  Started: {start.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*70}\n")

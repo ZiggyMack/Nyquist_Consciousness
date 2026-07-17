@@ -41,10 +41,13 @@ PROFILES = [
 # Opponent set by argv[1]: "ct" (default) or "mdn". PROFILES/short-codes are per-subject.
 OPP = (sys.argv[1] if len(sys.argv) > 1 else "ct").lower()
 OPP_LABEL = {"ct": "CT", "mdn": "MdN"}.get(OPP, OPP.upper())
+# Condition set by argv[2]: "external" (default) or "control" (base-model priors).
+COND = (sys.argv[2] if len(sys.argv) > 2 else "external").lower()
+COND_FLAG = "--control" if COND == "control" else "--external-identities"
 
 
-def find_phase1_results(stance, code):
-    """Locate this stance's Phase-1 external run JSON (flat drop zone OR cfa_trinity/<code>/)."""
+def find_phase1_results(stance, code, condition):
+    """Locate this stance's Phase-1 run JSON for a condition (flat drop zone OR cfa_trinity/<code>/)."""
     search = list(RESULTS_DIR.glob("S7_cfa_trinity_*.json"))
     folder = CFA_TRINITY / code
     if folder.exists():
@@ -54,20 +57,20 @@ def find_phase1_results(stance, code):
             d = json.loads(f.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError):
             continue
-        if d.get("stance") == stance and d.get("phase") == 1 and d.get("condition") == "external":
+        if d.get("stance") == stance and d.get("phase") == 1 and d.get("condition") == condition:
             return f
     return None
 
 
-def count_existing_phase2(stance):
-    """Count existing Phase-2 external runs for this stance (flat drop zone)."""
+def count_existing_phase2(stance, condition):
+    """Count existing Phase-2 runs for this stance + condition (flat drop zone)."""
     count = 0
     for f in RESULTS_DIR.glob("S7_cfa_trinity_*.json"):
         try:
             d = json.loads(f.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError):
             continue
-        if d.get("stance") == stance and d.get("condition") == "external" and d.get("phase") == 2:
+        if d.get("stance") == stance and d.get("condition") == condition and d.get("phase") == 2:
             count += 1
     return count
 
@@ -78,21 +81,21 @@ def main():
     failed = 0
 
     print(f"\n{'='*70}")
-    print(f"BREADTH PHASE 2 (Trinity²) BATCH — YPA levers vs {OPP_LABEL}, 8 worldviews (n=1)")
-    print(f"  Metrics: CCI, EDB, PF_I, PF_E, AR, MG  |  external  |  --component 1")
+    print(f"BREADTH PHASE 2 (Trinity²) BATCH — YPA levers vs {OPP_LABEL} [{COND}], 8 worldviews (n=1)")
+    print(f"  Metrics: CCI, EDB, PF_I, PF_E, AR, MG  |  {COND}  |  --component 1")
     print(f"  Started: {start.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*70}\n")
 
     for key, code, label in PROFILES:
         stance = f"{key}_vs_{OPP}"
-        if count_existing_phase2(stance) >= 1:
+        if count_existing_phase2(stance, COND) >= 1:
             print(f"\n[SKIP] {label} Phase 2 - already have 1")
             completed += 1
             continue
 
-        p1 = find_phase1_results(stance, code)
+        p1 = find_phase1_results(stance, code, COND)
         args = ["--stance", stance, "--phase", "2", "--preset", key,
-                "--component", "1", "--external-identities", "--skip-exit-survey"]
+                "--component", "1", COND_FLAG, "--skip-exit-survey"]
         if p1:
             args += ["--phase1-results", str(p1)]
             ctx = f"(Phase-1 ctx: {p1.name})"
@@ -127,9 +130,9 @@ def main():
     print(f"  Completed: {completed}/8   Failed: {failed}")
     print(f"  Duration:  {end - start}")
     print(f"{'='*70}")
-    print(f"\nFinal Phase-2 external counts:")
+    print(f"\nFinal Phase-2 [{COND}] counts:")
     for key, code, label in PROFILES:
-        print(f"  {key}_vs_{OPP}: phase2 external={count_existing_phase2(f'{key}_vs_{OPP}')}")
+        print(f"  {key}_vs_{OPP}: phase2 {COND}={count_existing_phase2(f'{key}_vs_{OPP}', COND)}")
 
 
 if __name__ == "__main__":
