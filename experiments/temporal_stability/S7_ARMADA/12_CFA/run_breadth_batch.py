@@ -89,7 +89,7 @@ def main():
 
             cmd = [sys.executable, str(SCRIPT)] + args
             try:
-                result = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=1200)
                 if result.returncode == 0:
                     completed += 1
                     print(f"  [+] COMPLETE ({result.returncode})")

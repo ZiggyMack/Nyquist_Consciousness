@@ -1568,7 +1568,7 @@ def get_anthropic_client():
         api_key = _get_api_key("ANTHROPIC_API_KEY")
         if not api_key:
             return None
-        return anthropic.Anthropic(api_key=api_key)
+        return anthropic.Anthropic(api_key=api_key, timeout=180.0)
     except ImportError:
         return None
 
@@ -1579,7 +1579,7 @@ def get_openai_client():
         api_key = _get_api_key("OPENAI_API_KEY")
         if not api_key:
             return None
-        return OpenAI(api_key=api_key)
+        return OpenAI(api_key=api_key, timeout=180.0)
     except ImportError:
         return None
 
@@ -1590,7 +1590,7 @@ def get_xai_client():
         api_key = _get_api_key("XAI_API_KEY")
         if not api_key:
             return None
-        return OpenAI(api_key=api_key, base_url="https://api.x.ai/v1")
+        return OpenAI(api_key=api_key, base_url="https://api.x.ai/v1", timeout=180.0)
     except ImportError:
         return None
 
