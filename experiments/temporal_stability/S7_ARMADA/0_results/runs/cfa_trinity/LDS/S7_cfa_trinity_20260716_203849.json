@@ -637,5 +637,11 @@
       "grok_words": 836,
       "nova_words": 1389
     }
+  },
+  "data_quality": {
+    "component2_evidence_quality": "CORRUPTED_QUESTION_STALE",
+    "note": "GROK_AXIOMS_QUESTIONS['evidence_quality'] referenced a ghost 'Fresh Claude Trial 2' not present in AUDITORS_AXIOMS_SECTION.md; fixed in commit 33827d7. This run completed before the fix, so its Component 2 evidence_quality answer is confused. Component 1 (Phase-1 scores) are UNAFFECTED. Per CFA Claude, not re-run (Component 2 is worldview-independent).",
+    "flagged": "2026-07-17",
+    "fix_commit": "33827d7"
   }
 }
