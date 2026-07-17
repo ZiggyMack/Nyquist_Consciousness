@@ -1293,7 +1293,7 @@ PREDICTIONS = {
 # =============================================================================
 
 GROK_AXIOMS_QUESTIONS = {
-    "evidence_quality": "Does Fresh Claude Trial 2 actually demonstrate measurable overhead? What evidence quality standard does it meet?",
+    "evidence_quality": "The document claims 0.5/0.4/0.3 overhead measured from VuDu logs. What evidence quality standard does this meet? Is the VuDu log evidence sufficient to support these specific overhead values?",
     "overhead_measurability": "Can the claimed 0.5/0.4/0.3 overhead values actually be measured with confidence? What would constitute valid measurement?",
     "representation_accuracy": "Are you (Grok) represented fairly in AUDITORS_AXIOMS_SECTION.md? Is your empirical lens characterized accurately?",
     "empirical_validation": "What additional evidence or methodology would make the claims about AI auditor capabilities empirically stronger?",
