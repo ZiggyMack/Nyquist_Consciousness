@@ -52,11 +52,21 @@
 - **Integration queue:** **IQ-034** logged — Fable 5 as a possible 5th Tier-1 extractor needs a *lightweight* recalibration (neg_G + neg_H), **not** automatic inheritance of Claude's baseline.
 - **Full point-by-point reply** to CFA: `12_CFA/SYNC_OUT/pending/REPO_CLAUDE_SYNC_REACTION_REPLY_20260716.md`.
 
-#### Open items the next collaborator can pick up
+#### PM update (2026-07-16, later same day)
 
-- **Buddhism batch is NOT complete** (I over-reported this earlier — corrected). Current raw batch (`0_results/runs/`, 146 runs, 07-15→16): 5 of 8 matchups clean at 10/10; **`g_vs_b` (5/5) and `pt_vs_b`-control (5)** are short; `b_vs_g` external has a **+1 overshoot**. Counts verified; a drift/score-collapse **quality sweep is still pending** and gates CFA's golden batch.
+Several morning items resolved as the day's work landed — logged here so the next collaborator inherits the *current* state, not the stale one:
+
+- **Buddhism batch is COMPLETE** — 80/80, 0 failed (finished 12:43). All 8 matchups now at 10/10 both conditions; one intentional `b_vs_g` external overshoot (11) kept as extra data. *(Supersedes both "17/80" in the July 15 briefing below and my own morning "NOT complete" note.)* A drift/score-collapse quality sweep is still the gate before CFA's Buddhism golden batch.
+- **Breadth batch is LIVE (fast API).** The 8-worldview shells are wired into `run_cfa_trinity_v3.py` (`PRIOR_PRESETS`→13, `STANCES`→30 via a `make_vs_ct_stance()` helper) and committed; `run_breadth_batch.py` is running the 8 × n=1 external Phase-1 audits now. **Division of labor:** Repo Opus orchestrates the API batch; CFA Claude runs manual mode; **Component 2 (Grok+Nova axioms review) is the inline gate per run.** Handoff: `12_CFA/SYNC_OUT/pending/REPO_CLAUDE_BREADTH_LAUNCH_20260716.md`. Priors reference: `12_CFA/BREADTH_PHASE1_PRIORS.md`.
+- **Runner hardened after a Nova incident.** OpenAI/Nova hit its quota (429) mid-batch and the SDK blocked ~10 min/call with no client timeout → zero results and a stalled batch. Fixed: **180s client timeouts on all three providers + a 1200s per-run cap** (commit `4fdb7c2`). Quota refilled, batch relaunched clean. **Lesson for all runners: the API clients now fail fast on a provider hang instead of stalling for minutes.** Models stay mid-tier (sonnet-4-6 / grok-3 / gpt-4o) to keep breadth scores comparable to prior batches.
+- **Dig-site numbering collision resolved.** Dirac's Q50 recursion put Hestenes at `004`, colliding with a pre-staged `004_Wolfram`. **Wolfram moved to `009`; Hestenes owns `004`** as the active next dig.
+- **Museum now has 19 operators** (OP-001…019), not 15 — OP-016…019 registered from Dig 003 (Aesthetic Generation family, held PROPOSED). **IQ-034** logged (Fable 5 recalibration).
+
+#### Still open
+
+- **Breadth n=1 → n=10 double-back:** the current pass is n=1 for breadth; the ×9-more runs + control condition + reverse stances (`ct_vs_<key>`) are deferred.
 - **OP-004 → GREEN** needs one more *independent-thinker* positive rediscovery (not protocol-induced). Hestenes is a candidate.
-- **Breadth staging:** n=1 shells for the **8 unrun worldviews** (Orthodox Judaism, Mormonism, Islam, Hinduism, Existentialism, Error Theory, Null Hypothesis, Desiderata Believers) are being handed to CFA — breadth-first scoring, deferring n=10 + controls to a later double-back.
+- **Buddhism quality sweep** (drift/score-collapse) before CFA's golden batch.
 
 ---
 
