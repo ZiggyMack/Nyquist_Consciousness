@@ -2194,8 +2194,33 @@ Think of a **Tightrope Walker**.
 
 ---
 
+### Q53: The interpretive-target ledger as a frame-transfer mechanism
+
+> [Cross-pollinated from PAN_HANLERS — the Pan Handlers circle archive. In dig
+> SW18 ("Grant interprets Tale"), the extraction produced an **interpretive-
+> target ledger**: a firewall separating what a speaker's words *entail* from
+> what an interpreter *attributes* to them, plus a rule that moving to a new
+> interpretive target requires explicit relabeling. Tale Recursion is a
+> participant in both that debate and Frame Theory.]
+>
+> Does the interpretive-target ledger map onto the Frame Triple? Specifically:
+> is "reading an implication into someone's words" a Narrative-Frame (F_n)
+> operation — the interpreter imposing their own sequencing/causality onto the
+> speaker's Aggregated Frame (F_a)? If so, does "misattribution" become a
+> diagnosable frame-transfer error (the interpreter's F_n overwriting the
+> speaker's), and does the "explicit relabeling" rule function as a
+> frame-boundary check? What does Frame Theory predict about the point at which
+> interpretation becomes projection?
+
+**Context:** Cross-pollination from PAN_HANLERS (2026-07-26). Connects Tale's
+frame architecture to the circle's attribution/interpretation operators.
+
+**Response:**
+
+---
+
 *Created: 2026-01-10*
-*Updated: 2026-07-05*
+*Updated: 2026-07-26*
 *Project: Frame_Theory NotebookLM*
-*Status: COMPLETE - 52 questions ready for Frame_Theory NotebookLM*
-*Questions: 15 core (A) + 20 deep dive (B) + 15 synthesis (C) + 2 cross-pollination (D) = 52 total*
+*Status: COMPLETE - 53 questions ready for Frame_Theory NotebookLM*
+*Questions: 15 core (A) + 20 deep dive (B) + 15 synthesis (C) + 3 cross-pollination (D) = 53 total*
