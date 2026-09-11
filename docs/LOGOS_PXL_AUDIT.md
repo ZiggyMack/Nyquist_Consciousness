@@ -152,3 +152,42 @@ No such consistency argument exists anywhere in the repo.
 
 *Empirical reproduction environment: Coq 8.18.0, files from
 `origin/Consciousness:REPO-SYNC/Logos/reference/proofs/`.*
+
+---
+
+## Addendum (2026-09-11): Consistency PROVEN, theological content DISPROVEN
+
+Follow-up to finding 4 — the consistency question is now settled, machine-checked
+in `formal/PXL_Trivial_Model.v` (compiles under Coq 8.18):
+
+**1. The PXL axioms are consistent** (relative to Coq + classical logic).
+Every PXLv3 axiom, plus `trinitarian_decidability`, is *proved as a theorem*
+under a concrete interpretation — so the set cannot derive `False`. The open
+risk from finding 4 is resolved in IconAclass's favor.
+
+**2. But the interpretation that proves it is a ONE-POINT universe.**
+`Obj := unit`, `𝕆 = 𝕀₁ = 𝕀₂ = 𝕀₃ = tt`, `grounded_in P x := P`,
+`entails x P := P`, `Box p := p`, `coherence x := True`. Every axiom holds in
+a world containing a single object where "God" and all three "persons" are
+literally the same point:
+
+```coq
+Theorem the_model_has_no_trinity : Omega = I1 /\ I1 = I2 /\ I2 = I3.
+Proof. repeat split; reflexivity. Qed.   (* Closed under the global context *)
+```
+
+A second model (`bool`) satisfies the axioms with `Omega <> I1`. Since both
+"all persons identical" and "God distinct from 𝕀₁" are consistent with PXL,
+the axioms determine nothing about the entities they name. Notably,
+`A4_distinct_instantiation` — despite its name — only asserts each person is
+identical to *itself*; no axiom asserts the persons differ from one another.
+
+**3. Modal collapse is axiomatic.** `ax_Nec : p -> □p` together with
+`ax_T : □p -> p` makes `□p ↔ p` by assumption — the S5 apparatus does no
+logical work. (In mechanizations of Gödel's ontological argument, modal
+collapse was a *derived embarrassment*; here it is simply assumed.)
+
+**Conclusion:** the system is internally sound and theologically empty as
+formal content. All theological meaning resides in the *names* of parameters
+and axioms, not in their mathematical structure. The only assumption with
+logical force in the LEM derivation is classical logic itself.
