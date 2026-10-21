@@ -1,7 +1,7 @@
 # R&D Review: SHAMAN
 
 **Ingestion Date:** 2026-02-04
-**Source:** STAGING/CHEWED/SHAMAN/
+**Source:** STAGING/CHEWED/SHAMAN/ (batch moved to `STAGING/New_11/` as Rounds 1–2 on 2026-10-13; Round 3 is the Lisan-facing NotebookLM round)
 **Type:** Exploratory Research
 **Status:** ANALYZED
 

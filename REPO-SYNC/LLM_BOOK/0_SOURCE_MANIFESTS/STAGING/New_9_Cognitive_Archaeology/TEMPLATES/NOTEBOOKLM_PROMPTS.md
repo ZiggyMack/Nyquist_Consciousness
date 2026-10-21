@@ -97,6 +97,9 @@ Use when a notebook contains multiple thinkers.
 - **Assumptions Excavation** can run independently at any point.
 - **Abstention Detection** runs AFTER blind extraction (Primary Excavation) is complete — never before. It is intentionally Museum-aware.
 
+### Source toggling (added 2026-10-21, Ziggy's tip)
+NotebookLM lets you untick individual sources before asking. Use it whenever a notebook holds our own prior material (a digest bundle, a chat export, a generated report): untick those for the blind passes so the notebook cannot cite us back as if we were the author, then re-tick them for a deliberate cross-check question. New_11 (the prior-digest bundle) and New_10_TOE Round 2 (chat.md = Round 1's Q&A) both showed the bleed: "candidate until shown", the three-step fiat procedure, "Generativity Test", and the cocycle conditions all came back credited to the sources when they were ours. Record which sources were ticked in the run log of every question.
+
 ### Quality Indicators
 
 A good extraction will:

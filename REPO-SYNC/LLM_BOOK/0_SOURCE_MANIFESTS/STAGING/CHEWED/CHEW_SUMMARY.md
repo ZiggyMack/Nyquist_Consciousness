@@ -41,7 +41,7 @@
 | Priority | Project | Status | Waiting On | Action |
 |:--------:|---------|--------|------------|--------|
 | 1 | **Lucien** | Diet Complete | HOFFMAN answers received | Ready for BURP? |
-| 2 | **SHAMAN** | Diet Complete | HOFFMAN/GOLDEN answers received | Ready for BURP? |
+| 2 | **SHAMAN** | Diet Complete → **moved to `New_11/` (2026-10-13)** | HOFFMAN/GOLDEN answers received | Round 3 (Lisan) in progress in New_11 |
 | 3 | Frame_Theory | Diet Complete | Answers received from hubs | Verify loop closure |
 | 4 | Gnostic-1 | Diet Complete | - | Verify experiments |
 | 5 | Gnostic-1-2-x3 | Diet Complete | GOLDEN answers received | Verify loop closure |
@@ -156,7 +156,7 @@ Night Sea Journey as model for existential transformation:
 
 ### SHAMAN (Castaneda Collection)
 
-**Status**: REVIEWED - Diet Chew Complete (ROUND_1 + ROUND_2)
+**Status**: REVIEWED - Diet Chew Complete (ROUND_1 + ROUND_2) — **MOVED 2026-10-13 to `STAGING/New_11/` as Rounds 1–2** (Round 3 = Lisan-facing NotebookLM round; notebook "Nagual"). No NotebookLM was used for Rounds 1–2; Round 1's questions were drafted but never run.
 **Value**: HIGH
 **Loop Closure**: Answers received from HOFFMAN, GOLDEN_GEOMETRY
 

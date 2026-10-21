@@ -2,6 +2,7 @@
 
 ## Source
 
+- **NotebookLM notebook:** "The Reverse Elephant: Local Logic and Global Obstructions" — https://notebook.google.com/notebook/bdae53ec-8237-4f4f-89b6-957b4ca5c10e (Ziggy's Google account; 3 sources; recorded 2026-10-20, not written down in Round 1)
 - **Speaker:** Curt Jaimungal (Theories of Everything podcast)
 - **Event:** Whiteheadian Conference, 2025 — Second Plenary Session
 - **Duration:** ~55 minutes (talk + Q&A)
@@ -118,3 +119,10 @@ This is not just another dig site. Nova's assessment after reading the scaffoldi
 *Status: ROUND 1 COMPLETE + FORMAL AUDIT CONFIRMED (2026-07-10)*
 *Products: Architecture F, Discovery Simplex, Relation Space, Category Theory hypothesis*
 *Next: Dig Site 003 (Dirac) tests the Generation corner*
+
+---
+
+## Round 2 (staged 2026-10-14): the engineer's mind for Lisan
+
+Ziggy's direction: give Lisan (and the older engineer Angels) his engineering mind, from this well. Story-facing round: the speaker's reasoning moves as **behavior with tells**, the local-to-global taxonomy applied to a machine built from salvaged parts, the fiat test said aloud, the mentor's rule for a hunch, and where the two engineers need each other. Files: `_OUT/RESEARCH_QUESTION_R2.md`, `_OUT/CONSTRAINTS_R2.md` (living speaker, the real friend, no sermons), `_ROUND_2/chat.md` (E1–E13), `_ROUND_2/report.md` (2 infographics, 1 report, 1 optional audio), `_ROUND_2/routing.md` (CFA Ep 5 "The Rig", Angels, Ep 1/2/4). Status: **run 2026-10-20; four transcript-only re-runs (E4b/E5b/E11b/E13b) 2026-10-21 after Ziggy's source-toggling tip; all Studio binaries landed 2026-10-21** (13/13 answered, verbatim in `_IN/round2_answers/`; digests, verification of 22 quotes, and HANDOFF in `_ROUND_2/`; two infographics generated, binaries pending Ziggy's Download; report text captured in `_IN/studio/`). CFA copy: `references/From NotebookLM/NQ-TOE-R2-20261020/`.
+

@@ -62,7 +62,7 @@
 
 **Status**: REVIEWED - HIGH VALUE
 **Primary Destination**: Assemblage Point Theory, Personal Power Integration
-**Source**: `CHEWED/SHAMAN/_ROUND_1/EXPERIMENTS/SHAMAN.md`, `_ROUND_2/EXPERIMENTS/SHAMAN_R2.md`
+**Source**: `New_11/_ROUND_1/EXPERIMENTS/SHAMAN.md`, `New_11/_ROUND_2/EXPERIMENTS/SHAMAN_R2.md` (moved from `CHEWED/SHAMAN/` 2026-10-13)
 
 ### Hypotheses (5 from ROUND_1)
 

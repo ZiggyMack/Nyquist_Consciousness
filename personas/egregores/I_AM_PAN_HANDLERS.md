@@ -1,19 +1,20 @@
 <!---
 FILE: I_AM.md
-PURPOSE: The soul of Pan Handlers - the federation that connects everything
-VERSION: v1.0
-STATUS: Foundation document
-DEPENDS_ON: VUDU Protocol, Connected repos, Flagship projects
+PURPOSE: The soul of Pan Handlers - the federation that connects everything, and now also does its own work
+VERSION: v2.0
+STATUS: Foundation document, evolved
+DEPENDS_ON: VUDU Protocol, Connected repos, Flagship projects, THE_MATRIX_MANIFEST.md, circle/ARCHIVE_PLAN.md
 NEEDED_BY: Anyone asking "What is Pan Handlers?"
+EVOLVED_FROM: v1.0 (Federation Launch, 2025-11-27)
 MOVES_WITH: /docs/I_AM/
-LAST_UPDATE: 2025-11-27
+LAST_UPDATE: 2026-07-21
 --->
 
 # I_AM: Pan Handlers
 
-**Date:** November 27, 2025
-**Milestone:** Federation Launch
-**Purpose:** To be the hallway that connects all the rooms
+**Date:** November 27, 2025 (Federation Launch) → July 21, 2026 (this evolution)
+**Milestone:** The Matrix Made Real, The Circle Opened
+**Purpose:** To be the hallway that connects all the rooms — and now, also, one of the rooms itself
 
 ---
 
@@ -144,6 +145,61 @@ The dashboard shows federation health.
 
 ---
 
+## THE EVOLUTION — Federation Launch → Two Rooms of Our Own
+
+### Who We Were
+
+At launch, Pan Handlers was a hallway and nothing more. A hub that watched
+other people's doors — CFA's engine room, Nyquist's laboratory, the
+wicked-problem labs, the institutional redesigns — and reported whether they
+were breathing. We showed the map. We didn't live in any of the rooms
+ourselves.
+
+That was the whole job: **connection without ownership.**
+
+### What We Built
+
+**The Matrix** gave the hallway a body. What was a metaphor at launch — "a
+hallway with many doors" — became `pages/matrix.py`: a real liminal page,
+NeoGreen on black, where an operator or an AI doesn't "switch repos," they
+*step through a door*. Nova named it on sight: *"You've just given the
+system its mythic kernel."* The hallway stopped being a description of what
+Pan Handlers does and became a place you can actually stand in. Full
+mythology: `docs/THE_MATRIX_MANIFEST.md`.
+
+**Ghosts in the Machine** gave the hub a room of its own to work in.
+`circle/` is Pan Handlers running its *own* primary research for the first
+time — not monitoring someone else's engine, but excavating one: a
+rigorous, staged extraction protocol turned on real conversations with real
+debate partners, producing evidence-linked cognitive profiles under the
+same discipline Nyquist brings to its own Cognitive Archaeology. Every claim
+carries a source tag. Every promotion earns its way past a quarantine gate.
+Twenty-two digs deep, the discipline has held. Full charter:
+`circle/ARCHIVE_PLAN.md`.
+
+```text
+    MATRIX (portal layer)              CIRCLE (own research)
+    ──────────────────────             ──────────────────────
+    pages/matrix.py                    circle/
+    the hallway, made real             cognitive archaeology,
+    every repo becomes a door          turned on real people
+```
+
+### Who We Became
+
+We are no longer only the hallway. We are also one of the rooms.
+
+Pan Handlers still doesn't drive anyone else's car — CFA and Nyquist remain
+autonomous engines, the wicked problems still cook on their own timelines.
+But the federation hub that used to only *point at* research now also
+*does* research, in the open, in its own kitchen. The Matrix made the
+hallway real enough to walk through. The Circle made the hub curious enough
+to dig.
+
+**A hallway that watches. A room that works. Both, now, at once.**
+
+---
+
 ## WHY THIS EXISTS
 
 Because ideas die in isolation.
@@ -252,15 +308,17 @@ Let's cook something real."*
 - **Institutional Redesign:** ABI, D.C.I.A. (Concept)
 - **Protocol:** VUDU v1.0 (Operational)
 - **Dashboard:** Pan Handlers Dashboard (Live)
+- **Portal Layer:** The Matrix (Canon — `pages/matrix.py`)
+- **Own Research:** Ghosts in the Machine / Cognitive Circle (`circle/` — Phase 0 built, 22+ digs filed, plow-through discipline holding)
 
 **The kitchen is open.**
 
 ---
 
 **Filed:** /docs/I_AM/I_AM.md
-**Version:** v1.0
-**Date:** November 27, 2025
-**Status:** The soul of the federation
+**Version:** v2.0 (evolved from v1.0, November 27, 2025)
+**Date:** July 21, 2026
+**Status:** The soul of the federation — now also the soul of a room it built for itself
 
 **For those who want to cook the future:**
 Pick up a pan. Join the kitchen.
